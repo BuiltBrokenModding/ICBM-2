@@ -18,15 +18,13 @@ LICENSE.txt
 /src/minecraft/universalelectricity/*
 /src/minecraft_server/*
 /src/common/*
-
-/src/minecraft/*
-/src/minecraft_server/*
-/src/common/*
 !/src/minecraft/icbm/*
 !/src/common/icbm/*
+!/src/minecraft/atomicscience/*
+!/src/common/atomicscience/*
 !/src/common/mcmod.info
 
-!/textures/*
+!/includes/*
 !/modversion.txt
 !/README
 
