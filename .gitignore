@@ -10,6 +10,9 @@
 /reobf/*
 /runtime/*
 /temp/*
+*.bat
+*.sh
+7za.exe
 CHANGELOG
 LICENSE.txt
 
@@ -27,6 +30,4 @@ LICENSE.txt
 
 !/includes/*
 !/README
-
-*.bat
-*.sh
+!ICBM_Builder.bat
