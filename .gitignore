@@ -13,19 +13,19 @@
 CHANGELOG
 LICENSE.txt
 
-/src/common/universalelectricity/*
+/src/common/universalelectricity/
 /src/minecraft/*
-/src/minecraft/universalelectricity/*
+/src/minecraft/universalelectricity/
 /src/minecraft_server/*
 /src/common/*
-!/src/minecraft/icbm/*
-!/src/common/icbm/*
-!/src/minecraft/atomicscience/*
-!/src/common/atomicscience/*
+
+!/src/minecraft/icbm/
+!/src/common/icbm/
+!/src/minecraft/atomicscience/
+!/src/common/atomicscience/
 !/src/common/mcmod.info
 
 !/includes/*
-!/modversion.txt
 !/README
 
 *.bat
