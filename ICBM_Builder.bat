@@ -1,4 +1,7 @@
 @echo off
+echo What version is Universal Electricity for this build? Parameters?
+set /p UE_VERSION=
+
 set /p MODVERSION=<modversion.txt
 set /p CurrentBuild=<buildnumber.txt
 set /a BUILD_NUMBER=%CurrentBuild%+1
@@ -32,8 +35,6 @@ cd src\
 cd ..\
 
 ::UPDATE INFO FILE
-echo What version is Universal Electricity for this build? Parameters?
-set /p UE_VERSION=
 echo %FILE_NAME% %UE_VERSION%>>info.txt
 
 ::GENERATE FTP Script
