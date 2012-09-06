@@ -29,13 +29,23 @@ cd ..\
 
 cd src\
 "C:\Users\Henry\Documents\GitHub\ICBM\7za.exe" a "E:\Document\Computer Science\Minecraft Modding\Backup\icbm\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -pHENRY
+cd ..\
 
-::COPY TO DROPBOX
-xcopy "E:\Document\Computer Science\Minecraft Modding\Releases\ICBM Builds\%FILE_NAME%" "C:\Users\Henry\Dropbox\ICBM" /E
-
-echo What version is Universal Electricity for this build?
+::UPDATE INFO FILE
+echo What version is Universal Electricity for this build? Parameters?
 set /p UE_VERSION=
-echo %FILE_NAME% %UE_VERSION%>>"C:\Users\Henry\Dropbox\ICBM\info.txt"
+echo %FILE_NAME% %UE_VERSION%>>info.txt
+
+::GENERATE FTP Script
+echo open www.calclavia.com>ftpscript.txt
+echo icbm@calclavia.com>>ftpscript.txt
+echo ICBMmod>>ftpscript.txt
+echo put "E:\Document\Computer Science\Minecraft Modding\Releases\ICBM Builds\%FILE_NAME%">>ftpscript.txt
+echo put info.txt>>ftpscript.txt
+echo quit>>ftpscript.txt
+ftp.exe -s:ftpscript.txt
+del ftpscript.txt
+
 echo Done building %FILE_NAME% for UE %UE_VERSION%
 
 pause
