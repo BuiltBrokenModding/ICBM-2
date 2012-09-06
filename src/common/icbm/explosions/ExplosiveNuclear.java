@@ -32,7 +32,7 @@ public class ExplosiveNuclear extends Explosive
 		EntityProceduralExplosion source = (EntityProceduralExplosion)explosionSource;
 		
 		int radius = MAX_RADIUS;
-				
+		
 		for(int x = -radius; x < radius; x++)
 		{
 			for(int y = -radius; y < radius; y++)
