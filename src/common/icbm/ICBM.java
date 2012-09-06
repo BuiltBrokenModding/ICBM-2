@@ -1,6 +1,14 @@
 package icbm;
 
+import icbm.electronics.ItemDefuser;
+import icbm.electronics.ItemLaserDesignator;
+import icbm.electronics.ItemRadarGun;
+import icbm.electronics.ItemRemote;
+import icbm.electronics.ItemSignalDisrupter;
+import icbm.electronics.ItemTracker;
 import icbm.explosions.Explosive;
+import icbm.machines.TileEntityDetector;
+import icbm.machines.TileEntityInvisibleBlock;
 import icbm.missiles.Missile;
 
 import java.util.Random;
@@ -75,7 +83,8 @@ public class ICBM implements IDispenseHandler
 	public static final Item itemGrenade = new ItemGrenade("Grenade", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Grenade", itemIDprefix+8), 64);
 	public static final Item itemSignalDisruptor = new ItemSignalDisrupter("Signal Disruptor", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
 	public static final Item itemBullet = new ItemBullet("Bullet", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Bullet", itemIDprefix+10), 80);
-	
+	public static final Item itemTracker = new ItemTracker("Tracker", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Tracker", itemIDprefix+11), 21);
+
 	public static final PoisonChemical CHEMICALS = new PoisonChemical("Chemical", 1, false);
 	public static final PoisonChemical CONTAGIOUS = new PoisonChemical("Contagious", 1, true);
 	

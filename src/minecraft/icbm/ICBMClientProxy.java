@@ -1,16 +1,25 @@
 package icbm;
 
+import icbm.machines.TileEntityCruiseLauncher;
+import icbm.machines.TileEntityDetector;
+import icbm.machines.TileEntityEMPTower;
+import icbm.machines.TileEntityLauncherBase;
+import icbm.machines.TileEntityLauncherFrame;
+import icbm.machines.TileEntityLauncherScreen;
+import icbm.machines.TileEntityRadarStation;
+import icbm.machines.TileEntityRailgun;
+
 import java.io.File;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.KeyBinding;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.TextureFXManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -38,7 +47,9 @@ public class ICBMClientProxy extends ICBMCommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityFragment.class, new RenderFragment());
         RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
         RenderingRegistry.registerEntityRenderingHandler(EntityRailgun.class, new RenderInvisible());
-
+        
+        TextureFXManager.instance().addAnimation(new TextureTrackerFX(FMLClientHandler.instance().getClient()));
+        
         ClientRegistry.registerTileEntity(TileEntityRailgun.class, "ICBMRailgun", new RenderRailgun());
         ClientRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMCruiseLauncher", new RenderCruiseLauncher());
         ClientRegistry.registerTileEntity(TileEntityLauncherBase.class, "ICBMLauncherBase", new RenderLauncherBase());

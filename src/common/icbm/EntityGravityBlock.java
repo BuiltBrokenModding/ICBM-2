@@ -56,6 +56,12 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
     }
     
     @Override
+    public String getEntityName()
+    {
+    	return "Flying Block";
+    }
+    
+    @Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
 		data.writeInt(this.blockID);

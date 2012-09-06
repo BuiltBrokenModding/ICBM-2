@@ -1,5 +1,7 @@
 package icbm;
 
+import icbm.machines.TileEntityInvisibleBlock;
+
 import java.util.Random;
 
 import net.minecraft.src.Block;

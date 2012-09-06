@@ -1,7 +1,10 @@
-package icbm;
+package icbm.machines;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import icbm.EntityMissile;
+import icbm.ItemMissile;
+import icbm.ItemSpecialMissile;
 import icbm.extend.TileEntityLauncher;
 import icbm.missiles.Missile;
 import net.minecraft.src.EntityPlayer;

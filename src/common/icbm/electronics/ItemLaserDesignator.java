@@ -1,7 +1,11 @@
-package icbm;
+package icbm.electronics;
 
+import icbm.ICBM;
+import icbm.ICBMPacketManager;
+import icbm.LauncherManager;
 import icbm.extend.IItemFrequency;
 import icbm.extend.TileEntityLauncher;
+import icbm.machines.TileEntityCruiseLauncher;
 
 import java.util.ArrayList;
 import java.util.List;

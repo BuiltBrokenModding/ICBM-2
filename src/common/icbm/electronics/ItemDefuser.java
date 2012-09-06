@@ -1,4 +1,7 @@
-package icbm;
+package icbm.electronics;
+
+import icbm.EntityExplosive;
+import icbm.ICBM;
 
 import java.util.Random;
 

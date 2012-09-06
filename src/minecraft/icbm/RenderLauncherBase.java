@@ -1,5 +1,6 @@
 package icbm;
  
+import icbm.machines.TileEntityLauncherBase;
 import icbm.models.ModelLauncher0Base;
 import icbm.models.ModelLauncher0Rail;
 import icbm.models.ModelLauncher1Base;

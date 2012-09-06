@@ -1,5 +1,10 @@
-package icbm;
+package icbm.machines;
 
+import icbm.EntityMissile;
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
+import icbm.ItemMissile;
+import icbm.ItemSpecialMissile;
 import icbm.extend.IMultiBlock;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
@@ -187,7 +192,7 @@ public class TileEntityLauncherBase extends TileEntity implements IPacketReceive
 	                
 	            	if(containingMissile == null)
 	            	{
-	        			Vector3 position = new Vector3((this.xCoord+0.5F), (this.yCoord+1.5), (this.zCoord+0.5F));
+	        			Vector3 position = new Vector3((this.xCoord+0.5F), (this.yCoord+2), (this.zCoord+0.5F));
 	                    this.containingMissile = new EntityMissile(this.worldObj, position, Vector3.get(this), missileId);
 	                    this.worldObj.spawnEntityInWorld(this.containingMissile);
 	            	}
@@ -209,7 +214,7 @@ public class TileEntityLauncherBase extends TileEntity implements IPacketReceive
 	    		this.containingMissile = null;
 	    	}
 	    	
-			PacketManager.sendTileEntityPacket(this, "ICBM", this.orientation, this.tier);
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 200, this.orientation, this.tier);
 		}
 	    
 	}

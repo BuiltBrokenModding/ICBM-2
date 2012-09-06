@@ -1,5 +1,7 @@
 package icbm;
 
+import icbm.machines.TileEntityDetector;
+
 import java.util.ArrayList;
 
 import net.minecraft.src.CreativeTabs;

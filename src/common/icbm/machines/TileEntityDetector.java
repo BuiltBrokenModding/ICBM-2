@@ -1,4 +1,6 @@
-package icbm;
+package icbm.machines;
+
+import icbm.electronics.ItemSignalDisrupter;
 
 import java.util.List;
 

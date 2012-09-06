@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.TileEntityRailgun;
+import icbm.machines.TileEntityRailgun;
 import icbm.models.ModelRailgun;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;

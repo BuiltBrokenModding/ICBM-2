@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.TileEntityRadarStation;
+import icbm.machines.TileEntityRadarStation;
 import icbm.models.ModelRadar;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;

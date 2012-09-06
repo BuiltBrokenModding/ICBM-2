@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.machines.TileEntityEMPTower;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiTextField;
 

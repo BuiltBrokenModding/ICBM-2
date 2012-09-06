@@ -1,7 +1,7 @@
 package icbm;
 
 import icbm.ICBMGui;
-import icbm.ItemSignalDisrupter;
+import icbm.electronics.ItemSignalDisrupter;
 import net.minecraft.src.GuiTextField;
 import net.minecraft.src.ItemStack;
 

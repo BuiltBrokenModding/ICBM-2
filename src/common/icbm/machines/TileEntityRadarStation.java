@@ -1,5 +1,10 @@
-package icbm;
+package icbm.machines;
 
+import icbm.BlockInvisible;
+import icbm.EntityMissile;
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
+import icbm.RadarStationManager;
 import icbm.extend.IMultiBlock;
 import icbm.missiles.MissileManager;
 

@@ -1,6 +1,10 @@
-package icbm;
+package icbm.electronics;
 
+import icbm.ICBM;
+import icbm.ICBMPacketManager;
 import icbm.extend.TileEntityLauncher;
+import icbm.machines.TileEntityCruiseLauncher;
+import icbm.machines.TileEntityLauncherScreen;
 
 import java.util.List;
 

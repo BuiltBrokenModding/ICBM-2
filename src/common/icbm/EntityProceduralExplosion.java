@@ -57,6 +57,12 @@ public class EntityProceduralExplosion extends Entity implements IEntityAddition
     }
     
     @Override
+    public String getEntityName()
+    {
+    	return "Explosion";
+    }
+    
+    @Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
 		data.writeInt(this.explosiveID);

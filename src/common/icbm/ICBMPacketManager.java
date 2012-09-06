@@ -1,5 +1,9 @@
 package icbm;
 
+import icbm.electronics.ItemLaserDesignator;
+import icbm.electronics.ItemRadarGun;
+import icbm.electronics.ItemSignalDisrupter;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

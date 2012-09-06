@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.machines.TileEntityCruiseLauncher;
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.GuiTextField;
 import net.minecraft.src.InventoryPlayer;

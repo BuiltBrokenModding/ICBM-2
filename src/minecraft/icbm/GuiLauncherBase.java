@@ -1,7 +1,7 @@
 package icbm;
 
 import icbm.ContainerLauncherBase;
-import icbm.TileEntityLauncherBase;
+import icbm.machines.TileEntityLauncherBase;
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.StatCollector;

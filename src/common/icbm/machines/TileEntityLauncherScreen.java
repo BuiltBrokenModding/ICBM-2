@@ -1,4 +1,4 @@
-package icbm;
+package icbm.machines;
 
 import icbm.extend.TileEntityLauncher;
 import net.minecraft.src.EntityPlayer;

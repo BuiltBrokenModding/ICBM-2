@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.machines.TileEntityRailgun;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiContainer;

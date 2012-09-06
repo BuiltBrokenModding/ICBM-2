@@ -1,5 +1,8 @@
-package icbm;
+package icbm.machines;
 
+import icbm.BlockInvisible;
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
 import icbm.explosions.Explosive;
 import icbm.extend.IMultiBlock;
 import net.minecraft.src.EntityPlayer;

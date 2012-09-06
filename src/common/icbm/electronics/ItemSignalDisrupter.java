@@ -1,5 +1,7 @@
-package icbm;
+package icbm.electronics;
 
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
 import icbm.extend.IItemFrequency;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package icbm;
+package icbm.machines;
 
 import icbm.extend.IMultiBlock;
 

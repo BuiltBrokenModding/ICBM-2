@@ -54,6 +54,12 @@ public class EntityGrenade extends Entity implements IEntityAdditionalSpawnData
     }
     
     @Override
+    public String getEntityName()
+    {
+    	return "Grenade";
+    }
+    
+    @Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
 		data.writeInt(this.explosiveID);

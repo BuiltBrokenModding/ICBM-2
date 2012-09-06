@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.machines.TileEntityLauncherFrame;
 import icbm.models.ModelLauncherFrame;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;

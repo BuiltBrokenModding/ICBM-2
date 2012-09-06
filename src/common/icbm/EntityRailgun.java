@@ -30,6 +30,12 @@ public class EntityRailgun extends Entity implements IEntityAdditionalSpawnData
         this.controller = controller;
     }
     
+    @Override
+    public String getEntityName()
+    {
+    	return "Railgun Seat";
+    }
+    
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{

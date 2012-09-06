@@ -57,6 +57,11 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
     	this(par1World, position, orientation, explosiveID);
     	this.metadata = metadata;
     }
+    
+    public String getEntityName()
+    {
+    	return "Explosives";
+    }
 
     /**
      * Called to update the entity's position/logic.

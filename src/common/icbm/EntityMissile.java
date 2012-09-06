@@ -1,5 +1,7 @@
 package icbm;
 
+import icbm.machines.TileEntityCruiseLauncher;
+import icbm.machines.TileEntityLauncherBase;
 import icbm.missiles.Missile;
 import icbm.missiles.MissileManager;
 
@@ -75,6 +77,12 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
         
         this.setPosition(this.startingPosition.x, this.startingPosition.y, this.startingPosition.z);
         this.setRotation(0, 90);
+    }
+
+    @Override
+    public String getEntityName()
+    {
+    	return "Missile";
     }
     
     @Override

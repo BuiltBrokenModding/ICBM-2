@@ -33,6 +33,12 @@ public class EntityLightBeam extends Entity implements IEntityAdditionalSpawnDat
     }
     
     @Override
+    public String getEntityName()
+    {
+    	return "Light Beam";
+    }
+    
+    @Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
 		data.writeInt(this.life);

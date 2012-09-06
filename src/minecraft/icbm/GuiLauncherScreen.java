@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.machines.TileEntityLauncherScreen;
 import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;

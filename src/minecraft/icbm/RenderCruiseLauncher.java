@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.TileEntityCruiseLauncher;
+import icbm.machines.TileEntityCruiseLauncher;
 import icbm.models.ModelCruiseLauncherBase;
 import icbm.models.ModelCruiseLauncherRail;
 import net.minecraft.src.TileEntity;

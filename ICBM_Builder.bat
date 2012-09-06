@@ -24,7 +24,7 @@ cd ..\..\
 cd includes\
 "C:\Users\Henry\Documents\GitHub\ICBM\7za.exe" a "E:\Document\Computer Science\Minecraft Modding\Releases\ICBM Builds\%FILE_NAME%" "icbm\"
 
-"C:\Users\Henry\Documents\GitHub\ICBM\7za.exe" a "E:\Document\Computer Science\Minecraft Modding\Backup\icbm\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\"
+"C:\Users\Henry\Documents\GitHub\ICBM\7za.exe" a "E:\Document\Computer Science\Minecraft Modding\Backup\icbm\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -pHENRY
 cd ..\
 
 cd src\
@@ -40,6 +40,7 @@ echo %FILE_NAME% %UE_VERSION%>>info.txt
 echo open www.calclavia.com>ftpscript.txt
 echo icbm@calclavia.com>>ftpscript.txt
 echo ICBMmod>>ftpscript.txt
+echo binary>>ftpscript.txt
 echo put "E:\Document\Computer Science\Minecraft Modding\Releases\ICBM Builds\%FILE_NAME%">>ftpscript.txt
 echo put info.txt>>ftpscript.txt
 echo quit>>ftpscript.txt

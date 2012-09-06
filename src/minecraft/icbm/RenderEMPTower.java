@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.TileEntityEMPTower;
+import icbm.machines.TileEntityEMPTower;
 import icbm.models.ModelEMPTower;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;

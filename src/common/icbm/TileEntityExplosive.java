@@ -1,5 +1,7 @@
 package icbm;
 
+import icbm.electronics.ItemRemote;
+
 import com.google.common.io.ByteArrayDataInput;
 
 import net.minecraft.src.EntityPlayer;

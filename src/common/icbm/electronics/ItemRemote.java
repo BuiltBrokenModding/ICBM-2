@@ -1,5 +1,7 @@
-package icbm;
+package icbm.electronics;
 
+import icbm.ICBM;
+import icbm.TileEntityExplosive;
 import icbm.explosions.Explosive;
 
 import java.util.List;

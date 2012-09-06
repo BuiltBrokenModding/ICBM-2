@@ -1,5 +1,11 @@
-package icbm;
+package icbm.machines;
 
+import icbm.EntityProceduralExplosion;
+import icbm.EntityRailgun;
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
+import icbm.ItemBullet;
+import icbm.ParticleSpawner;
 import icbm.explosions.Explosive;
 import icbm.explosions.ExplosiveRedmatter;
 import icbm.extend.IMultiBlock;
