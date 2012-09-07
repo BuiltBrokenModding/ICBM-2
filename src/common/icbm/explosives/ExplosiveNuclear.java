@@ -1,4 +1,4 @@
-package icbm.explosions;
+package icbm.explosives;
 
 import icbm.EntityProceduralExplosion;
 import net.minecraft.src.Block;

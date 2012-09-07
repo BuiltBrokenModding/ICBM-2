@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.explosions.ExplosiveChemical;
+import icbm.explosives.ExplosiveChemical;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.DamageSource;

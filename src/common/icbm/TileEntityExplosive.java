@@ -1,6 +1,7 @@
 package icbm;
 
 import icbm.electronics.ItemRemote;
+import icbm.explosives.BlockExplosive;
 
 import com.google.common.io.ByteArrayDataInput;
 

@@ -1,24 +1,25 @@
-package icbm.explosions;
+package icbm.explosives;
 
 import icbm.EntityGravityBlock;
-import icbm.EntityProceduralExplosion;
+import icbm.EntityGrenade;
+import icbm.EntityMissile;
+import icbm.ICBM;
 
 import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.recipe.RecipeManager;
 
-public class ExplosiveAntiGravity extends Explosive
+public class ExplosiveSonic extends Explosive
 {	
-	private static final int MAX_RADIUS = 10;
-	
-	public ExplosiveAntiGravity(String name, int ID, int tier)
+	public ExplosiveSonic(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 	}
@@ -26,13 +27,20 @@ public class ExplosiveAntiGravity extends Explosive
 	//Sonic Explosion is a procedural explosive
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
-	{		
+	{
+		int maxRadius = 10;
+		
+		if(explosionSource instanceof EntityGrenade)
+		{
+			maxRadius /= 2;
+		}
+		
 		Vector3 currentPos;
 		int blockID;
 		int metadata;
 		double dist;
 		
-		int r = MAX_RADIUS;
+		int r = callCount;
 		
 		for(int x = -r; x < r; x++)
 		{
@@ -42,7 +50,7 @@ public class ExplosiveAntiGravity extends Explosive
 				{
 					dist = MathHelper.sqrt_double((x*x + y*y + z*z));
 					
-					if(dist > r) continue;
+					if(dist > r || dist < r-3) continue;
 					
 					currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
 					blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
@@ -57,36 +65,50 @@ public class ExplosiveAntiGravity extends Explosive
 						
 						currentPos.add(0.5D);
 						
-						if(!worldObj.isRemote && worldObj.rand.nextFloat() > 0.65)
+						if(!worldObj.isRemote)
 						{
-							EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata, 0);
+							EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata);
 							worldObj.spawnEntityInWorld(entity);
-							entity.yawChange = 15*worldObj.rand.nextFloat();
-							entity.pitchChange = 30*worldObj.rand.nextFloat();
-							entity.motionY += 0.15*worldObj.rand.nextFloat();
+							entity.yawChange = 50*worldObj.rand.nextFloat();
+							entity.pitchChange = 100*worldObj.rand.nextFloat();
 						}
 					}
 				}
 			}
 		}
 		
-		
-		int radius = MAX_RADIUS;
-		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, 100, position.z + radius);
+		int radius = 2*callCount;
+		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
         List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
     	
-        for(Entity entity : allEntities)
-        {                    	
-            if(!(entity instanceof EntityGravityBlock) && entity.posY < 100+position.y)
+        for (int var11 = 0; var11 < allEntities.size(); ++var11)
+        {
+            Entity entity = (Entity)allEntities.get(var11);
+            
+            if(entity instanceof EntityMissile)
             {
-            	if(entity.motionY < 0.4)
-            	{
-            		entity.motionY += 0.1;
-            	}
+            	((EntityMissile)entity).explode();
+            	break;
+            }
+            else
+            {      	
+            	double xDifference = entity.posX - position.x;
+            	double zDifference = entity.posZ - position.z;
+            	            	
+            	r = (int)maxRadius;
+            	if(xDifference < 0) r = (int)-maxRadius;
+            	
+            	entity.motionX += (r-xDifference) * 0.02*worldObj.rand.nextFloat();
+                entity.motionY += 4*worldObj.rand.nextFloat();
+                
+                r = (int)maxRadius;
+                if(zDifference < 0) r = (int)-maxRadius;
+                
+                entity.motionZ += (r-zDifference) * 0.02*worldObj.rand.nextFloat();
             }
         }
         
-        if(callCount > 20*120)
+        if(callCount > 12)
         {
         	return false;
         }
@@ -97,7 +119,7 @@ public class ExplosiveAntiGravity extends Explosive
 	@Override
 	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		//worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.sonicwave", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
 	
 	/**
@@ -105,7 +127,7 @@ public class ExplosiveAntiGravity extends Explosive
 	 * @return - Return -1 if this explosive does not need proceudral calls
 	 */
 	@Override
-	public int proceduralInterval() { return 1; }
+	public int proceduralInterval() { return 8; }
 
 	@Override
 	public void addCraftingRecipe()

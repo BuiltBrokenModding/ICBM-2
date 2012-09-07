@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.explosions.Explosive;
+import icbm.explosives.Explosive;
 
 import java.util.ArrayList;
 import java.util.List;

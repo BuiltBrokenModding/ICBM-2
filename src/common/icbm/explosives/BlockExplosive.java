@@ -1,6 +1,7 @@
-package icbm;
+package icbm.explosives;
 
-import icbm.explosions.Explosive;
+import icbm.ICBM;
+import icbm.TileEntityExplosive;
 
 import java.util.List;
 import java.util.Random;

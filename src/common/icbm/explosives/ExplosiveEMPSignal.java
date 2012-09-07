@@ -1,4 +1,4 @@
-package icbm.explosions;
+package icbm.explosives;
 
 import icbm.EntityMissile;
 

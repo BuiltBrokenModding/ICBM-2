@@ -2,7 +2,7 @@ package icbm.missiles;
 
 import icbm.EntityMissile;
 import icbm.ICBM;
-import icbm.explosions.Explosive;
+import icbm.explosives.Explosive;
 import net.minecraft.src.ItemStack;
 import universalelectricity.Vector3;
 import universalelectricity.extend.ITier;

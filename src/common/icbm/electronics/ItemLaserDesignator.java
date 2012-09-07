@@ -277,13 +277,13 @@ public class ItemLaserDesignator extends ItemElectric implements IItemFrequency
 		    	        			 if(missileLauncher instanceof TileEntityCruiseLauncher)
 		    	        			 {
 		    	        				 missileLauncher.target = new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.intX(), missileLauncher.target.intY(), missileLauncher.target.intZ());
+				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.x, missileLauncher.target.y, missileLauncher.target.z);
 		    	        			 }
 		    	        			 else
 		    	        			 {
-		    	        				 int previousY = missileLauncher.target.intY();
+		    	        				 double previousY = missileLauncher.target.y;
 		    	        				 missileLauncher.target = new Vector3(objectMouseOver.blockX, missileLauncher.target.y, objectMouseOver.blockZ);
-				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.intX(), previousY, missileLauncher.target.intZ());
+				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.x, previousY, missileLauncher.target.z);
 		    	        			 }
 
 	                    			 if(missileLauncher.canLaunch())
@@ -293,14 +293,14 @@ public class ItemLaserDesignator extends ItemElectric implements IItemFrequency
 	                    			 else
 	                    			 {
 	                    				 errorCount ++;
-	                    				 par3EntityPlayer.addChatMessage("#"+errorCount+" Missile Launcher Error: "+missileLauncher.getStatus());
+	                    				 //par3EntityPlayer.addChatMessage("#"+errorCount+" Missile Launcher Error: "+missileLauncher.getStatus());
 	                    			 }
 	                    		 }
 		    	        	}
 	
 		    	        	if(doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
 		    	        	{
-				            	ICBMPacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketManager.LASER_DESIGNATOR_PACKET, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+				            	PacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketManager.LASER_DESIGNATOR_PACKET, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 				            	
 		    	        		par3EntityPlayer.addChatMessage("Calling air strike into designated position!");
 		    	        	}

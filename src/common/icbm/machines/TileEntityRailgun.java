@@ -6,8 +6,9 @@ import icbm.ICBM;
 import icbm.ICBMCommonProxy;
 import icbm.ItemBullet;
 import icbm.ParticleSpawner;
-import icbm.explosions.Explosive;
-import icbm.explosions.ExplosiveRedmatter;
+import icbm.TileEntityInvisibleBlock;
+import icbm.explosives.Explosive;
+import icbm.explosives.ExplosiveRedmatter;
 import icbm.extend.IMultiBlock;
 
 import java.util.List;

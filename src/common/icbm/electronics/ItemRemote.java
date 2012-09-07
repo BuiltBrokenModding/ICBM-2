@@ -2,7 +2,7 @@ package icbm.electronics;
 
 import icbm.ICBM;
 import icbm.TileEntityExplosive;
-import icbm.explosions.Explosive;
+import icbm.explosives.Explosive;
 
 import java.util.List;
 

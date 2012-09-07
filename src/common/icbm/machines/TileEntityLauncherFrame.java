@@ -1,6 +1,7 @@
 package icbm.machines;
 
 import icbm.ICBM;
+import icbm.TileEntityInvisibleBlock;
 import icbm.extend.IMultiBlock;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;

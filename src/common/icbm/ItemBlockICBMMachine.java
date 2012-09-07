@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.machines.BlockICBMMachine;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemBlock;

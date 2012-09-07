@@ -1,6 +1,7 @@
 package icbm;
 
 import icbm.machines.TileEntityLauncherScreen;
+import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
@@ -19,6 +20,8 @@ public class GuiLauncherScreen extends ICBMGui
 
     private int containerWidth;
     private int containerHeight;
+    
+	private int GUITicks = 0;
 
     public GuiLauncherScreen(TileEntityLauncherScreen par2ICBMTileEntityMissileLauncher)
     {
@@ -55,6 +58,13 @@ public class GuiLauncherScreen extends ICBMGui
             this.textFieldZ.setText(Math.round(this.tileEntity.target.z) + "");
             this.textFieldY.setText(Math.round(this.tileEntity.target.y) + "");
         }
+    }
+    
+    @Override
+    public void onGuiClosed()
+    {
+    	super.onGuiClosed();
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
     }
 
     /**
@@ -145,7 +155,7 @@ public class GuiLauncherScreen extends ICBMGui
         //Shows the status of the missile launcher
         this.fontRenderer.drawString("Status: "+this.tileEntity.getStatus(), 12, 125, 4210752);
     	this.fontRenderer.drawString("Voltage: "+this.tileEntity.getVoltage()+"v", 12, 137, 4210752);
-        this.fontRenderer.drawString(ElectricUnit.getAmpHourDisplay(this.tileEntity.electricityStored, this.tileEntity.getVoltage())+ "/" +ElectricUnit.getAmpHourDisplay(this.tileEntity.electricityCapacity, this.tileEntity.getVoltage()), 12, 150, 4210752);
+        this.fontRenderer.drawString(ElectricUnit.getAmpHourDisplay(this.tileEntity.electricityStored, this.tileEntity.getVoltage())+ "/" +ElectricUnit.getAmpHourDisplay(this.tileEntity.ELECTRICITY_REQUIRED, this.tileEntity.getVoltage()), 12, 150, 4210752);
     }
     
     @Override
@@ -209,5 +219,12 @@ public class GuiLauncherScreen extends ICBMGui
         {
             this.tileEntity.frequency = 0;
         }
+        
+        if(GUITicks % 100 == 0)
+    	{
+    		PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    	}
+		
+    	GUITicks ++;
     }
 }

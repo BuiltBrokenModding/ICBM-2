@@ -37,8 +37,6 @@ public class GuiRailgun extends GuiContainer
         this.controlList.clear();
         
         this.controlList.add(new GuiButton(0, this.width / 2 + 90,  this.height / 2 - 80, 55, 20, "Mount"));
-        
-    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
     }
     
     
@@ -49,6 +47,7 @@ public class GuiRailgun extends GuiContainer
     	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
     }
     
+    @Override
     public void updateScreen()
     {
     	super.updateScreen();

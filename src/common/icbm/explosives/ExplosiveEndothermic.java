@@ -1,27 +1,33 @@
-package icbm.explosions;
+package icbm.explosives;
 
 import icbm.EntityGravityBlock;
 import icbm.EntityGrenade;
 import icbm.EntityLightBeam;
 import icbm.EntityProceduralExplosion;
-import icbm.ICBM;
+import icbm.ICBMPotion;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
-import net.minecraft.src.ItemStack;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.Potion;
+import net.minecraft.src.PotionEffect;
 import net.minecraft.src.World;
 import universalelectricity.Vector3;
+import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.recipe.RecipeManager;
 
-public class ExplosiveConflagration extends Explosive
+public class ExplosiveEndothermic extends Explosive
 {
+	private final int iceRadius = 40;
 	private final int radius = 5;
 	
-	public ExplosiveConflagration(String name, int ID, int tier)
+	public ExplosiveEndothermic(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 	}
@@ -31,7 +37,7 @@ public class ExplosiveConflagration extends Explosive
 	 */
 	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		EntityLightBeam lightBeam = new EntityLightBeam(worldObj, position, 20*20, 0.7F, 0.3F, 0F);
+		EntityLightBeam lightBeam = new EntityLightBeam(worldObj, position, 20*20, 0F, 0.3F, 0.7F);
 		worldObj.spawnEntityInWorld(lightBeam);
 		((EntityProceduralExplosion)explosionSource).entityList.add(0, lightBeam);
 		worldObj.createExplosion(null, position.x, position.y, position.z, 4F);
@@ -135,7 +141,7 @@ public class ExplosiveConflagration extends Explosive
 			return false;
 		}
 		
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.beamcharging", 4.0F, 0.8F);
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 4.0F, 0.8F);
 	
 		if(callCount > 35)
 		{
@@ -151,7 +157,6 @@ public class ExplosiveConflagration extends Explosive
 		if(!worldObj.isRemote)
 		{
 			((EntityProceduralExplosion)explosionSource).entityList.get(0).setDead();
-			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.powerdown", 4.0F, 0.8F);
 			
 			if(this.canFocusBeam(worldObj, position))
 			{
@@ -175,10 +180,25 @@ public class ExplosiveConflagration extends Explosive
 			            entity.motionZ += m*5*worldObj.rand.nextFloat();
 					}
 				}
+							
+		        List<EntityLiving> livingEntities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(position.x-iceRadius, position.y-iceRadius, position.z-iceRadius, position.x+iceRadius, position.y+iceRadius, position.z+iceRadius));
 				
-				Explosive.ConflagrationFire.spawnExplosive(worldObj, position, (byte)0);
-			}
+		        for(EntityLiving entity : livingEntities)
+		        {
+					entity.addPotionEffect(new PotionEffect(ICBMPotion.frostBite.id, 60 * 20, 1));
+		    		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 2));
+		    		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 45 * 20, 4));
+		        }
+		        
+				Explosive.EndothermicIce.spawnExplosive(worldObj, position, (byte)0);
+			}			
 		}
+	}
+	
+	@Override
+	public void addCraftingRecipe()
+	{
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow});		
 	}
 	
 	public boolean canFocusBeam(World worldObj, Vector3 position)
@@ -190,7 +210,7 @@ public class ExplosiveConflagration extends Explosive
 			worldTime -= 23999;
 		}
 		
-		return (worldTime < 12000 && worldObj.canBlockSeeTheSky(position.intX(), position.intY() + 1, position.intZ()) && !worldObj.isRaining());
+		return (worldTime > 12000 && worldObj.canBlockSeeTheSky(position.intX(), position.intY() + 1, position.intZ()));
 	}
 	
 	/**
@@ -199,10 +219,4 @@ public class ExplosiveConflagration extends Explosive
 	 */
 	@Override
 	public int proceduralInterval(){ return 5; }
-
-	@Override
-	public void addCraftingRecipe()
-	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', Incendiary.getItemStack()});
-	}
 }

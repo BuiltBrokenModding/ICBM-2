@@ -64,10 +64,12 @@ public class RenderMissile extends Render
 			new ModelMissileContagious(),
 			new ModelMissileSonic(),
 			new ModelMissileBreaching(),
+			new ModelMissileBreaching(), //CHANGE THIS
 			new ModelMissileNuke(),
 			new ModelMissileEMP(),
 			new ModelMissileConflagration(),
 			new ModelMissileEndothermic(),
+			new ModelMissileEndothermic(), //CHANGE THIS
 			new ModelMissileAntimatter(),
 			new ModelMissileRedMatter()};
 	
@@ -92,12 +94,14 @@ public class RenderMissile extends Render
     		case 5: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileContagious.png"); break;
     		case 6: loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileSonic.png"); break;
     		case 7: loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileBreaching.png"); break;
-    		case 8: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileNuclear.png"); break;
-    		case 9: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEMP.png"); break;
-    		case 10: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileConflagration.png"); break;
-    		case 11: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEndothermic.png"); break;
-    		case 12: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntimatter.png"); break;
-    		case 13: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileRedMatter.png"); break;
+    		case 8: loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileBreaching.png"); break;
+    		case 9: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileNuclear.png"); break;
+    		case 10: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEMP.png"); break;
+    		case 11: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileConflagration.png"); break;
+    		case 12: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEndothermic.png"); break;
+    		case 13: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEndothermic.png"); break;
+    		case 14: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntimatter.png"); break;
+    		case 15: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileRedMatter.png"); break;
     		
     		case 101: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntiBallistic.png"); break;
     		case 102: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileCluster.png"); break;

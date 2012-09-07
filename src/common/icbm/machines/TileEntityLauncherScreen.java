@@ -24,6 +24,8 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TileEntityLauncherScreen extends TileEntityLauncher implements IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable
 {
+    public final int ELECTRICITY_REQUIRED = 0;//15000;
+
     //Is the block powered by redstone?
     private boolean isPowered = false;
     
@@ -42,8 +44,8 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
     //The electricity stored in the launcher screen
     public float electricityStored = 0;
     
-    public final int electricityCapacity = 15000;
-  	
+    private boolean isGUIOpen = false;
+      	
   	public TileEntityLauncherScreen()
   	{
   		super();
@@ -59,7 +61,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 		
     	if(!this.isDisabled())
     	{
-    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.electricityCapacity, 0);
+    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.ELECTRICITY_REQUIRED, 0);
     		this.electricityStored = Math.max(this.electricityStored+watts - rejectedElectricity, 0);
     		
 	    	if(this.connectedBase == null)
@@ -94,13 +96,15 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	    		isPowered = false;
 	    		this.launch();
 	    	}
+    	}	
+	    
+    	if(this.isGUIOpen)
+    	{
+        	if(this.target == null) this.target = new Vector3(this.xCoord, 0, this.zCoord);
+    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)3, this.electricityStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
     	}
-	    	
-	    if(!this.worldObj.isRemote)
-		{
-	    	if(this.target == null) this.target = new Vector3(this.xCoord, 0, this.zCoord);
-			PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.electricityStored, this.orientation, this.tier, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
-		} 
+    	
+		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)0, this.orientation, this.tier);
 	}
 	
 	@Override
@@ -110,15 +114,14 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
         {
 			int ID = dataStream.readInt();
 			
-			if(ID == 0)
+			if(ID == -1 && !this.worldObj.isRemote)
+	        {
+		        this.isGUIOpen = dataStream.readBoolean();
+	        }
+	        else if(ID == 0)
 			{
-				this.electricityStored = dataStream.readFloat();
 	            this.orientation = dataStream.readByte();
 	            this.tier = dataStream.readInt();
-	            this.frequency = dataStream.readShort();
-	            this.disabledTicks = dataStream.readInt();
-	            
-				this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
 			else if(ID == 1)
 			{
@@ -134,6 +137,14 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 					this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 				}
 			}
+			else if(ID == 3)
+			{
+				this.electricityStored = dataStream.readFloat();
+				this.frequency = dataStream.readShort();
+	            this.disabledTicks = dataStream.readInt();
+				this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+			}
+			
         }
         catch(Exception e)
         {
@@ -148,7 +159,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
     	{
 	    	if(this.connectedBase.containingMissile != null)
 	        {
-	    		if(this.electricityStored >= this.electricityCapacity)
+	    		if(this.electricityStored >= this.ELECTRICITY_REQUIRED)
 	    		{
 		            if(this.connectedBase.isInRange(this.target))
 		            {
@@ -192,7 +203,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
         {
         	status = "Not connected!";
         }
-        else if(this.electricityStored < this.electricityCapacity)
+        else if(this.electricityStored < this.ELECTRICITY_REQUIRED)
     	{
     		status = "Insufficient electricity!";
     	}
@@ -310,7 +321,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	@Override
 	public float electricityRequest()
 	{
-		return this.electricityCapacity-this.electricityStored;
+		return this.ELECTRICITY_REQUIRED-this.electricityStored;
 	}
 
 	@Override
@@ -328,7 +339,12 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	@Override
 	public int getTickInterval()
 	{
-		return 10;
+		if(!this.worldObj.isRemote)
+		{
+			return 10;
+		}
+		
+		return 0;
 	}
 	
 	@Override

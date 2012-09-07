@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.explosions.Explosive;
+import icbm.explosives.Explosive;
 import icbm.machines.TileEntityCruiseLauncher;
 import icbm.machines.TileEntityLauncherBase;
 import icbm.missiles.Missile;

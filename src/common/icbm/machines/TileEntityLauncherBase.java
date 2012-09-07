@@ -5,6 +5,7 @@ import icbm.ICBM;
 import icbm.ICBMCommonProxy;
 import icbm.ItemMissile;
 import icbm.ItemSpecialMissile;
+import icbm.TileEntityInvisibleBlock;
 import icbm.extend.IMultiBlock;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;

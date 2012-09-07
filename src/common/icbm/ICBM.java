@@ -6,9 +6,11 @@ import icbm.electronics.ItemRadarGun;
 import icbm.electronics.ItemRemote;
 import icbm.electronics.ItemSignalDisrupter;
 import icbm.electronics.ItemTracker;
-import icbm.explosions.Explosive;
+import icbm.explosives.BlockExplosive;
+import icbm.explosives.Explosive;
+import icbm.machines.BlockDetector;
+import icbm.machines.BlockICBMMachine;
 import icbm.machines.TileEntityDetector;
-import icbm.machines.TileEntityInvisibleBlock;
 import icbm.missiles.Missile;
 
 import java.io.File;

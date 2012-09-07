@@ -1,7 +1,7 @@
 package icbm.missiles;
 
 import icbm.EntityMissile;
-import icbm.explosions.Explosive;
+import icbm.explosives.Explosive;
 import universalelectricity.Vector3;
 
 public class MissileNuclearCluster extends MissileCluster

@@ -141,7 +141,7 @@ public class ItemRadarGun extends ItemElectric
         					 missileLauncher.target = new Vector3();
         				 }
         				 
-        				 missileLauncher.target = new Vector3((int)savedCords.x, (int)savedCords.y, (int)savedCords.z);
+        				 missileLauncher.target = new Vector3(savedCords.x, savedCords.y, savedCords.z);
         				 
         				 if(par3World.isRemote)
         				 {

@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.explosions.Explosive;
+import icbm.explosives.Explosive;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Material;

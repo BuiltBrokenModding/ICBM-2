@@ -1,6 +1,7 @@
-package icbm;
+package icbm.machines;
 
-import icbm.machines.TileEntityDetector;
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class BlockDetector extends BlockMachine
 {
     public BlockDetector(int id, int texture)
     {
-        super("Proximity Detector", id,  Material.wood, CreativeTabs.tabDeco);
+        super("Proximity Detector", id,  Material.piston, CreativeTabs.tabDeco);
         this.blockIndexInTexture = texture;
     }
     

@@ -1,7 +1,7 @@
 package icbm;
 
 import icbm.EntityProceduralExplosion;
-import icbm.explosions.Explosive;
+import icbm.explosives.Explosive;
 
 import java.util.Random;
 
