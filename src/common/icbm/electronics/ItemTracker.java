@@ -1,36 +1,78 @@
 package icbm.electronics;
 
-import icbm.EntityExplosive;
 import icbm.ICBM;
 
-import java.util.Random;
+import java.util.List;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityItem;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.World;
+import net.minecraft.src.WorldClient;
 import universalelectricity.extend.ItemElectric;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class ItemTracker extends ItemElectric
 {
-	private int electricityConsumption = 150;
+	private static final int ELECTRICITY_REQUIRED = 100;
 
     public ItemTracker(String name, int id, int texture)
     {
         super(id);
         this.setIconIndex(texture);
-        this.setIconCoord(6, 3);
         this.setItemName(name);
     }
-    /*
+    
+    @Override
+    public void addInformation(ItemStack itemStack, List par2List)
+    {
+	    super.addInformation(itemStack, par2List);
+	    
+        Entity trackingEntity = getTrackingEntity(itemStack);
+        
+        if(trackingEntity != null)
+        {
+        	par2List.add("Tracking: "+trackingEntity.getEntityName());
+        }
+    }
+    
+    public static void setTrackingEntity(ItemStack itemStack, Entity entity)
+    {
+    	if(itemStack.stackTagCompound == null)
+        {
+            itemStack.setTagCompound(new NBTTagCompound());
+        }
+    	
+    	if(entity != null)
+    	{
+    		itemStack.stackTagCompound.setInteger("trackingEntity", entity.entityId);
+    	}
+    }
+    
+    public static Entity getTrackingEntity(ItemStack itemStack)
+    {
+    	if(itemStack.stackTagCompound != null)
+        {
+            int trackingID = itemStack.stackTagCompound.getInteger("trackingEntity");
+            return ((WorldClient)FMLClientHandler.instance().getClient().theWorld).getEntityByID(trackingID);
+        }
+    	
+    	return null;
+    }
+
+    
     @Override
 	public String getTextureFile()
     {
         return ICBM.ITEM_TEXTURE_FILE;
-    }*/
+    }
+    
+    @Override
+    public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
+    {
+    	setTrackingEntity(par1ItemStack, par3EntityPlayer);
+    }
     
     /**
      * Called when the player Left Clicks (attacks) an entity.
@@ -46,21 +88,16 @@ public class ItemTracker extends ItemElectric
     {
     	if(!player.worldObj.isRemote)
     	{
-	    	if(this.getElectricityStored(itemStack) > electricityConsumption)
+	    	if(this.getElectricityStored(itemStack) > ELECTRICITY_REQUIRED)
 	    	{
-	    		if (itemStack.stackTagCompound == null)
-	            {
-	                itemStack.setTagCompound(new NBTTagCompound());
-	            }
-	
-	            itemStack.stackTagCompound.setInteger("trackingEntity", entity.entityId);
+	    		setTrackingEntity(itemStack, entity);
 	            player.addChatMessage("Now tracking: "+entity.getEntityName());
-	    		this.onUseElectricity(electricityConsumption, itemStack);
+	    		this.onUseElectricity(ELECTRICITY_REQUIRED, itemStack);
 	    		return true;
 	    	}
 	    	else
 	    	{
-	        	player.addChatMessage("Defuser out of electricity!");
+	        	player.addChatMessage("Tracker out of electricity!");
 	    	}
     	}
     	

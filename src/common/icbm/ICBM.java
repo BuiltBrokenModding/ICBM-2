@@ -83,7 +83,7 @@ public class ICBM implements IDispenseHandler
 	public static final Item itemGrenade = new ItemGrenade("Grenade", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Grenade", itemIDprefix+8), 64);
 	public static final Item itemSignalDisruptor = new ItemSignalDisrupter("Signal Disruptor", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
 	public static final Item itemBullet = new ItemBullet("Bullet", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Bullet", itemIDprefix+10), 80);
-	public static final Item itemTracker = new ItemTracker("Tracker", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Tracker", itemIDprefix+11), 21);
+	public static final Item itemTracker = new ItemTracker("Tracker", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Tracker", itemIDprefix+11), 18);
 
 	public static final PoisonChemical CHEMICALS = new PoisonChemical("Chemical", 1, false);
 	public static final PoisonChemical CONTAGIOUS = new PoisonChemical("Contagious", 1, true);
@@ -135,6 +135,7 @@ public class ICBM implements IDispenseHandler
 		LanguageRegistry.addName(ICBM.itemRemote, "Remote Detonator");
 		LanguageRegistry.addName(ICBM.itemLaserDesignator, "Laser Designator");
 		LanguageRegistry.addName(ICBM.itemDefuser, "Explosive Defuser");
+		LanguageRegistry.addName(ICBM.itemTracker, "Tracker");
 		LanguageRegistry.addName(ICBM.itemSignalDisruptor, "Signal Disruptor");
 		LanguageRegistry.addName(new ItemStack(ICBM.itemBullet, 1, 0), "Conventional Bullet");
 		LanguageRegistry.addName(new ItemStack(ICBM.itemBullet, 1, 1), "Antimatter Bullet");

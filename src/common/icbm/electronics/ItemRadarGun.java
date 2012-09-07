@@ -20,7 +20,7 @@ import universalelectricity.network.PacketManager;
 
 public class ItemRadarGun extends ItemElectric
 {
-	public static final int ELECTRICITY_REQUIRED = 150;
+	public static final int ELECTRICITY_REQUIRED = 120;
 	
     public ItemRadarGun(String name, int par1, int par2)
     {

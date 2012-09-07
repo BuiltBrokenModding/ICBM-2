@@ -10,9 +10,7 @@ import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.Entity;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.WorldClient;
 import cpw.mods.fml.client.FMLTextureFX;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
@@ -30,7 +28,7 @@ public class TextureTrackerFX extends FMLTextureFX
 
     public TextureTrackerFX(Minecraft par1Minecraft)
     {
-        super(Item.compass.getIconFromDamage(0));
+        super(ICBM.itemTracker.getIconFromDamage(0));
         this.mc = par1Minecraft;
         this.tileImage = 1;
         setup();
@@ -42,9 +40,10 @@ public class TextureTrackerFX extends FMLTextureFX
         compassIconImageData = new int[tileSizeSquare];
         try
         {
-            BufferedImage var2 = ImageIO.read(mc.texturePackList.getSelectedTexturePack().getResourceAsStream("/gui/items.png"));
-            int var3 = this.iconIndex % 16 * tileSizeBase;
-            int var4 = this.iconIndex / 16 * tileSizeBase;
+        	int size = 32;
+            BufferedImage var2 = ImageIO.read(mc.texturePackList.getSelectedTexturePack().getResourceAsStream(ICBM.ITEM_TEXTURE_FILE));
+            int var3 = this.iconIndex % size * tileSizeBase;
+            int var4 = this.iconIndex / size * tileSizeBase;
             var2.getRGB(var3, var4, tileSizeBase, tileSizeBase, this.compassIconImageData, 0, tileSizeBase);
         }
         catch (IOException var5)
@@ -90,16 +89,12 @@ public class TextureTrackerFX extends FMLTextureFX
             {
             	ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
             	
-            	if(itemStack.stackTagCompound != null)
+            	Entity trackingEntity = ItemTracker.getTrackingEntity(itemStack);
+            	
+                if(trackingEntity != null)
                 {
-                    int trackingID = itemStack.stackTagCompound.getInteger("trackingEntity");
-                    Entity trackingEntity = ((WorldClient)this.mc.theWorld).getEntityByID(trackingID);
-                    
-                    if(trackingEntity != null)
-                    {
-                    	xDifference = (double)trackingEntity.posX - this.mc.thePlayer.posX;
-                        zDifference = (double)trackingEntity.posZ - this.mc.thePlayer.posZ;
-                    }
+                	xDifference = (double)trackingEntity.posX - this.mc.thePlayer.posX;
+                    zDifference = (double)trackingEntity.posZ - this.mc.thePlayer.posZ;
                 }
             }
             

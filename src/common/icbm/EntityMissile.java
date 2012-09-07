@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.explosions.Explosive;
 import icbm.machines.TileEntityCruiseLauncher;
 import icbm.machines.TileEntityLauncherBase;
 import icbm.missiles.Missile;
@@ -82,7 +83,7 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
     @Override
     public String getEntityName()
     {
-    	return "Missile";
+    	return Explosive.list[this.missileID].getName() + " Missile";
     }
     
     @Override
