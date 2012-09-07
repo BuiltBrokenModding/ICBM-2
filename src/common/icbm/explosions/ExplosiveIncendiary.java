@@ -67,7 +67,7 @@ public class ExplosiveIncendiary extends Explosive
 	@Override
 	public void addCraftingRecipe()
 	{
-        RecipeManager.addRecipe(this.getItemStack(2), new Object [] {"@@@", "@?@", "@!@", '@', ICBM.itemSulfur, '?', Block.tnt, '!', Item.bucketLava});
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@!@", '@', ICBM.itemSulfur, '?', Block.tnt, '!', Item.bucketLava});
 	}
 
 }

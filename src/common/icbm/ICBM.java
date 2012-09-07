@@ -201,8 +201,8 @@ public class ICBM implements IDispenseHandler
 		
 		//Sulfur
 		RecipeManager.addSmelting(new ItemStack(blockSulfurOre, 1, 0), new ItemStack(itemSulfur));
-		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 8), new Object [] {"@@@", "@?@", "@@@", '@', itemSulfur, '?', Item.coal});
-		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 8), new Object [] {"@@@", "@?@", "@@@", '@', itemSulfur, '?', new ItemStack(Item.coal, 1, 1)});
+		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itemSulfur, '?', Item.coal});
+		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itemSulfur, '?', new ItemStack(Item.coal, 1, 1)});
 		
 		//Radar Gun
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemRadarGun), new Object [] {"@#!", " $!", "  !", '@', Block.glass, '!', BasicComponents.itemSteelPlate, '#', BasicComponents.itemCircuit, '$', Block.button});

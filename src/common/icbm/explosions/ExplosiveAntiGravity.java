@@ -16,6 +16,8 @@ import universalelectricity.recipe.RecipeManager;
 
 public class ExplosiveAntiGravity extends Explosive
 {	
+	private static final int MAX_RADIUS = 10;
+	
 	public ExplosiveAntiGravity(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
@@ -24,15 +26,13 @@ public class ExplosiveAntiGravity extends Explosive
 	//Sonic Explosion is a procedural explosive
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
-	{
-		int maxRadius = 10;
-		
+	{		
 		Vector3 currentPos;
 		int blockID;
 		int metadata;
 		double dist;
 		
-		int r = maxRadius;
+		int r = MAX_RADIUS;
 		
 		for(int x = -r; x < r; x++)
 		{
@@ -71,15 +71,18 @@ public class ExplosiveAntiGravity extends Explosive
 		}
 		
 		
-		int radius = maxRadius;
+		int radius = MAX_RADIUS;
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, 100, position.z + radius);
         List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
     	
         for(Entity entity : allEntities)
         {                    	
-            if(!(entity instanceof EntityGravityBlock) && entity.posY < 100)
+            if(!(entity instanceof EntityGravityBlock) && entity.posY < 100+position.y)
             {
-                entity.motionY += 0.1;
+            	if(entity.motionY < 0.4)
+            	{
+            		entity.motionY += 0.1;
+            	}
             }
         }
         
@@ -94,7 +97,7 @@ public class ExplosiveAntiGravity extends Explosive
 	@Override
 	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		//worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.sonicwave", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		//worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
 	
 	/**
@@ -102,7 +105,7 @@ public class ExplosiveAntiGravity extends Explosive
 	 * @return - Return -1 if this explosive does not need proceudral calls
 	 */
 	@Override
-	public int proceduralInterval() { return 8; }
+	public int proceduralInterval() { return 1; }
 
 	@Override
 	public void addCraftingRecipe()
