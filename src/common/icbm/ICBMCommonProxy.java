@@ -19,8 +19,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ICBMCommonProxy extends CommonProxy
 {
-	public static final Configuration CONFIGURATION = new Configuration(new File("config/UniversalElectricity/ICBM.cfg"));
-
 	//GUI IDs
 	public static final int GUI_RAIL_GUN = 0;
 	public static final int GUI_CRUISE_LAUNCHER = 1;

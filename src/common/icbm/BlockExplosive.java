@@ -83,9 +83,9 @@ public class BlockExplosive extends BlockContainer
     	
     	switch(Explosive.list[metadata].getTier())
     	{
-	    	case 2: columnPrefix -= 4; break;
-	    	case 3: columnPrefix -= 8; break;
-	    	case 4: columnPrefix -= 12; break;
+	    	case 2: columnPrefix -= Explosive.MAX_TIER_ONE; break;
+	    	case 3: columnPrefix -= Explosive.MAX_TIER_TWO; break;
+	    	case 4: columnPrefix -= 14; break;
     	}
     	
     	columnPrefix *= 3;
@@ -227,7 +227,7 @@ public class BlockExplosive extends BlockContainer
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     { 
-    	for(int i = 0; i < Explosive.maxExplosives; i++)
+    	for(int i = 0; i < Explosive.MAX_EXPLOSIVE_ID; i++)
         {
     		par3List.add(new ItemStack(this, 1, i));
         }

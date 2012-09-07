@@ -44,7 +44,7 @@ public class ItemMissile extends ICBMItem
     @Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-    	for(int i = 0; i < Explosive.maxExplosives; i++)
+    	for(int i = 0; i < Explosive.MAX_EXPLOSIVE_ID; i++)
         {
     		par3List.add(new ItemStack(this, 1, i));
         }

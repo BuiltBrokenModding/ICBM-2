@@ -27,11 +27,15 @@ public abstract class Explosive implements ITier
 	public static final Explosive Incendiary = new ExplosiveIncendiary("Incendiary", 2, 1);
 	public static final Explosive Chemical = new ExplosiveChemical("Chemical", 3, 1);
 	
+	public static final int MAX_TIER_ONE = 4;
+	
 	public static final Explosive Fragmentation = new ExplosiveFragmentation("Fragmentation", 4, 2);
 	public static final Explosive Contagious = new ExplosiveChemical("Contagious", 5, 2);
 	public static final Explosive Sonic = new ExplosiveSonic("Sonic", 6, 2);
 	public static final Explosive Breaching = new ExplosiveBreaching("Breaching", 7, 2);
 	public static final Explosive Rejuvenation = new ExplosiveRejuvenation("Rejuvenation", 8, 2);
+	
+	public static final int MAX_TIER_TWO = 9;
 	
 	public static final Explosive Nuclear = new ExplosiveNuclear("Nuclear", 9, 3);
 	public static final Explosive EMP = new ExplosiveEMP("EMP", 10, 3);
@@ -42,7 +46,7 @@ public abstract class Explosive implements ITier
 	public static final Explosive Antimatter = new ExplosiveAntimatter("Antimatter", 14, 4);
 	public static final Explosive Redmatter = new ExplosiveRedmatter("Red Matter", 15, 4);
 
-	public static final int maxExplosives = 16;
+	public static final int MAX_EXPLOSIVE_ID = 16;
 	
 	//Hidden Explosives
 	public static final Explosive EMPWave = new ExplosiveEMPWave("EMP", 20, 3);

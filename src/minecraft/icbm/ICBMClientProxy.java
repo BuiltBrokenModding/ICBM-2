@@ -24,9 +24,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ICBMClientProxy extends ICBMCommonProxy
-{
-	public static final Configuration CONFIGURATION = new Configuration(new File(Minecraft.getMinecraftDir(), "config/UniversalElectricity/ICBM.cfg"));
-	
+{	
 	@Override
 	public void preInit()
 	{

@@ -38,7 +38,7 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TileEntityRailgun extends TileEntityElectricUnit implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
 {
-	public static final float WATTAGE_REQUIRED = 50000;
+	public static final float WATTAGE_REQUIRED = 40000;
 	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -82,127 +82,125 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	@Override
 	public void onUpdate(float watts, float voltage, ForgeDirection side)
 	{
-		if(!this.worldObj.isRemote)
-		{
-			super.onUpdate(watts, voltage, side);
-			
-			if(!this.isDisabled())
-	    	{
-	    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.WATTAGE_REQUIRED, 0);
-	    		this.electricityStored = Math.max(this.electricityStored+watts - rejectedElectricity, 0);
-	    	
-	    		if(mountedPlayer != null)
-	    		{
-	    			if(mountedPlayer.rotationPitch > 30) mountedPlayer.rotationPitch = 30;
-	    			if(mountedPlayer.rotationPitch < -45) mountedPlayer.rotationPitch = -45;
-	    			
-	    			this.rotationPitch = mountedPlayer.rotationPitch;
-	    			this.rotationYaw = mountedPlayer.rotationYaw;
-	    			
-	    			this.displayRotationPitch = this.rotationPitch*0.0175f;
-	    			this.displayRotationYaw = this.rotationYaw*0.0175f;
-	    		}
-	    		else if(this.entityRailGun != null)
-	    		{
-	    			this.entityRailGun.setDead();
-	    			this.entityRailGun = null;
-	    		}
-	    		
-	    		if(this.redstonePowerOn && this.canFire() && this.gunChargingTicks == 0)
-				{
-					this.gunChargingTicks = 1;
-					this.redstonePowerOn = false;
-    				this.isAntimatter = false;
-    				
-    				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.railgun", 2F, 1F);
-    				
-    				for(int ii = 0; ii < this.containingItems.length; ii++)
-					{
-						ItemStack itemStack = this.containingItems[ii];
-						
-						if(itemStack != null)
-						{
-							if(itemStack.getItem() instanceof ItemBullet)
-							{
-								if(itemStack.getItemDamage() == 1)
-								{
-									this.isAntimatter = true;
-								}
-								
-								itemStack.stackSize --;
-								this.setInventorySlotContents(ii, itemStack);
-								
-								if(itemStack.stackSize == 0)
-								{
-									this.setInventorySlotContents(ii, null);
-								}
-								
-								break;
-							}		
-						}
-					}
-    				
-    				this.electricityStored = 0;
-			        
-			        this.explosionSize = 5F;
-			        this.explosionDepth = 8;
-			        
-			        if(isAntimatter)
-			        {
-			        	explosionSize = 10f;
-			        	explosionDepth = 15;
-			        }
-				}
-	    		
-	    		if(this.gunChargingTicks > 0)
-	    		{
-	    			this.gunChargingTicks += this.getTickInterval();
-	    			
-	    			if(this.gunChargingTicks >= 70 && this.gunChargingTicks % 20 == 0)
-	    			{
-	    				if(this.explosionDepth > 0)
-	    				{
-	        				MovingObjectPosition objectMouseOver = this.rayTrace(1000);
-	        				
-	        				if(objectMouseOver != null)
-	        		        {
-	        					if(objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
-	        					{
-		        					if(isAntimatter)
-		        					{
-			        					int radius = ExplosiveRedmatter.MAX_RADIUS;
-			        					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
-			        			        List<EntityProceduralExplosion> missilesNearby = worldObj.getEntitiesWithinAABB(EntityProceduralExplosion.class, bounds);
-			
-			        			        for(EntityProceduralExplosion entity : missilesNearby)
-			        			        {
-			        			        	entity.endExplosion();
-			        			        }
-		        					}
-	        			        
-		        			        if(this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID) this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
-		        			        this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true);
-	        					}
-	        		        }
-	        				
-	        				this.explosionDepth --;
-	    				}
-	    				else
-	    				{
-	    					PacketManager.sendTileEntityPacket(this, "ICBM", (int)3);
-		    				this.gunChargingTicks = 0;
-	    				}
-	    			}
-	    		}
-	    	}
+		super.onUpdate(watts, voltage, side);
 		
-			if(this.isGUIOpen)
+		if(!this.isDisabled())
+    	{
+    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.WATTAGE_REQUIRED, 0);
+    		this.electricityStored = Math.max(this.electricityStored+watts - rejectedElectricity, 0);
+    	
+    		if(mountedPlayer != null)
+    		{
+    			if(mountedPlayer.rotationPitch > 30) mountedPlayer.rotationPitch = 30;
+    			if(mountedPlayer.rotationPitch < -45) mountedPlayer.rotationPitch = -45;
+    			
+    			this.rotationPitch = mountedPlayer.rotationPitch;
+    			this.rotationYaw = mountedPlayer.rotationYaw;
+    			
+    			this.displayRotationPitch = this.rotationPitch*0.0175f;
+    			this.displayRotationYaw = this.rotationYaw*0.0175f;
+    		}
+    		else if(this.entityRailGun != null)
+    		{
+    			this.entityRailGun.setDead();
+    			this.entityRailGun = null;
+    		}
+    		
+    		if(this.redstonePowerOn && this.canFire() && this.gunChargingTicks == 0)
 			{
-				PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.electricityStored, this.disabledTicks);
+				this.gunChargingTicks = 1;
+				this.redstonePowerOn = false;
+				this.isAntimatter = false;
+				
+				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.railgun", 2F, 1F);
+				
+				for(int ii = 0; ii < this.containingItems.length; ii++)
+				{
+					ItemStack itemStack = this.containingItems[ii];
+					
+					if(itemStack != null)
+					{
+						if(itemStack.getItem() instanceof ItemBullet)
+						{
+							if(itemStack.getItemDamage() == 1)
+							{
+								this.isAntimatter = true;
+							}
+							
+							itemStack.stackSize --;
+							this.setInventorySlotContents(ii, itemStack);
+							
+							if(itemStack.stackSize == 0)
+							{
+								this.setInventorySlotContents(ii, null);
+							}
+							
+							break;
+						}		
+					}
+				}
+				
+				this.electricityStored = 0;
+		        
+		        this.explosionSize = 5F;
+		        this.explosionDepth = 8;
+		        
+		        if(isAntimatter)
+		        {
+		        	explosionSize = 10f;
+		        	explosionDepth = 15;
+		        }
 			}
-			
-			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 120, (int)1, this.displayRotationYaw, this.displayRotationPitch);
+    		
+    		if(this.gunChargingTicks > 0)
+    		{
+    			this.gunChargingTicks += this.getTickInterval();
+    			
+    			if(this.gunChargingTicks >= 70 && this.gunChargingTicks % 20 == 0)
+    			{
+    				if(this.explosionDepth > 0)
+    				{
+        				MovingObjectPosition objectMouseOver = this.rayTrace(1000);
+        				
+        				if(objectMouseOver != null)
+        		        {
+        					if(objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+        					{
+	        					if(isAntimatter)
+	        					{
+		        					int radius = ExplosiveRedmatter.MAX_RADIUS;
+		        					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
+		        			        List<EntityProceduralExplosion> missilesNearby = worldObj.getEntitiesWithinAABB(EntityProceduralExplosion.class, bounds);
+		
+		        			        for(EntityProceduralExplosion entity : missilesNearby)
+		        			        {
+		        			        	entity.endExplosion();
+		        			        }
+	        					}
+        			        
+	        			        if(this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID) this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
+	        			        this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true);
+        					}
+        		        }
+        				
+        				this.explosionDepth --;
+    				}
+    				else
+    				{
+    					PacketManager.sendTileEntityPacket(this, "ICBM", (int)3);
+	    				this.gunChargingTicks = 0;
+    				}
+    			}
+    		}
+    	}
+	
+		if(this.isGUIOpen)
+		{
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.electricityStored, this.disabledTicks);
 		}
+		
+		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)1, this.displayRotationYaw, this.displayRotationPitch);
+		
 	}
 	
 	@Override
@@ -212,7 +210,11 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	    {
 	        int ID = dataStream.readInt();
 
-	        if(ID == 1)
+	        if(ID == -1)
+	        {
+		        this.isGUIOpen = dataStream.readBoolean();
+	        }
+	        else if(ID == 1)
 	        {
 		        this.displayRotationYaw = dataStream.readFloat();
 		        this.displayRotationPitch = dataStream.readFloat();
@@ -236,10 +238,6 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	        {
 		        this.electricityStored = dataStream.readFloat();
 		        this.disabledTicks = dataStream.readInt();
-	        }
-	        else if(ID == 5)
-	        {
-		        this.isGUIOpen = dataStream.readBoolean();
 	        }
 	    }
 	    catch(Exception e)

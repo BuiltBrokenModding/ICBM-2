@@ -8,6 +8,7 @@ import net.minecraft.src.GuiContainer;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.electricity.ElectricUnit;
+import universalelectricity.network.PacketManager;
 
 public class GuiRailgun extends GuiContainer
 {
@@ -16,6 +17,8 @@ public class GuiRailgun extends GuiContainer
 
     private int containerWidth;
     private int containerHeight;
+    
+	private int GUITicks = 0;
 
     public GuiRailgun(TileEntityRailgun tileEntity, EntityPlayer player)
     {
@@ -34,6 +37,28 @@ public class GuiRailgun extends GuiContainer
         this.controlList.clear();
         
         this.controlList.add(new GuiButton(0, this.width / 2 + 90,  this.height / 2 - 80, 55, 20, "Mount"));
+        
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    }
+    
+    
+    @Override
+    public void onGuiClosed()
+    {
+    	super.onGuiClosed();
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
+    }
+    
+    public void updateScreen()
+    {
+    	super.updateScreen();
+    	
+		if(GUITicks % 100 == 0)
+    	{
+    		PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    	}
+		
+    	GUITicks ++;
     }
     
     

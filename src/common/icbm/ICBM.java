@@ -11,6 +11,7 @@ import icbm.machines.TileEntityDetector;
 import icbm.machines.TileEntityInvisibleBlock;
 import icbm.missiles.Missile;
 
+import java.io.File;
 import java.util.Random;
 
 import net.minecraft.src.Block;
@@ -28,6 +29,7 @@ import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.recipe.RecipeManager;
 import cpw.mods.fml.common.IDispenseHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.PreInit;
@@ -40,19 +42,20 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "ICBM", name = "ICBM", version = ICBM.version, dependencies = "after:BasicComponenets;after:AtomicScience")
+@Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:BasicComponenets;after:AtomicScience")
 @NetworkMod(channels = { "ICBM" }, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 
 public class ICBM implements IDispenseHandler
 {
-	
 	public static ICBM instance;
 	
-	public static final String version = "0.5.3";
+	public static final String VERSION = "0.5.3";
 	
 	public static final String TEXTURE_FILE_PATH = "/icbm/textures/";
     public static final String BLOCK_TEXTURE_FILE = TEXTURE_FILE_PATH + "blocks.png";
     public static final String ITEM_TEXTURE_FILE = TEXTURE_FILE_PATH + "items.png";
+    
+	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "config/UniversalElectricity/ICBM.cfg"));
     
 	@SidedProxy(clientSide = "icbm.ICBMClientProxy", serverSide = "icbm.ICBMCommonProxy")
 	public static ICBMCommonProxy proxy;
@@ -61,29 +64,29 @@ public class ICBM implements IDispenseHandler
 	public static final int ENTITY_ID_PREFIX = 50;
 	
 	public static final int BLOCK_ID_PREFIX = 3880;
-    public static final Block blockSulfurOre = new BlockSulfurOre(UniversalElectricity.getBlockConfigID(proxy.CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX-1));
-	public static final Block blockGlassPressurePlate = new BlockGlassPressurePlate(UniversalElectricity.getBlockConfigID(proxy.CONFIGURATION, "GlassPressurePlate", BLOCK_ID_PREFIX+0), 0);
-	public static final Block blockExplosive = new BlockExplosive(UniversalElectricity.getBlockConfigID(proxy.CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
-	public static final Block blockMachine = new BlockICBMMachine(UniversalElectricity.getBlockConfigID(proxy.CONFIGURATION, "BlockMachine", BLOCK_ID_PREFIX+3));
-	public static final Block blockInvisible = new BlockInvisible(UniversalElectricity.getBlockConfigID(proxy.CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
+    public static final Block blockSulfurOre = new BlockSulfurOre(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX-1));
+	public static final Block blockGlassPressurePlate = new BlockGlassPressurePlate(UniversalElectricity.getBlockConfigID(CONFIGURATION, "GlassPressurePlate", BLOCK_ID_PREFIX+0), 0);
+	public static final Block blockExplosive = new BlockExplosive(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
+	public static final Block blockMachine = new BlockICBMMachine(UniversalElectricity.getBlockConfigID(CONFIGURATION, "BlockMachine", BLOCK_ID_PREFIX+3));
+	public static final Block blockInvisible = new BlockInvisible(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
 	public static Block blockRadioactive;
-	public static final Block blockDetector = new BlockDetector(UniversalElectricity.getBlockConfigID(proxy.CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
+	public static final Block blockDetector = new BlockDetector(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
 
 	//ITEMS
 	public static final int itemIDprefix = 3900;
-	public static final Item itemSulfur = new ICBMItem("Sulfur", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Sulfur", itemIDprefix-2), 3, CreativeTabs.tabMaterials);
-	public static final Item itemPoisonPowder = new ICBMItem("Poison Powder", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Poison Powder", itemIDprefix), 0, CreativeTabs.tabMaterials);
-	public static final Item itemAntidote = new ItemAntidote("Antidote", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Antidote", itemIDprefix+1), 5);
-	public static final Item itemMissile = new ItemMissile("Missile", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Missile", itemIDprefix+2), 32);
-	public static final Item itemSpecialMissile = new ItemSpecialMissile("Special Missile", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
-	public static final Item itemDefuser = new ItemDefuser("Defuser", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
-	public static final Item itemRadarGun = new ItemRadarGun("Radar Gun", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
-	public static final Item itemRemote = new ItemRemote("Remote", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Remote", itemIDprefix+6), 20);
-	public static final Item itemLaserDesignator = new ItemLaserDesignator("Laser Designator", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Laser Designator", itemIDprefix+7), 22);
-	public static final Item itemGrenade = new ItemGrenade("Grenade", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Grenade", itemIDprefix+8), 64);
-	public static final Item itemSignalDisruptor = new ItemSignalDisrupter("Signal Disruptor", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
-	public static final Item itemBullet = new ItemBullet("Bullet", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Bullet", itemIDprefix+10), 80);
-	public static final Item itemTracker = new ItemTracker("Tracker", UniversalElectricity.getItemConfigID(proxy.CONFIGURATION, "Tracker", itemIDprefix+11), 18);
+	public static final Item itemSulfur = new ICBMItem("Sulfur", UniversalElectricity.getItemConfigID(CONFIGURATION, "Sulfur", itemIDprefix-2), 3, CreativeTabs.tabMaterials);
+	public static final Item itemPoisonPowder = new ICBMItem("Poison Powder", UniversalElectricity.getItemConfigID(CONFIGURATION, "Poison Powder", itemIDprefix), 0, CreativeTabs.tabMaterials);
+	public static final Item itemAntidote = new ItemAntidote("Antidote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Antidote", itemIDprefix+1), 5);
+	public static final Item itemMissile = new ItemMissile("Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Missile", itemIDprefix+2), 32);
+	public static final Item itemSpecialMissile = new ItemSpecialMissile("Special Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
+	public static final Item itemDefuser = new ItemDefuser("Defuser", UniversalElectricity.getItemConfigID(CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
+	public static final Item itemRadarGun = new ItemRadarGun("Radar Gun", UniversalElectricity.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
+	public static final Item itemRemote = new ItemRemote("Remote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Remote", itemIDprefix+6), 20);
+	public static final Item itemLaserDesignator = new ItemLaserDesignator("Laser Designator", UniversalElectricity.getItemConfigID(CONFIGURATION, "Laser Designator", itemIDprefix+7), 22);
+	public static final Item itemGrenade = new ItemGrenade("Grenade", UniversalElectricity.getItemConfigID(CONFIGURATION, "Grenade", itemIDprefix+8), 64);
+	public static final Item itemSignalDisruptor = new ItemSignalDisrupter("Signal Disruptor", UniversalElectricity.getItemConfigID(CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
+	public static final Item itemBullet = new ItemBullet("Bullet", UniversalElectricity.getItemConfigID(CONFIGURATION, "Bullet", itemIDprefix+10), 80);
+	public static final Item itemTracker = new ItemTracker("Tracker", UniversalElectricity.getItemConfigID(CONFIGURATION, "Tracker", itemIDprefix+11), 18);
 
 	public static final PoisonChemical CHEMICALS = new PoisonChemical("Chemical", 1, false);
 	public static final PoisonChemical CONTAGIOUS = new PoisonChemical("Contagious", 1, true);
@@ -121,7 +124,7 @@ public class ICBM implements IDispenseHandler
     {
 		if(blockRadioactive == null)
 		{
-			blockRadioactive = new BlockRadioactive(UniversalElectricity.getBlockConfigID(proxy.CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX+5), 4);
+			blockRadioactive = new BlockRadioactive(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX+5), 4);
 			GameRegistry.registerBlock(blockRadioactive);
 		}
 
@@ -169,7 +172,7 @@ public class ICBM implements IDispenseHandler
 		}
 		
 		//Explosives and missile recipe
-		for(int i = 0; i < Explosive.maxExplosives; i++)
+		for(int i = 0; i < Explosive.MAX_EXPLOSIVE_ID; i++)
 		{
 			if(i == 0)
 			{	
@@ -244,7 +247,7 @@ public class ICBM implements IDispenseHandler
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 1), new Object [] {"!", "?", "@", '@', new ItemStack(ICBM.itemSpecialMissile, 1, 0), '?', new ItemStack(ICBM.blockExplosive, 1, 0), '!', BasicComponents.itemCircuit});
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 2), new Object [] {" ! ", " ? ", "!@!", '@', new ItemStack(ICBM.itemSpecialMissile, 1, 0), '?', Missile.list[Explosive.Fragmentation.getID()].getItemStack(), '!', new ItemStack(ICBM.itemMissile, 1, 0)});
 		
-		for(int i = 0; i < Explosive.maxExplosives; i++)
+		for(int i = 0; i < Explosive.MAX_EXPLOSIVE_ID; i++)
 		{
 			if(!Explosive.list[i].isDisabled)
 			{
@@ -321,18 +324,18 @@ public class ICBM implements IDispenseHandler
 	{
 		boolean returnValue = defaultValue;
 		
-		ICBMCommonProxy.CONFIGURATION.load();
+		CONFIGURATION.load();
 
         try
         {
-        	returnValue = Boolean.parseBoolean(ICBMCommonProxy.CONFIGURATION.getOrCreateBooleanProperty(comment, Configuration.CATEGORY_GENERAL, defaultValue).value);
+        	returnValue = Boolean.parseBoolean(CONFIGURATION.getOrCreateBooleanProperty(comment, Configuration.CATEGORY_GENERAL, defaultValue).value);
         }
         catch(Exception e)
         {
         	returnValue = defaultValue;
         }
         
-        ICBMCommonProxy.CONFIGURATION.save();
+        CONFIGURATION.save();
         return returnValue;
 	}
 }
