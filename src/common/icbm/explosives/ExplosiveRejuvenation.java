@@ -45,17 +45,14 @@ public class ExplosiveRejuvenation extends Explosive
 			        		int blockID = newChunk.getBlockID(x, y, z);
 			                int metadata = newChunk.getBlockMetadata(x, y, z);
 		
-				        	if(blockID > 0)
-			                {
-				        		worldServer.setBlockAndMetadata(x+oldChunk.xPosition*16, y, z+oldChunk.zPosition*16, blockID, metadata); 
-			                
-								TileEntity tileEntity = newChunk.getChunkBlockTileEntity(x, y, z);
-								
-								if(tileEntity !=null)
-								{
-									worldServer.setBlockTileEntity(x+oldChunk.xPosition*16, y, z+oldChunk.zPosition*16, tileEntity);
-								}
-			                }
+			        		worldServer.setBlockAndMetadata(x+oldChunk.xPosition*16, y, z+oldChunk.zPosition*16, blockID, metadata); 
+		                
+							TileEntity tileEntity = newChunk.getChunkBlockTileEntity(x, y, z);
+							
+							if(tileEntity !=null)
+							{
+								worldServer.setBlockTileEntity(x+oldChunk.xPosition*16, y, z+oldChunk.zPosition*16, tileEntity);
+							}
 		                }
 			        }
 				}

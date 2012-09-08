@@ -28,7 +28,8 @@ public class WorldGenSulfur extends WorldGenerator
     @Override
     public boolean generate(World world, Random rand, int x, int y, int z)
     {
-        if(nearLava(world, x, y, z)) {
+        if(nearLava(world, x, y, z))
+        {
             placeOre(world, rand, x, y, z);
             return true;
         }

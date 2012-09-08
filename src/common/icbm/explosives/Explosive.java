@@ -184,6 +184,8 @@ public abstract class Explosive implements ITier
 	 */
 	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource){};
 	
+	public int countIncrement() { return 1;}
+	
 	/**
 	 * Spawns an explosive (TNT form) in the world
 	 * @param worldObj

@@ -31,7 +31,7 @@ public class ExplosiveBreaching extends Explosive
 			difference.modifyPositionFromSide(ForgeDirection.DOWN);
 		}
 		
-		for(int i = 0; i < 4; i ++)
+		for(int i = 0; i < 6; i ++)
 		{
 			position.add(difference);
 			position.add(difference);

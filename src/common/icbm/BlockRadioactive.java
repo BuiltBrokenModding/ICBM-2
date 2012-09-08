@@ -7,7 +7,9 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
+import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
 import atomicscience.api.Poison;
 
@@ -87,5 +89,11 @@ public class BlockRadioactive extends ICBMBlock
     public int idDropped(int par1, Random par2Random, int par3)
     {
         return Block.dirt.idDropped(0, par2Random, par3);
+    }
+    
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World par1World, int x, int y, int z)
+    {
+    	return null;
     }
 }

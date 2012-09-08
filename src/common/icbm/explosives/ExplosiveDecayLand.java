@@ -43,7 +43,7 @@ public class ExplosiveDecayLand extends Explosive
      		   		int blockID = worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z);
          		   	if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
                     {
-	     	           if(Math.random()*100 > 75)
+	     	           if(worldObj.rand.nextFloat() > 0.8)
 	     	           {
 	     	        	   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockRadioactive.blockID);
 	     	           }
@@ -51,7 +51,7 @@ public class ExplosiveDecayLand extends Explosive
          		   	
          		   	if(blockID == Block.stone.blockID)
                     {
-                    	if(Math.random()*100 > 90)
+                    	if(worldObj.rand.nextFloat() > 0.96)
                     	{
                     		worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockRadioactive.blockID);
                     	}

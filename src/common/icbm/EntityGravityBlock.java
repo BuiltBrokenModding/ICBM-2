@@ -66,8 +66,6 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
 	{
 		data.writeInt(this.blockID);
 		data.writeInt(this.metadata);
-		data.writeFloat(this.yawChange);
-		data.writeFloat(this.pitchChange);
 		data.writeFloat(this.gravity);
 	}
 
@@ -76,8 +74,6 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
 	{
 		this.blockID = data.readInt();
 		this.metadata = data.readInt();
-		this.yawChange = data.readFloat();
-		this.pitchChange = data.readFloat();
 		this.gravity = data.readFloat();
 	}
     
@@ -86,7 +82,7 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
     
     public void onUpdate()
     {
-        if(this.posY > 500 || this.blockID == 0 || this.blockID == ICBM.blockInvisible.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+        if(this.posY > 400 || this.blockID == 0 || this.blockID == ICBM.blockInvisible.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
         {
             this.setDead();
             return;
@@ -115,18 +111,23 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
         
         if((onGround && this.ticksExisted > 20) || this.ticksExisted > 20*120)
         {
-        	int i = MathHelper.floor_double(posX);
-            int j = MathHelper.floor_double(posY);
-            int k = MathHelper.floor_double(posZ);
-
-        	worldObj.setBlockAndMetadataWithNotify(i, j, k, this.blockID, this.metadata);
-        	setDead();
+        	this.setBlock();
         }
         
         this.ticksExisted ++;
     }
     
-    /**
+    public void setBlock()
+    {
+    	int i = MathHelper.floor_double(posX);
+        int j = MathHelper.floor_double(posY);
+        int k = MathHelper.floor_double(posZ);
+
+    	worldObj.setBlockAndMetadataWithNotify(i, j, k, this.blockID, this.metadata);
+    	setDead();
+	}
+
+	/**
      * Checks to see if and entity is touching the missile. If so, blow up!
      */
 

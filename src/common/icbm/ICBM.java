@@ -24,13 +24,9 @@ import net.minecraft.src.ICommandManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CommandEvent;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.OreGenData;
 import universalelectricity.UniversalElectricity;
@@ -45,7 +41,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
-import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -55,7 +50,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
 
 @Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:BasicComponenets;after:AtomicScience")
 @NetworkMod(channels = { "ICBM" }, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
@@ -133,7 +127,7 @@ public class ICBM implements IDispenseHandler, IWorldGenerator
 		
 		OreDictionary.registerOre("dustSulfur", itemSulfur);
 				
-		sulfurGenData = new OreGenData("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 55, 30, 10);
+		sulfurGenData = new OreGenData("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 100, 30, 10);
 		
    		GameRegistry.registerWorldGenerator(this);
    		
@@ -340,16 +334,19 @@ public class ICBM implements IDispenseHandler, IWorldGenerator
             {
             	WorldGenSulfur worldGenSulfur = new WorldGenSulfur(sulfurGenData.oreStack, sulfurGenData.amountPerBranch);
 
-                for (int i = 0; i < sulfurGenData.amountPerChunk; i++)
-                {
-                    int x = chunkX + rand.nextInt(16);
-                    int y = rand.nextInt(sulfurGenData.maxGenerateLevel) + sulfurGenData.minGenerateLevel;
-                    int z = chunkZ + rand.nextInt(16);
-                    
-        			int randAmount = rand.nextInt(8);
-
-                	worldGenSulfur.generate(world, rand, x, y, z);
-                }
+            	for(int y = sulfurGenData.minGenerateLevel; y < sulfurGenData.maxGenerateLevel; y ++)
+            	{
+            		for(int x = 0; x < 16; x ++)
+            		{
+            			for(int z = 0; z < 16; z ++)
+            			{
+            				if(rand.nextFloat() > 0.6)
+            				{
+            					worldGenSulfur.generate(world, rand, x, y, z);
+            				}
+            			}
+            		}    
+            	}
             }
      
         }

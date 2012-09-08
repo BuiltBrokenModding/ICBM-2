@@ -26,13 +26,14 @@ public class ExplosiveAntiGravity extends Explosive
 	//Sonic Explosion is a procedural explosive
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
-	{		
+	{
 		Vector3 currentPos;
 		int blockID;
 		int metadata;
 		double dist;
 		
 		int r = MAX_RADIUS;
+		int blocksToTake = 10;
 		
 		for(int x = -r; x < r; x++)
 		{
@@ -42,7 +43,7 @@ public class ExplosiveAntiGravity extends Explosive
 				{
 					dist = MathHelper.sqrt_double((x*x + y*y + z*z));
 					
-					if(dist > r) continue;
+					if(dist > r || blocksToTake <= 0) continue;
 					
 					currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
 					blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
@@ -51,22 +52,29 @@ public class ExplosiveAntiGravity extends Explosive
 					
 					metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 					
-					if(dist < r - 1 || worldObj.rand.nextInt(3) > 0)
+					if((dist < r - 1 || worldObj.rand.nextInt(3) > 0) && worldObj.rand.nextFloat() > 0.99)
 					{
 						worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
 						
 						currentPos.add(0.5D);
 						
-						if(!worldObj.isRemote && worldObj.rand.nextFloat() > 0.8)
+						if(worldObj.rand.nextFloat() > 0.85)
 						{
-							EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata, 0);
-							worldObj.spawnEntityInWorld(entity);
-							entity.yawChange = 15*worldObj.rand.nextFloat();
-							entity.pitchChange = 30*worldObj.rand.nextFloat();
-							entity.motionY += 0.15*worldObj.rand.nextFloat();
+							if(!worldObj.isRemote)
+							{
+								EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata, 0);
+								worldObj.spawnEntityInWorld(entity);
+								entity.yawChange = 15*worldObj.rand.nextFloat();
+								entity.pitchChange = 30*worldObj.rand.nextFloat();
+								entity.motionY += Math.max(0.3*worldObj.rand.nextFloat(), 0.1);
+							}
+					        worldObj.spawnParticle("hugeexplosion", currentPos.x, currentPos.y, currentPos.z, 0.0D, 0.0D, 0.0D);
 						}
+						
+						blocksToTake --;
 					}
 				}
+				
 			}
 		}
 		
@@ -76,7 +84,7 @@ public class ExplosiveAntiGravity extends Explosive
         List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
     	
         for(Entity entity : allEntities)
-        {                    	
+        {
             if(!(entity instanceof EntityGravityBlock) && entity.posY < 100+position.y)
             {
             	if(entity.motionY < 0.4)

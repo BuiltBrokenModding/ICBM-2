@@ -102,7 +102,7 @@ public class EntityProceduralExplosion extends Entity implements IEntityAddition
 		{
     		if(!endExplosion && Explosive.list[this.explosiveID].doExplosion(worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.metadata, this.callCounter))
     		{
-    			this.callCounter ++;
+    			this.callCounter += Explosive.list[this.explosiveID].countIncrement();
     			this.tickCallCounter = 0;
     		}
     		else

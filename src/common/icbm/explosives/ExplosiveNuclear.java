@@ -1,11 +1,14 @@
 package icbm.explosives;
 
 import icbm.EntityProceduralExplosion;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
 import universalelectricity.Vector3;
 import universalelectricity.recipe.RecipeManager;
@@ -13,159 +16,207 @@ import universalelectricity.recipe.RecipeManager;
 public class ExplosiveNuclear extends Explosive
 {	
 	public static final int MAX_RADIUS = 30;
+	public static final int MAX_POWER = 100;
+	public static final int CALL_COUNT = 100;
 	
 	public ExplosiveNuclear(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setFuse(200);
+		//this.setFuse(200);
 	}
 	
 	@Override
 	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		EntityProceduralExplosion source = (EntityProceduralExplosion)explosionSource;
+
+		for(int x = -MAX_RADIUS; x < MAX_RADIUS; x++)
+		{
+			for(int y = -MAX_RADIUS; y < MAX_RADIUS; y++)
+			{
+				for(int z = -MAX_RADIUS; z < MAX_RADIUS; z++)
+				{
+					double distance = MathHelper.sqrt_double((x*x + y*y + z*z));
+					
+                    if(distance < MAX_RADIUS && distance > MAX_RADIUS-1)
+					{
+                    	source.dataList.add(new Vector3(x, y, z));
+					}
+				}
+			}
+		}
+		
+		this.doDamageEntities(worldObj, position, MAX_RADIUS, MAX_POWER);
 		
 	}
 
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{
-		EntityProceduralExplosion source = (EntityProceduralExplosion)explosionSource;
-		
-		int radius = MAX_RADIUS;
-		
-		for(int x = -radius; x < radius; x++)
+		if(!worldObj.isRemote)
 		{
-			for(int y = -radius; y < radius; y++)
+			List<Vector3> blocksToBreak = new ArrayList<Vector3>();
+			
+			EntityProceduralExplosion source = (EntityProceduralExplosion)explosionSource;
+		
+			for(int i = callCount; i < callCount+CALL_COUNT; i ++)
 			{
-				for(int z = -radius; z < radius; z++)
+				if(i >= source.dataList.size())
 				{
-					double distance = MathHelper.sqrt_double((x*x + y*y + z*z));
+					return false;
+				}
+				
+				Vector3 corner = (Vector3)source.dataList.get(i);
+				
+				float power = MAX_POWER - (MAX_POWER*worldObj.rand.nextFloat()/2);
+				
+				double xStep = (double)((float)corner.intX() / ((float)MAX_RADIUS/2 - 1.0F) * 2.0F - 1.0F);
+	            double yStep = (double)((float)corner.intY() / ((float)MAX_RADIUS/2 - 1.0F) * 2.0F - 1.0F);
+	            double zStep = (double)((float)corner.intZ() / ((float)MAX_RADIUS/2 - 1.0F) * 2.0F - 1.0F);
+	            double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
+	            xStep /= diagonalDistance;
+	            yStep /= diagonalDistance;
+	            zStep /= diagonalDistance;
+	            
+	            Vector3 targetPosition = new Vector3(position.x, position.y, position.z);
+				
+				for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
+				{
+					int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 					
-					if(distance < radius && distance > radius-1)
+					if(blockID > 0)
 					{
-						float power = 70;
-						
-						Vector3 target = Vector3.add(position, new Vector3(x, y, z));
-						
-						MovingObjectPosition movingObjectPosotion = worldObj.rayTraceBlocks(position.toVec3(), target.toVec3());
-						
-						if(movingObjectPosotion != null)
+						if(blockID == Block.bedrock.blockID)
 						{
-							while(power > 0 && movingObjectPosotion.blockX != target.intX() && movingObjectPosotion.blockY != target.intY() && movingObjectPosotion.blockZ != target.intZ())
+							break;
+						}
+						else if(Block.blocksList[blockID] instanceof BlockFluid)
+						{
+							power -= 2;
+						}
+						else if(blockID == Block.obsidian.blockID)
+						{
+							power -= 50;
+						}
+						else
+						{
+							power -= Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
+						}
+						
+						if(power > 0f)
+						{						
+							if(!blocksToBreak.contains(targetPosition))
 							{
-								movingObjectPosotion = worldObj.rayTraceBlocks(position.toVec3(), target.toVec3());
-	
-								if(movingObjectPosotion != null)
-								{
-									if(movingObjectPosotion.typeOfHit == EnumMovingObjectType.TILE)
-									{
-										int blockID = worldObj.getBlockId(movingObjectPosotion.blockX, movingObjectPosotion.blockY, movingObjectPosotion.blockZ);
-										
-										if(blockID > 0)
-										{
-											power -= Block.blocksList[blockID].getExplosionResistance(explosionSource);
-											System.out.println(power);
-											worldObj.setBlockWithNotify(movingObjectPosotion.blockX, movingObjectPosotion.blockY, movingObjectPosotion.blockZ, 0);
-										}
-									}
-								}
-								else
-								{
-									break;
-								}
+								blocksToBreak.add(new Vector3(MathHelper.floor_double(targetPosition.x), MathHelper.floor_double(targetPosition.y), MathHelper.floor_double(targetPosition.z)) );
 							}
 						}
+					}
 
-						//source.dataList.add(new Vector3(position.x+x, position.y+y, position.z+z));
+					if(targetPosition.distanceTo(position) > MAX_RADIUS+10) break;
+					
+					targetPosition.x += xStep * (double)var21;
+					targetPosition.y += yStep * (double)var21;
+					targetPosition.z += zStep * (double)var21;
+				}
+			}
+			
+			for(Vector3 targetPosition : blocksToBreak)
+			{
+				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				
+				if(blockID > 0)
+				{
+					worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+		            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+					
+					if(worldObj.rand.nextFloat() > 0.9)
+					{
+						worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0.0D, 0.0D, 0.0D);
 					}
 				}
 			}
+			
+			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		}
 		
-		return false;
-		
-		/*
-		Vector3 currentPos;
-		int blockID;
-		double dist;
-		    		
-		for(int x = -radius; x < radius; x++)
-		{
-			for(int y = -radius; y < radius; y++)
+		return true;
+			
+			/*
+			for(int x = -MAX_RADIUS; x < MAX_RADIUS; x++)
 			{
-				for(int z = -radius; z < radius; z++)
+				for(int y = -MAX_RADIUS; y < MAX_RADIUS; y++)
 				{
-					dist = MathHelper.sqrt_double((x*x + y*y + z*z));
-					
-					if(dist > radius || dist < radius-2) continue;
-					
-					currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
-					blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());		
-					
-					if(blockID == 0) continue;
-					
-					if(blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID || blockID == Block.lavaStill.blockID)
-                	{
-						if(dist > radius - 1)
-    					{
-    						if(worldObj.rand.nextInt(3) > 0)
-    						{
-    							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
-    						}
-    					}
-						else
+					for(int z = -MAX_RADIUS; z < MAX_RADIUS; z++)
+					{
+						double distance = MathHelper.sqrt_double((x*x + y*y + z*z));
+						
+	                    if(distance < MAX_RADIUS && distance > MAX_RADIUS-1)
 						{
-							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
-						}
-    					
-						continue;
-                	}
-					
-                    float power = maxRadius * (0.7F + worldObj.rand.nextFloat() * 0.6F);
-
-                    power -= (Block.blocksList[blockID].getExplosionResistance(source) + 0.3F);
-
-					if (power > 0.0F)
-                    {
-    					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ());
-    					
-    					if(dist < radius - 1 || worldObj.rand.nextInt(3) > 0)
-    					{
-							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+							float power = MAX_POWER - (MAX_POWER*worldObj.rand.nextFloat()/2);
+													
+							double xStep = (double)((float)x / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+	                        double yStep = (double)((float)y / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+	                        double zStep = (double)((float)z / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+	                        double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
+	                        xStep /= diagonalDistance;
+	                        yStep /= diagonalDistance;
+	                        zStep /= diagonalDistance;
+	                        
+	                        Vector3 targetPosition = new Vector3(position.x, position.y, position.z);
 							
-							if(worldObj.rand.nextFloat() > 0.98)
+							for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
 							{
-								worldObj.spawnParticle("hugeexplosion", currentPos.x, currentPos.y, currentPos.z, 0.0D, 0.0D, 0.0D);
+								int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+								
+								if(blockID > 0)
+								{
+									if(blockID == Block.bedrock.blockID)
+									{
+										break;
+									}
+									else if(Block.blocksList[blockID] instanceof BlockFluid)
+									{
+										power -= 3;
+									}
+									else
+									{
+										power -= Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
+									}
+									//System.out.println(power);
+								}
+								
+								if(power > 0f)
+								{
+									worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+								}
+	
+								targetPosition.x += xStep * (double)var21;
+								targetPosition.y += yStep * (double)var21;
+								targetPosition.z += zStep * (double)var21;
 							}
-    					}
-                    }
-                    //End
+							
+							worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+						}
+					}
 				}
 			}
-		}
-    	
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		this.doDamageEntities(worldObj, position, radius, radius);
-		
-		if(radius >= maxRadius)
-		{
-			return false;
-		}
-		
-		return true;*/
+			*/
 	}
+	
+	@Override
+	public int countIncrement() { return CALL_COUNT;}
 	
 	/**
 	 * The interval in ticks before the next procedural call of this explosive
 	 * @param return - Return -1 if this explosive does not need proceudral calls
 	 */
 	@Override
-	public int proceduralInterval(){ return 2; }
+	public int proceduralInterval(){ return 1; }
 
 	@Override
 	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		Explosive.DecayLand.doExplosion(worldObj, position, null, 45, -1);
+		Explosive.DecayLand.doExplosion(worldObj, position, null, 40, -1);
 		Explosive.Mutation.doExplosion(worldObj, position, null, 45, -1);
 	}
 
