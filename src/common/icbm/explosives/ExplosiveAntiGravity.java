@@ -16,7 +16,7 @@ import universalelectricity.recipe.RecipeManager;
 
 public class ExplosiveAntiGravity extends Explosive
 {	
-	private static final int MAX_RADIUS = 10;
+	private static final int MAX_RADIUS = 15;
 	
 	public ExplosiveAntiGravity(String name, int ID, int tier)
 	{
@@ -57,7 +57,7 @@ public class ExplosiveAntiGravity extends Explosive
 						
 						currentPos.add(0.5D);
 						
-						if(!worldObj.isRemote && worldObj.rand.nextFloat() > 0.65)
+						if(!worldObj.isRemote && worldObj.rand.nextFloat() > 0.8)
 						{
 							EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata, 0);
 							worldObj.spawnEntityInWorld(entity);
@@ -81,7 +81,7 @@ public class ExplosiveAntiGravity extends Explosive
             {
             	if(entity.motionY < 0.4)
             	{
-            		entity.motionY += 0.1;
+            		entity.motionY += 0.12;
             	}
             }
         }
@@ -97,7 +97,7 @@ public class ExplosiveAntiGravity extends Explosive
 	@Override
 	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		//worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
 	
 	/**

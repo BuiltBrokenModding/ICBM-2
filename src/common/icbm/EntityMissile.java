@@ -83,7 +83,7 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
     @Override
     public String getEntityName()
     {
-    	return Explosive.list[this.missileID].getName() + " Missile";
+    	return Explosive.list[this.missileID].getMissileName();
     }
     
     @Override
@@ -136,7 +136,7 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		MissileManager.addMissile(this);
 		
-		System.out.println("Launching "+Missile.list[missileID].getName()+" missile from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+targetPosition.intX()+", "+targetPosition.intY()+", "+targetPosition.intZ());
+		System.out.println("Launching "+this.getEntityName()+" from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+targetPosition.intX()+", "+targetPosition.intY()+", "+targetPosition.intZ());
     }
 
     @Override

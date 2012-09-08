@@ -48,7 +48,7 @@ public class ItemGrenade extends ICBMItem
     @Override
 	public String getItemNameIS(ItemStack itemstack)
     {
-        return Explosive.list[itemstack.getItemDamage()].getName()+" Grenade";
+        return Explosive.list[itemstack.getItemDamage()].getGrenadeName();
     }
 
     @Override

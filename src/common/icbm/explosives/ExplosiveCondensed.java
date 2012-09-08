@@ -16,11 +16,11 @@ import net.minecraft.src.World;
 import universalelectricity.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
-public class ExplosiveShortFused extends Explosive
+public class ExplosiveCondensed extends Explosive
 {
     private int field_77289_h = 16;
 
-	public ExplosiveShortFused(String name, int ID, int tier)
+	public ExplosiveCondensed(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 		this.setFuse(1);
@@ -142,6 +142,8 @@ public class ExplosiveShortFused extends Explosive
 	        }
 		}
     }
+	
+	public String getMissileName() { return "Conventional Missile"; }
 	
 	@Override
 	public void addCraftingRecipe()

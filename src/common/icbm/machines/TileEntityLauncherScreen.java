@@ -24,8 +24,8 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TileEntityLauncherScreen extends TileEntityLauncher implements IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable
 {
-    public final int ELECTRICITY_REQUIRED = 0;//15000;
-
+    public final int ELECTRICITY_REQUIRED = 15000;
+    
     //Is the block powered by redstone?
     private boolean isPowered = false;
     
@@ -56,9 +56,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	 */
 	@Override
 	public void onUpdate(float watts, float voltage, ForgeDirection side)
-	{
-		super.onUpdate(watts, voltage, side);
-		
+	{		
     	if(!this.isDisabled())
     	{
     		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.ELECTRICITY_REQUIRED, 0);
@@ -98,13 +96,18 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	    	}
     	}	
 	    
-    	if(this.isGUIOpen)
-    	{
-        	if(this.target == null) this.target = new Vector3(this.xCoord, 0, this.zCoord);
-    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)3, this.electricityStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
-    	}
-    	
-		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)0, this.orientation, this.tier);
+    	if(!this.worldObj.isRemote)
+		{
+    		super.onUpdate(watts, voltage, side);
+
+	    	if(this.isGUIOpen)
+	    	{
+	        	if(this.target == null) this.target = new Vector3(this.xCoord, 0, this.zCoord);
+	    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)3, this.electricityStored, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+	    	}
+	    	
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)0, this.orientation, this.tier, this.frequency);
+		}
 	}
 	
 	@Override
@@ -122,6 +125,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 			{
 	            this.orientation = dataStream.readByte();
 	            this.tier = dataStream.readInt();
+				this.frequency = dataStream.readShort();
 			}
 			else if(ID == 1)
 			{
@@ -140,7 +144,6 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 			else if(ID == 3)
 			{
 				this.electricityStored = dataStream.readFloat();
-				this.frequency = dataStream.readShort();
 	            this.disabledTicks = dataStream.readInt();
 				this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
@@ -339,12 +342,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	@Override
 	public int getTickInterval()
 	{
-		if(!this.worldObj.isRemote)
-		{
-			return 10;
-		}
-		
-		return 0;
+		return 10;
 	}
 	
 	@Override

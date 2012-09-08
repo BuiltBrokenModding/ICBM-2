@@ -31,6 +31,7 @@ public class ICBMRenderMissile extends RenderLiving
 package icbm;
 
 import icbm.models.ModelMissileAntiBallistic;
+import icbm.models.ModelMissileAntiGravity;
 import icbm.models.ModelMissileAntimatter;
 import icbm.models.ModelMissileBreaching;
 import icbm.models.ModelMissileChemical;
@@ -69,7 +70,7 @@ public class RenderMissile extends Render
 			new ModelMissileEMP(),
 			new ModelMissileConflagration(),
 			new ModelMissileEndothermic(),
-			new ModelMissileEndothermic(), //CHANGE THIS
+			new ModelMissileAntiGravity(),
 			new ModelMissileAntimatter(),
 			new ModelMissileRedMatter()};
 	

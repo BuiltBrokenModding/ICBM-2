@@ -22,7 +22,7 @@ import universalelectricity.extend.ITier;
 
 public abstract class Explosive implements ITier
 {
-	public static final Explosive Condensed = new ExplosiveShortFused("Condensed", 0, 1);
+	public static final Explosive Condensed = new ExplosiveCondensed("Condensed", 0, 1);
 	public static final Explosive Shrapnel = new ExplosiveFragmentation("Shrapnel", 1, 1);
 	public static final Explosive Incendiary = new ExplosiveIncendiary("Incendiary", 2, 1);
 	public static final Explosive Chemical = new ExplosiveChemical("Chemical", 3, 1);
@@ -90,6 +90,12 @@ public abstract class Explosive implements ITier
 	public int getID() { return this.ID; }
 	
 	public String getName() { return this.name; }
+	
+	public String getExplosiveName() { return this.name+" Explosive"; }
+
+	public String getGrenadeName() { return this.name+" Grenade"; }
+	
+	public String getMissileName() { return this.name+" Missile"; }
 
 	@Override
 	public int getTier() { return this.tier; }

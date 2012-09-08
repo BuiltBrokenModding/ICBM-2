@@ -27,12 +27,7 @@ public class ItemMissile extends ICBMItem
     @Override
 	public String getItemNameIS(ItemStack itemstack)
     {
-    	if(itemstack.getItemDamage() == 0)
-    	{	
-    		return "Conventional Missile";
-    	}
-    	
-        return Explosive.list[itemstack.getItemDamage()].getName() + " Missile";
+        return Explosive.list[itemstack.getItemDamage()].getMissileName();
     }
 
     @Override

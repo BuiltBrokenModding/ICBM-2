@@ -17,37 +17,50 @@ import java.io.File;
 import java.util.Random;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.IChunkProvider;
+import net.minecraft.src.ICommandManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.ModLoader;
+import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CommandEvent;
+import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.OreGenData;
-import universalelectricity.OreGenerator;
 import universalelectricity.UniversalElectricity;
 import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.recipe.RecipeManager;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IDispenseHandler;
+import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.Mod.ServerStarting;
+import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
 
 @Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:BasicComponenets;after:AtomicScience")
 @NetworkMod(channels = { "ICBM" }, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 
-public class ICBM implements IDispenseHandler
+public class ICBM implements IDispenseHandler, IWorldGenerator
 {
 	public static ICBM instance;
 	
@@ -93,6 +106,8 @@ public class ICBM implements IDispenseHandler
 	public static final PoisonChemical CHEMICALS = new PoisonChemical("Chemical", 1, false);
 	public static final PoisonChemical CONTAGIOUS = new PoisonChemical("Contagious", 1, true);
 	
+	public OreGenData sulfurGenData;
+	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
     {
@@ -116,8 +131,12 @@ public class ICBM implements IDispenseHandler
 			System.out.println("Detected radioative block from another mod.");
 		}
 		
-		OreGenerator.ORES_TO_GENERATE.add(new OreGenData("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 55, 40, 5));
-
+		OreDictionary.registerOre("dustSulfur", itemSulfur);
+				
+		sulfurGenData = new OreGenData("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 55, 30, 10);
+		
+   		GameRegistry.registerWorldGenerator(this);
+   		
 		this.proxy.preInit();
     }
 	
@@ -133,7 +152,7 @@ public class ICBM implements IDispenseHandler
 		//-- Add Names
 		LanguageRegistry.addName(blockSulfurOre, "Sulfur Ore");
 		
-		LanguageRegistry.addName(itemSulfur, "Sulfur");
+		LanguageRegistry.addName(itemSulfur, "Sulfur Dust");
 		LanguageRegistry.addName(itemPoisonPowder, "Poison Powder");
 		
 		LanguageRegistry.addName(ICBM.itemRadarGun, "Radar Gun");
@@ -282,7 +301,7 @@ public class ICBM implements IDispenseHandler
 		EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 2, true);
 		EntityRegistry.registerModEntity(EntityProceduralExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX+2, this, 100, 5, true);
-		EntityRegistry.registerModEntity(EntityGravityBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX+3, this, 80, 5, true);
+		EntityRegistry.registerModEntity(EntityGravityBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX+3, this, 50, 15, true);
 		EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX+4, this, 80, 5, true);
 		EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", ENTITY_ID_PREFIX+5, this, 40, 8, true);
 		EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX+6, this, 50, 5, true);
@@ -307,6 +326,34 @@ public class ICBM implements IDispenseHandler
         var5 = MathHelper.sin(-rotationPitch * 0.017453292F);
         return new Vector3(var3 * var4, var5, var2 * var4);
     }
+    
+    @Override
+	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
+	{
+		chunkX = chunkX << 4;
+		chunkZ = chunkZ << 4;
+		
+		//Checks to make sure this is the normal world 
+		if(chunkGenerator instanceof ChunkProviderGenerate)
+		{
+            if(sulfurGenData.shouldGenerate && sulfurGenData.generateSurface)
+            {
+            	WorldGenSulfur worldGenSulfur = new WorldGenSulfur(sulfurGenData.oreStack, sulfurGenData.amountPerBranch);
+
+                for (int i = 0; i < sulfurGenData.amountPerChunk; i++)
+                {
+                    int x = chunkX + rand.nextInt(16);
+                    int y = rand.nextInt(sulfurGenData.maxGenerateLevel) + sulfurGenData.minGenerateLevel;
+                    int z = chunkZ + rand.nextInt(16);
+                    
+        			int randAmount = rand.nextInt(8);
+
+                	worldGenSulfur.generate(world, rand, x, y, z);
+                }
+            }
+     
+        }
+	}
 	
 	@Override
     public int dispense(double x, double y, double z, int xVelocity, int zVelocity, World world, ItemStack item, Random random, double entX, double entY, double entZ)
@@ -320,6 +367,14 @@ public class ICBM implements IDispenseHandler
 		}
 		
 		return -1;
+	}
+	
+	@ServerStarting
+	public void serverStarting(FMLServerStartingEvent event)
+	{
+		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
+		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager); 
+		serverCommandManager.registerCommand(new CommandICBM());
 	}
 	
 	public static boolean getBooleanConfig(String comment, boolean defaultValue)
