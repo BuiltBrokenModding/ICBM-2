@@ -29,5 +29,6 @@ LICENSE.txt
 !/src/common/mcmod.info
 
 !/includes/*
+/includes/*.tmp
 !/README
 !ICBM_Builder.bat

@@ -23,7 +23,8 @@ public class ICBMSound
 		"powerdown.ogg",
 		"targetlocked.ogg",
 		"redmatter.ogg",
-		"railgun.ogg"};
+		"railgun.ogg",
+		"antigravity.ogg"};
 
 	@ForgeSubscribe
 	public void loadSoundEvents(SoundLoadEvent event)
