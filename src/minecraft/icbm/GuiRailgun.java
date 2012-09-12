@@ -7,7 +7,8 @@ import net.minecraft.src.GuiContainer;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.electricity.ElectricUnit;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
 
 public class GuiRailgun extends GuiContainer
@@ -109,7 +110,7 @@ public class GuiRailgun extends GuiContainer
     	{
         	status = "Disabled";
     	}
-        else if(this.tileEntity.electricityStored < this.tileEntity.WATTAGE_REQUIRED)
+        else if(this.tileEntity.wattHoursStored < this.tileEntity.WATT_HOURS_REQUIRED)
     	{
     		status = "Insufficient electricity!";
     	}
@@ -122,7 +123,7 @@ public class GuiRailgun extends GuiContainer
         this.fontRenderer.drawString(color+"Status: "+status, 8, 60, 4210752);
         
     	this.fontRenderer.drawString(this.tileEntity.getVoltage()+"v", 130, 70, 4210752);
-        this.fontRenderer.drawString(ElectricUnit.getAmpHourDisplay(this.tileEntity.electricityStored, this.tileEntity.getVoltage())+ "/" +ElectricUnit.getAmpHourDisplay(this.tileEntity.WATTAGE_REQUIRED, this.tileEntity.getVoltage()), 8, 70, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.wattHoursStored, ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.WATT_HOURS_REQUIRED, ElectricUnit.WATT_HOUR), 8, 70, 4210752);
     }
 
     /**

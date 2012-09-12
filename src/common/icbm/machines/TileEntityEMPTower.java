@@ -12,7 +12,6 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Vector3;
-import universalelectricity.electricity.ElectricityManager;
 import universalelectricity.electricity.TileEntityElectricUnit;
 import universalelectricity.extend.IElectricityStorage;
 import universalelectricity.extend.IRedstoneReceptor;
@@ -23,9 +22,9 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TileEntityEMPTower extends TileEntityElectricUnit implements IElectricityStorage, IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
-	public static int MAX_WATTS_REQUIREMENT = 150000;
+	public static int WATTS_HOURS_REQUIRED = 150000;
 	
-	public float wattsRequired = MAX_WATTS_REQUIREMENT;
+	public float wattsHoursRequired = WATTS_HOURS_REQUIRED;
 	
     //The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 60;
@@ -34,7 +33,7 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 	private float rotationSpeed;
 	
     //The electricity stored
-    public float electricityStored = 0;
+    public float wattHourStored = 0;
     
     //The EMP mode. 0 = All, 1 = Missiles Only, 2 = Electricity Only
     public byte EMPMode = 0;
@@ -56,7 +55,7 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 	@Override
 	public void onUpdate(float watts, float voltage, ForgeDirection side)
 	{
-		this.wattsRequired = MAX_WATTS_REQUIREMENT * ((float)this.radius/(float)MAX_RADIUS);
+		this.wattsHoursRequired = WATTS_HOURS_REQUIRED * ((float)this.radius/(float)MAX_RADIUS);
 		
 		if(!this.worldObj.isRemote)
 		{
@@ -64,29 +63,29 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 		
 			if(!this.isDisabled())
 	    	{
-	    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.wattsRequired, 0);
-	    		this.electricityStored = Math.max(this.electricityStored+watts - rejectedElectricity, 0);
+	    		float rejectedElectricity = Math.max((this.wattHourStored + watts) - this.wattsHoursRequired, 0);
+	    		this.wattHourStored = Math.max(this.wattHourStored+watts - rejectedElectricity, 0);
 	    		
-				if(this.secondTick >= 20 && this.electricityStored > 0)
+				if(this.secondTick >= 20 && this.wattHourStored > 0)
 				{
-					this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, 0.85F*this.electricityStored/this.wattsRequired);
+					this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, 0.85F*this.wattHourStored/this.wattsHoursRequired);
 					this.secondTick = 0;
 				}
 				
-				this.rotationSpeed = (float) (0.5*this.electricityStored/this.wattsRequired*this.electricityStored/this.wattsRequired);
+				this.rotationSpeed = (float) (0.5*this.wattHourStored/this.wattsHoursRequired*this.wattHourStored/this.wattsHoursRequired);
 				this.rotationYaw += rotationSpeed;
 				if(this.rotationYaw > 360) this.rotationYaw = 0;
 	    	}
 			
 			//Slowly let the EMP tower lose it's electricity
-			if(this.electricityStored < this.wattsRequired)
+			if(this.wattHourStored < this.wattsHoursRequired)
 			{
-				this.electricityStored = Math.max(0, this.electricityStored - 1);
+				this.wattHourStored = Math.max(0, this.wattHourStored - 1);
 			}
 			
 			this.secondTick ++;
 			
-			PacketManager.sendTileEntityPacket(this, "ICBM", (int)1, this.electricityStored, this.rotationYaw, this.disabledTicks, this.radius, this.EMPMode);
+			PacketManager.sendTileEntityPacket(this, "ICBM", (int)1, this.wattHourStored, this.rotationYaw, this.disabledTicks, this.radius, this.EMPMode);
 		}
     }
 	
@@ -99,7 +98,7 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 			
 			if(ID == 1)
 			{
-	            this.electricityStored = dataStream.readFloat();
+	            this.wattHourStored = dataStream.readFloat();
 	            this.rotationYaw = dataStream.readFloat();
 	            this.disabledTicks = dataStream.readInt();
 	            this.radius = dataStream.readInt();
@@ -121,9 +120,9 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 	}
 
 	@Override
-	public float electricityRequest()
+	public float ampRequest()
 	{
-		return this.wattsRequired-this.electricityStored;
+		return this.wattsHoursRequired-this.wattHourStored;
 	}
 
 	@Override
@@ -146,7 +145,7 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
     {
     	super.readFromNBT(par1NBTTagCompound);
     	
-    	this.electricityStored = par1NBTTagCompound.getFloat("electricityStored");
+    	this.wattHourStored = par1NBTTagCompound.getFloat("electricityStored");
     	this.radius = par1NBTTagCompound.getInteger("radius");
     	this.EMPMode = par1NBTTagCompound.getByte("EMPMode");
     }
@@ -159,7 +158,7 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
     {
     	super.writeToNBT(par1NBTTagCompound);
 
-    	par1NBTTagCompound.setFloat("electricityStored", this.electricityStored);
+    	par1NBTTagCompound.setFloat("electricityStored", this.wattHourStored);
     	par1NBTTagCompound.setInteger("radius", this.radius);
     	par1NBTTagCompound.setByte("EMPMode", (byte)this.EMPMode);
     }
@@ -167,7 +166,7 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 	@Override
 	public void onPowerOn() 
 	{
-		if(this.electricityStored >= this.wattsRequired)
+		if(this.wattHourStored >= this.wattsHoursRequired)
 		{
 			if(this.EMPMode == 0 || this.EMPMode == 1)
 			{
@@ -179,7 +178,7 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 				Explosive.EMPWave.doExplosion(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.radius, -1);
 			}
 
-			this.electricityStored = 0;
+			this.wattHourStored = 0;
 		}
 	}
 
@@ -208,14 +207,14 @@ public class TileEntityEMPTower extends TileEntityElectricUnit implements IElect
 	}
 
 	@Override
-	public float getAmpHours()
+	public float getWattHours()
 	{
-		return this.electricityStored;
+		return this.wattHourStored;
 	}
 
 	@Override
-	public void setAmpHours(float AmpHours)
+	public void setWattHours(float AmpHours)
 	{
-		this.electricityStored = AmpHours;
+		this.wattHourStored = AmpHours;
 	}
 }

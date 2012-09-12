@@ -1,7 +1,6 @@
 package icbm.explosives;
 
 import icbm.EntityGravityBlock;
-import icbm.EntityProceduralExplosion;
 
 import java.util.List;
 

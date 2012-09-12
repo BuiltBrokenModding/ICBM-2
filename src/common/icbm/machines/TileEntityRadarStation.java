@@ -11,8 +11,6 @@ import icbm.missiles.MissileManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.io.ByteArrayDataInput;
-
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -21,11 +19,12 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Vector2;
 import universalelectricity.Vector3;
-import universalelectricity.electricity.ElectricityManager;
 import universalelectricity.electricity.TileEntityElectricUnit;
 import universalelectricity.extend.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+
+import com.google.common.io.ByteArrayDataInput;
 
 public class TileEntityRadarStation extends TileEntityElectricUnit implements IPacketReceiver, IRedstoneProvider, IMultiBlock
 {
@@ -193,7 +192,7 @@ public class TileEntityRadarStation extends TileEntityElectricUnit implements IP
 	
 	
 	@Override
-	public float electricityRequest()
+	public float ampRequest()
 	{
 		return this.ELECTRICITY_REQUIRED*2;
 	}

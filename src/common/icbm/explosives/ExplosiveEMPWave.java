@@ -50,7 +50,7 @@ public class ExplosiveEMPWave extends Explosive
 					{
 						if(tileEntity instanceof IElectricityStorage)
 						{
-							((IElectricityStorage)tileEntity).setAmpHours(0);
+							((IElectricityStorage)tileEntity).setWattHours(0);
 						}
 						else if(tileEntity instanceof IElectricUnit)
 						{

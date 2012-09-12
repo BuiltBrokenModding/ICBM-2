@@ -5,11 +5,8 @@ import icbm.ICBMCommonProxy;
 import icbm.ItemBlockICBMMachine;
 import icbm.extend.IMultiBlock;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityItem;
@@ -17,11 +14,9 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.IInventory;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;

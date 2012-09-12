@@ -7,7 +7,6 @@ import icbm.ICBMCommonProxy;
 import icbm.ItemBullet;
 import icbm.ParticleSpawner;
 import icbm.TileEntityInvisibleBlock;
-import icbm.explosives.Explosive;
 import icbm.explosives.ExplosiveRedmatter;
 import icbm.extend.IMultiBlock;
 
@@ -15,7 +14,6 @@ import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
@@ -28,7 +26,6 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Vector3;
-import universalelectricity.electricity.ElectricityManager;
 import universalelectricity.electricity.TileEntityElectricUnit;
 import universalelectricity.extend.IElectricityStorage;
 import universalelectricity.extend.IRedstoneReceptor;
@@ -39,7 +36,7 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TileEntityRailgun extends TileEntityElectricUnit implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
 {
-	public static final float WATTAGE_REQUIRED = 40000;
+	public static final float WATT_HOURS_REQUIRED = 40000;
 	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -50,7 +47,7 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	private float rotationSpeed;
 	
     //The electricity stored
-    public float electricityStored = 0;
+    public float wattHoursStored = 0;
 
 	private boolean autoMode = false;
 	
@@ -87,8 +84,8 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 		
 		if(!this.isDisabled())
     	{
-    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.WATTAGE_REQUIRED, 0);
-    		this.electricityStored = Math.max(this.electricityStored+watts - rejectedElectricity, 0);
+    		float rejectedElectricity = Math.max((this.wattHoursStored + watts) - this.WATT_HOURS_REQUIRED, 0);
+    		this.wattHoursStored = Math.max(this.wattHoursStored+watts - rejectedElectricity, 0);
     	
     		if(mountedPlayer != null)
     		{
@@ -141,7 +138,7 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 					}
 				}
 				
-				this.electricityStored = 0;
+				this.wattHoursStored = 0;
 		        
 		        this.explosionSize = 5F;
 		        this.explosionDepth = 8;
@@ -197,7 +194,7 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	
 		if(this.isGUIOpen)
 		{
-			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.electricityStored, this.disabledTicks);
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.wattHoursStored, this.disabledTicks);
 		}
 		
 		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)1, this.displayRotationYaw, this.displayRotationPitch);
@@ -237,7 +234,7 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	        }
 	        else if(ID == 4)
 	        {
-		        this.electricityStored = dataStream.readFloat();
+		        this.wattHoursStored = dataStream.readFloat();
 		        this.disabledTicks = dataStream.readInt();
 	        }
 	    }
@@ -267,7 +264,7 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 			}
 		}
 		
-		if(this.electricityStored < this.WATTAGE_REQUIRED)
+		if(this.wattHoursStored < this.WATT_HOURS_REQUIRED)
 		{
 			return false;
 		}
@@ -276,9 +273,9 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	}
 
 	@Override
-	public float electricityRequest()
+	public float ampRequest()
 	{
-		return this.WATTAGE_REQUIRED-this.electricityStored;
+		return this.WATT_HOURS_REQUIRED-this.wattHoursStored;
 	}
 
 	@Override
@@ -463,7 +460,7 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
         this.displayRotationPitch = this.rotationPitch*0.0175f;
 		this.displayRotationYaw = this.rotationYaw*0.0175f;
     	
-        this.electricityStored = par1NBTTagCompound.getFloat("electricityStored");
+        this.wattHoursStored = par1NBTTagCompound.getFloat("electricityStored");
         NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
         this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -489,7 +486,7 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
         par1NBTTagCompound.setFloat("rotationYaw", this.rotationYaw);
         par1NBTTagCompound.setFloat("rotationPitch", this.rotationPitch);
         
-        par1NBTTagCompound.setFloat("electricityStored", this.electricityStored);
+        par1NBTTagCompound.setFloat("electricityStored", this.wattHoursStored);
         NBTTagList var2 = new NBTTagList();
 
         for (int var3 = 0; var3 < this.containingItems.length; ++var3)
@@ -535,15 +532,15 @@ public class TileEntityRailgun extends TileEntityElectricUnit implements IElectr
 	public void onPowerOff() {this.redstonePowerOn = false;}
 	
 	@Override
-	public float getAmpHours()
+	public float getWattHours()
 	{
-		return this.electricityStored;
+		return this.wattHoursStored;
 	}
 
 	@Override
-	public void setAmpHours(float AmpHours)
+	public void setWattHours(float AmpHours)
 	{
-		this.electricityStored = AmpHours;
+		this.wattHoursStored = AmpHours;
 	}
 	
 	@Override

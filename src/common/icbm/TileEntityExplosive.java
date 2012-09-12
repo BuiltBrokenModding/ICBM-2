@@ -2,9 +2,6 @@ package icbm;
 
 import icbm.electronics.ItemRemote;
 import icbm.explosives.BlockExplosive;
-
-import com.google.common.io.ByteArrayDataInput;
-
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -13,8 +10,9 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.extend.IRotatable;
-import universalelectricity.extend.ItemElectric;
 import universalelectricity.network.IPacketReceiver;
+
+import com.google.common.io.ByteArrayDataInput;
 
 public class TileEntityExplosive extends TileEntity implements IRotatable, IPacketReceiver
 {

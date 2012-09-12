@@ -9,7 +9,8 @@ import net.minecraft.src.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.Vector3;
-import universalelectricity.electricity.ElectricUnit;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
 
 public class GuiCruiseLauncher extends GuiContainer
@@ -101,7 +102,7 @@ public class GuiCruiseLauncher extends GuiContainer
         
         this.fontRenderer.drawString(this.tileEntity.getStatus(), 108, 40, 4210752);
         this.fontRenderer.drawString(this.tileEntity.getVoltage()+"v", 108, 50, 4210752);
-        this.fontRenderer.drawString(ElectricUnit.getAmpHourDisplay(this.tileEntity.electricityStored)+ "/" +this.tileEntity.ELECTRICITY_REQUIRED/1000, 108, 60, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.electricityStored, ElectricUnit.WATT_HOUR)+ "/" +this.tileEntity.AMPS_REQUIRED/1000, 108, 60, 4210752);
         
         this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }

@@ -2,7 +2,6 @@ package icbm;
 
 import icbm.explosives.Explosive;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.src.CreativeTabs;

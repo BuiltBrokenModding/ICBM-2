@@ -3,11 +3,6 @@ package icbm;
 import icbm.electronics.ItemLaserDesignator;
 import icbm.electronics.ItemRadarGun;
 import icbm.electronics.ItemSignalDisrupter;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -18,8 +13,6 @@ import universalelectricity.extend.ItemElectric;
 import universalelectricity.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.FMLCommonHandler;
 
 /**
  * This class is used for sending and receiving packets between the server

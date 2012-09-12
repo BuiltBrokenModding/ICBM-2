@@ -7,7 +7,8 @@ import net.minecraft.src.GuiTextField;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.UniversalElectricity;
-import universalelectricity.electricity.ElectricUnit;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
 
 public class GuiEMPTower extends ICBMGui
@@ -113,7 +114,7 @@ public class GuiEMPTower extends ICBMGui
     	{
         	status = "Disabled";
     	}
-        else if(this.tileEntity.electricityStored < this.tileEntity.wattsRequired)
+        else if(this.tileEntity.wattHourStored < this.tileEntity.wattsHoursRequired)
     	{
     		status = "Insufficient electricity!";
     	}
@@ -125,7 +126,7 @@ public class GuiEMPTower extends ICBMGui
         
         this.fontRenderer.drawString(color+"Status: "+status, 12, 120, 4210752);
     	this.fontRenderer.drawString("Voltage: "+this.tileEntity.getVoltage()+"v", 12, 135, 4210752);
-        this.fontRenderer.drawString(ElectricUnit.getAmpHourDisplay(this.tileEntity.electricityStored, this.tileEntity.getVoltage())+ "/" +ElectricUnit.getAmpHourDisplay(this.tileEntity.wattsRequired, this.tileEntity.getVoltage()), 12, 150, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getWattHours(), ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.wattsHoursRequired, ElectricUnit.WATT_HOUR), 12, 150, 4210752);
     }
 
     /**

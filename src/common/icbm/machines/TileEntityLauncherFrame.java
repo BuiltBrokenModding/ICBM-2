@@ -13,7 +13,6 @@ import universalelectricity.Vector3;
 import universalelectricity.extend.IRotatable;
 import universalelectricity.extend.ITier;
 import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 

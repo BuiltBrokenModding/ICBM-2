@@ -1,6 +1,5 @@
 package icbm;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.src.CreativeTabs;

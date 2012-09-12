@@ -4,8 +4,6 @@ import icbm.electronics.ItemSignalDisrupter;
 
 import java.util.List;
 
-import com.google.common.io.ByteArrayDataInput;
-
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
@@ -15,11 +13,12 @@ import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Vector3;
-import universalelectricity.electricity.ElectricityManager;
 import universalelectricity.electricity.TileEntityElectricUnit;
 import universalelectricity.extend.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+
+import com.google.common.io.ByteArrayDataInput;
 
 public class TileEntityDetector extends TileEntityElectricUnit implements IRedstoneProvider, IPacketReceiver
 {
@@ -180,7 +179,7 @@ public class TileEntityDetector extends TileEntityElectricUnit implements IRedst
         }
 	}
 	@Override
-	public float electricityRequest()
+	public float ampRequest()
 	{
 		return this.electricityRequired-this.electricityStored;
 	}

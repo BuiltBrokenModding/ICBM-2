@@ -141,66 +141,66 @@ public class ExplosiveNuclear extends Explosive
 		
 		return true;
 			
-			/*
-			for(int x = -MAX_RADIUS; x < MAX_RADIUS; x++)
+		/*
+		for(int x = -MAX_RADIUS; x < MAX_RADIUS; x++)
+		{
+			for(int y = -MAX_RADIUS; y < MAX_RADIUS; y++)
 			{
-				for(int y = -MAX_RADIUS; y < MAX_RADIUS; y++)
+				for(int z = -MAX_RADIUS; z < MAX_RADIUS; z++)
 				{
-					for(int z = -MAX_RADIUS; z < MAX_RADIUS; z++)
+					double distance = MathHelper.sqrt_double((x*x + y*y + z*z));
+					
+                    if(distance < MAX_RADIUS && distance > MAX_RADIUS-1)
 					{
-						double distance = MathHelper.sqrt_double((x*x + y*y + z*z));
+						float power = MAX_POWER - (MAX_POWER*worldObj.rand.nextFloat()/2);
+												
+						double xStep = (double)((float)x / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+                        double yStep = (double)((float)y / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+                        double zStep = (double)((float)z / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+                        double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
+                        xStep /= diagonalDistance;
+                        yStep /= diagonalDistance;
+                        zStep /= diagonalDistance;
+                        
+                        Vector3 targetPosition = new Vector3(position.x, position.y, position.z);
 						
-	                    if(distance < MAX_RADIUS && distance > MAX_RADIUS-1)
+						for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
 						{
-							float power = MAX_POWER - (MAX_POWER*worldObj.rand.nextFloat()/2);
-													
-							double xStep = (double)((float)x / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
-	                        double yStep = (double)((float)y / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
-	                        double zStep = (double)((float)z / ((float)MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
-	                        double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
-	                        xStep /= diagonalDistance;
-	                        yStep /= diagonalDistance;
-	                        zStep /= diagonalDistance;
-	                        
-	                        Vector3 targetPosition = new Vector3(position.x, position.y, position.z);
+							int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 							
-							for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
+							if(blockID > 0)
 							{
-								int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-								
-								if(blockID > 0)
+								if(blockID == Block.bedrock.blockID)
 								{
-									if(blockID == Block.bedrock.blockID)
-									{
-										break;
-									}
-									else if(Block.blocksList[blockID] instanceof BlockFluid)
-									{
-										power -= 3;
-									}
-									else
-									{
-										power -= Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
-									}
-									//System.out.println(power);
+									break;
 								}
-								
-								if(power > 0f)
+								else if(Block.blocksList[blockID] instanceof BlockFluid)
 								{
-									worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+									power -= 3;
 								}
-	
-								targetPosition.x += xStep * (double)var21;
-								targetPosition.y += yStep * (double)var21;
-								targetPosition.z += zStep * (double)var21;
+								else
+								{
+									power -= Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
+								}
+								//System.out.println(power);
 							}
 							
-							worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+							if(power > 0f)
+							{
+								worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+							}
+
+							targetPosition.x += xStep * (double)var21;
+							targetPosition.y += yStep * (double)var21;
+							targetPosition.z += zStep * (double)var21;
 						}
+						
+						worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 					}
 				}
 			}
-			*/
+		}
+		*/
 	}
 	
 	@Override

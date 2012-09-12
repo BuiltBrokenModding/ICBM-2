@@ -4,14 +4,12 @@ import icbm.EntityGravityBlock;
 import icbm.EntityGrenade;
 import icbm.EntityLightBeam;
 import icbm.EntityProceduralExplosion;
-import icbm.ICBM;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.Vector3;

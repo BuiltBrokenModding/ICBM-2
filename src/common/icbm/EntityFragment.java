@@ -6,7 +6,6 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.DamageSource;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArrow;
 import net.minecraft.src.EntityDamageSourceIndirect;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;

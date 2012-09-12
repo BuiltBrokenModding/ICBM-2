@@ -1,14 +1,9 @@
 package icbm;
 
-import java.util.List;
 import java.util.Random;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
-import universalelectricity.basiccomponents.BasicComponents;
 
 public class BlockSulfurOre extends ICBMBlock
 {

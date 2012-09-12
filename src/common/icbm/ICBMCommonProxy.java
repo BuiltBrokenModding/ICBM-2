@@ -7,13 +7,9 @@ import icbm.machines.TileEntityLauncherFrame;
 import icbm.machines.TileEntityLauncherScreen;
 import icbm.machines.TileEntityRadarStation;
 import icbm.machines.TileEntityRailgun;
-
-import java.io.File;
-
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import net.minecraftforge.common.Configuration;
 import universalelectricity.extend.CommonProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 

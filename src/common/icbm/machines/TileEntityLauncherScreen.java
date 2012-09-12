@@ -24,7 +24,7 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TileEntityLauncherScreen extends TileEntityLauncher implements IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable
 {
-    public final int ELECTRICITY_REQUIRED = 15000;
+    public final int WATT_HOURS_REQUIRED = 15000;
     
     //Is the block powered by redstone?
     private boolean isPowered = false;
@@ -42,7 +42,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
     public TileEntityLauncherBase connectedBase = null;
 
     //The electricity stored in the launcher screen
-    public float electricityStored = 0;
+    public float wattHourStored = 0;
     
     private boolean isGUIOpen = false;
       	
@@ -59,8 +59,8 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	{		
     	if(!this.isDisabled())
     	{
-    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.ELECTRICITY_REQUIRED, 0);
-    		this.electricityStored = Math.max(this.electricityStored+watts - rejectedElectricity, 0);
+    		float rejectedElectricity = Math.max((this.wattHourStored + watts) - this.WATT_HOURS_REQUIRED, 0);
+    		this.wattHourStored = Math.max(this.wattHourStored+watts - rejectedElectricity, 0);
     		
 	    	if(this.connectedBase == null)
 	    	{
@@ -103,7 +103,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	    	if(this.isGUIOpen)
 	    	{
 	        	if(this.target == null) this.target = new Vector3(this.xCoord, 0, this.zCoord);
-	    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)3, this.electricityStored, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+	    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)3, this.wattHourStored, this.disabledTicks, this.target.x, this.target.y, this.target.z);
 	    	}
 	    	
 			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)0, this.orientation, this.tier, this.frequency);
@@ -143,7 +143,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 			}
 			else if(ID == 3)
 			{
-				this.electricityStored = dataStream.readFloat();
+				this.wattHourStored = dataStream.readFloat();
 	            this.disabledTicks = dataStream.readInt();
 				this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
@@ -162,7 +162,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
     	{
 	    	if(this.connectedBase.containingMissile != null)
 	        {
-	    		if(this.electricityStored >= this.ELECTRICITY_REQUIRED)
+	    		if(this.wattHourStored >= this.WATT_HOURS_REQUIRED)
 	    		{
 		            if(this.connectedBase.isInRange(this.target))
 		            {
@@ -183,7 +183,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
     {
     	if(this.canLaunch())
     	{
-            this.electricityStored = 0;
+            this.wattHourStored = 0;
             this.connectedBase.launchMissile(this.target);
     	}          
     }
@@ -206,7 +206,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
         {
         	status = "Not connected!";
         }
-        else if(this.electricityStored < this.ELECTRICITY_REQUIRED)
+        else if(this.wattHourStored < this.WATT_HOURS_REQUIRED)
     	{
     		status = "Insufficient electricity!";
     	}
@@ -248,7 +248,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
     	this.tier = par1NBTTagCompound.getInteger("tier");
     	this.frequency = par1NBTTagCompound.getShort("frequency");
     	this.orientation = par1NBTTagCompound.getByte("facingDirection");
-    	this.electricityStored = par1NBTTagCompound.getFloat("electricityStored");
+    	this.wattHourStored = par1NBTTagCompound.getFloat("electricityStored");
     }
 
     /**
@@ -266,7 +266,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
     	par1NBTTagCompound.setInteger("tier", this.tier);
     	par1NBTTagCompound.setShort("frequency", this.frequency);
     	par1NBTTagCompound.setByte("facingDirection", this.orientation);
-    	par1NBTTagCompound.setFloat("electricityStored", this.electricityStored);
+    	par1NBTTagCompound.setFloat("electricityStored", this.wattHourStored);
     }
 
 	@Override
@@ -322,9 +322,9 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	}
 
 	@Override
-	public float electricityRequest()
+	public float ampRequest()
 	{
-		return this.ELECTRICITY_REQUIRED-this.electricityStored;
+		return this.WATT_HOURS_REQUIRED-this.wattHourStored;
 	}
 
 	@Override
@@ -346,14 +346,14 @@ public class TileEntityLauncherScreen extends TileEntityLauncher implements IEle
 	}
 	
 	@Override
-	public float getAmpHours()
+	public float getWattHours()
 	{
-		return this.electricityStored;
+		return this.wattHourStored;
 	}
 
 	@Override
-	public void setAmpHours(float AmpHours)
+	public void setWattHours(float WattHours)
 	{
-		this.electricityStored = AmpHours;
+		this.wattHourStored = WattHours;
 	}
 }

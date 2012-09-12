@@ -1,4 +1,6 @@
-package icbm;
+package atomicscience.api;
+
+import icbm.ICBM;
 
 import java.util.List;
 import java.util.Random;
@@ -11,15 +13,14 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.World;
-import atomicscience.api.Poison;
 
-public class BlockRadioactive extends ICBMBlock
+public class BlockRadioactive extends Block
 {
-	public BlockRadioactive(int par1, int par2)
+	public BlockRadioactive(int id, int texture)
 	{
-		super(par1, par2, Material.rock);
+		super(id, texture, Material.ground);
 		this.setTickRandomly(true);
-		this.setHardness(1F);
+		this.setHardness(0.2F);
 		this.setLightValue(0.1F);
 	}
 	
@@ -54,7 +55,7 @@ public class BlockRadioactive extends ICBMBlock
                 int var9 = z + par5Random.nextInt(3) - 1;
                 int var10 = par1World.getBlockId(var7, var8 + 1, var9);
 
-                if(par5Random.nextFloat() > 0.5 && (par1World.getBlockId(var7, var8, var9) == Block.tilledField.blockID || par1World.getBlockId(var7, var8, var9) == Block.grass.blockID))
+                if(par5Random.nextFloat() > 0.8 && (par1World.getBlockId(var7, var8, var9) == Block.tilledField.blockID || par1World.getBlockId(var7, var8, var9) == Block.grass.blockID))
                 {
                     par1World.setBlockWithNotify(var7, var8, var9, this.blockID);
                 }
@@ -92,7 +93,13 @@ public class BlockRadioactive extends ICBMBlock
     }
     
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World par1World, int x, int y, int z)
+    public String getTextureFile()
+    {
+        return ICBM.BLOCK_TEXTURE_FILE;
+    }
+    
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
     	return null;
     }

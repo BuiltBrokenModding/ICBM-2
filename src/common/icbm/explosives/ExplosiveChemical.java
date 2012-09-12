@@ -2,7 +2,6 @@ package icbm.explosives;
 
 import icbm.EntityGrenade;
 import icbm.ICBM;
-import icbm.ICBMPotion;
 
 import java.util.List;
 
@@ -11,9 +10,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Potion;
-import net.minecraft.src.PotionEffect;
 import net.minecraft.src.World;
 import universalelectricity.Vector3;
 import universalelectricity.recipe.RecipeManager;

@@ -26,9 +26,8 @@ LICENSE.txt
 !/src/common/icbm/
 !/src/minecraft/atomicscience/
 !/src/common/atomicscience/
-!/src/common/mcmod.info
+!/resources/*
+!mcmod.info
 
-!/includes/*
-/includes/*.tmp
 !/README
 !ICBM_Builder.bat

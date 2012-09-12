@@ -7,7 +7,8 @@ import net.minecraft.src.GuiTextField;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.Vector3;
-import universalelectricity.electricity.ElectricUnit;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
 
 public class GuiLauncherScreen extends ICBMGui
@@ -155,7 +156,7 @@ public class GuiLauncherScreen extends ICBMGui
         //Shows the status of the missile launcher
         this.fontRenderer.drawString("Status: "+this.tileEntity.getStatus(), 12, 125, 4210752);
     	this.fontRenderer.drawString("Voltage: "+this.tileEntity.getVoltage()+"v", 12, 137, 4210752);
-        this.fontRenderer.drawString(ElectricUnit.getAmpHourDisplay(this.tileEntity.electricityStored, this.tileEntity.getVoltage())+ "/" +ElectricUnit.getAmpHourDisplay(this.tileEntity.ELECTRICITY_REQUIRED, this.tileEntity.getVoltage()), 12, 150, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.wattHourStored, ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.WATT_HOURS_REQUIRED, ElectricUnit.WATT_HOUR), 12, 150, 4210752);
     }
     
     @Override

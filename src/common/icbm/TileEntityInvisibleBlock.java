@@ -1,9 +1,6 @@
 package icbm;
 
 import icbm.extend.IMultiBlock;
-
-import com.google.common.io.ByteArrayDataInput;
-
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -13,6 +10,8 @@ import net.minecraft.src.World;
 import universalelectricity.Vector3;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+
+import com.google.common.io.ByteArrayDataInput;
 
 /**
  * This is an invisible block to be used for blocks that are bigger than one block.

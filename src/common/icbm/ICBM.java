@@ -33,8 +33,10 @@ import universalelectricity.UniversalElectricity;
 import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.recipe.RecipeManager;
+import atomicscience.api.BlockRadioactive;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IDispenseHandler;
+import cpw.mods.fml.common.IDispenserHandler;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -54,7 +56,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 @Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:BasicComponenets;after:AtomicScience")
 @NetworkMod(channels = { "ICBM" }, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 
-public class ICBM implements IDispenseHandler, IWorldGenerator
+public class ICBM implements IWorldGenerator
 {
 	public static ICBM instance;
 	
@@ -64,7 +66,7 @@ public class ICBM implements IDispenseHandler, IWorldGenerator
     public static final String BLOCK_TEXTURE_FILE = TEXTURE_FILE_PATH + "blocks.png";
     public static final String ITEM_TEXTURE_FILE = TEXTURE_FILE_PATH + "items.png";
     
-	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "config/UniversalElectricity/ICBM.cfg"));
+	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
     
 	@SidedProxy(clientSide = "icbm.ICBMClientProxy", serverSide = "icbm.ICBMCommonProxy")
 	public static ICBMCommonProxy proxy;
@@ -107,10 +109,27 @@ public class ICBM implements IDispenseHandler, IWorldGenerator
     {
 		instance = this;
 		
-		UniversalElectricity.registerMod(this, "ICBM", "0.7.0");
+		UniversalElectricity.registerMod(this, "ICBM", "0.8.0");
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
-		GameRegistry.registerDispenserHandler(this);
+		
+		GameRegistry.registerDispenserHandler(
+			new IDispenserHandler()
+	        {
+	            @Override
+	            public int dispense(int x, int y, int z, int xVelocity, int zVelocity, World world, ItemStack item, Random random, double entX, double entY, double entZ)
+	            {
+	            	if(item.itemID == ICBM.itemGrenade.shiftedIndex)
+	        		{
+	        			EntityGrenade entity = new EntityGrenade(world, new Vector3(x, y, z), item.getItemDamage());
+	        	        entity.setThrowableHeading(xVelocity, 0.10000000149011612D, zVelocity, 1.1F, 6.0F);
+	        	        world.spawnEntityInWorld(entity);
+	        		}
+	        		
+	        		return -1;
+	            }
+	        }
+		);
 		
 		//-- Registering Blocks
 		GameRegistry.registerBlock(blockSulfurOre);
@@ -206,7 +225,7 @@ public class ICBM implements IDispenseHandler, IWorldGenerator
 		
 			LanguageRegistry.addName(new ItemStack(ICBM.blockExplosive, 1, i), Explosive.list[i].getName()+" Explosives");
 		}
-		  
+		 
 	    //-- Recipes
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemBullet, 16, 0), new Object [] {"@", "!", "!", '@', Item.diamond, '!', BasicComponents.itemBronzeIngot});
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemBullet, 1, 1), new Object [] {"@", "!", "!", '@', new ItemStack(ICBM.blockExplosive, 1, Explosive.Antimatter.getID()), '!', ICBM.itemBullet});
@@ -258,7 +277,7 @@ public class ICBM implements IDispenseHandler, IWorldGenerator
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockGlassPressurePlate, 1, 0), new Object [] {"##", '#', Block.glass});
 		    
 		//Missiles
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 0), new Object [] {" @ ", "@#@", "@?@", '@', "ingotSteel", '?', Item.coal, '#', BasicComponents.itemCircuit});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 0), new Object [] {" @ ", "@#@", "@?@", '@', "ingotSteel", '?', BasicComponents.itemOilBucket, '#', BasicComponents.itemCircuit});
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 1), new Object [] {"!", "?", "@", '@', new ItemStack(ICBM.itemSpecialMissile, 1, 0), '?', new ItemStack(ICBM.blockExplosive, 1, 0), '!', BasicComponents.itemCircuit});
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 2), new Object [] {" ! ", " ? ", "!@!", '@', new ItemStack(ICBM.itemSpecialMissile, 1, 0), '?', Missile.list[Explosive.Fragmentation.getID()].getItemStack(), '!', new ItemStack(ICBM.itemMissile, 1, 0)});
 		
@@ -351,21 +370,7 @@ public class ICBM implements IDispenseHandler, IWorldGenerator
      
         }
 	}
-	
-	@Override
-    public int dispense(double x, double y, double z, int xVelocity, int zVelocity, World world, ItemStack item, Random random, double entX, double entY, double entZ)
-	{
-		if(item.itemID == ICBM.itemGrenade.shiftedIndex)
-		{
-			EntityGrenade entity = new EntityGrenade(world, new Vector3(x, y, z), item.getItemDamage());
-	        entity.setThrowableHeading(xVelocity, 0.10000000149011612D, zVelocity, 1.1F, 6.0F);
-	        world.spawnEntityInWorld(entity);
-			return -1;
-		}
-		
-		return -1;
-	}
-	
+
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{

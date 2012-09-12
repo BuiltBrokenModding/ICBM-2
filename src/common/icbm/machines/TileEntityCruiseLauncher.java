@@ -1,7 +1,5 @@
 package icbm.machines;
 
-import com.google.common.io.ByteArrayDataInput;
-
 import icbm.EntityMissile;
 import icbm.ItemMissile;
 import icbm.ItemSpecialMissile;
@@ -21,9 +19,11 @@ import universalelectricity.extend.IRedstoneReceptor;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
 
+import com.google.common.io.ByteArrayDataInput;
+
 public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
 {
-	public static final int ELECTRICITY_REQUIRED = 12000;
+	public static final int AMPS_REQUIRED = 12000;
 
     //The missile that this launcher is holding
     public EntityMissile containingMissile = null;
@@ -148,7 +148,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPac
     	{
         	status = "Disabled";
     	}
-        else if(this.electricityStored < this.ELECTRICITY_REQUIRED)
+        else if(this.electricityStored < this.AMPS_REQUIRED)
     	{
     		status = "No Power!";
     	}
@@ -179,13 +179,13 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPac
     }
 
     @Override
-	public void onUpdate(float watts, float voltage, ForgeDirection side)
+	public void onUpdate(float amps, float voltage, ForgeDirection side)
     {
     	if(!this.worldObj.isRemote)
 	    	{
-	    	super.onUpdate(watts, voltage, side);
+	    	super.onUpdate(amps, voltage, side);
 	    	
-	    	this.electricityStored += watts;
+	    	this.electricityStored += amps;
 	    	
 	    	//Rotate the yaw
 			if(this.getYawFromTarget() - this.rotationYaw != 0)
@@ -205,8 +205,8 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPac
 	
 	            	if(!(this.containingItems[0].getItem() instanceof ItemSpecialMissile) && Missile.list[missileId].isCruise() && Missile.list[missileId].getTier() <= 3 && containingMissile == null)
 	            	{
-	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.7), (this.zCoord+0.5f));
-	                    this.containingMissile = new EntityMissile(this.worldObj, startingPosition, Vector3.get(this), missileId);
+	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.5), (this.zCoord+0.5f));
+	                    this.containingMissile = new EntityMissile(this.worldObj, startingPosition, Vector3.get(this), missileId, true);
 	                    this.worldObj.spawnEntityInWorld(this.containingMissile);
 	            	}
 	            	else if(this.containingMissile != null && this.containingMissile.missileID !=  missileId)
@@ -304,7 +304,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPac
 			{
 				if(!(this.containingItems[0].getItem() instanceof ItemSpecialMissile) && missile.isCruise() && missile.getTier() <= 3)
 		        {
-		    		if(this.electricityStored >= this.ELECTRICITY_REQUIRED)
+		    		if(this.electricityStored >= this.AMPS_REQUIRED)
 		    		{
 		    			if(!this.isTooClose(this.target))
 		    			{
@@ -454,9 +454,9 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPac
 	}
 
 	@Override
-	public float electricityRequest()
+	public float ampRequest()
 	{
-		return this.ELECTRICITY_REQUIRED - this.electricityStored;
+		return this.AMPS_REQUIRED - this.electricityStored;
 	}
 
 	@Override

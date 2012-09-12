@@ -8,11 +8,6 @@ import icbm.missiles.MissileManager;
 
 import java.util.Random;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityItem;
@@ -23,7 +18,11 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import universalelectricity.Vector2;
 import universalelectricity.Vector3;
-import universalelectricity.extend.IRotatable;
+
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
 {
@@ -78,6 +77,12 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
         
         this.setPosition(this.startingPosition.x, this.startingPosition.y, this.startingPosition.z);
         this.setRotation(0, 90);
+    }
+    
+    public EntityMissile(World par1World, Vector3 position, Vector3 launcherPosition, int metadata, boolean noClip)
+    {
+    	this(par1World, position, launcherPosition, metadata);
+    	this.noClip = noClip;
     }
 
     @Override
