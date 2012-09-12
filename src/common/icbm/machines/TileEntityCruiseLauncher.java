@@ -182,7 +182,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPac
 	public void onUpdate(float amps, float voltage, ForgeDirection side)
     {
     	if(!this.worldObj.isRemote)
-	    	{
+	    {
 	    	super.onUpdate(amps, voltage, side);
 	    	
 	    	this.electricityStored += amps;
@@ -205,8 +205,8 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IPac
 	
 	            	if(!(this.containingItems[0].getItem() instanceof ItemSpecialMissile) && Missile.list[missileId].isCruise() && Missile.list[missileId].getTier() <= 3 && containingMissile == null)
 	            	{
-	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.5), (this.zCoord+0.5f));
-	                    this.containingMissile = new EntityMissile(this.worldObj, startingPosition, Vector3.get(this), missileId, true);
+	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
+	                    this.containingMissile = new EntityMissile(this.worldObj, startingPosition, Vector3.get(this), missileId);
 	                    this.worldObj.spawnEntityInWorld(this.containingMissile);
 	            	}
 	            	else if(this.containingMissile != null && this.containingMissile.missileID !=  missileId)

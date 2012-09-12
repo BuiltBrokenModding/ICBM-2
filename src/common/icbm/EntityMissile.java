@@ -60,7 +60,6 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
     {
         super(par1World);
     	this.setSize(1F, 1F);
-        this.yOffset = this.height / 2.0F;
         this.renderDistanceWeight = 2F;
         this.isImmuneToFire = true;
     }
@@ -77,12 +76,6 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
         
         this.setPosition(this.startingPosition.x, this.startingPosition.y, this.startingPosition.z);
         this.setRotation(0, 90);
-    }
-    
-    public EntityMissile(World par1World, Vector3 position, Vector3 launcherPosition, int metadata, boolean noClip)
-    {
-    	this(par1World, position, launcherPosition, metadata);
-    	this.noClip = noClip;
     }
 
     @Override
@@ -198,7 +191,6 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
 	
 	    			Missile.list[this.missileID].onTickFlight(this);
 	    			
-	    			this.noClip = true;
 	    			this.moveEntity(this.motionX, this.motionY,this.motionZ);
 	    			
 	    			Vector3 position = Vector3.get(this);
@@ -276,7 +268,8 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
     		this.ticksInAir ++;
     	}
     	else
-    	{    		
+    	{    
+    		
     		//Check to find the launcher in which this missile belongs in.
     		if(this.missileLauncherPosition == null)
     		{
@@ -304,8 +297,6 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
 				{
 					((TileEntityLauncherBase)tileEntity).containingMissile = this;
 				}
-				
-				this.setSize(0.8F, 2.5F);
 			}
 			else if(tileEntity instanceof TileEntityCruiseLauncher)
 			{
@@ -313,12 +304,14 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
 				{
 					((TileEntityCruiseLauncher)tileEntity).containingMissile = this;
 				}
-								
+				
 				this.isCruise = true;
+				this.noClip = true;
+				
 				this.xDifference = ((TileEntityCruiseLauncher)tileEntity).target.x - this.startingPosition.x;
 		        this.yDifference = ((TileEntityCruiseLauncher)tileEntity).target.y - this.startingPosition.y;
 		        this.zDifference = ((TileEntityCruiseLauncher)tileEntity).target.z - this.startingPosition.z;
-		        
+		        		        
 		        this.flatDistance = Vector2.distance(this.startingPosition.toVector2(),  ((TileEntityCruiseLauncher)tileEntity).target.toVector2());
 		        this.skyLimit = 150+(int)(this.flatDistance*1.8);
 		        this.flightTime = (float)Math.max(100, 2.4*flatDistance);
@@ -330,11 +323,12 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
     			    			
 				float newRotationPitch = (float)(Math.atan(this.motionY/(Math.sqrt(this.motionX*this.motionX + this.motionZ*this.motionZ))) * 180 / Math.PI);
     			float newRotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-			
+    			
     			if(newRotationYaw - this.rotationYaw != 0)
     			{
     				this.rotationYaw += (newRotationYaw - this.rotationYaw)*0.1;
     			}
+    			
     			if(newRotationPitch - this.rotationPitch != 0)
     			{
     				this.rotationPitch += (newRotationPitch - this.rotationPitch)*0.1;
@@ -348,7 +342,6 @@ public class EntityMissile extends Entity implements IEntityAdditionalSpawnData
     	if(this.worldObj.isRemote)
 	    {
 	    	Vector3 position = Vector3.get(this);
-	    	//position.add(Vector3.multiply(ICBM.getLook(this.rotationYaw, this.rotationPitch), new Vector3(1, this.height/2.2, 1)));
 	    	ParticleSpawner.spawnParticle("smoke", this.worldObj, position);
 	    	this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
     	}
