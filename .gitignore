@@ -27,6 +27,7 @@ LICENSE.txt
 !/src/minecraft/atomicscience/
 !/src/common/atomicscience/
 !/resources/*
+!info.txt
 !mcmod.info
 
 !/README

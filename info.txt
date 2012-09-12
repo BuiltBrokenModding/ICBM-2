@@ -39,3 +39,4 @@ ICBM_v0.5.3.4.zip 0.7.0
 ICBM_v0.5.3.5.zip 0.7.0
 ICBM_v0.5.3.6.zip 0.7.0 @
 ICBM_v0.5.3.7.zip 0.7.0
+ICBM_v0.5.3.8.zip 0.8.0 @
