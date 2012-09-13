@@ -2,6 +2,8 @@ package icbm;
 
 import static net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED;
 
+import icbm.zhapin.EShouLiuDan;
+
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -46,10 +48,10 @@ public class RenderGrenade extends Render
     /**
      * Renders the item
      */
-    public void doRenderItem(EntityGrenade par1EntityItem, double par2, double par4, double par6, float par8, float par9)
+    public void doRenderItem(EShouLiuDan par1EntityItem, double par2, double par4, double par6, float par8, float par9)
     {
         this.random.setSeed(187L);
-        ItemStack var10 = new ItemStack(ICBM.itemGrenade, 1, par1EntityItem.explosiveID);
+        ItemStack var10 = new ItemStack(ICBM.itemShouLiuDan, 1, par1EntityItem.explosiveID);
         GL11.glPushMatrix();
 
         byte var13 = 1;
@@ -410,6 +412,6 @@ public class RenderGrenade extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRenderItem((EntityGrenade)par1Entity, par2, par4, par6, par8, par9);
+        this.doRenderItem((EShouLiuDan)par1Entity, par2, par4, par6, par8, par9);
     }
 }

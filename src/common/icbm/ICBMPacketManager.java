@@ -1,8 +1,8 @@
 package icbm;
 
-import icbm.electronics.ItemLaserDesignator;
-import icbm.electronics.ItemRadarGun;
-import icbm.electronics.ItemSignalDisrupter;
+import icbm.dianqi.ItLeiShiZhiBiao;
+import icbm.dianqi.ItLeiDaQiang;
+import icbm.dianqi.ItHuoLuanQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -37,7 +37,7 @@ public class ICBMPacketManager extends PacketManager
 
 		if(ID == RADAR_GUN_PACKET)
 		{
-			if(player.inventory.getCurrentItem().getItem() instanceof ItemRadarGun)
+			if(player.inventory.getCurrentItem().getItem() instanceof ItLeiDaQiang)
 			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				//Saves the frequency in the itemstack
@@ -49,32 +49,32 @@ public class ICBMPacketManager extends PacketManager
 				itemStack.stackTagCompound.setInteger("x", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("y", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("z", dataStream.readInt());
-				((ItemElectric) ICBM.itemRadarGun).onUseElectricity(ItemRadarGun.ELECTRICITY_REQUIRED, itemStack);
+				((ItemElectric) ICBM.itemLEiDaQiang).onUseElectricity(ItLeiDaQiang.ELECTRICITY_REQUIRED, itemStack);
 			}
 		}
 		else if(ID == LASER_DESIGNATOR_PACKET)
 		{
-			if(player.inventory.getCurrentItem().getItem() instanceof ItemLaserDesignator)
+			if(player.inventory.getCurrentItem().getItem() instanceof ItLeiShiZhiBiao)
 			{				
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				Vector3 position = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 
-				((ItemLaserDesignator)ICBM.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
+				((ItLeiShiZhiBiao)ICBM.itemLeiShiZhiBiao).setLauncherCountDown(itemStack, 119);
 	    		
 				player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), "icbm.airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	    		
-				player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5*20, 0F, 1F, 0F));
+				player.worldObj.spawnEntityInWorld(new EGuang(player.worldObj, position, 5*20, 0F, 1F, 0F));
 	    		
-				((ItemElectric) ICBM.itemRadarGun).onUseElectricity(ItemLaserDesignator.ELECTRICITY_CAPACITY, itemStack);
+				((ItemElectric) ICBM.itemLEiDaQiang).onUseElectricity(ItLeiShiZhiBiao.ELECTRICITY_CAPACITY, itemStack);
 			}
 		}
 		else if(ID == SIGNAL_DISRUPTER_PACKET)
 		{
-			if(player.inventory.getCurrentItem().getItem() instanceof ItemSignalDisrupter)
+			if(player.inventory.getCurrentItem().getItem() instanceof ItHuoLuanQi)
 			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				
-            	((ItemSignalDisrupter)itemStack.getItem()).setFrequency(itemStack, dataStream.readShort());
+            	((ItHuoLuanQi)itemStack.getItem()).setFrequency(itemStack, dataStream.readShort());
             	System.out.println("SET");
 			}
 		}

@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.electronics.ItemTracker;
+import icbm.dianqi.ItGenZongQi;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class TextureTrackerFX extends FMLTextureFX
 
     public TextureTrackerFX(Minecraft par1Minecraft)
     {
-        super(ICBM.itemTracker.getIconFromDamage(0));
+        super(ICBM.itemGenZongQi.getIconFromDamage(0));
         this.mc = par1Minecraft;
         this.tileImage = 1;
         setup();
@@ -85,11 +85,11 @@ public class TextureTrackerFX extends FMLTextureFX
             double xDifference = (double)var21.posX - this.mc.thePlayer.posX;
             double zDifference = (double)var21.posZ - this.mc.thePlayer.posZ;
             
-            if(this.mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemTracker)
+            if(this.mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
             {
             	ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
             	
-            	Entity trackingEntity = ItemTracker.getTrackingEntity(itemStack);
+            	Entity trackingEntity = ItGenZongQi.getTrackingEntity(itemStack);
             	
                 if(trackingEntity != null)
                 {

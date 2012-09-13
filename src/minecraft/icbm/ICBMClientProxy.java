@@ -1,13 +1,18 @@
 package icbm;
 
-import icbm.machines.TileEntityCruiseLauncher;
-import icbm.machines.TileEntityDetector;
-import icbm.machines.TileEntityEMPTower;
-import icbm.machines.TileEntityLauncherBase;
-import icbm.machines.TileEntityLauncherFrame;
-import icbm.machines.TileEntityLauncherScreen;
-import icbm.machines.TileEntityRadarStation;
-import icbm.machines.TileEntityRailgun;
+import icbm.daodan.EDaoDan;
+import icbm.jiqi.ECiGuiPao;
+import icbm.jiqi.TXiaoFaSheQi;
+import icbm.jiqi.TYinGanQi;
+import icbm.jiqi.TDianCiQi;
+import icbm.jiqi.TFaSheDi;
+import icbm.jiqi.TFaSheJia;
+import icbm.jiqi.TFaSheShiMuo;
+import icbm.jiqi.TLeiDa;
+import icbm.jiqi.TCiGuiPao;
+import icbm.zhapin.EShouLiuDan;
+import icbm.zhapin.EZhaDan;
+import icbm.zhapin.EZhaPin;
 
 import java.io.File;
 
@@ -37,24 +42,24 @@ public class ICBMClientProxy extends ICBMCommonProxy
 	@Override
 	public void init()
 	{		
-		RenderingRegistry.registerEntityRenderingHandler(EntityExplosive.class, new RenderExplosive());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityProceduralExplosion.class, new RenderProceduralExplosion());
+		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RenderExplosive());
+        RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RenderMissile(0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RenderProceduralExplosion());
         RenderingRegistry.registerEntityRenderingHandler(EntityGravityBlock.class, new RenderGravityBlock());
-        RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RenderLightBeam());
-        RenderingRegistry.registerEntityRenderingHandler(EntityFragment.class, new RenderFragment());
-        RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
-        RenderingRegistry.registerEntityRenderingHandler(EntityRailgun.class, new RenderInvisible());
+        RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RenderLightBeam());
+        RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RenderFragment());
+        RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RenderGrenade());
+        RenderingRegistry.registerEntityRenderingHandler(ECiGuiPao.class, new RenderInvisible());
         
         //TextureFXManager.instance().addAnimation(new TextureTrackerFX(FMLClientHandler.instance().getClient()));
         
-        ClientRegistry.registerTileEntity(TileEntityRailgun.class, "ICBMRailgun", new RenderRailgun());
-        ClientRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMCruiseLauncher", new RenderCruiseLauncher());
-        ClientRegistry.registerTileEntity(TileEntityLauncherBase.class, "ICBMLauncherBase", new RenderLauncherBase());
-        ClientRegistry.registerTileEntity(TileEntityLauncherScreen.class, "ICBMLauncherScreen", new RenderLauncherScreen());
-        ClientRegistry.registerTileEntity(TileEntityLauncherFrame.class, "ICBMTileEntityLauncherFrame", new RenderLauncherFrame());
-        ClientRegistry.registerTileEntity(TileEntityRadarStation.class, "ICBMRadar", new RenderRadarStation());
-        ClientRegistry.registerTileEntity(TileEntityEMPTower.class, "ICBMEMPTower", new RenderEMPTower());
+        ClientRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun", new RenderRailgun());
+        ClientRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher", new RenderCruiseLauncher());
+        ClientRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase", new RenderLauncherBase());
+        ClientRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen", new RenderLauncherScreen());
+        ClientRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame", new RenderLauncherFrame());
+        ClientRegistry.registerTileEntity(TLeiDa.class, "ICBMRadar", new RenderRadarStation());
+        ClientRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower", new RenderEMPTower());
 	
 	}
 	
@@ -67,14 +72,14 @@ public class ICBMClientProxy extends ICBMCommonProxy
         {
 			switch(ID)
 			{
-				case ICBMCommonProxy.GUI_RAIL_GUN: return new GuiRailgun((TileEntityRailgun)tileEntity, entityPlayer);
-				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new GuiCruiseLauncher(entityPlayer.inventory, (TileEntityCruiseLauncher)tileEntity);
-				case ICBMCommonProxy.GUI_LAUNCHER_SCREEN: return new GuiLauncherScreen(((TileEntityLauncherScreen)tileEntity));
-				case ICBMCommonProxy.GUI_RADAR_STATION: return new GuiRadarStation(((TileEntityRadarStation)tileEntity));
-				case ICBMCommonProxy.GUI_DETECTOR: return new GuiDetector((TileEntityDetector) tileEntity);
-				case ICBMCommonProxy.GUI_FREQUENCY: return new GuiFrequency(entityPlayer.inventory.getCurrentItem());
-				case ICBMCommonProxy.GUI_EMP_TOWER: return new GuiEMPTower((TileEntityEMPTower) tileEntity);
-				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new GuiLauncherBase(entityPlayer.inventory, (TileEntityLauncherBase) tileEntity);
+				case ICBMCommonProxy.GUI_RAIL_GUN: return new GCiGuiPao((TCiGuiPao)tileEntity, entityPlayer);
+				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi)tileEntity);
+				case ICBMCommonProxy.GUI_LAUNCHER_SCREEN: return new GFaSheShiMuo(((TFaSheShiMuo)tileEntity));
+				case ICBMCommonProxy.GUI_RADAR_STATION: return new GuiLeiDaTai(((TLeiDa)tileEntity));
+				case ICBMCommonProxy.GUI_DETECTOR: return new GuiYinGanQi((TYinGanQi) tileEntity);
+				case ICBMCommonProxy.GUI_FREQUENCY: return new GFrequency(entityPlayer.inventory.getCurrentItem());
+				case ICBMCommonProxy.GUI_EMP_TOWER: return new GEMPTower((TDianCiQi) tileEntity);
+				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
 			}
         }
 		

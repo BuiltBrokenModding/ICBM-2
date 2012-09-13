@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.zhapin.EZhaDan;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;
@@ -21,7 +22,7 @@ public class RenderExplosive extends Render
     @Override
 	public void doRender(Entity par1Entity, double x, double y, double z, float par8, float par9)
     {
-    	EntityExplosive entityExplosive = (EntityExplosive)par1Entity;
+    	EZhaDan entityExplosive = (EZhaDan)par1Entity;
     	
     	GL11.glPushMatrix();
         GL11.glTranslatef((float)x, (float)y, (float)z);
@@ -49,7 +50,7 @@ public class RenderExplosive extends Render
 
         var10 = (1.0F - ((float)entityExplosive.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
         this.loadTexture(ICBM.BLOCK_TEXTURE_FILE);
-        this.blockRenderer.renderBlockAsItem(ICBM.blockExplosive, entityExplosive.explosiveID, entityExplosive.getBrightness(par9));
+        this.blockRenderer.renderBlockAsItem(ICBM.blockZha4Dan4, entityExplosive.explosiveID, entityExplosive.getBrightness(par9));
         
         if (entityExplosive.fuse / 5 % 2 == 0)
         {

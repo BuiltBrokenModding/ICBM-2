@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.machines.TileEntityLauncherBase;
+import icbm.jiqi.TFaSheDi;
 import icbm.models.ModelLauncher0Base;
 import icbm.models.ModelLauncher0Rail;
 import icbm.models.ModelLauncher1Base;
@@ -27,7 +27,7 @@ public class RenderLauncherBase extends TileEntitySpecialRenderer
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-    	TileEntityLauncherBase tileEntity = (TileEntityLauncherBase)tileentity;
+    	TFaSheDi tileEntity = (TFaSheDi)tileentity;
     	
     	GL11.glPushMatrix();
         GL11.glTranslatef((float)d + 0.5F, (float)d1 + 1.5F, (float)d2 + 0.5F);

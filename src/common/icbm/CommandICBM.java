@@ -1,5 +1,7 @@
 package icbm;
 
+import icbm.zhapin.EZhaPin;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class CommandICBM extends CommandBase
 			        	{
 			        		((EntityGravityBlock)entity).setBlock();
 			        	}
-			        	else if(entity instanceof EntityProceduralExplosion)
+			        	else if(entity instanceof EZhaPin)
 			        	{
 			        		entity.setDead();
 			        	}

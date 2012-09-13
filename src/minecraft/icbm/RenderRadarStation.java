@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.machines.TileEntityRadarStation;
+import icbm.jiqi.TLeiDa;
 import icbm.models.ModelRadar;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
@@ -11,7 +11,7 @@ public class RenderRadarStation extends TileEntitySpecialRenderer
 {
 	private ModelRadar modelBase = new ModelRadar();
  
-    public void renderAModelAt(TileEntityRadarStation tileEntity, double x, double y, double z, float f)
+    public void renderAModelAt(TLeiDa tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F);
@@ -24,6 +24,6 @@ public class RenderRadarStation extends TileEntitySpecialRenderer
     @Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        renderAModelAt((TileEntityRadarStation)tileentity, d, d1, d2, f);
+        renderAModelAt((TLeiDa)tileentity, d, d1, d2, f);
     }
 }

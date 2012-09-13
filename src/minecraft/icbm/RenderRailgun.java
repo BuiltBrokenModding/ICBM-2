@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.machines.TileEntityRailgun;
+import icbm.jiqi.TCiGuiPao;
 import icbm.models.ModelRailgun;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
@@ -11,7 +11,7 @@ public class RenderRailgun extends TileEntitySpecialRenderer
 {
 	private ModelRailgun modelBase = new ModelRailgun();
  
-    public void renderAModelAt(TileEntityRailgun tileEntity, double d, double d1, double d2, float f)
+    public void renderAModelAt(TCiGuiPao tileEntity, double d, double d1, double d2, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)d + 0.5F, (float)d1 + 2.2F, (float)d2 + 0.5F);
@@ -26,6 +26,6 @@ public class RenderRailgun extends TileEntitySpecialRenderer
     @Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        renderAModelAt((TileEntityRailgun)tileentity, d, d1, d2, f);
+        renderAModelAt((TCiGuiPao)tileentity, d, d1, d2, f);
     }
 }

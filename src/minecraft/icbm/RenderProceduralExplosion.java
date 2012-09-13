@@ -1,7 +1,7 @@
 package icbm;
 
-import icbm.EntityProceduralExplosion;
-import icbm.explosives.Explosive;
+import icbm.zhapin.EZhaPin;
+import icbm.zhapin.ZhaPin;
 
 import java.util.Random;
 
@@ -23,7 +23,7 @@ public class RenderProceduralExplosion extends Render
     		this.setRenderManager(RenderManager.instance);
     	}
 		
-		if(((EntityProceduralExplosion)par1Entity).explosiveID == Explosive.Redmatter.getID())
+		if(((EZhaPin)par1Entity).explosiveID == ZhaPin.Redmatter.getID())
 		{
 			Tessellator var3 = Tessellator.instance;
 			float par2 = (float)(par1Entity.ticksExisted);

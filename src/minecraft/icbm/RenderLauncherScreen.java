@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.machines.TileEntityLauncherScreen;
+import icbm.jiqi.TFaSheShiMuo;
 import icbm.models.ModelLauncher0Screen;
 import icbm.models.ModelLauncher1Screen;
 import icbm.models.ModelLauncher2Screen;
@@ -18,7 +18,7 @@ public class RenderLauncherScreen extends TileEntitySpecialRenderer
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)
 	{
-		TileEntityLauncherScreen tileEntity = (TileEntityLauncherScreen)var1;
+		TFaSheShiMuo tileEntity = (TFaSheShiMuo)var1;
 		
 		GL11.glPushMatrix();
         GL11.glTranslatef((float)d + 0.5F, (float)d1 + 1.5F, (float)d2 + 0.5F);

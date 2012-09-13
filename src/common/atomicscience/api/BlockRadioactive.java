@@ -1,7 +1,5 @@
 package atomicscience.api;
 
-import icbm.ICBM;
-
 import java.util.List;
 import java.util.Random;
 
@@ -16,12 +14,15 @@ import net.minecraft.src.World;
 
 public class BlockRadioactive extends Block
 {
-	public BlockRadioactive(int id, int texture)
+	private static String textureFile;
+
+	public BlockRadioactive(int id, int texture, String textureFile)
 	{
 		super(id, texture, Material.ground);
 		this.setTickRandomly(true);
 		this.setHardness(0.2F);
 		this.setLightValue(0.1F);
+		this.textureFile = textureFile;
 	}
 	
 	/**
@@ -95,7 +96,7 @@ public class BlockRadioactive extends Block
     @Override
     public String getTextureFile()
     {
-        return ICBM.BLOCK_TEXTURE_FILE;
+    	return this.textureFile;
     }
     
     @Override

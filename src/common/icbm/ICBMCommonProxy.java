@@ -1,12 +1,15 @@
 package icbm;
 
-import icbm.machines.TileEntityCruiseLauncher;
-import icbm.machines.TileEntityEMPTower;
-import icbm.machines.TileEntityLauncherBase;
-import icbm.machines.TileEntityLauncherFrame;
-import icbm.machines.TileEntityLauncherScreen;
-import icbm.machines.TileEntityRadarStation;
-import icbm.machines.TileEntityRailgun;
+import icbm.jiqi.TXiaoFaSheQi;
+import icbm.jiqi.TDianCiQi;
+import icbm.jiqi.TFaSheDi;
+import icbm.jiqi.TFaSheJia;
+import icbm.jiqi.TFaSheShiMuo;
+import icbm.jiqi.TLeiDa;
+import icbm.jiqi.TCiGuiPao;
+import icbm.rongqi.CCiGuiPao;
+import icbm.rongqi.CXiaoFaSheQi;
+import icbm.rongqi.CFaShiDi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -31,13 +34,13 @@ public class ICBMCommonProxy extends CommonProxy
 	@Override
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TileEntityRailgun.class, "ICBMRailgun");
-		GameRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMCruiseLauncher");
-		GameRegistry.registerTileEntity(TileEntityLauncherBase.class, "ICBMLauncherBase");
-		GameRegistry.registerTileEntity(TileEntityLauncherScreen.class, "ICBMLauncherScreen");
-		GameRegistry.registerTileEntity(TileEntityLauncherFrame.class, "ICBMTileEntityLauncherFrame");
-		GameRegistry.registerTileEntity(TileEntityRadarStation.class, "ICBMRadar");
-		GameRegistry.registerTileEntity(TileEntityEMPTower.class, "ICBMEMPTower");
+		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
+		GameRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher");
+		GameRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase");
+		GameRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen");
+		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame");
+		GameRegistry.registerTileEntity(TLeiDa.class, "ICBMRadar");
+		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower");
 	}
 	
 	@Override
@@ -55,9 +58,9 @@ public class ICBMCommonProxy extends CommonProxy
         {
 			switch(ID)
 			{
-				case ICBMCommonProxy.GUI_RAIL_GUN: return new ContainerRailgun(player.inventory, (TileEntityRailgun) tileEntity);
-				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new ContainerCruiseLauncher(player.inventory, (TileEntityCruiseLauncher) tileEntity);
-				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new ContainerLauncherBase(player.inventory, (TileEntityLauncherBase) tileEntity);
+				case ICBMCommonProxy.GUI_RAIL_GUN: return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
+				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
+				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
         }
 		

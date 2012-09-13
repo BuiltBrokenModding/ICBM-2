@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.machines.TileEntityLauncherFrame;
+import icbm.jiqi.TFaSheJia;
 import icbm.models.ModelLauncherFrame;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
@@ -16,7 +16,7 @@ public class RenderLauncherFrame extends TileEntitySpecialRenderer
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)
 	{
-		TileEntityLauncherFrame tileEntity = (TileEntityLauncherFrame)var1;
+		TFaSheJia tileEntity = (TFaSheJia)var1;
 		
 		GL11.glPushMatrix();
         GL11.glTranslatef((float)d + 0.5F, (float)d1 + 1.25F, (float)d2 + 0.5F);

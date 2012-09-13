@@ -30,6 +30,7 @@ public class ICBMRenderMissile extends RenderLiving
 */
 package icbm;
 
+import icbm.daodan.EDaoDan;
 import icbm.models.ModelMissileAntiBallistic;
 import icbm.models.ModelMissileAntiGravity;
 import icbm.models.ModelMissileAntimatter;
@@ -82,7 +83,7 @@ public class RenderMissile extends Render
     	this.shadowSize = f;
     }
 
-    public void renderMissile(EntityMissile entityMissile, double x, double y, double z, float f, float f1)
+    public void renderMissile(EDaoDan entityMissile, double x, double y, double z, float f, float f1)
     {
     	//Use the correct model & texture for the specified missile metadata
     	switch(entityMissile.missileID)
@@ -135,6 +136,6 @@ public class RenderMissile extends Render
     @Override
 	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
     {
-        renderMissile((EntityMissile)entity, d, d1, d2, f, f1);
+        renderMissile((EDaoDan)entity, d, d1, d2, f, f1);
     }
 }

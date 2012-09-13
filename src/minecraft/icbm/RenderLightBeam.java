@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.EntityLightBeam;
+import icbm.EGuang;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;
 import net.minecraft.src.RenderManager;
@@ -18,7 +18,7 @@ public class RenderLightBeam extends Render
     		this.setRenderManager(RenderManager.instance);
     	}
     	
-        EntityLightBeam entity = ((EntityLightBeam)par1Entity);
+        EGuang entity = ((EGuang)par1Entity);
         
         Tessellator tessellator = Tessellator.instance;
         GL11.glDisable(3553 /*GL_TEXTURE_2D*/);

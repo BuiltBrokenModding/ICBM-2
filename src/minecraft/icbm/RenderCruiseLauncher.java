@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.machines.TileEntityCruiseLauncher;
+import icbm.jiqi.TXiaoFaSheQi;
 import icbm.models.ModelCruiseLauncherBase;
 import icbm.models.ModelCruiseLauncherRail;
 import net.minecraft.src.TileEntity;
@@ -13,7 +13,7 @@ public class RenderCruiseLauncher extends TileEntitySpecialRenderer
 	private ModelCruiseLauncherBase modelBase = new ModelCruiseLauncherBase();
 	private ModelCruiseLauncherRail modelBase2 = new ModelCruiseLauncherRail();
  
-    public void renderAModelAt(TileEntityCruiseLauncher tileEntity, double d, double d1, double d2, float f)
+    public void renderAModelAt(TXiaoFaSheQi tileEntity, double d, double d1, double d2, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)d + 0.5F, (float)d1 + 1.5F, (float)d2 + 0.5F);
@@ -29,6 +29,6 @@ public class RenderCruiseLauncher extends TileEntitySpecialRenderer
     @Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        renderAModelAt((TileEntityCruiseLauncher)tileentity, d, d1, d2, f);
+        renderAModelAt((TXiaoFaSheQi)tileentity, d, d1, d2, f);
     }
 }

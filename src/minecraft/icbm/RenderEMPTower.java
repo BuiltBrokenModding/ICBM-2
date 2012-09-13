@@ -1,6 +1,6 @@
 package icbm;
  
-import icbm.machines.TileEntityEMPTower;
+import icbm.jiqi.TDianCiQi;
 import icbm.models.ModelEMPTower;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
@@ -11,7 +11,7 @@ public class RenderEMPTower extends TileEntitySpecialRenderer
 {
 	private ModelEMPTower modelBase = new ModelEMPTower();
  
-    public void renderAModelAt(TileEntityEMPTower tileEntity, double x, double y, double z, float f)
+    public void renderAModelAt(TDianCiQi tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F);
@@ -24,6 +24,6 @@ public class RenderEMPTower extends TileEntitySpecialRenderer
     @Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
     {
-        renderAModelAt((TileEntityEMPTower)tileentity, x, y, z, f);
+        renderAModelAt((TDianCiQi)tileentity, x, y, z, f);
     }
 }

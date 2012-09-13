@@ -1,17 +1,27 @@
 package icbm;
 
-import icbm.electronics.ItemDefuser;
-import icbm.electronics.ItemLaserDesignator;
-import icbm.electronics.ItemRadarGun;
-import icbm.electronics.ItemRemote;
-import icbm.electronics.ItemSignalDisrupter;
-import icbm.electronics.ItemTracker;
-import icbm.explosives.BlockExplosive;
-import icbm.explosives.Explosive;
-import icbm.machines.BlockDetector;
-import icbm.machines.BlockICBMMachine;
-import icbm.machines.TileEntityDetector;
-import icbm.missiles.Missile;
+import icbm.daodan.DaoDan;
+import icbm.daodan.EDaoDan;
+import icbm.daodan.ItDaoDan;
+import icbm.daodan.ItTe4Bie2Dao3Dan4;
+import icbm.dianqi.ItJieJa;
+import icbm.dianqi.ItLeiShiZhiBiao;
+import icbm.dianqi.ItLeiDaQiang;
+import icbm.dianqi.ItYaoKong;
+import icbm.dianqi.ItHuoLuanQi;
+import icbm.dianqi.ItGenZongQi;
+import icbm.jiqi.BYinGanQi;
+import icbm.jiqi.BJiQi;
+import icbm.jiqi.ECiGuiPao;
+import icbm.jiqi.IBJiQi;
+import icbm.jiqi.TYinGanQi;
+import icbm.zhapin.BZhaDan;
+import icbm.zhapin.EShouLiuDan;
+import icbm.zhapin.EZhaDan;
+import icbm.zhapin.EZhaPin;
+import icbm.zhapin.IBZhaDan;
+import icbm.zhapin.TZhaDan;
+import icbm.zhapin.ZhaPin;
 
 import java.io.File;
 import java.util.Random;
@@ -75,32 +85,32 @@ public class ICBM implements IWorldGenerator
 	public static final int ENTITY_ID_PREFIX = 50;
 	
 	public static final int BLOCK_ID_PREFIX = 3880;
-    public static final Block blockSulfurOre = new BlockSulfurOre(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX-1));
-	public static final Block blockGlassPressurePlate = new BlockGlassPressurePlate(UniversalElectricity.getBlockConfigID(CONFIGURATION, "GlassPressurePlate", BLOCK_ID_PREFIX+0), 0);
-	public static final Block blockExplosive = new BlockExplosive(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
-	public static final Block blockMachine = new BlockICBMMachine(UniversalElectricity.getBlockConfigID(CONFIGURATION, "BlockMachine", BLOCK_ID_PREFIX+3));
-	public static final Block blockInvisible = new BlockInvisible(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
-	public static Block blockRadioactive;
-	public static final Block blockDetector = new BlockDetector(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
+    public static final Block blockLiu3 = new BLiu(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX-1));
+	public static final Block blockBuo1Li4Pan2 = new BBuo1Li4Pan2(UniversalElectricity.getBlockConfigID(CONFIGURATION, "GlassPressurePlate", BLOCK_ID_PREFIX+0), 0);
+	public static final Block blockZha4Dan4 = new BZhaDan(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
+	public static final Block blockJi1Qi4 = new BJiQi(UniversalElectricity.getBlockConfigID(CONFIGURATION, "BlockMachine", BLOCK_ID_PREFIX+3));
+	public static final Block blockYin3Xing2 = new BYinXing(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
+	public static Block blockFu3She4;
+	public static final Block blockYinGanQi = new BYinGanQi(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
 
 	//ITEMS
 	public static final int itemIDprefix = 3900;
-	public static final Item itemSulfur = new ICBMItem("Sulfur", UniversalElectricity.getItemConfigID(CONFIGURATION, "Sulfur", itemIDprefix-2), 3, CreativeTabs.tabMaterials);
-	public static final Item itemPoisonPowder = new ICBMItem("Poison Powder", UniversalElectricity.getItemConfigID(CONFIGURATION, "Poison Powder", itemIDprefix), 0, CreativeTabs.tabMaterials);
-	public static final Item itemAntidote = new ItemAntidote("Antidote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Antidote", itemIDprefix+1), 5);
-	public static final Item itemMissile = new ItemMissile("Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Missile", itemIDprefix+2), 32);
-	public static final Item itemSpecialMissile = new ItemSpecialMissile("Special Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
-	public static final Item itemDefuser = new ItemDefuser("Defuser", UniversalElectricity.getItemConfigID(CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
-	public static final Item itemRadarGun = new ItemRadarGun("Radar Gun", UniversalElectricity.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
-	public static final Item itemRemote = new ItemRemote("Remote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Remote", itemIDprefix+6), 20);
-	public static final Item itemLaserDesignator = new ItemLaserDesignator("Laser Designator", UniversalElectricity.getItemConfigID(CONFIGURATION, "Laser Designator", itemIDprefix+7), 22);
-	public static final Item itemGrenade = new ItemGrenade("Grenade", UniversalElectricity.getItemConfigID(CONFIGURATION, "Grenade", itemIDprefix+8), 64);
-	public static final Item itemSignalDisruptor = new ItemSignalDisrupter("Signal Disruptor", UniversalElectricity.getItemConfigID(CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
-	public static final Item itemBullet = new ItemBullet("Bullet", UniversalElectricity.getItemConfigID(CONFIGURATION, "Bullet", itemIDprefix+10), 80);
-	public static final Item itemTracker = new ItemTracker("Tracker", UniversalElectricity.getItemConfigID(CONFIGURATION, "Tracker", itemIDprefix+11), 18);
+	public static final Item itemLiu = new ICBMItem("Sulfur", UniversalElectricity.getItemConfigID(CONFIGURATION, "Sulfur", itemIDprefix-2), 3, CreativeTabs.tabMaterials);
+	public static final Item itemDu = new ICBMItem("Poison Powder", UniversalElectricity.getItemConfigID(CONFIGURATION, "Poison Powder", itemIDprefix), 0, CreativeTabs.tabMaterials);
+	public static final Item itemYao = new ItYao("Antidote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Antidote", itemIDprefix+1), 5);
+	public static final Item itemDaoDan = new ItDaoDan("Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Missile", itemIDprefix+2), 32);
+	public static final Item itemTeBieDaoDan = new ItTe4Bie2Dao3Dan4("Special Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
+	public static final Item itemJieJa = new ItJieJa("Defuser", UniversalElectricity.getItemConfigID(CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
+	public static final Item itemLEiDaQiang = new ItLeiDaQiang("Radar Gun", UniversalElectricity.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
+	public static final Item itemYaoKong = new ItYaoKong("Remote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Remote", itemIDprefix+6), 20);
+	public static final Item itemLeiShiZhiBiao = new ItLeiShiZhiBiao("Laser Designator", UniversalElectricity.getItemConfigID(CONFIGURATION, "Laser Designator", itemIDprefix+7), 22);
+	public static final Item itemShouLiuDan = new ItShouLiuDan("Grenade", UniversalElectricity.getItemConfigID(CONFIGURATION, "Grenade", itemIDprefix+8), 64);
+	public static final Item itemHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UniversalElectricity.getItemConfigID(CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
+	public static final Item itemZiDan = new ItZiDan("Bullet", UniversalElectricity.getItemConfigID(CONFIGURATION, "Bullet", itemIDprefix+10), 80);
+	public static final Item itemGenZongQi = new ItGenZongQi("Tracker", UniversalElectricity.getItemConfigID(CONFIGURATION, "Tracker", itemIDprefix+11), 18);
 
-	public static final PoisonChemical CHEMICALS = new PoisonChemical("Chemical", 1, false);
-	public static final PoisonChemical CONTAGIOUS = new PoisonChemical("Contagious", 1, true);
+	public static final Du du2 = new Du("Chemical", 1, false);
+	public static final Du yi2Chuan2Du2 = new Du("Contagious", 1, true);
 	
 	public OreGenData sulfurGenData;
 	
@@ -109,7 +119,7 @@ public class ICBM implements IWorldGenerator
     {
 		instance = this;
 		
-		UniversalElectricity.registerMod(this, "ICBM", "0.8.0");
+		UniversalElectricity.registerMod(this, "ICBM", "0.8.1");
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		
@@ -119,9 +129,9 @@ public class ICBM implements IWorldGenerator
 	            @Override
 	            public int dispense(int x, int y, int z, int xVelocity, int zVelocity, World world, ItemStack item, Random random, double entX, double entY, double entZ)
 	            {
-	            	if(item.itemID == ICBM.itemGrenade.shiftedIndex)
+	            	if(item.itemID == ICBM.itemShouLiuDan.shiftedIndex)
 	        		{
-	        			EntityGrenade entity = new EntityGrenade(world, new Vector3(x, y, z), item.getItemDamage());
+	        			EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), item.getItemDamage());
 	        	        entity.setThrowableHeading(xVelocity, 0.10000000149011612D, zVelocity, 1.1F, 6.0F);
 	        	        world.spawnEntityInWorld(entity);
 	        		}
@@ -132,21 +142,21 @@ public class ICBM implements IWorldGenerator
 		);
 		
 		//-- Registering Blocks
-		GameRegistry.registerBlock(blockSulfurOre);
-		GameRegistry.registerBlock(blockGlassPressurePlate);
-		GameRegistry.registerBlock(blockExplosive, ItemBlockExplosive.class);
-		GameRegistry.registerBlock(blockMachine, ItemBlockICBMMachine.class);
-		GameRegistry.registerBlock(blockDetector);
+		GameRegistry.registerBlock(blockLiu3);
+		GameRegistry.registerBlock(blockBuo1Li4Pan2);
+		GameRegistry.registerBlock(blockZha4Dan4, IBZhaDan.class);
+		GameRegistry.registerBlock(blockJi1Qi4, IBJiQi.class);
+		GameRegistry.registerBlock(blockYinGanQi);
 		
 		if(OreDictionary.getOres("blockRadioactive").size() > 0)
 		{
-			blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
+			blockFu3She4 = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
 			System.out.println("Detected radioative block from another mod.");
 		}
 		
-		OreDictionary.registerOre("dustSulfur", itemSulfur);
+		OreDictionary.registerOre("dustSulfur", itemLiu);
 				
-		sulfurGenData = new OreGenData("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 100, 30, 10);
+		sulfurGenData = new OreGenData("Sulfur Ore", "oreSulfur", new ItemStack(blockLiu3), 100, 25, 10);
 		
    		GameRegistry.registerWorldGenerator(this);
    		
@@ -156,169 +166,169 @@ public class ICBM implements IWorldGenerator
 	@Init
 	public void load(FMLInitializationEvent evt)
     {
-		if(blockRadioactive == null)
+		if(blockFu3She4 == null)
 		{
-			blockRadioactive = new BlockRadioactive(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX+5), 4);
-			GameRegistry.registerBlock(blockRadioactive);
+			blockFu3She4 = new BlockRadioactive(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX+5), 4, ICBM.BLOCK_TEXTURE_FILE);
+			GameRegistry.registerBlock(blockFu3She4);
 		}
 
 		//-- Add Names
-		LanguageRegistry.addName(blockSulfurOre, "Sulfur Ore");
+		LanguageRegistry.addName(blockLiu3, "Sulfur Ore");
 		
-		LanguageRegistry.addName(itemSulfur, "Sulfur Dust");
-		LanguageRegistry.addName(itemPoisonPowder, "Poison Powder");
+		LanguageRegistry.addName(itemLiu, "Sulfur Dust");
+		LanguageRegistry.addName(itemDu, "Poison Powder");
 		
-		LanguageRegistry.addName(ICBM.itemRadarGun, "Radar Gun");
-		LanguageRegistry.addName(ICBM.itemRemote, "Remote Detonator");
-		LanguageRegistry.addName(ICBM.itemLaserDesignator, "Laser Designator");
-		LanguageRegistry.addName(ICBM.itemDefuser, "Explosive Defuser");
-		LanguageRegistry.addName(ICBM.itemTracker, "Tracker");
-		LanguageRegistry.addName(ICBM.itemSignalDisruptor, "Signal Disruptor");
-		LanguageRegistry.addName(new ItemStack(ICBM.itemBullet, 1, 0), "Conventional Bullet");
-		LanguageRegistry.addName(new ItemStack(ICBM.itemBullet, 1, 1), "Antimatter Bullet");
+		LanguageRegistry.addName(ICBM.itemLEiDaQiang, "Radar Gun");
+		LanguageRegistry.addName(ICBM.itemYaoKong, "Remote Detonator");
+		LanguageRegistry.addName(ICBM.itemLeiShiZhiBiao, "Laser Designator");
+		LanguageRegistry.addName(ICBM.itemJieJa, "Explosive Defuser");
+		LanguageRegistry.addName(ICBM.itemGenZongQi, "Tracker");
+		LanguageRegistry.addName(ICBM.itemHuoLaunQi, "Signal Disruptor");
+		LanguageRegistry.addName(new ItemStack(ICBM.itemZiDan, 1, 0), "Conventional Bullet");
+		LanguageRegistry.addName(new ItemStack(ICBM.itemZiDan, 1, 1), "Antimatter Bullet");
 				
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 0), "Launcher Platform T1");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 1), "Launcher Platform T2");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 2), "Launcher Platform T3");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 0), "Launcher Platform T1");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 1), "Launcher Platform T2");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 2), "Launcher Platform T3");
 		
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 3), "Launcher Control Panel T1");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 4), "Launcher Control Panel T2");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 5), "Launcher Control Panel T3");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 3), "Launcher Control Panel T1");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 4), "Launcher Control Panel T2");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 5), "Launcher Control Panel T3");
 		
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 6), "Launcher Support Frame T1");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 7), "Launcher Support Frame T2");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 8), "Launcher Support Frame T3");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 6), "Launcher Support Frame T1");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 7), "Launcher Support Frame T2");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 8), "Launcher Support Frame T3");
 		
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 9), "Radar Station");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 10), "EMP Tower");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 11), "Railgun");
-		LanguageRegistry.addName(new ItemStack(ICBM.blockMachine, 1, 12), "Cruise Launcher");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 9), "Radar Station");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 10), "EMP Tower");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 11), "Railgun");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJi1Qi4, 1, 12), "Cruise Launcher");
 		
-		LanguageRegistry.addName(ICBM.itemAntidote, "Antidote");
+		LanguageRegistry.addName(ICBM.itemYao, "Antidote");
 		
-		LanguageRegistry.addName(ICBM.blockGlassPressurePlate, "Glass Pressure Plate");
+		LanguageRegistry.addName(ICBM.blockBuo1Li4Pan2, "Glass Pressure Plate");
 		
-		LanguageRegistry.addName(ICBM.blockDetector, "Proximity Detector");
+		LanguageRegistry.addName(ICBM.blockYinGanQi, "Proximity Detector");
 		
-		for(int i = 0; i < ((ItemSpecialMissile)ICBM.itemSpecialMissile).names.length; i++)
+		for(int i = 0; i < ((ItTe4Bie2Dao3Dan4)ICBM.itemTeBieDaoDan).names.length; i++)
 		{
-		    LanguageRegistry.addName(new ItemStack(ICBM.itemSpecialMissile, 1, i), ((ItemSpecialMissile)ICBM.itemSpecialMissile).names[i]);
+		    LanguageRegistry.addName(new ItemStack(ICBM.itemTeBieDaoDan, 1, i), ((ItTe4Bie2Dao3Dan4)ICBM.itemTeBieDaoDan).names[i]);
 		}
 		
 		//Explosives and missile recipe
-		for(int i = 0; i < Explosive.MAX_EXPLOSIVE_ID; i++)
+		for(int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
 		{
 			if(i == 0)
 			{	
-				LanguageRegistry.addName(new ItemStack(ICBM.itemMissile, 1, i), "Conventional Missile");
-				LanguageRegistry.addName(new ItemStack(ICBM.itemGrenade, 1, i), "Conventional Grenade");
+				LanguageRegistry.addName(new ItemStack(ICBM.itemDaoDan, 1, i), "Conventional Missile");
+				LanguageRegistry.addName(new ItemStack(ICBM.itemShouLiuDan, 1, i), "Conventional Grenade");
 			}
 			else
 			{
-				LanguageRegistry.addName(new ItemStack(ICBM.itemMissile, 1, i), Explosive.list[i].getName()+" Missile");
+				LanguageRegistry.addName(new ItemStack(ICBM.itemDaoDan, 1, i), ZhaPin.list[i].getName()+" Missile");
 			
 				if(i < 4)
 				{
-					LanguageRegistry.addName(new ItemStack(ICBM.itemGrenade, 1, i), Explosive.list[i].getName()+" Grenade");
+					LanguageRegistry.addName(new ItemStack(ICBM.itemShouLiuDan, 1, i), ZhaPin.list[i].getName()+" Grenade");
 				}
 			}
 		
-			LanguageRegistry.addName(new ItemStack(ICBM.blockExplosive, 1, i), Explosive.list[i].getName()+" Explosives");
+			LanguageRegistry.addName(new ItemStack(ICBM.blockZha4Dan4, 1, i), ZhaPin.list[i].getName()+" Explosives");
 		}
 		 
 	    //-- Recipes
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemBullet, 16, 0), new Object [] {"@", "!", "!", '@', Item.diamond, '!', BasicComponents.itemBronzeIngot});
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemBullet, 1, 1), new Object [] {"@", "!", "!", '@', new ItemStack(ICBM.blockExplosive, 1, Explosive.Antimatter.getID()), '!', ICBM.itemBullet});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemZiDan, 16, 0), new Object [] {"@", "!", "!", '@', Item.diamond, '!', BasicComponents.itemBronzeIngot});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemZiDan, 1, 1), new Object [] {"@", "!", "!", '@', new ItemStack(ICBM.blockZha4Dan4, 1, ZhaPin.Antimatter.getID()), '!', ICBM.itemZiDan});
 		
 		//Poison Powder
-		RecipeManager.addShapelessRecipe(new ItemStack(itemPoisonPowder), new Object [] {Item.fermentedSpiderEye, Item.rottenFlesh});
+		RecipeManager.addShapelessRecipe(new ItemStack(itemDu), new Object [] {Item.fermentedSpiderEye, Item.rottenFlesh});
 		
 		//Sulfur
-		RecipeManager.addSmelting(new ItemStack(blockSulfurOre, 1, 0), new ItemStack(itemSulfur));
-		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itemSulfur, '?', Item.coal});
-		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itemSulfur, '?', new ItemStack(Item.coal, 1, 1)});
+		RecipeManager.addSmelting(new ItemStack(blockLiu3, 1, 0), new ItemStack(itemLiu));
+		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itemLiu, '?', Item.coal});
+		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itemLiu, '?', new ItemStack(Item.coal, 1, 1)});
 		
 		//Radar Gun
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemRadarGun), new Object [] {"@#!", " $!", "  !", '@', Block.glass, '!', BasicComponents.itemSteelPlate, '#', BasicComponents.itemCircuit, '$', Block.button});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemLEiDaQiang), new Object [] {"@#!", " $!", "  !", '@', Block.glass, '!', BasicComponents.itemSteelPlate, '#', BasicComponents.itemCircuit, '$', Block.button});
 		//Remote
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemRemote), new Object [] {"?@@", "@#$", "@@@", '@', BasicComponents.itemSteelIngot, '?', Item.redstone, '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '$', Block.button});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemYaoKong), new Object [] {"?@@", "@#$", "@@@", '@', BasicComponents.itemSteelIngot, '?', Item.redstone, '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '$', Block.button});
 		//Laser Designator
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemLaserDesignator), new Object [] {"!  ", " ? ", "  @", '@', ICBM.itemRemote, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', ICBM.itemRadarGun});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemLeiShiZhiBiao), new Object [] {"!  ", " ? ", "  @", '@', ICBM.itemYaoKong, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', ICBM.itemLEiDaQiang});
 		//Proximity Detector
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockDetector), new Object [] {" ! ", "!?!", " ! ", '!', BasicComponents.itemSteelPlate, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockYinGanQi), new Object [] {" ! ", "!?!", " ! ", '!', BasicComponents.itemSteelPlate, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Signal Disrupter
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemSignalDisruptor), new Object [] {"!", "?", '!', ICBM.itemRemote, '?', ICBM.blockDetector});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemHuoLaunQi), new Object [] {"!", "?", '!', ICBM.itemYaoKong, '?', ICBM.blockYinGanQi});
 		
 		//Antidote
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemAntidote, 2), new Object [] {"@@@", "@@@", "@@@", '@', Item.pumpkinSeeds});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemYao, 2), new Object [] {"@@@", "@@@", "@@@", '@', Item.pumpkinSeeds});
 		//Defuser
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemDefuser), new Object [] {"?  ", " @ ", "  !", '@', new ItemStack(BasicComponents.itemCircuit, 1, 1), '!', BasicComponents.itemSteelPlate, '?', BasicComponents.blockCopperWire});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemJieJa), new Object [] {"?  ", " @ ", "  !", '@', new ItemStack(BasicComponents.itemCircuit, 1, 1), '!', BasicComponents.itemSteelPlate, '?', BasicComponents.blockCopperWire});
 		//Missile Launcher Platform
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 0), new Object [] {"! !", "!@!", "!!!", '!', "ingotBronze", '@', BasicComponents.itemSteelPlate});
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 1), new Object [] {"! !", "! !", "!@!", '@', new ItemStack(ICBM.blockMachine, 1, 0), '!', "ingotSteel"});
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 2), new Object [] {"! !", "! !", "!@!", '@', new ItemStack(ICBM.blockMachine, 1, 1), '!', BasicComponents.itemSteelPlate});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 0), new Object [] {"! !", "!@!", "!!!", '!', "ingotBronze", '@', BasicComponents.itemSteelPlate});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 1), new Object [] {"! !", "! !", "!@!", '@', new ItemStack(ICBM.blockJi1Qi4, 1, 0), '!', "ingotSteel"});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 2), new Object [] {"! !", "! !", "!@!", '@', new ItemStack(ICBM.blockJi1Qi4, 1, 1), '!', BasicComponents.itemSteelPlate});
 		//Missile Launcher Computer
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 3), new Object [] {"!!!", "!#!", "!?!", '#', BasicComponents.itemCircuit, '!', Block.glass, '?', BasicComponents.blockCopperWire});
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 4), new Object [] {"!$!", "!#!", "!?!", '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '!', BasicComponents.itemSteelIngot, '?', BasicComponents.blockCopperWire, '$', new ItemStack(ICBM.blockMachine, 1, 3)});
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 5), new Object [] {"!$!", "!#!", "!?!", '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', Item.ingotGold, '?', BasicComponents.blockCopperWire, '$', new ItemStack(ICBM.blockMachine, 1, 4)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 3), new Object [] {"!!!", "!#!", "!?!", '#', BasicComponents.itemCircuit, '!', Block.glass, '?', BasicComponents.blockCopperWire});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 4), new Object [] {"!$!", "!#!", "!?!", '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '!', BasicComponents.itemSteelIngot, '?', BasicComponents.blockCopperWire, '$', new ItemStack(ICBM.blockJi1Qi4, 1, 3)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 5), new Object [] {"!$!", "!#!", "!?!", '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', Item.ingotGold, '?', BasicComponents.blockCopperWire, '$', new ItemStack(ICBM.blockJi1Qi4, 1, 4)});
 		//Missile Launcher Frame
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 6), new Object [] {"! !", "!!!", "! !", '!', "ingotBronze"});
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 7), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelIngot, '@', new ItemStack(ICBM.blockMachine, 1, 6)});
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 8), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelPlate, '@', new ItemStack(ICBM.blockMachine, 1, 7)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 6), new Object [] {"! !", "!!!", "! !", '!', "ingotBronze"});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 7), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelIngot, '@', new ItemStack(ICBM.blockJi1Qi4, 1, 6)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 8), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelPlate, '@', new ItemStack(ICBM.blockJi1Qi4, 1, 7)});
 		//Radar Station
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ICBM.itemRadarGun, '!', BasicComponents.itemSteelIngot, '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ICBM.itemLEiDaQiang, '!', BasicComponents.itemSteelIngot, '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
 		//EMP Tower
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.blockBatteryBox, '#', BasicComponents.itemMotor});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.blockBatteryBox, '#', BasicComponents.itemMotor});
 		//Railgun
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 11), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemRadarGun, '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 11), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemLEiDaQiang, '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Cruise Launcher
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockMachine, 1, 12), new Object [] {"?! ", "@@@", '@', BasicComponents.itemSteelPlate, '!', new ItemStack(ICBM.blockMachine, 1, 2), '?', new ItemStack(ICBM.blockMachine, 1, 8)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 12), new Object [] {"?! ", "@@@", '@', BasicComponents.itemSteelPlate, '!', new ItemStack(ICBM.blockJi1Qi4, 1, 2), '?', new ItemStack(ICBM.blockJi1Qi4, 1, 8)});
 		//Glass Pressure Plate
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockGlassPressurePlate, 1, 0), new Object [] {"##", '#', Block.glass});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockBuo1Li4Pan2, 1, 0), new Object [] {"##", '#', Block.glass});
 		    
 		//Missiles
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 0), new Object [] {" @ ", "@#@", "@?@", '@', "ingotSteel", '?', BasicComponents.itemOilBucket, '#', BasicComponents.itemCircuit});
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 1), new Object [] {"!", "?", "@", '@', new ItemStack(ICBM.itemSpecialMissile, 1, 0), '?', new ItemStack(ICBM.blockExplosive, 1, 0), '!', BasicComponents.itemCircuit});
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemSpecialMissile, 1, 2), new Object [] {" ! ", " ? ", "!@!", '@', new ItemStack(ICBM.itemSpecialMissile, 1, 0), '?', Missile.list[Explosive.Fragmentation.getID()].getItemStack(), '!', new ItemStack(ICBM.itemMissile, 1, 0)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new Object [] {" @ ", "@#@", "@?@", '@', "ingotSteel", '?', BasicComponents.itemOilBucket, '#', BasicComponents.itemCircuit});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 1), new Object [] {"!", "?", "@", '@', new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), '?', new ItemStack(ICBM.blockZha4Dan4, 1, 0), '!', BasicComponents.itemCircuit});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 2), new Object [] {" ! ", " ? ", "!@!", '@', new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.Fragmentation.getID()].getItemStack(), '!', new ItemStack(ICBM.itemDaoDan, 1, 0)});
 		
-		for(int i = 0; i < Explosive.MAX_EXPLOSIVE_ID; i++)
+		for(int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
 		{
-			if(!Explosive.list[i].isDisabled)
+			if(!ZhaPin.list[i].isDisabled)
 			{
-				Explosive.list[i].addCraftingRecipe();
+				ZhaPin.list[i].addCraftingRecipe();
 				
 		    	//Missile
-				RecipeManager.addShapelessRecipe(new ItemStack(ICBM.itemMissile, 1, i), new Object [] {new ItemStack(ICBM.itemSpecialMissile, 1, 0), new ItemStack(ICBM.blockExplosive, 1, i)});        
+				RecipeManager.addShapelessRecipe(new ItemStack(ICBM.itemDaoDan, 1, i), new Object [] {new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new ItemStack(ICBM.blockZha4Dan4, 1, i)});        
 		
 				if(i < 4)
 				{
 					//Grenade
-				    RecipeManager.addRecipe(new ItemStack(ICBM.itemGrenade, 1, i), new Object [] {"?", "@", "@", '@', new ItemStack(ICBM.blockExplosive, 1, i), '?', Item.silk});
+				    RecipeManager.addRecipe(new ItemStack(ICBM.itemShouLiuDan, 1, i), new Object [] {"?", "@", "@", '@', new ItemStack(ICBM.blockZha4Dan4, 1, i), '?', Item.silk});
 		        }
 			}
 		}
 		
-		GameRegistry.registerTileEntity(TileEntityExplosive.class, "ICBMExplosive");
-		GameRegistry.registerTileEntity(TileEntityDetector.class, "ICBMDetector");
-		GameRegistry.registerTileEntity(TileEntityInvisibleBlock.class, "ICBMTileEntityInvisibleBlock");
+		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMExplosive");
+		GameRegistry.registerTileEntity(TYinGanQi.class, "ICBMDetector");
+		GameRegistry.registerTileEntity(TYinXing.class, "ICBMTileEntityInvisibleBlock");
 		
-		EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityProceduralExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EZhaDan.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EDaoDan.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EZhaPin.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EntityGravityBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityLightBeam.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityFragment.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityRailgun.class, "ICBMRailgun", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EGuang.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(ESuiPian.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EShouLiuDan.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(ECiGuiPao.class, "ICBMRailgun", EntityRegistry.findGlobalUniqueEntityId());
 		
-		EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
-		EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 2, true);
-		EntityRegistry.registerModEntity(EntityProceduralExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX+2, this, 100, 5, true);
+		EntityRegistry.registerModEntity(EZhaDan.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EDaoDan.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 2, true);
+		EntityRegistry.registerModEntity(EZhaPin.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX+2, this, 100, 5, true);
 		EntityRegistry.registerModEntity(EntityGravityBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX+3, this, 50, 15, true);
-		EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX+4, this, 80, 5, true);
-		EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", ENTITY_ID_PREFIX+5, this, 40, 8, true);
-		EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX+6, this, 50, 5, true);
-		EntityRegistry.registerModEntity(EntityRailgun.class, "ICBMRailgun", ENTITY_ID_PREFIX+7, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EGuang.class, "ICBMLightBeam", ENTITY_ID_PREFIX+4, this, 80, 5, true);
+		EntityRegistry.registerModEntity(ESuiPian.class, "ICBMFragment", ENTITY_ID_PREFIX+5, this, 40, 8, true);
+		EntityRegistry.registerModEntity(EShouLiuDan.class, "ICBMGrenade", ENTITY_ID_PREFIX+6, this, 50, 5, true);
+		EntityRegistry.registerModEntity(ECiGuiPao.class, "ICBMRailgun", ENTITY_ID_PREFIX+7, this, 50, 5, true);
 		
   	    //Register potion effects
   	    ICBMPotion.init();
@@ -351,7 +361,7 @@ public class ICBM implements IWorldGenerator
 		{
             if(sulfurGenData.shouldGenerate && sulfurGenData.generateSurface)
             {
-            	WorldGenSulfur worldGenSulfur = new WorldGenSulfur(sulfurGenData.oreStack, sulfurGenData.amountPerBranch);
+            	GenLiu genLiu = new GenLiu(sulfurGenData.oreStack, sulfurGenData.amountPerBranch);
 
             	for(int y = sulfurGenData.minGenerateLevel; y < sulfurGenData.maxGenerateLevel; y ++)
             	{
@@ -359,10 +369,7 @@ public class ICBM implements IWorldGenerator
             		{
             			for(int z = 0; z < 16; z ++)
             			{
-            				if(rand.nextFloat() > 0.6)
-            				{
-            					worldGenSulfur.generate(world, rand, x, y, z);
-            				}
+            				genLiu.generate(world, rand, chunkX + x, y, chunkZ + z);
             			}
             		}    
             	}
