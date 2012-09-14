@@ -15,7 +15,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public class ItGenZongQi extends ItemElectric
 {
-	private static final int YONG_DIAN_LIANG = 100;
+	private static final float YONG_DIAN_LIANG = 0.08f;
 
     public ItGenZongQi(String name, int id, int iconIndex)
     {
@@ -68,6 +68,30 @@ public class ItGenZongQi extends ItemElectric
     	setTrackingEntity(par1ItemStack, par3EntityPlayer);
     }
     
+    @Override
+    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+    {
+    	super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+    	
+    	if(par3Entity instanceof EntityPlayer)
+    	{
+    		EntityPlayer player = (EntityPlayer)par3Entity;
+    		
+    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
+    		{
+    			if(getTrackingEntity(par1ItemStack) != null)
+    			{
+    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+    				
+    				if(this.getWattHoursStored(par1ItemStack) < YONG_DIAN_LIANG)
+    				{
+    					this.setTrackingEntity(par1ItemStack, null);
+    				}
+    			}
+    		}
+    	}
+    }
+    
     /**
      * Called when the player Left Clicks (attacks) an entity.
      * Processed before damage is done, if return value is true further processing is canceled
@@ -86,7 +110,6 @@ public class ItGenZongQi extends ItemElectric
 	    	{
 	    		setTrackingEntity(itemStack, entity);
 	            player.addChatMessage("Now tracking: "+entity.getEntityName());
-	    		this.onUseElectricity(YONG_DIAN_LIANG, itemStack);
 	    		return true;
 	    	}
 	    	else
@@ -107,7 +130,7 @@ public class ItGenZongQi extends ItemElectric
     @Override
 	public float getElectricityCapacity() 
 	{
-		return 2000;
+		return 2500;
 	}
 
 	@Override
@@ -119,6 +142,6 @@ public class ItGenZongQi extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return "/gui/items.png";
+		return ICBM.TRACKER_TEXTURE_FILE;
 	}
 }

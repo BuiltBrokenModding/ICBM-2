@@ -61,93 +61,95 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{
+		List<Vector3> blocksToBreak = new ArrayList<Vector3>();
 		
-			List<Vector3> blocksToBreak = new ArrayList<Vector3>();
-			
-			EZhaPin source = (EZhaPin)explosionSource;
-		
-			for(int i = callCount; i < callCount+CALL_COUNT; i ++)
+		EZhaPin source = (EZhaPin)explosionSource;
+	
+		for(int i = callCount; i < callCount+CALL_COUNT; i ++)
+		{
+			if(i >= source.dataList.size())
 			{
-				if(i >= source.dataList.size())
-				{
-					return false;
-				}
-				
-				Vector3 corner = (Vector3)source.dataList.get(i);
-				
-				float power = NENG_LIANG - (NENG_LIANG*worldObj.rand.nextFloat()/2);
-				
-				double xStep = (double)((float)corner.intX() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
-	            double yStep = (double)((float)corner.intY() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
-	            double zStep = (double)((float)corner.intZ() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
-	            double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
-	            xStep /= diagonalDistance;
-	            yStep /= diagonalDistance;
-	            zStep /= diagonalDistance;
-	            
-	            Vector3 targetPosition = position.copy();
-				
-				for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
-				{
-					int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-					
-					if(blockID > 0)
-					{
-						float resistance = 0;
-						
-						if(blockID == Block.bedrock.blockID)
-						{
-							break;
-						}
-						else if(Block.blocksList[blockID] instanceof BlockFluid)
-						{
-							resistance = 2;
-						}
-						else if(blockID == Block.obsidian.blockID)
-						{
-							resistance = 80;
-						}
-						else
-						{
-							resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
-						}
-						
-						power -= resistance;
-						
-						if(power > 0f)
-						{						
-							if(!blocksToBreak.contains(targetPosition))
-							{
-								blocksToBreak.add(targetPosition.copy());
-							}
-						}
-					}
-
-					if(targetPosition.distanceTo(position) > BAN_JING+10) break;
-					
-					targetPosition.x += xStep * (double)var21;
-					targetPosition.y += yStep * (double)var21;
-					targetPosition.z += zStep * (double)var21;
-				}
+				return false;
 			}
 			
-			for(Vector3 targetPosition : blocksToBreak)
+			Vector3 corner = (Vector3)source.dataList.get(i);
+			
+			float power = NENG_LIANG - (NENG_LIANG*worldObj.rand.nextFloat()/2);
+			
+			double xStep = (double)((float)corner.intX() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
+            double yStep = (double)((float)corner.intY() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
+            double zStep = (double)((float)corner.intZ() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
+            double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
+            xStep /= diagonalDistance;
+            yStep /= diagonalDistance;
+            zStep /= diagonalDistance;
+            
+            Vector3 targetPosition = position.copy();
+			
+			for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
 			{
 				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 				
 				if(blockID > 0)
 				{
-					worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
-		            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+					float resistance = 0;
 					
-					if(worldObj.rand.nextFloat() > 0.9)
+					if(blockID == Block.bedrock.blockID)
+					{
+						break;
+					}
+					else if(Block.blocksList[blockID] instanceof BlockFluid)
+					{
+						resistance = 2;
+					}
+					else if(blockID == Block.obsidian.blockID)
+					{
+						resistance = 80;
+					}
+					else
+					{
+						resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
+					}
+					
+					power -= resistance;
+					
+					if(power > 0f)
+					{						
+						if(!blocksToBreak.contains(targetPosition))
+						{
+							blocksToBreak.add(targetPosition.copy());
+						}
+					}
+				}
+
+				if(targetPosition.distanceTo(position) > BAN_JING+10) break;
+				
+				targetPosition.x += xStep * (double)var21;
+				targetPosition.y += yStep * (double)var21;
+				targetPosition.z += zStep * (double)var21;
+			}
+		}
+		
+		for(Vector3 targetPosition : blocksToBreak)
+		{
+			int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+			
+			if(blockID > 0)
+			{
+				worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+	            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				
+	            if(worldObj.isRemote)
+	            {
+					if(worldObj.rand.nextFloat() > 0.2)
 					{
 						worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0.0D, 0.0D, 0.0D);
 					}
-				}
+		            }
 			}
-			
-			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		}
+		
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		
 		
 		return true;
@@ -166,8 +168,8 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		ZhaPin.DecayLand.doExplosion(worldObj, position, null, BAN_JING, -1);
-		ZhaPin.Mutation.doExplosion(worldObj, position, null, BAN_JING, -1);
+		ZhaPin.DecayLand.doExplosion(worldObj, position, null, BAN_JING+5, -1);
+		ZhaPin.Mutation.doExplosion(worldObj, position, null, BAN_JING+5, -1);
 	}
 
 	/**

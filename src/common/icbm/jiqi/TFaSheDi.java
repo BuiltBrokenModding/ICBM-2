@@ -443,35 +443,35 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		if(this.orientation == 3 || this.orientation == 2)
 		{		
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+2, position.intZ())).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+2, position.intZ())).setMainBlock(position);
 		}
 		else
 		{
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()+1)).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, ICBM.blockYin3Xing2.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, ICBM.blockYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()-1)).setMainBlock(position);
 		}
 	}

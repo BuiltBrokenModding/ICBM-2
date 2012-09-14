@@ -47,11 +47,11 @@ public class EDu extends ZhaPin
         {
         	if(isContagious)
         	{
-        		ICBM.yi2Chuan2Du2.poisonEntity(entity);
+        		ICBM.DU_YI_CHUAN.poisonEntity(entity);
         	}
         	else
         	{
-        		ICBM.du2.poisonEntity(entity);
+        		ICBM.DU_DU.poisonEntity(entity);
         	}
         }
         

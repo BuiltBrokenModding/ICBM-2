@@ -94,7 +94,7 @@ public class ICBMPotion extends Potion
                     nearestEntity.setDead();
                 }
         		
-		        ICBM.yi2Chuan2Du2.poisonEntity(nearestEntity);
+		        ICBM.DU_YI_CHUAN.poisonEntity(nearestEntity);
         	}
         }
         else if (this.id == frostBite.id)

@@ -27,115 +27,121 @@ public class ExTaiYang extends ZhaPin
 	 */
 	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		EGuang lightBeam = new EGuang(worldObj, position, 20*20, 0.7F, 0.3F, 0F);
-		worldObj.spawnEntityInWorld(lightBeam);
-		((EZhaPin)explosionSource).entityList.add(0, lightBeam);
-		worldObj.createExplosion(null, position.x, position.y, position.z, 4F);
+		if(!worldObj.isRemote)
+		{
+			EGuang lightBeam = new EGuang(worldObj, position, 20*20, 0.7F, 0.3F, 0F);
+			worldObj.spawnEntityInWorld(lightBeam);
+			((EZhaPin)explosionSource).entityList.add(0, lightBeam);
+			worldObj.createExplosion(null, position.x, position.y, position.z, 4F);
+		}
 	}
 	
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
-	{		
-		List<Entity> gravityBlocks = new ArrayList();
-		
-		int radius = this.radius;
-		
-		if(explosionSource instanceof EShouLiuDan)
+	{	
+		if(!worldObj.isRemote)
 		{
-			radius /= 2;
-		}
-		
-		if(this.canFocusBeam(worldObj, position))
-		{
-			Vector3 currentPos;
-			int blockID;
-			int metadata;
-			double dist;
+			List<Entity> gravityBlocks = new ArrayList();
 			
-			int r = (int)radius;
+			int radius = this.radius;
 			
-			for(int x = -r; x < r; x++)
+			if(explosionSource instanceof EShouLiuDan)
 			{
-				for(int y = -r; y < r; y++)
+				radius /= 2;
+			}
+			
+			if(this.canFocusBeam(worldObj, position))
+			{
+				Vector3 currentPos;
+				int blockID;
+				int metadata;
+				double dist;
+				
+				int r = (int)radius;
+				
+				for(int x = -r; x < r; x++)
 				{
-					for(int z = -r; z < r; z++)
+					for(int y = -r; y < r; y++)
 					{
-						dist = MathHelper.sqrt_double((x*x + y*y + z*z));
-	
-						if(dist > r || dist < r-3) continue;
-						currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
-						blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-						
-						if(blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID) continue;
-						
-						metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-						
-						if(worldObj.rand.nextInt(3) > 0)
+						for(int z = -r; z < r; z++)
 						{
-							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+							dist = MathHelper.sqrt_double((x*x + y*y + z*z));
+		
+							if(dist > r || dist < r-3) continue;
+							currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
+							blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 							
-							currentPos.add(0.5D);
-							EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata);
-							worldObj.spawnEntityInWorld(entity);
-							gravityBlocks.add(entity);
-							entity.pitchChange = 50*worldObj.rand.nextFloat();
+							if(blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID) continue;
+							
+							metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+							
+							if(worldObj.rand.nextInt(3) > 0)
+							{
+								worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+								
+								currentPos.add(0.5D);
+								EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata);
+								worldObj.spawnEntityInWorld(entity);
+								gravityBlocks.add(entity);
+								entity.pitchChange = 50*worldObj.rand.nextFloat();
+							}
 						}
 					}
 				}
-			}
-		
-			((EZhaPin)explosionSource).entityList.addAll(gravityBlocks);
 			
-			gravityBlocks = ((EZhaPin)explosionSource).entityList;
-			
-			for(Entity unspecifiedEntity : gravityBlocks)
-			{
-				if(unspecifiedEntity instanceof EntityGravityBlock)
+				((EZhaPin)explosionSource).entityList.addAll(gravityBlocks);
+				
+				gravityBlocks = ((EZhaPin)explosionSource).entityList;
+				
+				for(Entity unspecifiedEntity : gravityBlocks)
 				{
-					EntityGravityBlock entity = (EntityGravityBlock)unspecifiedEntity;
-					double xDifference = entity.posX - position.x;
-		        	double zDifference = entity.posZ - position.z;
-		        	
-		        	r = (int)radius;
-		        	if(xDifference < 0) r = (int)-radius;
-		        	
-		        	if(xDifference > 4)
-		        	{
-		            	entity.motionX += (r - xDifference) * -0.02*worldObj.rand.nextFloat();
-		        	}
-		        	
-		        	if(entity.posY < position.y + 15)
-		        	{
-		                entity.motionY += 0.5+	0.6*worldObj.rand.nextFloat();
-		                
-		                if(entity.posY < position.y + 3)
-		                {
-		                	entity.motionY += 1.5;
-		                }
-		        	}
-		            
-		            r = (int)radius;
-		            if(zDifference < 0) r = (int)-radius;
-		            
-		            if(zDifference > 4)
-		            {
-		                entity.motionZ += (r - zDifference) * -0.02*worldObj.rand.nextFloat();
-		            }
-		            
-		            entity.yawChange += 3*worldObj.rand.nextFloat();
+					if(unspecifiedEntity instanceof EntityGravityBlock)
+					{
+						EntityGravityBlock entity = (EntityGravityBlock)unspecifiedEntity;
+						double xDifference = entity.posX - position.x;
+			        	double zDifference = entity.posZ - position.z;
+			        	
+			        	r = (int)radius;
+			        	if(xDifference < 0) r = (int)-radius;
+			        	
+			        	if(xDifference > 4)
+			        	{
+			            	entity.motionX += (r - xDifference) * -0.02*worldObj.rand.nextFloat();
+			        	}
+			        	
+			        	if(entity.posY < position.y + 15)
+			        	{
+			                entity.motionY += 0.5+	0.6*worldObj.rand.nextFloat();
+			                
+			                if(entity.posY < position.y + 3)
+			                {
+			                	entity.motionY += 1.5;
+			                }
+			        	}
+			            
+			            r = (int)radius;
+			            if(zDifference < 0) r = (int)-radius;
+			            
+			            if(zDifference > 4)
+			            {
+			                entity.motionZ += (r - zDifference) * -0.02*worldObj.rand.nextFloat();
+			            }
+			            
+			            entity.yawChange += 3*worldObj.rand.nextFloat();
+					}
 				}
 			}
-		}
-		else
-		{
-			return false;
-		}
+			else
+			{
+				return false;
+			}
+			
+			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.beamcharging", 4.0F, 0.8F);
 		
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.beamcharging", 4.0F, 0.8F);
-	
-		if(callCount > 35)
-		{
-			return false;
+			if(callCount > 35)
+			{
+				return false;
+			}
 		}
 		
 		return true;

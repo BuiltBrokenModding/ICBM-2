@@ -113,9 +113,9 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ICBM.blockYin3Xing2.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
 		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ(), ICBM.blockYin3Xing2.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ(), ICBM.blockYinXing.blockID);
 		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ())).setMainBlock(position);
 	}
 

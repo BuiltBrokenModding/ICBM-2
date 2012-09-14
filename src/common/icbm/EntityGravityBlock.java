@@ -82,7 +82,7 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
     
     public void onUpdate()
     {
-        if(this.posY > 400 || this.blockID == 0 || this.blockID == ICBM.blockYin3Xing2.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+        if(this.posY > 400 || this.blockID == 0 || this.blockID == ICBM.blockYinXing.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
         {
             this.setDead();
             return;

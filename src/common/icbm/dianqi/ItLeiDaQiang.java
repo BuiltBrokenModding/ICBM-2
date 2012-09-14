@@ -91,7 +91,7 @@ public class ItLeiDaQiang extends ItemElectric
     	int blockId = par3World.getBlockId(x, y, z);
     	int blockMetadata = par3World.getBlockMetadata(x, y, z);
     	
-    	if(blockId == ICBM.blockJi1Qi4.blockID)
+    	if(blockId == ICBM.blockJiQi.blockID)
         {
    		 	TileEntity tileEntity = par3World.getBlockTileEntity(x, y, z);
 

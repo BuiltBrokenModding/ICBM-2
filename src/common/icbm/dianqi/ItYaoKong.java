@@ -58,7 +58,7 @@ public class ItYaoKong extends ItemElectric
 		    	int blockID = par2World.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    	int blockMetadata = par2World.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    	
-		    	if(blockID == ICBM.blockJi1Qi4.blockID)
+		    	if(blockID == ICBM.blockJiQi.blockID)
 		        {
 		        	return par1ItemStack;
 		        }

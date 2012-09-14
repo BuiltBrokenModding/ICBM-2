@@ -7,10 +7,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.RenderEngine;
 import cpw.mods.fml.client.FMLTextureFX;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
@@ -39,9 +42,10 @@ public class TGenZhongQiFX extends FMLTextureFX
     {
         super.setup();
         trackerIconImageData = new int[tileSizeSquare];
+        
         try
         {
-            BufferedImage bufferedImage = ImageIO.read(mc.texturePackList.getSelectedTexturePack().getResourceAsStream("/gui/items.png"));
+            BufferedImage bufferedImage = ImageIO.read(mc.texturePackList.getSelectedTexturePack().getResourceAsStream(ICBM.TRACKER_TEXTURE_FILE));
             int xCoord = this.iconIndex % this.tileSizeBase * tileSizeBase;
             int yCoord = this.iconIndex / this.tileSizeBase * tileSizeBase;
             bufferedImage.getRGB(xCoord, yCoord, this.tileSizeBase, this.tileSizeBase, this.trackerIconImageData, 0, tileSizeBase);
@@ -50,6 +54,12 @@ public class TGenZhongQiFX extends FMLTextureFX
         {
             var5.printStackTrace();
         }
+    }
+    
+    @Override
+    public void bindImage(RenderEngine par1RenderEngine)
+    {
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1RenderEngine.getTexture(ICBM.TRACKER_TEXTURE_FILE));
     }
 
     public void onTick()
@@ -81,11 +91,10 @@ public class TGenZhongQiFX extends FMLTextureFX
 
         if (this.mc.theWorld != null && this.mc.thePlayer != null)
         {
-            ChunkCoordinates var21 = this.mc.theWorld.getSpawnPoint();
-            double xDifference = (double)var21.posX - this.mc.thePlayer.posX;
-            double zDifference = (double)var21.posZ - this.mc.thePlayer.posZ;
+            double xDifference = 0;
+            double zDifference = 0;
             
-            if(this.mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
+            if(this.mc.thePlayer.getCurrentEquippedItem().itemID == ICBM.itemGenZongQi.shiftedIndex)
             {
             	ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
             	
@@ -96,6 +105,14 @@ public class TGenZhongQiFX extends FMLTextureFX
                 	xDifference = (double)trackingEntity.posX - this.mc.thePlayer.posX;
                     zDifference = (double)trackingEntity.posZ - this.mc.thePlayer.posZ;
                 }
+                else
+                {
+                	return;
+                }
+            }
+            else
+            {
+            	return;
             }
             
             var20 = (double)(this.mc.thePlayer.rotationYaw - 90.0F) * Math.PI / 180.0D - Math.atan2(zDifference, xDifference);

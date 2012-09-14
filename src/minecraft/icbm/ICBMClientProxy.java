@@ -1,6 +1,14 @@
 package icbm;
 
 import icbm.daodan.EDaoDan;
+import icbm.gui.GCiGuiPao;
+import icbm.gui.GEMPTower;
+import icbm.gui.GFaSheDi;
+import icbm.gui.GFaSheShiMuo;
+import icbm.gui.GFrequency;
+import icbm.gui.GXiaoFaSheQi;
+import icbm.gui.GLeiDaTai;
+import icbm.gui.GYinGanQi;
 import icbm.jiqi.ECiGuiPao;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TYinGanQi;
@@ -10,6 +18,21 @@ import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDa;
 import icbm.jiqi.TCiGuiPao;
+import icbm.renders.RenderCruiseLauncher;
+import icbm.renders.RenderEMPTower;
+import icbm.renders.RenderExplosive;
+import icbm.renders.RenderFragment;
+import icbm.renders.RenderGravityBlock;
+import icbm.renders.RenderGrenade;
+import icbm.renders.RenderInvisible;
+import icbm.renders.RenderLauncherBase;
+import icbm.renders.RenderLauncherFrame;
+import icbm.renders.RenderLauncherScreen;
+import icbm.renders.RenderLightBeam;
+import icbm.renders.RenderMissile;
+import icbm.renders.RenderProceduralExplosion;
+import icbm.renders.RenderRadarStation;
+import icbm.renders.RenderRailgun;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
@@ -35,6 +58,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
 	{
 		MinecraftForgeClient.preloadTexture(ICBM.ITEM_TEXTURE_FILE);
 		MinecraftForgeClient.preloadTexture(ICBM.BLOCK_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ICBM.TRACKER_TEXTURE_FILE);
 		
 		MinecraftForge.EVENT_BUS.register(ICBMSound.INSTANCE);
 	}
@@ -75,8 +99,8 @@ public class ICBMClientProxy extends ICBMCommonProxy
 				case ICBMCommonProxy.GUI_RAIL_GUN: return new GCiGuiPao((TCiGuiPao)tileEntity, entityPlayer);
 				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi)tileEntity);
 				case ICBMCommonProxy.GUI_LAUNCHER_SCREEN: return new GFaSheShiMuo(((TFaSheShiMuo)tileEntity));
-				case ICBMCommonProxy.GUI_RADAR_STATION: return new GuiLeiDaTai(((TLeiDa)tileEntity));
-				case ICBMCommonProxy.GUI_DETECTOR: return new GuiYinGanQi((TYinGanQi) tileEntity);
+				case ICBMCommonProxy.GUI_RADAR_STATION: return new GLeiDaTai(((TLeiDa)tileEntity));
+				case ICBMCommonProxy.GUI_DETECTOR: return new GYinGanQi((TYinGanQi) tileEntity);
 				case ICBMCommonProxy.GUI_FREQUENCY: return new GFrequency(entityPlayer.inventory.getCurrentItem());
 				case ICBMCommonProxy.GUI_EMP_TOWER: return new GEMPTower((TDianCiQi) tileEntity);
 				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);

@@ -45,7 +45,7 @@ public class ExDecayLand extends ZhaPin
                     {
 	     	           if(worldObj.rand.nextFloat() > 0.8)
 	     	           {
-	     	        	   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockFu3She4.blockID);
+	     	        	   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockFuShe.blockID);
 	     	           }
                     }
          		   	
@@ -53,7 +53,7 @@ public class ExDecayLand extends ZhaPin
                     {
                     	if(worldObj.rand.nextFloat() > 0.96)
                     	{
-                    		worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockFu3She4.blockID);
+                    		worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockFuShe.blockID);
                     	}
                     }
                     

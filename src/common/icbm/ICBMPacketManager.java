@@ -59,7 +59,7 @@ public class ICBMPacketManager extends PacketManager
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				Vector3 position = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 
-				((ItLeiShiZhiBiao)ICBM.itemLeiShiZhiBiao).setLauncherCountDown(itemStack, 119);
+				((ItLeiShiZhiBiao)ICBM.itemLeiSheZhiBiao).setLauncherCountDown(itemStack, 119);
 	    		
 				player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), "icbm.airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	    		

@@ -44,9 +44,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
         this.callCounter = 0;
         this.explosiveID = explosionID;
         this.ticksExisted = 0;
-        this.setPosition(position.x, position.y, position.z);      
-        
-        ZhaPin.list[this.explosiveID].preExplosion(par1World, position, this);
+        this.setPosition(position.x, position.y, position.z); 
     }
     
     public EZhaPin(World par1World, Vector3 position, int explosionID, int metadata)
@@ -97,6 +95,11 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
     @Override
 	public void onUpdate()
     {
+    	if(this.ticksExisted == 0)
+    	{
+            ZhaPin.list[this.explosiveID].preExplosion(this.worldObj, Vector3.get(this), this);
+    	}
+    	
 		if(this.tickCallCounter >= ZhaPin.list[this.explosiveID].proceduralInterval(this.worldObj, this.callCounter))
 		{
     		if(!endExplosion && ZhaPin.list[this.explosiveID].doExplosion(worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.metadata, this.callCounter))

@@ -251,7 +251,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 		    	int blockMetadata = par2World.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    
 		    	 //Prevents calling air strike if the user is trying to set the frequency of the remote.
-		        if(blockId == ICBM.blockJi1Qi4.blockID)
+		        if(blockId == ICBM.blockJiQi.blockID)
 		        {
 		        	return par1ItemStack;
 		        }

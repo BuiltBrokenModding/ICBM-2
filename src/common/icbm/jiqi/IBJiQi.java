@@ -25,7 +25,7 @@ public class IBJiQi extends ItemBlock
     	"Railgun",
     	"Cruise Launcher"};
     
-    private static final int spawnID = ICBM.blockJi1Qi4.blockID;
+    private static final int spawnID = ICBM.blockJiQi.blockID;
     
     public IBJiQi(int id)
     {

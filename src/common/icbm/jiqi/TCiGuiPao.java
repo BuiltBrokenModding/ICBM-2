@@ -8,6 +8,7 @@ import icbm.TYinXing;
 import icbm.extend.IMultiBlock;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ExHongSu;
+import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
@@ -43,7 +44,6 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 
 	private float rotationSpeed;
 	
-    //The electricity stored
     private float wattHoursStored = 0;
 
 	private boolean autoMode = false;
@@ -151,7 +151,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
     		{
     			this.gunChargingTicks += this.getTickInterval();
     			
-    			if(this.gunChargingTicks >= 70 && this.gunChargingTicks % 20 == 0)
+    			if(this.gunChargingTicks >= 70)
     			{
     				if(this.explosionDepth > 0)
     				{
@@ -173,8 +173,13 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 		        			        }
 	        					}
         			        
-	        			        if(this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID) this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
-	        			        this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true);
+	        			        if(this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID)
+	        			        {
+	        			        	this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
+	        			        }
+	        			        
+	        			        ZhaPin.createExplosion(worldObj, new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ), this.mountedPlayer, 0);
+	        			        //this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true);
         					}
         		        }
         				
@@ -338,7 +343,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ICBM.blockYin3Xing2.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
 		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
 	}
 	

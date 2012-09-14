@@ -30,6 +30,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
     private boolean inGround = false;
     public boolean doesArrowBelongToPlayer = false;
     public boolean isExplosive;
+    private boolean isExploding = false;
 
     /** Seems to be some sort of timer for animating an arrow. */
     public int arrowShake = 0;
@@ -128,8 +129,12 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 
     private void explode()
     {
-    	this.worldObj.createExplosion(this, this.xTile, this.yTile, this.zTile, 1.5F);
-        this.setDead();
+    	if(!this.isExploding && !this.worldObj.isRemote)
+    	{
+    		this.isExploding = true;
+	    	this.worldObj.createExplosion(this, this.xTile, this.yTile, this.zTile, 1.5F);
+	        this.setDead();
+    	}
     }
     
     /**
@@ -407,11 +412,13 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
      * Called by a player entity when they collide with an entity
      */
     @Override
-	public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
+    public void applyEntityCollision(Entity par1Entity)
     {
-        if (!this.worldObj.isRemote)
+    	super.applyEntityCollision(par1Entity);
+    	
+        if(this.isExplosive)
         {
-            if(this.isExplosive) explode();
+        	this.explode();
         }
     }
 

@@ -11,7 +11,7 @@ public class ParticleSpawner {
 	{
 		if(name == "smoke")
 		{
-			EntityICBMSmokeFX effect = new EntityICBMSmokeFX(world, position, red, green, blue, scale, distance);
+			SmokeFX effect = new SmokeFX(world, position, red, green, blue, scale, distance);
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(effect);
 		}
 	}

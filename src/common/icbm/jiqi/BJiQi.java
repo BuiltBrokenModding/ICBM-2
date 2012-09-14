@@ -206,7 +206,7 @@ public class BJiQi extends BlockMachine
     {
     	if(par5EntityPlayer.inventory.getCurrentItem() != null)
     	{
-        	if(par5EntityPlayer.inventory.getCurrentItem().itemID == ICBM.itemLeiShiZhiBiao.shiftedIndex)
+        	if(par5EntityPlayer.inventory.getCurrentItem().itemID == ICBM.itemLeiSheZhiBiao.shiftedIndex)
         	{
     			return false;
         	}
@@ -342,7 +342,7 @@ public class BJiQi extends BlockMachine
     		itemMetadata = 9+metadata-3;
     	}
     	
-    	EntityItem entityItem = new EntityItem(par1World, x, y, z, new ItemStack(ICBM.blockJi1Qi4, 1, itemMetadata));
+    	EntityItem entityItem = new EntityItem(par1World, x, y, z, new ItemStack(ICBM.blockJiQi, 1, itemMetadata));
 
     	float var13 = 0.05F;
         entityItem.motionX = ((float)random.nextGaussian() * var13);
@@ -425,6 +425,6 @@ public class BJiQi extends BlockMachine
     		itemMetadata = 9+metadata-3;
     	}
     	
-    	return new ItemStack(ICBM.blockJi1Qi4, 1, itemMetadata);
+    	return new ItemStack(ICBM.blockJiQi, 1, itemMetadata);
     }
 }
