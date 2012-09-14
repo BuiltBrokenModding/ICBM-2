@@ -22,6 +22,8 @@ LICENSE.txt
 /src/minecraft_server/*
 /src/common/*
 
+!/ICBM Backup/
+!/ICBM Builds/
 !/src/minecraft/icbm/
 !/src/common/icbm/
 !/src/minecraft/atomicscience/
