@@ -7,10 +7,10 @@ import java.util.List;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
+import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.Vector3;
-import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.recipe.RecipeManager;
 
 public class ExPiaoFu extends ZhaPin
@@ -117,6 +117,6 @@ public class ExPiaoFu extends ZhaPin
 	@Override
 	public void addCraftingRecipe()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@?@", "?!?", "@?@", '!', Block.tnt, '?', Block.music, '@', BasicComponents.itemBronzePlate});
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"EEE", "ETE", "EEE", 'T', Block.tnt, 'E', Item.eyeOfEnder});
 	}
 }

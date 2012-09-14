@@ -1,14 +1,18 @@
 package icbm.zhapin;
 
+import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.ChunkProviderServer;
 import net.minecraft.src.Entity;
 import net.minecraft.src.IChunkLoader;
+import net.minecraft.src.Item;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldServer;
 import universalelectricity.Vector3;
+import universalelectricity.basiccomponents.BasicComponents;
+import universalelectricity.recipe.RecipeManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
@@ -72,6 +76,6 @@ public class ExHuanYuan extends ZhaPin
 	@Override
 	public void addCraftingRecipe()
 	{
-        //RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@?@", "?!?", "@?@", '!', Block.tnt, '?', Block.music, '@', BasicComponents.itemBronzePlate});
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel});
 	}
 }

@@ -61,8 +61,7 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{
-		if(!worldObj.isRemote)
-		{
+		
 			List<Vector3> blocksToBreak = new ArrayList<Vector3>();
 			
 			EZhaPin source = (EZhaPin)explosionSource;
@@ -149,7 +148,7 @@ public class ExYuanZi extends ZhaPin
 			}
 			
 			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		}
+		
 		
 		return true;
 	}

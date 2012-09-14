@@ -31,6 +31,8 @@ LICENSE.txt
 !/resources/*
 !info.txt
 !mcmod.info
+!ICBM Builder.bat
+!Include Resources.bat
 
 !/README
 !ICBM_Builder.bat
