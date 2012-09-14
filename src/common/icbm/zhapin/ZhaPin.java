@@ -20,39 +20,39 @@ import universalelectricity.extend.ITier;
 
 public abstract class ZhaPin implements ITier
 {
-	public static final ZhaPin Condensed = new Condensed("Condensed", 0, 1);
-	public static final ZhaPin Shrapnel = new Fragmentation("Shrapnel", 1, 1);
-	public static final ZhaPin Incendiary = new Incendiary("Incendiary", 2, 1);
-	public static final ZhaPin Chemical = new Chemical("Chemical", 3, 1);
+	public static final ZhaPin Condensed = new ExYaSuo("Condensed", 0, 1);
+	public static final ZhaPin Shrapnel = new ExQunDan("Shrapnel", 1, 1);
+	public static final ZhaPin Incendiary = new ExHuo("Incendiary", 2, 1);
+	public static final ZhaPin Chemical = new EDu("Chemical", 3, 1);
 	
 	public static final int MAX_TIER_ONE = 4;
 	
-	public static final ZhaPin Fragmentation = new Fragmentation("Fragmentation", 4, 2);
-	public static final ZhaPin Contagious = new Chemical("Contagious", 5, 2);
-	public static final ZhaPin Sonic = new Sonic("Sonic", 6, 2);
-	public static final ZhaPin Breaching = new Breaching("Breaching", 7, 2);
-	public static final ZhaPin Rejuvenation = new Rejuvenation("Rejuvenation", 8, 2);
+	public static final ZhaPin Fragmentation = new ExQunDan("Fragmentation", 4, 2);
+	public static final ZhaPin Contagious = new EDu("Contagious", 5, 2);
+	public static final ZhaPin Sonic = new ExShengBuo("Sonic", 6, 2);
+	public static final ZhaPin Breaching = new ExTuPuoDan("Breaching", 7, 2);
+	public static final ZhaPin Rejuvenation = new ExHuanYuan("Rejuvenation", 8, 2);
 	
 	public static final int MAX_TIER_TWO = 9;
 	
-	public static final ZhaPin Nuclear = new Nuclear("Nuclear", 9, 3);
-	public static final ZhaPin EMP = new EMP("EMP", 10, 3);
-	public static final ZhaPin Conflagration = new Conflagration("Conflagration", 11, 3);
-	public static final ZhaPin Endothermic = new Endothermic("Endothermic", 12, 3);
-	public static final ZhaPin AntiGravity = new AntiGravity("Anti-Gravitational", 13, 3);
+	public static final ZhaPin Nuclear = new ExYuanZi("Nuclear", 9, 3);
+	public static final ZhaPin EMP = new ExDianCi("EMP", 10, 3);
+	public static final ZhaPin Conflagration = new ExTaiYang("Conflagration", 11, 3);
+	public static final ZhaPin Endothermic = new ExBingDan("Endothermic", 12, 3);
+	public static final ZhaPin AntiGravity = new ExPiaoFu("Anti-Gravitational", 13, 3);
 	
-	public static final ZhaPin Antimatter = new Antimatter("Antimatter", 14, 4);
-	public static final ZhaPin Redmatter = new Redmatter("Red Matter", 15, 4);
+	public static final ZhaPin Antimatter = new ExFanWuSu("Antimatter", 14, 4);
+	public static final ZhaPin Redmatter = new ExHongSu("Red Matter", 15, 4);
 
 	public static final int MAX_EXPLOSIVE_ID = 16;
 	
 	//Hidden Explosives
-	public static final ZhaPin EMPWave = new EMPWave("EMP", 20, 3);
-	public static final ZhaPin EMPSignal = new EMPSignal("EMP", 21, 3);
-	public static final ZhaPin ConflagrationFire = new Conflagration2("Conflagration", 22, 3);
-	public static final ZhaPin DecayLand = new DecayLand("Decay Land", 23, 3);
-	public static final ZhaPin Mutation = new Mutation("Mutation Living", 24, 3);
-	public static final ZhaPin EndothermicIce = new Endothermic2("Endothermic", 25, 3);
+	public static final ZhaPin EMPWave = new ExDianCiWave("EMP", 20, 3);
+	public static final ZhaPin EMPSignal = new ExDianCiSignal("EMP", 21, 3);
+	public static final ZhaPin ConflagrationFire = new ExTaiYang2("Conflagration", 22, 3);
+	public static final ZhaPin DecayLand = new ExDecayLand("Decay Land", 23, 3);
+	public static final ZhaPin Mutation = new ExBianZhong("Mutation Living", 24, 3);
+	public static final ZhaPin EndothermicIce = new ExBingDan2("Endothermic", 25, 3);
 	
 	public static ZhaPin[] list;
 	

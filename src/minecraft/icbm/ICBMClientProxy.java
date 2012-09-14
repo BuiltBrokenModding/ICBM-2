@@ -51,7 +51,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RenderGrenade());
         RenderingRegistry.registerEntityRenderingHandler(ECiGuiPao.class, new RenderInvisible());
         
-        //TextureFXManager.instance().addAnimation(new TextureTrackerFX(FMLClientHandler.instance().getClient()));
+        TextureFXManager.instance().addAnimation(new TGenZhongQiFX(FMLClientHandler.instance().getClient()));
         
         ClientRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun", new RenderRailgun());
         ClientRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher", new RenderCruiseLauncher());

@@ -7,7 +7,7 @@ import icbm.ParticleSpawner;
 import icbm.TYinXing;
 import icbm.extend.IMultiBlock;
 import icbm.zhapin.EZhaPin;
-import icbm.zhapin.Redmatter;
+import icbm.zhapin.ExHongSu;
 
 import java.util.List;
 
@@ -163,7 +163,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
         					{
 	        					if(isAntimatter)
 	        					{
-		        					int radius = Redmatter.MAX_RADIUS;
+		        					int radius = ExHongSu.MAX_RADIUS;
 		        					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
 		        			        List<EZhaPin> missilesNearby = worldObj.getEntitiesWithinAABB(EZhaPin.class, bounds);
 		

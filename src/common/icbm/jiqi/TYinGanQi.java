@@ -22,10 +22,10 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvider, IPacketReceiver
 {
-	public static final float electricityRequired = 10;
+	public static final float YAO_DIAN = 10;
 	
     //The electricity stored
-    public float electricityStored = 0;
+    public float dian = 0;
     
     public float prevElectricityStored = 0;
     
@@ -65,10 +65,10 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
 			
 			if(!this.isDisabled())
 	    	{
-	    		float rejectedElectricity = Math.max((this.electricityStored + watts) - this.electricityRequired, 0);
-	    		this.electricityStored = Math.max(this.electricityStored+watts - rejectedElectricity, 0);
+	    		float rejectedElectricity = Math.max((this.dian + watts) - this.YAO_DIAN, 0);
+	    		this.dian = Math.max(this.dian+watts - rejectedElectricity, 0);
 	
-	    		if(this.electricityStored >= this.electricityRequired)
+	    		if(this.dian >= this.YAO_DIAN)
 	    		{
 	    			boolean isDetectThisCheck = false;
 	    			
@@ -131,8 +131,8 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
 					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)1, this.prevElectricityStored, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
 				}
 	    		
-	    		this.prevElectricityStored = this.electricityStored;
-				this.electricityStored = 0;
+	    		this.prevElectricityStored = this.dian;
+				this.dian = 0;
 	    	}
 		}
     }
@@ -181,7 +181,7 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
 	@Override
 	public float ampRequest()
 	{
-		return this.electricityRequired-this.electricityStored;
+		return this.YAO_DIAN-this.dian;
 	}
 
 	@Override

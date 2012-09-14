@@ -15,12 +15,12 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public class ItGenZongQi extends ItemElectric
 {
-	private static final int ELECTRICITY_REQUIRED = 100;
+	private static final int YONG_DIAN_LIANG = 100;
 
-    public ItGenZongQi(String name, int id, int texture)
+    public ItGenZongQi(String name, int id, int iconIndex)
     {
         super(id);
-        this.setIconIndex(texture);
+        this.setIconIndex(iconIndex);
         this.setItemName(name);
     }
     
@@ -60,13 +60,6 @@ public class ItGenZongQi extends ItemElectric
     	
     	return null;
     }
-
-    
-    @Override
-	public String getTextureFile()
-    {
-        return ICBM.ITEM_TEXTURE_FILE;
-    }
     
     @Override
     public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) 
@@ -89,11 +82,11 @@ public class ItGenZongQi extends ItemElectric
     {
     	if(!player.worldObj.isRemote)
     	{
-	    	if(this.getWattHoursStored(itemStack) > ELECTRICITY_REQUIRED)
+	    	if(this.getWattHoursStored(itemStack) > YONG_DIAN_LIANG)
 	    	{
 	    		setTrackingEntity(itemStack, entity);
 	            player.addChatMessage("Now tracking: "+entity.getEntityName());
-	    		this.onUseElectricity(ELECTRICITY_REQUIRED, itemStack);
+	    		this.onUseElectricity(YONG_DIAN_LIANG, itemStack);
 	    		return true;
 	    	}
 	    	else
@@ -123,4 +116,9 @@ public class ItGenZongQi extends ItemElectric
 		return 25;
 	}
 
+	@Override
+	public String getTextureFile()
+	{
+		return "/gui/items.png";
+	}
 }

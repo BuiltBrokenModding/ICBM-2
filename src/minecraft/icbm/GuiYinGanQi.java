@@ -174,7 +174,7 @@ public class GuiYinGanQi extends ICBMGui
     	{
         	status = "Disabled";
     	}
-        else if(this.tileEntity.prevElectricityStored < this.tileEntity.electricityRequired)
+        else if(this.tileEntity.prevElectricityStored < this.tileEntity.YAO_DIAN)
     	{
     		status = "Insufficient electricity!";
     	}

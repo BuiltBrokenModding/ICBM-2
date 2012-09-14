@@ -4,14 +4,14 @@ import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTe4Bie2Dao3Dan4;
-import icbm.dianqi.ItJieJa;
-import icbm.dianqi.ItLeiShiZhiBiao;
-import icbm.dianqi.ItLeiDaQiang;
-import icbm.dianqi.ItYaoKong;
-import icbm.dianqi.ItHuoLuanQi;
 import icbm.dianqi.ItGenZongQi;
-import icbm.jiqi.BYinGanQi;
+import icbm.dianqi.ItHuoLuanQi;
+import icbm.dianqi.ItJieJa;
+import icbm.dianqi.ItLeiDaQiang;
+import icbm.dianqi.ItLeiShiZhiBiao;
+import icbm.dianqi.ItYaoKong;
 import icbm.jiqi.BJiQi;
+import icbm.jiqi.BYinGanQi;
 import icbm.jiqi.ECiGuiPao;
 import icbm.jiqi.IBJiQi;
 import icbm.jiqi.TYinGanQi;
@@ -44,8 +44,8 @@ import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.recipe.RecipeManager;
 import atomicscience.api.BlockRadioactive;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.IDispenseHandler;
 import cpw.mods.fml.common.IDispenserHandler;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Loader;
@@ -75,6 +75,7 @@ public class ICBM implements IWorldGenerator
 	public static final String TEXTURE_FILE_PATH = "/icbm/textures/";
     public static final String BLOCK_TEXTURE_FILE = TEXTURE_FILE_PATH + "blocks.png";
     public static final String ITEM_TEXTURE_FILE = TEXTURE_FILE_PATH + "items.png";
+    public static final String TRACKER_TEXTURE_FILE = TEXTURE_FILE_PATH + "tracker.png";
     
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
     
@@ -101,13 +102,13 @@ public class ICBM implements IWorldGenerator
 	public static final Item itemDaoDan = new ItDaoDan("Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Missile", itemIDprefix+2), 32);
 	public static final Item itemTeBieDaoDan = new ItTe4Bie2Dao3Dan4("Special Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
 	public static final Item itemJieJa = new ItJieJa("Defuser", UniversalElectricity.getItemConfigID(CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
-	public static final Item itemLEiDaQiang = new ItLeiDaQiang("Radar Gun", UniversalElectricity.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
+	public static final Item itemLeiDaQiang = new ItLeiDaQiang("Radar Gun", UniversalElectricity.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
 	public static final Item itemYaoKong = new ItYaoKong("Remote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Remote", itemIDprefix+6), 20);
 	public static final Item itemLeiShiZhiBiao = new ItLeiShiZhiBiao("Laser Designator", UniversalElectricity.getItemConfigID(CONFIGURATION, "Laser Designator", itemIDprefix+7), 22);
 	public static final Item itemShouLiuDan = new ItShouLiuDan("Grenade", UniversalElectricity.getItemConfigID(CONFIGURATION, "Grenade", itemIDprefix+8), 64);
 	public static final Item itemHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UniversalElectricity.getItemConfigID(CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
 	public static final Item itemZiDan = new ItZiDan("Bullet", UniversalElectricity.getItemConfigID(CONFIGURATION, "Bullet", itemIDprefix+10), 80);
-	public static final Item itemGenZongQi = new ItGenZongQi("Tracker", UniversalElectricity.getItemConfigID(CONFIGURATION, "Tracker", itemIDprefix+11), 18);
+	public static final Item itemGenZongQi = new ItGenZongQi("Tracker", UniversalElectricity.getItemConfigID(CONFIGURATION, "Tracker", itemIDprefix+11), RenderingRegistry.addTextureOverride("/gui/items.png", TRACKER_TEXTURE_FILE));
 
 	public static final Du du2 = new Du("Chemical", 1, false);
 	public static final Du yi2Chuan2Du2 = new Du("Contagious", 1, true);
@@ -129,12 +130,16 @@ public class ICBM implements IWorldGenerator
 	            @Override
 	            public int dispense(int x, int y, int z, int xVelocity, int zVelocity, World world, ItemStack item, Random random, double entX, double entY, double entZ)
 	            {
-	            	if(item.itemID == ICBM.itemShouLiuDan.shiftedIndex)
-	        		{
-	        			EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), item.getItemDamage());
-	        	        entity.setThrowableHeading(xVelocity, 0.10000000149011612D, zVelocity, 1.1F, 6.0F);
-	        	        world.spawnEntityInWorld(entity);
-	        		}
+	            	if(!world.isRemote)
+	            	{
+		            	if(item.itemID == ICBM.itemShouLiuDan.shiftedIndex)
+		        		{
+		        			EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), item.getItemDamage());
+		        	        entity.setThrowableHeading(xVelocity, 0.10000000149011612D, zVelocity, 1.1F, 6.0F);
+		        	        world.spawnEntityInWorld(entity);
+		        	        return 1;
+		        		}
+	            	}
 	        		
 	        		return -1;
 	            }
@@ -178,7 +183,7 @@ public class ICBM implements IWorldGenerator
 		LanguageRegistry.addName(itemLiu, "Sulfur Dust");
 		LanguageRegistry.addName(itemDu, "Poison Powder");
 		
-		LanguageRegistry.addName(ICBM.itemLEiDaQiang, "Radar Gun");
+		LanguageRegistry.addName(ICBM.itemLeiDaQiang, "Radar Gun");
 		LanguageRegistry.addName(ICBM.itemYaoKong, "Remote Detonator");
 		LanguageRegistry.addName(ICBM.itemLeiShiZhiBiao, "Laser Designator");
 		LanguageRegistry.addName(ICBM.itemJieJa, "Explosive Defuser");
@@ -249,11 +254,11 @@ public class ICBM implements IWorldGenerator
 		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itemLiu, '?', new ItemStack(Item.coal, 1, 1)});
 		
 		//Radar Gun
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemLEiDaQiang), new Object [] {"@#!", " $!", "  !", '@', Block.glass, '!', BasicComponents.itemSteelPlate, '#', BasicComponents.itemCircuit, '$', Block.button});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemLeiDaQiang), new Object [] {"@#!", " $!", "  !", '@', Block.glass, '!', BasicComponents.itemSteelPlate, '#', BasicComponents.itemCircuit, '$', Block.button});
 		//Remote
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemYaoKong), new Object [] {"?@@", "@#$", "@@@", '@', BasicComponents.itemSteelIngot, '?', Item.redstone, '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '$', Block.button});
 		//Laser Designator
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemLeiShiZhiBiao), new Object [] {"!  ", " ? ", "  @", '@', ICBM.itemYaoKong, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', ICBM.itemLEiDaQiang});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemLeiShiZhiBiao), new Object [] {"!  ", " ? ", "  @", '@', ICBM.itemYaoKong, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', ICBM.itemLeiDaQiang});
 		//Proximity Detector
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockYinGanQi), new Object [] {" ! ", "!?!", " ! ", '!', BasicComponents.itemSteelPlate, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Signal Disrupter
@@ -276,11 +281,11 @@ public class ICBM implements IWorldGenerator
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 7), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelIngot, '@', new ItemStack(ICBM.blockJi1Qi4, 1, 6)});
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 8), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelPlate, '@', new ItemStack(ICBM.blockJi1Qi4, 1, 7)});
 		//Radar Station
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ICBM.itemLEiDaQiang, '!', BasicComponents.itemSteelIngot, '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ICBM.itemLeiDaQiang, '!', BasicComponents.itemSteelIngot, '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
 		//EMP Tower
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.blockBatteryBox, '#', BasicComponents.itemMotor});
 		//Railgun
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 11), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemLEiDaQiang, '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 11), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemLeiDaQiang, '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Cruise Launcher
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJi1Qi4, 1, 12), new Object [] {"?! ", "@@@", '@', BasicComponents.itemSteelPlate, '!', new ItemStack(ICBM.blockJi1Qi4, 1, 2), '?', new ItemStack(ICBM.blockJi1Qi4, 1, 8)});
 		//Glass Pressure Plate

@@ -210,7 +210,7 @@ public class BJiQi extends BlockMachine
         	{
     			return false;
         	}
-    		else if(par5EntityPlayer.inventory.getCurrentItem().itemID == ICBM.itemLEiDaQiang.shiftedIndex)
+    		else if(par5EntityPlayer.inventory.getCurrentItem().itemID == ICBM.itemLeiDaQiang.shiftedIndex)
         	{
     			return false;
         	}
