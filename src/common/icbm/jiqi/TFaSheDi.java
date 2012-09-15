@@ -5,7 +5,7 @@ import icbm.ICBMCommonProxy;
 import icbm.TYinXing;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
-import icbm.daodan.ItTe4Bie2Dao3Dan4;
+import icbm.daodan.ItTeBieDaoDan;
 import icbm.extend.IMultiBlock;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
@@ -186,7 +186,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	            {
 	                int missileId = this.missileLauncherItemStacks[0].getItemDamage();
 	
-	                if(this.missileLauncherItemStacks[0].getItem() instanceof ItTe4Bie2Dao3Dan4 && missileId > 0)
+	                if(this.missileLauncherItemStacks[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
 	        		{
 	        			missileId+= 100;
 	        		}
@@ -215,7 +215,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	    		this.containingMissile = null;
 	    	}
 	    	
-			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 200, this.orientation, this.tier);
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, this.orientation, this.tier);
 		}
 	    
 	}
@@ -432,7 +432,18 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 
 	@Override
 	public boolean onActivated(EntityPlayer par5EntityPlayer)
-	{
+	{		
+		if(par5EntityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
+		{
+			if(par5EntityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
+			{
+				this.setInventorySlotContents(0, par5EntityPlayer.inventory.getCurrentItem());
+				//par5EntityPlayer.inventory.getCurrentItem().stackSize --;
+				par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, null);
+				return true;
+			}
+		}
+		
 		par5EntityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}

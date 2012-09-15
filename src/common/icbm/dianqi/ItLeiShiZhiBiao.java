@@ -275,7 +275,6 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 		    	        	{
 		    	        		 if(missileLauncher != null && missileLauncher.getFrequency() == airStrikeFreq)
 	                    		 {
-	                    			 //Preserve and not change the Y value of the missile launcher 
 		    	        			 if(missileLauncher instanceof TXiaoFaSheQi)
 		    	        			 {
 		    	        				 missileLauncher.target = new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
@@ -283,9 +282,16 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 		    	        			 }
 		    	        			 else
 		    	        			 {
-		    	        				 double previousY = missileLauncher.target.y;
-		    	        				 missileLauncher.target = new Vector3(objectMouseOver.blockX, missileLauncher.target.y, objectMouseOver.blockZ);
-				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.x, previousY, missileLauncher.target.z);
+		    	        				 
+		    	        				 double previousY = 0;
+		    	        				 
+		    	        				 if(missileLauncher.target != null)
+		    	        				 {
+		    	        					 previousY = missileLauncher.target.y;
+		    	        				 }
+		    	        				 
+		    	        				 missileLauncher.target = new Vector3(objectMouseOver.blockX, previousY, objectMouseOver.blockZ);
+				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.x, missileLauncher.target.y, missileLauncher.target.z);
 		    	        			 }
 
 	                    			 if(missileLauncher.canLaunch())

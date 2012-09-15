@@ -77,17 +77,20 @@ public class ItGenZongQi extends ItemElectric
     	{
     		EntityPlayer player = (EntityPlayer)par3Entity;
     		
-    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
+    		if(player.inventory.getCurrentItem() != null)
     		{
-    			if(getTrackingEntity(par1ItemStack) != null)
-    			{
-    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
-    				
-    				if(this.getWattHoursStored(par1ItemStack) < YONG_DIAN_LIANG)
-    				{
-    					this.setTrackingEntity(par1ItemStack, null);
-    				}
-    			}
+	    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
+	    		{
+	    			if(getTrackingEntity(par1ItemStack) != null)
+	    			{
+	    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+	    				
+	    				if(this.getWattHoursStored(par1ItemStack) < YONG_DIAN_LIANG)
+	    				{
+	    					this.setTrackingEntity(par1ItemStack, null);
+	    				}
+	    			}
+	    		}
     		}
     	}
     }

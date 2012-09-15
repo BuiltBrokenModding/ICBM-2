@@ -81,6 +81,11 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData
     @Override
     public String getEntityName()
     {
+    	if(this.missileID > 100)
+    	{
+        	return DaoDan.list[this.missileID].getMing();
+    	}
+    	
     	return ZhaPin.list[this.missileID].getDaoDanMing();
     }
     

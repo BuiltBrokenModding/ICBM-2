@@ -19,7 +19,7 @@ import universalelectricity.network.PacketManager;
 
 public class ItLeiDaQiang extends ItemElectric
 {
-	public static final int ELECTRICITY_REQUIRED = 120;
+	public static final int DIAN_REQUIRED = 120;
 	
     public ItLeiDaQiang(String name, int par1, int par2)
     {
@@ -64,7 +64,7 @@ public class ItLeiDaQiang extends ItemElectric
 	        	if(!(tileEntity instanceof TLauncher))
 	            {
 		        	//Check for electricity
-		            if(this.getWattHoursStored(par1ItemStack) > ELECTRICITY_REQUIRED)
+		            if(this.getWattHoursStored(par1ItemStack) > DIAN_REQUIRED)
 		        	{
 		            	ICBMPacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketManager.RADAR_GUN_PACKET, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		            	

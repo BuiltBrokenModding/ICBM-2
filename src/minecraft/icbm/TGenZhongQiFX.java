@@ -5,16 +5,15 @@ import icbm.dianqi.ItGenZongQi;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.RenderEngine;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.client.FMLTextureFX;
+import cpw.mods.fml.client.TextureFXManager;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 
@@ -45,7 +44,7 @@ public class TGenZhongQiFX extends FMLTextureFX
         
         try
         {
-            BufferedImage bufferedImage = ImageIO.read(mc.texturePackList.getSelectedTexturePack().getResourceAsStream(ICBM.TRACKER_TEXTURE_FILE));
+            BufferedImage bufferedImage = TextureFXManager.instance().loadImageFromTexturePack(this.mc.renderEngine, ICBM.TRACKER_TEXTURE_FILE);
             int xCoord = this.iconIndex % this.tileSizeBase * tileSizeBase;
             int yCoord = this.iconIndex / this.tileSizeBase * tileSizeBase;
             bufferedImage.getRGB(xCoord, yCoord, this.tileSizeBase, this.tileSizeBase, this.trackerIconImageData, 0, tileSizeBase);
@@ -94,23 +93,23 @@ public class TGenZhongQiFX extends FMLTextureFX
             double xDifference = 0;
             double zDifference = 0;
             
-            if(this.mc.thePlayer.getCurrentEquippedItem().itemID == ICBM.itemGenZongQi.shiftedIndex)
+            if(this.mc.thePlayer.getCurrentEquippedItem() != null)
             {
-            	ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
-            	
-            	Entity trackingEntity = ItGenZongQi.getTrackingEntity(itemStack);
-            	
-                if(trackingEntity != null)
-                {
-                	xDifference = (double)trackingEntity.posX - this.mc.thePlayer.posX;
-                    zDifference = (double)trackingEntity.posZ - this.mc.thePlayer.posZ;
-                }
-                else
-                {
-                	return;
-                }
+	            if(this.mc.thePlayer.getCurrentEquippedItem().itemID == ICBM.itemGenZongQi.shiftedIndex)
+	            {
+	            	ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
+	            	
+	            	Entity trackingEntity = ItGenZongQi.getTrackingEntity(itemStack);
+	            	
+	                if(trackingEntity != null)
+	                {
+	                	xDifference = (double)trackingEntity.posX - this.mc.thePlayer.posX;
+	                    zDifference = (double)trackingEntity.posZ - this.mc.thePlayer.posZ;
+	                }	                
+	            }
             }
-            else
+            
+            if(xDifference == 0 && zDifference == 0)
             {
             	return;
             }

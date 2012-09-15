@@ -49,7 +49,7 @@ public class ICBMPacketManager extends PacketManager
 				itemStack.stackTagCompound.setInteger("x", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("y", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("z", dataStream.readInt());
-				((ItemElectric) ICBM.itemLeiDaQiang).onUseElectricity(ItLeiDaQiang.ELECTRICITY_REQUIRED, itemStack);
+				((ItemElectric) ICBM.itemLeiDaQiang).onUseElectricity(ItLeiDaQiang.DIAN_REQUIRED, itemStack);
 			}
 		}
 		else if(ID == LASER_DESIGNATOR_PACKET)

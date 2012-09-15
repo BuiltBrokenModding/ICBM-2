@@ -3,7 +3,7 @@ package icbm;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
-import icbm.daodan.ItTe4Bie2Dao3Dan4;
+import icbm.daodan.ItTeBieDaoDan;
 import icbm.dianqi.ItGenZongQi;
 import icbm.dianqi.ItHuoLuanQi;
 import icbm.dianqi.ItJieJa;
@@ -101,7 +101,7 @@ public class ICBM implements IWorldGenerator
 	public static final Item itemDu = new ICBMItem("Poison Powder", UniversalElectricity.getItemConfigID(CONFIGURATION, "Poison Powder", itemIDprefix), 0, CreativeTabs.tabMaterials);
 	public static final Item itemYao = new ItYao("Antidote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Antidote", itemIDprefix+1), 5);
 	public static final Item itemDaoDan = new ItDaoDan("Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Missile", itemIDprefix+2), 32);
-	public static final Item itemTeBieDaoDan = new ItTe4Bie2Dao3Dan4("Special Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
+	public static final Item itemTeBieDaoDan = new ItTeBieDaoDan("Special Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
 	
 	public static final ItemElectric itemJieJa = new ItJieJa("Defuser", UniversalElectricity.getItemConfigID(CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
 	public static final ItemElectric itemLeiDaQiang = new ItLeiDaQiang("Radar Gun", UniversalElectricity.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
@@ -218,9 +218,9 @@ public class ICBM implements IWorldGenerator
 		
 		LanguageRegistry.addName(ICBM.blockYinGanQi, "Proximity Detector");
 		
-		for(int i = 0; i < ((ItTe4Bie2Dao3Dan4)ICBM.itemTeBieDaoDan).names.length; i++)
+		for(int i = 0; i < ((ItTeBieDaoDan)ICBM.itemTeBieDaoDan).names.length; i++)
 		{
-		    LanguageRegistry.addName(new ItemStack(ICBM.itemTeBieDaoDan, 1, i), ((ItTe4Bie2Dao3Dan4)ICBM.itemTeBieDaoDan).names[i]);
+		    LanguageRegistry.addName(new ItemStack(ICBM.itemTeBieDaoDan, 1, i), ((ItTeBieDaoDan)ICBM.itemTeBieDaoDan).names[i]);
 		}
 		
 		//Explosives and missile recipe

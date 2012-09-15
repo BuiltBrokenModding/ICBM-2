@@ -3,7 +3,7 @@ package icbm.jiqi;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
-import icbm.daodan.ItTe4Bie2Dao3Dan4;
+import icbm.daodan.ItTeBieDaoDan;
 import icbm.extend.TLauncher;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
@@ -202,7 +202,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 	            {
 	                int missileId = this.containingItems[0].getItemDamage();
 	
-	            	if(!(this.containingItems[0].getItem() instanceof ItTe4Bie2Dao3Dan4) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3 && containingMissile == null)
+	            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3 && containingMissile == null)
 	            	{
 	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
 	                    this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
@@ -301,7 +301,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 			
 			if(missile != null)
 			{
-				if(!(this.containingItems[0].getItem() instanceof ItTe4Bie2Dao3Dan4) && missile.isCruise() && missile.getTier() <= 3)
+				if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && missile.isCruise() && missile.getTier() <= 3)
 		        {
 		    		if(this.wattHoursStored >= this.getMaxWattHours())
 		    		{

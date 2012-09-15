@@ -28,6 +28,8 @@ public class GLeiDaTai extends ICBMGui
     
     private Vector2 mouseOverCoords;
     
+    private long GUITicks = 0;
+
     //Radar Map
     private Vector2 radarCenter;
     private float radarMapRadius;
@@ -41,11 +43,7 @@ public class GLeiDaTai extends ICBMGui
         radarMapRadius = this.tileEntity.MAX_RADIUS/63.8F;
     }
 
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    @Override
-	public void initGui()
+    public void initGui()
     {
     	super.initGui();
     	
@@ -56,6 +54,15 @@ public class GLeiDaTai extends ICBMGui
     	this.textFieldAlarmRange = new GuiTextField(fontRenderer, 155, 110, 30, 12);
         this.textFieldAlarmRange.setMaxStringLength(3);
         this.textFieldAlarmRange.setText(this.tileEntity.alarmRadius+"");
+        
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    }
+    
+    @Override
+    public void onGuiClosed()
+    {
+    	super.onGuiClosed();
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
     }
 
     /**
@@ -138,7 +145,7 @@ public class GLeiDaTai extends ICBMGui
     	{
         	status = "Disabled!";
     	}
-        else if(this.tileEntity.prevElectricityStored < this.tileEntity.ELECTRICITY_REQUIRED)
+        else if(this.tileEntity.prevElectricityStored < this.tileEntity.WATTS_REQUIRED)
         {
         	status = "No Electricity!";
         }
@@ -238,5 +245,11 @@ public class GLeiDaTai extends ICBMGui
         {
             this.tileEntity.alarmRadius = 100;
         }
+        
+        if(GUITicks % 100 == 0)
+    	{
+    		PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    	}
+    	GUITicks ++;
     }
 }

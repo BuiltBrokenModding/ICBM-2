@@ -38,7 +38,7 @@ public class DaoDan implements ITier
 	
 	public int getID() { return this.ID; }
 	
-	public String getName() { return this.name; }
+	public String getMing() { return this.name; }
 	
 	@Override
 	public int getTier() { return this.tier; }
