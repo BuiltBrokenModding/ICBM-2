@@ -54,7 +54,7 @@ public class ExYuanZi extends ZhaPin
 			}
 		}
 		
-		this.doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG);
+		this.doDamageEntities(worldObj, position, BAN_JING, BAN_JING*100);
 		
 	}
 
