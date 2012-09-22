@@ -14,19 +14,19 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Vector3;
-import universalelectricity.extend.BlockMachine;
-import universalelectricity.extend.IRedstoneProvider;
-import universalelectricity.extend.IRedstoneReceptor;
-import universalelectricity.extend.IRotatable;
-import universalelectricity.extend.ITier;
+import universalelectricity.UniversalElectricity;
+import universalelectricity.implement.IRedstoneProvider;
+import universalelectricity.implement.IRedstoneReceptor;
+import universalelectricity.implement.IRotatable;
+import universalelectricity.implement.ITier;
+import universalelectricity.prefab.BlockMachine;
+import universalelectricity.prefab.Vector3;
 
 /**
  * Metadata of block
@@ -44,7 +44,7 @@ public class BJiQi extends BlockMachine
 {
     public BJiQi(int id)
     {
-        super("ICBM Machine", id, Material.piston, CreativeTabs.tabDeco);
+        super("ICBM Machine", id, UniversalElectricity.machine, CreativeTabs.tabDecorations);
     }
     
     /**

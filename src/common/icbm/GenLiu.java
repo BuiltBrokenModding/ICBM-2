@@ -5,34 +5,51 @@ import java.util.Random;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldGenerator;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Vector3;
+import universalelectricity.ore.OreGenReplace;
+import universalelectricity.prefab.Vector3;
  
 /**
  * @author CovertJaguar, Modified by Calclavia
  */
 
-public class GenLiu extends WorldGenerator
+public class GenLiu extends OreGenReplace
 {
-    private static int blockID;
-    private static int branchAmount;
-    
-    public GenLiu(ItemStack itemStack, int amount)
+    public GenLiu(String name, String oreDiectionaryName, ItemStack stack, int replaceID, int minGenerateLevel, int maxGenerateLevel, int amountPerChunk, int amountPerBranch, String harvestTool, int harvestLevel)
     {
-        super();
-        this.blockID = itemStack.itemID;
-        this.branchAmount = amount;
+        super(name, oreDiectionaryName, stack, 0, replaceID, maxGenerateLevel, amountPerChunk, amountPerBranch, "pickaxe", 1);
+    	this.generateSurface = true;
     }
+    
+    public GenLiu(String name, String oreDiectionaryName, ItemStack stack, int replaceID, int maxGenerateLevel, int amountPerChunk, int amountPerBranch)
+    {
+        this(name, oreDiectionaryName, stack, 0, replaceID, maxGenerateLevel, amountPerChunk, amountPerBranch, "pickaxe", 1);
+    }
+    
+    @Override
+    public void generate(World world, Random random, int varX, int varZ)
+    {
+    	for(int y = this.minGenerateLevel; y < this.maxGenerateLevel; y ++)
+    	{
+    		for(int x = 0; x < 16; x ++)
+    		{
+    			for(int z = 0; z < 16; z ++)
+    			{
+    				this.generateReplace(world, random, varX + x, y, varZ + z);
+    			}
+    		}
+    	}
+	}
  
     @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
+    public boolean generateReplace(World world, Random rand, int x, int y, int z)
     {
         if(nearLava(world, x, y, z))
         {
             placeOre(world, rand, x, y, z);
             return true;
         }
+        
         return false;
     }
  
@@ -40,13 +57,13 @@ public class GenLiu extends WorldGenerator
     {
         Vector3 position = new Vector3(x, y, z);
 
-        for(int amount = 0; amount < branchAmount; amount++)
+        for(int amount = 0; amount < this.amountPerBranch; amount++)
         {
             Block block = Block.blocksList[world.getBlockId(x, y, z)];
             
             if(block != null && block.isGenMineableReplaceable(world, x, y, z))
             {
-                world.setBlock(x, y, z, blockID);
+                world.setBlockAndMetadata(x, y, z, this.oreID, this.oreMeta);
             }
 
             ForgeDirection dir = ForgeDirection.values()[rand.nextInt(6)];

@@ -12,8 +12,8 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.extend.ItemElectric;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.ItemElectric;
 
 public class ItYaoKong extends ItemElectric
 {
@@ -65,7 +65,7 @@ public class ItYaoKong extends ItemElectric
 		        else if(tileEntity instanceof TZhaDan && (blockMetadata == ZhaPin.Condensed.getID() || blockMetadata == ZhaPin.Breaching.getID()))
 		        {
 		        	//Check for electricity
-		            if(this.getWattHoursStored(par1ItemStack) > ELECTRICITY_REQUIRED)
+		            if(this.getWattHours(par1ItemStack) > ELECTRICITY_REQUIRED)
 		        	{
        	    		 	PacketManager.sendTileEntityPacketToServer(tileEntity, "ICBM", (byte)2);
 			            return par1ItemStack;
@@ -82,19 +82,19 @@ public class ItYaoKong extends ItemElectric
     }
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
 		return 20;
 	}
     
     @Override
-	public float getElectricityCapacity() 
+	public double getMaxWattHours()
 	{
 		return 2000;
 	}
 
 	@Override
-	public float getTransferRate()
+	public double getTransferRate()
 	{
 		return 25;
 	}

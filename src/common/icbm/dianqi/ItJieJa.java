@@ -11,7 +11,7 @@ import net.minecraft.src.EntityItem;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.ItemStack;
-import universalelectricity.extend.ItemElectric;
+import universalelectricity.prefab.ItemElectric;
 
 public class ItJieJa extends ItemElectric
 {
@@ -42,7 +42,7 @@ public class ItJieJa extends ItemElectric
      */
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) 
     {
-    	if(this.getWattHoursStored(stack) > electricityConsumption)
+    	if(this.getWattHours(stack) > electricityConsumption)
     	{
     		if(entity instanceof EZhaDan)
 	    	{
@@ -79,19 +79,19 @@ public class ItJieJa extends ItemElectric
     }
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
 		return 20;
 	}
     
     @Override
-	public float getElectricityCapacity() 
+	public double getMaxWattHours()
 	{
 		return 1800;
 	}
 
 	@Override
-	public float getTransferRate()
+	public double getTransferRate()
 	{
 		return 25;
 	}

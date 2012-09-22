@@ -13,7 +13,7 @@ import net.minecraft.src.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderProceduralExplosion extends Render
+public class RZhaPin extends Render
 {
 	@Override
 	public void doRender(Entity par1Entity, double x, double y, double z, float par8, float par9)

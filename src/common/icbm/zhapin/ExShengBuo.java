@@ -10,8 +10,8 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
+import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
 public class ExShengBuo extends ZhaPin

@@ -7,7 +7,7 @@ import java.util.List;
 import net.minecraft.src.Entity;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -29,6 +29,8 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	public List<Entity> entityList = new ArrayList<Entity>();
 	
 	public List dataList = new ArrayList();
+	
+	public List dataList2 = new ArrayList();
         
     public EZhaPin(World par1World)
     {
@@ -95,6 +97,11 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
     @Override
 	public void onUpdate()
     {
+    	if(this.motionX != 0 || this.motionY != 0 || this.motionZ != 0)
+    	{
+        	this.moveEntity(this.motionX, this.motionY, this.motionZ);
+    	}
+    	
     	if(this.ticksExisted == 0)
     	{
             ZhaPin.list[this.explosiveID].preExplosion(this.worldObj, Vector3.get(this), this);

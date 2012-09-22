@@ -12,13 +12,15 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
+import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.Vector3;
-import universalelectricity.extend.IElectricityStorage;
-import universalelectricity.extend.IRedstoneReceptor;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -40,7 +42,9 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 
 	private boolean isPowered = false;
 
-	private float wattHoursStored = 0;
+	private double wattHourStored = 0;
+
+	private int playersUsing;
     
 	public TXiaoFaSheQi()
 	{
@@ -147,7 +151,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
     	{
         	status = "Disabled";
     	}
-        else if(this.wattHoursStored < this.getMaxWattHours())
+        else if(this.wattHourStored < this.getMaxWattHours())
     	{
     		status = "No Power!";
     	}
@@ -177,16 +181,22 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
         return "Cruise Launcher";
     }
 
-    @Override
-	public void onUpdate(float amps, float voltage, ForgeDirection side)
-    {
-    	if(!this.worldObj.isRemote)
-	    {
-	    	super.onUpdate(amps, voltage, side);
-	    	
-	    	this.wattHoursStored += amps;
-	    	
-	    	//Rotate the yaw
+	@Override
+	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
+	{		
+		if(!this.isDisabled())
+    	{
+			this.setWattHours(this.wattHourStored+ElectricInfo.getWattHours(amps, voltage));
+    	}
+	}
+	
+	public void updateEntity()
+	{
+		super.updateEntity();
+		
+		if(!this.isDisabled())
+    	{
+			//Rotate the yaw
 			if(this.getYawFromTarget() - this.rotationYaw != 0)
 			{
 				this.rotationYaw += (this.getYawFromTarget() - this.rotationYaw)*0.1;
@@ -236,8 +246,11 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 				this.isPowered = false;
 			}
 	    	
-	    	if(this.target == null) this.target = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-			PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.wattHoursStored, this.frequency, this.disabledTicks, this.rotationYaw, this.rotationPitch, this.target.x, this.target.y, this.target.z);
+	    	if(!this.worldObj.isRemote && this.playersUsing > 0)
+		    {
+		    	if(this.target == null) this.target = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+				PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.rotationYaw, this.rotationPitch, this.target.x, this.target.y, this.target.z);
+		    }
     	}
     }
     
@@ -250,7 +263,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 			
 			if(ID == 0)
 			{
-				this.wattHoursStored = dataStream.readFloat();
+				this.wattHourStored = dataStream.readFloat();
 	            this.frequency = dataStream.readShort();
 	            this.disabledTicks = dataStream.readInt();
 	            this.rotationYaw = dataStream.readFloat();
@@ -279,6 +292,25 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
         }
 	}
     
+
+    @Override
+    public void openChest()
+    {
+    	if(!this.worldObj.isRemote)
+        {
+    		PacketManager.sendTileEntityPacketWithRange(this, "BasicComponents", 15, this.wattHourStored, this.disabledTicks);
+        }
+    	
+    	this.playersUsing  ++;
+    }
+    
+    @Override
+    public void closeChest()
+    {
+    	this.playersUsing --;
+    }
+
+    
     private float getPitchFromTarget()
     {
     	double distance = Math.sqrt((this.target.x - this.xCoord)*(this.target.x - this.xCoord) + (this.target.z - this.zCoord)*(this.target.z - this.zCoord));
@@ -303,7 +335,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 			{
 				if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && missile.isCruise() && missile.getTier() <= 3)
 		        {
-		    		if(this.wattHoursStored >= this.getMaxWattHours())
+		    		if(this.wattHourStored >= this.getMaxWattHours())
 		    		{
 		    			if(!this.isTooClose(this.target))
 		    			{
@@ -358,7 +390,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
     	NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
     	
         this.containingItems = new ItemStack[this.getSizeInventory()];
-        this.wattHoursStored = par1NBTTagCompound.getFloat("electricityStored");
+        this.wattHourStored = par1NBTTagCompound.getDouble("electricityStored");
 
         for (int var3 = 0; var3 < var2.tagCount(); ++var3)
         {
@@ -386,7 +418,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
     	}
     	
     	par1NBTTagCompound.setShort("frequency", this.frequency);
-    	par1NBTTagCompound.setFloat("electricityStored", this.wattHoursStored);
+    	par1NBTTagCompound.setDouble("electricityStored", this.wattHourStored);
     	
     	NBTTagList var2 = new NBTTagList();
 
@@ -422,13 +454,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
     {
         return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
     }
-
-    @Override
-	public void openChest() {}
-
-    @Override
-	public void closeChest() {}
-
+    
     @Override
     public int getStartInventorySide(ForgeDirection side)
     {
@@ -454,12 +480,6 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 	}
 
 	@Override
-	public float ampRequest()
-	{
-		return this.getMaxWattHours() - this.wattHoursStored;
-	}
-
-	@Override
 	public boolean canReceiveFromSide(ForgeDirection side)
 	{
 		return true;
@@ -470,21 +490,27 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 	{
 		return this.frequency;
 	}
-
+	
 	@Override
-	public float getWattHours()
+	public double wattRequest()
 	{
-		return this.wattHoursStored;
+		return ElectricInfo.getWatts(this.getMaxWattHours())-ElectricInfo.getWatts(this.wattHourStored);
 	}
 
 	@Override
-	public void setWattHours(float wattHours)
+	public double getWattHours(Object... data)
 	{
-		this.wattHoursStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+		return this.wattHourStored;
 	}
 
 	@Override
-	public float getMaxWattHours() 
+	public void setWattHours(double wattHours, Object... data)
+	{
+		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+	}
+
+	@Override
+	public double getMaxWattHours() 
 	{
 		return 12000;
 	}

@@ -7,7 +7,7 @@ import java.util.List;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Entity;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 
 public class ExDianCiSignal extends ZhaPin
 {

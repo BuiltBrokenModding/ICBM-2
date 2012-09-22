@@ -2,15 +2,14 @@ package icbm.gui;
 
 import icbm.ICBM;
 import icbm.jiqi.TFaSheShiMuo;
-import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.Vector3;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.Vector3;
 
 public class GFaSheShiMuo extends ICBMGui
 {
@@ -23,8 +22,6 @@ public class GFaSheShiMuo extends ICBMGui
     private int containerWidth;
     private int containerHeight;
     
-	private int GUITicks = 0;
-
     public GFaSheShiMuo(TFaSheShiMuo par2ICBMTileEntityMissileLauncher)
     {
         this.tileEntity = par2ICBMTileEntityMissileLauncher;
@@ -60,13 +57,6 @@ public class GFaSheShiMuo extends ICBMGui
             this.textFieldZ.setText(Math.round(this.tileEntity.target.z) + "");
             this.textFieldY.setText(Math.round(this.tileEntity.target.y) + "");
         }
-    }
-    
-    @Override
-    public void onGuiClosed()
-    {
-    	super.onGuiClosed();
-    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
     }
 
     /**
@@ -221,12 +211,5 @@ public class GFaSheShiMuo extends ICBMGui
         {
             this.tileEntity.frequency = 0;
         }
-        
-        if(GUITicks % 100 == 0)
-    	{
-    		PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
-    	}
-		
-    	GUITicks ++;
     }
 }

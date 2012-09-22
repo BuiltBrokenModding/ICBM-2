@@ -8,7 +8,6 @@ import icbm.TYinXing;
 import icbm.extend.IMultiBlock;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ExHongSu;
-import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
@@ -25,16 +24,18 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.Vector3;
-import universalelectricity.electricity.TileEntityElectricUnit;
-import universalelectricity.extend.IElectricityStorage;
-import universalelectricity.extend.IRedstoneReceptor;
+import universalelectricity.Ticker;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.TileEntityElectricityReceiver;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TileEntityElectricUnit implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
+public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
 {	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -44,7 +45,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 
 	private float rotationSpeed;
 	
-    private float wattHoursStored = 0;
+    private double wattHourStored = 0;
 
 	private boolean autoMode = false;
 	
@@ -64,26 +65,28 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 
 	private int explosionDepth;
 	
-	private boolean isGUIOpen = false;
+	private int playersUsing = 0;
 	    
     public TCiGuiPao()
     {
 		super();
     }
     
-  	/**
-	 * Called every tick. Super this!
-	 */
 	@Override
-	public void onUpdate(float watts, float voltage, ForgeDirection side)
+	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
+	{		
+		if(!this.isDisabled())
+    	{
+			this.setWattHours(this.wattHourStored+ElectricInfo.getWattHours(amps, voltage));
+    	}
+	}
+	
+	public void updateEntity()
 	{
-		super.onUpdate(watts, voltage, side);
+		super.updateEntity();
 		
 		if(!this.isDisabled())
     	{
-    		float rejectedElectricity = Math.max((this.wattHoursStored + watts) - this.getMaxWattHours(), 0);
-    		this.wattHoursStored = Math.max(this.wattHoursStored+watts - rejectedElectricity, 0);
-    	
     		if(mountedPlayer != null)
     		{
     			if(mountedPlayer.rotationPitch > 30) mountedPlayer.rotationPitch = 30;
@@ -135,27 +138,27 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 					}
 				}
 				
-				this.wattHoursStored = 0;
+				this.setWattHours(0);
 		        
-		        this.explosionSize = 5F;
+		        this.explosionSize = 6f;
 		        this.explosionDepth = 8;
 		        
 		        if(isAntimatter)
 		        {
 		        	explosionSize = 10f;
-		        	explosionDepth = 15;
+		        	explosionDepth = 16;
 		        }
 			}
     		
     		if(this.gunChargingTicks > 0)
     		{
-    			this.gunChargingTicks += this.getTickInterval();
+    			this.gunChargingTicks ++;
     			
     			if(this.gunChargingTicks >= 70)
     			{
-    				if(this.explosionDepth > 0)
+    				while(this.explosionDepth > 0)
     				{
-        				MovingObjectPosition objectMouseOver = this.rayTrace(1000);
+        				MovingObjectPosition objectMouseOver = this.rayTrace(1500);
         				
         				if(objectMouseOver != null)
         		        {
@@ -178,29 +181,38 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	        			        	this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
 	        			        }
 	        			        
-	        			        ZhaPin.createExplosion(worldObj, new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ), this.mountedPlayer, 0);
-	        			        //this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true);
+	        			        this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true);
         					}
         		        }
         				
         				this.explosionDepth --;
     				}
-    				else
+    				
+    				if(!this.worldObj.isRemote)
     				{
-    					PacketManager.sendTileEntityPacket(this, "ICBM", (int)3);
-	    				this.gunChargingTicks = 0;
+    					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 50, (int)3);
     				}
+    				
+    				this.gunChargingTicks = 0;
     			}
     		}
     	}
 	
-		if(this.isGUIOpen)
+		if(!this.worldObj.isRemote)
 		{
-			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.wattHoursStored, this.disabledTicks);
+			if(Ticker.inGameTicks % 20 == 0)
+			{
+				if(this.mountedPlayer != null)
+				{
+					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)1, this.displayRotationYaw, this.displayRotationPitch);
+				}
+				
+				if(this.playersUsing > 0)
+				{
+					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.wattHourStored, this.disabledTicks);
+				}
+			}	
 		}
-		
-		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)1, this.displayRotationYaw, this.displayRotationPitch);
-		
 	}
 	
 	@Override
@@ -210,11 +222,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	    {
 	        int ID = dataStream.readInt();
 
-	        if(ID == -1)
-	        {
-		        this.isGUIOpen = dataStream.readBoolean();
-	        }
-	        else if(ID == 1)
+	        if(ID == 1)
 	        {
 		        this.displayRotationYaw = dataStream.readFloat();
 		        this.displayRotationPitch = dataStream.readFloat();
@@ -236,7 +244,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	        }
 	        else if(ID == 4)
 	        {
-		        this.wattHoursStored = dataStream.readFloat();
+		        this.wattHourStored = dataStream.readDouble();
 		        this.disabledTicks = dataStream.readInt();
 	        }
 	    }
@@ -244,7 +252,25 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	    {
 	        e.printStackTrace();
 	    }
-}
+	}
+	
+	@Override
+    public void openChest()
+    {
+    	if(!this.worldObj.isRemote)
+        {
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.wattHourStored, this.disabledTicks);
+        }
+    	
+    	this.playersUsing  ++;
+    }
+    
+    @Override
+    public void closeChest()
+    {
+    	this.playersUsing --;
+    }
+
 
 	private boolean canFire()
 	{
@@ -266,18 +292,12 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 			}
 		}
 		
-		if(this.wattHoursStored < this.getMaxWattHours())
+		if(this.wattHourStored < this.getMaxWattHours())
 		{
 			return false;
 		}
 		
 		return true;
-	}
-
-	@Override
-	public float ampRequest()
-	{
-		return this.getMaxWattHours()-this.wattHoursStored;
 	}
 
 	@Override
@@ -287,9 +307,9 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	}
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
-		return 220F;
+		return 220;
 	}
 	
 	@Override
@@ -312,7 +332,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 				this.entityRailGun.setDead();
 				this.entityRailGun = null;
 			}
-			entityPlayer.moveEntity(0, 6, 0);
+			entityPlayer.moveEntity(0, 3, 0);
 		}
 		else
 		{
@@ -444,13 +464,6 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	{
 		return true;
 	}
-
-	@Override
-	public void openChest() { }
-
-	@Override
-	public void closeChest() { }
-
 	@Override
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
@@ -462,7 +475,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
         this.displayRotationPitch = this.rotationPitch*0.0175f;
 		this.displayRotationYaw = this.rotationYaw*0.0175f;
     	
-        this.wattHoursStored = par1NBTTagCompound.getFloat("electricityStored");
+        this.wattHourStored = par1NBTTagCompound.getDouble("electricityStored");
         NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
         this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -488,7 +501,7 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
         par1NBTTagCompound.setFloat("rotationYaw", this.rotationYaw);
         par1NBTTagCompound.setFloat("rotationPitch", this.rotationPitch);
         
-        par1NBTTagCompound.setFloat("electricityStored", this.wattHoursStored);
+        par1NBTTagCompound.setDouble("electricityStored", this.wattHourStored);
         NBTTagList var2 = new NBTTagList();
 
         for (int var3 = 0; var3 < this.containingItems.length; ++var3)
@@ -534,32 +547,26 @@ public class TCiGuiPao extends TileEntityElectricUnit implements IElectricitySto
 	public void onPowerOff() {this.redstonePowerOn = false;}
 	
 	@Override
-	public float getWattHours()
+	public double wattRequest()
 	{
-		return this.wattHoursStored;
+		return ElectricInfo.getWatts(this.getMaxWattHours())-ElectricInfo.getWatts(this.wattHourStored);
 	}
-
-	@Override
-	public void setWattHours(float wattHours)
-	{
-		this.wattHoursStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
-	}
-
 	
 	@Override
-	public int getTickInterval()
+	public double getWattHours(Object... data)
 	{
-		if(!this.worldObj.isRemote)
-		{
-			return 1;
-		}
-		
-		return 0;
+		return this.wattHourStored;
 	}
 
 	@Override
-	public float getMaxWattHours()
+	public void setWattHours(double wattHours, Object... data)
 	{
-		return 40000;
+		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+	}
+
+	@Override
+	public double getMaxWattHours()
+	{
+		return 300;
 	}
 }

@@ -16,8 +16,8 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Vector3;
-import universalelectricity.extend.IRotatable;
+import universalelectricity.implement.IRotatable;
+import universalelectricity.prefab.Vector3;
 import buildcraft.api.tools.IToolWrench;
 
 public class BZhaDan extends BlockContainer

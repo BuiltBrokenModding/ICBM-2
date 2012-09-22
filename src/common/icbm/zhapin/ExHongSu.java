@@ -7,17 +7,18 @@ import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityItem;
+import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 
 public class ExHongSu extends ZhaPin
 {	
-	public static final int MAX_RADIUS = 37;
-	private static final int MAX_TAKE_BLOCKS = 15;
+	public static final int MAX_RADIUS = 38;
+	private static final int MAX_TAKE_BLOCKS = 4;
 	
 	public ExHongSu(String name, int ID, int tier)
 	{
@@ -31,11 +32,7 @@ public class ExHongSu extends ZhaPin
 		if(worldObj.isRemote)
 		{
 			//Spawn red matter particle
-			ParticleSpawner.spawnParticle("smoke", worldObj, position, 0.15F, 0F, 0F, 10F, 2F);
-			ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(position, 0.5), 0.15F, 0F, 0F, 7F, 2F);
-			ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(position, -0.5), 0.15F, 0F, 0F, 7F, 2F);
-			ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(position, new Vector3(0.5, 0, -0.5)), 0.15F, 0F, 0F, 7F, 2F);
-			ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(position, new Vector3(-0.5, 0, 0.5)), 0.15F, 0F, 0F, 7F, 2F);
+			ParticleSpawner.spawnParticle("smoke", worldObj, position, 0.1F, 0F, 0F, 10F, 2F);
 		}
 		
 		//Try to find and grab some blocks to orbit
@@ -68,9 +65,9 @@ public class ExHongSu extends ZhaPin
 							
 							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
 							
-							if(blockID == Block.waterMoving.blockID || blockID == Block.lavaMoving.blockID || blockID == Block.waterStill.blockID || blockID == Block.lavaStill.blockID) continue;
+							if(Block.blocksList[blockID] instanceof BlockFluid) continue;
 							
-							if(worldObj.rand.nextInt(10) > 3)
+							if(worldObj.rand.nextFloat() > 0.8)
 							{
 								currentPos.add(0.5D);
 								
@@ -101,8 +98,8 @@ public class ExHongSu extends ZhaPin
     	boolean explosionCreated = false;
         
         for(Entity entity : allEntities)
-        {            
-        	if(entity instanceof EZhaPin) continue;
+        {
+        	if(entity == explosionSource) continue;
         	
         	if(entity instanceof EntityPlayer)
         	{
@@ -116,27 +113,38 @@ public class ExHongSu extends ZhaPin
         	int r = MAX_RADIUS;
         	if(xDifference < 0) r = (int)-MAX_RADIUS;
         	
-        	entity.motionX -= (r-xDifference) * 0.02*worldObj.rand.nextFloat();
+        	entity.motionX -= (r-xDifference) * Math.abs(xDifference) * 0.0003;
         	
         	r = MAX_RADIUS;
         	if(entity.posY > position.y) r = -MAX_RADIUS;
-            entity.motionY += (r-yDifference) * 0.02*worldObj.rand.nextFloat();
+            entity.motionY += (r-yDifference) * Math.abs(yDifference) * 0.001;
             
             r = (int)MAX_RADIUS;
             if(zDifference < 0) r = (int)-MAX_RADIUS;
             
-            entity.motionZ -= (r-zDifference) * 0.02*worldObj.rand.nextFloat();
+            entity.motionZ -= (r-zDifference) * Math.abs(zDifference) * 0.0003;
             
             if(Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
             {
-            	if(!explosionCreated)
+            	if(!explosionCreated && callCount % 5 == 0)
             	{
             		worldObj.createExplosion(explosionSource, entity.posX, entity.posY, entity.posZ, 3.0F);
             		explosionCreated = true;
             	}
             	
-            	if(entity instanceof EntityGravityBlock || entity instanceof EntityItem)
+            	if(!(entity instanceof EntityLiving))
             	{
+            		if(entity instanceof EZhaPin)
+            		{
+            			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            		
+            			if(worldObj.rand.nextFloat() > 0.85)
+            			{
+            				entity.setDead();
+            				return false;
+            			}
+            		}
+            		
             		entity.setDead();
             	}
             }
@@ -152,5 +160,5 @@ public class ExHongSu extends ZhaPin
 	 * @return - Return -1 if this explosive does not need proceudral calls
 	 */
 	@Override
-	public int proceduralInterval() { return 5; }
+	public int proceduralInterval() { return 1; }
 }

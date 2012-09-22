@@ -4,9 +4,9 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
-import universalelectricity.extend.ItemElectric;
+import universalelectricity.prefab.ItemElectric;
+import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
 public class ExDianCi extends ZhaPin
@@ -22,12 +22,7 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
-		if(radius < 0) radius = 25;
-		
-		if(explosionSource instanceof EShouLiuDan)
-		{
-			radius /= 2;
-		}
+		if(radius < 0) radius = 30;
 		
 		ZhaPin.EMPSignal.doExplosion(worldObj, position, null, radius, callCount);
 		ZhaPin.EMPWave.doExplosion(worldObj, position, null, radius, callCount);

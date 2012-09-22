@@ -1,7 +1,7 @@
 package icbm.zhapin;
 
-import icbm.EntityGravityBlock;
 import icbm.EGuang;
+import icbm.EntityGravityBlock;
 import icbm.ICBMPotion;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.Potion;
 import net.minecraft.src.PotionEffect;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
 public class ExBingDan extends ZhaPin

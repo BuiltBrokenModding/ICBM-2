@@ -3,8 +3,8 @@ package icbm.daodan;
 import icbm.ICBM;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.ItemStack;
-import universalelectricity.Vector3;
-import universalelectricity.extend.ITier;
+import universalelectricity.implement.ITier;
+import universalelectricity.prefab.Vector3;
 
 public class DaoDan implements ITier
 {

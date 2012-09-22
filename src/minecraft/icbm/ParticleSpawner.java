@@ -1,9 +1,8 @@
 package icbm;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import net.minecraft.src.ModLoader;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class ParticleSpawner {
 

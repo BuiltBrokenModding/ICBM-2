@@ -9,17 +9,17 @@ import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.extend.BlockMachine;
-import universalelectricity.extend.IRedstoneProvider;
+import universalelectricity.UniversalElectricity;
+import universalelectricity.implement.IRedstoneProvider;
+import universalelectricity.prefab.BlockMachine;
 
 public class BYinGanQi extends BlockMachine
 {
     public BYinGanQi(int id, int texture)
     {
-        super("Proximity Detector", id,  Material.piston, CreativeTabs.tabDeco);
+        super("Proximity Detector", id,  UniversalElectricity.machine, CreativeTabs.tabDecorations);
         this.blockIndexInTexture = texture;
     }
     

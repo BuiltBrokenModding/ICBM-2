@@ -1,19 +1,19 @@
 package icbm;
 
-import icbm.jiqi.TXiaoFaSheQi;
+import icbm.jiqi.TCiGuiPao;
 import icbm.jiqi.TDianCiQi;
 import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDa;
-import icbm.jiqi.TCiGuiPao;
+import icbm.jiqi.TXiaoFaSheQi;
 import icbm.rongqi.CCiGuiPao;
-import icbm.rongqi.CXiaoFaSheQi;
 import icbm.rongqi.CFaShiDi;
+import icbm.rongqi.CXiaoFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.extend.CommonProxy;
+import universalelectricity.prefab.CommonProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ICBMCommonProxy extends CommonProxy

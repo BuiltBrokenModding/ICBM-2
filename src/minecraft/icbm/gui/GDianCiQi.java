@@ -7,12 +7,11 @@ import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.UniversalElectricity;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
 
-public class GEMPTower extends ICBMGui
+public class GDianCiQi extends ICBMGui
 {
     private TDianCiQi tileEntity;
     private GuiTextField textFieldRadius;
@@ -20,7 +19,7 @@ public class GEMPTower extends ICBMGui
     private int containerWidth;
     private int containerHeight;
 
-    public GEMPTower(TDianCiQi tileEntity)
+    public GDianCiQi(TDianCiQi tileEntity)
     {
         this.tileEntity = tileEntity;
     }
@@ -40,10 +39,17 @@ public class GEMPTower extends ICBMGui
         
         this.textFieldRadius = new GuiTextField(fontRenderer, 72, 28, 20, 12);
         this.textFieldRadius.setMaxStringLength(2);
-        this.textFieldRadius.setText(this.tileEntity.radius+"");
+        this.textFieldRadius.setText(this.tileEntity.radius+"");  
+        PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
     }
     
-    
+    @Override
+    public void onGuiClosed()
+    {
+    	super.onGuiClosed();
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
+    }
+
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */

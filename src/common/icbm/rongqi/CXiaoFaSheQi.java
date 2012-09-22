@@ -10,11 +10,11 @@ import net.minecraft.src.Slot;
 
 public class CXiaoFaSheQi extends Container
 {
-    private TXiaoFaSheQi missileLauncher;
+    private TXiaoFaSheQi tileEntity;
 
     public CXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TXiaoFaSheQi tileEntity)
     {
-        this.missileLauncher = tileEntity;
+        this.tileEntity = tileEntity;
         this.addSlotToContainer(new SDaoDan(tileEntity, 0, 84, 47));
         int var3;
 
@@ -30,12 +30,20 @@ public class CXiaoFaSheQi extends Container
         {
             this.addSlotToContainer(new Slot(par1InventoryPlayer, var3, 8 + var3 * 18, 142));
         }
+        
+        tileEntity.openChest();
+    }
+    
+    public void onCraftGuiClosed(EntityPlayer entityplayer)
+    {
+		super.onCraftGuiClosed(entityplayer);
+		tileEntity.closeChest();
     }
 
     @Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer)
     {
-        return this.missileLauncher.isUseableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUseableByPlayer(par1EntityPlayer);
     }
     
     /**

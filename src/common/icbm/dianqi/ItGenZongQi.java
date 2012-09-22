@@ -10,7 +10,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldClient;
-import universalelectricity.extend.ItemElectric;
+import universalelectricity.prefab.ItemElectric;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class ItGenZongQi extends ItemElectric
@@ -85,7 +85,7 @@ public class ItGenZongQi extends ItemElectric
 	    			{
 	    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
 	    				
-	    				if(this.getWattHoursStored(par1ItemStack) < YONG_DIAN_LIANG)
+	    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
 	    				{
 	    					this.setTrackingEntity(par1ItemStack, null);
 	    				}
@@ -109,7 +109,7 @@ public class ItGenZongQi extends ItemElectric
     {
     	if(!player.worldObj.isRemote)
     	{
-	    	if(this.getWattHoursStored(itemStack) > YONG_DIAN_LIANG)
+	    	if(this.getWattHours(itemStack) > YONG_DIAN_LIANG)
 	    	{
 	    		setTrackingEntity(itemStack, entity);
 	            player.addChatMessage("Now tracking: "+entity.getEntityName());
@@ -125,19 +125,13 @@ public class ItGenZongQi extends ItemElectric
     }
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
 		return 20;
 	}
-    
-    @Override
-	public float getElectricityCapacity() 
-	{
-		return 2500;
-	}
-
+	
 	@Override
-	public float getTransferRate()
+	public double getTransferRate()
 	{
 		return 25;
 	}
@@ -146,5 +140,11 @@ public class ItGenZongQi extends ItemElectric
 	public String getTextureFile()
 	{
 		return ICBM.TRACKER_TEXTURE_FILE;
+	}
+
+	@Override
+	public double getMaxWattHours()
+	{
+		return 2500;
 	}
 }

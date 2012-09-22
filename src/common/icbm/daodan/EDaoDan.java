@@ -2,8 +2,8 @@ package icbm.daodan;
 
 import icbm.ICBM;
 import icbm.ParticleSpawner;
-import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TFaSheDi;
+import icbm.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.ZhaPin;
 
 import java.util.Random;
@@ -16,8 +16,8 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.Vector2;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector2;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -399,7 +399,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData
     	}
     	catch(Exception e)
     	{
-    		System.err.println("Missile failed to explode properly");
+    		System.err.println("Missile failed to explode properly. Report this to developers.");
     	}
     }
     

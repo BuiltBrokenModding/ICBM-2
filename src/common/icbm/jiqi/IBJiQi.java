@@ -6,7 +6,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
-import universalelectricity.extend.ITier;
+import universalelectricity.implement.ITier;
 
 public class IBJiQi extends ItemBlock
 {
@@ -71,7 +71,7 @@ public class IBJiQi extends ItemBlock
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS !
      */
     @Override
-    public boolean tryPlaceIntoWorld(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
     {
         int var8 = par3World.getBlockId(x, y, z);
 

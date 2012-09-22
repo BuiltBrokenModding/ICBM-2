@@ -11,8 +11,8 @@ import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.Vector2;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.Vector2;
 
 public class GLeiDaTai extends ICBMGui
 {
@@ -145,7 +145,7 @@ public class GLeiDaTai extends ICBMGui
     	{
         	status = "Disabled!";
     	}
-        else if(this.tileEntity.prevElectricityStored < this.tileEntity.WATTS_REQUIRED)
+        else if(this.tileEntity.prevWattsReceived < this.tileEntity.WATTS_REQUIRED)
         {
         	status = "No Electricity!";
         }

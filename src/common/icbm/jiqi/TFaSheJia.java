@@ -9,10 +9,10 @@ import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Vector3;
-import universalelectricity.extend.IRotatable;
-import universalelectricity.extend.ITier;
+import universalelectricity.implement.IRotatable;
+import universalelectricity.implement.ITier;
 import universalelectricity.network.IPacketReceiver;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 

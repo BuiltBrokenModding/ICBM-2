@@ -9,7 +9,7 @@ import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.extend.IRotatable;
+import universalelectricity.implement.IRotatable;
 import universalelectricity.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;

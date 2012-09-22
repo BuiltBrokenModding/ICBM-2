@@ -18,14 +18,14 @@ import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.Vector2;
-import universalelectricity.Vector3;
-import universalelectricity.extend.ItemElectric;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.ItemElectric;
+import universalelectricity.prefab.Vector2;
+import universalelectricity.prefab.Vector3;
 
 public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 {
-	public static final int RANGE = 500;
+	public static final int BAN_JING = 500;
 	public static final int ELECTRICITY_CAPACITY = 250;
 	
     public ItLeiShiZhiBiao(String name, int id, int icon)
@@ -148,7 +148,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 	    	if(this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
 	    	{
 	    		Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-	        	List<TLauncher> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.RANGE, position.z - this.RANGE), new Vector2(position.x + this.RANGE, position.z + this.RANGE));
+	        	List<TLauncher> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
 	        	
 	        	for(TLauncher missileLauncher : launchers)
 	        	{
@@ -205,7 +205,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS !
      */
     @Override
-    public boolean tryPlaceIntoWorld(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
     {
     	if(!par3World.isRemote)
     	{
@@ -242,7 +242,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
     {	
     	if(par2World.isRemote)
     	{
-	    	MovingObjectPosition objectMouseOver = par3EntityPlayer.rayTrace(RANGE*2, 1);
+	    	MovingObjectPosition objectMouseOver = par3EntityPlayer.rayTrace(BAN_JING*2, 1);
 	    	
 	    	if(objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
 	        {
@@ -263,10 +263,10 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 		            //Check if it is possible to do an air strike. If so, do one.
 		        	if(airStrikeFreq > 0)
 		            {
-		        		if(this.getWattHoursStored(par1ItemStack) > ELECTRICITY_CAPACITY)
+		        		if(this.getWattHours(par1ItemStack) > ELECTRICITY_CAPACITY)
 		            	{
 		    	        	Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
-		    	        	List<TLauncher> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.RANGE, position.z - this.RANGE), new Vector2(position.x + this.RANGE, position.z + this.RANGE));
+		    	        	List<TLauncher> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
 		    	        	
 		    	        	boolean doAirStrike = false;
 		    	        	int errorCount = 0;
@@ -330,19 +330,19 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
     }
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
 		return 20;
 	}
     
     @Override
-	public float getElectricityCapacity() 
+	public double getMaxWattHours()
 	{
 		return 3750;
 	}
 
 	@Override
-	public float getTransferRate()
+	public double getTransferRate()
 	{
 		return 25;
 	}

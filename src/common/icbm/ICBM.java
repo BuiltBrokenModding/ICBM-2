@@ -27,9 +27,7 @@ import java.io.File;
 import java.util.Random;
 
 import net.minecraft.src.Block;
-import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.ICommandManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -38,17 +36,16 @@ import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
-import universalelectricity.OreGenData;
 import universalelectricity.UniversalElectricity;
-import universalelectricity.Vector3;
 import universalelectricity.basiccomponents.BasicComponents;
-import universalelectricity.extend.ItemElectric;
+import universalelectricity.ore.OreGenBase;
+import universalelectricity.ore.OreGenerator;
+import universalelectricity.prefab.ItemElectric;
+import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 import atomicscience.api.BlockRadioactive;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IDispenserHandler;
-import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -67,7 +64,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 @Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:BasicComponenets;after:AtomicScience")
 @NetworkMod(channels = { "ICBM" }, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 
-public class ICBM implements IWorldGenerator
+public class ICBM
 {
 	public static ICBM instance;
 	
@@ -116,8 +113,8 @@ public class ICBM implements IWorldGenerator
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_YI_CHUAN = new Du("Contagious", 1, true);
 	
-	public OreGenData sulfurGenData;
-	
+    public static final OreGenBase liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(blockLiu), 0, 40, 25, 15).enable();
+		
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
     {
@@ -163,11 +160,9 @@ public class ICBM implements IWorldGenerator
 		}
 		
 		OreDictionary.registerOre("dustSulfur", itemLiu);
-				
-		sulfurGenData = new OreGenData("Sulfur Ore", "oreSulfur", new ItemStack(blockLiu), 100, 25, 10);
 		
-   		GameRegistry.registerWorldGenerator(this);
-   		
+		OreGenerator.addOre(liuGenData);
+		   		
 		this.proxy.preInit();
     }
 	
@@ -286,7 +281,7 @@ public class ICBM implements IWorldGenerator
 		//Radar Station
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ICBM.itemLeiDaQiang.getUnchargedItemStack(), '!', BasicComponents.itemSteelIngot, '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
 		//EMP Tower
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.blockBatteryBox, '#', BasicComponents.itemMotor});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.blockMachine.getBatteryBox(), '#', BasicComponents.itemMotor});
 		//Railgun
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 11), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemLeiDaQiang.getUnchargedItemStack(), '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Cruise Launcher
@@ -357,34 +352,6 @@ public class ICBM implements IWorldGenerator
         var5 = MathHelper.sin(-rotationPitch * 0.017453292F);
         return new Vector3(var3 * var4, var5, var2 * var4);
     }
-    
-    @Override
-	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
-	{
-		chunkX = chunkX << 4;
-		chunkZ = chunkZ << 4;
-		
-		//Checks to make sure this is the normal world 
-		if(chunkGenerator instanceof ChunkProviderGenerate)
-		{
-            if(sulfurGenData.shouldGenerate && sulfurGenData.generateSurface)
-            {
-            	GenLiu genLiu = new GenLiu(sulfurGenData.oreStack, sulfurGenData.amountPerBranch);
-
-            	for(int y = sulfurGenData.minGenerateLevel; y < sulfurGenData.maxGenerateLevel; y ++)
-            	{
-            		for(int x = 0; x < 16; x ++)
-            		{
-            			for(int z = 0; z < 16; z ++)
-            			{
-            				genLiu.generate(world, rand, chunkX + x, y, chunkZ + z);
-            			}
-            		}    
-            	}
-            }
-     
-        }
-	}
 
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)

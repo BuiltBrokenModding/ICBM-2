@@ -11,16 +11,18 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
+import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Vector3;
-import universalelectricity.electricity.TileEntityElectricUnit;
-import universalelectricity.extend.IRedstoneProvider;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.TileEntityElectricityReceiver;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvider, IPacketReceiver
+public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
 {
 	public static final float YAO_DIAN = 10;
 	
@@ -51,8 +53,18 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
 	 * Called every tick. Super this!
 	 */
 	@Override
-	public void onUpdate(float watts, float voltage, ForgeDirection side)
+	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
+	{		
+		if(!this.isDisabled())
+    	{
+			this.dian += ElectricInfo.getWatts(amps, voltage);
+    	}
+	}
+	
+	public void updateEntity()
 	{
+		super.updateEntity();
+		
 		if(!this.worldObj.isRemote)
 		{
 			if(this.firstUpdate)
@@ -60,14 +72,9 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
 				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 				this.firstUpdate = false;
 			}
-			
-			super.onUpdate(watts, voltage, side);
-			
+						
 			if(!this.isDisabled())
 	    	{
-	    		float rejectedElectricity = Math.max((this.dian + watts) - this.YAO_DIAN, 0);
-	    		this.dian = Math.max(this.dian+watts - rejectedElectricity, 0);
-	
 	    		if(this.dian >= this.YAO_DIAN)
 	    		{
 	    			boolean isDetectThisCheck = false;
@@ -179,7 +186,7 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
         }
 	}
 	@Override
-	public float ampRequest()
+	public double wattRequest()
 	{
 		return this.YAO_DIAN-this.dian;
 	}
@@ -191,9 +198,9 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
 	}
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
-		return 120F;
+		return 120;
 	}
 	
 	/**
@@ -234,16 +241,5 @@ public class TYinGanQi extends TileEntityElectricUnit implements IRedstoneProvid
 	public boolean isIndirectlyPoweringTo(byte side)
 	{
 		return isDetect;
-	}
-
-	/**
-	 * How many world ticks there should be before this tile entity gets ticked?
-	 * E.x Returning "1" will make this tile entity tick every single tick.
-	 * @return - The tick intervals. Returns 0 if you wish it to not tick at all.
-	 */
-	@Override
-	public int getTickInterval()
-	{
-		return 10;
 	}
 }

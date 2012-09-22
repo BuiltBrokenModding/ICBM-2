@@ -1,16 +1,16 @@
 package icbm;
 
-import icbm.dianqi.ItLeiShiZhiBiao;
-import icbm.dianqi.ItLeiDaQiang;
 import icbm.dianqi.ItHuoLuanQi;
+import icbm.dianqi.ItLeiDaQiang;
+import icbm.dianqi.ItLeiShiZhiBiao;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
-import universalelectricity.Vector3;
-import universalelectricity.extend.ItemElectric;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.ItemElectric;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 

@@ -2,22 +2,22 @@ package icbm;
 
 import icbm.daodan.EDaoDan;
 import icbm.gui.GCiGuiPao;
-import icbm.gui.GEMPTower;
+import icbm.gui.GDianCiQi;
 import icbm.gui.GFaSheDi;
 import icbm.gui.GFaSheShiMuo;
 import icbm.gui.GFrequency;
-import icbm.gui.GXiaoFaSheQi;
 import icbm.gui.GLeiDaTai;
+import icbm.gui.GXiaoFaSheQi;
 import icbm.gui.GYinGanQi;
 import icbm.jiqi.ECiGuiPao;
-import icbm.jiqi.TXiaoFaSheQi;
-import icbm.jiqi.TYinGanQi;
+import icbm.jiqi.TCiGuiPao;
 import icbm.jiqi.TDianCiQi;
 import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDa;
-import icbm.jiqi.TCiGuiPao;
+import icbm.jiqi.TXiaoFaSheQi;
+import icbm.jiqi.TYinGanQi;
 import icbm.renders.RenderCruiseLauncher;
 import icbm.renders.RenderEMPTower;
 import icbm.renders.RenderExplosive;
@@ -30,21 +30,16 @@ import icbm.renders.RenderLauncherFrame;
 import icbm.renders.RenderLauncherScreen;
 import icbm.renders.RenderLightBeam;
 import icbm.renders.RenderMissile;
-import icbm.renders.RenderProceduralExplosion;
+import icbm.renders.RZhaPin;
 import icbm.renders.RenderRadarStation;
 import icbm.renders.RenderRailgun;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
-
-import java.io.File;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.TextureFXManager;
@@ -68,7 +63,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
 	{		
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RenderExplosive());
         RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RenderMissile(0.5F));
-        RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RenderProceduralExplosion());
+        RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
         RenderingRegistry.registerEntityRenderingHandler(EntityGravityBlock.class, new RenderGravityBlock());
         RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RenderLightBeam());
         RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RenderFragment());
@@ -102,7 +97,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
 				case ICBMCommonProxy.GUI_RADAR_STATION: return new GLeiDaTai(((TLeiDa)tileEntity));
 				case ICBMCommonProxy.GUI_DETECTOR: return new GYinGanQi((TYinGanQi) tileEntity);
 				case ICBMCommonProxy.GUI_FREQUENCY: return new GFrequency(entityPlayer.inventory.getCurrentItem());
-				case ICBMCommonProxy.GUI_EMP_TOWER: return new GEMPTower((TDianCiQi) tileEntity);
+				case ICBMCommonProxy.GUI_EMP_TOWER: return new GDianCiQi((TDianCiQi) tileEntity);
 				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
 			}
         }

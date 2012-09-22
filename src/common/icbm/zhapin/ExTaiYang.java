@@ -1,7 +1,7 @@
 package icbm.zhapin;
 
-import icbm.EntityGravityBlock;
 import icbm.EGuang;
+import icbm.EntityGravityBlock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
 public class ExTaiYang extends ZhaPin

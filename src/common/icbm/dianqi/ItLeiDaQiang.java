@@ -3,8 +3,8 @@ package icbm.dianqi;
 import icbm.ICBM;
 import icbm.ICBMPacketManager;
 import icbm.extend.TLauncher;
-import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TFaSheShiMuo;
+import icbm.jiqi.TXiaoFaSheQi;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
-import universalelectricity.extend.ItemElectric;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.ItemElectric;
+import universalelectricity.prefab.Vector3;
 
 public class ItLeiDaQiang extends ItemElectric
 {
@@ -64,7 +64,7 @@ public class ItLeiDaQiang extends ItemElectric
 	        	if(!(tileEntity instanceof TLauncher))
 	            {
 		        	//Check for electricity
-		            if(this.getWattHoursStored(par1ItemStack) > DIAN_REQUIRED)
+		            if(this.getWattHours(par1ItemStack) > DIAN_REQUIRED)
 		        	{
 		            	ICBMPacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketManager.RADAR_GUN_PACKET, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		            	
@@ -86,7 +86,7 @@ public class ItLeiDaQiang extends ItemElectric
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS !
      */
     @Override
-    public boolean tryPlaceIntoWorld(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
     {
     	int blockId = par3World.getBlockId(x, y, z);
     	int blockMetadata = par3World.getBlockMetadata(x, y, z);
@@ -172,19 +172,19 @@ public class ItLeiDaQiang extends ItemElectric
     }
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
 		return 20;
 	}
 	
 	@Override
-	public float getElectricityCapacity() 
+	public double getMaxWattHours()
 	{
 		return 3500;
 	}
 
 	@Override
-	public float getTransferRate()
+	public double getTransferRate()
 	{
 		return 25;
 	}

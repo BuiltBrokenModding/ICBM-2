@@ -17,11 +17,13 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.Vector3;
-import universalelectricity.extend.IRotatable;
-import universalelectricity.extend.ITier;
+import universalelectricity.Ticker;
+import universalelectricity.electricity.ElectricityManager;
+import universalelectricity.implement.IRotatable;
+import universalelectricity.implement.ITier;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -150,6 +152,8 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     @Override
 	public void updateEntity()
     {
+    	super.updateEntity();
+    	
     	if(this.connectedFrame == null)
     	{
         	for(byte i = 2; i < 6; i++)
@@ -172,9 +176,9 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
         	{
         		this.connectedFrame = null;
         	}
-        	else if(this.connectedFrame != null && !this.worldObj.isRemote)
+        	else if(Ticker.inGameTicks % (20*30) == 0 && this.connectedFrame != null && !this.worldObj.isRemote)
         	{
-				PacketManager.sendTileEntityPacket(this.connectedFrame, "ICBM", (byte)this.connectedFrame.getDirection().ordinal(), this.connectedFrame.getTier());
+				PacketManager.sendTileEntityPacketWithRange(this.connectedFrame, "ICBM", 200, (byte)this.connectedFrame.getDirection().ordinal(), this.connectedFrame.getTier());
         	}
         }
     	
@@ -215,7 +219,10 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	    		this.containingMissile = null;
 	    	}
 	    	
-			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, this.orientation, this.tier);
+	        if(Ticker.inGameTicks % (20*30) == 0)
+	        {
+	        	PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 200, this.orientation, this.tier);
+	        }
 		}
 	    
 	}

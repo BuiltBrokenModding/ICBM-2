@@ -10,7 +10,7 @@ import net.minecraft.src.EntityPigZombie;
 import net.minecraft.src.EntityVillager;
 import net.minecraft.src.EntityZombie;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 
 public class ExBianZhong extends ZhaPin
 {

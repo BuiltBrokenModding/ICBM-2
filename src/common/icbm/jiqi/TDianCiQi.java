@@ -11,16 +11,18 @@ import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Vector3;
-import universalelectricity.electricity.TileEntityElectricUnit;
-import universalelectricity.extend.IElectricityStorage;
-import universalelectricity.extend.IRedstoneReceptor;
+import universalelectricity.Ticker;
+import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.TileEntityElectricityReceiver;
+import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TileEntityElectricUnit implements IElectricityStorage, IPacketReceiver, IMultiBlock, IRedstoneReceptor
+public class TDianCiQi extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
     //The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 60;
@@ -28,8 +30,7 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
 	public float rotationYaw = 0;
 	private float rotationSpeed;
 	
-    //The electricity stored
-    private float wattHourStored = 0;
+    private double wattHourStored = 0;
     
     //The EMP mode. 0 = All, 1 = Missiles Only, 2 = Electricity Only
     public byte EMPMode = 0;
@@ -39,6 +40,8 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
     
     //Used to calculate every second
     private int secondTick = 0;
+
+	private int playersUsing = 0;
     
     public TDianCiQi()
     {
@@ -49,20 +52,29 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
 	 * Called every tick. Super this!
 	 */
 	@Override
-	public void onUpdate(float watts, float voltage, ForgeDirection side)
+	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
 	{		
 		if(!this.worldObj.isRemote)
-		{
-			super.onUpdate(watts, voltage, side);
-		
+		{		
 			if(!this.isDisabled())
 	    	{
-	    		float rejectedElectricity = Math.max((this.wattHourStored + watts) - this.getMaxWattHours(), 0);
-	    		this.wattHourStored = Math.max(this.wattHourStored+watts - rejectedElectricity, 0);
+				this.setWattHours(this.wattHourStored+ElectricInfo.getWattHours(amps, voltage));
+	    	}
+		}
+	}
+	
+	public void updateEntity()
+	{
+		super.updateEntity();
+		
+		if(!this.worldObj.isRemote)
+		{
+			if(!this.isDisabled())
+	    	{
 	    		
 				if(this.secondTick >= 20 && this.wattHourStored > 0)
 				{
-					this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, 0.85F*this.wattHourStored/this.getMaxWattHours());
+					this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F*this.wattHourStored/this.getMaxWattHours()));
 					this.secondTick = 0;
 				}
 				
@@ -79,7 +91,10 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
 			
 			this.secondTick ++;
 			
-			PacketManager.sendTileEntityPacket(this, "ICBM", (int)1, this.wattHourStored, this.rotationYaw, this.disabledTicks, this.radius, this.EMPMode);
+	        if(Ticker.inGameTicks % 40 == 0 && this.playersUsing  > 0)
+	        {
+	        	PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)1, this.wattHourStored, this.rotationYaw, this.disabledTicks, this.radius, this.EMPMode);
+	        }
 		}
     }
 	
@@ -88,9 +103,20 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
 	{
 		try
         {
-			int ID = dataStream.readInt();
+			final int ID = dataStream.readInt();
 			
-			if(ID == 1)
+			if(ID == -1)
+			{
+				if(dataStream.readBoolean())
+				{
+					this.playersUsing ++;
+				}
+				else
+				{
+					this.playersUsing --;
+				}
+			}
+			else if(ID == 1)
 			{
 	            this.wattHourStored = dataStream.readFloat();
 	            this.rotationYaw = dataStream.readFloat();
@@ -114,11 +140,16 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
 	}
 
 	@Override
-	public float ampRequest()
-	{
-		return this.getMaxWattHours()-this.wattHourStored;
-	}
+    public double wattRequest()
+    {
+        if (!this.isDisabled())
+        {
+            return this.getMaxWattHours() - this.wattHourStored;
+        }
 
+        return 0;
+    }
+	 
 	@Override
 	public boolean canReceiveFromSide(ForgeDirection side)
 	{
@@ -126,9 +157,9 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
 	}
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
-		return 220F;
+		return 220;
 	}
 	
 	/**
@@ -139,7 +170,7 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
     {
     	super.readFromNBT(par1NBTTagCompound);
     	
-    	this.wattHourStored = par1NBTTagCompound.getFloat("electricityStored");
+    	this.wattHourStored = par1NBTTagCompound.getDouble("electricityStored");
     	this.radius = par1NBTTagCompound.getInteger("radius");
     	this.EMPMode = par1NBTTagCompound.getByte("EMPMode");
     }
@@ -152,7 +183,7 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
     {
     	super.writeToNBT(par1NBTTagCompound);
 
-    	par1NBTTagCompound.setFloat("electricityStored", this.wattHourStored);
+    	par1NBTTagCompound.setDouble("electricityStored", this.wattHourStored);
     	par1NBTTagCompound.setInteger("radius", this.radius);
     	par1NBTTagCompound.setByte("EMPMode", (byte)this.EMPMode);
     }
@@ -201,20 +232,20 @@ public class TDianCiQi extends TileEntityElectricUnit implements IElectricitySto
 	}
 
 	@Override
-	public float getWattHours()
-	{
-		return this.wattHourStored;
-	}
-	
-	@Override
-	public float getMaxWattHours()
+	public double getMaxWattHours()
 	{
 		return Math.max(150000*((float)this.radius/(float)MAX_RADIUS), 15000);
 	}
 
 	@Override
-	public void setWattHours(float AmpHours)
+    public double getWattHours(Object... data)
+    {
+    	return this.wattHourStored;
+    }
+
+	@Override
+	public void setWattHours(double wattHours, Object... data)
 	{
-		this.wattHourStored = AmpHours;
+		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
 	}
 }

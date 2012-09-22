@@ -2,7 +2,7 @@ package icbm;
 
 import net.minecraft.src.EntitySmokeFX;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 
 public class SmokeFX extends EntitySmokeFX
 {

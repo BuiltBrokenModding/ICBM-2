@@ -1,10 +1,10 @@
 package icbm.extend;
 
 import icbm.jiqi.FaSheQiGuanLi;
-import universalelectricity.Vector3;
-import universalelectricity.electricity.TileEntityElectricUnit;
+import universalelectricity.prefab.TileEntityElectricityReceiver;
+import universalelectricity.prefab.Vector3;
 
-public abstract class TLauncher extends TileEntityElectricUnit implements IFrequency
+public abstract class TLauncher extends TileEntityElectricityReceiver implements IFrequency
 {
 	public Vector3 target = null;
 	

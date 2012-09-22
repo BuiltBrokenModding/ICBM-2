@@ -11,7 +11,7 @@ public class ICBMItem extends Item
         this.setMaxStackSize(64);
         this.setIconIndex(index);
         this.setItemName(name);
-        this.setTabToDisplayOn(tab);
+        this.setCreativeTab(tab);
     }
 
     @Override

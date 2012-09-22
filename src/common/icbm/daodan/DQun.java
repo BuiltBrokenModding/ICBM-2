@@ -1,6 +1,6 @@
 package icbm.daodan;
 
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 
 public class DQun extends DaoDan
 {	

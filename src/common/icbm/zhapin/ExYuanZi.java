@@ -9,14 +9,14 @@ import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
 public class ExYuanZi extends ZhaPin
 {	
 	public static final int BAN_JING = 35;
-	public static final int NENG_LIANG = 120;
-	public static final int CALL_COUNT = 100;
+	public static final int NENG_LIANG = 200;
+	public static final int CALL_COUNT = 200;
 	
 	public static final int RAY_CAST_INTERVAL = 2;
 	
@@ -60,15 +60,25 @@ public class ExYuanZi extends ZhaPin
 
 	@Override
 	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
-	{
-		List<Vector3> blocksToBreak = new ArrayList<Vector3>();
-		
+	{		
 		EZhaPin source = (EZhaPin)explosionSource;
 	
 		for(int i = callCount; i < callCount+CALL_COUNT; i ++)
 		{
 			if(i >= source.dataList.size())
 			{
+				for(Object obj : source.dataList2)
+				{
+					Vector3 targetPosition = (Vector3)obj;
+					int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+					
+					if(blockID > 0)
+					{
+						worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+			            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+					}
+				}
+				
 				return false;
 			}
 			
@@ -84,7 +94,7 @@ public class ExYuanZi extends ZhaPin
             yStep /= diagonalDistance;
             zStep /= diagonalDistance;
             
-            Vector3 targetPosition = position.copy();
+            Vector3 targetPosition = position.clone();
 			
 			for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
 			{
@@ -100,24 +110,24 @@ public class ExYuanZi extends ZhaPin
 					}
 					else if(Block.blocksList[blockID] instanceof BlockFluid)
 					{
-						resistance = 2;
+						resistance = 4;
 					}
 					else if(blockID == Block.obsidian.blockID)
 					{
-						resistance = 80;
+						resistance = 30;
 					}
 					else
 					{
 						resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
 					}
 					
-					power -= resistance;
+					power -= resistance;	
 					
 					if(power > 0f)
 					{						
-						if(!blocksToBreak.contains(targetPosition))
+						if(!source.dataList2.contains(targetPosition))
 						{
-							blocksToBreak.add(targetPosition.copy());
+							source.dataList2.add(targetPosition.clone());
 						}
 					}
 				}
@@ -129,28 +139,33 @@ public class ExYuanZi extends ZhaPin
 				targetPosition.z += zStep * (double)var21;
 			}
 		}
-		
-		for(Vector3 targetPosition : blocksToBreak)
-		{
-			int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-			
-			if(blockID > 0)
-			{
-				worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
-	            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-				
-	            if(worldObj.isRemote)
-	            {
-					if(worldObj.rand.nextFloat() > 0.2)
-					{
-						worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0.0D, 0.0D, 0.0D);
-					}
-		            }
-			}
-		}
+
+        if(worldObj.isRemote)
+        {        	
+        	for(int r = 0; r < BAN_JING; r ++)
+        	{
+	        	for(int x = -r; x < r; x++)
+	    		{
+	    			for(int y = -r; y < r; y++)
+	    			{
+	    				for(int z = -r; z < r; z++)
+	    				{
+	    					double distance = MathHelper.sqrt_double(x*x + y*y + z*z);
+	    					
+	                        if(distance < r && distance > r - 1)
+	    					{
+								if(worldObj.rand.nextFloat() > 0.2)
+								{
+									worldObj.spawnParticle("hugeexplosion", x + position.x, y + position.y, z + position.z, 0.0D, 0.0D, 0.0D);
+								}
+	    					}
+	    				}
+	    			}
+	    		}
+        	}
+        }
 		
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		
 		
 		return true;
 	}

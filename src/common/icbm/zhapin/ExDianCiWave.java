@@ -1,14 +1,13 @@
 package icbm.zhapin;
 
+import ic2.api.IEnergyStorage;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Vector3;
-import universalelectricity.extend.IDisableable;
-import universalelectricity.extend.IElectricUnit;
-import universalelectricity.extend.IElectricityStorage;
+import universalelectricity.implement.IDisableable;
+import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.prefab.Vector3;
 
 public class ExDianCiWave extends ZhaPin
 {
@@ -52,11 +51,12 @@ public class ExDianCiWave extends ZhaPin
 						{
 							((IElectricityStorage)tileEntity).setWattHours(0);
 						}
-						else if(tileEntity instanceof IElectricUnit)
+						
+						if(tileEntity instanceof IEnergyStorage)
 						{
-							((IElectricUnit)tileEntity).onUpdate(-1000, 0, ForgeDirection.UNKNOWN);
+							worldObj.createExplosion(explosionSource, i+x, j+y, k+z, 2f);
 						}
-						//Disable machines for 200 seconds
+
 						if(tileEntity instanceof IDisableable)
 						{
 							((IDisableable)tileEntity).onDisable(400);

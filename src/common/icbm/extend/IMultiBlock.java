@@ -2,7 +2,7 @@ package icbm.extend;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
-import universalelectricity.Vector3;
+import universalelectricity.prefab.Vector3;
 
 /**
  * Interface to be applied to tile entity blocks that occupies more than one block space. Useful for large machines.

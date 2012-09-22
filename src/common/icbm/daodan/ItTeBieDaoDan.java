@@ -12,7 +12,7 @@ public class ItTeBieDaoDan extends ItDaoDan
 	public ItTeBieDaoDan(String name, int id, int texture)
     {
         super(name, id, texture);
-        this.setTabToDisplayOn(CreativeTabs.tabCombat);
+        this.setCreativeTab(CreativeTabs.tabCombat);
     }
     @Override
 	public String getItemNameIS(ItemStack itemstack)

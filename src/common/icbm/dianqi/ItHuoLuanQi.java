@@ -11,7 +11,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import universalelectricity.extend.ItemElectric;
+import universalelectricity.prefab.ItemElectric;
 
 public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
 {	
@@ -64,7 +64,7 @@ public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
     {
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 		
-    	if(this.getWattHoursStored(par1ItemStack) > 1)
+    	if(this.getWattHours(par1ItemStack) > 1)
     	{
         	this.onUseElectricity(0.01F, par1ItemStack);
     	}
@@ -78,19 +78,19 @@ public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
     }
 
 	@Override
-	public float getVoltage()
+	public double getVoltage()
 	{
 		return 20;
 	}
 	
 	@Override
-	public float getElectricityCapacity() 
+	public double getMaxWattHours()
 	{
 		return 4000;
 	}
 
 	@Override
-	public float getTransferRate()
+	public double getTransferRate()
 	{
 		return 25;
 	}
