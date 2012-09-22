@@ -21,8 +21,11 @@ import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricityManager;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
+import universalelectricity.network.ConnectionHandler;
 import universalelectricity.network.IPacketReceiver;
+import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
+import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -32,7 +35,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory
+public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory, ISimpleConnectionHandler
 {
     //The missile that this launcher is holding
     public EDaoDan containingMissile = null;
@@ -49,6 +52,13 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
      * The ItemStacks that hold the items currently being used in the missileLauncher
      */
     private ItemStack[] missileLauncherItemStacks = new ItemStack[1];
+
+	private boolean sendUpdate = false;
+    
+    public TFaSheDi()
+    {
+		ConnectionHandler.registerConnectionHandler(this);
+    }
     
     /**
      * Returns the number of slots in the inventory.
@@ -176,9 +186,9 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
         	{
         		this.connectedFrame = null;
         	}
-        	else if(Ticker.inGameTicks % (20*30) == 0 && this.connectedFrame != null && !this.worldObj.isRemote)
+        	else if(this.sendUpdate || Ticker.inGameTicks % (20*30) == 0 && this.connectedFrame != null && !this.worldObj.isRemote)
         	{
-				PacketManager.sendTileEntityPacketWithRange(this.connectedFrame, "ICBM", 200, (byte)this.connectedFrame.getDirection().ordinal(), this.connectedFrame.getTier());
+				PacketManager.sendTileEntityPacket(this.connectedFrame, "ICBM", (byte)this.connectedFrame.getDirection().ordinal(), this.connectedFrame.getTier());
         	}
         }
     	
@@ -219,12 +229,21 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	    		this.containingMissile = null;
 	    	}
 	    	
-	        if(Ticker.inGameTicks % (20*30) == 0)
+	        if(this.sendUpdate  || Ticker.inGameTicks % (20*30) == 0)
 	        {
-	        	PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 200, this.orientation, this.tier);
+	        	PacketManager.sendTileEntityPacket(this, "ICBM", this.orientation, this.tier);
+	        	this.sendUpdate = false;
 	        }
 		}
-	    
+	}
+    
+    @Override
+	public void handelConnection(ConnectionType type, Object... data)
+	{
+		if(type == ConnectionType.LOGIN_SERVER)
+		{
+        	this.sendUpdate = true;
+		}
 	}
 	
 	@Override

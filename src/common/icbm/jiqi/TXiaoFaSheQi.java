@@ -15,16 +15,20 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IElectricityStorage;
 import universalelectricity.implement.IRedstoneReceptor;
+import universalelectricity.network.ConnectionHandler;
+import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
+import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
+public class TXiaoFaSheQi extends TLauncher implements ISimpleConnectionHandler, IElectricityStorage, IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
 {
     //The missile that this launcher is holding
     public EDaoDan containingMissile = null;
@@ -50,6 +54,7 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 	{
 		super();
 		this.target = new Vector3();
+		ConnectionHandler.registerConnectionHandler(this);
 	}
 	
     /**
@@ -206,37 +211,40 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 				this.rotationPitch += (this.getPitchFromTarget() - this.rotationPitch)*0.1;
 			}
 	    	
-	    	if (this.containingItems[0] != null)
-	        {
-	            if (this.containingItems[0].getItem() instanceof ItDaoDan)
-	            {
-	                int missileId = this.containingItems[0].getItemDamage();
-	
-	            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3 && containingMissile == null)
-	            	{
-	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
-	                    this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
-	                    this.worldObj.spawnEntityInWorld(this.containingMissile);
-	            	}
-	            	else if(this.containingMissile != null && this.containingMissile.missileID !=  missileId)
-	            	{
-	            		if(this.containingMissile != null) this.containingMissile.setDead();
-	            		this.containingMissile = null;
-	            	}
-	            }
-	            else
-	        	{
-	            	if(this.containingMissile != null) this.containingMissile.setDead();
-	        		this.containingMissile = null;
-	        	}
-	        }
-	    	else
-	    	{
-	    		if(this.containingMissile != null) this.containingMissile.setDead();
-	    		this.containingMissile = null;
-	    	}
+			if(!this.worldObj.isRemote)
+			{
+		    	if (this.containingItems[0] != null)
+		        {
+		            if (this.containingItems[0].getItem() instanceof ItDaoDan)
+		            {
+		                int missileId = this.containingItems[0].getItemDamage();
+		
+		            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3 && containingMissile == null)
+		            	{
+		        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
+		                    this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
+		                    this.worldObj.spawnEntityInWorld(this.containingMissile);
+		            	}
+		            	else if(this.containingMissile != null && this.containingMissile.missileID !=  missileId)
+		            	{
+		            		if(this.containingMissile != null) this.containingMissile.setDead();
+		            		this.containingMissile = null;
+		            	}
+		            }
+		            else
+		        	{
+		            	if(this.containingMissile != null) this.containingMissile.setDead();
+		        		this.containingMissile = null;
+		        	}
+		        }
+		    	else
+		    	{
+		    		if(this.containingMissile != null) this.containingMissile.setDead();
+		    		this.containingMissile = null;
+		    	}
+			}
 	    	
-	    	if(this.isPowered)
+	    	if(this.isPowered && !this.worldObj.isRemote)
 			{
 	    		if(canLaunch())
 	    		{
@@ -246,10 +254,10 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 				this.isPowered = false;
 			}
 	    	
-	    	if(!this.worldObj.isRemote && this.playersUsing > 0)
+	    	if(!this.worldObj.isRemote && Ticker.inGameTicks % 40 == 0 && this.playersUsing > 0)
 		    {
 		    	if(this.target == null) this.target = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.rotationYaw, this.rotationPitch, this.target.x, this.target.y, this.target.z);
+				PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
 		    }
     	}
     }
@@ -259,16 +267,13 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 	{
 		try
         {
-			int ID = dataStream.readInt();
+			final int ID = dataStream.readInt();
 			
 			if(ID == 0)
 			{
-				this.wattHourStored = dataStream.readFloat();
+				this.wattHourStored = dataStream.readDouble();
 	            this.frequency = dataStream.readShort();
 	            this.disabledTicks = dataStream.readInt();
-	            this.rotationYaw = dataStream.readFloat();
-	            this.rotationPitch = dataStream.readFloat();
-	            
 				this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
 			else if(ID == 1)
@@ -292,13 +297,21 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
         }
 	}
     
+    @Override
+	public void handelConnection(ConnectionType type, Object... data)
+	{
+		if(type == ConnectionType.LOGIN_SERVER)
+		{
+			PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+		}
+	}
 
     @Override
     public void openChest()
     {
     	if(!this.worldObj.isRemote)
         {
-    		PacketManager.sendTileEntityPacketWithRange(this, "BasicComponents", 15, this.wattHourStored, this.disabledTicks);
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
         }
     	
     	this.playersUsing  ++;
@@ -512,6 +525,6 @@ public class TXiaoFaSheQi extends TLauncher implements IElectricityStorage, IPac
 	@Override
 	public double getMaxWattHours() 
 	{
-		return 12000;
+		return 100;
 	}
 }
