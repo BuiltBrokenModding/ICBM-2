@@ -60,7 +60,7 @@ public class DaoDan implements ITier
 	 */
 	public void onExplode(EDaoDan missileObj)
 	{
-		ZhaPin.createExplosion(missileObj.worldObj, Vector3.get(missileObj), missileObj, missileObj.missileID);
+		ZhaPin.createBaoZha(missileObj.worldObj, Vector3.get(missileObj), missileObj, missileObj.missileID);
 	}
 	
 	public ItemStack getItemStack()

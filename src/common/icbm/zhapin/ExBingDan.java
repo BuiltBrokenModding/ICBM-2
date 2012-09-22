@@ -31,7 +31,7 @@ public class ExBingDan extends ZhaPin
 	/**
 	 * Called before an explosion happens
 	 */
-	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		EGuang lightBeam = new EGuang(worldObj, position, 20*20, 0F, 0.3F, 0.7F);
 		worldObj.spawnEntityInWorld(lightBeam);
@@ -40,7 +40,7 @@ public class ExBingDan extends ZhaPin
 	}
 	
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{		
 		List<Entity> gravityBlocks = new ArrayList();
 		
@@ -148,7 +148,7 @@ public class ExBingDan extends ZhaPin
 	}
 	
 	@Override
-	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		if(!worldObj.isRemote)
 		{
@@ -186,7 +186,7 @@ public class ExBingDan extends ZhaPin
 		    		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 45 * 20, 4));
 		        }
 		        
-				ZhaPin.EndothermicIce.spawnExplosive(worldObj, position, (byte)0);
+				ZhaPin.EndothermicIce.spawnZhaDan(worldObj, position, (byte)0);
 			}			
 		}
 	}

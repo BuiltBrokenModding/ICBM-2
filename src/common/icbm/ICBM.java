@@ -228,15 +228,15 @@ public class ICBM
 			}
 			else
 			{
-				LanguageRegistry.addName(new ItemStack(ICBM.itemDaoDan, 1, i), ZhaPin.list[i].getName()+" Missile");
+				LanguageRegistry.addName(new ItemStack(ICBM.itemDaoDan, 1, i), ZhaPin.list[i].getMing()+" Missile");
 			
 				if(i < 4)
 				{
-					LanguageRegistry.addName(new ItemStack(ICBM.itemShouLiuDan, 1, i), ZhaPin.list[i].getName()+" Grenade");
+					LanguageRegistry.addName(new ItemStack(ICBM.itemShouLiuDan, 1, i), ZhaPin.list[i].getMing()+" Grenade");
 				}
 			}
 		
-			LanguageRegistry.addName(new ItemStack(ICBM.blockZha4Dan4, 1, i), ZhaPin.list[i].getName()+" Explosives");
+			LanguageRegistry.addName(new ItemStack(ICBM.blockZha4Dan4, 1, i), ZhaPin.list[i].getMing()+" Explosives");
 		}
 		 
 	    //-- Recipes
@@ -296,7 +296,7 @@ public class ICBM
 		
 		for(int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
 		{
-			if(!ZhaPin.list[i].isDisabled)
+			if(!ZhaPin.list[i].isCraftingDisabled)
 			{
 				ZhaPin.list[i].addCraftingRecipe();
 				

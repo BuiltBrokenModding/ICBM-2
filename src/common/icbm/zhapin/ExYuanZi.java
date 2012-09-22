@@ -23,11 +23,11 @@ public class ExYuanZi extends ZhaPin
 	public ExYuanZi(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setFuse(200);
+		this.setYinXin(200);
 	}
 	
 	@Override
-	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		EZhaPin source = (EZhaPin)explosionSource;
 		
@@ -59,7 +59,7 @@ public class ExYuanZi extends ZhaPin
 	}
 
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{		
 		EZhaPin source = (EZhaPin)explosionSource;
 	
@@ -181,10 +181,10 @@ public class ExYuanZi extends ZhaPin
 	public int proceduralInterval(){ return 1; }
 
 	@Override
-	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		ZhaPin.DecayLand.doExplosion(worldObj, position, null, BAN_JING+5, -1);
-		ZhaPin.Mutation.doExplosion(worldObj, position, null, BAN_JING+5, -1);
+		ZhaPin.DecayLand.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
+		ZhaPin.Mutation.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
 	}
 
 	/**
@@ -193,9 +193,9 @@ public class ExYuanZi extends ZhaPin
 	 * @param fuseTicks - The amount of ticks this explosive is on fuse
 	 */
 	@Override
-	public void onDetonating(World worldObj, Vector3 position, int fuseTicks)
+	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
 	{
-        super.onDetonating(worldObj, position, fuseTicks);
+        super.onYinZha(worldObj, position, fuseTicks);
         
         if(fuseTicks % 25 == 0)
         {

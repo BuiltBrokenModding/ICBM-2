@@ -24,7 +24,7 @@ public class EDu extends ZhaPin
 	 * World worldObj, Vector3 position, int radius, boolean isContagious
 	 */
 	@Override
-	public void doExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
 	{		
 		boolean isContagious = false;
 		int radius = 14;
@@ -59,7 +59,7 @@ public class EDu extends ZhaPin
 	
         if(isContagious)
         {
-    		ZhaPin.Mutation.doExplosion(worldObj, position, null, radius, -1);
+    		ZhaPin.Mutation.doBaoZha(worldObj, position, null, radius, -1);
         }
 	}
 	

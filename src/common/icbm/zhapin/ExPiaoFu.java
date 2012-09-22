@@ -24,7 +24,7 @@ public class ExPiaoFu extends ZhaPin
 
 	//Sonic Explosion is a procedural explosive
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
 	{
 		Vector3 currentPos;
 		int blockID;
@@ -102,7 +102,7 @@ public class ExPiaoFu extends ZhaPin
 	}
 	
 	@Override
-	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}

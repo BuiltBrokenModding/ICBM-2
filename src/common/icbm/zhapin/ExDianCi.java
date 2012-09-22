@@ -20,12 +20,12 @@ public class ExDianCi extends ZhaPin
 	 * World worldObj, Vector3 position, int amount, boolean isExplosive
 	 */
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
 		if(radius < 0) radius = 30;
 		
-		ZhaPin.EMPSignal.doExplosion(worldObj, position, null, radius, callCount);
-		ZhaPin.EMPWave.doExplosion(worldObj, position, null, radius, callCount);
+		ZhaPin.EMPSignal.doBaoZha(worldObj, position, null, radius, callCount);
+		ZhaPin.EMPWave.doBaoZha(worldObj, position, null, radius, callCount);
     	return false;
 	}
 

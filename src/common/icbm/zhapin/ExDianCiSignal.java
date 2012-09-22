@@ -21,7 +21,7 @@ public class ExDianCiSignal extends ZhaPin
 	 * World worldObj, Vector3 position, int amount, boolean isExplosive
 	 */
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
 		//Drop all missiles
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, 0, position.z - radius, position.x + radius, worldObj.getHeight(), position.z + radius);

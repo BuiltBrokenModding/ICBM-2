@@ -195,18 +195,18 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
             this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
         }
                 
-        if(this.ticksExisted > Math.max(60, ZhaPin.list[explosiveID].getFuse()))
+        if(this.ticksExisted > Math.max(60, ZhaPin.list[explosiveID].yinXin()))
         {
         	 if (!this.worldObj.isRemote)
              {
- 		    	ZhaPin.createExplosion(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.explosiveID);
+ 		    	ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.explosiveID);
              }
         	 
         	this.setDead();
         }
         else
         {
-        	ZhaPin.list[explosiveID].onDetonating(this.worldObj, new Vector3(this.posX, this.posY+0.5, this.posZ), this.ticksExisted);
+        	ZhaPin.list[explosiveID].onYinZha(this.worldObj, new Vector3(this.posX, this.posY+0.5, this.posZ), this.ticksExisted);
         }
 
     }

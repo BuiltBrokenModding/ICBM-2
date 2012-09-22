@@ -56,11 +56,12 @@ public abstract class ZhaPin implements ITier
 	
 	public static ZhaPin[] list;
 	
-	private String name;
+	private String mingZi;
 	private int ID;
 	private int tier;
-	private int fuse;
-	private DaoDan missile;
+	private int yinXin;
+	private DaoDan daoDan;
+	public boolean isCraftingDisabled;
 	public boolean isDisabled;
 
 	protected ZhaPin(String name, int ID, int tier)
@@ -76,24 +77,25 @@ public abstract class ZhaPin implements ITier
         }
     	
     	list[ID] = this;
-    	this.name = name;
+    	this.mingZi = name;
         this.tier = tier;
-        this.fuse = 100;
+        this.yinXin = 100;
         this.ID = ID;
-        this.missile = new DaoDan(name, ID, tier);
+        this.daoDan = new DaoDan(name, ID, tier);
         
-        this.isDisabled = getExplosiveConfig("Disabled", false);
+        this.isCraftingDisabled = getZhaPinConfig("Crafting Disabled", false);
+        this.isDisabled = getZhaPinConfig("Disabled", false);
     }
 	
 	public int getID() { return this.ID; }
 	
-	public String getName() { return this.name; }
+	public String getMing() { return this.mingZi; }
 	
-	public String getExplosiveName() { return this.name+" Explosive"; }
+	public String getZhaPinMing() { return this.mingZi+" Explosive"; }
 
-	public String getGrenadeName() { return this.name+" Grenade"; }
+	public String getGrenadeName() { return this.mingZi+" Grenade"; }
 	
-	public String getDaoDanMing() { return this.name+" Missile"; }
+	public String getDaoDanMing() { return this.mingZi+" Missile"; }
 
 	@Override
 	public int getTier() { return this.tier; }
@@ -101,20 +103,20 @@ public abstract class ZhaPin implements ITier
 	@Override
 	public void setTier(int tier) { this.tier = tier; }
 	
-	public void setFuse(int fuse) { this.fuse = fuse; }
+	public void setYinXin(int fuse) { this.yinXin = fuse; }
 	
 	/**
 	 * The fuse of the explosion
 	 * @return The Fuse
 	 */
-	public int getFuse() { return fuse; }
+	public int yinXin() { return yinXin; }
 	
 	/**
 	 * Called at the start of a detontation
 	 * @param worldObj
 	 * @param entity
 	 */
-	public void preDetontation(World worldObj, Entity entity)
+	public void yinZhaQian(World worldObj, Entity entity)
 	{
 		worldObj.playSoundAtEntity(entity, "random.fuse", 1.0F, 1.0F);
 	}
@@ -124,7 +126,7 @@ public abstract class ZhaPin implements ITier
 	 * Called only when the explosive is in it's TNT form.
 	 * @param fuseTicks - The amount of ticks this explosive is on fuse
 	 */
-	public void onDetonating(World worldObj, Vector3 position, int fuseTicks)
+	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
 	{
         worldObj.spawnParticle("smoke", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
 	}
@@ -133,9 +135,9 @@ public abstract class ZhaPin implements ITier
 	 * Called when the TNT for of this explosive is destroy by an explosion
 	 * @return - Fuse left
 	 */
-	public int onDestroyedByExplosion()
+	public int onBeiZha()
     {
-        return (int)(this.fuse / 2 + Math.random() *this.fuse / 4);
+        return (int)(this.yinXin / 2 + Math.random() *this.yinXin / 4);
     }
 	
 	/**
@@ -149,7 +151,7 @@ public abstract class ZhaPin implements ITier
 	/**
 	 * Called before an explosion happens
 	 */
-	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource) {}
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource) {}
 	
 	/**
 	 * Called to do an explosion
@@ -158,29 +160,29 @@ public abstract class ZhaPin implements ITier
 	 * @param callCount - The amount of calls done for calling this explosion. Use only by procedural explosions
 	 * @return - True if this explosive needs to continue to procedurally explode. False if otherwise
 	 */
-	public void doExplosion(World worldObj, Vector3 position, Entity explosionSource) {}
+	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource) {}
 
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{
-		doExplosion(worldObj, position, explosionSource);
+		doBaoZha(worldObj, position, explosionSource);
 		return false;
 	}
 	
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
 	{
-		return doExplosion(worldObj, position, explosionSource, callCount);
+		return doBaoZha(worldObj, position, explosionSource, callCount);
 	}
 	
 	/**
 	 * Called every tick when this explosive is doing it's procedural explosion
 	 * @param ticksExisted - The ticks in which this explosive existed
 	 */
-	public void onUpdate(World worldObj, Vector3 position, int ticksExisted) {}
+	public void gengXin(World worldObj, Vector3 position, int ticksExisted) {}
 	
 	/**
 	 * Called after the explosion is completed
 	 */
-	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource){};
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource){};
 	
 	public int countIncrement() { return 1;}
 	
@@ -190,33 +192,33 @@ public abstract class ZhaPin implements ITier
 	 * @param position
 	 * @param cause - 0: N/A, 1: Destruction, 2: Fire
 	 */
-	public void spawnExplosive(World worldObj, Vector3 position, ForgeDirection orientation, byte cause)
+	public void spawnZhaDan(World worldObj, Vector3 position, ForgeDirection orientation, byte cause)
 	{
 		position.add(0.5D);
-		EZhaDan entityExplosive = new EZhaDan(worldObj, position, (byte) orientation.ordinal(), this.getID());
+		EZhaDan eZhaDan = new EZhaDan(worldObj, position, (byte) orientation.ordinal(), this.getID());
 		
 		switch(cause)
 		{
-			case 1: entityExplosive.destroyedByExplosion(); break;
-			case 2: entityExplosive.setFire(10); break;
+			case 1: eZhaDan.destroyedByExplosion(); break;
+			case 2: eZhaDan.setFire(10); break;
 		}
 
-		worldObj.spawnEntityInWorld(entityExplosive);
+		worldObj.spawnEntityInWorld(eZhaDan);
 	}
 	
-	public void spawnExplosive(World worldObj, Vector3 position, byte orientation)
+	public void spawnZhaDan(World worldObj, Vector3 position, byte orientation)
 	{
-		this.spawnExplosive(worldObj, position, ForgeDirection.getOrientation(orientation), (byte)0);
+		this.spawnZhaDan(worldObj, position, ForgeDirection.getOrientation(orientation), (byte)0);
 	}
 	
-	public boolean getExplosiveConfig(String comment, boolean defaultValue)
+	public boolean getZhaPinConfig(String comment, boolean defaultValue)
 	{
 		if(comment != null && comment != "")
 		{
 			comment = "_"+comment;
 		}
 		
-		return ICBM.getBooleanConfig(this.name+comment, defaultValue);
+		return ICBM.getBooleanConfig(this.mingZi+comment, defaultValue);
 	}
 	
 	/**
@@ -228,7 +230,7 @@ public abstract class ZhaPin implements ITier
 	
 	public ItemStack getItemStack(int amount) { return new ItemStack(ICBM.blockZha4Dan4, amount, this.getID()); }
 	
-	public static void createExplosion(World worldObj, Vector3 position, Entity entity, int explosiveID)
+	public static void createBaoZha(World worldObj, Vector3 position, Entity entity, int explosiveID)
 	{
 		if(list[explosiveID].proceduralInterval(worldObj, -1) > 0)
         {
@@ -239,7 +241,7 @@ public abstract class ZhaPin implements ITier
         }
         else
         {
-        	list[explosiveID].doExplosion(worldObj, new Vector3(position.x, position.y, position.z), entity, explosiveID , -1);
+        	list[explosiveID].doBaoZha(worldObj, new Vector3(position.x, position.y, position.z), entity, explosiveID , -1);
         }
 	}
 	

@@ -27,7 +27,7 @@ public class ExHongSu extends ZhaPin
 
 	//Sonic Explosion is a procedural explosive
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
 	{
 		if(worldObj.isRemote)
 		{

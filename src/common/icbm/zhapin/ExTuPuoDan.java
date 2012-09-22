@@ -11,13 +11,13 @@ public class ExTuPuoDan extends ZhaPin
 	public ExTuPuoDan(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setFuse(10);
+		this.setYinXin(10);
 	}
 
 	@Override
-	public void doExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		Condensed.doExplosion(worldObj, position, explosionSource);
+		Condensed.doBaoZha(worldObj, position, explosionSource);
 
 		Vector3 difference = new Vector3();
 		
@@ -34,7 +34,7 @@ public class ExTuPuoDan extends ZhaPin
 		{
 			position.add(difference);
 			position.add(difference);
-			Condensed.doExplosion(worldObj, position, explosionSource);
+			Condensed.doBaoZha(worldObj, position, explosionSource);
 		}
     }
 	

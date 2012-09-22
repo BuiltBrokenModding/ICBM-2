@@ -17,7 +17,7 @@ public class ExQunDan extends ZhaPin
 	}
 
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
 	{
 		int amount = 28;
 		boolean isExplosive = false;

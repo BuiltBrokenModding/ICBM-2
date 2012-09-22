@@ -149,11 +149,11 @@ public class BZhaDan extends BlockContainer
     	{
     		if(par1World.getBlockTileEntity(x, y, z) != null)
     		{
-    			ZhaPin.list[metadata].spawnExplosive(par1World, new Vector3(x, y, z), ((IRotatable)par1World.getBlockTileEntity(x, y, z)).getDirection(), (byte)causeOfExplosion);
+    			ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ((IRotatable)par1World.getBlockTileEntity(x, y, z)).getDirection(), (byte)causeOfExplosion);
     		}
     		else
     		{
-    			ZhaPin.list[metadata].spawnExplosive(par1World, new Vector3(x, y, z), ForgeDirection.DOWN, (byte)causeOfExplosion);
+    			ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.DOWN, (byte)causeOfExplosion);
     		}
     	}
     	

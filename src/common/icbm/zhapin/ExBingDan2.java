@@ -10,11 +10,11 @@ public class ExBingDan2 extends ZhaPin
 	public ExBingDan2(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setFuse(1);
+		this.setYinXin(1);
 	}
 
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
 	{
 		int radius = callCount;
 		

@@ -20,7 +20,7 @@ public class ExBianZhong extends ZhaPin
 	}
 
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
 		if(!worldObj.isRemote)
 		{

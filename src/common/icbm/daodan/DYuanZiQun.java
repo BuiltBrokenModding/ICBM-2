@@ -38,7 +38,7 @@ public class DYuanZiQun extends DQun
 	@Override
 	public void onExplode(EDaoDan missileObj)
 	{
-		ZhaPin.createExplosion(missileObj.worldObj, Vector3.get(missileObj), missileObj, ZhaPin.Nuclear.getID());
+		ZhaPin.createBaoZha(missileObj.worldObj, Vector3.get(missileObj), missileObj, ZhaPin.Nuclear.getID());
 	}
 	
 	@Override

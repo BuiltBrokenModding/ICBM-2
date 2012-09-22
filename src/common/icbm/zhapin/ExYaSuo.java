@@ -20,11 +20,11 @@ public class ExYaSuo extends ZhaPin
 	public ExYaSuo(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setFuse(1);
+		this.setYinXin(1);
 	}
 
 	@Override
-	public void doExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		if(!worldObj.isRemote)
 		{

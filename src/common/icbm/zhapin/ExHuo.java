@@ -19,7 +19,7 @@ public class ExHuo extends ZhaPin
 	 * World worldObj, Vector3 position, int amount, boolean isExplosive
 	 */
 	@Override
-	public void doExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
 	{    	
 		int radius = 12;
 		

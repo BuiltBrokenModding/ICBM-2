@@ -20,7 +20,7 @@ public class ExDianCiWave extends ZhaPin
 	 * World worldObj, Vector3 position, int amount, boolean isExplosive
 	 */
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
     	int r = radius;
 

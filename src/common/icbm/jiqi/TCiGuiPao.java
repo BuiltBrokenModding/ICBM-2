@@ -28,14 +28,17 @@ import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IElectricityStorage;
 import universalelectricity.implement.IRedstoneReceptor;
+import universalelectricity.network.ConnectionHandler;
+import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
+import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
+public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory, ISimpleConnectionHandler
 {	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -66,10 +69,12 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	private int explosionDepth;
 	
 	private int playersUsing = 0;
+	private boolean sendUpdate = false;
 	    
     public TCiGuiPao()
     {
 		super();
+		ConnectionHandler.registerConnectionHandler(this);
     }
     
 	@Override
@@ -211,7 +216,13 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 				{
 					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)4, this.wattHourStored, this.disabledTicks);
 				}
-			}	
+			}
+			
+			if(this.sendUpdate)
+			{
+				PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)1, this.displayRotationYaw, this.displayRotationPitch);
+				this.sendUpdate = false;
+			}
 		}
 	}
 	
@@ -252,6 +263,15 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	    {
 	        e.printStackTrace();
 	    }
+	}
+	
+	@Override
+	public void handelConnection(ConnectionType type, Object... data)
+	{
+		if(type == ConnectionType.LOGIN_SERVER)
+		{
+			this.sendUpdate = true;
+		}
 	}
 	
 	@Override
@@ -547,10 +567,15 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	public void onPowerOff() {this.redstonePowerOn = false;}
 	
 	@Override
-	public double wattRequest()
-	{
-		return ElectricInfo.getWatts(this.getMaxWattHours())-ElectricInfo.getWatts(this.wattHourStored);
-	}
+    public double wattRequest()
+    {
+        if (!this.isDisabled())
+        {
+            return Math.ceil(ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.wattHourStored));
+        }
+
+        return 0;
+    }
 	
 	@Override
 	public double getWattHours(Object... data)

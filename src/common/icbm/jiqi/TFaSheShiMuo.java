@@ -14,10 +14,10 @@ import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.ConnectionHandler;
+import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
-import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -45,11 +45,11 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
     public TFaSheDi connectedBase = null;
 
     //The electricity stored in the launcher screen
-    public double wattHourStored = 0;
+    public double dianXiaoShi = 0;
     
-	private int playersUsing = 0;
+	private int yongZhe = 0;
 
-	private boolean sendUpdate;
+	private boolean packetGengXin;
       	
   	public TFaSheShiMuo()
   	{
@@ -60,13 +60,10 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
   	@Override
 	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
 	{
-		if(!this.worldObj.isRemote)
-		{		
-			if(!this.isDisabled())
-	    	{
-				this.setWattHours(this.wattHourStored+ElectricInfo.getWattHours(amps, voltage));
-	    	}
-		}
+		if(!this.isDisabled())
+    	{
+			this.setWattHours(this.dianXiaoShi+ElectricInfo.getWattHours(amps, voltage));
+    	}
 	}
   	
   	public void updateEntity()
@@ -111,19 +108,19 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
 	    
     	if(!this.worldObj.isRemote)
 		{
-	        if(this.sendUpdate || Ticker.inGameTicks % 40 == 0)
+	        if(Ticker.inGameTicks % 40 == 0)
 	    	{
-	        	if(this.sendUpdate || this.playersUsing  > 0)
+	        	if(this.yongZhe  > 0)
 	        	{
 		        	if(this.target == null) this.target = new Vector3(this.xCoord, 0, this.zCoord);
-		    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)3, this.wattHourStored, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+		    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)3, this.dianXiaoShi, this.disabledTicks, this.target.x, this.target.y, this.target.z);
 	        	}
 	    	}
 	        
-	        if(this.sendUpdate)
+	        if(this.packetGengXin)
 	        {
 				PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.orientation, this.tier, this.frequency);
-				this.sendUpdate = false;
+				this.packetGengXin = false;
 	        }
 		}
 	}
@@ -139,11 +136,11 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
 			{
 				if(dataStream.readBoolean())
 				{
-					this.playersUsing ++;
+					this.yongZhe ++;
 				}
 				else
 				{
-					this.playersUsing --;
+					this.yongZhe --;
 				}
 			}
 	        else if(ID == 0)
@@ -168,9 +165,12 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
 			}
 			else if(ID == 3)
 			{
-				this.wattHourStored = dataStream.readDouble();
-	            this.disabledTicks = dataStream.readInt();
-				this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+				if(this.worldObj.isRemote)
+				{
+					this.dianXiaoShi = dataStream.readDouble();
+		            this.disabledTicks = dataStream.readInt();
+					this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+				}
 			}
 			
         }
@@ -185,7 +185,7 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
 	{
 		if(type == ConnectionType.LOGIN_SERVER)
 		{
-        	this.sendUpdate = true;
+        	this.packetGengXin = true;
 		}
 	}
     
@@ -196,7 +196,7 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
     	{
 	    	if(this.connectedBase.containingMissile != null)
 	        {
-	    		if(this.wattHourStored >= this.getMaxWattHours())
+	    		if(this.dianXiaoShi >= this.getMaxWattHours())
 	    		{
 		            if(this.connectedBase.isInRange(this.target))
 		            {
@@ -217,7 +217,7 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
     {
     	if(this.canLaunch())
     	{
-            this.wattHourStored = 0;
+            this.setWattHours(0);
             this.connectedBase.launchMissile(this.target);
     	}          
     }
@@ -240,7 +240,7 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
         {
         	status = "Not connected!";
         }
-        else if(this.wattHourStored < this.getMaxWattHours())
+        else if(this.dianXiaoShi < this.getMaxWattHours())
     	{
     		status = "Insufficient electricity!";
     	}
@@ -282,7 +282,7 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
     	this.tier = par1NBTTagCompound.getInteger("tier");
     	this.frequency = par1NBTTagCompound.getShort("frequency");
     	this.orientation = par1NBTTagCompound.getByte("facingDirection");
-    	this.wattHourStored = par1NBTTagCompound.getDouble("electricityStored");
+    	this.dianXiaoShi = par1NBTTagCompound.getDouble("electricityStored");
     }
 
     /**
@@ -300,7 +300,7 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
     	par1NBTTagCompound.setInteger("tier", this.tier);
     	par1NBTTagCompound.setShort("frequency", this.frequency);
     	par1NBTTagCompound.setByte("facingDirection", this.orientation);
-    	par1NBTTagCompound.setDouble("electricityStored", this.wattHourStored);
+    	par1NBTTagCompound.setDouble("electricityStored", this.dianXiaoShi);
     }
 
 	@Override
@@ -360,7 +360,7 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
     {
         if (!this.isDisabled())
         {
-            return this.getMaxWattHours() - this.wattHourStored;
+            return Math.ceil(ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.dianXiaoShi));
         }
 
         return 0;
@@ -381,18 +381,18 @@ public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPac
 	@Override
     public double getWattHours(Object... data)
     {
-    	return this.wattHourStored;
+    	return this.dianXiaoShi;
     }
 
 	@Override
 	public void setWattHours(double wattHours, Object... data)
 	{
-		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
 	}
 
 	@Override
 	public double getMaxWattHours()
 	{
-		return 10*this.getVoltage();
+		return Math.max(Math.min(1.1*this.getVoltage(), 300), 150);
 	}
 }

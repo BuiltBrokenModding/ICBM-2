@@ -12,12 +12,12 @@ public class ExTaiYang2 extends ZhaPin
 	public ExTaiYang2(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setFuse(1);
-		this.createNetherrack = getExplosiveConfig("Create Netherrack", createNetherrack);
+		this.setYinXin(1);
+		this.createNetherrack = getZhaPinConfig("Create Netherrack", createNetherrack);
 	}
 
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
 	{
 		int radius = callCount;
 		
@@ -94,7 +94,7 @@ public class ExTaiYang2 extends ZhaPin
 	 * @param ticksExisted 
 	 */
 	@Override
-	public void onUpdate(World worldObj, Vector3 position, int ticksExisted)
+	public void gengXin(World worldObj, Vector3 position, int ticksExisted)
 	{
 		long worldTime = worldObj.getWorldTime();
 		

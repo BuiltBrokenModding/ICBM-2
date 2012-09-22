@@ -57,6 +57,15 @@ public class GFaSheShiMuo extends ICBMGui
             this.textFieldZ.setText(Math.round(this.tileEntity.target.z) + "");
             this.textFieldY.setText(Math.round(this.tileEntity.target.y) + "");
         }
+        
+        PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    }
+    
+    @Override
+    public void onGuiClosed()
+    {
+    	super.onGuiClosed();
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
     }
 
     /**
@@ -147,7 +156,7 @@ public class GFaSheShiMuo extends ICBMGui
         //Shows the status of the missile launcher
         this.fontRenderer.drawString("Status: "+this.tileEntity.getStatus(), 12, 125, 4210752);
     	this.fontRenderer.drawString("Voltage: "+this.tileEntity.getVoltage()+"v", 12, 137, 4210752);
-        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.wattHourStored, ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxWattHours(), ElectricUnit.WATT_HOUR), 12, 150, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.dianXiaoShi, ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxWattHours(), ElectricUnit.WATT_HOUR), 12, 150, 4210752);
     }
     
     @Override

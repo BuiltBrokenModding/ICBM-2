@@ -39,7 +39,7 @@ public class GDianCiQi extends ICBMGui
         
         this.textFieldRadius = new GuiTextField(fontRenderer, 72, 28, 20, 12);
         this.textFieldRadius.setMaxStringLength(2);
-        this.textFieldRadius.setText(this.tileEntity.radius+"");  
+        this.textFieldRadius.setText(this.tileEntity.banJing+"");  
         PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
     }
     
@@ -58,12 +58,12 @@ public class GDianCiQi extends ICBMGui
     {
         switch(par1GuiButton.id)
         {
-	        case 0: this.tileEntity.EMPMode = 1; break;
-	        case 1: this.tileEntity.EMPMode = 2; break;
-	        case 2: this.tileEntity.EMPMode = 0; break;
+	        case 0: this.tileEntity.muoShi = 1; break;
+	        case 1: this.tileEntity.muoShi = 2; break;
+	        case 2: this.tileEntity.muoShi = 0; break;
         }
         
-        PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)3, this.tileEntity.EMPMode);
+        PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)3, this.tileEntity.muoShi);
     }
 
     /**
@@ -102,11 +102,11 @@ public class GDianCiQi extends ICBMGui
     	//Shows the EMP mode of the EMP Tower
         String mode = "Debilitate Electronics";
             
-        if(this.tileEntity.EMPMode == 1)
+        if(this.tileEntity.muoShi == 1)
     	{
         	mode = "Disrupt Missiles";
     	}
-    	else if(this.tileEntity.EMPMode == 2)
+    	else if(this.tileEntity.muoShi == 2)
     	{
     		mode = "Deplete Electricity";
     	}
@@ -159,16 +159,16 @@ public class GDianCiQi extends ICBMGui
         {
         	int radius = Math.min(Math.max(Integer.parseInt(this.textFieldRadius.getText()), 10), this.tileEntity.MAX_RADIUS);
         	
-        	if(radius != this.tileEntity.radius)
+        	if(radius != this.tileEntity.banJing)
         	{
-        		this.tileEntity.radius = radius;
-        		this.textFieldRadius.setText(this.tileEntity.radius+"");
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2, this.tileEntity.radius);
+        		this.tileEntity.banJing = radius;
+        		this.textFieldRadius.setText(this.tileEntity.banJing+"");
+    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2, this.tileEntity.banJing);
         	}
         }
         catch (NumberFormatException e)
         {
-            this.tileEntity.radius = this.tileEntity.MAX_RADIUS;
+            this.tileEntity.banJing = this.tileEntity.MAX_RADIUS;
         }
     }
 }

@@ -222,8 +222,8 @@ public class TXiaoFaSheQi extends TLauncher implements ISimpleConnectionHandler,
 		            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3 && containingMissile == null)
 		            	{
 		        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
-		                    this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
-		                    this.worldObj.spawnEntityInWorld(this.containingMissile);
+	        				this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
+	        				this.worldObj.spawnEntityInWorld(this.containingMissile);
 		            	}
 		            	else if(this.containingMissile != null && this.containingMissile.missileID !=  missileId)
 		            	{
@@ -242,16 +242,16 @@ public class TXiaoFaSheQi extends TLauncher implements ISimpleConnectionHandler,
 		    		if(this.containingMissile != null) this.containingMissile.setDead();
 		    		this.containingMissile = null;
 		    	}
-			}
-	    	
-	    	if(this.isPowered && !this.worldObj.isRemote)
-			{
-	    		if(canLaunch())
-	    		{
-	    			this.launch();
-	    		}
-	    		
-				this.isPowered = false;
+
+		    	if(this.isPowered)
+				{
+		    		if(canLaunch())
+		    		{
+		    			this.launch();
+		    		}
+		    		
+					this.isPowered = false;
+				}
 			}
 	    	
 	    	if(!this.worldObj.isRemote && Ticker.inGameTicks % 40 == 0 && this.playersUsing > 0)
@@ -505,11 +505,16 @@ public class TXiaoFaSheQi extends TLauncher implements ISimpleConnectionHandler,
 	}
 	
 	@Override
-	public double wattRequest()
-	{
-		return ElectricInfo.getWatts(this.getMaxWattHours())-ElectricInfo.getWatts(this.wattHourStored);
-	}
+    public double wattRequest()
+    {
+        if (!this.isDisabled())
+        {
+            return ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.wattHourStored);
+        }
 
+        return 0;
+    }
+	
 	@Override
 	public double getWattHours(Object... data)
 	{

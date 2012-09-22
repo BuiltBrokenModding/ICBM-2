@@ -25,7 +25,7 @@ public class ExTaiYang extends ZhaPin
 	/**
 	 * Called before an explosion happens
 	 */
-	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		if(!worldObj.isRemote)
 		{
@@ -37,7 +37,7 @@ public class ExTaiYang extends ZhaPin
 	}
 	
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity explosionSource, int callCount)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{	
 		if(!worldObj.isRemote)
 		{
@@ -148,7 +148,7 @@ public class ExTaiYang extends ZhaPin
 	}
 	
 	@Override
-	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		if(!worldObj.isRemote)
 		{
@@ -178,7 +178,7 @@ public class ExTaiYang extends ZhaPin
 					}
 				}
 				
-				ZhaPin.ConflagrationFire.spawnExplosive(worldObj, position, (byte)0);
+				ZhaPin.ConflagrationFire.spawnZhaDan(worldObj, position, (byte)0);
 			}
 		}
 	}

@@ -17,20 +17,20 @@ public class ExFanWuSu extends ZhaPin
 	public ExFanWuSu(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setFuse(300);
-		this.destroyBedrock = getExplosiveConfig("Destroy Bedrock", destroyBedrock);
+		this.setYinXin(300);
+		this.destroyBedrock = getZhaPinConfig("Destroy Bedrock", destroyBedrock);
 	}
 	
 	/**
 	 * Called before an explosion happens
 	 */
-	public void preExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		explosionSource.posY += 5;
 	}
 
 	@Override
-	public boolean doExplosion(World worldObj, Vector3 position, Entity source, int radius)
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity source, int radius)
 	{
 		radius = 50;
 		
@@ -89,9 +89,9 @@ public class ExFanWuSu extends ZhaPin
 	public int proceduralInterval(){ return 5; }
 
 	@Override
-	public void postExplosion(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		ZhaPin.DecayLand.doExplosion(worldObj, position, null, 45, -1);
+		ZhaPin.DecayLand.doBaoZha(worldObj, position, null, 45, -1);
 	}
 
 	/**
@@ -100,9 +100,9 @@ public class ExFanWuSu extends ZhaPin
 	 * @param fuseTicks - The amount of ticks this explosive is on fuse
 	 */
 	@Override
-	public void onDetonating(World worldObj, Vector3 position, int fuseTicks)
+	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
 	{
-        super.onDetonating(worldObj, position, fuseTicks);
+        super.onYinZha(worldObj, position, fuseTicks);
         
         if(fuseTicks % 25 == 0)
         {

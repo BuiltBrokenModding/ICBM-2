@@ -45,10 +45,10 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
         this.prevPosY = position.y;
         this.prevPosZ = position.z;
         this.explosiveID = explosiveID;
-        this.fuse = ZhaPin.list[explosiveID].getFuse();
+        this.fuse = ZhaPin.list[explosiveID].yinXin();
         this.orientation = orientation;
         
-        ZhaPin.list[explosiveID].preDetontation(par1World, this);        
+        ZhaPin.list[explosiveID].yinZhaQian(par1World, this);        
     }
     
     public EZhaDan(World par1World, Vector3 position, int explosiveID, byte orientation, int metadata)
@@ -81,12 +81,12 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
         if(this.fuse < 1)
         {
 	        worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-            ZhaPin.createExplosion(this.worldObj, Vector3.get(this), this, this.explosiveID);
+            ZhaPin.createBaoZha(this.worldObj, Vector3.get(this), this, this.explosiveID);
             this.setDead();
         }
         else
         {
-        	ZhaPin.list[explosiveID].onDetonating(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.fuse);
+        	ZhaPin.list[explosiveID].onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.fuse);
         }
         
         this.fuse --;
@@ -96,7 +96,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 
     public void destroyedByExplosion()
     {
-    	this.fuse = ZhaPin.list[explosiveID].onDestroyedByExplosion();
+    	this.fuse = ZhaPin.list[explosiveID].onBeiZha();
     }
     
     /**
