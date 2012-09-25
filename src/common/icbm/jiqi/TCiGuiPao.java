@@ -7,7 +7,7 @@ import icbm.ParticleSpawner;
 import icbm.TYinXing;
 import icbm.extend.IMultiBlock;
 import icbm.zhapin.EZhaPin;
-import icbm.zhapin.ExHongSu;
+import icbm.zhapin.ex.ExHongSu;
 
 import java.util.List;
 

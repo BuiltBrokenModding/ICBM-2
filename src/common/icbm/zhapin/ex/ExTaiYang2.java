@@ -1,6 +1,7 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 import icbm.ICBM;
+import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.World;

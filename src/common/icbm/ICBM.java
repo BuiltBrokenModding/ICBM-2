@@ -297,12 +297,12 @@ public class ICBM
 			ZhaPin.list[i].init();
 				
 	    	//Missile
-			RecipeManager.addShapelessRecipe(new ItemStack(ICBM.itemDaoDan, 1, i), new Object [] {new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new ItemStack(ICBM.blockZha4Dan4, 1, i)});        
+			RecipeManager.addShapelessRecipe(new ItemStack(ICBM.itemDaoDan, 1, i), new Object [] {new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new ItemStack(ICBM.blockZha4Dan4, 1, i)}, ZhaPin.list[i].getDaoDanMing(), CONFIGURATION, true);        
 	
 			if(i < 4)
 			{
 				//Grenade
-			    RecipeManager.addRecipe(new ItemStack(ICBM.itemShouLiuDan, 1, i), new Object [] {"?", "@", "@", '@', new ItemStack(ICBM.blockZha4Dan4, 1, i), '?', Item.silk});
+			    RecipeManager.addRecipe(new ItemStack(ICBM.itemShouLiuDan, 1, i), new Object [] {"?", "@", "@", '@', new ItemStack(ICBM.blockZha4Dan4, 1, i), '?', Item.silk}, CONFIGURATION, true);
 	        }
 		}
 		

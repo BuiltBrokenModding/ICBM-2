@@ -1,8 +1,11 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 import icbm.EGuang;
 import icbm.EntityGravityBlock;
 import icbm.ICBM;
+import icbm.zhapin.EShouLiuDan;
+import icbm.zhapin.EZhaPin;
+import icbm.zhapin.ZhaPin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -206,6 +209,6 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', Incendiary.getItemStack()}, ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', Incendiary.getItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);
 	}
 }

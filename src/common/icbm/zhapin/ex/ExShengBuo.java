@@ -1,8 +1,10 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 import icbm.EntityGravityBlock;
 import icbm.ICBM;
 import icbm.daodan.EDaoDan;
+import icbm.zhapin.EShouLiuDan;
+import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
@@ -130,6 +132,6 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@?@", "?!?", "@?@", '!', Block.tnt, '?', Block.music, '@', BasicComponents.itemBronzePlate}, ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@?@", "?!?", "@?@", '!', Block.tnt, '?', Block.music, '@', BasicComponents.itemBronzePlate}, this.getMing(), ICBM.CONFIGURATION, true);
 	}
 }

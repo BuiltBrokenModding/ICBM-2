@@ -1,6 +1,7 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 import ic2.api.IEnergyStorage;
+import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;

@@ -1,9 +1,12 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 import icbm.EGuang;
 import icbm.EntityGravityBlock;
 import icbm.ICBM;
 import icbm.ICBMPotion;
+import icbm.zhapin.EShouLiuDan;
+import icbm.zhapin.EZhaPin;
+import icbm.zhapin.ZhaPin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +198,7 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow}, ICBM.CONFIGURATION, true);		
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow}, this.getMing(), ICBM.CONFIGURATION, true);		
 	}
 	
 	public boolean canFocusBeam(World worldObj, Vector3 position)

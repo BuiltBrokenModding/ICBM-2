@@ -1,6 +1,7 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 import icbm.ICBM;
+import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
@@ -33,6 +34,6 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Item.redstone, '!', ((ItemElectric)BasicComponents.itemBattery).getUnchargedItemStack()}, ICBM.CONFIGURATION, true);		
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Item.redstone, '!', ((ItemElectric)BasicComponents.itemBattery).getUnchargedItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);		
 	}
 }

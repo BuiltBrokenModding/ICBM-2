@@ -1,7 +1,9 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 
 import icbm.ICBM;
+import icbm.zhapin.EZhaPin;
+import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 

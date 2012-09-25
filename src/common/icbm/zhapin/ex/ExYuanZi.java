@@ -1,7 +1,9 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 
 import icbm.ICBM;
+import icbm.zhapin.EZhaPin;
+import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
@@ -14,7 +16,7 @@ public class ExYuanZi extends ZhaPin
 {	
 	public static final int BAN_JING = 35;
 	public static final int NENG_LIANG = 200;
-	public static final int CALL_COUNT = 40;
+	public static final int CALL_COUNT = 80;
 	
 	public static final int RAY_CAST_INTERVAL = 2;
 	
@@ -139,7 +141,7 @@ public class ExYuanZi extends ZhaPin
 
 		int r = callCount/CALL_COUNT;
 		
-        if(worldObj.isRemote && r < BAN_JING/2)
+        if(worldObj.isRemote && r < BAN_JING*1.5)
         {        	
         	for(int x = -r; x < r; x++)
     		{
@@ -147,12 +149,12 @@ public class ExYuanZi extends ZhaPin
 				{
 					double distance = MathHelper.sqrt_double(x*x + z*z);
 					
-                    if(distance < r)
+                    if(distance < r && distance > r-1)
 					{
-						if(r % 3 == 0 && worldObj.rand.nextFloat() > 0.9)
+						if(worldObj.rand.nextFloat() > 0.95)
 						{
-    						worldObj.spawnParticle("largesmoke",  x + position.x, position.y, z + position.z, 0, 0, 0);
-							worldObj.spawnParticle("hugeexplosion", x + position.x, position.y, z + position.z, 0.0D, 0.0D, 0.0D);
+    						//worldObj.spawnParticle("largesmoke",  x + position.x, position.y, z + position.z, 0, 0, 0);
+   							worldObj.spawnParticle("hugeexplosion", x + position.x, position.y, z + position.z, 0, 0, 0);
 						}
 					}
 				}
@@ -200,6 +202,6 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', Condensed.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', Condensed.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, this.getMing(), ICBM.CONFIGURATION, true);
 	}
 }

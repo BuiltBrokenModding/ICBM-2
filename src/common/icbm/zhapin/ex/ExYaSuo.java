@@ -1,6 +1,7 @@
-package icbm.zhapin;
+package icbm.zhapin.ex;
 
 import icbm.ICBM;
+import icbm.zhapin.ZhaPin;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,7 +18,7 @@ import universalelectricity.recipe.RecipeManager;
 
 public class ExYaSuo extends ZhaPin
 {
-    private int field_77289_h = 16;
+    private static final int BAN_JING = 16;
 
 	public ExYaSuo(String name, int ID, int tier)
 	{
@@ -43,17 +44,17 @@ public class ExYaSuo extends ZhaPin
 	        double var17;
 	        double var19;
 	
-	        for (x = 0; x < this.field_77289_h; ++x)
+	        for (x = 0; x < BAN_JING; ++x)
 	        {
-	            for (y = 0; y < this.field_77289_h; ++y)
+	            for (y = 0; y < BAN_JING; ++y)
 	            {
-	                for (z = 0; z < this.field_77289_h; ++z)
+	                for (z = 0; z < BAN_JING; ++z)
 	                {
-	                    if (x == 0 || x == this.field_77289_h - 1 || y == 0 || y == this.field_77289_h - 1 || z == 0 || z == this.field_77289_h - 1)
+	                    if (x == 0 || x == BAN_JING - 1 || y == 0 || y == BAN_JING - 1 || z == 0 || z == BAN_JING - 1)
 	                    {
-	                        double var6 = (double)((float)x / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-	                        double var8 = (double)((float)y / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-	                        double var10 = (double)((float)z / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
+	                        double var6 = (double)((float)x / ((float)BAN_JING - 1.0F) * 2.0F - 1.0F);
+	                        double var8 = (double)((float)y / ((float)BAN_JING - 1.0F) * 2.0F - 1.0F);
+	                        double var10 = (double)((float)z / ((float)BAN_JING - 1.0F) * 2.0F - 1.0F);
 	                        double var12 = Math.sqrt(var6 * var6 + var8 * var8 + var10 * var10);
 	                        var6 /= var12;
 	                        var8 /= var12;
@@ -147,6 +148,6 @@ public class ExYaSuo extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(3), new Object [] {"@?@", '@', Block.tnt, '?', Item.redstone}, ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(3), new Object [] {"@?@", '@', Block.tnt, '?', Item.redstone}, this.getMing(), ICBM.CONFIGURATION, true);
 	}
 }
