@@ -66,7 +66,7 @@ public class ExHuanYuan extends ZhaPin
 	}
 	
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(), new Object [] {"ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel});
 	}

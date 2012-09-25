@@ -63,7 +63,7 @@ public class ExHuo extends ZhaPin
 	}
 
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@!@", '@', ICBM.itemLiu, '?', Block.tnt, '!', Item.bucketLava});
 	}

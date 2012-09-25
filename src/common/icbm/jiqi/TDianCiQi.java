@@ -31,7 +31,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IElectri
     public static final int MAX_RADIUS = 60;
 	
 	public float xuanZhuan = 0;
-	private float xuanZhuanLu;
+	private float xuanZhuanLu = 0;
 	
     private double dianXiaoShi = 0;
     

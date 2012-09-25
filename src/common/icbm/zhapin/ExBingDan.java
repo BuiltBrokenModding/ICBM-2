@@ -192,7 +192,7 @@ public class ExBingDan extends ZhaPin
 	}
 	
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow});		
 	}

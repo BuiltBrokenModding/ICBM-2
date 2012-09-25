@@ -1,7 +1,5 @@
 package icbm.renders;
 
-import static net.minecraftforge.client.IItemRenderer.ItemRenderType.EQUIPPED;
-
 import icbm.ICBM;
 import icbm.zhapin.EShouLiuDan;
 
@@ -10,21 +8,15 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.MapItemRenderer;
-import net.minecraft.src.MathHelper;
 import net.minecraft.src.Render;
 import net.minecraft.src.RenderBlocks;
 import net.minecraft.src.RenderEngine;
 import net.minecraft.src.Tessellator;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.MinecraftForgeClient;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

@@ -203,7 +203,7 @@ public class ExTaiYang extends ZhaPin
 	public int proceduralInterval(){ return 5; }
 
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', Incendiary.getItemStack()});
 	}

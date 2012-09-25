@@ -3,7 +3,7 @@ package icbm.models;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelCruiseLauncherRail extends ModelBase
+public class MXiaoFaSheQiJia extends ModelBase
 {
 	//fields
     ModelRenderer LAUNCH_RAIL_1_ELEVATES;
@@ -12,7 +12,7 @@ public class ModelCruiseLauncherRail extends ModelBase
     ModelRenderer PROPULSION_SHIELDING_ELEVATES;
     ModelRenderer TURRET_MAIN_BODY_ROTATES;
   
-  public ModelCruiseLauncherRail()
+  public MXiaoFaSheQiJia()
   {
     textureWidth = 128;
     textureHeight = 128;

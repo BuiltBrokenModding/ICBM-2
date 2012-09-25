@@ -2,17 +2,17 @@ package icbm.renders;
  
 import icbm.ICBM;
 import icbm.jiqi.TXiaoFaSheQi;
-import icbm.models.ModelCruiseLauncherBase;
-import icbm.models.ModelCruiseLauncherRail;
+import icbm.models.MXiaoFaSheQi;
+import icbm.models.MXiaoFaSheQiJia;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 
 import org.lwjgl.opengl.GL11;
  
-public class RenderCruiseLauncher extends TileEntitySpecialRenderer
+public class RXiaoFaSheQi extends TileEntitySpecialRenderer
 {
-	private ModelCruiseLauncherBase modelBase = new ModelCruiseLauncherBase();
-	private ModelCruiseLauncherRail modelBase2 = new ModelCruiseLauncherRail();
+	private MXiaoFaSheQi modelBase = new MXiaoFaSheQi();
+	private MXiaoFaSheQiJia modelBase2 = new MXiaoFaSheQiJia();
  
     public void renderAModelAt(TXiaoFaSheQi tileEntity, double d, double d1, double d2, float f)
     {

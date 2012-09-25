@@ -39,7 +39,7 @@ public class ExTuPuoDan extends ZhaPin
     }
 	
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(2), new Object [] {"@", "@", "@", '@', Condensed.getItemStack()});
 	}

@@ -224,7 +224,7 @@ public abstract class ZhaPin implements ITier
 	/**
 	 * Called to add the recipe for this explosive
 	 */
-	public void addCraftingRecipe() {};
+	public void init() {};
 	
 	public ItemStack getItemStack() { return new ItemStack(ICBM.blockZha4Dan4, 1, this.getID()); }
 	

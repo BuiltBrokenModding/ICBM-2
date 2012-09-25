@@ -111,7 +111,7 @@ public class ExFanWuSu extends ZhaPin
 	}
 
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
 		
 	}

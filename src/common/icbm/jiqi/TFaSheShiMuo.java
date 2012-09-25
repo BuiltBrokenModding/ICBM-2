@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.extend.TLauncher;
+import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -27,7 +27,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheShiMuo extends TLauncher implements IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable, ISimpleConnectionHandler
+public class TFaSheShiMuo extends TFaSheQi implements IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable, ISimpleConnectionHandler
 {    
     //Is the block powered by redstone?
     private boolean isPowered = false;

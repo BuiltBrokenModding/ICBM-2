@@ -64,7 +64,7 @@ public class EDu extends ZhaPin
 	}
 	
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
 		if(this.getTier() == 1)
 		{

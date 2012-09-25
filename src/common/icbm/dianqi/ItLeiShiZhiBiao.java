@@ -3,7 +3,7 @@ package icbm.dianqi;
 import icbm.ICBM;
 import icbm.ICBMPacketManager;
 import icbm.extend.IItemFrequency;
-import icbm.extend.TLauncher;
+import icbm.extend.TFaSheQi;
 import icbm.jiqi.FaSheQiGuanLi;
 import icbm.jiqi.TXiaoFaSheQi;
 
@@ -143,14 +143,14 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
     	
     	if(!par2World.isRemote)
     	{
-	    	List<TLauncher> connectedLaunchers = new ArrayList<TLauncher>();
+	    	List<TFaSheQi> connectedLaunchers = new ArrayList<TFaSheQi>();
 	    	
 	    	if(this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
 	    	{
 	    		Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-	        	List<TLauncher> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
+	        	List<TFaSheQi> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
 	        	
-	        	for(TLauncher missileLauncher : launchers)
+	        	for(TFaSheQi missileLauncher : launchers)
 	        	{
 	        		 if(missileLauncher != null && missileLauncher.getFrequency() == this.getFrequency(par1ItemStack))
 	        		 {
@@ -214,9 +214,9 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 	    		 
 	    	if(tileEntity != null)
 	    	{
-	    		if(tileEntity instanceof TLauncher)
+	    		if(tileEntity instanceof TFaSheQi)
 	    		{
-	    			TLauncher missileLauncher = (TLauncher)tileEntity;
+	    			TFaSheQi missileLauncher = (TFaSheQi)tileEntity;
 	    			
 				 	if(missileLauncher.getFrequency() > 0)
 				 	{
@@ -266,12 +266,12 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 		        		if(this.getWattHours(par1ItemStack) > ELECTRICITY_CAPACITY)
 		            	{
 		    	        	Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
-		    	        	List<TLauncher> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
+		    	        	List<TFaSheQi> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
 		    	        	
 		    	        	boolean doAirStrike = false;
 		    	        	int errorCount = 0;
 		    	        	
-		    	        	for(TLauncher missileLauncher : launchers)
+		    	        	for(TFaSheQi missileLauncher : launchers)
 		    	        	{
 		    	        		 if(missileLauncher != null && missileLauncher.getFrequency() == airStrikeFreq)
 	                    		 {

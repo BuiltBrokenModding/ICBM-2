@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.extend.TLauncher;
+import icbm.extend.TFaSheQi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import universalelectricity.prefab.Vector2;
 public class FaSheQiGuanLi
 {
 	//Static methods
-	private static List<TLauncher> launcherScreens = new ArrayList<TLauncher>();
+	private static List<TFaSheQi> launcherScreens = new ArrayList<TFaSheQi>();
 	
-	public static void addLauncher(TLauncher launcher)
+	public static void addLauncher(TFaSheQi launcher)
 	{
 		cleanUpMissiles();
 		
@@ -22,12 +22,12 @@ public class FaSheQiGuanLi
 		}
 	}
 	
-	public static List<TLauncher> getLaunchersInArea(Vector2 minVector, Vector2 maxVector)
+	public static List<TFaSheQi> getLaunchersInArea(Vector2 minVector, Vector2 maxVector)
 	{
 		cleanUpMissiles();
-		List<TLauncher> returnArray = new ArrayList<TLauncher>();
+		List<TFaSheQi> returnArray = new ArrayList<TFaSheQi>();
 		
-		for(TLauncher launcher : launcherScreens)
+		for(TFaSheQi launcher : launcherScreens)
 		{
 	        if(launcher.xCoord > minVector.x && launcher.xCoord < maxVector.x && launcher.zCoord > minVector.y && launcher.zCoord < maxVector.y)
 	        {
@@ -38,7 +38,7 @@ public class FaSheQiGuanLi
 		return returnArray;
 	}
 	
-	public static List<TLauncher> getLaunchers()
+	public static List<TFaSheQi> getLaunchers()
 	{
 		cleanUpMissiles();
 		return launcherScreens;

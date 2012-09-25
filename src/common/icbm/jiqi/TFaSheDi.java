@@ -18,14 +18,13 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
-import universalelectricity.electricity.ElectricityManager;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.ConnectionHandler;
+import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
-import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;

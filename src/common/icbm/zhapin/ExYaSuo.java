@@ -143,7 +143,7 @@ public class ExYaSuo extends ZhaPin
 	public String getDaoDanMing() { return "Conventional Missile"; }
 	
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(3), new Object [] {"@?@", '@', Block.tnt, '?', Item.redstone});
 	}

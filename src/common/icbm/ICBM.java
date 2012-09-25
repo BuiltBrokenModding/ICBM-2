@@ -36,8 +36,8 @@ import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
+import universalelectricity.BasicComponents;
 import universalelectricity.UniversalElectricity;
-import universalelectricity.basiccomponents.BasicComponents;
 import universalelectricity.ore.OreGenBase;
 import universalelectricity.ore.OreGenerator;
 import universalelectricity.prefab.ItemElectric;
@@ -49,6 +49,7 @@ import cpw.mods.fml.common.IDispenserHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.SidedProxy;
@@ -61,11 +62,12 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:BasicComponenets;after:AtomicScience")
+@Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:UniversalElectricity;after:AtomicScience")
 @NetworkMod(channels = { "ICBM" }, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 
 public class ICBM
 {
+	@Instance("ICBM")
 	public static ICBM instance;
 	
 	public static final String VERSION = "0.5.4";
@@ -117,11 +119,7 @@ public class ICBM
 		
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
-    {
-		instance = this;
-		
-		UniversalElectricity.registerMod(this, "ICBM", "0.8.1");
-
+    {		
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		
 		GameRegistry.registerDispenserHandler(
@@ -281,7 +279,7 @@ public class ICBM
 		//Radar Station
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ICBM.itemLeiDaQiang.getUnchargedItemStack(), '!', BasicComponents.itemSteelIngot, '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
 		//EMP Tower
-		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.blockMachine.getBatteryBox(), '#', BasicComponents.itemMotor});
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.batteryBox, '#', BasicComponents.itemMotor});
 		//Railgun
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 11), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemLeiDaQiang.getUnchargedItemStack(), '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Cruise Launcher
@@ -296,19 +294,16 @@ public class ICBM
 		
 		for(int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
 		{
-			if(!ZhaPin.list[i].isCraftingDisabled)
-			{
-				ZhaPin.list[i].addCraftingRecipe();
+			ZhaPin.list[i].init();
 				
-		    	//Missile
-				RecipeManager.addShapelessRecipe(new ItemStack(ICBM.itemDaoDan, 1, i), new Object [] {new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new ItemStack(ICBM.blockZha4Dan4, 1, i)});        
-		
-				if(i < 4)
-				{
-					//Grenade
-				    RecipeManager.addRecipe(new ItemStack(ICBM.itemShouLiuDan, 1, i), new Object [] {"?", "@", "@", '@', new ItemStack(ICBM.blockZha4Dan4, 1, i), '?', Item.silk});
-		        }
-			}
+	    	//Missile
+			RecipeManager.addShapelessRecipe(new ItemStack(ICBM.itemDaoDan, 1, i), new Object [] {new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new ItemStack(ICBM.blockZha4Dan4, 1, i)});        
+	
+			if(i < 4)
+			{
+				//Grenade
+			    RecipeManager.addRecipe(new ItemStack(ICBM.itemShouLiuDan, 1, i), new Object [] {"?", "@", "@", '@', new ItemStack(ICBM.blockZha4Dan4, 1, i), '?', Item.silk});
+	        }
 		}
 		
 		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMExplosive");

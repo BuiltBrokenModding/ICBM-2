@@ -38,14 +38,14 @@ import icbm.models.ModelMissileAntimatter;
 import icbm.models.ModelMissileBreaching;
 import icbm.models.ModelMissileChemical;
 import icbm.models.ModelMissileCluster;
-import icbm.models.ModelMissileConflagration;
+import icbm.models.MMTaiYang;
 import icbm.models.ModelMissileContagious;
 import icbm.models.ModelMissileConventional;
-import icbm.models.ModelMissileEMP;
-import icbm.models.ModelMissileEndothermic;
+import icbm.models.MMDianCi;
+import icbm.models.MMBingDan;
 import icbm.models.ModelMissileFragmentation;
 import icbm.models.ModelMissileIncendiary;
-import icbm.models.ModelMissileNuke;
+import icbm.models.MMYuanZi;
 import icbm.models.ModelMissileRedMatter;
 import icbm.models.ModelMissileRejuvenation;
 import icbm.models.ModelMissileShrapnel;
@@ -68,10 +68,10 @@ public class RenderMissile extends Render
 			new ModelMissileSonic(),
 			new ModelMissileBreaching(),
 			new ModelMissileRejuvenation(),
-			new ModelMissileNuke(),
-			new ModelMissileEMP(),
-			new ModelMissileConflagration(),
-			new ModelMissileEndothermic(),
+			new MMYuanZi(),
+			new MMDianCi(),
+			new MMTaiYang(),
+			new MMBingDan(),
 			new ModelMissileAntiGravity(),
 			new ModelMissileAntimatter(),
 			new ModelMissileRedMatter()};

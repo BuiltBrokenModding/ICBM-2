@@ -4,7 +4,7 @@ import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTeBieDaoDan;
-import icbm.extend.TLauncher;
+import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
@@ -28,7 +28,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TXiaoFaSheQi extends TLauncher implements ISimpleConnectionHandler, IElectricityStorage, IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
+public class TXiaoFaSheQi extends TFaSheQi implements ISimpleConnectionHandler, IElectricityStorage, IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
 {
     //The missile that this launcher is holding
     public EDaoDan containingMissile = null;

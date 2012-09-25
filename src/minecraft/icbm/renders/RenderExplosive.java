@@ -6,7 +6,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;
 import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.RenderManager;
 
 import org.lwjgl.opengl.GL11;
 

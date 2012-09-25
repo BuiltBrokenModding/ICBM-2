@@ -4,11 +4,11 @@ import icbm.jiqi.FaSheQiGuanLi;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;
 
-public abstract class TLauncher extends TileEntityElectricityReceiver implements IFrequency
+public abstract class TFaSheQi extends TileEntityElectricityReceiver implements IFrequency
 {
 	public Vector3 target = null;
 	
-	public TLauncher()
+	public TFaSheQi()
 	{
 		super();
 		FaSheQiGuanLi.addLauncher(this);

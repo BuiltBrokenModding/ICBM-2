@@ -2,6 +2,7 @@ package icbm.daodan;
 
 import icbm.ICBM;
 import icbm.ParticleSpawner;
+import icbm.api.IMissile;
 import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.ZhaPin;
@@ -24,7 +25,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EDaoDan extends Entity implements IEntityAdditionalSpawnData
+public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMissile
 {
 	public int missileID = 0;
 	public int skyLimit = 200;
@@ -373,6 +374,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData
     	return null;
     }
 
+    @Override
     public void explode()
     {
     	try
@@ -403,6 +405,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData
     	}
     }
     
+    @Override
     public void normalExplode()
     {
     	if(!this.isExploding)

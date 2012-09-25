@@ -115,7 +115,7 @@ public class ExPiaoFu extends ZhaPin
 	public int proceduralInterval() { return 1; }
 
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(), new Object [] {"EEE", "ETE", "EEE", 'T', Block.tnt, 'E', Item.eyeOfEnder});
 	}

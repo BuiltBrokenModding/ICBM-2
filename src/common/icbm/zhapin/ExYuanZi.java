@@ -1,9 +1,6 @@
 package icbm.zhapin;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
@@ -204,7 +201,7 @@ public class ExYuanZi extends ZhaPin
 	}
 	
 	@Override
-	public void addCraftingRecipe()
+	public void init()
 	{
         RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', Condensed.getItemStack(), '@', Block.tnt, '?', "ingotUranium"});
 	}

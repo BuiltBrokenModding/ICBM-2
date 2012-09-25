@@ -18,8 +18,8 @@ import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDa;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TYinGanQi;
-import icbm.renders.RenderCruiseLauncher;
-import icbm.renders.RenderEMPTower;
+import icbm.renders.RXiaoFaSheQi;
+import icbm.renders.RDianCiQi;
 import icbm.renders.RenderExplosive;
 import icbm.renders.RenderFragment;
 import icbm.renders.RenderGravityBlock;
@@ -73,12 +73,12 @@ public class ICBMClientProxy extends ICBMCommonProxy
         TextureFXManager.instance().addAnimation(new TGenZhongQiFX(FMLClientHandler.instance().getClient()));
         
         ClientRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun", new RenderRailgun());
-        ClientRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher", new RenderCruiseLauncher());
+        ClientRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher", new RXiaoFaSheQi());
         ClientRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase", new RenderLauncherBase());
         ClientRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen", new RenderLauncherScreen());
         ClientRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame", new RenderLauncherFrame());
         ClientRegistry.registerTileEntity(TLeiDa.class, "ICBMRadar", new RenderRadarStation());
-        ClientRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower", new RenderEMPTower());
+        ClientRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower", new RDianCiQi());
 	
 	}
 	

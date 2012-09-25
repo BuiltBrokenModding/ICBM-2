@@ -2,7 +2,7 @@ package icbm.dianqi;
 
 import icbm.ICBM;
 import icbm.ICBMPacketManager;
-import icbm.extend.TLauncher;
+import icbm.extend.TFaSheQi;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TXiaoFaSheQi;
 
@@ -61,7 +61,7 @@ public class ItLeiDaQiang extends ItemElectric
 	        	TileEntity tileEntity = par2World.getBlockTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 	
 	        	//Do not scan if the target is a missile launcher
-	        	if(!(tileEntity instanceof TLauncher))
+	        	if(!(tileEntity instanceof TFaSheQi))
 	            {
 		        	//Check for electricity
 		            if(this.getWattHours(par1ItemStack) > DIAN_REQUIRED)
