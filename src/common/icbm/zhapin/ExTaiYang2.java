@@ -1,8 +1,10 @@
 package icbm.zhapin;
 
+import icbm.ICBM;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.World;
+import universalelectricity.UniversalElectricity;
 import universalelectricity.prefab.Vector3;
 
 public class ExTaiYang2 extends ZhaPin
@@ -13,7 +15,7 @@ public class ExTaiYang2 extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(1);
-		this.createNetherrack = getZhaPinConfig("Create Netherrack", createNetherrack);
+		this.createNetherrack =  UniversalElectricity.getConfigData(ICBM.CONFIGURATION, this.getMing()+" Create Netherrack", createNetherrack);
 	}
 
 	@Override

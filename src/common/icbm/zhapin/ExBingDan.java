@@ -2,6 +2,7 @@ package icbm.zhapin;
 
 import icbm.EGuang;
 import icbm.EntityGravityBlock;
+import icbm.ICBM;
 import icbm.ICBMPotion;
 
 import java.util.ArrayList;
@@ -194,7 +195,7 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow});		
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow}, ICBM.CONFIGURATION, true);		
 	}
 	
 	public boolean canFocusBeam(World worldObj, Vector3 position)

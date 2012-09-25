@@ -40,7 +40,7 @@ public class GLeiDaTai extends ICBMGui
         mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
         this.xSize = 256;
         radarCenter = new Vector2(this.containerPosX + this.xSize/3-14, this.containerPosY + this.ySize/2+4);
-        radarMapRadius = this.tileEntity.MAX_RADIUS/63.8F;
+        radarMapRadius = this.tileEntity.MAX_BIAN_JING/63.8F;
     }
 
     public void initGui()
@@ -98,7 +98,7 @@ public class GLeiDaTai extends ICBMGui
     	//Check if mouse click is within map region
         if(which == -1)
         {
-        	float difference = (int)this.tileEntity.MAX_RADIUS / this.radarMapRadius;
+        	float difference = (int)this.tileEntity.MAX_BIAN_JING / this.radarMapRadius;
 
         	if(x > this.radarCenter.x - difference && x < this.radarCenter.x + difference && y > this.radarCenter.y - difference && y < this.radarCenter.y + difference)
         	{
@@ -145,7 +145,7 @@ public class GLeiDaTai extends ICBMGui
     	{
         	status = "Disabled!";
     	}
-        else if(this.tileEntity.prevWattsReceived < this.tileEntity.WATTS_REQUIRED)
+        else if(this.tileEntity.prevWattsReceived < this.tileEntity.YAO_WA)
         {
         	status = "No Electricity!";
         }
@@ -172,7 +172,7 @@ public class GLeiDaTai extends ICBMGui
         this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
         
         radarCenter = new Vector2(this.containerPosX + this.xSize/3-10, this.containerPosY + this.ySize/2+4);
-        radarMapRadius = this.tileEntity.MAX_RADIUS/65F;
+        radarMapRadius = this.tileEntity.MAX_BIAN_JING/65F;
 
         if(this.tileEntity.detectedMissiles.size() > 0)
     	{
@@ -214,7 +214,7 @@ public class GLeiDaTai extends ICBMGui
         
         try
         {
-        	int newSafetyRadius = Math.min(this.tileEntity.MAX_RADIUS, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText() )));
+        	int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText() )));
         	
         	if(newSafetyRadius != this.tileEntity.safetyRadius)
         	{
@@ -231,7 +231,7 @@ public class GLeiDaTai extends ICBMGui
         
         try
         {
-        	int newAlarmRadius = Math.min(this.tileEntity.MAX_RADIUS, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText() )));
+        	int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText() )));
         	
         	if(newAlarmRadius != this.tileEntity.alarmRadius)
         	{

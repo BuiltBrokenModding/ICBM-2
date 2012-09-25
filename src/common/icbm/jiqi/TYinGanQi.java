@@ -13,6 +13,7 @@ import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
@@ -24,13 +25,12 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
 {
-	public static final float YAO_DIAN = 10;
+	//Watts Per Tick
+	public static final float YAO_DIAN = 3;
 	
     //The electricity stored
-    public float dian = 0;
-    
-    public float prevElectricityStored = 0;
-    
+    public double dian, prevDian = 0;
+        
     public short frequency = 0;
 
     public boolean isDetect = false;
@@ -42,7 +42,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 
 	public byte mode = 0;
 
-	private boolean isGUIOpen = false;
+	private int yongZhe = 0;
 
     public TYinGanQi()
     {
@@ -58,6 +58,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 		if(!this.isDisabled())
     	{
 			this.dian += ElectricInfo.getWatts(amps, voltage);
+			this.prevDian = this.dian;
     	}
 	}
 	
@@ -122,6 +123,8 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 						isDetect = isDetectThisCheck;
 						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 					}
+					
+					this.dian = 0;
 	    		}
 	    		else
 	    		{
@@ -133,13 +136,10 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	    			isDetect = false;
 	    		}
 	    		
-	    		if(this.isGUIOpen)
+	    		if(Ticker.inGameTicks % 20 == 0 && this.yongZhe > 0)
 				{
-					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)1, this.prevElectricityStored, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)1, this.prevDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
 				}
-	    		
-	    		this.prevElectricityStored = this.dian;
-				this.dian = 0;
 	    	}
 		}
     }
@@ -149,11 +149,23 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	{
 		try
         {
-			int ID = dataStream.readInt();
+			final int ID = dataStream.readInt();
 			
-			if(ID == 1)
+			if(ID == -1)
 			{
-				this.prevElectricityStored = dataStream.readFloat();
+				if(dataStream.readBoolean())
+				{
+					this.yongZhe ++;
+					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)1, this.prevDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+				}
+				else
+				{
+					this.yongZhe --;
+				}
+			}
+			else if(ID == 1)
+			{
+				this.prevDian = dataStream.readDouble();
 	            this.frequency = dataStream.readShort();
 	            this.mode = dataStream.readByte();
 	            this.minCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
@@ -175,20 +187,17 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 			{
 	            this.maxCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
-			else if(ID == 6)
-			{
-				this.isGUIOpen = dataStream.readBoolean();
-			}
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
 	}
+    
 	@Override
 	public double wattRequest()
 	{
-		return this.YAO_DIAN-this.dian;
+		return Math.ceil(this.YAO_DIAN);
 	}
 
 	@Override

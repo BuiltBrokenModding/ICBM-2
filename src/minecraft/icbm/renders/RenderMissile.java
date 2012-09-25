@@ -36,7 +36,7 @@ import icbm.models.ModelMissileAntiBallistic;
 import icbm.models.ModelMissileAntiGravity;
 import icbm.models.ModelMissileAntimatter;
 import icbm.models.ModelMissileBreaching;
-import icbm.models.ModelMissileChemical;
+import icbm.models.MMDuQi;
 import icbm.models.ModelMissileCluster;
 import icbm.models.MMTaiYang;
 import icbm.models.ModelMissileContagious;
@@ -62,7 +62,7 @@ public class RenderMissile extends Render
 			new ModelMissileConventional(),
 			new ModelMissileShrapnel(),
 			new ModelMissileIncendiary(),
-			new ModelMissileChemical(),
+			new MMDuQi(),
 			new ModelMissileFragmentation(),
 			new ModelMissileContagious(),
 			new ModelMissileSonic(),

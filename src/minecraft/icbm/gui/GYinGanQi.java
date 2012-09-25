@@ -84,6 +84,15 @@ public class GYinGanQi extends ICBMGui
         this.textFieldmaxZ = new GuiTextField(fontRenderer, 130, 82, 15, 12);
         this.textFieldmaxZ.setMaxStringLength(1);
         this.textFieldmaxZ.setText(this.tileEntity.maxCoord.z+"");
+        
+        PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    }
+    
+    @Override
+    public void onGuiClosed()
+    {
+    	super.onGuiClosed();
+    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
     }
     
     /**
@@ -175,7 +184,7 @@ public class GYinGanQi extends ICBMGui
     	{
         	status = "Disabled";
     	}
-        else if(this.tileEntity.prevElectricityStored < this.tileEntity.YAO_DIAN)
+        else if(this.tileEntity.prevDian < this.tileEntity.YAO_DIAN)
     	{
     		status = "Insufficient electricity!";
     	}

@@ -1,6 +1,7 @@
 package icbm.zhapin;
 
 import icbm.EntityGravityBlock;
+import icbm.ICBM;
 
 import java.util.List;
 
@@ -117,6 +118,6 @@ public class ExPiaoFu extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"EEE", "ETE", "EEE", 'T', Block.tnt, 'E', Item.eyeOfEnder});
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"EEE", "ETE", "EEE", 'T', Block.tnt, 'E', Item.eyeOfEnder}, ICBM.CONFIGURATION, true);
 	}
 }

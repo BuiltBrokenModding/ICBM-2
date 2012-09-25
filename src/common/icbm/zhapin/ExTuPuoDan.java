@@ -1,5 +1,6 @@
 package icbm.zhapin;
 
+import icbm.ICBM;
 import net.minecraft.src.Entity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -41,6 +42,6 @@ public class ExTuPuoDan extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(2), new Object [] {"@", "@", "@", '@', Condensed.getItemStack()});
+        RecipeManager.addRecipe(this.getItemStack(2), new Object [] {"@", "@", "@", '@', Condensed.getItemStack()}, ICBM.CONFIGURATION, true);
 	}
 }

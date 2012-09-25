@@ -1,5 +1,6 @@
 package icbm.zhapin;
 
+import icbm.ICBM;
 import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkProviderGenerate;
@@ -68,6 +69,6 @@ public class ExHuanYuan extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel});
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel}, ICBM.CONFIGURATION, true);
 	}
 }

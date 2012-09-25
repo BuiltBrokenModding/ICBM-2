@@ -15,13 +15,7 @@ public class MXiaoFaSheQi extends ModelBase
 	    ModelRenderer MAIN_BODY;
 	    ModelRenderer MAIN_SUPPORT;
 	    ModelRenderer TORQUE_ROT;
-	    ModelRenderer CLAMP_1_ROT;
-	    ModelRenderer CLAMP_2_ROT;
-	    ModelRenderer COUNTERBALANCE_1_ROT;
-	    ModelRenderer COUNTERBALANCE_2_ROT;
-	    ModelRenderer RAIL_1_ROT;
-	    ModelRenderer RAIL_2_ROT;
-	    ModelRenderer TORQUE_SUPPORT_ROT;
+	    
 	  
 	  public MXiaoFaSheQi()
 	  {
@@ -82,48 +76,7 @@ public class MXiaoFaSheQi extends ModelBase
 	      TORQUE_ROT.setTextureSize(128, 128);
 	      TORQUE_ROT.mirror = true;
 	      setRotation(TORQUE_ROT, 0F, 0.7853982F, 0F);
-	      CLAMP_1_ROT = new ModelRenderer(this, 20, 0);
-	      CLAMP_1_ROT.addBox(-1F, -1F, -17F, 6, 6, 1);
-	      CLAMP_1_ROT.setRotationPoint(0F, 13F, 0F);
-	      CLAMP_1_ROT.setTextureSize(128, 128);
-	      CLAMP_1_ROT.mirror = true;
-	      setRotation(CLAMP_1_ROT, 0F, 0F, -2.356194F);
-	      CLAMP_2_ROT = new ModelRenderer(this, 20, 0);
-	      CLAMP_2_ROT.addBox(-1F, -1F, 0F, 6, 6, 1);
-	      CLAMP_2_ROT.setRotationPoint(0F, 13F, 0F);
-	      CLAMP_2_ROT.setTextureSize(128, 128);
-	      CLAMP_2_ROT.mirror = true;
-	      setRotation(CLAMP_2_ROT, 0F, 0F, -2.356194F);
-	      COUNTERBALANCE_1_ROT = new ModelRenderer(this, 84, 0);
-	      COUNTERBALANCE_1_ROT.addBox(1F, -4F, 1F, 4, 4, 8);
-	      COUNTERBALANCE_1_ROT.setRotationPoint(0F, 14F, 0F);
-	      COUNTERBALANCE_1_ROT.setTextureSize(128, 128);
-	      COUNTERBALANCE_1_ROT.mirror = true;
-	      setRotation(COUNTERBALANCE_1_ROT, 0F, 0F, 0F);
-	      COUNTERBALANCE_2_ROT = new ModelRenderer(this, 84, 0);
-	      COUNTERBALANCE_2_ROT.addBox(-5F, -4F, 1F, 4, 4, 8);
-	      COUNTERBALANCE_2_ROT.setRotationPoint(0F, 14F, 0F);
-	      COUNTERBALANCE_2_ROT.setTextureSize(128, 128);
-	      COUNTERBALANCE_2_ROT.mirror = true;
-	      setRotation(COUNTERBALANCE_2_ROT, 0F, 0F, 0F);
-	      RAIL_1_ROT = new ModelRenderer(this, 65, 13);
-	      RAIL_1_ROT.addBox(-5F, -1F, -17F, 4, 1, 18);
-	      RAIL_1_ROT.setRotationPoint(0F, 14F, 0F);
-	      RAIL_1_ROT.setTextureSize(128, 128);
-	      RAIL_1_ROT.mirror = true;
-	      setRotation(RAIL_1_ROT, 0F, 0F, 0.7853982F);
-	      RAIL_2_ROT = new ModelRenderer(this, 65, 13);
-	      RAIL_2_ROT.addBox(-5F, 0F, -17F, 4, 1, 18);
-	      RAIL_2_ROT.setRotationPoint(0F, 14F, 0F);
-	      RAIL_2_ROT.setTextureSize(128, 128);
-	      RAIL_2_ROT.mirror = true;
-	      setRotation(RAIL_2_ROT, 0F, 0F, 2.356194F);
-	      TORQUE_SUPPORT_ROT = new ModelRenderer(this, 47, 17);
-	      TORQUE_SUPPORT_ROT.addBox(-2F, 0F, -2F, 4, 2, 4);
-	      TORQUE_SUPPORT_ROT.setRotationPoint(0F, 13F, 0F);
-	      TORQUE_SUPPORT_ROT.setTextureSize(128, 128);
-	      TORQUE_SUPPORT_ROT.mirror = true;
-	      setRotation(TORQUE_SUPPORT_ROT, 0F, 0F, 0F);
+	      
 	  }
 	  
 	  public void render(float f5)
@@ -137,13 +90,7 @@ public class MXiaoFaSheQi extends ModelBase
 	    MAIN_BODY.render(f5);
 	    MAIN_SUPPORT.render(f5);
 	    TORQUE_ROT.render(f5);
-	    CLAMP_1_ROT.render(f5);
-	    CLAMP_2_ROT.render(f5);
-	    COUNTERBALANCE_1_ROT.render(f5);
-	    COUNTERBALANCE_2_ROT.render(f5);
-	    RAIL_1_ROT.render(f5);
-	    RAIL_2_ROT.render(f5);
-	    TORQUE_SUPPORT_ROT.render(f5);
+	    
 	  }
 	  
 	  private void setRotation(ModelRenderer model, float x, float y, float z)

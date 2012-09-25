@@ -1,6 +1,7 @@
 package icbm.zhapin;
 
 import icbm.ESuiPian;
+import icbm.ICBM;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
@@ -77,7 +78,7 @@ public class ExQunDan extends ZhaPin
 		}
 		else if(this.getTier() == 2)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', Incendiary.getItemStack(), '@', Shrapnel.getItemStack()});
+	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', Incendiary.getItemStack(), '@', Shrapnel.getItemStack()}, ICBM.CONFIGURATION, true);
 		}
 	}
 }

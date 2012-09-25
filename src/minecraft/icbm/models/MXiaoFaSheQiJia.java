@@ -5,57 +5,73 @@ import net.minecraft.src.ModelRenderer;
 
 public class MXiaoFaSheQiJia extends ModelBase
 {
-	//fields
-    ModelRenderer LAUNCH_RAIL_1_ELEVATES;
-    ModelRenderer LAUNCH_RAIL_2_ELEVATES;
-    ModelRenderer ELEVATION_MECHANISM_ELEVATES;
-    ModelRenderer PROPULSION_SHIELDING_ELEVATES;
-    ModelRenderer TURRET_MAIN_BODY_ROTATES;
+
+    ModelRenderer CLAMP_1_ROT;
+    ModelRenderer CLAMP_2_ROT;
+    ModelRenderer COUNTERBALANCE_1_ROT;
+    ModelRenderer COUNTERBALANCE_2_ROT;
+    ModelRenderer RAIL_1_ROT;
+    ModelRenderer RAIL_2_ROT;
+    ModelRenderer TORQUE_SUPPORT_ROT;
   
   public MXiaoFaSheQiJia()
   {
     textureWidth = 128;
     textureHeight = 128;
     
-      LAUNCH_RAIL_1_ELEVATES = new ModelRenderer(this, 0, 71);
-      LAUNCH_RAIL_1_ELEVATES.addBox(-5F, -1F, -21F, 4, 1, 28);
-      LAUNCH_RAIL_1_ELEVATES.setRotationPoint(0F, 18F, 0F);
-      LAUNCH_RAIL_1_ELEVATES.setTextureSize(128, 128);
-      LAUNCH_RAIL_1_ELEVATES.mirror = true;
-      setRotation(LAUNCH_RAIL_1_ELEVATES, 0F, 0F, 0.7853982F);
-      LAUNCH_RAIL_2_ELEVATES = new ModelRenderer(this, 0, 71);
-      LAUNCH_RAIL_2_ELEVATES.addBox(-5F, 0F, -21F, 4, 1, 28);
-      LAUNCH_RAIL_2_ELEVATES.setRotationPoint(0F, 18F, 0F);
-      LAUNCH_RAIL_2_ELEVATES.setTextureSize(128, 128);
-      LAUNCH_RAIL_2_ELEVATES.mirror = true;
-      setRotation(LAUNCH_RAIL_2_ELEVATES, 0F, 0F, 2.356194F);
-      ELEVATION_MECHANISM_ELEVATES = new ModelRenderer(this, 0, 52);
-      ELEVATION_MECHANISM_ELEVATES.addBox(-1F, -2F, -3F, 2, 4, 13);
-      ELEVATION_MECHANISM_ELEVATES.setRotationPoint(0F, 18F, 0F);
-      ELEVATION_MECHANISM_ELEVATES.setTextureSize(128, 128);
-      ELEVATION_MECHANISM_ELEVATES.mirror = true;
-      setRotation(ELEVATION_MECHANISM_ELEVATES, 0F, 0F, 0F);
-      PROPULSION_SHIELDING_ELEVATES = new ModelRenderer(this, 0, 5);
-      PROPULSION_SHIELDING_ELEVATES.addBox(-2F, -6F, 10F, 4, 8, 1);
-      PROPULSION_SHIELDING_ELEVATES.setRotationPoint(0F, 18F, 0F);
-      PROPULSION_SHIELDING_ELEVATES.setTextureSize(128, 128);
-      PROPULSION_SHIELDING_ELEVATES.mirror = true;
-      setRotation(PROPULSION_SHIELDING_ELEVATES, 0F, 0F, 0F);
-      TURRET_MAIN_BODY_ROTATES = new ModelRenderer(this, 0, 38);
-      TURRET_MAIN_BODY_ROTATES.addBox(-3F, 0F, -5F, 6, 3, 10);
-      TURRET_MAIN_BODY_ROTATES.setRotationPoint(0F, 18F, 0F);
-      TURRET_MAIN_BODY_ROTATES.setTextureSize(128, 128);
-      TURRET_MAIN_BODY_ROTATES.mirror = true;
-      setRotation(TURRET_MAIN_BODY_ROTATES, 0F, 0F, 0F);
+    CLAMP_1_ROT = new ModelRenderer(this, 20, 0);
+    CLAMP_1_ROT.addBox(-1F, -1F, -17F, 6, 6, 1);
+    CLAMP_1_ROT.setRotationPoint(0F, 13F, 0F);
+    CLAMP_1_ROT.setTextureSize(128, 128);
+    CLAMP_1_ROT.mirror = true;
+    setRotation(CLAMP_1_ROT, 0F, 0F, -2.356194F);
+    CLAMP_2_ROT = new ModelRenderer(this, 20, 0);
+    CLAMP_2_ROT.addBox(-1F, -1F, 0F, 6, 6, 1);
+    CLAMP_2_ROT.setRotationPoint(0F, 13F, 0F);
+    CLAMP_2_ROT.setTextureSize(128, 128);
+    CLAMP_2_ROT.mirror = true;
+    setRotation(CLAMP_2_ROT, 0F, 0F, -2.356194F);
+    COUNTERBALANCE_1_ROT = new ModelRenderer(this, 84, 0);
+    COUNTERBALANCE_1_ROT.addBox(1F, -4F, 1F, 4, 4, 8);
+    COUNTERBALANCE_1_ROT.setRotationPoint(0F, 14F, 0F);
+    COUNTERBALANCE_1_ROT.setTextureSize(128, 128);
+    COUNTERBALANCE_1_ROT.mirror = true;
+    setRotation(COUNTERBALANCE_1_ROT, 0F, 0F, 0F);
+    COUNTERBALANCE_2_ROT = new ModelRenderer(this, 84, 0);
+    COUNTERBALANCE_2_ROT.addBox(-5F, -4F, 1F, 4, 4, 8);
+    COUNTERBALANCE_2_ROT.setRotationPoint(0F, 14F, 0F);
+    COUNTERBALANCE_2_ROT.setTextureSize(128, 128);
+    COUNTERBALANCE_2_ROT.mirror = true;
+    setRotation(COUNTERBALANCE_2_ROT, 0F, 0F, 0F);
+    RAIL_1_ROT = new ModelRenderer(this, 65, 13);
+    RAIL_1_ROT.addBox(-5F, -1F, -17F, 4, 1, 18);
+    RAIL_1_ROT.setRotationPoint(0F, 14F, 0F);
+    RAIL_1_ROT.setTextureSize(128, 128);
+    RAIL_1_ROT.mirror = true;
+    setRotation(RAIL_1_ROT, 0F, 0F, 0.7853982F);
+    RAIL_2_ROT = new ModelRenderer(this, 65, 13);
+    RAIL_2_ROT.addBox(-5F, 0F, -17F, 4, 1, 18);
+    RAIL_2_ROT.setRotationPoint(0F, 14F, 0F);
+    RAIL_2_ROT.setTextureSize(128, 128);
+    RAIL_2_ROT.mirror = true;
+    setRotation(RAIL_2_ROT, 0F, 0F, 2.356194F);
+    TORQUE_SUPPORT_ROT = new ModelRenderer(this, 47, 17);
+    TORQUE_SUPPORT_ROT.addBox(-2F, 0F, -2F, 4, 2, 4);
+    TORQUE_SUPPORT_ROT.setRotationPoint(0F, 13F, 0F);
+    TORQUE_SUPPORT_ROT.setTextureSize(128, 128);
+    TORQUE_SUPPORT_ROT.mirror = true;
+    setRotation(TORQUE_SUPPORT_ROT, 0F, 0F, 0F);
   }
   
   public void render(float f5)
   {
-    LAUNCH_RAIL_1_ELEVATES.render(f5);
-    LAUNCH_RAIL_2_ELEVATES.render(f5);
-    ELEVATION_MECHANISM_ELEVATES.render(f5);
-    PROPULSION_SHIELDING_ELEVATES.render(f5);
-    TURRET_MAIN_BODY_ROTATES.render(f5);
+	CLAMP_1_ROT.render(f5);
+    CLAMP_2_ROT.render(f5);
+    COUNTERBALANCE_1_ROT.render(f5);
+    COUNTERBALANCE_2_ROT.render(f5);
+    RAIL_1_ROT.render(f5);
+    RAIL_2_ROT.render(f5);
+    TORQUE_SUPPORT_ROT.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)

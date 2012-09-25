@@ -65,7 +65,7 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@!@", '@', ICBM.itemLiu, '?', Block.tnt, '!', Item.bucketLava});
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@!@", '@', ICBM.itemLiu, '?', Block.tnt, '!', Item.bucketLava}, ICBM.CONFIGURATION, true);
 	}
 
 }

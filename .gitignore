@@ -21,14 +21,14 @@ LICENSE.txt
 /src/minecraft/universalelectricity/
 /src/minecraft_server/*
 /src/common/*
+/Backup/
+/Builds/
 
-!/ICBM Backup/
-!/ICBM Builds/
 !/src/minecraft/icbm/
 !/src/common/icbm/
 !/src/minecraft/atomicscience/
 !/src/common/atomicscience/
-!/resources/*
+!/resources/icbm/
 !info.txt
 !mcmod.info
 !ICBM Builder.bat

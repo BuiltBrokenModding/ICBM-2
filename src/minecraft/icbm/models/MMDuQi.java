@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileChemical extends ModelBase
+public class MMDuQi extends ModelBase
 {
   //fields
     ModelRenderer MAIN_MISSILE_MODULE;
@@ -22,7 +22,7 @@ public class ModelMissileChemical extends ModelBase
     ModelRenderer CHEM_WARHEAD_1;
     ModelRenderer CHEM_WARHEAD_2;
   
-  public ModelMissileChemical()
+  public MMDuQi()
   {
     textureWidth = 128;
     textureHeight = 128;

@@ -17,6 +17,7 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
+import universalelectricity.UniversalElectricity;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
@@ -29,11 +30,12 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TLeiDa extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMultiBlock
 {
-	public final int WATTS_REQUIRED = 4;
+	//Watts Per Tick
+	public final int YAO_WA = 4;
     
-	public final int MAX_RADIUS = 500;
+	public final int MAX_BIAN_JING = 500;
 	
-	private static final boolean PLAY_SOUND = ICBM.getBooleanConfig("Radar Emit Sound", true);
+	private static final boolean PLAY_SOUND = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
 	
 	//The electricity stored
 	public float wattsReceived, prevWattsReceived = 0;
@@ -79,7 +81,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 		
 		if(!this.isDisabled())
 		{						
-			if(this.wattsReceived >= this.WATTS_REQUIRED)
+			if(this.wattsReceived >= this.YAO_WA)
 			{				
 				this.radarRotationYaw += 0.05F;
 				
@@ -103,7 +105,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 				this.detectedMissiles.clear();
 				this.detectedRadarStations.clear();
 				
-				List<EDaoDan> entitiesNearby = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_RADIUS, this.zCoord - MAX_RADIUS), new Vector2(this.xCoord + MAX_RADIUS, this.zCoord + MAX_RADIUS));
+				List<EDaoDan> entitiesNearby = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
 				
 		        for(EDaoDan missile : entitiesNearby)
 		        {
@@ -121,7 +123,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 		        	}
 		        }
 		        
-		        for(TLeiDa radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord-this.MAX_RADIUS, this.zCoord-this.MAX_RADIUS), new Vector2(this.xCoord+this.MAX_RADIUS, this.zCoord+this.MAX_RADIUS)))
+		        for(TLeiDa radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord-this.MAX_BIAN_JING, this.zCoord-this.MAX_BIAN_JING), new Vector2(this.xCoord+this.MAX_BIAN_JING, this.zCoord+this.MAX_BIAN_JING)))
 		        {
 		        	if(!radarStation.isDisabled() && radarStation.prevWattsReceived > 0)
 		        	{
@@ -226,7 +228,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
     {
         if (!this.isDisabled())
         {
-            return this.WATTS_REQUIRED-this.wattsReceived;
+            return this.YAO_WA-this.wattsReceived;
         }
 
         return 0;

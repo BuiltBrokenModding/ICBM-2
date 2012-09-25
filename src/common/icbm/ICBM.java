@@ -355,23 +355,4 @@ public class ICBM
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager); 
 		serverCommandManager.registerCommand(new CommandICBM());
 	}
-	
-	public static boolean getBooleanConfig(String comment, boolean defaultValue)
-	{
-		boolean returnValue = defaultValue;
-		
-		CONFIGURATION.load();
-
-        try
-        {
-        	returnValue = Boolean.parseBoolean(CONFIGURATION.getOrCreateBooleanProperty(comment, Configuration.CATEGORY_GENERAL, defaultValue).value);
-        }
-        catch(Exception e)
-        {
-        	returnValue = defaultValue;
-        }
-        
-        CONFIGURATION.save();
-        return returnValue;
-	}
 }

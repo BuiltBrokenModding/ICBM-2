@@ -1,6 +1,7 @@
 package icbm.zhapin;
 
 
+import icbm.ICBM;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
@@ -13,7 +14,7 @@ public class ExYuanZi extends ZhaPin
 {	
 	public static final int BAN_JING = 35;
 	public static final int NENG_LIANG = 200;
-	public static final int CALL_COUNT = 200;
+	public static final int CALL_COUNT = 40;
 	
 	public static final int RAY_CAST_INTERVAL = 2;
 	
@@ -52,7 +53,6 @@ public class ExYuanZi extends ZhaPin
 		}
 		
 		this.doDamageEntities(worldObj, position, BAN_JING, BAN_JING*100);
-		
 	}
 
 	@Override
@@ -137,31 +137,28 @@ public class ExYuanZi extends ZhaPin
 			}
 		}
 
-        if(worldObj.isRemote)
-        {        	
-        	for(int r = 0; r < BAN_JING; r ++)
-        	{
-	        	for(int x = -r; x < r; x++)
-	    		{
-	    			for(int y = -r; y < r; y++)
-	    			{
-	    				for(int z = -r; z < r; z++)
-	    				{
-	    					double distance = MathHelper.sqrt_double(x*x + y*y + z*z);
-	    					
-	                        if(distance < r && distance > r - 1)
-	    					{
-								if(worldObj.rand.nextFloat() > 0.2)
-								{
-									worldObj.spawnParticle("hugeexplosion", x + position.x, y + position.y, z + position.z, 0.0D, 0.0D, 0.0D);
-								}
-	    					}
-	    				}
-	    			}
-	    		}
-        	}
-        }
+		int r = callCount/CALL_COUNT;
 		
+        if(worldObj.isRemote && r < BAN_JING/2)
+        {        	
+        	for(int x = -r; x < r; x++)
+    		{
+				for(int z = -r; z < r; z++)
+				{
+					double distance = MathHelper.sqrt_double(x*x + z*z);
+					
+                    if(distance < r)
+					{
+						if(r % 3 == 0 && worldObj.rand.nextFloat() > 0.9)
+						{
+    						worldObj.spawnParticle("largesmoke",  x + position.x, position.y, z + position.z, 0, 0, 0);
+							worldObj.spawnParticle("hugeexplosion", x + position.x, position.y, z + position.z, 0.0D, 0.0D, 0.0D);
+						}
+					}
+				}
+    		}
+        }
+        		
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		
 		return true;
@@ -203,6 +200,6 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', Condensed.getItemStack(), '@', Block.tnt, '?', "ingotUranium"});
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', Condensed.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, ICBM.CONFIGURATION, true);
 	}
 }

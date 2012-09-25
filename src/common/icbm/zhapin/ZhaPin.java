@@ -15,6 +15,7 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.UniversalElectricity;
 import universalelectricity.implement.ITier;
 import universalelectricity.prefab.Vector3;
 
@@ -61,7 +62,6 @@ public abstract class ZhaPin implements ITier
 	private int tier;
 	private int yinXin;
 	private DaoDan daoDan;
-	public boolean isCraftingDisabled;
 	public boolean isDisabled;
 
 	protected ZhaPin(String name, int ID, int tier)
@@ -83,8 +83,7 @@ public abstract class ZhaPin implements ITier
         this.ID = ID;
         this.daoDan = new DaoDan(name, ID, tier);
         
-        this.isCraftingDisabled = getZhaPinConfig("Crafting Disabled", false);
-        this.isDisabled = getZhaPinConfig("Disabled", false);
+        this.isDisabled = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Disable "+this.mingZi, false);
     }
 	
 	public int getID() { return this.ID; }
@@ -194,31 +193,24 @@ public abstract class ZhaPin implements ITier
 	 */
 	public void spawnZhaDan(World worldObj, Vector3 position, ForgeDirection orientation, byte cause)
 	{
-		position.add(0.5D);
-		EZhaDan eZhaDan = new EZhaDan(worldObj, position, (byte) orientation.ordinal(), this.getID());
-		
-		switch(cause)
+		if(!this.isDisabled)
 		{
-			case 1: eZhaDan.destroyedByExplosion(); break;
-			case 2: eZhaDan.setFire(10); break;
+			position.add(0.5D);
+			EZhaDan eZhaDan = new EZhaDan(worldObj, position, (byte) orientation.ordinal(), this.getID());
+			
+			switch(cause)
+			{
+				case 1: eZhaDan.destroyedByExplosion(); break;
+				case 2: eZhaDan.setFire(10); break;
+			}
+	
+			worldObj.spawnEntityInWorld(eZhaDan);
 		}
-
-		worldObj.spawnEntityInWorld(eZhaDan);
 	}
 	
 	public void spawnZhaDan(World worldObj, Vector3 position, byte orientation)
 	{
 		this.spawnZhaDan(worldObj, position, ForgeDirection.getOrientation(orientation), (byte)0);
-	}
-	
-	public boolean getZhaPinConfig(String comment, boolean defaultValue)
-	{
-		if(comment != null && comment != "")
-		{
-			comment = "_"+comment;
-		}
-		
-		return ICBM.getBooleanConfig(this.mingZi+comment, defaultValue);
 	}
 	
 	/**
@@ -232,17 +224,20 @@ public abstract class ZhaPin implements ITier
 	
 	public static void createBaoZha(World worldObj, Vector3 position, Entity entity, int explosiveID)
 	{
-		if(list[explosiveID].proceduralInterval(worldObj, -1) > 0)
-        {
-			if(!worldObj.isRemote)
-			{
-				worldObj.spawnEntityInWorld(new EZhaPin(worldObj, new Vector3(position.x, position.y, position.z), explosiveID));
-			}
-        }
-        else
-        {
-        	list[explosiveID].doBaoZha(worldObj, new Vector3(position.x, position.y, position.z), entity, explosiveID , -1);
-        }
+		if(!list[explosiveID].isDisabled)
+		{
+			if(list[explosiveID].proceduralInterval(worldObj, -1) > 0)
+	        {
+				if(!worldObj.isRemote)
+				{
+					worldObj.spawnEntityInWorld(new EZhaPin(worldObj, new Vector3(position.x, position.y, position.z), explosiveID));
+				}
+	        }
+	        else
+	        {
+	        	list[explosiveID].doBaoZha(worldObj, new Vector3(position.x, position.y, position.z), entity, explosiveID , -1);
+	        }
+		}
 	}
 	
 	public static void doDamageEntities(World worldObj, Vector3 position, float radius, float power)
