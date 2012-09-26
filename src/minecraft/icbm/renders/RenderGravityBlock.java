@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.EntityGravityBlock;
+import icbm.EFeiBlock;
 import icbm.ICBMRenderBlocks;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -24,7 +24,7 @@ public class RenderGravityBlock extends Render
     /**
      * The actual render method that is used in doRender
      */
-    public void doRenderGravityBlock(EntityGravityBlock entity, double x, double y, double z, float par8, float par9)
+    public void doRenderGravityBlock(EFeiBlock entity, double x, double y, double z, float par8, float par9)
     {   
     	if(this.renderManager == null)
     	{
@@ -69,6 +69,6 @@ public class RenderGravityBlock extends Render
      */
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
-        this.doRenderGravityBlock((EntityGravityBlock)par1Entity, par2, par4, par6, par8, par9);
+        this.doRenderGravityBlock((EFeiBlock)par1Entity, par2, par4, par6, par8, par9);
     }
 }

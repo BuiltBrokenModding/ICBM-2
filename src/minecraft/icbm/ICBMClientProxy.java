@@ -64,7 +64,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RenderExplosive());
         RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RenderMissile(0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
-        RenderingRegistry.registerEntityRenderingHandler(EntityGravityBlock.class, new RenderGravityBlock());
+        RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RenderGravityBlock());
         RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RenderLightBeam());
         RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RenderFragment());
         RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RenderGrenade());

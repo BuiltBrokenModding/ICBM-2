@@ -11,7 +11,7 @@ public class DaoDanGuanLi
 	//Static methods
 	private static List<EDaoDan> missiles = new ArrayList<EDaoDan>();
 	
-	public static void addMissile(EDaoDan missile)
+	public static int addMissile(EDaoDan missile)
 	{
 		cleanUpMissiles();
 		
@@ -19,6 +19,13 @@ public class DaoDanGuanLi
 		{
 			missiles.add(missile);
 		}
+		
+		return missiles.size();
+	}
+	
+	public static EDaoDan getMissile(int id)
+	{
+		return missiles.get(id);
 	}
 	
 	public static List<EDaoDan> getMissileInArea(Vector2 minVector, Vector2 maxVector)

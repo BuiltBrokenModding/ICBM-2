@@ -18,6 +18,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
+import universalelectricity.UniversalElectricity;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.ConnectionHandler;
@@ -36,7 +37,9 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory, ISimpleConnectionHandler
 {
-    //The missile that this launcher is holding
+    private static final double MISSILE_MAX_DISTANCE = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
+
+	//The missile that this launcher is holding
     public EDaoDan containingMissile = null;
     
     //The connected missile launcher frame
@@ -343,7 +346,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     	}
     	else if(this.tier == 2)
     	{
-    		if(Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 2000)
+    		if(Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < MISSILE_MAX_DISTANCE)
     		{
     			return false;
     		}

@@ -196,7 +196,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IElectricityStorage, IPack
     	{
 	    	if(this.connectedBase.containingMissile != null)
 	        {
-	    		if(this.dianXiaoShi >= this.getMaxWattHours())
+	    		//if(this.dianXiaoShi >= this.getMaxWattHours())
 	    		{
 		            if(this.connectedBase.isInRange(this.target))
 		            {

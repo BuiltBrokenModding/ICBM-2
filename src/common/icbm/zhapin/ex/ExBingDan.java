@@ -1,7 +1,7 @@
 package icbm.zhapin.ex;
 
 import icbm.EGuang;
-import icbm.EntityGravityBlock;
+import icbm.EFeiBlock;
 import icbm.ICBM;
 import icbm.ICBMPotion;
 import icbm.zhapin.EShouLiuDan;
@@ -85,7 +85,7 @@ public class ExBingDan extends ZhaPin
 							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
 							
 							currentPos.add(0.5D);
-							EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata);
+							EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
 							worldObj.spawnEntityInWorld(entity);
 							gravityBlocks.add(entity);
 							entity.pitchChange = 50*worldObj.rand.nextFloat();
@@ -100,9 +100,9 @@ public class ExBingDan extends ZhaPin
 			
 			for(Entity unspecifiedEntity : gravityBlocks)
 			{
-				if(unspecifiedEntity instanceof EntityGravityBlock)
+				if(unspecifiedEntity instanceof EFeiBlock)
 				{
-					EntityGravityBlock entity = (EntityGravityBlock)unspecifiedEntity;
+					EFeiBlock entity = (EFeiBlock)unspecifiedEntity;
 					double xDifference = entity.posX - position.x;
 		        	double zDifference = entity.posZ - position.z;
 		        	

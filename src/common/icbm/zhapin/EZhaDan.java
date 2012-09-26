@@ -80,9 +80,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 
         if(this.fuse < 1)
         {
-	        worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-            ZhaPin.createBaoZha(this.worldObj, Vector3.get(this), this, this.explosiveID);
-            this.setDead();
+	       this.explode();
         }
         else
         {
@@ -92,6 +90,13 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
         this.fuse --;
         
         super.onUpdate();
+    }
+    
+    public void explode()
+    {
+    	 this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+         ZhaPin.createBaoZha(this.worldObj, Vector3.get(this), this, this.explosiveID);
+         this.setDead();
     }
 
     public void destroyedByExplosion()

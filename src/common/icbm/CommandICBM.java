@@ -51,9 +51,9 @@ public class CommandICBM extends CommandBase
 			        
 			        for(Entity entity : entitiesNearby)
 			        {
-			        	if(entity instanceof EntityGravityBlock)
+			        	if(entity instanceof EFeiBlock)
 			        	{
-			        		((EntityGravityBlock)entity).setBlock();
+			        		((EFeiBlock)entity).setBlock();
 			        	}
 			        	else if(entity instanceof EZhaPin)
 			        	{

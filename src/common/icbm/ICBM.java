@@ -24,6 +24,7 @@ import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.src.Block;
@@ -35,9 +36,12 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.BasicComponents;
 import universalelectricity.UniversalElectricity;
+import universalelectricity.implement.UEDamageSource;
 import universalelectricity.ore.OreGenBase;
 import universalelectricity.ore.OreGenerator;
 import universalelectricity.prefab.ItemElectric;
@@ -115,8 +119,12 @@ public class ICBM
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_YI_CHUAN = new Du("Contagious", 1, true);
 	
+	public static final UEDamageSource damageSmash = new UEDamageSource("smash", "%1$s got smashed to death!");
+	
+	public static final boolean ADVANCED_VISUALS = UniversalElectricity.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
+	
     public static final OreGenBase liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(blockLiu), 0, 40, 25, 15).enable();
-		
+	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
     {		
@@ -160,9 +168,27 @@ public class ICBM
 		OreDictionary.registerOre("dustSulfur", itemLiu);
 		
 		OreGenerator.addOre(liuGenData);
-		   		
+		
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new DaoDanCLCallBack());
+		
 		this.proxy.preInit();
     }
+	
+	public class DaoDanCLCallBack implements ForgeChunkManager.LoadingCallback
+	{
+		@Override
+		public void ticketsLoaded(List<Ticket> tickets, World world)
+		{
+			for (Ticket ticket : tickets)
+			{
+				if(ticket.getEntity() != null)
+				{
+					((EDaoDan)ticket.getEntity()).forceLoadingChunks(ticket);
+				}
+			}
+		}
+		
+	}
 	
 	@Init
 	public void load(FMLInitializationEvent evt)
@@ -313,7 +339,7 @@ public class ICBM
 		EntityRegistry.registerGlobalEntityID(EZhaDan.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EDaoDan.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EZhaPin.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EntityGravityBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EFeiBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EGuang.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(ESuiPian.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EShouLiuDan.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
@@ -322,7 +348,7 @@ public class ICBM
 		EntityRegistry.registerModEntity(EZhaDan.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EDaoDan.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 2, true);
 		EntityRegistry.registerModEntity(EZhaPin.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX+2, this, 100, 5, true);
-		EntityRegistry.registerModEntity(EntityGravityBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX+3, this, 50, 15, true);
+		EntityRegistry.registerModEntity(EFeiBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX+3, this, 50, 15, true);
 		EntityRegistry.registerModEntity(EGuang.class, "ICBMLightBeam", ENTITY_ID_PREFIX+4, this, 80, 5, true);
 		EntityRegistry.registerModEntity(ESuiPian.class, "ICBMFragment", ENTITY_ID_PREFIX+5, this, 40, 8, true);
 		EntityRegistry.registerModEntity(EShouLiuDan.class, "ICBMGrenade", ENTITY_ID_PREFIX+6, this, 50, 5, true);

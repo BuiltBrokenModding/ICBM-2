@@ -1,6 +1,6 @@
 package icbm.zhapin.ex;
 
-import icbm.EntityGravityBlock;
+import icbm.EFeiBlock;
 import icbm.ICBM;
 import icbm.zhapin.ZhaPin;
 
@@ -59,11 +59,11 @@ public class ExPiaoFu extends ZhaPin
 						
 						currentPos.add(0.5D);
 						
-						if(worldObj.rand.nextFloat() > 0.85)
+						if(worldObj.rand.nextFloat() > 0.9)
 						{
 							if(!worldObj.isRemote)
 							{
-								EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata, 0);
+								EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata, 0);
 								worldObj.spawnEntityInWorld(entity);
 								entity.yawChange = 15*worldObj.rand.nextFloat();
 								entity.pitchChange = 30*worldObj.rand.nextFloat();
@@ -86,11 +86,11 @@ public class ExPiaoFu extends ZhaPin
     	
         for(Entity entity : allEntities)
         {
-            if(!(entity instanceof EntityGravityBlock) && entity.posY < 100+position.y)
+            if(!(entity instanceof EFeiBlock) && entity.posY < 100+position.y)
             {
             	if(entity.motionY < 0.4)
             	{
-            		entity.motionY += 0.12;
+            		entity.motionY += 0.15;
             	}
             }
         }

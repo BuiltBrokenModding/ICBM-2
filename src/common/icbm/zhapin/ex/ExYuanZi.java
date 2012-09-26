@@ -2,6 +2,7 @@ package icbm.zhapin.ex;
 
 
 import icbm.ICBM;
+import icbm.ParticleSpawner;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
@@ -78,6 +79,36 @@ public class ExYuanZi extends ZhaPin
 					}
 				}
 				
+				if(worldObj.isRemote && ICBM.ADVANCED_VISUALS)
+		        {
+					final int r = 3;
+					
+					for(int y = 0; y < 40; y ++)
+					{
+						int newR = r;
+						
+						if(y < 2)
+						{
+							newR = r*3;
+						}
+						else if(y > 20)
+						{
+							newR = r+(y - 20);
+						}
+						
+						for(int x = -newR; x < newR; x ++)
+						{
+							for(int z = -newR; z < newR; z ++)
+							{
+								if(worldObj.rand.nextFloat() < 0.01)
+								{
+									ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(position, new Vector3(x, y, z)), 0F, 0F, 0F, 8F, 1F);
+								}
+							}
+						}
+					}
+		        }
+				
 				return false;
 			}
 			
@@ -141,24 +172,43 @@ public class ExYuanZi extends ZhaPin
 
 		int r = callCount/CALL_COUNT;
 		
-        if(worldObj.isRemote && r < BAN_JING*1.5)
-        {        	
-        	for(int x = -r; x < r; x++)
-    		{
-				for(int z = -r; z < r; z++)
-				{
-					double distance = MathHelper.sqrt_double(x*x + z*z);
-					
-                    if(distance < r && distance > r-1)
+        if(worldObj.isRemote)
+        {       
+        	boolean reverse = false;
+        	
+        	if(r > BAN_JING)
+			{
+        		r = BAN_JING - (r - BAN_JING);
+        		reverse = true;
+			}
+        	        	
+        	if(r > 0)
+        	{
+	        	for(int x = -r; x < r; x++)
+	    		{
+					for(int z = -r; z < r; z++)
 					{
-						if(worldObj.rand.nextFloat() > 0.95)
+						double distance = MathHelper.sqrt_double(x*x + z*z);
+						
+	                    if(distance < r && distance > r-1)
 						{
-    						//worldObj.spawnParticle("largesmoke",  x + position.x, position.y, z + position.z, 0, 0, 0);
-   							worldObj.spawnParticle("hugeexplosion", x + position.x, position.y, z + position.z, 0, 0, 0);
+							if(worldObj.rand.nextFloat() < Math.max(0.0005*r, 0.004) || (ICBM.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008*r, 0.008)))
+							{
+								Vector3 targetPosition = Vector3.add(position, new Vector3(x, 0, z));
+								
+								if(!reverse)
+								{
+									worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0, 0, 0);
+								}
+								else if(ICBM.ADVANCED_VISUALS)
+								{
+									ParticleSpawner.spawnParticle("smoke", worldObj, targetPosition, 0F, 0F, 0F, 5F, 1F);
+								}
+							}
 						}
 					}
-				}
-    		}
+	    		}
+        	}
         }
         		
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);

@@ -10,6 +10,7 @@ import icbm.zhapin.ZhaPin;
 import java.util.Random;
 
 import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityItem;
 import net.minecraft.src.ItemStack;
@@ -17,6 +18,9 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 import universalelectricity.prefab.Vector2;
 import universalelectricity.prefab.Vector3;
 
@@ -45,6 +49,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     public float flightTime;
     public float acceleration;
 	public int protectionTime = 20;
+	
+	private Ticket chunkTicket;
     
     //For anti-ballistic missile
     public EDaoDan lockedTarget;
@@ -130,15 +136,26 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
         //Calculate the power required to reach the target co-ordinates
         this.flatDistance = Vector2.distance(this.startingPosition.toVector2(),  this.targetPosition.toVector2());
 
-        this.skyLimit = 160+(int)(this.flatDistance*2);
+        this.skyLimit = 160+(int)(this.flatDistance*3);
         
-        this.flightTime = (float)Math.max(100, 2.4*flatDistance);
+        this.flightTime = (float)Math.max(100, 2*flatDistance);
         this.acceleration = (float)skyLimit*2/(flightTime*flightTime);
 
         this.ticksInAir = 0;
         
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		DaoDanGuanLi.addMissile(this);
+		
+		//Load chunks that are required in missile path
+		int chunkX = this.startingPosition.intX() >> 4;
+		int chunkZ = this.startingPosition.intZ() >> 4;
+		
+		while(chunkX)
+		{
+			this.startingPosition.intX();
+			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+		}
+		
 		
 		System.out.println("Launching "+this.getEntityName()+" from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+targetPosition.intX()+", "+targetPosition.intY()+", "+targetPosition.intZ());
     }
@@ -147,6 +164,10 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public void entityInit()
     { 
     	this.dataWatcher.addObject(16, -1);
+    	
+        chunkTicket = ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY);
+        chunkTicket.bindEntity(this);
+    	chunkTicket.getModData();
     }
     
     //Returns true if other Entities should be prevented from moving through this Entity.
@@ -160,7 +181,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public void onUpdate()
     {
     	super.onUpdate();
-    	
+
     	try
     	{
 	    	if(this.worldObj.isRemote)
@@ -179,6 +200,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	    	
     	if(this.ticksInAir >= 0)
     	{
+    		System.out.println("FLYING: "+this.ticksInAir+" chunks: "+this.chunkCoordX +", "+this.chunkCoordZ);
+
     		if(!this.worldObj.isRemote)
     		{
 	    		if(this.isCruise)
@@ -224,11 +247,6 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		    		}
 		    		else
 		    		{
-		    			if(this.ticksInAir > 20*60)
-		    			{
-		    				this.explode();
-		    			}
-		    			
 		    			Vector3 currentPosition = new Vector3(this.posX, this.posY, this.posZ);
 		    			double currentDistance = Vector2.distance(currentPosition.toVector2(),  this.targetPosition.toVector2());
 		    			
@@ -395,6 +413,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		    			DaoDan.list[this.missileID].onExplode(this);
 		    		}
 		    		
+		    		System.out.println(this.getEntityName()+" landed on "+(int) this.posX+", "+(int) this.posY+", "+(int) this.posZ);
 			    	this.setDead();
 		    	}
 	    	}
@@ -404,6 +423,14 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     		System.err.println("Missile failed to explode properly. Report this to developers.");
     	}
     }
+    
+    @Override
+    public void setDead()
+    {
+    	ForgeChunkManager.releaseTicket(chunkTicket);
+        super.setDead();
+    }
+
     
     @Override
     public void normalExplode()
@@ -433,6 +460,16 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	        this.worldObj.spawnEntityInWorld(entityItem);
 	        this.setDead();
     	}
+    }
+    
+    public void forceLoadingChunks(Ticket ticket)
+    {
+    	if (chunkTicket == null)
+    	{
+    		chunkTicket = ticket;
+    	}
+    	
+    	ForgeChunkManager.forceChunk(ticket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
     }
 
     /**

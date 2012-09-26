@@ -31,6 +31,8 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	public List dataList = new ArrayList();
 	
 	public List dataList2 = new ArrayList();
+	
+	private boolean isMobile = false;
         
     public EZhaPin(World par1World)
     {
@@ -40,18 +42,19 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
         this.yOffset = this.height / 2.0F;
     }
 
-    public EZhaPin(World par1World, Vector3 position, int explosionID)
+    public EZhaPin(World par1World, Vector3 position, int explosionID, boolean isMobile)
     {
         this(par1World);
         this.callCounter = 0;
         this.explosiveID = explosionID;
         this.ticksExisted = 0;
+        this.isMobile = isMobile;
         this.setPosition(position.x, position.y, position.z); 
     }
     
-    public EZhaPin(World par1World, Vector3 position, int explosionID, int metadata)
+    public EZhaPin(World par1World, Vector3 position, int explosionID, boolean isMobile, int metadata)
     {
-    	this(par1World, position, explosionID);
+    	this(par1World, position, explosionID, isMobile);
     	this.metadata  = metadata;
     }
     
@@ -97,7 +100,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
     @Override
 	public void onUpdate()
     {
-    	if(this.motionX != 0 || this.motionY != 0 || this.motionZ != 0)
+    	if(this.isMobile && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))
     	{
         	this.moveEntity(this.motionX, this.motionY, this.motionZ);
     	}
@@ -138,6 +141,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
     @Override
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
+    	this.isMobile = par1NBTTagCompound.getBoolean("isMobile");
     	this.explosiveID = par1NBTTagCompound.getInteger("explosionID");
     	this.callCounter = par1NBTTagCompound.getInteger("callCounter");
     	this.ticksExisted = par1NBTTagCompound.getInteger("ticksExisted");
@@ -151,6 +155,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
     @Override
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
+    	par1NBTTagCompound.setBoolean("isMobile", this.isMobile);
     	par1NBTTagCompound.setInteger("explosionID", this.explosiveID);
     	par1NBTTagCompound.setInteger("callCounter", this.callCounter);
     	par1NBTTagCompound.setInteger("ticksExisted", this.ticksExisted);

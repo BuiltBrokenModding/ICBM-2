@@ -81,7 +81,8 @@ public abstract class ZhaPin implements ITier
 	private int tier;
 	private int yinXin;
 	private DaoDan daoDan;
-	public boolean isDisabled;
+	protected boolean isDisabled;
+	protected boolean isMobile = false;
 
 	protected ZhaPin(String name, int ID, int tier)
 	{
@@ -249,7 +250,7 @@ public abstract class ZhaPin implements ITier
 	        {
 				if(!worldObj.isRemote)
 				{
-					worldObj.spawnEntityInWorld(new EZhaPin(worldObj, new Vector3(position.x, position.y, position.z), explosiveID));
+					worldObj.spawnEntityInWorld(new EZhaPin(worldObj, new Vector3(position.x, position.y, position.z), explosiveID, list[explosiveID].isMobile));
 				}
 	        }
 	        else

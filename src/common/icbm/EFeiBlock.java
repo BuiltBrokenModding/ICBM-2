@@ -2,7 +2,7 @@ package icbm;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
-import net.minecraft.src.DamageSource;
+import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
@@ -15,7 +15,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawnData
+public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 {
 	public int blockID = 0;
 	public int metadata = 0;
@@ -25,7 +25,7 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
 	
 	public float gravity =  0.045f;
 
-    public EntityGravityBlock(World world)
+    public EFeiBlock(World world)
     {
         super(world);
         this.ticksExisted = 0;
@@ -34,7 +34,7 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
         this.setSize(1F, 1F);
     }
 
-    public EntityGravityBlock(World world, Vector3 position, int blockID, int metadata)
+    public EFeiBlock(World world, Vector3 position, int blockID, int metadata)
     {
         super(world);
         this.isImmuneToFire = true;
@@ -49,7 +49,7 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
         this.metadata = metadata;
     }
     
-    public EntityGravityBlock(World world, Vector3 position, int blockID, int metadata, float gravity)
+    public EFeiBlock(World world, Vector3 position, int blockID, int metadata, float gravity)
     {
     	this(world, position, blockID, metadata);
     	this.gravity = gravity;
@@ -137,7 +137,14 @@ public class EntityGravityBlock extends Entity implements IEntityAdditionalSpawn
     	//Make sure the entity is not an item
     	if(par1Entity instanceof EntityLiving)
     	{
-    		((EntityLiving)par1Entity).attackEntityFrom(DamageSource.inWall, 3);
+    		if(Block.blocksList[this.blockID] != null)
+    		{
+	    		if(!(Block.blocksList[this.blockID] instanceof BlockFluid) && (this.motionX > 2 || this.motionY >  2|| this.motionZ > 2))
+	    		{
+	    			int damage = (int) (1.2*((this.motionX + this.motionY + this.motionZ)));
+	    			((EntityLiving)par1Entity).attackEntityFrom(ICBM.damageSmash, damage);
+	    		}	
+    		}
     	}
     	
     	return null;

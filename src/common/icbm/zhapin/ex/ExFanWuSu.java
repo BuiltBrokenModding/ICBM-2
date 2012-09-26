@@ -9,7 +9,9 @@ import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
+import net.minecraft.src.DamageSource;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.UniversalElectricity;
@@ -17,6 +19,7 @@ import universalelectricity.prefab.Vector3;
 
 public class ExFanWuSu extends ZhaPin
 {	
+	public static final int RADUIS = 60;
 	public boolean destroyBedrock = false;
 	
 	public ExFanWuSu(String name, int ID, int tier)
@@ -35,21 +38,19 @@ public class ExFanWuSu extends ZhaPin
 	}
 
 	@Override
-	public boolean doBaoZha(World worldObj, Vector3 position, Entity source, int radius)
-	{
-		radius = 50;
-		
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity source, int callCount)
+	{		
 		Vector3 currentPos;
 		int blockID;
 		double dist;
 				    		
-		for(int x = -radius; x < radius; x++)
+		for(int x = -RADUIS; x < RADUIS; x++)
 		{
-			for(int z = -radius; z < radius; z++)
+			for(int z = -RADUIS; z < RADUIS; z++)
 			{
 				dist = MathHelper.sqrt_double((x*x + z*z));
 
-				if(dist > radius) continue;
+				if(dist > RADUIS) continue;
 				
 				currentPos = new Vector3(position.x + x, position.y, position.z + z);
 				blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());		
@@ -58,23 +59,32 @@ public class ExFanWuSu extends ZhaPin
 				{
 					if(blockID == Block.bedrock.blockID && !destroyBedrock) continue;
 					
-					if(dist < radius - 1 || worldObj.rand.nextInt(3) > 0)
+					if(dist < RADUIS - 1 || worldObj.rand.nextInt(3) > 0)
 					{
-						worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+						worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
 					}
 				}
 			}
 		}
     	
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		this.doDamageEntities(worldObj, position, radius/2, radius);
 		
-		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-        List<EZhaPin> allEntities = worldObj.getEntitiesWithinAABB(EZhaPin.class, bounds);
+		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - RADUIS, position.y - RADUIS, position.z - RADUIS, position.x + RADUIS, position.y + RADUIS, position.z + RADUIS);
+        List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
     	
-        for(EZhaPin entity : allEntities)
-        {            
-        	if(entity != source) entity.endExplosion();
+        for(Entity entity : allEntities)
+        {     
+        	if(entity instanceof EZhaPin)
+        	{
+	        	if(entity != source) 
+	        	{
+	        		((EZhaPin)entity).endExplosion();
+	        	}
+        	}
+        	else if(entity instanceof EntityLiving)
+        	{
+        		entity.attackEntityFrom(DamageSource.explosion, 99999999);
+        	}
         }
 		
 		if(position.y <= 0)
@@ -91,7 +101,7 @@ public class ExFanWuSu extends ZhaPin
 	 * @param return - Return -1 if this explosive does not need proceudral calls
 	 */
 	@Override
-	public int proceduralInterval(){ return 5; }
+	public int proceduralInterval(){ return 4; }
 
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)

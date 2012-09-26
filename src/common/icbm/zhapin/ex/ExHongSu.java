@@ -1,7 +1,8 @@
 package icbm.zhapin.ex;
 
-import icbm.EntityGravityBlock;
+import icbm.EFeiBlock;
 import icbm.ParticleSpawner;
+import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 
@@ -25,6 +26,7 @@ public class ExHongSu extends ZhaPin
 	public ExHongSu(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
+		this.isMobile = true;
 	}
 
 	//Sonic Explosion is a procedural explosive
@@ -75,7 +77,7 @@ public class ExHongSu extends ZhaPin
 								
 								if(!worldObj.isRemote)
 								{
-									EntityGravityBlock entity = new EntityGravityBlock(worldObj, currentPos, blockID, metadata);
+									EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
 									worldObj.spawnEntityInWorld(entity);
 									entity.yawChange = 50*worldObj.rand.nextFloat();
 									entity.pitchChange = 50*worldObj.rand.nextFloat();
@@ -145,6 +147,10 @@ public class ExHongSu extends ZhaPin
             				entity.setDead();
             				return false;
             			}
+            		}
+            		else if(entity instanceof EZhaDan)
+            		{
+            			((EZhaDan)entity).explode();
             		}
             		
             		entity.setDead();
