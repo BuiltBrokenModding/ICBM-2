@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
 import icbm.ICBM;
-import icbm.ICBMCommonProxy;
+import icbm.extend.IBlockActivate;
 import icbm.extend.IMultiBlock;
 
 import java.util.List;
@@ -215,29 +215,14 @@ public class BJiQi extends BlockMachine
     			return false;
         	}
     	}
-    	
-    	int metadata = par1World.getBlockMetadata(x, y, z);
-    	
+    	    	
         TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
         if(tileEntity != null)
         {
-        	if(tileEntity instanceof IMultiBlock)
+        	if(tileEntity instanceof IBlockActivate)
         	{
-        		((IMultiBlock)tileEntity).onActivated(par5EntityPlayer);
-        		return true;
-        	}
-        	else
-        	{
-                switch(metadata)
-                {
-                	//Launcher Screen
-                	case 1: par5EntityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LAUNCHER_SCREEN, par1World, x, y, z); break;
-                	//Cruise Launcher
-                	case 6: par5EntityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_CRUISE_LAUNCHER, par1World, x, y, z); break;
-                }
-                
-                return true;
+        		return ((IBlockActivate)tileEntity).onActivated(par5EntityPlayer);
         	}
         }
 

@@ -45,15 +45,12 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     //The connected missile launcher frame
     public TFaSheJia connectedFrame = null;
     
+    private ItemStack[] containingItems = new ItemStack[1];
+    
     //The tier of this launcher base
     private int tier = 0;
     
     private byte orientation = 3;
-    
-    /**
-     * The ItemStacks that hold the items currently being used in the missileLauncher
-     */
-    private ItemStack[] missileLauncherItemStacks = new ItemStack[1];
 
 	private boolean sendUpdate = false;
     
@@ -68,7 +65,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	@Override
     public int getSizeInventory()
     {
-        return this.missileLauncherItemStacks.length;
+        return this.containingItems.length;
     }
 
     /**
@@ -77,7 +74,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	@Override
     public ItemStack getStackInSlot(int par1)
     {
-        return this.missileLauncherItemStacks[par1];
+        return this.containingItems[par1];
     }
 
     /**
@@ -87,23 +84,23 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	@Override
     public ItemStack decrStackSize(int par1, int par2)
     {		
-        if (this.missileLauncherItemStacks[par1] != null)
+        if (this.containingItems[par1] != null)
         {
             ItemStack var3;
 
-            if (this.missileLauncherItemStacks[par1].stackSize <= par2)
+            if (this.containingItems[par1].stackSize <= par2)
             {
-                var3 = this.missileLauncherItemStacks[par1];
-                this.missileLauncherItemStacks[par1] = null;
+                var3 = this.containingItems[par1];
+                this.containingItems[par1] = null;
                 return var3;
             }
             else
             {
-                var3 = this.missileLauncherItemStacks[par1].splitStack(par2);
+                var3 = this.containingItems[par1].splitStack(par2);
 
-                if (this.missileLauncherItemStacks[par1].stackSize == 0)
+                if (this.containingItems[par1].stackSize == 0)
                 {
-                    this.missileLauncherItemStacks[par1] = null;
+                    this.containingItems[par1] = null;
                 }
 
                 return var3;
@@ -122,10 +119,10 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	@Override
     public ItemStack getStackInSlotOnClosing(int par1)
     {
-        if (this.missileLauncherItemStacks[par1] != null)
+        if (this.containingItems[par1] != null)
         {
-            ItemStack var2 = this.missileLauncherItemStacks[par1];
-            this.missileLauncherItemStacks[par1] = null;
+            ItemStack var2 = this.containingItems[par1];
+            this.containingItems[par1] = null;
             return var2;
         }
         else
@@ -140,7 +137,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	@Override
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
-        this.missileLauncherItemStacks[par1] = par2ItemStack;
+        this.containingItems[par1] = par2ItemStack;
 
         if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
         {
@@ -196,13 +193,13 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     	
     	if(!this.worldObj.isRemote)
 		{
-	    	if (this.missileLauncherItemStacks[0] != null)
+	    	if (this.containingItems[0] != null)
 	        {
-	            if (this.missileLauncherItemStacks[0].getItem() instanceof ItDaoDan)
+	            if (this.containingItems[0].getItem() instanceof ItDaoDan)
 	            {
-	                int missileId = this.missileLauncherItemStacks[0].getItemDamage();
+	                int missileId = this.containingItems[0].getItemDamage();
 	
-	                if(this.missileLauncherItemStacks[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
+	                if(this.containingItems[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
 	        		{
 	        			missileId+= 100;
 	        		}
@@ -368,16 +365,16 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     	this.tier = par1NBTTagCompound.getInteger("tier");
     	this.orientation = par1NBTTagCompound.getByte("facingDirection");
     	
-        this.missileLauncherItemStacks = new ItemStack[this.getSizeInventory()];
+        this.containingItems = new ItemStack[this.getSizeInventory()];
 
         for (int var3 = 0; var3 < var2.tagCount(); ++var3)
         {
             NBTTagCompound var4 = (NBTTagCompound)var2.tagAt(var3);
             byte var5 = var4.getByte("Slot");
 
-            if (var5 >= 0 && var5 < this.missileLauncherItemStacks.length)
+            if (var5 >= 0 && var5 < this.containingItems.length)
             {
-                this.missileLauncherItemStacks[var5] = ItemStack.loadItemStackFromNBT(var4);
+                this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
             }
         }
     }
@@ -395,13 +392,13 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     	
     	NBTTagList var2 = new NBTTagList();
 
-        for (int var3 = 0; var3 < this.missileLauncherItemStacks.length; ++var3)
+        for (int var3 = 0; var3 < this.containingItems.length; ++var3)
         {
-            if (this.missileLauncherItemStacks[var3] != null)
+            if (this.containingItems[var3] != null)
             {
                 NBTTagCompound var4 = new NBTTagCompound();
                 var4.setByte("Slot", (byte)var3);
-                this.missileLauncherItemStacks[var3].writeToNBT(var4);
+                this.containingItems[var3].writeToNBT(var4);
                 var2.appendTag(var4);
             }
         }

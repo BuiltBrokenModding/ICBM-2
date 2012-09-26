@@ -1,9 +1,12 @@
 package icbm.jiqi;
 
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTeBieDaoDan;
+import icbm.extend.IBlockActivate;
 import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
@@ -28,7 +31,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TXiaoFaSheQi extends TFaSheQi implements ISimpleConnectionHandler, IElectricityStorage, IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
+public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleConnectionHandler, IElectricityStorage, IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
 {
     //The missile that this launcher is holding
     public EDaoDan containingMissile = null;
@@ -531,5 +534,24 @@ public class TXiaoFaSheQi extends TFaSheQi implements ISimpleConnectionHandler, 
 	public double getMaxWattHours() 
 	{
 		return 100;
+	}
+
+	@Override
+	public boolean onActivated(EntityPlayer entityPlayer)
+	{
+		if(entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
+		{
+			if(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
+			{
+				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
+				//par5EntityPlayer.inventory.getCurrentItem().stackSize --;
+				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+				return true;
+			}
+		}
+		
+		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+
+		return true;
 	}
 }

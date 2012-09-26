@@ -146,17 +146,6 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		DaoDanGuanLi.addMissile(this);
 		
-		//Load chunks that are required in missile path
-		int chunkX = this.startingPosition.intX() >> 4;
-		int chunkZ = this.startingPosition.intZ() >> 4;
-		
-		while(chunkX)
-		{
-			this.startingPosition.intX();
-			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
-		}
-		
-		
 		System.out.println("Launching "+this.getEntityName()+" from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+targetPosition.intX()+", "+targetPosition.intY()+", "+targetPosition.intZ());
     }
 
@@ -179,7 +168,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
      */
     @Override
 	public void onUpdate()
-    {
+    {    	
     	super.onUpdate();
 
     	try
@@ -200,7 +189,13 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	    	
     	if(this.ticksInAir >= 0)
     	{
-    		System.out.println("FLYING: "+this.ticksInAir+" chunks: "+this.chunkCoordX +", "+this.chunkCoordZ);
+        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ+1));
+        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ));
+        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ-1));
+        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ+1));
+        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ));
+        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ-1));
 
     		if(!this.worldObj.isRemote)
     		{

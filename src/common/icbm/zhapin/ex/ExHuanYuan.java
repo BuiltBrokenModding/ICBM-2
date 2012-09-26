@@ -7,7 +7,6 @@ import net.minecraft.src.Chunk;
 import net.minecraft.src.ChunkProviderGenerate;
 import net.minecraft.src.ChunkProviderServer;
 import net.minecraft.src.Entity;
-import net.minecraft.src.IChunkLoader;
 import net.minecraft.src.Item;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -34,26 +33,10 @@ public class ExHuanYuan extends ZhaPin
 			WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[worldObj.provider.dimensionId];
 			ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
 			
-			ChunkProviderGenerate chunkProviderGenerate = null;
-			
 			try
 			{
-				try
-				{
-					chunkProviderGenerate = ((ChunkProviderGenerate)ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "currentChunkProvider"));
-				}
-				catch(Exception e)
-				{
-					chunkProviderGenerate = ((ChunkProviderGenerate)ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "d"));
-				}
-			}
-			catch(Exception e)
-			{
-				System.out.println("ICBM Rejuvenation Failed! Contact developers!");
-			}
-			
-			if(chunkProviderGenerate != null)
-			{
+				ChunkProviderGenerate chunkProviderGenerate = ((ChunkProviderGenerate)ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "currentChunkProvider", "d"));
+				
 				Chunk newChunk = chunkProviderGenerate.provideChunk(oldChunk.xPosition, oldChunk.zPosition);
 				
 				for(int x = 0; x < 16; x++)
@@ -79,6 +62,10 @@ public class ExHuanYuan extends ZhaPin
 				
 				oldChunk.isTerrainPopulated = false;
 				chunkProviderGenerate.populate(chunkProviderGenerate, oldChunk.xPosition, oldChunk.zPosition);
+			}
+			catch(Exception e)
+			{
+				System.out.println("ICBM Rejuvenation Failed! Contact developers!");
 			}
 		}
 		

@@ -1,5 +1,8 @@
 package icbm.jiqi;
 
+import icbm.ICBM;
+import icbm.ICBMCommonProxy;
+import icbm.extend.IBlockActivate;
 import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
@@ -27,7 +30,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheShiMuo extends TFaSheQi implements IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable, ISimpleConnectionHandler
+public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable, ISimpleConnectionHandler
 {    
     //Is the block powered by redstone?
     private boolean isPowered = false;
@@ -196,7 +199,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IElectricityStorage, IPack
     	{
 	    	if(this.connectedBase.containingMissile != null)
 	        {
-	    		//if(this.dianXiaoShi >= this.getMaxWattHours())
+	    		if(this.dianXiaoShi >= this.getMaxWattHours())
 	    		{
 		            if(this.connectedBase.isInRange(this.target))
 		            {
@@ -394,5 +397,12 @@ public class TFaSheShiMuo extends TFaSheQi implements IElectricityStorage, IPack
 	public double getMaxWattHours()
 	{
 		return Math.max(Math.min(1.1*this.getVoltage(), 300), 150);
+	}
+
+	@Override
+	public boolean onActivated(EntityPlayer entityPlayer)
+	{
+		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		return false;
 	}
 }

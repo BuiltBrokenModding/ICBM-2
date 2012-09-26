@@ -1,5 +1,6 @@
 package icbm.extend;
 
+import net.minecraft.src.ItemStack;
 import icbm.jiqi.FaSheQiGuanLi;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;

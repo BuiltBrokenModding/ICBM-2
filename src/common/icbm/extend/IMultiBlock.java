@@ -9,7 +9,7 @@ import universalelectricity.prefab.Vector3;
  * @author Calclavia
  *
  */
-public interface IMultiBlock
+public interface IMultiBlock extends IBlockActivate
 {
 	/**
 	 * Called when this multiblock is created
@@ -22,9 +22,4 @@ public interface IMultiBlock
 	 * @param callingBlock - The tile entity who called the onDestroy function
 	 */
 	public void onDestroy(TileEntity callingBlock);
-	
-	/**
-	 * Called when one of the multiblocks gets activated
-	 */
-	public boolean onActivated(EntityPlayer entityPlayer);
 }
