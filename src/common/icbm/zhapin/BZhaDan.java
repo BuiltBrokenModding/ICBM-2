@@ -95,17 +95,25 @@ public class BZhaDan extends BlockContainer
      * Called whenever the block is added into the world. Args: world, x, y, z
      */
     @Override
-	public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	public void onBlockAdded(World par1World, int x, int y, int z)
     {
-        super.onBlockAdded(par1World, par2, par3, par4);
-        int metadata = par1World.getBlockMetadata(par2, par3, par4);
-
-        if (par1World.isBlockIndirectlyGettingPowered(par2, par3, par4))
+        super.onBlockAdded(par1World, x, y, z);
+        
+        if(!ICBM.ALLOW_BLOCK_EXPLOSIVES && !par1World.isRemote)
         {
-            BZhaDan.detonateTNT(par1World, par2, par3, par4, metadata, 0);
+        	this.dropBlockAsItem(par1World, x, y, z, par1World.getBlockMetadata(x, y, z), 0);
+        	par1World.setBlockWithNotify(x, y, z, 0);
+        	return;
+        }
+        
+        int metadata = par1World.getBlockMetadata(x, y, z);
+
+        if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
+        {
+            BZhaDan.detonateTNT(par1World, x, y, z, metadata, 0);
         }
 
-        Vector3 position = new Vector3(par2, par3, par4);
+        Vector3 position = new Vector3(x, y, z);
 
         //Check to see if there is fire nearby. If so, then detonate.
         for (Vector3 side : Vector3.side)
@@ -116,7 +124,7 @@ public class BZhaDan extends BlockContainer
             
             if (blockId == Block.fire.blockID  || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
             {
-                BZhaDan.detonateTNT(par1World, par2, par3, par4, metadata, 2);
+                BZhaDan.detonateTNT(par1World, x, y, z, metadata, 2);
             }
         }
     }

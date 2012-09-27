@@ -4,7 +4,6 @@ import icbm.ICBM;
 import icbm.zhapin.ZhaPin;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import net.minecraft.src.Block;
@@ -18,7 +17,9 @@ import universalelectricity.recipe.RecipeManager;
 
 public class ExYaSuo extends ZhaPin
 {
-    private static final int BAN_JING = 16;
+    private static final int MAX_BAN_JING = 16;
+    private static final float BAN_JING = 2F;
+    private static final float NENG_LIANG = 10F;
 
 	public ExYaSuo(String name, int ID, int tier)
 	{
@@ -33,36 +34,25 @@ public class ExYaSuo extends ZhaPin
 		{
 		    List blownBlocks = new ArrayList();
 	
-			float radius = 2F;
-			float power = 9F;
-					
-	        HashSet var2 = new HashSet();
-	        int x;
-	        int y;
-	        int z;
-	        double var15;
-	        double var17;
-	        double var19;
-	
-	        for (x = 0; x < BAN_JING; ++x)
+	        for (int x = 0; x < MAX_BAN_JING; ++x)
 	        {
-	            for (y = 0; y < BAN_JING; ++y)
+	            for (int y = 0; y < MAX_BAN_JING; ++y)
 	            {
-	                for (z = 0; z < BAN_JING; ++z)
+	                for (int z = 0; z < MAX_BAN_JING; ++z)
 	                {
-	                    if (x == 0 || x == BAN_JING - 1 || y == 0 || y == BAN_JING - 1 || z == 0 || z == BAN_JING - 1)
+	                    if (x == 0 || x == MAX_BAN_JING - 1 || y == 0 || y == MAX_BAN_JING - 1 || z == 0 || z == MAX_BAN_JING - 1)
 	                    {
-	                        double var6 = (double)((float)x / ((float)BAN_JING - 1.0F) * 2.0F - 1.0F);
-	                        double var8 = (double)((float)y / ((float)BAN_JING - 1.0F) * 2.0F - 1.0F);
-	                        double var10 = (double)((float)z / ((float)BAN_JING - 1.0F) * 2.0F - 1.0F);
-	                        double var12 = Math.sqrt(var6 * var6 + var8 * var8 + var10 * var10);
-	                        var6 /= var12;
-	                        var8 /= var12;
-	                        var10 /= var12;
-	                        float var14 = radius * (0.7F + worldObj.rand.nextFloat() * 0.6F);
-	                        var15 = position.x;
-	                        var17 = position.y;
-	                        var19 = position.z;
+	                        double xStep = (double)((float)x / ((float)MAX_BAN_JING - 1.0F) * 2.0F - 1.0F);
+	                        double yStep = (double)((float)y / ((float)MAX_BAN_JING - 1.0F) * 2.0F - 1.0F);
+	                        double zStep = (double)((float)z / ((float)MAX_BAN_JING - 1.0F) * 2.0F - 1.0F);
+	                        double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
+	                        xStep /= diagonalDistance;
+	                        yStep /= diagonalDistance;
+	                        zStep /= diagonalDistance;
+	                        float var14 = BAN_JING * (0.7F + worldObj.rand.nextFloat() * 0.6F);
+	                        double var15 = position.x;
+	                        double var17 = position.y;
+	                        double var19 = position.z;
 	
 	                        for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
 	                        {
@@ -78,21 +68,19 @@ public class ExYaSuo extends ZhaPin
 	
 	                            if (var14 > 0.0F)
 	                            {
-	                                var2.add(new ChunkPosition(var22, var23, var24));
+	                            	blownBlocks.add(new ChunkPosition(var22, var23, var24));
 	                            }
 	
-	                            var15 += var6 * (double)var21;
-	                            var17 += var8 * (double)var21;
-	                            var19 += var10 * (double)var21;
+	                            var15 += xStep * (double)var21;
+	                            var17 += yStep * (double)var21;
+	                            var19 += zStep * (double)var21;
 	                        }
 	                    }
 	                }
 	            }
 	        }
-	
-	        blownBlocks.addAll(var2);
 	        
-	        doDamageEntities(worldObj, position, radius, power, false);
+	        doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG, false);
 	
 	        //Set 3: Drop blocks, play animations and sound fxs
 	        worldObj.playSoundEffect(position.x, position.y, position.z, "random.explode", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -124,7 +112,7 @@ public class ExYaSuo extends ZhaPin
 	            var151 /= var211;
 	            var171 /= var211;
 	            var191 /= var211;
-	            double var23 = 0.5D / (var211 / radius + 0.1D);
+	            double var23 = 0.5D / (var211 / BAN_JING + 0.1D);
 	            var23 *= (worldObj.rand.nextFloat() * worldObj.rand.nextFloat() + 0.3F);
 	            var151 *= var23;
 	            var171 *= var23;

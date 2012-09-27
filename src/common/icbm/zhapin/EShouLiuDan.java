@@ -197,10 +197,12 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
                 
         if(this.ticksExisted > Math.max(60, ZhaPin.list[explosiveID].yinXin()))
         {
-        	 if (!this.worldObj.isRemote)
-             {
- 		    	ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.explosiveID);
-             }
+        	this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+
+        	if (!this.worldObj.isRemote)
+            {
+        		ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.explosiveID);
+            }
         	 
         	this.setDead();
         }

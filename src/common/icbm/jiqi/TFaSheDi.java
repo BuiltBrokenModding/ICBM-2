@@ -40,10 +40,10 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     private static final double MISSILE_MAX_DISTANCE = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
 
 	//The missile that this launcher is holding
-    public EDaoDan containingMissile = null;
+    public EDaoDan eDaoDan = null;
     
     //The connected missile launcher frame
-    public TFaSheJia connectedFrame = null;
+    public TFaSheJia jiaZi = null;
     
     private ItemStack[] containingItems = new ItemStack[1];
     
@@ -52,7 +52,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     
     private byte orientation = 3;
 
-	private boolean sendUpdate = false;
+	private boolean packetGengXin = false;
     
     public TFaSheDi()
     {
@@ -163,7 +163,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     {
     	super.updateEntity();
     	
-    	if(this.connectedFrame == null)
+    	if(this.jiaZi == null)
     	{
         	for(byte i = 2; i < 6; i++)
         	{
@@ -174,20 +174,20 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
         		
         		if(tileEntity instanceof TFaSheJia)
             	{
-            		this.connectedFrame = (TFaSheJia)tileEntity;
-            		this.connectedFrame.setDirection(Vector3.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
+            		this.jiaZi = (TFaSheJia)tileEntity;
+            		this.jiaZi.setDirection(Vector3.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
             	}
         	}
     	}
     	else
         {
-        	if(this.connectedFrame.isInvalid())
+        	if(this.jiaZi.isInvalid())
         	{
-        		this.connectedFrame = null;
+        		this.jiaZi = null;
         	}
-        	else if(this.sendUpdate || Ticker.inGameTicks % (20*30) == 0 && this.connectedFrame != null && !this.worldObj.isRemote)
+        	else if(this.packetGengXin || Ticker.inGameTicks % (20*30) == 0 && this.jiaZi != null && !this.worldObj.isRemote)
         	{
-				PacketManager.sendTileEntityPacket(this.connectedFrame, "ICBM", (byte)this.connectedFrame.getDirection().ordinal(), this.connectedFrame.getTier());
+				PacketManager.sendTileEntityPacket(this.jiaZi, "ICBM", (byte)this.jiaZi.getDirection().ordinal(), this.jiaZi.getTier());
         	}
         }
     	
@@ -195,10 +195,10 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		{
 	    	this.setMissile();
 	    	
-	        if(this.sendUpdate  || Ticker.inGameTicks % (20*30) == 0)
+	        if(this.packetGengXin || Ticker.inGameTicks % (20*30) == 0)
 	        {
 	        	PacketManager.sendTileEntityPacket(this, "ICBM", this.orientation, this.tier);
-	        	this.sendUpdate = false;
+	        	this.packetGengXin = false;
 	        }
 		}
 	}
@@ -216,26 +216,26 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
         			missileId+= 100;
         		}
                 
-            	if(containingMissile == null)
+            	if(eDaoDan == null)
             	{
         			Vector3 position = new Vector3((this.xCoord+0.5F), (this.yCoord+2), (this.zCoord+0.5F));
-                    this.containingMissile = new EDaoDan(this.worldObj, position, Vector3.get(this), missileId);
-                    this.worldObj.spawnEntityInWorld(this.containingMissile);
+                    this.eDaoDan = new EDaoDan(this.worldObj, position, Vector3.get(this), missileId);
+                    this.worldObj.spawnEntityInWorld(this.eDaoDan);
                     return;
             	}
-            	else if(this.containingMissile.missileID ==  missileId)
+            	else if(this.eDaoDan.missileID ==  missileId)
             	{
             		return;
             	}
             }
         }
     	
-		if(this.containingMissile != null)
+		if(this.eDaoDan != null)
 		{
-			this.containingMissile.setDead();
+			this.eDaoDan.setDead();
 		}
 		
-		this.containingMissile = null;
+		this.eDaoDan = null;
 	}
 
 	@Override
@@ -243,7 +243,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 	{
 		if(type == ConnectionType.LOGIN_SERVER)
 		{
-        	this.sendUpdate = true;
+        	this.packetGengXin = true;
 		}
 	}
 	
@@ -270,9 +270,9 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     	//Apply inaccuracy
     	float inaccuracy;
     	
-    	if(this.connectedFrame != null)
+    	if(this.jiaZi != null)
     	{
-    		inaccuracy = (float)this.connectedFrame.getInaccuracy();
+    		inaccuracy = (float)this.jiaZi.getInaccuracy();
     	}
     	else
     	{
@@ -290,8 +290,8 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     	target.z += inaccuracy;
     	
 		this.decrStackSize(0, 1);
-        this.containingMissile.launchMissile(target);
-        this.containingMissile = null;    
+        this.eDaoDan.launchMissile(target);
+        this.eDaoDan = null;    
     }
     
     //Checks if the missile target is in range
@@ -539,9 +539,9 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 			this.worldObj.setBlockWithNotify((int)position.x, (int)position.y+2, (int)position.z-1, 0);
 		}
 		
-		if(this.containingMissile != null)
+		if(this.eDaoDan != null)
     	{
-			this.containingMissile.setDead();
+			this.eDaoDan.setDead();
     	}
 	}
 

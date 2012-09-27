@@ -24,17 +24,20 @@ public class ItShouLiuDan extends ICBMItem
      */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-        if (!par3EntityPlayer.capabilities.isCreativeMode)
-        {
-            --par1ItemStack.stackSize;
-        }
-
-        par2World.playSoundAtEntity(par3EntityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-        if (!par2World.isRemote)
-        {
-            par2World.spawnEntityInWorld(new EShouLiuDan(par2World, par3EntityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
-        }
+    	if(ICBM.ALLOW_GRENADE_EXPLOSIVES)
+    	{
+	        if (!par3EntityPlayer.capabilities.isCreativeMode)
+	        {
+	            --par1ItemStack.stackSize;
+	        }
+	
+	        par2World.playSoundAtEntity(par3EntityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+	
+	        if (!par2World.isRemote)
+	        {
+	            par2World.spawnEntityInWorld(new EShouLiuDan(par2World, par3EntityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
+	        }
+    	}
 
         return par1ItemStack;
     }

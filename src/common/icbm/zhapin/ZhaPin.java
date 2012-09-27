@@ -19,7 +19,7 @@ import icbm.zhapin.ex.ExQunDan;
 import icbm.zhapin.ex.ExShengBuo;
 import icbm.zhapin.ex.ExTaiYang;
 import icbm.zhapin.ex.ExTaiYang2;
-import icbm.zhapin.ex.ExTuPuoDan;
+import icbm.zhapin.ex.ExTuPuo;
 import icbm.zhapin.ex.ExYaSuo;
 import icbm.zhapin.ex.ExYuanZi;
 
@@ -50,7 +50,7 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin Fragmentation = new ExQunDan("Fragmentation", 4, 2);
 	public static final ZhaPin Contagious = new EDu("Contagious", 5, 2);
 	public static final ZhaPin Sonic = new ExShengBuo("Sonic", 6, 2);
-	public static final ZhaPin Breaching = new ExTuPuoDan("Breaching", 7, 2);
+	public static final ZhaPin Breaching = new ExTuPuo("Breaching", 7, 2);
 	public static final ZhaPin Rejuvenation = new ExHuanYuan("Rejuvenation", 8, 2);
 	
 	public static final int MAX_TIER_TWO = 9;

@@ -26,7 +26,7 @@ public class ExFanWuSu extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(300);
-		this.destroyBedrock = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, this.getMing()+"Destroy Bedrock", destroyBedrock);
+		this.destroyBedrock = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, this.getMing()+" Destroy Bedrock", destroyBedrock);
 	}
 	
 	/**

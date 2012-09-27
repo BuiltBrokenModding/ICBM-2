@@ -145,9 +145,9 @@ public class GFaSheShiMuo extends ICBMGui
         
         if(this.tileEntity.connectedBase != null)
         {
-        	if(this.tileEntity.connectedBase.connectedFrame != null)
+        	if(this.tileEntity.connectedBase.jiaZi != null)
         	{
-        		inaccuracy = this.tileEntity.connectedBase.connectedFrame.getInaccuracy();
+        		inaccuracy = this.tileEntity.connectedBase.jiaZi.getInaccuracy();
         	}
         }
         

@@ -56,7 +56,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     public EDaoDan lockedTarget;
 	//Has this missile lock it's target before?
     public boolean didTargetLockBefore = false;
-	
+	//Tracking
+    public int tracking = -1;
 	//For cluster missile
     public int missileCount = 0;
 	
@@ -151,7 +152,13 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
     @Override
 	public void entityInit()
-    { 
+    {
+    	if(!ICBM.ALLOW_MISSILE_EXPLOSIVES)
+    	{
+    		this.setDead();
+    		return;
+    	}
+    	
     	this.dataWatcher.addObject(16, -1);
     	this.daoDanInit(ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY));
     }
@@ -321,9 +328,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 			
 			if(tileEntity instanceof TFaSheDi)
 			{
-				if(((TFaSheDi)tileEntity).containingMissile == null)
+				if(((TFaSheDi)tileEntity).eDaoDan == null)
 				{
-					((TFaSheDi)tileEntity).containingMissile = this;
+					((TFaSheDi)tileEntity).eDaoDan = this;
 				}
 			}
 			else if(tileEntity instanceof TXiaoFaSheQi)
@@ -431,7 +438,10 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     @Override
     public void setDead()
     {
-    	ForgeChunkManager.releaseTicket(chunkTicket);
+    	if(chunkTicket != null)
+    	{
+    		ForgeChunkManager.releaseTicket(chunkTicket);
+    	}
         super.setDead();
     }
 

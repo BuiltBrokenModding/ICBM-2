@@ -206,7 +206,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
     {
     	if(this.connectedBase != null && !this.isDisabled())
     	{
-	    	if(this.connectedBase.containingMissile != null)
+	    	if(this.connectedBase.eDaoDan != null)
 	        {
 	    		if(this.dianXiaoShi >= this.getMaxWattHours())
 	    		{
@@ -233,7 +233,6 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
             this.connectedBase.launchMissile(this.muBiao);
     	}          
     }
-    
 
 	/**
 	 * Gets the display status of the missile launcher
@@ -256,7 +255,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
     	{
     		status = "Insufficient electricity!";
     	}
-        else if(this.connectedBase.containingMissile == null)
+        else if(this.connectedBase.eDaoDan == null)
     	{
     		status = "Missile silo is empty!";
     	}

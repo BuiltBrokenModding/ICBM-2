@@ -81,8 +81,14 @@ public class ICBM
     public static final String ITEM_TEXTURE_FILE = TEXTURE_FILE_PATH + "items.png";
     public static final String TRACKER_TEXTURE_FILE = TEXTURE_FILE_PATH + "tracker.png";
     
+    //Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
     
+	public static final boolean ADVANCED_VISUALS = UniversalElectricity.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
+	public static final boolean ALLOW_BLOCK_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Blocks", true);
+	public static final boolean ALLOW_MISSILE_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Missiles", true);
+	public static final boolean ALLOW_GRENADE_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Grenades", true);
+	
 	@SidedProxy(clientSide = "icbm.ICBMClientProxy", serverSide = "icbm.ICBMCommonProxy")
 	public static ICBMCommonProxy proxy;
 	
@@ -91,9 +97,9 @@ public class ICBM
 	
 	public static final int BLOCK_ID_PREFIX = 3880;
     public static final Block blockLiu = new BLiu(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX-1));
-	public static final Block blockBuo1LiPan = new BBuo1Li4Pan2(UniversalElectricity.getBlockConfigID(CONFIGURATION, "GlassPressurePlate", BLOCK_ID_PREFIX+0), 0);
+	public static final Block blockBuo1LiPan = new BBuo1Li4Pan2(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", BLOCK_ID_PREFIX+0), 0);
 	public static final Block blockZha4Dan4 = new BZhaDan(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
-	public static final Block blockJiQi = new BJiQi(UniversalElectricity.getBlockConfigID(CONFIGURATION, "BlockMachine", BLOCK_ID_PREFIX+3));
+	public static final Block blockJiQi = new BJiQi(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Block Machine", BLOCK_ID_PREFIX+3));
 	public static final Block blockYinXing = new BYinXing(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
 	public static Block blockFuShe;
 	public static final Block blockYinGanQi = new BYinGanQi(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
@@ -120,14 +126,16 @@ public class ICBM
 	public static final Du DU_YI_CHUAN = new Du("Contagious", 1, true);
 	
 	public static final UEDamageSource damageSmash = new UEDamageSource("smash", "%1$s got smashed to death!");
-	
-	public static final boolean ADVANCED_VISUALS = UniversalElectricity.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
-	
+		
     public static final OreGenBase liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(blockLiu), 0, 40, 25, 15).enable();
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
-    {		
+    {
+		if(!Loader.isModLoaded("UniversalElectricity")) throw new RuntimeException("Universal Electricity not installed!");
+			
+		UniversalElectricity.versionLock(0, 8, 6, true);
+		
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		
 		GameRegistry.registerDispenserHandler(

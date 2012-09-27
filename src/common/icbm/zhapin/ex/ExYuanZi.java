@@ -16,10 +16,8 @@ import universalelectricity.recipe.RecipeManager;
 public class ExYuanZi extends ZhaPin
 {	
 	public static final int BAN_JING = 35;
-	public static final int NENG_LIANG = 200;
-	public static final int CALL_COUNT = 80;
-	
-	public static final int RAY_CAST_INTERVAL = 2;
+	public static final int NENG_LIANG = 30;
+	public static final int CALC_SPEED = 500;
 	
 	public ExYuanZi(String name, int ID, int tier)
 	{
@@ -28,101 +26,42 @@ public class ExYuanZi extends ZhaPin
 	}
 	
 	@Override
-	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource) 
 	{
 		EZhaPin source = (EZhaPin)explosionSource;
 		
-		int blockCount = 0;
+		int steps = (int)Math.ceil(3.141592653589793D / Math.atan(1.0D / BAN_JING));
 		
-		for(int x = -BAN_JING; x < BAN_JING; x++)
+		for (int phi_n = 0; phi_n < 2 * steps; phi_n++)
 		{
-			for(int y = -BAN_JING; y < BAN_JING; y++)
-			{
-				for(int z = -BAN_JING; z < BAN_JING; z++)
-				{
-					double distance = MathHelper.sqrt_double(x*x + y*y + z*z);
-					
-                    if(distance < BAN_JING && distance > BAN_JING - 1)
-					{
-                    	if(blockCount % RAY_CAST_INTERVAL == 0)
-                    	{
-                    		source.dataList.add(new Vector3(x, y, z));
-                    	}
-                    	
-                    	blockCount ++;
-					}
-				}
+			for (int theta_n = 0; theta_n < steps; theta_n++)
+			{			
+				double phi = 6.283185307179586D / steps * phi_n;
+				double theta = 3.141592653589793D / steps * theta_n;
+
+				source.dataList.add(new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi)));
 			}
 		}
 		
-		this.doDamageEntities(worldObj, position, BAN_JING, BAN_JING*100);
+        doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG*1000);
+		
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
 
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
-	{		
+	{
 		EZhaPin source = (EZhaPin)explosionSource;
-	
-		for(int i = callCount; i < callCount+CALL_COUNT; i ++)
-		{
-			if(i >= source.dataList.size())
-			{
-				for(Object obj : source.dataList2)
-				{
-					Vector3 targetPosition = (Vector3)obj;
-					int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-					
-					if(blockID > 0)
-					{
-						worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
-			            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-					}
-				}
-				
-				if(worldObj.isRemote && ICBM.ADVANCED_VISUALS)
-		        {
-					final int r = 3;
-					
-					for(int y = 0; y < 40; y ++)
-					{
-						int newR = r;
-						
-						if(y < 2)
-						{
-							newR = r*3;
-						}
-						else if(y > 20)
-						{
-							newR = r+(y - 20);
-						}
-						
-						for(int x = -newR; x < newR; x ++)
-						{
-							for(int z = -newR; z < newR; z ++)
-							{
-								if(worldObj.rand.nextFloat() < 0.01)
-								{
-									ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(position, new Vector3(x, y, z)), 0F, 0F, 0F, 8F, 1F);
-								}
-							}
-						}
-					}
-		        }
-				
-				return false;
-			}
+		
+		int i = (callCount+1)*CALC_SPEED - CALC_SPEED;
+		
+		for(; i < source.dataList.size(); i ++)
+		{			
+			if(i > (callCount+1)*CALC_SPEED) break;
 			
-			Vector3 corner = (Vector3)source.dataList.get(i);
-			
+			Vector3 delta = (Vector3)source.dataList.get(i);
+		    			
 			float power = NENG_LIANG - (NENG_LIANG*worldObj.rand.nextFloat()/2);
-			
-			double xStep = (double)((float)corner.intX() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
-            double yStep = (double)((float)corner.intY() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
-            double zStep = (double)((float)corner.intZ() / ((float)BAN_JING/2 - 1.0F) * 2.0F - 1.0F);
-            double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
-            xStep /= diagonalDistance;
-            yStep /= diagonalDistance;
-            zStep /= diagonalDistance;
             
             Vector3 targetPosition = position.clone();
 			
@@ -140,11 +79,11 @@ public class ExYuanZi extends ZhaPin
 					}
 					else if(Block.blocksList[blockID] instanceof BlockFluid)
 					{
-						resistance = 4;
+						resistance = 2;
 					}
 					else if(blockID == Block.obsidian.blockID)
 					{
-						resistance = 30;
+						resistance = 8;
 					}
 					else
 					{
@@ -164,26 +103,26 @@ public class ExYuanZi extends ZhaPin
 
 				if(targetPosition.distanceTo(position) > BAN_JING+10) break;
 				
-				targetPosition.x += xStep * (double)var21;
-				targetPosition.y += yStep * (double)var21;
-				targetPosition.z += zStep * (double)var21;
+				targetPosition.x += delta.x;
+				targetPosition.y += delta.y;
+				targetPosition.z += delta.z;
 			}
 		}
-
-		int r = callCount/CALL_COUNT;
 		
-        if(worldObj.isRemote)
-        {       
-        	boolean reverse = false;
-        	
-        	if(r > BAN_JING)
-			{
-        		r = BAN_JING - (r - BAN_JING);
-        		reverse = true;
-			}
-        	        	
-        	if(r > 0)
-        	{
+		int r = callCount;
+
+    	boolean reverse = false;
+    	
+    	if(r > BAN_JING)
+		{
+    		r = BAN_JING - (r - BAN_JING);
+    		reverse = true;
+		}
+    	    	        	
+    	if(r > 0)
+    	{
+    		if(worldObj.isRemote)
+            {
 	        	for(int x = -r; x < r; x++)
 	    		{
 					for(int z = -r; z < r; z++)
@@ -192,7 +131,7 @@ public class ExYuanZi extends ZhaPin
 						
 	                    if(distance < r && distance > r-1)
 						{
-							if(worldObj.rand.nextFloat() < Math.max(0.0005*r, 0.004) || (ICBM.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008*r, 0.008)))
+							if(worldObj.rand.nextFloat() < Math.max(0.0006*r, 0.005) || (ICBM.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008*r, 0.008)))
 							{
 								Vector3 targetPosition = Vector3.add(position, new Vector3(x, 0, z));
 								
@@ -208,16 +147,18 @@ public class ExYuanZi extends ZhaPin
 						}
 					}
 	    		}
-        	}
+            }
+    	}
+    	
+    	if(r <= 0 && i > source.dataList.size())
+    	{
+    		return false;
         }
-        		
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+    	        		
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		
 		return true;
 	}
-	
-	@Override
-	public int countIncrement() { return CALL_COUNT;}
 	
 	/**
 	 * The interval in ticks before the next procedural call of this explosive
@@ -229,6 +170,24 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		EZhaPin source = (EZhaPin)explosionSource;
+
+		for(Object obj : source.dataList2)
+		{
+			Vector3 targetPosition = (Vector3)obj;
+			int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+			
+			if(blockID > 0)
+			{
+				worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+	            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+			}
+		}
+		
+        doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG*1000);
+		
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 10.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		
 		ZhaPin.DecayLand.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
 		ZhaPin.Mutation.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
 	}

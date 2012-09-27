@@ -3,11 +3,11 @@ package icbm.daodan;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Entity;
 
-public class DFan extends DaoDan
+public class DFanDan extends DaoDan
 {
 	public static final int ABMRange = 30;
 	
-	protected DFan(String name, int ID, int tier)
+	protected DFanDan(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 	}
