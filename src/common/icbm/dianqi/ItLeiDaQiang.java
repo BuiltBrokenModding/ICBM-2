@@ -106,17 +106,17 @@ public class ItLeiDaQiang extends ItemElectric
         			 //If the vector is NOT 0
         			 if(!savedCords.isEqual(new Vector3()))
         			 {
-        				 if(missileLauncher.target == null)
+        				 if(missileLauncher.getTarget() == null)
         				 {
-        					 missileLauncher.target = new Vector3();
+        					 missileLauncher.setTarget(new Vector3());
         				 }
         				 
-        				 missileLauncher.target.x = (int)savedCords.x;
-        				 missileLauncher.target.z = (int)savedCords.z;
+        				 missileLauncher.getTarget().x = (int)savedCords.x;
+        				 missileLauncher.getTarget().z = (int)savedCords.z;
         				 
         				 if(par3World.isRemote)
         				 {
-	        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, savedCords.x, missileLauncher.target.y, savedCords.z);
+	        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, savedCords.x, missileLauncher.getTarget().y, savedCords.z);
 
 	        				 par2EntityPlayer.addChatMessage("Coordinate information transfered!");
         				 }
@@ -135,12 +135,12 @@ public class ItLeiDaQiang extends ItemElectric
         			 
         			 if(!savedCords.isEqual(new Vector3()))
         			 {
-        				 if(missileLauncher.target == null)
+        				 if(missileLauncher.getTarget() == null)
         				 {
-        					 missileLauncher.target = new Vector3();
+        					 missileLauncher.setTarget(new Vector3());
         				 }
         				 
-        				 missileLauncher.target = new Vector3(savedCords.x, savedCords.y, savedCords.z);
+        				 missileLauncher.setTarget(new Vector3(savedCords.x, savedCords.y, savedCords.z));
         				 
         				 if(par3World.isRemote)
         				 {

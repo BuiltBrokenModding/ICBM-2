@@ -7,6 +7,8 @@ import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
+import chb.mods.mffs.api.IForceFieldBlock;
+
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -45,6 +47,8 @@ public class ExShengBuo extends ZhaPin
 					int blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 					
 					if(blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID) continue;
+					
+					if(Block.blocksList[blockID] instanceof IForceFieldBlock) continue;
 					
 					int metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 					

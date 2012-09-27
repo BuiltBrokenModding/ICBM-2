@@ -45,7 +45,7 @@ public class GFaSheShiMuo extends ICBMGui
                 
         this.textFieldFreq.setText(this.tileEntity.frequency+"");
         
-        if (this.tileEntity.target == null)
+        if (this.tileEntity.getTarget() == null)
         {
         	this.textFieldX.setText(Math.round(this.tileEntity.xCoord) + "");
             this.textFieldZ.setText(Math.round(this.tileEntity.zCoord) + "");
@@ -53,9 +53,9 @@ public class GFaSheShiMuo extends ICBMGui
         }
         else
         {
-            this.textFieldX.setText(Math.round(this.tileEntity.target.x) + "");
-            this.textFieldZ.setText(Math.round(this.tileEntity.target.z) + "");
-            this.textFieldY.setText(Math.round(this.tileEntity.target.y) + "");
+            this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+            this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+            this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
         }
         
         PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
@@ -156,7 +156,7 @@ public class GFaSheShiMuo extends ICBMGui
         //Shows the status of the missile launcher
         this.fontRenderer.drawString("Status: "+this.tileEntity.getStatus(), 12, 125, 4210752);
     	this.fontRenderer.drawString("Voltage: "+this.tileEntity.getVoltage()+"v", 12, 137, 4210752);
-        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.dianXiaoShi, ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxWattHours(), ElectricUnit.WATT_HOUR), 12, 150, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getWattHours(), ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxWattHours(), ElectricUnit.WATT_HOUR), 12, 150, 4210752);
     }
     
     @Override
@@ -189,19 +189,19 @@ public class GFaSheShiMuo extends ICBMGui
         {
         	Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), heightBeforeHit, Integer.parseInt(this.textFieldZ.getText()));
         	
-        	if(this.tileEntity.target != newTarget)
+        	if(this.tileEntity.getTarget() != newTarget)
         	{
-            	this.tileEntity.target = newTarget;
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2, this.tileEntity.target.x, this.tileEntity.target.y, this.tileEntity.target.z);
+            	this.tileEntity.setTarget(newTarget);
+    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z);
         	}
         	
-        	this.textFieldX.setText(Math.round(this.tileEntity.target.x) + "");
-            this.textFieldZ.setText(Math.round(this.tileEntity.target.z) + "");
-            this.textFieldY.setText(Math.round(this.tileEntity.target.y) + "");
+        	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+            this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+            this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
         }
         catch (NumberFormatException e)
         {
-            this.tileEntity.target = null;
+            this.tileEntity.setTarget(null);
         }
         
         try

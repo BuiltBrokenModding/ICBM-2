@@ -3,7 +3,7 @@ package icbm.jiqi;
 import icbm.BYinXing;
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
-import icbm.extend.IMultiBlock;
+import icbm.extend.IMB;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
@@ -25,7 +25,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IMultiBlock, IRedstoneReceptor, ISimpleConnectionHandler
+public class TDianCiQi extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IMB, IRedstoneReceptor, ISimpleConnectionHandler
 {
     //The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 60;

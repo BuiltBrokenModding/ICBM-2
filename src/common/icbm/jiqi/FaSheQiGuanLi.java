@@ -10,24 +10,24 @@ import universalelectricity.prefab.Vector2;
 public class FaSheQiGuanLi
 {
 	//Static methods
-	private static List<TFaSheQi> launcherScreens = new ArrayList<TFaSheQi>();
+	private static List<TFaSheQi> faSheQi = new ArrayList<TFaSheQi>();
 	
-	public static void addLauncher(TFaSheQi launcher)
+	public static void jiaFaSheQi(TFaSheQi launcher)
 	{
-		cleanUpMissiles();
+		qingLiFaSheQi();
 		
-		if(!launcherScreens.contains(launcher))
+		if(!faSheQi.contains(launcher))
 		{
-			launcherScreens.add(launcher);
+			faSheQi.add(launcher);
 		}
 	}
 	
-	public static List<TFaSheQi> getLaunchersInArea(Vector2 minVector, Vector2 maxVector)
+	public static List<TFaSheQi> naFaSheQiInArea(Vector2 minVector, Vector2 maxVector)
 	{
-		cleanUpMissiles();
+		qingLiFaSheQi();
 		List<TFaSheQi> returnArray = new ArrayList<TFaSheQi>();
 		
-		for(TFaSheQi launcher : launcherScreens)
+		for(TFaSheQi launcher : faSheQi)
 		{
 	        if(launcher.xCoord > minVector.x && launcher.xCoord < maxVector.x && launcher.zCoord > minVector.y && launcher.zCoord < maxVector.y)
 	        {
@@ -38,23 +38,23 @@ public class FaSheQiGuanLi
 		return returnArray;
 	}
 	
-	public static List<TFaSheQi> getLaunchers()
+	public static List<TFaSheQi> getFaSheQi()
 	{
-		cleanUpMissiles();
-		return launcherScreens;
+		qingLiFaSheQi();
+		return faSheQi;
 	}
 	
-	public static void cleanUpMissiles()
+	public static void qingLiFaSheQi()
 	{
-		for(int i = 0; i < launcherScreens.size(); i++)
+		for(int i = 0; i < faSheQi.size(); i++)
 		{
-			if(launcherScreens.get(i) == null)
+			if(faSheQi.get(i) == null)
 			{
-				launcherScreens.remove(i);
+				faSheQi.remove(i);
 			}
-			else if(launcherScreens.get(i).isInvalid())
+			else if(faSheQi.get(i).isInvalid())
 			{
-				launcherScreens.remove(i);
+				faSheQi.remove(i);
 			}
 		}
 	}

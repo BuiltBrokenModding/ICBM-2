@@ -1,6 +1,6 @@
 package icbm;
 
-import icbm.extend.IMultiBlock;
+import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -47,9 +47,9 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 		{
 			TileEntity tileEntity = this.worldObj.getBlockTileEntity((int)mainBlockPosition.x, (int)mainBlockPosition.y, (int)mainBlockPosition.z);
 			
-			if(tileEntity != null && tileEntity instanceof IMultiBlock)
+			if(tileEntity != null && tileEntity instanceof IMB)
 			{
-				IMultiBlock mainBlock = (IMultiBlock)tileEntity;
+				IMB mainBlock = (IMB)tileEntity;
 				
 				if(mainBlock != null)
 				{
@@ -67,9 +67,9 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 			
 			if(tileEntity != null)
 			{
-				if(tileEntity instanceof IMultiBlock)
+				if(tileEntity instanceof IMB)
 				{
-					return ((IMultiBlock)tileEntity).onActivated(par5EntityPlayer);
+					return ((IMB)tileEntity).onActivated(par5EntityPlayer);
 				}
 			}
 		}

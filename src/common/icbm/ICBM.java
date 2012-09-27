@@ -183,7 +183,7 @@ public class ICBM
 			{
 				if(ticket.getEntity() != null)
 				{
-					((EDaoDan)ticket.getEntity()).forceLoadingChunks(ticket);
+					((EDaoDan)ticket.getEntity()).daoDanInit(ticket);
 				}
 			}
 		}

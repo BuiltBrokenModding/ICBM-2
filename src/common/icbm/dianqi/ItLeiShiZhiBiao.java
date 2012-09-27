@@ -2,7 +2,7 @@ package icbm.dianqi;
 
 import icbm.ICBM;
 import icbm.ICBMPacketManager;
-import icbm.extend.IItemFrequency;
+import icbm.api.IFrequency;
 import icbm.extend.TFaSheQi;
 import icbm.jiqi.FaSheQiGuanLi;
 import icbm.jiqi.TXiaoFaSheQi;
@@ -23,7 +23,7 @@ import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector2;
 import universalelectricity.prefab.Vector3;
 
-public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
+public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 {
 	public static final int BAN_JING = 500;
 	public static final int ELECTRICITY_CAPACITY = 250;
@@ -54,24 +54,28 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
     }
     
     @Override
-    public short getFrequency(ItemStack par1ItemStack)
+    public short getFrequency(Object... data)
     {
-    	if (par1ItemStack.stackTagCompound == null)
+    	ItemStack itemStack = (ItemStack)data[0];
+    	
+    	if (itemStack.stackTagCompound == null)
 		{
     		return 0;
 		}
-    	return par1ItemStack.stackTagCompound.getShort("frequency");		
+    	return itemStack.stackTagCompound.getShort("frequency");		
     }
 
     @Override
-	public void setFrequency(ItemStack par1ItemStack, short frequency)
+	public void setFrequency(short frequency, Object... data)
 	{
-		if (par1ItemStack.stackTagCompound == null)
+		ItemStack itemStack = (ItemStack)data[0];
+		
+		if (itemStack.stackTagCompound == null)
 		{
-			 par1ItemStack.setTagCompound(new NBTTagCompound());
+			 itemStack.setTagCompound(new NBTTagCompound());
 		}
 
-		par1ItemStack.stackTagCompound.setShort("frequency", frequency);
+		itemStack.stackTagCompound.setShort("frequency", frequency);
 	}
     
     public int getLauncherCountDown(ItemStack par1ItemStack)
@@ -148,7 +152,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 	    	if(this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
 	    	{
 	    		Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-	        	List<TFaSheQi> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
+	        	List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
 	        	
 	        	for(TFaSheQi missileLauncher : launchers)
 	        	{
@@ -220,7 +224,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 	    			
 				 	if(missileLauncher.getFrequency() > 0)
 				 	{
-						this.setFrequency(par1ItemStack, missileLauncher.getFrequency());
+						this.setFrequency(missileLauncher.getFrequency(), par1ItemStack);
 						par2EntityPlayer.addChatMessage("Laser designator frequency Set: " + this.getFrequency(par1ItemStack));
 					}
 					else
@@ -266,7 +270,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 		        		if(this.getWattHours(par1ItemStack) > ELECTRICITY_CAPACITY)
 		            	{
 		    	        	Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
-		    	        	List<TFaSheQi> launchers = FaSheQiGuanLi.getLaunchersInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
+		    	        	List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
 		    	        	
 		    	        	boolean doAirStrike = false;
 		    	        	int errorCount = 0;
@@ -277,21 +281,21 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IItemFrequency
 	                    		 {
 		    	        			 if(missileLauncher instanceof TXiaoFaSheQi)
 		    	        			 {
-		    	        				 missileLauncher.target = new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.x, missileLauncher.target.y, missileLauncher.target.z);
+		    	        				 missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z);
 		    	        			 }
 		    	        			 else
 		    	        			 {
 		    	        				 
 		    	        				 double previousY = 0;
 		    	        				 
-		    	        				 if(missileLauncher.target != null)
+		    	        				 if(missileLauncher.getTarget() != null)
 		    	        				 {
-		    	        					 previousY = missileLauncher.target.y;
+		    	        					 previousY = missileLauncher.getTarget().y;
 		    	        				 }
 		    	        				 
-		    	        				 missileLauncher.target = new Vector3(objectMouseOver.blockX, previousY, objectMouseOver.blockZ);
-				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.target.x, missileLauncher.target.y, missileLauncher.target.z);
+		    	        				 missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, previousY, objectMouseOver.blockZ));
+				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z);
 		    	        			 }
 
 	                    			 if(missileLauncher.canLaunch())

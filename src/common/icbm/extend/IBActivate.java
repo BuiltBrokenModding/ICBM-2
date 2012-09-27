@@ -2,7 +2,7 @@ package icbm.extend;
 
 import net.minecraft.src.EntityPlayer;
 
-public interface IBlockActivate 
+public interface IBActivate 
 {
 	/**
 	 * Called when one of the multiblocks gets activated

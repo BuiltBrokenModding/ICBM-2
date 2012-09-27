@@ -94,7 +94,7 @@ public class GFrequency extends ICBMGui
 
         	if(((ItHuoLuanQi)this.itemStack.getItem()).getFrequency(this.itemStack) != newFrequency)
         	{
-            	((ItHuoLuanQi)this.itemStack.getItem()).setFrequency(this.itemStack, newFrequency);
+            	((ItHuoLuanQi)this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
             	
     			PacketManager.sendUnspecifiedPacketToServer("ICBM", ICBMPacketManager.SIGNAL_DISRUPTER_PACKET, newFrequency);
         	}

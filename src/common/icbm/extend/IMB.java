@@ -1,6 +1,5 @@
 package icbm.extend;
 
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import universalelectricity.prefab.Vector3;
 
@@ -9,7 +8,7 @@ import universalelectricity.prefab.Vector3;
  * @author Calclavia
  *
  */
-public interface IMultiBlock extends IBlockActivate
+public interface IMB extends IBActivate
 {
 	/**
 	 * Called when this multiblock is created

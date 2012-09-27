@@ -18,6 +18,7 @@ runtime\bin\python\python_mcp runtime\reobfuscate.py %*
 ::ZIP-UP
 cd reobf\minecraft\
 "..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "atomicscience\"
+"..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "chb\"
 "..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "icbm\"
 
 cd ..\..\

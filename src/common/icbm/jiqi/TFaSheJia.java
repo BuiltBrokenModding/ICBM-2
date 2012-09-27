@@ -2,7 +2,7 @@ package icbm.jiqi;
 
 import icbm.ICBM;
 import icbm.TYinXing;
-import icbm.extend.IMultiBlock;
+import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -21,7 +21,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMultiBlock, IRotatable
+public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMB, IRotatable
 {
     //The tier of this screen
     private int tier = 0;

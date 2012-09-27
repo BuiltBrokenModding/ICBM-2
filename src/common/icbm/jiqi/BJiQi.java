@@ -1,8 +1,8 @@
 package icbm.jiqi;
 
 import icbm.ICBM;
-import icbm.extend.IBlockActivate;
-import icbm.extend.IMultiBlock;
+import icbm.extend.IBActivate;
+import icbm.extend.IMB;
 
 import java.util.List;
 import java.util.Random;
@@ -115,9 +115,9 @@ public class BJiQi extends BlockMachine
 	        }
         }
     	
-    	if(tileEntity instanceof IMultiBlock)
+    	if(tileEntity instanceof IMB)
     	{
-    		((IMultiBlock)tileEntity).onCreate(new Vector3(x, y, z));
+    		((IMB)tileEntity).onCreate(new Vector3(x, y, z));
     	}
     }
     
@@ -220,9 +220,9 @@ public class BJiQi extends BlockMachine
 
         if(tileEntity != null)
         {
-        	if(tileEntity instanceof IBlockActivate)
+        	if(tileEntity instanceof IBActivate)
         	{
-        		return ((IBlockActivate)tileEntity).onActivated(par5EntityPlayer);
+        		return ((IBActivate)tileEntity).onActivated(par5EntityPlayer);
         	}
         }
 
@@ -335,9 +335,9 @@ public class BJiQi extends BlockMachine
         entityItem.motionZ = ((float)random.nextGaussian() * var13);
         par1World.spawnEntityInWorld(entityItem);
 
-    	if(tileEntity instanceof IMultiBlock)
+    	if(tileEntity instanceof IMB)
     	{
-    		((IMultiBlock)tileEntity).onDestroy(tileEntity);
+    		((IMB)tileEntity).onDestroy(tileEntity);
     	}
     	
     	super.breakBlock(par1World, x, y, z, par5, par6);

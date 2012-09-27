@@ -2,9 +2,11 @@ package icbm.jiqi;
 
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
-import icbm.extend.IBlockActivate;
+import icbm.api.Launcher.LauncherType;
+import icbm.extend.IBActivate;
 import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
@@ -12,8 +14,6 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.implement.IElectricityStorage;
-import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.ConnectionHandler;
@@ -30,7 +30,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectricityStorage, IPacketReceiver, ITier, IRedstoneReceptor, IRotatable, ISimpleConnectionHandler
+public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceiver, ITier, IRotatable, ISimpleConnectionHandler
 {    
     //Is the block powered by redstone?
     private boolean isPowered = false;
@@ -46,9 +46,6 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
     
     //The missile launcher base in which this screen is connected with
     public TFaSheDi connectedBase = null;
-
-    //The electricity stored in the launcher screen
-    public double dianXiaoShi = 0;
     
 	private int yongZhe = 0;
 
@@ -115,8 +112,8 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 	    	{
 	        	if(this.yongZhe  > 0)
 	        	{
-		        	if(this.target == null) this.target = new Vector3(this.xCoord, 0, this.zCoord);
-		    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)3, this.dianXiaoShi, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+		        	if(this.muBiao == null) this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
+		    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)3, this.dianXiaoShi, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	        	}
 	    	}
 	        
@@ -128,6 +125,18 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 		}
 	}
 	
+  	@Override
+	public void placeMissile(ItemStack itemStack)
+	{
+		if(this.connectedBase != null)
+		{
+			if(!this.connectedBase.isInvalid())
+			{
+				this.connectedBase.setInventorySlotContents(0, itemStack);
+			}
+		}
+	}
+  	
 	@Override
 	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
@@ -163,7 +172,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 			{
 				if(!this.worldObj.isRemote)
 				{
-					this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 				}
 			}
 			else if(ID == 3)
@@ -172,7 +181,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 				{
 					this.dianXiaoShi = dataStream.readDouble();
 		            this.disabledTicks = dataStream.readInt();
-					this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 				}
 			}
 			
@@ -201,7 +210,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 	        {
 	    		if(this.dianXiaoShi >= this.getMaxWattHours())
 	    		{
-		            if(this.connectedBase.isInRange(this.target))
+		            if(this.connectedBase.isInRange(this.muBiao))
 		            {
 		            	return true;
 		            }
@@ -221,7 +230,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
     	if(this.canLaunch())
     	{
             this.setWattHours(0);
-            this.connectedBase.launchMissile(this.target);
+            this.connectedBase.launchMissile(this.muBiao);
     	}          
     }
     
@@ -251,15 +260,15 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
     	{
     		status = "Missile silo is empty!";
     	}
-        else if(this.target == null)
+        else if(this.muBiao == null)
         {
         	status = "Target is invalid!";
         }
-        else if(this.connectedBase.isTooClose(this.target))
+        else if(this.connectedBase.isTooClose(this.muBiao))
     	{
     		status = "Target too close!";
     	}
-        else if(this.connectedBase.isTooFar(this.target))
+        else if(this.connectedBase.isTooFar(this.muBiao))
     	{
     		status = "Target too far!";
     	}
@@ -281,7 +290,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
     {
     	super.readFromNBT(par1NBTTagCompound);
     	
-    	this.target = Vector3.readFromNBT("target", par1NBTTagCompound);
+    	this.muBiao = Vector3.readFromNBT("target", par1NBTTagCompound);
     	this.tier = par1NBTTagCompound.getInteger("tier");
     	this.frequency = par1NBTTagCompound.getShort("frequency");
     	this.orientation = par1NBTTagCompound.getByte("facingDirection");
@@ -295,9 +304,9 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
     	super.writeToNBT(par1NBTTagCompound);
-    	if(this.target != null)
+    	if(this.muBiao != null)
     	{
-    		this.target.writeToNBT("target", par1NBTTagCompound);
+    		this.muBiao.writeToNBT("target", par1NBTTagCompound);
     	}
 
     	par1NBTTagCompound.setInteger("tier", this.tier);
@@ -374,24 +383,6 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 	{
 		return true;
 	}
-	
-	@Override
-	public short getFrequency()
-	{
-		return this.frequency;
-	}
-
-	@Override
-    public double getWattHours(Object... data)
-    {
-    	return this.dianXiaoShi;
-    }
-
-	@Override
-	public void setWattHours(double wattHours, Object... data)
-	{
-		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
-	}
 
 	@Override
 	public double getMaxWattHours()
@@ -404,5 +395,23 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IElectrici
 	{
 		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return false;
+	}
+	
+	@Override
+	public LauncherType getLauncherType()
+	{
+		return LauncherType.TRADITIONAL;
+	}
+
+	@Override
+	public short getFrequency(Object... data)
+	{
+		return this.frequency;
+	}
+
+	@Override
+	public void setFrequency(short frequency, Object... data)
+	{
+		this.frequency = frequency;		
 	}
 }

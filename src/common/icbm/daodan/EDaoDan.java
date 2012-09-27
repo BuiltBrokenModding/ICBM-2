@@ -153,13 +153,21 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public void entityInit()
     { 
     	this.dataWatcher.addObject(16, -1);
+    	this.daoDanInit(ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY));
+    }
+    
+    public void daoDanInit(Ticket ticket)
+    {
+    	if (chunkTicket == null)
+    	{
+    		chunkTicket = ticket;
+    	}
     	
-        chunkTicket = ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY);
-        chunkTicket.bindEntity(this);
+    	ForgeChunkManager.forceChunk(ticket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+    	chunkTicket.bindEntity(this);
     	chunkTicket.getModData();
     }
     
-    //Returns true if other Entities should be prevented from moving through this Entity.
     @Override
 	public boolean canBeCollidedWith() { return true; } 
        
@@ -327,11 +335,11 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 				this.isCruise = true;
 				this.noClip = true;
 				
-				this.xDifference = ((TXiaoFaSheQi)tileEntity).target.x - this.startingPosition.x;
-		        this.yDifference = ((TXiaoFaSheQi)tileEntity).target.y - this.startingPosition.y;
-		        this.zDifference = ((TXiaoFaSheQi)tileEntity).target.z - this.startingPosition.z;
+				this.xDifference = ((TXiaoFaSheQi)tileEntity).getTarget().x - this.startingPosition.x;
+		        this.yDifference = ((TXiaoFaSheQi)tileEntity).getTarget().y - this.startingPosition.y;
+		        this.zDifference = ((TXiaoFaSheQi)tileEntity).getTarget().z - this.startingPosition.z;
 		        		        
-		        this.flatDistance = Vector2.distance(this.startingPosition.toVector2(),  ((TXiaoFaSheQi)tileEntity).target.toVector2());
+		        this.flatDistance = Vector2.distance(this.startingPosition.toVector2(),  ((TXiaoFaSheQi)tileEntity).getTarget().toVector2());
 		        this.skyLimit = 150+(int)(this.flatDistance*1.8);
 		        this.flightTime = (float)Math.max(100, 2.4*flatDistance);
 		        this.acceleration = (float)skyLimit*2/(flightTime*flightTime);
@@ -455,16 +463,6 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	        this.worldObj.spawnEntityInWorld(entityItem);
 	        this.setDead();
     	}
-    }
-    
-    public void forceLoadingChunks(Ticket ticket)
-    {
-    	if (chunkTicket == null)
-    	{
-    		chunkTicket = ticket;
-    	}
-    	
-    	ForgeChunkManager.forceChunk(ticket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
     }
 
     /**

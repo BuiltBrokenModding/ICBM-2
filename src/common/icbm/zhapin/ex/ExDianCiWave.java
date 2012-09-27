@@ -1,7 +1,7 @@
 package icbm.zhapin.ex;
 
-import ic2.api.IEnergyStorage;
 import icbm.zhapin.ZhaPin;
+import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;
@@ -9,6 +9,7 @@ import net.minecraft.src.World;
 import universalelectricity.implement.IDisableable;
 import universalelectricity.implement.IElectricityStorage;
 import universalelectricity.prefab.Vector3;
+import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExDianCiWave extends ZhaPin
 {
@@ -46,21 +47,23 @@ public class ExDianCiWave extends ZhaPin
 					TileEntity tileEntity = worldObj.getBlockTileEntity(i+x, j+y, k+z);
 					int blockID = worldObj.getBlockId(i+x, j+y, k+z);
 					
-					if(tileEntity != null)
+					if(Block.blocksList[blockID] != null)
 					{
-						if(tileEntity instanceof IElectricityStorage)
+						if(Block.blocksList[blockID] instanceof IForceFieldBlock)
 						{
-							((IElectricityStorage)tileEntity).setWattHours(0);
+							worldObj.setBlockWithNotify(i+x, j+y, k+z, 0);
 						}
-						
-						if(tileEntity instanceof IEnergyStorage)
+						else if(tileEntity != null)
 						{
-							worldObj.createExplosion(explosionSource, i+x, j+y, k+z, 2f);
-						}
-
-						if(tileEntity instanceof IDisableable)
-						{
-							((IDisableable)tileEntity).onDisable(400);
+							if(tileEntity instanceof IElectricityStorage)
+							{
+								((IElectricityStorage)tileEntity).setWattHours(0);
+							}
+	
+							if(tileEntity instanceof IDisableable)
+							{
+								((IDisableable)tileEntity).onDisable(400);
+							}
 						}
 					}
 				}

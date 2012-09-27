@@ -2,7 +2,7 @@ package icbm.dianqi;
 
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
-import icbm.extend.IItemFrequency;
+import icbm.api.IFrequency;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import universalelectricity.prefab.ItemElectric;
 
-public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
+public class ItHuoLuanQi extends ItemElectric implements IFrequency
 {	
     public ItHuoLuanQi(String name, int par1, int par2)
     {
@@ -39,24 +39,27 @@ public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
     }
     
     @Override
-    public short getFrequency(ItemStack par1ItemStack)
+    public short getFrequency(Object... data)
     {
-    	if (par1ItemStack.stackTagCompound == null)
+    	ItemStack itemStack = (ItemStack)data[0];
+    	if(itemStack.stackTagCompound == null)
 		{
     		return 0;
 		}
-    	return par1ItemStack.stackTagCompound.getShort("frequency");		
+    	return itemStack.stackTagCompound.getShort("frequency");		
     }
 	
 	@Override
-	public void setFrequency(ItemStack par1ItemStack, short frequency)
+	public void setFrequency(short frequency, Object... data)
 	{
-		if (par1ItemStack.stackTagCompound == null)
+		ItemStack itemStack = (ItemStack)data[0];
+		
+		if (itemStack.stackTagCompound == null)
 		{
-			 par1ItemStack.setTagCompound(new NBTTagCompound());
+			 itemStack.setTagCompound(new NBTTagCompound());
 		}
 
-		par1ItemStack.stackTagCompound.setShort("frequency", frequency);
+		itemStack.stackTagCompound.setShort("frequency", frequency);
 	}
     
 	@Override

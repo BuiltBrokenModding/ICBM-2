@@ -74,7 +74,7 @@ public class ICBMPacketManager extends PacketManager
 			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				
-            	((ItHuoLuanQi)itemStack.getItem()).setFrequency(itemStack, dataStream.readShort());
+            	((ItHuoLuanQi)itemStack.getItem()).setFrequency(dataStream.readShort(), itemStack);
             	System.out.println("SET");
 			}
 		}

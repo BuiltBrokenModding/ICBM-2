@@ -2,11 +2,12 @@ package icbm.jiqi;
 
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
+import icbm.api.Launcher.LauncherType;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTeBieDaoDan;
-import icbm.extend.IBlockActivate;
+import icbm.extend.IBActivate;
 import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
@@ -20,8 +21,6 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.implement.IElectricityStorage;
-import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.network.ConnectionHandler;
 import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
@@ -31,7 +30,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleConnectionHandler, IElectricityStorage, IPacketReceiver, IInventory, ISidedInventory, IRedstoneReceptor
+public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnectionHandler, IPacketReceiver, IInventory, ISidedInventory
 {
     //The missile that this launcher is holding
     public EDaoDan containingMissile = null;
@@ -45,18 +44,14 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
      */
     private ItemStack[] containingItems = new ItemStack[1];
 
-	public short frequency = 0;
-
 	private boolean isPowered = false;
 
-	private double wattHourStored = 0;
-
-	private int playersUsing;
+	private int yongZhe;
     
 	public TXiaoFaSheQi()
 	{
 		super();
-		this.target = new Vector3();
+		this.muBiao = new Vector3();
 		ConnectionHandler.registerConnectionHandler(this);
 	}
 	
@@ -159,7 +154,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
     	{
         	status = "Disabled";
     	}
-        else if(this.wattHourStored < this.getMaxWattHours())
+        else if(this.dianXiaoShi < this.getMaxWattHours())
     	{
     		status = "No Power!";
     	}
@@ -167,7 +162,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
     	{
     		status = "Silo Empty!";
     	}
-        else if(this.target == null)
+        else if(this.muBiao == null)
         {
         	status = "Invalid Target!";
         }
@@ -194,7 +189,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 	{		
 		if(!this.isDisabled())
     	{
-			this.setWattHours(this.wattHourStored+ElectricInfo.getWattHours(amps, voltage));
+			this.setWattHours(this.dianXiaoShi+ElectricInfo.getWattHours(amps, voltage));
     	}
 	}
 	
@@ -216,35 +211,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 	    	
 			if(!this.worldObj.isRemote)
 			{
-		    	if (this.containingItems[0] != null)
-		        {
-		            if (this.containingItems[0].getItem() instanceof ItDaoDan)
-		            {
-		                int missileId = this.containingItems[0].getItemDamage();
-		
-		            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3 && containingMissile == null)
-		            	{
-		        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
-	        				this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
-	        				this.worldObj.spawnEntityInWorld(this.containingMissile);
-		            	}
-		            	else if(this.containingMissile != null && this.containingMissile.missileID !=  missileId)
-		            	{
-		            		if(this.containingMissile != null) this.containingMissile.setDead();
-		            		this.containingMissile = null;
-		            	}
-		            }
-		            else
-		        	{
-		            	if(this.containingMissile != null) this.containingMissile.setDead();
-		        		this.containingMissile = null;
-		        	}
-		        }
-		    	else
-		    	{
-		    		if(this.containingMissile != null) this.containingMissile.setDead();
-		    		this.containingMissile = null;
-		    	}
+		    	this.placeMissile(containingItems[0]);
 
 		    	if(this.isPowered)
 				{
@@ -257,15 +224,54 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 				}
 			}
 	    	
-	    	if(!this.worldObj.isRemote && Ticker.inGameTicks % 40 == 0 && this.playersUsing > 0)
+	    	if(!this.worldObj.isRemote && Ticker.inGameTicks % 40 == 0 && this.yongZhe > 0)
 		    {
-		    	if(this.target == null) this.target = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+		    	if(this.muBiao == null) this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+				PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 		    }
     	}
     }
     
-    @Override
+	@Override
+    public void placeMissile(ItemStack itemStack)
+    {
+    	this.containingItems[0] = itemStack;
+	}
+	
+	public void setMissile()
+	{
+		if(this.containingItems[0] != null)
+        {
+            if (this.containingItems[0].getItem() instanceof ItDaoDan)
+            {
+                int missileId = this.containingItems[0].getItemDamage();
+
+                if(containingMissile == null)
+                {
+	            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
+	            	{
+	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
+	    				this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
+	    				this.worldObj.spawnEntityInWorld(this.containingMissile);
+	    				return;
+	            	}
+                }
+                else if(this.containingMissile.missileID ==  missileId)
+        		{
+            		return;
+        		}
+            }
+        }
+
+    	if(this.containingMissile != null)
+    	{
+    		this.containingMissile.setDead();
+    	}
+    	
+		this.containingMissile = null;
+	}
+
+	@Override
 	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
 		try
@@ -274,23 +280,23 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 			
 			if(ID == 0)
 			{
-				this.wattHourStored = dataStream.readDouble();
-	            this.frequency = dataStream.readShort();
+				this.dianXiaoShi = dataStream.readDouble();
+	            this.shengBuo = dataStream.readShort();
 	            this.disabledTicks = dataStream.readInt();
-				this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+				this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
 			else if(ID == 1)
 			{
 				if(!this.worldObj.isRemote)
 				{
-					this.frequency = dataStream.readShort();
+					this.shengBuo = dataStream.readShort();
 				}
 			}
 			else if(ID == 2)
 			{
 				if(!this.worldObj.isRemote)
 				{
-					this.target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 				}
 			}
         }
@@ -305,7 +311,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 	{
 		if(type == ConnectionType.LOGIN_SERVER)
 		{
-			PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+			PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 		}
 	}
 
@@ -314,29 +320,29 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
     {
     	if(!this.worldObj.isRemote)
         {
-			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.wattHourStored, this.frequency, this.disabledTicks, this.target.x, this.target.y, this.target.z);
+			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
         }
     	
-    	this.playersUsing  ++;
+    	this.yongZhe  ++;
     }
     
     @Override
     public void closeChest()
     {
-    	this.playersUsing --;
+    	this.yongZhe --;
     }
 
     
     private float getPitchFromTarget()
     {
-    	double distance = Math.sqrt((this.target.x - this.xCoord)*(this.target.x - this.xCoord) + (this.target.z - this.zCoord)*(this.target.z - this.zCoord));
-    	return (float)Math.toDegrees(Math.atan((this.target.y - (this.yCoord + 0.5F))/distance));
+    	double distance = Math.sqrt((this.muBiao.x - this.xCoord)*(this.muBiao.x - this.xCoord) + (this.muBiao.z - this.zCoord)*(this.muBiao.z - this.zCoord));
+    	return (float)Math.toDegrees(Math.atan((this.muBiao.y - (this.yCoord + 0.5F))/distance));
 	}
 
 	private float getYawFromTarget()
     {
-		double xDifference = this.target.x - (double)((float)this.xCoord + 0.5F);
-        double yDifference = this.target.z - (double)((float)this.zCoord + 0.5F);
+		double xDifference = this.muBiao.x - (double)((float)this.xCoord + 0.5F);
+        double yDifference = this.muBiao.z - (double)((float)this.zCoord + 0.5F);
         return (float)Math.toDegrees(Math.atan2(yDifference, xDifference));
 	}
 
@@ -351,9 +357,9 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 			{
 				if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && missile.isCruise() && missile.getTier() <= 3)
 		        {
-		    		if(this.wattHourStored >= this.getMaxWattHours())
+		    		if(this.dianXiaoShi >= this.getMaxWattHours())
 		    		{
-		    			if(!this.isTooClose(this.target))
+		    			if(!this.isTooClose(this.muBiao))
 		    			{
 		    				return true;
 		    			}
@@ -367,7 +373,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 	
 	/**
      * Launches the missile
-     * @param target - The target in which the missile will land in
+     * @param muBiao - The target in which the missile will land in
      */
     public void launch()
     {
@@ -375,7 +381,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
     	{
 			this.decrStackSize(0, 1);
 			this.setWattHours(0);
-	        this.containingMissile.launchMissile(this.target);
+	        this.containingMissile.launchMissile(this.muBiao);
 	        this.containingMissile = null;    
     	}
     }
@@ -400,13 +406,13 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
     {
     	super.readFromNBT(par1NBTTagCompound);
     	
-    	this.frequency = par1NBTTagCompound.getShort("frequency");
-    	this.target = Vector3.readFromNBT("target", par1NBTTagCompound);
+    	this.shengBuo = par1NBTTagCompound.getShort("frequency");
+    	this.muBiao = Vector3.readFromNBT("target", par1NBTTagCompound);
     	
     	NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
     	
         this.containingItems = new ItemStack[this.getSizeInventory()];
-        this.wattHourStored = par1NBTTagCompound.getDouble("electricityStored");
+        this.dianXiaoShi = par1NBTTagCompound.getDouble("electricityStored");
 
         for (int var3 = 0; var3 < var2.tagCount(); ++var3)
         {
@@ -428,13 +434,13 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
     {
     	super.writeToNBT(par1NBTTagCompound);
 
-    	if(this.target != null)
+    	if(this.muBiao != null)
     	{
-    		this.target.writeToNBT("target", par1NBTTagCompound);
+    		this.muBiao.writeToNBT("target", par1NBTTagCompound);
     	}
     	
-    	par1NBTTagCompound.setShort("frequency", this.frequency);
-    	par1NBTTagCompound.setDouble("electricityStored", this.wattHourStored);
+    	par1NBTTagCompound.setShort("frequency", this.shengBuo);
+    	par1NBTTagCompound.setDouble("electricityStored", this.dianXiaoShi);
     	
     	NBTTagList var2 = new NBTTagList();
 
@@ -502,33 +508,15 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 	}
 
 	@Override
-	public short getFrequency()
-	{
-		return this.frequency;
-	}
-	
-	@Override
     public double wattRequest()
     {
         if (!this.isDisabled())
         {
-            return ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.wattHourStored);
+            return ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.dianXiaoShi);
         }
 
         return 0;
     }
-	
-	@Override
-	public double getWattHours(Object... data)
-	{
-		return this.wattHourStored;
-	}
-
-	@Override
-	public void setWattHours(double wattHours, Object... data)
-	{
-		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
-	}
 
 	@Override
 	public double getMaxWattHours() 
@@ -544,7 +532,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 			if(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
 			{
 				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
-				//par5EntityPlayer.inventory.getCurrentItem().stackSize --;
 				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
 				return true;
 			}
@@ -553,5 +540,11 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, ISimpleCon
 		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
+	}
+
+	@Override
+	public LauncherType getLauncherType()
+	{
+		return LauncherType.CRUISE;
 	}
 }

@@ -5,7 +5,7 @@ import icbm.ICBMCommonProxy;
 import icbm.ItZiDan;
 import icbm.ParticleSpawner;
 import icbm.TYinXing;
-import icbm.extend.IMultiBlock;
+import icbm.extend.IMB;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ex.ExHongSu;
 
@@ -38,7 +38,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory, ISimpleConnectionHandler
+public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMB, ISidedInventory, ISimpleConnectionHandler
 {	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;

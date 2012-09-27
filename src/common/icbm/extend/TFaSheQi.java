@@ -1,23 +1,62 @@
 package icbm.extend;
 
-import net.minecraft.src.ItemStack;
+import icbm.api.Launcher.ILauncher;
 import icbm.jiqi.FaSheQiGuanLi;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;
 
-public abstract class TFaSheQi extends TileEntityElectricityReceiver implements IFrequency
+public abstract class TFaSheQi extends TileEntityElectricityReceiver implements ILauncher
 {
-	public Vector3 target = null;
+	protected Vector3 muBiao = null;
+	
+	protected short shengBuo = 0;
+	
+	protected double dianXiaoShi = 0;
 	
 	public TFaSheQi()
 	{
 		super();
-		FaSheQiGuanLi.addLauncher(this);
+		FaSheQiGuanLi.jiaFaSheQi(this);
 	}
 	
-	public abstract void launch();
+	@Override
+	public Vector3 getTarget()
+	{
+		if(this.muBiao == null)
+		{
+			this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+		}
+		
+		return this.muBiao;
+	}
+	
+	@Override
+	public void setTarget(Vector3 target)
+	{
+		this.muBiao = target;
+	}
+	
+	@Override
+	public short getFrequency(Object... data)
+	{
+		return this.shengBuo;
+	}
 
-	public abstract boolean canLaunch();
+	@Override
+	public void setFrequency(short frequency, Object... data)
+	{
+		this.shengBuo = frequency;
+	}
+	
+	@Override
+	public double getWattHours(Object... data)
+	{
+		return this.dianXiaoShi;
+	}
 
-	public abstract String getStatus();
+	@Override
+	public void setWattHours(double wattHours, Object... data)
+	{
+		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+	}
 }

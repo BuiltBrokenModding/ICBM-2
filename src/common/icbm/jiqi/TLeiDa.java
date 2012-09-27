@@ -5,7 +5,7 @@ import icbm.ICBM;
 import icbm.ICBMCommonProxy;
 import icbm.daodan.DaoDanGuanLi;
 import icbm.daodan.EDaoDan;
-import icbm.extend.IMultiBlock;
+import icbm.extend.IMB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TLeiDa extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMultiBlock
+public class TLeiDa extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMB
 {
 	//Watts Per Tick
 	public final int YAO_WA = 4;

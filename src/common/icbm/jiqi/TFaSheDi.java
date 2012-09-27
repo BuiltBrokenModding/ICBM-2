@@ -6,7 +6,7 @@ import icbm.TYinXing;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTeBieDaoDan;
-import icbm.extend.IMultiBlock;
+import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
@@ -35,7 +35,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory, ISimpleConnectionHandler
+public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory, ISimpleConnectionHandler
 {
     private static final double MISSILE_MAX_DISTANCE = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
 
@@ -193,40 +193,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     	
     	if(!this.worldObj.isRemote)
 		{
-	    	if (this.containingItems[0] != null)
-	        {
-	            if (this.containingItems[0].getItem() instanceof ItDaoDan)
-	            {
-	                int missileId = this.containingItems[0].getItemDamage();
-	
-	                if(this.containingItems[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
-	        		{
-	        			missileId+= 100;
-	        		}
-	                
-	            	if(containingMissile == null)
-	            	{
-	        			Vector3 position = new Vector3((this.xCoord+0.5F), (this.yCoord+2), (this.zCoord+0.5F));
-	                    this.containingMissile = new EDaoDan(this.worldObj, position, Vector3.get(this), missileId);
-	                    this.worldObj.spawnEntityInWorld(this.containingMissile);
-	            	}
-	            	else if(this.containingMissile.missileID !=  missileId)
-	            	{
-	            		if(this.containingMissile != null) this.containingMissile.setDead();
-	            		this.containingMissile = null;
-	            	}
-	            }
-	            else
-	        	{
-	            	if(this.containingMissile != null) this.containingMissile.setDead();
-	        		this.containingMissile = null;
-	        	}
-	        }
-	    	else
-	    	{
-	    		if(this.containingMissile != null) this.containingMissile.setDead();
-	    		this.containingMissile = null;
-	    	}
+	    	this.setMissile();
 	    	
 	        if(this.sendUpdate  || Ticker.inGameTicks % (20*30) == 0)
 	        {
@@ -236,7 +203,42 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		}
 	}
     
-    @Override
+    private void setMissile()
+    {
+    	if (this.containingItems[0] != null)
+        {
+            if (this.containingItems[0].getItem() instanceof ItDaoDan)
+            {
+                int missileId = this.containingItems[0].getItemDamage();
+
+                if(this.containingItems[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
+        		{
+        			missileId+= 100;
+        		}
+                
+            	if(containingMissile == null)
+            	{
+        			Vector3 position = new Vector3((this.xCoord+0.5F), (this.yCoord+2), (this.zCoord+0.5F));
+                    this.containingMissile = new EDaoDan(this.worldObj, position, Vector3.get(this), missileId);
+                    this.worldObj.spawnEntityInWorld(this.containingMissile);
+                    return;
+            	}
+            	else if(this.containingMissile.missileID ==  missileId)
+            	{
+            		return;
+            	}
+            }
+        }
+    	
+		if(this.containingMissile != null)
+		{
+			this.containingMissile.setDead();
+		}
+		
+		this.containingMissile = null;
+	}
+
+	@Override
 	public void handelConnection(ConnectionType type, Object... data)
 	{
 		if(type == ConnectionType.LOGIN_SERVER)
@@ -463,7 +465,6 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 			if(par5EntityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
 			{
 				this.setInventorySlotContents(0, par5EntityPlayer.inventory.getCurrentItem());
-				//par5EntityPlayer.inventory.getCurrentItem().stackSize --;
 				par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, null);
 				return true;
 			}
