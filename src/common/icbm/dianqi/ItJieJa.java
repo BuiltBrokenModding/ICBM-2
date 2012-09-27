@@ -13,6 +13,7 @@ import net.minecraft.src.EntityTNTPrimed;
 import net.minecraft.src.ItemStack;
 import universalelectricity.prefab.ItemElectric;
 
+//Explosive Defuser
 public class ItJieJa extends ItemElectric
 {
 	private int electricityConsumption = 150;
@@ -44,27 +45,30 @@ public class ItJieJa extends ItemElectric
     {
     	if(this.getWattHours(stack) > electricityConsumption)
     	{
-    		if(entity instanceof EZhaDan)
-	    	{
-	    		EZhaDan entityTNT = (EZhaDan)entity;
-	    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ICBM.blockZha4Dan4, 1, entityTNT.explosiveID));
-		        float var13 = 0.05F;
-		        Random random = new Random();
-		        entityItem.motionX = ((float)random.nextGaussian() * var13);
-		        entityItem.motionY = ((float)random.nextGaussian() * var13 + 0.2F);
-		        entityItem.motionZ = ((float)random.nextGaussian() * var13);
-		        entity.worldObj.spawnEntityInWorld(entityItem);		        
-	        }
-    		else if(entity instanceof EntityTNTPrimed)
-	    	{
-	    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Block.tnt));
-		        float var13 = 0.05F;
-		        Random random = new Random();
-		        entityItem.motionX = ((float)random.nextGaussian() * var13);
-		        entityItem.motionY = ((float)random.nextGaussian() * var13 + 0.2F);
-		        entityItem.motionZ = ((float)random.nextGaussian() * var13);
-		        entity.worldObj.spawnEntityInWorld(entityItem);
-	        }
+    		if(!entity.worldObj.isRemote)
+    		{
+	    		if(entity instanceof EZhaDan)
+		    	{
+		    		EZhaDan entityTNT = (EZhaDan)entity;
+		    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ICBM.blockZha4Dan4, 1, entityTNT.explosiveID));
+			        float var13 = 0.05F;
+			        Random random = new Random();
+			        entityItem.motionX = ((float)random.nextGaussian() * var13);
+			        entityItem.motionY = ((float)random.nextGaussian() * var13 + 0.2F);
+			        entityItem.motionZ = ((float)random.nextGaussian() * var13);
+			        entity.worldObj.spawnEntityInWorld(entityItem);		        
+		        }
+	    		else if(entity instanceof EntityTNTPrimed)
+		    	{
+		    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Block.tnt));
+			        float var13 = 0.05F;
+			        Random random = new Random();
+			        entityItem.motionX = ((float)random.nextGaussian() * var13);
+			        entityItem.motionY = ((float)random.nextGaussian() * var13 + 0.2F);
+			        entityItem.motionZ = ((float)random.nextGaussian() * var13);
+			        entity.worldObj.spawnEntityInWorld(entityItem);
+		        }
+    		}
     		
     		entity.setDead();
     		this.onUseElectricity(electricityConsumption, stack);

@@ -161,11 +161,12 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	if (chunkTicket == null)
     	{
     		chunkTicket = ticket;
+        	chunkTicket.bindEntity(this);
+        	chunkTicket.getModData();
     	}
     	
     	ForgeChunkManager.forceChunk(ticket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
-    	chunkTicket.bindEntity(this);
-    	chunkTicket.getModData();
+
     }
     
     @Override

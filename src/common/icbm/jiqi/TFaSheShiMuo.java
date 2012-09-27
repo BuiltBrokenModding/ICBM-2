@@ -387,14 +387,14 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	@Override
 	public double getMaxWattHours()
 	{
-		return Math.max(Math.min(1.1*this.getVoltage(), 300), 150);
+		return Math.max(Math.min(0.3*this.getVoltage(), 100), 25);
 	}
 
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
 		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-		return false;
+		return true;
 	}
 	
 	@Override

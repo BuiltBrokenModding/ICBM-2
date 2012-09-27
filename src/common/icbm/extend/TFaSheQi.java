@@ -1,6 +1,7 @@
 package icbm.extend;
 
 import icbm.api.Launcher.ILauncher;
+import icbm.api.Launcher.LauncherType;
 import icbm.jiqi.FaSheQiGuanLi;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;
@@ -24,7 +25,14 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	{
 		if(this.muBiao == null)
 		{
-			this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+			if(this.getLauncherType() == LauncherType.CRUISE)
+			{
+				this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+			}
+			else
+			{
+				this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
+			}
 		}
 		
 		return this.muBiao;

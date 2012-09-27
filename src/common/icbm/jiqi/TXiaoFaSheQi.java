@@ -211,7 +211,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 	    	
 			if(!this.worldObj.isRemote)
 			{
-		    	this.placeMissile(containingItems[0]);
+		    	this.setMissile();
 
 		    	if(this.isPowered)
 				{
@@ -246,7 +246,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
             {
                 int missileId = this.containingItems[0].getItemDamage();
 
-                if(containingMissile == null)
+                if(this.containingMissile == null)
                 {
 	            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
 	            	{
@@ -256,7 +256,8 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 	    				return;
 	            	}
                 }
-                else if(this.containingMissile.missileID ==  missileId)
+                
+                if(this.containingMissile.missileID == missileId)
         		{
             		return;
         		}
@@ -521,7 +522,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 	@Override
 	public double getMaxWattHours() 
 	{
-		return 100;
+		return 40;
 	}
 
 	@Override
