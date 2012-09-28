@@ -118,11 +118,4 @@ public class ExFanWuSu extends ZhaPin
     		worldObj.playSoundEffect((int)position.x, (int)position.y, (int)position.z, "icbm.alarm", 4F, 1F);
         }
 	}
-
-	@Override
-	public void init()
-	{
-		
-	}
-
 }
