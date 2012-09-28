@@ -84,6 +84,7 @@ public class ICBM
     //Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
     
+	public static final boolean SPAWN_PARTICLES = UniversalElectricity.getConfigData(CONFIGURATION, "Spawn Particle Effects", true);
 	public static final boolean ADVANCED_VISUALS = UniversalElectricity.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
 	public static final boolean ALLOW_BLOCK_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Blocks", true);
 	public static final boolean ALLOW_MISSILE_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Missiles", true);

@@ -12,7 +12,7 @@ public class SmokeFX extends EntitySmokeFX
 		this.renderDistanceWeight = distance;
 		this.particleRed = red;
 		this.particleBlue = blue;
-		this.particleGreen = green;
+		this.particleGreen = green;		
 	}
 
 }

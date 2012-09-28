@@ -121,7 +121,7 @@ public class ExYuanZi extends ZhaPin
     	    	        	
     	if(r > 0)
     	{
-    		if(worldObj.isRemote)
+    		if(worldObj.isRemote && ICBM.SPAWN_PARTICLES)
             {
 	        	for(int x = -r; x < r; x++)
 	    		{
@@ -131,15 +131,18 @@ public class ExYuanZi extends ZhaPin
 						
 	                    if(distance < r && distance > r-1)
 						{
-							if(worldObj.rand.nextFloat() < Math.max(0.0006*r, 0.005) || (ICBM.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008*r, 0.008)))
+							Vector3 targetPosition = Vector3.add(position, new Vector3(x, 0, z));
+
+	                    	if(!reverse)
 							{
-								Vector3 targetPosition = Vector3.add(position, new Vector3(x, 0, z));
-								
-								if(!reverse)
+								if(worldObj.rand.nextFloat() < Math.max(0.0006*r, 0.005) || (ICBM.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008*r, 0.008)))
 								{
 									worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0, 0, 0);
 								}
-								else if(ICBM.ADVANCED_VISUALS)
+							}	
+	                    	else
+	                    	{
+	                    		if(worldObj.rand.nextFloat() < Math.max(0.001*r, 0.05))
 								{
 									ParticleSpawner.spawnParticle("smoke", worldObj, targetPosition, 0F, 0F, 0F, 5F, 1F);
 								}
@@ -190,6 +193,46 @@ public class ExYuanZi extends ZhaPin
 		
 		ZhaPin.DecayLand.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
 		ZhaPin.Mutation.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
+		
+		if(worldObj.isRemote || ICBM.ADVANCED_VISUALS)
+		{
+			int spawnCount = 0;
+			
+			for(int y = 0; y < 25; y++)
+			{
+				int r = 3;
+				
+				if(y < 8)
+				{
+					r = Math.min((8-y)*2, 4);
+				}
+				else if(y > 20)
+				{
+					//r = Math.max(Math.min((20-(y-20))*2, 15), 5);
+				}
+				else if(y > 15)
+				{
+					r = Math.max(Math.min((y-15)*2, 15), 5);
+				}
+				
+				for(int x = -r; x < r; x++)
+				{
+					for(int z = -r; z < r; z++)
+					{
+						double distance = MathHelper.sqrt_double(x*x + z*z);
+
+						if(r > distance)
+						{
+							if(spawnCount % 2 == 0)
+							{
+								ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(new Vector3(x*2, (y-2)*2, z*2), position), 0F, 0F, 0F, 10F, 1F);
+							}
+							spawnCount ++;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**

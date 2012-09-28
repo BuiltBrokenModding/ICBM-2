@@ -19,37 +19,39 @@ public class ExBingDan2 extends ZhaPin
 	{
 		int radius = callCount;
 		
-    	for(int x = -radius; x < radius; x++)
-        {
-     	   for(int y = -radius; y < radius; y++)
-     	   {
-     		   	for(int z = -radius; z < radius; z++)
-     		   	{
-	     		   	Vector3 blockPosition = new Vector3(x ,y ,z);
-	 		   		blockPosition.add(position);
-     		   		//Set fire by chance and distance
-     	            double distanceFromCenter = position.distanceTo(blockPosition);
-     	            
-     	           if(distanceFromCenter > radius || distanceFromCenter < radius-2) continue;
-     	            
-     	            double chance = radius - (Math.random() * distanceFromCenter);
-
-     	            //System.out.println("Distance: "+distance+", "+chance);
-     	            if (chance > distanceFromCenter * 0.55)
-     	            {
-     	            	//Check to see if the block is an air block and there is a block below it to support the fire
-     	               int blockID = worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z);
-     	               
-     	               if (blockID == Block.fire.blockID || blockID == Block.lavaMoving.blockID || blockID == Block.lavaStill.blockID)
-	   	               {
-	   	                   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, Block.snow.blockID);
-	   	               }
-     	               else if(blockID == 0 && worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y-1, (int)blockPosition.z) != Block.ice.blockID && worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y-1, (int)blockPosition.z) != 0)
-     	               {
-	   	                   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, Block.ice.blockID);
-     	               }
-     	            }
-     		   	}
+		if(!worldObj.isRemote)
+		{
+	    	for(int x = -radius; x < radius; x++)
+	        {
+	     	   for(int y = -radius; y < radius; y++)
+	     	   {
+	     		   	for(int z = -radius; z < radius; z++)
+	     		   	{
+		     		   	Vector3 blockPosition = new Vector3(x ,y ,z);
+		 		   		blockPosition.add(position);
+	     		   		//Set fire by chance and distance
+	     	            double distanceFromCenter = position.distanceTo(blockPosition);
+	     	            
+	     	           if(distanceFromCenter > radius || distanceFromCenter < radius-2) continue;
+	     	            
+	     	            double chance = radius - (Math.random() * distanceFromCenter);
+	
+	     	            if (chance > distanceFromCenter * 0.55)
+	     	            {
+	     	            	//Check to see if the block is an air block and there is a block below it to support the fire
+	     	               int blockID = worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z);
+	     	               
+	     	               if (blockID == Block.fire.blockID || blockID == Block.lavaMoving.blockID || blockID == Block.lavaStill.blockID)
+		   	               {
+		   	                   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, Block.snow.blockID);
+		   	               }
+	     	               else if(blockID == 0 && worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y-1, (int)blockPosition.z) != Block.ice.blockID && worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y-1, (int)blockPosition.z) != 0)
+	     	               {
+		   	                   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, Block.ice.blockID);
+	     	               }
+	     	            }
+	     		   	}
+				}
 			}
 		}
     	

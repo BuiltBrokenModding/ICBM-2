@@ -40,59 +40,59 @@ public class ExHongSu extends ZhaPin
 		}
 		
 		//Try to find and grab some blocks to orbit
-		Vector3 currentPos;
-		int blockID;
-		int metadata;
-		double dist;
-		int takenBlocks = 0;
-		
-		for(int r = 1; r < MAX_RADIUS; r ++)
+		if(!worldObj.isRemote)
 		{
-			for(int x = -r; x < r; x++)
+			Vector3 currentPos;
+			int blockID;
+			int metadata;
+			double dist;
+			int takenBlocks = 0;
+			
+			for(int r = 1; r < MAX_RADIUS; r ++)
 			{
-				for(int y = -r; y < r; y++)
+				for(int x = -r; x < r; x++)
 				{
-					for(int z = -r; z < r; z++)
+					for(int y = -r; y < r; y++)
 					{
-						dist = MathHelper.sqrt_double((x*x + y*y + z*z));
-						
-						if(dist > r || dist < r-2) continue;
-						
-						currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
-						blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-						
-						if(blockID == 0 || blockID == Block.bedrock.blockID) continue;
-						
-						if(dist < r - 1 || worldObj.rand.nextInt(10) > 5)
-    					{
-							metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+						for(int z = -r; z < r; z++)
+						{
+							dist = MathHelper.sqrt_double((x*x + y*y + z*z));
 							
-							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+							if(dist > r || dist < r-2) continue;
 							
-							if(Block.blocksList[blockID] instanceof BlockFluid) continue;
+							currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
+							blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 							
-							if(worldObj.rand.nextFloat() > 0.8)
-							{
-								currentPos.add(0.5D);
+							if(blockID == 0 || blockID == Block.bedrock.blockID) continue;
+							
+							if(dist < r - 1 || worldObj.rand.nextInt(10) > 5)
+	    					{
+								metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 								
-								if(!worldObj.isRemote)
+								worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+								
+								if(Block.blocksList[blockID] instanceof BlockFluid) continue;
+								
+								if(worldObj.rand.nextFloat() > 0.8)
 								{
+									currentPos.add(0.5D);
+									
 									EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
 									worldObj.spawnEntityInWorld(entity);
 									entity.yawChange = 50*worldObj.rand.nextFloat();
 									entity.pitchChange = 50*worldObj.rand.nextFloat();
 								}
-							}
-							
-							takenBlocks++;
-							if(takenBlocks > MAX_TAKE_BLOCKS) break;
-    					}
+								
+								takenBlocks++;
+								if(takenBlocks > MAX_TAKE_BLOCKS) break;
+	    					}
+						}
+						if(takenBlocks > MAX_TAKE_BLOCKS) break;
 					}
 					if(takenBlocks > MAX_TAKE_BLOCKS) break;
 				}
 				if(takenBlocks > MAX_TAKE_BLOCKS) break;
 			}
-			if(takenBlocks > MAX_TAKE_BLOCKS) break;
 		}
 
 		//Make the blocks controlled by this red matter orbit around it
