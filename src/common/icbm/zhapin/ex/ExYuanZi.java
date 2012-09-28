@@ -55,57 +55,60 @@ public class ExYuanZi extends ZhaPin
 		
 		int i = (callCount+1)*CALC_SPEED - CALC_SPEED;
 		
-		for(; i < source.dataList.size(); i ++)
-		{			
-			if(i > (callCount+1)*CALC_SPEED) break;
-			
-			Vector3 delta = (Vector3)source.dataList.get(i);
-		    			
-			float power = NENG_LIANG - (NENG_LIANG*worldObj.rand.nextFloat()/2);
-            
-            Vector3 targetPosition = position.clone();
-			
-			for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
-			{
-				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+		if(!worldObj.isRemote)
+		{
+			for(; i < source.dataList.size(); i ++)
+			{			
+				if(i > (callCount+1)*CALC_SPEED) break;
 				
-				if(blockID > 0)
+				Vector3 delta = (Vector3)source.dataList.get(i);
+			    			
+				float power = NENG_LIANG - (NENG_LIANG*worldObj.rand.nextFloat()/2);
+	            
+	            Vector3 targetPosition = position.clone();
+				
+				for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
 				{
-					float resistance = 0;
+					int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 					
-					if(blockID == Block.bedrock.blockID)
+					if(blockID > 0)
 					{
-						break;
-					}
-					else if(Block.blocksList[blockID] instanceof BlockFluid)
-					{
-						resistance = 2;
-					}
-					else if(blockID == Block.obsidian.blockID)
-					{
-						resistance = 8;
-					}
-					else
-					{
-						resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
-					}
-					
-					power -= resistance;	
-					
-					if(power > 0f)
-					{						
-						if(!source.dataList2.contains(targetPosition))
+						float resistance = 0;
+						
+						if(blockID == Block.bedrock.blockID)
 						{
-							source.dataList2.add(targetPosition.clone());
+							break;
+						}
+						else if(Block.blocksList[blockID] instanceof BlockFluid)
+						{
+							resistance = 2;
+						}
+						else if(blockID == Block.obsidian.blockID)
+						{
+							resistance = 10;
+						}
+						else
+						{
+							resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
+						}
+						
+						power -= resistance;	
+						
+						if(power > 0f)
+						{						
+							if(!source.dataList2.contains(targetPosition))
+							{
+								source.dataList2.add(targetPosition.clone());
+							}
 						}
 					}
+	
+					if(targetPosition.distanceTo(position) > BAN_JING+10) break;
+					
+					targetPosition.x += delta.x;
+					targetPosition.y += delta.y;
+					targetPosition.z += delta.z;
 				}
-
-				if(targetPosition.distanceTo(position) > BAN_JING+10) break;
-				
-				targetPosition.x += delta.x;
-				targetPosition.y += delta.y;
-				targetPosition.z += delta.z;
 			}
 		}
 		
@@ -175,15 +178,18 @@ public class ExYuanZi extends ZhaPin
 	{
 		EZhaPin source = (EZhaPin)explosionSource;
 
-		for(Object obj : source.dataList2)
+		if(!worldObj.isRemote)
 		{
-			Vector3 targetPosition = (Vector3)obj;
-			int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-			
-			if(blockID > 0)
+			for(Object obj : source.dataList2)
 			{
-				worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
-	            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				Vector3 targetPosition = (Vector3)obj;
+				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				
+				if(blockID > 0)
+				{
+					worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+		            Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				}
 			}
 		}
 		
@@ -191,10 +197,10 @@ public class ExYuanZi extends ZhaPin
 		
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 10.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		
-		ZhaPin.DecayLand.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
-		ZhaPin.Mutation.doBaoZha(worldObj, position, null, BAN_JING+5, -1);
+		ZhaPin.DecayLand.doBaoZha(worldObj, position, null, BAN_JING+15, -1);
+		ZhaPin.Mutation.doBaoZha(worldObj, position, null, BAN_JING+20, -1);
 		
-		if(worldObj.isRemote || ICBM.ADVANCED_VISUALS)
+		if(worldObj.isRemote && ICBM.ADVANCED_VISUALS)
 		{
 			int spawnCount = 0;
 			
@@ -204,11 +210,7 @@ public class ExYuanZi extends ZhaPin
 				
 				if(y < 8)
 				{
-					r = Math.min((8-y)*2, 4);
-				}
-				else if(y > 20)
-				{
-					//r = Math.max(Math.min((20-(y-20))*2, 15), 5);
+					r = Math.max(Math.min((8-y)*2, 10), 4);
 				}
 				else if(y > 15)
 				{
@@ -254,6 +256,6 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', Condensed.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, this.getMing(), ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, this.getMing(), ICBM.CONFIGURATION, true);
 	}
 }

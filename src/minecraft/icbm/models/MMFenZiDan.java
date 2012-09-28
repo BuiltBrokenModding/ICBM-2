@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileCluster extends ModelBase
+public class MMFenZiDan extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
@@ -39,7 +39,7 @@ public class ModelMissileCluster extends ModelBase
     ModelRenderer Shape8a;
     ModelRenderer Shape8;
   
-  public ModelMissileCluster()
+  public MMFenZiDan()
   {
     textureWidth = 128;
     textureHeight = 128;

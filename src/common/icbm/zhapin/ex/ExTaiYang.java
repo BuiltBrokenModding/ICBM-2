@@ -43,17 +43,13 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{	
+		
+		List<Entity> gravityBlocks = new ArrayList();
+		
+		int radius = this.radius;
+		
 		if(!worldObj.isRemote)
 		{
-			List<Entity> gravityBlocks = new ArrayList();
-			
-			int radius = this.radius;
-			
-			if(explosionSource instanceof EShouLiuDan)
-			{
-				radius /= 2;
-			}
-			
 			if(this.canFocusBeam(worldObj, position))
 			{
 				Vector3 currentPos;
@@ -91,61 +87,61 @@ public class ExTaiYang extends ZhaPin
 							}
 						}
 					}
+					
+					((EZhaPin)explosionSource).entityList.addAll(gravityBlocks);
 				}
+			}
+
+			gravityBlocks = ((EZhaPin)explosionSource).entityList;
 			
-				((EZhaPin)explosionSource).entityList.addAll(gravityBlocks);
-				
-				gravityBlocks = ((EZhaPin)explosionSource).entityList;
-				
-				for(Entity unspecifiedEntity : gravityBlocks)
+			for(Entity unspecifiedEntity : gravityBlocks)
+			{
+				if(unspecifiedEntity instanceof EFeiBlock)
 				{
-					if(unspecifiedEntity instanceof EFeiBlock)
-					{
-						EFeiBlock entity = (EFeiBlock)unspecifiedEntity;
-						double xDifference = entity.posX - position.x;
-			        	double zDifference = entity.posZ - position.z;
-			        	
-			        	r = (int)radius;
-			        	if(xDifference < 0) r = (int)-radius;
-			        	
-			        	if(xDifference > 4)
-			        	{
-			            	entity.motionX += (r - xDifference) * -0.02*worldObj.rand.nextFloat();
-			        	}
-			        	
-			        	if(entity.posY < position.y + 15)
-			        	{
-			                entity.motionY += 0.5+	0.6*worldObj.rand.nextFloat();
-			                
-			                if(entity.posY < position.y + 3)
-			                {
-			                	entity.motionY += 1.5;
-			                }
-			        	}
-			            
-			            r = (int)radius;
-			            if(zDifference < 0) r = (int)-radius;
-			            
-			            if(zDifference > 4)
-			            {
-			                entity.motionZ += (r - zDifference) * -0.02*worldObj.rand.nextFloat();
-			            }
-			            
-			            entity.yawChange += 3*worldObj.rand.nextFloat();
-					}
+					EFeiBlock entity = (EFeiBlock)unspecifiedEntity;
+					double xDifference = entity.posX - position.x;
+		        	double zDifference = entity.posZ - position.z;
+		        	
+		        	int r = (int)radius;
+		        	if(xDifference < 0) r = (int)-radius;
+		        	
+		        	if(xDifference > 4)
+		        	{
+		            	entity.motionX += (r - xDifference) * -0.02*worldObj.rand.nextFloat();
+		        	}
+		        	
+		        	if(entity.posY < position.y + 15)
+		        	{
+		                entity.motionY += 0.5+	0.6*worldObj.rand.nextFloat();
+		                
+		                if(entity.posY < position.y + 3)
+		                {
+		                	entity.motionY += 1.5;
+		                }
+		        	}
+		            
+		            r = (int)radius;
+		            if(zDifference < 0) r = (int)-radius;
+		            
+		            if(zDifference > 4)
+		            {
+		                entity.motionZ += (r - zDifference) * -0.02*worldObj.rand.nextFloat();
+		            }
+		            
+		            entity.yawChange += 3*worldObj.rand.nextFloat();
 				}
 			}
-			else
-			{
-				return false;
-			}
-			
-			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.beamcharging", 4.0F, 0.8F);
+		}
+		else
+		{
+			return false;
+		}
 		
-			if(callCount > 35)
-			{
-				return false;
-			}
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.beamcharging", 4.0F, 0.8F);
+	
+		if(callCount > 35)
+		{
+			return false;
 		}
 		
 		return true;
@@ -209,6 +205,6 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', Incendiary.getItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', huo.getItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);
 	}
 }

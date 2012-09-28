@@ -4,14 +4,14 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileFragmentation extends ModelBase
+public class MMTuPuo extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
     ModelRenderer Shape2;
-    ModelRenderer Shape2a;
     ModelRenderer Shape2b;
     ModelRenderer Shape2c;
+    ModelRenderer Shape2d;
     ModelRenderer Shape3;
     ModelRenderer Shape3a;
     ModelRenderer Shape3b;
@@ -31,15 +31,8 @@ public class ModelMissileFragmentation extends ModelBase
     ModelRenderer Shape7;
     ModelRenderer Shape7a;
     ModelRenderer Shape7b;
-    ModelRenderer Shape7c;
-    ModelRenderer Shape7d;
-    ModelRenderer Shape7e;
-    ModelRenderer Shape7f;
-    ModelRenderer Shape7g;
-    ModelRenderer Shape7h;
-    ModelRenderer Shape7i;
   
-  public ModelMissileFragmentation()
+  public MMTuPuo()
   {
     textureWidth = 128;
     textureHeight = 128;
@@ -56,24 +49,24 @@ public class ModelMissileFragmentation extends ModelBase
       Shape2.setTextureSize(128, 128);
       Shape2.mirror = true;
       setRotation(Shape2, 0F, 0F, 0F);
-      Shape2a = new ModelRenderer(this, 34, 19);
-      Shape2a.addBox(0F, 0F, 0F, 14, 10, 1);
-      Shape2a.setRotationPoint(-7F, 14F, -7F);
-      Shape2a.setTextureSize(128, 128);
-      Shape2a.mirror = true;
-      setRotation(Shape2a, 0F, 0F, 0F);
-      Shape2b = new ModelRenderer(this, 34, 31);
-      Shape2b.addBox(0F, 0F, 0F, 1, 10, 12);
-      Shape2b.setRotationPoint(-7F, 14F, -6F);
+      Shape2b = new ModelRenderer(this, 34, 19);
+      Shape2b.addBox(0F, 0F, 0F, 14, 10, 1);
+      Shape2b.setRotationPoint(-7F, 14F, -7F);
       Shape2b.setTextureSize(128, 128);
       Shape2b.mirror = true;
       setRotation(Shape2b, 0F, 0F, 0F);
       Shape2c = new ModelRenderer(this, 34, 31);
       Shape2c.addBox(0F, 0F, 0F, 1, 10, 12);
-      Shape2c.setRotationPoint(6F, 14F, -6F);
+      Shape2c.setRotationPoint(-7F, 14F, -6F);
       Shape2c.setTextureSize(128, 128);
       Shape2c.mirror = true;
       setRotation(Shape2c, 0F, 0F, 0F);
+      Shape2d = new ModelRenderer(this, 34, 31);
+      Shape2d.addBox(0F, 0F, 0F, 1, 10, 12);
+      Shape2d.setRotationPoint(6F, 14F, -6F);
+      Shape2d.setTextureSize(128, 128);
+      Shape2d.mirror = true;
+      setRotation(Shape2d, 0F, 0F, 0F);
       Shape3 = new ModelRenderer(this, 72, 0);
       Shape3.addBox(-11F, 0F, -1F, 22, 12, 2);
       Shape3.setRotationPoint(0F, 12F, 0F);
@@ -170,66 +163,24 @@ public class ModelMissileFragmentation extends ModelBase
       Shape6a.setTextureSize(128, 128);
       Shape6a.mirror = true;
       setRotation(Shape6a, 0F, 0F, 0F);
-      Shape7 = new ModelRenderer(this, 80, 111);
-      Shape7.addBox(0F, 0F, 0F, 12, 4, 12);
-      Shape7.setRotationPoint(-6F, -45F, -6F);
+      Shape7 = new ModelRenderer(this, 96, 115);
+      Shape7.addBox(0F, 0F, 0F, 8, 4, 8);
+      Shape7.setRotationPoint(-4F, -45F, -4F);
       Shape7.setTextureSize(128, 128);
       Shape7.mirror = true;
       setRotation(Shape7, 0F, 0F, 0F);
-      Shape7a = new ModelRenderer(this, 88, 95);
-      Shape7a.addBox(0F, 0F, 0F, 10, 4, 10);
-      Shape7a.setRotationPoint(-5F, -49F, -5F);
+      Shape7a = new ModelRenderer(this, 79, 109);
+      Shape7a.addBox(0F, 0F, 0F, 4, 14, 4);
+      Shape7a.setRotationPoint(-2F, -59F, -2F);
       Shape7a.setTextureSize(128, 128);
       Shape7a.mirror = true;
       setRotation(Shape7a, 0F, 0F, 0F);
-      Shape7b = new ModelRenderer(this, 48, 109);
-      Shape7b.addBox(0F, 0F, 0F, 1, 4, 14);
-      Shape7b.setRotationPoint(-4F, -45F, -7F);
+      Shape7b = new ModelRenderer(this, 96, 110);
+      Shape7b.addBox(0F, 0F, 0F, 2, 2, 2);
+      Shape7b.setRotationPoint(-1F, -61F, -1F);
       Shape7b.setTextureSize(128, 128);
       Shape7b.mirror = true;
       setRotation(Shape7b, 0F, 0F, 0F);
-      Shape7c = new ModelRenderer(this, 48, 109);
-      Shape7c.addBox(0F, 0F, 0F, 1, 4, 14);
-      Shape7c.setRotationPoint(3F, -45F, -7F);
-      Shape7c.setTextureSize(128, 128);
-      Shape7c.mirror = true;
-      setRotation(Shape7c, 0F, 0F, 0F);
-      Shape7d = new ModelRenderer(this, 48, 109);
-      Shape7d.addBox(0F, 0F, 0F, 1, 4, 14);
-      Shape7d.setRotationPoint(-7F, -45F, -3F);
-      Shape7d.setTextureSize(128, 128);
-      Shape7d.mirror = true;
-      setRotation(Shape7d, 0F, 1.570796F, 0F);
-      Shape7e = new ModelRenderer(this, 48, 109);
-      Shape7e.addBox(0F, 0F, 0F, 1, 4, 14);
-      Shape7e.setRotationPoint(-7F, -45F, 4F);
-      Shape7e.setTextureSize(128, 128);
-      Shape7e.mirror = true;
-      setRotation(Shape7e, 0F, 1.570796F, 0F);
-      Shape7f = new ModelRenderer(this, 52, 91);
-      Shape7f.addBox(0F, 0F, 0F, 1, 5, 12);
-      Shape7f.setRotationPoint(-6F, -50F, -1F);
-      Shape7f.setTextureSize(128, 128);
-      Shape7f.mirror = true;
-      setRotation(Shape7f, 0F, 1.570796F, 0F);
-      Shape7g = new ModelRenderer(this, 52, 91);
-      Shape7g.addBox(0F, 0F, 0F, 1, 5, 12);
-      Shape7g.setRotationPoint(-6F, -50F, 2F);
-      Shape7g.setTextureSize(128, 128);
-      Shape7g.mirror = true;
-      setRotation(Shape7g, 0F, 1.570796F, 0F);
-      Shape7h = new ModelRenderer(this, 52, 91);
-      Shape7h.addBox(0F, 0F, 0F, 1, 5, 12);
-      Shape7h.setRotationPoint(1F, -50F, -6F);
-      Shape7h.setTextureSize(128, 128);
-      Shape7h.mirror = true;
-      setRotation(Shape7h, 0F, 0F, 0F);
-      Shape7i = new ModelRenderer(this, 52, 91);
-      Shape7i.addBox(0F, 0F, 0F, 1, 5, 12);
-      Shape7i.setRotationPoint(-2F, -50F, -6F);
-      Shape7i.setTextureSize(128, 128);
-      Shape7i.mirror = true;
-      setRotation(Shape7i, 0F, 0F, 0F);
   }
   
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
@@ -238,9 +189,9 @@ public class ModelMissileFragmentation extends ModelBase
     setRotationAngles(f, f1, f2, f3, f4, f5);
     Shape1.render(f5);
     Shape2.render(f5);
-    Shape2a.render(f5);
     Shape2b.render(f5);
     Shape2c.render(f5);
+    Shape2d.render(f5);
     Shape3.render(f5);
     Shape3a.render(f5);
     Shape3b.render(f5);
@@ -260,13 +211,6 @@ public class ModelMissileFragmentation extends ModelBase
     Shape7.render(f5);
     Shape7a.render(f5);
     Shape7b.render(f5);
-    Shape7c.render(f5);
-    Shape7d.render(f5);
-    Shape7e.render(f5);
-    Shape7f.render(f5);
-    Shape7g.render(f5);
-    Shape7h.render(f5);
-    Shape7i.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)

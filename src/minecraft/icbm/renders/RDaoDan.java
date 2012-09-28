@@ -32,60 +32,63 @@ package icbm.renders;
 
 import icbm.ICBM;
 import icbm.daodan.EDaoDan;
-import icbm.models.ModelMissileAntiBallistic;
-import icbm.models.ModelMissileAntiGravity;
-import icbm.models.ModelMissileAntimatter;
-import icbm.models.ModelMissileBreaching;
-import icbm.models.MMDuQi;
-import icbm.models.ModelMissileCluster;
-import icbm.models.MMTaiYang;
-import icbm.models.ModelMissileContagious;
-import icbm.models.ModelMissileConventional;
-import icbm.models.MMDianCi;
 import icbm.models.MMBingDan;
-import icbm.models.ModelMissileFragmentation;
-import icbm.models.ModelMissileIncendiary;
+import icbm.models.MMDianCi;
+import icbm.models.MMDuQi;
+import icbm.models.MMTaiYang;
 import icbm.models.MMYuanZi;
-import icbm.models.ModelMissileRedMatter;
-import icbm.models.ModelMissileRejuvenation;
-import icbm.models.ModelMissileShrapnel;
-import icbm.models.ModelMissileSonic;
+import icbm.models.MMFanDan;
+import icbm.models.MMPiaoFu;
+import icbm.models.MMFanWuSu;
+import icbm.models.MMTuPuo;
+import icbm.models.MMFenZiDan;
+import icbm.models.MMGanRanDu;
+import icbm.models.MMYaSuo;
+import icbm.models.MMQunDan;
+import icbm.models.MMHuo;
+import icbm.models.MMHongSu;
+import icbm.models.MMHuanYuan;
+import icbm.models.MMXiaoQunDan;
+import icbm.models.MMShengBuo;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.Render;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderMissile extends Render
+public class RDaoDan extends Render
 {
-	private final ModelBase[] missileModel = {
-			new ModelMissileConventional(),
-			new ModelMissileShrapnel(),
-			new ModelMissileIncendiary(),
+	private final ModelBase[] models = {
+			new MMYaSuo(),
+			new MMXiaoQunDan(),
+			new MMHuo(),
 			new MMDuQi(),
-			new ModelMissileFragmentation(),
-			new ModelMissileContagious(),
-			new ModelMissileSonic(),
-			new ModelMissileBreaching(),
-			new ModelMissileRejuvenation(),
+			new MMQunDan(),
+			new MMGanRanDu(),
+			new MMShengBuo(),
+			new MMTuPuo(),
+			new MMHuanYuan(),
 			new MMYuanZi(),
 			new MMDianCi(),
 			new MMTaiYang(),
 			new MMBingDan(),
-			new ModelMissileAntiGravity(),
-			new ModelMissileAntimatter(),
-			new ModelMissileRedMatter()};
+			new MMPiaoFu(),
+			new MMFanWuSu(),
+			new MMHongSu()};
 	
-	private final ModelMissileAntiBallistic modelAntiBallistic = new ModelMissileAntiBallistic();
-	private final ModelMissileCluster modelCluster = new ModelMissileCluster();
+	private final MMFanDan mFanDan = new MMFanDan();
+	private final MMFenZiDan mFenZiDan = new MMFenZiDan();
 	
-    public RenderMissile(float f)
+    public RDaoDan(float f)
     {
     	this.shadowSize = f;
     }
 
-    public void renderMissile(EDaoDan entityMissile, double x, double y, double z, float f, float f1)
+    @Override
+	public void doRender(Entity entity, double x, double y, double z, float f, float f1)
     {
+    	EDaoDan entityMissile = (EDaoDan)entity;
+    	
     	//Use the correct model & texture for the specified missile metadata
     	switch(entityMissile.missileID)
     	{
@@ -120,23 +123,17 @@ public class RenderMissile extends Render
         
         if(entityMissile.missileID == 101)
         {
-        	modelAntiBallistic.render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
+        	mFanDan.render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
         }
         else if(entityMissile.missileID == 102 || entityMissile.missileID == 103)
         {
-        	modelCluster.render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
+        	mFenZiDan.render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
         }
         else
         {
-        	missileModel[entityMissile.missileID].render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
+        	models[entityMissile.missileID].render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
         }
         
         GL11.glPopMatrix();
-    }
-
-    @Override
-	public void doRender(Entity entity, double d, double d1, double d2, float f, float f1)
-    {
-        renderMissile((EDaoDan)entity, d, d1, d2, f, f1);
     }
 }

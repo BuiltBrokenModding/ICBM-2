@@ -57,44 +57,49 @@ public class ExBingDan extends ZhaPin
 		
 		if(this.canFocusBeam(worldObj, position))
 		{
-			Vector3 currentPos;
-			int blockID;
-			int metadata;
-			double dist;
-			
-			int r = (int)radius;
-			
-			for(int x = -r; x < r; x++)
+			if(!worldObj.isRemote)
 			{
-				for(int y = -r; y < r; y++)
+				Vector3 currentPos;
+				int blockID;
+				int metadata;
+				double dist;
+				
+				int r = (int)radius;
+				
+				for(int x = -r; x < r; x++)
 				{
-					for(int z = -r; z < r; z++)
+					for(int y = -r; y < r; y++)
 					{
-						dist = MathHelper.sqrt_double((x*x + y*y + z*z));
-	
-						if(dist > r || dist < r-3) continue;
-						currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
-						blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-						
-						if(blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID) continue;
-						
-						metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-						
-						if(worldObj.rand.nextInt(3) > 0)
+						for(int z = -r; z < r; z++)
 						{
-							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+							dist = MathHelper.sqrt_double((x*x + y*y + z*z));
+		
+							if(dist > r || dist < r-3) continue;
+							currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
+							blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 							
-							currentPos.add(0.5D);
-							EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
-							worldObj.spawnEntityInWorld(entity);
-							gravityBlocks.add(entity);
-							entity.pitchChange = 50*worldObj.rand.nextFloat();
+							if(blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID) continue;
+							
+							metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+							
+							if(worldObj.rand.nextInt(3) > 0)
+							{
+								worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+								
+								currentPos.add(0.5D);
+								EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
+								worldObj.spawnEntityInWorld(entity);
+								gravityBlocks.add(entity);
+								entity.pitchChange = 50*worldObj.rand.nextFloat();
+							}
 						}
 					}
 				}
+				
+				((EZhaPin)explosionSource).entityList.addAll(gravityBlocks);
 			}
 		
-			((EZhaPin)explosionSource).entityList.addAll(gravityBlocks);
+			
 			
 			gravityBlocks = ((EZhaPin)explosionSource).entityList;
 			
@@ -106,7 +111,7 @@ public class ExBingDan extends ZhaPin
 					double xDifference = entity.posX - position.x;
 		        	double zDifference = entity.posZ - position.z;
 		        	
-		        	r = (int)radius;
+		        	int r = (int)radius;
 		        	if(xDifference < 0) r = (int)-radius;
 		        	
 		        	if(xDifference > 4)

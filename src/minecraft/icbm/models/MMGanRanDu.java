@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileContagious extends ModelBase
+public class MMGanRanDu extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
@@ -38,7 +38,7 @@ public class ModelMissileContagious extends ModelBase
     ModelRenderer Shape8d;
     ModelRenderer Shape8e;
   
-  public ModelMissileContagious()
+  public MMGanRanDu()
   {
     textureWidth = 128;
     textureHeight = 128;

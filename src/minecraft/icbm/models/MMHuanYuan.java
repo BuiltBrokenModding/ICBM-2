@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileRejuvenation extends ModelBase
+public class MMHuanYuan extends ModelBase
 {
   //fields
     ModelRenderer MAIN_MODULE;
@@ -39,7 +39,7 @@ public class ModelMissileRejuvenation extends ModelBase
     ModelRenderer Shape8;
     ModelRenderer Shape9;
   
-  public ModelMissileRejuvenation()
+  public MMHuanYuan()
   {
     textureWidth = 128;
     textureHeight = 128;

@@ -80,7 +80,7 @@ public class ExQunDan extends ZhaPin
 		}
 		else if(this.getTier() == 2)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', Incendiary.getItemStack(), '@', Shrapnel.getItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);
+	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);
 		}
 	}
 }

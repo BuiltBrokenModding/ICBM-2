@@ -4,14 +4,14 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileBreaching extends ModelBase
+public class MMShengBuo extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
     ModelRenderer Shape2;
+    ModelRenderer Shape2a;
     ModelRenderer Shape2b;
     ModelRenderer Shape2c;
-    ModelRenderer Shape2d;
     ModelRenderer Shape3;
     ModelRenderer Shape3a;
     ModelRenderer Shape3b;
@@ -28,11 +28,12 @@ public class ModelMissileBreaching extends ModelBase
     ModelRenderer Shape4g;
     ModelRenderer Shape6;
     ModelRenderer Shape6a;
-    ModelRenderer Shape7;
     ModelRenderer Shape7a;
+    ModelRenderer Shape7;
     ModelRenderer Shape7b;
+    ModelRenderer Shape7c;
   
-  public ModelMissileBreaching()
+  public MMShengBuo()
   {
     textureWidth = 128;
     textureHeight = 128;
@@ -49,24 +50,24 @@ public class ModelMissileBreaching extends ModelBase
       Shape2.setTextureSize(128, 128);
       Shape2.mirror = true;
       setRotation(Shape2, 0F, 0F, 0F);
-      Shape2b = new ModelRenderer(this, 34, 19);
-      Shape2b.addBox(0F, 0F, 0F, 14, 10, 1);
-      Shape2b.setRotationPoint(-7F, 14F, -7F);
+      Shape2a = new ModelRenderer(this, 34, 19);
+      Shape2a.addBox(0F, 0F, 0F, 14, 10, 1);
+      Shape2a.setRotationPoint(-7F, 14F, -7F);
+      Shape2a.setTextureSize(128, 128);
+      Shape2a.mirror = true;
+      setRotation(Shape2a, 0F, 0F, 0F);
+      Shape2b = new ModelRenderer(this, 34, 31);
+      Shape2b.addBox(0F, 0F, 0F, 1, 10, 12);
+      Shape2b.setRotationPoint(-7F, 14F, -6F);
       Shape2b.setTextureSize(128, 128);
       Shape2b.mirror = true;
       setRotation(Shape2b, 0F, 0F, 0F);
       Shape2c = new ModelRenderer(this, 34, 31);
       Shape2c.addBox(0F, 0F, 0F, 1, 10, 12);
-      Shape2c.setRotationPoint(-7F, 14F, -6F);
+      Shape2c.setRotationPoint(6F, 14F, -6F);
       Shape2c.setTextureSize(128, 128);
       Shape2c.mirror = true;
       setRotation(Shape2c, 0F, 0F, 0F);
-      Shape2d = new ModelRenderer(this, 34, 31);
-      Shape2d.addBox(0F, 0F, 0F, 1, 10, 12);
-      Shape2d.setRotationPoint(6F, 14F, -6F);
-      Shape2d.setTextureSize(128, 128);
-      Shape2d.mirror = true;
-      setRotation(Shape2d, 0F, 0F, 0F);
       Shape3 = new ModelRenderer(this, 72, 0);
       Shape3.addBox(-11F, 0F, -1F, 22, 12, 2);
       Shape3.setRotationPoint(0F, 12F, 0F);
@@ -163,24 +164,30 @@ public class ModelMissileBreaching extends ModelBase
       Shape6a.setTextureSize(128, 128);
       Shape6a.mirror = true;
       setRotation(Shape6a, 0F, 0F, 0F);
-      Shape7 = new ModelRenderer(this, 96, 115);
-      Shape7.addBox(0F, 0F, 0F, 8, 4, 8);
-      Shape7.setRotationPoint(-4F, -45F, -4F);
-      Shape7.setTextureSize(128, 128);
-      Shape7.mirror = true;
-      setRotation(Shape7, 0F, 0F, 0F);
-      Shape7a = new ModelRenderer(this, 79, 109);
-      Shape7a.addBox(0F, 0F, 0F, 4, 14, 4);
-      Shape7a.setRotationPoint(-2F, -59F, -2F);
+      Shape7a = new ModelRenderer(this, 95, 115);
+      Shape7a.addBox(0F, 0F, 0F, 8, 4, 8);
+      Shape7a.setRotationPoint(-4F, -45F, -4F);
       Shape7a.setTextureSize(128, 128);
       Shape7a.mirror = true;
       setRotation(Shape7a, 0F, 0F, 0F);
-      Shape7b = new ModelRenderer(this, 96, 110);
-      Shape7b.addBox(0F, 0F, 0F, 2, 2, 2);
-      Shape7b.setRotationPoint(-1F, -61F, -1F);
+      Shape7 = new ModelRenderer(this, 95, 103);
+      Shape7.addBox(0F, 0F, 0F, 6, 4, 6);
+      Shape7.setRotationPoint(-3F, -49F, -3F);
+      Shape7.setTextureSize(128, 128);
+      Shape7.mirror = true;
+      setRotation(Shape7, 0F, 0F, 0F);
+      Shape7b = new ModelRenderer(this, 69, 109);
+      Shape7b.addBox(-1F, 0F, -5F, 2, 8, 10);
+      Shape7b.setRotationPoint(0F, -48F, 0F);
       Shape7b.setTextureSize(128, 128);
       Shape7b.mirror = true;
-      setRotation(Shape7b, 0F, 0F, 0F);
+      setRotation(Shape7b, 0F, 0.7853982F, 0F);
+      Shape7c = new ModelRenderer(this, 69, 109);
+      Shape7c.addBox(-1F, 0F, -5F, 2, 8, 10);
+      Shape7c.setRotationPoint(0F, -48F, 0F);
+      Shape7c.setTextureSize(128, 128);
+      Shape7c.mirror = true;
+      setRotation(Shape7c, 0F, -0.7853982F, 0F);
   }
   
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
@@ -189,9 +196,9 @@ public class ModelMissileBreaching extends ModelBase
     setRotationAngles(f, f1, f2, f3, f4, f5);
     Shape1.render(f5);
     Shape2.render(f5);
+    Shape2a.render(f5);
     Shape2b.render(f5);
     Shape2c.render(f5);
-    Shape2d.render(f5);
     Shape3.render(f5);
     Shape3a.render(f5);
     Shape3b.render(f5);
@@ -208,9 +215,10 @@ public class ModelMissileBreaching extends ModelBase
     Shape4g.render(f5);
     Shape6.render(f5);
     Shape6a.render(f5);
-    Shape7.render(f5);
     Shape7a.render(f5);
+    Shape7.render(f5);
     Shape7b.render(f5);
+    Shape7c.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)

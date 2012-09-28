@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileShrapnel extends ModelBase
+public class MMXiaoQunDan extends ModelBase
 {
   //fields
     ModelRenderer MAIN_MISSILE_MODULE;
@@ -24,7 +24,7 @@ public class ModelMissileShrapnel extends ModelBase
     ModelRenderer SHRAPNEL_PIECE_3;
     ModelRenderer SHRAPNEL_PIECE_4;
   
-  public ModelMissileShrapnel()
+  public MMXiaoQunDan()
   {
     textureWidth = 128;
     textureHeight = 128;

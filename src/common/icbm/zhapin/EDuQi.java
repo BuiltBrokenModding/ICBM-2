@@ -13,9 +13,9 @@ import net.minecraft.src.World;
 import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
-public class EDu extends ZhaPin
+public class EDuQi extends ZhaPin
 {
-	public EDu(String name, int ID, int tier)
+	public EDuQi(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 	}
@@ -72,7 +72,7 @@ public class EDu extends ZhaPin
 		}
 		else if(this.getTier() == 2)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', Chemical.getItemStack()});
+	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack()});
 		}
 	}
 }

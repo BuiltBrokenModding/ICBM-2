@@ -40,15 +40,15 @@ import universalelectricity.prefab.Vector3;
 
 public abstract class ZhaPin implements ITier
 {
-	public static final ZhaPin Condensed = new ExYaSuo("Condensed", 0, 1);
-	public static final ZhaPin Shrapnel = new ExQunDan("Shrapnel", 1, 1);
-	public static final ZhaPin Incendiary = new ExHuo("Incendiary", 2, 1);
-	public static final ZhaPin Chemical = new EDu("Chemical", 3, 1);
+	public static final ZhaPin yaSuo = new ExYaSuo("Condensed", 0, 1);
+	public static final ZhaPin xiaoQunDan = new ExQunDan("Shrapnel", 1, 1);
+	public static final ZhaPin huo = new ExHuo("Incendiary", 2, 1);
+	public static final ZhaPin duQi = new EDuQi("Chemical", 3, 1);
 	
 	public static final int MAX_TIER_ONE = 4;
 	
-	public static final ZhaPin Fragmentation = new ExQunDan("Fragmentation", 4, 2);
-	public static final ZhaPin Contagious = new EDu("Contagious", 5, 2);
+	public static final ZhaPin qunDan = new ExQunDan("Fragmentation", 4, 2);
+	public static final ZhaPin Contagious = new EDuQi("Contagious", 5, 2);
 	public static final ZhaPin Sonic = new ExShengBuo("Sonic", 6, 2);
 	public static final ZhaPin Breaching = new ExTuPuo("Breaching", 7, 2);
 	public static final ZhaPin Rejuvenation = new ExHuanYuan("Rejuvenation", 8, 2);
@@ -161,7 +161,7 @@ public abstract class ZhaPin implements ITier
 	
 	/**
 	 * The interval in ticks before the next procedural call of this explosive
-	 * @param return - Return -1 if this explosive does not need proceudral calls
+	 * @param return - Return -1 if this explosive does not need procedural calls
 	 */
 	protected int proceduralInterval() { return -1; }
 	

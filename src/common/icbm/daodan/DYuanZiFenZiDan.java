@@ -1,12 +1,13 @@
 package icbm.daodan;
 
+import icbm.zhapin.ZhaPin;
 import universalelectricity.prefab.Vector3;
 
-public class DQun extends DaoDan
+public class DYuanZiFenZiDan extends DFenZiDan
 {	
-	public static final int MAX_CLUSTER = 12;
+	public static final int MAX_CLUSTER = 4;
 	
-	protected DQun(String name, int ID, int tier)
+	protected DYuanZiFenZiDan(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 	}
@@ -19,10 +20,10 @@ public class DQun extends DaoDan
 			if(missileObj.missileCount < MAX_CLUSTER)
 			{
 				Vector3 position = Vector3.get(missileObj);
-				EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), 0);
+				EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), ZhaPin.Nuclear.getID());
 				clusterMissile.isCruise = true;
 				clusterMissile.protectionTime = 20;
-				clusterMissile.launchMissile(Vector3.add(missileObj.targetPosition, new Vector3((missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6 )));
+				clusterMissile.launchMissile(Vector3.add(missileObj.targetPosition, new Vector3((missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30)));
 				missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 				missileObj.protectionTime = 20;
 				missileObj.missileCount ++;
@@ -37,7 +38,7 @@ public class DQun extends DaoDan
 	@Override
 	public void onExplode(EDaoDan missileObj)
 	{
-		missileObj.worldObj.createExplosion(missileObj, missileObj.posX, missileObj.posY, missileObj.posZ, 6F);
+		ZhaPin.createBaoZha(missileObj.worldObj, Vector3.get(missileObj), missileObj, ZhaPin.Nuclear.getID());
 	}
 	
 	@Override

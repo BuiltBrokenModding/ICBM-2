@@ -28,8 +28,8 @@ import icbm.renders.RenderInvisible;
 import icbm.renders.RenderLauncherBase;
 import icbm.renders.RenderLauncherFrame;
 import icbm.renders.RenderLauncherScreen;
-import icbm.renders.RenderLightBeam;
-import icbm.renders.RenderMissile;
+import icbm.renders.RGuangBang;
+import icbm.renders.RDaoDan;
 import icbm.renders.RZhaPin;
 import icbm.renders.RenderRadarStation;
 import icbm.renders.RenderRailgun;
@@ -62,10 +62,10 @@ public class ICBMClientProxy extends ICBMCommonProxy
 	public void init()
 	{		
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RenderExplosive());
-        RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RenderMissile(0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
         RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RenderGravityBlock());
-        RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RenderLightBeam());
+        RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
         RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RenderFragment());
         RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RenderGrenade());
         RenderingRegistry.registerEntityRenderingHandler(ECiGuiPao.class, new RenderInvisible());

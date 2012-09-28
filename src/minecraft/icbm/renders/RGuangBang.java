@@ -8,7 +8,7 @@ import net.minecraft.src.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderLightBeam extends Render
+public class RGuangBang extends Render
 {
     @Override
     public void doRender(Entity par1Entity, double x, double y, double z, float f, float f1)
@@ -21,9 +21,9 @@ public class RenderLightBeam extends Render
         EGuang entity = ((EGuang)par1Entity);
         
         Tessellator tessellator = Tessellator.instance;
-        GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
-        GL11.glDisable(2896 /*GL_LIGHTING*/);
-        GL11.glEnable(3042 /*GL_BLEND*/);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(770, 1);
         
         double ad[] = new double[80]; //Previously both were 8
@@ -121,9 +121,9 @@ public class RenderLightBeam extends Render
 
         }
 
-        GL11.glDisable(3042 /*GL_BLEND*/);
-        GL11.glEnable(2896 /*GL_LIGHTING*/);
-        GL11.glEnable(3553 /*GL_TEXTURE_2D*/);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 	
 }

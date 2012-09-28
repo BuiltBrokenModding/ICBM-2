@@ -9,8 +9,8 @@ import universalelectricity.prefab.Vector3;
 public class DaoDan implements ITier
 {
 	public static final DaoDan AntiBallistic = new DFanDan("Anti-Ballistic", 101, 2);
-	public static final DaoDan Cluster = new DQun("Cluster", 102, 2);
-	public static final DaoDan NuclearCluster = new DYuanZiQun("Nuclear Cluster", 103, 2);
+	public static final DaoDan Cluster = new DFenZiDan("Cluster", 102, 2);
+	public static final DaoDan NuclearCluster = new DYuanZiFenZiDan("Nuclear Cluster", 103, 2);
 
 	public static DaoDan[] list;
 

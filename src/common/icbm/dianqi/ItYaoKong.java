@@ -62,7 +62,7 @@ public class ItYaoKong extends ItemElectric
 		        {
 		        	return par1ItemStack;
 		        }
-		        else if(tileEntity instanceof TZhaDan && (blockMetadata == ZhaPin.Condensed.getID() || blockMetadata == ZhaPin.Breaching.getID()))
+		        else if(tileEntity instanceof TZhaDan && (blockMetadata == ZhaPin.yaSuo.getID() || blockMetadata == ZhaPin.Breaching.getID()))
 		        {
 		        	//Check for electricity
 		            if(this.getWattHours(par1ItemStack) > ELECTRICITY_REQUIRED)

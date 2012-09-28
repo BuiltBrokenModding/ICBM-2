@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileSonic extends ModelBase
+public class MMFanDan extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
@@ -12,10 +12,10 @@ public class ModelMissileSonic extends ModelBase
     ModelRenderer Shape2a;
     ModelRenderer Shape2b;
     ModelRenderer Shape2c;
+    ModelRenderer Shape3d;
     ModelRenderer Shape3;
     ModelRenderer Shape3a;
     ModelRenderer Shape3b;
-    ModelRenderer Shape3c;
     ModelRenderer Shape4;
     ModelRenderer Shape4a;
     ModelRenderer Shape4b;
@@ -30,10 +30,13 @@ public class ModelMissileSonic extends ModelBase
     ModelRenderer Shape6a;
     ModelRenderer Shape7a;
     ModelRenderer Shape7;
-    ModelRenderer Shape7b;
-    ModelRenderer Shape7c;
+    ModelRenderer Shape8;
+    ModelRenderer Shape8a;
+    ModelRenderer Shape8b;
+    ModelRenderer Shape8c;
+    ModelRenderer Shape8d;
   
-  public ModelMissileSonic()
+  public MMFanDan()
   {
     textureWidth = 128;
     textureHeight = 128;
@@ -68,30 +71,30 @@ public class ModelMissileSonic extends ModelBase
       Shape2c.setTextureSize(128, 128);
       Shape2c.mirror = true;
       setRotation(Shape2c, 0F, 0F, 0F);
+      Shape3d = new ModelRenderer(this, 72, 0);
+      Shape3d.addBox(-11F, 0F, -1F, 22, 12, 2);
+      Shape3d.setRotationPoint(0F, 12F, 0F);
+      Shape3d.setTextureSize(128, 128);
+      Shape3d.mirror = true;
+      setRotation(Shape3d, 0F, 0.7853982F, 0F);
       Shape3 = new ModelRenderer(this, 72, 0);
       Shape3.addBox(-11F, 0F, -1F, 22, 12, 2);
       Shape3.setRotationPoint(0F, 12F, 0F);
       Shape3.setTextureSize(128, 128);
       Shape3.mirror = true;
-      setRotation(Shape3, 0F, 0.7853982F, 0F);
-      Shape3a = new ModelRenderer(this, 72, 0);
-      Shape3a.addBox(-11F, 0F, -1F, 22, 12, 2);
+      setRotation(Shape3, 0F, -0.7853982F, 0F);
+      Shape3a = new ModelRenderer(this, 34, 0);
+      Shape3a.addBox(-8F, -8F, -1F, 16, 16, 2);
       Shape3a.setRotationPoint(0F, 12F, 0F);
       Shape3a.setTextureSize(128, 128);
       Shape3a.mirror = true;
-      setRotation(Shape3a, 0F, -0.7853982F, 0F);
+      setRotation(Shape3a, 0F, 0.7853982F, 0.7853982F);
       Shape3b = new ModelRenderer(this, 34, 0);
       Shape3b.addBox(-8F, -8F, -1F, 16, 16, 2);
       Shape3b.setRotationPoint(0F, 12F, 0F);
       Shape3b.setTextureSize(128, 128);
       Shape3b.mirror = true;
-      setRotation(Shape3b, 0F, 0.7853982F, 0.7853982F);
-      Shape3c = new ModelRenderer(this, 34, 0);
-      Shape3c.addBox(-8F, -8F, -1F, 16, 16, 2);
-      Shape3c.setRotationPoint(0F, 12F, 0F);
-      Shape3c.setTextureSize(128, 128);
-      Shape3c.mirror = true;
-      setRotation(Shape3c, 0F, -0.7853982F, 0.7853982F);
+      setRotation(Shape3b, 0F, -0.7853982F, 0.7853982F);
       Shape4 = new ModelRenderer(this, 22, 74);
       Shape4.addBox(0F, 0F, 0F, 2, 7, 5);
       Shape4.setRotationPoint(-1F, -23F, 4F);
@@ -164,30 +167,48 @@ public class ModelMissileSonic extends ModelBase
       Shape6a.setTextureSize(128, 128);
       Shape6a.mirror = true;
       setRotation(Shape6a, 0F, 0F, 0F);
-      Shape7a = new ModelRenderer(this, 95, 115);
+      Shape7a = new ModelRenderer(this, 72, 29);
       Shape7a.addBox(0F, 0F, 0F, 8, 4, 8);
       Shape7a.setRotationPoint(-4F, -45F, -4F);
       Shape7a.setTextureSize(128, 128);
       Shape7a.mirror = true;
       setRotation(Shape7a, 0F, 0F, 0F);
-      Shape7 = new ModelRenderer(this, 95, 103);
-      Shape7.addBox(0F, 0F, 0F, 6, 4, 6);
-      Shape7.setRotationPoint(-3F, -49F, -3F);
+      Shape7 = new ModelRenderer(this, 72, 43);
+      Shape7.addBox(0F, 0F, 0F, 6, 2, 6);
+      Shape7.setRotationPoint(-3F, -47F, -3F);
       Shape7.setTextureSize(128, 128);
       Shape7.mirror = true;
       setRotation(Shape7, 0F, 0F, 0F);
-      Shape7b = new ModelRenderer(this, 69, 109);
-      Shape7b.addBox(-1F, 0F, -5F, 2, 8, 10);
-      Shape7b.setRotationPoint(0F, -48F, 0F);
-      Shape7b.setTextureSize(128, 128);
-      Shape7b.mirror = true;
-      setRotation(Shape7b, 0F, 0.7853982F, 0F);
-      Shape7c = new ModelRenderer(this, 69, 109);
-      Shape7c.addBox(-1F, 0F, -5F, 2, 8, 10);
-      Shape7c.setRotationPoint(0F, -48F, 0F);
-      Shape7c.setTextureSize(128, 128);
-      Shape7c.mirror = true;
-      setRotation(Shape7c, 0F, -0.7853982F, 0F);
+      Shape8 = new ModelRenderer(this, 63, 33);
+      Shape8.addBox(0F, 0F, 0F, 2, 2, 2);
+      Shape8.setRotationPoint(2F, -46F, -1F);
+      Shape8.setTextureSize(128, 128);
+      Shape8.mirror = true;
+      setRotation(Shape8, 0F, 0F, -0.7853982F);
+      Shape8a = new ModelRenderer(this, 63, 33);
+      Shape8a.addBox(0F, 0F, 0F, 2, 2, 2);
+      Shape8a.setRotationPoint(-5F, -46F, -1F);
+      Shape8a.setTextureSize(128, 128);
+      Shape8a.mirror = true;
+      setRotation(Shape8a, 0F, 0F, -0.7853982F);
+      Shape8b = new ModelRenderer(this, 63, 33);
+      Shape8b.addBox(0F, 0F, 0F, 2, 2, 2);
+      Shape8b.setRotationPoint(-1F, -46F, 2F);
+      Shape8b.setTextureSize(128, 128);
+      Shape8b.mirror = true;
+      setRotation(Shape8b, 0.7853982F, 0F, 0F);
+      Shape8c = new ModelRenderer(this, 63, 33);
+      Shape8c.addBox(0F, 0F, 0F, 2, 2, 2);
+      Shape8c.setRotationPoint(-1F, -46F, -5F);
+      Shape8c.setTextureSize(128, 128);
+      Shape8c.mirror = true;
+      setRotation(Shape8c, 0.7853982F, 0F, 0F);
+      Shape8d = new ModelRenderer(this, 72, 53);
+      Shape8d.addBox(0F, 0F, 0F, 4, 2, 4);
+      Shape8d.setRotationPoint(-2F, -49F, -2F);
+      Shape8d.setTextureSize(128, 128);
+      Shape8d.mirror = true;
+      setRotation(Shape8d, 0F, 0F, 0F);
   }
   
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
@@ -199,10 +220,10 @@ public class ModelMissileSonic extends ModelBase
     Shape2a.render(f5);
     Shape2b.render(f5);
     Shape2c.render(f5);
+    Shape3d.render(f5);
     Shape3.render(f5);
     Shape3a.render(f5);
     Shape3b.render(f5);
-    Shape3c.render(f5);
     Shape4.render(f5);
     Shape4a.render(f5);
     Shape4b.render(f5);
@@ -217,8 +238,11 @@ public class ModelMissileSonic extends ModelBase
     Shape6a.render(f5);
     Shape7a.render(f5);
     Shape7.render(f5);
-    Shape7b.render(f5);
-    Shape7c.render(f5);
+    Shape8.render(f5);
+    Shape8a.render(f5);
+    Shape8b.render(f5);
+    Shape8c.render(f5);
+    Shape8d.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)

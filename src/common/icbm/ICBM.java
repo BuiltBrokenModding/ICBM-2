@@ -325,7 +325,7 @@ public class ICBM
 		//Missiles
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new Object [] {" @ ", "@#@", "@?@", '@', "ingotSteel", '?', BasicComponents.itemOilBucket, '#', BasicComponents.itemCircuit});
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 1), new Object [] {"!", "?", "@", '@', new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), '?', new ItemStack(ICBM.blockZha4Dan4, 1, 0), '!', BasicComponents.itemCircuit});
-		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 2), new Object [] {" ! ", " ? ", "!@!", '@', new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.Fragmentation.getID()].getItemStack(), '!', new ItemStack(ICBM.itemDaoDan, 1, 0)});
+		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 2), new Object [] {" ! ", " ? ", "!@!", '@', new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.qunDan.getID()].getItemStack(), '!', new ItemStack(ICBM.itemDaoDan, 1, 0)});
 		
 		for(int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
 		{

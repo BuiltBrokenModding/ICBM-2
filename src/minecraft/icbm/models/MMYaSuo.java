@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileIncendiary extends ModelBase
+public class MMYaSuo extends ModelBase
 {
   //fields
     ModelRenderer MAIN_MISSILE_MODULE;
@@ -21,10 +21,8 @@ public class ModelMissileIncendiary extends ModelBase
     ModelRenderer WARHEAD_2;
     ModelRenderer WARHEAD_3;
     ModelRenderer WARHEAD_4;
-    ModelRenderer WARHEAD_5;
-    ModelRenderer WARHEAD_6;
   
-  public ModelMissileIncendiary()
+  public MMYaSuo()
   {
     textureWidth = 128;
     textureHeight = 128;
@@ -90,41 +88,29 @@ public class ModelMissileIncendiary extends ModelBase
       WING_B_A_2.mirror = true;
       setRotation(WING_B_A_2, -0.7853982F, 0.7853982F, 0F);
       WARHEAD_1 = new ModelRenderer(this, 0, 85);
-      WARHEAD_1.addBox(0F, 0F, 0F, 6, 7, 6);
-      WARHEAD_1.setRotationPoint(-3F, -33F, -3F);
+      WARHEAD_1.addBox(-4F, 0F, -4F, 8, 4, 8);
+      WARHEAD_1.setRotationPoint(0F, -27F, 0F);
       WARHEAD_1.setTextureSize(128, 128);
       WARHEAD_1.mirror = true;
-      setRotation(WARHEAD_1, 0F, 0F, 0F);
-      WARHEAD_2 = new ModelRenderer(this, 26, 101);
-      WARHEAD_2.addBox(0F, 0F, 0F, 2, 6, 2);
-      WARHEAD_2.setRotationPoint(-1F, -39F, -1F);
+      setRotation(WARHEAD_1, 0F, 0.7853982F, 0F);
+      WARHEAD_2 = new ModelRenderer(this, 33, 85);
+      WARHEAD_2.addBox(-3F, 0F, -3F, 6, 2, 6);
+      WARHEAD_2.setRotationPoint(0F, -29F, 0F);
       WARHEAD_2.setTextureSize(128, 128);
       WARHEAD_2.mirror = true;
-      setRotation(WARHEAD_2, 0F, 0F, 0F);
-      WARHEAD_3 = new ModelRenderer(this, 26, 85);
-      WARHEAD_3.addBox(-1F, 0F, 0F, 2, 7, 7);
-      WARHEAD_3.setRotationPoint(0F, -39F, 0F);
+      setRotation(WARHEAD_2, 0F, 0.7853982F, 0F);
+      WARHEAD_3 = new ModelRenderer(this, 59, 85);
+      WARHEAD_3.addBox(-2F, 0F, -2F, 4, 2, 4);
+      WARHEAD_3.setRotationPoint(0F, -31F, 0F);
       WARHEAD_3.setTextureSize(128, 128);
       WARHEAD_3.mirror = true;
-      setRotation(WARHEAD_3, -0.7853982F, 0.7853982F, 0F);
-      WARHEAD_4 = new ModelRenderer(this, 26, 85);
-      WARHEAD_4.addBox(-1F, 0F, 0F, 2, 7, 7);
-      WARHEAD_4.setRotationPoint(0F, -39F, 0F);
+      setRotation(WARHEAD_3, 0F, 0.7853982F, 0F);
+      WARHEAD_4 = new ModelRenderer(this, 9, 87);
+      WARHEAD_4.addBox(-1F, 0F, -1F, 2, 1, 2);
+      WARHEAD_4.setRotationPoint(0F, -32F, 0F);
       WARHEAD_4.setTextureSize(128, 128);
       WARHEAD_4.mirror = true;
-      setRotation(WARHEAD_4, -0.7853982F, -0.7853982F, 0F);
-      WARHEAD_5 = new ModelRenderer(this, 0, 101);
-      WARHEAD_5.addBox(-1F, 0F, -5F, 2, 7, 10);
-      WARHEAD_5.setRotationPoint(0F, -34F, 0F);
-      WARHEAD_5.setTextureSize(128, 128);
-      WARHEAD_5.mirror = true;
-      setRotation(WARHEAD_5, 0F, 0.7853982F, 0F);
-      WARHEAD_6 = new ModelRenderer(this, 0, 101);
-      WARHEAD_6.addBox(-1F, 0F, -5F, 2, 7, 10);
-      WARHEAD_6.setRotationPoint(0F, -34F, 0F);
-      WARHEAD_6.setTextureSize(128, 128);
-      WARHEAD_6.mirror = true;
-      setRotation(WARHEAD_6, 0F, -0.7853982F, 0F);
+      setRotation(WARHEAD_4, 0F, 0.7853982F, 0F);
   }
   
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
@@ -145,8 +131,6 @@ public class ModelMissileIncendiary extends ModelBase
     WARHEAD_2.render(f5);
     WARHEAD_3.render(f5);
     WARHEAD_4.render(f5);
-    WARHEAD_5.render(f5);
-    WARHEAD_6.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)

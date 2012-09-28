@@ -151,6 +151,6 @@ public class ExTuPuo extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(2), new Object [] {"GCG", "GCG", "GCG", 'C', Condensed.getItemStack(), 'G', Item.gunpowder}, this.getMing(), ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(2), new Object [] {"GCG", "GCG", "GCG", 'C', yaSuo.getItemStack(), 'G', Item.gunpowder}, this.getMing(), ICBM.CONFIGURATION, true);
 	}
 }

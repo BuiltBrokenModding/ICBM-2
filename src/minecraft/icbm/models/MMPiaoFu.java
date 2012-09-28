@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileAntiGravity extends ModelBase
+public class MMPiaoFu extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
@@ -17,7 +17,7 @@ public class ModelMissileAntiGravity extends ModelBase
     ModelRenderer Shape8;
     ModelRenderer Shape9;
   
-  public ModelMissileAntiGravity()
+  public MMPiaoFu()
   {
     textureWidth = 128;
     textureHeight = 128;

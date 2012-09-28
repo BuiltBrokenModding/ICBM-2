@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissileAntimatter extends ModelBase
+public class MMFanWuSu extends ModelBase
 {
 	//fields
     ModelRenderer Shape1;
@@ -36,7 +36,7 @@ public class ModelMissileAntimatter extends ModelBase
     ModelRenderer Shape13;
     ModelRenderer Shape14;
   
-  public ModelMissileAntimatter()
+  public MMFanWuSu()
   {
     textureWidth = 128;
     textureHeight = 128;

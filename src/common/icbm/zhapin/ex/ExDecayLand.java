@@ -44,7 +44,7 @@ public class ExDecayLand extends ZhaPin
      		   		int blockID = worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z);
          		   	if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
                     {
-	     	           if(worldObj.rand.nextFloat() > 0.8)
+	     	           if(worldObj.rand.nextFloat() > 0.9)
 	     	           {
 	     	        	   worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockFuShe.blockID);
 	     	           }
@@ -52,7 +52,7 @@ public class ExDecayLand extends ZhaPin
          		   	
          		   	if(blockID == Block.stone.blockID)
                     {
-                    	if(worldObj.rand.nextFloat() > 0.96)
+                    	if(worldObj.rand.nextFloat() > 0.97)
                     	{
                     		worldObj.setBlockWithNotify((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z, ICBM.blockFuShe.blockID);
                     	}
@@ -74,27 +74,6 @@ public class ExDecayLand extends ZhaPin
      		   	}
 			}
 		}
-    	
-    	AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-        List<EntityLiving> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
-        
-        for (EntityLiving entity : entitiesNearby)
-        {
-        	if(entity instanceof EntityPig)
-            {
-        		EntityPigZombie var2 = new EntityPigZombie(worldObj);
-                var2.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                worldObj.spawnEntityInWorld(var2);
-                entity.setDead();
-            }
-        	else if(entity instanceof EntityVillager)
-            {
-        		EntityZombie var2 = new EntityZombie(worldObj);
-                var2.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                worldObj.spawnEntityInWorld(var2);
-                entity.setDead();
-            }
-        }
         
 		return false;
 	}
