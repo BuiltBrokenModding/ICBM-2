@@ -2,7 +2,9 @@ package icbm.jiqi;
 
 import icbm.ICBM;
 import icbm.TYinXing;
+import icbm.extend.IChunkLoadHandler;
 import icbm.extend.IMB;
+import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -12,6 +14,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.IPacketReceiver;
+import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -21,7 +24,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMB, IRotatable
+public class TFaSheJia extends TileEntity implements IChunkLoadHandler, IPacketReceiver, ITier, IMB, IRotatable
 {
     //The tier of this screen
     private int tier = 0;
@@ -129,5 +132,17 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMB
 	public void setDirection(ForgeDirection facingDirection) 
 	{
 		this.orientation = (byte) facingDirection.ordinal();
+	}
+	
+	@Override
+	public void onChunkLoad(Chunk chunk)
+	{
+    	PacketManager.sendTileEntityPacket(this, "ICBM", this.orientation, this.tier);
+	}
+
+	@Override
+	public void onChunkUnload(Chunk chunk)
+	{
+		
 	}
 }

@@ -3,8 +3,10 @@ package icbm.jiqi;
 import icbm.BYinXing;
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
+import icbm.extend.IChunkLoadHandler;
 import icbm.extend.IMB;
 import icbm.zhapin.ZhaPin;
+import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -25,7 +27,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IMB, IRedstoneReceptor, ISimpleConnectionHandler
+public class TDianCiQi extends TileEntityElectricityReceiver implements IChunkLoadHandler, IElectricityStorage, IPacketReceiver, IMB, IRedstoneReceptor, ISimpleConnectionHandler
 {
     //The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 60;
@@ -246,5 +248,17 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IElectri
 	public void setWattHours(double wattHours, Object... data)
 	{
 		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+	}
+	
+	@Override
+	public void onChunkLoad(Chunk chunk)
+	{
+    	this.packetGengXin = true;
+	}
+
+	@Override
+	public void onChunkUnload(Chunk chunk)
+	{
+		
 	}
 }

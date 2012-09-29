@@ -63,6 +63,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	
 	//Cruise Missile
 	public boolean isCruise;
+	private boolean setExplode;
+	private boolean setNormalExplode;
     
     public EDaoDan(World par1World)
     {
@@ -184,7 +186,19 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
      */
     @Override
 	public void onUpdate()
-    {    	
+    {
+    	if(this.setNormalExplode)
+    	{
+    		this.normalExplode();
+    		return;
+    	}
+    	
+    	if(this.setExplode)
+    	{
+    		this.explode();
+    		return;
+    	}
+    	
     	super.onUpdate();
 
     	try
@@ -230,7 +244,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	    			this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 	
 	    			DaoDan.list[this.missileID].onTickFlight(this);
-	    			
+	    				    			
 	    			this.moveEntity(this.motionX, this.motionY,this.motionZ);
 	    			
 	    			Vector3 position = Vector3.get(this);
@@ -394,15 +408,25 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	{
     		if(par1Entity instanceof EDaoDan)
         	{
-    			((EDaoDan)par1Entity).normalExplode();
+    			((EDaoDan)par1Entity).setNormalExplode();
         	}
     		
-    		this.explode();
+    		this.setExplode();
     	}
     	
     	return null;
     }
 
+    public void setNormalExplode()
+    {
+    	this.setNormalExplode = true;
+    }
+    
+    public void setExplode()
+    {
+    	this.setExplode = true;
+    }
+    
     @Override
     public void explode()
     {

@@ -10,6 +10,7 @@ import icbm.dianqi.ItJieJa;
 import icbm.dianqi.ItLeiDaQiang;
 import icbm.dianqi.ItLeiShiZhiBiao;
 import icbm.dianqi.ItYaoKong;
+import icbm.extend.IChunkLoadHandler;
 import icbm.jiqi.BJiQi;
 import icbm.jiqi.BYinGanQi;
 import icbm.jiqi.ECiGuiPao;
@@ -24,6 +25,7 @@ import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -34,10 +36,14 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.ServerCommandManager;
+import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.world.ChunkEvent.Load;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.BasicComponents;
 import universalelectricity.UniversalElectricity;
@@ -177,7 +183,7 @@ public class ICBM
 		OreDictionary.registerOre("dustSulfur", itemLiu);
 		
 		OreGenerator.addOre(liuGenData);
-		
+   		MinecraftForge.EVENT_BUS.register(ChunkEventCaller.INSTANCE);
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new DaoDanCLCallBack());
 		
 		this.proxy.preInit();
@@ -196,7 +202,6 @@ public class ICBM
 				}
 			}
 		}
-		
 	}
 	
 	@Init
@@ -368,7 +373,7 @@ public class ICBM
   	    
 		this.proxy.init();
     }
-	
+
 	public static Vector3 getLook(float rotationYaw, float rotationPitch)
     {
         float var2;

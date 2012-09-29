@@ -41,8 +41,6 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{
-		EZhaPin source = (EZhaPin)explosionSource;
-
 		if(!worldObj.isRemote)
 		{
 			while(position.y > 0)

@@ -5,6 +5,7 @@ import icbm.ICBMCommonProxy;
 import icbm.ItZiDan;
 import icbm.ParticleSpawner;
 import icbm.TYinXing;
+import icbm.extend.IChunkLoadHandler;
 import icbm.extend.IMB;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ex.ExHongSu;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
+import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
@@ -38,7 +40,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMB, ISidedInventory, ISimpleConnectionHandler
+public class TCiGuiPao extends TileEntityElectricityReceiver implements IChunkLoadHandler, IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMB, ISidedInventory, ISimpleConnectionHandler
 {	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -69,7 +71,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	private int explosionDepth;
 	
 	private int playersUsing = 0;
-	private boolean sendUpdate = false;
+	private boolean packetGengXin = false;
 	    
     public TCiGuiPao()
     {
@@ -218,10 +220,10 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 				}
 			}
 			
-			if(this.sendUpdate)
+			if(this.packetGengXin)
 			{
 				PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)1, this.displayRotationYaw, this.displayRotationPitch);
-				this.sendUpdate = false;
+				this.packetGengXin = false;
 			}
 		}
 	}
@@ -270,7 +272,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	{
 		if(type == ConnectionType.LOGIN_SERVER)
 		{
-			this.sendUpdate = true;
+			this.packetGengXin = true;
 		}
 	}
 	
@@ -593,5 +595,17 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	public double getMaxWattHours()
 	{
 		return 300;
+	}
+	
+	@Override
+	public void onChunkLoad(Chunk chunk)
+	{
+    	this.packetGengXin = true;
+	}
+
+	@Override
+	public void onChunkUnload(Chunk chunk)
+	{
+		
 	}
 }

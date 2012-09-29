@@ -4,7 +4,9 @@ import icbm.ICBM;
 import icbm.ICBMCommonProxy;
 import icbm.api.Launcher.LauncherType;
 import icbm.extend.IBActivate;
+import icbm.extend.IChunkLoadHandler;
 import icbm.extend.TFaSheQi;
+import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -30,7 +32,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceiver, ITier, IRotatable, ISimpleConnectionHandler
+public class TFaSheShiMuo extends TFaSheQi implements IChunkLoadHandler, IBActivate, IPacketReceiver, ITier, IRotatable, ISimpleConnectionHandler
 {    
     //Is the block powered by redstone?
     private boolean isPowered = false;
@@ -49,7 +51,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
     
 	private int yongZhe = 0;
 
-	private boolean packetGengXin;
+	private boolean packetGengXin = true;
       	
   	public TFaSheShiMuo()
   	{
@@ -117,7 +119,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	        	}
 	    	}
 	        
-	        if(this.packetGengXin)
+	        if(Ticker.inGameTicks % 600 == 0 || this.packetGengXin)
 	        {
 				PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.orientation, this.tier, this.frequency);
 				this.packetGengXin = false;
@@ -412,5 +414,17 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	public void setFrequency(short frequency, Object... data)
 	{
 		this.frequency = frequency;		
+	}
+	
+	@Override
+	public void onChunkLoad(Chunk chunk)
+	{
+		this.packetGengXin = true;
+	}
+
+	@Override
+	public void onChunkUnload(Chunk chunk)
+	{
+		
 	}
 }

@@ -1,12 +1,15 @@
 package icbm.jiqi;
 
+import icbm.ChunkEventCaller;
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
 import icbm.TYinXing;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTeBieDaoDan;
+import icbm.extend.IChunkLoadHandler;
 import icbm.extend.IMB;
+import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
@@ -35,7 +38,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory, ISimpleConnectionHandler
+public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory, ISimpleConnectionHandler
 {
     private static final double MISSILE_MAX_DISTANCE = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
 
@@ -52,11 +55,12 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     
     private byte orientation = 3;
 
-	private boolean packetGengXin = false;
+	private boolean packetGengXin = true;
     
     public TFaSheDi()
     {
 		ConnectionHandler.registerConnectionHandler(this);
+		ChunkEventCaller.register(this);
     }
     
     /**
@@ -558,5 +562,15 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		this.orientation = (byte) facingDirection.ordinal();
 	}
 
+	@Override
+	public void onChunkLoad(Chunk chunk)
+	{
+		this.packetGengXin = true;
+	}
 
+	@Override
+	public void onChunkUnload(Chunk chunk)
+	{
+		
+	}
 }

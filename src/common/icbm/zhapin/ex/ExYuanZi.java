@@ -16,8 +16,8 @@ import universalelectricity.recipe.RecipeManager;
 public class ExYuanZi extends ZhaPin
 {	
 	public static final int BAN_JING = 35;
-	public static final int NENG_LIANG = 30;
-	public static final int CALC_SPEED = 500;
+	public static final int NENG_LIANG = 80;
+	public static final int CALC_SPEED = 800;
 	
 	public ExYuanZi(String name, int ID, int tier)
 	{
@@ -30,11 +30,11 @@ public class ExYuanZi extends ZhaPin
 	{
 		EZhaPin source = (EZhaPin)explosionSource;
 		
-		int steps = (int)Math.ceil(3.141592653589793D / Math.atan(1.0D / BAN_JING));
+		int steps = (int)Math.ceil(Math.PI / Math.atan(1.0D / BAN_JING));
 		
-		for (int phi_n = 0; phi_n < 2 * steps; phi_n++)
+		for (int phi_n = 0; phi_n < 2 * steps; phi_n ++)
 		{
-			for (int theta_n = 0; theta_n < steps; theta_n++)
+			for (int theta_n = 0; theta_n < steps; theta_n ++)
 			{			
 				double phi = 6.283185307179586D / steps * phi_n;
 				double theta = 3.141592653589793D / steps * theta_n;
@@ -69,6 +69,8 @@ public class ExYuanZi extends ZhaPin
 				
 				for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
 				{
+					if(targetPosition.distanceTo(position) > BAN_JING) break;
+
 					int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 					
 					if(blockID > 0)
@@ -81,11 +83,11 @@ public class ExYuanZi extends ZhaPin
 						}
 						else if(Block.blocksList[blockID] instanceof BlockFluid)
 						{
-							resistance = 2;
+							resistance = 0.8f;
 						}
 						else if(blockID == Block.obsidian.blockID)
 						{
-							resistance = 10;
+							resistance = 18;
 						}
 						else
 						{
@@ -102,9 +104,7 @@ public class ExYuanZi extends ZhaPin
 							}
 						}
 					}
-	
-					if(targetPosition.distanceTo(position) > BAN_JING+10) break;
-					
+
 					targetPosition.x += delta.x;
 					targetPosition.y += delta.y;
 					targetPosition.z += delta.z;
