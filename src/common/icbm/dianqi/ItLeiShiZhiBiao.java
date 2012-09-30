@@ -145,63 +145,60 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
     {
     	super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+
+    	List<TFaSheQi> connectedLaunchers = new ArrayList<TFaSheQi>();
     	
-    	if(!par2World.isRemote)
+    	if(this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
     	{
-	    	List<TFaSheQi> connectedLaunchers = new ArrayList<TFaSheQi>();
-	    	
-	    	if(this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
-	    	{
-	    		Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-	        	List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
-	        	
-	        	for(TFaSheQi missileLauncher : launchers)
-	        	{
-	        		 if(missileLauncher != null && missileLauncher.getFrequency() == this.getFrequency(par1ItemStack))
-	        		 {
-	        			 if(missileLauncher.canLaunch())
-	        			 {
-	        				 connectedLaunchers.add(missileLauncher);
-	        			 }
-	        		 }
-	        	}
-	    	}
-	    	
-	    	if(this.getLauncherCountDown(par1ItemStack) > 0 && connectedLaunchers.size() > 0)
-	    	{
-	    		if(this.getLauncherCountDown(par1ItemStack) % 20 == 0)
-	    		{
-	    			((EntityPlayer)par3Entity).addChatMessage("Calling air strike in: "+(int)Math.floor(this.getLauncherCountDown(par1ItemStack)/20));
-	    		}
-	    		
-	    		if(this.getLauncherCountDown(par1ItemStack) == 1)
-	    		{
-	    			this.setLauncherCount(par1ItemStack, connectedLaunchers.size());
-	    			this.setLauncherDelay(par1ItemStack, 0);
-	        		((EntityPlayer)par3Entity).addChatMessage("Incoming air strike!");
-	    		}
-	    		
-	    		this.setLauncherCountDown(par1ItemStack, this.getLauncherCountDown(par1ItemStack)-1);
-	    	}
-	    	
-	    	if(this.getLauncherCount(par1ItemStack) > 0 && connectedLaunchers.size() > 0)
-	    	{
-	    		//Launch a missile every two seconds from different launchers
-	    		if(this.getLauncherDelay(par1ItemStack) % 40 == 0)
-	    		{
-	        		connectedLaunchers.get(this.getLauncherCount(par1ItemStack)-1).launch();
-	
-	        		this.setLauncherCount(par1ItemStack, this.getLauncherCount(par1ItemStack)-1);
-	    		}
-	    		
-	    		if(this.getLauncherCount(par1ItemStack) == 0)
-	    		{
-	    			this.setLauncherDelay(par1ItemStack, 0);
-	    			connectedLaunchers.clear();
-	    		}
-				
-				this.setLauncherDelay(par1ItemStack, this.getLauncherDelay(par1ItemStack)+1);
-	    	}
+    		Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
+        	List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
+        	
+        	for(TFaSheQi missileLauncher : launchers)
+        	{
+        		 if(missileLauncher != null && missileLauncher.getFrequency() == this.getFrequency(par1ItemStack))
+        		 {
+        			 if(missileLauncher.canLaunch())
+        			 {
+        				 connectedLaunchers.add(missileLauncher);
+        			 }
+        		 }
+        	}
+    	}
+    	
+    	if(this.getLauncherCountDown(par1ItemStack) > 0 && connectedLaunchers.size() > 0)
+    	{
+    		if(this.getLauncherCountDown(par1ItemStack) % 20 == 0)
+    		{
+    			((EntityPlayer)par3Entity).addChatMessage("Calling air strike in: "+(int)Math.floor(this.getLauncherCountDown(par1ItemStack)/20));
+    		}
+    		
+    		if(this.getLauncherCountDown(par1ItemStack) == 1)
+    		{
+    			this.setLauncherCount(par1ItemStack, connectedLaunchers.size());
+    			this.setLauncherDelay(par1ItemStack, 0);
+        		((EntityPlayer)par3Entity).addChatMessage("Incoming air strike!");
+    		}
+    		
+    		this.setLauncherCountDown(par1ItemStack, this.getLauncherCountDown(par1ItemStack)-1);
+    	}
+    	
+    	if(this.getLauncherCount(par1ItemStack) > 0 && connectedLaunchers.size() > 0)
+    	{
+    		//Launch a missile every two seconds from different launchers
+    		if(this.getLauncherDelay(par1ItemStack) % 40 == 0)
+    		{
+        		connectedLaunchers.get(this.getLauncherCount(par1ItemStack)-1).launch();
+
+        		this.setLauncherCount(par1ItemStack, this.getLauncherCount(par1ItemStack)-1);
+    		}
+    		
+    		if(this.getLauncherCount(par1ItemStack) == 0)
+    		{
+    			this.setLauncherDelay(par1ItemStack, 0);
+    			connectedLaunchers.clear();
+    		}
+			
+			this.setLauncherDelay(par1ItemStack, this.getLauncherDelay(par1ItemStack)+1);
     	}
     }
     

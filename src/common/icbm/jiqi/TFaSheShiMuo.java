@@ -11,6 +11,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -32,7 +33,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheShiMuo extends TFaSheQi implements IChunkLoadHandler, IBActivate, IPacketReceiver, ITier, IRotatable, ISimpleConnectionHandler
+public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceiver, ITier, IRotatable
 {    
     //Is the block powered by redstone?
     private boolean isPowered = false;
@@ -56,7 +57,6 @@ public class TFaSheShiMuo extends TFaSheQi implements IChunkLoadHandler, IBActiv
   	public TFaSheShiMuo()
   	{
   		super();
-		ConnectionHandler.registerConnectionHandler(this);
   	}
     
   	@Override
@@ -115,17 +115,23 @@ public class TFaSheShiMuo extends TFaSheQi implements IChunkLoadHandler, IBActiv
 	        	if(this.yongZhe  > 0)
 	        	{
 		        	if(this.muBiao == null) this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
-		    		PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)3, this.dianXiaoShi, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		    		PacketManager.sendPacketToClients(PacketManager.getPacket("ICBM", this, (int)3, this.dianXiaoShi, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, Vector3.get(this), 15);
 	        	}
 	    	}
 	        
 	        if(Ticker.inGameTicks % 600 == 0 || this.packetGengXin)
 	        {
-				PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.orientation, this.tier, this.frequency);
+				PacketManager.sendPacketToClients(this.getDescriptionPacket());
 				this.packetGengXin = false;
 	        }
 		}
 	}
+  	
+  	@Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ICBM.CHANNEL, this, this.orientation, this.tier, this.frequency);
+    }
 	
   	@Override
 	public void placeMissile(ItemStack itemStack)
@@ -192,15 +198,6 @@ public class TFaSheShiMuo extends TFaSheQi implements IChunkLoadHandler, IBActiv
         {
             e.printStackTrace();
         }
-	}
-	
-	@Override
-	public void handelConnection(ConnectionType type, Object... data)
-	{
-		if(type == ConnectionType.LOGIN_SERVER)
-		{
-        	this.packetGengXin = true;
-		}
 	}
     
     //Checks if the missile is launchable
@@ -414,17 +411,5 @@ public class TFaSheShiMuo extends TFaSheQi implements IChunkLoadHandler, IBActiv
 	public void setFrequency(short frequency, Object... data)
 	{
 		this.frequency = frequency;		
-	}
-	
-	@Override
-	public void onChunkLoad(Chunk chunk)
-	{
-		this.packetGengXin = true;
-	}
-
-	@Override
-	public void onChunkUnload(Chunk chunk)
-	{
-		
 	}
 }

@@ -9,7 +9,6 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import universalelectricity.network.PacketManager;
-import universalelectricity.network.PacketManager.PacketType;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector3;
 

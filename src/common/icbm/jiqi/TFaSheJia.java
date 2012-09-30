@@ -2,9 +2,7 @@ package icbm.jiqi;
 
 import icbm.ICBM;
 import icbm.TYinXing;
-import icbm.extend.IChunkLoadHandler;
 import icbm.extend.IMB;
-import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
