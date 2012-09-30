@@ -2,7 +2,7 @@ package icbm.gui;
 
 import icbm.ICBM;
 import icbm.daodan.EDaoDan;
-import icbm.jiqi.TLeiDa;
+import icbm.jiqi.TLeiDaTai;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +11,15 @@ import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.Vector2;
+import universalelectricity.prefab.Vector3;
 
 public class GLeiDaTai extends ICBMGui
 {
-    private TLeiDa tileEntity;
+    private TLeiDaTai tileEntity;
 
     private int containerPosX;
     private int containerPosY;
@@ -28,13 +31,11 @@ public class GLeiDaTai extends ICBMGui
     
     private Vector2 mouseOverCoords;
     
-    private long GUITicks = 0;
-
     //Radar Map
     private Vector2 radarCenter;
     private float radarMapRadius;
     
-    public GLeiDaTai(TLeiDa tileEntity)
+    public GLeiDaTai(TLeiDaTai tileEntity)
     {
         this.tileEntity = tileEntity;
         mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
@@ -55,14 +56,14 @@ public class GLeiDaTai extends ICBMGui
         this.textFieldAlarmRange.setMaxStringLength(3);
         this.textFieldAlarmRange.setText(this.tileEntity.alarmRadius+"");
         
-    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+        PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int)-1, true));
     }
     
     @Override
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
+        PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int)-1, false));
     }
 
     /**
@@ -195,7 +196,7 @@ public class GLeiDaTai extends ICBMGui
 	        }
     	}
         
-        for(TLeiDa radarStation : this.tileEntity.detectedRadarStations)
+        for(TLeiDaTai radarStation : this.tileEntity.detectedRadarStations)
         {
         	float x = (int) (radarStation.xCoord - this.tileEntity.xCoord) / radarMapRadius;
 			float z = (int) (radarStation.zCoord - this.tileEntity.zCoord) / radarMapRadius;
@@ -219,7 +220,7 @@ public class GLeiDaTai extends ICBMGui
         	if(newSafetyRadius != this.tileEntity.safetyRadius)
         	{
         		this.tileEntity.safetyRadius = newSafetyRadius;
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2, this.tileEntity.safetyRadius);
+                PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int)2, this.tileEntity.safetyRadius));
         	}
         	
         	this.textFieldSafetyZone.setText(this.tileEntity.safetyRadius + "");
@@ -236,7 +237,7 @@ public class GLeiDaTai extends ICBMGui
         	if(newAlarmRadius != this.tileEntity.alarmRadius)
         	{
         		this.tileEntity.alarmRadius = newAlarmRadius;
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)3, this.tileEntity.alarmRadius);
+                PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int)3, this.tileEntity.alarmRadius));
         	}
         	
         	this.textFieldAlarmRange.setText(this.tileEntity.alarmRadius + "");
@@ -245,11 +246,5 @@ public class GLeiDaTai extends ICBMGui
         {
             this.tileEntity.alarmRadius = 100;
         }
-        
-        if(GUITicks % 100 == 0)
-    	{
-    		PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
-    	}
-    	GUITicks ++;
     }
 }

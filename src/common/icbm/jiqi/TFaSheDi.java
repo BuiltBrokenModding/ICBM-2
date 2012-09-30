@@ -16,12 +16,14 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
 import universalelectricity.UEConfig;
+import universalelectricity.basiccomponents.UELoader;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.ConnectionHandler;
@@ -38,7 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory, ISimpleConnectionHandler
+public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory
 {
     private static final double MISSILE_MAX_DISTANCE = UEConfig.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
 
@@ -56,12 +58,6 @@ public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketRe
     private byte orientation = 3;
 
 	private boolean packetGengXin = true;
-    
-    public TFaSheDi()
-    {
-		ConnectionHandler.registerConnectionHandler(this);
-		ChunkEventCaller.register(this);
-    }
     
     /**
      * Returns the number of slots in the inventory.
@@ -191,7 +187,7 @@ public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketRe
         	}
         	else if(this.packetGengXin || Ticker.inGameTicks % (20*30) == 0 && this.jiaZi != null && !this.worldObj.isRemote)
         	{
-				PacketManager.sendTileEntityPacket(this.jiaZi, "ICBM", (byte)this.jiaZi.getDirection().ordinal(), this.jiaZi.getTier());
+        		PacketManager.sendPacketToClients(this.jiaZi.getDescriptionPacket());
         	}
         }
     	
@@ -201,10 +197,30 @@ public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketRe
 	    	
 	        if(this.packetGengXin || Ticker.inGameTicks % (20*30) == 0)
 	        {
-	        	PacketManager.sendTileEntityPacket(this, "ICBM", this.orientation, this.tier);
+	        	PacketManager.sendPacketToClients(this.getDescriptionPacket());
 	        	this.packetGengXin = false;
 	        }
 		}
+	}
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ICBM.CHANNEL, this, this.orientation, this.tier);
+    }
+    
+    @Override
+	public void handlePacketData(NetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	{
+		try
+        {
+            this.orientation = dataStream.readByte();
+            this.tier = dataStream.readInt();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 	}
     
     private void setMissile()
@@ -242,29 +258,6 @@ public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketRe
 		this.eDaoDan = null;
 	}
 
-	@Override
-	public void handelConnection(ConnectionType type, Object... data)
-	{
-		if(type == ConnectionType.LOGIN_SERVER)
-		{
-        	this.packetGengXin = true;
-		}
-	}
-	
-	@Override
-	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
-	{
-		try
-        {
-            this.orientation = dataStream.readByte();
-            this.tier = dataStream.readInt();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-	}
-    
     /**
      * Launches the missile
      * @param target - The target in which the missile will land in
@@ -560,17 +553,5 @@ public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketRe
 	public void setDirection(ForgeDirection facingDirection) 
 	{
 		this.orientation = (byte) facingDirection.ordinal();
-	}
-
-	@Override
-	public void onChunkLoad(Chunk chunk)
-	{
-		this.packetGengXin = true;
-	}
-
-	@Override
-	public void onChunkUnload(Chunk chunk)
-	{
-		
 	}
 }

@@ -2,6 +2,7 @@ package icbm.dianqi;
 
 import icbm.ICBM;
 import icbm.ICBMPacketManager;
+import icbm.ICBMPacketManager.ICBMPacketType;
 import icbm.extend.TFaSheQi;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TXiaoFaSheQi;
@@ -19,7 +20,7 @@ import universalelectricity.prefab.Vector3;
 
 public class ItLeiDaQiang extends ItemElectric
 {
-	public static final int DIAN_REQUIRED = 120;
+	public static final int DIAN_REQUIRED = 12;
 	
     public ItLeiDaQiang(String name, int par1, int par2)
     {
@@ -66,7 +67,7 @@ public class ItLeiDaQiang extends ItemElectric
 		        	//Check for electricity
 		            if(this.getWattHours(par1ItemStack) > DIAN_REQUIRED)
 		        	{
-		            	ICBMPacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketManager.RADAR_GUN_PACKET, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+		            	ICBMPacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		            	
 			            par3EntityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ);
 		        	}
@@ -180,12 +181,12 @@ public class ItLeiDaQiang extends ItemElectric
 	@Override
 	public double getMaxWattHours()
 	{
-		return 3500;
+		return 350;
 	}
 
 	@Override
 	public double getTransferRate()
 	{
-		return 25;
+		return 0.5;
 	}
 }

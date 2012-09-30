@@ -69,7 +69,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "ICBM", name = "ICBM", version = ICBM.VERSION, dependencies = "after:UniversalElectricity;after:AtomicScience")
-@NetworkMod(channels = { "ICBM" }, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
+@NetworkMod(channels = ICBM.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 
 public class ICBM
 {
@@ -77,6 +77,8 @@ public class ICBM
 	public static ICBM instance;
 	
 	public static final String VERSION = "0.5.5";
+	
+	public static final String CHANNEL = "ICBM";
 	
 	public static final String TEXTURE_FILE_PATH = "/icbm/textures/";
     public static final String BLOCK_TEXTURE_FILE = TEXTURE_FILE_PATH + "blocks.png";
@@ -137,7 +139,7 @@ public class ICBM
     {
 		if(!Loader.isModLoaded("UniversalElectricity")) throw new RuntimeException("Universal Electricity not installed!");
 			
-		UniversalElectricity.versionLock(0, 8, 6, true);
+		UniversalElectricity.versionLock(0, 9, 0, true);
 		
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		

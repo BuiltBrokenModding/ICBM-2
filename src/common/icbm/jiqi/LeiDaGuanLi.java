@@ -9,9 +9,9 @@ import universalelectricity.prefab.Vector2;
 public class LeiDaGuanLi
 {
 	//Static methods
-	private static List<TLeiDa> radarStations = new ArrayList<TLeiDa>();
+	private static List<TLeiDaTai> radarStations = new ArrayList<TLeiDaTai>();
 	
-	public static void addRadarStation(TLeiDa radarStation)
+	public static void addRadarStation(TLeiDaTai radarStation)
 	{
 		cleanUpRadarArray();
 		
@@ -21,12 +21,12 @@ public class LeiDaGuanLi
 		}
 	}
 	
-	public static List<TLeiDa> getRadarStationsInArea(Vector2 minVector, Vector2 maxVector)
+	public static List<TLeiDaTai> getRadarStationsInArea(Vector2 minVector, Vector2 maxVector)
 	{
 		cleanUpRadarArray();
-		List<TLeiDa> returnArray = new ArrayList<TLeiDa>();
+		List<TLeiDaTai> returnArray = new ArrayList<TLeiDaTai>();
 		
-		for(TLeiDa radarStation : radarStations)
+		for(TLeiDaTai radarStation : radarStations)
 		{
 	        if(radarStation.xCoord > minVector.x && radarStation.xCoord < maxVector.x && radarStation.zCoord > minVector.y && radarStation.zCoord < maxVector.y)
 	        {
@@ -37,7 +37,7 @@ public class LeiDaGuanLi
 		return returnArray;
 	}
 	
-	public static List<TLeiDa> getRadarStations()
+	public static List<TLeiDaTai> getRadarStations()
 	{
 		cleanUpRadarArray();
 		return radarStations;

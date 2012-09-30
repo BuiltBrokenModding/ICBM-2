@@ -428,6 +428,16 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     }
     
     @Override
+    public void setDead()
+    {
+    	if(chunkTicket != null)
+    	{
+    		ForgeChunkManager.releaseTicket(chunkTicket);
+    	}
+        super.setDead();
+    }
+    
+    @Override
     public void explode()
     {
     	try
@@ -449,8 +459,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		    		}
 		    		
 		    		System.out.println(this.getEntityName()+" landed on "+(int) this.posX+", "+(int) this.posY+", "+(int) this.posZ);
-			    	this.setDead();
 		    	}
+		    	
+		    	this.setDead();
 	    	}
     	}
     	catch(Exception e)
@@ -458,18 +469,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     		System.err.println("Missile failed to explode properly. Report this to developers.");
     	}
     }
-    
-    @Override
-    public void setDead()
-    {
-    	if(chunkTicket != null)
-    	{
-    		ForgeChunkManager.releaseTicket(chunkTicket);
-    	}
-        super.setDead();
-    }
 
-    
     @Override
     public void normalExplode()
     {
@@ -480,8 +480,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	    	if(!this.worldObj.isRemote)
 	    	{
 	    		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F);
-	    		this.setDead();
 	    	}
+	    	
+    		this.setDead();
     	}
     }
     

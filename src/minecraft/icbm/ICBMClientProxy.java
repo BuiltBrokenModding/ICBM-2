@@ -15,7 +15,7 @@ import icbm.jiqi.TDianCiQi;
 import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
-import icbm.jiqi.TLeiDa;
+import icbm.jiqi.TLeiDaTai;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TYinGanQi;
 import icbm.renders.RXiaoFaSheQi;
@@ -77,7 +77,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
         ClientRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase", new RenderLauncherBase());
         ClientRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen", new RenderLauncherScreen());
         ClientRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame", new RenderLauncherFrame());
-        ClientRegistry.registerTileEntity(TLeiDa.class, "ICBMRadar", new RenderRadarStation());
+        ClientRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar", new RenderRadarStation());
         ClientRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower", new RDianCiQi());
 	
 	}
@@ -94,7 +94,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
 				case ICBMCommonProxy.GUI_RAIL_GUN: return new GCiGuiPao((TCiGuiPao)tileEntity, entityPlayer);
 				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi)tileEntity);
 				case ICBMCommonProxy.GUI_LAUNCHER_SCREEN: return new GFaSheShiMuo(((TFaSheShiMuo)tileEntity));
-				case ICBMCommonProxy.GUI_RADAR_STATION: return new GLeiDaTai(((TLeiDa)tileEntity));
+				case ICBMCommonProxy.GUI_RADAR_STATION: return new GLeiDaTai(((TLeiDaTai)tileEntity));
 				case ICBMCommonProxy.GUI_DETECTOR: return new GYinGanQi((TYinGanQi) tileEntity);
 				case ICBMCommonProxy.GUI_FREQUENCY: return new GFrequency(entityPlayer.inventory.getCurrentItem());
 				case ICBMCommonProxy.GUI_EMP_TOWER: return new GDianCiQi((TDianCiQi) tileEntity);

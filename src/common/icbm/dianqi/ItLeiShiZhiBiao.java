@@ -1,7 +1,7 @@
 package icbm.dianqi;
 
 import icbm.ICBM;
-import icbm.ICBMPacketManager;
+import icbm.ICBMPacketManager.ICBMPacketType;
 import icbm.api.IFrequency;
 import icbm.extend.TFaSheQi;
 import icbm.jiqi.FaSheQiGuanLi;
@@ -22,11 +22,12 @@ import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector2;
 import universalelectricity.prefab.Vector3;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 {
 	public static final int BAN_JING = 500;
-	public static final int ELECTRICITY_CAPACITY = 250;
+	public static final int ELECTRICITY_CAPACITY = 20;
 	
     public ItLeiShiZhiBiao(String name, int id, int icon)
     {
@@ -254,7 +255,12 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 		    	int blockId = par2World.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    	int blockMetadata = par2World.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    
-		    	 //Prevents calling air strike if the user is trying to set the frequency of the remote.
+		    	if(this.getLauncherCountDown(par1ItemStack) > 0)
+		    	{
+		    		return par1ItemStack;
+		    	}
+		    	
+		    	//Prevents calling air strike if the user is trying to set the frequency of the remote.
 		        if(blockId == ICBM.blockJiQi.blockID)
 		        {
 		        	return par1ItemStack;
@@ -282,7 +288,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 		    	        			 if(missileLauncher instanceof TXiaoFaSheQi)
 		    	        			 {
 		    	        				 missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
-				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z);
+		    	        				 PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", missileLauncher, (int)2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z));
 		    	        			 }
 		    	        			 else
 		    	        			 {
@@ -295,7 +301,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 		    	        				 }
 		    	        				 
 		    	        				 missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, previousY, objectMouseOver.blockZ));
-				        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z);
+		    	        				 PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", missileLauncher, (int)2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z));
 		    	        			 }
 
 	                    			 if(missileLauncher.canLaunch())
@@ -312,8 +318,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 	
 		    	        	if(doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
 		    	        	{
-				            	PacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketManager.LASER_DESIGNATOR_PACKET, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-				            	
+		    	        		PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ICBM.CHANNEL, (int)ICBMPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 		    	        		par3EntityPlayer.addChatMessage("Calling air strike into designated position!");
 		    	        	}
 		            	}
@@ -342,13 +347,13 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
     @Override
 	public double getMaxWattHours()
 	{
-		return 3750;
+		return 350;
 	}
 
 	@Override
 	public double getTransferRate()
 	{
-		return 25;
+		return 0.5;
 	}
 	
 	@Override

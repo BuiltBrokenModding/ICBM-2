@@ -351,7 +351,7 @@ public class BJiQi extends BlockMachine
 	    	case 0: return new TFaSheDi();
 	    	case 1: return new TFaSheShiMuo();
 	    	case 2: return new TFaSheJia();
-	    	case 3: return new TLeiDa();
+	    	case 3: return new TLeiDaTai();
 	    	case 4: return new TDianCiQi();
 	    	case 5: return new TCiGuiPao();
 	    	case 6: return new TXiaoFaSheQi();

@@ -5,7 +5,7 @@ import icbm.jiqi.TDianCiQi;
 import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
-import icbm.jiqi.TLeiDa;
+import icbm.jiqi.TLeiDaTai;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.rongqi.CCiGuiPao;
 import icbm.rongqi.CFaShiDi;
@@ -39,7 +39,7 @@ public class ICBMCommonProxy extends CommonProxy
 		GameRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase");
 		GameRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen");
 		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame");
-		GameRegistry.registerTileEntity(TLeiDa.class, "ICBMRadar");
+		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar");
 		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower");
 	}
 	

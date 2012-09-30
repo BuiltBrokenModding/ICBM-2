@@ -9,6 +9,7 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import universalelectricity.network.PacketManager;
+import universalelectricity.network.PacketManager.PacketType;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector3;
 
@@ -26,16 +27,26 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class ICBMPacketManager extends PacketManager
 {
-	public static final int RADAR_GUN_PACKET = 1;
-	public static final int LASER_DESIGNATOR_PACKET = 2;
-	public static final int SIGNAL_DISRUPTER_PACKET = 3;
+	public enum ICBMPacketType
+	{
+		UNSPECIFIED, TILEENTITY, RADAR_GUN, LASER_DESIGNATOR, SIGNAL_DISRUPTER;
+		
+	    public static ICBMPacketType get(int id)
+		{
+	    	if (id >= 0 && id < ICBMPacketType.values().length)
+	        {
+	            return ICBMPacketType.values()[id];
+	        }
+	        return UNSPECIFIED;
+		}
+	}
 
 	@Override
-	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	public void handlePacketData(NetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
-		int ID = dataStream.readInt();
-
-		if(ID == RADAR_GUN_PACKET)
+		ICBMPacketType icbmPacketType = ICBMPacketType.get(packetType);
+		
+		if(icbmPacketType == ICBMPacketType.RADAR_GUN)
 		{
 			if(player.inventory.getCurrentItem().getItem() instanceof ItLeiDaQiang)
 			{
@@ -52,10 +63,10 @@ public class ICBMPacketManager extends PacketManager
 				((ItemElectric) ICBM.itemLeiDaQiang).onUseElectricity(ItLeiDaQiang.DIAN_REQUIRED, itemStack);
 			}
 		}
-		else if(ID == LASER_DESIGNATOR_PACKET)
+		else if(icbmPacketType == ICBMPacketType.LASER_DESIGNATOR)
 		{
 			if(player.inventory.getCurrentItem().getItem() instanceof ItLeiShiZhiBiao)
-			{				
+			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				Vector3 position = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 
@@ -68,14 +79,13 @@ public class ICBMPacketManager extends PacketManager
 				((ItemElectric) ICBM.itemLeiDaQiang).onUseElectricity(ItLeiShiZhiBiao.ELECTRICITY_CAPACITY, itemStack);
 			}
 		}
-		else if(ID == SIGNAL_DISRUPTER_PACKET)
+		else if(icbmPacketType == ICBMPacketType.SIGNAL_DISRUPTER)
 		{
 			if(player.inventory.getCurrentItem().getItem() instanceof ItHuoLuanQi)
 			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				
             	((ItHuoLuanQi)itemStack.getItem()).setFrequency(dataStream.readShort(), itemStack);
-            	System.out.println("SET");
 			}
 		}
 	}

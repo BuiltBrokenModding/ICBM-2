@@ -1,7 +1,7 @@
 package icbm.gui;
 
 import icbm.ICBM;
-import icbm.ICBMPacketManager;
+import icbm.ICBMPacketManager.ICBMPacketType;
 import icbm.dianqi.ItHuoLuanQi;
 import net.minecraft.src.GuiTextField;
 import net.minecraft.src.ItemStack;
@@ -96,7 +96,7 @@ public class GFrequency extends ICBMGui
         	{
             	((ItHuoLuanQi)this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
             	
-    			PacketManager.sendUnspecifiedPacketToServer("ICBM", ICBMPacketManager.SIGNAL_DISRUPTER_PACKET, newFrequency);
+    			PacketManager.sendUnspecifiedPacketToServer("ICBM", ICBMPacketType.SIGNAL_DISRUPTER.ordinal(), newFrequency);
         	}
         }
         catch (NumberFormatException e)

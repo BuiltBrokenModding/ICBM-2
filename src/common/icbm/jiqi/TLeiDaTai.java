@@ -13,11 +13,13 @@ import java.util.List;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
 import universalelectricity.UEConfig;
+import universalelectricity.basiccomponents.UELoader;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
@@ -28,7 +30,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TLeiDa extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMB
+public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMB
 {
 	//Watts Per Tick
 	public final int YAO_WA = 4;
@@ -38,7 +40,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 	private static final boolean PLAY_SOUND = UEConfig.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
 	
 	//The electricity stored
-	public float wattsReceived, prevWattsReceived = 0;
+	public double wattsReceived, prevWattsReceived = 0;
 	
 	public float radarRotationYaw = 0;
 	
@@ -50,13 +52,13 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 	
 	public List<EDaoDan> detectedMissiles = new ArrayList<EDaoDan>();
 	
-	public List<TLeiDa> detectedRadarStations = new ArrayList<TLeiDa>();
+	public List<TLeiDaTai> detectedRadarStations = new ArrayList<TLeiDaTai>();
 
 	private boolean soundAlarm = false;
 	
 	private int playersUsing = 0;
 		
-	public TLeiDa()
+	public TLeiDaTai()
 	{
 		super();
 		LeiDaGuanLi.addRadarStation(this);
@@ -75,29 +77,46 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 		}
 	}
 	
+	@Override
+    public void initiate()
+    {
+		if(this.worldObj != null)
+		{
+			this.worldObj.notifyBlocksOfNeighborChange((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, this.getBlockType().blockID);
+		}
+    }
+	
 	public void updateEntity()
 	{
 		super.updateEntity();
 		
+		System.out.println(this.wattsReceived);
+
 		if(!this.isDisabled())
-		{						
+		{
 			if(this.wattsReceived >= this.YAO_WA)
 			{				
 				this.radarRotationYaw += 0.05F;
 				
 				if(this.radarRotationYaw > 360) this.radarRotationYaw = 0;
 				
-				if(Ticker.inGameTicks % 20 == 0 && !this.worldObj.isRemote)
+				if(!this.worldObj.isRemote)
 				{
-					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 100, (int)4, this.wattsReceived, this.disabledTicks);
-					
-					if(this.playersUsing > 0)
+					if(Ticker.inGameTicks % 20 == 0)
 					{
-						PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 20, (int)1, this.alarmRadius, this.safetyRadius);
+						PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 100);
+						
+						if(this.playersUsing > 0)
+						{
+							PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this.alarmRadius, this.safetyRadius), this.worldObj, Vector3.get(this), 15);
+						}
 					}
+					
+					this.wattsReceived = 0;
 				}
-				
-				this.wattsReceived = 0;
+				else
+				{
+				}
 				
 				//Do a radar scan
 				boolean previousMissileDetection = this.detectedMissiles.size() > 0;
@@ -123,7 +142,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 		        	}
 		        }
 		        
-		        for(TLeiDa radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord-this.MAX_BIAN_JING, this.zCoord-this.MAX_BIAN_JING), new Vector2(this.xCoord+this.MAX_BIAN_JING, this.zCoord+this.MAX_BIAN_JING)))
+		        for(TLeiDaTai radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord-this.MAX_BIAN_JING, this.zCoord-this.MAX_BIAN_JING), new Vector2(this.xCoord+this.MAX_BIAN_JING, this.zCoord+this.MAX_BIAN_JING)))
 		        {
 		        	if(!radarStation.isDisabled() && radarStation.prevWattsReceived > 0)
 		        	{
@@ -161,9 +180,15 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 			}
 		}
 	}
+	
+	@Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(UELoader.CHANNEL, this, (int)4, this.wattsReceived, this.disabledTicks);
+    }
 
 	@Override
-	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	public void handlePacketData(NetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
 		try
 	    {
@@ -189,7 +214,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 		        }
 	        	else if(ID == 4)
 		        {
-		        	this.wattsReceived = dataStream.readFloat();
+		        	this.wattsReceived = dataStream.readDouble();
 			        this.disabledTicks = dataStream.readInt();
 		        }
 	        }
@@ -212,23 +237,11 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
 	}
 	
 	@Override
-    public boolean canUpdate()
-    {
-		if(this.worldObj != null)
-		{
-			this.worldObj.notifyBlocksOfNeighborChange((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, this.getBlockType().blockID);
-		}
-
-        return false;
-    }
-	
-	
-	@Override
     public double wattRequest()
     {
         if (!this.isDisabled())
         {
-            return this.YAO_WA-this.wattsReceived;
+            return Math.ceil(this.YAO_WA-this.wattsReceived);
         }
 
         return 0;
@@ -268,7 +281,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
     	
     	this.safetyRadius = par1NBTTagCompound.getInteger("safetyRadius");
     	this.alarmRadius = par1NBTTagCompound.getInteger("alarmRadius");
-    	this.wattsReceived = par1NBTTagCompound.getFloat("electricityStored");
+    	this.wattsReceived = par1NBTTagCompound.getDouble("electricityStored");
     }
 
     /**
@@ -281,7 +294,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
     	
     	par1NBTTagCompound.setInteger("safetyRadius", this.safetyRadius);
     	par1NBTTagCompound.setInteger("alarmRadius", this.alarmRadius);
-    	par1NBTTagCompound.setFloat("electricityStored", this.wattsReceived);
+    	par1NBTTagCompound.setDouble("electricityStored", this.wattsReceived);
     }
 
 	@Override

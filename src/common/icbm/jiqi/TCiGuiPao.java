@@ -229,7 +229,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IChunkLo
 	}
 	
 	@Override
-	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream) 
+	public void handlePacketData(NetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream) 
 	{
 		try
 	    {

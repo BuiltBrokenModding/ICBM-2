@@ -140,7 +140,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IChunkLoadHandler, IBActiv
 	}
   	
 	@Override
-	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	public void handlePacketData(NetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
 		try
         {

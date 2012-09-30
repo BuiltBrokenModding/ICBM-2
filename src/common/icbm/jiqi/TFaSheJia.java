@@ -8,9 +8,11 @@ import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.basiccomponents.UELoader;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.IPacketReceiver;
@@ -24,7 +26,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheJia extends TileEntity implements IChunkLoadHandler, IPacketReceiver, ITier, IMB, IRotatable
+public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMB, IRotatable
 {
     //The tier of this screen
     private int tier = 0;
@@ -32,7 +34,7 @@ public class TFaSheJia extends TileEntity implements IChunkLoadHandler, IPacketR
     private byte orientation = 3;
 
     @Override
-	public void handlePacketData(NetworkManager network, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	public void handlePacketData(NetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
 		try
         {
@@ -44,6 +46,12 @@ public class TFaSheJia extends TileEntity implements IChunkLoadHandler, IPacketR
             e.printStackTrace();
         }
 	}
+    
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(UELoader.CHANNEL, this, this.orientation, this.getTier());
+    }
 
     /**
      * Gets the inaccuracy of the missile based on the launcher support frame's tier
@@ -132,17 +140,5 @@ public class TFaSheJia extends TileEntity implements IChunkLoadHandler, IPacketR
 	public void setDirection(ForgeDirection facingDirection) 
 	{
 		this.orientation = (byte) facingDirection.ordinal();
-	}
-	
-	@Override
-	public void onChunkLoad(Chunk chunk)
-	{
-    	PacketManager.sendTileEntityPacket(this, "ICBM", this.orientation, this.tier);
-	}
-
-	@Override
-	public void onChunkUnload(Chunk chunk)
-	{
-		
 	}
 }

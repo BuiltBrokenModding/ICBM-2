@@ -89,12 +89,12 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public double getMaxWattHours()
 	{
-		return 4000;
+		return 400;
 	}
 
 	@Override
 	public double getTransferRate()
 	{
-		return 25;
+		return 0.5;
 	}
 }

@@ -15,7 +15,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public class ItGenZongQi extends ItemElectric
 {
-	private static final float YONG_DIAN_LIANG = 0.08f;
+	private static final float YONG_DIAN_LIANG = 0.05f;
 
     public ItGenZongQi(String name, int id, int iconIndex)
     {
@@ -133,7 +133,7 @@ public class ItGenZongQi extends ItemElectric
 	@Override
 	public double getTransferRate()
 	{
-		return 25;
+		return 0.5;
 	}
 
 	@Override
@@ -145,6 +145,6 @@ public class ItGenZongQi extends ItemElectric
 	@Override
 	public double getMaxWattHours()
 	{
-		return 2500;
+		return 250;
 	}
 }

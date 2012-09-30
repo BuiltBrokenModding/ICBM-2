@@ -18,7 +18,7 @@ import universalelectricity.prefab.ItemElectric;
 public class ItYaoKong extends ItemElectric
 {
 	public static final int RADIUS = 100;
-	public static final int ELECTRICITY_REQUIRED = 150;
+	public static final int ELECTRICITY_REQUIRED = 15;
 	
     public ItYaoKong(String name, int par1, int par2)
     {
@@ -90,13 +90,13 @@ public class ItYaoKong extends ItemElectric
     @Override
 	public double getMaxWattHours()
 	{
-		return 2000;
+		return 200;
 	}
 
 	@Override
 	public double getTransferRate()
 	{
-		return 25;
+		return 0.5;
 	}
 
 }
