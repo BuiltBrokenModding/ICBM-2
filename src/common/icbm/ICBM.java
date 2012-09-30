@@ -10,7 +10,6 @@ import icbm.dianqi.ItJieJa;
 import icbm.dianqi.ItLeiDaQiang;
 import icbm.dianqi.ItLeiShiZhiBiao;
 import icbm.dianqi.ItYaoKong;
-import icbm.extend.IChunkLoadHandler;
 import icbm.jiqi.BJiQi;
 import icbm.jiqi.BYinGanQi;
 import icbm.jiqi.ECiGuiPao;
@@ -25,7 +24,6 @@ import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,16 +34,14 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.ServerCommandManager;
-import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.world.ChunkEvent.Load;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.BasicComponents;
+import universalelectricity.UEConfig;
 import universalelectricity.UniversalElectricity;
 import universalelectricity.implement.UEDamageSource;
 import universalelectricity.ore.OreGenBase;
@@ -90,11 +86,11 @@ public class ICBM
     //Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
     
-	public static final boolean SPAWN_PARTICLES = UniversalElectricity.getConfigData(CONFIGURATION, "Spawn Particle Effects", true);
-	public static final boolean ADVANCED_VISUALS = UniversalElectricity.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
-	public static final boolean ALLOW_BLOCK_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Blocks", true);
-	public static final boolean ALLOW_MISSILE_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Missiles", true);
-	public static final boolean ALLOW_GRENADE_EXPLOSIVES = UniversalElectricity.getConfigData(CONFIGURATION, "Allow Explosive Grenades", true);
+	public static final boolean SPAWN_PARTICLES = UEConfig.getConfigData(CONFIGURATION, "Spawn Particle Effects", true);
+	public static final boolean ADVANCED_VISUALS = UEConfig.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
+	public static final boolean ALLOW_BLOCK_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Blocks", true);
+	public static final boolean ALLOW_MISSILE_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Missiles", true);
+	public static final boolean ALLOW_GRENADE_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Grenades", true);
 	
 	@SidedProxy(clientSide = "icbm.ICBMClientProxy", serverSide = "icbm.ICBMCommonProxy")
 	public static ICBMCommonProxy proxy;
@@ -103,31 +99,31 @@ public class ICBM
 	public static final int ENTITY_ID_PREFIX = 50;
 	
 	public static final int BLOCK_ID_PREFIX = 3880;
-    public static final Block blockLiu = new BLiu(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX-1));
-	public static final Block blockBuo1LiPan = new BBuo1Li4Pan2(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", BLOCK_ID_PREFIX+0), 0);
-	public static final Block blockZha4Dan4 = new BZhaDan(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
-	public static final Block blockJiQi = new BJiQi(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Block Machine", BLOCK_ID_PREFIX+3));
-	public static final Block blockYinXing = new BYinXing(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
+    public static final Block blockLiu = new BLiu(UEConfig.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX-1));
+	public static final Block blockBuo1LiPan = new BBuo1Li4Pan2(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", BLOCK_ID_PREFIX+0), 0);
+	public static final Block blockZha4Dan4 = new BZhaDan(UEConfig.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
+	public static final Block blockJiQi = new BJiQi(UEConfig.getBlockConfigID(CONFIGURATION, "Block Machine", BLOCK_ID_PREFIX+3));
+	public static final Block blockYinXing = new BYinXing(UEConfig.getBlockConfigID(CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
 	public static Block blockFuShe;
-	public static final Block blockYinGanQi = new BYinGanQi(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
+	public static final Block blockYinGanQi = new BYinGanQi(UEConfig.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
 
 	//ITEMS
 	public static final int itemIDprefix = 3900;
-	public static final Item itemLiu = new ICBMItem("Sulfur", UniversalElectricity.getItemConfigID(CONFIGURATION, "Sulfur", itemIDprefix-2), 3, CreativeTabs.tabMaterials);
-	public static final Item itemDu = new ICBMItem("Poison Powder", UniversalElectricity.getItemConfigID(CONFIGURATION, "Poison Powder", itemIDprefix), 0, CreativeTabs.tabMaterials);
-	public static final Item itemYao = new ItYao("Antidote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Antidote", itemIDprefix+1), 5);
-	public static final Item itemDaoDan = new ItDaoDan("Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Missile", itemIDprefix+2), 32);
-	public static final Item itemTeBieDaoDan = new ItTeBieDaoDan("Special Missile", UniversalElectricity.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
+	public static final Item itemLiu = new ICBMItem("Sulfur", UEConfig.getItemConfigID(CONFIGURATION, "Sulfur", itemIDprefix-2), 3, CreativeTabs.tabMaterials);
+	public static final Item itemDu = new ICBMItem("Poison Powder", UEConfig.getItemConfigID(CONFIGURATION, "Poison Powder", itemIDprefix), 0, CreativeTabs.tabMaterials);
+	public static final Item itemYao = new ItYao("Antidote", UEConfig.getItemConfigID(CONFIGURATION, "Antidote", itemIDprefix+1), 5);
+	public static final Item itemDaoDan = new ItDaoDan("Missile", UEConfig.getItemConfigID(CONFIGURATION, "Missile", itemIDprefix+2), 32);
+	public static final Item itemTeBieDaoDan = new ItTeBieDaoDan("Special Missile", UEConfig.getItemConfigID(CONFIGURATION, "Special Missile", itemIDprefix+3), 32);
 	
-	public static final ItemElectric itemJieJa = new ItJieJa("Defuser", UniversalElectricity.getItemConfigID(CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
-	public static final ItemElectric itemLeiDaQiang = new ItLeiDaQiang("Radar Gun", UniversalElectricity.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
-	public static final ItemElectric itemYaoKong = new ItYaoKong("Remote", UniversalElectricity.getItemConfigID(CONFIGURATION, "Remote", itemIDprefix+6), 20);
-	public static final ItemElectric itemLeiSheZhiBiao = new ItLeiShiZhiBiao("Laser Designator", UniversalElectricity.getItemConfigID(CONFIGURATION, "Laser Designator", itemIDprefix+7), 22);
-	public static final ItemElectric itemHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UniversalElectricity.getItemConfigID(CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
-	public static final ItemElectric itemGenZongQi = new ItGenZongQi("Tracker", UniversalElectricity.getItemConfigID(CONFIGURATION, "Tracker", itemIDprefix+11), 0);
+	public static final ItemElectric itemJieJa = new ItJieJa("Defuser", UEConfig.getItemConfigID(CONFIGURATION, "Explosive Defuser", itemIDprefix+4), 21);
+	public static final ItemElectric itemLeiDaQiang = new ItLeiDaQiang("Radar Gun", UEConfig.getItemConfigID(CONFIGURATION, "RadarGun", itemIDprefix+5), 19);
+	public static final ItemElectric itemYaoKong = new ItYaoKong("Remote", UEConfig.getItemConfigID(CONFIGURATION, "Remote", itemIDprefix+6), 20);
+	public static final ItemElectric itemLeiSheZhiBiao = new ItLeiShiZhiBiao("Laser Designator", UEConfig.getItemConfigID(CONFIGURATION, "Laser Designator", itemIDprefix+7), 22);
+	public static final ItemElectric itemHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UEConfig.getItemConfigID(CONFIGURATION, "Signal Disruptor", itemIDprefix+9), 23);
+	public static final ItemElectric itemGenZongQi = new ItGenZongQi("Tracker", UEConfig.getItemConfigID(CONFIGURATION, "Tracker", itemIDprefix+11), 0);
 
-	public static final Item itemShouLiuDan = new ItShouLiuDan("Grenade", UniversalElectricity.getItemConfigID(CONFIGURATION, "Grenade", itemIDprefix+8), 64);
-	public static final Item itemZiDan = new ItZiDan("Bullet", UniversalElectricity.getItemConfigID(CONFIGURATION, "Bullet", itemIDprefix+10), 80);
+	public static final Item itemShouLiuDan = new ItShouLiuDan("Grenade", UEConfig.getItemConfigID(CONFIGURATION, "Grenade", itemIDprefix+8), 64);
+	public static final Item itemZiDan = new ItZiDan("Bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", itemIDprefix+10), 80);
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_YI_CHUAN = new Du("Contagious", 1, true);
@@ -209,7 +205,7 @@ public class ICBM
     {
 		if(blockFuShe == null)
 		{
-			blockFuShe = new BlockRadioactive(UniversalElectricity.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX+5), 4, ICBM.BLOCK_TEXTURE_FILE);
+			blockFuShe = new BlockRadioactive(UEConfig.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX+5), 4, ICBM.BLOCK_TEXTURE_FILE);
 			GameRegistry.registerBlock(blockFuShe);
 		}
 
