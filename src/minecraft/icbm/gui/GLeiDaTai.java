@@ -146,14 +146,14 @@ public class GLeiDaTai extends ICBMGui
     	{
         	status = "Disabled!";
     	}
-        else if(this.tileEntity.prevWattsReceived < this.tileEntity.YAO_WA)
+        else if(this.tileEntity.wattsReceived >= TLeiDaTai.YAO_WA)
         {
-        	status = "No Electricity!";
+        	color = "\u00a72";
+    		status = "Radar On!";
         }
     	else
     	{
-    		color = "\u00a72";
-    		status = "Radar On!";
+    		status = "No Electricity!";
     	}
         
         this.fontRenderer.drawString(color+status, 155, 150, 4210752);

@@ -33,9 +33,9 @@ import com.google.common.io.ByteArrayDataInput;
 public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMB
 {
 	//Watts Per Tick
-	public final int YAO_WA = 4;
+	public final static int YAO_WA = 4;
     
-	public final int MAX_BIAN_JING = 500;
+	public final static int MAX_BIAN_JING = 500;
 	
 	private static final boolean PLAY_SOUND = UEConfig.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
 	
@@ -43,9 +43,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	public double wattsReceived, prevWattsReceived = 0;
 	
 	public float radarRotationYaw = 0;
-	
-	private int secondTicks = 0;
-	
+		
 	public int alarmRadius = 100;
 	
 	public int safetyRadius = 20;
@@ -54,7 +52,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	
 	public List<TLeiDaTai> detectedRadarStations = new ArrayList<TLeiDaTai>();
 
-	private boolean soundAlarm = false;
+	private boolean missileAlert = false;
 	
 	private int playersUsing = 0;
 		
@@ -90,8 +88,19 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	{
 		super.updateEntity();
 		
-		System.out.println(this.wattsReceived);
-
+		if(!this.worldObj.isRemote)
+		{
+			if(Ticker.inGameTicks % 20 == 0)
+			{
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 100);
+				
+				if(this.playersUsing > 0)
+				{
+					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this.alarmRadius, this.safetyRadius), this.worldObj, Vector3.get(this), 15);
+				}
+			}
+		}
+		
 		if(!this.isDisabled())
 		{
 			if(this.wattsReceived >= this.YAO_WA)
@@ -99,28 +108,15 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				this.radarRotationYaw += 0.05F;
 				
 				if(this.radarRotationYaw > 360) this.radarRotationYaw = 0;
-				
+
 				if(!this.worldObj.isRemote)
 				{
-					if(Ticker.inGameTicks % 20 == 0)
-					{
-						PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 100);
-						
-						if(this.playersUsing > 0)
-						{
-							PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this.alarmRadius, this.safetyRadius), this.worldObj, Vector3.get(this), 15);
-						}
-					}
-					
 					this.wattsReceived = 0;
-				}
-				else
-				{
 				}
 				
 				//Do a radar scan
 				boolean previousMissileDetection = this.detectedMissiles.size() > 0;
-				this.soundAlarm = false;
+				this.missileAlert = false;
 				this.detectedMissiles.clear();
 				this.detectedRadarStations.clear();
 				
@@ -137,7 +133,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        		
 		        		if(Vector2.distance(missile.targetPosition.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyRadius)
 		        		{
-		        			this.soundAlarm  = true;
+		        			this.missileAlert  = true;
 		        		}
 		        	}
 		        }
@@ -152,32 +148,32 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        
 		        if(previousMissileDetection != this.detectedMissiles.size() > 0)
 		        {
-			        this.worldObj.notifyBlocksOfNeighborChange((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, this.getBlockType().blockID);
+			        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		        }
 		        
-		        if(this.secondTicks >= 25)
+		        if(Ticker.inGameTicks % 25 == 0)
 				{
-			        if(this.soundAlarm && PLAY_SOUND)
+			        if(this.missileAlert && PLAY_SOUND)
 			        {
-						this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.alarm", 3F, 1F);
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.alarm", 4F, 1F);
 			        }
-			        
-			        this.secondTicks = 0;
 				}
-				
-				
-				this.secondTicks ++;
 			}
 			else
 			{
 				if(this.detectedMissiles.size() > 0)
 				{
-					this.worldObj.notifyBlocksOfNeighborChange((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, this.getBlockType().blockID);
+					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 				}
 				
 				this.detectedMissiles.clear();
 				this.detectedRadarStations.clear();
 			}
+		}
+		
+		if(Ticker.inGameTicks % 40 == 0)
+		{
+			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
 	}
 	
@@ -262,13 +258,13 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public boolean isPoweringTo(byte side)
 	{
-        return this.detectedMissiles.size() > 0 && this.soundAlarm;
+        return this.detectedMissiles.size() > 0 && this.missileAlert;
 	}
 
 	@Override
 	public boolean isIndirectlyPoweringTo(byte side)
 	{
-		return this.detectedMissiles.size() > 0 && this.soundAlarm;
+		return this.detectedMissiles.size() > 0 && this.missileAlert;
 	}
 	
     /**
