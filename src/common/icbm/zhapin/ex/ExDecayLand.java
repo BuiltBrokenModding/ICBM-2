@@ -2,17 +2,8 @@ package icbm.zhapin.ex;
 
 import icbm.ICBM;
 import icbm.zhapin.ZhaPin;
-
-import java.util.List;
-
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPig;
-import net.minecraft.src.EntityPigZombie;
-import net.minecraft.src.EntityVillager;
-import net.minecraft.src.EntityZombie;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.prefab.Vector3;

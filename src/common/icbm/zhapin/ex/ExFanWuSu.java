@@ -14,7 +14,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.UniversalElectricity;
+import universalelectricity.UEConfig;
 import universalelectricity.prefab.Vector3;
 
 public class ExFanWuSu extends ZhaPin
@@ -27,7 +27,7 @@ public class ExFanWuSu extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(300);
-		this.destroyBedrock = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, this.getMing()+" Destroy Bedrock", destroyBedrock);
+		this.destroyBedrock = UEConfig.getConfigData(ICBM.CONFIGURATION, this.getMing()+" Destroy Bedrock", destroyBedrock);
 	}
 	
 	/**

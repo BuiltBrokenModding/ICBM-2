@@ -11,7 +11,6 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.ChunkEvent.Load;
 import net.minecraftforge.event.world.ChunkEvent.Unload;
 import universalelectricity.prefab.Vector2;
-import universalelectricity.prefab.Vector3;
 
 public class ChunkEventCaller
 {

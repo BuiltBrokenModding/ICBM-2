@@ -34,7 +34,7 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.UniversalElectricity;
+import universalelectricity.UEConfig;
 import universalelectricity.implement.ITier;
 import universalelectricity.prefab.Vector3;
 
@@ -103,7 +103,7 @@ public abstract class ZhaPin implements ITier
         this.ID = ID;
         this.daoDan = new DaoDan(name, ID, tier);
         
-        this.isDisabled = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Disable "+this.mingZi, false);
+        this.isDisabled = UEConfig.getConfigData(ICBM.CONFIGURATION, "Disable "+this.mingZi, false);
     }
 	
 	public int getID() { return this.ID; }

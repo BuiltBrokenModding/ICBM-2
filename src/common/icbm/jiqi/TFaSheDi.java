@@ -21,7 +21,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
-import universalelectricity.UniversalElectricity;
+import universalelectricity.UEConfig;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.ConnectionHandler;
@@ -40,7 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TFaSheDi extends TileEntity implements IChunkLoadHandler, IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory, ISimpleConnectionHandler
 {
-    private static final double MISSILE_MAX_DISTANCE = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
+    private static final double MISSILE_MAX_DISTANCE = UEConfig.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
 
 	//The missile that this launcher is holding
     public EDaoDan eDaoDan = null;

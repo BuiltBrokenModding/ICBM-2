@@ -17,7 +17,7 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
-import universalelectricity.UniversalElectricity;
+import universalelectricity.UEConfig;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
@@ -35,7 +35,7 @@ public class TLeiDa extends TileEntityElectricityReceiver implements IPacketRece
     
 	public final int MAX_BIAN_JING = 500;
 	
-	private static final boolean PLAY_SOUND = UniversalElectricity.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
+	private static final boolean PLAY_SOUND = UEConfig.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
 	
 	//The electricity stored
 	public float wattsReceived, prevWattsReceived = 0;
