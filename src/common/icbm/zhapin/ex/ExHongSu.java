@@ -66,7 +66,11 @@ public class ExHongSu extends ZhaPin
 							
 							if(blockID == 0 || blockID == Block.bedrock.blockID || Block.blocksList[blockID] == null) continue;
 							
-							if(Block.blocksList[blockID] instanceof IForceFieldBlock) continue;
+							if(Block.blocksList[blockID] instanceof IForceFieldBlock)
+							{
+								((IForceFieldBlock)Block.blocksList[blockID]).weakenForceField(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ());
+								continue;
+							}
 							
 							if(dist < r - 1 || worldObj.rand.nextInt(10) > 5)
 	    					{

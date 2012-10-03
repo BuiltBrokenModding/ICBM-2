@@ -1,6 +1,10 @@
 package icbm.zhapin.ex;
 
+import ic2.api.IEnergyStorage;
 import icbm.zhapin.ZhaPin;
+
+import java.lang.reflect.Field;
+
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
@@ -9,7 +13,9 @@ import net.minecraft.src.World;
 import universalelectricity.implement.IDisableable;
 import universalelectricity.implement.IElectricityStorage;
 import universalelectricity.prefab.Vector3;
+import chb.mods.mffs.api.IForceEnergyCapacitor;
 import chb.mods.mffs.api.IForceFieldBlock;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ExDianCiWave extends ZhaPin
 {
@@ -51,7 +57,7 @@ public class ExDianCiWave extends ZhaPin
 					{
 						if(Block.blocksList[blockID] instanceof IForceFieldBlock)
 						{
-							worldObj.setBlockWithNotify(i+x, j+y, k+z, 0);
+							((IForceFieldBlock)Block.blocksList[blockID]).weakenForceField(worldObj, i+x, j+y, k+z);
 						}
 						else if(tileEntity != null)
 						{
@@ -63,6 +69,26 @@ public class ExDianCiWave extends ZhaPin
 							if(tileEntity instanceof IDisableable)
 							{
 								((IDisableable)tileEntity).onDisable(400);
+							}
+							
+							if(tileEntity instanceof IForceEnergyCapacitor)
+							{
+								((IForceEnergyCapacitor)tileEntity).onEMPPulse((int) Math.max(worldObj.rand.nextFloat() * 30, 8));
+							}
+							
+							if(tileEntity instanceof IEnergyStorage)
+							{
+								try
+								{
+									Field field = ReflectionHelper.findField(Class.forName("ic2.common.TileEntityElectricBlock"), "energy");
+									field.set(tileEntity, 0);
+								}
+								catch(Exception e)
+								{
+									worldObj.createExplosion(explosionSource, i+x, j+y, k+z, 2f);
+									System.err.println("Failed to EMP strike an IC2 energy storage.");
+									e.printStackTrace();
+								}								
 							}
 						}
 					}

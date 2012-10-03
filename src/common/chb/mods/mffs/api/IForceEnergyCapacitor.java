@@ -22,24 +22,35 @@ package chb.mods.mffs.api;
 
 public interface IForceEnergyCapacitor
 {
-	// Charging status in %
+	/**
+	 * @return Charging status in %
+	 */
 	public int getCapacity();
 	
-	//Max ForcePower for this Generator
+	/**
+	 * @return Max ForcePower for this Generator
+	 */
 	public int getMaxForcePower();
 	
-	// ForcePower left in his Generator
+	/**
+	 * @return ForcePower left in his Generator
+	 */
 	public int getForcePower();
 
-	// Range of maximum transmit
+	/**
+	 * @return Range of maximum transmit
+	 */
 	public int getTransmitRange();
 
-	//count of paired device
+	/**
+	 * @return Count of paired device
+	 */
 	public Short getLinketProjektor();
 	
-	//  draws Force Energy from Capacitor 
-	//  magnitude in %
-	//  if 100% Forcefield turns off until enough Force Energy available
-	public void EMPulse(int magnitude);
+	/**
+	 * Draws Force Energy from the Capacitor.
+	 * @param magnitude in % from 0% to 100%.
+	 */
+	public void onEMPPulse(int magnitude);
 
 }
