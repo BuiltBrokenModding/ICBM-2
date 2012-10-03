@@ -169,7 +169,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
         					{
 	        					if(isAntimatter)
 	        					{
-		        					int radius = ExHongSu.MAX_RADIUS;
+		        					int radius = ExHongSu.BAN_JING;
 		        					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
 		        			        List<EZhaPin> missilesNearby = worldObj.getEntitiesWithinAABB(EZhaPin.class, bounds);
 		

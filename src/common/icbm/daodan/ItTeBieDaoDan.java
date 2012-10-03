@@ -7,7 +7,7 @@ import net.minecraft.src.ItemStack;
 
 public class ItTeBieDaoDan extends ItDaoDan
 {
-    public static String[] names = {"Missile Module", "Anti-Ballistic Missile", "Cluster Missile", "Nuclear Cluster Missile"};
+    public static String[] names = {"Missile Module", "Anti-Ballistic Missile", "Cluster Missile", "Nuclear Cluster Missile", "Homing Missile"};
 
 	public ItTeBieDaoDan(String name, int id, int texture)
     {

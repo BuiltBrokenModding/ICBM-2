@@ -21,7 +21,7 @@ import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExHongSu extends ZhaPin
 {	
-	public static final int MAX_RADIUS = 38;
+	public static final int BAN_JING = 30;
 	private static final int MAX_TAKE_BLOCKS = 4;
 	
 	public ExHongSu(String name, int ID, int tier)
@@ -29,7 +29,15 @@ public class ExHongSu extends ZhaPin
 		super(name, ID, tier);
 		this.isMobile = true;
 	}
-
+	
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
+	{
+		if(!worldObj.isRemote)
+		{
+			worldObj.createExplosion(explosionSource, position.x, position.y, position.z, 5.0F);
+		}
+	}
+	
 	//Sonic Explosion is a procedural explosive
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
@@ -49,7 +57,7 @@ public class ExHongSu extends ZhaPin
 			double dist;
 			int takenBlocks = 0;
 			
-			for(int r = 1; r < MAX_RADIUS; r ++)
+			for(int r = 1; r < BAN_JING; r ++)
 			{
 				for(int x = -r; x < r; x++)
 				{
@@ -64,7 +72,7 @@ public class ExHongSu extends ZhaPin
 							currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
 							blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 							
-							if(blockID == 0 || blockID == Block.bedrock.blockID || Block.blocksList[blockID] == null) continue;
+							if(blockID == 0 || Block.blocksList[blockID] == null) continue;
 							
 							if(Block.blocksList[blockID] instanceof IForceFieldBlock)
 							{
@@ -72,27 +80,26 @@ public class ExHongSu extends ZhaPin
 								continue;
 							}
 							
-							if(dist < r - 1 || worldObj.rand.nextInt(10) > 5)
-	    					{
-								metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+							if(Block.blocksList[blockID].getBlockHardness(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ()) <= -1) continue;
+
+							metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+							
+							worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
+							
+							if(Block.blocksList[blockID] instanceof BlockFluid) continue;
+							
+							if(worldObj.rand.nextFloat() > 0.8)
+							{
+								currentPos.add(0.5D);
 								
-								worldObj.setBlockWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0);
-								
-								if(Block.blocksList[blockID] instanceof BlockFluid) continue;
-								
-								if(worldObj.rand.nextFloat() > 0.8)
-								{
-									currentPos.add(0.5D);
-									
-									EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
-									worldObj.spawnEntityInWorld(entity);
-									entity.yawChange = 50*worldObj.rand.nextFloat();
-									entity.pitchChange = 50*worldObj.rand.nextFloat();
-								}
-								
-								takenBlocks++;
-								if(takenBlocks > MAX_TAKE_BLOCKS) break;
-	    					}
+								EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
+								worldObj.spawnEntityInWorld(entity);
+								entity.yawChange = 50*worldObj.rand.nextFloat();
+								entity.pitchChange = 50*worldObj.rand.nextFloat();
+							}
+							
+							takenBlocks++;
+							if(takenBlocks > MAX_TAKE_BLOCKS) break;
 						}
 						if(takenBlocks > MAX_TAKE_BLOCKS) break;
 					}
@@ -103,7 +110,7 @@ public class ExHongSu extends ZhaPin
 		}
 
 		//Make the blocks controlled by this red matter orbit around it
-		int radius = MAX_RADIUS;
+		int radius = BAN_JING;
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
         List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
     	boolean explosionCreated = false;
@@ -121,17 +128,17 @@ public class ExHongSu extends ZhaPin
 			double yDifference = entity.posY - position.y;
         	double zDifference = entity.posZ - position.z;
         	            	
-        	int r = MAX_RADIUS;
-        	if(xDifference < 0) r = (int)-MAX_RADIUS;
+        	int r = BAN_JING;
+        	if(xDifference < 0) r = (int)-BAN_JING;
         	
         	entity.motionX -= (r-xDifference) * Math.abs(xDifference) * 0.0003;
         	
-        	r = MAX_RADIUS;
-        	if(entity.posY > position.y) r = -MAX_RADIUS;
+        	r = BAN_JING;
+        	if(entity.posY > position.y) r = -BAN_JING;
             entity.motionY += (r-yDifference) * Math.abs(yDifference) * 0.001;
             
-            r = (int)MAX_RADIUS;
-            if(zDifference < 0) r = (int)-MAX_RADIUS;
+            r = (int)BAN_JING;
+            if(zDifference < 0) r = (int)-BAN_JING;
             
             entity.motionZ -= (r-zDifference) * Math.abs(zDifference) * 0.0003;
             
@@ -149,7 +156,7 @@ public class ExHongSu extends ZhaPin
             		{
             			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
             		
-            			if(worldObj.rand.nextFloat() > 0.85)
+            			if(worldObj.rand.nextFloat() > 0.85 && !worldObj.isRemote)
             			{
             				entity.setDead();
             				return false;

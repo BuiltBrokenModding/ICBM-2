@@ -3,6 +3,7 @@ package icbm.daodan;
 import icbm.ICBM;
 import icbm.ParticleSpawner;
 import icbm.api.IMissile;
+import icbm.dianqi.ItGenZongQi;
 import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.ZhaPin;
@@ -13,11 +14,12 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityItem;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraft.src.WorldServer;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
@@ -397,6 +399,20 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     			}
 			}
     	}
+    }
+    
+    @Override
+    public boolean interact(EntityPlayer par1EntityPlayer)
+    {
+    	if(par1EntityPlayer.getCurrentEquippedItem() != null)
+    	{
+    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
+    		{
+    			this.tracking = ItGenZongQi.getTrackingEntity(par1EntityPlayer.getCurrentEquippedItem()).entityId;
+    		}
+    	}
+    	
+        return false;
     }
     
     private void spawnMissileSmoke() 

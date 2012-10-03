@@ -11,6 +11,7 @@ public class DaoDan implements ITier
 	public static final DaoDan AntiBallistic = new DFanDan("Anti-Ballistic", 101, 2);
 	public static final DaoDan Cluster = new DFenZhiDan("Cluster", 102, 2);
 	public static final DaoDan NuclearCluster = new DYuanZiFenZhiDan("Nuclear Cluster", 103, 2);
+	public static final DaoDan Homing = new DZhuiZhong("Homing", 104, 1);
 
 	public static DaoDan[] list;
 

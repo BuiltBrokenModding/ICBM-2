@@ -112,6 +112,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
         if((onGround && this.ticksExisted > 20) || this.ticksExisted > 20*120)
         {
         	this.setBlock();
+        	return;
         }
         
         this.ticksExisted ++;
@@ -127,6 +128,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 	
 	        this.worldObj.setBlockAndMetadataWithNotify(i, j, k, this.blockID, this.metadata);
     	}
+    	
     	this.setDead();
 	}
 

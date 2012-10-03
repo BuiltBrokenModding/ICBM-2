@@ -78,6 +78,7 @@ public class RDaoDan extends Render
 	
 	private final MMFanDan mFanDan = new MMFanDan();
 	private final MMFenZiDan mFenZiDan = new MMFenZiDan();
+	private final MMFenZiDan mZhuiZhong = new MMFenZiDan();
 	
     public RDaoDan(float f)
     {
@@ -128,6 +129,10 @@ public class RDaoDan extends Render
         else if(entityMissile.missileID == 102 || entityMissile.missileID == 103)
         {
         	mFenZiDan.render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
+        }
+        else if(entityMissile.missileID == 104)
+        {
+        	mZhuiZhong.render(entityMissile, (float)x, (float)y, (float)z, f, f1, 0.0625F);
         }
         else
         {
