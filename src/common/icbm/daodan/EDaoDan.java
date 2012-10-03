@@ -121,9 +121,6 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.startingPosition = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
 		
 		this.missileLauncherPosition = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
-
-		this.setPosition(this.startingPosition.x, this.startingPosition.y, this.startingPosition.z);
-
 	}
     
     public void launchMissile(Vector3 muBiao)
@@ -180,17 +177,22 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     
     public void updateLoadChunk(int oldChunkX, int oldChunkZ, int newChunkX, int newChunkZ)
     {
-    	if(this.chunkTicket == null)
-    	{
-    		this.chunkTicket = ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY);
-    		this.chunkTicket.bindEntity(this);
-    		this.chunkTicket.getModData();
-    	}
-    	
-    	System.out.println("Updated Chunks: "+newChunkX + ", " + newChunkZ);
-    	
-    	ForgeChunkManager.unforceChunk(this.chunkTicket, new ChunkCoordIntPair(oldChunkX, oldChunkZ));
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
+    	this.updateLoadChunk();
+    }
+    
+    public void updateLoadChunk()
+    {
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ+1));
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ));
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ-1));
+
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ+1));
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ-1));
+
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ+1));
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ));
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ-1));
     }
     
     @Override
@@ -233,8 +235,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	}
     	    	
     	if(this.ticksInAir >= 0)
-    	{
-    		System.out.println(this.chunkCoordX +", "+ this.chunkCoordZ);
+    	{    		
+    		this.updateLoadChunk();
+    		
     		if(!this.worldObj.isRemote)
     		{
 	        	if(this.isCruise)
@@ -363,10 +366,10 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 				{
 					((TXiaoFaSheQi)tileEntity).containingMissile = this;
 				}
-				
+								
 				this.isCruise = true;
 				this.noClip = true;
-				
+								
 				this.xDifference = ((TXiaoFaSheQi)tileEntity).getTarget().x - this.startingPosition.x;
 		        this.yDifference = ((TXiaoFaSheQi)tileEntity).getTarget().y - this.startingPosition.y;
 		        this.zDifference = ((TXiaoFaSheQi)tileEntity).getTarget().z - this.startingPosition.z;

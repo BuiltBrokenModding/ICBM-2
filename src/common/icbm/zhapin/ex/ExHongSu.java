@@ -17,6 +17,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.prefab.Vector3;
+import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExHongSu extends ZhaPin
 {	
@@ -63,7 +64,9 @@ public class ExHongSu extends ZhaPin
 							currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
 							blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 							
-							if(blockID == 0 || blockID == Block.bedrock.blockID) continue;
+							if(blockID == 0 || blockID == Block.bedrock.blockID || Block.blocksList[blockID] == null) continue;
+							
+							if(Block.blocksList[blockID] instanceof IForceFieldBlock) continue;
 							
 							if(dist < r - 1 || worldObj.rand.nextInt(10) > 5)
 	    					{

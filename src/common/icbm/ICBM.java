@@ -142,6 +142,7 @@ public class ICBM
 		if(!Loader.isModLoaded("UniversalElectricity")) throw new RuntimeException("Universal Electricity not installed!");
 			
 		UniversalElectricity.versionLock(0, 9, 0, true);
+		UniversalElectricity.forgeLock(4, 1, 4, true);
 		
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		
@@ -204,6 +205,7 @@ public class ICBM
 		}
 	}
 	
+	/*
 	@ForgeSubscribe
 	public void onEEC(EnteringChunk event)
 	{
@@ -211,7 +213,7 @@ public class ICBM
 		{
 			((EDaoDan)event.entity).updateLoadChunk(event.oldChunkX, event.oldChunkZ, event.newChunkX, event.newChunkZ);
 		}
-	}
+	}*/
 	
 	@Init
 	public void load(FMLInitializationEvent evt)
@@ -369,7 +371,7 @@ public class ICBM
 		EntityRegistry.registerGlobalEntityID(ECiGuiPao.class, "ICBMRailgun", EntityRegistry.findGlobalUniqueEntityId());
 		
 		EntityRegistry.registerModEntity(EZhaDan.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
-		EntityRegistry.registerModEntity(EDaoDan.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 2, true);
+		EntityRegistry.registerModEntity(EDaoDan.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 1, true);
 		EntityRegistry.registerModEntity(EZhaPin.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX+2, this, 100, 5, true);
 		EntityRegistry.registerModEntity(EFeiBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX+3, this, 50, 15, true);
 		EntityRegistry.registerModEntity(EGuang.class, "ICBMLightBeam", ENTITY_ID_PREFIX+4, this, 80, 5, true);

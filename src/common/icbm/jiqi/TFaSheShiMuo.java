@@ -125,7 +125,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
   	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, this.orientation, this.tier, this.frequency);
+        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)0, this.orientation, this.tier, this.frequency);
     }
 	
   	@Override

@@ -143,13 +143,13 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 				
 				this.setWattHours(0);
 		        
-		        this.explosionSize = 6f;
-		        this.explosionDepth = 8;
+		        this.explosionSize = 5f;
+		        this.explosionDepth = 5;
 		        
 		        if(isAntimatter)
 		        {
-		        	explosionSize = 10f;
-		        	explosionDepth = 16;
+		        	explosionSize = 8f;
+		        	explosionDepth = 10;
 		        }
 			}
     		
@@ -193,7 +193,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
     				
     				if(!this.worldObj.isRemote)
     				{
-    					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 50, (int)3);
+    					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)3), this.worldObj, Vector3.get(this), 50);
     				}
     				
     				this.gunChargingTicks = 0;

@@ -15,6 +15,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -22,7 +23,6 @@ import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.network.ConnectionHandler;
-import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
@@ -30,7 +30,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnectionHandler, IPacketReceiver, IInventory, ISidedInventory
+public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceiver, IInventory, ISidedInventory
 {
     //The missile that this launcher is holding
     public EDaoDan containingMissile = null;
@@ -52,7 +52,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 	{
 		super();
 		this.muBiao = new Vector3();
-		ConnectionHandler.registerConnectionHandler(this);
 	}
 	
     /**
@@ -215,11 +214,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 
 		    	if(this.isPowered)
 				{
-		    		if(canLaunch())
-		    		{
-		    			this.launch();
-		    		}
-		    		
+		    		this.launch();		    		
 					this.isPowered = false;
 				}
 			}
@@ -227,11 +222,17 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 	    	if(!this.worldObj.isRemote && Ticker.inGameTicks % 40 == 0 && this.yongZhe > 0)
 		    {
 		    	if(this.muBiao == null) this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		    	this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
 		    }
     	}
     }
     
+	@Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+    }
+	
 	@Override
     public void placeMissile(ItemStack itemStack)
     {
@@ -259,6 +260,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
                 
                 if(this.containingMissile.missileID == missileId)
         		{
+                	this.containingMissile.posY = this.yCoord+0.2f;
             		return;
         		}
             }
@@ -308,20 +310,11 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 	}
     
     @Override
-	public void handelConnection(ConnectionType type, Object... data)
-	{
-		if(type == ConnectionType.LOGIN_SERVER)
-		{
-			PacketManager.sendTileEntityPacket(this, "ICBM", (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
-		}
-	}
-
-    @Override
     public void openChest()
     {
     	if(!this.worldObj.isRemote)
         {
-			PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+	    	this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
         }
     	
     	this.yongZhe  ++;
@@ -353,7 +346,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, ISimpleConnect
 		if(this.containingMissile != null && this.containingItems[0] != null)
 		{
 			DaoDan missile = DaoDan.list[this.containingItems[0].getItemDamage()];
-			
+			 
 			if(missile != null)
 			{
 				if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && missile.isCruise() && missile.getTier() <= 3)
