@@ -2,6 +2,7 @@ package icbm.daodan;
 
 import icbm.ICBM;
 import icbm.zhapin.ZhaPin;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import universalelectricity.implement.ITier;
 import universalelectricity.prefab.Vector3;
@@ -50,10 +51,9 @@ public class DaoDan implements ITier
 	/**
 	 * Called every tick while flying
 	 */
-	public void onTickFlight(EDaoDan missileObj)
-	{
-		
-	}
+	public void onTickFlight(EDaoDan missileObj) { }
+	
+	public boolean onInteract(EDaoDan missileObj, EntityPlayer par1EntityPlayer) { return false; }
 	
 	/**
 	 * Called when the missile blows up

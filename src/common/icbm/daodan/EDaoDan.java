@@ -59,7 +59,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	//Has this missile lock it's target before?
     public boolean didTargetLockBefore = false;
 	//Tracking
-    public int tracking = -1;
+    public int trackingEntity = -1;
 	//For cluster missile
     public int missileCount = 0;
 	
@@ -404,12 +404,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     @Override
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
-    	if(par1EntityPlayer.getCurrentEquippedItem() != null)
+    	if(DaoDan.list[this.missileID] != null)
     	{
-    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
-    		{
-    			this.tracking = ItGenZongQi.getTrackingEntity(par1EntityPlayer.getCurrentEquippedItem()).entityId;
-    		}
+    		return DaoDan.list[this.missileID].onInteract(this, par1EntityPlayer);
     	}
     	
         return false;

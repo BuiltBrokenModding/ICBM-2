@@ -9,6 +9,8 @@ import icbm.jiqi.TXiaoFaSheQi;
 
 import java.util.List;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
@@ -67,8 +69,7 @@ public class ItLeiDaQiang extends ItemElectric
 		        	//Check for electricity
 		            if(this.getWattHours(par1ItemStack) > DIAN_REQUIRED)
 		        	{
-		            	ICBMPacketManager.sendUnspecifiedPacketToServer("ICBM", (int)ICBMPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-		            	
+		            	PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ICBM.CHANNEL, (int)ICBMPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 			            par3EntityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ);
 		        	}
 		            else
@@ -117,9 +118,8 @@ public class ItLeiDaQiang extends ItemElectric
         				 
         				 if(par3World.isRemote)
         				 {
-	        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, savedCords.x, missileLauncher.getTarget().y, savedCords.z);
-
-	        				 par2EntityPlayer.addChatMessage("Coordinate information transfered!");
+	        	    		 PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, missileLauncher, (int)2, savedCords.x, missileLauncher.getTarget().y, savedCords.z));
+	        	    		 par2EntityPlayer.addChatMessage("Coordinate information transfered!");
         				 }
         			 }
         			 else
@@ -145,8 +145,7 @@ public class ItLeiDaQiang extends ItemElectric
         				 
         				 if(par3World.isRemote)
         				 {
-	        	    		 PacketManager.sendTileEntityPacketToServer(missileLauncher, "ICBM", (int)2, savedCords.x, savedCords.y, savedCords.z);
-
+	        	    		 PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, missileLauncher, (int)2, savedCords.x, savedCords.y, savedCords.z));
 	        				 par2EntityPlayer.addChatMessage("Coordinate information transfered!");
         				 }
         			 }
