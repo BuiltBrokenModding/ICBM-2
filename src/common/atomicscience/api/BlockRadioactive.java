@@ -70,6 +70,11 @@ public class BlockRadioactive extends Block
             {
         		Poison.RADIATION.poisonEntity((EntityLiving)entity);
             }
+			
+			if(par5Random.nextFloat() > 0.999)
+			{
+				par1World.setBlockWithNotify(x, y, z, Block.dirt.blockID);
+			}
         }
     }
     
