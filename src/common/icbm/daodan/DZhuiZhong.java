@@ -19,11 +19,11 @@ public class DZhuiZhong extends DaoDan
 		
 		if(trackingEntity != null)
 		{
-			missileObj.targetPosition = Vector3.get(trackingEntity);
+			missileObj.muBiao = Vector3.get(trackingEntity);
 			
-			missileObj.xDifference = missileObj.targetPosition.x - missileObj.posX;
-	        missileObj.yDifference = missileObj.targetPosition.y - missileObj.posY;
-	        missileObj.zDifference = missileObj.targetPosition.z - missileObj.posZ;
+			missileObj.xDifference = missileObj.muBiao.x - missileObj.posX;
+	        missileObj.yDifference = missileObj.muBiao.y - missileObj.posY;
+	        missileObj.zDifference = missileObj.muBiao.z - missileObj.posZ;
 	        		        /*
 	        missileObj.flatDistance = Vector2.distance(missileObjstartingPosition.toVector2(),  ((TXiaoFaSheQi)tileEntity).getTarget().toVector2());
 	        missileObj.skyLimit = 150+(int)(missileObjflatDistance*1.8);

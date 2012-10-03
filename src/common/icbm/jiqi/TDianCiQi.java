@@ -3,13 +3,12 @@ package icbm.jiqi;
 import icbm.BYinXing;
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
-import icbm.extend.IChunkLoadHandler;
 import icbm.extend.IMB;
 import icbm.zhapin.ZhaPin;
-import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -17,17 +16,14 @@ import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IElectricityStorage;
 import universalelectricity.implement.IRedstoneReceptor;
-import universalelectricity.network.ConnectionHandler;
-import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TileEntityElectricityReceiver implements IChunkLoadHandler, IElectricityStorage, IPacketReceiver, IMB, IRedstoneReceptor, ISimpleConnectionHandler
+public class TDianCiQi extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IMB, IRedstoneReceptor
 {
     //The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 60;
@@ -50,7 +46,6 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IChunkLo
     public TDianCiQi()
     {
 		super();
-		ConnectionHandler.registerConnectionHandler(this);
     }
     
   	/**
@@ -85,7 +80,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IChunkLo
 		{
 	        if(this.packetGengXin || Ticker.inGameTicks % 40 == 0 && this.yongZhe  > 0)
 	        {
-	        	PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)1, this.dianXiaoShi, this.disabledTicks, this.banJing, this.muoShi);
+	        	this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
 	        	this.packetGengXin = true;
 	        }
 		}
@@ -132,14 +127,10 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IChunkLo
 	}
 	
 	@Override
-	public void handelConnection(ConnectionType type, Object... data)
-	{
-		if(type == ConnectionType.LOGIN_SERVER)
-		{
-			this.packetGengXin  = true;
-		}
-	}
-
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.dianXiaoShi, this.disabledTicks, this.banJing, this.muoShi);
+    }
 	@Override
     public double wattRequest()
     {
@@ -248,17 +239,5 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IChunkLo
 	public void setWattHours(double wattHours, Object... data)
 	{
 		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
-	}
-	
-	@Override
-	public void onChunkLoad(Chunk chunk)
-	{
-    	this.packetGengXin = true;
-	}
-
-	@Override
-	public void onChunkUnload(Chunk chunk)
-	{
-		
 	}
 }

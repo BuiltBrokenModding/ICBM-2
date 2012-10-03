@@ -4,9 +4,7 @@ import icbm.ICBM;
 import icbm.ICBMCommonProxy;
 import icbm.api.Launcher.LauncherType;
 import icbm.extend.IBActivate;
-import icbm.extend.IChunkLoadHandler;
 import icbm.extend.TFaSheQi;
-import net.minecraft.src.Chunk;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -19,10 +17,7 @@ import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
-import universalelectricity.network.ConnectionHandler;
-import universalelectricity.network.ConnectionHandler.ConnectionType;
 import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.Vector3;
 
@@ -101,7 +96,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	        	}
 	        }
 	    	
-	    	if(isPowered && !this.worldObj.isRemote)
+	    	if(isPowered)
 	    	{
 	    		isPowered = false;
 	    		this.launch();
@@ -156,6 +151,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 			{
 				if(dataStream.readBoolean())
 				{
+					PacketManager.sendPacketToClients(this.getDescriptionPacket());
 					this.yongZhe ++;
 				}
 				else

@@ -26,7 +26,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 					clusterMissile.isCruise = true;
 					clusterMissile.protectionTime = 20;
-					clusterMissile.launchMissile(Vector3.add(missileObj.targetPosition, new Vector3((missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30)));
+					clusterMissile.launchMissile(Vector3.add(missileObj.muBiao, new Vector3((missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*30)));
 				}
 				
 				missileObj.protectionTime = 20;

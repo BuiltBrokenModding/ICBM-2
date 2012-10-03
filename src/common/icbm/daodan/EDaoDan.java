@@ -33,7 +33,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 {
 	public int missileID = 0;
 	public int skyLimit = 200;
-    public Vector3 targetPosition = null;
+    public Vector3 muBiao = null;
     public Vector3 startingPosition = null;
     public boolean isExploding = false;
     public Vector3 missileLauncherPosition = null;
@@ -126,18 +126,19 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 	}
     
-    public void launchMissile(Vector3 target)
+    public void launchMissile(Vector3 muBiao)
     {
-    	this.targetPosition = target;
-    	this.heightBeforeHit = (int)target.y;
+    	this.startingPosition = new Vector3(this.posX, this.posY, this.posZ);
+    	this.muBiao = muBiao;
+    	this.heightBeforeHit = (int)muBiao.y;
     	
     	//Calculate the distance difference of the missile
-        this.xDifference = this.targetPosition.x - this.startingPosition.x;
-        this.yDifference = this.targetPosition.y - this.startingPosition.y;
-        this.zDifference = this.targetPosition.z - this.startingPosition.z;
+        this.xDifference = this.muBiao.x - this.startingPosition.x;
+        this.yDifference = this.muBiao.y - this.startingPosition.y;
+        this.zDifference = this.muBiao.z - this.startingPosition.z;
         
         //Calculate the power required to reach the target co-ordinates
-        this.flatDistance = Vector2.distance(this.startingPosition.toVector2(),  this.targetPosition.toVector2());
+        this.flatDistance = Vector2.distance(this.startingPosition.toVector2(),  this.muBiao.toVector2());
 
         this.skyLimit = 160+(int)(this.flatDistance*3);
         
@@ -149,7 +150,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		DaoDanGuanLi.addMissile(this);
 		
-		System.out.println("Launching "+this.getEntityName()+" from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+targetPosition.intX()+", "+targetPosition.intY()+", "+targetPosition.intZ());
+		System.out.println("Launching "+this.getEntityName()+" from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+muBiao.intX()+", "+muBiao.intY()+", "+muBiao.intZ());
     }
 
     @Override
@@ -167,15 +168,29 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     
     public void daoDanInit(Ticket ticket)
     {
-    	if (chunkTicket == null)
+    	if (this.chunkTicket == null)
     	{
-    		chunkTicket = ticket;
-        	chunkTicket.bindEntity(this);
-        	chunkTicket.getModData();
+    		this.chunkTicket = ticket;
+    		this.chunkTicket.bindEntity(this);
+        	this.chunkTicket.getModData();
     	}
     	
-    	ForgeChunkManager.forceChunk(ticket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
-
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+    }
+    
+    public void updateLoadChunk(int oldChunkX, int oldChunkZ, int newChunkX, int newChunkZ)
+    {
+    	if(this.chunkTicket == null)
+    	{
+    		this.chunkTicket = ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY);
+    		this.chunkTicket.bindEntity(this);
+    		this.chunkTicket.getModData();
+    	}
+    	
+    	System.out.println("Updated Chunks: "+newChunkX + ", " + newChunkZ);
+    	
+    	ForgeChunkManager.unforceChunk(this.chunkTicket, new ChunkCoordIntPair(oldChunkX, oldChunkZ));
+    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
     }
     
     @Override
@@ -219,97 +234,93 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	    	
     	if(this.ticksInAir >= 0)
     	{
-        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ+1));
-        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ));
-        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ-1));
-        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
-        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ+1));
-        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ));
-        	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ-1));
-        		
-        	if(this.isCruise)
-	    	{
-    			if(this.ticksInAir == 0)
-    			{
-	    			this.motionX = this.xDifference/(flightTime*0.5);
-	    			this.motionY = this.yDifference/(flightTime*0.5);
-	    			this.motionZ = this.zDifference/(flightTime*0.5);	    			
-    			}
-	        
-    	        this.rotationPitch = (float)(Math.atan(this.motionY/(Math.sqrt(this.motionX*this.motionX + this.motionZ*this.motionZ))) * 180 / Math.PI);
-    	   	 
-    			//Look at the next point
-    			this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-
-    			DaoDan.list[this.missileID].onTickFlight(this);
-    			
-    			this.noClip = false;
-    			
-    			this.moveEntity(this.motionX, this.motionY,this.motionZ);
-    			
-    			Vector3 position = Vector3.get(this);
-    			//this.isCollided = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) != 0;
-    	        
-    	        if((this.isCollided && this.ticksInAir >= 20) || this.ticksInAir > 20*600)
-    	        {
-    	        	this.explode();
-    	        }
-    		}
-    		else
+    		System.out.println(this.chunkCoordX +", "+ this.chunkCoordZ);
+    		if(!this.worldObj.isRemote)
     		{
-	    		//Start the launch
-	    		if(this.ticksInAir < 20)
-	    		{
-		    		this.motionY = this.launchAcceleration*this.ticksInAir*(this.ticksInAir/2);
-		 	        this.moveEntity(this.motionX, this.motionY, this.motionZ);		 	        
-		 	    }
-	    		else if(this.ticksInAir == 20)
-	    		{
-	    			this.motionY = this.acceleration*(this.flightTime/2);
+	        	if(this.isCruise)
+		    	{
+	    			if(this.ticksInAir == 0)
+	    			{
+		    			this.motionX = this.xDifference/(flightTime*0.5);
+		    			this.motionY = this.yDifference/(flightTime*0.5);
+		    			this.motionZ = this.zDifference/(flightTime*0.5);	    			
+	    			}
+		        
+	    	        this.rotationPitch = (float)(Math.atan(this.motionY/(Math.sqrt(this.motionX*this.motionX + this.motionZ*this.motionZ))) * 180 / Math.PI);
+	    	   	 
+	    			//Look at the next point
+	    			this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+	
+	    			DaoDan.list[this.missileID].onTickFlight(this);
 	    			
-	    			this.motionX = this.xDifference/flightTime;
-	    			this.motionZ = this.zDifference/flightTime;
+	    			this.noClip = false;
+	    			
+	    			this.moveEntity(this.motionX, this.motionY,this.motionZ);
+	    			
+	    			Vector3 position = Vector3.get(this);
+	    			//this.isCollided = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)) != 0;
+	    	        
+	    	        if((this.isCollided && this.ticksInAir >= 20) || this.ticksInAir > 20*600)
+	    	        {
+	    	        	this.explode();
+	    	        }
 	    		}
 	    		else
 	    		{
-	    			Vector3 currentPosition = new Vector3(this.posX, this.posY, this.posZ);
-	    			double currentDistance = Vector2.distance(currentPosition.toVector2(),  this.targetPosition.toVector2());
-	    			
-	    			this.motionY -= this.acceleration;
-	    			
-	    			this.rotationPitch = (float)(Math.atan(this.motionY/(Math.sqrt(this.motionX*this.motionX + this.motionZ*this.motionZ))) * 180 / Math.PI);
-	 
-	    			//Look at the next point
-	    			this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-	    			
-	    			DaoDan.list[this.missileID].onTickFlight(this);
-	    			
-		 	        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-		 	        
-	    	    	this.lastTickPosX = this.posX;
-	    	        this.lastTickPosY = this.posY;
-	    	        this.lastTickPosZ = this.posZ;
-	    	
-	    	        //If the missile contacts anything, it will explode.
-	    	        if(this.isCollided)
-	    	        {
-	    	            this.explode();
-	    	        }
-	    	        
-	    	        //If the missile is commanded to explode before impact
-	    	        if(heightBeforeHit > 0 && this.motionY < 0)
-	    	        {
-	    	        	//Check the block below it.
-	    	        	int blockBelowID = this.worldObj.getBlockId((int)this.posX, (int)this.posY - heightBeforeHit, (int)this.posZ);
-	    	        	
-	    	        	if(blockBelowID > 0)
-	    	        	{
-	    	        		heightBeforeHit = 0;
-	    	        		this.explode();
-	    	        	}
-	    	        }
-	    		} // end else
-	    	}
+		    		//Start the launch
+		    		if(this.ticksInAir < 20)
+		    		{
+			    		this.motionY = this.launchAcceleration*this.ticksInAir*(this.ticksInAir/2);
+			 	        this.moveEntity(this.motionX, this.motionY, this.motionZ);		 	        
+			 	    }
+		    		else if(this.ticksInAir == 20)
+		    		{
+		    			this.motionY = this.acceleration*(this.flightTime/2);
+		    			
+		    			this.motionX = this.xDifference/flightTime;
+		    			this.motionZ = this.zDifference/flightTime;
+		    		}
+		    		else
+		    		{
+		    			Vector3 currentPosition = new Vector3(this.posX, this.posY, this.posZ);
+		    			double currentDistance = Vector2.distance(currentPosition.toVector2(),  this.muBiao.toVector2());
+	
+		    			this.motionY -= this.acceleration;
+		    			
+		    			this.rotationPitch = (float)(Math.atan(this.motionY/(Math.sqrt(this.motionX*this.motionX + this.motionZ*this.motionZ))) * 180 / Math.PI);
+		 
+		    			//Look at the next point
+		    			this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+		    			
+		    			DaoDan.list[this.missileID].onTickFlight(this);
+		    			
+			 	        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+			 	        
+		    	    	this.lastTickPosX = this.posX;
+		    	        this.lastTickPosY = this.posY;
+		    	        this.lastTickPosZ = this.posZ;
+		    	
+		    	        //If the missile contacts anything, it will explode.
+		    	        if(this.isCollided)
+		    	        {
+		    	            this.explode();
+		    	        }
+		    	        
+		    	        //If the missile is commanded to explode before impact
+		    	        if(heightBeforeHit > 0 && this.motionY < 0)
+		    	        {
+		    	        	//Check the block below it.
+		    	        	int blockBelowID = this.worldObj.getBlockId((int)this.posX, (int)this.posY - heightBeforeHit, (int)this.posZ);
+		    	        	
+		    	        	if(blockBelowID > 0)
+		    	        	{
+		    	        		heightBeforeHit = 0;
+		    	        		this.explode();
+		    	        	}
+		    	        }
+		    		} // end else
+		    	}
+    		}
     		
     		this.spawnMissileSmoke();
     		this.protectionTime  --;
@@ -507,7 +518,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
     	this.startingPosition = Vector3.readFromNBT("startingPosition", par1NBTTagCompound);
-    	this.targetPosition =  Vector3.readFromNBT("targetPosition", par1NBTTagCompound);
+    	this.muBiao =  Vector3.readFromNBT("targetPosition", par1NBTTagCompound);
     	this.missileLauncherPosition =  Vector3.readFromNBT("missileLauncherPosition", par1NBTTagCompound);
     	this.acceleration = par1NBTTagCompound.getFloat("acceleration");
     	this.heightBeforeHit = par1NBTTagCompound.getInteger("HeightBeforeHit");
@@ -523,9 +534,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
     	this.startingPosition.writeToNBT("startingPosition", par1NBTTagCompound);
-    	if(this.targetPosition != null)
+    	if(this.muBiao != null)
     	{
-    		this.targetPosition.writeToNBT("targetPosition", par1NBTTagCompound);
+    		this.muBiao.writeToNBT("targetPosition", par1NBTTagCompound);
     	}
     	this.missileLauncherPosition.writeToNBT("missileLauncherPosition", par1NBTTagCompound);
 

@@ -131,7 +131,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        			this.detectedMissiles.add(missile);
 		        		}
 		        		
-		        		if(Vector2.distance(missile.targetPosition.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyRadius)
+		        		if(Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyRadius)
 		        		{
 		        			this.missileAlert  = true;
 		        		}

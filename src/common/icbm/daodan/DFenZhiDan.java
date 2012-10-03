@@ -24,7 +24,7 @@ public class DFenZhiDan extends DaoDan
 					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), 0);
 					clusterMissile.isCruise = true;
 					clusterMissile.protectionTime = 20;
-					clusterMissile.launchMissile(Vector3.add(missileObj.targetPosition, new Vector3((missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6 )));
+					clusterMissile.launchMissile(Vector3.add(missileObj.muBiao, new Vector3((missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6, (missileObj.missileCount-MAX_CLUSTER/2)*Math.random()*6 )));
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 				}
 				missileObj.protectionTime = 20;

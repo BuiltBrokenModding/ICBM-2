@@ -182,7 +182,7 @@ public class GLeiDaTai extends ICBMGui
 				float x = (int) (missile.posX - this.tileEntity.xCoord) / radarMapRadius;
 				float z = (int) (missile.posZ - this.tileEntity.zCoord) / radarMapRadius;
 									
-		        if(Vector2.distance(missile.targetPosition.toVector2(), new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord)) < this.tileEntity.safetyRadius)
+		        if(Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord)) < this.tileEntity.safetyRadius)
 		        {
 		        	var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH+"reddot.png");
 		        }

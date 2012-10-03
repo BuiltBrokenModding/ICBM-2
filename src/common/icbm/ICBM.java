@@ -37,8 +37,10 @@ import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.BasicComponents;
 import universalelectricity.UEConfig;
@@ -181,9 +183,9 @@ public class ICBM
 		OreDictionary.registerOre("dustSulfur", itemLiu);
 		
 		OreGenerator.addOre(liuGenData);
-   		MinecraftForge.EVENT_BUS.register(ChunkEventCaller.INSTANCE);
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new DaoDanCLCallBack());
-		
+   		MinecraftForge.EVENT_BUS.register(this);
+
 		this.proxy.preInit();
     }
 	
@@ -199,6 +201,15 @@ public class ICBM
 					((EDaoDan)ticket.getEntity()).daoDanInit(ticket);
 				}
 			}
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onEEC(EnteringChunk event)
+	{
+		if(event.entity instanceof EDaoDan)
+		{
+			((EDaoDan)event.entity).updateLoadChunk(event.oldChunkX, event.oldChunkZ, event.newChunkX, event.newChunkZ);
 		}
 	}
 	
