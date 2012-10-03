@@ -8,6 +8,8 @@ import net.minecraft.src.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import universalelectricity.network.PacketManager;
 
 public class GFrequency extends ICBMGui
@@ -96,7 +98,7 @@ public class GFrequency extends ICBMGui
         	{
             	((ItHuoLuanQi)this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
             	
-    			PacketManager.sendUnspecifiedPacketToServer("ICBM", ICBMPacketType.SIGNAL_DISRUPTER.ordinal(), newFrequency);
+    			PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ICBM.CHANNEL, ICBMPacketType.SIGNAL_DISRUPTER.ordinal(), newFrequency));
         	}
         }
         catch (NumberFormatException e)

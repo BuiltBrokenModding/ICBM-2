@@ -59,7 +59,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	//Has this missile lock it's target before?
     public boolean didTargetLockBefore = false;
 	//Tracking
-    public int trackingEntity = -1;
+    public int genZongE = -1;
 	//For cluster missile
     public int missileCount = 0;
 	
@@ -246,9 +246,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		    	{
 	    			if(this.ticksInAir == 0)
 	    			{
-		    			this.motionX = this.xDifference/(flightTime*0.5);
-		    			this.motionY = this.yDifference/(flightTime*0.5);
-		    			this.motionZ = this.zDifference/(flightTime*0.5);	    			
+		    			this.motionX = this.xDifference/(flightTime*0.4);
+		    			this.motionY = this.yDifference/(flightTime*0.4);
+		    			this.motionZ = this.zDifference/(flightTime*0.4);	    			
 	    			}
 		        
 	    	        this.rotationPitch = (float)(Math.atan(this.motionY/(Math.sqrt(this.motionX*this.motionX + this.motionZ*this.motionZ))) * 180 / Math.PI);

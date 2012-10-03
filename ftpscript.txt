@@ -1,7 +1,0 @@
-open www.calclavia.com
-icbm@calclavia.com
-ICBMmod
-binary
-put "Builds\ICBM_v0.5.5.20.zip"
-put info.txt
-quit
