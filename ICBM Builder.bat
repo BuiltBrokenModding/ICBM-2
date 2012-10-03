@@ -17,19 +17,19 @@ runtime\bin\python\python_mcp runtime\reobfuscate.py %*
 
 ::ZIP-UP
 cd reobf\minecraft\
-"..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "atomicscience\"
-"..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "chb\"
-"..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "icbm\"
+"..\..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "atomicscience\"
+"..\..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "chb\"
+"..\..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "icbm\"
 
 cd ..\..\
-"7za.exe" a "Builds\%FILE_NAME%" "mcmod.info"
+"..\7za.exe" a "Builds\%FILE_NAME%" "mcmod.info"
 
 cd resources\
-"..\7za.exe" a "..\Builds\%FILE_NAME%" "icbm\"
-"..\7za.exe" a "..\Backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -phenry
+"..\..\7za.exe" a "..\Builds\%FILE_NAME%" "icbm\"
+"..\..\7za.exe" a "..\Backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -phenry
 cd ..\
 cd src\
-"..\7za.exe" a "..\Backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
+"..\..\7za.exe" a "..\Backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
 cd ..\
 
 ::UPDATE INFO FILE
