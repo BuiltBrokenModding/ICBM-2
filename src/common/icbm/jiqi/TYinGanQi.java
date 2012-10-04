@@ -1,5 +1,6 @@
 package icbm.jiqi;
 
+import icbm.ICBM;
 import icbm.dianqi.ItHuoLuanQi;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -22,6 +24,8 @@ import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
 {
@@ -138,10 +142,16 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	    		
 	    		if(Ticker.inGameTicks % 20 == 0 && this.yongZhe > 0)
 				{
-					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)1, this.prevDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+	    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
 				}
 	    	}
 		}
+    }
+	
+	@Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.prevDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
     }
     
     @Override
@@ -156,7 +166,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 				if(dataStream.readBoolean())
 				{
 					this.yongZhe ++;
-					PacketManager.sendTileEntityPacketWithRange(this, "ICBM", 15, (int)1, this.prevDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+	    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
 				}
 				else
 				{

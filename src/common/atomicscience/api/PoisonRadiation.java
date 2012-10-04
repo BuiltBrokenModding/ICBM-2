@@ -1,12 +1,12 @@
 package atomicscience.api;
 
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.Potion;
-import net.minecraft.src.PotionEffect;
+import universalelectricity.prefab.potion.CustomPotionEffect;
 
 public class PoisonRadiation extends Poison
 {
+	public static final Poison INSTANCE = new PoisonRadiation("Radiation", 0);
+
 	public PoisonRadiation(String name, int id)
 	{
 		super(name, id);
@@ -15,7 +15,6 @@ public class PoisonRadiation extends Poison
 	@Override
 	protected void doPoisonEntity(EntityLiving entity)
 	{
-        entity.addPotionEffect(new PotionEffect(Potion.poison.id, 20 * 5, 2));
-    	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 20 * 10, 2));
+        entity.addPotionEffect(new CustomPotionEffect(PotionRadioactive.INSTANCE.getId(), 20 * 60, 2, null));
 	}
 }

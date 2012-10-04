@@ -68,7 +68,7 @@ public class BlockRadioactive extends Block
 
             for(EntityLiving entity : entitiesNearby)
             {
-        		Poison.RADIATION.poisonEntity((EntityLiving)entity);
+        		PoisonRadiation.INSTANCE.poisonEntity((EntityLiving)entity);
             }
 			
 			if(par5Random.nextFloat() > 0.999)
@@ -85,7 +85,7 @@ public class BlockRadioactive extends Block
     {
     	if(par5Entity instanceof EntityLiving)
     	{
-    		Poison.RADIATION.poisonEntity((EntityLiving)par5Entity);
+    		PoisonRadiation.INSTANCE.poisonEntity((EntityLiving)par5Entity);
     	}
     }
 

@@ -67,7 +67,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 
 	private int explosionDepth;
 	
-	private int playersUsing = 0;
+	private int shiYongZhe = 0;
 	private boolean packetGengXin = true;
 	    
     public TCiGuiPao()
@@ -211,7 +211,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
 				}
 				
-				if(this.playersUsing > 0)
+				if(this.shiYongZhe > 0)
 				{
 					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
 				}
@@ -278,13 +278,13 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 			PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
         }
     	
-    	this.playersUsing  ++;
+    	this.shiYongZhe  ++;
     }
     
     @Override
     public void closeChest()
     {
-    	this.playersUsing --;
+    	this.shiYongZhe --;
     }
 
 

@@ -10,6 +10,8 @@ import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
@@ -135,7 +137,7 @@ public class GXiaoFaSheQi extends GuiContainer
         	if(this.tileEntity.getTarget() != newTarget)
         	{
             	this.tileEntity.setTarget(newTarget);
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z);
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
         	}
         	
         	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
@@ -154,7 +156,7 @@ public class GXiaoFaSheQi extends GuiContainer
         	if(newFrequency != this.tileEntity.getFrequency())
         	{
             	this.tileEntity.setFrequency(newFrequency);
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)1, this.tileEntity.getFrequency());
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)1, this.tileEntity.getFrequency()));
         	}
         	
         	this.textFieldFreq.setText(Math.round(this.tileEntity.getFrequency()) + "");

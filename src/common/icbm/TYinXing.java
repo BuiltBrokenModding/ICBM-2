@@ -4,6 +4,7 @@ import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -27,7 +28,7 @@ public class TYinXing extends TileEntity implements IPacketReceiver
     {
 		if(!this.worldObj.isRemote && mainBlockPosition != null)
 		{
-			PacketManager.sendTileEntityPacket(this, "ICBM", this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z);
+			PacketManager.sendPacketToClients(this.getDescriptionPacket());
     	}
     }
 
@@ -37,9 +38,15 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 		
 		if(!this.worldObj.isRemote)
 		{
-			PacketManager.sendTileEntityPacket(this, "ICBM", this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z);
+			PacketManager.sendPacketToClients(this.getDescriptionPacket());
 		}
 	}
+	
+	@Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ICBM.CHANNEL, this, this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z);
+    }
 	
 	public void onBlockRemoval()
 	{

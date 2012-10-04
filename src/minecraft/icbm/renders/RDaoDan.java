@@ -35,21 +35,22 @@ import icbm.daodan.EDaoDan;
 import icbm.models.MMBingDan;
 import icbm.models.MMDianCi;
 import icbm.models.MMDuQi;
-import icbm.models.MMTaiYang;
-import icbm.models.MMYuanZi;
 import icbm.models.MMFanDan;
-import icbm.models.MMPiaoFu;
 import icbm.models.MMFanWuSu;
-import icbm.models.MMTuPuo;
 import icbm.models.MMFenZiDan;
 import icbm.models.MMGanRanDu;
-import icbm.models.MMYaSuo;
-import icbm.models.MMQunDan;
-import icbm.models.MMHuo;
 import icbm.models.MMHongSu;
 import icbm.models.MMHuanYuan;
-import icbm.models.MMXiaoQunDan;
+import icbm.models.MMHuo;
+import icbm.models.MMPiaoFu;
+import icbm.models.MMQunDan;
 import icbm.models.MMShengBuo;
+import icbm.models.MMTaiYang;
+import icbm.models.MMTuPuo;
+import icbm.models.MMXiaoQunDan;
+import icbm.models.MMYaSuo;
+import icbm.models.MMYuanZi;
+import icbm.models.MMZhuiZhong;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.Render;
@@ -78,7 +79,7 @@ public class RDaoDan extends Render
 	
 	private final MMFanDan mFanDan = new MMFanDan();
 	private final MMFenZiDan mFenZiDan = new MMFenZiDan();
-	private final MMFenZiDan mZhuiZhong = new MMFenZiDan();
+	private final MMZhuiZhong mZhuiZhong = new MMZhuiZhong();
 	
     public RDaoDan(float f)
     {
@@ -113,6 +114,7 @@ public class RDaoDan extends Render
     		case 101: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntiBallistic.png"); break;
     		case 102: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileCluster.png"); break;
     		case 103: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileCluster.png"); break;
+    		case 104: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileHoming.png"); break;
     	}
 
     	GL11.glPushMatrix();

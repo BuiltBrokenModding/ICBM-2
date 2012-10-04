@@ -10,6 +10,8 @@ import net.minecraft.src.GuiContainer;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
@@ -41,6 +43,8 @@ public class GCiGuiPao extends GuiContainer
         this.controlList.clear();
         
         this.controlList.add(new GuiButton(0, this.width / 2 + 90,  this.height / 2 - 80, 55, 20, "Mount"));
+        
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, true));
     }
     
     
@@ -48,22 +52,8 @@ public class GCiGuiPao extends GuiContainer
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, false));
     }
-    
-    @Override
-    public void updateScreen()
-    {
-    	super.updateScreen();
-    	
-		if(GUITicks % 100 == 0)
-    	{
-    		PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
-    	}
-		
-    	GUITicks ++;
-    }
-    
     
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
@@ -73,7 +63,9 @@ public class GCiGuiPao extends GuiContainer
     {
         switch(par1GuiButton.id)
         {
-	        case 0: ICBMPacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2); this.tileEntity.mount(this.mc.thePlayer); this.mc.thePlayer.closeScreen(); break;
+	        case 0: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2));
+			        this.tileEntity.mount(this.mc.thePlayer); this.mc.thePlayer.closeScreen(); 
+			        break;
         }
     }
 

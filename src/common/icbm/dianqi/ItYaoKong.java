@@ -6,6 +6,8 @@ import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
@@ -67,7 +69,8 @@ public class ItYaoKong extends ItemElectric
 		        	//Check for electricity
 		            if(this.getWattHours(par1ItemStack) > ELECTRICITY_REQUIRED)
 		        	{
-       	    		 	PacketManager.sendTileEntityPacketToServer(tileEntity, "ICBM", (byte)2);
+       	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, tileEntity, (int)2));
+
 			            return par1ItemStack;
 		        	}
 		            else

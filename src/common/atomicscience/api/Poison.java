@@ -6,9 +6,7 @@ import net.minecraft.src.Potion;
 import net.minecraft.src.PotionEffect;
 
 public abstract class Poison
-{
-	public static final Poison RADIATION = new PoisonRadiation("Radiation", 0);
-	
+{	
 	public static Poison[] list = new Poison[32];
 	
 	String name;

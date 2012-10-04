@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.Vector3;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GYinGanQi extends ICBMGui
 {
@@ -85,14 +86,16 @@ public class GYinGanQi extends ICBMGui
         this.textFieldmaxZ.setMaxStringLength(1);
         this.textFieldmaxZ.setText(this.tileEntity.maxCoord.z+"");
         
-        PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, true);
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, true));
+
     }
     
     @Override
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-    	PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)-1, false);
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, false));
+
     }
     
     /**
@@ -110,7 +113,7 @@ public class GYinGanQi extends ICBMGui
         		this.tileEntity.mode = 0;
         	}
         	
-			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)2, this.tileEntity.mode);
+        	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2, this.tileEntity.mode));
         }
     }
 
@@ -224,7 +227,7 @@ public class GYinGanQi extends ICBMGui
         	if(!this.tileEntity.minCoord.isEqual(newMinCoord))
         	{
         		this.tileEntity.minCoord = newMinCoord;
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)4, this.tileEntity.minCoord.x, this.tileEntity.minCoord.y, this.tileEntity.minCoord.z);
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)4, this.tileEntity.minCoord.x, this.tileEntity.minCoord.y, this.tileEntity.minCoord.z));
         	}
         	
         	Vector3 newMaxCoord = new Vector3(Integer.parseInt(this.textFieldmaxX.getText()), Integer.parseInt(this.textFieldmaxY.getText()), Integer.parseInt(this.textFieldmaxZ.getText()));
@@ -232,7 +235,7 @@ public class GYinGanQi extends ICBMGui
         	if(!this.tileEntity.maxCoord.isEqual(newMaxCoord))
         	{
         		this.tileEntity.maxCoord = newMaxCoord;
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)5, this.tileEntity.maxCoord.x, this.tileEntity.maxCoord.y, this.tileEntity.maxCoord.z);
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)5, this.tileEntity.maxCoord.x, this.tileEntity.maxCoord.y, this.tileEntity.maxCoord.z));
         	}
         	
         	short newFrequency = (short)Math.max(0, Short.parseShort(this.textFieldFreq.getText()));
@@ -240,7 +243,7 @@ public class GYinGanQi extends ICBMGui
         	if(newFrequency != this.tileEntity.frequency)
         	{
         		this.tileEntity.frequency = newFrequency;
-    			PacketManager.sendTileEntityPacketToServer(this.tileEntity, "ICBM", (int)3, this.tileEntity.frequency);
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)3, this.tileEntity.frequency));
         	}
 
         	String mode = "All";
