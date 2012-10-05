@@ -35,6 +35,7 @@ public class ExFanWuSu extends ZhaPin
 	 */
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antimatter", 5F, 1F);
 		explosionSource.posY += 5;
 	}
 
@@ -77,11 +78,7 @@ public class ExFanWuSu extends ZhaPin
 	
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
-	{
-		EZhaPin source = (EZhaPin)explosionSource;
-
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		
+	{		
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - RADUIS, position.y - RADUIS, position.z - RADUIS, position.x + RADUIS, position.y + RADUIS, position.z + RADUIS);
         List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
     	
@@ -89,10 +86,7 @@ public class ExFanWuSu extends ZhaPin
         {     
         	if(entity instanceof EZhaPin)
         	{
-	        	if(entity != source) 
-	        	{
-	        		((EZhaPin)entity).endExplosion();
-	        	}
+	        	((EZhaPin)entity).endExplosion();
         	}
         	else if(entity instanceof EntityLiving)
         	{
@@ -110,10 +104,10 @@ public class ExFanWuSu extends ZhaPin
 	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
 	{
         super.onYinZha(worldObj, position, fuseTicks);
-        
+
         if(fuseTicks % 25 == 0)
         {
-    		worldObj.playSoundEffect((int)position.x, (int)position.y, (int)position.z, "icbm.alarm", 4F, 1F);
+    		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.alarm", 4F, 1F);
         }
 	}
 }

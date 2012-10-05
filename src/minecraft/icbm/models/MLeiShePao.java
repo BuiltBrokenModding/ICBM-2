@@ -176,35 +176,35 @@ public class MLeiShePao extends ModelBase
 	    Turret_Neck.render(f5);
 	    
 	    Main_Turret_MOVES.rotateAngleY = rotationYaw;
-	    Main_Turret_MOVES.rotateAngleX = rotationYaw;
+	    Main_Turret_MOVES.rotateAngleX = rotationPitch;
 	    Main_Turret_MOVES.render(f5);
 
 	    Back_Armor_MOVES.rotateAngleY = rotationYaw;
-	    Back_Armor_MOVES.rotateAngleX = rotationYaw;
+	    Back_Armor_MOVES.rotateAngleX = rotationPitch;
 	    Back_Armor_MOVES.render(f5);
 	    
 	    Armor_1_MOVES.rotateAngleY = rotationYaw;
-	    Armor_1_MOVES.rotateAngleX = rotationYaw;
+	    Armor_1_MOVES.rotateAngleX = rotationPitch;
 	    Armor_1_MOVES.render(f5);
 	    
 	    Armor_2_MOVES.rotateAngleY = rotationYaw;
-	    Armor_2_MOVES.rotateAngleX = rotationYaw;
+	    Armor_2_MOVES.rotateAngleX = rotationPitch;
 	    Armor_2_MOVES.render(f5);
 	    
 	    Armor_3_MOVES.rotateAngleY = rotationYaw;
-	    Armor_3_MOVES.rotateAngleX = rotationYaw;
+	    Armor_3_MOVES.rotateAngleX = rotationPitch;
 	    Armor_3_MOVES.render(f5);
 	    
 	    Armor_4_MOVES.rotateAngleY = rotationYaw;
-	    Armor_4_MOVES.rotateAngleX = rotationYaw;
+	    Armor_4_MOVES.rotateAngleX = rotationPitch;
 	    Armor_4_MOVES.render(f5);
 	    
 	    Armor_5_MOVES.rotateAngleY = rotationYaw;
-	    Armor_5_MOVES.rotateAngleX = rotationYaw;
+	    Armor_5_MOVES.rotateAngleX = rotationPitch;
 	    Armor_5_MOVES.render(f5);
 	    
 	    Armor_6_MOVES.rotateAngleY = rotationYaw;
-	    Armor_6_MOVES.rotateAngleX = rotationYaw;
+	    Armor_6_MOVES.rotateAngleX = rotationPitch;
 	    Armor_6_MOVES.render(f5);
 	    
 	    Front_Armor_1_MOVES.rotateAngleY = rotationYaw;

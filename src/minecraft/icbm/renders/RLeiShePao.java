@@ -15,8 +15,8 @@ public class RLeiShePao extends TileEntitySpecialRenderer
     public void renderAModelAt(TLeiShePao tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)x + 0.5F, (float)y + 2.2F, (float)z + 0.5F);
-        GL11.glScalef(1.5f, 1.5f, 1.5f);
+        GL11.glTranslatef((float)x + 0.5F, (float)y + 1.5F, (float)z + 0.5F);
+        //GL11.glScalef(1f, 1f, 1f);
         this.bindTextureByName(ICBM.TEXTURE_FILE_PATH+"LaserTurret.png");
         GL11.glRotatef(180F, 0F, 0F, 1F);
         GL11.glRotatef(180F, 0F, 1F, 0F);

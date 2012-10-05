@@ -12,7 +12,7 @@ import icbm.dianqi.ItLeiShiZhiBiao;
 import icbm.dianqi.ItYaoKong;
 import icbm.jiqi.BJiQi;
 import icbm.jiqi.BYinGanQi;
-import icbm.jiqi.ECiGuiPao;
+import icbm.jiqi.EFake;
 import icbm.jiqi.IBJiQi;
 import icbm.jiqi.TYinGanQi;
 import icbm.po.PChuanRanDu;
@@ -257,6 +257,7 @@ public class ICBM
 		LanguageRegistry.addName(new ItemStack(ICBM.blockJiQi, 1, 10), "EMP Tower");
 		LanguageRegistry.addName(new ItemStack(ICBM.blockJiQi, 1, 11), "Railgun");
 		LanguageRegistry.addName(new ItemStack(ICBM.blockJiQi, 1, 12), "Cruise Launcher");
+		LanguageRegistry.addName(new ItemStack(ICBM.blockJiQi, 1, 13), "Laser Turret");
 		
 		LanguageRegistry.addName(ICBM.itemYao, "Antidote");
 		
@@ -370,7 +371,7 @@ public class ICBM
 		EntityRegistry.registerGlobalEntityID(EGuang.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(ESuiPian.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EShouLiuDan.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(ECiGuiPao.class, "ICBMRailgun", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EFake.class, "ICBMRailgun", EntityRegistry.findGlobalUniqueEntityId());
 		
 		EntityRegistry.registerModEntity(EZhaDan.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EDaoDan.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 1, true);
@@ -379,7 +380,7 @@ public class ICBM
 		EntityRegistry.registerModEntity(EGuang.class, "ICBMLightBeam", ENTITY_ID_PREFIX+4, this, 80, 5, true);
 		EntityRegistry.registerModEntity(ESuiPian.class, "ICBMFragment", ENTITY_ID_PREFIX+5, this, 40, 8, true);
 		EntityRegistry.registerModEntity(EShouLiuDan.class, "ICBMGrenade", ENTITY_ID_PREFIX+6, this, 50, 5, true);
-		EntityRegistry.registerModEntity(ECiGuiPao.class, "ICBMRailgun", ENTITY_ID_PREFIX+7, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EFake.class, "ICBMRailgun", ENTITY_ID_PREFIX+7, this, 50, 5, true);
 		
   	    //Register potion effects
 		PoisonRadiation.register();

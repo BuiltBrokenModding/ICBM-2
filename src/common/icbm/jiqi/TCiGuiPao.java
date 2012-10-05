@@ -48,12 +48,10 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	private float rotationSpeed;
 	
     private double wattHourStored = 0;
-
-	private boolean autoMode = false;
 	
 	private EntityPlayer mountedPlayer = null;
 
-	private ECiGuiPao entityRailGun = null;
+	private EFake entityFake = null;
 	
 	private int gunChargingTicks = 0;
 	
@@ -101,10 +99,10 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
     			this.displayRotationPitch = this.rotationPitch*0.0175f;
     			this.displayRotationYaw = this.rotationYaw*0.0175f;
     		}
-    		else if(this.entityRailGun != null)
+    		else if(this.entityFake != null)
     		{
-    			this.entityRailGun.setDead();
-    			this.entityRailGun = null;
+    			this.entityFake.setDead();
+    			this.entityFake = null;
     		}
     		
     		if(this.redstonePowerOn && this.canFire() && this.gunChargingTicks == 0)
@@ -113,7 +111,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 				this.redstonePowerOn = false;
 				this.isAntimatter = false;
 				
-				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.railgun", 2F, 1F);
+				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.railgun", 5F, 1F);
 				
 				for(int ii = 0; ii < this.containingItems.length; ii++)
 				{
@@ -343,10 +341,10 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 			this.mountedPlayer =  null;
 			entityPlayer.mountEntity(null);
 			
-			if(this.entityRailGun != null)
+			if(this.entityFake != null)
 			{
-				this.entityRailGun.setDead();
-				this.entityRailGun = null;
+				this.entityFake.setDead();
+				this.entityFake = null;
 			}
 			entityPlayer.moveEntity(0, 3, 0);
 		}
@@ -365,9 +363,9 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 		{
 			if(!this.worldObj.isRemote)
 			{
-				this.entityRailGun  = new ECiGuiPao(this.worldObj, new Vector3(this.xCoord+0.5D, this.yCoord, this.zCoord+0.5D), this);
-				this.worldObj.spawnEntityInWorld(entityRailGun);
-				entityPlayer.mountEntity(entityRailGun);
+				this.entityFake  = new EFake(this.worldObj, new Vector3(this.xCoord+0.5D, this.yCoord, this.zCoord+0.5D), this);
+				this.worldObj.spawnEntityInWorld(entityFake);
+				entityPlayer.mountEntity(entityFake);
 			}
 			
 			mountedPlayer = entityPlayer;

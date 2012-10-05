@@ -250,12 +250,14 @@ public abstract class ZhaPin implements ITier
 	        {
 				if(!worldObj.isRemote)
 				{
-					worldObj.spawnEntityInWorld(new EZhaPin(worldObj, new Vector3(position.x, position.y, position.z), explosiveID, list[explosiveID].isMobile));
+					worldObj.spawnEntityInWorld(new EZhaPin(worldObj, position.clone(), explosiveID, list[explosiveID].isMobile));
 				}
 	        }
 	        else
 	        {
-	        	list[explosiveID].doBaoZha(worldObj, new Vector3(position.x, position.y, position.z), entity, explosiveID , -1);
+	        	list[explosiveID].baoZhaQian(worldObj, position.clone(), entity);
+	        	list[explosiveID].doBaoZha(worldObj, position.clone(), entity, explosiveID , -1);
+	        	list[explosiveID].baoZhaHou(worldObj, position.clone(), entity);
 	        }
 		}
 	}

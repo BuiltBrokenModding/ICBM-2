@@ -7,9 +7,10 @@ import icbm.gui.GFaSheDi;
 import icbm.gui.GFaSheShiMuo;
 import icbm.gui.GFrequency;
 import icbm.gui.GLeiDaTai;
+import icbm.gui.GLeiShePao;
 import icbm.gui.GXiaoFaSheQi;
 import icbm.gui.GYinGanQi;
-import icbm.jiqi.ECiGuiPao;
+import icbm.jiqi.EFake;
 import icbm.jiqi.TCiGuiPao;
 import icbm.jiqi.TDianCiQi;
 import icbm.jiqi.TFaSheDi;
@@ -70,7 +71,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
         RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RenderFragment());
         RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RenderGrenade());
-        RenderingRegistry.registerEntityRenderingHandler(ECiGuiPao.class, new RenderInvisible());
+        RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RenderInvisible());
         
         TextureFXManager.instance().addAnimation(new TGenZhongQiFX(FMLClientHandler.instance().getClient()));
         
@@ -95,7 +96,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
         {
 			switch(ID)
 			{
-				case ICBMCommonProxy.GUI_LASER_TURRET: return new GCiGuiPao((TLeiShePao)tileEntity, entityPlayer);
+				case ICBMCommonProxy.GUI_LASER_TURRET: return new GLeiShePao((TLeiShePao)tileEntity);
 				case ICBMCommonProxy.GUI_RAIL_GUN: return new GCiGuiPao((TCiGuiPao)tileEntity, entityPlayer);
 				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi)tileEntity);
 				case ICBMCommonProxy.GUI_LAUNCHER_SCREEN: return new GFaSheShiMuo(((TFaSheShiMuo)tileEntity));

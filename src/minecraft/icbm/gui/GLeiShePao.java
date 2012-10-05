@@ -2,7 +2,7 @@ package icbm.gui;
 
 import icbm.ICBM;
 import icbm.ICBMPacketManager;
-import icbm.jiqi.TCiGuiPao;
+import icbm.jiqi.TLeiShePao;
 import icbm.rongqi.CCiGuiPao;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.GuiButton;
@@ -16,21 +16,17 @@ import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
 
-public class GCiGuiPao extends GuiContainer
+public class GLeiShePao extends ICBMGui
 {
-    private TCiGuiPao tileEntity;
-	private EntityPlayer player;
-
+    private TLeiShePao tileEntity;
     private int containerWidth;
     private int containerHeight;
     
 	private int GUITicks = 0;
 
-    public GCiGuiPao(TCiGuiPao tileEntity, EntityPlayer player)
+    public GLeiShePao(TLeiShePao tileEntity)
     {
-        super(new CCiGuiPao(player.inventory, tileEntity));
         this.tileEntity = tileEntity;
-        this.player = player;
     }
 
     /**
@@ -42,7 +38,9 @@ public class GCiGuiPao extends GuiContainer
     	super.initGui();
         this.controlList.clear();
         
-        this.controlList.add(new GuiButton(0, this.width / 2 + 90,  this.height / 2 - 80, 55, 20, "Mount"));
+        this.controlList.add(new GuiButton(0, this.width / 2 - 77,  this.height / 2 - 80, 55, 20, "Mount"));
+        this.controlList.add(new GuiButton(1, this.width / 2 - 0,  this.height / 2 - 80, 55, 20, "Mode"));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, true));
     }
     
     
@@ -50,6 +48,7 @@ public class GCiGuiPao extends GuiContainer
     public void onGuiClosed()
     {
     	super.onGuiClosed();
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, false));
     }
     
     /**
@@ -61,8 +60,11 @@ public class GCiGuiPao extends GuiContainer
         switch(par1GuiButton.id)
         {
 	        case 0: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2));
-			        this.tileEntity.mount(this.mc.thePlayer); this.mc.thePlayer.closeScreen(); 
-			        break;
+	        this.tileEntity.mount(this.mc.thePlayer); this.mc.thePlayer.closeScreen(); 
+	        break;
+	        case 1: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)3));
+	        this.tileEntity.autoMode = !this.tileEntity.autoMode;
+	        break;
         }
     }
 
@@ -90,10 +92,8 @@ public class GCiGuiPao extends GuiContainer
     @Override
 	protected void drawGuiContainerForegroundLayer()
     {
-    	this.fontRenderer.drawString(this.tileEntity.getInvName(), 69, 6, 4210752);
-    	
-    	this.fontRenderer.drawString("Ammo Input", 65, 23, 4210752);
-    	        
+    	this.fontRenderer.drawString("Laser Turret", 63, 6, 4210752);
+    	    	        
         //Shows the status of the EMP Tower
         String color = "\u00a74";
         String status = "Idle";
@@ -102,20 +102,19 @@ public class GCiGuiPao extends GuiContainer
     	{
         	status = "Disabled";
     	}
-        else if(this.tileEntity.getWattHours() < this.tileEntity.getMaxWattHours())
+        else if(this.tileEntity.dian >= this.tileEntity.YAO_DIAN)
     	{
-    		status = "Insufficient electricity!";
+        	color = "\u00a72";
+    		status = "Ready to blast!";
     	}
     	else
     	{
-    		color = "\u00a72";
-    		status = "Ready to blast!";
+    		status = "Insufficient electricity!";
     	}
         
-        this.fontRenderer.drawString(color+"Status: "+status, 8, 60, 4210752);
-        
-    	this.fontRenderer.drawString(this.tileEntity.getVoltage()+"v", 130, 70, 4210752);
-        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getWattHours(), ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxWattHours(), ElectricUnit.WATT_HOUR), 8, 70, 4210752);
+        this.fontRenderer.drawString("Automatic Mode: "+this.tileEntity.autoMode, 12, 125, 4210752);
+        this.fontRenderer.drawString(color+"Status: "+status, 12, 137, 4210752);
+    	this.fontRenderer.drawString("Requirement: "+ElectricInfo.getDisplay(this.tileEntity.YAO_DIAN*20, ElectricUnit.WATT), 12, 150, 4210752);
     }
 
     /**
@@ -124,7 +123,7 @@ public class GCiGuiPao extends GuiContainer
     @Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
-        int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH+"RailgunGUI.png");
+        int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH+"EmptyGUI.png");
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.renderEngine.bindTexture(var4);
         containerWidth = (this.width - this.xSize) / 2;

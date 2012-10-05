@@ -11,18 +11,18 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class ECiGuiPao extends Entity implements IEntityAdditionalSpawnData
+public class EFake extends Entity implements IEntityAdditionalSpawnData
 {
     private TileEntity controller;
 
-	public ECiGuiPao(World par1World)
+	public EFake(World par1World)
     {
         super(par1World);
         this.setSize(1F, 0.5F);
         this.yOffset = this.height / 2.0F;
     }
     
-    public ECiGuiPao(World par1World, Vector3 position, TileEntity controller)
+    public EFake(World par1World, Vector3 position, TileEntity controller)
     {
         this(par1World);
         this.isImmuneToFire = true;
@@ -33,7 +33,7 @@ public class ECiGuiPao extends Entity implements IEntityAdditionalSpawnData
     @Override
     public String getEntityName()
     {
-    	return "Railgun Seat";
+    	return "Seat";
     }
     
 	@Override
@@ -77,21 +77,18 @@ public class ECiGuiPao extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	protected void entityInit()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound var1)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound var1)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 }

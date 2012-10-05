@@ -37,8 +37,13 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TLeiShePao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMB, ISidedInventory
+public class TLeiShePao extends TileEntityElectricityReceiver implements IPacketReceiver, IMB
 {	
+	//Watts required per tick.
+	public static final int YAO_DIAN = 20;
+	
+	private static final int BURN_BAN_JING = 3;
+	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
 	
@@ -47,27 +52,25 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
 
 	private float rotationSpeed;
 	
-    private double wattHourStored = 0;
+    public double dian = 0;
 
-	private boolean autoMode = false;
+    public boolean autoMode = false;
 	
 	private EntityPlayer mountedPlayer = null;
 
-	private ECiGuiPao entityRailGun = null;
+	private EFake entityFake = null;
 	
 	private int gunChargingTicks = 0;
 	
     private ItemStack[] containingItems = new ItemStack[4];
     
-	private boolean redstonePowerOn = false;
-
 	private boolean isAntimatter;
 
 	private float explosionSize;
 
 	private int explosionDepth;
 	
-	private int shiYongZhe = 0;
+	private int yongZhe = 0;
 	private boolean packetGengXin = true;
 	    
     public TLeiShePao()
@@ -80,7 +83,7 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
 	{		
 		if(!this.isDisabled())
     	{
-			this.setWattHours(this.wattHourStored+ElectricInfo.getWattHours(amps, voltage));
+			this.dian += ElectricInfo.getWatts(amps, voltage);
     	}
 	}
 	
@@ -101,103 +104,43 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
     			this.displayRotationPitch = this.rotationPitch*0.0175f;
     			this.displayRotationYaw = this.rotationYaw*0.0175f;
     		}
-    		else if(this.entityRailGun != null)
+    		else if(this.entityFake != null)
     		{
-    			this.entityRailGun.setDead();
-    			this.entityRailGun = null;
+    			this.entityFake.setDead();
+    			this.entityFake = null;
     		}
     		
-    		if(this.redstonePowerOn && this.canFire() && this.gunChargingTicks == 0)
-			{
-				this.gunChargingTicks = 1;
-				this.redstonePowerOn = false;
-				this.isAntimatter = false;
-				
-				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.railgun", 2F, 1F);
-				
-				for(int ii = 0; ii < this.containingItems.length; ii++)
-				{
-					ItemStack itemStack = this.containingItems[ii];
-					
-					if(itemStack != null)
-					{
-						if(itemStack.getItem() instanceof ItZiDan)
-						{
-							if(itemStack.getItemDamage() == 1)
-							{
-								this.isAntimatter = true;
-							}
-							
-							itemStack.stackSize --;
-							this.setInventorySlotContents(ii, itemStack);
-							
-							if(itemStack.stackSize == 0)
-							{
-								this.setInventorySlotContents(ii, null);
-							}
-							
-							break;
-						}		
-					}
-				}
-				
-				this.setWattHours(0);
-		        
-		        this.explosionSize = 5f;
-		        this.explosionDepth = 5;
-		        
-		        if(isAntimatter)
-		        {
-		        	explosionSize = 8f;
-		        	explosionDepth = 10;
-		        }
-			}
-    		
-    		if(this.gunChargingTicks > 0)
+    		if(this.isBeingPowered() && this.dian >= this.YAO_DIAN)
     		{
-    			this.gunChargingTicks ++;
-    			
-    			if(this.gunChargingTicks >= 70)
+    			if(Ticker.inGameTicks % 20 == 0)
     			{
-    				while(this.explosionDepth > 0)
-    				{
-        				MovingObjectPosition objectMouseOver = this.rayTrace(1500);
-        				
-        				if(objectMouseOver != null)
-        		        {
-        					if(objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
-        					{
-	        					if(isAntimatter)
-	        					{
-		        					int radius = ExHongSu.BAN_JING;
-		        					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
-		        			        List<EZhaPin> missilesNearby = worldObj.getEntitiesWithinAABB(EZhaPin.class, bounds);
-		
-		        			        for(EZhaPin entity : missilesNearby)
-		        			        {
-		        			        	entity.endExplosion();
-		        			        }
-	        					}
-        			        
-	        			        if(this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID)
-	        			        {
-	        			        	this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
-	        			        }
-	        			        
-	        			        this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true);
-        					}
-        		        }
-        				
-        				this.explosionDepth --;
-    				}
+    				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.laser", 2F, 1F);
     				
-    				if(!this.worldObj.isRemote)
-    				{
-    					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)3), this.worldObj, Vector3.get(this), 50);
-    				}
+    				MovingObjectPosition objectMouseOver = this.rayTrace(1500);
     				
-    				this.gunChargingTicks = 0;
+    				if(objectMouseOver != null)
+    		        {
+    					if(objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+    					{
+    						for(int x = -BURN_BAN_JING; x < BURN_BAN_JING; x ++)
+    						{
+    							for(int y = -BURN_BAN_JING; y < BURN_BAN_JING; y ++)
+        						{
+    								for(int z = -BURN_BAN_JING; z < BURN_BAN_JING; z ++)
+    	    						{
+    									Vector3 targetPosition = new Vector3(objectMouseOver.blockX+x, objectMouseOver.blockY+y, objectMouseOver.blockZ+z);
+    									if(targetPosition.getBlockID(this.worldObj) == 0 && this.worldObj.isBlockNormalCube(objectMouseOver.blockX+x, objectMouseOver.blockY+y-1, objectMouseOver.blockZ+z))
+    									{
+    										targetPosition.setBlockWithNotify(this.worldObj, Block.fire.blockID);
+    									}
+    	    						}
+        						}
+    						}
+    					}
+    		        }
     			}
+    			
+    			this.dian = 0;
     		}
     	}
 	
@@ -207,13 +150,12 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
 			{
 				if(this.mountedPlayer != null)
 				{
-					this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
 				}
 				
-				if(this.shiYongZhe > 0)
+				if(this.yongZhe > 0)
 				{
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.dian, this.disabledTicks, this.autoMode), this.worldObj, Vector3.get(this), 15);
 				}
 			}
 			
@@ -232,7 +174,19 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
 	    {
 	        int ID = dataStream.readInt();
 
-	        if(ID == 1)
+	        if(ID == -1)
+			{
+				if(dataStream.readBoolean())
+				{
+					PacketManager.sendPacketToClients(this.getDescriptionPacket());
+					this.yongZhe ++;
+				}
+				else
+				{
+					this.yongZhe --;
+				}
+			}
+	        else if(ID == 1)
 	        {
 		        this.displayRotationYaw = dataStream.readFloat();
 		        this.displayRotationPitch = dataStream.readFloat();
@@ -243,19 +197,13 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
 	        }
 	        else if(ID == 3)
 	        {
-	        	if(this.worldObj.isRemote)
-				{
-    				Vector3 muzzilePosition = this.getMuzzle();
-    				ParticleSpawner.spawnParticle("smoke", this.worldObj, muzzilePosition, 0, 0, 0, 2f, 1.5f);
-    				ParticleSpawner.spawnParticle("flame", this.worldObj, muzzilePosition, 0, 0, 0, 10f, 1.5f);
-    				this.worldObj.spawnParticle("flame", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
-				}
-				
+	        	this.autoMode = !this.autoMode;
 	        }
 	        else if(ID == 4)
 	        {
-		        this.wattHourStored = dataStream.readDouble();
+		        this.dian = dataStream.readDouble();
 		        this.disabledTicks = dataStream.readInt();
+		        this.autoMode = dataStream.readBoolean();
 	        }
 	    }
 	    catch(Exception e)
@@ -269,52 +217,6 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
     {
         return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.displayRotationYaw, this.displayRotationPitch);
     }
-	
-	@Override
-    public void openChest()
-    {
-    	if(!this.worldObj.isRemote)
-        {
-			PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
-        }
-    	
-    	this.shiYongZhe  ++;
-    }
-    
-    @Override
-    public void closeChest()
-    {
-    	this.shiYongZhe --;
-    }
-
-
-	private boolean canFire()
-	{
-		for(int i = 0; i < this.containingItems.length; i++)
-		{
-			ItemStack itemStack = this.containingItems[i];
-			
-			if(itemStack != null)
-			{
-				if(itemStack.getItem() instanceof ItZiDan)
-				{
-					break;
-				}		
-			}
-						
-			if(i == this.containingItems.length-1)
-			{
-				return false;
-			}
-		}
-		
-		if(this.wattHourStored < this.getMaxWattHours())
-		{
-			return false;
-		}
-		
-		return true;
-	}
 
 	@Override
 	public boolean canReceiveFromSide(ForgeDirection side)
@@ -343,16 +245,16 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
 			this.mountedPlayer =  null;
 			entityPlayer.mountEntity(null);
 			
-			if(this.entityRailGun != null)
+			if(this.entityFake != null)
 			{
-				this.entityRailGun.setDead();
-				this.entityRailGun = null;
+				this.entityFake.setDead();
+				this.entityFake = null;
 			}
 			entityPlayer.moveEntity(0, 3, 0);
 		}
 		else
 		{
-			entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_RAIL_GUN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LASER_TURRET, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
 		
 		return true;
@@ -365,9 +267,9 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
 		{
 			if(!this.worldObj.isRemote)
 			{
-				this.entityRailGun  = new ECiGuiPao(this.worldObj, new Vector3(this.xCoord+0.5D, this.yCoord, this.zCoord+0.5D), this);
-				this.worldObj.spawnEntityInWorld(entityRailGun);
-				entityPlayer.mountEntity(entityRailGun);
+				this.entityFake  = new EFake(this.worldObj, new Vector3(this.xCoord+0.5D, this.yCoord, this.zCoord+0.5D), this);
+				this.worldObj.spawnEntityInWorld(entityFake);
+				entityPlayer.mountEntity(entityFake);
 			}
 			
 			mountedPlayer = entityPlayer;
@@ -400,86 +302,6 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
     	return Vector3.add(position, Vector3.multiply(ICBM.getLook(this.rotationYaw, this.rotationPitch), 2.2));
     }
 
-    @Override
-    public int getSizeInventory()
-    {
-        return this.containingItems.length;
-    }
-    @Override
-    public ItemStack getStackInSlot(int par1)
-    {
-        return this.containingItems[par1];
-    }
-    @Override
-    public ItemStack decrStackSize(int par1, int par2)
-    {
-        if (this.containingItems[par1] != null)
-        {
-            ItemStack var3;
-
-            if (this.containingItems[par1].stackSize <= par2)
-            {
-                var3 = this.containingItems[par1];
-                this.containingItems[par1] = null;
-                return var3;
-            }
-            else
-            {
-                var3 = this.containingItems[par1].splitStack(par2);
-
-                if (this.containingItems[par1].stackSize == 0)
-                {
-                    this.containingItems[par1] = null;
-                }
-
-                return var3;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
-    @Override
-    public ItemStack getStackInSlotOnClosing(int par1)
-    {
-        if (this.containingItems[par1] != null)
-        {
-            ItemStack var2 = this.containingItems[par1];
-            this.containingItems[par1] = null;
-            return var2;
-        }
-        else
-        {
-            return null;
-        }
-    }
-    @Override
-    public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
-    {
-        this.containingItems[par1] = par2ItemStack;
-
-        if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
-        {
-            par2ItemStack.stackSize = this.getInventoryStackLimit();
-        }
-    }
-    @Override
-    public String getInvName()
-    {
-        return "Railgun";
-    }
-    @Override
-    public int getInventoryStackLimit()
-    {
-        return 16;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1)
-	{
-		return true;
-	}
 	@Override
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
@@ -491,20 +313,7 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
         this.displayRotationPitch = this.rotationPitch*0.0175f;
 		this.displayRotationYaw = this.rotationYaw*0.0175f;
     	
-        this.wattHourStored = par1NBTTagCompound.getDouble("electricityStored");
-        NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
-        this.containingItems = new ItemStack[this.getSizeInventory()];
-
-        for (int var3 = 0; var3 < var2.tagCount(); ++var3)
-        {
-            NBTTagCompound var4 = (NBTTagCompound)var2.tagAt(var3);
-            byte var5 = var4.getByte("Slot");
-
-            if (var5 >= 0 && var5 < this.containingItems.length)
-            {
-                this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
-            }
-        }
+        this.dian = par1NBTTagCompound.getDouble("electricityStored");
     }
     /**
      * Writes a tile entity to NBT.
@@ -517,77 +326,22 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IElectr
         par1NBTTagCompound.setFloat("rotationYaw", this.rotationYaw);
         par1NBTTagCompound.setFloat("rotationPitch", this.rotationPitch);
         
-        par1NBTTagCompound.setDouble("electricityStored", this.wattHourStored);
-        NBTTagList var2 = new NBTTagList();
-
-        for (int var3 = 0; var3 < this.containingItems.length; ++var3)
-        {
-            if (this.containingItems[var3] != null)
-            {
-                NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte)var3);
-                this.containingItems[var3].writeToNBT(var4);
-                var2.appendTag(var4);
-            }
-        }
-
-        par1NBTTagCompound.setTag("Items", var2);
+        par1NBTTagCompound.setDouble("electricityStored", this.dian);
     }
 
 	@Override
-	public int getStartInventorySide(ForgeDirection side)
-	{
-		for(int i = 0; i < this.containingItems.length; i++)
-		{
-			ItemStack stack = this.containingItems[i];
-		
-			if(stack.stackSize < stack.getMaxStackSize())
-			{
-				return i;
-			}
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public int getSizeInventorySide(ForgeDirection side)
-	{
-		return this.containingItems.length;
-	}
-
-	@Override
-	public void onPowerOn() { this.redstonePowerOn = true;}
-
-	@Override
-	public void onPowerOff() {this.redstonePowerOn = false;}
-	
-	@Override
     public double wattRequest()
     {
-        if (!this.isDisabled())
+        if(this.dian < YAO_DIAN && !this.isDisabled())
         {
-            return Math.ceil(ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.wattHourStored));
+            return Math.ceil(YAO_DIAN - this.dian);
         }
 
         return 0;
     }
 	
-	@Override
-	public double getWattHours(Object... data)
+	public boolean isBeingPowered()
 	{
-		return this.wattHourStored;
-	}
-
-	@Override
-	public void setWattHours(double wattHours, Object... data)
-	{
-		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
-	}
-
-	@Override
-	public double getMaxWattHours()
-	{
-		return 300;
+		return this.worldObj.isBlockGettingPowered(this.xCoord, this.yCoord, this.zCoord) || this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
 	}
 }
