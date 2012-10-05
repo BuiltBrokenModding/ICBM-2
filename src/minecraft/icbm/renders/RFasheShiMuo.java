@@ -2,19 +2,19 @@ package icbm.renders;
 
 import icbm.ICBM;
 import icbm.jiqi.TFaSheShiMuo;
-import icbm.models.ModelLauncher0Screen;
-import icbm.models.ModelLauncher1Screen;
-import icbm.models.ModelLauncher2Screen;
+import icbm.models.MFaSheShiMuo0;
+import icbm.models.MFaSheShiMuo1;
+import icbm.models.MFaSheShiMuo2;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderLauncherScreen extends TileEntitySpecialRenderer
+public class RFasheShiMuo extends TileEntitySpecialRenderer
 {
-	ModelLauncher0Screen model0 = new ModelLauncher0Screen();
-	ModelLauncher1Screen model1 = new ModelLauncher1Screen();
-	ModelLauncher2Screen model2 = new ModelLauncher2Screen();
+	MFaSheShiMuo0 model0 = new MFaSheShiMuo0();
+	MFaSheShiMuo1 model1 = new MFaSheShiMuo1();
+	MFaSheShiMuo2 model2 = new MFaSheShiMuo2();
 	
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)

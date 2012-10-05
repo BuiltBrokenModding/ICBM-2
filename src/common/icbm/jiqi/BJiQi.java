@@ -37,6 +37,7 @@ import universalelectricity.prefab.Vector3;
  * 4 - EMP Tower
  * 5 - Railgun
  * 6 - Cruise Launcher
+ * 7 - Laser Turret
  * @author Calclavia
  *
  */
@@ -355,6 +356,7 @@ public class BJiQi extends BlockMachine
 	    	case 4: return new TDianCiQi();
 	    	case 5: return new TCiGuiPao();
 	    	case 6: return new TXiaoFaSheQi();
+	    	case 7: return new TLeiShePao();
     	}
     	
     	return null;

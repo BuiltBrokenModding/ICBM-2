@@ -2,7 +2,7 @@ package icbm.renders;
  
 import icbm.ICBM;
 import icbm.jiqi.TDianCiQi;
-import icbm.models.ModelEMPTower;
+import icbm.models.MDianCiQi;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 
@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
  
 public class RDianCiQi extends TileEntitySpecialRenderer
 {
-	private ModelEMPTower modelBase = new ModelEMPTower();
+	private MDianCiQi modelBase = new MDianCiQi();
  
     public void renderAModelAt(TDianCiQi tileEntity, double x, double y, double z, float f)
     {

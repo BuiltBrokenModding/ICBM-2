@@ -5,7 +5,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelMissile extends ModelBase
+public class MM extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
@@ -16,7 +16,7 @@ public class ModelMissile extends ModelBase
     ModelRenderer Shape6;
     ModelRenderer Shape7;
   
-  public ModelMissile()
+  public MM()
   {
     textureWidth = 64;
     textureHeight = 64;

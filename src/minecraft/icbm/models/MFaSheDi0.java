@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelLauncher0Base extends ModelBase
+public class MFaSheDi0 extends ModelBase
 {
   //fields
     ModelRenderer Shape1;
@@ -12,7 +12,7 @@ public class ModelLauncher0Base extends ModelBase
     ModelRenderer Shape8;
     ModelRenderer Shape13;
   
-  public ModelLauncher0Base()
+  public MFaSheDi0()
   {
     textureWidth = 128;
     textureHeight = 128;

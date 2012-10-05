@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelLauncher1Rail extends ModelBase
+public class MFaSheDiRail1 extends ModelBase
 {
   //fields
     ModelRenderer Shape11;
@@ -21,7 +21,7 @@ public class ModelLauncher1Rail extends ModelBase
     ModelRenderer Shape28;
     ModelRenderer Shape29;
   
-  public ModelLauncher1Rail()
+  public MFaSheDiRail1()
   {
     textureWidth = 128;
     textureHeight = 128;

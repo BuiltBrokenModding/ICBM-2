@@ -2,28 +2,28 @@ package icbm.renders;
  
 import icbm.ICBM;
 import icbm.jiqi.TFaSheDi;
-import icbm.models.ModelLauncher0Base;
-import icbm.models.ModelLauncher0Rail;
-import icbm.models.ModelLauncher1Base;
-import icbm.models.ModelLauncher1Rail;
-import icbm.models.ModelLauncher2Base;
-import icbm.models.ModelLauncher2Rails;
+import icbm.models.MFaSheDi0;
+import icbm.models.MFaSheDiRail0;
+import icbm.models.MFaSheDi1;
+import icbm.models.MFaSheDiRail1;
+import icbm.models.MFaSheDi2;
+import icbm.models.MFaSheDiRail2;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
  
-public class RenderLauncherBase extends TileEntitySpecialRenderer
+public class RFaSheDi extends TileEntitySpecialRenderer
 {
-	ModelLauncher0Base modelBase0 = new ModelLauncher0Base();
-	ModelLauncher0Rail modelRail0 = new ModelLauncher0Rail();
+	MFaSheDi0 modelBase0 = new MFaSheDi0();
+	MFaSheDiRail0 modelRail0 = new MFaSheDiRail0();
 	
-	ModelLauncher1Base modelBase1 = new ModelLauncher1Base();
-	ModelLauncher1Rail modelRail1 = new ModelLauncher1Rail();
+	MFaSheDi1 modelBase1 = new MFaSheDi1();
+	MFaSheDiRail1 modelRail1 = new MFaSheDiRail1();
 	
-	ModelLauncher2Base modelBase2 = new ModelLauncher2Base();
-	ModelLauncher2Rails modelRail2 = new ModelLauncher2Rails();
+	MFaSheDi2 modelBase2 = new MFaSheDi2();
+	MFaSheDiRail2 modelRail2 = new MFaSheDiRail2();
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)

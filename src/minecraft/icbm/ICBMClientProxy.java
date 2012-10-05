@@ -16,23 +16,25 @@ import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDaTai;
+import icbm.jiqi.TLeiShePao;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TYinGanQi;
-import icbm.renders.RXiaoFaSheQi;
+import icbm.renders.RCiGuiPao;
+import icbm.renders.RDaoDan;
 import icbm.renders.RDianCiQi;
+import icbm.renders.RFaSheDi;
+import icbm.renders.RFaSheJia;
+import icbm.renders.RFasheShiMuo;
+import icbm.renders.RGuangBang;
+import icbm.renders.RLeiShePao;
+import icbm.renders.RXiaoFaSheQi;
+import icbm.renders.RZhaPin;
 import icbm.renders.RenderExplosive;
 import icbm.renders.RenderFragment;
 import icbm.renders.RenderGravityBlock;
 import icbm.renders.RenderGrenade;
 import icbm.renders.RenderInvisible;
-import icbm.renders.RenderLauncherBase;
-import icbm.renders.RenderLauncherFrame;
-import icbm.renders.RenderLauncherScreen;
-import icbm.renders.RGuangBang;
-import icbm.renders.RDaoDan;
-import icbm.renders.RZhaPin;
 import icbm.renders.RenderRadarStation;
-import icbm.renders.RenderRailgun;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
@@ -72,13 +74,15 @@ public class ICBMClientProxy extends ICBMCommonProxy
         
         TextureFXManager.instance().addAnimation(new TGenZhongQiFX(FMLClientHandler.instance().getClient()));
         
-        ClientRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun", new RenderRailgun());
+        ClientRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun", new RCiGuiPao());
         ClientRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher", new RXiaoFaSheQi());
-        ClientRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase", new RenderLauncherBase());
-        ClientRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen", new RenderLauncherScreen());
-        ClientRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame", new RenderLauncherFrame());
+        ClientRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase", new RFaSheDi());
+        ClientRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen", new RFasheShiMuo());
+        ClientRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame", new RFaSheJia());
         ClientRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar", new RenderRadarStation());
         ClientRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower", new RDianCiQi());
+        ClientRegistry.registerTileEntity(TLeiShePao.class, "ICBMLaserTurret", new RLeiShePao());
+
 	
 	}
 	

@@ -3,7 +3,7 @@ package icbm.models;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelEMPTower extends ModelBase
+public class MDianCiQi extends ModelBase
 {
 	//fields
     ModelRenderer Base;
@@ -19,7 +19,7 @@ public class ModelEMPTower extends ModelBase
     ModelRenderer Support_Beam_CA2;
     ModelRenderer Support_Beam_DB2;
   
-  public ModelEMPTower()
+  public MDianCiQi()
   {
     textureWidth = 128;
     textureHeight = 128;

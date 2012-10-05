@@ -3,7 +3,7 @@ package icbm.models;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelRailgun extends ModelBase
+public class MCiGuiPao extends ModelBase
 {
 	//fields
     ModelRenderer BASE;
@@ -17,7 +17,7 @@ public class ModelRailgun extends ModelBase
     ModelRenderer SUPPORT_2_ROTATES;
     ModelRenderer SUPPORT_PLATFORM_ROTATES;
   
-  public ModelRailgun()
+  public MCiGuiPao()
   {
     textureWidth = 128;
     textureHeight = 128;

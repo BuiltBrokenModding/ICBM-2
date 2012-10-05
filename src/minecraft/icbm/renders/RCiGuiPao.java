@@ -2,15 +2,15 @@ package icbm.renders;
  
 import icbm.ICBM;
 import icbm.jiqi.TCiGuiPao;
-import icbm.models.ModelRailgun;
+import icbm.models.MCiGuiPao;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 
 import org.lwjgl.opengl.GL11;
  
-public class RenderRailgun extends TileEntitySpecialRenderer
+public class RCiGuiPao extends TileEntitySpecialRenderer
 {
-	private ModelRailgun modelBase = new ModelRailgun();
+	private MCiGuiPao modelBase = new MCiGuiPao();
  
     public void renderAModelAt(TCiGuiPao tileEntity, double d, double d1, double d2, float f)
     {

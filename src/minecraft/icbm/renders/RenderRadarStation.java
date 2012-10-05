@@ -2,7 +2,7 @@ package icbm.renders;
  
 import icbm.ICBM;
 import icbm.jiqi.TLeiDaTai;
-import icbm.models.ModelRadar;
+import icbm.models.MLeiDa;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 
@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
  
 public class RenderRadarStation extends TileEntitySpecialRenderer
 {
-	private ModelRadar modelBase = new ModelRadar();
+	private MLeiDa modelBase = new MLeiDa();
  
     public void renderAModelAt(TLeiDaTai tileEntity, double x, double y, double z, float f)
     {

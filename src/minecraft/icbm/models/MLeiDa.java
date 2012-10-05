@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelRadar extends ModelBase
+public class MLeiDa extends ModelBase
 {
 	//fields
     ModelRenderer Main_Base;
@@ -22,7 +22,7 @@ public class ModelRadar extends ModelBase
     ModelRenderer Secondary_Dish_Piece_1;
     ModelRenderer Secondary_Dish_Piece_2;
   
-  public ModelRadar()
+  public MLeiDa()
   {
     textureWidth = 128;
     textureHeight = 128;

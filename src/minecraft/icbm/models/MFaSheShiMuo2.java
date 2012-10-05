@@ -4,7 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelLauncher2Screen extends ModelBase
+public class MFaSheShiMuo2 extends ModelBase
 {
 //fields
  ModelRenderer Shape27;
@@ -12,7 +12,7 @@ public class ModelLauncher2Screen extends ModelBase
  ModelRenderer Shape30;
  ModelRenderer Shape31;
 
-public ModelLauncher2Screen()
+public MFaSheShiMuo2()
 {
  textureWidth = 256;
  textureHeight = 256;

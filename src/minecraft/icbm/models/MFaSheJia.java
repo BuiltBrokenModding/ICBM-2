@@ -4,13 +4,13 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelLauncherFrame extends ModelBase
+public class MFaSheJia extends ModelBase
 {
   //fields
     ModelRenderer Shape18;
     ModelRenderer Shape19;
   
-  public ModelLauncherFrame()
+  public MFaSheJia()
   {
     textureWidth = 128;
     textureHeight = 128;

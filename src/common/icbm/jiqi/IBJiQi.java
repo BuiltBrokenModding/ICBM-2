@@ -23,7 +23,8 @@ public class IBJiQi extends ItemBlock
     	"Radar Station",
     	"EMP Tower",
     	"Railgun",
-    	"Cruise Launcher"};
+    	"Cruise Launcher",
+    	"Laser Turret"};
     
     private static final int spawnID = ICBM.blockJiQi.blockID;
     

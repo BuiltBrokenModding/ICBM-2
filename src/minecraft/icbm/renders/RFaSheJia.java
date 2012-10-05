@@ -2,17 +2,16 @@ package icbm.renders;
 
 import icbm.ICBM;
 import icbm.jiqi.TFaSheJia;
-import icbm.models.ModelLauncherFrame;
+import icbm.models.MFaSheJia;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderLauncherFrame extends TileEntitySpecialRenderer
+public class RFaSheJia extends TileEntitySpecialRenderer
 {
-
-	private ModelLauncherFrame model = new ModelLauncherFrame();
+	private MFaSheJia model = new MFaSheJia();
 	
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)

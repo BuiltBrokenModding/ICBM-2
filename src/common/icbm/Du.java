@@ -1,7 +1,10 @@
 package icbm;
 
+import icbm.po.PChuanRanDu;
+import icbm.po.PDaDu;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Potion;
+import universalelectricity.prefab.potion.CustomPotionEffect;
 import atomicscience.api.Poison;
 
 public class Du extends Poison
@@ -19,17 +22,17 @@ public class Du extends Poison
 	{
 		if(this.isContagious)
     	{
-    		entity.addPotionEffect(new ICBMPotionEffect(ICBMPotion.contagiousPoison.id, 45 * 20, 1));
-    		entity.addPotionEffect(new ICBMPotionEffect(Potion.blindness.id, 15 * 20, 1));
+    		entity.addPotionEffect(new CustomPotionEffect(PChuanRanDu.INSTANCE.getId(), 45 * 20, 1, null));
+    		entity.addPotionEffect(new CustomPotionEffect(Potion.blindness.id, 15 * 20, 1));
     	}
     	else
     	{
-            entity.addPotionEffect(new ICBMPotionEffect(ICBMPotion.extendedPoison.id, 30 * 20, 1));
-            entity.addPotionEffect(new ICBMPotionEffect(Potion.confusion.id, 20 * 20, 1));
+            entity.addPotionEffect(new CustomPotionEffect(PDaDu.INSTANCE.getId(), 30 * 20, 1, null));
+            entity.addPotionEffect(new CustomPotionEffect(Potion.confusion.id, 20 * 20, 1));
     	}
     	
-    	entity.addPotionEffect(new ICBMPotionEffect(Potion.hunger.id, 20 * 20, 1));
-    	entity.addPotionEffect(new ICBMPotionEffect(Potion.weakness.id, 20 * 20, 1));
+    	entity.addPotionEffect(new CustomPotionEffect(Potion.hunger.id, 20 * 20, 1));
+    	entity.addPotionEffect(new CustomPotionEffect(Potion.weakness.id, 20 * 20, 1));
 	}
 
 }

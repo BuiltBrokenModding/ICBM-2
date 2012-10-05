@@ -3,8 +3,7 @@ package icbm.zhapin.ex;
 import icbm.EFeiBlock;
 import icbm.EGuang;
 import icbm.ICBM;
-import icbm.ICBMPotion;
-import icbm.ICBMPotionEffect;
+import icbm.po.PDongShang;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
@@ -18,8 +17,10 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Potion;
+import net.minecraft.src.PotionEffect;
 import net.minecraft.src.World;
 import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.potion.CustomPotionEffect;
 import universalelectricity.recipe.RecipeManager;
 
 public class ExBingDan extends ZhaPin
@@ -190,9 +191,9 @@ public class ExBingDan extends ZhaPin
 				
 		        for(EntityLiving entity : livingEntities)
 		        {
-					entity.addPotionEffect(new ICBMPotionEffect(ICBMPotion.frostBite.id, 60 * 20, 1));
-		    		entity.addPotionEffect(new ICBMPotionEffect(Potion.confusion.id, 10 * 20, 2));
-		    		entity.addPotionEffect(new ICBMPotionEffect(Potion.moveSlowdown.id, 45 * 20, 4));
+					entity.addPotionEffect(new CustomPotionEffect(PDongShang.INSTANCE.getId(), 60 * 20, 1, null));
+		    		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 2));
+		    		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 45 * 20, 4));
 		        }
 		        
 				ZhaPin.EndothermicIce.spawnZhaDan(worldObj, position, (byte)0);

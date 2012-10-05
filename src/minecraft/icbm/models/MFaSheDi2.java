@@ -4,13 +4,13 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelLauncher2Base extends ModelBase
+public class MFaSheDi2 extends ModelBase
 {
 	//fields
     ModelRenderer Shape12;
     ModelRenderer Shape13;
   
-  public ModelLauncher2Base()
+  public MFaSheDi2()
   {
     textureWidth = 256;
     textureHeight = 256;

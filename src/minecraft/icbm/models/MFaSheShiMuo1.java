@@ -4,13 +4,13 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.ModelRenderer;
 
-public class ModelLauncher1Screen extends ModelBase
+public class MFaSheShiMuo1 extends ModelBase
 {
 //fields
  ModelRenderer Shape4;
  ModelRenderer Shape5;
 
-public ModelLauncher1Screen()
+public MFaSheShiMuo1()
 {
  textureWidth = 128;
  textureHeight = 128;

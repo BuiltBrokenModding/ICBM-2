@@ -47,7 +47,7 @@ public class EDuQi extends ZhaPin
         {
         	if(isContagious)
         	{
-        		ICBM.DU_YI_CHUAN.poisonEntity(entity);
+        		ICBM.DU_CHUAN_RAN.poisonEntity(entity);
         	}
         	else
         	{

@@ -15,6 +15,9 @@ import icbm.jiqi.BYinGanQi;
 import icbm.jiqi.ECiGuiPao;
 import icbm.jiqi.IBJiQi;
 import icbm.jiqi.TYinGanQi;
+import icbm.po.PChuanRanDu;
+import icbm.po.PDaDu;
+import icbm.po.PDongShang;
 import icbm.zhapin.BZhaDan;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
@@ -50,6 +53,7 @@ import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 import atomicscience.api.BlockRadioactive;
+import atomicscience.api.PotionRadioactive;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IDispenserHandler;
 import cpw.mods.fml.common.Loader;
@@ -128,7 +132,7 @@ public class ICBM
 	public static final Item itemZiDan = new ItZiDan("Bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", itemIDprefix+10), 80);
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
-	public static final Du DU_YI_CHUAN = new Du("Contagious", 1, true);
+	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
 	
 	public static final UEDamageSource damageSmash = new UEDamageSource("smash", "%1$s got smashed to death!");
 		
@@ -378,7 +382,10 @@ public class ICBM
 		EntityRegistry.registerModEntity(ECiGuiPao.class, "ICBMRailgun", ENTITY_ID_PREFIX+7, this, 50, 5, true);
 		
   	    //Register potion effects
-  	    ICBMPotion.init();
+		PotionRadioactive.INSTANCE.register();
+		PDaDu.INSTANCE.register();
+		PChuanRanDu.INSTANCE.register();
+		PDongShang.INSTANCE.register();
   	    
 		this.proxy.init();
     }
