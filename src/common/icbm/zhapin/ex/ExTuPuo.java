@@ -16,6 +16,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
+import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExTuPuo extends ZhaPin
 {
@@ -46,9 +47,20 @@ public class ExTuPuo extends ZhaPin
 			}
 			
 	        worldObj.playSoundEffect(position.x, position.y, position.z, "random.explode", 5.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-			
+	        
+	        Vector3 targetPosition = position.clone();
+	        
 			for(int i = 0; i < 8; i ++)
 			{	
+				if(Block.blocksList[targetPosition.getBlockID(worldObj)] != null)
+				{
+					if(Block.blocksList[targetPosition.getBlockID(worldObj)].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.x, position.y, position.z) > Block.obsidian.getExplosionResistance(explosionSource)
+							|| Block.blocksList[targetPosition.getBlockID(worldObj)] instanceof IForceFieldBlock)
+					{
+						break;
+					}
+				}
+				
 				List blownBlocks = new ArrayList();
 				
 		        for (int x = 0; x < MAX_BAN_JING; ++x)
@@ -67,9 +79,9 @@ public class ExTuPuo extends ZhaPin
 		                        yStep /= diagonalDistance;
 		                        zStep /= diagonalDistance;
 		                        float var14 = BAN_JING * (0.7F + worldObj.rand.nextFloat() * 0.6F);
-		                        double var15 = position.x;
-		                        double var17 = position.y;
-		                        double var19 = position.z;
+		                        double var15 = targetPosition.x;
+		                        double var17 = targetPosition.y;
+		                        double var19 = targetPosition.z;
 		
 		                        for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
 		                        {
@@ -80,7 +92,7 @@ public class ExTuPuo extends ZhaPin
 		
 		                            if (var25 > 0)
 		                            {
-		                                var14 -= (Block.blocksList[var25].getExplosionResistance(explosionSource, worldObj, var22, var23, var24, position.intX(), position.intY(), position.intZ()) + 0.3F) * var21;
+		                                var14 -= (Block.blocksList[var25].getExplosionResistance(explosionSource, worldObj, var22, var23, var24, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ()) + 0.3F) * var21;
 		                            }
 		
 		                            if (var14 > 0.0F)
@@ -97,7 +109,7 @@ public class ExTuPuo extends ZhaPin
 		            }
 		        }
 		        
-		        doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG/2, false);
+		        doDamageEntities(worldObj, targetPosition, BAN_JING, NENG_LIANG/2, false);
 		        
 		        int var3;
 		        ChunkPosition var4;
@@ -119,9 +131,9 @@ public class ExTuPuo extends ZhaPin
 		            double var9 = (var5 + worldObj.rand.nextFloat());
 		            double var11 = (var6 + worldObj.rand.nextFloat());
 		            double var13 = (var7 + worldObj.rand.nextFloat());
-		            double var151 = var9 - position.y;
-		            double var171 = var11 - position.y;
-		            double var191 = var13 - position.z;
+		            double var151 = var9 - targetPosition.y;
+		            double var171 = var11 - targetPosition.y;
+		            double var191 = var13 - targetPosition.z;
 		            double var211 = MathHelper.sqrt_double(var151 * var151 + var171 * var171 + var191 * var191);
 		            var151 /= var211;
 		            var171 /= var211;
@@ -131,7 +143,7 @@ public class ExTuPuo extends ZhaPin
 		            var151 *= var23;
 		            var171 *= var23;
 		            var191 *= var23;
-		            worldObj.spawnParticle("explode", (var9 + position.x * 1.0D) / 2.0D, (var11 + position.y * 1.0D) / 2.0D, (var13 + position.z * 1.0D) / 2.0D, var151, var171, var191);
+		            worldObj.spawnParticle("explode", (var9 + targetPosition.x * 1.0D) / 2.0D, (var11 + targetPosition.y * 1.0D) / 2.0D, (var13 + targetPosition.z * 1.0D) / 2.0D, var151, var171, var191);
 		            worldObj.spawnParticle("smoke", var9, var11, var13, var151, var171, var191);
 		            
 		
@@ -143,7 +155,7 @@ public class ExTuPuo extends ZhaPin
 		            }
 		        }
 		        
-				position.add(difference);
+		        targetPosition.add(difference);
 			}
 		}
     }

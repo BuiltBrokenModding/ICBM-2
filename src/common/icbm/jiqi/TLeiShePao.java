@@ -40,7 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
 public class TLeiShePao extends TileEntityElectricityReceiver implements IPacketReceiver, IMB
 {	
 	//Watts required per tick.
-	public static final int YAO_DIAN = 20;
+	public static final int YAO_DIAN = 8;
 	
 	private static final int BURN_BAN_JING = 3;
 	
@@ -112,7 +112,7 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IPacket
     		
     		if(this.isBeingPowered() && this.dian >= this.YAO_DIAN)
     		{
-    			if(Ticker.inGameTicks % 20 == 0)
+    			if(Ticker.inGameTicks % 8 == 0)
     			{
     				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.laser", 2F, 1F);
     				
@@ -227,7 +227,7 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IPacket
 	@Override
 	public double getVoltage()
 	{
-		return 220;
+		return 120;
 	}
 	
 	@Override
@@ -267,7 +267,7 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IPacket
 		{
 			if(!this.worldObj.isRemote)
 			{
-				this.entityFake  = new EFake(this.worldObj, new Vector3(this.xCoord+0.5D, this.yCoord, this.zCoord+0.5D), this);
+				this.entityFake  = new EFake(this.worldObj, new Vector3(this.xCoord+0.5, this.yCoord+0.25, this.zCoord+0.5), this);
 				this.worldObj.spawnEntityInWorld(entityFake);
 				entityPlayer.mountEntity(entityFake);
 			}

@@ -3,6 +3,7 @@ package icbm.renders;
 import icbm.ICBM;
 import icbm.jiqi.TLeiShePao;
 import icbm.models.MLeiShePao;
+import icbm.models.MLeiShePao2;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 
@@ -11,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 public class RLeiShePao extends TileEntitySpecialRenderer
 {
 	private MLeiShePao modelBase = new MLeiShePao();
+	private MLeiShePao2 modelBase2 = new MLeiShePao2();
  
     public void renderAModelAt(TLeiShePao tileEntity, double x, double y, double z, float f)
     {
@@ -20,7 +22,10 @@ public class RLeiShePao extends TileEntitySpecialRenderer
         this.bindTextureByName(ICBM.TEXTURE_FILE_PATH+"LaserTurret.png");
         GL11.glRotatef(180F, 0F, 0F, 1F);
         GL11.glRotatef(180F, 0F, 1F, 0F);
-        modelBase.render(tileEntity.displayRotationYaw, tileEntity.displayRotationPitch, 0.0625F);
+        modelBase.render(0.0625F);
+        GL11.glRotatef(tileEntity.rotationYaw, 0F, 1F, 0F);
+        GL11.glRotatef(tileEntity.rotationPitch, 1F, 0F, 0F);
+        modelBase2.render(0.0625F);
         GL11.glPopMatrix();                  
     }
  

@@ -241,7 +241,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     		this.updateLoadChunk();
     		
     		if(!this.worldObj.isRemote)
-    		{
+    		{    			
 	        	if(this.isCruise)
 		    	{
 	    			if(this.ticksInAir == 0)

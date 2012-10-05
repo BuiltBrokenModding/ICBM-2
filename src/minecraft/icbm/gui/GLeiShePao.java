@@ -38,8 +38,8 @@ public class GLeiShePao extends ICBMGui
     	super.initGui();
         this.controlList.clear();
         
-        this.controlList.add(new GuiButton(0, this.width / 2 - 77,  this.height / 2 - 80, 55, 20, "Mount"));
-        this.controlList.add(new GuiButton(1, this.width / 2 - 0,  this.height / 2 - 80, 55, 20, "Mode"));
+        this.controlList.add(new GuiButton(0, this.width / 2 - 60,  this.height / 2 + 10, 55, 20, "Mount"));
+        this.controlList.add(new GuiButton(1, this.width / 2 + 10,  this.height / 2 + 10, 55, 20, "Mode"));
     	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, true));
     }
     
@@ -92,7 +92,7 @@ public class GLeiShePao extends ICBMGui
     @Override
 	protected void drawGuiContainerForegroundLayer()
     {
-    	this.fontRenderer.drawString("Laser Turret", 63, 6, 4210752);
+    	this.fontRenderer.drawString("Laser Turret", 59, 6, 4210752);
     	    	        
         //Shows the status of the EMP Tower
         String color = "\u00a74";
