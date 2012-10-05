@@ -27,7 +27,7 @@ public abstract class Poison
 	 * Called to poison this specific entity with this specific type of poison
 	 * @param entity
 	 */
-	public void poisonEntity(EntityLiving entity)
+	public void poisonEntity(EntityLiving entity, int amplifier)
 	{
 		int protectiveArmor = 0;
 		
@@ -52,9 +52,14 @@ public abstract class Poison
 		
 		if(protectiveArmor < 4)
 		{
-			this.doPoisonEntity(entity);
+			this.doPoisonEntity(entity, amplifier);
 		}
 	}
 	
-	protected abstract void doPoisonEntity(EntityLiving entity);
+	public void poisonEntity(EntityLiving entity)
+	{
+		this.poisonEntity(entity, 0);
+	}
+	
+	protected abstract void doPoisonEntity(EntityLiving entity, int amplifier);
 }

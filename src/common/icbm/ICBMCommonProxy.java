@@ -28,6 +28,7 @@ public class ICBMCommonProxy extends CommonProxy
 	public static final int GUI_FREQUENCY = 5;
 	public static final int GUI_EMP_TOWER = 6;
 	public static final int GUI_LAUNCHER_BASE = 7;
+	public static final int GUI_LASER_TURRET = 8;
 
 	@Override
 	public void preInit() { }

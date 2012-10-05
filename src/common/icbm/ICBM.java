@@ -53,7 +53,7 @@ import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 import atomicscience.api.BlockRadioactive;
-import atomicscience.api.PotionRadioactive;
+import atomicscience.api.PoisonRadiation;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IDispenserHandler;
 import cpw.mods.fml.common.Loader;
@@ -382,7 +382,7 @@ public class ICBM
 		EntityRegistry.registerModEntity(ECiGuiPao.class, "ICBMRailgun", ENTITY_ID_PREFIX+7, this, 50, 5, true);
 		
   	    //Register potion effects
-		PotionRadioactive.INSTANCE.register();
+		PoisonRadiation.register();
 		PDaDu.INSTANCE.register();
 		PChuanRanDu.INSTANCE.register();
 		PDongShang.INSTANCE.register();

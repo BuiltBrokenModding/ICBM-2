@@ -146,7 +146,7 @@ public class BJiQi extends BlockMachine
 		    		par1World.getBlockId(x-1, y+2, z) == 0;
     	}
     	//Launcher Screen
-    	else if(metadata == 1 || metadata == 5 || metadata == 6)
+    	else if(metadata == 1 || metadata == 5 ||  metadata == 6 || metadata == 7)
     	{
     		return par1World.getBlockMaterial(x, y-1, z).isSolid();
     	}

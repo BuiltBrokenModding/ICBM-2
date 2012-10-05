@@ -95,6 +95,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
         {
 			switch(ID)
 			{
+				case ICBMCommonProxy.GUI_LASER_TURRET: return new GCiGuiPao((TLeiShePao)tileEntity, entityPlayer);
 				case ICBMCommonProxy.GUI_RAIL_GUN: return new GCiGuiPao((TCiGuiPao)tileEntity, entityPlayer);
 				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi)tileEntity);
 				case ICBMCommonProxy.GUI_LAUNCHER_SCREEN: return new GFaSheShiMuo(((TFaSheShiMuo)tileEntity));
