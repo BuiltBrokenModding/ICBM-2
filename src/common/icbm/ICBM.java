@@ -313,7 +313,6 @@ public class ICBM
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockYinGanQi), new Object [] {" ! ", "!?!", " ! ", '!', BasicComponents.itemSteelPlate, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Signal Disrupter
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemHuoLaunQi), new Object [] {"!", "?", '!', ICBM.itemYaoKong.getUnchargedItemStack(), '?', ICBM.blockYinGanQi});
-		
 		//Antidote
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemYao, 2), new Object [] {"@@@", "@@@", "@@@", '@', Item.pumpkinSeeds});
 		//Defuser
@@ -338,9 +337,10 @@ public class ICBM
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 11), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemLeiDaQiang.getUnchargedItemStack(), '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 2)});
 		//Cruise Launcher
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 12), new Object [] {"?! ", "@@@", '@', BasicComponents.itemSteelPlate, '!', new ItemStack(ICBM.blockJiQi, 1, 2), '?', new ItemStack(ICBM.blockJiQi, 1, 8)});
+		//Laser Turret
+		RecipeManager.addRecipe(new ItemStack(ICBM.blockJiQi, 1, 13), new Object [] {"?!#", "@@@", '@', BasicComponents.itemSteelPlate, '!', ICBM.itemLeiDaQiang.getUnchargedItemStack(), '#', Item.diamond, '?', new ItemStack(BasicComponents.itemCircuit, 1, 1)});
 		//Glass Pressure Plate
 		RecipeManager.addRecipe(new ItemStack(ICBM.blockBuo1LiPan, 1, 0), new Object [] {"##", '#', Block.glass});
-		    
 		//Missiles
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), new Object [] {" @ ", "@#@", "@?@", '@', "ingotSteel", '?', BasicComponents.itemOilBucket, '#', BasicComponents.itemCircuit});
 		RecipeManager.addRecipe(new ItemStack(ICBM.itemTeBieDaoDan, 1, 1), new Object [] {"!", "?", "@", '@', new ItemStack(ICBM.itemTeBieDaoDan, 1, 0), '?', new ItemStack(ICBM.blockZha4Dan4, 1, 0), '!', BasicComponents.itemCircuit});

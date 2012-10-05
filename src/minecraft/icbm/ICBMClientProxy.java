@@ -110,10 +110,4 @@ public class ICBMClientProxy extends ICBMCommonProxy
 		
 		return null;
 	}
-	
-	@Override
-	public World getWorld()
-	{
-		return FMLClientHandler.instance().getClient().theWorld;
-	}
 }

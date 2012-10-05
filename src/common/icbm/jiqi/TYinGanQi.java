@@ -30,17 +30,15 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
 {
 	//Watts Per Tick
-	public static final float YAO_DIAN = 3;
+	public static final float YAO_DIAN = 2;
 	
     //The electricity stored
-    public double dian, prevDian = 0;
+    public double dian = 0;
         
     public short frequency = 0;
 
     public boolean isDetect = false;
-    
-    public boolean firstUpdate = true;
-    
+        
     public Vector3 minCoord = new Vector3(9, 9, 9);
     public Vector3 maxCoord = new Vector3(9, 9, 9);
 
@@ -58,12 +56,17 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	 */
 	@Override
 	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
-	{		
+	{
 		if(!this.isDisabled())
     	{
 			this.dian += ElectricInfo.getWatts(amps, voltage);
-			this.prevDian = this.dian;
     	}
+	}
+	
+	@Override
+	protected void initiate()
+	{
+		this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 	}
 	
 	public void updateEntity()
@@ -71,15 +74,14 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 		super.updateEntity();
 		
 		if(!this.worldObj.isRemote)
-		{
-			if(this.firstUpdate)
-			{
-				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-				this.firstUpdate = false;
-			}
-						
+		{	
 			if(!this.isDisabled())
 	    	{
+				if(Ticker.inGameTicks % 10 == 0 && this.yongZhe > 0)
+				{
+	    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
+				}
+				
 	    		if(this.dian >= this.YAO_DIAN)
 	    		{
 	    			boolean isDetectThisCheck = false;
@@ -121,16 +123,16 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 							break;
 						}
 					}
-	
-					if(isDetectThisCheck != isDetect)
+					
+					if(isDetectThisCheck != this.isDetect)
 					{
-						isDetect = isDetectThisCheck;
+						this.isDetect = isDetectThisCheck;
 						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 					}
 					
 					this.dian = 0;
-	    		}
-	    		else
+	    		}/*
+	    		else if(Ticker.inGameTicks % 20 == 0)
 	    		{
 	    			if(isDetect)
 	    			{
@@ -138,20 +140,18 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	    			}
 	    			
 	    			isDetect = false;
-	    		}
-	    		
-	    		if(Ticker.inGameTicks % 20 == 0 && this.yongZhe > 0)
-				{
-	    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
-				}
+	    		}*/
 	    	}
+			
+			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+
 		}
     }
 	
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.prevDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.dian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
     }
     
     @Override
@@ -175,7 +175,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 			}
 			else if(ID == 1)
 			{
-				this.prevDian = dataStream.readDouble();
+				this.dian = dataStream.readDouble();
 	            this.frequency = dataStream.readShort();
 	            this.mode = dataStream.readByte();
 	            this.minCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
@@ -207,7 +207,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	@Override
 	public double wattRequest()
 	{
-		return Math.ceil(this.YAO_DIAN);
+		return Math.ceil(this.YAO_DIAN*2);
 	}
 
 	@Override

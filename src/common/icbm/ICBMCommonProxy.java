@@ -69,9 +69,4 @@ public class ICBMCommonProxy extends CommonProxy
 		
 		return null;
 	}
-		
-	public World getWorld()
-	{
-		return null;
-	}
 }

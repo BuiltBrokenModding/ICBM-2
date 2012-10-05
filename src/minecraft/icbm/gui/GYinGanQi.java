@@ -187,7 +187,7 @@ public class GYinGanQi extends ICBMGui
     	{
         	status = "Disabled";
     	}
-        else if(this.tileEntity.prevDian < this.tileEntity.YAO_DIAN)
+        else if(this.tileEntity.dian < this.tileEntity.YAO_DIAN)
     	{
     		status = "Insufficient electricity!";
     	}

@@ -9,9 +9,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.RenderEngine;
+import net.minecraft.src.WorldClient;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.FMLTextureFX;
 import cpw.mods.fml.client.TextureFXManager;
 import cpw.mods.fml.common.Side;
@@ -99,7 +101,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 	            {
 	            	ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
 	            	
-	            	Entity trackingEntity = ItGenZongQi.getTrackingEntity(itemStack);
+	            	Entity trackingEntity = ItGenZongQi.getTrackingEntityClient((WorldClient)FMLClientHandler.instance().getClient().theWorld, itemStack);
 	            	
 	                if(trackingEntity != null)
 	                {

@@ -10,8 +10,11 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldClient;
+import net.minecraft.src.WorldServer;
 import universalelectricity.prefab.ItemElectric;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 
 public class ItGenZongQi extends ItemElectric
 {
@@ -24,12 +27,13 @@ public class ItGenZongQi extends ItemElectric
         this.setItemName(name);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, List par2List)
     {
 	    super.addInformation(itemStack, par2List);
 	    
-        Entity trackingEntity = getTrackingEntity(itemStack);
+        Entity trackingEntity = getTrackingEntityClient((WorldClient)FMLClientHandler.instance().getClient().theWorld, itemStack);
         
         if(trackingEntity != null)
         {
@@ -50,13 +54,50 @@ public class ItGenZongQi extends ItemElectric
     	}
     }
     
-    public static Entity getTrackingEntity(ItemStack itemStack)
+    @SideOnly(Side.CLIENT)
+    public static Entity getTrackingEntityClient(World worldObj, ItemStack itemStack)
     {
-    	if(itemStack.stackTagCompound != null)
-        {
-            int trackingID = itemStack.stackTagCompound.getInteger("trackingEntity");
-            return ((WorldClient)FMLClientHandler.instance().getClient().theWorld).getEntityByID(trackingID);
-        }
+    	if(worldObj != null)
+    	{
+    		if(itemStack.stackTagCompound != null)
+            {
+                int trackingID = itemStack.stackTagCompound.getInteger("trackingEntity");
+                
+                try
+                {
+                	return ((WorldClient)worldObj).getEntityByID(trackingID);
+                }
+                catch(Exception e)
+                {
+                	
+                }
+            }
+        	
+    	}
+    	
+    	return null;
+    }
+    
+    @SideOnly(Side.SERVER)
+    public static Entity getTrackingEntityServer(World worldObj, ItemStack itemStack)
+    {
+    	if(worldObj != null)
+    	{
+    		if(itemStack.stackTagCompound != null)
+            {
+                int trackingID = itemStack.stackTagCompound.getInteger("trackingEntity");
+                
+                try
+                {
+                	return ((WorldServer)worldObj).getEntityByID(trackingID);
+                }
+                catch(Exception e)
+                {
+                	
+                }
+            }
+        	
+    	}
     	
     	return null;
     }
@@ -73,25 +114,28 @@ public class ItGenZongQi extends ItemElectric
     {
     	super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
     	
-    	if(par3Entity instanceof EntityPlayer)
+    	if(!par2World.isRemote)
     	{
-    		EntityPlayer player = (EntityPlayer)par3Entity;
-    		
-    		if(player.inventory.getCurrentItem() != null)
-    		{
-	    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
+	    	if(par3Entity instanceof EntityPlayer)
+	    	{
+	    		EntityPlayer player = (EntityPlayer)par3Entity;
+	    		
+	    		if(player.inventory.getCurrentItem() != null)
 	    		{
-	    			if(getTrackingEntity(par1ItemStack) != null)
-	    			{
-	    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
-	    				
-	    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
-	    				{
-	    					this.setTrackingEntity(par1ItemStack, null);
-	    				}
-	    			}
+		    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
+		    		{
+		    			if(getTrackingEntityServer(par2World, par1ItemStack) != null)
+		    			{
+		    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+		    				
+		    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
+		    				{
+		    					this.setTrackingEntity(par1ItemStack, null);
+		    				}
+		    			}
+		    		}
 	    		}
-    		}
+	    	}
     	}
     }
     

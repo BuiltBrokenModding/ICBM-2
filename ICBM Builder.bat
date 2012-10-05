@@ -30,6 +30,7 @@ cd resources\
 cd ..\
 cd src\
 "..\..\7za.exe" a "..\Backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
+"..\..\7za.exe" a "..\Builds\API_ICBM_v%MODVERSION%.%BUILD_NUMBER%.zip" "*\icbm\api\"
 cd ..\
 
 ::UPDATE INFO FILE
@@ -41,6 +42,7 @@ echo icbm@calclavia.com>>ftpscript.txt
 echo ICBMmod>>ftpscript.txt
 echo binary>>ftpscript.txt
 echo put "Builds\%FILE_NAME%">>ftpscript.txt
+echo put "Builds\API_%FILE_NAME%">>ftpscript.txt
 echo put info.txt>>ftpscript.txt
 echo quit>>ftpscript.txt
 ftp.exe -s:ftpscript.txt

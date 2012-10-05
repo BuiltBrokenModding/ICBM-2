@@ -49,21 +49,24 @@ public class DZhuiZhong extends DaoDan
 	@Override
 	public boolean onInteract(EDaoDan missileObj, EntityPlayer par1EntityPlayer)
 	{
-		if(par1EntityPlayer.getCurrentEquippedItem() != null)
-    	{
-    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
-    		{
-    			if(ItGenZongQi.getTrackingEntity(par1EntityPlayer.getCurrentEquippedItem()) != null)
-    			{
-    				if(missileObj.genZongE != ItGenZongQi.getTrackingEntity(par1EntityPlayer.getCurrentEquippedItem()).entityId)
-    				{
-    					missileObj.genZongE = ItGenZongQi.getTrackingEntity(par1EntityPlayer.getCurrentEquippedItem()).entityId;
-        				par1EntityPlayer.addChatMessage("Missile target locked to: "+ItGenZongQi.getTrackingEntity(par1EntityPlayer.getCurrentEquippedItem()).getEntityName());
-        				return true;
-    				}
-    			}
-    		}
-    	}
+		if(!missileObj.worldObj.isRemote)
+		{
+			if(par1EntityPlayer.getCurrentEquippedItem() != null)
+	    	{
+	    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
+	    		{
+	    			if(ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()) != null)
+	    			{
+	    				if(missileObj.genZongE != ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()).entityId)
+	    				{
+	    					missileObj.genZongE = ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()).entityId;
+	        				par1EntityPlayer.addChatMessage("Missile target locked to: "+ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()).getEntityName());
+	        				return true;
+	    				}
+	    			}
+	    		}
+	    	}
+		}
 		
 		return false;
 	}

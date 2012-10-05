@@ -257,8 +257,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	    				return;
 	            	}
                 }
-                
-                if(this.containingMissile.missileID == missileId)
+                else if(this.containingMissile.missileID == missileId)
         		{
                 	this.containingMissile.posY = this.yCoord+0.2f;
             		return;
@@ -523,7 +522,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	{
 		if(entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
+			if(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
 			{
 				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
 				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
