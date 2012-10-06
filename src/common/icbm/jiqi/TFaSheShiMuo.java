@@ -23,12 +23,15 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.IPeripheral;
+
 /**
  * This tile entity is for the screen of the missile launcher
  * @author Calclavia
  *
  */
-public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceiver, ITier, IRotatable
+public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceiver, ITier, IRotatable 
 {    
     //Is the block powered by redstone?
     private boolean isPowered = false;

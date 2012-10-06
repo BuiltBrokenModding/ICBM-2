@@ -2,6 +2,7 @@ package icbm.dianqi;
 
 import icbm.ICBM;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import net.minecraft.src.Entity;
@@ -15,6 +16,7 @@ import universalelectricity.prefab.ItemElectric;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ItGenZongQi extends ItemElectric
 {
@@ -69,7 +71,7 @@ public class ItGenZongQi extends ItemElectric
                 }
                 catch(Exception e)
                 {
-                	
+                	//e.printStackTrace();
                 }
             }
         	
@@ -93,7 +95,7 @@ public class ItGenZongQi extends ItemElectric
                 }
                 catch(Exception e)
                 {
-                	
+                	//e.printStackTrace();
                 }
             }
         	
@@ -114,28 +116,51 @@ public class ItGenZongQi extends ItemElectric
     {
     	super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
     	
-    	if(!par2World.isRemote)
+    	if(par3Entity instanceof EntityPlayer)
     	{
-	    	if(par3Entity instanceof EntityPlayer)
-	    	{
-	    		EntityPlayer player = (EntityPlayer)par3Entity;
-	    		
-	    		if(player.inventory.getCurrentItem() != null)
+    		EntityPlayer player = (EntityPlayer)par3Entity;
+    		
+    		if(player.inventory.getCurrentItem() != null)
+    		{
+	    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
 	    		{
-		    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
-		    		{
-		    			if(getTrackingEntityServer(par2World, par1ItemStack) != null)
+	    			try
+	    			{
+	    				try
 		    			{
-		    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+		    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityServer", World.class, ItemStack.class);
 		    				
-		    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
-		    				{
-		    					this.setTrackingEntity(par1ItemStack, null);
-		    				}
+		    				if(m.invoke(this, par2World, par1ItemStack) != null)
+			    			{
+			    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+			    				
+			    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
+			    				{
+			    					this.setTrackingEntity(par1ItemStack, null);
+			    				}
+			    			}
 		    			}
-		    		}
+		    			catch(Exception e)
+		    			{
+		    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityClient", World.class, ItemStack.class);
+		    				
+		    				if(m.invoke(this, par2World, par1ItemStack) != null)
+			    			{
+			    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+			    				
+			    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
+			    				{
+			    					this.setTrackingEntity(par1ItemStack, null);
+			    				}
+			    			}
+		    			}
+	    			}
+	    			catch(Exception e)
+	    			{
+	    				System.out.println("Failed to find method for tracker.");
+	    			}
 	    		}
-	    	}
+    		}
     	}
     }
     

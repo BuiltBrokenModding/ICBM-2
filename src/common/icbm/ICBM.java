@@ -80,7 +80,7 @@ public class ICBM
 	@Instance("ICBM")
 	public static ICBM instance;
 	
-	public static final String VERSION = "0.5.6";
+	public static final String VERSION = "0.5.7";
 	
 	public static final String CHANNEL = "ICBM";
 	

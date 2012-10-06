@@ -5,8 +5,10 @@ import icbm.api.Launcher.LauncherType;
 import icbm.jiqi.FaSheQiGuanLi;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import universalelectricity.prefab.Vector3;
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.IPeripheral;
 
-public abstract class TFaSheQi extends TileEntityElectricityReceiver implements ILauncher
+public abstract class TFaSheQi extends TileEntityElectricityReceiver implements ILauncher, IPeripheral
 {
 	protected Vector3 muBiao = null;
 	
@@ -67,4 +69,66 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	{
 		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
 	}
+	
+	@Override
+	public String getType()
+	{
+		return "ICBMLauncher";
+	}
+
+	@Override
+	public String[] getMethodNames()
+	{
+		return new String[]{"launch", "getTarget", "setTarget", "canLaunch", "setFrequency", "getFrequency"};
+	}
+
+	@Override
+	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
+	{
+		switch(method)
+		{
+			case 0: this.launch();
+			case 1: return new Object[]{this.getTarget().x, this.getTarget().y, this.getTarget().z};
+			case 2: 
+				if(arguments[0] != null && arguments[1] != null && arguments[2] != null)
+				{
+					try
+					{
+						this.setTarget(new Vector3((Double)arguments[0], (Double)arguments[1], (Double)arguments[2]));
+					}
+					catch(Exception e)
+					{
+						throw new Exception("Target Parameter is Invalid.");
+					}
+				}
+			case 3: return new Object[]{this.canLaunch()};
+			case 4: 
+				if(arguments[0] != null)
+				{
+					try
+					{
+						this.setFrequency((Short)arguments[0]);
+					}
+					catch(Exception e)
+					{
+						throw new Exception("Frequency Parameter is Invalid.");
+					}
+				}
+			case 5: return new Object[]{this.getFrequency()};
+		}
+		
+		throw new Exception("Invalid ICBM Launcher Function.");
+	}
+
+	@Override
+	public boolean canAttachToSide(int side)
+	{
+		return true;
+	}
+
+	@Override
+	public void attach(IComputerAccess computer, String computerSide) { }
+
+	@Override
+	public void detach(IComputerAccess computer) { }
 }

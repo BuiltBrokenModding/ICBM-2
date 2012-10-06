@@ -243,13 +243,13 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	{
 		if(this.containingItems[0] != null)
         {
-            if (this.containingItems[0].getItem() instanceof ItDaoDan)
+            if (this.containingItems[0].itemID == ICBM.itemDaoDan.shiftedIndex)
             {
                 int missileId = this.containingItems[0].getItemDamage();
 
                 if(this.containingMissile == null)
                 {
-	            	if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
+	            	if(DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
 	            	{
 	        			Vector3 startingPosition = new Vector3((this.xCoord+0.5f), (this.yCoord+0.2f), (this.zCoord+0.5f));
 	    				this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
@@ -257,10 +257,14 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	    				return;
 	            	}
                 }
-                else if(this.containingMissile.missileID == missileId)
+                
+                if(this.containingMissile != null)
         		{
-                	this.containingMissile.posY = this.yCoord+0.2f;
-            		return;
+                	if(this.containingMissile.missileID == missileId)
+                	{
+	                	this.containingMissile.posY = this.yCoord+0.2f;
+	            		return;
+                	}
         		}
             }
         }
@@ -348,7 +352,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 			 
 			if(missile != null)
 			{
-				if(!(this.containingItems[0].getItem() instanceof ItTeBieDaoDan) && missile.isCruise() && missile.getTier() <= 3)
+				if(this.containingItems[0].itemID == ICBM.itemDaoDan.shiftedIndex && missile.isCruise() && missile.getTier() <= 3)
 		        {
 		    		if(this.dianXiaoShi >= this.getMaxWattHours())
 		    		{
@@ -522,7 +526,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	{
 		if(entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
+			if(entityPlayer.inventory.getCurrentItem().itemID == ICBM.itemDaoDan.shiftedIndex && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
 			{
 				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
 				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
