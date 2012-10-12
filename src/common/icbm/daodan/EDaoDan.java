@@ -29,6 +29,7 @@ import universalelectricity.prefab.Vector3;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMissile
@@ -184,17 +185,25 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     
     public void updateLoadChunk()
     {
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ+1));
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ));
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX+1, this.chunkCoordZ-1));
-
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ+1));
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ-1));
-
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ+1));
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ));
-    	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX-1, this.chunkCoordZ-1));
+    	if(!this.worldObj.isRemote && ICBM.ALLOW_LOAD_CHUNKS)
+    	{	
+	    	for(int x = -1; x <= 1; x++)
+	    	{
+	    		for(int z = -1; z <= 1; z++)
+	        	{
+	    			ChunkCoordIntPair chunkCoord = new ChunkCoordIntPair(this.chunkCoordX+x, this.chunkCoordZ+z);
+	    			
+	    			try
+    				{
+	    				ForgeChunkManager.forceChunk(this.chunkTicket, chunkCoord);
+    				}
+    				catch(Exception e)
+    				{
+    					System.err.println("Already Decorating!");
+    				}
+	        	}
+	    	}
+    	}
     }
     
     @Override

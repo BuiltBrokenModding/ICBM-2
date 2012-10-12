@@ -301,6 +301,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
     	super.writeToNBT(par1NBTTagCompound);
+    	
     	if(this.muBiao != null)
     	{
     		this.muBiao.writeToNBT("target", par1NBTTagCompound);

@@ -42,6 +42,7 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.BasicComponents;
 import universalelectricity.UEConfig;
@@ -97,6 +98,7 @@ public class ICBM
 	public static final boolean ALLOW_BLOCK_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Blocks", true);
 	public static final boolean ALLOW_MISSILE_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Missiles", true);
 	public static final boolean ALLOW_GRENADE_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Grenades", true);
+	public static final boolean ALLOW_LOAD_CHUNKS = UEConfig.getConfigData(CONFIGURATION, "Allow Chunk Loading", true);
 	
 	@SidedProxy(clientSide = "icbm.ICBMClientProxy", serverSide = "icbm.ICBMCommonProxy")
 	public static ICBMCommonProxy proxy;
@@ -206,7 +208,7 @@ public class ICBM
 		}
 	}
 	
-	/*
+	
 	@ForgeSubscribe
 	public void onEEC(EnteringChunk event)
 	{
@@ -214,7 +216,7 @@ public class ICBM
 		{
 			((EDaoDan)event.entity).updateLoadChunk(event.oldChunkX, event.oldChunkZ, event.newChunkX, event.newChunkZ);
 		}
-	}*/
+	}
 	
 	@Init
 	public void load(FMLInitializationEvent evt)
