@@ -143,8 +143,7 @@ public class ICBM
     {
 		if(!Loader.isModLoaded("UniversalElectricity")) throw new RuntimeException("Universal Electricity not installed!");
 			
-		UniversalElectricity.versionLock(0, 9, 0, true);
-		UniversalElectricity.forgeLock(4, 1, 4, true);
+		UniversalElectricity.versionLock(0, 9, 1, true);
 		
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		

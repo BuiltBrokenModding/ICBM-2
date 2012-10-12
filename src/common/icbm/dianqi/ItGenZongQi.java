@@ -124,40 +124,36 @@ public class ItGenZongQi extends ItemElectric
     		{
 	    		if(player.inventory.getCurrentItem().itemID == this.shiftedIndex)
 	    		{
+	    			Entity trackingEntity = null;
+
 	    			try
 	    			{
 	    				try
 		    			{
 		    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityServer", World.class, ItemStack.class);
 		    				
-		    				if(m.invoke(this, par2World, par1ItemStack) != null)
-			    			{
-			    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
-			    				
-			    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
-			    				{
-			    					this.setTrackingEntity(par1ItemStack, null);
-			    				}
-			    			}
+		    				trackingEntity = (Entity) m.invoke(this, par2World, par1ItemStack);
 		    			}
 		    			catch(Exception e)
 		    			{
 		    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityClient", World.class, ItemStack.class);
 		    				
-		    				if(m.invoke(this, par2World, par1ItemStack) != null)
-			    			{
-			    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
-			    				
-			    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
-			    				{
-			    					this.setTrackingEntity(par1ItemStack, null);
-			    				}
-			    			}
+		    				trackingEntity = (Entity) m.invoke(this, par2World, par1ItemStack);
 		    			}
 	    			}
 	    			catch(Exception e)
 	    			{
 	    				System.out.println("Failed to find method for tracker.");
+	    			}
+
+    				if(trackingEntity != null)
+	    			{
+	    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+	    				
+	    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
+	    				{
+	    					this.setTrackingEntity(par1ItemStack, null);
+	    				}
 	    			}
 	    		}
     		}

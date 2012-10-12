@@ -1,8 +1,12 @@
 package icbm.daodan;
 
+import java.lang.reflect.Method;
+
 import icbm.dianqi.ItGenZongQi;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.World;
 import net.minecraft.src.WorldServer;
 import universalelectricity.prefab.Vector2;
 import universalelectricity.prefab.Vector3;
@@ -49,24 +53,44 @@ public class DZhuiZhong extends DaoDan
 	@Override
 	public boolean onInteract(EDaoDan missileObj, EntityPlayer par1EntityPlayer)
 	{
-		if(!missileObj.worldObj.isRemote)
-		{
-			if(par1EntityPlayer.getCurrentEquippedItem() != null)
-	    	{
-	    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
-	    		{
-	    			if(ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()) != null)
+		if(par1EntityPlayer.getCurrentEquippedItem() != null)
+    	{
+    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
+    		{
+    			Entity trackingEntity = null;
+    			
+    			try
+    			{
+    				try
 	    			{
-	    				if(missileObj.genZongE != ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()).entityId)
-	    				{
-	    					missileObj.genZongE = ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()).entityId;
-	        				par1EntityPlayer.addChatMessage("Missile target locked to: "+ItGenZongQi.getTrackingEntityServer(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem()).getEntityName());
-	        				return true;
-	    				}
+	    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityServer", World.class, ItemStack.class);
+	    				
+	    				trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
 	    			}
-	    		}
-	    	}
-		}
+	    			catch(Exception e)
+	    			{
+	    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityClient", World.class, ItemStack.class);
+	    				
+	    				trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
+
+	    			}
+    			}
+    			catch(Exception e)
+    			{
+    				System.out.println("Failed to find method for tracker.");
+    			}
+    				
+    			if(trackingEntity != null)
+    			{
+    				if(missileObj.genZongE != trackingEntity.entityId)
+    				{
+    					missileObj.genZongE = trackingEntity.entityId;
+        				par1EntityPlayer.addChatMessage("Missile target locked to: "+trackingEntity.getEntityName());
+        				return true;
+    				}
+    			}	    			
+    		}
+    	}
 		
 		return false;
 	}

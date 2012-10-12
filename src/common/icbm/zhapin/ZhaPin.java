@@ -270,21 +270,12 @@ public abstract class ZhaPin implements ITier
 	public static void doDamageEntities(World worldObj, Vector3 position, float radius, float power, boolean destroyItem)
     {
     	//Step 2: Damage all entities
-    	int var3;
-        int var4;
-        int var5;
-        double var15;
-        double var17;
-        double var19;
-        
         radius *= 2.0F;
-        var3 = MathHelper.floor_double(position.x - radius - 1.0D);
-        var4 = MathHelper.floor_double(position.x + radius + 1.0D);
-        var5 = MathHelper.floor_double(position.y - radius - 1.0D);
-        int var29 = MathHelper.floor_double(position.y + radius + 1.0D);
-        int var7 = MathHelper.floor_double(position.z - radius - 1.0D);
-        int var30 = MathHelper.floor_double(position.z + radius + 1.0D);
-        List allEntities = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(var3, var5, var7, var4, var29, var30));
+        Vector3 minCoord = position.clone();
+        minCoord.add(-radius-1);
+        Vector3 maxCoord = position.clone();
+        maxCoord.add(radius+1);
+        List allEntities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.intX(), minCoord.intY(), minCoord.intZ(), maxCoord.intX(), maxCoord.intY(), maxCoord.intZ()));
         Vec3 var31 = Vec3.createVectorHelper(position.x, position.y, position.z);
 
         for (int var11 = 0; var11 < allEntities.size(); ++var11)
@@ -303,13 +294,13 @@ public abstract class ZhaPin implements ITier
 
             if (var13 <= 1.0D)
             {
-                var15 = entity.posX - position.x;
-                var17 = entity.posY - position.y;
-                var19 = entity.posZ - position.z;
-                double var35 = MathHelper.sqrt_double(var15 * var15 + var17 * var17 + var19 * var19);
-                var15 /= var35;
-                var17 /= var35;
-                var19 /= var35;
+            	double xDifference = entity.posX - position.x;
+            	double yDifference = entity.posY - position.y;
+            	double zDifference = entity.posZ - position.z;
+                double var35 = MathHelper.sqrt_double(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
+                xDifference /= var35;
+                yDifference /= var35;
+                zDifference /= var35;
                 double var34 = worldObj.getBlockDensity(var31, entity.boundingBox);
                 double var36 = (1.0D - var13) * var34;
                 int damage = 0;
@@ -318,9 +309,9 @@ public abstract class ZhaPin implements ITier
                 
                 entity.attackEntityFrom(DamageSource.explosion, damage);
                                 
-                entity.motionX += var15 * var36;
-                entity.motionY += var17 * var36;
-                entity.motionZ += var19 * var36;
+                entity.motionX += xDifference * var36;
+                entity.motionY += yDifference * var36;
+                entity.motionZ += zDifference * var36;
             }
         }
 	}

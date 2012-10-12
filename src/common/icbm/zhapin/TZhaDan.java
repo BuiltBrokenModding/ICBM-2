@@ -63,7 +63,7 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
 	{
 		try
         {
-	        int ID = dataStream.readByte();
+	        final int ID = dataStream.readByte();
 
 	        if(ID == 1)
 	        {

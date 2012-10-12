@@ -19,7 +19,7 @@ import universalelectricity.prefab.Vector3;
 
 public class ExFanWuSu extends ZhaPin
 {	
-	private static final int RADUIS = 28;
+	private static final int BAN_JING = 28;
 	private static final int LAYERS_PER_TICK = 2;
 	public boolean destroyBedrock = false;
 	
@@ -37,6 +37,8 @@ public class ExFanWuSu extends ZhaPin
 	{
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antimatter", 5F, 1F);
 		explosionSource.posY += 5;
+		
+        doDamageEntities(worldObj, position, BAN_JING*2, Integer.MAX_VALUE);
 	}
 
 	@Override
@@ -46,13 +48,13 @@ public class ExFanWuSu extends ZhaPin
 		{
 			while(position.y > 0)
 			{
-				for(int x = -RADUIS; x < RADUIS; x++)
+				for(int x = -BAN_JING; x < BAN_JING; x++)
 				{
-					for(int z = -RADUIS; z < RADUIS; z++)
+					for(int z = -BAN_JING; z < BAN_JING; z++)
 					{
 						double dist = MathHelper.sqrt_double((x*x + z*z));
 		
-						if(dist > RADUIS) continue;
+						if(dist > BAN_JING) continue;
 						
 						Vector3 targetPosition = Vector3.add(new Vector3(x, 0, z), position);
 						int blockID = targetPosition.getBlockID(worldObj);		
@@ -61,7 +63,7 @@ public class ExFanWuSu extends ZhaPin
 						{
 							if(blockID == Block.bedrock.blockID && !destroyBedrock) continue;
 							
-							if(dist < RADUIS - 1 || worldObj.rand.nextFloat() > 0.7)
+							if(dist < BAN_JING - 1 || worldObj.rand.nextFloat() > 0.7)
 							{
 								targetPosition.setBlock(worldObj, 0);
 							}
@@ -79,20 +81,7 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{		
-		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - RADUIS, position.y - RADUIS, position.z - RADUIS, position.x + RADUIS, position.y + RADUIS, position.z + RADUIS);
-        List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
-    	
-        for(Entity entity : allEntities)
-        {     
-        	if(entity instanceof EZhaPin)
-        	{
-	        	((EZhaPin)entity).endExplosion();
-        	}
-        	else if(entity instanceof EntityLiving)
-        	{
-        		entity.attackEntityFrom(DamageSource.explosion, 99999999);
-        	}
-        }
+        doDamageEntities(worldObj, position, BAN_JING*2, Integer.MAX_VALUE);
 	}
 
 	/**

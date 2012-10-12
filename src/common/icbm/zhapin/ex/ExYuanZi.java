@@ -16,7 +16,7 @@ import universalelectricity.recipe.RecipeManager;
 public class ExYuanZi extends ZhaPin
 {	
 	public static final int BAN_JING = 35;
-	public static final int NENG_LIANG = 80;
+	public static final int NENG_LIANG = 200;
 	public static final int CALC_SPEED = 800;
 	
 	public ExYuanZi(String name, int ID, int tier)
@@ -67,7 +67,7 @@ public class ExYuanZi extends ZhaPin
 	            
 	            Vector3 targetPosition = position.clone();
 				
-				for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F)
+				for(float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
 				{
 					if(targetPosition.distanceTo(position) > BAN_JING) break;
 
@@ -83,15 +83,15 @@ public class ExYuanZi extends ZhaPin
 						}
 						else if(Block.blocksList[blockID] instanceof BlockFluid)
 						{
-							resistance = 0.8f;
+							resistance = 1f;
 						}
 						else if(blockID == Block.obsidian.blockID)
 						{
-							resistance = 18;
+							resistance = 80f;
 						}
 						else
 						{
-							resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
+							resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ())*5;
 						}
 						
 						power -= resistance;	
@@ -202,7 +202,6 @@ public class ExYuanZi extends ZhaPin
 		
 		if(worldObj.isRemote && ICBM.ADVANCED_VISUALS)
 		{
-			int spawnCount = 0;
 			
 			for(int y = 0; y < 25; y++)
 			{
@@ -223,13 +222,9 @@ public class ExYuanZi extends ZhaPin
 					{
 						double distance = MathHelper.sqrt_double(x*x + z*z);
 
-						if(r > distance)
+						if(r > distance && r-3 < distance)
 						{
-							if(spawnCount % 2 == 0)
-							{
-								ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(new Vector3(x*2, (y-2)*2, z*2), position), 0F, 0F, 0F, 10F, 1F);
-							}
-							spawnCount ++;
+							ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(new Vector3(x*2, (y-2)*2, z*2), position), 0F, 0F, 0F, 10F, 1F);
 						}
 					}
 				}

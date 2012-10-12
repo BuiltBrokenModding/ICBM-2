@@ -69,8 +69,7 @@ public class ItYaoKong extends ItemElectric
 		        	//Check for electricity
 		            if(this.getWattHours(par1ItemStack) > ELECTRICITY_REQUIRED)
 		        	{
-       	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, tileEntity, (int)2));
-
+       	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, tileEntity, (byte)2));
 			            return par1ItemStack;
 		        	}
 		            else

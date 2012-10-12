@@ -30,17 +30,20 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMB
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.IPeripheral;
+
+public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMB, IPeripheral
 {
 	//Watts Per Tick
-	public final static int YAO_WA = 4;
+	public final static int YAO_DIAN = 4;
     
 	public final static int MAX_BIAN_JING = 500;
 	
 	private static final boolean PLAY_SOUND = UEConfig.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
 	
 	//The electricity stored
-	public double wattsReceived, prevWattsReceived = 0;
+	public double wattsReceived, prevDian = 0;
 	
 	public float radarRotationYaw = 0;
 		
@@ -71,7 +74,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		if(!this.isDisabled())
 		{
 			this.wattsReceived += ElectricInfo.getWatts(amps, voltage);
-			this.prevWattsReceived = this.wattsReceived;
+			this.prevDian = this.wattsReceived;
 		}
 	}
 	
@@ -103,7 +106,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		
 		if(!this.isDisabled())
 		{
-			if(this.wattsReceived >= this.YAO_WA)
+			if(this.wattsReceived >= this.YAO_DIAN)
 			{				
 				this.radarRotationYaw += 0.05F;
 				
@@ -120,9 +123,9 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				this.detectedMissiles.clear();
 				this.detectedRadarStations.clear();
 				
-				List<EDaoDan> entitiesNearby = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
+				List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
 				
-		        for(EDaoDan missile : entitiesNearby)
+		        for(EDaoDan missile : missilesNearby)
 		        {
 		        	if(missile.ticksInAir > -1)
 		        	{
@@ -140,7 +143,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        
 		        for(TLeiDaTai radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord-this.MAX_BIAN_JING, this.zCoord-this.MAX_BIAN_JING), new Vector2(this.xCoord+this.MAX_BIAN_JING, this.zCoord+this.MAX_BIAN_JING)))
 		        {
-		        	if(!radarStation.isDisabled() && radarStation.prevWattsReceived > 0)
+		        	if(!radarStation.isDisabled() && radarStation.prevDian > 0)
 		        	{
 		        		this.detectedRadarStations.add(radarStation);
 		        	}
@@ -237,7 +240,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(this.YAO_WA-this.wattsReceived);
+            return Math.ceil(this.YAO_DIAN-this.wattsReceived);
         }
 
         return 0;
@@ -338,4 +341,71 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		BYinXing.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), Vector3.get(this));
 
 	}
+
+	@Override
+	public String getType()
+	{
+		return "ICBMRadar";
+	}
+
+	@Override
+	public String[] getMethodNames()
+	{
+		return new String[]{"getMissiles", "getRadars"};
+	}
+
+	@Override
+	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
+	{
+		if(this.prevDian < this.YAO_DIAN)
+		{
+			throw new Exception("Radar has insufficient electricity!");
+		}
+		
+		List<Double> returnArray;
+		
+		switch(method)
+		{
+			case 0:
+				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
+				returnArray = new ArrayList<Double>();
+				
+				for(EDaoDan daoDan : daoDans)
+				{
+					returnArray.add(daoDan.posX);
+					returnArray.add(daoDan.posY);
+					returnArray.add(daoDan.posZ);
+				}
+				
+				return returnArray.toArray();
+			case 1:
+				returnArray = new ArrayList<Double>();
+				
+				 for(TLeiDaTai radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord-this.MAX_BIAN_JING, this.zCoord-this.MAX_BIAN_JING), new Vector2(this.xCoord+this.MAX_BIAN_JING, this.zCoord+this.MAX_BIAN_JING)))
+		        {
+		        	if(!radarStation.isDisabled() && radarStation.prevDian > 0)
+		        	{
+		        		returnArray.add((double) radarStation.xCoord);
+		        		returnArray.add((double) radarStation.yCoord);
+		        		returnArray.add((double) radarStation.zCoord);
+		        	}
+		        }
+				
+				return returnArray.toArray();
+		}
+		
+		throw new Exception("Invalid ICBM Radar Function.");
+	}
+
+	@Override
+	public boolean canAttachToSide(int side)
+	{
+		return true;
+	}
+
+	@Override
+	public void attach(IComputerAccess computer, String computerSide) { }
+
+	@Override
+	public void detach(IComputerAccess computer) { }
 }

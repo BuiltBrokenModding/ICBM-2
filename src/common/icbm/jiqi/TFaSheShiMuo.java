@@ -384,7 +384,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	@Override
 	public double getMaxWattHours()
 	{
-		return Math.max(Math.min(0.3*this.getVoltage(), 100), 25);
+		return Math.max(Math.min(0.4*this.getVoltage(), 150), 50);
 	}
 
 	@Override

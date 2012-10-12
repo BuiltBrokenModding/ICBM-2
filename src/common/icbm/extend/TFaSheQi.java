@@ -87,33 +87,39 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	{
 		switch(method)
 		{
-			case 0: this.launch();
+			case 0: this.launch(); return null;
 			case 1: return new Object[]{this.getTarget().x, this.getTarget().y, this.getTarget().z};
 			case 2: 
 				if(arguments[0] != null && arguments[1] != null && arguments[2] != null)
 				{
 					try
 					{
-						this.setTarget(new Vector3((Double)arguments[0], (Double)arguments[1], (Double)arguments[2]));
+						this.setTarget(new Vector3(((Double)arguments[0]).doubleValue(), ((Double)arguments[1]).doubleValue(), ((Double)arguments[2]).doubleValue()));
 					}
 					catch(Exception e)
 					{
+						e.printStackTrace();
 						throw new Exception("Target Parameter is Invalid.");
 					}
 				}
+				 return null;
 			case 3: return new Object[]{this.canLaunch()};
 			case 4: 
 				if(arguments[0] != null)
 				{
 					try
 					{
-						this.setFrequency((Short)arguments[0]);
+						double arg = ((Double)arguments[0]).doubleValue();
+						arg = Math.max(Math.min(arg, Short.MAX_VALUE), Short.MIN_VALUE);
+						this.setFrequency((short)arg);
 					}
 					catch(Exception e)
 					{
+						e.printStackTrace();
 						throw new Exception("Frequency Parameter is Invalid.");
 					}
 				}
+				 return null;
 			case 5: return new Object[]{this.getFrequency()};
 		}
 		
