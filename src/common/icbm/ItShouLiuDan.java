@@ -5,6 +5,8 @@ import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
+import universalelectricity.prefab.Vector3;
+
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
@@ -24,7 +26,7 @@ public class ItShouLiuDan extends ICBMItem
      */
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-    	if(ICBM.ALLOW_GRENADE_EXPLOSIVES)
+    	if(BaoHu.allowGrenade(par2World, Vector3.get(par3EntityPlayer).toVector2()))
     	{
 	        if (!par3EntityPlayer.capabilities.isCreativeMode)
 	        {
@@ -37,6 +39,10 @@ public class ItShouLiuDan extends ICBMItem
 	        {
 	            par2World.spawnEntityInWorld(new EShouLiuDan(par2World, par3EntityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
 	        }
+    	}
+    	else
+    	{
+    		par3EntityPlayer.sendChatToPlayer("Grenades are banned in this region.");
     	}
 
         return par1ItemStack;

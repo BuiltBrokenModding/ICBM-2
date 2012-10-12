@@ -122,28 +122,37 @@ public class BJiQi extends BlockMachine
     	}
     }
     
-    public static boolean canBePlacedAt(World par1World, int x, int y, int z, int metadata)
+    public static boolean canBePlacedAt(World par1World, int x, int y, int z, int metadata, EntityLiving entityLiving)
     {
+    	int angle = MathHelper.floor_double((entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
     	//Launcher Base
     	if(metadata == 0)
-    	{	
-    		return  par1World.getBlockId(x, y, z) == 0 &&
-    				//Left
-    				par1World.getBlockId(x+1, y, z) == 0 &&
-		    		par1World.getBlockId(x+1, y+1, z) == 0 &&
-		    		par1World.getBlockId(x+1, y+2, z) == 0 &&
-    				//Front
-    				par1World.getBlockId(x, y, z+1) == 0 &&
-		    		par1World.getBlockId(x, y+1, z+1) == 0 &&
-		    		par1World.getBlockId(x, y+2, z+1) == 0 &&
-    				//Back
-    				par1World.getBlockId(x, y, z-1) == 0 &&
-		    		par1World.getBlockId(x, y+1, z-1) == 0 &&
-		    		par1World.getBlockId(x, y+2, z-1) == 0 &&
-		    		//Right
-		    		par1World.getBlockId(x-1, y, z) == 0 &&
-		    		par1World.getBlockId(x-1, y+1, z) == 0 &&
-		    		par1World.getBlockId(x-1, y+2, z) == 0;
+    	{
+    		if(angle == 0 || angle == 2)
+    		{
+    			return  par1World.getBlockId(x, y, z) == 0 &&
+        				//Left
+        				par1World.getBlockId(x+1, y, z) == 0 &&
+    		    		par1World.getBlockId(x+1, y+1, z) == 0 &&
+    		    		par1World.getBlockId(x+1, y+2, z) == 0 &&
+    		    		//Right
+    		    		par1World.getBlockId(x-1, y, z) == 0 &&
+    		    		par1World.getBlockId(x-1, y+1, z) == 0 &&
+    		    		par1World.getBlockId(x-1, y+2, z) == 0;
+    		}
+    		else if(angle == 1 || angle == 3)
+    		{
+    			return  par1World.getBlockId(x, y, z) == 0 &&
+        				//Front
+        				par1World.getBlockId(x, y, z+1) == 0 &&
+    		    		par1World.getBlockId(x, y+1, z+1) == 0 &&
+    		    		par1World.getBlockId(x, y+2, z+1) == 0 &&
+        				//Back
+        				par1World.getBlockId(x, y, z-1) == 0 &&
+    		    		par1World.getBlockId(x, y+1, z-1) == 0 &&
+    		    		par1World.getBlockId(x, y+2, z-1) == 0;
+    		}
     	}
     	//Launcher Screen
     	else if(metadata == 1 || metadata == 5 ||  metadata == 6 || metadata == 7)

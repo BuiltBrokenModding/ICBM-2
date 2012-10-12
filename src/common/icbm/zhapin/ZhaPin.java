@@ -40,6 +40,21 @@ import universalelectricity.prefab.Vector3;
 
 public abstract class ZhaPin implements ITier
 {
+	public enum ZhaPinType
+	{
+		ALL, BLOCK, GRENADE, MISSILE;
+		
+		public static ZhaPinType get(int id)
+	    {
+	        if (id >= 0 && id < ZhaPinType.values().length)
+	        {
+	            return ZhaPinType.values()[id];
+	        }
+	        
+	        return null;
+	    }
+	}
+	
 	public static final ZhaPin yaSuo = new ExYaSuo("Condensed", 0, 1);
 	public static final ZhaPin xiaoQunDan = new ExQunDan("Shrapnel", 1, 1);
 	public static final ZhaPin huo = new ExHuo("Incendiary", 2, 1);

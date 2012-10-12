@@ -1,5 +1,6 @@
 package icbm.daodan;
 
+import icbm.BaoHu;
 import icbm.ICBM;
 import icbm.ParticleSpawner;
 import icbm.api.IMissile;
@@ -156,12 +157,6 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     @Override
 	public void entityInit()
     {
-    	if(!ICBM.ALLOW_MISSILE_EXPLOSIVES)
-    	{
-    		this.setDead();
-    		return;
-    	}
-    	
     	this.dataWatcher.addObject(16, -1);
     	this.daoDanInit(ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY));
     }
@@ -180,32 +175,20 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     
     public void updateLoadChunk(int oldChunkX, int oldChunkZ, int newChunkX, int newChunkZ)
     {
-    	this.updateLoadChunk();
-    }
-    
-    public void updateLoadChunk()
-    {
     	if(!this.worldObj.isRemote && ICBM.ALLOW_LOAD_CHUNKS)
-    	{	
-	    	for(int x = -1; x <= 1; x++)
+    	{
+    		for(int x = -1; x <= 1; x++)
 	    	{
 	    		for(int z = -1; z <= 1; z++)
 	        	{
-	    			ChunkCoordIntPair chunkCoord = new ChunkCoordIntPair(this.chunkCoordX+x, this.chunkCoordZ+z);
-	    			
-	    			try
-    				{
-	    				ForgeChunkManager.forceChunk(this.chunkTicket, chunkCoord);
-    				}
-    				catch(Exception e)
-    				{
-    					System.err.println("Already Decorating!");
-    				}
+	        		ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX+x, newChunkZ+z));
 	        	}
 	    	}
+    		
+    		ForgeChunkManager.unforceChunk(this.chunkTicket, new ChunkCoordIntPair(oldChunkX, oldChunkZ));
     	}
     }
-    
+
     @Override
 	public boolean canBeCollidedWith() { return true; } 
        
@@ -215,6 +198,17 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     @Override
 	public void onUpdate()
     {
+    	if(!BaoHu.allowMissile(this.worldObj, Vector3.get(this).toVector2()))
+    	{
+    		if(this.ticksInAir >= 0)
+        	{ 
+    			this.dropMissileAsItem();
+        	}
+    		
+    		this.setDead();
+    		return;
+    	}
+    	
     	if(this.setNormalExplode)
     	{
     		this.normalExplode();
@@ -247,8 +241,6 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	    	
     	if(this.ticksInAir >= 0)
     	{    		
-    		//this.updateLoadChunk();
-    		
     		if(!this.worldObj.isRemote)
     		{    			
 	        	if(this.isCruise)
@@ -523,7 +515,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     
     public void dropMissileAsItem()
     {
-    	if(!this.isExploding)
+    	if(!this.isExploding && !this.worldObj.isRemote)
     	{
 	    	EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBM.itemDaoDan, 1, this.missileID+1));
 	        float var13 = 0.05F;

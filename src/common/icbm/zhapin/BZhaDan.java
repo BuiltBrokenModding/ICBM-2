@@ -1,5 +1,6 @@
 package icbm.zhapin;
 
+import icbm.BaoHu;
 import icbm.ICBM;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.implement.IRotatable;
+import universalelectricity.prefab.Vector2;
 import universalelectricity.prefab.Vector3;
 import buildcraft.api.tools.IToolWrench;
 
@@ -99,7 +101,7 @@ public class BZhaDan extends BlockContainer
     {
         super.onBlockAdded(par1World, x, y, z);
         
-        if(!ICBM.ALLOW_BLOCK_EXPLOSIVES && !par1World.isRemote)
+        if(!BaoHu.allowExplosiveBlock(par1World, new Vector2(x, z)) && !par1World.isRemote)
         {
         	this.dropBlockAsItem(par1World, x, y, z, par1World.getBlockMetadata(x, y, z), 0);
         	par1World.setBlockWithNotify(x, y, z, 0);

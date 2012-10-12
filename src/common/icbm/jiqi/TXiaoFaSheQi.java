@@ -1,5 +1,6 @@
 package icbm.jiqi;
 
+import icbm.BaoHu;
 import icbm.ICBM;
 import icbm.ICBMCommonProxy;
 import icbm.api.Launcher.LauncherType;
@@ -241,7 +242,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	
 	public void setMissile()
 	{
-		if(this.containingItems[0] != null)
+		if(this.containingItems[0] != null && BaoHu.allowMissile(this.worldObj, Vector3.get(this).toVector2()))
         {
             if (this.containingItems[0].itemID == ICBM.itemDaoDan.shiftedIndex)
             {

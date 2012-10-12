@@ -142,7 +142,7 @@ public class IBJiQi extends ItemBlock
 				metadata = par1ItemStack.getItemDamage() - 6;
 			}
              
-            if(BJiQi.canBePlacedAt(par3World, x, y, z, metadata))
+            if(BJiQi.canBePlacedAt(par3World, x, y, z, metadata, par2EntityPlayer))
             {
                 Block var9 = Block.blocksList[IBJiQi.spawnID];
                 

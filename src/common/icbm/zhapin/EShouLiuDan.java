@@ -1,7 +1,11 @@
 package icbm.zhapin;
 
+import icbm.BaoHu;
+import icbm.ICBM;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityItem;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
@@ -69,7 +73,6 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	{
 		this.explosiveID = data.readInt();
 	}
-  
     
     /**
      * Similar to setArrowHeading, it's point the throwable entity to a x, y, z direction.
@@ -134,6 +137,23 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
      */
     public void onUpdate()
     {
+    	if(!BaoHu.allowGrenade(this.worldObj, Vector3.get(this).toVector2()))
+    	{
+    		if (!this.worldObj.isRemote)
+            {
+                float var6 = 0.7F;
+                double var7 = (double)(this.worldObj.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
+                double var9 = (double)(this.worldObj.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
+                double var11 = (double)(this.worldObj.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
+                EntityItem var13 = new EntityItem(this.worldObj, (double)this.posX + var7, (double)this.posY + var9, (double)this.posZ + var11, new ItemStack(ICBM.itemShouLiuDan, this.explosiveID, 1));
+                var13.delayBeforeCanPickup = 10;
+                this.worldObj.spawnEntityInWorld(var13);
+            }
+    		
+    		this.setDead();
+    		return;
+    	}
+    	
     	this.lastTickPosX = this.posX;
         this.lastTickPosY = this.posY;
         this.lastTickPosZ = this.posZ;

@@ -27,15 +27,20 @@ import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.ICommandManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.ModLoader;
+import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
@@ -64,10 +69,12 @@ import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
+import cpw.mods.fml.common.Mod.ServerStopping;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -96,9 +103,6 @@ public class ICBM
     
 	public static final boolean SPAWN_PARTICLES = UEConfig.getConfigData(CONFIGURATION, "Spawn Particle Effects", true);
 	public static final boolean ADVANCED_VISUALS = UEConfig.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
-	public static final boolean ALLOW_BLOCK_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Blocks", true);
-	public static final boolean ALLOW_MISSILE_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Missiles", true);
-	public static final boolean ALLOW_GRENADE_EXPLOSIVES = UEConfig.getConfigData(CONFIGURATION, "Allow Explosive Grenades", true);
 	public static final boolean ALLOW_LOAD_CHUNKS = UEConfig.getConfigData(CONFIGURATION, "Allow Chunk Loading", true);
 	
 	@SidedProxy(clientSide = "icbm.ICBMClientProxy", serverSide = "icbm.ICBMCommonProxy")
@@ -358,7 +362,7 @@ public class ICBM
 			if(i < 4)
 			{
 				//Grenade
-			    RecipeManager.addRecipe(new ItemStack(ICBM.itemShouLiuDan, 1, i), new Object [] {"?", "@", "@", '@', new ItemStack(ICBM.blockZha4Dan4, 1, i), '?', Item.silk}, CONFIGURATION, true);
+			    RecipeManager.addRecipe(new ItemStack(ICBM.itemShouLiuDan, 1, i), new Object [] {"?", "@", '@', new ItemStack(ICBM.blockZha4Dan4, 1, i), '?', Item.silk}, CONFIGURATION, true);
 	        }
 		}
 		
@@ -412,6 +416,14 @@ public class ICBM
 	{
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager); 
-		serverCommandManager.registerCommand(new CommandICBM());
+		serverCommandManager.registerCommand(new MingLing());
+		
+		BaoHu.nbtData = BaoHu.loadData("ICMB");
+	}
+	
+	@ServerStopping
+	public void serverStopping(FMLServerStoppingEvent event)
+	{
+		BaoHu.saveData(BaoHu.nbtData, "ICMB");
 	}
 }
