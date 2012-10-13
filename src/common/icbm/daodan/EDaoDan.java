@@ -177,11 +177,16 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     {
     	if(!this.worldObj.isRemote && ICBM.ALLOW_LOAD_CHUNKS)
     	{
+    		WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[worldObj.provider.dimensionId];
+    		
     		for(int x = -1; x <= 1; x++)
 	    	{
 	    		for(int z = -1; z <= 1; z++)
 	        	{
-	        		ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX+x, newChunkZ+z));
+	    			if(worldServer.theChunkProviderServer.chunkExists(newChunkX+x, newChunkZ+z))
+	    			{
+		        		ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX+x, newChunkZ+z));
+	    			}
 	        	}
 	    	}
     		
