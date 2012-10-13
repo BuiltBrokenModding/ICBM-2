@@ -1,8 +1,10 @@
 package icbm.zhapin.ex;
 
 import icbm.ICBM;
+import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
@@ -14,7 +16,7 @@ public class ExDecayLand extends ZhaPin
 	{
 		super(name, ID, tier);
 	}
-
+	
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
@@ -33,7 +35,8 @@ public class ExDecayLand extends ZhaPin
 					
      		   		//Check what type of block this is. Decay the land depending on the block type.
      		   		int blockID = worldObj.getBlockId((int)blockPosition.x, (int)blockPosition.y, (int)blockPosition.z);
-         		   	if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
+         		   	
+     		   		if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
                     {
 	     	           if(worldObj.rand.nextFloat() > 0.9)
 	     	           {
@@ -68,6 +71,4 @@ public class ExDecayLand extends ZhaPin
         
 		return false;
 	}
-
-
 }
