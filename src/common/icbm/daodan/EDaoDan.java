@@ -173,24 +173,25 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
     }
     
-    public void updateLoadChunk(int oldChunkX, int oldChunkZ, int newChunkX, int newChunkZ)
+    public void updateLoadChunk(int newChunkX, int newChunkZ)
     {
     	if(!this.worldObj.isRemote && ICBM.ALLOW_LOAD_CHUNKS)
-    	{
-    		WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[worldObj.provider.dimensionId];
+    	{    		
+    		for(int x = -2; x <= 2; x++)
+	    	{
+	    		for(int z = -2; z <= 2; z++)
+	        	{
+	    			this.worldObj.getChunkFromChunkCoords(newChunkX+x, newChunkZ+z);
+	        	}
+	    	}
     		
     		for(int x = -1; x <= 1; x++)
 	    	{
 	    		for(int z = -1; z <= 1; z++)
 	        	{
-	    			if(worldServer.theChunkProviderServer.chunkExists(newChunkX+x, newChunkZ+z))
-	    			{
-		        		ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX+x, newChunkZ+z));
-	    			}
+	    			ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX+x, newChunkZ+z));
 	        	}
 	    	}
-    		
-    		ForgeChunkManager.unforceChunk(this.chunkTicket, new ChunkCoordIntPair(oldChunkX, oldChunkZ));
     	}
     }
 
@@ -243,7 +244,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	{
     		e.printStackTrace();
     	}
-    	    	
+    	
+    	this.updateLoadChunk(this.chunkCoordX, this.chunkCoordZ);
+    	
     	if(this.ticksInAir >= 0)
     	{    		
     		if(!this.worldObj.isRemote)

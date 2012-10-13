@@ -213,7 +213,7 @@ public class ICBM
 		}
 	}
 	
-	
+	/*
 	@ForgeSubscribe
 	public void onEEC(EnteringChunk event)
 	{
@@ -221,7 +221,7 @@ public class ICBM
 		{
 			((EDaoDan)event.entity).updateLoadChunk(event.oldChunkX, event.oldChunkZ, event.newChunkX, event.newChunkZ);
 		}
-	}
+	}*/
 	
 	@Init
 	public void load(FMLInitializationEvent evt)
