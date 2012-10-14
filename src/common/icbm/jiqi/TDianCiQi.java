@@ -14,7 +14,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
@@ -23,7 +23,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IMB, IRedstoneReceptor
+public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IMB, IRedstoneReceptor
 {
     //The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 60;
@@ -56,7 +56,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IElectri
 	{			
 		if(!this.isDisabled())
     	{
-			this.setWattHours(this.dianXiaoShi+ElectricInfo.getWattHours(amps, voltage));
+			this.setJoules(this.dianXiaoShi+ElectricInfo.getJoules(amps, voltage));
     	}
 	}
 	
@@ -68,10 +68,10 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IElectri
     	{
 			if(Ticker.inGameTicks % 20 == 0 && this.dianXiaoShi > 0)
 			{
-				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F*this.dianXiaoShi/this.getMaxWattHours()));
+				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F*this.dianXiaoShi/this.getMaxJoules()));
 			}
 			
-			this.xuanZhuanLu = (float) (Math.pow(this.dianXiaoShi/this.getMaxWattHours(), 2)*0.5);
+			this.xuanZhuanLu = (float) (Math.pow(this.dianXiaoShi/this.getMaxJoules(), 2)*0.5);
 			this.xuanZhuan += xuanZhuanLu;
 			if(this.xuanZhuan > 360) this.xuanZhuan = 0;
     	}
@@ -136,7 +136,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IElectri
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.dianXiaoShi));
+            return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dianXiaoShi));
         }
 
         return 0;
@@ -183,7 +183,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IElectri
 	@Override
 	public void onPowerOn() 
 	{
-		if(this.dianXiaoShi >= this.getMaxWattHours())
+		if(this.dianXiaoShi >= this.getMaxJoules())
 		{
 			if(this.muoShi == 0 || this.muoShi == 1)
 			{
@@ -224,20 +224,20 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IElectri
 	}
 
 	@Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
 		return Math.max(1500*((float)this.banJing/(float)MAX_RADIUS), 500);
 	}
 
 	@Override
-    public double getWattHours(Object... data)
+    public double getJoules(Object... data)
     {
     	return this.dianXiaoShi;
     }
 
 	@Override
-	public void setWattHours(double wattHours, Object... data)
+	public void setJoules(double wattHours, Object... data)
 	{
-		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getJoules()), 0);
 	}
 }

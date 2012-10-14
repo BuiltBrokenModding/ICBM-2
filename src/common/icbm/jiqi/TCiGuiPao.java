@@ -27,9 +27,8 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
-import universalelectricity.network.ConnectionHandler;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
@@ -37,7 +36,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectricityStorage, IPacketReceiver, IRedstoneReceptor, IMB, ISidedInventory
+public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IRedstoneReceptor, IMB, ISidedInventory
 {	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -78,7 +77,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 	{		
 		if(!this.isDisabled())
     	{
-			this.setWattHours(this.wattHourStored+ElectricInfo.getWattHours(amps, voltage));
+			this.setJoules(this.wattHourStored+ElectricInfo.getJoules(amps, voltage));
     	}
 	}
 	
@@ -139,7 +138,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 					}
 				}
 				
-				this.setWattHours(0);
+				this.setJoules(0);
 		        
 		        this.explosionSize = 5f;
 		        this.explosionDepth = 5;
@@ -306,7 +305,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
 			}
 		}
 		
-		if(this.wattHourStored < this.getMaxWattHours())
+		if(this.wattHourStored < this.getMaxJoules())
 		{
 			return false;
 		}
@@ -565,26 +564,26 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IElectri
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.wattHourStored));
+            return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.wattHourStored));
         }
 
         return 0;
     }
 	
 	@Override
-	public double getWattHours(Object... data)
+	public double getJoules(Object... data)
 	{
 		return this.wattHourStored;
 	}
 
 	@Override
-	public void setWattHours(double wattHours, Object... data)
+	public void setJoules(double wattHours, Object... data)
 	{
-		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxJoules()), 0);
 	}
 
 	@Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
 		return 300;
 	}

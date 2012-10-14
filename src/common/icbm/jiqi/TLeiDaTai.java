@@ -19,7 +19,6 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
 import universalelectricity.UEConfig;
-import universalelectricity.basiccomponents.UELoader;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.network.IPacketReceiver;
@@ -36,16 +35,16 @@ import dan200.computer.api.IPeripheral;
 public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMB, IPeripheral
 {
 	//Watts Per Tick
-	public final static int YAO_DIAN = 4;
+	public final static int YAO_DIAN = 5;
     
 	public final static int MAX_BIAN_JING = 500;
 	
-	private static final boolean PLAY_SOUND = UEConfig.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
+	private static final boolean YIN_XIANG = UEConfig.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
 	
 	//The electricity stored
-	public double wattsReceived, prevDian = 0;
+	public double dian, prevDian = 0;
 	
-	public float radarRotationYaw = 0;
+	public float xuanZhuan = 0;
 		
 	public int alarmBanJing = 100;
 	
@@ -57,7 +56,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 	private boolean missileAlert = false;
 	
-	private int playersUsing = 0;
+	private int yongZhe = 0;
 		
 	public TLeiDaTai()
 	{
@@ -73,8 +72,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	{		
 		if(!this.isDisabled())
 		{
-			this.wattsReceived += ElectricInfo.getWatts(amps, voltage);
-			this.prevDian = this.wattsReceived;
+			this.dian += ElectricInfo.getWatts(amps, voltage);
+			this.prevDian = this.dian;
 		}
 	}
 	
@@ -97,7 +96,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 			{
 				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 100);
 				
-				if(this.playersUsing > 0)
+				if(this.yongZhe > 0)
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 15);
 				}
@@ -107,15 +106,15 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		
 		if(!this.isDisabled())
 		{
-			if(this.wattsReceived >= this.YAO_DIAN)
+			if(this.dian >= this.YAO_DIAN)
 			{				
-				this.radarRotationYaw += 0.05F;
+				this.xuanZhuan += 0.05F;
 				
-				if(this.radarRotationYaw > 360) this.radarRotationYaw = 0;
+				if(this.xuanZhuan > 360) this.xuanZhuan = 0;
 
 				if(!this.worldObj.isRemote)
 				{
-					this.wattsReceived = 0;
+					this.dian = 0;
 				}
 				
 				//Do a radar scan
@@ -157,7 +156,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        
 		        if(Ticker.inGameTicks % 25 == 0)
 				{
-			        if(this.missileAlert && PLAY_SOUND)
+			        if(this.missileAlert && YIN_XIANG)
 			        {
 						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.alarm", 4F, 1F);
 			        }
@@ -189,7 +188,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattsReceived, this.disabledTicks);
+        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.dian, this.disabledTicks);
     }
 
 	@Override
@@ -204,11 +203,11 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	        	if(dataStream.readBoolean())
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 15);
-					this.playersUsing ++;
+					this.yongZhe ++;
 				}
 				else
 				{
-					this.playersUsing --;
+					this.yongZhe --;
 				}
 	        }
 	        else if(this.worldObj.isRemote)
@@ -220,7 +219,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        }
 	        	else if(ID == 4)
 		        {
-		        	this.wattsReceived = dataStream.readDouble();
+		        	this.dian = dataStream.readDouble();
 			        this.disabledTicks = dataStream.readInt();
 		        }
 	        }
@@ -247,7 +246,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(this.YAO_DIAN-this.wattsReceived);
+            return Math.ceil(this.YAO_DIAN-this.dian);
         }
 
         return 0;

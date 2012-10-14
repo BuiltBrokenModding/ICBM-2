@@ -76,7 +76,7 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
 				{
 	        		ItemStack itemStack = player.inventory.getCurrentItem();
 		    		BZhaDan.detonateTNT(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
-					((ItYaoKong) ICBM.itemYaoKong).onUseElectricity(ItYaoKong.ELECTRICITY_REQUIRED, itemStack);
+					((ItYaoKong) ICBM.itemYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
 				}
 	        }
         }

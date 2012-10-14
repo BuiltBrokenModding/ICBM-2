@@ -59,15 +59,15 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	}
 	
 	@Override
-	public double getWattHours(Object... data)
+	public double getJoules(Object... data)
 	{
 		return this.dianXiaoShi;
 	}
 
 	@Override
-	public void setWattHours(double wattHours, Object... data)
+	public void setJoules(double wattHours, Object... data)
 	{
-		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxWattHours()), 0);
+		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxJoules()), 0);
 	}
 	
 	@Override

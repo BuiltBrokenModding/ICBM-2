@@ -27,7 +27,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 {
 	public static final int BAN_JING = 500;
-	public static final int ELECTRICITY_CAPACITY = 20;
+	public static final int YONG_DIAN_LIANG = 10000;
 	
     public ItLeiShiZhiBiao(String name, int id, int icon)
     {
@@ -273,7 +273,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 		            //Check if it is possible to do an air strike. If so, do one.
 		        	if(airStrikeFreq > 0)
 		            {
-		        		if(this.getWattHours(par1ItemStack) > ELECTRICITY_CAPACITY)
+		        		if(this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
 		            	{
 		    	        	Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
 		    	        	List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
@@ -345,17 +345,11 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 	}
     
     @Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
-		return 350;
+		return 200000;
 	}
 
-	@Override
-	public double getTransferRate()
-	{
-		return 0.5;
-	}
-	
 	@Override
 	public String getTextureFile()
     {

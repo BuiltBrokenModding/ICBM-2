@@ -1,7 +1,7 @@
 package icbm.api;
 
 import net.minecraft.src.ItemStack;
-import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.prefab.Vector3;
 
@@ -21,7 +21,7 @@ public class Launcher
 	 * Applied to all launcher tile entities.
 	 * @author Calclavia
 	 */
-	public interface ILauncher extends IElectricityStorage, IRedstoneReceptor, IFrequency
+	public interface ILauncher extends IJouleStorage, IRedstoneReceptor, IFrequency
 	{
 		/**
 		 * What type of launcher is this?

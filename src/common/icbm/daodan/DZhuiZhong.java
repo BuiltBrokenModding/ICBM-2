@@ -1,8 +1,9 @@
 package icbm.daodan;
 
+import icbm.dianqi.ItGenZongQi;
+
 import java.lang.reflect.Method;
 
-import icbm.dianqi.ItGenZongQi;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;

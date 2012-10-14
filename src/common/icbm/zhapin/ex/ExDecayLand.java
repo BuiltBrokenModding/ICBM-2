@@ -1,10 +1,8 @@
 package icbm.zhapin.ex;
 
 import icbm.ICBM;
-import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
-import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;

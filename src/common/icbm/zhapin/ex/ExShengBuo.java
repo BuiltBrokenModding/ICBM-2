@@ -12,7 +12,6 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
-import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.BasicComponents;
 import universalelectricity.prefab.Vector3;

@@ -6,8 +6,6 @@ import icbm.ICBMCommonProxy;
 import icbm.api.Launcher.LauncherType;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
-import icbm.daodan.ItDaoDan;
-import icbm.daodan.ItTeBieDaoDan;
 import icbm.extend.IBActivate;
 import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
@@ -23,9 +21,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
 import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.network.ConnectionHandler;
 import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.ISimpleConnectionHandler;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.Vector3;
 
@@ -154,7 +150,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
     	{
         	status = "Disabled";
     	}
-        else if(this.dianXiaoShi < this.getMaxWattHours())
+        else if(this.dianXiaoShi < this.getMaxJoules())
     	{
     		status = "No Power!";
     	}
@@ -189,7 +185,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	{		
 		if(!this.isDisabled())
     	{
-			this.setWattHours(this.dianXiaoShi+ElectricInfo.getWattHours(amps, voltage));
+			this.setJoules(this.dianXiaoShi+ElectricInfo.getWattHours(amps, voltage));
     	}
 	}
 	
@@ -355,7 +351,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 			{
 				if(this.containingItems[0].itemID == ICBM.itemDaoDan.shiftedIndex && missile.isCruise() && missile.getTier() <= 3)
 		        {
-		    		if(this.dianXiaoShi >= this.getMaxWattHours())
+		    		if(this.dianXiaoShi >= this.getMaxJoules())
 		    		{
 		    			if(!this.isTooClose(this.muBiao))
 		    			{
@@ -378,7 +374,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
     	if(canLaunch())
     	{
 			this.decrStackSize(0, 1);
-			this.setWattHours(0);
+			this.setJoules(0);
 	        this.containingMissile.launchMissile(this.muBiao);
 	        this.containingMissile = null;    
     	}
@@ -510,16 +506,16 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
     {
         if (!this.isDisabled())
         {
-            return ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.dianXiaoShi);
+            return ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dianXiaoShi);
         }
 
         return 0;
     }
 
 	@Override
-	public double getMaxWattHours() 
+	public double getMaxJoules() 
 	{
-		return 40;
+		return 300000;
 	}
 
 	@Override

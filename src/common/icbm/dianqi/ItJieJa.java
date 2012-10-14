@@ -16,7 +16,7 @@ import universalelectricity.prefab.ItemElectric;
 //Explosive Defuser
 public class ItJieJa extends ItemElectric
 {
-	private static final int YONG_DIAN_LIANG = 15;
+	private static final int YONG_DIAN_LIANG = 2500;
 
     public ItJieJa(String name, int par1, int par2)
     {
@@ -43,7 +43,7 @@ public class ItJieJa extends ItemElectric
      */
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) 
     {
-    	if(this.getWattHours(stack) > YONG_DIAN_LIANG)
+    	if(this.getJoules(stack) > YONG_DIAN_LIANG)
     	{
     		if(!entity.worldObj.isRemote)
     		{
@@ -71,7 +71,7 @@ public class ItJieJa extends ItemElectric
     		}
     		
     		entity.setDead();
-    		this.onUseElectricity(YONG_DIAN_LIANG, stack);
+    		this.onUse(YONG_DIAN_LIANG, stack);
     		return true;
     	}
     	else
@@ -89,15 +89,8 @@ public class ItJieJa extends ItemElectric
 	}
     
     @Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
-		return 180;
+		return 50000;
 	}
-
-	@Override
-	public double getTransferRate()
-	{
-		return 25;
-	}
-
 }

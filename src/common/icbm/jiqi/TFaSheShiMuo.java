@@ -23,9 +23,6 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.IPeripheral;
-
 /**
  * This tile entity is for the screen of the missile launcher
  * @author Calclavia
@@ -62,7 +59,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	{
 		if(!this.isDisabled())
     	{
-			this.setWattHours(this.dianXiaoShi+ElectricInfo.getWattHours(amps, voltage));
+			this.setJoules(this.dianXiaoShi+ElectricInfo.getJoules(amps, voltage));
     	}
 	}
   	
@@ -206,7 +203,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
     	{
 	    	if(this.connectedBase.eDaoDan != null)
 	        {
-	    		if(this.dianXiaoShi >= this.getMaxWattHours())
+	    		if(this.dianXiaoShi >= this.getMaxJoules())
 	    		{
 		            if(this.connectedBase.isInRange(this.muBiao))
 		            {
@@ -227,7 +224,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
     {
     	if(this.canLaunch())
     	{
-            this.setWattHours(0);
+            this.setJoules(0);
             this.connectedBase.launchMissile(this.muBiao);
     	}          
     }
@@ -249,7 +246,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
         {
         	status = "Not connected!";
         }
-        else if(this.dianXiaoShi < this.getMaxWattHours())
+        else if(this.dianXiaoShi < this.getMaxJoules())
     	{
     		status = "Insufficient electricity!";
     	}
@@ -370,7 +367,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(ElectricInfo.getWatts(this.getMaxWattHours()) - ElectricInfo.getWatts(this.dianXiaoShi));
+            return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dianXiaoShi));
         }
 
         return 0;
@@ -383,9 +380,9 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	}
 
 	@Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
-		return Math.max(Math.min(0.4*this.getVoltage(), 150), 50);
+		return Math.max(Math.min(1500*this.getVoltage(), 150), 50);
 	}
 
 	@Override

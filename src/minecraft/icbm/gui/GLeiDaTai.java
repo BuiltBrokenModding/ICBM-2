@@ -180,7 +180,7 @@ public class GLeiDaTai extends ICBMGui
     	{
         	status = "Disabled!";
     	}
-        else if(this.tileEntity.wattsReceived >= TLeiDaTai.YAO_DIAN)
+        else if(this.tileEntity.dian >= TLeiDaTai.YAO_DIAN)
         {
         	color = "\u00a72";
     		status = "Radar On!";

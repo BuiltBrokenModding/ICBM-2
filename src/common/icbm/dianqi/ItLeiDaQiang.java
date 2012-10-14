@@ -1,15 +1,12 @@
 package icbm.dianqi;
 
 import icbm.ICBM;
-import icbm.ICBMPacketManager;
 import icbm.ICBMPacketManager.ICBMPacketType;
 import icbm.extend.TFaSheQi;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TXiaoFaSheQi;
 
 import java.util.List;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
@@ -19,10 +16,11 @@ import net.minecraft.src.World;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector3;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItLeiDaQiang extends ItemElectric
 {
-	public static final int DIAN_REQUIRED = 12;
+	public static final int YONG_DIAN_LIANG = 1000;
 	
     public ItLeiDaQiang(String name, int par1, int par2)
     {
@@ -67,7 +65,7 @@ public class ItLeiDaQiang extends ItemElectric
 	        	if(!(tileEntity instanceof TFaSheQi))
 	            {
 		        	//Check for electricity
-		            if(this.getWattHours(par1ItemStack) > DIAN_REQUIRED)
+		            if(this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
 		        	{
 		            	PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ICBM.CHANNEL, (int)ICBMPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 			            par3EntityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ);
@@ -178,14 +176,8 @@ public class ItLeiDaQiang extends ItemElectric
 	}
 	
 	@Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
-		return 350;
-	}
-
-	@Override
-	public double getTransferRate()
-	{
-		return 0.5;
+		return 100000;
 	}
 }

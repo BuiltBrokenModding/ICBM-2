@@ -25,8 +25,6 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
 {
 	//Watts Per Tick

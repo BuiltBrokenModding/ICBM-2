@@ -11,7 +11,7 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import universalelectricity.implement.IDisableable;
-import universalelectricity.implement.IElectricityStorage;
+import universalelectricity.implement.IJouleStorage;
 import universalelectricity.prefab.Vector3;
 import chb.mods.mffs.api.IForceEnergyCapacitor;
 import chb.mods.mffs.api.IForceFieldBlock;
@@ -61,9 +61,9 @@ public class ExDianCiWave extends ZhaPin
 						}
 						else if(tileEntity != null)
 						{
-							if(tileEntity instanceof IElectricityStorage)
+							if(tileEntity instanceof IJouleStorage)
 							{
-								((IElectricityStorage)tileEntity).setWattHours(0);
+								((IJouleStorage)tileEntity).setJoules(0);
 							}
 	
 							if(tileEntity instanceof IDisableable)

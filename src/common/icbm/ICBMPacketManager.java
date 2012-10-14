@@ -59,7 +59,7 @@ public class ICBMPacketManager extends PacketManager
 				itemStack.stackTagCompound.setInteger("x", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("y", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("z", dataStream.readInt());
-				((ItemElectric) ICBM.itemLeiDaQiang).onUseElectricity(ItLeiDaQiang.DIAN_REQUIRED, itemStack);
+				((ItemElectric) ICBM.itemLeiDaQiang).onUse(ItLeiDaQiang.YONG_DIAN_LIANG, itemStack);
 			}
 		}
 		else if(icbmPacketType == ICBMPacketType.LASER_DESIGNATOR)
@@ -75,7 +75,7 @@ public class ICBMPacketManager extends PacketManager
 	    		
 				player.worldObj.spawnEntityInWorld(new EGuang(player.worldObj, position, 5*20, 0F, 1F, 0F));
 	    		
-				((ItemElectric) ICBM.itemLeiDaQiang).onUseElectricity(ItLeiShiZhiBiao.ELECTRICITY_CAPACITY, itemStack);
+				((ItemElectric) ICBM.itemLeiDaQiang).onUse(ItLeiShiZhiBiao.YONG_DIAN_LIANG, itemStack);
 			}
 		}
 		else if(icbmPacketType == ICBMPacketType.SIGNAL_DISRUPTER)

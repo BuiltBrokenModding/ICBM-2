@@ -67,9 +67,9 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
     {
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 		
-    	if(this.getWattHours(par1ItemStack) > 1)
+    	if(this.getJoules(par1ItemStack) > 1)
     	{
-        	this.onUseElectricity(0.01F, par1ItemStack);
+        	this.onUse(30, par1ItemStack);
     	}
     }
     
@@ -87,14 +87,8 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	}
 	
 	@Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
-		return 400;
-	}
-
-	@Override
-	public double getTransferRate()
-	{
-		return 0.5;
+		return 100000;
 	}
 }

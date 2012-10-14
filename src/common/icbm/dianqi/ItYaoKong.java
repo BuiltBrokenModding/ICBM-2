@@ -6,8 +6,6 @@ import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
@@ -16,11 +14,12 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.ItemElectric;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItYaoKong extends ItemElectric
 {
-	public static final int RADIUS = 100;
-	public static final int ELECTRICITY_REQUIRED = 15;
+	public static final int BAN_JING = 100;
+	public static final int YONG_DIAN_LIANG = 1000;
 	
     public ItYaoKong(String name, int par1, int par2)
     {
@@ -52,7 +51,7 @@ public class ItYaoKong extends ItemElectric
     {	    	
     	if(par2World.isRemote)
     	{
-	    	MovingObjectPosition objectMouseOver = par3EntityPlayer.rayTrace(RADIUS, 1);
+	    	MovingObjectPosition objectMouseOver = par3EntityPlayer.rayTrace(BAN_JING, 1);
 	    
 	    	if (objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
 	    	{
@@ -67,7 +66,7 @@ public class ItYaoKong extends ItemElectric
 		        else if(tileEntity instanceof TZhaDan && (blockMetadata == ZhaPin.yaSuo.getID() || blockMetadata == ZhaPin.Breaching.getID()))
 		        {
 		        	//Check for electricity
-		            if(this.getWattHours(par1ItemStack) > ELECTRICITY_REQUIRED)
+		            if(this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
 		        	{
        	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, tileEntity, (byte)2));
 			            return par1ItemStack;
@@ -90,15 +89,8 @@ public class ItYaoKong extends ItemElectric
 	}
     
     @Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
-		return 200;
+		return 50000;
 	}
-
-	@Override
-	public double getTransferRate()
-	{
-		return 0.5;
-	}
-
 }

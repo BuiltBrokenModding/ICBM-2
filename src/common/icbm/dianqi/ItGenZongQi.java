@@ -16,7 +16,6 @@ import universalelectricity.prefab.ItemElectric;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ItGenZongQi extends ItemElectric
 {
@@ -148,9 +147,9 @@ public class ItGenZongQi extends ItemElectric
 
     				if(trackingEntity != null)
 	    			{
-	    				this.onUseElectricity(YONG_DIAN_LIANG, par1ItemStack);
+	    				this.onUse(YONG_DIAN_LIANG, par1ItemStack);
 	    				
-	    				if(this.getWattHours(par1ItemStack) < YONG_DIAN_LIANG)
+	    				if(this.getJoules(par1ItemStack) < YONG_DIAN_LIANG)
 	    				{
 	    					this.setTrackingEntity(par1ItemStack, null);
 	    				}
@@ -174,7 +173,7 @@ public class ItGenZongQi extends ItemElectric
     {
     	if(!player.worldObj.isRemote)
     	{
-	    	if(this.getWattHours(itemStack) > YONG_DIAN_LIANG)
+	    	if(this.getJoules(itemStack) > YONG_DIAN_LIANG)
 	    	{
 	    		setTrackingEntity(itemStack, entity);
 	            player.addChatMessage("Now tracking: "+entity.getEntityName());
@@ -194,12 +193,6 @@ public class ItGenZongQi extends ItemElectric
 	{
 		return 20;
 	}
-	
-	@Override
-	public double getTransferRate()
-	{
-		return 0.5;
-	}
 
 	@Override
 	public String getTextureFile()
@@ -208,8 +201,8 @@ public class ItGenZongQi extends ItemElectric
 	}
 
 	@Override
-	public double getMaxWattHours()
+	public double getMaxJoules()
 	{
-		return 250;
+		return 100000;
 	}
 }

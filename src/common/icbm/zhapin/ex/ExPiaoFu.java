@@ -7,17 +7,15 @@ import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
-import chb.mods.mffs.api.IForceFieldBlock;
-
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
-import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
+import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExPiaoFu extends ZhaPin
 {	

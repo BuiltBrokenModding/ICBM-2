@@ -4,7 +4,6 @@ import icbm.BaoHu;
 import icbm.ICBM;
 import icbm.ParticleSpawner;
 import icbm.api.IMissile;
-import icbm.dianqi.ItGenZongQi;
 import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.ZhaPin;
@@ -20,7 +19,6 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldServer;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
@@ -30,7 +28,6 @@ import universalelectricity.prefab.Vector3;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMissile

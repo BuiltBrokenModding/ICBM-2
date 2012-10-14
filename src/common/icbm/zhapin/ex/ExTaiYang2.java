@@ -1,7 +1,5 @@
 package icbm.zhapin.ex;
 
-import chb.mods.mffs.api.IForceFieldBlock;
-import icbm.EFeiBlock;
 import icbm.ICBM;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
