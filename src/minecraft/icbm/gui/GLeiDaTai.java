@@ -50,11 +50,11 @@ public class GLeiDaTai extends ICBMGui
     	
     	this.textFieldSafetyZone = new GuiTextField(fontRenderer, 155, 83, 30, 12);
         this.textFieldSafetyZone.setMaxStringLength(3);
-        this.textFieldSafetyZone.setText(this.tileEntity.safetyRadius+"");
+        this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing+"");
     	
     	this.textFieldAlarmRange = new GuiTextField(fontRenderer, 155, 110, 30, 12);
         this.textFieldAlarmRange.setMaxStringLength(3);
-        this.textFieldAlarmRange.setText(this.tileEntity.alarmRadius+"");
+        this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing+"");
         
         PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int)-1, true));
     }
@@ -73,8 +73,42 @@ public class GLeiDaTai extends ICBMGui
 	public void keyTyped(char par1, int par2)
     {
         super.keyTyped(par1, par2);
-        this.textFieldAlarmRange.textboxKeyTyped(par1, par2);
         this.textFieldSafetyZone.textboxKeyTyped(par1, par2);
+        this.textFieldAlarmRange.textboxKeyTyped(par1, par2);
+        
+        try
+        {
+        	if(this.textFieldSafetyZone.getText() != "")
+        	{
+        		int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText() )));
+            	
+            	if(newSafetyRadius != this.tileEntity.safetyBanJing)
+            	{
+            		this.tileEntity.safetyBanJing = newSafetyRadius;
+                    PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2, this.tileEntity.safetyBanJing));
+            	}
+        	}
+        }
+        catch (NumberFormatException e)
+        {
+        }
+        
+        try
+        {
+        	if(this.textFieldAlarmRange.getText() != "")
+        	{
+	        	int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText() )));
+	        	
+	        	if(newAlarmRadius != this.tileEntity.alarmBanJing)
+	        	{
+	        		this.tileEntity.alarmBanJing = newAlarmRadius;
+	                PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)3, this.tileEntity.alarmBanJing));
+	        	}
+        	}
+        }
+        catch (NumberFormatException e)
+        {
+        }
     }
 
     /**
@@ -182,7 +216,7 @@ public class GLeiDaTai extends ICBMGui
 				float x = (int) (missile.posX - this.tileEntity.xCoord) / radarMapRadius;
 				float z = (int) (missile.posZ - this.tileEntity.zCoord) / radarMapRadius;
 									
-		        if(Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord)) < this.tileEntity.safetyRadius)
+		        if(Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord)) < this.tileEntity.safetyBanJing)
 		        {
 		        	var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH+"reddot.png");
 		        }
@@ -213,38 +247,7 @@ public class GLeiDaTai extends ICBMGui
     {
         super.updateScreen();
         
-        try
-        {
-        	int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText() )));
-        	
-        	if(newSafetyRadius != this.tileEntity.safetyRadius)
-        	{
-        		this.tileEntity.safetyRadius = newSafetyRadius;
-                PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int)2, this.tileEntity.safetyRadius));
-        	}
-        	
-        	this.textFieldSafetyZone.setText(this.tileEntity.safetyRadius + "");
-        }
-        catch (NumberFormatException e)
-        {
-            this.tileEntity.safetyRadius = 20;
-        }
-        
-        try
-        {
-        	int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText() )));
-        	
-        	if(newAlarmRadius != this.tileEntity.alarmRadius)
-        	{
-        		this.tileEntity.alarmRadius = newAlarmRadius;
-                PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int)3, this.tileEntity.alarmRadius));
-        	}
-        	
-        	this.textFieldAlarmRange.setText(this.tileEntity.alarmRadius + "");
-        }
-        catch (NumberFormatException e)
-        {
-            this.tileEntity.alarmRadius = 100;
-        }
+    	this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
+    	this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
     }
 }

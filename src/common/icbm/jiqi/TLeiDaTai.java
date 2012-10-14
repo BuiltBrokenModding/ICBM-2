@@ -47,9 +47,9 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	
 	public float radarRotationYaw = 0;
 		
-	public int alarmRadius = 100;
+	public int alarmBanJing = 100;
 	
-	public int safetyRadius = 20;
+	public int safetyBanJing = 20;
 	
 	public List<EDaoDan> detectedMissiles = new ArrayList<EDaoDan>();
 	
@@ -93,14 +93,15 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		
 		if(!this.worldObj.isRemote)
 		{
-			if(Ticker.inGameTicks % 20 == 0)
+			if(this.ticks % 20 == 0)
 			{
 				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 100);
 				
 				if(this.playersUsing > 0)
 				{
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this.alarmRadius, this.safetyRadius), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 15);
 				}
+				
 			}
 		}
 		
@@ -134,7 +135,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        			this.detectedMissiles.add(missile);
 		        		}
 		        		
-		        		if(Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyRadius)
+		        		if(Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing)
 		        		{
 		        			this.missileAlert  = true;
 		        		}
@@ -180,10 +181,15 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		}
 	}
 	
+	private Packet getDescriptionPacket2()
+	{
+		return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.alarmBanJing, this.safetyBanJing);
+	}
+
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(UELoader.CHANNEL, this, (int)4, this.wattsReceived, this.disabledTicks);
+        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattsReceived, this.disabledTicks);
     }
 
 	@Override
@@ -197,6 +203,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	        {
 	        	if(dataStream.readBoolean())
 				{
+					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 15);
 					this.playersUsing ++;
 				}
 				else
@@ -208,8 +215,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	        {
 	        	if(ID == 1)
 		        {
-			        this.alarmRadius = dataStream.readInt();
-			        this.safetyRadius = dataStream.readInt();
+			        this.alarmBanJing = dataStream.readInt();
+			        this.safetyBanJing = dataStream.readInt();
 		        }
 	        	else if(ID == 4)
 		        {
@@ -221,11 +228,11 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	        {
 	        	if(ID == 2)
 	        	{
-	        		this.safetyRadius = dataStream.readInt();
+	        		this.safetyBanJing = dataStream.readInt();
 	        	}
 	        	else if(ID == 3)
 	        	{
-	        		this.alarmRadius = dataStream.readInt();
+	        		this.alarmBanJing = dataStream.readInt();
 	        	}
 	        } 
 	    }
@@ -278,9 +285,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
     {
     	super.readFromNBT(par1NBTTagCompound);
     	
-    	this.safetyRadius = par1NBTTagCompound.getInteger("safetyRadius");
-    	this.alarmRadius = par1NBTTagCompound.getInteger("alarmRadius");
-    	this.wattsReceived = par1NBTTagCompound.getDouble("electricityStored");
+    	this.safetyBanJing = par1NBTTagCompound.getInteger("safetyRadius");
+    	this.alarmBanJing = par1NBTTagCompound.getInteger("alarmRadius");
     }
 
     /**
@@ -291,9 +297,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
     {
     	super.writeToNBT(par1NBTTagCompound);
     	
-    	par1NBTTagCompound.setInteger("safetyRadius", this.safetyRadius);
-    	par1NBTTagCompound.setInteger("alarmRadius", this.alarmRadius);
-    	par1NBTTagCompound.setDouble("electricityStored", this.wattsReceived);
+    	par1NBTTagCompound.setInteger("safetyRadius", this.safetyBanJing);
+    	par1NBTTagCompound.setInteger("alarmRadius", this.alarmBanJing);
     }
 
 	@Override
