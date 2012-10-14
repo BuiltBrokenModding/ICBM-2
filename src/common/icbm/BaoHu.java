@@ -38,32 +38,35 @@ public class BaoHu
 
 	public static boolean isPositionProtected(World worldObj, Vector2 position, ZhaPinType type)
 	{
-		NBTTagCompound dimdata = nbtData.getCompoundTag("dim"+worldObj.getWorldInfo().getDimension());
-
-		//Check if ICBM is banned in this world.
-		if (dimdata.getBoolean(FIELD_GLOBAL_BAN))
+		if(!worldObj.isRemote)
 		{
-			return true;
-		}
-		
-		//Regions check
-		Iterator i = dimdata.getTags().iterator();
-		while(i.hasNext())
-		{
-			try
+			NBTTagCompound dimdata = nbtData.getCompoundTag("dim"+worldObj.getWorldInfo().getDimension());
+	
+			//Check if ICBM is banned in this world.
+			if (dimdata.getBoolean(FIELD_GLOBAL_BAN))
 			{
-				NBTTagCompound region = (NBTTagCompound) i.next();
-				
-				if(Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R))
-				{
-					if(ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.ALL || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type)
-					{
-						return true;
-					}
-	            }
+				return true;
 			}
-			catch (Exception e)
-			{}
+			
+			//Regions check
+			Iterator i = dimdata.getTags().iterator();
+			while(i.hasNext())
+			{
+				try
+				{
+					NBTTagCompound region = (NBTTagCompound) i.next();
+					
+					if(Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R))
+					{
+						if(ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.ALL || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type)
+						{
+							return true;
+						}
+		            }
+				}
+				catch (Exception e)
+				{}
+			}
 		}
 		
 		return false;
