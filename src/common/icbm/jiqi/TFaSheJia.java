@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
-import icbm.ZhuYao;
 import icbm.TYinXing;
+import icbm.ZhuYao;
 import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;

@@ -1,8 +1,8 @@
 package icbm.jiqi;
 
-import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
 import icbm.TYinXing;
+import icbm.ZhuYao;
 import icbm.extend.IMB;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;

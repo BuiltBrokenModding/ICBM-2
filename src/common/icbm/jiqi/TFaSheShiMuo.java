@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
-import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
+import icbm.ZhuYao;
 import icbm.api.Launcher.LauncherType;
 import icbm.extend.IBActivate;
 import icbm.extend.TFaSheQi;

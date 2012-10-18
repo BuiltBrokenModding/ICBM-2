@@ -6,11 +6,11 @@ import icbm.daodan.EDaoDan;
 import icbm.zhapin.ex.ExBianZhong;
 import icbm.zhapin.ex.ExBingDan;
 import icbm.zhapin.ex.ExBingDan2;
-import icbm.zhapin.ex.ExFuLan;
 import icbm.zhapin.ex.ExDianCi;
 import icbm.zhapin.ex.ExDianCiSignal;
 import icbm.zhapin.ex.ExDianCiWave;
 import icbm.zhapin.ex.ExFanWuSu;
+import icbm.zhapin.ex.ExFuLan;
 import icbm.zhapin.ex.ExHongSu;
 import icbm.zhapin.ex.ExHuanYuan;
 import icbm.zhapin.ex.ExHuo;
@@ -256,6 +256,11 @@ public abstract class ZhaPin implements ITier
 	public ItemStack getItemStack() { return new ItemStack(ZhuYao.bZha4Dan4, 1, this.getID()); }
 	
 	public ItemStack getItemStack(int amount) { return new ItemStack(ZhuYao.bZha4Dan4, amount, this.getID()); }
+	
+	public static void createExplosion(World worldObj, double x, double y, double z, Entity entity, int explosiveID)
+	{
+		createBaoZha(worldObj, new Vector3(x, y, z), entity, explosiveID);
+	}
 	
 	public static void createBaoZha(World worldObj, Vector3 position, Entity entity, int explosiveID)
 	{
