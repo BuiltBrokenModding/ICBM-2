@@ -1,6 +1,6 @@
 package icbm.renders;
  
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.models.MXiaoFaSheQi;
 import icbm.models.MXiaoFaSheQiJia;

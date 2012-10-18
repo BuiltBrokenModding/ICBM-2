@@ -1,7 +1,7 @@
 package icbm.daodan;
 
 import icbm.BaoHu;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ParticleSpawner;
 import icbm.api.IMissile;
 import icbm.jiqi.TFaSheDi;
@@ -155,7 +155,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public void entityInit()
     {
     	this.dataWatcher.addObject(16, -1);
-    	this.daoDanInit(ForgeChunkManager.requestTicket(ICBM.instance, this.worldObj, Type.ENTITY));
+    	this.daoDanInit(ForgeChunkManager.requestTicket(ZhuYao.instance, this.worldObj, Type.ENTITY));
     }
     
     public void daoDanInit(Ticket ticket)
@@ -172,7 +172,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     
     public void updateLoadChunk(int newChunkX, int newChunkZ)
     {
-    	if(!this.worldObj.isRemote && ICBM.ALLOW_LOAD_CHUNKS)
+    	if(!this.worldObj.isRemote && ZhuYao.ALLOW_LOAD_CHUNKS)
     	{    		
     		for(int x = -2; x <= 2; x++)
 	    	{
@@ -522,7 +522,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     {
     	if(!this.isExploding && !this.worldObj.isRemote)
     	{
-	    	EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBM.itemDaoDan, 1, this.missileID+1));
+	    	EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itDaoDan, 1, this.missileID+1));
 	        float var13 = 0.05F;
 	        Random random = new Random();
 	        entityItem.motionX = ((float)random.nextGaussian() * var13);

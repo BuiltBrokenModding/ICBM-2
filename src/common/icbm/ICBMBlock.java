@@ -1,5 +1,7 @@
 package icbm;
 
+import icbm.api.ICBM;
+
 import java.util.ArrayList;
 
 import net.minecraft.src.Block;

@@ -1,7 +1,8 @@
 package icbm.dianqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMPacketManager.ICBMPacketType;
+import icbm.api.ICBM;
 import icbm.api.IFrequency;
 import icbm.extend.TFaSheQi;
 import icbm.jiqi.FaSheQiGuanLi;
@@ -261,7 +262,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 		    	}
 		    	
 		    	//Prevents calling air strike if the user is trying to set the frequency of the remote.
-		        if(blockId == ICBM.blockJiQi.blockID)
+		        if(blockId == ZhuYao.bJiQi.blockID)
 		        {
 		        	return par1ItemStack;
 		        }
@@ -318,7 +319,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 	
 		    	        	if(doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
 		    	        	{
-		    	        		PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ICBM.CHANNEL, (int)ICBMPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+		    	        		PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYao.CHANNEL, (int)ICBMPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 		    	        		par3EntityPlayer.addChatMessage("Calling air strike into designated position!");
 		    	        	}
 		            	}

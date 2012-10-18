@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.api.ICBM;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Item;
 

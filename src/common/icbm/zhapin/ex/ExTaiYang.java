@@ -2,7 +2,7 @@ package icbm.zhapin.ex;
 
 import icbm.EFeiBlock;
 import icbm.EGuang;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 
@@ -177,7 +177,7 @@ public class ExTaiYang extends ZhaPin
 					}
 				}
 				
-				ZhaPin.ConflagrationFire.spawnZhaDan(worldObj, position, (byte)0);
+				ZhaPin.taiYang2.spawnZhaDan(worldObj, position, (byte)0);
 			}
 		}
 	}
@@ -204,6 +204,6 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', huo.getItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', huo.getItemStack()}, this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

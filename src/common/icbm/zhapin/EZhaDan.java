@@ -1,7 +1,7 @@
 package icbm.zhapin;
 
 import icbm.BaoHu;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import net.minecraft.src.Entity;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
@@ -47,7 +47,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
         this.prevPosY = position.y;
         this.prevPosZ = position.z;
         this.explosiveID = explosiveID;
-        this.fuse = ZhaPin.list[explosiveID].yinXin();
+        this.fuse = ZhaPin.list[explosiveID].getYinXin();
         this.orientation = orientation;
         
         ZhaPin.list[explosiveID].yinZhaQian(par1World, this);        
@@ -72,7 +72,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
     {
     	if(!BaoHu.allowExplosiveBlock(this.worldObj, Vector3.get(this).toVector2()))
     	{
-    		ICBM.blockZha4Dan4.dropBlockAsItem(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.explosiveID, 0);
+    		ZhuYao.bZha4Dan4.dropBlockAsItem(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.explosiveID, 0);
     		this.setDead();
     		return;
     	}

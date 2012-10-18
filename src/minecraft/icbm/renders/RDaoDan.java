@@ -30,7 +30,7 @@ public class ICBMRenderMissile extends RenderLiving
 */
 package icbm.renders;
 
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.daodan.EDaoDan;
 import icbm.models.MMBingDan;
 import icbm.models.MMDianCi;

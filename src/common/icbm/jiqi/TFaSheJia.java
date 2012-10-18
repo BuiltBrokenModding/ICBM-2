@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.TYinXing;
 import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
@@ -122,9 +122,9 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMB
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
 		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ(), ICBM.blockYinXing.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ(), ZhuYao.bYinXing.blockID);
 		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ())).setMainBlock(position);
 	}
 

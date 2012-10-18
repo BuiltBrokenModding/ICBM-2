@@ -1,6 +1,6 @@
 package icbm.daodan;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
@@ -66,7 +66,7 @@ public class DaoDan implements ITier
 	
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(ICBM.itemDaoDan, 1, this.getID());
+		return new ItemStack(ZhuYao.itDaoDan, 1, this.getID());
 	}
 	
 	public boolean isCruise() { return true; }

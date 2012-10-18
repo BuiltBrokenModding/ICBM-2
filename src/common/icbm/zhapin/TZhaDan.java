@@ -1,6 +1,6 @@
 package icbm.zhapin;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.dianqi.ItYaoKong;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
@@ -76,7 +76,7 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
 				{
 	        		ItemStack itemStack = player.inventory.getCurrentItem();
 		    		BZhaDan.detonateTNT(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
-					((ItYaoKong) ICBM.itemYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
+					((ItYaoKong) ZhuYao.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
 				}
 	        }
         }

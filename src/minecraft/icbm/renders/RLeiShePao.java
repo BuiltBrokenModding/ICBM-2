@@ -1,6 +1,6 @@
 package icbm.renders;
  
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TLeiShePao;
 import icbm.models.MLeiShePao;
 import icbm.models.MLeiShePao2;

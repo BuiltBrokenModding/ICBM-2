@@ -1,6 +1,6 @@
 package icbm.zhapin.ex;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -26,14 +26,14 @@ public class ExDianCi extends ZhaPin
 	{
 		if(radius < 0) radius = 30;
 		
-		ZhaPin.EMPSignal.doBaoZha(worldObj, position, null, radius, callCount);
-		ZhaPin.EMPWave.doBaoZha(worldObj, position, null, radius, callCount);
+		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, null, radius, callCount);
+		ZhaPin.dianCiWave.doBaoZha(worldObj, position, null, radius, callCount);
     	return false;
 	}
 
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Item.redstone, '!', ((ItemElectric)BasicComponents.itemBattery).getUnchargedItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);		
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Item.redstone, '!', ((ItemElectric)BasicComponents.itemBattery).getUnchargedItemStack()}, this.getMing(), ZhuYao.CONFIGURATION, true);		
 	}
 }

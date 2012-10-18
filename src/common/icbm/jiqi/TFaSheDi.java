@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
 import icbm.BaoHu;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
 import icbm.TYinXing;
 import icbm.daodan.EDaoDan;
@@ -36,7 +36,7 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory
 {
-    private static final double MISSILE_MAX_DISTANCE = UEConfig.getConfigData(ICBM.CONFIGURATION, "Max Missile Distance", 2000);
+    private static final double MISSILE_MAX_DISTANCE = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Max Missile Distance", 2000);
 
 	//The missile that this launcher is holding
     public EDaoDan eDaoDan = null;
@@ -200,7 +200,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, this.orientation, this.tier);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.orientation, this.tier);
     }
     
     @Override
@@ -461,7 +461,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 			}
 		}
 		
-		par5EntityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		par5EntityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
@@ -471,35 +471,35 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		if(this.orientation == 3 || this.orientation == 2)
 		{		
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+2, position.intZ())).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+2, position.intZ())).setMainBlock(position);
 		}
 		else
 		{
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()+1)).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, ICBM.blockYinXing.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, ZhuYao.bYinXing.blockID);
 			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()-1)).setMainBlock(position);
 		}
 	}

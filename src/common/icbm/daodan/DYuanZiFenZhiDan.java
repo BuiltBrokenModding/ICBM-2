@@ -22,7 +22,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 				if(!missileObj.worldObj.isRemote)
 				{
 					Vector3 position = Vector3.get(missileObj);
-					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), ZhaPin.Nuclear.getID());
+					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), ZhaPin.yuanZi.getID());
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 					clusterMissile.isCruise = true;
 					clusterMissile.protectionTime = 20;
@@ -42,7 +42,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 	@Override
 	public void onExplode(EDaoDan missileObj)
 	{
-		ZhaPin.createBaoZha(missileObj.worldObj, Vector3.get(missileObj), missileObj, ZhaPin.Nuclear.getID());
+		ZhaPin.createBaoZha(missileObj.worldObj, Vector3.get(missileObj), missileObj, ZhaPin.yuanZi.getID());
 	}
 	
 	@Override

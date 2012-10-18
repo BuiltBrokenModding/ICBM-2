@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.zhapin.EShouLiuDan;
 
 import java.util.Random;
@@ -44,7 +44,7 @@ public class RenderGrenade extends Render
     public void doRenderItem(EShouLiuDan par1EntityItem, double par2, double par4, double par6, float par8, float par9)
     {
         this.random.setSeed(187L);
-        ItemStack var10 = new ItemStack(ICBM.itemShouLiuDan, 1, par1EntityItem.explosiveID);
+        ItemStack var10 = new ItemStack(ZhuYao.itShouLiuDan, 1, par1EntityItem.explosiveID);
         GL11.glPushMatrix();
 
         byte var13 = 1;

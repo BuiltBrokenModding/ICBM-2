@@ -1,6 +1,7 @@
 package icbm.jiqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
+import icbm.api.ICBM;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemBlock;
@@ -26,7 +27,7 @@ public class IBJiQi extends ItemBlock
     	"Cruise Launcher",
     	"Laser Turret"};
     
-    private static final int spawnID = ICBM.blockJiQi.blockID;
+    private static final int spawnID = ZhuYao.bJiQi.blockID;
     
     public IBJiQi(int id)
     {

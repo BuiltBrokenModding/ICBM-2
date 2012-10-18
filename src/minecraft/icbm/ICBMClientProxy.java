@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.api.ICBM;
 import icbm.daodan.EDaoDan;
 import icbm.gui.GCiGuiPao;
 import icbm.gui.GDianCiQi;
@@ -30,7 +31,7 @@ import icbm.renders.RGuangBang;
 import icbm.renders.RLeiShePao;
 import icbm.renders.RXiaoFaSheQi;
 import icbm.renders.RZhaPin;
-import icbm.renders.RenderExplosive;
+import icbm.renders.RZhaDan;
 import icbm.renders.RenderFragment;
 import icbm.renders.RenderGravityBlock;
 import icbm.renders.RenderGrenade;
@@ -64,7 +65,7 @@ public class ICBMClientProxy extends ICBMCommonProxy
 	@Override
 	public void init()
 	{		
-		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RenderExplosive());
+		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RZhaDan());
         RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
         RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RenderGravityBlock());

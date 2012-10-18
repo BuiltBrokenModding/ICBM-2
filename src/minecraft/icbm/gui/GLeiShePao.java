@@ -1,7 +1,8 @@
 package icbm.gui;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMPacketManager;
+import icbm.api.ICBM;
 import icbm.jiqi.TLeiShePao;
 import icbm.rongqi.CCiGuiPao;
 import net.minecraft.src.EntityPlayer;
@@ -40,7 +41,7 @@ public class GLeiShePao extends ICBMGui
         
         this.controlList.add(new GuiButton(0, this.width / 2 - 60,  this.height / 2 + 10, 55, 20, "Mount"));
         this.controlList.add(new GuiButton(1, this.width / 2 + 10,  this.height / 2 + 10, 55, 20, "Mode"));
-    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, true));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)-1, true));
     }
     
     
@@ -48,7 +49,7 @@ public class GLeiShePao extends ICBMGui
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, false));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)-1, false));
     }
     
     /**
@@ -59,10 +60,10 @@ public class GLeiShePao extends ICBMGui
     {
         switch(par1GuiButton.id)
         {
-	        case 0: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2));
+	        case 0: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2));
 	        this.tileEntity.mount(this.mc.thePlayer); this.mc.thePlayer.closeScreen(); 
 	        break;
-	        case 1: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)3));
+	        case 1: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3));
 	        this.tileEntity.autoMode = !this.tileEntity.autoMode;
 	        break;
         }

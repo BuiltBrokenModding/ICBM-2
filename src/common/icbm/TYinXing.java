@@ -45,7 +45,7 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z);
     }
 	
 	public void onBlockRemoval()

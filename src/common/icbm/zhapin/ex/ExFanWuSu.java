@@ -1,7 +1,7 @@
 package icbm.zhapin.ex;
 
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -20,7 +20,7 @@ public class ExFanWuSu extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(300);
-		this.destroyBedrock = UEConfig.getConfigData(ICBM.CONFIGURATION, this.getMing()+" Destroy Bedrock", destroyBedrock);
+		this.destroyBedrock = UEConfig.getConfigData(ZhuYao.CONFIGURATION, this.getMing()+" Destroy Bedrock", destroyBedrock);
 	}
 	
 	/**

@@ -1,6 +1,6 @@
 package icbm.renders;
  
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TDianCiQi;
 import icbm.models.MDianCiQi;
 import net.minecraft.src.TileEntity;

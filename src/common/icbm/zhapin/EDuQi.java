@@ -1,6 +1,6 @@
 package icbm.zhapin;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 
 import java.util.List;
 
@@ -47,11 +47,11 @@ public class EDuQi extends ZhaPin
         {
         	if(isContagious)
         	{
-        		ICBM.DU_CHUAN_RAN.poisonEntity(entity);
+        		ZhuYao.DU_CHUAN_RAN.poisonEntity(entity);
         	}
         	else
         	{
-        		ICBM.DU_DU.poisonEntity(entity);
+        		ZhuYao.DU_DU.poisonEntity(entity);
         	}
         }
         
@@ -59,7 +59,7 @@ public class EDuQi extends ZhaPin
 	
         if(isContagious)
         {
-    		ZhaPin.Mutation.doBaoZha(worldObj, position, null, radius, -1);
+    		ZhaPin.bianZhong.doBaoZha(worldObj, position, null, radius, -1);
         }
 	}
 	
@@ -68,7 +68,7 @@ public class EDuQi extends ZhaPin
 	{
 		if(this.getTier() == 1)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@@@", '@', ICBM.itemDu, '?', Block.tnt});
+	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', Block.tnt});
 		}
 		else if(this.getTier() == 2)
 		{

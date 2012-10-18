@@ -1,6 +1,6 @@
 package icbm.renders;
  
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TFaSheDi;
 import icbm.models.MFaSheDi0;
 import icbm.models.MFaSheDiRail0;

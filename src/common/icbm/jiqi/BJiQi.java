@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.extend.IBActivate;
 import icbm.extend.IMB;
 
@@ -216,11 +216,11 @@ public class BJiQi extends BlockMachine
     {
     	if(par5EntityPlayer.inventory.getCurrentItem() != null)
     	{
-        	if(par5EntityPlayer.inventory.getCurrentItem().itemID == ICBM.itemLeiSheZhiBiao.shiftedIndex)
+        	if(par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiSheZhiBiao.shiftedIndex)
         	{
     			return false;
         	}
-    		else if(par5EntityPlayer.inventory.getCurrentItem().itemID == ICBM.itemLeiDaQiang.shiftedIndex)
+    		else if(par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiDaQiang.shiftedIndex)
         	{
     			return false;
         	}
@@ -337,7 +337,7 @@ public class BJiQi extends BlockMachine
     		itemMetadata = 9+metadata-3;
     	}
     	
-    	EntityItem entityItem = new EntityItem(par1World, x, y, z, new ItemStack(ICBM.blockJiQi, 1, itemMetadata));
+    	EntityItem entityItem = new EntityItem(par1World, x, y, z, new ItemStack(ZhuYao.bJiQi, 1, itemMetadata));
 
     	float var13 = 0.05F;
         entityItem.motionX = ((float)random.nextGaussian() * var13);
@@ -421,6 +421,6 @@ public class BJiQi extends BlockMachine
     		itemMetadata = 9+metadata-3;
     	}
     	
-    	return new ItemStack(ICBM.blockJiQi, 1, itemMetadata);
+    	return new ItemStack(ZhuYao.bJiQi, 1, itemMetadata);
     }
 }

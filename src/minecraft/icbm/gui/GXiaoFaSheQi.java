@@ -1,6 +1,7 @@
 package icbm.gui;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
+import icbm.api.ICBM;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.rongqi.CXiaoFaSheQi;
 import net.minecraft.src.GuiContainer;
@@ -137,7 +138,7 @@ public class GXiaoFaSheQi extends GuiContainer
         	if(this.tileEntity.getTarget() != newTarget)
         	{
             	this.tileEntity.setTarget(newTarget);
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
         	}
         	
         	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
@@ -156,7 +157,7 @@ public class GXiaoFaSheQi extends GuiContainer
         	if(newFrequency != this.tileEntity.getFrequency())
         	{
             	this.tileEntity.setFrequency(newFrequency);
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)1, this.tileEntity.getFrequency()));
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)1, this.tileEntity.getFrequency()));
         	}
         	
         	this.textFieldFreq.setText(Math.round(this.tileEntity.getFrequency()) + "");

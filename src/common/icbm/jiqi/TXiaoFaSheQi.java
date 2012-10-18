@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
 import icbm.BaoHu;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
 import icbm.api.Launcher.LauncherType;
 import icbm.daodan.DaoDan;
@@ -227,7 +227,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
     }
 	
 	@Override
@@ -240,7 +240,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	{
 		if(this.containingItems[0] != null && BaoHu.allowMissile(this.worldObj, Vector3.get(this).toVector2()))
         {
-            if (this.containingItems[0].itemID == ICBM.itemDaoDan.shiftedIndex)
+            if (this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex)
             {
                 int missileId = this.containingItems[0].getItemDamage();
 
@@ -349,7 +349,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 			 
 			if(missile != null)
 			{
-				if(this.containingItems[0].itemID == ICBM.itemDaoDan.shiftedIndex && missile.isCruise() && missile.getTier() <= 3)
+				if(this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex && missile.isCruise() && missile.getTier() <= 3)
 		        {
 		    		if(this.dianXiaoShi >= this.getMaxJoules())
 		    		{
@@ -523,7 +523,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 	{
 		if(entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if(entityPlayer.inventory.getCurrentItem().itemID == ICBM.itemDaoDan.shiftedIndex && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
+			if(entityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itDaoDan.shiftedIndex && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
 			{
 				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
 				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
@@ -531,7 +531,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceive
 			}
 		}
 		
-		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}

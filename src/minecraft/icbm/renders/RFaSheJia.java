@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TFaSheJia;
 import icbm.models.MFaSheJia;
 import net.minecraft.src.TileEntity;

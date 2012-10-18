@@ -24,7 +24,7 @@ public class BYinXing extends BlockContainer
     
     public static void makeInvisibleBlock(World worldObj, Vector3 position, Vector3 mainBlock)
     {
-		worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ(), ICBM.blockYinXing.blockID);
+		worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ(), ZhuYao.bYinXing.blockID);
 		((TYinXing)worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ())).setMainBlock(mainBlock);
     }
 

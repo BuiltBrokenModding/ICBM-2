@@ -1,6 +1,6 @@
 package icbm.renders;
  
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TLeiDaTai;
 import icbm.models.MLeiDa;
 import net.minecraft.src.TileEntity;

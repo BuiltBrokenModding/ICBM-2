@@ -59,7 +59,7 @@ public class ICBMPacketManager extends PacketManager
 				itemStack.stackTagCompound.setInteger("x", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("y", dataStream.readInt());
 				itemStack.stackTagCompound.setInteger("z", dataStream.readInt());
-				((ItemElectric) ICBM.itemLeiDaQiang).onUse(ItLeiDaQiang.YONG_DIAN_LIANG, itemStack);
+				((ItemElectric) ZhuYao.itLeiDaQiang).onUse(ItLeiDaQiang.YONG_DIAN_LIANG, itemStack);
 			}
 		}
 		else if(icbmPacketType == ICBMPacketType.LASER_DESIGNATOR)
@@ -69,13 +69,13 @@ public class ICBMPacketManager extends PacketManager
 				ItemStack itemStack = player.inventory.getCurrentItem();
 				Vector3 position = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 
-				((ItLeiShiZhiBiao)ICBM.itemLeiSheZhiBiao).setLauncherCountDown(itemStack, 119);
+				((ItLeiShiZhiBiao)ZhuYao.itLeiSheZhiBiao).setLauncherCountDown(itemStack, 119);
 	    		
 				player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), "icbm.airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	    		
 				player.worldObj.spawnEntityInWorld(new EGuang(player.worldObj, position, 5*20, 0F, 1F, 0F));
 	    		
-				((ItemElectric) ICBM.itemLeiDaQiang).onUse(ItLeiShiZhiBiao.YONG_DIAN_LIANG, itemStack);
+				((ItemElectric) ZhuYao.itLeiDaQiang).onUse(ItLeiShiZhiBiao.YONG_DIAN_LIANG, itemStack);
 			}
 		}
 		else if(icbmPacketType == ICBMPacketType.SIGNAL_DISRUPTER)

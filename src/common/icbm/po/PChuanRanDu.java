@@ -1,6 +1,6 @@
 package icbm.po;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.DamageSource;
 import net.minecraft.src.EntityLiving;
@@ -50,7 +50,7 @@ public class PChuanRanDu extends CustomPotion
                 nearestEntity.setDead();
             }
     		
-	        ICBM.DU_CHUAN_RAN.poisonEntity(nearestEntity);
+	        ZhuYao.DU_CHUAN_RAN.poisonEntity(nearestEntity);
     	}
     }
 	

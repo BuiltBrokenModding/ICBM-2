@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
 import icbm.BYinXing;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
 import icbm.extend.IMB;
 import icbm.zhapin.ZhaPin;
@@ -129,7 +129,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.dianXiaoShi, this.disabledTicks, this.banJing, this.muoShi);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.dianXiaoShi, this.disabledTicks, this.banJing, this.muoShi);
     }
 	@Override
     public double wattRequest()
@@ -187,12 +187,12 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 		{
 			if(this.muoShi == 0 || this.muoShi == 1)
 			{
-				ZhaPin.EMPSignal.doBaoZha(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.banJing, -1);
+				ZhaPin.dianCiSignal.doBaoZha(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.banJing, -1);
 			}
 			
 			if(this.muoShi == 0 || this.muoShi == 2)
 			{
-				ZhaPin.EMPWave.doBaoZha(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.banJing, -1);
+				ZhaPin.dianCiWave.doBaoZha(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.banJing, -1);
 			}
 
 			this.dianXiaoShi = 0;
@@ -212,7 +212,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

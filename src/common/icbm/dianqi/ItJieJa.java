@@ -1,6 +1,7 @@
 package icbm.dianqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
+import icbm.api.ICBM;
 import icbm.zhapin.EZhaDan;
 
 import java.util.Random;
@@ -50,7 +51,7 @@ public class ItJieJa extends ItemElectric
 	    		if(entity instanceof EZhaDan)
 		    	{
 		    		EZhaDan entityTNT = (EZhaDan)entity;
-		    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ICBM.blockZha4Dan4, 1, entityTNT.explosiveID));
+		    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ZhuYao.bZha4Dan4, 1, entityTNT.explosiveID));
 			        float var13 = 0.05F;
 			        Random random = new Random();
 			        entityItem.motionX = ((float)random.nextGaussian() * var13);

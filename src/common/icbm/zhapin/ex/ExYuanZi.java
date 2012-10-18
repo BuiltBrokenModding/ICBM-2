@@ -1,7 +1,7 @@
 package icbm.zhapin.ex;
 
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ParticleSpawner;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
@@ -124,7 +124,7 @@ public class ExYuanZi extends ZhaPin
     	    	        	
     	if(r > 0)
     	{
-    		if(worldObj.isRemote && ICBM.SPAWN_PARTICLES)
+    		if(worldObj.isRemote && ZhuYao.SPAWN_PARTICLES)
             {
 	        	for(int x = -r; x < r; x++)
 	    		{
@@ -138,7 +138,7 @@ public class ExYuanZi extends ZhaPin
 
 	                    	if(!reverse)
 							{
-								if(worldObj.rand.nextFloat() < Math.max(0.0006*r, 0.005) || (ICBM.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008*r, 0.008)))
+								if(worldObj.rand.nextFloat() < Math.max(0.0006*r, 0.005) || (ZhuYao.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008*r, 0.008)))
 								{
 									worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0, 0, 0);
 								}
@@ -197,10 +197,10 @@ public class ExYuanZi extends ZhaPin
 		
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 10.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		
-		ZhaPin.DecayLand.doBaoZha(worldObj, position, null, BAN_JING+15, -1);
-		ZhaPin.Mutation.doBaoZha(worldObj, position, null, BAN_JING+20, -1);
+		ZhaPin.fuLan.doBaoZha(worldObj, position, null, BAN_JING+15, -1);
+		ZhaPin.bianZhong.doBaoZha(worldObj, position, null, BAN_JING+20, -1);
 		
-		if(worldObj.isRemote && ICBM.ADVANCED_VISUALS)
+		if(worldObj.isRemote && ZhuYao.ADVANCED_VISUALS)
 		{
 			
 			for(int y = 0; y < 25; y++)
@@ -251,6 +251,6 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, this.getMing(), ICBM.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

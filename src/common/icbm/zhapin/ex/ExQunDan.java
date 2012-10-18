@@ -1,7 +1,7 @@
 package icbm.zhapin.ex;
 
 import icbm.ESuiPian;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
@@ -80,7 +80,7 @@ public class ExQunDan extends ZhaPin
 		}
 		else if(this.getTier() == 2)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack()}, this.getMing(), ICBM.CONFIGURATION, true);
+	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack()}, this.getMing(), ZhuYao.CONFIGURATION, true);
 		}
 	}
 }

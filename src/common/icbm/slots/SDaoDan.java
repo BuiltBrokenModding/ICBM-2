@@ -1,6 +1,6 @@
 package icbm.slots;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.daodan.ItDaoDan;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
@@ -26,7 +26,7 @@ public class SDaoDan extends Slot
     {
     	if(par1ItemStack.getItem() instanceof ItDaoDan)
     	{
-    		if(par1ItemStack.itemID == ICBM.itemDaoDan.shiftedIndex)
+    		if(par1ItemStack.itemID == ZhuYao.itDaoDan.shiftedIndex)
     		{
     			return true;
     		}

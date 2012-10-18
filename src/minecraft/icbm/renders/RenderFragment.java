@@ -1,7 +1,7 @@
 package icbm.renders;
 
 import icbm.ESuiPian;
-import icbm.ICBM;
+import icbm.api.ICBM;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Render;

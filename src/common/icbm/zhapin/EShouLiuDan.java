@@ -1,7 +1,7 @@
 package icbm.zhapin;
 
 import icbm.BaoHu;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityItem;
 import net.minecraft.src.EntityLiving;
@@ -145,7 +145,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
                 double var7 = (double)(this.worldObj.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
                 double var9 = (double)(this.worldObj.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
                 double var11 = (double)(this.worldObj.rand.nextFloat() * var6) + (double)(1.0F - var6) * 0.5D;
-                EntityItem var13 = new EntityItem(this.worldObj, (double)this.posX + var7, (double)this.posY + var9, (double)this.posZ + var11, new ItemStack(ICBM.itemShouLiuDan, this.explosiveID, 1));
+                EntityItem var13 = new EntityItem(this.worldObj, (double)this.posX + var7, (double)this.posY + var9, (double)this.posZ + var11, new ItemStack(ZhuYao.itShouLiuDan, this.explosiveID, 1));
                 var13.delayBeforeCanPickup = 10;
                 this.worldObj.spawnEntityInWorld(var13);
             }
@@ -215,7 +215,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
             this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
         }
                 
-        if(this.ticksExisted > Math.max(60, ZhaPin.list[explosiveID].yinXin()))
+        if(this.ticksExisted > Math.max(60, ZhaPin.list[explosiveID].getYinXin()))
         {
         	this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 

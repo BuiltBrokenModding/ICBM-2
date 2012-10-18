@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
 import icbm.BYinXing;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
 import icbm.daodan.DaoDanGuanLi;
 import icbm.daodan.EDaoDan;
@@ -39,7 +39,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
     
 	public final static int MAX_BIAN_JING = 500;
 	
-	private static final boolean YIN_XIANG = UEConfig.getConfigData(ICBM.CONFIGURATION, "Radar Emit Sound", true);
+	private static final boolean YIN_XIANG = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Radar Emit Sound", true);
 	
 	//The electricity stored
 	public double dian, prevDian = 0;
@@ -182,13 +182,13 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	
 	private Packet getDescriptionPacket2()
 	{
-		return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.alarmBanJing, this.safetyBanJing);
+		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.alarmBanJing, this.safetyBanJing);
 	}
 
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.dian, this.disabledTicks);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.dian, this.disabledTicks);
     }
 
 	@Override
@@ -323,7 +323,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

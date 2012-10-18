@@ -1,6 +1,7 @@
 package icbm.gui;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
+import icbm.api.ICBM;
 import icbm.daodan.EDaoDan;
 import icbm.jiqi.TLeiDaTai;
 
@@ -85,7 +86,7 @@ public class GLeiDaTai extends ICBMGui
             	if(newSafetyRadius != this.tileEntity.safetyBanJing)
             	{
             		this.tileEntity.safetyBanJing = newSafetyRadius;
-                    PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2, this.tileEntity.safetyBanJing));
+                    PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.safetyBanJing));
             	}
         	}
         }
@@ -102,7 +103,7 @@ public class GLeiDaTai extends ICBMGui
 	        	if(newAlarmRadius != this.tileEntity.alarmBanJing)
 	        	{
 	        		this.tileEntity.alarmBanJing = newAlarmRadius;
-	                PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)3, this.tileEntity.alarmBanJing));
+	                PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.alarmBanJing));
 	        	}
         	}
         }

@@ -2,7 +2,7 @@ package icbm.zhapin.ex;
 
 import icbm.EFeiBlock;
 import icbm.EGuang;
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.po.PDongShang;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaPin;
@@ -196,7 +196,7 @@ public class ExBingDan extends ZhaPin
 		    		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 45 * 20, 4));
 		        }
 		        
-				ZhaPin.EndothermicIce.spawnZhaDan(worldObj, position, (byte)0);
+				ZhaPin.bingDan2.spawnZhaDan(worldObj, position, (byte)0);
 			}			
 		}
 	}
@@ -204,7 +204,7 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow}, this.getMing(), ICBM.CONFIGURATION, true);		
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow}, this.getMing(), ZhuYao.CONFIGURATION, true);		
 	}
 	
 	public boolean canFocusBeam(World worldObj, Vector3 position)

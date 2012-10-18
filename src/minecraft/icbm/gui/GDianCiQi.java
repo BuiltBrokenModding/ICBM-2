@@ -1,6 +1,7 @@
 package icbm.gui;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
+import icbm.api.ICBM;
 import icbm.jiqi.TDianCiQi;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiTextField;
@@ -42,14 +43,14 @@ public class GDianCiQi extends ICBMGui
         this.textFieldRadius = new GuiTextField(fontRenderer, 72, 28, 20, 12);
         this.textFieldRadius.setMaxStringLength(2);
         this.textFieldRadius.setText(this.tileEntity.banJing+"");  
-    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, true));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)-1, true));
     }
     
     @Override
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, false));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)-1, false));
     }
 
     /**
@@ -65,7 +66,7 @@ public class GDianCiQi extends ICBMGui
 	        case 2: this.tileEntity.muoShi = 0; break;
         }
         
-    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)3, this.tileEntity.muoShi));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.muoShi));
     }
 
     /**
@@ -165,7 +166,7 @@ public class GDianCiQi extends ICBMGui
         	{
         		this.tileEntity.banJing = radius;
         		this.textFieldRadius.setText(this.tileEntity.banJing+"");
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2, this.tileEntity.banJing));
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.banJing));
         	}
         }
         catch (NumberFormatException e)

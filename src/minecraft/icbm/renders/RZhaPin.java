@@ -23,7 +23,7 @@ public class RZhaPin extends Render
     		this.setRenderManager(RenderManager.instance);
     	}
 		
-		if(((EZhaPin)par1Entity).explosiveID == ZhaPin.Redmatter.getID())
+		if(((EZhaPin)par1Entity).explosiveID == ZhaPin.hongSu.getID())
 		{
 			Tessellator var3 = Tessellator.instance;
 			float par2 = (float)(par1Entity.ticksExisted);

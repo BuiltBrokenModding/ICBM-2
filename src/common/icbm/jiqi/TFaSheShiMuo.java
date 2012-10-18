@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
 import icbm.api.Launcher.LauncherType;
 import icbm.extend.IBActivate;
@@ -125,7 +125,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
   	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)0, this.orientation, this.tier, this.frequency);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)0, this.orientation, this.tier, this.frequency);
     }
 	
   	@Override
@@ -388,7 +388,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceive
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 	

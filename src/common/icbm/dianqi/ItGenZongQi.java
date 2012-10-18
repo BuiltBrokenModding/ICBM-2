@@ -1,6 +1,6 @@
 package icbm.dianqi;
 
-import icbm.ICBM;
+import icbm.api.ICBM;
 
 import java.lang.reflect.Method;
 import java.util.List;

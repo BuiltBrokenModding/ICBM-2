@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
 import icbm.ItZiDan;
 import icbm.ParticleSpawner;
@@ -190,7 +190,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
     				
     				if(!this.worldObj.isRemote)
     				{
-    					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)3), this.worldObj, Vector3.get(this), 50);
+    					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)3), this.worldObj, Vector3.get(this), 50);
     				}
     				
     				this.gunChargingTicks = 0;
@@ -205,12 +205,12 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 				if(this.mountedPlayer != null)
 				{
 					this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
 				}
 				
 				if(this.shiYongZhe > 0)
 				{
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
 				}
 			}
 			
@@ -264,7 +264,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.displayRotationYaw, this.displayRotationPitch);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.displayRotationYaw, this.displayRotationPitch);
     }
 	
 	@Override
@@ -272,7 +272,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
     {
     	if(!this.worldObj.isRemote)
         {
-			PacketManager.sendPacketToClients(PacketManager.getPacket(ICBM.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
         }
     	
     	this.shiYongZhe  ++;
@@ -349,7 +349,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 		}
 		else
 		{
-			entityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_RAIL_GUN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_RAIL_GUN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
 		
 		return true;
@@ -376,7 +376,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ICBM.blockYinXing.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
 		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
 	}
 	
@@ -386,7 +386,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
     public MovingObjectPosition rayTrace(double distance)
     {
         Vector3 muzzlePosition = getMuzzle();
-        Vector3 lookDistance = ICBM.getLook(this.rotationYaw, this.rotationPitch);
+        Vector3 lookDistance = ZhuYao.getLook(this.rotationYaw, this.rotationPitch);
         Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
         return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
     }
@@ -394,7 +394,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
     public Vector3 getMuzzle()
     {
     	Vector3 position = new Vector3(this.xCoord+0.5, this.yCoord+1, this.zCoord+0.5);
-    	return Vector3.add(position, Vector3.multiply(ICBM.getLook(this.rotationYaw, this.rotationPitch), 2.2));
+    	return Vector3.add(position, Vector3.multiply(ZhuYao.getLook(this.rotationYaw, this.rotationPitch), 2.2));
     }
 
     @Override

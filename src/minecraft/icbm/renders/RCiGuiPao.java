@@ -1,6 +1,6 @@
 package icbm.renders;
  
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TCiGuiPao;
 import icbm.models.MCiGuiPao;
 import net.minecraft.src.TileEntity;

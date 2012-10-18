@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.ICBM;
+import icbm.api.ICBM;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.models.MFaSheShiMuo0;
 import icbm.models.MFaSheShiMuo1;

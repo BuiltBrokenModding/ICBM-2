@@ -1,6 +1,7 @@
 package icbm.gui;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
+import icbm.api.ICBM;
 import icbm.jiqi.TFaSheShiMuo;
 import net.minecraft.src.GuiTextField;
 
@@ -60,14 +61,14 @@ public class GFaSheShiMuo extends ICBMGui
             this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
         }
         
-    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, true));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)-1, true));
     }
     
     @Override
     public void onGuiClosed()
     {
     	super.onGuiClosed();
-    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)-1, false));
+    	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)-1, false));
     }
 
     /**
@@ -194,7 +195,7 @@ public class GFaSheShiMuo extends ICBMGui
         	if(this.tileEntity.getTarget() != newTarget)
         	{
             	this.tileEntity.setTarget(newTarget);
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
         	}
         	
         	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
@@ -213,7 +214,7 @@ public class GFaSheShiMuo extends ICBMGui
         	if(newFrequency != this.tileEntity.frequency)
         	{
             	this.tileEntity.frequency = newFrequency;
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)1, this.tileEntity.frequency));
+            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)1, this.tileEntity.frequency));
         	}
         	
         	this.textFieldFreq.setText(Math.round(this.tileEntity.frequency) + "");

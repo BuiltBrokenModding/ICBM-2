@@ -1,12 +1,12 @@
 package icbm.zhapin;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.zhapin.ex.ExBianZhong;
 import icbm.zhapin.ex.ExBingDan;
 import icbm.zhapin.ex.ExBingDan2;
-import icbm.zhapin.ex.ExDecayLand;
+import icbm.zhapin.ex.ExFuLan;
 import icbm.zhapin.ex.ExDianCi;
 import icbm.zhapin.ex.ExDianCiSignal;
 import icbm.zhapin.ex.ExDianCiWave;
@@ -63,31 +63,31 @@ public abstract class ZhaPin implements ITier
 	public static final int MAX_TIER_ONE = 4;
 	
 	public static final ZhaPin qunDan = new ExQunDan("Fragmentation", 4, 2);
-	public static final ZhaPin Contagious = new EDuQi("Contagious", 5, 2);
-	public static final ZhaPin Sonic = new ExShengBuo("Sonic", 6, 2);
-	public static final ZhaPin Breaching = new ExTuPuo("Breaching", 7, 2);
-	public static final ZhaPin Rejuvenation = new ExHuanYuan("Rejuvenation", 8, 2);
+	public static final ZhaPin chuanRan = new EDuQi("Contagious", 5, 2);
+	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 6, 2);
+	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 7, 2);
+	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 8, 2);
 	
 	public static final int MAX_TIER_TWO = 9;
 	
-	public static final ZhaPin Nuclear = new ExYuanZi("Nuclear", 9, 3);
-	public static final ZhaPin EMP = new ExDianCi("EMP", 10, 3);
-	public static final ZhaPin Conflagration = new ExTaiYang("Conflagration", 11, 3);
-	public static final ZhaPin Endothermic = new ExBingDan("Endothermic", 12, 3);
-	public static final ZhaPin AntiGravity = new ExPiaoFu("Anti-Gravitational", 13, 3);
+	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 9, 3);
+	public static final ZhaPin dianCi = new ExDianCi("EMP", 10, 3);
+	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 11, 3);
+	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 12, 3);
+	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 13, 3);
 	
-	public static final ZhaPin Antimatter = new ExFanWuSu("Antimatter", 14, 4);
-	public static final ZhaPin Redmatter = new ExHongSu("Red Matter", 15, 4);
+	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 14, 4);
+	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 15, 4);
 
 	public static final int MAX_EXPLOSIVE_ID = 16;
 	
 	//Hidden Explosives
-	public static final ZhaPin EMPWave = new ExDianCiWave("EMP", 20, 3);
-	public static final ZhaPin EMPSignal = new ExDianCiSignal("EMP", 21, 3);
-	public static final ZhaPin ConflagrationFire = new ExTaiYang2("Conflagration", 22, 3);
-	public static final ZhaPin DecayLand = new ExDecayLand("Decay Land", 23, 3);
-	public static final ZhaPin Mutation = new ExBianZhong("Mutation Living", 24, 3);
-	public static final ZhaPin EndothermicIce = new ExBingDan2("Endothermic", 25, 3);
+	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 20, 3);
+	public static final ZhaPin dianCiSignal = new ExDianCiSignal("EMP", 21, 3);
+	public static final ZhaPin taiYang2 = new ExTaiYang2("Conflagration", 22, 3);
+	public static final ZhaPin fuLan = new ExFuLan("Decay Land", 23, 3);
+	public static final ZhaPin bianZhong = new ExBianZhong("Mutation Living", 24, 3);
+	public static final ZhaPin bingDan2 = new ExBingDan2("Endothermic", 25, 3);
 	
 	public static ZhaPin[] list;
 	
@@ -118,7 +118,7 @@ public abstract class ZhaPin implements ITier
         this.ID = ID;
         this.daoDan = new DaoDan(name, ID, tier);
         
-        this.isDisabled = UEConfig.getConfigData(ICBM.CONFIGURATION, "Disable "+this.mingZi, false);
+        this.isDisabled = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Disable "+this.mingZi, false);
     }
 	
 	public int getID() { return this.ID; }
@@ -143,7 +143,7 @@ public abstract class ZhaPin implements ITier
 	 * The fuse of the explosion
 	 * @return The Fuse
 	 */
-	public int yinXin() { return yinXin; }
+	public int getYinXin() { return yinXin; }
 	
 	/**
 	 * Called at the start of a detontation
@@ -253,9 +253,9 @@ public abstract class ZhaPin implements ITier
 	 */
 	public void init() {};
 	
-	public ItemStack getItemStack() { return new ItemStack(ICBM.blockZha4Dan4, 1, this.getID()); }
+	public ItemStack getItemStack() { return new ItemStack(ZhuYao.bZha4Dan4, 1, this.getID()); }
 	
-	public ItemStack getItemStack(int amount) { return new ItemStack(ICBM.blockZha4Dan4, amount, this.getID()); }
+	public ItemStack getItemStack(int amount) { return new ItemStack(ZhuYao.bZha4Dan4, amount, this.getID()); }
 	
 	public static void createBaoZha(World worldObj, Vector3 position, Entity entity, int explosiveID)
 	{

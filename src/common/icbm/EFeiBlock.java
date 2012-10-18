@@ -82,7 +82,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
     
     public void onUpdate()
     {
-        if(this.posY > 400 || this.blockID == 0 || this.blockID == ICBM.blockYinXing.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+        if(this.posY > 400 || this.blockID == 0 || this.blockID == ZhuYao.bYinXing.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
         {
             this.setDead();
             return;
@@ -147,7 +147,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 	    		if(!(Block.blocksList[this.blockID] instanceof BlockFluid) && (this.motionX > 2 || this.motionY >  2|| this.motionZ > 2))
 	    		{
 	    			int damage = (int) (1.2*((this.motionX + this.motionY + this.motionZ)));
-	    			((EntityLiving)par1Entity).attackEntityFrom(ICBM.damageSmash, damage);
+	    			((EntityLiving)par1Entity).attackEntityFrom(ZhuYao.damageSmash, damage);
 	    		}	
     		}
     	}

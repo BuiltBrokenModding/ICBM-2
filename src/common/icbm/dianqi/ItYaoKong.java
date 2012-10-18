@@ -1,6 +1,7 @@
 package icbm.dianqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
+import icbm.api.ICBM;
 import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 
@@ -59,16 +60,16 @@ public class ItYaoKong extends ItemElectric
 		    	int blockID = par2World.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    	int blockMetadata = par2World.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    	
-		    	if(blockID == ICBM.blockJiQi.blockID)
+		    	if(blockID == ZhuYao.bJiQi.blockID)
 		        {
 		        	return par1ItemStack;
 		        }
-		        else if(tileEntity instanceof TZhaDan && (blockMetadata == ZhaPin.yaSuo.getID() || blockMetadata == ZhaPin.Breaching.getID()))
+		        else if(tileEntity instanceof TZhaDan && (blockMetadata == ZhaPin.yaSuo.getID() || blockMetadata == ZhaPin.tuPuo.getID()))
 		        {
 		        	//Check for electricity
 		            if(this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
 		        	{
-       	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, tileEntity, (byte)2));
+       	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte)2));
 			            return par1ItemStack;
 		        	}
 		            else

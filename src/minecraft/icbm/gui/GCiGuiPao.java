@@ -1,7 +1,8 @@
 package icbm.gui;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMPacketManager;
+import icbm.api.ICBM;
 import icbm.jiqi.TCiGuiPao;
 import icbm.rongqi.CCiGuiPao;
 import net.minecraft.src.EntityPlayer;
@@ -60,7 +61,7 @@ public class GCiGuiPao extends GuiContainer
     {
         switch(par1GuiButton.id)
         {
-	        case 0: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBM.CHANNEL, this.tileEntity, (int)2));
+	        case 0: PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2));
 			        this.tileEntity.mount(this.mc.thePlayer); this.mc.thePlayer.closeScreen(); 
 			        break;
         }

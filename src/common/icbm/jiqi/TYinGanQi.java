@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.dianqi.ItHuoLuanQi;
 
 import java.util.List;
@@ -149,7 +149,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBM.CHANNEL, this, (int)1, this.dian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.dian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
     }
     
     @Override

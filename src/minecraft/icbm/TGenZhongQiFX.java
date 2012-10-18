@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.api.ICBM;
 import icbm.dianqi.ItGenZongQi;
 
 import java.awt.image.BufferedImage;
@@ -32,7 +33,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 
     public TGenZhongQiFX(Minecraft par1Minecraft)
     {
-        super(ICBM.itemGenZongQi.getIconFromDamage(0));
+        super(ZhuYao.itGenZongQi.getIconFromDamage(0));
         this.mc = par1Minecraft;
         this.tileImage = 1;
         setup();
@@ -97,7 +98,7 @@ public class TGenZhongQiFX extends FMLTextureFX
             
             if(this.mc.thePlayer.getCurrentEquippedItem() != null)
             {
-	            if(this.mc.thePlayer.getCurrentEquippedItem().itemID == ICBM.itemGenZongQi.shiftedIndex)
+	            if(this.mc.thePlayer.getCurrentEquippedItem().itemID == ZhuYao.itGenZongQi.shiftedIndex)
 	            {
 	            	ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
 	            	

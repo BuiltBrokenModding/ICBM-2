@@ -1,7 +1,8 @@
 package icbm.jiqi;
 
-import icbm.ICBM;
+import icbm.ZhuYao;
 import icbm.ICBMCommonProxy;
+import icbm.api.ICBM;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class BYinGanQi extends BlockMachine
         
         if(tileEntity != null)
         {
-        	par5EntityPlayer.openGui(ICBM.instance, ICBMCommonProxy.GUI_DETECTOR, par1World, x, y, z);
+        	par5EntityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_DETECTOR, par1World, x, y, z);
         }
         
 		return true;

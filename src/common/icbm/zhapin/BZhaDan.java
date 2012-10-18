@@ -1,7 +1,7 @@
 package icbm.zhapin;
 
 import icbm.BaoHu;
-import icbm.ICBM;
+import icbm.api.ICBM;
 
 import java.util.List;
 
