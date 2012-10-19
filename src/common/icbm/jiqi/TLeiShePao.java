@@ -1,9 +1,7 @@
 package icbm.jiqi;
 
 import icbm.ICBMCommonProxy;
-import icbm.TYinXing;
 import icbm.ZhuYao;
-import icbm.extend.IMB;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
@@ -15,7 +13,10 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.BasicComponents;
 import universalelectricity.Ticker;
+import universalelectricity.basiccomponents.multiblock.IMultiBlock;
+import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
@@ -24,7 +25,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TLeiShePao extends TileEntityElectricityReceiver implements IPacketReceiver, IMB
+public class TLeiShePao extends TileEntityElectricityReceiver implements IPacketReceiver, IMultiBlock
 {	
 	//Watts required per tick.
 	public static final int YAO_DIAN = 8;
@@ -268,8 +269,8 @@ public class TLeiShePao extends TileEntityElectricityReceiver implements IPacket
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
-		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+		((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
 	}
 	
 	/**

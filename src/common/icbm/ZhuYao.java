@@ -47,6 +47,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.BasicComponents;
 import universalelectricity.UEConfig;
 import universalelectricity.UniversalElectricity;
+import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
 import universalelectricity.implement.UEDamageSource;
 import universalelectricity.ore.OreGenBase;
 import universalelectricity.ore.OreGenerator;
@@ -108,7 +109,6 @@ public class ZhuYao
 	public static final Block bBuo1LiPan = new BBuo1Li4Pan2(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", BLOCK_ID_PREFIX+0), 0);
 	public static final Block bZha4Dan4 = new BZhaDan(UEConfig.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX+1), 16);
 	public static final Block bJiQi = new BJiQi(UEConfig.getBlockConfigID(CONFIGURATION, "Block Machine", BLOCK_ID_PREFIX+3));
-	public static final Block bYinXing = new BYinXing(UEConfig.getBlockConfigID(CONFIGURATION, "Invisible Block", BLOCK_ID_PREFIX+4), 255);
 	public static Block bFuShe;
 	public static final Block bYinGanQi = new BYinGanQi(UEConfig.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX+6), 7);
 
@@ -142,7 +142,7 @@ public class ZhuYao
     {
 		if(!Loader.isModLoaded("UniversalElectricity")) throw new RuntimeException("Universal Electricity not installed!");
 		
-		UniversalElectricity.versionLock(0, 9, 1, true);
+		UniversalElectricity.versionLock(0, 9, 3, true);
 		
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		
@@ -363,7 +363,6 @@ public class ZhuYao
 		
 		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMExplosive");
 		GameRegistry.registerTileEntity(TYinGanQi.class, "ICBMDetector");
-		GameRegistry.registerTileEntity(TYinXing.class, "ICBMTileEntityInvisibleBlock");
 		
 		EntityRegistry.registerGlobalEntityID(EZhaDan.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EDaoDan.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());

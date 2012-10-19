@@ -1,6 +1,5 @@
 package icbm.jiqi;
 
-import icbm.extend.TFaSheQi;
 
 import java.util.ArrayList;
 import java.util.List;

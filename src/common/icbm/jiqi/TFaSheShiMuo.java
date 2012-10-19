@@ -3,8 +3,6 @@ package icbm.jiqi;
 import icbm.ICBMCommonProxy;
 import icbm.ZhuYao;
 import icbm.api.Launcher.LauncherType;
-import icbm.extend.IBActivate;
-import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -14,6 +12,7 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
+import universalelectricity.basiccomponents.multiblock.IBlockActivate;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
@@ -28,7 +27,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheShiMuo extends TFaSheQi implements IBActivate, IPacketReceiver, ITier, IRotatable 
+public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketReceiver, ITier, IRotatable 
 {    
     //Is the block powered by redstone?
     private boolean isPowered = false;

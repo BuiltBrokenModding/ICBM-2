@@ -1,8 +1,6 @@
 package icbm.jiqi;
 
 import icbm.ZhuYao;
-import icbm.extend.IBActivate;
-import icbm.extend.IMB;
 
 import java.util.List;
 import java.util.Random;
@@ -21,6 +19,8 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.UniversalElectricity;
+import universalelectricity.basiccomponents.multiblock.IBlockActivate;
+import universalelectricity.basiccomponents.multiblock.IMultiBlock;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.implement.IRotatable;
@@ -116,9 +116,9 @@ public class BJiQi extends BlockMachine
 	        }
         }
     	
-    	if(tileEntity instanceof IMB)
+    	if(tileEntity instanceof IMultiBlock)
     	{
-    		((IMB)tileEntity).onCreate(new Vector3(x, y, z));
+    		((IMultiBlock)tileEntity).onCreate(new Vector3(x, y, z));
     	}
     }
     
@@ -230,9 +230,9 @@ public class BJiQi extends BlockMachine
 
         if(tileEntity != null)
         {
-        	if(tileEntity instanceof IBActivate)
+        	if(tileEntity instanceof IBlockActivate)
         	{
-        		return ((IBActivate)tileEntity).onActivated(par5EntityPlayer);
+        		return ((IBlockActivate)tileEntity).onActivated(par5EntityPlayer);
         	}
         }
 
@@ -345,9 +345,9 @@ public class BJiQi extends BlockMachine
         entityItem.motionZ = ((float)random.nextGaussian() * var13);
         par1World.spawnEntityInWorld(entityItem);
 
-    	if(tileEntity instanceof IMB)
+    	if(tileEntity instanceof IMultiBlock)
     	{
-    		((IMB)tileEntity).onDestroy(tileEntity);
+    		((IMultiBlock)tileEntity).onDestroy(tileEntity);
     	}
     	
     	super.breakBlock(par1World, x, y, z, par5, par6);

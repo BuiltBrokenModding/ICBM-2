@@ -1,9 +1,7 @@
 package icbm.jiqi;
 
-import icbm.BYinXing;
 import icbm.ICBMCommonProxy;
 import icbm.ZhuYao;
-import icbm.extend.IMB;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
@@ -13,6 +11,8 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.Ticker;
+import universalelectricity.basiccomponents.multiblock.BlockMulti;
+import universalelectricity.basiccomponents.multiblock.IMultiBlock;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
@@ -23,7 +23,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IMB, IRedstoneReceptor
+public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
     //The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 60;
@@ -220,7 +220,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	public void onCreate(Vector3 position)
 	{
 		position.y += 1;
-		BYinXing.makeInvisibleBlock(this.worldObj, position, Vector3.get(this));
+		BlockMulti.makeInvisibleBlock(this.worldObj, position, Vector3.get(this));
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import universalelectricity.BasicComponents;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -82,7 +83,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
     
     public void onUpdate()
     {
-        if(this.posY > 400 || this.blockID == 0 || this.blockID == ZhuYao.bYinXing.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+        if(this.posY > 400 || this.blockID == 0 || this.blockID == BasicComponents.blockMulti.blockID || this.blockID == Block.pistonExtension.blockID  || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
         {
             this.setDead();
             return;

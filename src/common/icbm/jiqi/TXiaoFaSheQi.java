@@ -6,8 +6,6 @@ import icbm.ZhuYao;
 import icbm.api.Launcher.LauncherType;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
-import icbm.extend.IBActivate;
-import icbm.extend.TFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
@@ -20,6 +18,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.Ticker;
+import universalelectricity.basiccomponents.multiblock.IBlockActivate;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.network.IPacketReceiver;
 import universalelectricity.network.PacketManager;
@@ -27,7 +26,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TXiaoFaSheQi extends TFaSheQi implements IBActivate, IPacketReceiver, IInventory, ISidedInventory
+public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketReceiver, IInventory, ISidedInventory
 {
     //The missile that this launcher is holding
     public EDaoDan containingMissile = null;

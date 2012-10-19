@@ -3,7 +3,7 @@ package icbm.dianqi;
 import icbm.ICBMPacketManager.ICBMPacketType;
 import icbm.ZhuYao;
 import icbm.api.ICBM;
-import icbm.extend.TFaSheQi;
+import icbm.jiqi.TFaSheQi;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TXiaoFaSheQi;
 

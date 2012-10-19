@@ -1,8 +1,5 @@
 package icbm.jiqi;
 
-import icbm.TYinXing;
-import icbm.ZhuYao;
-import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
@@ -10,7 +7,10 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.BasicComponents;
 import universalelectricity.basiccomponents.UELoader;
+import universalelectricity.basiccomponents.multiblock.IMultiBlock;
+import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.IPacketReceiver;
@@ -24,7 +24,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMB, IRotatable
+public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMultiBlock, IRotatable
 {
     //The tier of this screen
     private int tier = 0;
@@ -122,10 +122,10 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMB
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
-		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ(), ZhuYao.bYinXing.blockID);
-		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ())).setMainBlock(position);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+		((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ(), BasicComponents.blockMulti.blockID);
+		((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ())).setMainBlock(position);
 	}
 
 	@Override

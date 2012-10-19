@@ -3,9 +3,7 @@ package icbm.jiqi;
 import icbm.ICBMCommonProxy;
 import icbm.ItZiDan;
 import icbm.ParticleSpawner;
-import icbm.TYinXing;
 import icbm.ZhuYao;
-import icbm.extend.IMB;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ex.ExHongSu;
 
@@ -25,7 +23,10 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import universalelectricity.BasicComponents;
 import universalelectricity.Ticker;
+import universalelectricity.basiccomponents.multiblock.IMultiBlock;
+import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
@@ -36,7 +37,7 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IRedstoneReceptor, IMB, ISidedInventory
+public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
 {	
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -376,8 +377,8 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
-		((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+		((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
 	}
 	
 	/**

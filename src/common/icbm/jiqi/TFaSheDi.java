@@ -2,12 +2,10 @@ package icbm.jiqi;
 
 import icbm.BaoHu;
 import icbm.ICBMCommonProxy;
-import icbm.TYinXing;
 import icbm.ZhuYao;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTeBieDaoDan;
-import icbm.extend.IMB;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
@@ -19,8 +17,11 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import universalelectricity.BasicComponents;
 import universalelectricity.Ticker;
 import universalelectricity.UEConfig;
+import universalelectricity.basiccomponents.multiblock.IMultiBlock;
+import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.network.IPacketReceiver;
@@ -34,7 +35,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMB, IInventory, ISidedInventory
+public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory
 {
     private static final double MISSILE_MAX_DISTANCE = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Max Missile Distance", 2000);
 
@@ -471,36 +472,36 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		if(this.orientation == 3 || this.orientation == 2)
 		{		
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+2, position.intZ())).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY(), position.intZ())).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+1, position.intZ())).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+2, position.intZ())).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+2, position.intZ())).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY(), position.intZ())).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+1, position.intZ())).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+2, position.intZ())).setMainBlock(position);
 		}
 		else
 		{
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()+1)).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()+1)).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()+1)).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()+1)).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, ZhuYao.bYinXing.blockID);
-			((TYinXing)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()-1)).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()-1)).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()-1)).setMainBlock(position);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, BasicComponents.blockMulti.blockID);
+			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()-1)).setMainBlock(position);
 		}
 	}
 	
