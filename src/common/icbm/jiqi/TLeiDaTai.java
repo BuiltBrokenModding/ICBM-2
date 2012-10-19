@@ -35,7 +35,7 @@ import dan200.computer.api.IPeripheral;
 public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
 {
 	//Watts Per Tick
-	public final static int YAO_DIAN = 5;
+	public final static int YAO_DIAN = 10;
     
 	public final static int MAX_BIAN_JING = 500;
 	

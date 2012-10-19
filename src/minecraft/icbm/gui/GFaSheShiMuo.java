@@ -89,6 +89,30 @@ public class GFaSheShiMuo extends ICBMGui
             	this.textFieldFreq.textboxKeyTyped(par1, par2);
             }
         }
+
+        try
+        {
+        	Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Math.max(Integer.parseInt(this.textFieldY.getText()), 0), Integer.parseInt(this.textFieldZ.getText()));
+        	
+        	this.tileEntity.setTarget(newTarget);
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+        }
+        catch (NumberFormatException e)
+        {
+            this.tileEntity.setTarget(new Vector3(this.tileEntity.xCoord, 0, this.tileEntity.zCoord));
+        }
+        
+        try
+        {
+        	short newFrequency = (short)Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
+        	
+        	this.tileEntity.frequency = newFrequency;
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)1, this.tileEntity.frequency));
+        }
+        catch (NumberFormatException e)
+        {
+            this.tileEntity.frequency = 0;
+        }
     }
 
     /**
@@ -176,51 +200,11 @@ public class GFaSheShiMuo extends ICBMGui
 	public void updateScreen()
     {
         super.updateScreen();
-        int heightBeforeHit;
-
-        try
-        {
-            heightBeforeHit = Math.max(Integer.parseInt(this.textFieldY.getText()), 0);
-        }
-        catch (NumberFormatException e)
-        {
-            heightBeforeHit = 0;
-        }
-
-        try
-        {
-        	Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), heightBeforeHit, Integer.parseInt(this.textFieldZ.getText()));
-        	
-        	if(this.tileEntity.getTarget() != newTarget)
-        	{
-            	this.tileEntity.setTarget(newTarget);
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
-        	}
-        	
-        	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-            this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-            this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
-        }
-        catch (NumberFormatException e)
-        {
-            this.tileEntity.setTarget(null);
-        }
         
-        try
-        {
-        	short newFrequency = (short)Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
-        	
-        	if(newFrequency != this.tileEntity.frequency)
-        	{
-            	this.tileEntity.frequency = newFrequency;
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)1, this.tileEntity.frequency));
-        	}
-        	
-        	this.textFieldFreq.setText(Math.round(this.tileEntity.frequency) + "");
-        }
-        catch (NumberFormatException e)
-        {
-            this.tileEntity.frequency = 0;
-        }
+    	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+        this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+        this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+        
+    	this.textFieldFreq.setText(this.tileEntity.frequency + "");
     }
 }

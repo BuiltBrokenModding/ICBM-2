@@ -77,37 +77,27 @@ public class GLeiDaTai extends ICBMGui
         
         try
         {
-        	if(this.textFieldSafetyZone.getText() != "")
-        	{
-        		int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText() )));
-            	
-            	if(newSafetyRadius != this.tileEntity.safetyBanJing)
-            	{
-            		this.tileEntity.safetyBanJing = newSafetyRadius;
-                    PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.safetyBanJing));
-            	}
-        	}
+        	int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText() )));
+        	this.tileEntity.safetyBanJing = newSafetyRadius;
         }
         catch (NumberFormatException e)
         {
+        	this.tileEntity.safetyBanJing = 0;
         }
+        
+        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.safetyBanJing));
         
         try
         {
-        	if(this.textFieldAlarmRange.getText() != "")
-        	{
-	        	int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText() )));
-	        	
-	        	if(newAlarmRadius != this.tileEntity.alarmBanJing)
-	        	{
-	        		this.tileEntity.alarmBanJing = newAlarmRadius;
-	                PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.alarmBanJing));
-	        	}
-        	}
+        	int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText() )));
+        	this.tileEntity.alarmBanJing = newAlarmRadius;
         }
         catch (NumberFormatException e)
         {
+        	this.tileEntity.alarmBanJing = 0;
         }
+        
+        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.alarmBanJing));
     }
 
     /**
@@ -246,7 +236,7 @@ public class GLeiDaTai extends ICBMGui
     {
         super.updateScreen();
         
-    	this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
-    	this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
+        this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
+        this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
     }
 }

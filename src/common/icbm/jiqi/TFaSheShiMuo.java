@@ -164,16 +164,13 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	            this.tier = dataStream.readInt();
 				this.frequency = dataStream.readShort();
 			}
-			else if(ID == 1)
+			else if(!this.worldObj.isRemote)
 			{
-				if(!this.worldObj.isRemote)
+				if(ID == 1)
 				{
 					this.frequency = dataStream.readShort();
 				}
-			}
-			else if(ID == 2)
-			{
-				if(!this.worldObj.isRemote)
+				else if(ID == 2)
 				{
 					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 				}

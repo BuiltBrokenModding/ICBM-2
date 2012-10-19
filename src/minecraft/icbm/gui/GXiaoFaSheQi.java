@@ -71,6 +71,28 @@ public class GXiaoFaSheQi extends GuiContainer
         this.textFieldZ.textboxKeyTyped(par1, par2);
         this.textFieldY.textboxKeyTyped(par1, par2);
         this.textFieldFreq.textboxKeyTyped(par1, par2);
+        
+        try
+        {
+        	Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Math.max(Integer.parseInt(this.textFieldY.getText()), 0), Integer.parseInt(this.textFieldZ.getText()));
+        	this.tileEntity.setTarget(newTarget);
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+        }
+        catch (NumberFormatException e)
+        {
+            this.tileEntity.setTarget(Vector3.get(this.tileEntity));
+        }
+        
+        try
+        {
+        	short newFrequency = (short)Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
+        	this.tileEntity.setFrequency(newFrequency);
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)1, this.tileEntity.getFrequency()));        	
+        }
+        catch (NumberFormatException e)
+        {
+            this.tileEntity.setFrequency((short)0);
+        }
     }
 
     /**
@@ -130,40 +152,10 @@ public class GXiaoFaSheQi extends GuiContainer
 	public void updateScreen()
     {
         super.updateScreen();
-        try
-        {
-        	Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Math.max(Integer.parseInt(this.textFieldY.getText()), 0), Integer.parseInt(this.textFieldZ.getText()));
-        	
-        	if(this.tileEntity.getTarget() != newTarget)
-        	{
-            	this.tileEntity.setTarget(newTarget);
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
-        	}
-        	
-        	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-            this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-            this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
-        }
-        catch (NumberFormatException e)
-        {
-            this.tileEntity.setTarget(new Vector3());
-        }
         
-        try
-        {
-        	short newFrequency = (short)Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
-        	
-        	if(newFrequency != this.tileEntity.getFrequency())
-        	{
-            	this.tileEntity.setFrequency(newFrequency);
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)1, this.tileEntity.getFrequency()));
-        	}
-        	
-        	this.textFieldFreq.setText(Math.round(this.tileEntity.getFrequency()) + "");
-        }
-        catch (NumberFormatException e)
-        {
-            this.tileEntity.setFrequency((short)0);
-        }
+    	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+        this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+        this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+    	this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
     }
 }

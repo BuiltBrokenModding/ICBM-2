@@ -8,6 +8,7 @@ set /a BUILD_NUMBER=%CurrentBuild%+1
 echo %BUILD_NUMBER% >buildnumber.txt
 
 set FILE_NAME=ICBM_v%MODVERSION%.%BUILD_NUMBER%.zip
+set API_NAME=ICBM_v%MODVERSION%.%BUILD_NUMBER%_api.zip
 
 echo Starting to build %FILE_NAME%
 
@@ -17,20 +18,21 @@ runtime\bin\python\python_mcp runtime\reobfuscate.py %*
 
 ::ZIP-UP
 cd reobf\minecraft\
-"..\..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "atomicscience\"
-"..\..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "chb\"
-"..\..\..\7za.exe" a "..\..\Builds\%FILE_NAME%" "icbm\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "atomicscience\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "chb\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "railcraft\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "icbm\"
 
 cd ..\..\
-"..\7za.exe" a "Builds\%FILE_NAME%" "mcmod.info"
+"..\7za.exe" a "builds\%FILE_NAME%" "mcmod.info"
 
 cd resources\
-"..\..\7za.exe" a "..\Builds\%FILE_NAME%" "icbm\"
-"..\..\7za.exe" a "..\Backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -phenry
+"..\..\7za.exe" a "..\builds\%FILE_NAME%" "icbm\"
+"..\..\7za.exe" a "..\backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -phenry
 cd ..\
 cd src\
-"..\..\7za.exe" a "..\Backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
-"..\..\7za.exe" a "..\Builds\API_ICBM_v%MODVERSION%.%BUILD_NUMBER%.zip" "*\icbm\api\"
+"..\..\7za.exe" a "..\backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
+"..\..\7za.exe" a "..\builds\%API_NAME%" "*\icbm\api\"
 cd ..\
 
 ::UPDATE INFO FILE
@@ -38,11 +40,12 @@ echo %FILE_NAME% %UE_VERSION%>>info.txt
 
 ::GENERATE FTP Script
 echo open www.calclavia.com>ftpscript.txt
-echo icbm@calclavia.com>>ftpscript.txt
+echo download@calclavia.com>>ftpscript.txt
 echo ICBMmod>>ftpscript.txt
 echo binary>>ftpscript.txt
-echo put "Builds\%FILE_NAME%">>ftpscript.txt
-echo put "Builds\API_%FILE_NAME%">>ftpscript.txt
+echo cd icbm>>ftpscript.txt
+echo put "builds\%FILE_NAME%">>ftpscript.txt
+echo put "builds\%API_NAME%">>ftpscript.txt
 echo put info.txt>>ftpscript.txt
 echo quit>>ftpscript.txt
 ftp.exe -s:ftpscript.txt
