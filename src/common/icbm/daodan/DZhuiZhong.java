@@ -54,44 +54,47 @@ public class DZhuiZhong extends DaoDan
 	@Override
 	public boolean onInteract(EDaoDan missileObj, EntityPlayer par1EntityPlayer)
 	{
-		if(par1EntityPlayer.getCurrentEquippedItem() != null)
-    	{
-    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
-    		{
-    			Entity trackingEntity = null;
-    			
-    			try
-    			{
-    				try
+		if(missileObj.ticksInAir <= 0 && !missileObj.worldObj.isRemote)
+		{
+			if(par1EntityPlayer.getCurrentEquippedItem() != null)
+	    	{
+	    		if(par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
+	    		{
+	    			Entity trackingEntity = null;
+	    			
+	    			try
 	    			{
-	    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityServer", World.class, ItemStack.class);
-	    				
-	    				trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
+	    				try
+		    			{
+		    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityServer", World.class, ItemStack.class);
+		    				
+		    				trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
+		    			}
+		    			catch(Exception e)
+		    			{
+		    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityClient", World.class, ItemStack.class);
+		    				
+		    				trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
+	
+		    			}
 	    			}
 	    			catch(Exception e)
 	    			{
-	    				Method m = ItGenZongQi.class.getMethod("getTrackingEntityClient", World.class, ItemStack.class);
-	    				
-	    				trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
-
+	    				System.out.println("Failed to find method for tracker.");
 	    			}
-    			}
-    			catch(Exception e)
-    			{
-    				System.out.println("Failed to find method for tracker.");
-    			}
-    				
-    			if(trackingEntity != null)
-    			{
-    				if(missileObj.genZongE != trackingEntity.entityId)
-    				{
-    					missileObj.genZongE = trackingEntity.entityId;
-        				par1EntityPlayer.addChatMessage("Missile target locked to: "+trackingEntity.getEntityName());
-        				return true;
-    				}
-    			}	    			
-    		}
-    	}
+	    				
+	    			if(trackingEntity != null)
+	    			{
+	    				if(missileObj.genZongE != trackingEntity.entityId)
+	    				{
+	    					missileObj.genZongE = trackingEntity.entityId;
+	        				par1EntityPlayer.addChatMessage("Missile target locked to: "+trackingEntity.getEntityName());
+	        				return true;
+	    				}
+	    			}	    			
+	    		}
+	    	}
+		}
 		
 		return false;
 	}

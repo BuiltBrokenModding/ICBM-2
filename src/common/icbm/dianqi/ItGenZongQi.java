@@ -79,7 +79,6 @@ public class ItGenZongQi extends ItemElectric
     	return null;
     }
     
-    @SideOnly(Side.SERVER)
     public static Entity getTrackingEntityServer(World worldObj, ItemStack itemStack)
     {
     	if(worldObj != null)
