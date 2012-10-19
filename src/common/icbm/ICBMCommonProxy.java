@@ -6,7 +6,6 @@ import icbm.jiqi.TFaSheDi;
 import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDaTai;
-import icbm.jiqi.TLeiShePao;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.rongqi.CCiGuiPao;
 import icbm.rongqi.CFaShiDi;
@@ -43,7 +42,6 @@ public class ICBMCommonProxy extends CommonProxy
 		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame");
 		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar");
 		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower");
-		GameRegistry.registerTileEntity(TLeiShePao.class, "ICBMLaserTurret");
 	}
 	
 	@Override

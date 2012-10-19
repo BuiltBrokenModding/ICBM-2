@@ -12,11 +12,9 @@ import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.Vector2;
-import universalelectricity.prefab.Vector3;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GLeiDaTai extends ICBMGui
 {

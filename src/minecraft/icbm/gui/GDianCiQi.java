@@ -8,11 +8,10 @@ import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GDianCiQi extends ICBMGui
 {

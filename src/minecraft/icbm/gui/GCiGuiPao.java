@@ -1,7 +1,6 @@
 package icbm.gui;
 
 import icbm.ZhuYao;
-import icbm.ICBMPacketManager;
 import icbm.api.ICBM;
 import icbm.jiqi.TCiGuiPao;
 import icbm.rongqi.CCiGuiPao;
@@ -11,11 +10,10 @@ import net.minecraft.src.GuiContainer;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.network.PacketManager;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GCiGuiPao extends GuiContainer
 {

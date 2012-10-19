@@ -47,7 +47,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.BasicComponents;
 import universalelectricity.UEConfig;
 import universalelectricity.UniversalElectricity;
-import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
 import universalelectricity.implement.UEDamageSource;
 import universalelectricity.ore.OreGenBase;
 import universalelectricity.ore.OreGenerator;

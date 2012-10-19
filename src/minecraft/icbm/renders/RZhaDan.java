@@ -3,15 +3,12 @@ package icbm.renders;
 import icbm.ZhuYao;
 import icbm.api.ICBM;
 import icbm.zhapin.EZhaDan;
-import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;
 import net.minecraft.src.RenderBlocks;
 
 import org.lwjgl.opengl.GL11;
-
-import universalelectricity.prefab.Vector3;
 
 public class RZhaDan extends Render
 {

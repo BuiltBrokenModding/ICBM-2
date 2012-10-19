@@ -1,7 +1,7 @@
 package icbm.gui;
 
-import icbm.ZhuYao;
 import icbm.ICBMPacketManager.ICBMPacketType;
+import icbm.ZhuYao;
 import icbm.api.ICBM;
 import icbm.dianqi.ItHuoLuanQi;
 import net.minecraft.src.GuiTextField;
@@ -9,9 +9,8 @@ import net.minecraft.src.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import universalelectricity.network.PacketManager;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GFrequency extends ICBMGui
 {    
