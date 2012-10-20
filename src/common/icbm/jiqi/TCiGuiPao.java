@@ -47,7 +47,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 
 	private float rotationSpeed;
 	
-    private double wattHourStored = 0;
+    private double dian = 0;
 	
 	private EntityPlayer mountedPlayer = null;
 
@@ -78,7 +78,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	{		
 		if(!this.isDisabled())
     	{
-			this.setJoules(this.wattHourStored+ElectricInfo.getJoules(amps, voltage));
+			this.setJoules(this.dian + ElectricInfo.getJoules(amps, voltage, 1));
     	}
 	}
 	
@@ -206,12 +206,12 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 				if(this.mountedPlayer != null)
 				{
 					this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
 				}
 				
 				if(this.shiYongZhe > 0)
 				{
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
 				}
 			}
 			
@@ -252,7 +252,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	        }
 	        else if(ID == 4)
 	        {
-		        this.wattHourStored = dataStream.readDouble();
+		        this.dian = dataStream.readDouble();
 		        this.disabledTicks = dataStream.readInt();
 	        }
 	    }
@@ -273,7 +273,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
     {
     	if(!this.worldObj.isRemote)
         {
-			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.wattHourStored, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
         }
     	
     	this.shiYongZhe  ++;
@@ -306,7 +306,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 			}
 		}
 		
-		if(this.wattHourStored < this.getMaxJoules())
+		if(this.dian < this.getMaxJoules())
 		{
 			return false;
 		}
@@ -489,7 +489,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
         this.displayRotationPitch = this.rotationPitch*0.0175f;
 		this.displayRotationYaw = this.rotationYaw*0.0175f;
     	
-        this.wattHourStored = par1NBTTagCompound.getDouble("electricityStored");
+        this.dian = par1NBTTagCompound.getDouble("electricityStored");
         NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
         this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -515,7 +515,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
         par1NBTTagCompound.setFloat("rotationYaw", this.rotationYaw);
         par1NBTTagCompound.setFloat("rotationPitch", this.rotationPitch);
         
-        par1NBTTagCompound.setDouble("electricityStored", this.wattHourStored);
+        par1NBTTagCompound.setDouble("electricityStored", this.dian);
         NBTTagList var2 = new NBTTagList();
 
         for (int var3 = 0; var3 < this.containingItems.length; ++var3)
@@ -565,7 +565,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.wattHourStored));
+            return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dian));
         }
 
         return 0;
@@ -574,18 +574,18 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public double getJoules(Object... data)
 	{
-		return this.wattHourStored;
+		return this.dian;
 	}
 
 	@Override
 	public void setJoules(double wattHours, Object... data)
 	{
-		this.wattHourStored = Math.max(Math.min(wattHours, this.getMaxJoules()), 0);
+		this.dian = Math.max(Math.min(wattHours, this.getMaxJoules()), 0);
 	}
 
 	@Override
 	public double getMaxJoules()
 	{
-		return 300;
+		return 800000;
 	}
 }

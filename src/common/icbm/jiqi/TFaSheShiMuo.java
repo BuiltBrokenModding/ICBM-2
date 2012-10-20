@@ -378,7 +378,13 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public double getMaxJoules()
 	{
-		return Math.max(Math.min(1500*this.getVoltage(), 150), 50);
+		switch(this.getTier())
+		{
+			case 0: return 100000;
+			case 1: return 150000;
+		}
+		
+		return 200000;
 	}
 
 	@Override

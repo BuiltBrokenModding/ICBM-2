@@ -135,7 +135,7 @@ public class GDianCiQi extends ICBMGui
         
         this.fontRenderer.drawString(color+"Status: "+status, 12, 120, 4210752);
     	this.fontRenderer.drawString("Voltage: "+this.tileEntity.getVoltage()+"v", 12, 135, 4210752);
-        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.WATT_HOUR)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.WATT_HOUR), 12, 150, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 12, 150, 4210752);
     }
 
     /**

@@ -31,7 +31,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	public float xuanZhuan = 0;
 	private float xuanZhuanLu = 0;
 	
-    private double dianXiaoShi = 0;
+    private double dian = 0;
     
     //The EMP mode. 0 = All, 1 = Missiles Only, 2 = Electricity Only
     public byte muoShi = 0;
@@ -40,8 +40,6 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
     public int banJing = 60;
 
 	private int yongZhe = 0;
-
-	private boolean packetGengXin = false;
     
     public TDianCiQi()
     {
@@ -56,7 +54,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	{			
 		if(!this.isDisabled())
     	{
-			this.setJoules(this.dianXiaoShi+ElectricInfo.getJoules(amps, voltage));
+			this.setJoules(this.dian + ElectricInfo.getJoules(amps, voltage, 1));
     	}
 	}
 	
@@ -66,22 +64,21 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 		
 		if(!this.isDisabled())
     	{
-			if(Ticker.inGameTicks % 20 == 0 && this.dianXiaoShi > 0)
+			if(this.ticks % 20 == 0 && this.dian > 0)
 			{
-				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F*this.dianXiaoShi/this.getMaxJoules()));
+				this.worldObj.playSoundEffect((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F*this.dian/this.getMaxJoules()));
 			}
 			
-			this.xuanZhuanLu = (float) (Math.pow(this.dianXiaoShi/this.getMaxJoules(), 2)*0.5);
+			this.xuanZhuanLu = (float) (Math.pow(this.dian/this.getMaxJoules(), 2)*0.5);
 			this.xuanZhuan += xuanZhuanLu;
 			if(this.xuanZhuan > 360) this.xuanZhuan = 0;
     	}
 					
 		if(!this.worldObj.isRemote)
 		{
-	        if(this.packetGengXin || Ticker.inGameTicks % 40 == 0 && this.yongZhe  > 0)
+	        if(this.ticks % 40 == 0 && this.yongZhe > 0)
 	        {
-	        	this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
-	        	this.packetGengXin = true;
+    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
 	        }
 		}
     }
@@ -97,6 +94,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 			{
 				if(dataStream.readBoolean())
 				{
+	    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
 					this.yongZhe ++;
 				}
 				else
@@ -106,7 +104,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 			}
 			else if(ID == 1)
 			{
-	            this.dianXiaoShi = dataStream.readDouble();
+	            this.dian = dataStream.readDouble();
 	            this.disabledTicks = dataStream.readInt();
 	            this.banJing = dataStream.readInt();
 	            this.muoShi = dataStream.readByte();
@@ -129,14 +127,14 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.dianXiaoShi, this.disabledTicks, this.banJing, this.muoShi);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.dian, this.disabledTicks, this.banJing, this.muoShi);
     }
 	@Override
     public double wattRequest()
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dianXiaoShi));
+            return this.getMaxJoules() - this.dian;
         }
 
         return 0;
@@ -162,7 +160,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
     {
     	super.readFromNBT(par1NBTTagCompound);
     	
-    	this.dianXiaoShi = par1NBTTagCompound.getDouble("dianXiaoShi");
+    	this.dian = par1NBTTagCompound.getDouble("dian");
     	this.banJing = par1NBTTagCompound.getInteger("banJing");
     	this.muoShi = par1NBTTagCompound.getByte("muoShi");
     }
@@ -175,7 +173,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
     {
     	super.writeToNBT(par1NBTTagCompound);
 
-    	par1NBTTagCompound.setDouble("dianXiaoShi", this.dianXiaoShi);
+    	par1NBTTagCompound.setDouble("dian", this.dian);
     	par1NBTTagCompound.setInteger("banJing", this.banJing);
     	par1NBTTagCompound.setByte("muoShi", this.muoShi);
     }
@@ -183,7 +181,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public void onPowerOn() 
 	{
-		if(this.dianXiaoShi >= this.getMaxJoules())
+		if(this.dian >= this.getMaxJoules())
 		{
 			if(this.muoShi == 0 || this.muoShi == 1)
 			{
@@ -195,7 +193,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 				ZhaPin.dianCiWave.doBaoZha(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.banJing, -1);
 			}
 
-			this.dianXiaoShi = 0;
+			this.dian = 0;
 		}
 	}
 
@@ -219,25 +217,24 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		position.y += 1;
-		BlockMulti.makeInvisibleBlock(this.worldObj, position, Vector3.get(this));
+		BlockMulti.makeInvisibleBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), Vector3.get(this));
 	}
 
 	@Override
 	public double getMaxJoules()
 	{
-		return Math.max(1500*((float)this.banJing/(float)MAX_RADIUS), 500);
+		return Math.max(25000*((float)this.banJing/(float)MAX_RADIUS), 150000);
 	}
 
 	@Override
     public double getJoules(Object... data)
     {
-    	return this.dianXiaoShi;
+    	return this.dian;
     }
 
 	@Override
-	public void setJoules(double wattHours, Object... data)
+	public void setJoules(double joules, Object... data)
 	{
-		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getJoules()), 0);
+		this.dian = Math.max(Math.min(joules, this.getMaxJoules()), 0);
 	}
 }

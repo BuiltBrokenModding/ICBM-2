@@ -24,8 +24,7 @@ public class IBJiQi extends ItemBlock
     	"Radar Station",
     	"EMP Tower",
     	"Railgun",
-    	"Cruise Launcher",
-    	"Laser Turret"};
+    	"Cruise Launcher",};
     
     private static final int spawnID = ZhuYao.bJiQi.blockID;
     

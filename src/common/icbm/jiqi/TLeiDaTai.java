@@ -114,7 +114,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 				if(!this.worldObj.isRemote)
 				{
-					this.dian = 0;
+					this.dian -= this.YAO_DIAN;
 				}
 				
 				//Do a radar scan

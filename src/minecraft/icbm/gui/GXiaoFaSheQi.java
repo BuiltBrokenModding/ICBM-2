@@ -128,8 +128,8 @@ public class GXiaoFaSheQi extends GuiContainer
         
         this.fontRenderer.drawString(this.tileEntity.getStatus(), 108, 40, 4210752);
         this.fontRenderer.drawString(this.tileEntity.getVoltage()+"v", 108, 50, 4210752);
-        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.WATT_HOUR), 108, 60, 4210752);
-        this.fontRenderer.drawString("Max: " +ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.WATT_HOUR), 105, 70, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES), 108, 60, 4210752);
+        this.fontRenderer.drawString("Max: " +ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 105, 70, 4210752);
         
         this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }

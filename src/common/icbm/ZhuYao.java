@@ -257,7 +257,6 @@ public class ZhuYao
 		LanguageRegistry.addName(new ItemStack(ZhuYao.bJiQi, 1, 10), "EMP Tower");
 		LanguageRegistry.addName(new ItemStack(ZhuYao.bJiQi, 1, 11), "Railgun");
 		LanguageRegistry.addName(new ItemStack(ZhuYao.bJiQi, 1, 12), "Cruise Launcher");
-		LanguageRegistry.addName(new ItemStack(ZhuYao.bJiQi, 1, 13), "Laser Turret");
 		
 		LanguageRegistry.addName(ZhuYao.itYao, "Antidote");
 		
