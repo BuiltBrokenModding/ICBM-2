@@ -45,7 +45,7 @@ public class GXiaoFaSheQi extends GuiContainer
         this.textFieldFreq.setMaxStringLength(4);
         this.textFieldX.setMaxStringLength(6);
         this.textFieldZ.setMaxStringLength(6);
-        this.textFieldY.setMaxStringLength(2);
+        this.textFieldY.setMaxStringLength(6);
                 
         this.textFieldFreq.setText(this.tileEntity.getFrequency()+"");
         
@@ -53,7 +53,7 @@ public class GXiaoFaSheQi extends GuiContainer
         {
         	this.textFieldX.setText(Math.round(this.tileEntity.xCoord) + "");
             this.textFieldZ.setText(Math.round(this.tileEntity.zCoord) + "");
-            this.textFieldY.setText("0");
+            this.textFieldY.setText(Math.round(this.tileEntity.yCoord) + "");
         }
         else
         {
@@ -74,7 +74,7 @@ public class GXiaoFaSheQi extends GuiContainer
         
         try
         {
-        	Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Math.max(Integer.parseInt(this.textFieldY.getText()), 0), Integer.parseInt(this.textFieldZ.getText()));
+        	Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Integer.parseInt(this.textFieldY.getText()), Integer.parseInt(this.textFieldZ.getText()));
         	this.tileEntity.setTarget(newTarget);
             PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
         }

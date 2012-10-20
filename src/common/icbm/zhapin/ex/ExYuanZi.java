@@ -36,8 +36,8 @@ public class ExYuanZi extends ZhaPin
 		{
 			for (int theta_n = 0; theta_n < steps; theta_n ++)
 			{			
-				double phi = 6.283185307179586D / steps * phi_n;
-				double theta = 3.141592653589793D / steps * theta_n;
+				double phi = Math.PI*2 / steps * phi_n;
+				double theta = Math.PI / steps * theta_n;
 
 				source.dataList.add(new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi)));
 			}

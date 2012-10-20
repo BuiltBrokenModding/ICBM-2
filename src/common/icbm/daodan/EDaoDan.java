@@ -424,6 +424,11 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
     	if(this.worldObj.isRemote)
 	    {
 	    	Vector3 position = Vector3.get(this);
+	    	/*
+	    	double phi = Math.PI*2 / 360 * (this.rotationYaw + 180) ;
+			double theta = Math.PI / 360 * this.rotationPitch;
+			Vector3 deltaPosition = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
+			position.add(deltaPosition);*/
 	    	ParticleSpawner.spawnParticle("smoke", this.worldObj, position);
 	    	this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
     	}
