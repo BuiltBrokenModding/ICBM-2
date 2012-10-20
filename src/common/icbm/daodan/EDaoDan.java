@@ -28,6 +28,7 @@ import universalelectricity.prefab.Vector3;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMissile
@@ -148,7 +149,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		DaoDanGuanLi.addMissile(this);
 		
-		System.out.println("Launching "+this.getEntityName()+" from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+muBiao.intX()+", "+muBiao.intY()+", "+muBiao.intZ());
+		FMLLog.fine("Launching "+this.getEntityName()+" from "+startingPosition.intX()+", "+startingPosition.intY()+", "+startingPosition.intZ()+" to "+muBiao.intX()+", "+muBiao.intY()+", "+muBiao.intZ());
     }
 
     @Override
@@ -490,7 +491,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		    			DaoDan.list[this.missileID].onExplode(this);
 		    		}
 		    		
-		    		System.out.println(this.getEntityName()+" landed on "+(int) this.posX+", "+(int) this.posY+", "+(int) this.posZ);
+		    		FMLLog.fine(this.getEntityName()+" landed on "+(int) this.posX+", "+(int) this.posY+", "+(int) this.posZ);
 		    	}
 		    	
 		    	this.setDead();

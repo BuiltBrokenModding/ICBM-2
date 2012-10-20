@@ -99,7 +99,7 @@ public class GFaSheShiMuo extends ICBMGui
         }
         catch (NumberFormatException e)
         {
-            this.tileEntity.setTarget(new Vector3(this.tileEntity.xCoord, 0, this.tileEntity.zCoord));
+        	
         }
         
         try
@@ -111,7 +111,7 @@ public class GFaSheShiMuo extends ICBMGui
         }
         catch (NumberFormatException e)
         {
-            this.tileEntity.frequency = 0;
+        	
         }
     }
 
@@ -201,10 +201,14 @@ public class GFaSheShiMuo extends ICBMGui
     {
         super.updateScreen();
         
-    	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-        this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-        this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+        if(!this.textFieldX.isFocused())
+        	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+        if(!this.textFieldZ.isFocused())
+        	this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+        if(!this.textFieldY.isFocused())
+        	this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
         
-    	this.textFieldFreq.setText(this.tileEntity.frequency + "");
+        if(!this.textFieldFreq.isFocused())
+    		this.textFieldFreq.setText(this.tileEntity.frequency + "");
     }
 }

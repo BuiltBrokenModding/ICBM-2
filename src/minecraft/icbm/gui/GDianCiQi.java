@@ -16,7 +16,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class GDianCiQi extends ICBMGui
 {
     private TDianCiQi tileEntity;
-    private GuiTextField textFieldRadius;
+    private GuiTextField textFieldBanJing;
 
     private int containerWidth;
     private int containerHeight;
@@ -39,9 +39,9 @@ public class GDianCiQi extends ICBMGui
         this.controlList.add(new GuiButton(1, this.width / 2 - 25,  this.height / 2 - 10, 65, 20, "Electricity"));
         this.controlList.add(new GuiButton(2, this.width / 2 + 43,  this.height / 2 - 10, 35, 20, "Both"));
         
-        this.textFieldRadius = new GuiTextField(fontRenderer, 72, 28, 20, 12);
-        this.textFieldRadius.setMaxStringLength(2);
-        this.textFieldRadius.setText(this.tileEntity.banJing+"");  
+        this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 20, 12);
+        this.textFieldBanJing.setMaxStringLength(2);
+        this.textFieldBanJing.setText(this.tileEntity.banJing+"");  
     	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)-1, true));
     }
     
@@ -75,7 +75,18 @@ public class GDianCiQi extends ICBMGui
 	public void keyTyped(char par1, int par2)
     {
         super.keyTyped(par1, par2);
-        this.textFieldRadius.textboxKeyTyped(par1, par2);
+        this.textFieldBanJing.textboxKeyTyped(par1, par2);
+        
+        try
+        {
+        	int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), this.tileEntity.MAX_RADIUS);
+    		this.tileEntity.banJing = radius;
+        	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.banJing));
+        }
+        catch (NumberFormatException e)
+        {
+        	
+        }
     }
 
     /**
@@ -85,7 +96,7 @@ public class GDianCiQi extends ICBMGui
 	public void mouseClicked(int par1, int par2, int par3)
     {
         super.mouseClicked(par1, par2, par3);
-        this.textFieldRadius.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+        this.textFieldBanJing.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
     }
 
     /**
@@ -97,7 +108,7 @@ public class GDianCiQi extends ICBMGui
     	this.fontRenderer.drawString("EMP Tower", 65, 6, 4210752);
     	
     	this.fontRenderer.drawString("EMP Radius:       blocks", 12, 30, 4210752);
-    	this.textFieldRadius.drawTextBox();
+    	this.textFieldBanJing.drawTextBox();
     	
     	this.fontRenderer.drawString("EMP Effect:", 12, 55, 4210752);
     	    	
@@ -157,20 +168,7 @@ public class GDianCiQi extends ICBMGui
     {
         super.updateScreen();
         
-        try
-        {
-        	int radius = Math.min(Math.max(Integer.parseInt(this.textFieldRadius.getText()), 10), this.tileEntity.MAX_RADIUS);
-        	
-        	if(radius != this.tileEntity.banJing)
-        	{
-        		this.tileEntity.banJing = radius;
-        		this.textFieldRadius.setText(this.tileEntity.banJing+"");
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.banJing));
-        	}
-        }
-        catch (NumberFormatException e)
-        {
-            this.tileEntity.banJing = this.tileEntity.MAX_RADIUS;
-        }
+        if(!this.textFieldBanJing.isFocused())
+        	this.textFieldBanJing.setText(this.tileEntity.banJing + "");
     }
 }

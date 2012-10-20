@@ -80,7 +80,6 @@ public class GXiaoFaSheQi extends GuiContainer
         }
         catch (NumberFormatException e)
         {
-            this.tileEntity.setTarget(Vector3.get(this.tileEntity));
         }
         
         try
@@ -91,7 +90,6 @@ public class GXiaoFaSheQi extends GuiContainer
         }
         catch (NumberFormatException e)
         {
-            this.tileEntity.setFrequency((short)0);
         }
     }
 
@@ -153,9 +151,13 @@ public class GXiaoFaSheQi extends GuiContainer
     {
         super.updateScreen();
         
-    	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-        this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-        this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
-    	this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
+        if(!this.textFieldX.isFocused())
+        	this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+        if(!this.textFieldZ.isFocused())
+        	this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+        if(!this.textFieldY.isFocused())
+        	this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+        if(!this.textFieldFreq.isFocused())
+        	this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
     }
 }

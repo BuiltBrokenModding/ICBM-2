@@ -8,14 +8,17 @@ import icbm.daodan.EDaoDan;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Ticker;
 import universalelectricity.UEConfig;
 import universalelectricity.basiccomponents.multiblock.BlockMulti;
 import universalelectricity.basiccomponents.multiblock.IMultiBlock;
@@ -28,6 +31,8 @@ import universalelectricity.prefab.Vector2;
 import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.FMLLog;
 
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
@@ -57,6 +62,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	private boolean missileAlert = false;
 	
 	private int yongZhe = 0;
+	
+	private Ticket ticket;
 		
 	public TLeiDaTai()
 	{
@@ -73,7 +80,6 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		if(!this.isDisabled())
 		{
 			this.dian += ElectricInfo.getWatts(amps, voltage);
-			this.prevDian = this.dian;
 		}
 	}
 	
@@ -84,11 +90,22 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		{
 			this.worldObj.notifyBlocksOfNeighborChange((int)this.xCoord, (int)this.yCoord, (int)this.zCoord, this.getBlockType().blockID);
 		}
+		
+		if (this.ticket == null)
+    	{
+    		this.ticket = ForgeChunkManager.requestTicket(ZhuYao.instance, this.worldObj, Type.NORMAL);
+        	this.ticket.getModData();
+    	}
+    	
+    	ForgeChunkManager.forceChunk(this.ticket, new ChunkCoordIntPair(this.xCoord >> 4, this.zCoord >> 4));
+    	System.out.println("Radar loading chunk: "+(this.xCoord >> 4)  + ", " + (this.zCoord >> 4));
     }
 	
 	public void updateEntity()
 	{
 		super.updateEntity();
+		
+		this.prevDian = this.dian;
 		
 		if(!this.worldObj.isRemote)
 		{
@@ -174,7 +191,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 			}
 		}
 		
-		if(Ticker.inGameTicks % 40 == 0)
+		if(this.ticks % 40 == 0)
 		{
 			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
@@ -246,7 +263,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
     {
         if (!this.isDisabled())
         {
-            return Math.ceil(this.YAO_DIAN-this.dian);
+            return this.YAO_DIAN;
         }
 
         return 0;
@@ -399,6 +416,13 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		}
 		
 		throw new Exception("Invalid ICBM Radar Function.");
+	}
+	
+	@Override
+	public void invalidate()
+	{
+		ForgeChunkManager.releaseTicket(ticket);
+		super.invalidate();
 	}
 
 	@Override

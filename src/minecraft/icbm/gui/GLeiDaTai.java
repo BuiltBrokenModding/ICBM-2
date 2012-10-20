@@ -79,25 +79,22 @@ public class GLeiDaTai extends ICBMGui
         {
         	int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText() )));
         	this.tileEntity.safetyBanJing = newSafetyRadius;
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.safetyBanJing));
         }
         catch (NumberFormatException e)
         {
-        	this.tileEntity.safetyBanJing = 0;
         }
-        
-        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)2, this.tileEntity.safetyBanJing));
         
         try
         {
         	int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText() )));
         	this.tileEntity.alarmBanJing = newAlarmRadius;
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.alarmBanJing));
         }
         catch (NumberFormatException e)
         {
-        	this.tileEntity.alarmBanJing = 0;
         }
         
-        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.alarmBanJing));
     }
 
     /**
@@ -236,7 +233,9 @@ public class GLeiDaTai extends ICBMGui
     {
         super.updateScreen();
         
-        this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
-        this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
+        if(!this.textFieldSafetyZone.isFocused())
+        	this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
+        if(!this.textFieldAlarmRange.isFocused())
+        	this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
     }
 }

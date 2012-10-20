@@ -132,6 +132,42 @@ public class GYinGanQi extends ICBMGui
         this.textFieldmaxY.textboxKeyTyped(par1, par2);
         this.textFieldmaxZ.textboxKeyTyped(par1, par2);
         this.textFieldFreq.textboxKeyTyped(par1, par2);
+        
+        try
+        {
+        	Vector3 newMinCoord = new Vector3(Integer.parseInt(this.textFieldminX.getText()), Integer.parseInt(this.textFieldminY.getText()), Integer.parseInt(this.textFieldminZ.getText()));
+        	
+        	this.tileEntity.minCoord = newMinCoord;
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)4, this.tileEntity.minCoord.x, this.tileEntity.minCoord.y, this.tileEntity.minCoord.z));
+        }
+        catch(Exception e)
+        {
+
+        }
+        
+        try
+        {
+        	Vector3 newMaxCoord = new Vector3(Integer.parseInt(this.textFieldmaxX.getText()), Integer.parseInt(this.textFieldmaxY.getText()), Integer.parseInt(this.textFieldmaxZ.getText()));
+        	
+        	this.tileEntity.maxCoord = newMaxCoord;
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)5, this.tileEntity.maxCoord.x, this.tileEntity.maxCoord.y, this.tileEntity.maxCoord.z));
+        }
+        catch(Exception e)
+        {
+
+        }
+        
+        try
+        {
+        	short newFrequency = (short)Math.max(0, Short.parseShort(this.textFieldFreq.getText()));
+        	
+        	this.tileEntity.frequency = newFrequency;
+            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.frequency));
+        }
+        catch(Exception e)
+        {
+
+        }
     }
 
     /**
@@ -221,49 +257,34 @@ public class GYinGanQi extends ICBMGui
     {
         super.updateScreen();
         
-        try
-        {
-        	Vector3 newMinCoord = new Vector3(Integer.parseInt(this.textFieldminX.getText()), Integer.parseInt(this.textFieldminY.getText()), Integer.parseInt(this.textFieldminZ.getText()));
-        	
-        	if(!this.tileEntity.minCoord.isEqual(newMinCoord))
-        	{
-        		this.tileEntity.minCoord = newMinCoord;
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)4, this.tileEntity.minCoord.x, this.tileEntity.minCoord.y, this.tileEntity.minCoord.z));
-        	}
-        	
-        	Vector3 newMaxCoord = new Vector3(Integer.parseInt(this.textFieldmaxX.getText()), Integer.parseInt(this.textFieldmaxY.getText()), Integer.parseInt(this.textFieldmaxZ.getText()));
-        	
-        	if(!this.tileEntity.maxCoord.isEqual(newMaxCoord))
-        	{
-        		this.tileEntity.maxCoord = newMaxCoord;
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)5, this.tileEntity.maxCoord.x, this.tileEntity.maxCoord.y, this.tileEntity.maxCoord.z));
-        	}
-        	
-        	short newFrequency = (short)Math.max(0, Short.parseShort(this.textFieldFreq.getText()));
-        	
-        	if(newFrequency != this.tileEntity.frequency)
-        	{
-        		this.tileEntity.frequency = newFrequency;
-            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int)3, this.tileEntity.frequency));
-        	}
-
-        	String mode = "All";
-        	
-        	if(this.tileEntity.mode == 1)
-        	{
-        		mode = "Players";
-        	}
-        	else if(this.tileEntity.mode == 2)
-        	{
-        		mode = "Mobs";
-        	}
-        	
-        	((GuiButton)this.controlList.get(0)).displayString = mode;
-        }
-        catch(Exception e)
-        {
-
-        }
-        
+    	String mode = "All";
+    	
+    	if(this.tileEntity.mode == 1)
+    	{
+    		mode = "Players";
+    	}
+    	else if(this.tileEntity.mode == 2)
+    	{
+    		mode = "Mobs";
+    	}
+    	
+    	((GuiButton)this.controlList.get(0)).displayString = mode;
+    	
+    	if(!this.textFieldminX.isFocused())
+        	this.textFieldminX.setText(this.tileEntity.minCoord.x + "");
+    	if(!this.textFieldminY.isFocused())
+        	this.textFieldminY.setText(this.tileEntity.minCoord.y + "");
+    	if(!this.textFieldminZ.isFocused())
+        	this.textFieldminZ.setText(this.tileEntity.minCoord.z + "");
+    	
+    	if(!this.textFieldmaxX.isFocused())
+        	this.textFieldmaxX.setText(this.tileEntity.maxCoord.x + "");
+    	if(!this.textFieldmaxY.isFocused())
+        	this.textFieldmaxY.setText(this.tileEntity.maxCoord.y + "");
+    	if(!this.textFieldmaxZ.isFocused())
+        	this.textFieldmaxZ.setText(this.tileEntity.maxCoord.z + "");
+    	
+    	if(!this.textFieldFreq.isFocused())
+        	this.textFieldFreq.setText(this.tileEntity.frequency + "");
     }
 }

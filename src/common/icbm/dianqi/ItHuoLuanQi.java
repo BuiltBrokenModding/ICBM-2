@@ -70,7 +70,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 		
     	if(this.getJoules(par1ItemStack) > 1)
     	{
-        	this.onUse(30, par1ItemStack);
+        	this.onUse(10, par1ItemStack);
     	}
     }
     
@@ -84,7 +84,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public double getVoltage()
 	{
-		return 20;
+		return 25;
 	}
 	
 	@Override
