@@ -223,7 +223,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public double getMaxJoules()
 	{
-		return Math.max(25000*((float)this.banJing/(float)MAX_RADIUS), 150000);
+		return Math.max(25000*((float)this.banJing/(float)MAX_RADIUS), 1500000);
 	}
 
 	@Override

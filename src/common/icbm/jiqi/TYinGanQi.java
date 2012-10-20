@@ -28,10 +28,10 @@ import com.google.common.io.ByteArrayDataInput;
 public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
 {
 	//Watts Per Tick
-	public static final float YAO_DIAN = 2;
+	public static final float YAO_DIAN = 5;
 	
     //The electricity stored
-    public double dian = 0;
+    public double prevDian, dian = 0;
         
     public short frequency = 0;
 
@@ -59,6 +59,8 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
     	{
 			this.dian += ElectricInfo.getWatts(amps, voltage);
     	}
+		
+		this.prevDian = dian;
 	}
 	
 	@Override
@@ -129,16 +131,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 					}
 					
 					this.dian = 0;
-	    		}/*
-	    		else if(Ticker.inGameTicks % 20 == 0)
-	    		{
-	    			if(isDetect)
-	    			{
-						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-	    			}
-	    			
-	    			isDetect = false;
-	    		}*/
+	    		}
 	    	}
 			
 			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
@@ -205,7 +198,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	@Override
 	public double wattRequest()
 	{
-		return Math.ceil(this.YAO_DIAN*2);
+		return this.YAO_DIAN;
 	}
 
 	@Override

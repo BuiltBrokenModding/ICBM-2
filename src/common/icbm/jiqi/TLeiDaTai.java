@@ -136,7 +136,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		        		
 		        		if(Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing)
 		        		{
-		        			this.missileAlert  = true;
+		        			this.missileAlert = true;
 		        		}
 		        	}
 		        }
@@ -154,7 +154,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 			        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		        }
 		        
-		        if(Ticker.inGameTicks % 25 == 0)
+		        if(this.ticks % 20 == 0)
 				{
 			        if(this.missileAlert && YIN_XIANG)
 			        {
