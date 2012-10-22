@@ -21,8 +21,8 @@ LICENSE.txt
 /src/minecraft/universalelectricity/
 /src/minecraft_server/*
 /src/common/*
-/Backup/
-/Builds/
+/backup/
+/builds/
 
 !/src/minecraft/icbm/
 !/src/common/icbm/
