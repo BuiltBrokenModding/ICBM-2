@@ -4,9 +4,9 @@ import icbm.dianqi.ItHuoLuanQi;
 import icbm.dianqi.ItLeiDaQiang;
 import icbm.dianqi.ItLeiShiZhiBiao;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.INetworkManager;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NetworkManager;
 import net.minecraft.src.Packet250CustomPayload;
 import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.ItemElectric;
@@ -41,7 +41,7 @@ public class ICBMPacketManager extends PacketManager
 	}
 
 	@Override
-	public void handlePacketData(NetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
 		ICBMPacketType icbmPacketType = ICBMPacketType.get(packetType);
 		

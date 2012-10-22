@@ -131,7 +131,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
     	if(!this.isExploding && !this.worldObj.isRemote)
     	{
     		this.isExploding = true;
-	    	this.worldObj.createExplosion(this, this.xTile, this.yTile, this.zTile, 1.5F);
+	    	this.worldObj.createExplosion(this, this.xTile, this.yTile, this.zTile, 1.5F, true);
 	        this.setDead();
     	}
     }

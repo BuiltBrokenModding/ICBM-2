@@ -34,15 +34,6 @@ public class ItYaoKong extends ItemElectric
     {
         return ICBM.ITEM_TEXTURE_FILE;
     }
-    
-    /**
-     * Allows items to add custom lines of information to the mouseover description
-     */
-    @Override
-	public void addInformation(ItemStack par1ItemStack, List par2List)
-    {
-    	super.addInformation(par1ItemStack, par2List);
-    }
 
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer

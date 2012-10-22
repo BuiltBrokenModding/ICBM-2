@@ -92,23 +92,6 @@ public class MFaSheDiRail0 extends ModelBase
       setRotation(Shape17, 0F, 0F, 0F);
   }
   
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.render(entity, f, f1, f2, f3, f4, f5);
-    setRotationAngles(f, f1, f2, f3, f4, f5);
-    Shape7.render(f5);
-    Shape8.render(f5);
-    Shape9.render(f5);
-    Shape10.render(f5);
-    Shape11.render(f5);
-    Shape12.render(f5);
-    Shape13.render(f5);
-    Shape14.render(f5);
-    Shape15.render(f5);
-    Shape16.render(f5);
-    Shape17.render(f5);
-  }
-  
   public void render( float f5)
   {
     Shape7.render(f5);
@@ -130,10 +113,4 @@ public class MFaSheDiRail0 extends ModelBase
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
-  
-  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.setRotationAngles(f, f1, f2, f3, f4, f5);
-  }
-
 }

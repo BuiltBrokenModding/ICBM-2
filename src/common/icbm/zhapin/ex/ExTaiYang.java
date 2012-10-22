@@ -35,7 +35,7 @@ public class ExTaiYang extends ZhaPin
 			EGuang lightBeam = new EGuang(worldObj, position, 20*20, 0.7F, 0.3F, 0F);
 			worldObj.spawnEntityInWorld(lightBeam);
 			((EZhaPin)explosionSource).entityList.add(0, lightBeam);
-			worldObj.createExplosion(null, position.x, position.y, position.z, 4F);
+			worldObj.createExplosion(null, position.x, position.y, position.z, 4F, true);
 		}
 	}
 	

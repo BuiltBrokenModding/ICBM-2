@@ -66,119 +66,65 @@ public class IBJiQi extends ItemBlock
 	{
        return ICBM.ITEM_TEXTURE_FILE;
 	}
-        
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS !
-     */
+    
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)
+    public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
-        int var8 = par3World.getBlockId(x, y, z);
-
-        if (var8 == Block.snow.blockID)
-        {
-            par7 = 1;
-        }
-        else if (var8 != Block.vine.blockID && var8 != Block.tallGrass.blockID && var8 != Block.deadBush.blockID)
-        {
-            if (par7 == 0)
-            {
-                --y;
-            }
-
-            if (par7 == 1)
-            {
-                ++y;
-            }
-
-            if (par7 == 2)
-            {
-                --z;
-            }
-
-            if (par7 == 3)
-            {
-                ++z;
-            }
-
-            if (par7 == 4)
-            {
-                --x;
-            }
-
-            if (par7 == 5)
-            {
-                ++x;
-            }
-        }
-
-        if (!par2EntityPlayer.canPlayerEdit(x, y, z))
-        {
-            return false;
-        }
-        else if (par1ItemStack.stackSize == 0)
-        {
-            return false;
-        }
+    	int metadata;
+        
+        if(itemStack.getItemDamage() < 3)
+     	{
+     		metadata = 0;
+     	}
+        else if(itemStack.getItemDamage() < 6)
+     	{
+     		metadata = 1;
+     	}
+        else if(itemStack.getItemDamage() < 9)
+		{
+			metadata = 2;
+		}
         else
+		{
+			metadata = itemStack.getItemDamage() - 6;
+		}
+         
+        if(BJiQi.canBePlacedAt(world, x, y, z, metadata, entityPlayer))
         {
-        	int metadata;
-             
-            if(par1ItemStack.getItemDamage() < 3)
-         	{
-         		metadata = 0;
-         	}
-            else if(par1ItemStack.getItemDamage() < 6)
-         	{
-         		metadata = 1;
-         	}
-            else if(par1ItemStack.getItemDamage() < 9)
-			{
-				metadata = 2;
-			}
-            else
-			{
-				metadata = par1ItemStack.getItemDamage() - 6;
-			}
-             
-            if(BJiQi.canBePlacedAt(par3World, x, y, z, metadata, par2EntityPlayer))
+            Block var9 = Block.blocksList[IBJiQi.spawnID];
+            
+            if(world.setBlockAndMetadataWithNotify(x, y, z, this.spawnID, metadata))
             {
-                Block var9 = Block.blocksList[IBJiQi.spawnID];
-                
-                if(par3World.setBlockAndMetadataWithNotify(x, y, z, this.spawnID, metadata))
+                if (world.getBlockId(x, y, z) == this.spawnID)
                 {
-                    if (par3World.getBlockId(x, y, z) == this.spawnID)
-                    {
-                    	if(par1ItemStack.getItemDamage() < 9)
-                    	{
-    	            		ITier tileEntity = (ITier)par3World.getBlockTileEntity(x, y, z);
-    	
-    	            		if(tileEntity != null)
-    	            		{
-	    	                	if(par1ItemStack.getItemDamage() < 3)
-	    	                	{
-	    	                		tileEntity.setTier(par1ItemStack.getItemDamage());
-	    	                	}
-	    	                	else if(par1ItemStack.getItemDamage() < 6)
-	    	                	{
-	    	                		tileEntity.setTier(par1ItemStack.getItemDamage()-3);
-	    	                	}
-	    	                	else if(par1ItemStack.getItemDamage() < 9)
-	    	                	{
-	    	                		tileEntity.setTier(par1ItemStack.getItemDamage()-6);
-	    	                	}
-    	            		}
-                    	}
-                    	
-                        Block.blocksList[IBJiQi.spawnID].onBlockPlacedBy(par3World, x, y, z, par2EntityPlayer);
-                    }
-
-                    --par1ItemStack.stackSize;
+                	if(itemStack.getItemDamage() < 9)
+                	{
+	            		ITier tileEntity = (ITier)world.getBlockTileEntity(x, y, z);
+	
+	            		if(tileEntity != null)
+	            		{
+    	                	if(itemStack.getItemDamage() < 3)
+    	                	{
+    	                		tileEntity.setTier(itemStack.getItemDamage());
+    	                	}
+    	                	else if(itemStack.getItemDamage() < 6)
+    	                	{
+    	                		tileEntity.setTier(itemStack.getItemDamage()-3);
+    	                	}
+    	                	else if(itemStack.getItemDamage() < 9)
+    	                	{
+    	                		tileEntity.setTier(itemStack.getItemDamage()-6);
+    	                	}
+	            		}
+                	}
+                	
+                    Block.blocksList[IBJiQi.spawnID].onBlockPlacedBy(world, x, y, z, entityPlayer);
                 }
-            }
 
-            return true;
+                --itemStack.stackSize;
+            }
         }
+
+        return true;
     }
 }

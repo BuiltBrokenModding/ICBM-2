@@ -34,7 +34,7 @@ public class ExWan extends ZhaPin
 	{
 		if(!worldObj.isRemote)
 		{
-			worldObj.createExplosion(explosionSource, position.x, position.y, position.z, 5.0F);
+			worldObj.createExplosion(explosionSource, position.x, position.y, position.z, 5.0F, true);
 		}
 	}
 	
@@ -109,32 +109,11 @@ public class ExWan extends ZhaPin
             	if(!explosionCreated && callCount % 5 == 0)
             	{
                	 	worldObj.spawnParticle("hugeexplosion", entity.posX, entity.posY, entity.posZ, 0.0D, 0.0D, 0.0D);
-            		explosionCreated = true;
+               	 	worldObj.playSound(position.x, position.y, position.z, "portal.portal", 2F,  worldObj.rand.nextFloat() * 0.4F + 0.8F);
+        			explosionCreated = true;
             	}
-            	
-            	if(!(entity instanceof EntityLiving))
-            	{
-            		if(entity instanceof EZhaPin)
-            		{
-            			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
             		
-            			if(worldObj.rand.nextFloat() > 0.85 && !worldObj.isRemote)
-            			{
-            				entity.setDead();
-            				return false;
-            			}
-            		}
-            		else if(entity instanceof EZhaDan)
-            		{
-            			((EZhaDan)entity).explode();
-            		}
-            		
-            		entity.setDead();
-            	}
-            	else if(entity instanceof EntityPlayer)
-            	{
-            		((EntityPlayer)entity).travelToTheEnd(1);
-            	}
+            	entity.travelToTheEnd(1);
             }
         }
 

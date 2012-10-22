@@ -46,7 +46,7 @@ public class ICBMBlock extends Block
     }
     
     @Override
-	protected int damageDropped(int metadata)
+    public int damageDropped(int metadata)
     {
         return metadata;
     }

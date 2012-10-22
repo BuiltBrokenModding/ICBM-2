@@ -41,17 +41,17 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
      * Allows items to add custom lines of information to the mouseover description
      */
     @Override
-	public void addInformation(ItemStack par1ItemStack, List par2List)
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    	super.addInformation(par1ItemStack, par2List);
+	    super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
     	
-    	if(this.getFrequency(par1ItemStack) > 0)
+    	if(this.getFrequency(itemStack) > 0)
     	{
-    		par2List.add("Frequency: "+getFrequency(par1ItemStack));
+    		par3List.add("Frequency: "+getFrequency(itemStack));
     	}
     	else
     	{
-    		par2List.add("Frequency: Not Set");
+    		par3List.add("Frequency: Not Set");
     	}
     }
     

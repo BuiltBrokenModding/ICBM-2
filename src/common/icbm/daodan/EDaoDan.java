@@ -489,7 +489,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		    	{
 		    		if(this.missileID == 0)
 		    		{
-			    		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F);
+			    		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
 		    		}
 		    		else
 		    		{
@@ -517,7 +517,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	    	
 	    	if(!this.worldObj.isRemote)
 	    	{
-	    		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F);
+	    		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
 	    	}
 	    	
     		this.setDead();

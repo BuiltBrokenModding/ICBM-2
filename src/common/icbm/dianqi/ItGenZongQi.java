@@ -30,15 +30,15 @@ public class ItGenZongQi extends ItemElectric
     
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, List par2List)
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-	    super.addInformation(itemStack, par2List);
+	    super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
 	    
         Entity trackingEntity = getTrackingEntityClient((WorldClient)FMLClientHandler.instance().getClient().theWorld, itemStack);
         
         if(trackingEntity != null)
         {
-        	par2List.add("Tracking: "+trackingEntity.getEntityName());
+        	par3List.add("Tracking: "+trackingEntity.getEntityName());
         }
     }
     

@@ -64,16 +64,21 @@ public class RDaoDan extends Render
 			new MMXiaoQunDan(),
 			new MMHuo(),
 			new MMDuQi(),
+			
 			new MMQunDan(),
 			new MMGanRanDu(),
 			new MMShengBuo(),
 			new MMTuPuo(),
 			new MMHuanYuan(),
+			new MMHuanYuan(),
+			
 			new MMYuanZi(),
 			new MMDianCi(),
 			new MMTaiYang(),
 			new MMBingDan(),
 			new MMPiaoFu(),
+			new MMPiaoFu(),
+			
 			new MMFanWuSu(),
 			new MMHongSu()};
 	

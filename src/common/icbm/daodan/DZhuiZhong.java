@@ -102,7 +102,7 @@ public class DZhuiZhong extends DaoDan
 	@Override
 	public void onExplode(EDaoDan missileObj)
 	{
-		missileObj.worldObj.createExplosion(missileObj, missileObj.posX, missileObj.posY, missileObj.posZ, 6F);
+		missileObj.worldObj.createExplosion(missileObj, missileObj.posX, missileObj.posY, missileObj.posZ, 6F, true);
 	}
 	
 	@Override

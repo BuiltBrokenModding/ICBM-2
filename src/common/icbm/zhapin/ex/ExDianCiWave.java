@@ -85,7 +85,7 @@ public class ExDianCiWave extends ZhaPin
 								}
 								catch(Exception e)
 								{
-									worldObj.createExplosion(explosionSource, i+x, j+y, k+z, 2f);
+									worldObj.createExplosion(explosionSource, i+x, j+y, k+z, 2f, true);
 									System.err.println("Failed to EMP strike an IC2 energy storage.");
 									e.printStackTrace();
 								}								

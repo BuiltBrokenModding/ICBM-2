@@ -34,7 +34,7 @@ public class ExHongSu extends ZhaPin
 	{
 		if(!worldObj.isRemote)
 		{
-			worldObj.createExplosion(explosionSource, position.x, position.y, position.z, 5.0F);
+			worldObj.createExplosion(explosionSource, position.x, position.y, position.z, 5.0F, true);
 		}
 	}
 	
@@ -146,7 +146,7 @@ public class ExHongSu extends ZhaPin
             {
             	if(!explosionCreated && callCount % 5 == 0)
             	{
-            		worldObj.createExplosion(explosionSource, entity.posX, entity.posY, entity.posZ, 3.0F);
+            		worldObj.createExplosion(explosionSource, entity.posX, entity.posY, entity.posZ, 3.0F, true);
             		explosionCreated = true;
             	}
             	

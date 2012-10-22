@@ -113,27 +113,6 @@ public class MLeiDa extends ModelBase
       setRotation(Secondary_Dish_Piece_2, 0F, 0.6108652F, 0F);
   }
   
-  @Override
-public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.render(entity, f, f1, f2, f3, f4, f5);
-    setRotationAngles(f, f1, f2, f3, f4, f5);
-    Main_Base.render(f5);
-    Main_Base_Outer_Layer.render(f5);
-    Pivot_Support_1.render(f5);
-    Pivot_Support_2.render(f5);
-    Pivot_Support_3.render(f5);
-    Pivot_Point.render(f5);
-    Dish_Support.render(f5);
-    Focus_Support_1.render(f5);
-    Focus_Support_2.render(f5);
-    Focus_Point.render(f5);
-    Main_Dish_Support.render(f5);
-    Main_Dish_Piece.render(f5);
-    Secondary_Dish_Piece_1.render(f5);
-    Secondary_Dish_Piece_2.render(f5);
-  }
-  
   public void renderRadar(float rotation, float f5)
   {
     Main_Base.render(f5);
@@ -171,11 +150,4 @@ public void render(Entity entity, float f, float f1, float f2, float f3, float f
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
-  
-  @Override
-public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.setRotationAngles(f, f1, f2, f3, f4, f5);
-  }
-
 }

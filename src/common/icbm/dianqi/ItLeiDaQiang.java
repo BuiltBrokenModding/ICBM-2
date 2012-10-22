@@ -40,12 +40,12 @@ public class ItLeiDaQiang extends ItemElectric
      * Allows items to add custom lines of information to the mouseover description
      */
     @Override
-	public void addInformation(ItemStack par1ItemStack, List par2List)
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
-    	super.addInformation(par1ItemStack, par2List);
-    	Vector3 coord = getSavedCoord(par1ItemStack);
-    	par2List.add("\uaa74Saved Coordinates:");
-    	par2List.add("X: "+(int)coord.x+", Y: "+(int)coord.y+", Z: "+(int)coord.z);
+	    super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
+    	Vector3 coord = getSavedCoord(itemStack);
+    	par3List.add("\uaa74Saved Coordinates:");
+    	par3List.add("X: "+(int)coord.x+", Y: "+(int)coord.y+", Z: "+(int)coord.z);
     }
 
     /**
