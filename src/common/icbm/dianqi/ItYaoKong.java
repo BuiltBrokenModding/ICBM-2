@@ -4,9 +4,6 @@ import icbm.ZhuYao;
 import icbm.api.ICBM;
 import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
-
-import java.util.List;
-
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumMovingObjectType;
 import net.minecraft.src.ItemStack;
@@ -49,25 +46,30 @@ public class ItYaoKong extends ItemElectric
 	    	{
 		    	TileEntity tileEntity = par2World.getBlockTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    	int blockID = par2World.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-		    	int blockMetadata = par2World.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+		    	TileEntity tile = par2World.getBlockTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 		    	
-		    	if(blockID == ZhuYao.bJiQi.blockID)
-		        {
-		        	return par1ItemStack;
-		        }
-		        else if(tileEntity instanceof TZhaDan && (blockMetadata == ZhaPin.yaSuo.getID() || blockMetadata == ZhaPin.tuPuo.getID()))
-		        {
-		        	//Check for electricity
-		            if(this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
-		        	{
-       	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte)2));
-			            return par1ItemStack;
-		        	}
-		            else
-			    	{
-			    		par3EntityPlayer.addChatMessage("Remote out of electricity!");
-			    	}
-		        }
+		    	if(tile != null)
+		    	{
+			    	int explosiveID = ((TZhaDan)tile).explosiveID;
+			    	
+			    	if(blockID == ZhuYao.bJiQi.blockID)
+			        {
+			        	return par1ItemStack;
+			        }
+			        else if(tileEntity instanceof TZhaDan && (explosiveID == ZhaPin.yaSuo.getID() || explosiveID == ZhaPin.tuPuo.getID()))
+			        {
+			        	//Check for electricity
+			            if(this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
+			        	{
+	       	            	PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte)2));
+				            return par1ItemStack;
+			        	}
+			            else
+				    	{
+				    		par3EntityPlayer.addChatMessage("Remote out of electricity!");
+				    	}
+			        }
+		    	}
 	        }
     	}
         

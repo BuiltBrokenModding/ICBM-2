@@ -3,6 +3,7 @@ package icbm.zhapin;
 import icbm.BaoHu;
 import icbm.api.ICBM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.src.Block;
@@ -198,8 +199,11 @@ public class BZhaDan extends BlockContainer
     @Override
 	public void onBlockDestroyedByExplosion(World par1World, int x, int y, int z)
     {
-    	int explosiveID = ((TZhaDan)par1World.getBlockTileEntity(x, y, z)).explosiveID;
-        BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 1);
+    	if(par1World.getBlockTileEntity(x, y, z) != null)
+    	{
+        	int explosiveID = ((TZhaDan)par1World.getBlockTileEntity(x, y, z)).explosiveID;
+            BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 1);
+    	}
     }
 
     /**
@@ -249,9 +253,26 @@ public class BZhaDan extends BlockContainer
     }
 
     @Override
-	public int damageDropped(int metadata)
+    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
     {
-        return metadata;
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+    	if(world.getBlockTileEntity(x, y, z) != null)
+    	{
+	    	int explosiveID = ((TZhaDan)world.getBlockTileEntity(x, y, z)).explosiveID;
+	    	
+	        int count = quantityDropped(metadata, fortune, world.rand);
+	        for(int i = 0; i < count; i++)
+	        {
+	            int id = idDropped(metadata, world.rand, 0);
+	            if (id > 0)
+	            {
+	                ret.add(new ItemStack(id, 1, explosiveID));
+	            }
+	        }
+    	}
+    	
+        return ret;
     }
     
     @Override

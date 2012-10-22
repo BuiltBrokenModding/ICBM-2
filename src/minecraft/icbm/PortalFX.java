@@ -14,7 +14,7 @@ public class PortalFX extends EntityPortalFX
 		this.particleScale = scale;
 		try
 		{
-			ReflectionHelper.setPrivateValue(EntityPortalFX.class, this, this.particleScale, "portalParticleScale", "field_70571_a");
+			ReflectionHelper.setPrivateValue(EntityPortalFX.class, this, this.particleScale, 0);
 		}
 		catch(Exception e)
 		{
