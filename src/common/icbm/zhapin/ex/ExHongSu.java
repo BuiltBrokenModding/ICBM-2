@@ -131,16 +131,16 @@ public class ExHongSu extends ZhaPin
         	int r = BAN_JING;
         	if(xDifference < 0) r = (int)-BAN_JING;
         	
-        	entity.motionX -= (r-xDifference) * Math.abs(xDifference) * 0.0003;
+        	entity.motionX -= (r-xDifference) * Math.abs(xDifference) * 0.0005;
         	
         	r = BAN_JING;
         	if(entity.posY > position.y) r = -BAN_JING;
-            entity.motionY += (r-yDifference) * Math.abs(yDifference) * 0.001;
+            entity.motionY += (r-yDifference) * Math.abs(yDifference) * 0.0012;
             
             r = (int)BAN_JING;
             if(zDifference < 0) r = (int)-BAN_JING;
             
-            entity.motionZ -= (r-zDifference) * Math.abs(zDifference) * 0.0003;
+            entity.motionZ -= (r-zDifference) * Math.abs(zDifference) * 0.0005;
             
             if(Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
             {

@@ -159,7 +159,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
     			{
     				while(this.explosionDepth > 0)
     				{
-        				MovingObjectPosition objectMouseOver = this.rayTrace(1500);
+        				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
         				
         				if(objectMouseOver != null)
         		        {

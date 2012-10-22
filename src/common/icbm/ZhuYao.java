@@ -88,7 +88,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String VERSION = "0.5.7";
+	public static final String VERSION = "0.6.0";
 	
 	public static final String CHANNEL = "ICBM";
 	
@@ -145,7 +145,7 @@ public class ZhuYao
     {
 		if(!Loader.isModLoaded("UniversalElectricity")) throw new RuntimeException("Universal Electricity not installed!");
 		
-		UniversalElectricity.versionLock(0, 9, 3, true);
+		UniversalElectricity.versionLock(1, 0, 0, true);
 		
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 		

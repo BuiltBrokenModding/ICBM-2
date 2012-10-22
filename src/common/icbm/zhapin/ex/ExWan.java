@@ -93,31 +93,37 @@ public class ExWan extends ZhaPin
         	int r = BAN_JING;
         	if(xDifference < 0) r = (int)-BAN_JING;
         	
-        	entity.motionX -= (r-xDifference) * Math.abs(xDifference) * 0.0005;
+        	entity.motionX -= (r-xDifference) * Math.abs(xDifference) * 0.0006;
         	
         	r = BAN_JING;
         	if(entity.posY > position.y) r = -BAN_JING;
-            entity.motionY += (r-yDifference) * Math.abs(yDifference) * 0.001;
+            entity.motionY += (r-yDifference) * Math.abs(yDifference) * 0.0011;
             
             r = (int)BAN_JING;
             if(zDifference < 0) r = (int)-BAN_JING;
             
-            entity.motionZ -= (r-zDifference) * Math.abs(zDifference) * 0.0005;
+            entity.motionZ -= (r-zDifference) * Math.abs(zDifference) * 0.0006;
             
             if(Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
             {
             	if(!explosionCreated && callCount % 5 == 0)
             	{
                	 	worldObj.spawnParticle("hugeexplosion", entity.posX, entity.posY, entity.posZ, 0.0D, 0.0D, 0.0D);
-               	 	worldObj.playSound(position.x, position.y, position.z, "portal.portal", 2F,  worldObj.rand.nextFloat() * 0.4F + 0.8F);
         			explosionCreated = true;
             	}
-            		
-            	entity.travelToTheEnd(1);
+            	
+            	if(entity.worldObj.getWorldInfo().getDimension() == 1)
+            	{
+                	entity.travelToTheEnd(0);
+            	}
+            	else
+            	{
+                	entity.travelToTheEnd(1);
+            	}
             }
         }
 
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+   	 	worldObj.playSound(position.x, position.y, position.z, "portal.portal", 2F,  worldObj.rand.nextFloat() * 0.4F + 0.8F);
 
 		if(callCount > SHI_JIAN)
 		{

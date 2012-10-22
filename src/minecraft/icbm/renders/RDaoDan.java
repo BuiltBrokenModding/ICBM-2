@@ -47,6 +47,7 @@ import icbm.models.MMQunDan;
 import icbm.models.MMShengBuo;
 import icbm.models.MMTaiYang;
 import icbm.models.MMTuPuo;
+import icbm.models.MMWan;
 import icbm.models.MMXiaoQunDan;
 import icbm.models.MMYaSuo;
 import icbm.models.MMYuanZi;
@@ -77,7 +78,7 @@ public class RDaoDan extends Render
 			new MMTaiYang(),
 			new MMBingDan(),
 			new MMPiaoFu(),
-			new MMPiaoFu(),
+			new MMWan(),
 			
 			new MMFanWuSu(),
 			new MMHongSu()};
@@ -103,18 +104,23 @@ public class RDaoDan extends Render
     		case 1: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileShrapnel.png"); break;
     		case 2: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileIncendiary.png"); break;
     		case 3: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileChemical.png"); break;
+    		
     		case 4: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileFragmentation.png"); break;
     		case 5: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileContagious.png"); break;
     		case 6: loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileSonic.png"); break;
     		case 7: loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileBreaching.png"); break;
     		case 8: loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileRejuvenation.png"); break;
-    		case 9: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileNuclear.png"); break;
-    		case 10: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEMP.png"); break;
-    		case 11: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileConflagration.png"); break;
-    		case 12: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEndothermic.png"); break;
-    		case 13: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntiGravity.png"); break;
-    		case 14: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntimatter.png"); break;
-    		case 15: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileRedMatter.png"); break;
+    		case 9: loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileRejuvenation.png"); break;
+    		
+    		case 10: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileNuclear.png"); break;
+    		case 11: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEMP.png"); break;
+    		case 12: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileConflagration.png"); break;
+    		case 13: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEndothermic.png"); break;
+    		case 14: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntiGravity.png"); break;
+    		case 15: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileEnder.png"); break;
+    		
+    		case 16: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntimatter.png"); break;
+    		case 17: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileRedMatter.png"); break;
     		
     		case 101: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileAntiBallistic.png"); break;
     		case 102: this.loadTexture(ICBM.TEXTURE_FILE_PATH+"MissileCluster.png"); break;

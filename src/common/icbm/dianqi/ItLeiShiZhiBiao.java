@@ -28,7 +28,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 {
 	public static final int BAN_JING = 100;
-	public static final int YONG_DIAN_LIANG = 10000;
+	public static final int YONG_DIAN_LIANG = 5000;
 	
     public ItLeiShiZhiBiao(String name, int id, int icon)
     {
@@ -348,7 +348,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
     @Override
 	public double getMaxJoules()
 	{
-		return 200000;
+		return 400000;
 	}
 
 	@Override

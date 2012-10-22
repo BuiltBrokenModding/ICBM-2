@@ -65,7 +65,29 @@ public class BZhaDan extends BlockContainer
     @Override
     public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
     {
+    	int explosiveID = ((TZhaDan)par1World.getBlockTileEntity(x, y, z)).explosiveID;
+
     	par1World.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(par1World, x, y, z, par5EntityLiving)), ForgeDirection.NORTH).ordinal());
+    	
+    	if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
+        {
+            BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
+        }
+
+        Vector3 position = new Vector3(x, y, z);
+
+        //Check to see if there is fire nearby. If so, then detonate.
+        for (Vector3 side : Vector3.side)
+        {
+            Vector3 currentSide = Vector3.add(position, side);
+
+            int blockId = par1World.getBlockId((int)currentSide.x, (int)currentSide.y, (int)currentSide.z);
+            
+            if (blockId == Block.fire.blockID  || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
+            {
+                BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 2);
+            }
+        }
     }
 
     /**
@@ -135,26 +157,6 @@ public class BZhaDan extends BlockContainer
         	this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
         	par1World.setBlockWithNotify(x, y, z, 0);
         	return;
-        }
-        
-        if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
-        {
-            BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
-        }
-
-        Vector3 position = new Vector3(x, y, z);
-
-        //Check to see if there is fire nearby. If so, then detonate.
-        for (Vector3 side : Vector3.side)
-        {
-            Vector3 currentSide = Vector3.add(position, side);
-
-            int blockId = par1World.getBlockId((int)currentSide.x, (int)currentSide.y, (int)currentSide.z);
-            
-            if (blockId == Block.fire.blockID  || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
-            {
-                BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 2);
-            }
         }
     }
 

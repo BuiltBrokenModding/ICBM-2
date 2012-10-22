@@ -25,9 +25,9 @@ public class IBZhaDan extends ItemBlock
 
        if (world.getBlockId(x, y, z) == this.getBlockID())
        {
+           ((TZhaDan)world.getBlockTileEntity(x, y, z)).explosiveID = stack.getItemDamage();
            Block.blocksList[this.getBlockID()].updateBlockMetadata(world, x, y, z, side, hitX, hitY, hitZ);
            Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player);
-           ((TZhaDan)world.getBlockTileEntity(x, y, z)).explosiveID = stack.getItemDamage();
        }
 
        return true;
