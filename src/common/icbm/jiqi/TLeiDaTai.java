@@ -32,8 +32,6 @@ import universalelectricity.prefab.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.FMLLog;
-
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 

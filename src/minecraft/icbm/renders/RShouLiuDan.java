@@ -21,7 +21,7 @@ import net.minecraftforge.client.ForgeHooksClient;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class RenderGrenade extends Render
+public class RShouLiuDan extends Render
 {
  	private RenderBlocks renderBlocks = new RenderBlocks();
 
@@ -32,7 +32,7 @@ public class RenderGrenade extends Render
     /** Defines the zLevel of rendering of item on GUI. */
     public float zLevel = 0.0F;
 
-    public RenderGrenade()
+    public RShouLiuDan()
     {
         this.shadowSize = 0.15F;
         this.shadowOpaque = 0.75F;

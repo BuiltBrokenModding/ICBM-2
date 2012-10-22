@@ -1,4 +1,1 @@
-ICBM
-====
-
-ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But it's not just as simple as that! This mod features different explosives, missiles and machines with three different tiers. If you like strategic warfare, blowing up things or watching your enemies burn under your carefully coordinated missile attacks, then this mod is for you!
+Universal Electricity is a modular electricity API for modders to create to add electricity to Minecraft. The mod alone does not add many things to the game. It requires addons in order to work. Universal Electricity is basically a structure that integrates a universal electricity system in which all mods can use.

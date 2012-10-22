@@ -14,12 +14,14 @@ import icbm.zhapin.ex.ExFuLan;
 import icbm.zhapin.ex.ExHongSu;
 import icbm.zhapin.ex.ExHuanYuan;
 import icbm.zhapin.ex.ExHuo;
+import icbm.zhapin.ex.ExLiZi;
 import icbm.zhapin.ex.ExPiaoFu;
 import icbm.zhapin.ex.ExQunDan;
 import icbm.zhapin.ex.ExShengBuo;
 import icbm.zhapin.ex.ExTaiYang;
 import icbm.zhapin.ex.ExTaiYang2;
 import icbm.zhapin.ex.ExTuPuo;
+import icbm.zhapin.ex.ExWan;
 import icbm.zhapin.ex.ExYaSuo;
 import icbm.zhapin.ex.ExYuanZi;
 
@@ -67,19 +69,22 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 6, 2);
 	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 7, 2);
 	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 8, 2);
+	public static final ZhaPin liZi = new ExLiZi("Ion", 9, 2);
+	public static final int MAX_TIER_TWO = 10;
 	
-	public static final int MAX_TIER_TWO = 9;
+	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 10, 3);
+	public static final ZhaPin dianCi = new ExDianCi("EMP", 11, 3);
+	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 12, 3);
+	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 13, 3);
+	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 14, 3);
+	public static final ZhaPin wanDan = new ExWan("Ender", 15, 2);
 	
-	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 9, 3);
-	public static final ZhaPin dianCi = new ExDianCi("EMP", 10, 3);
-	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 11, 3);
-	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 12, 3);
-	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 13, 3);
+	public static final int MAX_TIER_THREE = 16;
 	
-	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 14, 4);
-	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 15, 4);
+	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 16, 4);
+	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 17, 4);
 
-	public static final int MAX_EXPLOSIVE_ID = 16;
+	public static final int MAX_EXPLOSIVE_ID = 18;
 	
 	//Hidden Explosives
 	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 20, 3);
@@ -130,6 +135,8 @@ public abstract class ZhaPin implements ITier
 	public String getGrenadeName() { return this.mingZi+" Grenade"; }
 	
 	public String getDaoDanMing() { return this.mingZi+" Missile"; }
+	
+	public float getBanJing() { return 0; }
 
 	@Override
 	public int getTier() { return this.tier; }

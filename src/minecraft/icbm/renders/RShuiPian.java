@@ -11,7 +11,7 @@ import net.minecraft.src.Tessellator;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class RenderFragment extends Render
+public class RShuiPian extends Render
 {
     public void renderArrow(ESuiPian par1EntityArrow, double par2, double par4, double par6, float par8, float par9)
     {

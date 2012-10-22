@@ -6,11 +6,16 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public class ParticleSpawner {
 
-	public static void spawnParticle(String name, World world, Vector3 position, float red, float green, float blue, float scale, float distance)
+	public static void spawnParticle(String name, World world, Vector3 position, float red, float green, float blue, float scale, double distance)
 	{
 		if(name == "smoke")
 		{
 			SmokeFX effect = new SmokeFX(world, position, red, green, blue, scale, distance);
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(effect);
+		}
+		else if(name == "portal")
+		{
+			PortalFX effect = new PortalFX(world, position, red, green, blue, scale, distance);
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(effect);
 		}
 	}

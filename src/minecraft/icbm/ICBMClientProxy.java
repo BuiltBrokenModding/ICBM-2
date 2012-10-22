@@ -1,6 +1,7 @@
 package icbm;
 
 import icbm.api.ICBM;
+import icbm.cart.EChe;
 import icbm.daodan.EDaoDan;
 import icbm.gui.GCiGuiPao;
 import icbm.gui.GDianCiQi;
@@ -19,20 +20,21 @@ import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDaTai;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TYinGanQi;
+import icbm.renders.RChe;
 import icbm.renders.RCiGuiPao;
 import icbm.renders.RDaoDan;
 import icbm.renders.RDianCiQi;
 import icbm.renders.RFaSheDi;
 import icbm.renders.RFaSheJia;
+import icbm.renders.RFake;
 import icbm.renders.RFasheShiMuo;
+import icbm.renders.RFeiBlock;
 import icbm.renders.RGuangBang;
+import icbm.renders.RShouLiuDan;
+import icbm.renders.RShuiPian;
 import icbm.renders.RXiaoFaSheQi;
 import icbm.renders.RZhaDan;
 import icbm.renders.RZhaPin;
-import icbm.renders.RenderFragment;
-import icbm.renders.RenderGravityBlock;
-import icbm.renders.RenderGrenade;
-import icbm.renders.RenderInvisible;
 import icbm.renders.RenderRadarStation;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
@@ -65,12 +67,13 @@ public class ICBMClientProxy extends ICBMCommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RZhaDan());
         RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
-        RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RenderGravityBlock());
+        RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RFeiBlock());
         RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
-        RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RenderFragment());
-        RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RenderGrenade());
-        RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RenderInvisible());
-        
+        RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RShuiPian());
+        RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RShouLiuDan());
+        RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RFake());
+        RenderingRegistry.registerEntityRenderingHandler(EChe.class, new RChe());
+                
         TextureFXManager.instance().addAnimation(new TGenZhongQiFX(FMLClientHandler.instance().getClient()));
         
         ClientRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun", new RCiGuiPao());

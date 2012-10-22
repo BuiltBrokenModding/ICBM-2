@@ -12,11 +12,11 @@ import net.minecraft.src.World;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderGravityBlock extends Render
+public class RFeiBlock extends Render
 {
     private ICBMRenderBlocks renderBlocks = new ICBMRenderBlocks();
     
-    public RenderGravityBlock()
+    public RFeiBlock()
     {
         this.shadowSize = 0.5F;
     }

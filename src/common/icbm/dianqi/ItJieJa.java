@@ -2,6 +2,7 @@ package icbm.dianqi;
 
 import icbm.ZhuYao;
 import icbm.api.ICBM;
+import icbm.cart.EChe;
 import icbm.zhapin.EZhaDan;
 
 import java.util.Random;
@@ -17,7 +18,7 @@ import universalelectricity.prefab.ItemElectric;
 //Explosive Defuser
 public class ItJieJa extends ItemElectric
 {
-	private static final int YONG_DIAN_LIANG = 2500;
+	private static final int YONG_DIAN_LIANG = 2000;
 
     public ItJieJa(String name, int par1, int par2)
     {
@@ -46,10 +47,11 @@ public class ItJieJa extends ItemElectric
     {
     	if(this.getJoules(stack) > YONG_DIAN_LIANG)
     	{
-    		if(!entity.worldObj.isRemote)
-    		{
-	    		if(entity instanceof EZhaDan)
-		    	{
+    		
+    		if(entity instanceof EZhaDan)
+	    	{
+    			if(!entity.worldObj.isRemote)
+        		{
 		    		EZhaDan entityTNT = (EZhaDan)entity;
 		    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ZhuYao.bZha4Dan4, 1, entityTNT.explosiveID));
 			        float var13 = 0.05F;
@@ -57,10 +59,14 @@ public class ItJieJa extends ItemElectric
 			        entityItem.motionX = ((float)random.nextGaussian() * var13);
 			        entityItem.motionY = ((float)random.nextGaussian() * var13 + 0.2F);
 			        entityItem.motionZ = ((float)random.nextGaussian() * var13);
-			        entity.worldObj.spawnEntityInWorld(entityItem);		        
-		        }
-	    		else if(entity instanceof EntityTNTPrimed)
-		    	{
+			        entity.worldObj.spawnEntityInWorld(entityItem);
+        		}
+	    		entity.setDead();
+	        }
+    		else if(entity instanceof EntityTNTPrimed)
+	    	{
+    			if(!entity.worldObj.isRemote)
+        		{
 		    		EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Block.tnt));
 			        float var13 = 0.05F;
 			        Random random = new Random();
@@ -68,10 +74,15 @@ public class ItJieJa extends ItemElectric
 			        entityItem.motionY = ((float)random.nextGaussian() * var13 + 0.2F);
 			        entityItem.motionZ = ((float)random.nextGaussian() * var13);
 			        entity.worldObj.spawnEntityInWorld(entityItem);
-		        }
-    		}
+        		}
+	    		entity.setDead();
+	        }
+    		else if(entity instanceof EChe)
+	    	{
+    			((EChe)entity).setPrimed(false);
+    			((EChe)entity).setFuse(-1);
+	    	}
     		
-    		entity.setDead();
     		this.onUse(YONG_DIAN_LIANG, stack);
     		return true;
     	}

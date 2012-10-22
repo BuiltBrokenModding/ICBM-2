@@ -10,6 +10,7 @@ import net.minecraft.src.BlockContainer;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
@@ -64,34 +65,60 @@ public class BZhaDan extends BlockContainer
     @Override
     public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
     {
-        ((IRotatable)par1World.getBlockTileEntity(x, y, z)).setDirection(Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(par1World, x, y, z, par5EntityLiving)), ForgeDirection.NORTH));
+    	par1World.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(par1World, x, y, z, par5EntityLiving)), ForgeDirection.NORTH).ordinal());
     }
 
     /**
      * Returns the block texture based on the side being looked at.  Args: side
      */
     @Override
-	public int getBlockTextureFromSideAndMetadata(int side, int metadata)
+    public int getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
     {
     	//Get the tier of the explosive and find the row of it
+    	int explosiveID = ((TZhaDan)par1IBlockAccess.getBlockTileEntity(x, y, z)).explosiveID;
+    	
     	int displacement = -1;
-    	if(ZhaPin.list[metadata].getTier() == 4) displacement = 0;
+    	if(ZhaPin.list[explosiveID].getTier() == 4) displacement = 0;
     	
-    	int rowPrefix = 16 + 16*(ZhaPin.list[metadata].getTier() + displacement);
+    	int rowPrefix = 16 + 16*(ZhaPin.list[explosiveID].getTier() + displacement);
 
-    	int columnPrefix = metadata;
+    	int columnPrefix = explosiveID;
     	
-    	switch(ZhaPin.list[metadata].getTier())
+    	switch(ZhaPin.list[explosiveID].getTier())
     	{
 	    	case 2: columnPrefix -= ZhaPin.MAX_TIER_ONE; break;
 	    	case 3: columnPrefix -= ZhaPin.MAX_TIER_TWO; break;
-	    	case 4: columnPrefix -= 14; break;
+	    	case 4: columnPrefix -= ZhaPin.MAX_TIER_THREE; break;
     	}
     	
     	columnPrefix *= 3;
     	
     	return side == 0 ? rowPrefix + columnPrefix: (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
     }
+    
+    @Override
+    public int getBlockTextureFromSideAndMetadata(int side, int explosiveID)
+    {
+    	//Get the tier of the explosive and find the row of it    	
+    	int displacement = -1;
+    	if(ZhaPin.list[explosiveID].getTier() == 4) displacement = 0;
+    	
+    	int rowPrefix = 16 + 16*(ZhaPin.list[explosiveID].getTier() + displacement);
+
+    	int columnPrefix = explosiveID;
+    	
+    	switch(ZhaPin.list[explosiveID].getTier())
+    	{
+	    	case 2: columnPrefix -= ZhaPin.MAX_TIER_ONE; break;
+	    	case 3: columnPrefix -= ZhaPin.MAX_TIER_TWO; break;
+	    	case 4: columnPrefix -= ZhaPin.MAX_TIER_THREE; break;
+    	}
+    	
+    	columnPrefix *= 3;
+    	
+    	return side == 0 ? rowPrefix + columnPrefix: (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
+    }
+    
 
     /**
      * Called whenever the block is added into the world. Args: world, x, y, z
@@ -101,18 +128,18 @@ public class BZhaDan extends BlockContainer
     {
         super.onBlockAdded(par1World, x, y, z);
         
+    	int explosiveID = ((TZhaDan)par1World.getBlockTileEntity(x, y, z)).explosiveID;
+        
         if(!BaoHu.allowExplosiveBlock(par1World, new Vector2(x, z)) && !par1World.isRemote)
         {
-        	this.dropBlockAsItem(par1World, x, y, z, par1World.getBlockMetadata(x, y, z), 0);
+        	this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
         	par1World.setBlockWithNotify(x, y, z, 0);
         	return;
         }
         
-        int metadata = par1World.getBlockMetadata(x, y, z);
-
         if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
         {
-            BZhaDan.detonateTNT(par1World, x, y, z, metadata, 0);
+            BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
         }
 
         Vector3 position = new Vector3(x, y, z);
@@ -126,7 +153,7 @@ public class BZhaDan extends BlockContainer
             
             if (blockId == Block.fire.blockID  || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
             {
-                BZhaDan.detonateTNT(par1World, x, y, z, metadata, 2);
+                BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 2);
             }
         }
     }
@@ -136,17 +163,17 @@ public class BZhaDan extends BlockContainer
      * their own) Args: x, y, z, neighbor blockID
      */
     @Override
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int blockId)
+	public void onNeighborBlockChange(World par1World, int x, int y, int z, int blockId)
     {
-        int metadata = par1World.getBlockMetadata(par2, par3, par4);
+    	int explosiveID = ((TZhaDan)par1World.getBlockTileEntity(x, y, z)).explosiveID;
 
-        if ((blockId > 0 && Block.blocksList[blockId].canProvidePower() && par1World.isBlockIndirectlyGettingPowered(par2, par3, par4)))
+        if ((blockId > 0 && Block.blocksList[blockId].canProvidePower() && par1World.isBlockIndirectlyGettingPowered(x, y, z)))
         {
-            BZhaDan.detonateTNT(par1World, par2, par3, par4, metadata, 0);
+            BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
         }
         else if (blockId == Block.fire.blockID || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
         {
-            BZhaDan.detonateTNT(par1World, par2, par3, par4, metadata, 2);
+            BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 2);
         }
     }
 
@@ -157,14 +184,7 @@ public class BZhaDan extends BlockContainer
     {
     	if(!par1World.isRemote)
     	{
-    		if(par1World.getBlockTileEntity(x, y, z) != null)
-    		{
-    			ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ((IRotatable)par1World.getBlockTileEntity(x, y, z)).getDirection(), (byte)causeOfExplosion);
-    		}
-    		else
-    		{
-    			ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.DOWN, (byte)causeOfExplosion);
-    		}
+    		ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte)causeOfExplosion);
     	}
     	
     	par1World.setBlockWithNotify(x, y, z, 0);
@@ -176,8 +196,8 @@ public class BZhaDan extends BlockContainer
     @Override
 	public void onBlockDestroyedByExplosion(World par1World, int x, int y, int z)
     {
-    	int metadata = par1World.getBlockMetadata(x, y, z);
-        BZhaDan.detonateTNT(par1World, x, y, z, metadata, 1);
+    	int explosiveID = ((TZhaDan)par1World.getBlockTileEntity(x, y, z)).explosiveID;
+        BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 1);
     }
 
     /**
@@ -191,8 +211,8 @@ public class BZhaDan extends BlockContainer
         {
         	if(par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
         	{
-        		int metadata = par1World.getBlockMetadata(x, y, z);
-                BZhaDan.detonateTNT(par1World, x, y, z, metadata, 0);
+            	int explosiveID = ((TZhaDan)par1World.getBlockTileEntity(x, y, z)).explosiveID;
+                BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
                 return true;
         	}
         	else if(par5EntityPlayer.getCurrentEquippedItem().getItem() instanceof IToolWrench)
@@ -210,7 +230,7 @@ public class BZhaDan extends BlockContainer
                     case 1: change = 0; break;
                 }
                 
-                ((IRotatable)par1World.getBlockTileEntity(x, y, z)).setDirection(ForgeDirection.getOrientation(change));
+                par1World.setBlockMetadataWithNotify(x, y, z, ForgeDirection.getOrientation(change).ordinal());
 
                 par1World.notifyBlockChange(x, y, z, this.blockID);
                 return true;

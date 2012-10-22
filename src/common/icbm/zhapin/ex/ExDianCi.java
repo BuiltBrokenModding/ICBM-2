@@ -7,7 +7,6 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
 import universalelectricity.BasicComponents;
-import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
@@ -34,6 +33,6 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Item.redstone, '!', ((ItemElectric)BasicComponents.itemBattery).getUnchargedItemStack()}, this.getMing(), ZhuYao.CONFIGURATION, true);		
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', BasicComponents.itemBattery}, this.getMing(), ZhuYao.CONFIGURATION, true);		
 	}
 }

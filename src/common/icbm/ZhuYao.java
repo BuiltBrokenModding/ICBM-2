@@ -1,6 +1,7 @@
 package icbm;
 
 import icbm.api.ICBM;
+import icbm.cart.EChe;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockRail;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.ICommandManager;
 import net.minecraft.src.Item;
@@ -128,6 +130,8 @@ public class ZhuYao
 
 	public static final Item itShouLiuDan = new ItShouLiuDan("Grenade", UEConfig.getItemConfigID(CONFIGURATION, "Grenade", ITEM_ID_PREFIX+8), 64);
 	public static final Item itZiDan = new ItZiDan("Bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", ITEM_ID_PREFIX+10), 80);
+	
+	public static final Item itChe = new ItChe(UEConfig.getItemConfigID(CONFIGURATION, "Minecart", ITEM_ID_PREFIX+11), 135);
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
@@ -149,16 +153,40 @@ public class ZhuYao
 			new IDispenserHandler()
 	        {
 	            @Override
-	            public int dispense(int x, int y, int z, int xVelocity, int zVelocity, World world, ItemStack item, Random random, double entX, double entY, double entZ)
+	            public int dispense(int x, int y, int z, int xVelocity, int zVelocity, World world, ItemStack itemStack, Random random, double entX, double entY, double entZ)
 	            {
 	            	if(!world.isRemote)
 	            	{
-		            	if(item.itemID == ZhuYao.itShouLiuDan.shiftedIndex)
+		            	if(itemStack.itemID == ZhuYao.itShouLiuDan.shiftedIndex)
 		        		{
-		        			EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), item.getItemDamage());
+		        			EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), itemStack.getItemDamage());
 		        	        entity.setThrowableHeading(xVelocity, 0.10000000149011612D, zVelocity, 1.1F, 6.0F);
 		        	        world.spawnEntityInWorld(entity);
 		        	        return 1;
+		        		}
+		            	else if(itemStack.itemID == ZhuYao.itChe.shiftedIndex)
+		        		{
+		            		entX = (double)x + (xVelocity < 0 ? (double)xVelocity * 0.8D : (double)((float)xVelocity * 1.8F)) + (double)((float)Math.abs(zVelocity) * 0.5F);
+		                    entZ = (double)z + (zVelocity < 0 ? (double)zVelocity * 0.8D : (double)((float)zVelocity * 1.8F)) + (double)((float)Math.abs(xVelocity) * 0.5F);
+
+		                    if (BlockRail.isRailBlockAt(world, x + xVelocity, y, z + zVelocity))
+		                    {
+		                        entY = (double)((float)y + 0.5F);
+		                    }
+		                    else
+		                    {
+		                        if (!world.isAirBlock(x + xVelocity, y, z + zVelocity) || !BlockRail.isRailBlockAt(world, x + xVelocity, y - 1, z + zVelocity))
+		                        {
+		                            return 0;
+		                        }
+
+		                        entY = (double)((float)y - 0.5F);
+		                    }
+
+		                    EChe var22 = new EChe(world, entX, entY, entZ, itemStack.getItemDamage());
+		                    world.spawnEntityInWorld(var22);
+		                    world.playAuxSFX(1000, x, y, z, 0);
+		                    return 1;
 		        		}
 	            	}
 	        		
@@ -276,14 +304,20 @@ public class ZhuYao
 			{	
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itDaoDan, 1, i), "Conventional Missile");
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itShouLiuDan, 1, i), "Conventional Grenade");
+				LanguageRegistry.addName(new ItemStack(ZhuYao.itChe, 1, i), "Conventional Minecart");
 			}
 			else
 			{
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itDaoDan, 1, i), ZhaPin.list[i].getMing()+" Missile");
 			
-				if(i < 4)
+				if(i < ZhaPin.MAX_TIER_ONE)
 				{
-					LanguageRegistry.addName(new ItemStack(ZhuYao.itShouLiuDan, 1, i), ZhaPin.list[i].getMing()+" Grenade");
+					LanguageRegistry.addName(new ItemStack(itShouLiuDan, 1, i), ZhaPin.list[i].getMing()+" Grenade");
+				}
+				
+				if(i < ZhaPin.MAX_TIER_TWO)
+				{
+					LanguageRegistry.addName(new ItemStack(itChe, 1, i), ZhaPin.list[i].getMing()+" Minecart");
 				}
 			}
 		
@@ -291,7 +325,7 @@ public class ZhuYao
 		}
 		 
 	    //-- Recipes
-		RecipeManager.addRecipe(new ItemStack(ZhuYao.itZiDan, 16, 0), new Object [] {"@", "!", "!", '@', Item.diamond, '!', BasicComponents.itemBronzeIngot});
+		RecipeManager.addRecipe(new ItemStack(ZhuYao.itZiDan, 3, 0), new Object [] {"@", "!", "!", '@', Item.diamond, '!', "ingotBronze"});
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.itZiDan, 1, 1), new Object [] {"@", "!", "!", '@', new ItemStack(ZhuYao.bZha4Dan4, 1, ZhaPin.fanWuSu.getID()), '!', ZhuYao.itZiDan});
 		
 		//Poison Powder
@@ -299,13 +333,13 @@ public class ZhuYao
 		
 		//Sulfur
 		RecipeManager.addSmelting(new ItemStack(bLiu, 1, 0), new ItemStack(itLiu));
-		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itLiu, '?', Item.coal});
-		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', itLiu, '?', new ItemStack(Item.coal, 1, 1)});
+		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal});
+		RecipeManager.addRecipe(new ItemStack(Item.gunpowder, 5), new Object [] {"@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1)});
 		
 		//Radar Gun
-		RecipeManager.addRecipe(new ItemStack(ZhuYao.itLeiDaQiang), new Object [] {"@#!", " $!", "  !", '@', Block.glass, '!', BasicComponents.itemSteelPlate, '#', BasicComponents.itemCircuit, '$', Block.button});
+		RecipeManager.addRecipe(new ItemStack(ZhuYao.itLeiDaQiang), new Object [] {"@#!", " $!", "  !", '@', Block.glass, '!', "ingotSteel", '#', BasicComponents.itemCircuit, '$', Block.button});
 		//Remote
-		RecipeManager.addRecipe(new ItemStack(ZhuYao.itYaoKong), new Object [] {"?@@", "@#$", "@@@", '@', BasicComponents.itemSteelIngot, '?', Item.redstone, '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '$', Block.button});
+		RecipeManager.addRecipe(new ItemStack(ZhuYao.itYaoKong), new Object [] {"?@@", "@#$", "@@@", '@', "ingotSteel", '?', Item.redstone, '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '$', Block.button});
 		//Laser Designator
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.itLeiSheZhiBiao), new Object [] {"!  ", " ? ", "  @", '@', ZhuYao.itYaoKong.getUnchargedItemStack(), '?', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', ZhuYao.itLeiDaQiang.getUnchargedItemStack()});
 		//Proximity Detector
@@ -322,14 +356,14 @@ public class ZhuYao
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 2), new Object [] {"! !", "! !", "!@!", '@', new ItemStack(ZhuYao.bJiQi, 1, 1), '!', BasicComponents.itemSteelPlate});
 		//Missile Launcher Computer
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 3), new Object [] {"!!!", "!#!", "!?!", '#', BasicComponents.itemCircuit, '!', Block.glass, '?', BasicComponents.blockCopperWire});
-		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 4), new Object [] {"!$!", "!#!", "!?!", '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '!', BasicComponents.itemSteelIngot, '?', BasicComponents.blockCopperWire, '$', new ItemStack(ZhuYao.bJiQi, 1, 3)});
+		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 4), new Object [] {"!$!", "!#!", "!?!", '#', new ItemStack(BasicComponents.itemCircuit, 1, 1), '!', "ingotSteel", '?', BasicComponents.blockCopperWire, '$', new ItemStack(ZhuYao.bJiQi, 1, 3)});
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 5), new Object [] {"!$!", "!#!", "!?!", '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '!', Item.ingotGold, '?', BasicComponents.blockCopperWire, '$', new ItemStack(ZhuYao.bJiQi, 1, 4)});
 		//Missile Launcher Frame
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 6), new Object [] {"! !", "!!!", "! !", '!', "ingotBronze"});
-		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 7), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelIngot, '@', new ItemStack(ZhuYao.bJiQi, 1, 6)});
+		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 7), new Object [] {"! !", "!@!", "! !", '!', "ingotSteel", '@', new ItemStack(ZhuYao.bJiQi, 1, 6)});
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 8), new Object [] {"! !", "!@!", "! !", '!', BasicComponents.itemSteelPlate, '@', new ItemStack(ZhuYao.bJiQi, 1, 7)});
 		//Radar Station
-		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ZhuYao.itLeiDaQiang.getUnchargedItemStack(), '!', BasicComponents.itemSteelIngot, '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
+		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 9), new Object [] {"?@?", " ! ", "!#!", '@', ZhuYao.itLeiDaQiang.getUnchargedItemStack(), '!', "ingotSteel", '#', new ItemStack(BasicComponents.itemCircuit, 1, 2), '?', Item.ingotGold});
 		//EMP Tower
 		RecipeManager.addRecipe(new ItemStack(ZhuYao.bJiQi, 1, 10), new Object [] {"???", "@!@", "?#?", '?', BasicComponents.itemSteelPlate, '!', new ItemStack(BasicComponents.itemCircuit, 1, 2), '@', BasicComponents.batteryBox, '#', BasicComponents.itemMotor});
 		//Railgun
@@ -352,10 +386,16 @@ public class ZhuYao
 	    	//Missile
 			RecipeManager.addShapelessRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object [] {new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZha4Dan4, 1, i)}, ZhaPin.list[i].getDaoDanMing(), CONFIGURATION, true);        
 	
-			if(i < 4)
+			if(i < ZhaPin.MAX_TIER_ONE)
 			{
 				//Grenade
 			    RecipeManager.addRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object [] {"?", "@", '@', new ItemStack(ZhuYao.bZha4Dan4, 1, i), '?', Item.silk}, CONFIGURATION, true);
+			}
+			
+			if(i < ZhaPin.MAX_TIER_TWO)
+			{
+				//Minecart
+				RecipeManager.addRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object [] {"?", "@", '?', new ItemStack(ZhuYao.bZha4Dan4, 1, i), '@', Item.minecartEmpty}, CONFIGURATION, true);
 	        }
 		}
 		
@@ -369,7 +409,8 @@ public class ZhuYao
 		EntityRegistry.registerGlobalEntityID(EGuang.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(ESuiPian.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EShouLiuDan.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EFake.class, "ICBMRailgun", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EFake.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EChe.class, "ICBMChe", EntityRegistry.findGlobalUniqueEntityId());
 		
 		EntityRegistry.registerModEntity(EZhaDan.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EDaoDan.class, "ICBMMissile", ENTITY_ID_PREFIX+1, this, 100, 1, true);
@@ -378,7 +419,8 @@ public class ZhuYao
 		EntityRegistry.registerModEntity(EGuang.class, "ICBMLightBeam", ENTITY_ID_PREFIX+4, this, 80, 5, true);
 		EntityRegistry.registerModEntity(ESuiPian.class, "ICBMFragment", ENTITY_ID_PREFIX+5, this, 40, 8, true);
 		EntityRegistry.registerModEntity(EShouLiuDan.class, "ICBMGrenade", ENTITY_ID_PREFIX+6, this, 50, 5, true);
-		EntityRegistry.registerModEntity(EFake.class, "ICBMRailgun", ENTITY_ID_PREFIX+7, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EFake.class, "ICBMFake", ENTITY_ID_PREFIX+7, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EChe.class, "ICBMChe", ENTITY_ID_PREFIX+8, this, 50, 4, true);
 		
   	    //Register potion effects
 		PoisonRadiation.register();

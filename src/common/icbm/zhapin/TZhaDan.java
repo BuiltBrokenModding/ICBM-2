@@ -6,35 +6,23 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NetworkManager;
+import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.implement.IRotatable;
 import universalelectricity.network.IPacketReceiver;
+import universalelectricity.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
+public class TZhaDan extends TileEntity implements IPacketReceiver
 {
-	public byte orientation = 3;
+	public int explosiveID = 0;
 	
 	@Override
 	public boolean canUpdate()
     {
         return false;
     }
-
-	@Override
-	public ForgeDirection getDirection()
-	{
-		return ForgeDirection.getOrientation(this.orientation);
-	}
-
-	@Override
-	public void setDirection(ForgeDirection facingDirection) 
-	{
-		this.orientation = (byte) facingDirection.ordinal();
-	}
 
 	/**
      * Reads a tile entity from NBT.
@@ -44,7 +32,7 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
     {
     	super.readFromNBT(par1NBTTagCompound);
     	
-    	this.orientation = par1NBTTagCompound.getByte("orientation");
+    	this.explosiveID = par1NBTTagCompound.getInteger("explosiveID");
     }
 
     /**
@@ -55,7 +43,7 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
     {
     	super.writeToNBT(par1NBTTagCompound);
     	
-    	par1NBTTagCompound.setByte("orientation", this.orientation);
+    	par1NBTTagCompound.setInteger("explosiveID", this.explosiveID);
     }
 
 	@Override
@@ -67,7 +55,7 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
 
 	        if(ID == 1)
 	        {
-	        	this.orientation = dataStream.readByte();
+	        	this.explosiveID = dataStream.readInt();
 	        }
 	        else if(ID == 2 && !this.worldObj.isRemote)
 	        {
@@ -75,7 +63,7 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
 	        	if(player.inventory.getCurrentItem().getItem() instanceof ItYaoKong)
 				{
 	        		ItemStack itemStack = player.inventory.getCurrentItem();
-		    		BZhaDan.detonateTNT(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
+		    		BZhaDan.detonateTNT(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.explosiveID, 0);
 					((ItYaoKong) ZhuYao.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
 				}
 	        }
@@ -85,4 +73,10 @@ public class TZhaDan extends TileEntity implements IRotatable, IPacketReceiver
             e.printStackTrace();
         }
 	}
+	
+	@Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (byte)1, this.explosiveID);
+    }
 }

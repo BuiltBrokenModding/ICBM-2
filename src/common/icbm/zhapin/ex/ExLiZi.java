@@ -13,13 +13,13 @@ import net.minecraft.src.World;
 import universalelectricity.prefab.Vector3;
 import universalelectricity.recipe.RecipeManager;
 
-public class ExYuanZi extends ZhaPin
+public class ExLiZi extends ZhaPin
 {	
-	public static final int BAN_JING = 40;
-	public static final int NENG_LIANG = 200;
+	public static final int BAN_JING = 20;
+	public static final int NENG_LIANG = 150;
 	public static final int CALC_SPEED = 800;
 	
-	public ExYuanZi(String name, int ID, int tier)
+	public ExLiZi(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 		this.setYinXin(200);
@@ -196,40 +196,6 @@ public class ExYuanZi extends ZhaPin
         doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG*1000);
 		
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 10.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		
-		ZhaPin.fuLan.doBaoZha(worldObj, position, null, BAN_JING+15, -1);
-		ZhaPin.bianZhong.doBaoZha(worldObj, position, null, BAN_JING+20, -1);
-		
-		if(worldObj.isRemote && ZhuYao.ADVANCED_VISUALS)
-		{
-			
-			for(int y = 0; y < 25; y++)
-			{
-				int r = 3;
-				
-				if(y < 8)
-				{
-					r = Math.max(Math.min((8-y)*2, 10), 4);
-				}
-				else if(y > 15)
-				{
-					r = Math.max(Math.min((y-15)*2, 15), 5);
-				}
-				
-				for(int x = -r; x < r; x++)
-				{
-					for(int z = -r; z < r; z++)
-					{
-						double distance = MathHelper.sqrt_double(x*x + z*z);
-
-						if(r > distance && r-3 < distance)
-						{
-							ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(new Vector3(x*2, (y-2)*2, z*2), position), 0F, 0F, 0F, 10F, 1F);
-						}
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -251,6 +217,6 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium"}, this.getMing(), ZhuYao.CONFIGURATION, true);
+        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@U@", "@@@", '@', Block.tnt, 'U', "ingotUranium"}, this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

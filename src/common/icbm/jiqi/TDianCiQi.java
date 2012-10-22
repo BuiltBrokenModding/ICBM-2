@@ -10,7 +10,6 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Ticker;
 import universalelectricity.basiccomponents.multiblock.BlockMulti;
 import universalelectricity.basiccomponents.multiblock.IMultiBlock;
 import universalelectricity.electricity.ElectricInfo;
