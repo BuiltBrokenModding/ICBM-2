@@ -13,7 +13,7 @@ import universalelectricity.core.Vector3;
 
 public class ItShouLiuDan extends ICBMItem
 {
-	public ItShouLiuDan(String name, int par1, int par2) 
+	public ItShouLiuDan(String name, int par1, int par2)
 	{
 		super(name, par1, par2, CreativeTabs.tabCombat);
 		this.setMaxDamage(0);
@@ -21,56 +21,58 @@ public class ItShouLiuDan extends ICBMItem
 	}
 
 	/**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {
-    	if(BaoHu.allowGrenade(par2World, Vector3.get(par3EntityPlayer).toVector2()))
-    	{
-	        if (!par3EntityPlayer.capabilities.isCreativeMode)
-	        {
-	            --par1ItemStack.stackSize;
-	        }
-	
-	        par2World.playSoundAtEntity(par3EntityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-	
-	        if (!par2World.isRemote)
-	        {
-	            par2World.spawnEntityInWorld(new EShouLiuDan(par2World, par3EntityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
-	        }
-    	}
-    	else
-    	{
-    		par3EntityPlayer.sendChatToPlayer("Grenades are banned in this region.");
-    	}
+	 * Called whenever this item is equipped and
+	 * the right mouse button is pressed. Args:
+	 * itemStack, world, entityPlayer
+	 */
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	{
+		if (BaoHu.allowGrenade(par2World, Vector3.get(par3EntityPlayer).toVector2()))
+		{
+			if (!par3EntityPlayer.capabilities.isCreativeMode)
+			{
+				--par1ItemStack.stackSize;
+			}
 
-        return par1ItemStack;
-    }
-    
-    @Override
+			par2World.playSoundAtEntity(par3EntityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+			if (!par2World.isRemote)
+			{
+				par2World.spawnEntityInWorld(new EShouLiuDan(par2World, par3EntityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
+			}
+		}
+		else
+		{
+			par3EntityPlayer.sendChatToPlayer("Grenades are banned in this region.");
+		}
+
+		return par1ItemStack;
+	}
+
+	@Override
 	public int getMetadata(int damage)
-    {
-        return damage;
-    }
+	{
+		return damage;
+	}
 
-    @Override
+	@Override
 	public String getItemNameIS(ItemStack itemstack)
-    {
-        return ZhaPin.list[itemstack.getItemDamage()].getGrenadeName();
-    }
+	{
+		return ZhaPin.list[itemstack.getItemDamage()].getGrenadeName();
+	}
 
-    @Override
+	@Override
 	public int getIconFromDamage(int i)
-    {
-        return this.iconIndex+i;
-    }
-    
-    @Override
+	{
+		return this.iconIndex + i;
+	}
+
+	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
-    	for(int i = 0; i < ZhaPin.MAX_TIER_ONE; i++)
-        {
-    		par3List.add(new ItemStack(this, 1, i));
-        }
-    }
+	{
+		for (int i = 0; i < ZhaPin.MAX_TIER_ONE; i++)
+		{
+			par3List.add(new ItemStack(this, 1, i));
+		}
+	}
 }

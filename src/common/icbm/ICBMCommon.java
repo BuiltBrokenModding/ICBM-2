@@ -18,7 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ICBMCommon implements IGuiHandler
 {
-	//GUI IDs
+	// GUI IDs
 	public static final int GUI_RAIL_GUN = 0;
 	public static final int GUI_CRUISE_LAUNCHER = 1;
 	public static final int GUI_LAUNCHER_SCREEN = 2;
@@ -29,8 +29,10 @@ public class ICBMCommon implements IGuiHandler
 	public static final int GUI_LAUNCHER_BASE = 7;
 	public static final int GUI_LASER_TURRET = 8;
 
-	public void preInit() { }
-	
+	public void preInit()
+	{
+	}
+
 	public void init()
 	{
 		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
@@ -41,7 +43,7 @@ public class ICBMCommon implements IGuiHandler
 		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar");
 		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower");
 	}
-	
+
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
@@ -49,20 +51,23 @@ public class ICBMCommon implements IGuiHandler
 	}
 
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) 
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		
+
 		if (tileEntity != null)
-        {
-			switch(ID)
+		{
+			switch (ID)
 			{
-				case ICBMCommon.GUI_RAIL_GUN: return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
-				case ICBMCommon.GUI_CRUISE_LAUNCHER: return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
-				case ICBMCommon.GUI_LAUNCHER_BASE: return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
+				case ICBMCommon.GUI_RAIL_GUN:
+					return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
+				case ICBMCommon.GUI_CRUISE_LAUNCHER:
+					return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
+				case ICBMCommon.GUI_LAUNCHER_BASE:
+					return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
-        }
-		
+		}
+
 		return null;
 	}
 }

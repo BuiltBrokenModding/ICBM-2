@@ -4,16 +4,17 @@ import net.minecraft.src.World;
 import universalelectricity.core.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class ParticleSpawner {
+public class ParticleSpawner
+{
 
 	public static void spawnParticle(String name, World world, Vector3 position, float red, float green, float blue, float scale, double distance)
 	{
-		if(name == "smoke")
+		if (name == "smoke")
 		{
 			SmokeFX effect = new SmokeFX(world, position, red, green, blue, scale, distance);
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(effect);
 		}
-		else if(name == "portal")
+		else if (name == "portal")
 		{
 			PortalFX effect = new PortalFX(world, position, red, green, blue, scale, distance);
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(effect);

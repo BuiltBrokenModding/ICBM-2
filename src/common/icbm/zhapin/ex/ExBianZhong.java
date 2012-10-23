@@ -24,32 +24,31 @@ public class ExBianZhong extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
-		if(!worldObj.isRemote)
+		if (!worldObj.isRemote)
 		{
-	    	AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-	        List<EntityLiving> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
-	        
-	        for(EntityLiving entity : entitiesNearby)
-	        {
-	        	if(entity instanceof EntityPig)
-	            {
-	        		EntityPigZombie newEntity = new EntityPigZombie(worldObj);
-	        		newEntity.preventEntitySpawning = true;
-	                newEntity.setPosition(entity.posX, entity.posY, entity.posZ);
-	                entity.setDead();
-	            }
-	        	else if(entity instanceof EntityVillager)
-	            {
-	        		EntityZombie newEntity = new EntityZombie(worldObj);
-	        		newEntity.preventEntitySpawning = true;
-	                newEntity.setPosition(entity.posX, entity.posY, entity.posZ);
-	                entity.setDead();
-	            }
-	        }
+			AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
+			List<EntityLiving> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
+
+			for (EntityLiving entity : entitiesNearby)
+			{
+				if (entity instanceof EntityPig)
+				{
+					EntityPigZombie newEntity = new EntityPigZombie(worldObj);
+					newEntity.preventEntitySpawning = true;
+					newEntity.setPosition(entity.posX, entity.posY, entity.posZ);
+					entity.setDead();
+				}
+				else if (entity instanceof EntityVillager)
+				{
+					EntityZombie newEntity = new EntityZombie(worldObj);
+					newEntity.preventEntitySpawning = true;
+					newEntity.setPosition(entity.posX, entity.posY, entity.posZ);
+					entity.setDead();
+				}
+			}
 		}
-        
+
 		return false;
 	}
-
 
 }

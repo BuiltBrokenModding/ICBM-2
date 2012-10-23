@@ -25,14 +25,14 @@ public class ExQunDan extends ZhaPin
 	{
 		int amount = 28;
 		boolean isExplosive = false;
-		
-		if(this.getTier() == 2)
+
+		if (this.getTier() == 2)
 		{
 			amount = 13;
 			isExplosive = true;
 		}
-		
-		if(explosionSource instanceof EShouLiuDan)
+
+		if (explosionSource instanceof EShouLiuDan)
 		{
 			amount /= 2;
 			position.y += 0.5D;
@@ -40,48 +40,51 @@ public class ExQunDan extends ZhaPin
 
 		float amountToRotate = 360 / amount;
 
-        for (int i = 0; i < amount; i++)
-        {
-            //Try to do a 360 explosion on all 6 faces of the cube.
-            float rotationYaw = 0.0F + amountToRotate * i;
+		for (int i = 0; i < amount; i++)
+		{
+			// Try to do a 360 explosion on all 6
+			// faces of the cube.
+			float rotationYaw = 0.0F + amountToRotate * i;
 
-            for (int ii = 0; ii < amount; ii ++)
-            {
-            	ESuiPian arrow = new ESuiPian(worldObj, position.x, position.y, position.z, isExplosive);
-                float rotationPitch = 0.0F + amountToRotate * ii;
-                arrow.arrowCritical = true;
-                arrow.setFire(100);
-                arrow.setLocationAndAngles(position.x, position.y, position.z, rotationYaw, rotationPitch);
-                arrow.posX -= (MathHelper.cos(rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-                arrow.posY -= 0.10000000149011612D;
-                arrow.posZ -= (MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-                arrow.setPosition(arrow.posX, arrow.posY, arrow.posZ);
-                arrow.yOffset = 0.0F;
-                arrow.motionX = (-MathHelper.sin(rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float)Math.PI));
-                arrow.motionZ = (MathHelper.cos(rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float)Math.PI));
-                arrow.motionY = (-MathHelper.sin(rotationPitch / 180.0F * (float)Math.PI));
-                arrow.setArrowHeading(arrow.motionX, arrow.motionY, arrow.motionZ, 1.2F, 1.0F);
+			for (int ii = 0; ii < amount; ii++)
+			{
+				ESuiPian arrow = new ESuiPian(worldObj, position.x, position.y, position.z, isExplosive);
+				float rotationPitch = 0.0F + amountToRotate * ii;
+				arrow.arrowCritical = true;
+				arrow.setFire(100);
+				arrow.setLocationAndAngles(position.x, position.y, position.z, rotationYaw, rotationPitch);
+				arrow.posX -= (MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+				arrow.posY -= 0.10000000149011612D;
+				arrow.posZ -= (MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+				arrow.setPosition(arrow.posX, arrow.posY, arrow.posZ);
+				arrow.yOffset = 0.0F;
+				arrow.motionX = (-MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI));
+				arrow.motionZ = (MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI));
+				arrow.motionY = (-MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI));
+				arrow.setArrowHeading(arrow.motionX, arrow.motionY, arrow.motionZ, 1.2F, 1.0F);
 
-                if (!worldObj.isRemote)
-                {
-                    worldObj.spawnEntityInWorld(arrow);
-                }
-            }
-        }
-        
-        return false;
+				if (!worldObj.isRemote)
+				{
+					worldObj.spawnEntityInWorld(arrow);
+				}
+			}
+		}
+
+		return false;
 	}
 
 	@Override
 	public void init()
 	{
-		if(this.getTier() == 1)
+		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"???", "?@?", "???", '@', Block.tnt, '?', Item.arrow}), this.getMing(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+			{ "???", "?@?", "???", '@', Block.tnt, '?', Item.arrow }), this.getMing(), ZhuYao.CONFIGURATION, true);
 		}
-		else if(this.getTier() == 2)
+		else if (this.getTier() == 2)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack()}), this.getMing(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+			{ " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
 		}
 	}
 }

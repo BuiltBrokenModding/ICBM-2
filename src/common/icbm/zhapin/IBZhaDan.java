@@ -8,44 +8,37 @@ import net.minecraft.src.World;
 
 public class IBZhaDan extends ItemBlock
 {
-    public IBZhaDan(int id)
-    {
-        super(id);
-        this.setMaxDamage(0);
-        this.setHasSubtypes(true);
-    }
-    
-    @Override
-    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
-    {
-       if (!world.setBlockWithNotify(x, y, z, this.getBlockID()))
-       {
-    	   return false;
-       }
+	public IBZhaDan(int id)
+	{
+		super(id);
+		this.setMaxDamage(0);
+		this.setHasSubtypes(true);
+	}
 
-       if (world.getBlockId(x, y, z) == this.getBlockID())
-       {
-           ((TZhaDan)world.getBlockTileEntity(x, y, z)).explosiveID = stack.getItemDamage();
-           Block.blocksList[this.getBlockID()].updateBlockMetadata(world, x, y, z, side, hitX, hitY, hitZ);
-           Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player);
-       }
+	@Override
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+	{
+		if (!world.setBlockWithNotify(x, y, z, this.getBlockID())) { return false; }
 
-       return true;
-    }
-    
-    @Override
+		if (world.getBlockId(x, y, z) == this.getBlockID())
+		{
+			((TZhaDan) world.getBlockTileEntity(x, y, z)).explosiveID = stack.getItemDamage();
+			Block.blocksList[this.getBlockID()].updateBlockMetadata(world, x, y, z, side, hitX, hitY, hitZ);
+			Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player);
+		}
+
+		return true;
+	}
+
+	@Override
 	public int getMetadata(int damage)
-    {
-        return damage;
-    }
+	{
+		return damage;
+	}
 
-    @Override
+	@Override
 	public String getItemNameIS(ItemStack itemstack)
-    {
-        return (new StringBuilder())
-                .append(super.getItemName())
-                .append(".")
-                .append(ZhaPin.list[itemstack.getItemDamage()]+" Explosives")
-                .toString();
-    }
+	{
+		return (new StringBuilder()).append(super.getItemName()).append(".").append(ZhaPin.list[itemstack.getItemDamage()] + " Explosives").toString();
+	}
 }

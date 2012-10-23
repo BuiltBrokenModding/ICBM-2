@@ -24,22 +24,22 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EChe extends EntityMinecart implements IPrimableCart, IEntityAdditionalSpawnData
 {
-    public int explosiveID = 0;
+	public int explosiveID = 0;
 	public int fuse = -1;
 	private boolean isPrimed = false;
-	
+
 	public EChe(World par1World)
-    {
+	{
 		super(par1World);
-    }
-	
+	}
+
 	public EChe(World par1World, double x, double y, double z, int explosiveID)
 	{
 		super(par1World, x, y, z, 3);
 		this.explosiveID = explosiveID;
 		this.fuse = Math.max(ZhaPin.list[explosiveID].getYinXin(), 60);
 	}
-	
+
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
@@ -53,35 +53,35 @@ public class EChe extends EntityMinecart implements IPrimableCart, IEntityAdditi
 		this.explosiveID = data.readInt();
 		this.fuse = data.readInt();
 	}
-	
+
 	@Override
-    public void onUpdate()
+	public void onUpdate()
 	{
 		super.onUpdate();
-		
-		if(this.isPrimed)
+
+		if (this.isPrimed)
 		{
-			if(this.fuse < 1)
-	        {
-		       this.explode();
-	        }
-	        else
-	        {
-	        	ZhaPin.list[explosiveID].onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.explosiveID);
-	            this.worldObj.spawnParticle("largesmoke", this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D);
-	        }
-			
-			this.fuse --;
+			if (this.fuse < 1)
+			{
+				this.explode();
+			}
+			else
+			{
+				ZhaPin.list[explosiveID].onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.explosiveID);
+				this.worldObj.spawnParticle("largesmoke", this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D);
+			}
+
+			this.fuse--;
 		}
 		else
 		{
-			if(this.worldObj.getBlockId((int)this.posX, (int)this.posY, (int)this.posZ) == Block.rail.blockID && this.worldObj.isBlockIndirectlyGettingPowered((int)this.posX, (int)this.posY, (int)this.posZ))
+			if (this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ) == Block.rail.blockID && this.worldObj.isBlockIndirectlyGettingPowered((int) this.posX, (int) this.posY, (int) this.posZ))
 			{
 				this.setPrimed(true);
 			}
 		}
 	}
-	
+
 	@Override
 	public void setPrimed(boolean primed)
 	{
@@ -101,9 +101,9 @@ public class EChe extends EntityMinecart implements IPrimableCart, IEntityAdditi
 	}
 
 	@Override
-	public void setFuse(int fuse) 
+	public void setFuse(int fuse)
 	{
-		if(fuse < 0)
+		if (fuse < 0)
 		{
 			this.fuse = ZhaPin.list[explosiveID].getYinXin();
 		}
@@ -127,49 +127,49 @@ public class EChe extends EntityMinecart implements IPrimableCart, IEntityAdditi
 
 	@Override
 	public void explode()
-    {
-    	 this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-         ZhaPin.createBaoZha(this.worldObj, Vector3.get(this), this, this.explosiveID);
-         this.setDead();
-    }
-	
+	{
+		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+		ZhaPin.createBaoZha(this.worldObj, Vector3.get(this), this, this.explosiveID);
+		this.setDead();
+	}
+
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer)
-    {
-		if(par1EntityPlayer.getCurrentEquippedItem() != null)
+	{
+		if (par1EntityPlayer.getCurrentEquippedItem() != null)
 		{
-			if(par1EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
+			if (par1EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
 			{
 				this.setPrimed(true);
 				return true;
 			}
 		}
-        return false;
-    }
-	
+		return false;
+	}
+
 	@Override
 	public List<ItemStack> getItemsDropped()
-    {
-        List<ItemStack> items = new ArrayList<ItemStack>();
-        items.add(new ItemStack(ZhuYao.itChe, 1, this.explosiveID));
-        return items;
-    }
-	
+	{
+		List<ItemStack> items = new ArrayList<ItemStack>();
+		items.add(new ItemStack(ZhuYao.itChe, 1, this.explosiveID));
+		return items;
+	}
+
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-    {
+	{
 		super.writeEntityToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setInteger("explosiveID", this.explosiveID);
-        par1NBTTagCompound.setInteger("fuse", this.fuse);
-        par1NBTTagCompound.setBoolean("isPrimed", this.isPrimed);
-    }
-	
+		par1NBTTagCompound.setInteger("explosiveID", this.explosiveID);
+		par1NBTTagCompound.setInteger("fuse", this.fuse);
+		par1NBTTagCompound.setBoolean("isPrimed", this.isPrimed);
+	}
+
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-    {
+	{
 		super.readEntityFromNBT(par1NBTTagCompound);
 		this.explosiveID = par1NBTTagCompound.getInteger("explosiveID");
 		this.fuse = par1NBTTagCompound.getInteger("fuse");
 		this.isPrimed = par1NBTTagCompound.getBoolean("isPrimed");
-    }
+	}
 }

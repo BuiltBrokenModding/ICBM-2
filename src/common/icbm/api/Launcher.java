@@ -9,16 +9,18 @@ public class Launcher
 {
 	/**
 	 * Types of launchers
+	 * 
 	 * @author Calclavia
-	 *
+	 * 
 	 */
 	public enum LauncherType
 	{
 		TRADITIONAL, CRUISE
 	}
-	
+
 	/**
 	 * Applied to all launcher tile entities.
+	 * 
 	 * @author Calclavia
 	 */
 	public interface ILauncher extends IJouleStorage, IRedstoneReceptor, IFrequency
@@ -27,9 +29,10 @@ public class Launcher
 		 * What type of launcher is this?
 		 */
 		public LauncherType getLauncherType();
-		
+
 		/**
-		 * Launches the missile into the specified target.
+		 * Launches the missile into the specified
+		 * target.
 		 */
 		public void launch();
 
@@ -42,17 +45,19 @@ public class Launcher
 		 * @return The status of the launcher.
 		 */
 		public String getStatus();
-		
+
 		/**
 		 * @return The target of the launcher.
 		 */
 		public Vector3 getTarget();
-		
+
 		/**
-		 * @param target Sets the target of the launcher
+		 * @param target
+		 *            Sets the target of the
+		 *            launcher
 		 */
 		public void setTarget(Vector3 target);
-		
+
 		/**
 		 * Places a missile into the launcher.
 		 */

@@ -16,7 +16,7 @@ public class PortalFX extends EntityPortalFX
 		{
 			ReflectionHelper.setPrivateValue(EntityPortalFX.class, this, this.particleScale, 0);
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			FMLLog.warning("Failed to correctly spawn ICBM portal effects.");
 		}

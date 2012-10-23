@@ -19,21 +19,24 @@ public class ExDianCi extends ZhaPin
 	}
 
 	/**
-	 * World worldObj, Vector3 position, int amount, boolean isExplosive
+	 * World worldObj, Vector3 position, int
+	 * amount, boolean isExplosive
 	 */
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
-		if(radius < 0) radius = 30;
-		
+		if (radius < 0)
+			radius = 30;
+
 		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, null, radius, callCount);
 		ZhaPin.dianCiWave.doBaoZha(worldObj, position, null, radius, callCount);
-    	return false;
+		return false;
 	}
 
 	@Override
 	public void init()
 	{
-        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', BasicComponents.itemBattery}), this.getMing(), ZhuYao.CONFIGURATION, true);		
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+		{ "RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', "battery" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

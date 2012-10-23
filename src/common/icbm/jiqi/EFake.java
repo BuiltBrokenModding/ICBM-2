@@ -13,29 +13,29 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EFake extends Entity implements IEntityAdditionalSpawnData
 {
-    private TileEntity controller;
+	private TileEntity controller;
 
 	public EFake(World par1World)
-    {
-        super(par1World);
-        this.setSize(1F, 0.5F);
-        this.yOffset = this.height / 2.0F;
-    }
-    
-    public EFake(World par1World, Vector3 position, TileEntity controller)
-    {
-        this(par1World);
-        this.isImmuneToFire = true;
-        this.setPosition(position.x, position.y, position.z);
-        this.controller = controller;
-    }
-    
-    @Override
-    public String getEntityName()
-    {
-    	return "Seat";
-    }
-    
+	{
+		super(par1World);
+		this.setSize(1F, 0.5F);
+		this.yOffset = this.height / 2.0F;
+	}
+
+	public EFake(World par1World, Vector3 position, TileEntity controller)
+	{
+		this(par1World);
+		this.isImmuneToFire = true;
+		this.setPosition(position.x, position.y, position.z);
+		this.controller = controller;
+	}
+
+	@Override
+	public String getEntityName()
+	{
+		return "Seat";
+	}
+
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
@@ -49,46 +49,49 @@ public class EFake extends Entity implements IEntityAdditionalSpawnData
 	{
 		this.controller = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
 	}
-    
-    /**
-     * Called to update the entity's position/logic.
-     */
-    public void onUpdate()
-    {
-        if(this.controller == null)
-        {
-        	this.setDead();
-        }
-        else if(this.controller.isInvalid())
-        {
-        	this.setDead();
-        }        
-    }
-    
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
-    protected boolean canTriggerWalking()
-    {
-        return false;
-    }
+
+	/**
+	 * Called to update the entity's
+	 * position/logic.
+	 */
+	public void onUpdate()
+	{
+		if (this.controller == null)
+		{
+			this.setDead();
+		}
+		else if (this.controller.isInvalid())
+		{
+			this.setDead();
+		}
+	}
+
+	/**
+	 * returns if this entity triggers
+	 * Block.onEntityWalking on the blocks they
+	 * walk on. used for spiders and wolves to
+	 * prevent them from trampling crops
+	 */
+	protected boolean canTriggerWalking()
+	{
+		return false;
+	}
 
 	@Override
 	protected void entityInit()
 	{
-		
+
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound var1)
 	{
-		
+
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound var1)
 	{
-		
+
 	}
 }
