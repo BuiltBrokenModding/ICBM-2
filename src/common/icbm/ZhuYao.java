@@ -60,7 +60,6 @@ import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
 import atomicscience.api.PoisonRadiation;
-import basiccomponents.BasicComponents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IDispenserHandler;
 import cpw.mods.fml.common.Loader;

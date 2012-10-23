@@ -16,7 +16,6 @@ import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import basiccomponents.BasicComponents;
 import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExShengBuo extends ZhaPin

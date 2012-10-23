@@ -9,7 +9,6 @@ import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import basiccomponents.BasicComponents;
 
 public class ExDianCi extends ZhaPin
 {
