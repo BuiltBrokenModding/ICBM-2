@@ -136,7 +136,7 @@ public abstract class ZhaPin implements ITier
 		return this.mingZi + " Explosive";
 	}
 
-	public String getGrenadeName()
+	public String getShouLiuDanName()
 	{
 		return this.mingZi + " Grenade";
 	}
@@ -144,6 +144,11 @@ public abstract class ZhaPin implements ITier
 	public String getDaoDanMing()
 	{
 		return this.mingZi + " Missile";
+	}
+
+	public String getCheMing()
+	{
+		return this.mingZi + " Minecart";
 	}
 
 	public float getBanJing()

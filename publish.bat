@@ -20,7 +20,10 @@ runtime\bin\python\python_mcp runtime\reobfuscate.py %*
 cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "atomicscience\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "chb\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "dan200\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "ic2\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "railcraft\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "buildcraft\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "universalelectricity\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "icbm\"
 

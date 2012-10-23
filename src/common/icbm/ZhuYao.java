@@ -131,7 +131,7 @@ public class ZhuYao
 	public static final ItemElectric itHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UEConfig.getItemConfigID(CONFIGURATION, "Signal Disruptor", ITEM_ID_PREFIX + 9), 23);
 	public static final ItemElectric itGenZongQi = new ItGenZongQi("Tracker", UEConfig.getItemConfigID(CONFIGURATION, "Tracker", ITEM_ID_PREFIX + 11), 0);
 
-	public static final Item itShouLiuDan = new ItShouLiuDan("Grenade", UEConfig.getItemConfigID(CONFIGURATION, "Grenade", ITEM_ID_PREFIX + 8), 64);
+	public static final Item itShouLiuDan = new ItShouLiuDan(UEConfig.getItemConfigID(CONFIGURATION, "Grenade", ITEM_ID_PREFIX + 8), 64);
 	public static final Item itZiDan = new ItZiDan("Bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", ITEM_ID_PREFIX + 10), 80);
 
 	public static final Item itChe = new ItChe(UEConfig.getItemConfigID(CONFIGURATION, "Minecart", ITEM_ID_PREFIX + 11), 135);
@@ -349,7 +349,7 @@ public class ZhuYao
 		{ "!  ", " ? ", "  @", '@', ZhuYao.itYaoKong.getUncharged(), '?', "eliteCircuit", '!', ZhuYao.itLeiDaQiang.getUncharged() }));
 		// Proximity Detector
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bYinGanQi), new Object[]
-		{ " ! ", "!?!", " ! ", '!', "plateSteel", '?', "eliteCircuit"}));
+		{ " ! ", "!?!", " ! ", '!', "plateSteel", '?', "eliteCircuit" }));
 		// Signal Disrupter
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itHuoLaunQi), new Object[]
 		{ "!", "?", '!', ZhuYao.itYaoKong.getUncharged(), '?', ZhuYao.bYinGanQi }));

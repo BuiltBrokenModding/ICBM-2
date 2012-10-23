@@ -13,9 +13,9 @@ import universalelectricity.core.Vector3;
 
 public class ItShouLiuDan extends ICBMItem
 {
-	public ItShouLiuDan(String name, int par1, int par2)
+	public ItShouLiuDan(int par1, int par2)
 	{
-		super(name, par1, par2, CreativeTabs.tabCombat);
+		super("Grenade", par1, par2, CreativeTabs.tabCombat);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}
@@ -58,7 +58,7 @@ public class ItShouLiuDan extends ICBMItem
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return ZhaPin.list[itemstack.getItemDamage()].getGrenadeName();
+		return ZhaPin.list[itemstack.getItemDamage()].getShouLiuDanName();
 	}
 
 	@Override

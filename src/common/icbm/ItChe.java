@@ -62,7 +62,7 @@ public class ItChe extends Item
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return ZhaPin.list[itemstack.getItemDamage()].getGrenadeName();
+		return ZhaPin.list[itemstack.getItemDamage()].getCheMing();
 	}
 
 	@Override
