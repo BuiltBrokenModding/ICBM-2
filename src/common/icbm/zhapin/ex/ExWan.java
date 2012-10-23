@@ -2,8 +2,6 @@ package icbm.zhapin.ex;
 
 import icbm.ParticleSpawner;
 import icbm.ZhuYao;
-import icbm.zhapin.EZhaDan;
-import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 
 import java.util.List;
@@ -12,12 +10,11 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityEnderman;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
-import universalelectricity.recipe.RecipeManager;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 
 public class ExWan extends ZhaPin
 {	
@@ -157,7 +154,7 @@ public class ExWan extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', Block.tnt}, this.getMing(), ZhuYao.CONFIGURATION, true);
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"EEE", "ETE", "EEE", 'E', "dustEndium", 'T', Block.tnt}, this.getMing(), ZhuYao.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', Block.tnt}), this.getMing(), ZhuYao.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"EEE", "ETE", "EEE", 'E', "dustEndium", 'T', Block.tnt}), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

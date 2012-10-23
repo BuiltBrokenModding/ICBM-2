@@ -13,10 +13,10 @@ import icbm.rongqi.CXiaoFaSheQi;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.prefab.CommonProxy;
+import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ICBMCommonProxy extends CommonProxy
+public class ICBMCommon implements IGuiHandler
 {
 	//GUI IDs
 	public static final int GUI_RAIL_GUN = 0;
@@ -29,10 +29,8 @@ public class ICBMCommonProxy extends CommonProxy
 	public static final int GUI_LAUNCHER_BASE = 7;
 	public static final int GUI_LASER_TURRET = 8;
 
-	@Override
 	public void preInit() { }
 	
-	@Override
 	public void init()
 	{
 		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
@@ -59,9 +57,9 @@ public class ICBMCommonProxy extends CommonProxy
         {
 			switch(ID)
 			{
-				case ICBMCommonProxy.GUI_RAIL_GUN: return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
-				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
-				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
+				case ICBMCommon.GUI_RAIL_GUN: return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
+				case ICBMCommon.GUI_CRUISE_LAUNCHER: return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
+				case ICBMCommon.GUI_LAUNCHER_BASE: return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
         }
 		

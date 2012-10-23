@@ -10,7 +10,7 @@ import java.util.Iterator;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector2;
+import universalelectricity.core.Vector2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 

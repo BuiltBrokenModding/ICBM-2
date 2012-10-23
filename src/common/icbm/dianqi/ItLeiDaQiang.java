@@ -14,9 +14,9 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.network.PacketManager;
+import universalelectricity.core.Vector3;
 import universalelectricity.prefab.ItemElectric;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItLeiDaQiang extends ItemElectric

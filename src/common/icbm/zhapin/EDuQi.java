@@ -10,8 +10,9 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
-import universalelectricity.recipe.RecipeManager;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 
 public class EDuQi extends ZhaPin
 {
@@ -68,11 +69,11 @@ public class EDuQi extends ZhaPin
 	{
 		if(this.getTier() == 1)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', Block.tnt});
+	        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', Block.tnt}), ZhuYao.CONFIGURATION, true);
 		}
 		else if(this.getTier() == 2)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack()});
+	        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack()}), ZhuYao.CONFIGURATION, true);
 		}
 	}
 }

@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
-import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GDianCiQi extends ICBMGui

@@ -1,9 +1,9 @@
 package icbm.api;
 
 import net.minecraft.src.ItemStack;
+import universalelectricity.core.Vector3;
 import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
-import universalelectricity.prefab.Vector3;
 
 public class Launcher
 {

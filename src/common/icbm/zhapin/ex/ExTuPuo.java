@@ -13,9 +13,10 @@ import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
 import universalelectricity.implement.IRotatable;
-import universalelectricity.prefab.Vector3;
-import universalelectricity.recipe.RecipeManager;
+import universalelectricity.prefab.RecipeHelper;
 import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExTuPuo extends ZhaPin
@@ -163,6 +164,6 @@ public class ExTuPuo extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(2), new Object [] {"GCG", "GCG", "GCG", 'C', yaSuo.getItemStack(), 'G', Item.gunpowder}, this.getMing(), ZhuYao.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object [] {"GCG", "GCG", "GCG", 'C', yaSuo.getItemStack(), 'G', Item.gunpowder}), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

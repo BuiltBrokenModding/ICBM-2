@@ -1,6 +1,6 @@
 package icbm.dianqi;
 
-import icbm.ICBMCommonProxy;
+import icbm.ICBMCommon;
 import icbm.ZhuYao;
 import icbm.api.ICBM;
 import icbm.api.IFrequency;
@@ -77,7 +77,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-		par3EntityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_FREQUENCY, par2World, (int)par3EntityPlayer.posX, (int)par3EntityPlayer.posY, (int)par3EntityPlayer.posZ);
+		par3EntityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_FREQUENCY, par2World, (int)par3EntityPlayer.posX, (int)par3EntityPlayer.posY, (int)par3EntityPlayer.posZ);
     	return par1ItemStack;
     }
 

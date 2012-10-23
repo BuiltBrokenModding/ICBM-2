@@ -15,14 +15,14 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.Ticker;
+import universalelectricity.core.Vector3;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRedstoneProvider;
-import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 
+import com.google.common.base.Ticker;
 import com.google.common.io.ByteArrayDataInput;
 
 public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
@@ -77,7 +77,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 		{	
 			if(!this.isDisabled())
 	    	{
-				if(Ticker.inGameTicks % 10 == 0 && this.yongZhe > 0)
+				if(this.ticks % 5 == 0 && this.yongZhe > 0)
 				{
 	    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
 				}

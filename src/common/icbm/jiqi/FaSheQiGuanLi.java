@@ -4,7 +4,7 @@ package icbm.jiqi;
 import java.util.ArrayList;
 import java.util.List;
 
-import universalelectricity.prefab.Vector2;
+import universalelectricity.core.Vector2;
 
 public class FaSheQiGuanLi
 {

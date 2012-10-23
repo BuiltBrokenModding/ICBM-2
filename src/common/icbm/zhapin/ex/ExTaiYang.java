@@ -13,8 +13,9 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
-import universalelectricity.recipe.RecipeManager;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 
 public class ExTaiYang extends ZhaPin
 {
@@ -204,6 +205,6 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', huo.getItemStack()}, this.getMing(), ZhuYao.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"!!!", "!@!", "!!!", '@', Block.glass, '!', huo.getItemStack()}), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

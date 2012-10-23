@@ -9,7 +9,7 @@ import net.minecraft.src.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GFrequency extends ICBMGui

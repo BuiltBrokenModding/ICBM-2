@@ -19,9 +19,10 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.Potion;
 import net.minecraft.src.PotionEffect;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.potion.CustomPotionEffect;
-import universalelectricity.recipe.RecipeManager;
 
 public class ExBingDan extends ZhaPin
 {
@@ -204,7 +205,7 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow}, this.getMing(), ZhuYao.CONFIGURATION, true);		
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow}), this.getMing(), ZhuYao.CONFIGURATION, true);		
 	}
 	
 	public boolean canFocusBeam(World worldObj, Vector3 position)

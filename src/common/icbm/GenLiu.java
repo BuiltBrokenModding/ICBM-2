@@ -6,8 +6,8 @@ import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.ore.OreGenReplace;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.ore.OreGenReplace;
  
 /**
  * @author CovertJaguar, Modified by Calclavia

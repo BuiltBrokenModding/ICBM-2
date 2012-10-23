@@ -1,7 +1,7 @@
 package icbm.daodan;
 
 import icbm.zhapin.ZhaPin;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.core.Vector3;
 
 public class DYuanZiFenZhiDan extends DFenZhiDan
 {	

@@ -13,9 +13,10 @@ import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
 import net.minecraft.src.World;
-import universalelectricity.BasicComponents;
-import universalelectricity.prefab.Vector3;
-import universalelectricity.recipe.RecipeManager;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.RecipeHelper;
+import basiccomponents.BasicComponents;
 import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExShengBuo extends ZhaPin
@@ -190,6 +191,6 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@?@", "?!?", "@?@", '!', Block.tnt, '?', Block.music, '@', BasicComponents.itemBronzePlate}, this.getMing(), ZhuYao.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"@?@", "?!?", "@?@", '!', Block.tnt, '?', Block.music, '@', BasicComponents.itemBronzePlate}), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

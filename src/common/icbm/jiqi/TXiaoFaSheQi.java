@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
 import icbm.BaoHu;
-import icbm.ICBMCommonProxy;
+import icbm.ICBMCommon;
 import icbm.ZhuYao;
 import icbm.api.Launcher.LauncherType;
 import icbm.daodan.DaoDan;
@@ -17,13 +17,13 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.Ticker;
-import universalelectricity.basiccomponents.multiblock.IBlockActivate;
+import universalelectricity.core.Vector3;
 import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.PacketManager;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.multiblock.IBlockActivate;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 
+import com.google.common.base.Ticker;
 import com.google.common.io.ByteArrayDataInput;
 
 public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketReceiver, IInventory, ISidedInventory
@@ -149,7 +149,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
     	{
         	status = "Disabled";
     	}
-        else if(this.dianXiaoShi < this.getMaxJoules())
+        else if(this.dian < this.getMaxJoules())
     	{
     		status = "No Power!";
     	}
@@ -184,7 +184,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{		
 		if(!this.isDisabled())
     	{
-			this.setJoules(this.dianXiaoShi+ElectricInfo.getWattHours(amps, voltage));
+			this.setJoules(this.dian+ElectricInfo.getJoules(amps, voltage, 1));
     	}
 	}
 	
@@ -215,7 +215,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 				}
 			}
 	    	
-	    	if(!this.worldObj.isRemote && Ticker.inGameTicks % 40 == 0 && this.yongZhe > 0)
+	    	if(!this.worldObj.isRemote && this.ticks % 3 == 0 && this.yongZhe > 0)
 		    {
 		    	if(this.muBiao == null) this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
 		    	this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
@@ -226,7 +226,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)0, this.dianXiaoShi, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+        return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)0, this.dian, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
     }
 	
 	@Override
@@ -282,7 +282,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			
 			if(ID == 0)
 			{
-				this.dianXiaoShi = dataStream.readDouble();
+				this.dian = dataStream.readDouble();
 	            this.shengBuo = dataStream.readShort();
 	            this.disabledTicks = dataStream.readInt();
 				this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
@@ -350,7 +350,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if(this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex && missile.isCruise() && missile.getTier() <= 3)
 		        {
-		    		if(this.dianXiaoShi >= this.getMaxJoules())
+		    		if(this.dian >= this.getMaxJoules())
 		    		{
 		    			if(!this.isTooClose(this.muBiao))
 		    			{
@@ -405,7 +405,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
     	NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
     	
         this.containingItems = new ItemStack[this.getSizeInventory()];
-        this.dianXiaoShi = par1NBTTagCompound.getDouble("electricityStored");
+        this.dian = par1NBTTagCompound.getDouble("electricityStored");
 
         for (int var3 = 0; var3 < var2.tagCount(); ++var3)
         {
@@ -433,7 +433,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
     	}
     	
     	par1NBTTagCompound.setShort("frequency", this.shengBuo);
-    	par1NBTTagCompound.setDouble("electricityStored", this.dianXiaoShi);
+    	par1NBTTagCompound.setDouble("electricityStored", this.dian);
     	
     	NBTTagList var2 = new NBTTagList();
 
@@ -505,7 +505,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
     {
         if (!this.isDisabled())
         {
-            return ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dianXiaoShi);
+            return ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dian);
         }
 
         return 0;
@@ -530,7 +530,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			}
 		}
 		
-		entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}

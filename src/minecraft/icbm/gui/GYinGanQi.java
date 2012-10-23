@@ -8,8 +8,8 @@ import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.network.PacketManager;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GYinGanQi extends ICBMGui

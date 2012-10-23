@@ -7,8 +7,9 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
-import universalelectricity.recipe.RecipeManager;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 
 public class ExHuo extends ZhaPin
 {
@@ -98,7 +99,7 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void init()
 	{
-        RecipeManager.addRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', Block.tnt, '!', Item.bucketLava}, this.getMing(), ZhuYao.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', Block.tnt, '!', Item.bucketLava}), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 
 }

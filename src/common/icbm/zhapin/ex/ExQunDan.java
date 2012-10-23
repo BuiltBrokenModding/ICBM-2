@@ -9,8 +9,9 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
-import universalelectricity.recipe.RecipeManager;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 
 public class ExQunDan extends ZhaPin
 {
@@ -76,11 +77,11 @@ public class ExQunDan extends ZhaPin
 	{
 		if(this.getTier() == 1)
 		{
-			RecipeManager.addRecipe(this.getItemStack(), new Object [] {"???", "?@?", "???", '@', Block.tnt, '?', Item.arrow});
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {"???", "?@?", "???", '@', Block.tnt, '?', Item.arrow}), this.getMing(), ZhuYao.CONFIGURATION, true);
 		}
 		else if(this.getTier() == 2)
 		{
-	        RecipeManager.addRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack()}, this.getMing(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object [] {" @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack()}), this.getMing(), ZhuYao.CONFIGURATION, true);
 		}
 	}
 }

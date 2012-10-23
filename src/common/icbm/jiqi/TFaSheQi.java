@@ -2,8 +2,8 @@ package icbm.jiqi;
 
 import icbm.api.Launcher.ILauncher;
 import icbm.api.Launcher.LauncherType;
+import universalelectricity.core.Vector3;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
-import universalelectricity.prefab.Vector3;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
@@ -13,7 +13,7 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	
 	protected short shengBuo = 0;
 	
-	protected double dianXiaoShi = 0;
+	protected double dian = 0;
 	
 	public TFaSheQi()
 	{
@@ -60,13 +60,13 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	@Override
 	public double getJoules(Object... data)
 	{
-		return this.dianXiaoShi;
+		return this.dian;
 	}
 
 	@Override
-	public void setJoules(double wattHours, Object... data)
+	public void setJoules(double joules, Object... data)
 	{
-		this.dianXiaoShi = Math.max(Math.min(wattHours, this.getMaxJoules()), 0);
+		this.dian = Math.max(Math.min(joules, this.getMaxJoules()), 0);
 	}
 	
 	@Override

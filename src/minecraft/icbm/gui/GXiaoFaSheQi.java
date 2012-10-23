@@ -11,10 +11,10 @@ import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.core.Vector3;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
-import universalelectricity.network.PacketManager;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GXiaoFaSheQi extends GuiContainer

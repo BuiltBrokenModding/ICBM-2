@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.electricity.ElectricInfo.ElectricUnit;
-import universalelectricity.network.PacketManager;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GCiGuiPao extends GuiContainer
@@ -114,7 +114,7 @@ public class GCiGuiPao extends GuiContainer
         this.fontRenderer.drawString(color+"Status: "+status, 8, 60, 4210752);
         
     	this.fontRenderer.drawString(this.tileEntity.getVoltage()+"v", 130, 70, 4210752);
-        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.WATT_HOUR), 8, 70, 4210752);
+        this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES)+ "/" +ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 8, 70, 4210752);
     }
 
     /**

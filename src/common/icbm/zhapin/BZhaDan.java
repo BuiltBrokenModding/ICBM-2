@@ -19,9 +19,9 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.Vector2;
+import universalelectricity.core.Vector3;
 import universalelectricity.implement.IRotatable;
-import universalelectricity.prefab.Vector2;
-import universalelectricity.prefab.Vector3;
 import buildcraft.api.tools.IToolWrench;
 
 public class BZhaDan extends BlockContainer
@@ -74,15 +74,13 @@ public class BZhaDan extends BlockContainer
         {
             BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
         }
-
-        Vector3 position = new Vector3(x, y, z);
-
         //Check to see if there is fire nearby. If so, then detonate.
-        for (Vector3 side : Vector3.side)
-        {
-            Vector3 currentSide = Vector3.add(position, side);
+        for (byte i = 0; i < 6; i++)
+		{
+            Vector3 position = new Vector3(x, y, z);
+            position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 
-            int blockId = par1World.getBlockId((int)currentSide.x, (int)currentSide.y, (int)currentSide.z);
+            int blockId = position.getBlockID(par1World);
             
             if (blockId == Block.fire.blockID  || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
             {

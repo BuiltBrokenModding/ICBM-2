@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBMCommonProxy;
+import icbm.ICBMCommon;
 import icbm.ZhuYao;
 import icbm.daodan.DaoDanGuanLi;
 import icbm.daodan.EDaoDan;
@@ -19,16 +19,16 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.UEConfig;
-import universalelectricity.basiccomponents.multiblock.BlockMulti;
-import universalelectricity.basiccomponents.multiblock.IMultiBlock;
+import universalelectricity.core.UEConfig;
+import universalelectricity.core.Vector2;
+import universalelectricity.core.Vector3;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IRedstoneProvider;
-import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
-import universalelectricity.prefab.Vector2;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.multiblock.BlockMulti;
+import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -107,15 +107,15 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		
 		if(!this.worldObj.isRemote)
 		{
-			if(this.ticks % 20 == 0)
+			if(this.ticks % 40 == 0)
 			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 100);
-				
-				if(this.yongZhe > 0)
-				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 15);
-				}
-				
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 35);
+			}
+			
+			if(this.ticks % 5 == 0 && this.yongZhe > 0)
+			{
+				PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 12);
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 12);
 			}
 		}
 		
@@ -338,26 +338,26 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), Vector3.get(this));
 		
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), Vector3.get(this));
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), Vector3.get(this));
 		
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), Vector3.get(this));
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), Vector3.get(this));
 		
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), Vector3.get(this));
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), Vector3.get(this));
 		
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), Vector3.get(this));
-		BlockMulti.makeInvisibleBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), Vector3.get(this));
 
 	}
 

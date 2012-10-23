@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBMCommonProxy;
+import icbm.ICBMCommon;
 import icbm.ZhuYao;
 import icbm.api.ICBM;
 
@@ -12,7 +12,7 @@ import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.UniversalElectricity;
+import universalelectricity.core.UniversalElectricity;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.prefab.BlockMachine;
 
@@ -40,7 +40,7 @@ public class BYinGanQi extends BlockMachine
         
         if(tileEntity != null)
         {
-        	par5EntityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_DETECTOR, par1World, x, y, z);
+        	par5EntityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_DETECTOR, par1World, x, y, z);
         }
         
 		return true;

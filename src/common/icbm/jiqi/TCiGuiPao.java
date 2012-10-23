@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBMCommonProxy;
+import icbm.ICBMCommon;
 import icbm.ItZiDan;
 import icbm.ParticleSpawner;
 import icbm.ZhuYao;
@@ -23,18 +23,17 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.BasicComponents;
-import universalelectricity.Ticker;
-import universalelectricity.basiccomponents.multiblock.IMultiBlock;
-import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
+import universalelectricity.core.Vector3;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
-import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.multiblock.TileEntityMulti;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 
+import com.google.common.base.Ticker;
 import com.google.common.io.ByteArrayDataInput;
 
 public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
@@ -201,24 +200,14 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	
 		if(!this.worldObj.isRemote)
 		{
-			if(Ticker.inGameTicks % 20 == 0)
+			if(this.ticks % 5 == 0 && this.shiYongZhe > 0)
 			{
-				if(this.mountedPlayer != null)
-				{
-					this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)1, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
-				}
-				
-				if(this.shiYongZhe > 0)
-				{
-					PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
-				}
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int)4, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
 			}
 			
-			if(this.packetGengXin)
+			if(this.ticks % 600 == 0)
 			{
-				this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
-				this.packetGengXin = false;
+	        	this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
 			}
 		}
 	}
@@ -350,7 +339,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 		}
 		else
 		{
-			entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_RAIL_GUN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			entityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_RAIL_GUN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
 		
 		return true;
@@ -377,7 +366,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ(), ZhuYao.bJia.blockID);
 		((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ())).setMainBlock(position);
 	}
 	

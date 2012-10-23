@@ -1,7 +1,7 @@
 package icbm.jiqi;
 
 import icbm.BaoHu;
-import icbm.ICBMCommonProxy;
+import icbm.ICBMCommon;
 import icbm.ZhuYao;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
@@ -17,16 +17,15 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.BasicComponents;
-import universalelectricity.Ticker;
-import universalelectricity.UEConfig;
-import universalelectricity.basiccomponents.multiblock.IMultiBlock;
-import universalelectricity.basiccomponents.multiblock.TileEntityMulti;
+import universalelectricity.core.UEConfig;
+import universalelectricity.core.Vector3;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
-import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.PacketManager;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.TileEntityAdvanced;
+import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.multiblock.TileEntityMulti;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -35,7 +34,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  *
  */
-public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory
+public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory
 {
     private static final double MISSILE_MAX_DISTANCE = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Max Missile Distance", 2000);
 
@@ -53,6 +52,11 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
     private byte orientation = 3;
 
 	private boolean packetGengXin = true;
+	
+	public TFaSheDi()
+	{
+		super();
+	}
     
     /**
      * Returns the number of slots in the inventory.
@@ -180,7 +184,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
         	{
         		this.jiaZi = null;
         	}
-        	else if(this.packetGengXin || Ticker.inGameTicks % (20*30) == 0 && this.jiaZi != null && !this.worldObj.isRemote)
+        	else if(this.packetGengXin || this.ticks % (20*30) == 0 && this.jiaZi != null && !this.worldObj.isRemote)
         	{
         		PacketManager.sendPacketToClients(this.jiaZi.getDescriptionPacket());
         	}
@@ -190,7 +194,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		{
 	    	this.setMissile();
 	    	
-	        if(this.packetGengXin || Ticker.inGameTicks % (20*30) == 0)
+	        if(this.packetGengXin || this.ticks % (20*30) == 0)
 	        {
 	        	PacketManager.sendPacketToClients(this.getDescriptionPacket());
 	        	this.packetGengXin = false;
@@ -462,7 +466,7 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 			}
 		}
 		
-		par5EntityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		par5EntityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
@@ -472,35 +476,35 @@ public class TFaSheDi extends TileEntity implements IPacketReceiver, IRotatable,
 		if(this.orientation == 3 || this.orientation == 2)
 		{		
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY(), position.intZ(), ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+1, position.intZ(), ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()+1, position.intY()+2, position.intZ(), ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()+1, position.intY()+2, position.intZ())).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY(), position.intZ(), ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+1, position.intZ(), ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX()-1, position.intY()+2, position.intZ(), ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX()-1, position.intY()+2, position.intZ())).setMainBlock(position);
 		}
 		else
 		{
 			//Left
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()+1, ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()+1, ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()+1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()+1, ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()+1)).setMainBlock(position);
 			//Right
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ()-1, ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+1, position.intZ()-1, ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+1, position.intZ()-1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, BasicComponents.blockMulti.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY()+2, position.intZ()-1, ZhuYao.bJia.blockID);
 			((TileEntityMulti)this.worldObj.getBlockTileEntity(position.intX(), position.intY()+2, position.intZ()-1)).setMainBlock(position);
 		}
 	}

@@ -19,10 +19,10 @@ import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.network.PacketManager;
+import universalelectricity.core.Vector2;
+import universalelectricity.core.Vector3;
 import universalelectricity.prefab.ItemElectric;
-import universalelectricity.prefab.Vector2;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency

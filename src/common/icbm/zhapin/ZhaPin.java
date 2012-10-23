@@ -36,9 +36,9 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.UEConfig;
+import universalelectricity.core.UEConfig;
+import universalelectricity.core.Vector3;
 import universalelectricity.implement.ITier;
-import universalelectricity.prefab.Vector3;
 
 public abstract class ZhaPin implements ITier
 {
@@ -61,30 +61,31 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin xiaoQunDan = new ExQunDan("Shrapnel", 1, 1);
 	public static final ZhaPin huo = new ExHuo("Incendiary", 2, 1);
 	public static final ZhaPin duQi = new EDuQi("Chemical", 3, 1);
+	public static final ZhaPin zhen = new ExQunDan("Anvil", 4, 1);
 	
-	public static final int MAX_TIER_ONE = 4;
+	public static final int MAX_TIER_ONE = 5;
 	
-	public static final ZhaPin qunDan = new ExQunDan("Fragmentation", 4, 2);
-	public static final ZhaPin chuanRan = new EDuQi("Contagious", 5, 2);
-	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 6, 2);
-	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 7, 2);
-	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 8, 2);
-	public static final ZhaPin liZi = new ExLiZi("Ion", 9, 2);
-	public static final int MAX_TIER_TWO = 10;
+	public static final ZhaPin qunDan = new ExQunDan("Fragmentation", 5, 2);
+	public static final ZhaPin chuanRan = new EDuQi("Contagious", 6, 2);
+	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 7, 2);
+	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 8, 2);
+	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 9, 2);
+	public static final ZhaPin liZi = new ExLiZi("Ion", 10, 2);
+	public static final int MAX_TIER_TWO = 11;
 	
-	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 10, 3);
-	public static final ZhaPin dianCi = new ExDianCi("EMP", 11, 3);
-	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 12, 3);
-	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 13, 3);
-	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 14, 3);
-	public static final ZhaPin wanDan = new ExWan("Ender", 15, 2);
+	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 11, 3);
+	public static final ZhaPin dianCi = new ExDianCi("EMP", 12, 3);
+	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 13, 3);
+	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 14, 3);
+	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 15, 3);
+	public static final ZhaPin wanDan = new ExWan("Ender", 16, 2);
 	
-	public static final int MAX_TIER_THREE = 16;
+	public static final int MAX_TIER_THREE = 17;
 	
-	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 16, 4);
-	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 17, 4);
+	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 17, 4);
+	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 18, 4);
 
-	public static final int MAX_EXPLOSIVE_ID = 18;
+	public static final int MAX_EXPLOSIVE_ID = 19;
 	
 	//Hidden Explosives
 	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 20, 3);

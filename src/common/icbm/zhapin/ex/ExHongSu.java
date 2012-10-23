@@ -16,7 +16,7 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.core.Vector3;
 import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExHongSu extends ZhaPin

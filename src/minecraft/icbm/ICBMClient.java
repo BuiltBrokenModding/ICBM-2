@@ -49,7 +49,7 @@ import cpw.mods.fml.client.TextureFXManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
-public class ICBMClientProxy extends ICBMCommonProxy
+public class ICBMClient extends ICBMCommon
 {	
 	@Override
 	public void preInit()
@@ -91,18 +91,18 @@ public class ICBMClientProxy extends ICBMCommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 				
-		if(tileEntity != null || ID == ICBMCommonProxy.GUI_FREQUENCY)
+		if(tileEntity != null || ID == ICBMCommon.GUI_FREQUENCY)
         {
 			switch(ID)
 			{
-				case ICBMCommonProxy.GUI_RAIL_GUN: return new GCiGuiPao((TCiGuiPao)tileEntity, entityPlayer);
-				case ICBMCommonProxy.GUI_CRUISE_LAUNCHER: return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi)tileEntity);
-				case ICBMCommonProxy.GUI_LAUNCHER_SCREEN: return new GFaSheShiMuo(((TFaSheShiMuo)tileEntity));
-				case ICBMCommonProxy.GUI_RADAR_STATION: return new GLeiDaTai(((TLeiDaTai)tileEntity));
-				case ICBMCommonProxy.GUI_DETECTOR: return new GYinGanQi((TYinGanQi) tileEntity);
-				case ICBMCommonProxy.GUI_FREQUENCY: return new GFrequency(entityPlayer.inventory.getCurrentItem());
-				case ICBMCommonProxy.GUI_EMP_TOWER: return new GDianCiQi((TDianCiQi) tileEntity);
-				case ICBMCommonProxy.GUI_LAUNCHER_BASE: return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
+				case ICBMCommon.GUI_RAIL_GUN: return new GCiGuiPao((TCiGuiPao)tileEntity, entityPlayer);
+				case ICBMCommon.GUI_CRUISE_LAUNCHER: return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi)tileEntity);
+				case ICBMCommon.GUI_LAUNCHER_SCREEN: return new GFaSheShiMuo(((TFaSheShiMuo)tileEntity));
+				case ICBMCommon.GUI_RADAR_STATION: return new GLeiDaTai(((TLeiDaTai)tileEntity));
+				case ICBMCommon.GUI_DETECTOR: return new GYinGanQi((TYinGanQi) tileEntity);
+				case ICBMCommon.GUI_FREQUENCY: return new GFrequency(entityPlayer.inventory.getCurrentItem());
+				case ICBMCommon.GUI_EMP_TOWER: return new GDianCiQi((TDianCiQi) tileEntity);
+				case ICBMCommon.GUI_LAUNCHER_BASE: return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
 			}
         }
 		

@@ -9,8 +9,8 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldServer;
-import universalelectricity.prefab.Vector2;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.core.Vector2;
+import universalelectricity.core.Vector3;
 
 public class DZhuiZhong extends DaoDan
 {	

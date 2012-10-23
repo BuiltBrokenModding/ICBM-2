@@ -18,15 +18,15 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.UniversalElectricity;
-import universalelectricity.basiccomponents.multiblock.IBlockActivate;
-import universalelectricity.basiccomponents.multiblock.IMultiBlock;
+import universalelectricity.core.UniversalElectricity;
+import universalelectricity.core.Vector3;
 import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.implement.IRedstoneReceptor;
 import universalelectricity.implement.IRotatable;
 import universalelectricity.implement.ITier;
 import universalelectricity.prefab.BlockMachine;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.multiblock.IBlockActivate;
+import universalelectricity.prefab.multiblock.IMultiBlock;
 
 /**
  * Metadata of block

@@ -1,6 +1,6 @@
 package icbm.jiqi;
 
-import icbm.ICBMCommonProxy;
+import icbm.ICBMCommon;
 import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
@@ -10,15 +10,15 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.basiccomponents.multiblock.BlockMulti;
-import universalelectricity.basiccomponents.multiblock.IMultiBlock;
+import universalelectricity.core.Vector3;
 import universalelectricity.electricity.ElectricInfo;
 import universalelectricity.implement.IJouleStorage;
 import universalelectricity.implement.IRedstoneReceptor;
-import universalelectricity.network.IPacketReceiver;
-import universalelectricity.network.PacketManager;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.prefab.multiblock.BlockMulti;
+import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -28,7 +28,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
     public static final int MAX_RADIUS = 60;
 	
 	public float xuanZhuan = 0;
-	private float xuanZhuanLu = 0;
+	private float xuanZhuanLu, prevXuanZhuanLu = 0;
 	
     private double dian = 0;
     
@@ -75,11 +75,18 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 					
 		if(!this.worldObj.isRemote)
 		{
-	        if(this.ticks % 40 == 0 && this.yongZhe > 0)
+	        if(this.ticks % 3 == 0 && this.yongZhe > 0)
 	        {
-    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
+    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 12);
+	        }
+	        
+	        if(this.ticks % 60 == 0 && this.prevXuanZhuanLu != this.xuanZhuanLu)
+	        {
+    	    	PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 35);
 	        }
 		}
+		
+		this.prevXuanZhuanLu = this.xuanZhuanLu; 
     }
 	
 	@Override
@@ -209,14 +216,14 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYao.instance, ICBMCommonProxy.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		BlockMulti.makeInvisibleBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), Vector3.get(this));
 	}
 
 	@Override

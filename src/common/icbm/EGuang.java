@@ -3,7 +3,7 @@ package icbm;
 import net.minecraft.src.Entity;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.core.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

@@ -22,8 +22,8 @@ import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
-import universalelectricity.prefab.Vector2;
-import universalelectricity.prefab.Vector3;
+import universalelectricity.core.Vector2;
+import universalelectricity.core.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
