@@ -80,7 +80,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "ICBM", name = "ICBM", version = ZhuYao.VERSION, dependencies = "after:UniversalElectricity;after:AtomicScience")
+@Mod(modid = "ICBM", name = "ICBM", version = ZhuYao.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
 @NetworkMod(channels = ZhuYao.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 public class ZhuYao
 {
