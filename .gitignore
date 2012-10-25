@@ -28,6 +28,8 @@ LICENSE.txt
 !/src/common/icbm/
 !/src/common/dan200/
 !/src/common/chb/
+!/src/common/ic2/
+!/src/common/buildcraft/
 !/src/common/railcraft/
 !/src/common/atomicscience/
 !/resources/icbm/
