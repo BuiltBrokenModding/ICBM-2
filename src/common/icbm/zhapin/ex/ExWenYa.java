@@ -13,13 +13,13 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExLiZi extends ZhaPin
+public class ExWenYa extends ZhaPin
 {
 	public static final int BAN_JING = 20;
 	public static final int NENG_LIANG = 150;
 	public static final int CALC_SPEED = 800;
 
-	public ExLiZi(String name, int ID, int tier)
+	public ExWenYa(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 		this.setYinXin(200);

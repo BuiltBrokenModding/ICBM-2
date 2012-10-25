@@ -14,7 +14,6 @@ import icbm.zhapin.ex.ExFuLan;
 import icbm.zhapin.ex.ExHongSu;
 import icbm.zhapin.ex.ExHuanYuan;
 import icbm.zhapin.ex.ExHuo;
-import icbm.zhapin.ex.ExLiZi;
 import icbm.zhapin.ex.ExPiaoFu;
 import icbm.zhapin.ex.ExQunDan;
 import icbm.zhapin.ex.ExShengBuo;
@@ -22,6 +21,7 @@ import icbm.zhapin.ex.ExTaiYang;
 import icbm.zhapin.ex.ExTaiYang2;
 import icbm.zhapin.ex.ExTuPuo;
 import icbm.zhapin.ex.ExWan;
+import icbm.zhapin.ex.ExWenYa;
 import icbm.zhapin.ex.ExYaSuo;
 import icbm.zhapin.ex.ExYuanZi;
 
@@ -67,7 +67,7 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 7, 2);
 	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 8, 2);
 	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 9, 2);
-	public static final ZhaPin liZi = new ExLiZi("Ion", 10, 2);
+	public static final ZhaPin wenYa = new ExWenYa("Thermobaric", 10, 2);
 	public static final int MAX_TIER_TWO = 11;
 
 	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 11, 3);
