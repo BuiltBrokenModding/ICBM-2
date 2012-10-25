@@ -93,34 +93,9 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public int getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
-		// Get the tier of the explosive and find
-		// the row of it
 		int explosiveID = ((TZhaDan) par1IBlockAccess.getBlockTileEntity(x, y, z)).explosiveID;
 
-		int displacement = -1;
-		if (ZhaPin.list[explosiveID].getTier() == 4)
-			displacement = 0;
-
-		int rowPrefix = 16 + 16 * (ZhaPin.list[explosiveID].getTier() + displacement);
-
-		int columnPrefix = explosiveID;
-
-		switch (ZhaPin.list[explosiveID].getTier())
-		{
-			case 2:
-				columnPrefix -= ZhaPin.MAX_TIER_ONE;
-				break;
-			case 3:
-				columnPrefix -= ZhaPin.MAX_TIER_TWO;
-				break;
-			case 4:
-				columnPrefix -= ZhaPin.MAX_TIER_THREE;
-				break;
-		}
-
-		columnPrefix *= 3;
-
-		return side == 0 ? rowPrefix + columnPrefix : (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
+		return this.getBlockTextureFromSideAndMetadata(side, explosiveID);
 	}
 
 	@Override
@@ -128,9 +103,16 @@ public class BZhaDan extends BlockContainer
 	{
 		// Get the tier of the explosive and find
 		// the row of it
-		int displacement = -1;
-		if (ZhaPin.list[explosiveID].getTier() == 4)
-			displacement = 0;
+		int displacement = 0;
+		
+		if (ZhaPin.list[explosiveID].getTier() <= 2)
+		{
+			displacement = -1;
+		}
+		else if (ZhaPin.list[explosiveID].getTier() == 4)
+		{
+			displacement = 1;
+		}
 
 		int rowPrefix = 16 + 16 * (ZhaPin.list[explosiveID].getTier() + displacement);
 

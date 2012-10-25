@@ -1,5 +1,7 @@
 package icbm;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
@@ -29,6 +31,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	private boolean inGround = false;
 	public boolean doesArrowBelongToPlayer = false;
 	public boolean isExplosive;
+	public boolean isAnvil;
 	private boolean isExploding = false;
 
 	/**
@@ -54,26 +57,37 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 		super(par1World);
 		this.setSize(0.5F, 0.5F);
 	}
-
-	public ESuiPian(World par1World, double par2, double par4, double par6, boolean isExplosive)
+	
+	public ESuiPian(World par1World, double x, double y, double z, boolean isExplosive, boolean isAnvil)
 	{
 		super(par1World);
-		this.setSize(0.5F, 0.5F);
-		this.setPosition(par2, par4, par6);
+		this.setPosition(x, y, z);
 		this.yOffset = 0.0F;
 		this.isExplosive = isExplosive;
+		this.isAnvil = isAnvil;
+
+		if (this.isAnvil)
+		{
+			this.setSize(1, 1);
+		}
+		else
+		{
+			this.setSize(0.5f, 0.5f);
+		}
 	}
 
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
 		data.writeBoolean(this.isExplosive);
+		data.writeBoolean(this.isAnvil);
 	}
 
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
 		this.isExplosive = data.readBoolean();
+		this.isAnvil = data.readBoolean();
 	}
 
 	@Override
@@ -156,6 +170,19 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	{
 		super.onUpdate();
 
+		if (this.isAnvil)
+		{
+			ArrayList entities = new ArrayList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox));
+
+			Iterator var5 = entities.iterator();
+
+			while (var5.hasNext())
+			{
+				Entity entity = (Entity) var5.next();
+				entity.attackEntityFrom(DamageSource.field_82728_o, 5);
+			}
+		}
+
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
 		{
 			float var1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -194,6 +221,10 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 				}
 				else
 				{
+					if (this.isAnvil && this.worldObj.rand.nextFloat() > 0.5f)
+					{
+						this.worldObj.playAuxSFX(1022, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+					}
 					this.setDead();
 				}
 			}

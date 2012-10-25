@@ -22,7 +22,7 @@ public class ExWenYa extends ZhaPin
 	public ExWenYa(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setYinXin(200);
+		this.setYinXin(120);
 	}
 
 	@Override
@@ -227,6 +227,6 @@ public class ExWenYa extends ZhaPin
 	public void init()
 	{
 		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "@@@", "@U@", "@@@", '@', Block.tnt, 'U', "ingotUranium" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		{ "TTT", "TUT", "TTT", 'T', Block.tnt, 'U', "ingotUranium" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }
