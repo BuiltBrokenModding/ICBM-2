@@ -213,6 +213,7 @@ public class ZhuYao
 
 		// Set ICBM API Variables
 		ICBM.explosiveBlock = this.bZha4Dan4;
+		ICBM.explosionManager = ZhaPin.class;
 
 		this.proxy.preInit();
 	}
@@ -483,12 +484,12 @@ public class ZhuYao
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new MingLing());
 
-		BaoHu.nbtData = BaoHu.loadData("ICMB");
+		BaoHu.nbtData = BaoHu.loadData("ICBM");
 	}
 
 	@ServerStopping
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
-		BaoHu.saveData(BaoHu.nbtData, "ICMB");
+		BaoHu.saveData(BaoHu.nbtData, "ICBM");
 	}
 }

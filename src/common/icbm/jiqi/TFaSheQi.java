@@ -2,6 +2,7 @@ package icbm.jiqi;
 
 import icbm.api.Launcher.ILauncher;
 import icbm.api.Launcher.LauncherType;
+import icbm.daodan.EDaoDan;
 import universalelectricity.core.Vector3;
 import universalelectricity.prefab.TileEntityElectricityReceiver;
 import dan200.computer.api.IComputerAccess;
@@ -20,6 +21,8 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 		super();
 		FaSheQiGuanLi.jiaFaSheQi(this);
 	}
+
+	public abstract EDaoDan getMissile();
 
 	@Override
 	public Vector3 getTarget()
@@ -79,7 +82,7 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	public String[] getMethodNames()
 	{
 		return new String[]
-		{ "launch", "getTarget", "setTarget", "canLaunch", "setFrequency", "getFrequency" };
+		{ "launch", "getTarget", "setTarget", "canLaunch", "setFrequency", "getFrequency", "getMissile" };
 	}
 
 	@Override
@@ -129,6 +132,16 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 			case 5:
 				return new Object[]
 				{ this.getFrequency() };
+			case 6:
+				if (this.getMissile() != null)
+				{
+					return new Object[]
+					{ this.getMissile().getEntityName() };
+				}
+				else
+				{
+					return null;
+				}
 		}
 
 		throw new Exception("Invalid ICBM Launcher Function.");

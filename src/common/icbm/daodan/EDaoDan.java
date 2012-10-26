@@ -33,7 +33,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMissile
 {
-	public int missileID = 0;
+	public int explosiveID = 0;
 	public int skyLimit = 200;
 	public Vector3 muBiao = null;
 	public Vector3 startingPosition = null;
@@ -82,7 +82,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public EDaoDan(World par1World, Vector3 position, Vector3 launcherPosition, int metadata)
 	{
 		this(par1World);
-		this.missileID = metadata;
+		this.explosiveID = metadata;
 		this.startingPosition = position;
 		this.missileLauncherPosition = launcherPosition;
 
@@ -93,15 +93,15 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public String getEntityName()
 	{
-		if (this.missileID > 100) { return DaoDan.list[this.missileID].getMing(); }
+		if (this.explosiveID > 100) { return DaoDan.list[this.explosiveID].getMing(); }
 
-		return ZhaPin.list[this.missileID].getDaoDanMing();
+		return ZhaPin.list[this.explosiveID].getDaoDanMing();
 	}
 
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
-		data.writeInt(this.missileID);
+		data.writeInt(this.explosiveID);
 
 		data.writeDouble(this.startingPosition.x);
 		data.writeDouble(this.startingPosition.y);
@@ -115,7 +115,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
-		this.missileID = data.readInt();
+		this.explosiveID = data.readInt();
 
 		this.startingPosition = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
 
@@ -205,7 +205,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.allowMissile(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.shiDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			if (this.ticksInAir >= 0)
 			{
@@ -266,7 +266,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 					// Look at the next point
 					this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-					DaoDan.list[this.missileID].onTickFlight(this);
+					DaoDan.list[this.explosiveID].onTickFlight(this);
 
 					this.noClip = false;
 
@@ -311,7 +311,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 						// Look at the next point
 						this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-						DaoDan.list[this.missileID].onTickFlight(this);
+						DaoDan.list[this.explosiveID].onTickFlight(this);
 
 						this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -384,9 +384,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 			}
 			else if (tileEntity instanceof TXiaoFaSheQi)
 			{
-				if (((TXiaoFaSheQi) tileEntity).containingMissile == null)
+				if (((TXiaoFaSheQi) tileEntity).eDaoDan == null)
 				{
-					((TXiaoFaSheQi) tileEntity).containingMissile = this;
+					((TXiaoFaSheQi) tileEntity).eDaoDan = this;
 				}
 
 				this.isCruise = true;
@@ -424,7 +424,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer)
 	{
-		if (DaoDan.list[this.missileID] != null) { return DaoDan.list[this.missileID].onInteract(this, par1EntityPlayer); }
+		if (DaoDan.list[this.explosiveID] != null) { return DaoDan.list[this.explosiveID].onInteract(this, par1EntityPlayer); }
 
 		return false;
 	}
@@ -505,13 +505,13 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 				if (!this.worldObj.isRemote)
 				{
-					if (this.missileID == 0)
+					if (this.explosiveID == 0)
 					{
 						this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
 					}
 					else
 					{
-						DaoDan.list[this.missileID].onExplode(this);
+						DaoDan.list[this.explosiveID].onExplode(this);
 					}
 
 					FMLLog.fine(this.getEntityName() + " landed on " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
@@ -546,7 +546,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	{
 		if (!this.isExploding && !this.worldObj.isRemote)
 		{
-			EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itDaoDan, 1, this.missileID + 1));
+			EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itDaoDan, 1, this.explosiveID + 1));
 			float var13 = 0.05F;
 			Random random = new Random();
 			entityItem.motionX = ((float) random.nextGaussian() * var13);
@@ -569,7 +569,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.missileLauncherPosition = Vector3.readFromNBT("missileLauncherPosition", par1NBTTagCompound);
 		this.acceleration = par1NBTTagCompound.getFloat("acceleration");
 		this.heightBeforeHit = par1NBTTagCompound.getInteger("HeightBeforeHit");
-		this.missileID = par1NBTTagCompound.getInteger("missileID");
+		this.explosiveID = par1NBTTagCompound.getInteger("missileID");
 		this.ticksInAir = par1NBTTagCompound.getInteger("ticksInAir");
 		this.isCruise = par1NBTTagCompound.getBoolean("isCruise");
 	}
@@ -589,7 +589,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.missileLauncherPosition.writeToNBT("missileLauncherPosition", par1NBTTagCompound);
 
 		par1NBTTagCompound.setFloat("acceleration", this.acceleration);
-		par1NBTTagCompound.setInteger("missileID", this.missileID);
+		par1NBTTagCompound.setInteger("missileID", this.explosiveID);
 		par1NBTTagCompound.setInteger("HeightBeforeHit", this.heightBeforeHit);
 		par1NBTTagCompound.setInteger("ticksInAir", this.ticksInAir);
 		par1NBTTagCompound.setBoolean("isCruise", this.isCruise);

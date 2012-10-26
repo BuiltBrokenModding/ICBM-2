@@ -104,7 +104,7 @@ public class BZhaDan extends BlockContainer
 		// Get the tier of the explosive and find
 		// the row of it
 		int displacement = 0;
-		
+
 		if (ZhaPin.list[explosiveID].getTier() <= 2)
 		{
 			displacement = -1;
@@ -147,7 +147,7 @@ public class BZhaDan extends BlockContainer
 
 		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
 
-		if (!BaoHu.allowExplosiveBlock(par1World, new Vector2(x, z)) && !par1World.isRemote)
+		if (!BaoHu.shiZhaDanBaoHu(par1World, new Vector2(x, z)) && !par1World.isRemote)
 		{
 			this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
 			par1World.setBlockWithNotify(x, y, z, 0);

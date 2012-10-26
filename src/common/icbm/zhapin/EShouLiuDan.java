@@ -146,7 +146,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	 */
 	public void onUpdate()
 	{
-		if (!BaoHu.allowGrenade(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.shiShouLiuDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			if (!this.worldObj.isRemote)
 			{

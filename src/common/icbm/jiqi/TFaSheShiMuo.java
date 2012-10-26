@@ -3,6 +3,7 @@ package icbm.jiqi;
 import icbm.ICBMCommon;
 import icbm.ZhuYao;
 import icbm.api.Launcher.LauncherType;
+import icbm.daodan.EDaoDan;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.INetworkManager;
 import net.minecraft.src.ItemStack;
@@ -403,5 +404,13 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	public void setFrequency(short frequency, Object... data)
 	{
 		this.frequency = frequency;
+	}
+
+	@Override
+	public EDaoDan getMissile()
+	{
+		if (this.connectedBase != null) { return this.connectedBase.eDaoDan; }
+
+		return null;
 	}
 }

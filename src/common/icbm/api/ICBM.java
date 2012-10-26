@@ -24,7 +24,7 @@ public class ICBM
 	 * instance.
 	 */
 	public static Block explosiveBlock;
-	public static Object explosionManager;
+	public static Class explosionManager;
 
 	/**
 	 * Some texture file directory references.
@@ -69,8 +69,8 @@ public class ICBM
 	{
 		try
 		{
-			Method m = explosionManager.getClass().getMethod("createExplosion", World.class, Double.class, Double.class, Double.class, Entity.class, Integer.class);
-			m.invoke(explosionManager, worldObj, x, y, z, entity, explosiveID);
+			Method m = explosionManager.getMethod("createExplosion", World.class, Double.class, Double.class, Double.class, Entity.class, Integer.class);
+			m.invoke(null, worldObj, x, y, z, entity, explosiveID);
 		}
 		catch (Exception e)
 		{

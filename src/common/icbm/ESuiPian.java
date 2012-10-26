@@ -57,7 +57,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 		super(par1World);
 		this.setSize(0.5F, 0.5F);
 	}
-	
+
 	public ESuiPian(World par1World, double x, double y, double z, boolean isExplosive, boolean isAnvil)
 	{
 		super(par1World);

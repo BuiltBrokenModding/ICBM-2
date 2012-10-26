@@ -10,13 +10,13 @@ import java.util.Iterator;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
+import universalelectricity.core.UEConfig;
 import universalelectricity.core.Vector2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 
 public class BaoHu
 {
-
 	/**
 	 * File Structure: Tag: DimData -Tag: DimID
 	 * -boolean: globalBan -Tag: RegionName -int:
@@ -30,28 +30,25 @@ public class BaoHu
 	public static final String FIELD_Z = "Z";
 	public static final String FIELD_R = "R";
 
-	public static boolean isPositionProtected(World worldObj, Vector2 position, ZhaPinType type)
+	public static final boolean DEFAULT_PROTECITON = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Protect Worlds by Default", false);
+
+	public static boolean shiWeiZhiBaoHu(World worldObj, Vector2 position, ZhaPinType type)
 	{
 		if (!worldObj.isRemote)
 		{
-			NBTTagCompound dimdata = nbtData.getCompoundTag("dim" + worldObj.getWorldInfo().getDimension());
+			NBTTagCompound dimData = nbtData.getCompoundTag("dim" + worldObj.getWorldInfo().getDimension());
 
-			// Check if ICBM is banned in this
-			// world.
-			if (dimdata.getBoolean(FIELD_GLOBAL_BAN)) { return true; }
+			if (shiQuanQiuBaoHu(dimData)) { return true; }
 
 			// Regions check
-			Iterator i = dimdata.getTags().iterator();
+			Iterator i = dimData.getTags().iterator();
 			while (i.hasNext())
 			{
 				try
 				{
 					NBTTagCompound region = (NBTTagCompound) i.next();
 
-					if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R))
-					{
-						if (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.ALL || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type) { return true; }
-					}
+					if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R)) { return (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.ALL || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type); }
 				}
 				catch (Exception e)
 				{
@@ -62,19 +59,24 @@ public class BaoHu
 		return false;
 	}
 
-	public static boolean allowExplosiveBlock(World worldObj, Vector2 position)
+	public static boolean shiZhaDanBaoHu(World worldObj, Vector2 position)
 	{
-		return !isPositionProtected(worldObj, position, ZhaPinType.BLOCK);
+		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.BLOCK);
 	}
 
-	public static boolean allowGrenade(World worldObj, Vector2 position)
+	public static boolean shiShouLiuDanBaoHu(World worldObj, Vector2 position)
 	{
-		return !isPositionProtected(worldObj, position, ZhaPinType.GRENADE);
+		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.GRENADE);
 	}
 
-	public static boolean allowMissile(World worldObj, Vector2 position)
+	public static boolean shiDaoDanBaoHu(World worldObj, Vector2 position)
 	{
-		return !isPositionProtected(worldObj, position, ZhaPinType.MISSILE);
+		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.MISSILE);
+	}
+
+	public static boolean shiQuanQiuBaoHu(NBTTagCompound dimData)
+	{
+		return ((!dimData.hasKey(FIELD_GLOBAL_BAN) && DEFAULT_PROTECITON) || dimData.getBoolean(FIELD_GLOBAL_BAN));
 	}
 
 	public static boolean saveData(NBTTagCompound data, String filename)

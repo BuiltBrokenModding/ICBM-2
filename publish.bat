@@ -1,13 +1,14 @@
+::ICBM BUILDER
 @echo off
-echo What version is Universal Electricity for this build? Parameters?
-set /p UE_VERSION=
+echo Promotion Type?
+set /p PROMOTION=
 
 set /p MODVERSION=<modversion.txt
 set /p CurrentBuild=<buildnumber.txt
 set /a BUILD_NUMBER=%CurrentBuild%+1
 echo %BUILD_NUMBER% >buildnumber.txt
 
-set FILE_NAME=ICBM_v%MODVERSION%.%BUILD_NUMBER%.zip
+set FILE_NAME=ICBM_v%MODVERSION%.%BUILD_NUMBER%.jar
 set API_NAME=ICBM_v%MODVERSION%.%BUILD_NUMBER%_api.zip
 
 echo Starting to build %FILE_NAME%
@@ -32,15 +33,15 @@ cd ..\..\
 
 cd resources\
 "..\..\7za.exe" a "..\builds\%FILE_NAME%" "icbm\"
-"..\..\7za.exe" a "..\backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -phenry
+"..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -phenry
 cd ..\
 cd src\
-"..\..\7za.exe" a "..\backup\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
+"..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
 "..\..\7za.exe" a "..\builds\%API_NAME%" "*\icbm\api\"
 cd ..\
 
 ::UPDATE INFO FILE
-echo %FILE_NAME% %UE_VERSION%>>info.txt
+echo %PROMOTION% %FILE_NAME% %FILE_NAME%>>info.txt
 
 ::GENERATE FTP Script
 echo open www.calclavia.com>ftpscript.txt

@@ -28,7 +28,7 @@ import com.google.common.io.ByteArrayDataInput;
 public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketReceiver, IInventory, ISidedInventory
 {
 	// The missile that this launcher is holding
-	public EDaoDan containingMissile = null;
+	public EDaoDan eDaoDan = null;
 
 	public float rotationYaw = 0;
 
@@ -161,7 +161,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			status = "No Power!";
 		}
-		else if (this.containingMissile == null)
+		else if (this.eDaoDan == null)
 		{
 			status = "Silo Empty!";
 		}
@@ -246,40 +246,40 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.allowMissile(this.worldObj, Vector3.get(this).toVector2()))
+		if (this.containingItems[0] != null && BaoHu.shiDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			if (this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex)
 			{
 				int missileId = this.containingItems[0].getItemDamage();
 
-				if (this.containingMissile == null)
+				if (this.eDaoDan == null)
 				{
 					if (DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
 					{
 						Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-						this.containingMissile = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
-						this.worldObj.spawnEntityInWorld(this.containingMissile);
+						this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
+						this.worldObj.spawnEntityInWorld(this.eDaoDan);
 						return;
 					}
 				}
 
-				if (this.containingMissile != null)
+				if (this.eDaoDan != null)
 				{
-					if (this.containingMissile.missileID == missileId)
+					if (this.eDaoDan.explosiveID == missileId)
 					{
-						this.containingMissile.posY = this.yCoord + 0.2f;
+						this.eDaoDan.posY = this.yCoord + 0.2f;
 						return;
 					}
 				}
 			}
 		}
 
-		if (this.containingMissile != null)
+		if (this.eDaoDan != null)
 		{
-			this.containingMissile.setDead();
+			this.eDaoDan.setDead();
 		}
 
-		this.containingMissile = null;
+		this.eDaoDan = null;
 	}
 
 	@Override
@@ -350,7 +350,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean canLaunch()
 	{
-		if (this.containingMissile != null && this.containingItems[0] != null)
+		if (this.eDaoDan != null && this.containingItems[0] != null)
 		{
 			DaoDan missile = DaoDan.list[this.containingItems[0].getItemDamage()];
 
@@ -382,8 +382,8 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			this.decrStackSize(0, 1);
 			this.setJoules(0);
-			this.containingMissile.launchMissile(this.muBiao);
-			this.containingMissile = null;
+			this.eDaoDan.launchMissile(this.muBiao);
+			this.eDaoDan = null;
 		}
 	}
 
@@ -546,5 +546,11 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public LauncherType getLauncherType()
 	{
 		return LauncherType.CRUISE;
+	}
+
+	@Override
+	public EDaoDan getMissile()
+	{
+		return this.eDaoDan;
 	}
 }

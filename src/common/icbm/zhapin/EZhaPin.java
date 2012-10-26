@@ -1,5 +1,7 @@
 package icbm.zhapin;
 
+import icbm.BaoHu;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +113,12 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
+		if (!BaoHu.shiZhaDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		{
+			this.setDead();
+			return;
+		}
+
 		if (this.isMobile && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))
 		{
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);

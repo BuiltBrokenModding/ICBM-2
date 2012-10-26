@@ -71,7 +71,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.allowExplosiveBlock(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.shiZhaDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			ZhuYao.bZha4Dan4.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
 			this.setDead();

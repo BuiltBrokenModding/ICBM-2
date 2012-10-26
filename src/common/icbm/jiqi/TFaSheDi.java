@@ -235,7 +235,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 	private void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.allowMissile(this.worldObj, Vector3.get(this).toVector2()))
+		if (this.containingItems[0] != null && BaoHu.shiDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			if (this.containingItems[0].getItem() instanceof ItDaoDan)
 			{
@@ -253,7 +253,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 					this.worldObj.spawnEntityInWorld(this.eDaoDan);
 					return;
 				}
-				else if (this.eDaoDan.missileID == missileId) { return; }
+				else if (this.eDaoDan.explosiveID == missileId) { return; }
 			}
 		}
 
