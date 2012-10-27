@@ -13,7 +13,7 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import railcraft.common.api.carts.IPrimableCart;
+import railcraft.common.api.carts.IExplosiveCart;
 import universalelectricity.core.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -22,7 +22,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EChe extends EntityMinecart implements IPrimableCart, IEntityAdditionalSpawnData
+public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAdditionalSpawnData
 {
 	public int explosiveID = 0;
 	public int fuse = -1;
@@ -95,9 +95,9 @@ public class EChe extends EntityMinecart implements IPrimableCart, IEntityAdditi
 	}
 
 	@Override
-	public short getFuse()
+	public int getFuse()
 	{
-		return (short) this.fuse;
+		return this.fuse;
 	}
 
 	@Override

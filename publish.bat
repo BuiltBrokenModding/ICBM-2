@@ -41,7 +41,7 @@ cd src\
 cd ..\
 
 ::UPDATE INFO FILE
-echo %PROMOTION% %FILE_NAME% %FILE_NAME%>>info.txt
+echo %PROMOTION% %FILE_NAME%>>info.txt
 
 ::GENERATE FTP Script
 echo open www.calclavia.com>ftpscript.txt

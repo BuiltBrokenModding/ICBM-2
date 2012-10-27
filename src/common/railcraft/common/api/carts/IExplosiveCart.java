@@ -1,6 +1,6 @@
 package railcraft.common.api.carts;
 
-public interface IPrimableCart
+public interface IExplosiveCart
 {
 
     /**
@@ -23,7 +23,7 @@ public interface IPrimableCart
      *
      * @return fuse length in ticks
      */
-    public short getFuse();
+    public int getFuse();
 
     /**
      * Optional function to allow setting the fuse duration.
