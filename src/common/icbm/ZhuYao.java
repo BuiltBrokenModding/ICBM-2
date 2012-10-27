@@ -302,7 +302,7 @@ public class ZhuYao
 			{
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itDaoDan, 1, i), "Conventional Missile");
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itShouLiuDan, 1, i), "Conventional Grenade");
-				LanguageRegistry.addName(new ItemStack(ZhuYao.itChe, 1, i), "Conventional Minecart");
+				LanguageRegistry.addName(new ItemStack(ZhuYao.itChe, 1, i), "Explosive Minecart");
 			}
 			else
 			{
