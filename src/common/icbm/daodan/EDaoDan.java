@@ -62,6 +62,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public int genZongE = -1;
 	// For cluster missile
 	public int missileCount = 0;
+	
+	public double missileHeight = 2;
 
 	// Cruise Missile
 	public boolean isCruise;
@@ -418,7 +420,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 					this.rotationPitch += (newRotationPitch - this.rotationPitch) * 0.1;
 				}
 			}
-		}
+		}		
 	}
 
 	@Override
@@ -434,17 +436,17 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		if (this.worldObj.isRemote)
 		{
 			Vector3 position = Vector3.get(this);
-			/*
-			 * double phi = Math.PI*2 / 360 *
-			 * (this.rotationYaw + 180) ; double
-			 * theta = Math.PI / 360 *
-			 * this.rotationPitch; Vector3
-			 * deltaPosition = new
-			 * Vector3(Math.sin(theta) *
-			 * Math.cos(phi), Math.cos(theta),
-			 * Math.sin(theta) * Math.sin(phi));
-			 * position.add(deltaPosition);
-			 */
+			//The distance of the smoke relative to the missile.
+			double distance = -missileHeight-0.2f;
+			Vector3 delta = new Vector3();
+			//The delta Y of the smoke.
+			delta.y = Math.sin(Math.toRadians(this.rotationPitch)) * distance;
+			//The horizontal distance of the smoke.
+			double dH = Math.cos(Math.toRadians(this.rotationPitch)) * distance;
+			//The delta X and Z.
+			delta.x = Math.sin(Math.toRadians(this.rotationYaw)) * dH;
+			delta.z = Math.cos(Math.toRadians(this.rotationYaw)) * dH;
+			position.add(delta);
 			ParticleSpawner.spawnParticle("smoke", this.worldObj, position);
 			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
 		}
