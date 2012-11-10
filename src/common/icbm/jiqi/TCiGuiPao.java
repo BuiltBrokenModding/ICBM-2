@@ -577,7 +577,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	}
 
 	@Override
-	public double getMaxJoules()
+	public double getMaxJoules(Object... data)
 	{
 		return 800000;
 	}

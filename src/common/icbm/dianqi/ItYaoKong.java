@@ -85,7 +85,7 @@ public class ItYaoKong extends ItemElectric
 	}
 
 	@Override
-	public double getMaxJoules()
+	public double getMaxJoules(Object... data)
 	{
 		return 50000;
 	}

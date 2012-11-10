@@ -181,7 +181,7 @@ public class ItLeiDaQiang extends ItemElectric
 	}
 
 	@Override
-	public double getMaxJoules()
+	public double getMaxJoules(Object... data)
 	{
 		return 100000;
 	}

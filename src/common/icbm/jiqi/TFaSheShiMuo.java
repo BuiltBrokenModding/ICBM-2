@@ -368,7 +368,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public double getMaxJoules()
+	public double getMaxJoules(Object... data)
 	{
 		switch (this.getTier())
 		{

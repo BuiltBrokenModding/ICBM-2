@@ -86,7 +86,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	}
 
 	@Override
-	public double getMaxJoules()
+	public double getMaxJoules(Object... data)
 	{
 		return 100000;
 	}
