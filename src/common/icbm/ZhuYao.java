@@ -50,10 +50,10 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.core.UEConfig;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.Vector3;
-import universalelectricity.implement.UEDamageSource;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.RecipeHelper;
+import universalelectricity.prefab.UEDamageSource;
 import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.ore.OreGenBase;
@@ -90,7 +90,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String VERSION = "0.6.0";
+	public static final String VERSION = "0.6.1";
 
 	public static final String CHANNEL = "ICBM";
 	
@@ -111,7 +111,7 @@ public class ZhuYao
 
 	public static final int BLOCK_ID_PREFIX = 3880;
 	public static final Block bLiu = new BLiu(UEConfig.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX - 1));
-	public static final Block bBuo1LiPan = new BBuo1Li4Pan2(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", BLOCK_ID_PREFIX + 0), 0);
+	public static final Block bBuo1LiPan = new BBuoLiPan(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", BLOCK_ID_PREFIX + 0), 0);
 	public static final Block bZha4Dan4 = new BZhaDan(UEConfig.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX + 1), 16);
 	public static final Block bJiQi = new BJiQi(UEConfig.getBlockConfigID(CONFIGURATION, "Block Machine", BLOCK_ID_PREFIX + 3));
 	public static Block bFuShe;
@@ -149,7 +149,7 @@ public class ZhuYao
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UniversalElectricity.register(this, 1, 0, 0, false);
+		UniversalElectricity.register(this, 1, 1, 0, false);
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
@@ -349,10 +349,10 @@ public class ZhuYao
 
 		// Radar Gun
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itLeiDaQiang), new Object[]
-		{ "@#!", " $!", "  !", '@', Block.glass, '!', "ingotSteel", '#', "basicCircuit", '$', Block.button }));
+		{ "@#!", " $!", "  !", '@', Block.glass, '!', "ingotSteel", '#', "basicCircuit", '$', Block.stoneButton }));
 		// Remote
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itYaoKong), new Object[]
-		{ "?@@", "@#$", "@@@", '@', "ingotSteel", '?', Item.redstone, '#', "advancedCircuit", '$', Block.button }));
+		{ "?@@", "@#$", "@@@", '@', "ingotSteel", '?', Item.redstone, '#', "advancedCircuit", '$', Block.stoneButton }));
 		// Laser Designator
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itLeiSheZhiBiao), new Object[]
 		{ "!  ", " ? ", "  @", '@', ZhuYao.itYaoKong.getUncharged(), '?', "eliteCircuit", '!', ZhuYao.itLeiDaQiang.getUncharged() }));

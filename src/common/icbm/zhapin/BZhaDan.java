@@ -17,12 +17,13 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.Vector2;
-import universalelectricity.core.Vector3;
-import universalelectricity.implement.IRotatable;
+import universalelectricity.core.vector.Vector2;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.implement.IRotatable;
 import buildcraft.api.tools.IToolWrench;
 
 public class BZhaDan extends BlockContainer
@@ -65,12 +66,23 @@ public class BZhaDan extends BlockContainer
 	{
 		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
 
+		if (!par1World.isRemote)
+		{
+			if (!BaoHu.nengDanBaoHu(par1World, new Vector2(x, z)))
+			{
+				this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
+				par1World.setBlockWithNotify(x, y, z, 0);
+				return;
+			}
+		}
+
 		par1World.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(par1World, x, y, z, par5EntityLiving)), ForgeDirection.NORTH).ordinal());
 
 		if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
 		{
 			BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
 		}
+
 		// Check to see if there is fire nearby.
 		// If so, then detonate.
 		for (byte i = 0; i < 6; i++)
@@ -106,13 +118,17 @@ public class BZhaDan extends BlockContainer
 		// the row of it
 		int displacement = 0;
 
-		if (ZhaPin.list[explosiveID].getTier() <= 2)
+		if (ZhaPin.list[explosiveID].getTier() == 1)
 		{
 			displacement = -1;
 		}
-		else if (ZhaPin.list[explosiveID].getTier() == 4)
+		else if(ZhaPin.list[explosiveID].getTier() == 3)
 		{
 			displacement = 1;
+		}
+		else if (ZhaPin.list[explosiveID].getTier() == 4)
+		{
+			displacement = 2;
 		}
 
 		int rowPrefix = 16 + 16 * (ZhaPin.list[explosiveID].getTier() + displacement);
@@ -147,13 +163,6 @@ public class BZhaDan extends BlockContainer
 		super.onBlockAdded(par1World, x, y, z);
 
 		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
-
-		if (!BaoHu.shiZhaDanBaoHu(par1World, new Vector2(x, z)) && !par1World.isRemote)
-		{
-			this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
-			par1World.setBlockWithNotify(x, y, z, 0);
-			return;
-		}
 	}
 
 	/**
@@ -186,10 +195,12 @@ public class BZhaDan extends BlockContainer
 	{
 		if (!par1World.isRemote)
 		{
-			ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
+			if (BaoHu.nengDanBaoHu(par1World, new Vector2(x, z)))
+			{
+				ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
+				par1World.setBlockWithNotify(x, y, z, 0);
+			}
 		}
-
-		par1World.setBlockWithNotify(x, y, z, 0);
 	}
 
 	/**
@@ -263,6 +274,18 @@ public class BZhaDan extends BlockContainer
 	public String getTextureFile()
 	{
 		return ICBM.BLOCK_TEXTURE_FILE;
+	}
+
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	{
+		if (world.getBlockTileEntity(x, y, z) != null)
+		{
+			int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).explosiveID;
+
+			return new ItemStack(this.blockID, 1, explosiveID);
+		}
+
+		return null;
 	}
 
 	@Override

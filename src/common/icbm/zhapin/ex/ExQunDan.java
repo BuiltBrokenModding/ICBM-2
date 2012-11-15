@@ -10,7 +10,7 @@ import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
 public class ExQunDan extends ZhaPin
@@ -92,7 +92,7 @@ public class ExQunDan extends ZhaPin
 		else if (this.getID() == ZhaPin.zhen.getID())
 		{
 			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[]
-			{ "SSS", "SAS", "SSS", 'A', Block.field_82510_ck, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
+			{ "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.qunDan.getID())
 		{

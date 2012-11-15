@@ -14,9 +14,9 @@ import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.Vector3;
-import universalelectricity.implement.IRotatable;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import universalelectricity.prefab.implement.IRotatable;
 import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExTuPuo extends ZhaPin

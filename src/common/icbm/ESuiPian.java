@@ -44,7 +44,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	private int ticksInGround;
 	private int ticksInAir = 0;
 	private final int damage = 11;
-	private int field_46027_au;
+	private int knowBackStrength;
 
 	/**
 	 * Is this arrow a critical hit? (Controls
@@ -179,7 +179,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 			while (var5.hasNext())
 			{
 				Entity entity = (Entity) var5.next();
-				entity.attackEntityFrom(DamageSource.field_82728_o, 5);
+				entity.attackEntityFrom(DamageSource.anvil, 5);
 			}
 		}
 
@@ -310,16 +310,20 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 					if (var3.entityHit.attackEntityFrom(damageSource, damage))
 					{
 						if (var3.entityHit instanceof EntityLiving)
-						{
-							++((EntityLiving) var3.entityHit).arrowHitTempCounter;
+						{							
+							if (!this.worldObj.isRemote)
+                            {
+                                EntityLiving var24 = (EntityLiving)var3.entityHit;
+                                var24.func_85034_r(var24.func_85035_bI() + 1);
+                            }
 
-							if (this.field_46027_au > 0)
+							if (this.knowBackStrength > 0)
 							{
 								float var21 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
 								if (var21 > 0.0F)
 								{
-									var3.entityHit.addVelocity(this.motionX * this.field_46027_au * 0.6000000238418579D / var21, 0.1D, this.motionZ * this.field_46027_au * 0.6000000238418579D / var21);
+									var3.entityHit.addVelocity(this.motionX * this.knowBackStrength * 0.6000000238418579D / var21, 0.1D, this.motionZ * this.knowBackStrength * 0.6000000238418579D / var21);
 								}
 							}
 						}

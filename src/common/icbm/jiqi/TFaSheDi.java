@@ -18,14 +18,14 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.UEConfig;
-import universalelectricity.core.Vector3;
-import universalelectricity.implement.IRotatable;
-import universalelectricity.implement.ITier;
-import universalelectricity.prefab.TileEntityAdvanced;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.implement.IRotatable;
+import universalelectricity.prefab.implement.ITier;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityAdvanced;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -235,7 +235,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 	private void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.shiDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			if (this.containingItems[0].getItem() instanceof ItDaoDan)
 			{

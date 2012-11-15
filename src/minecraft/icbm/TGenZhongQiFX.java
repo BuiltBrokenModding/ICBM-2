@@ -105,7 +105,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 				{
 					ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
 
-					Entity trackingEntity = ItGenZongQi.getTrackingEntityClient((WorldClient) FMLClientHandler.instance().getClient().theWorld, itemStack);
+					Entity trackingEntity = ItGenZongQi.getTrackingEntity(FMLClientHandler.instance().getClient().theWorld, itemStack);
 
 					if (trackingEntity != null)
 					{

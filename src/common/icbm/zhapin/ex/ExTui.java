@@ -6,26 +6,28 @@ import icbm.zhapin.ZhaPin;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkPosition;
 import net.minecraft.src.Entity;
-import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.vector.Region3;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExYaSuo extends ZhaPin
+public class ExTui extends ZhaPin
 {
 	private static final int MAX_BAN_JING = 16;
 	private static final float BAN_JING = 2F;
 	private static final float NENG_LIANG = 10F;
 
-	public ExYaSuo(String name, int ID, int tier)
+	public ExTui(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
-		this.setYinXin(1);
+		this.setYinXin(120);
 	}
 
 	@Override
@@ -35,6 +37,7 @@ public class ExYaSuo extends ZhaPin
 
 		if (!worldObj.isRemote)
 		{
+
 			for (int x = 0; x < MAX_BAN_JING; ++x)
 			{
 				for (int y = 0; y < MAX_BAN_JING; ++y)
@@ -80,11 +83,10 @@ public class ExYaSuo extends ZhaPin
 					}
 				}
 			}
-
 		}
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "random.explode", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG, false);
+		this.pushEntities(worldObj, position, 10);
 
 		if (!worldObj.isRemote)
 		{
@@ -133,15 +135,43 @@ public class ExYaSuo extends ZhaPin
 		}
 	}
 
-	public String getDaoDanMing()
+	public void pushEntities(World worldObj, Vector3 position, float radius)
 	{
-		return "Conventional Missile";
+		// Step 2: Damage all entities
+		Vector3 minCoord = position.clone();
+		minCoord.add(-radius - 1);
+		Vector3 maxCoord = position.clone();
+		maxCoord.add(radius + 1);
+
+		Region3 region = new Region3(minCoord, maxCoord);
+		List<Entity> entities = region.getEntities(worldObj, Entity.class);
+
+		for (Entity entity : entities)
+		{
+			double var13 = entity.getDistance(position.x, position.y, position.z) / radius;
+
+			if (var13 <= 1.0D)
+			{
+				double xDifference = entity.posX - position.x;
+				double yDifference = entity.posY - position.y;
+				double zDifference = entity.posZ - position.z;
+				double var35 = MathHelper.sqrt_double(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
+				xDifference /= var35;
+				yDifference /= var35;
+				zDifference /= var35;
+				double var36 = (1.0D - var13) * 3;
+
+				entity.motionX += xDifference * var36;
+				entity.motionY += yDifference * var36;
+				entity.motionZ += zDifference * var36;
+			}
+		}
 	}
 
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[]
-		{ "@?@", '@', Block.tnt, '?', Item.redstone }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+		{ "@", "@", '@', ZhaPin.yaSuo.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

@@ -52,7 +52,7 @@ public class CXiaoFaSheQi extends Container
 	 * clicking.
 	 */
 	@Override
-	public ItemStack func_82846_b(EntityPlayer par1EntityPlayer, int par1)
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
 	{
 		ItemStack var2 = null;
 		Slot var3 = (Slot) this.inventorySlots.get(par1);
@@ -82,7 +82,7 @@ public class CXiaoFaSheQi extends Container
 
 			if (var4.stackSize == var2.stackSize) { return null; }
 
-			var3.func_82870_a(par1EntityPlayer, var4);
+			var3.onPickupFromSlot(par1EntityPlayer, var4);
 		}
 
 		return var2;

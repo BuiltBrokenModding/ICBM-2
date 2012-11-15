@@ -11,7 +11,7 @@ import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import universalelectricity.core.UEConfig;
-import universalelectricity.core.Vector2;
+import universalelectricity.core.vector.Vector2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 
@@ -36,9 +36,9 @@ public class BaoHu
 	{
 		if (!worldObj.isRemote)
 		{
-			NBTTagCompound dimData = nbtData.getCompoundTag("dim" + worldObj.getWorldInfo().getDimension());
+			NBTTagCompound dimData = nbtData.getCompoundTag("dim" + worldObj.provider.dimensionId);
 
-			if (shiQuanQiuBaoHu(dimData)) { return true; }
+			if (nengQuanQiuBaoHu(dimData)) { return true; }
 
 			// Regions check
 			Iterator i = dimData.getTags().iterator();
@@ -59,22 +59,22 @@ public class BaoHu
 		return false;
 	}
 
-	public static boolean shiZhaDanBaoHu(World worldObj, Vector2 position)
+	public static boolean nengDanBaoHu(World worldObj, Vector2 position)
 	{
 		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.BLOCK);
 	}
 
-	public static boolean shiShouLiuDanBaoHu(World worldObj, Vector2 position)
+	public static boolean nengShouLiuDanBaoHu(World worldObj, Vector2 position)
 	{
 		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.GRENADE);
 	}
 
-	public static boolean shiDaoDanBaoHu(World worldObj, Vector2 position)
+	public static boolean nengDaoDanBaoHu(World worldObj, Vector2 position)
 	{
 		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.MISSILE);
 	}
 
-	public static boolean shiQuanQiuBaoHu(NBTTagCompound dimData)
+	public static boolean nengQuanQiuBaoHu(NBTTagCompound dimData)
 	{
 		return ((!dimData.hasKey(FIELD_GLOBAL_BAN) && DEFAULT_PROTECITON) || dimData.getBoolean(FIELD_GLOBAL_BAN));
 	}

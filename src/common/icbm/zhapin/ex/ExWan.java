@@ -6,6 +6,8 @@ import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
+import cpw.mods.fml.common.FMLLog;
+
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -13,7 +15,7 @@ import net.minecraft.src.EntityEnderman;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
 public class ExWan extends ZhaPin
@@ -115,13 +117,20 @@ public class ExWan extends ZhaPin
 					explosionCreated = true;
 				}
 
-				if (entity.worldObj.getWorldInfo().getDimension() == 1)
+				try
 				{
-					entity.travelToTheEnd(0);
+					if (entity.worldObj.provider.dimensionId == 1)
+					{
+						entity.travelToDimension(0);
+					}
+					else
+					{
+						entity.travelToDimension(1);
+					}
 				}
-				else
+				catch (Exception e)
 				{
-					entity.travelToTheEnd(1);
+					FMLLog.severe("Failed to teleport entity to the End.");
 				}
 			}
 		}

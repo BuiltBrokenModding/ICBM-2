@@ -8,7 +8,7 @@ import java.util.List;
 import net.minecraft.src.Entity;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -113,7 +113,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.shiZhaDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.nengDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			this.setDead();
 			return;

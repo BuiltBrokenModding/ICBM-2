@@ -21,7 +21,7 @@ public class RShuiPian extends Render
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 			this.loadTexture("/terrain.png");
-			Block block = Block.field_82510_ck;
+			Block block = Block.anvil;
 			World world = suiPian.worldObj;
 			GL11.glDisable(GL11.GL_LIGHTING);
 

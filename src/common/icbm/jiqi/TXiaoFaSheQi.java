@@ -17,8 +17,8 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.core.Vector3;
-import universalelectricity.electricity.ElectricInfo;
+import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
@@ -246,7 +246,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.shiDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			if (this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex)
 			{

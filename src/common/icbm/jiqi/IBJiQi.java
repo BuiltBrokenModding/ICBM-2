@@ -7,7 +7,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
-import universalelectricity.implement.ITier;
+import universalelectricity.prefab.implement.ITier;
 
 public class IBJiQi extends ItemBlock
 {
@@ -53,32 +53,32 @@ public class IBJiQi extends ItemBlock
 	}
 
 	@Override
-	public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
 	{
-		int metadata;
+		int jiQiMetadata;
 
 		if (itemStack.getItemDamage() < 3)
 		{
-			metadata = 0;
+			jiQiMetadata = 0;
 		}
 		else if (itemStack.getItemDamage() < 6)
 		{
-			metadata = 1;
+			jiQiMetadata = 1;
 		}
 		else if (itemStack.getItemDamage() < 9)
 		{
-			metadata = 2;
+			jiQiMetadata = 2;
 		}
 		else
 		{
-			metadata = itemStack.getItemDamage() - 6;
+			jiQiMetadata = itemStack.getItemDamage() - 6;
 		}
 
-		if (BJiQi.canBePlacedAt(world, x, y, z, metadata, entityPlayer))
+		if (BJiQi.canBePlacedAt(world, x, y, z, jiQiMetadata, entityPlayer))
 		{
 			Block var9 = Block.blocksList[IBJiQi.spawnID];
 
-			if (world.setBlockAndMetadataWithNotify(x, y, z, this.spawnID, metadata))
+			if (world.setBlockAndMetadataWithNotify(x, y, z, this.spawnID, jiQiMetadata))
 			{
 				if (world.getBlockId(x, y, z) == this.spawnID)
 				{

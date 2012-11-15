@@ -10,7 +10,7 @@ import net.minecraft.src.Material;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -146,7 +146,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	 */
 	public void onUpdate()
 	{
-		if (!BaoHu.shiShouLiuDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.nengShouLiuDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			if (!this.worldObj.isRemote)
 			{
@@ -228,10 +228,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 		{
 			this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 
-			if (!this.worldObj.isRemote)
-			{
-				ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.explosiveID);
-			}
+			ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.explosiveID);
 
 			this.setDead();
 		}

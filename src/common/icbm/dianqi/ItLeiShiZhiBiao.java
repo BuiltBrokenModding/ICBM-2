@@ -19,8 +19,8 @@ import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.core.Vector2;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector2;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -32,9 +32,10 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 
 	public ItLeiShiZhiBiao(String name, int id, int icon)
 	{
-		super(id, ZhuYao.TAB);
+		super(id);
 		this.setIconIndex(icon);
 		this.setItemName(name);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	/**

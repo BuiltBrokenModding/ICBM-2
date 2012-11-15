@@ -4,8 +4,8 @@ import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
-import universalelectricity.core.Vector3;
-import universalelectricity.implement.ITier;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.implement.ITier;
 
 public class DaoDan implements ITier
 {

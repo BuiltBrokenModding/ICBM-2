@@ -12,8 +12,9 @@ import net.minecraft.src.EnumMobType;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
+import net.minecraftforge.common.ForgeDirection;
 
-public class BBuo1Li4Pan2 extends ICBMBlock
+public class BBuoLiPan extends ICBMBlock
 {
 	/**
 	 * The mob type that can trigger this pressure
@@ -21,7 +22,7 @@ public class BBuo1Li4Pan2 extends ICBMBlock
 	 */
 	private EnumMobType triggerMobType;
 
-	protected BBuo1Li4Pan2(int par1, int par2)
+	protected BBuoLiPan(int par1, int par2)
 	{
 		super(par1, par2, Material.glass);
 		this.triggerMobType = EnumMobType.mobs;
@@ -257,23 +258,21 @@ public class BBuo1Li4Pan2 extends ICBMBlock
 		}
 	}
 
-	/**
-	 * Is this block powering the block on the
-	 * specified side
-	 */
-	public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
-	{
-		return par1IBlockAccess.getBlockMetadata(par2, par3, par4) > 0;
-	}
+	 /**
+     * Is this block powering the block on the specified side
+     */
+    public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+    {
+        return par1IBlockAccess.getBlockMetadata(par2, par3, par4) > 0;
+    }
 
-	/**
-	 * Is this block indirectly powering the block
-	 * on the specified side
-	 */
-	public boolean isIndirectlyPoweringTo(World par1World, int par2, int par3, int par4, int par5)
-	{
-		return par1World.getBlockMetadata(par2, par3, par4) == 0 ? false : par5 == 1;
-	}
+    /**
+     * Is this block indirectly powering the block on the specified side
+     */
+    public boolean isIndirectlyPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+    {
+        return par1IBlockAccess.getBlockMetadata(par2, par3, par4) == 0 ? false : par5 == 1;
+    }
 
 	/**
 	 * Can this block provide power. Only wire
@@ -297,14 +296,9 @@ public class BBuo1Li4Pan2 extends ICBMBlock
 		this.setBlockBounds(0.5F - var1, 0.5F - var2, 0.5F - var3, 0.5F + var1, 0.5F + var2, 0.5F + var3);
 	}
 
-	/**
-	 * Returns the mobility information of the
-	 * block, 0 = free, 1 = can't push but can
-	 * move over, 2 = total immobility and stop
-	 * pistons
-	 */
+	@Override
 	public int getMobilityFlag()
-	{
-		return 0;
-	}
+    {
+        return 1;
+    }
 }

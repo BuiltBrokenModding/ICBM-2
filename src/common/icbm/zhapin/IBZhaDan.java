@@ -16,15 +16,15 @@ public class IBZhaDan extends ItemBlock
 	}
 
 	@Override
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
 	{
 		if (!world.setBlockWithNotify(x, y, z, this.getBlockID())) { return false; }
 
 		if (world.getBlockId(x, y, z) == this.getBlockID())
 		{
 			((TZhaDan) world.getBlockTileEntity(x, y, z)).explosiveID = stack.getItemDamage();
-			Block.blocksList[this.getBlockID()].updateBlockMetadata(world, x, y, z, side, hitX, hitY, hitZ);
 			Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player);
+			Block.blocksList[this.getBlockID()].func_85105_g(world, x, y, z, metadata);
 		}
 
 		return true;

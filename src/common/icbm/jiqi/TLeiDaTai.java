@@ -8,6 +8,7 @@ import icbm.daodan.EDaoDan;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.INetworkManager;
@@ -20,14 +21,14 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UEConfig;
-import universalelectricity.core.Vector2;
-import universalelectricity.core.Vector3;
-import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.implement.IRedstoneProvider;
-import universalelectricity.prefab.TileEntityElectricityReceiver;
+import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.vector.Vector2;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -129,37 +130,10 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 					this.dian -= this.YAO_DIAN;
 				}
 
-				// Do a radar scan
 				boolean previousMissileDetection = this.detectedMissiles.size() > 0;
-				this.missileAlert = false;
-				this.detectedMissiles.clear();
-				this.detectedRadarStations.clear();
 
-				List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
-
-				for (EDaoDan missile : missilesNearby)
-				{
-					if (missile.ticksInAir > -1)
-					{
-						if (!this.detectedMissiles.contains(missile))
-						{
-							this.detectedMissiles.add(missile);
-						}
-
-						if (Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing)
-						{
-							this.missileAlert = true;
-						}
-					}
-				}
-
-				for (TLeiDaTai radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
-				{
-					if (!radarStation.isDisabled() && radarStation.prevDian > 0)
-					{
-						this.detectedRadarStations.add(radarStation);
-					}
-				}
+				// Do a radar scan
+				this.doScan();
 
 				if (previousMissileDetection != this.detectedMissiles.size() > 0)
 				{
@@ -170,7 +144,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				{
 					if (this.missileAlert && YIN_XIANG)
 					{
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.alarm", 4F, 1F);
+						this.worldObj.playSoundEffect((double)this.xCoord, (double)this.yCoord, (double)this.zCoord, "icbm.alarm", 1F, 1F);
 					}
 				}
 			}
@@ -192,6 +166,41 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		{
 			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
+	}
+
+	private boolean doScan()
+	{
+		this.missileAlert = false;
+		this.detectedMissiles.clear();
+		this.detectedRadarStations.clear();
+
+		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
+
+		for (EDaoDan missile : missilesNearby)
+		{
+			if (missile.ticksInAir > -1)
+			{
+				if (!this.detectedMissiles.contains(missile))
+				{
+					this.detectedMissiles.add(missile);
+				}
+
+				if (Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing)
+				{
+					this.missileAlert = true;
+				}
+			}
+		}
+
+		for (TLeiDaTai radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
+		{
+			if (!radarStation.isDisabled() && radarStation.prevDian > 0)
+			{
+				this.detectedRadarStations.add(radarStation);
+			}
+		}
+		
+		return this.missileAlert;
 	}
 
 	private Packet getDescriptionPacket2()
@@ -283,15 +292,15 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	}
 
 	@Override
-	public boolean isPoweringTo(byte side)
+	public boolean isPoweringTo(ForgeDirection side)
 	{
-		return this.detectedMissiles.size() > 0 && this.missileAlert;
+		return this.dian >= this.YAO_DIAN && this.doScan() && this.detectedMissiles.size() > 0;
 	}
 
 	@Override
-	public boolean isIndirectlyPoweringTo(byte side)
+	public boolean isIndirectlyPoweringTo(ForgeDirection side)
 	{
-		return this.detectedMissiles.size() > 0 && this.missileAlert;
+		return this.isPoweringTo(side);
 	}
 
 	/**
@@ -387,7 +396,9 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		switch (method)
 		{
 			case 0:
+				
 				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
+				
 				returnArray = new ArrayList<Double>();
 
 				for (EDaoDan daoDan : daoDans)

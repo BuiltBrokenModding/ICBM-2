@@ -20,7 +20,7 @@ import net.minecraft.src.Potion;
 import net.minecraft.src.PotionEffect;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 

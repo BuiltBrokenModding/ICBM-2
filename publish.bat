@@ -45,10 +45,9 @@ echo %PROMOTION% %FILE_NAME%>>info.txt
 
 ::GENERATE FTP Script
 echo open www.calclavia.com>ftpscript.txt
-echo download@calclavia.com>>ftpscript.txt
-echo ICBMmod>>ftpscript.txt
+echo icbm@calclavia.com>>ftpscript.txt
+echo 9ZxLl43ur1Gv>>ftpscript.txt
 echo binary>>ftpscript.txt
-echo cd icbm>>ftpscript.txt
 echo put "builds\%FILE_NAME%">>ftpscript.txt
 echo put "builds\%API_NAME%">>ftpscript.txt
 echo put info.txt>>ftpscript.txt

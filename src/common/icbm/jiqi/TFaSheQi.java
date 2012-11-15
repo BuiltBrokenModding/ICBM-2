@@ -3,8 +3,8 @@ package icbm.jiqi;
 import icbm.api.Launcher.ILauncher;
 import icbm.api.Launcher.LauncherType;
 import icbm.daodan.EDaoDan;
-import universalelectricity.core.Vector3;
-import universalelectricity.prefab.TileEntityElectricityReceiver;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 

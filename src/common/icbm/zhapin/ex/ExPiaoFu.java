@@ -14,7 +14,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 import chb.mods.mffs.api.IForceFieldBlock;
 

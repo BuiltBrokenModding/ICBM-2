@@ -15,12 +15,12 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.Vector3;
-import universalelectricity.electricity.ElectricInfo;
-import universalelectricity.implement.IRedstoneProvider;
-import universalelectricity.prefab.TileEntityElectricityReceiver;
+import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -241,13 +241,13 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	}
 
 	@Override
-	public boolean isPoweringTo(byte side)
+	public boolean isPoweringTo(ForgeDirection side)
 	{
 		return isDetect;
 	}
 
 	@Override
-	public boolean isIndirectlyPoweringTo(byte side)
+	public boolean isIndirectlyPoweringTo(ForgeDirection side)
 	{
 		return isDetect;
 	}

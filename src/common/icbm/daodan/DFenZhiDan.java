@@ -1,6 +1,6 @@
 package icbm.daodan;
 
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 
 public class DFenZhiDan extends DaoDan
 {

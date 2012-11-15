@@ -9,8 +9,8 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldServer;
-import universalelectricity.core.Vector2;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector2;
+import universalelectricity.core.vector.Vector3;
 
 public class DZhuiZhong extends DaoDan
 {
@@ -61,28 +61,7 @@ public class DZhuiZhong extends DaoDan
 			{
 				if (par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
 				{
-					Entity trackingEntity = null;
-
-					try
-					{
-						try
-						{
-							Method m = ItGenZongQi.class.getMethod("getTrackingEntityServer", World.class, ItemStack.class);
-
-							trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
-						}
-						catch (Exception e)
-						{
-							Method m = ItGenZongQi.class.getMethod("getTrackingEntityClient", World.class, ItemStack.class);
-
-							trackingEntity = (Entity) m.invoke(this, missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
-
-						}
-					}
-					catch (Exception e)
-					{
-						System.out.println("Failed to find method for tracker.");
-					}
+					Entity trackingEntity = ItGenZongQi.getTrackingEntity(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
 
 					if (trackingEntity != null)
 					{

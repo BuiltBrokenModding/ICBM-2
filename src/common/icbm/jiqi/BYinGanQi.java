@@ -11,9 +11,10 @@ import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.implement.IRedstoneProvider;
 import universalelectricity.prefab.BlockMachine;
+import universalelectricity.prefab.implement.IRedstoneProvider;
 
 public class BYinGanQi extends BlockMachine
 {
@@ -67,7 +68,7 @@ public class BYinGanQi extends BlockMachine
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isPoweringTo((byte) side); }
+		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side)); }
 
 		return false;
 	}
@@ -81,7 +82,7 @@ public class BYinGanQi extends BlockMachine
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo((byte) side); }
+		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side)); }
 
 		return false;
 	}

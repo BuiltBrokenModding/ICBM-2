@@ -3,7 +3,7 @@ package icbm.daodan;
 import java.util.ArrayList;
 import java.util.List;
 
-import universalelectricity.core.Vector2;
+import universalelectricity.core.vector.Vector2;
 
 public class DaoDanGuanLi
 {

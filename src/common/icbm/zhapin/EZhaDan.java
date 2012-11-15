@@ -6,8 +6,8 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.Vector3;
-import universalelectricity.implement.IRotatable;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.implement.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -71,7 +71,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.shiZhaDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.nengDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
 		{
 			ZhuYao.bZha4Dan4.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
 			this.setDead();

@@ -24,9 +24,10 @@ public class ItGenZongQi extends ItemElectric
 
 	public ItGenZongQi(String name, int id, int iconIndex)
 	{
-		super(id, ZhuYao.TAB);
+		super(id);
 		this.setIconIndex(iconIndex);
 		this.setItemName(name);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -35,7 +36,7 @@ public class ItGenZongQi extends ItemElectric
 	{
 		super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
 
-		Entity trackingEntity = getTrackingEntityClient((WorldClient) FMLClientHandler.instance().getClient().theWorld, itemStack);
+		Entity trackingEntity = getTrackingEntity(FMLClientHandler.instance().getClient().theWorld, itemStack);
 
 		if (trackingEntity != null)
 		{
@@ -55,51 +56,17 @@ public class ItGenZongQi extends ItemElectric
 			itemStack.stackTagCompound.setInteger("trackingEntity", entity.entityId);
 		}
 	}
-
-	@SideOnly(Side.CLIENT)
-	public static Entity getTrackingEntityClient(World worldObj, ItemStack itemStack)
+	
+	public static Entity getTrackingEntity(World worldObj, ItemStack itemStack)
 	{
 		if (worldObj != null)
 		{
 			if (itemStack.stackTagCompound != null)
 			{
 				int trackingID = itemStack.stackTagCompound.getInteger("trackingEntity");
-
-				try
-				{
-					return ((WorldClient) worldObj).getEntityByID(trackingID);
-				}
-				catch (Exception e)
-				{
-					// e.printStackTrace();
-				}
+				return worldObj.getEntityByID(trackingID);
 			}
-
 		}
-
-		return null;
-	}
-
-	public static Entity getTrackingEntityServer(World worldObj, ItemStack itemStack)
-	{
-		if (worldObj != null)
-		{
-			if (itemStack.stackTagCompound != null)
-			{
-				int trackingID = itemStack.stackTagCompound.getInteger("trackingEntity");
-
-				try
-				{
-					return ((WorldServer) worldObj).getEntityByID(trackingID);
-				}
-				catch (Exception e)
-				{
-					// e.printStackTrace();
-				}
-			}
-
-		}
-
 		return null;
 	}
 
@@ -123,27 +90,7 @@ public class ItGenZongQi extends ItemElectric
 			{
 				if (player.inventory.getCurrentItem().itemID == this.shiftedIndex)
 				{
-					Entity trackingEntity = null;
-
-					try
-					{
-						try
-						{
-							Method m = ItGenZongQi.class.getMethod("getTrackingEntityServer", World.class, ItemStack.class);
-
-							trackingEntity = (Entity) m.invoke(this, par2World, par1ItemStack);
-						}
-						catch (Exception e)
-						{
-							Method m = ItGenZongQi.class.getMethod("getTrackingEntityClient", World.class, ItemStack.class);
-
-							trackingEntity = (Entity) m.invoke(this, par2World, par1ItemStack);
-						}
-					}
-					catch (Exception e)
-					{
-						System.out.println("Failed to find method for tracker.");
-					}
+					Entity trackingEntity = ItGenZongQi.getTrackingEntity(par2World, par1ItemStack);
 
 					if (trackingEntity != null)
 					{

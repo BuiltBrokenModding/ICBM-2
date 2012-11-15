@@ -9,7 +9,7 @@ import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 
 public class ItShouLiuDan extends ICBMItem
 {
@@ -27,7 +27,7 @@ public class ItShouLiuDan extends ICBMItem
 	 */
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if (BaoHu.shiShouLiuDanBaoHu(par2World, Vector3.get(par3EntityPlayer).toVector2()))
+		if (BaoHu.nengShouLiuDanBaoHu(par2World, Vector3.get(par3EntityPlayer).toVector2()))
 		{
 			if (!par3EntityPlayer.capabilities.isCreativeMode)
 			{

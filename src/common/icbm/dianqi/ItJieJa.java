@@ -22,9 +22,10 @@ public class ItJieJa extends ItemElectric
 
 	public ItJieJa(String name, int par1, int par2)
 	{
-		super(par1, ZhuYao.TAB);
+		super(par1);
 		this.iconIndex = par2;
 		this.setItemName(name);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	@Override

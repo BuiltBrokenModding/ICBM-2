@@ -14,7 +14,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.MovingObjectPosition;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import universalelectricity.core.Vector3;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -25,9 +25,10 @@ public class ItLeiDaQiang extends ItemElectric
 
 	public ItLeiDaQiang(String name, int par1, int par2)
 	{
-		super(par1, ZhuYao.TAB);
+		super(par1);
 		this.iconIndex = par2;
 		this.setItemName(name);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	@Override
