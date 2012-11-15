@@ -1,6 +1,7 @@
 package icbm.daodan;
 
 import icbm.ICBMItem;
+import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class ItDaoDan extends ICBMItem
 {
 	public ItDaoDan(String name, int id, int texture)
 	{
-		super(name, id, texture, CreativeTabs.tabCombat);
+		super(name, id, texture, ZhuYao.TAB);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.maxStackSize = 1;

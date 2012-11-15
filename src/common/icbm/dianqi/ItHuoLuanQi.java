@@ -18,7 +18,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 {
 	public ItHuoLuanQi(String name, int par1, int par2)
 	{
-		super(par1);
+		super(par1, ZhuYao.TAB);
 		this.iconIndex = par2;
 		this.setItemName(name);
 	}

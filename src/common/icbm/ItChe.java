@@ -22,7 +22,7 @@ public class ItChe extends Item
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.setItemName("Explosive Cart");
-		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	/**

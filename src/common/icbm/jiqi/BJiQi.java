@@ -41,7 +41,7 @@ public class BJiQi extends BlockMachine
 {
 	public BJiQi(int id)
 	{
-		super("ICBM Machine", id, UniversalElectricity.machine, CreativeTabs.tabDecorations);
+		super("ICBM Machine", id, UniversalElectricity.machine, ZhuYao.TAB);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package icbm.zhapin;
 
 import icbm.BaoHu;
+import icbm.ZhuYao;
 import icbm.api.ICBM;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class BZhaDan extends BlockContainer
 		this.setBlockName("Explosives");
 		this.setStepSound(soundGrassFootstep);
 		this.setRequiresSelfNotify();
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	/**

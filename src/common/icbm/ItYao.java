@@ -1,6 +1,5 @@
 package icbm;
 
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumAction;
 import net.minecraft.src.ItemStack;
@@ -10,7 +9,7 @@ public class ItYao extends ICBMItem
 {
 	public ItYao(String name, int par1, int par2)
 	{
-		super(name, par1, par2, CreativeTabs.tabFood);
+		super(name, par1, par2, ZhuYao.TAB);
 	}
 
 	@Override

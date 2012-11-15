@@ -79,3 +79,4 @@ Minecraft 1.3.2
 * ICBM_v0.6.0.51.zip
 @ ICBM_v0.6.0.52.jar
 @ ICBM_v0.6.1.53.jar
+@ ICBM_v0.6.1.54.jar

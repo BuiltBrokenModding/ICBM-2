@@ -32,7 +32,7 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 
 	public ItLeiShiZhiBiao(String name, int id, int icon)
 	{
-		super(id);
+		super(id, ZhuYao.TAB);
 		this.setIconIndex(icon);
 		this.setItemName(name);
 	}

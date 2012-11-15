@@ -22,7 +22,7 @@ public class ItJieJa extends ItemElectric
 
 	public ItJieJa(String name, int par1, int par2)
 	{
-		super(par1);
+		super(par1, ZhuYao.TAB);
 		this.iconIndex = par2;
 		this.setItemName(name);
 	}

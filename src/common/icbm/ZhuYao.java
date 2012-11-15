@@ -93,7 +93,9 @@ public class ZhuYao
 	public static final String VERSION = "0.6.0";
 
 	public static final String CHANNEL = "ICBM";
-
+	
+	public static final ICBMTab TAB = new ICBMTab();
+	
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
@@ -115,6 +117,7 @@ public class ZhuYao
 	public static Block bFuShe;
 	public static final Block bYinGanQi = new BYinGanQi(UEConfig.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX + 6), 7);
 	public static final BlockMulti bJia = new BlockMulti(UEConfig.getBlockConfigID(CONFIGURATION, "Place Holder", BLOCK_ID_PREFIX + 7));
+	public static final BEnNiu bBuoLiEnNiu = new BEnNiu(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Button", BLOCK_ID_PREFIX + 8));
 
 	// ITEMS
 	public static final int ITEM_ID_PREFIX = 3900;
@@ -198,6 +201,7 @@ public class ZhuYao
 		GameRegistry.registerBlock(bJiQi, IBJiQi.class);
 		GameRegistry.registerBlock(bYinGanQi);
 		GameRegistry.registerBlock(bJia);
+		GameRegistry.registerBlock(bBuoLiEnNiu);
 
 		if (OreDictionary.getOres("blockRadioactive").size() > 0)
 		{
@@ -251,8 +255,12 @@ public class ZhuYao
 			bFuShe = new BlockRadioactive(UEConfig.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX + 5), 4, ICBM.BLOCK_TEXTURE_FILE);
 			GameRegistry.registerBlock(bFuShe);
 		}
-
+		
+		LanguageRegistry.instance().addStringLocalization("itemGroup.ICBM", "en_US", "ICBM");
+		
 		// -- Add Names
+		LanguageRegistry.addName(bBuoLiEnNiu, "Glass Button");
+		
 		LanguageRegistry.addName(bLiu, "Sulfur Ore");
 
 		LanguageRegistry.addName(itLiu, "Sulfur Dust");

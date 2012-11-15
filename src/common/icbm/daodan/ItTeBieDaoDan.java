@@ -1,5 +1,7 @@
 package icbm.daodan;
 
+import icbm.ZhuYao;
+
 import java.util.List;
 
 import net.minecraft.src.CreativeTabs;
@@ -13,7 +15,7 @@ public class ItTeBieDaoDan extends ItDaoDan
 	public ItTeBieDaoDan(String name, int id, int texture)
 	{
 		super(name, id, texture);
-		this.setCreativeTab(CreativeTabs.tabCombat);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	@Override

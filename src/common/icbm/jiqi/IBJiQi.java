@@ -106,10 +106,10 @@ public class IBJiQi extends ItemBlock
 					Block.blocksList[IBJiQi.spawnID].onBlockPlacedBy(world, x, y, z, entityPlayer);
 				}
 
-				--itemStack.stackSize;
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 }

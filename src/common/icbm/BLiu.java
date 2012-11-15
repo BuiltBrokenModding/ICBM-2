@@ -2,7 +2,6 @@ package icbm;
 
 import java.util.Random;
 
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Material;
 
 public class BLiu extends ICBMBlock
@@ -12,7 +11,7 @@ public class BLiu extends ICBMBlock
 		super(id, 10, Material.rock);
 		this.setBlockName("Sulfur Ore");
 		this.setHardness(3.0f);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import java.util.Random;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.BlockFence;
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
@@ -32,7 +31,7 @@ public class BBuo1Li4Pan2 extends ICBMBlock
 		this.setHardness(0.5F);
 		this.setResistance(1F);
 		this.setBlockName("Glass Pressure Plate");
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	/**

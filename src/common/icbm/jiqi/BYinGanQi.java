@@ -6,7 +6,6 @@ import icbm.api.ICBM;
 
 import java.util.ArrayList;
 
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.ItemStack;
@@ -20,7 +19,7 @@ public class BYinGanQi extends BlockMachine
 {
 	public BYinGanQi(int id, int texture)
 	{
-		super("Proximity Detector", id, UniversalElectricity.machine, CreativeTabs.tabDecorations);
+		super("Proximity Detector", id, UniversalElectricity.machine, ZhuYao.TAB);
 		this.blockIndexInTexture = texture;
 	}
 

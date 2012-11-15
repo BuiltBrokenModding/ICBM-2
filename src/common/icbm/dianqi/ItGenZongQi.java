@@ -1,5 +1,6 @@
 package icbm.dianqi;
 
+import icbm.ZhuYao;
 import icbm.api.ICBM;
 
 import java.lang.reflect.Method;
@@ -23,7 +24,7 @@ public class ItGenZongQi extends ItemElectric
 
 	public ItGenZongQi(String name, int id, int iconIndex)
 	{
-		super(id);
+		super(id, ZhuYao.TAB);
 		this.setIconIndex(iconIndex);
 		this.setItemName(name);
 	}

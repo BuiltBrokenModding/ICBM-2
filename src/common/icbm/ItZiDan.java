@@ -9,7 +9,7 @@ public class ItZiDan extends ICBMItem
 {
 	public ItZiDan(String name, int par1, int par2)
 	{
-		super(name, par1, par2, CreativeTabs.tabCombat);
+		super(name, par1, par2, ZhuYao.TAB);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.maxStackSize = 16;
