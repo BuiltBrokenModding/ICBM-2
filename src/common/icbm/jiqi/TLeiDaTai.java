@@ -8,7 +8,6 @@ import icbm.daodan.EDaoDan;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.ChunkCoordIntPair;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.INetworkManager;
@@ -22,6 +21,7 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UEConfig;
 import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.vector.Region2;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
@@ -144,7 +144,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				{
 					if (this.missileAlert && YIN_XIANG)
 					{
-						this.worldObj.playSoundEffect((double)this.xCoord, (double)this.yCoord, (double)this.zCoord, "icbm.alarm", 1F, 1F);
+						this.worldObj.playSoundEffect((double) this.xCoord, (double) this.yCoord, (double) this.zCoord, "icbm.alarm", 1F, 1F);
 					}
 				}
 			}
@@ -174,7 +174,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		this.detectedMissiles.clear();
 		this.detectedRadarStations.clear();
 
-		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
+		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Region2(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING)));
 
 		for (EDaoDan missile : missilesNearby)
 		{
@@ -199,7 +199,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				this.detectedRadarStations.add(radarStation);
 			}
 		}
-		
+
 		return this.missileAlert;
 	}
 
@@ -396,9 +396,9 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		switch (method)
 		{
 			case 0:
-				
-				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
-				
+
+				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(new Region2(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING)));
+
 				returnArray = new ArrayList<Double>();
 
 				for (EDaoDan daoDan : daoDans)

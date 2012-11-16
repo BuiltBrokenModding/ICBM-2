@@ -90,7 +90,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String VERSION = "0.6.1";
+	public static final String VERSION = "0.6.2";
 
 	public static final String CHANNEL = "ICBM";
 	
