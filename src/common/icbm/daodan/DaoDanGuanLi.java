@@ -3,7 +3,7 @@ package icbm.daodan;
 import java.util.ArrayList;
 import java.util.List;
 
-import universalelectricity.core.vector.Region2;
+import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 
 public class DaoDanGuanLi
@@ -21,14 +21,14 @@ public class DaoDanGuanLi
 		}
 	}
 
-	public static List<EDaoDan> getMissileInArea(Region2 region)
+	public static List<EDaoDan> getMissileInArea(Vector2 vector, int radius)
 	{
 		cleanUpMissiles();
 		List<EDaoDan> returnArray = new ArrayList<EDaoDan>();
 
 		for (EDaoDan missile : missiles)
 		{
-			if (region.isIn(Vector3.get(missile).toVector2()))
+			if (Vector2.distance(vector, Vector3.get(missile).toVector2()) <= radius)
 			{
 				returnArray.add(missile);
 			}

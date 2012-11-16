@@ -139,14 +139,6 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				{
 					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 				}
-
-				if (this.ticks % 20 == 0)
-				{
-					if (this.missileAlert && YIN_XIANG)
-					{
-						this.worldObj.playSoundEffect((double) this.xCoord, (double) this.yCoord, (double) this.zCoord, "icbm.alarm", 1F, 1F);
-					}
-				}
 			}
 			else
 			{
@@ -159,6 +151,14 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				this.detectedRadarStations.clear();
 
 				this.dian = 0;
+			}
+		}
+		
+		if((this.dian > 0 || this.prevDian > 0) && this.ticks % 22 == 0)
+		{
+			if (this.missileAlert && YIN_XIANG)
+			{
+				this.worldObj.playSoundEffect((double) this.xCoord, (double) this.yCoord, (double) this.zCoord, "icbm.alarm", 4F, 1F);
 			}
 		}
 
@@ -174,7 +174,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		this.detectedMissiles.clear();
 		this.detectedRadarStations.clear();
 
-		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Region2(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING)));
+		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(Vector3.get(this).toVector2(), this.alarmBanJing);
 
 		for (EDaoDan missile : missilesNearby)
 		{
@@ -294,7 +294,12 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public boolean isPoweringTo(ForgeDirection side)
 	{
-		return this.dian >= this.YAO_DIAN && this.doScan() && this.detectedMissiles.size() > 0;
+		if(this.prevDian <= 0 && this.dian <= 0)
+		{
+			return false;
+		}
+				
+		return this.doScan() && this.detectedMissiles.size() > 0;
 	}
 
 	@Override
@@ -397,7 +402,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		{
 			case 0:
 
-				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(new Region2(new Vector2(this.xCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING), new Vector2(this.xCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING)));
+				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(Vector3.get(this).toVector2(), this.alarmBanJing);
 
 				returnArray = new ArrayList<Double>();
 
