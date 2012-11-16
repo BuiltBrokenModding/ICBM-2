@@ -3,7 +3,6 @@ package icbm.dianqi;
 import icbm.ZhuYao;
 import icbm.api.ICBM;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import net.minecraft.src.Entity;
@@ -11,8 +10,6 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import net.minecraft.src.WorldClient;
-import net.minecraft.src.WorldServer;
 import universalelectricity.prefab.ItemElectric;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Side;
@@ -56,7 +53,7 @@ public class ItGenZongQi extends ItemElectric
 			itemStack.stackTagCompound.setInteger("trackingEntity", entity.entityId);
 		}
 	}
-	
+
 	public static Entity getTrackingEntity(World worldObj, ItemStack itemStack)
 	{
 		if (worldObj != null)

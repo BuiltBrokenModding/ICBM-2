@@ -1,13 +1,8 @@
 package icbm.daodan;
 
 import icbm.dianqi.ItGenZongQi;
-
-import java.lang.reflect.Method;
-
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.World;
 import net.minecraft.src.WorldServer;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;

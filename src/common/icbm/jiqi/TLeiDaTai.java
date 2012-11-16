@@ -6,6 +6,7 @@ import icbm.daodan.DaoDanGuanLi;
 import icbm.daodan.EDaoDan;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.src.ChunkCoordIntPair;
@@ -21,7 +22,6 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UEConfig;
 import universalelectricity.core.electricity.ElectricInfo;
-import universalelectricity.core.vector.Region2;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
@@ -153,8 +153,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				this.dian = 0;
 			}
 		}
-		
-		if((this.dian > 0 || this.prevDian > 0) && this.ticks % 22 == 0)
+
+		if ((this.dian > 0 || this.prevDian > 0) && this.ticks % 22 == 0)
 		{
 			if (this.missileAlert && YIN_XIANG)
 			{
@@ -294,11 +294,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public boolean isPoweringTo(ForgeDirection side)
 	{
-		if(this.prevDian <= 0 && this.dian <= 0)
-		{
-			return false;
-		}
-				
+		if (this.prevDian <= 0 && this.dian <= 0) { return false; }
+
 		return this.doScan() && this.detectedMissiles.size() > 0;
 	}
 
@@ -396,7 +393,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	{
 		if (this.prevDian < this.YAO_DIAN) { throw new Exception("Radar has insufficient electricity!"); }
 
-		List<Double> returnArray;
+		HashMap<String, Double> returnArray = new HashMap();
 
 		switch (method)
 		{
@@ -404,30 +401,27 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(Vector3.get(this).toVector2(), this.alarmBanJing);
 
-				returnArray = new ArrayList<Double>();
-
 				for (EDaoDan daoDan : daoDans)
 				{
-					returnArray.add(daoDan.posX);
-					returnArray.add(daoDan.posY);
-					returnArray.add(daoDan.posZ);
+					returnArray.put("x", daoDan.posX);
+					returnArray.put("y", daoDan.posY);
+					returnArray.put("z", daoDan.posZ);
 				}
 
-				return returnArray.toArray();
+				return new Object[]
+				{ returnArray };
 			case 1:
-				returnArray = new ArrayList<Double>();
-
 				for (TLeiDaTai radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
 				{
 					if (!radarStation.isDisabled() && radarStation.prevDian > 0)
 					{
-						returnArray.add((double) radarStation.xCoord);
-						returnArray.add((double) radarStation.yCoord);
-						returnArray.add((double) radarStation.zCoord);
+						returnArray.put("x", (double) radarStation.xCoord);
+						returnArray.put("y", (double) radarStation.yCoord);
+						returnArray.put("z", (double) radarStation.zCoord);
 					}
 				}
-
-				return returnArray.toArray();
+				return new Object[]
+				{ returnArray };
 		}
 
 		throw new Exception("Invalid ICBM Radar Function.");

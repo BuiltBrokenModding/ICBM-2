@@ -6,8 +6,6 @@ import icbm.zhapin.ZhaPin;
 
 import java.util.List;
 
-import cpw.mods.fml.common.FMLLog;
-
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -17,6 +15,7 @@ import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import cpw.mods.fml.common.FMLLog;
 
 public class ExWan extends ZhaPin
 {

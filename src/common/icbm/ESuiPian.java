@@ -310,12 +310,12 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 					if (var3.entityHit.attackEntityFrom(damageSource, damage))
 					{
 						if (var3.entityHit instanceof EntityLiving)
-						{							
+						{
 							if (!this.worldObj.isRemote)
-                            {
-                                EntityLiving var24 = (EntityLiving)var3.entityHit;
-                                var24.func_85034_r(var24.func_85035_bI() + 1);
-                            }
+							{
+								EntityLiving var24 = (EntityLiving) var3.entityHit;
+								var24.func_85034_r(var24.func_85035_bI() + 1);
+							}
 
 							if (this.knowBackStrength > 0)
 							{

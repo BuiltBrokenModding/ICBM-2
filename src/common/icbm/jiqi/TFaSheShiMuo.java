@@ -171,6 +171,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 				else if (ID == 2)
 				{
 					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+
+					if (this.getTier() < 2)
+					{
+						this.muBiao.y = 0;
+					}
 				}
 			}
 			else if (ID == 3)
@@ -217,7 +222,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		if (this.canLaunch())
 		{
 			this.setJoules(0);
-			this.connectedBase.launchMissile(this.muBiao);
+			this.connectedBase.launchMissile(this.muBiao.clone());
 		}
 	}
 

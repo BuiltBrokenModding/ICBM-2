@@ -119,7 +119,7 @@ public class RShouLiuDan extends Render
 
 					if (this.field_77024_a)
 					{
-                        int var18 = Item.itemsList[var10.itemID].getColorFromItemStack(var10, var15);
+						int var18 = Item.itemsList[var10.itemID].getColorFromItemStack(var10, var15);
 						var19 = (float) (var18 >> 16 & 255) / 255.0F;
 						var20 = (float) (var18 >> 8 & 255) / 255.0F;
 						float var21 = (float) (var18 & 255) / 255.0F;
@@ -139,7 +139,7 @@ public class RShouLiuDan extends Render
 
 				if (this.field_77024_a)
 				{
-                    var16 = Item.itemsList[var10.itemID].getColorFromItemStack(var10, 0);
+					var16 = Item.itemsList[var10.itemID].getColorFromItemStack(var10, 0);
 					var17 = (float) (var16 >> 16 & 255) / 255.0F;
 					var24 = (float) (var16 >> 8 & 255) / 255.0F;
 					var19 = (float) (var16 & 255) / 255.0F;
@@ -215,7 +215,7 @@ public class RShouLiuDan extends Render
 			GL11.glScalef(1.0F, 1.0F, -1.0F);
 			GL11.glRotatef(210.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-            var10 = Item.itemsList[var6].getColorFromItemStack(par3ItemStack, 0);
+			var10 = Item.itemsList[var6].getColorFromItemStack(par3ItemStack, 0);
 			var16 = (float) (var10 >> 16 & 255) / 255.0F;
 			var12 = (float) (var10 >> 8 & 255) / 255.0F;
 			var13 = (float) (var10 & 255) / 255.0F;
@@ -243,7 +243,7 @@ public class RShouLiuDan extends Render
 				for (var9 = 0; var9 <= Item.itemsList[var6].getRenderPasses(var7); ++var9)
 				{
 					var10 = Item.itemsList[var6].getIconFromDamageForRenderPass(var7, var9);
-                    int var11 = Item.itemsList[var6].getColorFromItemStack(par3ItemStack, var9);
+					int var11 = Item.itemsList[var6].getColorFromItemStack(par3ItemStack, var9);
 					var12 = (float) (var11 >> 16 & 255) / 255.0F;
 					var13 = (float) (var11 >> 8 & 255) / 255.0F;
 					float var14 = (float) (var11 & 255) / 255.0F;
@@ -264,7 +264,7 @@ public class RShouLiuDan extends Render
 
 				par2RenderEngine.bindTexture(par2RenderEngine.getTexture(par3ItemStack.getItem().getTextureFile()));
 
-                var9 = Item.itemsList[var6].getColorFromItemStack(par3ItemStack, 0);
+				var9 = Item.itemsList[var6].getColorFromItemStack(par3ItemStack, 0);
 				float var17 = (float) (var9 >> 16 & 255) / 255.0F;
 				var16 = (float) (var9 >> 8 & 255) / 255.0F;
 				var12 = (float) (var9 & 255) / 255.0F;

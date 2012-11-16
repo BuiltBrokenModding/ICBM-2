@@ -93,9 +93,9 @@ public class ZhuYao
 	public static final String VERSION = "0.6.2";
 
 	public static final String CHANNEL = "ICBM";
-	
+
 	public static final ICBMTab TAB = new ICBMTab();
-	
+
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
@@ -255,12 +255,12 @@ public class ZhuYao
 			bFuShe = new BlockRadioactive(UEConfig.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX + 5), 4, ICBM.BLOCK_TEXTURE_FILE);
 			GameRegistry.registerBlock(bFuShe);
 		}
-		
+
 		LanguageRegistry.instance().addStringLocalization("itemGroup.ICBM", "en_US", "ICBM");
-		
+
 		// -- Add Names
 		LanguageRegistry.addName(bBuoLiEnNiu, "Glass Button");
-		
+
 		LanguageRegistry.addName(bLiu, "Sulfur Ore");
 
 		LanguageRegistry.addName(itLiu, "Sulfur Dust");

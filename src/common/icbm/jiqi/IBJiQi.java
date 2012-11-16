@@ -53,7 +53,7 @@ public class IBJiQi extends ItemBlock
 	}
 
 	@Override
-    public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
+	public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
 	{
 		int jiQiMetadata;
 

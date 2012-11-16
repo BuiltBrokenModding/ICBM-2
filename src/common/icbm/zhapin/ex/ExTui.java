@@ -6,12 +6,10 @@ import icbm.zhapin.ZhaPin;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkPosition;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
-import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Region3;

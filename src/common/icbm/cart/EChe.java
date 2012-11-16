@@ -27,7 +27,7 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	public int explosiveID = 0;
 	public int fuse = -1;
 	private boolean isPrimed = false;
-	
+
 	public EChe(World par1World)
 	{
 		super(par1World);
@@ -53,25 +53,25 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 		this.explosiveID = data.readInt();
 		this.fuse = data.readInt();
 	}
-	
+
 	@Override
 	protected void entityInit()
-    {
+	{
 		super.entityInit();
-        this.dataWatcher.addObject(20, (int)this.fuse);
-        this.dataWatcher.addObject(21, (byte)0);
-    }
+		this.dataWatcher.addObject(20, (int) this.fuse);
+		this.dataWatcher.addObject(21, (byte) 0);
+	}
 
 	@Override
 	public void onUpdate()
 	{
 		super.onUpdate();
 
-		if(this.worldObj.isRemote)
+		if (this.worldObj.isRemote)
 		{
 			this.fuse = this.dataWatcher.getWatchableObjectInt(20);
-			
-			if(this.dataWatcher.getWatchableObjectByte(21) > 0)
+
+			if (this.dataWatcher.getWatchableObjectByte(21) > 0)
 			{
 				this.isPrimed = true;
 			}
@@ -83,14 +83,15 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 		else
 		{
 			this.dataWatcher.updateObject(20, this.fuse);
-			
+
 			byte isPri = 0;
-			
-			if(this.isPrimed) isPri = 1;
-			
+
+			if (this.isPrimed)
+				isPri = 1;
+
 			this.dataWatcher.updateObject(21, isPri);
 		}
-		
+
 		if (this.isPrimed)
 		{
 			if (this.fuse < 1)
@@ -184,11 +185,11 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	{
 		List<ItemStack> items = new ArrayList<ItemStack>();
 
-		if(!this.isPrimed)
+		if (!this.isPrimed)
 		{
 			items.add(new ItemStack(ZhuYao.itChe, 1, this.explosiveID));
 		}
-		
+
 		return items;
 	}
 

@@ -12,7 +12,6 @@ import net.minecraft.src.EnumMobType;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
-import net.minecraftforge.common.ForgeDirection;
 
 public class BBuoLiPan extends ICBMBlock
 {
@@ -258,21 +257,23 @@ public class BBuoLiPan extends ICBMBlock
 		}
 	}
 
-	 /**
-     * Is this block powering the block on the specified side
-     */
-    public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
-    {
-        return par1IBlockAccess.getBlockMetadata(par2, par3, par4) > 0;
-    }
+	/**
+	 * Is this block powering the block on the
+	 * specified side
+	 */
+	public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	{
+		return par1IBlockAccess.getBlockMetadata(par2, par3, par4) > 0;
+	}
 
-    /**
-     * Is this block indirectly powering the block on the specified side
-     */
-    public boolean isIndirectlyPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
-    {
-        return par1IBlockAccess.getBlockMetadata(par2, par3, par4) == 0 ? false : par5 == 1;
-    }
+	/**
+	 * Is this block indirectly powering the block
+	 * on the specified side
+	 */
+	public boolean isIndirectlyPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	{
+		return par1IBlockAccess.getBlockMetadata(par2, par3, par4) == 0 ? false : par5 == 1;
+	}
 
 	/**
 	 * Can this block provide power. Only wire
@@ -298,7 +299,7 @@ public class BBuoLiPan extends ICBMBlock
 
 	@Override
 	public int getMobilityFlag()
-    {
-        return 1;
-    }
+	{
+		return 1;
+	}
 }

@@ -70,7 +70,7 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 9, 2);
 	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 10, 2);
 	public static final ZhaPin wenYa = new ExWenYa("Thermobaric", 11, 2);
-	
+
 	public static final int MAX_TIER_TWO = 12;
 
 	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 12, 3);

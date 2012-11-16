@@ -122,7 +122,7 @@ public class BZhaDan extends BlockContainer
 		{
 			displacement = -1;
 		}
-		else if(ZhaPin.list[explosiveID].getTier() == 3)
+		else if (ZhaPin.list[explosiveID].getTier() == 3)
 		{
 			displacement = 1;
 		}

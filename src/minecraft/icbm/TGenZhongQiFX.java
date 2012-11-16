@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.RenderEngine;
-import net.minecraft.src.WorldClient;
 
 import org.lwjgl.opengl.GL11;
 
