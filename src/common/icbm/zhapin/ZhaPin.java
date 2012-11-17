@@ -20,7 +20,7 @@ import icbm.zhapin.ex.ExShengBuo;
 import icbm.zhapin.ex.ExTaiYang;
 import icbm.zhapin.ex.ExTaiYang2;
 import icbm.zhapin.ex.ExTuPuo;
-import icbm.zhapin.ex.ExTui;
+import icbm.zhapin.ex.ExTuiLa;
 import icbm.zhapin.ex.ExWan;
 import icbm.zhapin.ex.ExWenYa;
 import icbm.zhapin.ex.ExYaSuo;
@@ -45,7 +45,7 @@ public abstract class ZhaPin implements ITier
 {
 	public enum ZhaPinType
 	{
-		ALL, BLOCK, GRENADE, MISSILE;
+		QUAN_BU, ZHA_DAN, SHOU_LIU_DAN, DAO_DAN;
 
 		public static ZhaPinType get(int id)
 		{
@@ -60,40 +60,41 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin huo = new ExHuo("Incendiary", 2, 1);
 	public static final ZhaPin duQi = new EDuQi("Chemical", 3, 1);
 	public static final ZhaPin zhen = new ExQunDan("Anvil", 4, 1);
-	public static final ZhaPin tui = new ExTui("Repulsive", 5, 1);
+	public static final ZhaPin tui = new ExTuiLa("Repulsive", 5, 1);
+	public static final ZhaPin la = new ExTuiLa("Attractive", 6, 1);
 
-	public static final int MAX_TIER_ONE = 6;
+	public static final int E_YI_ID = 7;
 
-	public static final ZhaPin qunDan = new ExQunDan("Fragmentation", 6, 2);
-	public static final ZhaPin chuanRan = new EDuQi("Contagious", 7, 2);
-	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 8, 2);
-	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 9, 2);
-	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 10, 2);
-	public static final ZhaPin wenYa = new ExWenYa("Thermobaric", 11, 2);
+	public static final ZhaPin qunDan = new ExQunDan("Fragmentation", 7, 2);
+	public static final ZhaPin chuanRan = new EDuQi("Contagious", 8, 2);
+	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 9, 2);
+	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 10, 2);
+	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 11, 2);
+	public static final ZhaPin wenYa = new ExWenYa("Thermobaric", 12, 2);
 
-	public static final int MAX_TIER_TWO = 12;
+	public static final int E_ER_ID = 13;
 
-	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 12, 3);
-	public static final ZhaPin dianCi = new ExDianCi("EMP", 13, 3);
-	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 14, 3);
-	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 15, 3);
-	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 16, 3);
-	public static final ZhaPin wanDan = new ExWan("Ender", 17, 2);
+	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 13, 3);
+	public static final ZhaPin dianCi = new ExDianCi("EMP", 14, 3);
+	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 15, 3);
+	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 16, 3);
+	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 17, 3);
+	public static final ZhaPin wanDan = new ExWan("Ender", 18, 2);
 
-	public static final int MAX_TIER_THREE = 18;
+	public static final int E_SAN_ID = 19;
 
-	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 18, 4);
-	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 19, 4);
+	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 19, 4);
+	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 20, 4);
 
-	public static final int MAX_EXPLOSIVE_ID = 20;
+	public static final int E_SI_ID = 20;
 
 	// Hidden Explosives
-	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 20, 3);
-	public static final ZhaPin dianCiSignal = new ExDianCiSignal("EMP", 21, 3);
-	public static final ZhaPin taiYang2 = new ExTaiYang2("Conflagration", 22, 3);
-	public static final ZhaPin fuLan = new ExFuLan("Decay Land", 23, 3);
-	public static final ZhaPin bianZhong = new ExBianZhong("Mutation Living", 24, 3);
-	public static final ZhaPin bingDan2 = new ExBingDan2("Endothermic", 25, 3);
+	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 26, 3);
+	public static final ZhaPin dianCiSignal = new ExDianCiSignal("EMP", 27, 3);
+	public static final ZhaPin taiYang2 = new ExTaiYang2("Conflagration", 28, 3);
+	public static final ZhaPin fuLan = new ExFuLan("Decay Land", 29, 3);
+	public static final ZhaPin bianZhong = new ExBianZhong("Mutation Living", 30, 3);
+	public static final ZhaPin bingDan2 = new ExBingDan2("Endothermic", 31, 3);
 
 	public static ZhaPin[] list;
 

@@ -16,13 +16,13 @@ import universalelectricity.core.vector.Region3;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExTui extends ZhaPin
+public class ExTuiLa extends ZhaPin
 {
 	private static final int MAX_BAN_JING = 16;
 	private static final float BAN_JING = 2F;
 	private static final float NENG_LIANG = 10F;
 
-	public ExTui(String name, int ID, int tier)
+	public ExTuiLa(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 		this.setYinXin(120);
@@ -84,7 +84,7 @@ public class ExTui extends ZhaPin
 		}
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "random.explode", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		this.pushEntities(worldObj, position, 10);
+		this.pushEntities(worldObj, position, 20);
 
 		if (!worldObj.isRemote)
 		{
@@ -157,11 +157,23 @@ public class ExTui extends ZhaPin
 				xDifference /= var35;
 				yDifference /= var35;
 				zDifference /= var35;
-				double var36 = (1.0D - var13) * 3;
 
-				entity.motionX += xDifference * var36;
-				entity.motionY += yDifference * var36;
-				entity.motionZ += zDifference * var36;
+				if (this.getID() == ZhaPin.la.getID())
+				{
+					double modifier = var13 * 5;
+
+					entity.motionX -= xDifference * modifier;
+					entity.motionY -= yDifference * modifier;
+					entity.motionZ -= zDifference * modifier;
+				}
+				else
+				{
+					double modifier = (1.0D - var13) * 3.5;
+
+					entity.motionX += xDifference * modifier;
+					entity.motionY += yDifference * modifier;
+					entity.motionZ += zDifference * modifier;
+				}
 			}
 		}
 	}
@@ -169,7 +181,15 @@ public class ExTui extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "@", "@", '@', ZhaPin.yaSuo.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		if (this.getID() == ZhaPin.la.getID())
+		{
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+			{ "YY", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		}
+		else
+		{
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+			{ "Y", "Y", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		}
 	}
 }

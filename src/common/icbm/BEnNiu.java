@@ -21,7 +21,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class BEnNiu extends Block
 {
-	private final boolean field_82537_a;
+	private final boolean sensible;
 
 	protected BEnNiu(int id)
 	{
@@ -30,7 +30,7 @@ public class BEnNiu extends Block
 		this.setBlockName("enNiu");
 		this.setCreativeTab(ZhuYao.TAB);
 		this.setTextureFile(ICBM.BLOCK_TEXTURE_FILE);
-		this.field_82537_a = true;
+		this.sensible = true;
 	}
 
 	@Override
@@ -38,15 +38,14 @@ public class BEnNiu extends Block
 	{
 		return 0;
 	}
-
+	
 	/**
-	 * Returns which pass should this block be
-	 * rendered on. 0 for solids and 1 for alpha
+	 * How many world ticks before ticking
 	 */
 	@Override
-	public int getRenderBlockPass()
+	public int tickRate()
 	{
-		return 1;
+		return 2;
 	}
 
 	/**
@@ -58,14 +57,6 @@ public class BEnNiu extends Block
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		return null;
-	}
-
-	/**
-	 * How many world ticks before ticking
-	 */
-	public int tickRate()
-	{
-		return 10;
 	}
 
 	/**
@@ -112,40 +103,36 @@ public class BEnNiu extends Block
 		return (par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST)) || (par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST)) || (par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH)) || (par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH));
 	}
 
-	/**
-	 * called before onBlockPlacedBy by ItemBlock
-	 * and ItemReed
-	 */
-	public void updateBlockMetadata(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8)
+	public int func_85104_a(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
 	{
-		int var9 = par1World.getBlockMetadata(par2, par3, par4);
-		int var10 = var9 & 8;
-		var9 &= 7;
+		int var10 = par1World.getBlockMetadata(par2, par3, par4);
+		int var11 = var10 & 8;
+		var10 &= 7;
 
 		ForgeDirection dir = ForgeDirection.getOrientation(par5);
 
 		if (dir == NORTH && par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH))
 		{
-			var9 = 4;
+			var10 = 4;
 		}
 		else if (dir == SOUTH && par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH))
 		{
-			var9 = 3;
+			var10 = 3;
 		}
 		else if (dir == WEST && par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST))
 		{
-			var9 = 2;
+			var10 = 2;
 		}
 		else if (dir == EAST && par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST))
 		{
-			var9 = 1;
+			var10 = 1;
 		}
 		else
 		{
-			var9 = this.getOrientation(par1World, par2, par3, par4);
+			var10 = this.getOrientation(par1World, par2, par3, par4);
 		}
 
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, var9 + var10);
+		return var10 + var11;
 	}
 
 	/**
@@ -362,7 +349,7 @@ public class BEnNiu extends Block
 
 			if ((var6 & 8) != 0)
 			{
-				if (this.field_82537_a)
+				if (this.sensible)
 				{
 					this.func_82535_o(par1World, par2, par3, par4);
 				}
@@ -399,7 +386,7 @@ public class BEnNiu extends Block
 	{
 		if (!par1World.isRemote)
 		{
-			if (this.field_82537_a)
+			if (this.sensible)
 			{
 				if ((par1World.getBlockMetadata(par2, par3, par4) & 8) == 0)
 				{

@@ -63,7 +63,7 @@ import org.lwjgl.opengl.GL11;
 public class RDaoDan extends Render
 {
 	private final ModelBase[] models =
-	{ new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMDuQi(), new MMZhen(),
+	{ new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMDuQi(), new MMZhen(), new MMZhen(), new MMZhen(),
 
 	new MMQunDan(), new MMGanRanDu(), new MMShengBuo(), new MMTuPuo(), new MMHuanYuan(), new MMLiZi(),
 
@@ -104,49 +104,55 @@ public class RDaoDan extends Render
 			case 4:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAnvil.png");
 				break;
-
 			case 5:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileFragmentation.png");
+				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAnvil.png");
 				break;
 			case 6:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileContagious.png");
+				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAnvil.png");
 				break;
+
 			case 7:
-				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileSonic.png");
+				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileFragmentation.png");
 				break;
 			case 8:
-				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileBreaching.png");
+				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileContagious.png");
 				break;
 			case 9:
-				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileRejuvenation.png");
+				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileSonic.png");
 				break;
 			case 10:
+				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileBreaching.png");
+				break;
+			case 11:
+				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileRejuvenation.png");
+				break;
+			case 12:
 				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileIon.png");
 				break;
 
-			case 11:
+			case 13:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileNuclear.png");
 				break;
-			case 12:
+			case 14:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileEMP.png");
 				break;
-			case 13:
+			case 15:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileConflagration.png");
 				break;
-			case 14:
+			case 16:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileEndothermic.png");
 				break;
-			case 15:
+			case 17:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAntiGravity.png");
 				break;
-			case 16:
+			case 18:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileEnder.png");
 				break;
 
-			case 17:
+			case 19:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAntimatter.png");
 				break;
-			case 18:
+			case 20:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileRedMatter.png");
 				break;
 

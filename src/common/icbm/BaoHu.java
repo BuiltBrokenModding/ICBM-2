@@ -48,7 +48,7 @@ public class BaoHu
 				{
 					NBTTagCompound region = (NBTTagCompound) i.next();
 
-					if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R)) { return (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.ALL || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type); }
+					if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R)) { return (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.QUAN_BU || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type); }
 				}
 				catch (Exception e)
 				{
@@ -61,17 +61,17 @@ public class BaoHu
 
 	public static boolean nengDanBaoHu(World worldObj, Vector2 position)
 	{
-		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.BLOCK);
+		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.ZHA_DAN);
 	}
 
 	public static boolean nengShouLiuDanBaoHu(World worldObj, Vector2 position)
 	{
-		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.GRENADE);
+		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.SHOU_LIU_DAN);
 	}
 
 	public static boolean nengDaoDanBaoHu(World worldObj, Vector2 position)
 	{
-		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.MISSILE);
+		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.DAO_DAN);
 	}
 
 	public static boolean nengQuanQiuBaoHu(NBTTagCompound dimData)
@@ -100,6 +100,8 @@ public class BaoHu
 			}
 
 			var3.renameTo(var4);
+			
+			FMLLog.fine("Saved ICBM data successfully.");
 			return true;
 		}
 		catch (Exception var5)

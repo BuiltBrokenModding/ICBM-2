@@ -40,7 +40,7 @@ public class ItDaoDan extends ICBMItem
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
+		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}

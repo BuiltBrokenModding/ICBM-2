@@ -304,7 +304,7 @@ public class ZhuYao
 		}
 
 		// Explosives and missile recipe
-		for (int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
+		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			if (i == 0)
 			{
@@ -316,12 +316,12 @@ public class ZhuYao
 			{
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itDaoDan, 1, i), ZhaPin.list[i].getMing() + " Missile");
 
-				if (i < ZhaPin.MAX_TIER_ONE)
+				if (i < ZhaPin.E_YI_ID)
 				{
 					LanguageRegistry.addName(new ItemStack(itShouLiuDan, 1, i), ZhaPin.list[i].getMing() + " Grenade");
 				}
 
-				if (i < ZhaPin.MAX_TIER_TWO)
+				if (i < ZhaPin.E_ER_ID)
 				{
 					LanguageRegistry.addName(new ItemStack(itChe, 1, i), ZhaPin.list[i].getMing() + " Minecart");
 				}
@@ -331,6 +331,9 @@ public class ZhuYao
 		}
 
 		// -- Recipes
+		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[]
+		{ "G", "G", 'G', Block.glass });
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itZiDan, 3, 0), new Object[]
 		{ "@", "!", "!", '@', Item.diamond, '!', "ingotBronze" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itZiDan, 1, 1), new Object[]
@@ -415,7 +418,7 @@ public class ZhuYao
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itTeBieDaoDan, 1, 2), new Object[]
 		{ " ! ", " ? ", "!@!", '@', new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.qunDan.getID()].getItemStack(), '!', new ItemStack(ZhuYao.itDaoDan, 1, 0) }));
 
-		for (int i = 0; i < ZhaPin.MAX_EXPLOSIVE_ID; i++)
+		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			ZhaPin.list[i].init();
 
@@ -423,14 +426,14 @@ public class ZhuYao
 			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[]
 			{ new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZha4Dan4, 1, i) }), ZhaPin.list[i].getDaoDanMing(), CONFIGURATION, true);
 
-			if (i < ZhaPin.MAX_TIER_ONE)
+			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
 				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object[]
 				{ "?", "@", '@', new ItemStack(ZhuYao.bZha4Dan4, 1, i), '?', Item.silk }), CONFIGURATION, true);
 			}
 
-			if (i < ZhaPin.MAX_TIER_TWO)
+			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
 				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object[]

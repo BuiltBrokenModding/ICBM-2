@@ -68,7 +68,7 @@ public class ItChe extends Item
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int metadata = 0; metadata < ZhaPin.MAX_TIER_TWO; metadata++)
+		for (int metadata = 0; metadata < ZhaPin.E_ER_ID; metadata++)
 		{
 			par3List.add(new ItemStack(par1, 1, metadata));
 		}

@@ -70,7 +70,7 @@ public class ItShouLiuDan extends ICBMItem
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < ZhaPin.MAX_TIER_ONE; i++)
+		for (int i = 0; i < ZhaPin.E_YI_ID; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
