@@ -31,7 +31,7 @@ public class ExDianCiSignal extends ZhaPin
 
 		for (EDaoDan missile : entitiesNearby)
 		{
-			if (missile.ticksInAir > -1)
+			if (missile.feiXingTick > -1)
 			{
 				missile.dropMissileAsItem();
 			}

@@ -17,7 +17,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 	{
 		if (missileObj.motionY < -0.5)
 		{
-			if (missileObj.missileCount < MAX_CLUSTER)
+			if (missileObj.daoDanCount < MAX_CLUSTER)
 			{
 				if (!missileObj.worldObj.isRemote)
 				{
@@ -25,12 +25,12 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), ZhaPin.yuanZi.getID());
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 					clusterMissile.isCruise = true;
-					clusterMissile.protectionTime = 20;
-					clusterMissile.launchMissile(Vector3.add(missileObj.muBiao, new Vector3((missileObj.missileCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.missileCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.missileCount - MAX_CLUSTER / 2) * Math.random() * 30)));
+					clusterMissile.baoHuShiJian = 20;
+					clusterMissile.launchMissile(Vector3.add(missileObj.muBiao, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
 				}
 
-				missileObj.protectionTime = 20;
-				missileObj.missileCount++;
+				missileObj.baoHuShiJian = 20;
+				missileObj.daoDanCount++;
 			}
 			else
 			{

@@ -21,7 +21,6 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class BEnNiu extends Block
 {
-	private final boolean sensible;
 
 	protected BEnNiu(int id)
 	{
@@ -30,7 +29,6 @@ public class BEnNiu extends Block
 		this.setBlockName("enNiu");
 		this.setCreativeTab(ZhuYao.TAB);
 		this.setTextureFile(ICBM.BLOCK_TEXTURE_FILE);
-		this.sensible = true;
 	}
 
 	@Override
@@ -349,18 +347,7 @@ public class BEnNiu extends Block
 
 			if ((var6 & 8) != 0)
 			{
-				if (this.sensible)
-				{
-					this.func_82535_o(par1World, par2, par3, par4);
-				}
-				else
-				{
-					par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 & 7);
-					int var7 = var6 & 7;
-					this.func_82536_d(par1World, par2, par3, par4, var7);
-					par1World.playSoundEffect((double) par2 + 0.5D, (double) par3 + 0.5D, (double) par4 + 0.5D, "random.click", 0.3F, 0.5F);
-					par1World.markBlocksDirty(par2, par3, par4, par2, par3, par4);
-				}
+				this.func_82535_o(par1World, par2, par3, par4);
 			}
 		}
 	}
@@ -386,12 +373,9 @@ public class BEnNiu extends Block
 	{
 		if (!par1World.isRemote)
 		{
-			if (this.sensible)
+			if ((par1World.getBlockMetadata(par2, par3, par4) & 8) == 0)
 			{
-				if ((par1World.getBlockMetadata(par2, par3, par4) & 8) == 0)
-				{
-					this.func_82535_o(par1World, par2, par3, par4);
-				}
+				this.func_82535_o(par1World, par2, par3, par4);
 			}
 		}
 	}

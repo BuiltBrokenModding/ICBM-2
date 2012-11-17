@@ -17,7 +17,7 @@ public class DZhuiZhong extends DaoDan
 	@Override
 	public void onTickFlight(EDaoDan missileObj)
 	{
-		if (missileObj.ticksInAir > missileObj.flightTime / 2 && !missileObj.isCruise)
+		if (missileObj.feiXingTick > missileObj.feiXingShiJian / 2 && !missileObj.isCruise)
 		{
 			WorldServer worldServer = (WorldServer) missileObj.worldObj;
 			Entity trackingEntity = worldServer.getEntityByID(missileObj.genZongE);
@@ -31,18 +31,18 @@ public class DZhuiZhong extends DaoDan
 
 				missileObj.isCruise = true;
 
-				missileObj.xDifference = missileObj.muBiao.x - missileObj.posX;
-				missileObj.yDifference = missileObj.muBiao.y - missileObj.posY;
-				missileObj.zDifference = missileObj.muBiao.z - missileObj.posZ;
+				missileObj.xXiangCha = missileObj.muBiao.x - missileObj.posX;
+				missileObj.yXiangCha = missileObj.muBiao.y - missileObj.posY;
+				missileObj.zXiangCha = missileObj.muBiao.z - missileObj.posZ;
 
-				missileObj.flatDistance = Vector2.distance(missileObj.startingPosition.toVector2(), missileObj.muBiao.toVector2());
-				missileObj.skyLimit = 150 + (int) (missileObj.flatDistance * 1.8);
-				missileObj.flightTime = (float) Math.max(100, 2.4 * missileObj.flatDistance);
-				missileObj.acceleration = (float) missileObj.skyLimit * 2 / (missileObj.flightTime * missileObj.flightTime);
+				missileObj.diShangJuLi = Vector2.distance(missileObj.kaoShi.toVector2(), missileObj.muBiao.toVector2());
+				missileObj.tianGao = 150 + (int) (missileObj.diShangJuLi * 1.8);
+				missileObj.feiXingShiJian = (float) Math.max(100, 2.4 * missileObj.diShangJuLi);
+				missileObj.jiaSu = (float) missileObj.tianGao * 2 / (missileObj.feiXingShiJian * missileObj.feiXingShiJian);
 
-				missileObj.motionX = missileObj.xDifference / (missileObj.flightTime * 0.4);
-				missileObj.motionY = missileObj.yDifference / (missileObj.flightTime * 0.4);
-				missileObj.motionZ = missileObj.zDifference / (missileObj.flightTime * 0.4);
+				missileObj.motionX = missileObj.xXiangCha / (missileObj.feiXingShiJian * 0.4);
+				missileObj.motionY = missileObj.yXiangCha / (missileObj.feiXingShiJian * 0.4);
+				missileObj.motionZ = missileObj.zXiangCha / (missileObj.feiXingShiJian * 0.4);
 			}
 		}
 	}
@@ -50,7 +50,7 @@ public class DZhuiZhong extends DaoDan
 	@Override
 	public boolean onInteract(EDaoDan missileObj, EntityPlayer par1EntityPlayer)
 	{
-		if (missileObj.ticksInAir <= 0 && !missileObj.worldObj.isRemote)
+		if (missileObj.feiXingTick <= 0 && !missileObj.worldObj.isRemote)
 		{
 			if (par1EntityPlayer.getCurrentEquippedItem() != null)
 			{

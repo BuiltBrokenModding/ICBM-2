@@ -86,7 +86,7 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 19, 4);
 	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 20, 4);
 
-	public static final int E_SI_ID = 20;
+	public static final int E_SI_ID = 21;
 
 	// Hidden Explosives
 	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 26, 3);
@@ -253,7 +253,7 @@ public abstract class ZhaPin implements ITier
 	 * @param explosionSource
 	 *            - The entity that did the
 	 *            explosion
-	 * @param explosiveID
+	 * @param haoMa
 	 *            - The metadata of the explosive
 	 * @param callCount
 	 *            - The amount of calls done for

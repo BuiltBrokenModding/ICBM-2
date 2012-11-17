@@ -17,7 +17,7 @@ public class DFanDan extends DaoDan
 	{
 		if (missileObj.lockedTarget != null)
 		{
-			if (!missileObj.lockedTarget.isExploding)
+			if (!missileObj.lockedTarget.zhengZaiBaoZha)
 			{
 				missileObj.motionX = (missileObj.lockedTarget.posX - missileObj.posX) * (0.3F);
 				missileObj.motionY = (missileObj.lockedTarget.posY - missileObj.posY) * (0.3F);
@@ -36,7 +36,7 @@ public class DFanDan extends DaoDan
 
 		if (nearestEntity instanceof EDaoDan)
 		{
-			if (((EDaoDan) nearestEntity).ticksInAir >= 0)
+			if (((EDaoDan) nearestEntity).feiXingTick >= 0)
 			{
 				// Lock target onto missileObj
 				// missile
@@ -47,8 +47,8 @@ public class DFanDan extends DaoDan
 		}
 		else
 		{
-			missileObj.motionX = missileObj.xDifference / missileObj.flightTime;
-			missileObj.motionZ = missileObj.zDifference / missileObj.flightTime;
+			missileObj.motionX = missileObj.xXiangCha / missileObj.feiXingShiJian;
+			missileObj.motionZ = missileObj.zXiangCha / missileObj.feiXingShiJian;
 
 			if (missileObj.didTargetLockBefore == true)
 			{

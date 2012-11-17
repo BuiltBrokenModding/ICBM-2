@@ -178,7 +178,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 		for (EDaoDan missile : missilesNearby)
 		{
-			if (missile.ticksInAir > -1)
+			if (missile.feiXingTick > -1)
 			{
 				if (!this.detectedMissiles.contains(missile))
 				{

@@ -253,7 +253,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 					this.worldObj.spawnEntityInWorld(this.eDaoDan);
 					return;
 				}
-				else if (this.eDaoDan.explosiveID == missileId) { return; }
+				else if (this.eDaoDan.haoMa == missileId) { return; }
 			}
 		}
 

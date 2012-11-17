@@ -86,3 +86,4 @@ Minecraft 1.4.2
 @ ICBM_v0.6.2.59.jar
 @ ICBM_v0.6.2.60.jar
 @ ICBM_v0.6.2.61.jar
+@ ICBM_v0.6.2.62.jar

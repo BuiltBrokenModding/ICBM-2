@@ -87,7 +87,7 @@ public class RDaoDan extends Render
 
 		// Use the correct model & texture for the
 		// specified missile metadata
-		switch (entityMissile.explosiveID)
+		switch (entityMissile.haoMa)
 		{
 			default:
 				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileConventional.png");
@@ -178,21 +178,21 @@ public class RDaoDan extends Render
 		if (entityMissile.isCruise)
 			GL11.glScalef(0.5f, 0.5f, 0.5f);
 
-		if (entityMissile.explosiveID == 101)
+		if (entityMissile.haoMa == 101)
 		{
 			mFanDan.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
-		else if (entityMissile.explosiveID == 102 || entityMissile.explosiveID == 103)
+		else if (entityMissile.haoMa == 102 || entityMissile.haoMa == 103)
 		{
 			mFenZiDan.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
-		else if (entityMissile.explosiveID == 104)
+		else if (entityMissile.haoMa == 104)
 		{
 			mZhuiZhong.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{
-			models[entityMissile.explosiveID].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			models[entityMissile.haoMa].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 
 		GL11.glPopMatrix();

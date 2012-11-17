@@ -265,7 +265,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 				if (this.eDaoDan != null)
 				{
-					if (this.eDaoDan.explosiveID == missileId)
+					if (this.eDaoDan.haoMa == missileId)
 					{
 						this.eDaoDan.posY = this.yCoord + 0.2f;
 						return;

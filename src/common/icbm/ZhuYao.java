@@ -118,6 +118,7 @@ public class ZhuYao
 	public static final Block bYinGanQi = new BYinGanQi(UEConfig.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX + 6), 7);
 	public static final BlockMulti bJia = new BlockMulti(UEConfig.getBlockConfigID(CONFIGURATION, "Place Holder", BLOCK_ID_PREFIX + 7));
 	public static final BEnNiu bBuoLiEnNiu = new BEnNiu(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Button", BLOCK_ID_PREFIX + 8));
+	public static final Block bZha = new BZha(UEConfig.getBlockConfigID(CONFIGURATION, "Spikes", BLOCK_ID_PREFIX + 9), 1);
 
 	// ITEMS
 	public static final int ITEM_ID_PREFIX = 3900;
@@ -202,6 +203,7 @@ public class ZhuYao
 		GameRegistry.registerBlock(bYinGanQi);
 		GameRegistry.registerBlock(bJia);
 		GameRegistry.registerBlock(bBuoLiEnNiu);
+		GameRegistry.registerBlock(bZha, IBZha.class);
 
 		if (OreDictionary.getOres("blockRadioactive").size() > 0)
 		{
@@ -266,6 +268,10 @@ public class ZhuYao
 		LanguageRegistry.addName(itLiu, "Sulfur Dust");
 		LanguageRegistry.addName(itDu, "Poison Powder");
 
+		LanguageRegistry.addName(new ItemStack(bZha, 1, 0), "Spikes");
+		LanguageRegistry.addName(new ItemStack(bZha, 1, 1), "Poison Spikes");
+		LanguageRegistry.addName(new ItemStack(bZha, 1, 2), "Flammable Spikes");
+
 		LanguageRegistry.addName(ZhuYao.itLeiDaQiang, "Radar Gun");
 		LanguageRegistry.addName(ZhuYao.itYaoKong, "Remote Detonator");
 		LanguageRegistry.addName(ZhuYao.itLeiSheZhiBiao, "Laser Designator");
@@ -329,6 +335,15 @@ public class ZhuYao
 
 			LanguageRegistry.addName(new ItemStack(ZhuYao.bZha4Dan4, 1, i), ZhaPin.list[i].getMing() + " Explosives");
 		}
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 5), new Object[]
+		{ "CCC", "BBB", 'C', Block.cactus, 'B', "ingotBronze" }));
+
+		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[]
+		{ "E", "S", 'E', itDu, 'S', bZha });
+
+		GameRegistry.addRecipe(new ItemStack(bZha, 1, 2), new Object[]
+		{ "E", "S", 'E', itLiu, 'S', bZha });
 
 		// -- Recipes
 		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[]
