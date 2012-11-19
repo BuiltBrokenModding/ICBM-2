@@ -68,6 +68,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
+		data.writeBoolean(this.isMobile);
 		data.writeInt(this.explosiveID);
 		data.writeInt(this.metadata);
 	}
@@ -75,6 +76,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
+		this.isMobile = data.readBoolean();
 		this.explosiveID = data.readInt();
 		this.metadata = data.readInt();
 	}

@@ -51,6 +51,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	 * particles and damage)
 	 */
 	public boolean arrowCritical = false;
+	public float explosionSize = 1.5F;
 
 	public ESuiPian(World par1World)
 	{
@@ -98,7 +99,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public String getEntityName()
 	{
-		return "shrapnel shards";
+		return "Fragments";
 	}
 
 	/**
@@ -156,7 +157,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 		if (!this.isExploding && !this.worldObj.isRemote)
 		{
 			this.isExploding = true;
-			this.worldObj.createExplosion(this, this.xTile, this.yTile, this.zTile, 1.5F, true);
+			this.worldObj.createExplosion(this, this.xTile, this.yTile, this.zTile, this.explosionSize, true);
 			this.setDead();
 		}
 	}
@@ -465,7 +466,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	{
 		super.applyEntityCollision(par1Entity);
 
-		if (this.isExplosive)
+		if (this.isExplosive && this.ticksExisted < 20*2)
 		{
 			this.explode();
 		}

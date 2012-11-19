@@ -25,11 +25,11 @@ public class ExQunDan extends ZhaPin
 	{
 		if (!worldObj.isRemote)
 		{
-			int amount = 28;
+			int amount = 30;
 
 			if (this.getTier() == 2)
 			{
-				amount = 13;
+				amount = 15;
 			}
 			else if (this.getID() == ZhaPin.zhen.getID())
 			{

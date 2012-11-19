@@ -258,6 +258,14 @@ public class ZhuYao
 			GameRegistry.registerBlock(bFuShe);
 		}
 
+		for (int i = 0; i < ZhaPin.list.length; i++)
+		{
+			if (ZhaPin.list[i] != null)
+			{
+				ZhaPin.list[i].init();
+			}
+		}
+
 		LanguageRegistry.instance().addStringLocalization("itemGroup.ICBM", "en_US", "ICBM");
 
 		// -- Add Names
@@ -308,6 +316,8 @@ public class ZhuYao
 		{
 			LanguageRegistry.addName(new ItemStack(ZhuYao.itTeBieDaoDan, 1, i), ((ItTeBieDaoDan) ZhuYao.itTeBieDaoDan).names[i]);
 		}
+
+		LanguageRegistry.addName(new ItemStack(ZhuYao.bZha4Dan4, 1, ZhaPin.diLei.getID()), "S-Mine");
 
 		// Explosives and missile recipe
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
@@ -435,8 +445,6 @@ public class ZhuYao
 
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
-			ZhaPin.list[i].init();
-
 			// Missile
 			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[]
 			{ new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZha4Dan4, 1, i) }), ZhaPin.list[i].getDaoDanMing(), CONFIGURATION, true);

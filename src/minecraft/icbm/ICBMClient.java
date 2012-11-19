@@ -20,6 +20,7 @@ import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDaTai;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.jiqi.TYinGanQi;
+import icbm.renders.RBZhaDan;
 import icbm.renders.RChe;
 import icbm.renders.RCiGuiPao;
 import icbm.renders.RDaoDan;
@@ -33,12 +34,13 @@ import icbm.renders.RGuangBang;
 import icbm.renders.RShouLiuDan;
 import icbm.renders.RShuiPian;
 import icbm.renders.RXiaoFaSheQi;
-import icbm.renders.RZhaDan;
+import icbm.renders.REZhaDan;
 import icbm.renders.RZhaPin;
 import icbm.renders.RenderRadarStation;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
+import icbm.zhapin.TZhaDan;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -64,7 +66,7 @@ public class ICBMClient extends ICBMCommon
 	@Override
 	public void init()
 	{
-		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new RZhaDan());
+		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
 		RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
 		RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RFeiBlock());
@@ -83,6 +85,7 @@ public class ICBMClient extends ICBMCommon
 		ClientRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame", new RFaSheJia());
 		ClientRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar", new RenderRadarStation());
 		ClientRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower", new RDianCiQi());
+		ClientRegistry.registerTileEntity(TZhaDan.class, "ZhaDan", new RBZhaDan());
 
 	}
 

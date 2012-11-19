@@ -7,6 +7,7 @@ import icbm.api.ICBM;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockContainer;
 import net.minecraft.src.CreativeTabs;
@@ -55,6 +56,33 @@ public class BZhaDan extends BlockContainer
 
 		int rotation = MathHelper.floor_double((double) (entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		return (byte) (rotation == 0 ? 2 : (rotation == 1 ? 5 : (rotation == 2 ? 3 : (rotation == 3 ? 4 : 0))));
+	}
+
+	/**
+	 * Returns the bounding box of the wired
+	 * rectangular prism to render.
+	 */
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	{
+		return this.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
+	}
+
+	/**
+	 * Returns a bounding box from the pool of
+	 * bounding boxes (this means this box can
+	 * change after the pool has been cleared to
+	 * be reused)
+	 */
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int x, int y, int z)
+	{
+		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+
+		if (tileEntity != null)
+		{
+			if (((TZhaDan) tileEntity).explosiveID == ZhaPin.diLei.getID()) { return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ); }
+		}
+
+		return super.getCollisionBoundingBoxFromPool(par1World, x, y, z);
 	}
 
 	/**
@@ -318,11 +346,19 @@ public class BZhaDan extends BlockContainer
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
+
+		par3List.add(new ItemStack(this, 1, ZhaPin.diLei.getID()));
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World var1)
 	{
 		return new TZhaDan();
+	}
+
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
 	}
 }

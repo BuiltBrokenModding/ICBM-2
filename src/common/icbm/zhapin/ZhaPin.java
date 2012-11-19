@@ -3,6 +3,7 @@ package icbm.zhapin;
 import icbm.ZhuYao;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
+import icbm.renders.RBZhaDan;
 import icbm.zhapin.ex.ExBianZhong;
 import icbm.zhapin.ex.ExBingDan;
 import icbm.zhapin.ex.ExBingDan2;
@@ -40,6 +41,8 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.ITier;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 
 public abstract class ZhaPin implements ITier
 {
@@ -87,6 +90,8 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 20, 4);
 
 	public static final int E_SI_ID = 21;
+
+	public static final ZhaPin diLei = new ExDiLei("S-Mine", 25, 2);
 
 	// Hidden Explosives
 	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 26, 3);
@@ -245,6 +250,12 @@ public abstract class ZhaPin implements ITier
 	 */
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
+	}
+
+	@SideOnly(Side.CLIENT)
+	public Object[] getRenderData()
+	{
+		return null;
 	}
 
 	/**

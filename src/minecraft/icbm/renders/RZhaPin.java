@@ -1,5 +1,6 @@
 package icbm.renders;
 
+import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 
@@ -18,12 +19,9 @@ public class RZhaPin extends Render
 	@Override
 	public void doRender(Entity par1Entity, double x, double y, double z, float par8, float par9)
 	{
-		if (this.renderManager == null)
-		{
-			this.setRenderManager(RenderManager.instance);
-		}
+		EZhaPin entityExplosive = (EZhaPin) par1Entity;
 
-		if (((EZhaPin) par1Entity).explosiveID == ZhaPin.hongSu.getID())
+		if (entityExplosive.explosiveID == ZhaPin.hongSu.getID())
 		{
 			Tessellator var3 = Tessellator.instance;
 			float par2 = (float) (par1Entity.ticksExisted);
@@ -85,6 +83,20 @@ public class RZhaPin extends Render
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			RenderHelper.enableStandardItemLighting();
 			GL11.glPopMatrix();
+		}
+		else
+		{
+			Object[] data = ZhaPin.list[entityExplosive.explosiveID].getRenderData();
+
+			if (data != null)
+			{
+				GL11.glPushMatrix();
+				GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
+				GL11.glRotatef(entityExplosive.rotationPitch, 0.0F, 0.0F, 1.0F);
+				this.loadTexture((String) data[1]);
+				((ICBMModelBase) data[0]).render(entityExplosive, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
+				GL11.glPopMatrix();
+			}
 		}
 	}
 
