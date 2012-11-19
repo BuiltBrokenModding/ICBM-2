@@ -36,7 +36,7 @@ public class BEnNiu extends Block
 	{
 		return 0;
 	}
-	
+
 	/**
 	 * How many world ticks before ticking
 	 */

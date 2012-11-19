@@ -172,8 +172,8 @@ public class ExWan extends ZhaPin
 	public void init()
 	{
 		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', Block.tnt }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		{ "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
 		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "EEE", "ETE", "EEE", 'E', "dustEndium", 'T', Block.tnt }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		{ "EEE", "ETE", "EEE", 'E', "dustEndium", 'T', ZhaPin.la.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

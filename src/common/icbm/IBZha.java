@@ -13,10 +13,10 @@ public class IBZha extends ItemBlock
 	}
 
 	@Override
-	 public int getMetadata(int par1)
-    {
-        return par1;
-    }
+	public int getMetadata(int par1)
+	{
+		return par1;
+	}
 
 	@Override
 	public String getItemNameIS(ItemStack itemstack)

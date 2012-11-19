@@ -44,17 +44,17 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 	public int baoZhaGaoDu = 0;
 	public int feiXingTick = -1;
-	//Difference
+	// Difference
 	public double xXiangCha;
 	public double yXiangCha;
 	public double zXiangCha;
-	//Flat Distance
+	// Flat Distance
 	public double diShangJuLi;
 	// The flight time in ticks
 	public float feiXingShiJian;
-	//Acceleration
+	// Acceleration
 	public float jiaSu;
-	//Protection Time
+	// Protection Time
 	public int baoHuShiJian = 20;
 
 	private Ticket chunkTicket;
