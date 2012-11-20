@@ -29,7 +29,6 @@ cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "icbm\"
 
 cd ..\..\
-"..\7za.exe" a "builds\%FILE_NAME%" "mcmod.info"
 
 cd resources\
 "..\..\7za.exe" a "..\builds\%FILE_NAME%" "icbm\"

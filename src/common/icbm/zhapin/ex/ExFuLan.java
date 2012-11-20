@@ -18,56 +18,59 @@ public class ExFuLan extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
-		for (int x = -radius; x < radius; x++)
+		if (worldObj.isRemote)
 		{
-			for (int y = -radius; y < radius; y++)
+			for (int x = -radius; x < radius; x++)
 			{
-				for (int z = -radius; z < radius; z++)
+				for (int y = -radius; y < radius; y++)
 				{
-					double dist = MathHelper.sqrt_double((x * x + y * y + z * z));
-
-					if (dist > radius)
-						continue;
-
-					Vector3 blockPosition = new Vector3(x, y, z);
-					blockPosition.add(position);
-
-					// Check what type of block
-					// this is. Decay the land
-					// depending on the block
-					// type.
-					int blockID = worldObj.getBlockId((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z);
-
-					if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
+					for (int z = -radius; z < radius; z++)
 					{
-						if (worldObj.rand.nextFloat() > 0.9)
+						double dist = MathHelper.sqrt_double((x * x + y * y + z * z));
+
+						if (dist > radius)
+							continue;
+
+						Vector3 blockPosition = new Vector3(x, y, z);
+						blockPosition.add(position);
+
+						// Check what type of block
+						// this is. Decay the land
+						// depending on the block
+						// type.
+						int blockID = worldObj.getBlockId((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z);
+
+						if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
 						{
-							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+							if (worldObj.rand.nextFloat() > 0.9)
+							{
+								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+							}
 						}
-					}
 
-					if (blockID == Block.stone.blockID)
-					{
-						if (worldObj.rand.nextFloat() > 0.97)
+						if (blockID == Block.stone.blockID)
 						{
-							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+							if (worldObj.rand.nextFloat() > 0.97)
+							{
+								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+							}
 						}
-					}
 
-					else if (blockID == Block.leaves.blockID)
-					{
-						worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0);
-					}
-					else if (blockID == Block.tallGrass.blockID)
-					{
-						if (Math.random() * 100 > 50)
-							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.cobblestone.blockID);
-						else
+						else if (blockID == Block.leaves.blockID)
+						{
 							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0);
-					}
-					else if (blockID == Block.tilledField.blockID)
-					{
-						worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.mycelium.blockID);
+						}
+						else if (blockID == Block.tallGrass.blockID)
+						{
+							if (Math.random() * 100 > 50)
+								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.cobblestone.blockID);
+							else
+								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0);
+						}
+						else if (blockID == Block.tilledField.blockID)
+						{
+							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.mycelium.blockID);
+						}
 					}
 				}
 			}

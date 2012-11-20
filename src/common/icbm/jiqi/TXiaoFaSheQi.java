@@ -227,7 +227,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if (this.muBiao == null)
 					this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
+				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 			}
 		}
 	}
@@ -322,7 +322,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (!this.worldObj.isRemote)
 		{
-			this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
+			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 		}
 
 		this.yongZhe++;

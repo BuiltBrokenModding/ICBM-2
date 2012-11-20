@@ -208,7 +208,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 
 			if (this.ticks % 600 == 0)
 			{
-				this.worldObj.markBlockNeedsUpdate(this.xCoord, this.yCoord, this.zCoord);
+				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 			}
 		}
 	}

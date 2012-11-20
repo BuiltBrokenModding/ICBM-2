@@ -150,7 +150,7 @@ public class ZhuYao
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UniversalElectricity.register(this, 1, 1, 0, false);
+		UniversalElectricity.register(this, 1, 1, 2, false);
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 

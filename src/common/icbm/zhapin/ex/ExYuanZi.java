@@ -15,9 +15,9 @@ import universalelectricity.prefab.RecipeHelper;
 
 public class ExYuanZi extends ZhaPin
 {
-	public static final int BAN_JING = 40;
+	public static final int BAN_JING = 30;
 	public static final int NENG_LIANG = 200;
-	public static final int CALC_SPEED = 800;
+	public static final int CALC_SPEED = 500;
 
 	public ExYuanZi(String name, int ID, int tier)
 	{
@@ -93,7 +93,7 @@ public class ExYuanZi extends ZhaPin
 						}
 						else
 						{
-							resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) * 5;
+							resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) * 4;
 						}
 
 						power -= resistance;
@@ -114,19 +114,19 @@ public class ExYuanZi extends ZhaPin
 			}
 		}
 
-		int r = callCount;
-
-		boolean reverse = false;
-
-		if (r > BAN_JING)
+		if (worldObj.isRemote)
 		{
-			r = BAN_JING - (r - BAN_JING);
-			reverse = true;
-		}
+			int r = (int) (callCount/2);
 
-		if (r > 0)
-		{
-			if (worldObj.isRemote && ZhuYao.SPAWN_PARTICLES)
+			boolean reverse = false;
+
+			if (r > BAN_JING)
+			{
+				r = BAN_JING - (r - BAN_JING);
+				reverse = true;
+			}
+
+			if (r > 0 && ZhuYao.SPAWN_PARTICLES)
 			{
 				for (int x = -r; x < r; x++)
 				{
@@ -156,26 +156,15 @@ public class ExYuanZi extends ZhaPin
 					}
 				}
 			}
-		}
 
-		if (r <= 0 && i > source.dataList.size()) { return false; }
+			if (r <= 0 && i > source.dataList.size())
+				return false;
+		}
+		else if (i > source.dataList.size()) { return false; }
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
 		return true;
-	}
-
-	/**
-	 * The interval in ticks before the next
-	 * procedural call of this explosive
-	 * 
-	 * @param return - Return -1 if this explosive
-	 *        does not need procedural calls
-	 */
-	@Override
-	public int proceduralInterval()
-	{
-		return 1;
 	}
 
 	@Override
@@ -207,7 +196,6 @@ public class ExYuanZi extends ZhaPin
 
 		if (worldObj.isRemote && ZhuYao.ADVANCED_VISUALS)
 		{
-
 			for (int y = 0; y < 25; y++)
 			{
 				int r = 3;
@@ -238,13 +226,22 @@ public class ExYuanZi extends ZhaPin
 	}
 
 	/**
-	 * Called when the explosive is on fuse and
-	 * going to explode. Called only when the
-	 * explosive is in it's TNT form.
+	 * The interval in ticks before the next procedural call of this explosive
+	 * 
+	 * @param return - Return -1 if this explosive does not need procedural calls
+	 */
+	@Override
+	public int proceduralInterval()
+	{
+		return 1;
+	}
+
+	/**
+	 * Called when the explosive is on fuse and going to explode. Called only when the explosive is
+	 * in it's TNT form.
 	 * 
 	 * @param fuseTicks
-	 *            - The amount of ticks this
-	 *            explosive is on fuse
+	 *            - The amount of ticks this explosive is on fuse
 	 */
 	@Override
 	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)

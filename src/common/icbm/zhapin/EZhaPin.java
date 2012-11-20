@@ -133,7 +133,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 
 		if (this.tickCallCounter >= ZhaPin.list[this.explosiveID].proceduralInterval(this.worldObj, this.callCounter))
 		{
-			if (!endExplosion && ZhaPin.list[this.explosiveID].doBaoZha(worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.metadata, this.callCounter))
+			if (!this.endExplosion && ZhaPin.list[this.explosiveID].doBaoZha(worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.metadata, this.callCounter))
 			{
 				this.callCounter += ZhaPin.list[this.explosiveID].countIncrement();
 				this.tickCallCounter = 0;
