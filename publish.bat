@@ -31,8 +31,8 @@ cd reobf\minecraft\
 cd ..\..\
 
 cd resources\
-"..\..\7za.exe" a "..\builds\%FILE_NAME%" "icbm\"
-"..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "icbm\" -phenry
+"..\..\7za.exe" a "..\builds\%FILE_NAME%" "*"
+"..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*" -phenry
 cd ..\
 cd src\
 "..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
