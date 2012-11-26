@@ -13,7 +13,6 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
-import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.vector.Vector3;
@@ -52,7 +51,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	 * Called every tick. Super this!
 	 */
 	@Override
-	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
+	public void onReceive(Object sender, double amps, double voltage, ForgeDirection side)
 	{
 		if (!this.isDisabled())
 		{

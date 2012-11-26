@@ -73,7 +73,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	 * Called every tick. Super this!
 	 */
 	@Override
-	public void onReceive(TileEntity sender, double amps, double voltage, ForgeDirection side)
+	public void onReceive(Object sender, double amps, double voltage, ForgeDirection side)
 	{
 		if (!this.isDisabled())
 		{

@@ -12,9 +12,9 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.vector.Region3;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import universalelectricity.prefab.vector.Region3;
 
 public class ExTuiLa extends ZhaPin
 {
