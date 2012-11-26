@@ -14,6 +14,7 @@ import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector2;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
 
 public class BaoHu
 {
@@ -80,16 +81,10 @@ public class BaoHu
 
 	public static boolean saveData(NBTTagCompound data, String filename)
 	{
-		String folder;
-
-		if (FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())
-			folder = FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName();
-		else
-			folder = "saves" + File.separator + FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName();
 		try
 		{
-			File var3 = new File(folder + File.separator, filename + "_tmp_.dat");
-			File var4 = new File(folder + File.separator, filename + ".dat");
+			File var3 = new File(Loader.instance().getConfigDir(), filename + "_tmp_.dat");
+			File var4 = new File(Loader.instance().getConfigDir(), filename + ".dat");
 
 			CompressedStreamTools.writeCompressed(data, new FileOutputStream(var3));
 
@@ -112,14 +107,9 @@ public class BaoHu
 
 	public static NBTTagCompound loadData(String filename)
 	{
-		String folder;
-		if (FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())
-			folder = FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName();
-		else
-			folder = "saves" + File.separator + FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName();
 		try
 		{
-			File var2 = new File(folder + File.separator, filename + ".dat");
+			File var2 = new File(Loader.instance().getConfigDir(), filename + ".dat");
 
 			if (var2.exists())
 			{

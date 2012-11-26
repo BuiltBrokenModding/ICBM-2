@@ -30,11 +30,11 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 	public static final int BAN_JING = 100;
 	public static final int YONG_DIAN_LIANG = 5000;
 
-	public ItLeiShiZhiBiao(String name, int id, int icon)
+	public ItLeiShiZhiBiao(int id, int icon)
 	{
 		super(id);
 		this.setIconIndex(icon);
-		this.setItemName(name);
+		this.setItemName("laserDesignator");
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 

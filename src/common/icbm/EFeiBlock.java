@@ -3,6 +3,7 @@ package icbm;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
+import net.minecraft.src.DamageSource;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.MathHelper;
@@ -149,7 +150,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 				if (!(Block.blocksList[this.blockID] instanceof BlockFluid) && (this.motionX > 2 || this.motionY > 2 || this.motionZ > 2))
 				{
 					int damage = (int) (1.2 * ((this.motionX + this.motionY + this.motionZ)));
-					((EntityLiving) par1Entity).attackEntityFrom(ZhuYao.damageSmash, damage);
+					((EntityLiving) par1Entity).attackEntityFrom(DamageSource.fallingBlock, damage);
 				}
 			}
 		}

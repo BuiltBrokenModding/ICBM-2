@@ -23,11 +23,11 @@ public class ItLeiDaQiang extends ItemElectric
 {
 	public static final int YONG_DIAN_LIANG = 1000;
 
-	public ItLeiDaQiang(String name, int par1, int par2)
+	public ItLeiDaQiang(int par1, int par2)
 	{
 		super(par1);
 		this.iconIndex = par2;
-		this.setItemName(name);
+		this.setItemName("radarGun");
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 

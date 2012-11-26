@@ -19,11 +19,11 @@ public class ItGenZongQi extends ItemElectric
 {
 	private static final float YONG_DIAN_LIANG = 0.05f;
 
-	public ItGenZongQi(String name, int id, int iconIndex)
+	public ItGenZongQi(int id, int iconIndex)
 	{
 		super(id);
 		this.setIconIndex(iconIndex);
-		this.setItemName(name);
+		this.setItemName("tracker");
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 

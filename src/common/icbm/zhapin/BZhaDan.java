@@ -103,7 +103,7 @@ public class BZhaDan extends BlockContainer
 
 		if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
 		{
-			BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
+			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
 		}
 
 		// Check to see if there is fire nearby.
@@ -117,7 +117,7 @@ public class BZhaDan extends BlockContainer
 
 			if (blockId == Block.fire.blockID || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
 			{
-				BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 2);
+				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 2);
 			}
 		}
 	}
@@ -197,11 +197,11 @@ public class BZhaDan extends BlockContainer
 
 		if ((blockId > 0 && Block.blocksList[blockId].canProvidePower() && par1World.isBlockIndirectlyGettingPowered(x, y, z)))
 		{
-			BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
+			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
 		}
 		else if (blockId == Block.fire.blockID || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
 		{
-			BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 2);
+			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 2);
 		}
 	}
 
@@ -209,7 +209,7 @@ public class BZhaDan extends BlockContainer
 	 * Called to detonate the TNT. Args: world, x, y, z, metaData, CauseOfExplosion (0, intentional,
 	 * 1, exploded, 2 burned)
 	 */
-	public static void detonateTNT(World par1World, int x, int y, int z, int metadata, int causeOfExplosion)
+	public static void yinZha(World par1World, int x, int y, int z, int metadata, int causeOfExplosion)
 	{
 		if (!par1World.isRemote)
 		{
@@ -230,7 +230,7 @@ public class BZhaDan extends BlockContainer
 		if (par1World.getBlockTileEntity(x, y, z) != null)
 		{
 			int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
-			BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 1);
+			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 1);
 		}
 	}
 
@@ -246,7 +246,7 @@ public class BZhaDan extends BlockContainer
 			if (par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
 			{
 				int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
-				BZhaDan.detonateTNT(par1World, x, y, z, explosiveID, 0);
+				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
 				return true;
 			}
 			else if (par5EntityPlayer.getCurrentEquippedItem().getItem() instanceof IWrench)

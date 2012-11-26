@@ -9,7 +9,7 @@ public class BLiu extends ICBMBlock
 	public BLiu(int id)
 	{
 		super(id, 10, Material.rock);
-		this.setBlockName("Sulfur Ore");
+		this.setBlockName("sulfurOre");
 		this.setHardness(3.0f);
 		this.setCreativeTab(ZhuYao.TAB);
 	}

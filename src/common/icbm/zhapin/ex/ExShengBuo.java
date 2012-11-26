@@ -3,7 +3,9 @@ package icbm.zhapin.ex;
 import icbm.EFeiBlock;
 import icbm.ZhuYao;
 import icbm.daodan.EDaoDan;
+import icbm.zhapin.BZhaDan;
 import icbm.zhapin.EZhaPin;
+import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 
 import java.util.List;
@@ -129,7 +131,14 @@ public class ExShengBuo extends ZhaPin
 
 				if (distance < r - 1 || worldObj.rand.nextInt(3) > 0)
 				{
-					worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+					if (blockID == ZhuYao.bZha4Dan4.blockID)
+					{
+						BZhaDan.yinZha(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TZhaDan) worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).explosiveID, 1);
+					}
+					else
+					{
+						worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+					}
 
 					targetPosition.add(0.5D);
 

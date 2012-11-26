@@ -40,6 +40,7 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.ServerCommandManager;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -53,7 +54,6 @@ import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.RecipeHelper;
-import universalelectricity.prefab.UEDamageSource;
 import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.ore.OreGenBase;
@@ -125,28 +125,26 @@ public class ZhuYao
 
 	// ITEMS
 	public static final int I_HAO_MA = 3900;
-	public static final Item itLiu = new ICBMItem("Sulfur", UEConfig.getItemConfigID(CONFIGURATION, "Sulfur", I_HAO_MA - 2), 3, CreativeTabs.tabMaterials);
-	public static final Item itDu = new ICBMItem("Poison Powder", UEConfig.getItemConfigID(CONFIGURATION, "Poison Powder", I_HAO_MA), 0, CreativeTabs.tabMaterials);
-	public static final Item itYao = new ItYao("Antidote", UEConfig.getItemConfigID(CONFIGURATION, "Antidote", I_HAO_MA + 1), 5);
-	public static final Item itDaoDan = new ItDaoDan("Missile", UEConfig.getItemConfigID(CONFIGURATION, "Missile", I_HAO_MA + 2), 32);
-	public static final Item itTeBieDaoDan = new ItTeBieDaoDan("Special Missile", UEConfig.getItemConfigID(CONFIGURATION, "Special Missile", I_HAO_MA + 3), 32);
+	public static final Item itLiu = new ICBMItem("sulfur", UEConfig.getItemConfigID(CONFIGURATION, "Sulfur", I_HAO_MA - 2), 3, CreativeTabs.tabMaterials);
+	public static final Item itDu = new ICBMItem("poisonPowder", UEConfig.getItemConfigID(CONFIGURATION, "Poison Powder", I_HAO_MA), 0, CreativeTabs.tabMaterials);
+	public static final Item itYao = new ItYao(UEConfig.getItemConfigID(CONFIGURATION, "Antidote", I_HAO_MA + 1), 5);
+	public static final Item itDaoDan = new ItDaoDan("missile", UEConfig.getItemConfigID(CONFIGURATION, "Missile", I_HAO_MA + 2), 32);
+	public static final Item itTeBieDaoDan = new ItTeBieDaoDan("specialMissile", UEConfig.getItemConfigID(CONFIGURATION, "Special Missile", I_HAO_MA + 3), 32);
 
-	public static final ItemElectric itJieJa = new ItJieJa("Defuser", UEConfig.getItemConfigID(CONFIGURATION, "Explosive Defuser", I_HAO_MA + 4), 21);
-	public static final ItemElectric itLeiDaQiang = new ItLeiDaQiang("Radar Gun", UEConfig.getItemConfigID(CONFIGURATION, "RadarGun", I_HAO_MA + 5), 19);
-	public static final ItemElectric itYaoKong = new ItYaoKong("Remote", UEConfig.getItemConfigID(CONFIGURATION, "Remote", I_HAO_MA + 6), 20);
-	public static final ItemElectric itLeiSheZhiBiao = new ItLeiShiZhiBiao("Laser Designator", UEConfig.getItemConfigID(CONFIGURATION, "Laser Designator", I_HAO_MA + 7), 22);
-	public static final ItemElectric itHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UEConfig.getItemConfigID(CONFIGURATION, "Signal Disruptor", I_HAO_MA + 9), 23);
-	public static final ItemElectric itGenZongQi = new ItGenZongQi("Tracker", UEConfig.getItemConfigID(CONFIGURATION, "Tracker", I_HAO_MA + 11), 0);
+	public static final ItemElectric itJieJa = new ItJieJa(UEConfig.getItemConfigID(CONFIGURATION, "Explosive Defuser", I_HAO_MA + 4), 21);
+	public static final ItemElectric itLeiDaQiang = new ItLeiDaQiang(UEConfig.getItemConfigID(CONFIGURATION, "RadarGun", I_HAO_MA + 5), 19);
+	public static final ItemElectric itYaoKong = new ItYaoKong(UEConfig.getItemConfigID(CONFIGURATION, "Remote", I_HAO_MA + 6), 20);
+	public static final ItemElectric itLeiSheZhiBiao = new ItLeiShiZhiBiao(UEConfig.getItemConfigID(CONFIGURATION, "Laser Designator", I_HAO_MA + 7), 22);
+	public static final ItemElectric itHuoLaunQi = new ItHuoLuanQi(UEConfig.getItemConfigID(CONFIGURATION, "Signal Disruptor", I_HAO_MA + 9), 23);
+	public static final ItemElectric itGenZongQi = new ItGenZongQi(UEConfig.getItemConfigID(CONFIGURATION, "Tracker", I_HAO_MA + 11), 0);
 
 	public static final Item itShouLiuDan = new ItShouLiuDan(UEConfig.getItemConfigID(CONFIGURATION, "Grenade", I_HAO_MA + 8), 64);
-	public static final Item itZiDan = new ItZiDan("Bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", I_HAO_MA + 10), 80);
+	public static final Item itZiDan = new ItZiDan("bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", I_HAO_MA + 10), 80);
 
 	public static final Item itChe = new ItChe(UEConfig.getItemConfigID(CONFIGURATION, "Minecart", I_HAO_MA + 11), 135);
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
-
-	public static final UEDamageSource damageSmash = new UEDamageSource("smash", "%1$s got smashed to death!");
 
 	public static final OreGenBase liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable();
 
@@ -242,12 +240,6 @@ public class ZhuYao
 		}
 	}
 
-	/*
-	 * @ForgeSubscribe public void onEEC(EnteringChunk event) { if(event.entity instanceof EDaoDan)
-	 * { ((EDaoDan )event.entity).updateLoadChunk(event .oldChunkX, event.oldChunkZ,
-	 * event.newChunkX, event.newChunkZ); } }
-	 */
-
 	@Init
 	public void load(FMLInitializationEvent evt)
 	{
@@ -273,26 +265,11 @@ public class ZhuYao
 			LanguageRegistry.instance().loadLocalization(ICBM.LANGUAGE_PATH + language + ".properties", language, false);
 		}
 
-		LanguageRegistry.instance().addStringLocalization("itemGroup.ICBM", "en_US", "ICBM");
-
 		// -- Add Names
-		LanguageRegistry.addName(bBuoLiEnNiu, "Glass Button");
-
-		LanguageRegistry.addName(bLiu, "Sulfur Ore");
-
-		LanguageRegistry.addName(itLiu, "Sulfur Dust");
-		LanguageRegistry.addName(itDu, "Poison Powder");
-
 		LanguageRegistry.addName(new ItemStack(bZha, 1, 0), "Spikes");
 		LanguageRegistry.addName(new ItemStack(bZha, 1, 1), "Poison Spikes");
 		LanguageRegistry.addName(new ItemStack(bZha, 1, 2), "Flammable Spikes");
 
-		LanguageRegistry.addName(ZhuYao.itLeiDaQiang, "Radar Gun");
-		LanguageRegistry.addName(ZhuYao.itYaoKong, "Remote Detonator");
-		LanguageRegistry.addName(ZhuYao.itLeiSheZhiBiao, "Laser Designator");
-		LanguageRegistry.addName(ZhuYao.itJieJa, "Explosive Defuser");
-		LanguageRegistry.addName(ZhuYao.itGenZongQi, "Tracker");
-		LanguageRegistry.addName(ZhuYao.itHuoLaunQi, "Signal Disruptor");
 		LanguageRegistry.addName(new ItemStack(ZhuYao.itZiDan, 1, 0), "Conventional Bullet");
 		LanguageRegistry.addName(new ItemStack(ZhuYao.itZiDan, 1, 1), "Antimatter Bullet");
 
@@ -313,12 +290,6 @@ public class ZhuYao
 		LanguageRegistry.addName(new ItemStack(ZhuYao.bJiQi, 1, 11), "Railgun");
 		LanguageRegistry.addName(new ItemStack(ZhuYao.bJiQi, 1, 12), "Cruise Launcher");
 
-		LanguageRegistry.addName(ZhuYao.itYao, "Antidote");
-
-		LanguageRegistry.addName(ZhuYao.bBuo1LiPan, "Glass Pressure Plate");
-
-		LanguageRegistry.addName(ZhuYao.bYinGanQi, "Proximity Detector");
-
 		for (int i = 0; i < ((ItTeBieDaoDan) ZhuYao.itTeBieDaoDan).names.length; i++)
 		{
 			LanguageRegistry.addName(new ItemStack(ZhuYao.itTeBieDaoDan, 1, i), ((ItTeBieDaoDan) ZhuYao.itTeBieDaoDan).names[i]);
@@ -333,7 +304,7 @@ public class ZhuYao
 			{
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itDaoDan, 1, i), "Conventional Missile");
 				LanguageRegistry.addName(new ItemStack(ZhuYao.itShouLiuDan, 1, i), "Conventional Grenade");
-				LanguageRegistry.addName(new ItemStack(ZhuYao.itChe, 1, i), "Explosive Minecart");
+				LanguageRegistry.addName(new ItemStack(ZhuYao.itChe, 1, i), "Explosive " + StringTranslate.getInstance().translateKey("item.minecart.name"));
 			}
 			else
 			{
@@ -346,7 +317,7 @@ public class ZhuYao
 
 				if (i < ZhaPin.E_ER_ID)
 				{
-					LanguageRegistry.addName(new ItemStack(itChe, 1, i), ZhaPin.list[i].getMing() + " Minecart");
+					LanguageRegistry.addName(new ItemStack(itChe, 1, i), ZhaPin.list[i].getMing() + " " + StringTranslate.getInstance().translateKey("item.minecart.name"));
 				}
 			}
 

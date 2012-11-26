@@ -20,7 +20,7 @@ public class BYinGanQi extends BlockMachine
 {
 	public BYinGanQi(int id, int texture)
 	{
-		super("Proximity Detector", id, UniversalElectricity.machine, ZhuYao.TAB);
+		super("proximityDetector", id, UniversalElectricity.machine, ZhuYao.TAB);
 		this.blockIndexInTexture = texture;
 	}
 

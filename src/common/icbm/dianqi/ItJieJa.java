@@ -20,11 +20,11 @@ public class ItJieJa extends ItemElectric
 {
 	private static final int YONG_DIAN_LIANG = 2000;
 
-	public ItJieJa(String name, int par1, int par2)
+	public ItJieJa(int par1, int par2)
 	{
 		super(par1);
 		this.iconIndex = par2;
-		this.setItemName(name);
+		this.setItemName("defuser");
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 

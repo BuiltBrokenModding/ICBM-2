@@ -19,11 +19,11 @@ public class ItYaoKong extends ItemElectric
 	public static final int BAN_JING = 100;
 	public static final int YONG_DIAN_LIANG = 1000;
 
-	public ItYaoKong(String name, int par1, int par2)
+	public ItYaoKong(int par1, int par2)
 	{
 		super(par1);
 		this.iconIndex = par2;
-		this.setItemName(name);
+		this.setItemName("remoteDetonator");
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 

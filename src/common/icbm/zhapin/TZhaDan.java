@@ -63,7 +63,7 @@ public class TZhaDan extends TileEntity implements IPacketReceiver
 				if (player.inventory.getCurrentItem().getItem() instanceof ItYaoKong)
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
-					BZhaDan.detonateTNT(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.explosiveID, 0);
+					BZhaDan.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.explosiveID, 0);
 					((ItYaoKong) ZhuYao.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
 				}
 			}

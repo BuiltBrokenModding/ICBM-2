@@ -7,9 +7,9 @@ import net.minecraft.src.World;
 
 public class ItYao extends ICBMItem
 {
-	public ItYao(String name, int par1, int par2)
+	public ItYao(int par1, int par2)
 	{
-		super(name, par1, par2, ZhuYao.TAB);
+		super("antidote", par1, par2, ZhuYao.TAB);
 	}
 
 	@Override
