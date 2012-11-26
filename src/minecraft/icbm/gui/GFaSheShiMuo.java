@@ -30,8 +30,7 @@ public class GFaSheShiMuo extends ICBMGui
 	}
 
 	/**
-	 * Adds the buttons (and other controls) to
-	 * the screen in question.
+	 * Adds the buttons (and other controls) to the screen in question.
 	 */
 	@Override
 	public void initGui()
@@ -72,8 +71,7 @@ public class GFaSheShiMuo extends ICBMGui
 	}
 
 	/**
-	 * Call this method from you GuiScreen to
-	 * process the keys into textbox.
+	 * Call this method from you GuiScreen to process the keys into textbox.
 	 */
 	@Override
 	public void keyTyped(char par1, int par2)
@@ -140,9 +138,7 @@ public class GFaSheShiMuo extends ICBMGui
 	}
 
 	/**
-	 * Draw the foreground layer for the
-	 * GuiContainer (everything in front of the
-	 * items)
+	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
 	public void drawGuiContainerForegroundLayer()

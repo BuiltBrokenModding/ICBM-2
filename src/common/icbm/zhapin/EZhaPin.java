@@ -87,10 +87,8 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * returns if this entity triggers
-	 * Block.onEntityWalking on the blocks they
-	 * walk on. used for spiders and wolves to
-	 * prevent them from trampling crops
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for
+	 * spiders and wolves to prevent them from trampling crops
 	 */
 	@Override
 	protected boolean canTriggerWalking()
@@ -99,8 +97,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Returns true if other Entities should be
-	 * prevented from moving through this Entity.
+	 * Returns true if other Entities should be prevented from moving through this Entity.
 	 */
 	@Override
 	public boolean canBeCollidedWith()
@@ -109,8 +106,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Called to update the entity's
-	 * position/logic.
+	 * Called to update the entity's position/logic.
 	 */
 	@Override
 	public void onUpdate()
@@ -157,8 +153,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * (abstract) Protected helper method to read
-	 * subclass entity data from NBT.
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
@@ -172,8 +167,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * (abstract) Protected helper method to write
-	 * subclass entity data to NBT.
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)

@@ -31,8 +31,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	}
 
 	/**
-	 * Allows items to add custom lines of
-	 * information to the mouseover description
+	 * Allows items to add custom lines of information to the mouseover description
 	 */
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)

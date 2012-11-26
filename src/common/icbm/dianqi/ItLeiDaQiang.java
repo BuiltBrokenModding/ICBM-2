@@ -38,8 +38,7 @@ public class ItLeiDaQiang extends ItemElectric
 	}
 
 	/**
-	 * Allows items to add custom lines of
-	 * information to the mouseover description
+	 * Allows items to add custom lines of information to the mouseover description
 	 */
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
@@ -51,9 +50,8 @@ public class ItLeiDaQiang extends ItemElectric
 	}
 
 	/**
-	 * Called whenever this item is equipped and
-	 * the right mouse button is pressed. Args:
-	 * itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
+	 * world, entityPlayer
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
@@ -88,11 +86,9 @@ public class ItLeiDaQiang extends ItemElectric
 	}
 
 	/**
-	 * Callback for item usage. If the item does
-	 * something special on right clicking, he
-	 * will have one of those. Return True if
-	 * something happen and false if it don't.
-	 * This is for ITEMS, not BLOCKS !
+	 * Callback for item usage. If the item does something special on right clicking, he will have
+	 * one of those. Return True if something happen and false if it don't. This is for ITEMS, not
+	 * BLOCKS !
 	 */
 	@Override
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)

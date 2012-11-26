@@ -1,6 +1,5 @@
 package icbm.renders;
 
-import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
 
@@ -9,7 +8,6 @@ import java.util.Random;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;
 import net.minecraft.src.RenderHelper;
-import net.minecraft.src.RenderManager;
 import net.minecraft.src.Tessellator;
 
 import org.lwjgl.opengl.GL11;

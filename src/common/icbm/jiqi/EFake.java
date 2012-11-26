@@ -51,8 +51,7 @@ public class EFake extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Called to update the entity's
-	 * position/logic.
+	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate()
 	{
@@ -67,10 +66,8 @@ public class EFake extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * returns if this entity triggers
-	 * Block.onEntityWalking on the blocks they
-	 * walk on. used for spiders and wolves to
-	 * prevent them from trampling crops
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for
+	 * spiders and wolves to prevent them from trampling crops
 	 */
 	protected boolean canTriggerWalking()
 	{

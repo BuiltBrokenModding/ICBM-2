@@ -26,8 +26,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 	private Minecraft mc;
 
 	/**
-	 * Holds the image of the compass from
-	 * items.png in rgb format.
+	 * Holds the image of the compass from items.png in rgb format.
 	 */
 	private int[] trackerIconImageData = new int[512];
 	private double field_76868_i;

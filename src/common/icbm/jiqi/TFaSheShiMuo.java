@@ -23,8 +23,7 @@ import universalelectricity.prefab.network.PacketManager;
 import com.google.common.io.ByteArrayDataInput;
 
 /**
- * This tile entity is for the screen of the
- * missile launcher
+ * This tile entity is for the screen of the missile launcher
  * 
  * @author Calclavia
  * 
@@ -214,8 +213,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Calls the missile launcher base to launch
-	 * it's missile towards a targeted location
+	 * Calls the missile launcher base to launch it's missile towards a targeted location
 	 */
 	public void launch()
 	{
@@ -227,8 +225,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Gets the display status of the missile
-	 * launcher
+	 * Gets the display status of the missile launcher
 	 * 
 	 * @return The string to be displayed
 	 */

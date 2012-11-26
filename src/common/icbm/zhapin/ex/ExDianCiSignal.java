@@ -19,8 +19,7 @@ public class ExDianCiSignal extends ZhaPin
 	}
 
 	/**
-	 * World worldObj, Vector3 position, int
-	 * amount, boolean isExplosive
+	 * World worldObj, Vector3 position, int amount, boolean isExplosive
 	 */
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)

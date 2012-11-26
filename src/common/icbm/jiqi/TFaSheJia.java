@@ -19,8 +19,7 @@ import universalelectricity.prefab.network.PacketManager;
 import com.google.common.io.ByteArrayDataInput;
 
 /**
- * This tile entity is for the screen of the
- * missile launcher
+ * This tile entity is for the screen of the missile launcher
  * 
  * @author Calclavia
  * 
@@ -53,8 +52,7 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	}
 
 	/**
-	 * Gets the inaccuracy of the missile based on
-	 * the launcher support frame's tier
+	 * Gets the inaccuracy of the missile based on the launcher support frame's tier
 	 */
 	public int getInaccuracy()
 	{
@@ -70,11 +68,9 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	}
 
 	/**
-	 * Determines if this TileEntity requires
-	 * update calls.
+	 * Determines if this TileEntity requires update calls.
 	 * 
-	 * @return True if you want updateEntity() to
-	 *         be called, false if not
+	 * @return True if you want updateEntity() to be called, false if not
 	 */
 	public boolean canUpdate()
 	{

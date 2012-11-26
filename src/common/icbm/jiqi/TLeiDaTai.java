@@ -20,7 +20,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UEConfig;
 import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
@@ -41,8 +40,6 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	public final static int YAO_DIAN = 15;
 
 	public final static int MAX_BIAN_JING = 500;
-
-	private static final boolean YIN_XIANG = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Radar Emit Sound", true);
 
 	// The electricity stored
 	public double dian, prevDian = 0;
@@ -151,14 +148,6 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				this.detectedRadarStations.clear();
 
 				this.dian = 0;
-			}
-		}
-
-		if ((this.dian > 0 || this.prevDian > 0) && this.ticks % 22 == 0)
-		{
-			if (this.missileAlert && YIN_XIANG)
-			{
-				this.worldObj.playSoundEffect((double) this.xCoord, (double) this.yCoord, (double) this.zCoord, "icbm.alarm", 4F, 1F);
 			}
 		}
 

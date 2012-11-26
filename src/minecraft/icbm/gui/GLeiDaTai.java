@@ -66,8 +66,7 @@ public class GLeiDaTai extends ICBMGui
 	}
 
 	/**
-	 * Call this method from you GuiScreen to
-	 * process the keys into textbox.
+	 * Call this method from you GuiScreen to process the keys into textbox.
 	 */
 	@Override
 	public void keyTyped(char par1, int par2)
@@ -110,10 +109,8 @@ public class GLeiDaTai extends ICBMGui
 	}
 
 	/**
-	 * Called when the mouse is moved or a mouse
-	 * button is released. Signature: (mouseX,
-	 * mouseY, which) which==-1 is mouseMove,
-	 * which==0 or which==1 is mouseUp
+	 * Called when the mouse is moved or a mouse button is released. Signature: (mouseX, mouseY,
+	 * which) which==-1 is mouseMove, which==0 or which==1 is mouseUp
 	 */
 	protected void mouseMovedOrUp(int x, int y, int which)
 	{
@@ -142,9 +139,7 @@ public class GLeiDaTai extends ICBMGui
 	}
 
 	/**
-	 * Draw the foreground layer for the
-	 * GuiContainer (everything in front of the
-	 * items)
+	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer()
@@ -188,8 +183,7 @@ public class GLeiDaTai extends ICBMGui
 	}
 
 	/**
-	 * Draw the background layer for the
-	 * GuiContainer (everything behind the items)
+	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)

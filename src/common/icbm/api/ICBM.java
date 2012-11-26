@@ -9,10 +9,8 @@ import net.minecraft.src.World;
 import cpw.mods.fml.common.FMLLog;
 
 /**
- * A class containing general things you might
- * want to reference to in your mod in ICBM. Check
- * if these variables are null because they might
- * possibly be!
+ * A class containing general things you might want to reference to in your mod in ICBM. Check if
+ * these variables are null because they might possibly be!
  * 
  * @author Calclavia
  * 
@@ -20,8 +18,7 @@ import cpw.mods.fml.common.FMLLog;
 public class ICBM
 {
 	/**
-	 * A reference to the explosive TNT block
-	 * instance.
+	 * A reference to the explosive TNT block instance.
 	 */
 	public static Block explosiveBlock;
 	public static Class explosionManager;
@@ -35,8 +32,7 @@ public class ICBM
 	public static final String TRACKER_TEXTURE_FILE = TEXTURE_FILE_PATH + "tracker.png";
 
 	/**
-	 * Returns an ItemStack of the explosive with
-	 * the explosive block.
+	 * Returns an ItemStack of the explosive with the explosive block.
 	 * 
 	 * @param explosiveID
 	 * @return
@@ -47,8 +43,7 @@ public class ICBM
 	}
 
 	/**
-	 * Creates an ICBM explosion anywhere in this
-	 * specific position.
+	 * Creates an ICBM explosion anywhere in this specific position.
 	 * 
 	 * @param worldObj
 	 *            - The world
@@ -59,9 +54,7 @@ public class ICBM
 	 * @param z
 	 *            - Z position
 	 * @param entity
-	 *            - The entity causing this
-	 *            explosion. Can be null if not
-	 *            specified.
+	 *            - The entity causing this explosion. Can be null if not specified.
 	 * @param explosiveID
 	 *            - The ID of the explosive
 	 */

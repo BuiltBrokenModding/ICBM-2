@@ -26,15 +26,13 @@ public class RShouLiuDan extends Render
 	private RenderBlocks renderBlocks = new RenderBlocks();
 
 	/**
-	 * The RNG used in RenderItem (for bobbing
-	 * itemstacks on the ground)
+	 * The RNG used in RenderItem (for bobbing itemstacks on the ground)
 	 */
 	private Random random = new Random();
 	public boolean field_77024_a = true;
 
 	/**
-	 * Defines the zLevel of rendering of item on
-	 * GUI.
+	 * Defines the zLevel of rendering of item on GUI.
 	 */
 	public float zLevel = 0.0F;
 
@@ -191,8 +189,7 @@ public class RShouLiuDan extends Render
 	}
 
 	/**
-	 * Renders the item's icon or block into the
-	 * UI at the specified position.
+	 * Renders the item's icon or block into the UI at the specified position.
 	 */
 	public void renderItemIntoGUI(FontRenderer par1FontRenderer, RenderEngine par2RenderEngine, ItemStack par3ItemStack, int par4, int par5)
 	{
@@ -347,10 +344,8 @@ public class RShouLiuDan extends Render
 	}
 
 	/**
-	 * Renders the item's overlay information.
-	 * Examples being stack count or damage on top
-	 * of the item's image at the specified
-	 * position.
+	 * Renders the item's overlay information. Examples being stack count or damage on top of the
+	 * item's image at the specified position.
 	 */
 	public void renderItemOverlayIntoGUI(FontRenderer par1FontRenderer, RenderEngine par2RenderEngine, ItemStack par3ItemStack, int par4, int par5)
 	{
@@ -388,10 +383,8 @@ public class RShouLiuDan extends Render
 	}
 
 	/**
-	 * Adds a quad to the tesselator at the
-	 * specified position with the set width and
-	 * height and color. Args: tessellator, x, y,
-	 * width, height, color
+	 * Adds a quad to the tesselator at the specified position with the set width and height and
+	 * color. Args: tessellator, x, y, width, height, color
 	 */
 	private void renderQuad(Tessellator par1Tessellator, int par2, int par3, int par4, int par5, int par6)
 	{
@@ -405,10 +398,8 @@ public class RShouLiuDan extends Render
 	}
 
 	/**
-	 * Adds a textured quad to the tesselator at
-	 * the specified position with the specified
-	 * texture coords, width and height. Args: x,
-	 * y, u, v, width, height
+	 * Adds a textured quad to the tesselator at the specified position with the specified texture
+	 * coords, width and height. Args: x, y, u, v, width, height
 	 */
 	public void renderTexturedQuad(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
@@ -424,16 +415,11 @@ public class RShouLiuDan extends Render
 	}
 
 	/**
-	 * Actually renders the given argument. This
-	 * is a synthetic bridge method, always
-	 * casting down its argument and then handing
-	 * it off to a worker function which does the
-	 * actual work. In all probabilty, the class
-	 * Render is generic (Render<T extends Entity)
-	 * and this method has signature public void
-	 * doRender(T entity, double d, double d1,
-	 * double d2, float f, float f1). But JAD is
-	 * pre 1.5 so doesn't do that.
+	 * Actually renders the given argument. This is a synthetic bridge method, always casting down
+	 * its argument and then handing it off to a worker function which does the actual work. In all
+	 * probabilty, the class Render is generic (Render<T extends Entity) and this method has
+	 * signature public void doRender(T entity, double d, double d1, double d2, float f, float f1).
+	 * But JAD is pre 1.5 so doesn't do that.
 	 */
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{

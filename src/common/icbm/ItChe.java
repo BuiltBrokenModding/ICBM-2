@@ -26,11 +26,9 @@ public class ItChe extends Item
 	}
 
 	/**
-	 * Callback for item usage. If the item does
-	 * something special on right clicking, he
-	 * will have one of those. Return True if
-	 * something happen and false if it don't.
-	 * This is for ITEMS, not BLOCKS
+	 * Callback for item usage. If the item does something special on right clicking, he will have
+	 * one of those. Return True if something happen and false if it don't. This is for ITEMS, not
+	 * BLOCKS
 	 */
 	@Override
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int par7, float par8, float par9, float par10)

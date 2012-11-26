@@ -116,7 +116,7 @@ public class ExYuanZi extends ZhaPin
 
 		if (worldObj.isRemote)
 		{
-			int r = (int) (callCount/2);
+			int r = (int) (callCount / 2);
 
 			boolean reverse = false;
 

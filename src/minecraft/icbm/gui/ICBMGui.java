@@ -9,32 +9,27 @@ import org.lwjgl.opengl.GL12;
 public abstract class ICBMGui extends GuiScreen
 {
 	/**
-	 * The X size of the inventory window in
-	 * pixels.
+	 * The X size of the inventory window in pixels.
 	 */
 	protected int xSize = 176;
 
 	/**
-	 * The Y size of the inventory window in
-	 * pixels.
+	 * The Y size of the inventory window in pixels.
 	 */
 	protected int ySize = 166;
 
 	/**
-	 * Starting X position for the Gui.
-	 * Inconsistent use for Gui backgrounds.
+	 * Starting X position for the Gui. Inconsistent use for Gui backgrounds.
 	 */
 	protected int guiLeft;
 
 	/**
-	 * Starting Y position for the Gui.
-	 * Inconsistent use for Gui backgrounds.
+	 * Starting Y position for the Gui. Inconsistent use for Gui backgrounds.
 	 */
 	protected int guiTop;
 
 	/**
-	 * Adds the buttons (and other controls) to
-	 * the screen in question.
+	 * Adds the buttons (and other controls) to the screen in question.
 	 */
 	public void initGui()
 	{
@@ -44,8 +39,7 @@ public abstract class ICBMGui extends GuiScreen
 	}
 
 	/**
-	 * Draws the screen and all the components in
-	 * it.
+	 * Draws the screen and all the components in it.
 	 */
 	public void drawScreen(int par1, int par2, float par3)
 	{
@@ -75,24 +69,19 @@ public abstract class ICBMGui extends GuiScreen
 	}
 
 	/**
-	 * Draw the foreground layer for the
-	 * GuiContainer (everythin in front of the
-	 * items)
+	 * Draw the foreground layer for the GuiContainer (everythin in front of the items)
 	 */
 	protected void drawGuiContainerForegroundLayer()
 	{
 	}
 
 	/**
-	 * Draw the background layer for the
-	 * GuiContainer (everything behind the items)
+	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	protected abstract void drawGuiContainerBackgroundLayer(float var1, int var2, int var3);
 
 	/**
-	 * Fired when a key is typed. This is the
-	 * equivalent of KeyListener.keyTyped(KeyEvent
-	 * e).
+	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
 	 */
 	protected void keyTyped(char par1, int par2)
 	{
@@ -103,8 +92,7 @@ public abstract class ICBMGui extends GuiScreen
 	}
 
 	/**
-	 * Returns true if this GUI should pause the
-	 * game when it is displayed in single-player
+	 * Returns true if this GUI should pause the game when it is displayed in single-player
 	 */
 	public boolean doesGuiPauseGame()
 	{
@@ -112,8 +100,7 @@ public abstract class ICBMGui extends GuiScreen
 	}
 
 	/**
-	 * Called from the main game loop to update
-	 * the screen.
+	 * Called from the main game loop to update the screen.
 	 */
 	public void updateScreen()
 	{

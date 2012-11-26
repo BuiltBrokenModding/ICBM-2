@@ -3,7 +3,6 @@ package icbm.renders;
 import icbm.ZhuYao;
 import icbm.api.ICBM;
 import icbm.zhapin.EZhaDan;
-import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;

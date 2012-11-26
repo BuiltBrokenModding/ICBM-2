@@ -34,8 +34,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public float rotationPitch = 0;
 
 	/**
-	 * The ItemStacks that hold the items
-	 * currently being used in the missileLauncher
+	 * The ItemStacks that hold the items currently being used in the missileLauncher
 	 */
 	private ItemStack[] containingItems = new ItemStack[1];
 
@@ -50,8 +49,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Returns the number of slots in the
-	 * inventory.
+	 * Returns the number of slots in the inventory.
 	 */
 	@Override
 	public int getSizeInventory()
@@ -69,9 +67,8 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Decrease the size of the stack in slot
-	 * (first int arg) by the amount of the second
-	 * int arg. Returns the new stack.
+	 * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg.
+	 * Returns the new stack.
 	 */
 	@Override
 	public ItemStack decrStackSize(int par1, int par2)
@@ -105,10 +102,8 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * When some containers are closed they call
-	 * this on each slot, then drop whatever it
-	 * returns as an EntityItem - like when you
-	 * close a workbench GUI.
+	 * When some containers are closed they call this on each slot, then drop whatever it returns as
+	 * an EntityItem - like when you close a workbench GUI.
 	 */
 	@Override
 	public ItemStack getStackInSlotOnClosing(int par1)
@@ -126,9 +121,8 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Sets the given item stack to the specified
-	 * slot in the inventory (can be crafting or
-	 * armor sections).
+	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor
+	 * sections).
 	 */
 	@Override
 	public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
@@ -142,8 +136,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Gets the display status of the missile
-	 * launcher
+	 * Gets the display status of the missile launcher
 	 * 
 	 * @return The string to be displayed
 	 */
@@ -372,8 +365,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	 * Launches the missile
 	 * 
 	 * @param muBiao
-	 *            - The target in which the
-	 *            missile will land in
+	 *            - The target in which the missile will land in
 	 */
 	public void launch()
 	{
@@ -457,10 +449,8 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Returns the maximum stack size for a
-	 * inventory slot. Seems to always be 64,
-	 * possibly will be extended. *Isn't this more
-	 * of a set than a get?*
+	 * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
+	 * extended. *Isn't this more of a set than a get?*
 	 */
 	@Override
 	public int getInventoryStackLimit()
@@ -469,9 +459,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	/**
-	 * Do not make give this method the name
-	 * canInteractWith because it clashes with
-	 * Container
+	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)

@@ -40,8 +40,7 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * gets the way this piston should face for
-	 * that entity that placed it.
+	 * gets the way this piston should face for that entity that placed it.
 	 */
 	private static byte determineOrientation(World world, int x, int y, int z, EntityLiving entityLiving)
 	{
@@ -59,8 +58,7 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Returns the bounding box of the wired
-	 * rectangular prism to render.
+	 * Returns the bounding box of the wired rectangular prism to render.
 	 */
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
@@ -68,10 +66,8 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Returns a bounding box from the pool of
-	 * bounding boxes (this means this box can
-	 * change after the pool has been cleared to
-	 * be reused)
+	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
+	 * the pool has been cleared to be reused)
 	 */
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int x, int y, int z)
 	{
@@ -86,8 +82,7 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Called when the block is placed in the
-	 * world.
+	 * Called when the block is placed in the world.
 	 */
 	@Override
 	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
@@ -128,8 +123,7 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Returns the block texture based on the side
-	 * being looked at. Args: side
+	 * Returns the block texture based on the side being looked at. Args: side
 	 */
 	@Override
 	public int getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
@@ -182,8 +176,7 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Called whenever the block is added into the
-	 * world. Args: world, x, y, z
+	 * Called whenever the block is added into the world. Args: world, x, y, z
 	 */
 	@Override
 	public void onBlockAdded(World par1World, int x, int y, int z)
@@ -194,10 +187,8 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Lets the block know when one of its
-	 * neighbor changes. Doesn't know which
-	 * neighbor changed (coordinates passed are
-	 * their own) Args: x, y, z, neighbor blockID
+	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
+	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
 	@Override
 	public void onNeighborBlockChange(World par1World, int x, int y, int z, int blockId)
@@ -215,9 +206,8 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/*
-	 * Called to detonate the TNT. Args: world, x,
-	 * y, z, metaData, CauseOfExplosion (0,
-	 * intentional, 1, exploded, 2 burned)
+	 * Called to detonate the TNT. Args: world, x, y, z, metaData, CauseOfExplosion (0, intentional,
+	 * 1, exploded, 2 burned)
 	 */
 	public static void detonateTNT(World par1World, int x, int y, int z, int metadata, int causeOfExplosion)
 	{
@@ -232,8 +222,7 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Called upon the block being destroyed by an
-	 * explosion
+	 * Called upon the block being destroyed by an explosion
 	 */
 	@Override
 	public void onBlockDestroyedByExplosion(World par1World, int x, int y, int z)
@@ -246,8 +235,7 @@ public class BZhaDan extends BlockContainer
 	}
 
 	/**
-	 * Called upon block activation (left or right
-	 * click on the block.). The three integers
+	 * Called upon block activation (left or right click on the block.). The three integers
 	 * represent x,y,z of the block.
 	 */
 	@Override

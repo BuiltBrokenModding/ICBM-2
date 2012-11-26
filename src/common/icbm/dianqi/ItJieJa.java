@@ -35,11 +35,8 @@ public class ItJieJa extends ItemElectric
 	}
 
 	/**
-	 * Called when the player Left Clicks
-	 * (attacks) an entity. Processed before
-	 * damage is done, if return value is true
-	 * further processing is canceled and the
-	 * entity is not attacked.
+	 * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if
+	 * return value is true further processing is canceled and the entity is not attacked.
 	 * 
 	 * @param stack
 	 *            The Item being used
@@ -47,8 +44,7 @@ public class ItJieJa extends ItemElectric
 	 *            The player that is attacking
 	 * @param entity
 	 *            The entity being attacked
-	 * @return True to cancel the rest of the
-	 *         interaction.
+	 * @return True to cancel the rest of the interaction.
 	 */
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
 	{

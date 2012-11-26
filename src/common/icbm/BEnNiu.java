@@ -47,10 +47,8 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Returns a bounding box from the pool of
-	 * bounding boxes (this means this box can
-	 * change after the pool has been cleared to
-	 * be reused)
+	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
+	 * the pool has been cleared to be reused)
 	 */
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
@@ -58,12 +56,9 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Is this block (a) opaque and (b) a full 1m
-	 * cube? This determines whether or not to
-	 * render the shared face of two adjacent
-	 * blocks and also whether the player can
-	 * attach torches, redstone wire, etc to this
-	 * block.
+	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the
+	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
+	 * wire, etc to this block.
 	 */
 	public boolean isOpaqueCube()
 	{
@@ -71,9 +66,8 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * If this block doesn't render as an ordinary
-	 * block it will return False (examples:
-	 * signs, buttons, stairs, etc)
+	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
+	 * buttons, stairs, etc)
 	 */
 	public boolean renderAsNormalBlock()
 	{
@@ -81,9 +75,8 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * checks to see if you can place this block
-	 * can be placed on that side of a block:
-	 * BlockLever overrides
+	 * checks to see if you can place this block can be placed on that side of a block: BlockLever
+	 * overrides
 	 */
 	public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5)
 	{
@@ -92,9 +85,8 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Checks to see if its valid to put this
-	 * block at the specified coordinates. Args:
-	 * world, x, y, z
+	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
+	 * z
 	 */
 	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
@@ -150,10 +142,8 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Lets the block know when one of its
-	 * neighbor changes. Doesn't know which
-	 * neighbor changed (coordinates passed are
-	 * their own) Args: x, y, z, neighbor blockID
+	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
+	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
 	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
@@ -208,8 +198,7 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Updates the blocks bounds based on its
-	 * current state. Args: world, x, y, z
+	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
 	 */
 	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
@@ -250,16 +239,14 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Called when the block is clicked by a
-	 * player. Args: x, y, z, entityPlayer
+	 * Called when the block is clicked by a player. Args: x, y, z, entityPlayer
 	 */
 	public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
 	{
 	}
 
 	/**
-	 * Called upon block activation (right click
-	 * on the block.)
+	 * Called upon block activation (right click on the block.)
 	 */
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
@@ -283,9 +270,7 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * ejects contained items into the world, and
-	 * notifies neighbours of an update, as
-	 * appropriate
+	 * ejects contained items into the world, and notifies neighbours of an update, as appropriate
 	 */
 	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
@@ -299,8 +284,7 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Is this block powering the block on the
-	 * specified side
+	 * Is this block powering the block on the specified side
 	 */
 	public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
@@ -308,8 +292,7 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Is this block indirectly powering the block
-	 * on the specified side
+	 * Is this block indirectly powering the block on the specified side
 	 */
 	public boolean isIndirectlyPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
@@ -327,9 +310,8 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Can this block provide power. Only wire
-	 * currently seems to have this change based
-	 * on its state.
+	 * Can this block provide power. Only wire currently seems to have this change based on its
+	 * state.
 	 */
 	public boolean canProvidePower()
 	{
@@ -353,8 +335,7 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Sets the block's bounds for rendering it as
-	 * an item
+	 * Sets the block's bounds for rendering it as an item
 	 */
 	public void setBlockBoundsForItemRender()
 	{
@@ -365,9 +346,8 @@ public class BEnNiu extends Block
 	}
 
 	/**
-	 * Triggered whenever an entity collides with
-	 * this block (enters into the block). Args:
-	 * world, x, y, z, entity
+	 * Triggered whenever an entity collides with this block (enters into the block). Args: world,
+	 * x, y, z, entity
 	 */
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{

@@ -35,8 +35,7 @@ public class GYinGanQi extends ICBMGui
 	}
 
 	/**
-	 * Adds the buttons (and other controls) to
-	 * the screen in question.
+	 * Adds the buttons (and other controls) to the screen in question.
 	 */
 	@Override
 	public void initGui()
@@ -101,10 +100,8 @@ public class GYinGanQi extends ICBMGui
 	}
 
 	/**
-	 * Fired when a control is clicked. This is
-	 * the equivalent of
-	 * ActionListener.actionPerformed(ActionEvent
-	 * e).
+	 * Fired when a control is clicked. This is the equivalent of
+	 * ActionListener.actionPerformed(ActionEvent e).
 	 */
 	@Override
 	protected void actionPerformed(GuiButton par1GuiButton)
@@ -123,8 +120,7 @@ public class GYinGanQi extends ICBMGui
 	}
 
 	/**
-	 * Call this method from you GuiScreen to
-	 * process the keys into textbox.
+	 * Call this method from you GuiScreen to process the keys into textbox.
 	 */
 	@Override
 	public void keyTyped(char par1, int par2)
@@ -192,9 +188,7 @@ public class GYinGanQi extends ICBMGui
 	}
 
 	/**
-	 * Draw the foreground layer for the
-	 * GuiContainer (everything in front of the
-	 * items)
+	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer()
@@ -246,8 +240,7 @@ public class GYinGanQi extends ICBMGui
 	}
 
 	/**
-	 * Draw the background layer for the
-	 * GuiContainer (everything behind the items)
+	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)

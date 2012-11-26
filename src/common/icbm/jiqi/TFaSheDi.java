@@ -30,8 +30,7 @@ import universalelectricity.prefab.tile.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 /**
- * This tile entity is for the base of the missile
- * launcher
+ * This tile entity is for the base of the missile launcher
  * 
  * @author Calclavia
  * 
@@ -61,8 +60,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	/**
-	 * Returns the number of slots in the
-	 * inventory.
+	 * Returns the number of slots in the inventory.
 	 */
 	@Override
 	public int getSizeInventory()
@@ -80,9 +78,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	/**
-	 * Decrease the size of the stack in slot
-	 * (first int arg) by the amount of the second
-	 * int arg. Returns the new stack.
+	 * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg.
+	 * Returns the new stack.
 	 */
 	@Override
 	public ItemStack decrStackSize(int par1, int par2)
@@ -116,10 +113,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	/**
-	 * When some containers are closed they call
-	 * this on each slot, then drop whatever it
-	 * returns as an EntityItem - like when you
-	 * close a workbench GUI.
+	 * When some containers are closed they call this on each slot, then drop whatever it returns as
+	 * an EntityItem - like when you close a workbench GUI.
 	 */
 	@Override
 	public ItemStack getStackInSlotOnClosing(int par1)
@@ -137,9 +132,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	/**
-	 * Sets the given item stack to the specified
-	 * slot in the inventory (can be crafting or
-	 * armor sections).
+	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor
+	 * sections).
 	 */
 	@Override
 	public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
@@ -162,11 +156,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	/**
-	 * Allows the entity to update its state.
-	 * Overridden in most subclasses, e.g. the mob
-	 * spawner uses this to count ticks and
-	 * creates a new spawn inside its
-	 * implementation.
+	 * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
+	 * uses this to count ticks and creates a new spawn inside its implementation.
 	 */
 	@Override
 	public void updateEntity()
@@ -269,8 +260,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	 * Launches the missile
 	 * 
 	 * @param target
-	 *            - The target in which the
-	 *            missile will land in
+	 *            - The target in which the missile will land in
 	 */
 	public void launchMissile(Vector3 target)
 	{
@@ -400,10 +390,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	/**
-	 * Returns the maximum stack size for a
-	 * inventory slot. Seems to always be 64,
-	 * possibly will be extended. *Isn't this more
-	 * of a set than a get?*
+	 * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
+	 * extended. *Isn't this more of a set than a get?*
 	 */
 	@Override
 	public int getInventoryStackLimit()
@@ -412,9 +400,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	/**
-	 * Do not make give this method the name
-	 * canInteractWith because it clashes with
-	 * Container
+	 * Do not make give this method the name canInteractWith because it clashes with Container
 	 */
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)

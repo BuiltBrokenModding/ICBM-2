@@ -22,8 +22,7 @@ public class EDuQi extends ZhaPin
 	}
 
 	/**
-	 * World worldObj, Vector3 position, int
-	 * radius, boolean isContagious
+	 * World worldObj, Vector3 position, int radius, boolean isContagious
 	 */
 	@Override
 	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)

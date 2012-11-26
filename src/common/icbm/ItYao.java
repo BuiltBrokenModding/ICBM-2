@@ -35,9 +35,7 @@ public class ItYao extends ICBMItem
 	}
 
 	/**
-	 * returns the action that specifies what
-	 * animation to play when the items is being
-	 * used
+	 * returns the action that specifies what animation to play when the items is being used
 	 */
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack)
@@ -46,9 +44,8 @@ public class ItYao extends ICBMItem
 	}
 
 	/**
-	 * Called whenever this item is equipped and
-	 * the right mouse button is pressed. Args:
-	 * itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
+	 * world, entityPlayer
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)

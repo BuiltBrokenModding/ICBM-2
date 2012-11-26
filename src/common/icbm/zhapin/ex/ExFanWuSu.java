@@ -79,13 +79,11 @@ public class ExFanWuSu extends ZhaPin
 	}
 
 	/**
-	 * Called when the explosive is on fuse and
-	 * going to explode. Called only when the
-	 * explosive is in it's TNT form.
+	 * Called when the explosive is on fuse and going to explode. Called only when the explosive is
+	 * in it's TNT form.
 	 * 
 	 * @param fuseTicks
-	 *            - The amount of ticks this
-	 *            explosive is on fuse
+	 *            - The amount of ticks this explosive is on fuse
 	 */
 	@Override
 	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)

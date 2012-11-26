@@ -18,9 +18,8 @@ import cpw.mods.fml.common.FMLLog;
 public class BaoHu
 {
 	/**
-	 * File Structure: Tag: DimData -Tag: DimID
-	 * -boolean: globalBan -Tag: RegionName -int:
-	 * X -int: Z -int: R -int: TYPE
+	 * File Structure: Tag: DimData -Tag: DimID -boolean: globalBan -Tag: RegionName -int: X -int: Z
+	 * -int: R -int: TYPE
 	 */
 	public static NBTTagCompound nbtData;
 

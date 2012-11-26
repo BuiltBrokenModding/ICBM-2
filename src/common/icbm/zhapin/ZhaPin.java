@@ -203,13 +203,11 @@ public abstract class ZhaPin implements ITier
 	}
 
 	/**
-	 * Called when the explosive is on fuse and
-	 * going to explode. Called only when the
-	 * explosive is in it's TNT form.
+	 * Called when the explosive is on fuse and going to explode. Called only when the explosive is
+	 * in it's TNT form.
 	 * 
 	 * @param fuseTicks
-	 *            - The amount of ticks this
-	 *            explosive is on fuse
+	 *            - The amount of ticks this explosive is on fuse
 	 */
 	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
 	{
@@ -217,8 +215,7 @@ public abstract class ZhaPin implements ITier
 	}
 
 	/**
-	 * Called when the TNT for of this explosive
-	 * is destroy by an explosion
+	 * Called when the TNT for of this explosive is destroy by an explosion
 	 * 
 	 * @return - Fuse left
 	 */
@@ -228,11 +225,9 @@ public abstract class ZhaPin implements ITier
 	}
 
 	/**
-	 * The interval in ticks before the next
-	 * procedural call of this explosive
+	 * The interval in ticks before the next procedural call of this explosive
 	 * 
-	 * @param return - Return -1 if this explosive
-	 *        does not need procedural calls
+	 * @param return - Return -1 if this explosive does not need procedural calls
 	 */
 	protected int proceduralInterval()
 	{
@@ -261,17 +256,14 @@ public abstract class ZhaPin implements ITier
 	 * Called to do an explosion
 	 * 
 	 * @param explosionSource
-	 *            - The entity that did the
-	 *            explosion
+	 *            - The entity that did the explosion
 	 * @param haoMa
 	 *            - The metadata of the explosive
 	 * @param callCount
-	 *            - The amount of calls done for
-	 *            calling this explosion. Use only
-	 *            by procedural explosions
-	 * @return - True if this explosive needs to
-	 *         continue to procedurally explode.
-	 *         False if otherwise
+	 *            - The amount of calls done for calling this explosion. Use only by procedural
+	 *            explosions
+	 * @return - True if this explosive needs to continue to procedurally explode. False if
+	 *         otherwise
 	 */
 	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
 	{
@@ -289,12 +281,10 @@ public abstract class ZhaPin implements ITier
 	}
 
 	/**
-	 * Called every tick when this explosive is
-	 * doing it's procedural explosion
+	 * Called every tick when this explosive is doing it's procedural explosion
 	 * 
 	 * @param ticksExisted
-	 *            - The ticks in which this
-	 *            explosive existed
+	 *            - The ticks in which this explosive existed
 	 */
 	public void gengXin(World worldObj, Vector3 position, int ticksExisted)
 	{
@@ -318,8 +308,7 @@ public abstract class ZhaPin implements ITier
 	 * @param worldObj
 	 * @param position
 	 * @param cause
-	 *            - 0: N/A, 1: Destruction, 2:
-	 *            Fire
+	 *            - 0: N/A, 1: Destruction, 2: Fire
 	 */
 	public void spawnZhaDan(World worldObj, Vector3 position, ForgeDirection orientation, byte cause)
 	{

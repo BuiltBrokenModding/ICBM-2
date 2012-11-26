@@ -135,8 +135,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Checks to see if and entity is touching the
-	 * missile. If so, blow up!
+	 * Checks to see if and entity is touching the missile. If so, blow up!
 	 */
 
 	@Override

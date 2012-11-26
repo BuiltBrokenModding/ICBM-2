@@ -26,8 +26,7 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Returns the bounding box of the wired
-	 * rectangular prism to render.
+	 * Returns the bounding box of the wired rectangular prism to render.
 	 */
 	@Override
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int x, int y, int z)
@@ -36,10 +35,8 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Returns a bounding box from the pool of
-	 * bounding boxes (this means this box can
-	 * change after the pool has been cleared to
-	 * be reused)
+	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
+	 * the pool has been cleared to be reused)
 	 */
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
@@ -48,8 +45,7 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Returns the block texture based on the side
-	 * being looked at. Args: side
+	 * Returns the block texture based on the side being looked at. Args: side
 	 */
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int par1, int metadata)
@@ -58,9 +54,8 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * If this block doesn't render as an ordinary
-	 * block it will return False (examples:
-	 * signs, buttons, stairs, etc)
+	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
+	 * buttons, stairs, etc)
 	 */
 	@Override
 	public boolean renderAsNormalBlock()
@@ -69,12 +64,9 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Is this block (a) opaque and (b) a full 1m
-	 * cube? This determines whether or not to
-	 * render the shared face of two adjacent
-	 * blocks and also whether the player can
-	 * attach torches, redstone wire, etc to this
-	 * block.
+	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the
+	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
+	 * wire, etc to this block.
 	 */
 	@Override
 	public boolean isOpaqueCube()
@@ -83,8 +75,7 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * The type of render function that is called
-	 * for this block
+	 * The type of render function that is called for this block
 	 */
 	@Override
 	public int getRenderType()
@@ -93,10 +84,8 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Returns the mobility information of the
-	 * block, 0 = free, 1 = can't push but can
-	 * move over, 2 = total immobility and stop
-	 * pistons
+	 * Returns the mobility information of the block, 0 = free, 1 = can't push but can move over, 2
+	 * = total immobility and stop pistons
 	 */
 	@Override
 	public int getMobilityFlag()
@@ -105,9 +94,8 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Checks to see if its valid to put this
-	 * block at the specified coordinates. Args:
-	 * world, x, y, z
+	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
+	 * z
 	 */
 	@Override
 	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
@@ -116,10 +104,8 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Lets the block know when one of its
-	 * neighbor changes. Doesn't know which
-	 * neighbor changed (coordinates passed are
-	 * their own) Args: x, y, z, neighbor blockID
+	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
+	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
 	@Override
 	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
@@ -132,9 +118,8 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Can this block stay at this position.
-	 * Similar to canPlaceBlockAt except gets
-	 * checked often with plants.
+	 * Can this block stay at this position. Similar to canPlaceBlockAt except gets checked often
+	 * with plants.
 	 */
 	@Override
 	public boolean canBlockStay(World par1World, int par2, int par3, int par4)
@@ -149,9 +134,8 @@ public class BZha extends ICBMBlock
 	}
 
 	/**
-	 * Triggered whenever an entity collides with
-	 * this block (enters into the block). Args:
-	 * world, x, y, z, entity
+	 * Triggered whenever an entity collides with this block (enters into the block). Args: world,
+	 * x, y, z, entity
 	 */
 	@Override
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)

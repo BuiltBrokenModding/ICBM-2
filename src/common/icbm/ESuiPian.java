@@ -35,8 +35,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	private boolean isExploding = false;
 
 	/**
-	 * Seems to be some sort of timer for
-	 * animating an arrow.
+	 * Seems to be some sort of timer for animating an arrow.
 	 */
 	public int arrowShake = 0;
 
@@ -47,8 +46,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	private int knowBackStrength;
 
 	/**
-	 * Is this arrow a critical hit? (Controls
-	 * particles and damage)
+	 * Is this arrow a critical hit? (Controls particles and damage)
 	 */
 	public boolean arrowCritical = false;
 	public float explosionSize = 1.5F;
@@ -103,10 +101,8 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Uses the provided coordinates as a heading
-	 * and determines the velocity from it with
-	 * the set force and random variance. Args: x,
-	 * y, z, force, forceVariation
+	 * Uses the provided coordinates as a heading and determines the velocity from it with the set
+	 * force and random variance. Args: x, y, z, force, forceVariation
 	 */
 	public void setArrowHeading(double par1, double par3, double par5, float par7, float par8)
 	{
@@ -130,8 +126,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Sets the velocity to the args. Args: x, y,
-	 * z
+	 * Sets the velocity to the args. Args: x, y, z
 	 */
 	@Override
 	public void setVelocity(double par1, double par3, double par5)
@@ -163,8 +158,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Called to update the entity's
-	 * position/logic.
+	 * Called to update the entity's position/logic.
 	 */
 	@Override
 	public void onUpdate()
@@ -422,8 +416,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * (abstract) Protected helper method to write
-	 * subclass entity data to NBT.
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
 	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
@@ -440,8 +433,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * (abstract) Protected helper method to read
-	 * subclass entity data from NBT.
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
 	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
@@ -458,15 +450,14 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Called by a player entity when they collide
-	 * with an entity
+	 * Called by a player entity when they collide with an entity
 	 */
 	@Override
 	public void applyEntityCollision(Entity par1Entity)
 	{
 		super.applyEntityCollision(par1Entity);
 
-		if (this.isExplosive && this.ticksExisted < 20*2)
+		if (this.isExplosive && this.ticksExisted < 20 * 2)
 		{
 			this.explode();
 		}
@@ -479,8 +470,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * If returns false, the item will not inflict
-	 * any damage against entities.
+	 * If returns false, the item will not inflict any damage against entities.
 	 */
 	@Override
 	public boolean canAttackWithItem()

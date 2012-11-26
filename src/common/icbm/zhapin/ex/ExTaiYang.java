@@ -199,11 +199,9 @@ public class ExTaiYang extends ZhaPin
 	}
 
 	/**
-	 * The interval in ticks before the next
-	 * procedural call of this explosive
+	 * The interval in ticks before the next procedural call of this explosive
 	 * 
-	 * @param return - Return -1 if this explosive
-	 *        does not need proceudral calls
+	 * @param return - Return -1 if this explosive does not need proceudral calls
 	 */
 	@Override
 	public int proceduralInterval()

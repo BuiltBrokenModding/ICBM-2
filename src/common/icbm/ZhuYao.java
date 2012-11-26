@@ -240,12 +240,8 @@ public class ZhuYao
 	}
 
 	/*
-	 * @ForgeSubscribe public void
-	 * onEEC(EnteringChunk event) {
-	 * if(event.entity instanceof EDaoDan) {
-	 * ((EDaoDan
-	 * )event.entity).updateLoadChunk(event
-	 * .oldChunkX, event.oldChunkZ,
+	 * @ForgeSubscribe public void onEEC(EnteringChunk event) { if(event.entity instanceof EDaoDan)
+	 * { ((EDaoDan )event.entity).updateLoadChunk(event .oldChunkX, event.oldChunkZ,
 	 * event.newChunkX, event.newChunkZ); } }
 	 */
 

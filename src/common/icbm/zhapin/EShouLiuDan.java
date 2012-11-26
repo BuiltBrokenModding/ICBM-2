@@ -20,9 +20,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 {
 	/**
-	 * Is the entity that throws this 'thing'
-	 * (snowball, ender pearl, eye of ender or
-	 * potion)
+	 * Is the entity that throws this 'thing' (snowball, ender pearl, eye of ender or potion)
 	 */
 	protected EntityLiving thrower;
 
@@ -77,8 +75,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Similar to setArrowHeading, it's point the
-	 * throwable entity to a x, y, z direction.
+	 * Similar to setArrowHeading, it's point the throwable entity to a x, y, z direction.
 	 */
 	public void setThrowableHeading(double par1, double par3, double par5, float par7, float par8)
 	{
@@ -101,8 +98,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Sets the velocity to the args. Args: x, y,
-	 * z
+	 * Sets the velocity to the args. Args: x, y, z
 	 */
 	public void setVelocity(double par1, double par3, double par5)
 	{
@@ -119,10 +115,8 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * returns if this entity triggers
-	 * Block.onEntityWalking on the blocks they
-	 * walk on. used for spiders and wolves to
-	 * prevent them from trampling crops
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for
+	 * spiders and wolves to prevent them from trampling crops
 	 */
 	protected boolean canTriggerWalking()
 	{
@@ -141,8 +135,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Called to update the entity's
-	 * position/logic.
+	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate()
 	{
@@ -240,9 +233,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Returns if this entity is in water and will
-	 * end up adding the waters velocity to the
-	 * entity
+	 * Returns if this entity is in water and will end up adding the waters velocity to the entity
 	 */
 	public boolean handleWaterMovement()
 	{
@@ -250,8 +241,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Returns true if other Entities should be
-	 * prevented from moving through this Entity.
+	 * Returns true if other Entities should be prevented from moving through this Entity.
 	 */
 	public boolean canBeCollidedWith()
 	{
@@ -259,8 +249,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	/**
-	 * Returns true if this entity should push and
-	 * be pushed by other entities when colliding.
+	 * Returns true if this entity should push and be pushed by other entities when colliding.
 	 */
 	public boolean canBePushed()
 	{

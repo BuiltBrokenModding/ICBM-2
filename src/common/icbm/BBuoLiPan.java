@@ -16,8 +16,7 @@ import net.minecraft.src.World;
 public class BBuoLiPan extends ICBMBlock
 {
 	/**
-	 * The mob type that can trigger this pressure
-	 * plate.
+	 * The mob type that can trigger this pressure plate.
 	 */
 	private EnumMobType triggerMobType;
 
@@ -35,8 +34,7 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * The glass pressure plate will not yield
-	 * itself once broken.
+	 * The glass pressure plate will not yield itself once broken.
 	 * 
 	 * @param par1Random
 	 * @return 0
@@ -48,8 +46,7 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Returns which pass should this block be
-	 * rendered on. 0 for solids and 1 for alpha
+	 * Returns which pass should this block be rendered on. 0 for solids and 1 for alpha
 	 */
 	@Override
 	public int getRenderBlockPass()
@@ -66,10 +63,8 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Returns a bounding box from the pool of
-	 * bounding boxes (this means this box can
-	 * change after the pool has been cleared to
-	 * be reused)
+	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
+	 * the pool has been cleared to be reused)
 	 */
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
@@ -77,12 +72,9 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Is this block (a) opaque and (b) a full 1m
-	 * cube? This determines whether or not to
-	 * render the shared face of two adjacent
-	 * blocks and also whether the player can
-	 * attach torches, redstone wire, etc to this
-	 * block.
+	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the
+	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
+	 * wire, etc to this block.
 	 */
 	public boolean isOpaqueCube()
 	{
@@ -90,9 +82,8 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * If this block doesn't render as an ordinary
-	 * block it will return False (examples:
-	 * signs, buttons, stairs, etc)
+	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
+	 * buttons, stairs, etc)
 	 */
 	public boolean renderAsNormalBlock()
 	{
@@ -105,9 +96,8 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Checks to see if its valid to put this
-	 * block at the specified coordinates. Args:
-	 * world, x, y, z
+	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
+	 * z
 	 */
 	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
@@ -115,10 +105,8 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Lets the block know when one of its
-	 * neighbor changes. Doesn't know which
-	 * neighbor changed (coordinates passed are
-	 * their own) Args: x, y, z, neighbor blockID
+	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
+	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
 	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
@@ -151,9 +139,8 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Triggered whenever an entity collides with
-	 * this block (enters into the block). Args:
-	 * world, x, y, z, entity
+	 * Triggered whenever an entity collides with this block (enters into the block). Args: world,
+	 * x, y, z, entity
 	 */
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{
@@ -167,9 +154,8 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Checks if there are mobs on the plate. If a
-	 * mob is on the plate and it is off, it turns
-	 * it on, and vice versa.
+	 * Checks if there are mobs on the plate. If a mob is on the plate and it is off, it turns it
+	 * on, and vice versa.
 	 */
 	private void setStateIfMobInteractsWithPlate(World par1World, int par2, int par3, int par4)
 	{
@@ -223,9 +209,7 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * ejects contained items into the world, and
-	 * notifies neighbours of an update, as
-	 * appropriate
+	 * ejects contained items into the world, and notifies neighbours of an update, as appropriate
 	 */
 	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
@@ -239,8 +223,7 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Updates the blocks bounds based on its
-	 * current state. Args: world, x, y, z
+	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
 	 */
 	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
@@ -258,8 +241,7 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Is this block powering the block on the
-	 * specified side
+	 * Is this block powering the block on the specified side
 	 */
 	public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
@@ -267,8 +249,7 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Is this block indirectly powering the block
-	 * on the specified side
+	 * Is this block indirectly powering the block on the specified side
 	 */
 	public boolean isIndirectlyPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
@@ -276,9 +257,8 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Can this block provide power. Only wire
-	 * currently seems to have this change based
-	 * on its state.
+	 * Can this block provide power. Only wire currently seems to have this change based on its
+	 * state.
 	 */
 	public boolean canProvidePower()
 	{
@@ -286,8 +266,7 @@ public class BBuoLiPan extends ICBMBlock
 	}
 
 	/**
-	 * Sets the block's bounds for rendering it as
-	 * an item
+	 * Sets the block's bounds for rendering it as an item
 	 */
 	public void setBlockBoundsForItemRender()
 	{

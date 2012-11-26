@@ -33,8 +33,7 @@ public class GCiGuiPao extends GuiContainer
 	}
 
 	/**
-	 * Adds the buttons (and other controls) to
-	 * the screen in question.
+	 * Adds the buttons (and other controls) to the screen in question.
 	 */
 	@Override
 	public void initGui()
@@ -52,10 +51,8 @@ public class GCiGuiPao extends GuiContainer
 	}
 
 	/**
-	 * Fired when a control is clicked. This is
-	 * the equivalent of
-	 * ActionListener.actionPerformed(ActionEvent
-	 * e).
+	 * Fired when a control is clicked. This is the equivalent of
+	 * ActionListener.actionPerformed(ActionEvent e).
 	 */
 	@Override
 	protected void actionPerformed(GuiButton par1GuiButton)
@@ -71,8 +68,7 @@ public class GCiGuiPao extends GuiContainer
 	}
 
 	/**
-	 * Call this method from you GuiScreen to
-	 * process the keys into textbox.
+	 * Call this method from you GuiScreen to process the keys into textbox.
 	 */
 	@Override
 	public void keyTyped(char par1, int par2)
@@ -90,9 +86,7 @@ public class GCiGuiPao extends GuiContainer
 	}
 
 	/**
-	 * Draw the foreground layer for the
-	 * GuiContainer (everything in front of the
-	 * items)
+	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
@@ -126,8 +120,7 @@ public class GCiGuiPao extends GuiContainer
 	}
 
 	/**
-	 * Draw the background layer for the
-	 * GuiContainer (everything behind the items)
+	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)

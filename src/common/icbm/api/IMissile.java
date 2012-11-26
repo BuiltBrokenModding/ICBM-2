@@ -1,8 +1,7 @@
 package icbm.api;
 
 /**
- * This is an interface applied by all missile
- * entities. You may cast this into {@Entity
+ * This is an interface applied by all missile entities. You may cast this into {@Entity
  * 
  * 
  * 
@@ -15,16 +14,13 @@ package icbm.api;
 public interface IMissile
 {
 	/**
-	 * Blows up this missile depending on it's
-	 * type.
+	 * Blows up this missile depending on it's type.
 	 */
 	public void explode();
 
 	/**
-	 * Blows up this missile like a TNT explosion.
-	 * Small explosion used for events such as a
-	 * missile crashing or failure to explode will
-	 * result in this function being called.
+	 * Blows up this missile like a TNT explosion. Small explosion used for events such as a missile
+	 * crashing or failure to explode will result in this function being called.
 	 */
 	public void normalExplode();
 

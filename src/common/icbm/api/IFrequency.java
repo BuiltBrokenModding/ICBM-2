@@ -10,8 +10,7 @@ public interface IFrequency
 {
 	/**
 	 * @param data
-	 *            - Pass an ItemStack if dealing
-	 *            with items with frequencies.
+	 *            - Pass an ItemStack if dealing with items with frequencies.
 	 * @return The frequency of this object.
 	 */
 	public short getFrequency(Object... data);
@@ -22,8 +21,7 @@ public interface IFrequency
 	 * @param frequency
 	 *            - The frequency of this object.
 	 * @param data
-	 *            - Pass an ItemStack if dealing
-	 *            with items with frequencies.
+	 *            - Pass an ItemStack if dealing with items with frequencies.
 	 */
 	public void setFrequency(short frequency, Object... data);
 }

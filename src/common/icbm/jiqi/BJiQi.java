@@ -29,10 +29,8 @@ import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 
 /**
- * Metadata of block 0 - Launcher Base 1 -
- * Launcher Screen 2 - Support Frame 3 - Radar
- * Station 4 - EMP Tower 5 - Railgun 6 - Cruise
- * Launcher
+ * Metadata of block 0 - Launcher Base 1 - Launcher Screen 2 - Support Frame 3 - Radar Station 4 -
+ * EMP Tower 5 - Railgun 6 - Cruise Launcher
  * 
  * @author Calclavia
  * 
@@ -45,8 +43,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Is this block powering the block on the
-	 * specified side
+	 * Is this block powering the block on the specified side
 	 */
 	@Override
 	public boolean isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
@@ -58,8 +55,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Is this block indirectly powering the block
-	 * on the specified side
+	 * Is this block indirectly powering the block on the specified side
 	 */
 	@Override
 	public boolean isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
@@ -71,9 +67,8 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Can this block provide power. Only wire
-	 * currently seems to have this change based
-	 * on its state.
+	 * Can this block provide power. Only wire currently seems to have this change based on its
+	 * state.
 	 */
 	public boolean canProvidePower()
 	{
@@ -87,8 +82,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Called when the block is placed in the
-	 * world.
+	 * Called when the block is placed in the world.
 	 */
 	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
 	{
@@ -167,9 +161,8 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Can this block stay at this position.
-	 * Similar to canPlaceBlockAt except gets
-	 * checked often with plants.
+	 * Can this block stay at this position. Similar to canPlaceBlockAt except gets checked often
+	 * with plants.
 	 */
 	@Override
 	public boolean canBlockStay(World par1World, int x, int y, int z)
@@ -184,8 +177,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Called when the block is right clicked by
-	 * the player
+	 * Called when the block is right clicked by the player
 	 */
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer)
@@ -210,8 +202,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Checks of this block is being powered by
-	 * redstone
+	 * Checks of this block is being powered by redstone
 	 */
 	public void isBeingPowered(World par1World, int x, int y, int z)
 	{
@@ -234,9 +225,8 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * If this block doesn't render as an ordinary
-	 * block it will return False (examples:
-	 * signs, buttons, stairs, etc)
+	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
+	 * buttons, stairs, etc)
 	 */
 	@Override
 	public boolean renderAsNormalBlock()
@@ -350,8 +340,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * Returns the quantity of items to drop on
-	 * block destruction.
+	 * Returns the quantity of items to drop on block destruction.
 	 */
 	public int quantityDropped(Random par1Random)
 	{
@@ -359,8 +348,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	/**
-	 * The type of render function that is called
-	 * for this block
+	 * The type of render function that is called for this block
 	 */
 	@Override
 	public int getRenderType()

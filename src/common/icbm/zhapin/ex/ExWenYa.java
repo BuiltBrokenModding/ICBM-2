@@ -166,11 +166,9 @@ public class ExWenYa extends ZhaPin
 	}
 
 	/**
-	 * The interval in ticks before the next
-	 * procedural call of this explosive
+	 * The interval in ticks before the next procedural call of this explosive
 	 * 
-	 * @param return - Return -1 if this explosive
-	 *        does not need procedural calls
+	 * @param return - Return -1 if this explosive does not need procedural calls
 	 */
 	@Override
 	public int proceduralInterval()
@@ -204,13 +202,11 @@ public class ExWenYa extends ZhaPin
 	}
 
 	/**
-	 * Called when the explosive is on fuse and
-	 * going to explode. Called only when the
-	 * explosive is in it's TNT form.
+	 * Called when the explosive is on fuse and going to explode. Called only when the explosive is
+	 * in it's TNT form.
 	 * 
 	 * @param fuseTicks
-	 *            - The amount of ticks this
-	 *            explosive is on fuse
+	 *            - The amount of ticks this explosive is on fuse
 	 */
 	@Override
 	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)

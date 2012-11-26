@@ -31,8 +31,7 @@ public class IBJiQi extends ItemBlock
 	}
 
 	/**
-	 * Gets an icon index based on an item's
-	 * damage value
+	 * Gets an icon index based on an item's damage value
 	 */
 	@Override
 	public int getIconFromDamage(int par1)

@@ -24,9 +24,7 @@ public class ICBMBlock extends Block
 	}
 
 	/**
-	 * From the specified side and block metadata
-	 * retrieves the blocks texture. Args: side,
-	 * metadata
+	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int par1, int par2)

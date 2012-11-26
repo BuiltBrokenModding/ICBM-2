@@ -206,8 +206,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	}
 
 	/**
-	 * Called to update the entity's
-	 * position/logic.
+	 * Called to update the entity's position/logic.
 	 */
 	@Override
 	public void onUpdate()
@@ -460,8 +459,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	}
 
 	/**
-	 * Checks to see if and entity is touching the
-	 * missile. If so, blow up!
+	 * Checks to see if and entity is touching the missile. If so, blow up!
 	 */
 
 	@Override
@@ -567,8 +565,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	}
 
 	/**
-	 * (abstract) Protected helper method to read
-	 * subclass entity data from NBT.
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
@@ -584,8 +581,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	}
 
 	/**
-	 * (abstract) Protected helper method to write
-	 * subclass entity data to NBT.
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)

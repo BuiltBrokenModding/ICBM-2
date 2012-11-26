@@ -25,9 +25,7 @@ public class BYinGanQi extends BlockMachine
 	}
 
 	/**
-	 * From the specified side and block metadata
-	 * retrieves the blocks texture. Args: side,
-	 * metadata
+	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int side, int par2)
@@ -49,9 +47,8 @@ public class BYinGanQi extends BlockMachine
 	}
 
 	/**
-	 * If this block doesn't render as an ordinary
-	 * block it will return False (examples:
-	 * signs, buttons, stairs, etc)
+	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
+	 * buttons, stairs, etc)
 	 */
 	@Override
 	public boolean renderAsNormalBlock()
@@ -60,8 +57,7 @@ public class BYinGanQi extends BlockMachine
 	}
 
 	/**
-	 * Is this block powering the block on the
-	 * specified side
+	 * Is this block powering the block on the specified side
 	 */
 	@Override
 	public boolean isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
@@ -74,8 +70,7 @@ public class BYinGanQi extends BlockMachine
 	}
 
 	/**
-	 * Is this block indirectly powering the block
-	 * on the specified side
+	 * Is this block indirectly powering the block on the specified side
 	 */
 	@Override
 	public boolean isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
@@ -100,10 +95,8 @@ public class BYinGanQi extends BlockMachine
 	}
 
 	/**
-	 * Override this if you do not want your
-	 * machine to be added to the creative menu or
-	 * if you have metadata machines and want to
-	 * add more machines to the creative menu.
+	 * Override this if you do not want your machine to be added to the creative menu or if you have
+	 * metadata machines and want to add more machines to the creative menu.
 	 */
 	@Override
 	public void addCreativeItems(ArrayList itemList)

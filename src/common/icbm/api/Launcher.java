@@ -31,8 +31,7 @@ public class Launcher
 		public LauncherType getLauncherType();
 
 		/**
-		 * Launches the missile into the specified
-		 * target.
+		 * Launches the missile into the specified target.
 		 */
 		public void launch();
 
@@ -53,8 +52,7 @@ public class Launcher
 
 		/**
 		 * @param target
-		 *            Sets the target of the
-		 *            launcher
+		 *            Sets the target of the launcher
 		 */
 		public void setTarget(Vector3 target);
 

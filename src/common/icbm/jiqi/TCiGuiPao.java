@@ -365,9 +365,8 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	}
 
 	/**
-	 * Performs a ray trace for the distance
-	 * specified and using the partial tick time.
-	 * Args: distance, partialTickTime
+	 * Performs a ray trace for the distance specified and using the partial tick time. Args:
+	 * distance, partialTickTime
 	 */
 	public MovingObjectPosition rayTrace(double distance)
 	{
