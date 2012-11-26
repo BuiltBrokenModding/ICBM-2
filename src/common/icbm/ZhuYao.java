@@ -90,7 +90,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String VERSION = "0.6.2";
+	public static final String VERSION = "0.6.3";
 
 	public static final String CHANNEL = "ICBM";
 
@@ -98,6 +98,9 @@ public class ZhuYao
 
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
+
+	private static final String[] YU_YAN = new String[]
+	{ "en_US" };
 
 	public static final boolean SPAWN_PARTICLES = UEConfig.getConfigData(CONFIGURATION, "Spawn Particle Effects", true);
 	public static final boolean ADVANCED_VISUALS = UEConfig.getConfigData(CONFIGURATION, "Advanced Visual Effects", false);
@@ -109,36 +112,36 @@ public class ZhuYao
 	// BLOCKS
 	public static final int ENTITY_ID_PREFIX = 50;
 
-	public static final int BLOCK_ID_PREFIX = 3880;
-	public static final Block bLiu = new BLiu(UEConfig.getBlockConfigID(CONFIGURATION, "Sulfur Ores", BLOCK_ID_PREFIX - 1));
-	public static final Block bBuo1LiPan = new BBuoLiPan(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", BLOCK_ID_PREFIX + 0), 0);
-	public static final Block bZha4Dan4 = new BZhaDan(UEConfig.getBlockConfigID(CONFIGURATION, "Explosives", BLOCK_ID_PREFIX + 1), 16);
-	public static final Block bJiQi = new BJiQi(UEConfig.getBlockConfigID(CONFIGURATION, "Block Machine", BLOCK_ID_PREFIX + 3));
+	public static final int B_HAO_MA = 3880;
+	public static final Block bLiu = new BLiu(UEConfig.getBlockConfigID(CONFIGURATION, "Sulfur Ores", B_HAO_MA - 1));
+	public static final Block bBuo1LiPan = new BBuoLiPan(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Pressure Plate", B_HAO_MA + 0), 0);
+	public static final Block bZha4Dan4 = new BZhaDan(UEConfig.getBlockConfigID(CONFIGURATION, "Explosives", B_HAO_MA + 1), 16);
+	public static final Block bJiQi = new BJiQi(UEConfig.getBlockConfigID(CONFIGURATION, "Block Machine", B_HAO_MA + 3));
 	public static Block bFuShe;
-	public static final Block bYinGanQi = new BYinGanQi(UEConfig.getBlockConfigID(CONFIGURATION, "Proximity Detector", BLOCK_ID_PREFIX + 6), 7);
-	public static final BlockMulti bJia = new BlockMulti(UEConfig.getBlockConfigID(CONFIGURATION, "Place Holder", BLOCK_ID_PREFIX + 7));
-	public static final BEnNiu bBuoLiEnNiu = new BEnNiu(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Button", BLOCK_ID_PREFIX + 8));
-	public static final Block bZha = new BZha(UEConfig.getBlockConfigID(CONFIGURATION, "Spikes", BLOCK_ID_PREFIX + 9), 1);
+	public static final Block bYinGanQi = new BYinGanQi(UEConfig.getBlockConfigID(CONFIGURATION, "Proximity Detector", B_HAO_MA + 6), 7);
+	public static final BlockMulti bJia = new BlockMulti(UEConfig.getBlockConfigID(CONFIGURATION, "Place Holder", B_HAO_MA + 7));
+	public static final BEnNiu bBuoLiEnNiu = new BEnNiu(UEConfig.getBlockConfigID(CONFIGURATION, "Glass Button", B_HAO_MA + 8));
+	public static final Block bZha = new BZha(UEConfig.getBlockConfigID(CONFIGURATION, "Spikes", B_HAO_MA + 9), 1);
 
 	// ITEMS
-	public static final int ITEM_ID_PREFIX = 3900;
-	public static final Item itLiu = new ICBMItem("Sulfur", UEConfig.getItemConfigID(CONFIGURATION, "Sulfur", ITEM_ID_PREFIX - 2), 3, CreativeTabs.tabMaterials);
-	public static final Item itDu = new ICBMItem("Poison Powder", UEConfig.getItemConfigID(CONFIGURATION, "Poison Powder", ITEM_ID_PREFIX), 0, CreativeTabs.tabMaterials);
-	public static final Item itYao = new ItYao("Antidote", UEConfig.getItemConfigID(CONFIGURATION, "Antidote", ITEM_ID_PREFIX + 1), 5);
-	public static final Item itDaoDan = new ItDaoDan("Missile", UEConfig.getItemConfigID(CONFIGURATION, "Missile", ITEM_ID_PREFIX + 2), 32);
-	public static final Item itTeBieDaoDan = new ItTeBieDaoDan("Special Missile", UEConfig.getItemConfigID(CONFIGURATION, "Special Missile", ITEM_ID_PREFIX + 3), 32);
+	public static final int I_HAO_MA = 3900;
+	public static final Item itLiu = new ICBMItem("Sulfur", UEConfig.getItemConfigID(CONFIGURATION, "Sulfur", I_HAO_MA - 2), 3, CreativeTabs.tabMaterials);
+	public static final Item itDu = new ICBMItem("Poison Powder", UEConfig.getItemConfigID(CONFIGURATION, "Poison Powder", I_HAO_MA), 0, CreativeTabs.tabMaterials);
+	public static final Item itYao = new ItYao("Antidote", UEConfig.getItemConfigID(CONFIGURATION, "Antidote", I_HAO_MA + 1), 5);
+	public static final Item itDaoDan = new ItDaoDan("Missile", UEConfig.getItemConfigID(CONFIGURATION, "Missile", I_HAO_MA + 2), 32);
+	public static final Item itTeBieDaoDan = new ItTeBieDaoDan("Special Missile", UEConfig.getItemConfigID(CONFIGURATION, "Special Missile", I_HAO_MA + 3), 32);
 
-	public static final ItemElectric itJieJa = new ItJieJa("Defuser", UEConfig.getItemConfigID(CONFIGURATION, "Explosive Defuser", ITEM_ID_PREFIX + 4), 21);
-	public static final ItemElectric itLeiDaQiang = new ItLeiDaQiang("Radar Gun", UEConfig.getItemConfigID(CONFIGURATION, "RadarGun", ITEM_ID_PREFIX + 5), 19);
-	public static final ItemElectric itYaoKong = new ItYaoKong("Remote", UEConfig.getItemConfigID(CONFIGURATION, "Remote", ITEM_ID_PREFIX + 6), 20);
-	public static final ItemElectric itLeiSheZhiBiao = new ItLeiShiZhiBiao("Laser Designator", UEConfig.getItemConfigID(CONFIGURATION, "Laser Designator", ITEM_ID_PREFIX + 7), 22);
-	public static final ItemElectric itHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UEConfig.getItemConfigID(CONFIGURATION, "Signal Disruptor", ITEM_ID_PREFIX + 9), 23);
-	public static final ItemElectric itGenZongQi = new ItGenZongQi("Tracker", UEConfig.getItemConfigID(CONFIGURATION, "Tracker", ITEM_ID_PREFIX + 11), 0);
+	public static final ItemElectric itJieJa = new ItJieJa("Defuser", UEConfig.getItemConfigID(CONFIGURATION, "Explosive Defuser", I_HAO_MA + 4), 21);
+	public static final ItemElectric itLeiDaQiang = new ItLeiDaQiang("Radar Gun", UEConfig.getItemConfigID(CONFIGURATION, "RadarGun", I_HAO_MA + 5), 19);
+	public static final ItemElectric itYaoKong = new ItYaoKong("Remote", UEConfig.getItemConfigID(CONFIGURATION, "Remote", I_HAO_MA + 6), 20);
+	public static final ItemElectric itLeiSheZhiBiao = new ItLeiShiZhiBiao("Laser Designator", UEConfig.getItemConfigID(CONFIGURATION, "Laser Designator", I_HAO_MA + 7), 22);
+	public static final ItemElectric itHuoLaunQi = new ItHuoLuanQi("Signal Disruptor", UEConfig.getItemConfigID(CONFIGURATION, "Signal Disruptor", I_HAO_MA + 9), 23);
+	public static final ItemElectric itGenZongQi = new ItGenZongQi("Tracker", UEConfig.getItemConfigID(CONFIGURATION, "Tracker", I_HAO_MA + 11), 0);
 
-	public static final Item itShouLiuDan = new ItShouLiuDan(UEConfig.getItemConfigID(CONFIGURATION, "Grenade", ITEM_ID_PREFIX + 8), 64);
-	public static final Item itZiDan = new ItZiDan("Bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", ITEM_ID_PREFIX + 10), 80);
+	public static final Item itShouLiuDan = new ItShouLiuDan(UEConfig.getItemConfigID(CONFIGURATION, "Grenade", I_HAO_MA + 8), 64);
+	public static final Item itZiDan = new ItZiDan("Bullet", UEConfig.getItemConfigID(CONFIGURATION, "Bullet", I_HAO_MA + 10), 80);
 
-	public static final Item itChe = new ItChe(UEConfig.getItemConfigID(CONFIGURATION, "Minecart", ITEM_ID_PREFIX + 11), 135);
+	public static final Item itChe = new ItChe(UEConfig.getItemConfigID(CONFIGURATION, "Minecart", I_HAO_MA + 11), 135);
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
@@ -250,7 +253,7 @@ public class ZhuYao
 	{
 		if (bFuShe == null)
 		{
-			bFuShe = new BlockRadioactive(UEConfig.getBlockConfigID(CONFIGURATION, "Radioactive Block", BLOCK_ID_PREFIX + 5), 4, ICBM.BLOCK_TEXTURE_FILE);
+			bFuShe = new BlockRadioactive(UEConfig.getBlockConfigID(CONFIGURATION, "Radioactive Block", B_HAO_MA + 5), 4, ICBM.BLOCK_TEXTURE_FILE);
 			GameRegistry.registerBlock(bFuShe);
 		}
 
@@ -260,6 +263,14 @@ public class ZhuYao
 			{
 				ZhaPin.list[i].init();
 			}
+		}
+
+		/**
+		 * Load all languages.
+		 */
+		for (String language : YU_YAN)
+		{
+			LanguageRegistry.instance().loadLocalization(ICBM.LANGUAGE_PATH + language + ".properties", language, false);
 		}
 
 		LanguageRegistry.instance().addStringLocalization("itemGroup.ICBM", "en_US", "ICBM");

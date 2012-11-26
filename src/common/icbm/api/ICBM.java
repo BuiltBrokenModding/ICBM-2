@@ -30,6 +30,8 @@ public class ICBM
 	public static final String BLOCK_TEXTURE_FILE = TEXTURE_FILE_PATH + "blocks.png";
 	public static final String ITEM_TEXTURE_FILE = TEXTURE_FILE_PATH + "items.png";
 	public static final String TRACKER_TEXTURE_FILE = TEXTURE_FILE_PATH + "tracker.png";
+	public static final String LANGUAGE_PATH = "/icbm/yuyan/";
+
 
 	/**
 	 * Returns an ItemStack of the explosive with the explosive block.
