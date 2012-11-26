@@ -102,6 +102,6 @@ public class ExFanWuSu extends ZhaPin
 	public void init()
 	{
 		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), "A", "antimatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		{ "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

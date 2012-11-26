@@ -29,7 +29,7 @@ public class BBuoLiPan extends ICBMBlock
 		this.setBlockBounds(var5, 0.0F, var5, 1.0F - var5, 0.03125F, 1.0F - var5);
 		this.setHardness(0.5F);
 		this.setResistance(1F);
-		this.setBlockName("Glass Pressure Plate");
+		this.setBlockName("glassPressurePlate");
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 
@@ -57,6 +57,7 @@ public class BBuoLiPan extends ICBMBlock
 	/**
 	 * How many world ticks before ticking
 	 */
+	@Override
 	public int tickRate()
 	{
 		return 20;
@@ -66,6 +67,7 @@ public class BBuoLiPan extends ICBMBlock
 	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
 	 * the pool has been cleared to be reused)
 	 */
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		return null;
@@ -76,6 +78,7 @@ public class BBuoLiPan extends ICBMBlock
 	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
 	 * wire, etc to this block.
 	 */
+	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
@@ -85,11 +88,13 @@ public class BBuoLiPan extends ICBMBlock
 	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
 	 * buttons, stairs, etc)
 	 */
+	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		return true;
@@ -99,6 +104,7 @@ public class BBuoLiPan extends ICBMBlock
 	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
 	 * z
 	 */
+	@Override
 	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
 		return par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4) || BlockFence.isIdAFence(par1World.getBlockId(par2, par3 - 1, par4));
@@ -108,6 +114,7 @@ public class BBuoLiPan extends ICBMBlock
 	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
 	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
+	@Override
 	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
 		boolean var6 = false;
@@ -127,6 +134,7 @@ public class BBuoLiPan extends ICBMBlock
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
+	@Override
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if (!par1World.isRemote)
@@ -142,6 +150,7 @@ public class BBuoLiPan extends ICBMBlock
 	 * Triggered whenever an entity collides with this block (enters into the block). Args: world,
 	 * x, y, z, entity
 	 */
+	@Override
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{
 		if (!par1World.isRemote)
@@ -211,6 +220,7 @@ public class BBuoLiPan extends ICBMBlock
 	/**
 	 * ejects contained items into the world, and notifies neighbours of an update, as appropriate
 	 */
+	@Override
 	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
 		if (par6 > 0)
@@ -225,6 +235,7 @@ public class BBuoLiPan extends ICBMBlock
 	/**
 	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
 	 */
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		boolean var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4) == 1;
@@ -243,7 +254,8 @@ public class BBuoLiPan extends ICBMBlock
 	/**
 	 * Is this block powering the block on the specified side
 	 */
-	public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override
+	public boolean isProvidingStrongPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
 		return par1IBlockAccess.getBlockMetadata(par2, par3, par4) > 0;
 	}
@@ -251,7 +263,8 @@ public class BBuoLiPan extends ICBMBlock
 	/**
 	 * Is this block indirectly powering the block on the specified side
 	 */
-	public boolean isIndirectlyPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override
+	public boolean isProvidingWeakPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
 		return par1IBlockAccess.getBlockMetadata(par2, par3, par4) == 0 ? false : par5 == 1;
 	}
@@ -260,6 +273,7 @@ public class BBuoLiPan extends ICBMBlock
 	 * Can this block provide power. Only wire currently seems to have this change based on its
 	 * state.
 	 */
+	@Override
 	public boolean canProvidePower()
 	{
 		return true;
@@ -268,6 +282,7 @@ public class BBuoLiPan extends ICBMBlock
 	/**
 	 * Sets the block's bounds for rendering it as an item
 	 */
+	@Override
 	public void setBlockBoundsForItemRender()
 	{
 		float var1 = 0.5F;

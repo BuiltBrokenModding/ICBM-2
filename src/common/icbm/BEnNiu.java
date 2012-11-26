@@ -21,12 +21,11 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class BEnNiu extends Block
 {
-
 	protected BEnNiu(int id)
 	{
 		super(id, 0, Material.circuits);
 		this.setTickRandomly(true);
-		this.setBlockName("enNiu");
+		this.setBlockName("glassButton");
 		this.setCreativeTab(ZhuYao.TAB);
 		this.setTextureFile(ICBM.BLOCK_TEXTURE_FILE);
 	}
@@ -43,13 +42,14 @@ public class BEnNiu extends Block
 	@Override
 	public int tickRate()
 	{
-		return 2;
+		return 3;
 	}
 
 	/**
 	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
 	 * the pool has been cleared to be reused)
 	 */
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		return null;
@@ -60,6 +60,7 @@ public class BEnNiu extends Block
 	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
 	 * wire, etc to this block.
 	 */
+	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
@@ -69,6 +70,7 @@ public class BEnNiu extends Block
 	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
 	 * buttons, stairs, etc)
 	 */
+	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
@@ -78,6 +80,7 @@ public class BEnNiu extends Block
 	 * checks to see if you can place this block can be placed on that side of a block: BlockLever
 	 * overrides
 	 */
+	@Override
 	public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5)
 	{
 		ForgeDirection dir = ForgeDirection.getOrientation(par5);
@@ -88,6 +91,7 @@ public class BEnNiu extends Block
 	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
 	 * z
 	 */
+	@Override
 	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
 		return (par1World.isBlockSolidOnSide(par2 - 1, par3, par4, EAST)) || (par1World.isBlockSolidOnSide(par2 + 1, par3, par4, WEST)) || (par1World.isBlockSolidOnSide(par2, par3, par4 - 1, SOUTH)) || (par1World.isBlockSolidOnSide(par2, par3, par4 + 1, NORTH));
@@ -145,6 +149,7 @@ public class BEnNiu extends Block
 	 * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
 	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
+	@Override
 	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
 		if (this.redundantCanPlaceBlockAt(par1World, par2, par3, par4))
@@ -200,6 +205,7 @@ public class BEnNiu extends Block
 	/**
 	 * Updates the blocks bounds based on its current state. Args: world, x, y, z
 	 */
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
@@ -286,7 +292,8 @@ public class BEnNiu extends Block
 	/**
 	 * Is this block powering the block on the specified side
 	 */
-	public boolean isPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override
+	public boolean isProvidingStrongPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
 		return (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) > 0;
 	}
@@ -294,7 +301,8 @@ public class BEnNiu extends Block
 	/**
 	 * Is this block indirectly powering the block on the specified side
 	 */
-	public boolean isIndirectlyPoweringTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override
+	public boolean isProvidingWeakPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
 		int var6 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 
@@ -313,6 +321,7 @@ public class BEnNiu extends Block
 	 * Can this block provide power. Only wire currently seems to have this change based on its
 	 * state.
 	 */
+	@Override
 	public boolean canProvidePower()
 	{
 		return true;
@@ -321,6 +330,7 @@ public class BEnNiu extends Block
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
+	@Override
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if (!par1World.isRemote)
@@ -337,6 +347,7 @@ public class BEnNiu extends Block
 	/**
 	 * Sets the block's bounds for rendering it as an item
 	 */
+	@Override
 	public void setBlockBoundsForItemRender()
 	{
 		float var1 = 0.1875F;
@@ -349,6 +360,7 @@ public class BEnNiu extends Block
 	 * Triggered whenever an entity collides with this block (enters into the block). Args: world,
 	 * x, y, z, entity
 	 */
+	@Override
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{
 		if (!par1World.isRemote)
