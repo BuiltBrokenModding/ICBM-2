@@ -2,6 +2,7 @@ package icbm.zhapin.ex;
 
 import icbm.EFeiBlock;
 import icbm.ParticleSpawner;
+import icbm.ZhuYao;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
@@ -16,7 +17,9 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExHongSu extends ZhaPin
@@ -201,5 +204,12 @@ public class ExHongSu extends ZhaPin
 	public int proceduralInterval()
 	{
 		return 1;
+	}
+
+	@Override
+	public void init()
+	{
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+		{ "AAA", "AEA", "AAA", 'E', ZhaPin.wanDan.getItemStack(), "A", "strangeMatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

@@ -6,8 +6,10 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.RecipeHelper;
 
 public class ExFanWuSu extends ZhaPin
 {
@@ -94,5 +96,12 @@ public class ExFanWuSu extends ZhaPin
 		{
 			worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.alarm", 4F, 1F);
 		}
+	}
+
+	@Override
+	public void init()
+	{
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
+		{ "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), "A", "antimatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }
