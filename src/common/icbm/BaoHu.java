@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Iterator;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
@@ -81,10 +83,21 @@ public class BaoHu
 
 	public static boolean saveData(NBTTagCompound data, String filename)
 	{
+		String folder;
+
+		if (MinecraftServer.getServer().isDedicatedServer())
+		{
+			folder = MinecraftServer.getServer().getFolderName();
+		}
+		else
+		{
+			folder = "saves" + File.separator + MinecraftServer.getServer().getFolderName();
+		}
+		
 		try
 		{
-			File var3 = new File(Loader.instance().getConfigDir(), filename + "_tmp_.dat");
-			File var4 = new File(Loader.instance().getConfigDir(), filename + ".dat");
+			File var3 = new File(Minecraft.getMinecraftDir(), folder + File.separator + filename + "_tmp.dat");
+			File var4 = new File(Minecraft.getMinecraftDir(), folder + File.separator + filename + ".dat");
 
 			CompressedStreamTools.writeCompressed(data, new FileOutputStream(var3));
 
@@ -107,9 +120,20 @@ public class BaoHu
 
 	public static NBTTagCompound loadData(String filename)
 	{
+		String folder;
+
+		if (MinecraftServer.getServer().isDedicatedServer())
+		{
+			folder = MinecraftServer.getServer().getFolderName();
+		}
+		else
+		{
+			folder = "saves" + File.separator + MinecraftServer.getServer().getFolderName();
+		}
+
 		try
 		{
-			File var2 = new File(Loader.instance().getConfigDir(), filename + ".dat");
+			File var2 = new File(Minecraft.getMinecraftDir(), folder + File.separator + filename + ".dat");
 
 			if (var2.exists())
 			{
