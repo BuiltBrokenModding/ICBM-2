@@ -1,7 +1,7 @@
 package icbm.renders;
 
 import icbm.ESuiPian;
-import icbm.api.ICBM;
+import icbm.ZhuYao;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
@@ -38,7 +38,7 @@ public class RShuiPian extends Render
 		}
 		else
 		{
-			this.loadTexture(ICBM.TEXTURE_FILE_PATH + "fragment.png");
+			this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "fragment.png");
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 			GL11.glRotatef(suiPian.prevRotationYaw + (suiPian.rotationYaw - suiPian.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);

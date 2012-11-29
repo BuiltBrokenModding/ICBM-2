@@ -1,6 +1,5 @@
 package icbm;
 
-import icbm.api.ICBM;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Item;
 
@@ -18,6 +17,6 @@ public class ICBMItem extends Item
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 }

@@ -30,7 +30,7 @@ public class ICBMRenderMissile extends RenderLiving
  */
 package icbm.renders;
 
-import icbm.api.ICBM;
+import icbm.ZhuYao;
 import icbm.daodan.EDaoDan;
 import icbm.models.MMBingDan;
 import icbm.models.MMDianCi;
@@ -57,6 +57,7 @@ import icbm.models.MMZhuiZhong;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.Render;
+import net.minecraft.src.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
@@ -90,83 +91,83 @@ public class RDaoDan extends Render
 		switch (entityMissile.haoMa)
 		{
 			default:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileConventional.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileConventional.png");
 				break;
 			case 1:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileShrapnel.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileShrapnel.png");
 				break;
 			case 2:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileIncendiary.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileIncendiary.png");
 				break;
 			case 3:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileChemical.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileChemical.png");
 				break;
 			case 4:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAnvil.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAnvil.png");
 				break;
 			case 5:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAnvil.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAnvil.png");
 				break;
 			case 6:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAnvil.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAnvil.png");
 				break;
 
 			case 7:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileFragmentation.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileFragmentation.png");
 				break;
 			case 8:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileContagious.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileContagious.png");
 				break;
 			case 9:
-				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileSonic.png");
+				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileSonic.png");
 				break;
 			case 10:
-				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileBreaching.png");
+				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileBreaching.png");
 				break;
 			case 11:
-				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileRejuvenation.png");
+				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileRejuvenation.png");
 				break;
 			case 12:
-				loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileIon.png");
+				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileIon.png");
 				break;
 
 			case 13:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileNuclear.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileNuclear.png");
 				break;
 			case 14:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileEMP.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileEMP.png");
 				break;
 			case 15:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileConflagration.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileConflagration.png");
 				break;
 			case 16:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileEndothermic.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileEndothermic.png");
 				break;
 			case 17:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAntiGravity.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAntiGravity.png");
 				break;
 			case 18:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileEnder.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileEnder.png");
 				break;
 
 			case 19:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAntimatter.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAntimatter.png");
 				break;
 			case 20:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileRedMatter.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileRedMatter.png");
 				break;
 
 			case 101:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileAntiBallistic.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAntiBallistic.png");
 				break;
 			case 102:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileCluster.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileCluster.png");
 				break;
 			case 103:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileCluster.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileCluster.png");
 				break;
 			case 104:
-				this.loadTexture(ICBM.TEXTURE_FILE_PATH + "MissileHoming.png");
+				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileHoming.png");
 				break;
 		}
 

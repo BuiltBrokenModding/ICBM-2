@@ -1,8 +1,8 @@
 package icbm.zhapin;
 
 import icbm.BaoHu;
+import icbm.RH;
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -289,7 +289,13 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.BLOCK_TEXTURE_FILE;
+		return ZhuYao.BLOCK_TEXTURE_FILE;
+	}
+
+	@Override
+	public int getRenderType()
+	{
+		return RH.R_HAO_MA;
 	}
 
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)

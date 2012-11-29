@@ -37,6 +37,8 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
  */
 public class BJiQi extends BlockMachine
 {
+	private static final int JI_QI_SHU = 13;
+
 	public BJiQi(int id)
 	{
 		super("ICBM Machine", id, UniversalElectricity.machine, ZhuYao.TAB);
@@ -365,7 +367,7 @@ public class BJiQi extends BlockMachine
 	@Override
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < IBJiQi.names.length; i++)
+		for (int i = 0; i < JI_QI_SHU; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}

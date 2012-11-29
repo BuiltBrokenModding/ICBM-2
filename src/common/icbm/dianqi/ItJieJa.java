@@ -1,7 +1,6 @@
 package icbm.dianqi;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.cart.EChe;
 import icbm.zhapin.EZhaDan;
 
@@ -31,7 +30,7 @@ public class ItJieJa extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	/**

@@ -1,5 +1,9 @@
 package icbm;
 
+import java.io.File;
+
+import universalelectricity.prefab.multiblock.TileEntityMulti;
+
 import icbm.jiqi.TCiGuiPao;
 import icbm.jiqi.TDianCiQi;
 import icbm.jiqi.TFaSheDi;
@@ -7,12 +11,15 @@ import icbm.jiqi.TFaSheJia;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TLeiDaTai;
 import icbm.jiqi.TXiaoFaSheQi;
+import icbm.jiqi.TYinGanQi;
 import icbm.rongqi.CCiGuiPao;
 import icbm.rongqi.CFaShiDi;
 import icbm.rongqi.CXiaoFaSheQi;
+import icbm.zhapin.TZhaDan;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -35,13 +42,18 @@ public class ICBMCommon implements IGuiHandler
 
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
-		GameRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher");
-		GameRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase");
-		GameRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen");
-		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame");
-		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar");
-		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower");
+		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMCiGuiPao");
+		GameRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMXiaoFaSheQi");
+		GameRegistry.registerTileEntity(TFaSheDi.class, "ICBMFaSheDi");
+		GameRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMFaSheShiMuo");
+		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMFaSheJia");
+		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMLeiDaTai");
+		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMDianCiQi");
+		GameRegistry.registerTileEntity(TYinXin.class, "ICBMYinXin");
+
+		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMZhaDan");
+		GameRegistry.registerTileEntity(TYinGanQi.class, "ICBMYinGanQi");
+		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
 	}
 
 	@Override
@@ -69,5 +81,10 @@ public class ICBMCommon implements IGuiHandler
 		}
 
 		return null;
+	}
+
+	public String getMinecraftDir()
+	{
+		return "";
 	}
 }

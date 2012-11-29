@@ -1,7 +1,6 @@
 package icbm.dianqi;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
@@ -30,7 +29,7 @@ public class ItYaoKong extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	/**

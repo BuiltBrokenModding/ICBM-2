@@ -34,6 +34,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityItem;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -42,6 +43,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.ITier;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public abstract class ZhaPin implements ITier
 {
@@ -57,40 +59,40 @@ public abstract class ZhaPin implements ITier
 		}
 	}
 
-	public static final ZhaPin yaSuo = new ExYaSuo("Condensed", 0, 1);
-	public static final ZhaPin xiaoQunDan = new ExQunDan("Shrapnel", 1, 1);
-	public static final ZhaPin huo = new ExHuo("Incendiary", 2, 1);
-	public static final ZhaPin duQi = new EDuQi("Chemical", 3, 1);
-	public static final ZhaPin zhen = new ExQunDan("Anvil", 4, 1);
-	public static final ZhaPin tui = new ExTuiLa("Repulsive", 5, 1);
-	public static final ZhaPin la = new ExTuiLa("Attractive", 6, 1);
+	public static final ZhaPin yaSuo = new ExYaSuo("condensed", 0, 1);
+	public static final ZhaPin xiaoQunDan = new ExQunDan("shrapnel", 1, 1);
+	public static final ZhaPin huo = new ExHuo("incendiary", 2, 1);
+	public static final ZhaPin duQi = new EDuQi("chemical", 3, 1);
+	public static final ZhaPin zhen = new ExQunDan("anvil", 4, 1);
+	public static final ZhaPin tui = new ExTuiLa("repulsive", 5, 1);
+	public static final ZhaPin la = new ExTuiLa("attractive", 6, 1);
 
 	public static final int E_YI_ID = 7;
 
-	public static final ZhaPin qunDan = new ExQunDan("Fragmentation", 7, 2);
-	public static final ZhaPin chuanRan = new EDuQi("Contagious", 8, 2);
-	public static final ZhaPin shengBuo = new ExShengBuo("Sonic", 9, 2);
-	public static final ZhaPin tuPuo = new ExTuPuo("Breaching", 10, 2);
-	public static final ZhaPin huanYuan = new ExHuanYuan("Rejuvenation", 11, 2);
-	public static final ZhaPin wenYa = new ExWenYa("Thermobaric", 12, 2);
+	public static final ZhaPin qunDan = new ExQunDan("fragmentation", 7, 2);
+	public static final ZhaPin chuanRan = new EDuQi("contagious", 8, 2);
+	public static final ZhaPin shengBuo = new ExShengBuo("sonic", 9, 2);
+	public static final ZhaPin tuPuo = new ExTuPuo("breaching", 10, 2);
+	public static final ZhaPin huanYuan = new ExHuanYuan("rejuvenation", 11, 2);
+	public static final ZhaPin wenYa = new ExWenYa("thermobaric", 12, 2);
 
 	public static final int E_ER_ID = 13;
 
-	public static final ZhaPin yuanZi = new ExYuanZi("Nuclear", 13, 3);
-	public static final ZhaPin dianCi = new ExDianCi("EMP", 14, 3);
-	public static final ZhaPin taiYang = new ExTaiYang("Conflagration", 15, 3);
-	public static final ZhaPin bingDan = new ExBingDan("Endothermic", 16, 3);
-	public static final ZhaPin piaoFu = new ExPiaoFu("Anti-Gravitational", 17, 3);
-	public static final ZhaPin wanDan = new ExWan("Ender", 18, 2);
+	public static final ZhaPin yuanZi = new ExYuanZi("nuclear", 13, 3);
+	public static final ZhaPin dianCi = new ExDianCi("emp", 14, 3);
+	public static final ZhaPin taiYang = new ExTaiYang("conflagration", 15, 3);
+	public static final ZhaPin bingDan = new ExBingDan("endothermic", 16, 3);
+	public static final ZhaPin piaoFu = new ExPiaoFu("antiGravitational", 17, 3);
+	public static final ZhaPin wanDan = new ExWan("ender", 18, 2);
 
 	public static final int E_SAN_ID = 19;
 
-	public static final ZhaPin fanWuSu = new ExFanWuSu("Antimatter", 19, 4);
-	public static final ZhaPin hongSu = new ExHongSu("Red Matter", 20, 4);
+	public static final ZhaPin fanWuSu = new ExFanWuSu("antimatter", 19, 4);
+	public static final ZhaPin hongSu = new ExHongSu("redMatter", 20, 4);
 
 	public static final int E_SI_ID = 21;
 
-	public static final ZhaPin diLei = new ExDiLei("S-Mine", 25, 2);
+	public static final ZhaPin diLei = new ExDiLei("sMine", 25, 2);
 
 	// Hidden Explosives
 	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 26, 3);
@@ -136,27 +138,27 @@ public abstract class ZhaPin implements ITier
 
 	public String getMing()
 	{
-		return this.mingZi;
+		return LanguageRegistry.instance().getStringLocalization("icbm.explosive."+this.mingZi);
 	}
 
 	public String getZhaPinMing()
 	{
-		return this.mingZi + " Explosive";
+		return this.getMing() + " " + LanguageRegistry.instance().getStringLocalization("icbm.explosive");
 	}
 
-	public String getShouLiuDanName()
+	public String getShouLiuDanMing()
 	{
-		return this.mingZi + " Grenade";
+		return this.getMing() + " " + LanguageRegistry.instance().getStringLocalization("icbm.grenade");
 	}
 
 	public String getDaoDanMing()
 	{
-		return this.mingZi + " Missile";
+		return this.getMing() + " " + LanguageRegistry.instance().getStringLocalization("icbm.missile");
 	}
 
 	public String getCheMing()
 	{
-		return this.mingZi + " Minecart";
+		return this.getMing() + " " + StringTranslate.getInstance().translateKey("item.minecart.name");
 	}
 
 	public float getBanJing()

@@ -1,7 +1,6 @@
 package icbm.gui;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.daodan.EDaoDan;
 import icbm.jiqi.TLeiDaTai;
 
@@ -188,7 +187,7 @@ public class GLeiDaTai extends ICBMGui
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "RadarGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "RadarGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		this.containerPosX = (this.width - this.xSize) / 2;
@@ -207,11 +206,11 @@ public class GLeiDaTai extends ICBMGui
 
 				if (Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord)) < this.tileEntity.safetyBanJing)
 				{
-					var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "reddot.png");
+					var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "reddot.png");
 				}
 				else
 				{
-					var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "yellowdot.png");
+					var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "yellowdot.png");
 				}
 
 				this.mc.renderEngine.bindTexture(var4);

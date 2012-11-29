@@ -1,7 +1,6 @@
 package icbm.jiqi;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemBlock;
@@ -11,9 +10,6 @@ import universalelectricity.prefab.implement.ITier;
 
 public class IBJiQi extends ItemBlock
 {
-	public static final String[] names = new String[]
-	{ "Short-Range Platform", "Medium-Range Platform", "Intercontinental Platform", "Short-Range Computer", "Medium-Range Computer", "Intercontinental Computer", "Short-Range Frane", "Medium-Range Frane", "Intercontinental Frane", "Radar Station", "EMP Tower", "Railgun", "Cruise Launcher", };
-
 	private static final int spawnID = ZhuYao.bJiQi.blockID;
 
 	public IBJiQi(int id)
@@ -42,13 +38,19 @@ public class IBJiQi extends ItemBlock
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return (new StringBuilder()).append(super.getItemName()).append(".").append(names[itemstack.getItemDamage()]).toString();
+		return this.getItemName() + "." + itemstack.getItemDamage();
+	}
+
+	@Override
+	public String getItemName()
+	{
+		return "item.machine";
 	}
 
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package icbm.gui;
 
-import icbm.api.ICBM;
+import icbm.ZhuYao;
 import icbm.jiqi.TFaSheDi;
 import icbm.rongqi.CFaShiDi;
 import net.minecraft.src.GuiContainer;
@@ -39,7 +39,7 @@ public class GFaSheDi extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "MissileLauncher.png");
+		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileLauncher.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		containerWidth = (this.width - this.xSize) / 2;

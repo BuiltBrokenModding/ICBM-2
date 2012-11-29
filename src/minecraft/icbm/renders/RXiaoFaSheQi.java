@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.api.ICBM;
+import icbm.ZhuYao;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.models.MXiaoFaSheQi;
 import icbm.models.MXiaoFaSheQiJia;
@@ -18,7 +18,7 @@ public class RXiaoFaSheQi extends TileEntitySpecialRenderer
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
-		this.bindTextureByName(ICBM.TEXTURE_FILE_PATH + "CruiseLauncher.png");
+		this.bindTextureByName(ZhuYao.TEXTURE_FILE_PATH + "CruiseLauncher.png");
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		modelBase.render(0.0625F);
 		GL11.glRotatef(tileEntity.rotationYaw + 90, 0F, 1F, 0F);

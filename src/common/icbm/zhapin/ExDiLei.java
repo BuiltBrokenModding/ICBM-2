@@ -2,7 +2,6 @@ package icbm.zhapin;
 
 import icbm.ESuiPian;
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.models.MDiLei;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
@@ -43,8 +42,6 @@ public class ExDiLei extends ZhaPin
 
 		if (callCount < 20 * 2 && !explosionSource.isCollided) { return true; }
 
-		if (callCount >= 20 * 2 + 20) { return false; }
-
 		if (callCount >= 20 * 2 && callCount % 2 == 0 && !worldObj.isRemote)
 		{
 			int amount = 5;
@@ -77,6 +74,8 @@ public class ExDiLei extends ZhaPin
 				}
 			}
 		}
+		
+		if (callCount >= 20 * 2 + 20) { return false; }
 
 		return true;
 	}
@@ -105,6 +104,6 @@ public class ExDiLei extends ZhaPin
 	public Object[] getRenderData()
 	{
 		return new Object[]
-		{ MDiLei.INSTANCE, ICBM.TEXTURE_FILE_PATH + "S-Mine.png" };
+		{ MDiLei.INSTANCE, ZhuYao.TEXTURE_FILE_PATH + "S-Mine.png" };
 	}
 }

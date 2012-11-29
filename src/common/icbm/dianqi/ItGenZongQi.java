@@ -1,7 +1,6 @@
 package icbm.dianqi;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 
 import java.util.List;
 
@@ -143,7 +142,7 @@ public class ItGenZongQi extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.TRACKER_TEXTURE_FILE;
+		return ZhuYao.TRACKER_TEXTURE_FILE;
 	}
 
 	@Override

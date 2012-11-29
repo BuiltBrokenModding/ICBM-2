@@ -1,7 +1,6 @@
 package icbm.renders;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.cart.EChe;
 import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
@@ -118,7 +117,7 @@ public class RChe extends Render
 		}
 
 		var101 = (1.0F - ((float) minecart.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
-		this.loadTexture(ICBM.BLOCK_TEXTURE_FILE);
+		this.loadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
 		this.blockRenderer.renderBlockAsItem(ZhuYao.bZha4Dan4, minecart.explosiveID, minecart.getBrightness(par9));
 
 		if (minecart.isPrimed() && minecart.fuse / 5 % 2 == 0)

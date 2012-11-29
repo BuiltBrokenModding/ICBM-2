@@ -2,7 +2,6 @@ package icbm.dianqi;
 
 import icbm.ICBMPacketManager.ICBMPacketType;
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.jiqi.TFaSheQi;
 import icbm.jiqi.TFaSheShiMuo;
 import icbm.jiqi.TXiaoFaSheQi;
@@ -34,7 +33,7 @@ public class ItLeiDaQiang extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	/**

@@ -7,16 +7,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Iterator;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector2;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 
 public class BaoHu
 {
@@ -93,27 +90,39 @@ public class BaoHu
 		{
 			folder = "saves" + File.separator + MinecraftServer.getServer().getFolderName();
 		}
-		
+
 		try
 		{
-			File var3 = new File(Minecraft.getMinecraftDir(), folder + File.separator + filename + "_tmp.dat");
-			File var4 = new File(Minecraft.getMinecraftDir(), folder + File.separator + filename + ".dat");
+			File tempFile;
+			File file;
 
-			CompressedStreamTools.writeCompressed(data, new FileOutputStream(var3));
-
-			if (var4.exists())
+			if (ZhuYao.proxy.getMinecraftDir() != "")
 			{
-				var4.delete();
+				tempFile = new File(ZhuYao.proxy.getMinecraftDir(), folder + File.separator + filename + "_tmp.dat");
+				file = new File(ZhuYao.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
+			}
+			else
+			{
+				tempFile = new File(folder + File.separator + filename + "_tmp.dat");
+				file = new File(folder + File.separator + filename + ".dat");
 			}
 
-			var3.renameTo(var4);
+			CompressedStreamTools.writeCompressed(data, new FileOutputStream(tempFile));
+
+			if (file.exists())
+			{
+				file.delete();
+			}
+
+			tempFile.renameTo(file);
 
 			FMLLog.fine("Saved ICBM data successfully.");
 			return true;
 		}
-		catch (Exception var5)
+		catch (Exception e)
 		{
 			FMLLog.severe("Failed to save " + filename + ".dat!");
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -133,20 +142,30 @@ public class BaoHu
 
 		try
 		{
-			File var2 = new File(Minecraft.getMinecraftDir(), folder + File.separator + filename + ".dat");
+			File file;
 
-			if (var2.exists())
+			if (ZhuYao.proxy.getMinecraftDir() != "")
 			{
-				return CompressedStreamTools.readCompressed(new FileInputStream(var2));
+				file = new File(ZhuYao.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
+			}
+			else
+			{
+				file = new File(folder + File.separator + filename + ".dat");
+			}
+
+			if (file.exists())
+			{
+				return CompressedStreamTools.readCompressed(new FileInputStream(file));
 			}
 			else
 			{
 				return new NBTTagCompound();
 			}
 		}
-		catch (Exception var3)
+		catch (Exception e)
 		{
 			FMLLog.severe("Failed to load " + filename + ".dat!");
+			e.printStackTrace();
 			return null;
 		}
 	}

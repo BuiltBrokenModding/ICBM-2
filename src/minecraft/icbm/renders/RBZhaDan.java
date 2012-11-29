@@ -1,7 +1,9 @@
 package icbm.renders;
 
+import icbm.api.ICBM;
 import icbm.zhapin.TZhaDan;
 import icbm.zhapin.ZhaPin;
+import net.minecraft.src.Tessellator;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySpecialRenderer;
 

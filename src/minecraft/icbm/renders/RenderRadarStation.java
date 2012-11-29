@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.api.ICBM;
+import icbm.ZhuYao;
 import icbm.jiqi.TLeiDaTai;
 import icbm.models.MLeiDa;
 import net.minecraft.src.TileEntity;
@@ -16,7 +16,7 @@ public class RenderRadarStation extends TileEntitySpecialRenderer
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		this.bindTextureByName(ICBM.TEXTURE_FILE_PATH + "Radar.png");
+		this.bindTextureByName(ZhuYao.TEXTURE_FILE_PATH + "Radar.png");
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		modelBase.renderRadar(tileEntity.xuanZhuan, 0.0625F);
 		GL11.glPopMatrix();

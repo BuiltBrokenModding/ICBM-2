@@ -6,11 +6,14 @@ import icbm.zhapin.ZhaPin;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
+
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkPosition;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Item;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.StringTranslate;
 import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
@@ -133,9 +136,16 @@ public class ExYaSuo extends ZhaPin
 		}
 	}
 
+	@Override
 	public String getDaoDanMing()
 	{
-		return "Conventional Missile";
+		return LanguageRegistry.instance().getStringLocalization("icbm.explosive.conventional") + " " + LanguageRegistry.instance().getStringLocalization("icbm.missile");
+	}
+
+	@Override
+	public String getCheMing()
+	{
+		return LanguageRegistry.instance().getStringLocalization("icbm.explosive") + " " + StringTranslate.getInstance().translateKey("item.minecart.name");
 	}
 
 	@Override

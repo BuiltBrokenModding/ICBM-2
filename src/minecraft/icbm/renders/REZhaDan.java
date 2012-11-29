@@ -1,7 +1,6 @@
 package icbm.renders;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
@@ -63,7 +62,7 @@ public class REZhaDan extends Render
 			}
 
 			var10 = (1.0F - ((float) entityExplosive.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
-			this.loadTexture(ICBM.BLOCK_TEXTURE_FILE);
+			this.loadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
 			this.blockRenderer.renderBlockAsItem(ZhuYao.bZha4Dan4, entityExplosive.explosiveID, entityExplosive.getBrightness(par9));
 
 			if (entityExplosive.fuse / 5 % 2 == 0)

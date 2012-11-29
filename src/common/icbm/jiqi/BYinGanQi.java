@@ -2,7 +2,6 @@ package icbm.jiqi;
 
 import icbm.ICBMCommon;
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 
 import java.util.ArrayList;
 
@@ -107,6 +106,6 @@ public class BYinGanQi extends BlockMachine
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.BLOCK_TEXTURE_FILE;
+		return ZhuYao.BLOCK_TEXTURE_FILE;
 	}
 }

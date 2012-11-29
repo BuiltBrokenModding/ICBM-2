@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.api.ICBM;
+import icbm.ZhuYao;
 import icbm.jiqi.TCiGuiPao;
 import icbm.models.MCiGuiPao;
 import net.minecraft.src.TileEntity;
@@ -17,7 +17,7 @@ public class RCiGuiPao extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 2.2F, (float) d2 + 0.5F);
 		GL11.glScalef(1.5f, 1.5f, 1.5f);
-		this.bindTextureByName(ICBM.TEXTURE_FILE_PATH + "Railgun.png");
+		this.bindTextureByName(ZhuYao.TEXTURE_FILE_PATH + "Railgun.png");
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
 		modelBase.render(tileEntity.displayRotationYaw, tileEntity.displayRotationPitch, 0.0625F);

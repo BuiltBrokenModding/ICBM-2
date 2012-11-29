@@ -1,6 +1,6 @@
 package icbm.renders;
 
-import icbm.api.ICBM;
+import icbm.ZhuYao;
 import icbm.jiqi.TFaSheDi;
 import icbm.models.MFaSheDi0;
 import icbm.models.MFaSheDi1;
@@ -33,7 +33,7 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
 
-		String textureFile = ICBM.TEXTURE_FILE_PATH + "Launcher" + tileEntity.getTier() + ".png";
+		String textureFile = ZhuYao.TEXTURE_FILE_PATH + "Launcher" + tileEntity.getTier() + ".png";
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

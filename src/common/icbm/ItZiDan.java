@@ -24,12 +24,7 @@ public class ItZiDan extends ICBMItem
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		if (itemstack.getItemDamage() == 0)
-		{
-			return "Conventional Bullet";
-		}
-		else if (itemstack.getItemDamage() == 1) { return "Antimatter Bullet"; }
-		return "Railgun Bullet";
+		return "item.bullet."+itemstack.getItemDamage();
 	}
 
 	@Override

@@ -21,8 +21,12 @@ public class IBZha extends ItemBlock
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return (new StringBuilder()).append(super.getItemName()).append(".").append(new String[]
-		{ "Spikes", "Poison Spikes", "Flammable Spikes" }[itemstack.getItemDamage()]).toString();
+		return this.getItemName() + "." + itemstack.getItemDamage();
 	}
 
+	@Override
+	public String getItemName()
+	{
+		return "item.spike";
+	}
 }

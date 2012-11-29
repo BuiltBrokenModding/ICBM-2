@@ -1,6 +1,5 @@
 package icbm;
 
-import icbm.api.ICBM;
 
 import java.util.ArrayList;
 
@@ -42,7 +41,7 @@ public class ICBMBlock extends Block
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.BLOCK_TEXTURE_FILE;
+		return ZhuYao.BLOCK_TEXTURE_FILE;
 	}
 
 	@Override

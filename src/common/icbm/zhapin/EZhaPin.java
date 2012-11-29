@@ -19,7 +19,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 {
 	public int explosiveID;
 
-	private int callCounter;
+	public int jiaoShuMu;
 
 	private int tickCallCounter;
 
@@ -41,12 +41,13 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 		this.preventEntitySpawning = true;
 		this.setSize(0.98F, 0.98F);
 		this.yOffset = this.height / 2.0F;
+		this.renderDistanceWeight = 2f;
 	}
 
 	public EZhaPin(World par1World, Vector3 position, int explosionID, boolean isMobile)
 	{
 		this(par1World);
-		this.callCounter = 0;
+		this.jiaoShuMu = 0;
 		this.explosiveID = explosionID;
 		this.ticksExisted = 0;
 		this.isMobile = isMobile;
@@ -127,11 +128,11 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 			ZhaPin.list[this.explosiveID].baoZhaQian(this.worldObj, Vector3.get(this), this);
 		}
 
-		if (this.tickCallCounter >= ZhaPin.list[this.explosiveID].proceduralInterval(this.worldObj, this.callCounter))
+		if (this.tickCallCounter >= ZhaPin.list[this.explosiveID].proceduralInterval(this.worldObj, this.jiaoShuMu))
 		{
-			if (!this.endExplosion && ZhaPin.list[this.explosiveID].doBaoZha(worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.metadata, this.callCounter))
+			if (!this.endExplosion && ZhaPin.list[this.explosiveID].doBaoZha(worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.metadata, this.jiaoShuMu))
 			{
-				this.callCounter += ZhaPin.list[this.explosiveID].countIncrement();
+				this.jiaoShuMu += ZhaPin.list[this.explosiveID].countIncrement();
 				this.tickCallCounter = 0;
 			}
 			else
@@ -160,7 +161,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	{
 		this.isMobile = par1NBTTagCompound.getBoolean("isMobile");
 		this.explosiveID = par1NBTTagCompound.getInteger("explosionID");
-		this.callCounter = par1NBTTagCompound.getInteger("callCounter");
+		this.jiaoShuMu = par1NBTTagCompound.getInteger("callCounter");
 		this.ticksExisted = par1NBTTagCompound.getInteger("ticksExisted");
 		this.metadata = par1NBTTagCompound.getInteger("metadata");
 		this.tickCallCounter = par1NBTTagCompound.getInteger("tickCallCounter");
@@ -174,7 +175,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	{
 		par1NBTTagCompound.setBoolean("isMobile", this.isMobile);
 		par1NBTTagCompound.setInteger("explosionID", this.explosiveID);
-		par1NBTTagCompound.setInteger("callCounter", this.callCounter);
+		par1NBTTagCompound.setInteger("callCounter", this.jiaoShuMu);
 		par1NBTTagCompound.setInteger("ticksExisted", this.ticksExisted);
 		par1NBTTagCompound.setInteger("metadata", this.metadata);
 		par1NBTTagCompound.setInteger("tickCallCounter", this.tickCallCounter);

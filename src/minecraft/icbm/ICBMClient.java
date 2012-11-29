@@ -1,6 +1,5 @@
 package icbm;
 
-import icbm.api.ICBM;
 import icbm.cart.EChe;
 import icbm.daodan.EDaoDan;
 import icbm.gui.GCiGuiPao;
@@ -41,6 +40,7 @@ import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.TZhaDan;
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
@@ -56,9 +56,9 @@ public class ICBMClient extends ICBMCommon
 	@Override
 	public void preInit()
 	{
-		MinecraftForgeClient.preloadTexture(ICBM.ITEM_TEXTURE_FILE);
-		MinecraftForgeClient.preloadTexture(ICBM.BLOCK_TEXTURE_FILE);
-		MinecraftForgeClient.preloadTexture(ICBM.TRACKER_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYao.TRACKER_TEXTURE_FILE);
 
 		MinecraftForge.EVENT_BUS.register(ICBMSound.INSTANCE);
 	}
@@ -66,6 +66,10 @@ public class ICBMClient extends ICBMCommon
 	@Override
 	public void init()
 	{
+		super.init();
+		
+		RenderingRegistry.registerBlockHandler(new RH());
+
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
 		RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
@@ -78,14 +82,14 @@ public class ICBMClient extends ICBMCommon
 
 		TextureFXManager.instance().addAnimation(new TGenZhongQiFX(FMLClientHandler.instance().getClient()));
 
-		ClientRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun", new RCiGuiPao());
-		ClientRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMCruiseLauncher", new RXiaoFaSheQi());
-		ClientRegistry.registerTileEntity(TFaSheDi.class, "ICBMLauncherBase", new RFaSheDi());
-		ClientRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMLauncherScreen", new RFasheShiMuo());
-		ClientRegistry.registerTileEntity(TFaSheJia.class, "ICBMTileEntityLauncherFrame", new RFaSheJia());
-		ClientRegistry.registerTileEntity(TLeiDaTai.class, "ICBMRadar", new RenderRadarStation());
-		ClientRegistry.registerTileEntity(TDianCiQi.class, "ICBMEMPTower", new RDianCiQi());
-		ClientRegistry.registerTileEntity(TZhaDan.class, "ZhaDan", new RBZhaDan());
+		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
+		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class, new RXiaoFaSheQi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class, new RFaSheDi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class, new RFasheShiMuo());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class, new RFaSheJia());
+		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RenderRadarStation());
+		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RBZhaDan());
 
 	}
 
@@ -118,5 +122,11 @@ public class ICBMClient extends ICBMCommon
 		}
 
 		return null;
+	}
+
+	@Override
+	public String getMinecraftDir()
+	{
+		return Minecraft.getMinecraftDir().toString();
 	}
 }

@@ -4,7 +4,6 @@ import static net.minecraftforge.common.ForgeDirection.EAST;
 import static net.minecraftforge.common.ForgeDirection.NORTH;
 import static net.minecraftforge.common.ForgeDirection.SOUTH;
 import static net.minecraftforge.common.ForgeDirection.WEST;
-import icbm.api.ICBM;
 
 import java.util.List;
 import java.util.Random;
@@ -27,7 +26,7 @@ public class BEnNiu extends Block
 		this.setTickRandomly(true);
 		this.setBlockName("glassButton");
 		this.setCreativeTab(ZhuYao.TAB);
-		this.setTextureFile(ICBM.BLOCK_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
 	}
 
 	@Override

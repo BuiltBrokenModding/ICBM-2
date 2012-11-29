@@ -24,8 +24,8 @@ import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExHongSu extends ZhaPin
 {
-	public static final int BAN_JING = 30;
-	private static final int MAX_TAKE_BLOCKS = 4;
+	public static final int BAN_JING = 35;
+	private static final int MAX_TAKE_BLOCKS = 5;
 
 	public ExHongSu(String name, int ID, int tier)
 	{
@@ -48,7 +48,7 @@ public class ExHongSu extends ZhaPin
 		if (worldObj.isRemote)
 		{
 			// Spawn red matter particle
-			ParticleSpawner.spawnParticle("smoke", worldObj, position, 0.1F, 0F, 0F, 10F, 2F);
+			//ParticleSpawner.spawnParticle("smoke", worldObj, position, 0.1F, 0F, 0F, 10F, 2F);
 		}
 
 		// Try to find and grab some blocks to

@@ -25,7 +25,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 {
 	// The maximum possible radius for the EMP to
 	// strike
-	public static final int MAX_RADIUS = 60;
+	public static final int MAX_RADIUS = 80;
 
 	public float xuanZhuan = 0;
 	private float xuanZhuanLu, prevXuanZhuanLu = 0;

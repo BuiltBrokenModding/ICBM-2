@@ -2,7 +2,6 @@ package icbm.dianqi;
 
 import icbm.ICBMCommon;
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.api.IFrequency;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public String getTextureFile()
 	{
-		return ICBM.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	/**

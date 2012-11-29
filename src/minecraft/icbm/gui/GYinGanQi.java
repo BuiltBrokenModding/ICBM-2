@@ -1,7 +1,6 @@
 package icbm.gui;
 
 import icbm.ZhuYao;
-import icbm.api.ICBM;
 import icbm.jiqi.TYinGanQi;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiTextField;
@@ -245,7 +244,7 @@ public class GYinGanQi extends ICBMGui
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "EmptyGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "EmptyGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		containerWidth = (this.width - this.xSize) / 2;

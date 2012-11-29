@@ -57,7 +57,7 @@ public class ItShouLiuDan extends ICBMItem
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return ZhaPin.list[itemstack.getItemDamage()].getShouLiuDanName();
+		return ZhaPin.list[itemstack.getItemDamage()].getShouLiuDanMing();
 	}
 
 	@Override
