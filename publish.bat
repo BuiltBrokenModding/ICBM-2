@@ -47,9 +47,6 @@ echo open www.calclavia.com>ftpscript.txt
 echo icbm@calclavia.com>>ftpscript.txt
 echo 9ZxLl43ur1Gv>>ftpscript.txt
 echo binary>>ftpscript.txt
-::Upload texture file
-echo put "resources\icbm\textures\blocks.png">>ftpscript.txt
-echo put "resources\icbm\textures\items.png">>ftpscript.txt
 echo put "builds\%FILE_NAME%">>ftpscript.txt
 echo put "builds\%API_NAME%">>ftpscript.txt
 echo put info.txt>>ftpscript.txt
