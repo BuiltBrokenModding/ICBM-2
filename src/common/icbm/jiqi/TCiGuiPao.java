@@ -46,6 +46,9 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 
 	private float rotationSpeed;
 
+	/**
+	 * Joules Stored
+	 */
 	private double dian = 0;
 
 	private EntityPlayer mountedPlayer = null;
@@ -54,7 +57,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 
 	private int gunChargingTicks = 0;
 
-	private ItemStack[] containingItems = new ItemStack[4];
+	private ItemStack[] containingItems = new ItemStack[1];
 
 	private boolean redstonePowerOn = false;
 
@@ -65,6 +68,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	private int explosionDepth;
 
 	private int shiYongZhe = 0;
+
 	private boolean packetGengXin = true;
 
 	public TCiGuiPao()
@@ -88,7 +92,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 				{
 					if (tileEntity instanceof IConductor)
 					{
-						if (!this.isDisabled())
+						if (!this.isDisabled() && this.dian < this.getMaxJoules())
 						{
 							((IConductor) tileEntity).getNetwork().startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
 							this.setJoules(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
@@ -131,28 +135,23 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 
 				this.worldObj.playSoundEffect((int) this.xCoord, (int) this.yCoord, (int) this.zCoord, "icbm.railgun", 5F, 1F);
 
-				for (int ii = 0; ii < this.containingItems.length; ii++)
+				ItemStack itemStack = this.containingItems[0];
+
+				if (itemStack != null)
 				{
-					ItemStack itemStack = this.containingItems[ii];
-
-					if (itemStack != null)
+					if (itemStack.getItem() instanceof ItZiDan)
 					{
-						if (itemStack.getItem() instanceof ItZiDan)
+						if (itemStack.getItemDamage() == 1)
 						{
-							if (itemStack.getItemDamage() == 1)
-							{
-								this.isAntimatter = true;
-							}
+							this.isAntimatter = true;
+						}
 
-							itemStack.stackSize--;
-							this.setInventorySlotContents(ii, itemStack);
+						itemStack.stackSize--;
+						this.setInventorySlotContents(0, itemStack);
 
-							if (itemStack.stackSize == 0)
-							{
-								this.setInventorySlotContents(ii, null);
-							}
-
-							break;
+						if (itemStack.stackSize == 0)
+						{
+							this.setInventorySlotContents(0, null);
 						}
 					}
 				}

@@ -28,11 +28,15 @@ import icbm.zhapin.ZhaPin;
 
 import java.io.File;
 import java.util.List;
-import java.util.Random;
 
+import net.minecraft.src.BehaviorDefaultDispenseItem;
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockDispenser;
 import net.minecraft.src.BlockRail;
 import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.EnumFacing;
+import net.minecraft.src.IBehaviorDispenseItem;
+import net.minecraft.src.IBlockSource;
 import net.minecraft.src.ICommandManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -57,7 +61,6 @@ import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
 import atomicscience.api.PoisonRadiation;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.IDispenserHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -215,44 +218,74 @@ public class ZhuYao
 		liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(CONFIGURATION);
 		CONFIGURATION.save();
 
-		GameRegistry.registerDispenserHandler(new IDispenserHandler()
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ZhuYao.itShouLiuDan, new IBehaviorDispenseItem()
 		{
 			@Override
-			public int dispense(int x, int y, int z, int xVelocity, int zVelocity, World world, ItemStack itemStack, Random random, double entX, double entY, double entZ)
+			public ItemStack dispense(IBlockSource blockSource, ItemStack itemStack)
 			{
+				World world = blockSource.getWorld();
+
 				if (!world.isRemote)
 				{
-					if (itemStack.itemID == ZhuYao.itShouLiuDan.shiftedIndex)
-					{
-						EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), itemStack.getItemDamage());
-						entity.setThrowableHeading(xVelocity, 0.10000000149011612D, zVelocity, 1.1F, 6.0F);
-						world.spawnEntityInWorld(entity);
-						return 1;
-					}
-					else if (itemStack.itemID == ZhuYao.itChe.shiftedIndex)
-					{
-						entX = (double) x + (xVelocity < 0 ? (double) xVelocity * 0.8D : (double) ((float) xVelocity * 1.8F)) + (double) ((float) Math.abs(zVelocity) * 0.5F);
-						entZ = (double) z + (zVelocity < 0 ? (double) zVelocity * 0.8D : (double) ((float) zVelocity * 1.8F)) + (double) ((float) Math.abs(xVelocity) * 0.5F);
+					int x = blockSource.getXInt();
+					int y = blockSource.getYInt();
+					int z = blockSource.getZInt();
+					EnumFacing enumFacing = EnumFacing.func_82600_a(blockSource.func_82620_h());
 
-						if (BlockRail.isRailBlockAt(world, x + xVelocity, y, z + zVelocity))
-						{
-							entY = (double) ((float) y + 0.5F);
-						}
-						else
-						{
-							if (!world.isAirBlock(x + xVelocity, y, z + zVelocity) || !BlockRail.isRailBlockAt(world, x + xVelocity, y - 1, z + zVelocity)) { return 0; }
-
-							entY = (double) ((float) y - 0.5F);
-						}
-
-						EChe var22 = new EChe(world, entX, entY, entZ, itemStack.getItemDamage());
-						world.spawnEntityInWorld(var22);
-						world.playAuxSFX(1000, x, y, z, 0);
-						return 1;
-					}
+					EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), itemStack.getItemDamage());
+					entity.setThrowableHeading((double) enumFacing.func_82601_c(), 0.10000000149011612D, (double) enumFacing.func_82599_e(), 0.5F, 1.0F);
+					world.spawnEntityInWorld(entity);
 				}
 
-				return -1;
+				itemStack.stackSize--;
+				return itemStack;
+			}
+		});
+
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ZhuYao.itChe, new IBehaviorDispenseItem()
+		{
+			private final BehaviorDefaultDispenseItem defaultItemDispenseBehavior = new BehaviorDefaultDispenseItem();
+
+			@Override
+			public ItemStack dispense(IBlockSource blockSource, ItemStack itemStack)
+			{
+				World world = blockSource.getWorld();
+
+				if (!world.isRemote)
+				{
+					int x = blockSource.getXInt();
+					int y = blockSource.getYInt();
+					int z = blockSource.getZInt();
+
+					EnumFacing var3 = EnumFacing.func_82600_a(blockSource.func_82620_h());
+					World var4 = blockSource.getWorld();
+					double var5 = blockSource.getX() + (double) ((float) var3.func_82601_c() * 1.125F);
+					double var7 = blockSource.getY();
+					double var9 = blockSource.getZ() + (double) ((float) var3.func_82599_e() * 1.125F);
+					int var11 = blockSource.getXInt() + var3.func_82601_c();
+					int var12 = blockSource.getYInt();
+					int var13 = blockSource.getZInt() + var3.func_82599_e();
+					int var14 = var4.getBlockId(var11, var12, var13);
+					double var15;
+
+					if (BlockRail.isRailBlock(var14))
+					{
+						var15 = 0.0D;
+					}
+					else
+					{
+						if (var14 != 0 || !BlockRail.isRailBlock(var4.getBlockId(var11, var12 - 1, var13))) { return this.defaultItemDispenseBehavior.dispense(blockSource, itemStack); }
+
+						var15 = -1.0D;
+					}
+
+					EChe var22 = new EChe(world, var5, var7 + var15, var9, itemStack.getItemDamage());
+					world.spawnEntityInWorld(var22);
+					world.playAuxSFX(1000, x, y, z, 0);
+				}
+
+				itemStack.stackSize--;
+				return itemStack;
 			}
 		});
 

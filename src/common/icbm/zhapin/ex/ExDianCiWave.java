@@ -1,7 +1,7 @@
 package icbm.zhapin.ex;
 
 import ic2.api.IEnergyStorage;
-import icbm.TYinXin;
+import icbm.TYinXing;
 import icbm.zhapin.ZhaPin;
 
 import java.lang.reflect.Field;
@@ -77,15 +77,17 @@ public class ExDianCiWave extends ZhaPin
 							{
 								((IForceEnergyCapacitor) tileEntity).onEMPPulse((int) Math.max(worldObj.rand.nextFloat() * 30, 8));
 							}
-							
+
 							if (tileEntity instanceof IForceFieldBlock)
 							{
 								((IForceFieldBlock) tileEntity).weakenForceField(worldObj, i + x, j + y, k + z);
 							}
-							
-							if (tileEntity instanceof TYinXin)
+
+							if (tileEntity instanceof TYinXing)
 							{
-								((TYinXin) tileEntity).setFakeBlock(1);
+								((TYinXing) tileEntity).setJiaHaoMa(1);
+								((TYinXing) tileEntity).setQing(false);
+								worldObj.markBlockForRenderUpdate(i + x, j + y, k + z);
 							}
 
 							if (tileEntity instanceof IEnergyStorage)

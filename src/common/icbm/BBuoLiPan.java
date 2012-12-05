@@ -23,7 +23,7 @@ public class BBuoLiPan extends ICBMBlock
 	protected BBuoLiPan(int par1, int par2)
 	{
 		super(par1, par2, Material.glass);
-		this.triggerMobType = EnumMobType.mobs;
+		this.triggerMobType = EnumMobType.everything;
 		this.setTickRandomly(true);
 		float var5 = 0.0625F;
 		this.setBlockBounds(var5, 0.0F, var5, 1.0F - var5, 0.03125F, 1.0F - var5);

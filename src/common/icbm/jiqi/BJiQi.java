@@ -182,7 +182,7 @@ public class BJiQi extends BlockMachine
 	 * Called when the block is right clicked by the player
 	 */
 	@Override
-	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer)
+	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		if (par5EntityPlayer.inventory.getCurrentItem() != null)
 		{

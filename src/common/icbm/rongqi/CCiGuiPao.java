@@ -17,10 +17,7 @@ public class CCiGuiPao extends Container
 	{
 		this.tileEntity = tileEntity;
 
-		this.addSlotToContainer(new SZiDan(tileEntity, 0, 53, 35));
-		this.addSlotToContainer(new SZiDan(tileEntity, 1, 71, 35));
-		this.addSlotToContainer(new SZiDan(tileEntity, 2, 89, 35));
-		this.addSlotToContainer(new SZiDan(tileEntity, 3, 107, 35));
+		this.addSlotToContainer(new SZiDan(tileEntity, 0, 107, 35));
 
 		int var3;
 
@@ -71,15 +68,6 @@ public class CCiGuiPao extends Container
 				if (var4.getItem() instanceof ItZiDan)
 				{
 					if (!this.mergeItemStack(var4, 0, 1, false))
-					{
-						return null;
-					}
-
-					else if (!this.mergeItemStack(var4, 1, 2, false))
-					{
-						return null;
-					}
-					else if (!this.mergeItemStack(var4, 2, 3, false))
 					{
 						return null;
 					}

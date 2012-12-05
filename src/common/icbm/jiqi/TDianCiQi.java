@@ -24,7 +24,7 @@ import com.google.common.io.ByteArrayDataInput;
 public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
 	// The maximum possible radius for the EMP to strike
-	public static final int MAX_RADIUS = 80;
+	public static final int MAX_RADIUS = 100;
 
 	public float xuanZhuan = 0;
 	private float xuanZhuanLu, prevXuanZhuanLu = 0;

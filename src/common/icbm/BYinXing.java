@@ -7,6 +7,7 @@ import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Material;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.BlockMachine;
 
 public class BYinXing extends BlockMachine
@@ -27,18 +28,31 @@ public class BYinXing extends BlockMachine
 	@Override
 	public int getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
-		try
+		TileEntity t = par1IBlockAccess.getBlockTileEntity(x, y, z);
+
+		if (t != null)
 		{
-			return Block.blocksList[((TYinXin) par1IBlockAccess.getBlockTileEntity(x, y, z)).getFakeBlock()].getBlockTexture(par1IBlockAccess, x, y, z, side);
+			if (t instanceof TYinXing)
+			{
+				TYinXing tileEntity = (TYinXing) par1IBlockAccess.getBlockTileEntity(x, y, z);
+
+				if (tileEntity.getQing(ForgeDirection.getOrientation(side))) { return Block.glass.blockIndexInTexture; }
+
+				try
+				{
+					return Block.blocksList[tileEntity.getJiaHaoMa()].getBlockTexture(par1IBlockAccess, x, y, z, side);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
-		catch (Exception e)
-		{
-			return 0;
-		}
+		return 0;
 	}
 
 	@Override
-	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer)
+	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		if (par5EntityPlayer.getCurrentEquippedItem() != null)
 		{
@@ -48,7 +62,7 @@ public class BYinXing extends BlockMachine
 			{
 				if ((block.getRenderType() == 0 || block.getRenderType() == 31) && block.blockID <= 145)
 				{
-					((TYinXin) par1World.getBlockTileEntity(x, y, z)).setFakeBlock(block.blockID);
+					((TYinXing) par1World.getBlockTileEntity(x, y, z)).setJiaHaoMa(block.blockID);
 					par1World.markBlockForRenderUpdate(x, y, z);
 					return true;
 				}
@@ -56,6 +70,39 @@ public class BYinXing extends BlockMachine
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
+	{
+		TileEntity t = par1World.getBlockTileEntity(x, y, z);
+
+		if (t != null)
+		{
+			if (t instanceof TYinXing)
+			{
+				((TYinXing) par1World.getBlockTileEntity(x, y, z)).setQing(ForgeDirection.getOrientation(side));
+				par1World.markBlockForRenderUpdate(x, y, z);
+			}
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onSneakUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
+	{
+		TileEntity t = par1World.getBlockTileEntity(x, y, z);
+
+		if (t != null)
+		{
+			if (t instanceof TYinXing)
+			{
+				((TYinXing) par1World.getBlockTileEntity(x, y, z)).setYing();
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -66,44 +113,67 @@ public class BYinXing extends BlockMachine
 	{
 		try
 		{
-			return Block.blocksList[((TYinXin) par1IBlockAccess.getBlockTileEntity(x, y, z)).getFakeBlock()].colorMultiplier(par1IBlockAccess, x, y, x);
+			Block block = Block.blocksList[((TYinXing) par1IBlockAccess.getBlockTileEntity(x, y, z)).getJiaHaoMa()];
+			/*
+			 * if (block == Block.grass) { int redColor = 0; int greenColor = 0; int blueColork = 0;
+			 * 
+			 * for (int izy = -1; izy <= 1; izy++) { for (int ix = -1; ix <= 1; ix++) { int
+			 * grassColor = par1IBlockAccess.getBiomeGenForCoords(x + ix, z +
+			 * izy).getBiomeGrassColor(); redColor += ((grassColor & 0xFF0000) >> 16); greenColor +=
+			 * ((grassColor & 0xFF00) >> 8); blueColork += (grassColor & 0xFF); } }
+			 * 
+			 * return (redColor / 9 & 0xFF) << 16 | (greenColor / 9 & 0xFF) << 8 | blueColork / 9 &
+			 * 0xFF; }
+			 */
+
+			return block.colorMultiplier(par1IBlockAccess, x, y, x);
 		}
 		catch (Exception e)
 		{
-			return 16777215;
+			e.printStackTrace();
 		}
+
+		return 16777215;
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int x, int y, int z)
 	{
+		TileEntity t = par1World.getBlockTileEntity(x, y, z);
+
+		if (t != null)
+		{
+			if (t instanceof TYinXing)
+			{
+				if (((TYinXing) t).getYing()) { return super.getCollisionBoundingBoxFromPool(par1World, x, y, z); }
+			}
+		}
+
 		return null;
 	}
 
-	/**
-	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the
-	 * shared face of two adjacent blocks and also whether the player can attach torches, redstone
-	 * wire, etc to this block.
-	 */
 	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
-	/**
-	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
-	 * buttons, stairs, etc)
-	 */
 	@Override
 	public boolean renderAsNormalBlock()
 	{
-		return true;
+		return false;
+	}
+
+	@Override
+	public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	{
+		int var6 = par1IBlockAccess.getBlockId(par2, par3, par4);
+		return var6 == this.blockID ? false : super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World var1)
 	{
-		return new TYinXin();
+		return new TYinXing();
 	}
 }

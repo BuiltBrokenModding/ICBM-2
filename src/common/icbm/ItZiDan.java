@@ -24,7 +24,7 @@ public class ItZiDan extends ICBMItem
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return "item.bullet."+itemstack.getItemDamage();
+		return "item.bullet." + itemstack.getItemDamage();
 	}
 
 	@Override

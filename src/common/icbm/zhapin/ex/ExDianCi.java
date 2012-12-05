@@ -24,7 +24,9 @@ public class ExDianCi extends ZhaPin
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
 		if (radius < 0)
-			radius = 30;
+		{
+			radius = 40;
+		}
 
 		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, null, radius, callCount);
 		ZhaPin.dianCiWave.doBaoZha(worldObj, position, null, radius, callCount);

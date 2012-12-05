@@ -1,9 +1,5 @@
 package icbm;
 
-import java.io.File;
-
-import universalelectricity.prefab.multiblock.TileEntityMulti;
-
 import icbm.jiqi.TCiGuiPao;
 import icbm.jiqi.TDianCiQi;
 import icbm.jiqi.TFaSheDi;
@@ -19,7 +15,7 @@ import icbm.zhapin.TZhaDan;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import cpw.mods.fml.common.Loader;
+import universalelectricity.prefab.multiblock.TileEntityMulti;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -49,7 +45,7 @@ public class ICBMCommon implements IGuiHandler
 		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMFaSheJia");
 		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMLeiDaTai");
 		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMDianCiQi");
-		GameRegistry.registerTileEntity(TYinXin.class, "ICBMYinXin");
+		GameRegistry.registerTileEntity(TYinXing.class, "ICBMYinXin");
 
 		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMZhaDan");
 		GameRegistry.registerTileEntity(TYinGanQi.class, "ICBMYinGanQi");

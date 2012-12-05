@@ -40,7 +40,7 @@ public class GCiGuiPao extends GuiContainer
 		super.initGui();
 		this.controlList.clear();
 
-		this.controlList.add(new GuiButton(0, this.width / 2 + 90, this.height / 2 - 80, 55, 20, "Mount"));
+		this.controlList.add(new GuiButton(0, this.width / 2 - 40, this.height / 2 - 50, 46, 20, "Mount"));
 	}
 
 	@Override
@@ -90,9 +90,9 @@ public class GCiGuiPao extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		this.fontRenderer.drawString(this.tileEntity.getInvName(), 69, 6, 4210752);
+		this.fontRenderer.drawString(this.tileEntity.getInvName(), 73, 6, 4210752);
 
-		this.fontRenderer.drawString("Ammo Input", 65, 23, 4210752);
+		this.fontRenderer.drawString("Ammo Input", 65, 20, 4210752);
 
 		// Shows the status of the EMP Tower
 		String color = "\u00a74";
@@ -124,7 +124,7 @@ public class GCiGuiPao extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "RailgunGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "gui_railgun.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		containerWidth = (this.width - this.xSize) / 2;

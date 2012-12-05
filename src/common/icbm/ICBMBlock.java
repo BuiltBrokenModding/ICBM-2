@@ -1,6 +1,5 @@
 package icbm;
 
-
 import java.util.ArrayList;
 
 import net.minecraft.src.Block;
@@ -14,6 +13,7 @@ public class ICBMBlock extends Block
 	public ICBMBlock(int par1, int par2, Material par3Material)
 	{
 		super(par1, par2, par3Material);
+		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
 	}
 
 	public ICBMBlock(int par1, int par2, Material par3Material, int i)
@@ -36,12 +36,6 @@ public class ICBMBlock extends Block
 		{
 			return this.blockIndexInTexture;
 		}
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.BLOCK_TEXTURE_FILE;
 	}
 
 	@Override
