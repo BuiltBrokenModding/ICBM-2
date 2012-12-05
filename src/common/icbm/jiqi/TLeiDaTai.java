@@ -21,6 +21,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
@@ -66,18 +67,6 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		LeiDaGuanLi.addRadarStation(this);
 	}
 
-	/**
-	 * Called every tick. Super this!
-	 */
-	@Override
-	public void onReceive(Object sender, double amps, double voltage, ForgeDirection side)
-	{
-		if (!this.isDisabled())
-		{
-			this.dian += ElectricInfo.getWatts(amps, voltage);
-		}
-	}
-
 	@Override
 	public void initiate()
 	{
@@ -103,6 +92,29 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 		if (!this.worldObj.isRemote)
 		{
+			for (int i = 0; i < 6; i++)
+			{
+				Vector3 diDian = Vector3.get(this);
+				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+
+				if (tileEntity != null)
+				{
+					if (tileEntity instanceof IConductor)
+					{
+						if (!this.isDisabled())
+						{
+							((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN / this.getVoltage(), this.getVoltage());
+							this.dian += ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts();
+						}
+						else
+						{
+							((IConductor) tileEntity).getNetwork().stopRequesting(this);
+						}
+					}
+				}
+			}
+
 			if (this.ticks % 40 == 0)
 			{
 				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 35);
@@ -258,20 +270,6 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		{
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public double wattRequest()
-	{
-		if (!this.isDisabled()) { return this.YAO_DIAN; }
-
-		return 0;
-	}
-
-	@Override
-	public boolean canReceiveFromSide(ForgeDirection side)
-	{
-		return true;
 	}
 
 	@Override

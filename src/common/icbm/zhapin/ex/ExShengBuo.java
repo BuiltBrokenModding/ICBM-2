@@ -131,7 +131,7 @@ public class ExShengBuo extends ZhaPin
 
 				if (distance < r - 1 || worldObj.rand.nextInt(3) > 0)
 				{
-					if (blockID == ZhuYao.bZha4Dan4.blockID)
+					if (blockID == ZhuYao.bZhaDan.blockID)
 					{
 						BZhaDan.yinZha(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TZhaDan) worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).explosiveID, 1);
 					}

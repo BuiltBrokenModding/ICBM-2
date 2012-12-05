@@ -38,7 +38,6 @@ import net.minecraft.src.StringTranslate;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.ITier;
 import cpw.mods.fml.common.Side;
@@ -128,7 +127,9 @@ public abstract class ZhaPin implements ITier
 		this.ID = ID;
 		this.daoDan = new DaoDan(name, ID, tier);
 
-		this.isDisabled = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Disable " + this.mingZi, false);
+		ZhuYao.CONFIGURATION.load();
+		this.isDisabled = ZhuYao.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);
+		ZhuYao.CONFIGURATION.save();
 	}
 
 	public int getID()
@@ -138,7 +139,7 @@ public abstract class ZhaPin implements ITier
 
 	public String getMing()
 	{
-		return LanguageRegistry.instance().getStringLocalization("icbm.explosive."+this.mingZi);
+		return LanguageRegistry.instance().getStringLocalization("icbm.explosive." + this.mingZi);
 	}
 
 	public String getZhaPinMing()
@@ -347,12 +348,12 @@ public abstract class ZhaPin implements ITier
 
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(ZhuYao.bZha4Dan4, 1, this.getID());
+		return new ItemStack(ZhuYao.bZhaDan, 1, this.getID());
 	}
 
 	public ItemStack getItemStack(int amount)
 	{
-		return new ItemStack(ZhuYao.bZha4Dan4, amount, this.getID());
+		return new ItemStack(ZhuYao.bZhaDan, amount, this.getID());
 	}
 
 	public static void createExplosion(World worldObj, double x, double y, double z, Entity entity, int explosiveID)

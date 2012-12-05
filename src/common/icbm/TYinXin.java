@@ -5,6 +5,9 @@ import com.google.common.io.ByteArrayDataInput;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.INetworkManager;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.NBTTagList;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -49,5 +52,24 @@ public class TYinXin extends TileEntity implements IPacketReceiver
 		{
 			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, this.fakeBlockID));
 		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	{
+		super.readFromNBT(par1NBTTagCompound);
+
+		this.fakeBlockID = par1NBTTagCompound.getInteger("fakeBlockID");
+	}
+
+	/**
+	 * Writes a tile entity to NBT.
+	 */
+	@Override
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	{
+		super.writeToNBT(par1NBTTagCompound);
+
+		par1NBTTagCompound.setInteger("fakeBlockID", this.fakeBlockID);
 	}
 }

@@ -24,6 +24,7 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.implement.IJouleStorage;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
@@ -71,18 +72,35 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 		super();
 	}
 
-	@Override
-	public void onReceive(Object sender, double amps, double voltage, ForgeDirection side)
-	{
-		if (!this.isDisabled())
-		{
-			this.setJoules(this.dian + ElectricInfo.getJoules(amps, voltage, 1));
-		}
-	}
-
 	public void updateEntity()
 	{
 		super.updateEntity();
+
+		if (!this.worldObj.isRemote)
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				Vector3 diDian = Vector3.get(this);
+				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+
+				if (tileEntity != null)
+				{
+					if (tileEntity instanceof IConductor)
+					{
+						if (!this.isDisabled())
+						{
+							((IConductor) tileEntity).getNetwork().startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
+							this.setJoules(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
+						}
+						else
+						{
+							((IConductor) tileEntity).getNetwork().stopRequesting(this);
+						}
+					}
+				}
+			}
+		}
 
 		if (!this.isDisabled())
 		{
@@ -294,12 +312,6 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 
 		if (this.dian < this.getMaxJoules()) { return false; }
 
-		return true;
-	}
-
-	@Override
-	public boolean canReceiveFromSide(ForgeDirection side)
-	{
 		return true;
 	}
 
@@ -553,14 +565,6 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	public void onPowerOff()
 	{
 		this.redstonePowerOn = false;
-	}
-
-	@Override
-	public double wattRequest()
-	{
-		if (!this.isDisabled()) { return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dian)); }
-
-		return 0;
 	}
 
 	@Override

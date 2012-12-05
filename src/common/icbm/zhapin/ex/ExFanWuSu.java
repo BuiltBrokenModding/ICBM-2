@@ -6,8 +6,8 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Entity;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
@@ -15,13 +15,15 @@ public class ExFanWuSu extends ZhaPin
 {
 	private static final int BAN_JING = 28;
 	private static final int LAYERS_PER_TICK = 2;
-	public boolean destroyBedrock = false;
+	public boolean destroyBedrock = true;
 
 	public ExFanWuSu(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 		this.setYinXin(300);
-		this.destroyBedrock = UEConfig.getConfigData(ZhuYao.CONFIGURATION, this.getMing() + " Destroy Bedrock", destroyBedrock);
+		ZhuYao.CONFIGURATION.load();
+		this.destroyBedrock = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Destroy Bedrock", destroyBedrock).getBoolean(destroyBedrock);
+		ZhuYao.CONFIGURATION.save();
 	}
 
 	/**

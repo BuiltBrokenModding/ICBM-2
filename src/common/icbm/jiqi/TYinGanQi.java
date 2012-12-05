@@ -13,8 +13,10 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
+import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.network.IPacketReceiver;
@@ -47,20 +49,6 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 		super();
 	}
 
-	/**
-	 * Called every tick. Super this!
-	 */
-	@Override
-	public void onReceive(Object sender, double amps, double voltage, ForgeDirection side)
-	{
-		if (!this.isDisabled())
-		{
-			this.dian += ElectricInfo.getWatts(amps, voltage);
-		}
-
-		this.prevDian = dian;
-	}
-
 	@Override
 	protected void initiate()
 	{
@@ -73,6 +61,29 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 
 		if (!this.worldObj.isRemote)
 		{
+			for (int i = 0; i < 6; i++)
+			{
+				Vector3 diDian = Vector3.get(this);
+				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+
+				if (tileEntity != null)
+				{
+					if (tileEntity instanceof IConductor)
+					{
+						if (!this.isDisabled())
+						{
+							((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN / this.getVoltage(), this.getVoltage());
+							this.dian += ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts();
+						}
+						else
+						{
+							((IConductor) tileEntity).getNetwork().stopRequesting(this);
+						}
+					}
+				}
+			}
+
 			if (!this.isDisabled())
 			{
 				if (this.ticks % 5 == 0 && this.yongZhe > 0)
@@ -191,18 +202,6 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 		{
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public double wattRequest()
-	{
-		return this.YAO_DIAN;
-	}
-
-	@Override
-	public boolean canReceiveFromSide(ForgeDirection side)
-	{
-		return true;
 	}
 
 	@Override

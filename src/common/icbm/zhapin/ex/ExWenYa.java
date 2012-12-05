@@ -126,7 +126,7 @@ public class ExWenYa extends ZhaPin
 
 		if (r > 0)
 		{
-			if (worldObj.isRemote && ZhuYao.SPAWN_PARTICLES)
+			if (worldObj.isRemote && ZhuYao.GAO_PARTICLE)
 			{
 				for (int x = -r; x < r; x++)
 				{
@@ -140,7 +140,7 @@ public class ExWenYa extends ZhaPin
 
 							if (!reverse)
 							{
-								if (worldObj.rand.nextFloat() < Math.max(0.0006 * r, 0.005) || (ZhuYao.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008 * r, 0.008)))
+								if (worldObj.rand.nextFloat() < Math.max(0.0006 * r, 0.005) || (ZhuYao.GAO_VISUAL && worldObj.rand.nextFloat() < Math.max(0.0008 * r, 0.008)))
 								{
 									worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0, 0, 0);
 								}

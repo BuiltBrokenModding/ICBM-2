@@ -11,7 +11,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
-import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector2;
 import cpw.mods.fml.common.FMLLog;
 
@@ -29,7 +28,7 @@ public class BaoHu
 	public static final String FIELD_Z = "Z";
 	public static final String FIELD_R = "R";
 
-	public static final boolean DEFAULT_PROTECITON = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Protect Worlds by Default", false);
+	public static boolean SHE_DING_BAO_HU;
 
 	public static boolean shiWeiZhiBaoHu(World worldObj, Vector2 position, ZhaPinType type)
 	{
@@ -75,7 +74,7 @@ public class BaoHu
 
 	public static boolean nengQuanQiuBaoHu(NBTTagCompound dimData)
 	{
-		return ((!dimData.hasKey(FIELD_GLOBAL_BAN) && DEFAULT_PROTECITON) || dimData.getBoolean(FIELD_GLOBAL_BAN));
+		return ((!dimData.hasKey(FIELD_GLOBAL_BAN) && SHE_DING_BAO_HU) || dimData.getBoolean(FIELD_GLOBAL_BAN));
 	}
 
 	public static boolean saveData(NBTTagCompound data, String filename)

@@ -126,7 +126,7 @@ public class ExYuanZi extends ZhaPin
 				reverse = true;
 			}
 
-			if (r > 0 && ZhuYao.SPAWN_PARTICLES)
+			if (r > 0 && ZhuYao.GAO_PARTICLE)
 			{
 				for (int x = -r; x < r; x++)
 				{
@@ -140,7 +140,7 @@ public class ExYuanZi extends ZhaPin
 
 							if (!reverse)
 							{
-								if (worldObj.rand.nextFloat() < Math.max(0.0006 * r, 0.005) || (ZhuYao.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0008 * r, 0.008)))
+								if (worldObj.rand.nextFloat() < Math.max(0.0006 * r, 0.005) || (ZhuYao.GAO_VISUAL && worldObj.rand.nextFloat() < Math.max(0.0008 * r, 0.008)))
 								{
 									worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0, 0, 0);
 								}
@@ -194,7 +194,7 @@ public class ExYuanZi extends ZhaPin
 		ZhaPin.fuLan.doBaoZha(worldObj, position, null, BAN_JING + 15, -1);
 		ZhaPin.bianZhong.doBaoZha(worldObj, position, null, BAN_JING + 20, -1);
 
-		if (worldObj.isRemote && ZhuYao.ADVANCED_VISUALS)
+		if (worldObj.isRemote && ZhuYao.GAO_VISUAL)
 		{
 			for (int y = 0; y < 25; y++)
 			{

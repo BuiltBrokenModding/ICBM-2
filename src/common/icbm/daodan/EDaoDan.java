@@ -179,7 +179,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
-		if (!this.worldObj.isRemote && ZhuYao.ALLOW_LOAD_CHUNKS)
+		if (!this.worldObj.isRemote && ZhuYao.ZAI_KUAI)
 		{
 			for (int x = -2; x <= 2; x++)
 			{

@@ -17,7 +17,6 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.core.UEConfig;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.ITier;
@@ -37,8 +36,6 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory
 {
-	private static final double MISSILE_MAX_DISTANCE = UEConfig.getConfigData(ZhuYao.CONFIGURATION, "Max Missile Distance", 2000);
-
 	// The missile that this launcher is holding
 	public EDaoDan eDaoDan = null;
 
@@ -329,7 +326,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		}
 		else if (this.tier == 2)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < MISSILE_MAX_DISTANCE) { return false; }
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN) { return false; }
 		}
 
 		return true;

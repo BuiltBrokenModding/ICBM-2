@@ -13,6 +13,7 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.ITier;
@@ -53,18 +54,35 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		super();
 	}
 
-	@Override
-	public void onReceive(Object sender, double amps, double voltage, ForgeDirection side)
-	{
-		if (!this.isDisabled())
-		{
-			this.setJoules(this.dian + ElectricInfo.getJoules(amps, voltage, 1));
-		}
-	}
-
 	public void updateEntity()
 	{
 		super.updateEntity();
+
+		if (!this.worldObj.isRemote)
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				Vector3 diDian = Vector3.get(this);
+				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+
+				if (tileEntity != null)
+				{
+					if (tileEntity instanceof IConductor)
+					{
+						if (!this.isDisabled())
+						{
+							((IConductor) tileEntity).getNetwork().startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
+							this.setJoules(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
+						}
+						else
+						{
+							((IConductor) tileEntity).getNetwork().stopRequesting(this);
+						}
+					}
+				}
+			}
+		}
 
 		if (!this.isDisabled())
 		{
@@ -353,20 +371,6 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
-	}
-
-	@Override
-	public double wattRequest()
-	{
-		if (!this.isDisabled()) { return Math.ceil(ElectricInfo.getWatts(this.getMaxJoules()) - ElectricInfo.getWatts(this.dian)); }
-
-		return 0;
-	}
-
-	@Override
-	public boolean canReceiveFromSide(ForgeDirection side)
-	{
-		return true;
 	}
 
 	@Override

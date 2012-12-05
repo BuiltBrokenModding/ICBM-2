@@ -58,7 +58,7 @@ public class ExWan extends ZhaPin
 							if (targetPosition.getBlockID(worldObj) != 0)
 								continue;
 
-							if (worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.01) || (ZhuYao.ADVANCED_VISUALS && worldObj.rand.nextFloat() < Math.max(0.0015 * r, 0.015)))
+							if (worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.01) || (ZhuYao.GAO_VISUAL && worldObj.rand.nextFloat() < Math.max(0.0015 * r, 0.015)))
 							{
 								float var13 = 0.0f;
 								float var15 = 0.0f;

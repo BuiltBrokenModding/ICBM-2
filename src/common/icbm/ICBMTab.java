@@ -13,7 +13,7 @@ public class ICBMTab extends CreativeTabs
 	@Override
 	public ItemStack getIconItemStack()
 	{
-		return new ItemStack(ZhuYao.bZha4Dan4);
+		return new ItemStack(ZhuYao.bZhaDan);
 	}
 
 }

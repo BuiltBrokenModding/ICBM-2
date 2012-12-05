@@ -7,7 +7,7 @@ import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
 import net.minecraft.src.World;
-import universalelectricity.core.UEConfig;
+import net.minecraftforge.common.Configuration;
 import universalelectricity.core.vector.Vector3;
 
 public class ExTaiYang2 extends ZhaPin
@@ -19,7 +19,9 @@ public class ExTaiYang2 extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(1);
-		this.createNetherrack = UEConfig.getConfigData(ZhuYao.CONFIGURATION, this.getMing() + " Create Netherrack", createNetherrack);
+		ZhuYao.CONFIGURATION.load();
+		this.createNetherrack = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Create Netherrack", createNetherrack).getBoolean(createNetherrack);
+		ZhuYao.CONFIGURATION.save();
 	}
 
 	@Override

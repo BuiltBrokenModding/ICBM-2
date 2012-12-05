@@ -10,7 +10,7 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.implement.IJouleStorage;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
@@ -23,8 +23,7 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleStorage, IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
-	// The maximum possible radius for the EMP to
-	// strike
+	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 80;
 
 	public float xuanZhuan = 0;
@@ -32,8 +31,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 
 	private double dian = 0;
 
-	// The EMP mode. 0 = All, 1 = Missiles Only, 2
-	// = Electricity Only
+	// The EMP mode. 0 = All, 1 = Missiles Only, 2 = Electricity Only
 	public byte muoShi = 0;
 
 	// The EMP explosion radius
@@ -46,21 +44,35 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 		super();
 	}
 
-	/**
-	 * Called every tick. Super this!
-	 */
-	@Override
-	public void onReceive(Object sender, double amps, double voltage, ForgeDirection side)
-	{
-		if (!this.isDisabled())
-		{
-			this.setJoules(this.dian + ElectricInfo.getJoules(amps, voltage, 1));
-		}
-	}
-
 	public void updateEntity()
 	{
 		super.updateEntity();
+
+		if (!this.worldObj.isRemote)
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				Vector3 diDian = Vector3.get(this);
+				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+
+				if (tileEntity != null)
+				{
+					if (tileEntity instanceof IConductor)
+					{
+						if (!this.isDisabled())
+						{
+							((IConductor) tileEntity).getNetwork().startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
+							this.setJoules(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
+						}
+						else
+						{
+							((IConductor) tileEntity).getNetwork().stopRequesting(this);
+						}
+					}
+				}
+			}
+		}
 
 		if (!this.isDisabled())
 		{
@@ -136,20 +148,6 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	public Packet getDescriptionPacket()
 	{
 		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.dian, this.disabledTicks, this.banJing, this.muoShi);
-	}
-
-	@Override
-	public double wattRequest()
-	{
-		if (!this.isDisabled()) { return this.getMaxJoules() - this.dian; }
-
-		return 0;
-	}
-
-	@Override
-	public boolean canReceiveFromSide(ForgeDirection side)
-	{
-		return true;
 	}
 
 	@Override
