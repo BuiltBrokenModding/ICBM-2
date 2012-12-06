@@ -32,6 +32,7 @@ package icbm.renders;
 
 import icbm.ZhuYao;
 import icbm.daodan.EDaoDan;
+import icbm.daodan.EDaoDan.XingShi;
 import icbm.models.MMBingDan;
 import icbm.models.MMDianCi;
 import icbm.models.MMDuQi;
@@ -57,7 +58,6 @@ import icbm.models.MMZhuiZhong;
 import net.minecraft.src.Entity;
 import net.minecraft.src.ModelBase;
 import net.minecraft.src.Render;
-import net.minecraft.src.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
@@ -176,7 +176,7 @@ public class RDaoDan extends Render
 		GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 + 90.0F, 0.0F, 0.0F, 1.0F);
 
-		if (entityMissile.isCruise)
+		if (entityMissile.xingShi == XingShi.XIAO_DAN)
 			GL11.glScalef(0.5f, 0.5f, 0.5f);
 
 		if (entityMissile.haoMa == 101)

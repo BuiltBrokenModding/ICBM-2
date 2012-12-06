@@ -33,12 +33,17 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMissile
 {
+	public enum XingShi
+	{
+		DAO_DAN, XIAO_DAN, HUO_JIAN
+	}
+
 	public static final float JIA_KUAI_SU_DU = 0.012F;
 
 	public int haoMa = 0;
 	public int tianGao = 200;
 	public Vector3 muBiao = null;
-	public Vector3 kaoShi = null;
+	public Vector3 kaiShi = null;
 	public Vector3 faSheQi = null;
 	public boolean zhengZaiBaoZha = false;
 
@@ -70,10 +75,11 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 	public double daoDanGaoDu = 2;
 
-	// Cruise Missile
-	public boolean isCruise;
 	private boolean setExplode;
 	private boolean setNormalExplode;
+
+	// Missile Type
+	public XingShi xingShi = XingShi.DAO_DAN;
 
 	public EDaoDan(World par1World)
 	{
@@ -84,17 +90,39 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	}
 
 	/**
-	 * Spawns a traditional missile
+	 * Spawns a traditional missile and cruise missiles
+	 * 
+	 * @param haoMa - Explosive ID
+	 * @param diDian - Starting Position
+	 * @param faSheQiDiDian - Missile Launcher Position
 	 */
-	public EDaoDan(World par1World, Vector3 position, Vector3 launcherPosition, int metadata)
+	public EDaoDan(World par1World, Vector3 diDian, Vector3 faSheQiDiDian, int haoMa)
 	{
 		this(par1World);
-		this.haoMa = metadata;
-		this.kaoShi = position;
-		this.faSheQi = launcherPosition;
+		this.haoMa = haoMa;
+		this.kaiShi = diDian;
+		this.faSheQi = faSheQiDiDian;
 
-		this.setPosition(this.kaoShi.x, this.kaoShi.y, this.kaoShi.z);
+		this.setPosition(this.kaiShi.x, this.kaiShi.y, this.kaiShi.z);
 		this.setRotation(0, 90);
+	}
+
+	/**
+	 * For rocket launchers
+	 * 
+	 * @param haoMa - Explosive ID
+	 * @param diDian - Starting Position
+	 * @param muBiao - Target Position
+	 */
+	public EDaoDan(World par1World, int haoMa, Vector3 diDian, float yaw, float pitch)
+	{
+		this(par1World);
+		this.haoMa = haoMa;
+		this.faSheQi = this.kaiShi = diDian;
+		this.xingShi = XingShi.HUO_JIAN;
+		this.baoHuShiJian = 10;
+		this.setPosition(this.kaiShi.x, this.kaiShi.y, this.kaiShi.z);
+		this.setRotation(yaw, pitch);
 	}
 
 	@Override
@@ -108,42 +136,56 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
-		data.writeInt(this.haoMa);
+		try
+		{
+			data.writeInt(this.haoMa);
+			data.writeInt(this.xingShi.ordinal());
 
-		data.writeDouble(this.kaoShi.x);
-		data.writeDouble(this.kaoShi.y);
-		data.writeDouble(this.kaoShi.z);
+			data.writeDouble(this.kaiShi.x);
+			data.writeDouble(this.kaiShi.y);
+			data.writeDouble(this.kaiShi.z);
 
-		data.writeDouble(this.faSheQi.x);
-		data.writeDouble(this.faSheQi.y);
-		data.writeDouble(this.faSheQi.z);
+			data.writeDouble(this.faSheQi.x);
+			data.writeDouble(this.faSheQi.y);
+			data.writeDouble(this.faSheQi.z);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
-		this.haoMa = data.readInt();
-
-		this.kaoShi = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
-
-		this.faSheQi = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
+		try
+		{
+			this.haoMa = data.readInt();
+			this.xingShi = XingShi.values()[data.readInt()];
+			this.kaiShi = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
+			this.faSheQi = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public void launchMissile(Vector3 muBiao)
+	public void faShe(Vector3 muBiao)
 	{
-		this.kaoShi = new Vector3(this.posX, this.posY, this.posZ);
+		this.kaiShi = new Vector3(this.posX, this.posY, this.posZ);
 		this.muBiao = muBiao;
 		this.baoZhaGaoDu = (int) muBiao.y;
 
 		// Calculate the distance difference of
 		// the missile
-		this.xXiangCha = this.muBiao.x - this.kaoShi.x;
-		this.yXiangCha = this.muBiao.y - this.kaoShi.y;
-		this.zXiangCha = this.muBiao.z - this.kaoShi.z;
+		this.xXiangCha = this.muBiao.x - this.kaiShi.x;
+		this.yXiangCha = this.muBiao.y - this.kaiShi.y;
+		this.zXiangCha = this.muBiao.z - this.kaiShi.z;
 
 		// Calculate the power required to reach
 		// the target co-ordinates
-		this.diShangJuLi = Vector2.distance(this.kaoShi.toVector2(), this.muBiao.toVector2());
+		this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), this.muBiao.toVector2());
 
 		this.tianGao = 160 + (int) (this.diShangJuLi * 3);
 
@@ -155,7 +197,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		DaoDanGuanLi.addMissile(this);
 
-		FMLLog.fine("Launching " + this.getEntityName() + " from " + kaoShi.intX() + ", " + kaoShi.intY() + ", " + kaoShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+		FMLLog.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
 	@Override
@@ -234,8 +276,6 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 			return;
 		}
 
-		super.onUpdate();
-
 		try
 		{
 			if (this.worldObj.isRemote)
@@ -258,13 +298,23 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		{
 			if (!this.worldObj.isRemote)
 			{
-				if (this.isCruise)
+				if (this.xingShi == XingShi.XIAO_DAN || this.xingShi == XingShi.HUO_JIAN)
 				{
+					if ((this.isCollided && this.baoHuShiJian <= 0) || this.feiXingTick > 20 * 600)
+					{
+						this.setExplode();
+					}
+
 					if (this.feiXingTick == 0)
 					{
 						this.motionX = this.xXiangCha / (feiXingShiJian * 0.4);
 						this.motionY = this.yXiangCha / (feiXingShiJian * 0.4);
 						this.motionZ = this.zXiangCha / (feiXingShiJian * 0.4);
+					}
+
+					if (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)
+					{
+						this.setExplode();
 					}
 
 					this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
@@ -274,21 +324,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 					DaoDan.list[this.haoMa].onTickFlight(this);
 
-					this.noClip = false;
-
 					this.moveEntity(this.motionX, this.motionY, this.motionZ);
-
-					Vector3 position = Vector3.get(this);
-					// this.isCollided =
-					// this.worldObj.getBlockId(MathHelper.floor_double(this.posX),
-					// MathHelper.floor_double(this.posY),
-					// MathHelper.floor_double(this.posZ))
-					// != 0;
-
-					if ((this.isCollided && this.feiXingTick >= 20) || this.feiXingTick > 20 * 600)
-					{
-						this.explode();
-					}
 				}
 				else
 				{
@@ -325,21 +361,16 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 						this.lastTickPosY = this.posY;
 						this.lastTickPosZ = this.posZ;
 
-						// If the missile contacts
-						// anything, it will
-						// explode.
+						// If the missile contacts anything, it will explode.
 						if (this.isCollided)
 						{
 							this.explode();
 						}
 
-						// If the missile is
-						// commanded to explode
-						// before impact
+						// If the missile is commanded to explode before impact
 						if (baoZhaGaoDu > 0 && this.motionY < 0)
 						{
-							// Check the block
-							// below it.
+							// Check the block below it.
 							int blockBelowID = this.worldObj.getBlockId((int) this.posX, (int) this.posY - baoZhaGaoDu, (int) this.posZ);
 
 							if (blockBelowID > 0)
@@ -356,11 +387,10 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 			this.baoHuShiJian--;
 			this.feiXingTick++;
 		}
-		else
+		else if (this.xingShi != XingShi.HUO_JIAN)
 		{
 
-			// Check to find the launcher in which
-			// this missile belongs in.
+			// Check to find the launcher in which this missile belongs in.
 			if (this.faSheQi == null)
 			{
 				this.setDead();
@@ -395,14 +425,14 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 					((TXiaoFaSheQi) tileEntity).eDaoDan = this;
 				}
 
-				this.isCruise = true;
+				this.xingShi = XingShi.XIAO_DAN;
 				this.noClip = true;
 
-				this.xXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().x - this.kaoShi.x;
-				this.yXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().y - this.kaoShi.y;
-				this.zXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().z - this.kaoShi.z;
+				this.xXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().x - this.kaiShi.x;
+				this.yXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().y - this.kaiShi.y;
+				this.zXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().z - this.kaiShi.z;
 
-				this.diShangJuLi = Vector2.distance(this.kaoShi.toVector2(), ((TXiaoFaSheQi) tileEntity).getTarget().toVector2());
+				this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), ((TXiaoFaSheQi) tileEntity).getTarget().toVector2());
 				this.tianGao = 150 + (int) (this.diShangJuLi * 1.8);
 				this.feiXingShiJian = (float) Math.max(100, 2.4 * diShangJuLi);
 				this.jiaSu = (float) tianGao * 2 / (feiXingShiJian * feiXingShiJian);
@@ -425,6 +455,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 				}
 			}
 		}
+
+		super.onUpdate();
 	}
 
 	@Override
@@ -510,26 +542,28 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 			{
 				this.zhengZaiBaoZha = true;
 
-				if (!this.worldObj.isRemote)
+				if (this.haoMa == 0)
 				{
-					if (this.haoMa == 0)
+					if (!this.worldObj.isRemote)
 					{
 						this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
 					}
-					else
-					{
-						DaoDan.list[this.haoMa].onExplode(this);
-					}
-
-					FMLLog.fine(this.getEntityName() + " landed on " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+				}
+				else
+				{
+					DaoDan.list[this.haoMa].onExplode(this);
 				}
 
-				this.setDead();
+				FMLLog.fine(this.getEntityName() + " landed on " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
+
+			this.setDead();
+
 		}
 		catch (Exception e)
 		{
 			System.err.println("Missile failed to explode properly. Report this to the developers.");
+			e.printStackTrace();
 		}
 	}
 
@@ -570,14 +604,14 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		this.kaoShi = Vector3.readFromNBT("startingPosition", par1NBTTagCompound);
-		this.muBiao = Vector3.readFromNBT("targetPosition", par1NBTTagCompound);
-		this.faSheQi = Vector3.readFromNBT("missileLauncherPosition", par1NBTTagCompound);
-		this.jiaSu = par1NBTTagCompound.getFloat("acceleration");
-		this.baoZhaGaoDu = par1NBTTagCompound.getInteger("HeightBeforeHit");
-		this.haoMa = par1NBTTagCompound.getInteger("missileID");
-		this.feiXingTick = par1NBTTagCompound.getInteger("ticksInAir");
-		this.isCruise = par1NBTTagCompound.getBoolean("isCruise");
+		this.kaiShi = Vector3.readFromNBT("kaiShi", par1NBTTagCompound);
+		this.muBiao = Vector3.readFromNBT("muBiao", par1NBTTagCompound);
+		this.faSheQi = Vector3.readFromNBT("faSheQi", par1NBTTagCompound);
+		this.jiaSu = par1NBTTagCompound.getFloat("jiaSu");
+		this.baoZhaGaoDu = par1NBTTagCompound.getInteger("baoZhaGaoDu");
+		this.haoMa = par1NBTTagCompound.getInteger("haoMa");
+		this.feiXingTick = par1NBTTagCompound.getInteger("feiXingTick");
+		this.xingShi = XingShi.values()[par1NBTTagCompound.getInteger("xingShi")];
 	}
 
 	/**
@@ -586,18 +620,23 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		this.kaoShi.writeToNBT("startingPosition", par1NBTTagCompound);
+		this.kaiShi.writeToNBT("kaiShi", par1NBTTagCompound);
+
 		if (this.muBiao != null)
 		{
-			this.muBiao.writeToNBT("targetPosition", par1NBTTagCompound);
+			this.muBiao.writeToNBT("muBiao", par1NBTTagCompound);
 		}
-		this.faSheQi.writeToNBT("missileLauncherPosition", par1NBTTagCompound);
 
-		par1NBTTagCompound.setFloat("acceleration", this.jiaSu);
-		par1NBTTagCompound.setInteger("missileID", this.haoMa);
-		par1NBTTagCompound.setInteger("HeightBeforeHit", this.baoZhaGaoDu);
-		par1NBTTagCompound.setInteger("ticksInAir", this.feiXingTick);
-		par1NBTTagCompound.setBoolean("isCruise", this.isCruise);
+		if (this.faSheQi != null)
+		{
+			this.faSheQi.writeToNBT("faSheQi", par1NBTTagCompound);
+		}
+
+		par1NBTTagCompound.setFloat("jiaSu", this.jiaSu);
+		par1NBTTagCompound.setInteger("haoMa", this.haoMa);
+		par1NBTTagCompound.setInteger("baoZhaGaoDu", this.baoZhaGaoDu);
+		par1NBTTagCompound.setInteger("feiXingTick", this.feiXingTick);
+		par1NBTTagCompound.setInteger("xingShi", this.xingShi.ordinal());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package icbm.daodan;
 
+import icbm.daodan.EDaoDan.XingShi;
 import icbm.zhapin.ZhaPin;
 import universalelectricity.core.vector.Vector3;
 
@@ -24,9 +25,9 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 					Vector3 position = Vector3.get(missileObj);
 					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), ZhaPin.yuanZi.getID());
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
-					clusterMissile.isCruise = true;
+					clusterMissile.xingShi = XingShi.XIAO_DAN;
 					clusterMissile.baoHuShiJian = 20;
-					clusterMissile.launchMissile(Vector3.add(missileObj.muBiao, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
+					clusterMissile.faShe(Vector3.add(missileObj.muBiao, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
 				}
 
 				missileObj.baoHuShiJian = 20;

@@ -1,5 +1,6 @@
 package icbm.daodan;
 
+import icbm.daodan.EDaoDan.XingShi;
 import icbm.dianqi.ItGenZongQi;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
@@ -17,7 +18,7 @@ public class DZhuiZhong extends DaoDan
 	@Override
 	public void onTickFlight(EDaoDan missileObj)
 	{
-		if (missileObj.feiXingTick > missileObj.feiXingShiJian / 2 && !missileObj.isCruise)
+		if (missileObj.feiXingTick > missileObj.feiXingShiJian / 2 && missileObj.xingShi == XingShi.DAO_DAN)
 		{
 			WorldServer worldServer = (WorldServer) missileObj.worldObj;
 			Entity trackingEntity = worldServer.getEntityByID(missileObj.genZongE);
@@ -29,13 +30,13 @@ public class DZhuiZhong extends DaoDan
 
 				missileObj.muBiao = Vector3.get(trackingEntity);
 
-				missileObj.isCruise = true;
+				missileObj.xingShi = XingShi.XIAO_DAN;
 
 				missileObj.xXiangCha = missileObj.muBiao.x - missileObj.posX;
 				missileObj.yXiangCha = missileObj.muBiao.y - missileObj.posY;
 				missileObj.zXiangCha = missileObj.muBiao.z - missileObj.posZ;
 
-				missileObj.diShangJuLi = Vector2.distance(missileObj.kaoShi.toVector2(), missileObj.muBiao.toVector2());
+				missileObj.diShangJuLi = Vector2.distance(missileObj.kaiShi.toVector2(), missileObj.muBiao.toVector2());
 				missileObj.tianGao = 150 + (int) (missileObj.diShangJuLi * 1.8);
 				missileObj.feiXingShiJian = (float) Math.max(100, 2.4 * missileObj.diShangJuLi);
 				missileObj.jiaSu = (float) missileObj.tianGao * 2 / (missileObj.feiXingShiJian * missileObj.feiXingShiJian);

@@ -392,7 +392,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			this.decrStackSize(0, 1);
 			this.setJoules(0);
-			this.eDaoDan.launchMissile(this.muBiao);
+			this.eDaoDan.faShe(this.muBiao);
 			this.eDaoDan = null;
 		}
 	}

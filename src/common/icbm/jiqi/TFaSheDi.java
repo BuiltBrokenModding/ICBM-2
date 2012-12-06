@@ -284,7 +284,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		target.z += inaccuracy;
 
 		this.decrStackSize(0, 1);
-		this.eDaoDan.launchMissile(target);
+		this.eDaoDan.faShe(target);
 		this.eDaoDan = null;
 	}
 

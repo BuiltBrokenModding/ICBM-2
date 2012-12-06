@@ -25,7 +25,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
-import universalelectricity.prefab.implement.IWrench;
+import universalelectricity.prefab.implement.IToolConfigurator;
 
 public class BZhaDan extends BlockContainer
 {
@@ -249,7 +249,7 @@ public class BZhaDan extends BlockContainer
 				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
 				return true;
 			}
-			else if (par5EntityPlayer.getCurrentEquippedItem().getItem() instanceof IWrench)
+			else if (par5EntityPlayer.getCurrentEquippedItem().getItem() instanceof IToolConfigurator)
 			{
 				byte change = 3;
 

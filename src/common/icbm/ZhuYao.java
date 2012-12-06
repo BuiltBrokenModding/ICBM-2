@@ -6,6 +6,7 @@ import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
 import icbm.daodan.ItDaoDan;
 import icbm.daodan.ItTeBieDaoDan;
+import icbm.dianqi.ItFaSheQi;
 import icbm.dianqi.ItGenZongQi;
 import icbm.dianqi.ItHuoLuanQi;
 import icbm.dianqi.ItJieJa;
@@ -24,6 +25,7 @@ import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.IBZhaDan;
+import icbm.zhapin.ItShouLiuDan;
 import icbm.zhapin.ZhaPin;
 
 import java.io.File;
@@ -143,6 +145,7 @@ public class ZhuYao
 	public static ItemElectric itLeiSheZhiBiao;
 	public static ItemElectric itHuoLaunQi;
 	public static ItemElectric itGenZongQi;
+	public static ItemElectric itFaSheQi;
 
 	public static Item itShouLiuDan;
 	public static Item itZiDan;
@@ -197,23 +200,24 @@ public class ZhuYao
 		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 10).getInt());
 
 		// ITEMS
-		itLiu = new ICBMItem("sulfur", CONFIGURATION.getItem("Sulfur", I_HAO_MA - 2).getInt(), 3, CreativeTabs.tabMaterials);
-		itDu = new ICBMItem("poisonPowder", CONFIGURATION.getItem("Poison Powder", I_HAO_MA).getInt(), 0, CreativeTabs.tabMaterials);
-		itYao = new ItYao(CONFIGURATION.getItem("Antidote", I_HAO_MA + 1).getInt(), 5);
-		itDaoDan = new ItDaoDan("missile", CONFIGURATION.getItem("Missile", I_HAO_MA + 2).getInt(), 32);
-		itTeBieDaoDan = new ItTeBieDaoDan("specialMissile", CONFIGURATION.getItem("Special Missile", I_HAO_MA + 3).getInt(), 32);
+		itLiu = new ICBMItem("sulfur", CONFIGURATION.getItem("ItemID1", I_HAO_MA + 0).getInt(), 3, CreativeTabs.tabMaterials);
+		itDu = new ICBMItem("poisonPowder", CONFIGURATION.getItem("ItemID2", I_HAO_MA + 1).getInt(), 0, CreativeTabs.tabMaterials);
+		itYao = new ItYao(CONFIGURATION.getItem("ItemID3", I_HAO_MA + 2).getInt(), 5);
+		itDaoDan = new ItDaoDan("missile", CONFIGURATION.getItem("ItemID4", I_HAO_MA + 3).getInt(), 32);
+		itTeBieDaoDan = new ItTeBieDaoDan("specialMissile", CONFIGURATION.getItem("ItemID5", I_HAO_MA + 4).getInt(), 32);
 
-		itJieJa = new ItJieJa(CONFIGURATION.getItem("Explosive Defuser", I_HAO_MA + 4).getInt(), 21);
-		itLeiDaQiang = new ItLeiDaQiang(CONFIGURATION.getItem("RadarGun", I_HAO_MA + 5).getInt(), 19);
-		itYaoKong = new ItYaoKong(CONFIGURATION.getItem("Remote", I_HAO_MA + 6).getInt(), 20);
-		itLeiSheZhiBiao = new ItLeiShiZhiBiao(CONFIGURATION.getItem("Laser Designator", I_HAO_MA + 7).getInt(), 22);
-		itHuoLaunQi = new ItHuoLuanQi(CONFIGURATION.getItem("Signal Disruptor", I_HAO_MA + 9).getInt(), 23);
-		itGenZongQi = new ItGenZongQi(CONFIGURATION.getItem("Tracker", I_HAO_MA + 11).getInt(), 0);
+		itJieJa = new ItJieJa(CONFIGURATION.getItem("ItemID6", I_HAO_MA + 5).getInt(), 21);
+		itLeiDaQiang = new ItLeiDaQiang(CONFIGURATION.getItem("ItemID7", I_HAO_MA + 6).getInt(), 19);
+		itYaoKong = new ItYaoKong(CONFIGURATION.getItem("ItemID8", I_HAO_MA + 7).getInt(), 20);
+		itLeiSheZhiBiao = new ItLeiShiZhiBiao(CONFIGURATION.getItem("ItemID9", I_HAO_MA + 8).getInt(), 22);
+		itHuoLaunQi = new ItHuoLuanQi(CONFIGURATION.getItem("ItemID10", I_HAO_MA + 9).getInt(), 23);
+		itGenZongQi = new ItGenZongQi(CONFIGURATION.getItem("ItemID11", I_HAO_MA + 10).getInt(), 0);
+		itFaSheQi = new ItFaSheQi(CONFIGURATION.getItem("ItemID12", I_HAO_MA + 11).getInt(), 0);
 
-		itShouLiuDan = new ItShouLiuDan(CONFIGURATION.getItem("Grenade", I_HAO_MA + 8).getInt(), 64);
-		itZiDan = new ItZiDan("bullet", CONFIGURATION.getItem("Bullet", I_HAO_MA + 10).getInt(), 80);
+		itShouLiuDan = new ItShouLiuDan(CONFIGURATION.getItem("ItemID13", I_HAO_MA + 12).getInt(), 64);
+		itZiDan = new ItZiDan("bullet", CONFIGURATION.getItem("ItemID14", I_HAO_MA + 13).getInt(), 80);
 
-		itChe = new ItChe(CONFIGURATION.getItem("Minecart", I_HAO_MA + 11).getInt(), 135);
+		itChe = new ItChe(CONFIGURATION.getItem("ItemID15", I_HAO_MA + 11).getInt(), 135);
 
 		liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(CONFIGURATION);
 		CONFIGURATION.save();
