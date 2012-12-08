@@ -81,6 +81,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	// Missile Type
 	public XingShi xingShi = XingShi.DAO_DAN;
 
+	private Vector3 xiaoDanMotion = new Vector3();
+
 	public EDaoDan(World par1World)
 	{
 		super(par1World);
@@ -300,22 +302,14 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 			{
 				if (this.xingShi == XingShi.XIAO_DAN || this.xingShi == XingShi.HUO_JIAN)
 				{
-					if ((this.isCollided && this.baoHuShiJian <= 0) || this.feiXingTick > 20 * 600)
-					{
-						this.setExplode();
-					}
-
 					if (this.feiXingTick == 0)
 					{
-						this.motionX = this.xXiangCha / (feiXingShiJian * 0.4);
-						this.motionY = this.yXiangCha / (feiXingShiJian * 0.4);
-						this.motionZ = this.zXiangCha / (feiXingShiJian * 0.4);
+						this.xiaoDanMotion = new Vector3(this.xXiangCha / (feiXingShiJian * 0.4), this.yXiangCha / (feiXingShiJian * 0.4), this.zXiangCha / (feiXingShiJian * 0.4));
 					}
 
-					if (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)
-					{
-						this.setExplode();
-					}
+					this.motionX = this.xiaoDanMotion.x;
+					this.motionY = this.xiaoDanMotion.y;
+					this.motionZ = this.xiaoDanMotion.z;
 
 					this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
 
@@ -323,8 +317,13 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 					this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
 					DaoDan.list[this.haoMa].onTickFlight(this);
-
 					this.moveEntity(this.motionX, this.motionY, this.motionZ);
+
+					if (this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ) != 0 || (this.isCollided && this.baoHuShiJian <= 0) || this.feiXingTick > 20 * 600 || this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)
+					{
+						this.explode();
+						return;
+					}
 				}
 				else
 				{

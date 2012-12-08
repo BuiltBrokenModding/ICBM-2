@@ -62,8 +62,8 @@ public class ItFaSheQi extends ItemElectric
 									EDaoDan eDaoDan = new EDaoDan(world, zhaPin.getID(), kaiShiDiDian, player.rotationYaw, player.rotationPitch);
 									world.spawnEntityInWorld(eDaoDan);
 									eDaoDan.faShe(muBiao);
-									// player.inventory.setInventorySlotContents(i, null);
-									// this.onUse(YONG_DIAN_LIANG, itemStack);
+									player.inventory.setInventorySlotContents(i, null);
+									this.onUse(YONG_DIAN_LIANG, itemStack);
 									return itemStack;
 								}
 							}

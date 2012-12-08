@@ -1,13 +1,21 @@
 package atomicscience.api;
 
+import java.util.EnumSet;
+
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
 
 public abstract class Poison
 {
+	public enum ArmorType
+	{
+		HELM, BODY, LEGGINGS, BOOTS, UNKNOWN
+	}
+
 	public static Poison[] list = new Poison[32];
 
-	String name;
+	protected String name;
+	protected EnumSet<ArmorType> armorRequired = EnumSet.range(ArmorType.HELM, ArmorType.BOOTS);
 
 	public Poison(String name, int id)
 	{
@@ -21,19 +29,26 @@ public abstract class Poison
 		list[0] = this;
 	}
 
+	public String getName()
+	{
+		return this.name;
+	}
+
+	public EnumSet<ArmorType> getArmorRequired()
+	{
+		return this.armorRequired;
+	}
+
 	/**
-	 * Called to poison this specific entity with
-	 * this specific type of poison.
+	 * Called to poison this specific entity with this specific type of poison.
 	 * 
 	 * @amiplifier - The amplification value.
-	 * @armorRequired - The amount of pieces of
-	 *                armor required to be
-	 *                protected.
+	 * @armorRequired - The amount of pieces of armor required to be protected.
 	 * @param entity
 	 */
-	public void poisonEntity(EntityLiving entity, int amplifier, int armorRequired)
+	public void poisonEntity(EntityLiving entity, int amplifier)
 	{
-		int protectiveArmor = 0;
+		EnumSet<ArmorType> armorWorn = EnumSet.of(ArmorType.UNKNOWN);
 
 		if (entity instanceof EntityPlayer)
 		{
@@ -48,22 +63,17 @@ public abstract class Poison
 						if (((IAntiPoisonArmor) entityPlayer.inventory.armorInventory[i].getItem()).isProtectedFromPoison(entityPlayer.inventory.armorInventory[i], entity, this))
 						{
 							((IAntiPoisonArmor) entityPlayer.inventory.armorInventory[i].getItem()).onProtectFromPoison(entityPlayer.inventory.armorInventory[i], entity, this);
-							protectiveArmor++;
+							armorWorn.add(((IAntiPoisonArmor) entityPlayer.inventory.armorInventory[i].getItem()).getArmorType());
 						}
 					}
 				}
 			}
 		}
 
-		if (protectiveArmor < armorRequired)
+		if (!armorWorn.containsAll(this.armorRequired))
 		{
-			this.doPoisonEntity(entity, amplifier);
+			this.doPoisonEntity(entity, armorWorn, amplifier);
 		}
-	}
-
-	public void poisonEntity(EntityLiving entity, int amplifier)
-	{
-		this.poisonEntity(entity, amplifier, 4);
 	}
 
 	public void poisonEntity(EntityLiving entity)
@@ -71,5 +81,5 @@ public abstract class Poison
 		this.poisonEntity(entity, 0);
 	}
 
-	protected abstract void doPoisonEntity(EntityLiving entity, int amplifier);
+	protected abstract void doPoisonEntity(EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier);
 }

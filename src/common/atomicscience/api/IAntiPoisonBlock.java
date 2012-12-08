@@ -5,8 +5,7 @@ import net.minecraft.src.World;
 public interface IAntiPoisonBlock
 {
 	/**
-	 * Returns true if this armor prevents poison
-	 * from the player
+	 * Returns true if this armor prevents poison from the player
 	 * 
 	 * @return
 	 */

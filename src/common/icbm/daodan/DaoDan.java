@@ -1,5 +1,6 @@
 package icbm.daodan;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
@@ -9,14 +10,14 @@ import universalelectricity.prefab.implement.ITier;
 
 public class DaoDan implements ITier
 {
-	public static final DaoDan AntiBallistic = new DFanDan("Anti-Ballistic", 101, 2);
-	public static final DaoDan Cluster = new DFenZhiDan("Cluster", 102, 2);
-	public static final DaoDan NuclearCluster = new DYuanZiFenZhiDan("Nuclear Cluster", 103, 2);
-	public static final DaoDan Homing = new DZhuiZhong("Homing", 104, 1);
+	public static final DaoDan AntiBallistic = new DFanDan("antiBallistic", 101, 2);
+	public static final DaoDan Cluster = new DFenZhiDan("cluster", 102, 2);
+	public static final DaoDan NuclearCluster = new DYuanZiFenZhiDan("nuclearCluster", 103, 2);
+	public static final DaoDan Homing = new DZhuiZhong("homing", 104, 1);
 
 	public static DaoDan[] list;
 
-	private String name;
+	private String mingZi;
 	private int ID;
 	private int tier;
 
@@ -30,7 +31,7 @@ public class DaoDan implements ITier
 		if (list[ID] != null) { throw new IllegalArgumentException("Missile " + ID + " is already occupied when adding " + this + "!"); }
 
 		list[ID] = this;
-		this.name = name;
+		this.mingZi = name;
 		this.tier = tier;
 		this.ID = ID;
 	}
@@ -42,7 +43,7 @@ public class DaoDan implements ITier
 
 	public String getMing()
 	{
-		return this.name;
+		return LanguageRegistry.instance().getStringLocalization("icbm.missile." + this.mingZi);
 	}
 
 	@Override

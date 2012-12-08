@@ -256,8 +256,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	/**
 	 * Launches the missile
 	 * 
-	 * @param target
-	 *            - The target in which the missile will land in
+	 * @param target - The target in which the missile will land in
 	 */
 	public void launchMissile(Vector3 target)
 	{
@@ -440,19 +439,22 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	@Override
-	public boolean onActivated(EntityPlayer par5EntityPlayer)
+	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		if (par5EntityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
+		if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if (par5EntityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
 			{
-				this.setInventorySlotContents(0, par5EntityPlayer.inventory.getCurrentItem());
-				par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, null);
-				return true;
+				if (!(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItTeBieDaoDan) && entityPlayer.inventory.getCurrentItem().getItemDamage() == 0)
+				{
+					this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
+					entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+					return true;
+				}
 			}
 		}
 
-		par5EntityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYao.instance, ICBMCommon.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

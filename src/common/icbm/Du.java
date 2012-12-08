@@ -1,11 +1,14 @@
 package icbm;
 
+import java.util.EnumSet;
+
 import icbm.po.PChuanRanDu;
 import icbm.po.PDaDu;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Potion;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 import atomicscience.api.Poison;
+import atomicscience.api.Poison.ArmorType;
 
 public class Du extends Poison
 {
@@ -18,7 +21,7 @@ public class Du extends Poison
 	}
 
 	@Override
-	protected void doPoisonEntity(EntityLiving entity, int amplifier)
+	protected void doPoisonEntity(EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
 	{
 		if (this.isContagious)
 		{

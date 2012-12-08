@@ -1,33 +1,3 @@
-/*package net.minecraft.src;
-
-import org.lwjgl.opengl.GL11;
-
-public class ICBMRenderMissile extends RenderLiving
-{
-    public ICBMRenderMissile(ModelBase modelbase, float f)
-    {
-        super(modelbase, f);
-    }
-
-    public void func_177_a(ICBMEntityMissile ICBMEntityMissile, double d, double d1, double d2,
-            float f, float f1)
-    {
-        super.doRenderLiving(ICBMEntityMissile, d, d1, d2, f, f1);
-    }
-
-    public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2,
-            float f, float f1)
-    {
-        func_177_a((ICBMEntityMissile)entityliving, d, d1, d2, f, f1);
-    }
-
-    public void doRender(Entity entity, double d, double d1, double d2,
-            float f, float f1)
-    {
-        func_177_a((ICBMEntityMissile)entity, d, d1, d2, f, f1);
-    }
-}
- */
 package icbm.renders;
 
 import icbm.ZhuYao;
@@ -43,12 +13,14 @@ import icbm.models.MMGanRanDu;
 import icbm.models.MMHongSu;
 import icbm.models.MMHuanYuan;
 import icbm.models.MMHuo;
+import icbm.models.MMLa;
 import icbm.models.MMLiZi;
 import icbm.models.MMPiaoFu;
 import icbm.models.MMQunDan;
 import icbm.models.MMShengBuo;
 import icbm.models.MMTaiYang;
 import icbm.models.MMTuPuo;
+import icbm.models.MMTui;
 import icbm.models.MMWan;
 import icbm.models.MMXiaoQunDan;
 import icbm.models.MMYaSuo;
@@ -63,18 +35,27 @@ import org.lwjgl.opengl.GL11;
 
 public class RDaoDan extends Render
 {
-	private final ModelBase[] models =
-	{ new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMDuQi(), new MMZhen(), new MMZhen(), new MMZhen(),
+	private class RData
+	{
+		public final ModelBase model;
+		public final String texture;
 
-	new MMQunDan(), new MMGanRanDu(), new MMShengBuo(), new MMTuPuo(), new MMHuanYuan(), new MMLiZi(),
+		public RData(ModelBase model, String texture)
+		{
+			this.model = model;
+			this.texture = texture;
+		}
+	}
 
-	new MMYuanZi(), new MMDianCi(), new MMTaiYang(), new MMBingDan(), new MMPiaoFu(), new MMWan(),
+	private final RData[] models = { new RData(new MMYaSuo(), "MissileConventional"), new RData(new MMXiaoQunDan(), "MissileShrapnel"), new RData(new MMHuo(), "MissileIncendiary"), new RData(new MMDuQi(), "MissileChemical"), new RData(new MMZhen(), "MissileAnvil"), new RData(new MMTui(), "MissileRepulsive"), new RData(new MMLa(), "MissileAttractive")
 
-	new MMFanWuSu(), new MMHongSu() };
+	, new RData(new MMQunDan(), "MissileFragmentation"), new RData(new MMGanRanDu(), "MissileContagious"), new RData(new MMShengBuo(), "MissileSonic"), new RData(new MMTuPuo(), "MissileBreaching"), new RData(new MMHuanYuan(), "MissileRejuvenation"), new RData(new MMLiZi(), "MissileIon"),
 
-	private final MMFanDan mFanDan = new MMFanDan();
-	private final MMFenZiDan mFenZiDan = new MMFenZiDan();
-	private final MMZhuiZhong mZhuiZhong = new MMZhuiZhong();
+	new RData(new MMYuanZi(), "MissileNuclear"), new RData(new MMDianCi(), "MissileEMP"), new RData(new MMTaiYang(), "MissileConflagration"), new RData(new MMBingDan(), "MissileEndothermic"), new RData(new MMPiaoFu(), "MissileAntiGravity"), new RData(new MMWan(), "MissileEnder"),
+
+	new RData(new MMFanWuSu(), "MissileAntimatter"), new RData(new MMHongSu(), "MissileRedMatter") };
+
+	private final RData[] specialModels = { new RData(new MMFanDan(), "MissileAntiBallistic"), new RData(new MMFenZiDan(), "MissileCluster"), new RData(new MMFenZiDan(), "MissileCluster"), new RData(new MMZhuiZhong(), "MissileHoming") };
 
 	public RDaoDan(float f)
 	{
@@ -86,114 +67,25 @@ public class RDaoDan extends Render
 	{
 		EDaoDan entityMissile = (EDaoDan) entity;
 
-		// Use the correct model & texture for the
-		// specified missile metadata
-		switch (entityMissile.haoMa)
-		{
-			default:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileConventional.png");
-				break;
-			case 1:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileShrapnel.png");
-				break;
-			case 2:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileIncendiary.png");
-				break;
-			case 3:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileChemical.png");
-				break;
-			case 4:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAnvil.png");
-				break;
-			case 5:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAnvil.png");
-				break;
-			case 6:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAnvil.png");
-				break;
-
-			case 7:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileFragmentation.png");
-				break;
-			case 8:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileContagious.png");
-				break;
-			case 9:
-				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileSonic.png");
-				break;
-			case 10:
-				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileBreaching.png");
-				break;
-			case 11:
-				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileRejuvenation.png");
-				break;
-			case 12:
-				loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileIon.png");
-				break;
-
-			case 13:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileNuclear.png");
-				break;
-			case 14:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileEMP.png");
-				break;
-			case 15:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileConflagration.png");
-				break;
-			case 16:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileEndothermic.png");
-				break;
-			case 17:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAntiGravity.png");
-				break;
-			case 18:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileEnder.png");
-				break;
-
-			case 19:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAntimatter.png");
-				break;
-			case 20:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileRedMatter.png");
-				break;
-
-			case 101:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileAntiBallistic.png");
-				break;
-			case 102:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileCluster.png");
-				break;
-			case 103:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileCluster.png");
-				break;
-			case 104:
-				this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + "MissileHoming.png");
-				break;
-		}
-
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
 		GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 + 90.0F, 0.0F, 0.0F, 1.0F);
 
 		if (entityMissile.xingShi == XingShi.XIAO_DAN)
+		{
 			GL11.glScalef(0.5f, 0.5f, 0.5f);
+		}
 
-		if (entityMissile.haoMa == 101)
+		if (entityMissile.haoMa > 100)
 		{
-			mFanDan.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
-		}
-		else if (entityMissile.haoMa == 102 || entityMissile.haoMa == 103)
-		{
-			mFenZiDan.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
-		}
-		else if (entityMissile.haoMa == 104)
-		{
-			mZhuiZhong.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + this.specialModels[entityMissile.haoMa - 101].texture + ".png");
+			this.specialModels[entityMissile.haoMa - 101].model.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{
-			models[entityMissile.haoMa].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + this.models[entityMissile.haoMa].texture + ".png");
+			this.models[entityMissile.haoMa].model.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 
 		GL11.glPopMatrix();

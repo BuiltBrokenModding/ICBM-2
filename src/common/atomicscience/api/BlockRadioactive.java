@@ -14,20 +14,18 @@ import net.minecraft.src.World;
 
 public class BlockRadioactive extends Block
 {
-	private static String textureFile;
-
 	public BlockRadioactive(int id, int texture, String textureFile)
 	{
 		super(id, texture, Material.ground);
 		this.setTickRandomly(true);
 		this.setHardness(0.2F);
 		this.setLightValue(0.1F);
-		this.textureFile = textureFile;
+		this.setBlockName("radioactive");
+		this.setTextureFile(textureFile);
 	}
 
 	/**
-	 * Called whenever the block is added into the
-	 * world. Args: world, x, y, z
+	 * Called whenever the block is added into the world. Args: world, x, y, z
 	 */
 	@Override
 	public void onBlockAdded(World par1World, int x, int y, int z)
@@ -36,9 +34,7 @@ public class BlockRadioactive extends Block
 	}
 
 	/**
-	 * From the specified side and block metadata
-	 * retrieves the blocks texture. Args: side,
-	 * metadata
+	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
 	public int getBlockTextureFromSideAndMetadata(int side, int par2)
 	{
@@ -74,16 +70,15 @@ public class BlockRadioactive extends Block
 				PoisonRadiation.INSTANCE.poisonEntity((EntityLiving) entity);
 			}
 
-			if (par5Random.nextFloat() > 0.999)
+			if (par5Random.nextFloat() > 0.95)
 			{
-				par1World.setBlockWithNotify(x, y, z, Block.dirt.blockID);
+				par1World.setBlockWithNotify(x, y, z, Block.mycelium.blockID);
 			}
 		}
 	}
 
 	/**
-	 * Called whenever an entity is walking on top
-	 * of this block. Args: world, x, y, z, entity
+	 * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
 	 */
 	public void onEntityWalking(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{
@@ -94,19 +89,12 @@ public class BlockRadioactive extends Block
 	}
 
 	/**
-	 * Returns the ID of the items to drop on
-	 * destruction.
+	 * Returns the ID of the items to drop on destruction.
 	 */
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Block.dirt.idDropped(0, par2Random, par3);
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return this.textureFile;
 	}
 
 	@Override

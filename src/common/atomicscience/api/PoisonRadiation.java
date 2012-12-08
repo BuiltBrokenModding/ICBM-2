@@ -1,5 +1,7 @@
 package atomicscience.api;
 
+import java.util.EnumSet;
+
 import net.minecraft.src.EntityLiving;
 import universalelectricity.prefab.UEDamageSource;
 import universalelectricity.prefab.potion.CustomPotionEffect;
@@ -15,7 +17,7 @@ public class PoisonRadiation extends Poison
 	}
 
 	@Override
-	protected void doPoisonEntity(EntityLiving entity, int amplifier)
+	protected void doPoisonEntity(EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
 	{
 		entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 60, amplifier, null));
 	}

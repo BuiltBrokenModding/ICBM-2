@@ -6,6 +6,7 @@ import icbm.ZhuYao;
 import icbm.api.Launcher.LauncherType;
 import icbm.daodan.DaoDan;
 import icbm.daodan.EDaoDan;
+import icbm.daodan.ItTeBieDaoDan;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.INetworkManager;
@@ -184,7 +185,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public void updateEntity()
 	{
 		super.updateEntity();
-		
+
 		if (!this.worldObj.isRemote)
 		{
 			for (int i = 0; i < 6; i++)
@@ -383,8 +384,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	/**
 	 * Launches the missile
 	 * 
-	 * @param muBiao
-	 *            - The target in which the missile will land in
+	 * @param muBiao - The target in which the missile will land in
 	 */
 	public void launch()
 	{
@@ -523,9 +523,12 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itDaoDan.shiftedIndex && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
 			{
-				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
-				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
-				return true;
+				if (!(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItTeBieDaoDan) && entityPlayer.inventory.getCurrentItem().getItemDamage() == 0)
+				{
+					this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
+					entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+					return true;
+				}
 			}
 		}
 

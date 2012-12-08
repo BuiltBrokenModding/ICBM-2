@@ -100,3 +100,7 @@ x ICBM_v0.6.3.69.jar
 @ ICBM_v0.6.4.72.jar
 @ ICBM_v0.6.4.73.jar
 @ ICBM_v0.6.4.75.jar
+@ ICBM_v0.6.4.76.jar
+@ ICBM_v0.6.4.78.jar
+@ ICBM_v0.6.4.79.jar
+* ICBM_v0.6.4.80.jar
