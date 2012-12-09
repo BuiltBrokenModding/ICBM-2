@@ -69,13 +69,11 @@ public class EDuQi extends ZhaPin
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-			{ "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', Block.tnt }), "Chemical", ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', Block.tnt }), "Chemical", ZhuYao.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-			{ " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ZhuYao.CONFIGURATION, true);
 		}
 	}
 }

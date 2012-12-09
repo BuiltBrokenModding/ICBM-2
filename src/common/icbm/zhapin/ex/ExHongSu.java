@@ -1,7 +1,6 @@
 package icbm.zhapin.ex;
 
 import icbm.EFeiBlock;
-import icbm.ParticleSpawner;
 import icbm.ZhuYao;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
@@ -48,7 +47,7 @@ public class ExHongSu extends ZhaPin
 		if (worldObj.isRemote)
 		{
 			// Spawn red matter particle
-			//ParticleSpawner.spawnParticle("smoke", worldObj, position, 0.1F, 0F, 0F, 10F, 2F);
+			// ParticleSpawner.spawnParticle("smoke", worldObj, position, 0.1F, 0F, 0F, 10F, 2F);
 		}
 
 		// Try to find and grab some blocks to
@@ -209,7 +208,6 @@ public class ExHongSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "AAA", "AEA", "AAA", 'E', ZhaPin.wanDan.getItemStack(), 'A', "strangeMatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.wanDan.getItemStack(), 'A', "strangeMatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

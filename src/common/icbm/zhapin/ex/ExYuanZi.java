@@ -240,8 +240,7 @@ public class ExYuanZi extends ZhaPin
 	 * Called when the explosive is on fuse and going to explode. Called only when the explosive is
 	 * in it's TNT form.
 	 * 
-	 * @param fuseTicks
-	 *            - The amount of ticks this explosive is on fuse
+	 * @param fuseTicks - The amount of ticks this explosive is on fuse
 	 */
 	@Override
 	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
@@ -257,7 +256,6 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

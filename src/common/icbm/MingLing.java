@@ -26,8 +26,7 @@ public class MingLing extends CommandBase
 	@Override
 	public List getCommandAliases()
 	{
-		return Arrays.asList(new String[]
-		{ "icbm" });
+		return Arrays.asList(new String[] { "icbm" });
 	}
 
 	@Override
@@ -208,8 +207,7 @@ public class MingLing extends CommandBase
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args)
 	{
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[]
-		{ "protectOn", "protectOff", "list", "lag" }) : null;
+		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] { "protectOn", "protectOff", "list", "lag" }) : null;
 	}
 
 }

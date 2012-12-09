@@ -12,7 +12,6 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
@@ -62,7 +61,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Vector3 diDian = Vector3.get(this);
+				Vector3 diDian = new Vector3(this);
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
 
@@ -126,7 +125,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if (this.muBiao == null)
 					this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
-				PacketManager.sendPacketToClients(PacketManager.getPacket("ICBM", this, (int) 3, this.dian, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, Vector3.get(this), 15);
+				PacketManager.sendPacketToClients(PacketManager.getPacket("ICBM", this, (int) 3, this.dian, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, new Vector3(this), 15);
 			}
 
 			if (this.ticks % 600 == 0)

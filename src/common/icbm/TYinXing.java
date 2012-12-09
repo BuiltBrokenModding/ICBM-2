@@ -17,8 +17,7 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	// The block Id this block is trying to mimik
 	private int jiaHaoMa = 1;
 	private boolean isYing = true;
-	private final boolean[] qingBian = new boolean[]
-	{ false, false, false, false, false, false };
+	private final boolean[] qingBian = new boolean[] { false, false, false, false, false, false };
 
 	@Override
 	public boolean canUpdate()

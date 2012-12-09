@@ -1,6 +1,5 @@
 package icbm.api;
 
-
 import java.lang.reflect.Method;
 
 import net.minecraft.src.Block;
@@ -38,18 +37,12 @@ public class ICBM
 	/**
 	 * Creates an ICBM explosion anywhere in this specific position.
 	 * 
-	 * @param worldObj
-	 *            - The world
-	 * @param x
-	 *            - X position
-	 * @param y
-	 *            - Y position
-	 * @param z
-	 *            - Z position
-	 * @param entity
-	 *            - The entity causing this explosion. Can be null if not specified.
-	 * @param explosiveID
-	 *            - The ID of the explosive
+	 * @param worldObj - The world
+	 * @param x - X position
+	 * @param y - Y position
+	 * @param z - Z position
+	 * @param entity - The entity causing this explosion. Can be null if not specified.
+	 * @param explosiveID - The ID of the explosive
 	 */
 	public static void createExplosion(World worldObj, double x, double y, double z, Entity entity, int explosiveID)
 	{

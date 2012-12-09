@@ -6,8 +6,6 @@ import icbm.zhapin.ZhaPin;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.ChunkPosition;
 import net.minecraft.src.Entity;
@@ -18,6 +16,7 @@ import net.minecraft.src.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ExYaSuo extends ZhaPin
 {
@@ -151,7 +150,6 @@ public class ExYaSuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[]
-		{ "@?@", '@', Block.tnt, '?', Item.redstone }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

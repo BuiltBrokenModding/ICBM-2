@@ -51,8 +51,7 @@ public class Launcher
 		public Vector3 getTarget();
 
 		/**
-		 * @param target
-		 *            Sets the target of the launcher
+		 * @param target Sets the target of the launcher
 		 */
 		public void setTarget(Vector3 target);
 

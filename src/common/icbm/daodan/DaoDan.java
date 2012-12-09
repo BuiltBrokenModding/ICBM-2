@@ -1,12 +1,12 @@
 package icbm.daodan;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import icbm.ZhuYao;
 import icbm.zhapin.ZhaPin;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.ITier;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class DaoDan implements ITier
 {
@@ -76,7 +76,7 @@ public class DaoDan implements ITier
 	 */
 	public void onExplode(EDaoDan missileObj)
 	{
-		ZhaPin.createBaoZha(missileObj.worldObj, Vector3.get(missileObj), missileObj, missileObj.haoMa);
+		ZhaPin.createBaoZha(missileObj.worldObj, new Vector3(missileObj), missileObj, missileObj.haoMa);
 	}
 
 	public ItemStack getItemStack()

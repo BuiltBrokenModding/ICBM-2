@@ -139,7 +139,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	 */
 	public void onUpdate()
 	{
-		if (!BaoHu.nengShouLiuDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.nengShouLiuDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (!this.worldObj.isRemote)
 			{

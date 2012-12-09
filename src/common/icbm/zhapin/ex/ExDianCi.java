@@ -36,7 +36,6 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[]
-		{ "RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', "battery" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', "battery" }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

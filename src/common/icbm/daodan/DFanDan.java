@@ -2,6 +2,7 @@ package icbm.daodan;
 
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Entity;
+import universalelectricity.core.vector.Vector3;
 
 public class DFanDan extends DaoDan
 {
@@ -19,9 +20,13 @@ public class DFanDan extends DaoDan
 		{
 			if (!missileObj.lockedTarget.zhengZaiBaoZha)
 			{
-				missileObj.motionX = (missileObj.lockedTarget.posX - missileObj.posX) * (0.3F);
-				missileObj.motionY = (missileObj.lockedTarget.posY - missileObj.posY) * (0.3F);
-				missileObj.motionZ = (missileObj.lockedTarget.posZ - missileObj.posZ) * (0.3F);
+				Vector3 guJiDiDian = missileObj.lockedTarget.guJi(4);
+
+				System.out.println(new Vector3(missileObj) + " vs " + guJiDiDian);
+
+				missileObj.motionX = (guJiDiDian.x - missileObj.posX) * (0.3F);
+				missileObj.motionY = (guJiDiDian.y - missileObj.posY) * (0.3F);
+				missileObj.motionZ = (guJiDiDian.z - missileObj.posZ) * (0.3F);
 			}
 			else
 			{

@@ -223,7 +223,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 	private void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.containingItems[0].getItem() instanceof ItDaoDan)
 			{
@@ -237,7 +237,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 				if (eDaoDan == null)
 				{
 					Vector3 position = new Vector3((this.xCoord + 0.5F), (this.yCoord + 2), (this.zCoord + 0.5F));
-					this.eDaoDan = new EDaoDan(this.worldObj, position, Vector3.get(this), missileId);
+					this.eDaoDan = new EDaoDan(this.worldObj, position, new Vector3(this), missileId);
 					this.worldObj.spawnEntityInWorld(this.eDaoDan);
 					return;
 				}
@@ -445,7 +445,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		{
 			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
 			{
-				if (!(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItTeBieDaoDan) && entityPlayer.inventory.getCurrentItem().getItemDamage() == 0)
+				if (!(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItTeBieDaoDan && entityPlayer.inventory.getCurrentItem().getItemDamage() == 0))
 				{
 					this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
 					entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);

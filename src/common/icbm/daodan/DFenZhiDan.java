@@ -21,8 +21,8 @@ public class DFenZhiDan extends DaoDan
 			{
 				if (!missileObj.worldObj.isRemote)
 				{
-					Vector3 position = Vector3.get(missileObj);
-					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, Vector3.get(missileObj), 0);
+					Vector3 position = new Vector3(missileObj);
+					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, new Vector3(missileObj), 0);
 					clusterMissile.xingShi = XingShi.XIAO_DAN;
 					clusterMissile.baoHuShiJian = 20;
 					clusterMissile.faShe(Vector3.add(missileObj.muBiao, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6)));

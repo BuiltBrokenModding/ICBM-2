@@ -20,7 +20,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
@@ -94,7 +93,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Vector3 diDian = Vector3.get(this);
+				Vector3 diDian = new Vector3(this);
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
 
@@ -117,11 +116,11 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 			if (this.ticks % 40 == 0)
 			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 35);
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
 			}
 			else if (this.ticks % 3 == 0 && this.yongZhe > 0)
 			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 12);
+				PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 12);
 			}
 		}
 
@@ -175,7 +174,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		this.detectedMissiles.clear();
 		this.detectedRadarStations.clear();
 
-		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(Vector3.get(this).toVector2(), this.alarmBanJing);
+		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector3(this).toVector2(), this.alarmBanJing);
 
 		for (EDaoDan missile : missilesNearby)
 		{
@@ -233,7 +232,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 			{
 				if (dataStream.readBoolean())
 				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 15);
 					this.yongZhe++;
 				}
 				else
@@ -346,19 +345,19 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), Vector3.get(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), new Vector3(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), Vector3.get(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), new Vector3(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), Vector3.get(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), new Vector3(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), Vector3.get(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), new Vector3(this));
+		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), new Vector3(this));
 
 	}
 
@@ -371,8 +370,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public String[] getMethodNames()
 	{
-		return new String[]
-		{ "getMissiles", "getRadars" };
+		return new String[] { "getMissiles", "getRadars" };
 	}
 
 	@Override
@@ -386,7 +384,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		{
 			case 0:
 
-				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(Vector3.get(this).toVector2(), this.alarmBanJing);
+				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(new Vector3(this).toVector2(), this.alarmBanJing);
 
 				for (EDaoDan daoDan : daoDans)
 				{
@@ -395,8 +393,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 					returnArray.put("z", daoDan.posZ);
 				}
 
-				return new Object[]
-				{ returnArray };
+				return new Object[] { returnArray };
 			case 1:
 				for (TLeiDaTai radarStation : LeiDaGuanLi.getRadarStationsInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
 				{
@@ -407,8 +404,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 						returnArray.put("z", (double) radarStation.zCoord);
 					}
 				}
-				return new Object[]
-				{ returnArray };
+				return new Object[] { returnArray };
 		}
 
 		throw new Exception("Invalid ICBM Radar Function.");

@@ -28,7 +28,7 @@ public class DaoDanGuanLi
 
 		for (EDaoDan missile : missiles)
 		{
-			if (Vector2.distance(vector, Vector3.get(missile).toVector2()) <= radius)
+			if (Vector2.distance(vector, new Vector3(missile).toVector2()) <= radius)
 			{
 				returnArray.add(missile);
 			}

@@ -27,7 +27,7 @@ public class ItShouLiuDan extends ICBMItem
 	 */
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if (BaoHu.nengShouLiuDanBaoHu(par2World, Vector3.get(par3EntityPlayer).toVector2()))
+		if (BaoHu.nengShouLiuDanBaoHu(par2World, new Vector3(par3EntityPlayer).toVector2()))
 		{
 			if (!par3EntityPlayer.capabilities.isCreativeMode)
 			{

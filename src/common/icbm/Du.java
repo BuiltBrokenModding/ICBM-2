@@ -1,14 +1,14 @@
 package icbm;
 
-import java.util.EnumSet;
-
 import icbm.po.PChuanRanDu;
 import icbm.po.PDaDu;
+
+import java.util.EnumSet;
+
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.Potion;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 import atomicscience.api.Poison;
-import atomicscience.api.Poison.ArmorType;
 
 public class Du extends Poison
 {

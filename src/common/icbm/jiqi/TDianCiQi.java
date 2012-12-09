@@ -52,7 +52,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Vector3 diDian = Vector3.get(this);
+				Vector3 diDian = new Vector3(this);
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
 
@@ -91,12 +91,12 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 		{
 			if (this.ticks % 3 == 0 && this.yongZhe > 0)
 			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 12);
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
 			}
 
 			if (this.ticks % 60 == 0 && this.prevXuanZhuanLu != this.xuanZhuanLu)
 			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 35);
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
 			}
 		}
 
@@ -114,7 +114,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 			{
 				if (dataStream.readBoolean())
 				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
 					this.yongZhe++;
 				}
 				else
@@ -223,7 +223,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		ZhuYao.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), Vector3.get(this));
+		ZhuYao.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
 	}
 
 	@Override

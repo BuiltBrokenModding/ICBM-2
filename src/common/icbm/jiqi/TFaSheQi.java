@@ -81,8 +81,7 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	@Override
 	public String[] getMethodNames()
 	{
-		return new String[]
-		{ "launch", "getTarget", "setTarget", "canLaunch", "setFrequency", "getFrequency", "getMissile" };
+		return new String[] { "launch", "getTarget", "setTarget", "canLaunch", "setFrequency", "getFrequency", "getMissile" };
 	}
 
 	@Override
@@ -94,8 +93,7 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 				this.launch();
 				return null;
 			case 1:
-				return new Object[]
-				{ this.getTarget().x, this.getTarget().y, this.getTarget().z };
+				return new Object[] { this.getTarget().x, this.getTarget().y, this.getTarget().z };
 			case 2:
 				if (arguments[0] != null && arguments[1] != null && arguments[2] != null)
 				{
@@ -111,8 +109,7 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 				}
 				return null;
 			case 3:
-				return new Object[]
-				{ this.canLaunch() };
+				return new Object[] { this.canLaunch() };
 			case 4:
 				if (arguments[0] != null)
 				{
@@ -130,13 +127,11 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 				}
 				return null;
 			case 5:
-				return new Object[]
-				{ this.getFrequency() };
+				return new Object[] { this.getFrequency() };
 			case 6:
 				if (this.getMissile() != null)
 				{
-					return new Object[]
-					{ this.getMissile().getEntityName() };
+					return new Object[] { this.getMissile().getEntityName() };
 				}
 				else
 				{

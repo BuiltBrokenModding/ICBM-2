@@ -15,7 +15,6 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
@@ -63,7 +62,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Vector3 diDian = Vector3.get(this);
+				Vector3 diDian = new Vector3(this);
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
 
@@ -88,7 +87,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 			{
 				if (this.ticks % 5 == 0 && this.yongZhe > 0)
 				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
 				}
 
 				if (this.dian >= this.YAO_DIAN)
@@ -166,7 +165,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 				if (dataStream.readBoolean())
 				{
 					this.yongZhe++;
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, Vector3.get(this), 15);
+					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
 				}
 				else
 				{

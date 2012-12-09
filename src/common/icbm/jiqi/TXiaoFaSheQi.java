@@ -18,7 +18,6 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
@@ -190,7 +189,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Vector3 diDian = Vector3.get(this);
+				Vector3 diDian = new Vector3(this);
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
 
@@ -258,7 +257,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex)
 			{
@@ -269,7 +268,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 					if (DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
 					{
 						Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-						this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, Vector3.get(this), missileId);
+						this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), missileId);
 						this.worldObj.spawnEntityInWorld(this.eDaoDan);
 						return;
 					}

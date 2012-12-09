@@ -28,7 +28,7 @@ public class DZhuiZhong extends DaoDan
 				if (trackingEntity == missileObj)
 					missileObj.setExplode();
 
-				missileObj.muBiao = Vector3.get(trackingEntity);
+				missileObj.muBiao = new Vector3(trackingEntity);
 
 				missileObj.xingShi = XingShi.XIAO_DAN;
 

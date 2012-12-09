@@ -162,7 +162,7 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	public void explode()
 	{
 		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-		ZhaPin.createBaoZha(this.worldObj, Vector3.get(this), this, this.explosiveID);
+		ZhaPin.createBaoZha(this.worldObj, new Vector3(this), this, this.explosiveID);
 		this.setDead();
 	}
 

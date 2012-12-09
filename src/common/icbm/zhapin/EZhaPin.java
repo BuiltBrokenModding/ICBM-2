@@ -112,7 +112,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.nengDanBaoHu(this.worldObj, Vector3.get(this).toVector2()))
+		if (!BaoHu.nengDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
 		{
 			this.setDead();
 			return;
@@ -125,7 +125,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 
 		if (this.ticksExisted == 0)
 		{
-			ZhaPin.list[this.explosiveID].baoZhaQian(this.worldObj, Vector3.get(this), this);
+			ZhaPin.list[this.explosiveID].baoZhaQian(this.worldObj, new Vector3(this), this);
 		}
 
 		if (this.tickCallCounter >= ZhaPin.list[this.explosiveID].proceduralInterval(this.worldObj, this.jiaoShuMu))

@@ -150,11 +150,11 @@ public class ExBingDan2 extends ZhaPin
 	 * 
 	 * @param ticksExisted
 	 * @Override public void onUpdate(World worldObj, Vector3 position, int ticksExisted) { long
-	 *           worldTime = worldObj.getWorldTime();
+	 * worldTime = worldObj.getWorldTime();
 	 * 
-	 *           while(worldTime > 23999) { worldTime -= 23999; }
+	 * while(worldTime > 23999) { worldTime -= 23999; }
 	 * 
-	 *           if(worldTime < 0) { worldObj.setWorldTime (worldObj.getWorldTime()+150); } }
+	 * if(worldTime < 0) { worldObj.setWorldTime (worldObj.getWorldTime()+150); } }
 	 */
 
 }

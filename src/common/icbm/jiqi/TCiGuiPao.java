@@ -23,7 +23,6 @@ import net.minecraft.src.Packet250CustomPayload;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.implement.IJouleStorage;
 import universalelectricity.core.vector.Vector3;
@@ -84,7 +83,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Vector3 diDian = Vector3.get(this);
+				Vector3 diDian = new Vector3(this);
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
 
@@ -208,7 +207,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 
 					if (!this.worldObj.isRemote)
 					{
-						PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 3), this.worldObj, Vector3.get(this), 50);
+						PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 3), this.worldObj, new Vector3(this), 50);
 					}
 
 					this.gunChargingTicks = 0;
@@ -220,7 +219,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 		{
 			if (this.ticks % 5 == 0 && this.shiYongZhe > 0)
 			{
-				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, this.dian, this.disabledTicks), this.worldObj, new Vector3(this), 15);
 			}
 
 			if (this.ticks % 600 == 0)
@@ -280,7 +279,7 @@ public class TCiGuiPao extends TileEntityElectricityReceiver implements IJouleSt
 	{
 		if (!this.worldObj.isRemote)
 		{
-			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, this.dian, this.disabledTicks), this.worldObj, Vector3.get(this), 15);
+			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, this.dian, this.disabledTicks), this.worldObj, new Vector3(this), 15);
 		}
 
 		this.shiYongZhe++;
