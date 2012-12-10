@@ -11,7 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 public class RFaSheJia extends TileEntitySpecialRenderer
 {
-	public static final MFaSheJia model = new MFaSheJia();
+	public static final MFaSheJia MODEL = new MFaSheJia();
+	public static final String TEXTURE_FILE = "Launcher0.png";
 
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)
@@ -22,7 +23,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.25F, (float) d2 + 0.5F);
 		GL11.glScalef(1f, 0.85f, 1f);
 
-		String textureFile = ZhuYao.TEXTURE_FILE_PATH + "Launcher0.png";
+		String textureFile = ZhuYao.TEXTURE_FILE_PATH + TEXTURE_FILE;
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
@@ -32,7 +33,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 			GL11.glRotatef(90F, 0.0F, 180F, 1.0F);
 		}
 
-		model.render(0.0625F);
+		MODEL.render(0.0625F);
 
 		GL11.glPopMatrix();
 	}

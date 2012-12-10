@@ -38,7 +38,7 @@ import icbm.renders.RShouLiuDan;
 import icbm.renders.RSuiPian;
 import icbm.renders.RXiaoFaSheQi;
 import icbm.renders.RZhaPin;
-import icbm.renders.RenderRadarStation;
+import icbm.renders.RLeiDaTai;
 import icbm.zhapin.EShouLiuDan;
 import icbm.zhapin.EZhaDan;
 import icbm.zhapin.EZhaPin;
@@ -92,7 +92,7 @@ public class ICBMClient extends ICBMCommon
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class, new RFaSheDi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class, new RFaSheShiMuo());
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class, new RFaSheJia());
-		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RenderRadarStation());
+		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RLeiDaTai());
 		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RBZhaDan());
 

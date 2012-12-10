@@ -2,13 +2,9 @@ package icbm.renders;
 
 import icbm.ZhuYao;
 import icbm.jiqi.BJiQi.JiQi;
-import icbm.models.MDiLei;
-import icbm.zhapin.TZhaDan;
-import icbm.zhapin.ZhaPin;
 import net.minecraft.src.Block;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
@@ -80,17 +76,56 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 			else if (metadata < JiQi.FaSheJia.ordinal() * 3 + 3)
 			{
 				int tier = metadata - 6;
-				GL11.glTranslatef(0f, 0f, 0f);
+				GL11.glTranslatef(0f, -0.1f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glScalef(0.8f, 0.4f, 0.8f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "Launcher0.png"));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RFaSheJia.TEXTURE_FILE));
 
-				RFaSheJia.model.render(0.0625F);
+				RFaSheJia.MODEL.render(0.0625F);
+			}
+			else if (metadata == JiQi.LeiDaTai.ordinal() + 6)
+			{
+				GL11.glTranslatef(0f, 0.2f, 0f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				GL11.glScalef(0.55f, 0.6f, 0.55f);
+
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RLeiDaTai.TEXTURE_FILE));
+
+				RLeiDaTai.MODEL.render(1.2f, 0.0625F);
+			}
+			else if (metadata == JiQi.DianCiQi.ordinal() + 6)
+			{
+				GL11.glTranslatef(0f, 0.3f, 0f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				GL11.glScalef(0.6f, 0.6f, 0.6f);
+
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RDianCiQi.TEXTURE_FILE));
+
+				RDianCiQi.MODEL.render(0, 0.0625F);
+			}
+			else if (metadata == JiQi.CiGuiPao.ordinal() + 6)
+			{
+				GL11.glTranslatef(0f, 0.9f, 0f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RCiGuiPao.TEXTURE_FILE));
+
+				RCiGuiPao.MODEL.render(90, 0, 0.0625F);
+			}
+			else if (metadata == JiQi.XiaoFaSheQi.ordinal() + 6)
+			{
+				GL11.glTranslatef(0f, 0.4f, 0f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				GL11.glScalef(0.55f, 0.5f, 0.55f);
+
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RXiaoFaSheQi.TEXTURE_FILE));
+
+				RXiaoFaSheQi.MODEL0.render(0.0625F);
+				RXiaoFaSheQi.MODEL1.render(0.0625F);
 			}
 
 			GL11.glPopMatrix();
-
 		}
 	}
 

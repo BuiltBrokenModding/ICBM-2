@@ -101,7 +101,7 @@ public class ZhuYao
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
-	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES", "es_AR", "es_MX", "es_UY", "es_VE" };;
+	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
 
 	@SidedProxy(clientSide = "icbm.ICBMClient", serverSide = "icbm.ICBMCommon")
 	public static ICBMCommon proxy;
@@ -170,6 +170,8 @@ public class ZhuYao
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
+		int languages = 0;
+
 		/**
 		 * Load all languages.
 		 */
@@ -177,15 +179,19 @@ public class ZhuYao
 		{
 			LanguageRegistry.instance().loadLocalization(ZhuYao.YU_YAN_PATH + language + ".properties", language, false);
 
-			if (getLocal("children") != "")
+			if (LanguageRegistry.instance().getStringLocalization("children", language) != "")
 			{
 				try
 				{
-					String[] children = getLocal("children").split(",");
+					String[] children = LanguageRegistry.instance().getStringLocalization("children", language).split(",");
 
 					for (String child : children)
 					{
-						LanguageRegistry.instance().loadLocalization(ZhuYao.YU_YAN_PATH + language + ".properties", child, false);
+						if (child != "" || child != null)
+						{
+							LanguageRegistry.instance().loadLocalization(ZhuYao.YU_YAN_PATH + language + ".properties", child, false);
+							languages++;
+						}
 					}
 				}
 				catch (Exception e)
@@ -193,7 +199,11 @@ public class ZhuYao
 					e.printStackTrace();
 				}
 			}
+
+			languages++;
 		}
+
+		System.out.println("Loaded " + languages + " languages.");
 
 		CONFIGURATION.load();
 		ZAI_KUAI = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);

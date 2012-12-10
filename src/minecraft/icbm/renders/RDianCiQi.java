@@ -10,15 +10,16 @@ import org.lwjgl.opengl.GL11;
 
 public class RDianCiQi extends TileEntitySpecialRenderer
 {
-	private MDianCiQi modelBase = new MDianCiQi();
+	public static final MDianCiQi MODEL = new MDianCiQi();
+	public static final String TEXTURE_FILE = "EMPTower.png";
 
 	public void renderAModelAt(TDianCiQi tileEntity, double x, double y, double z, float f)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		this.bindTextureByName(ZhuYao.TEXTURE_FILE_PATH + "EMPTower.png");
+		this.bindTextureByName(ZhuYao.TEXTURE_FILE_PATH + TEXTURE_FILE);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-		modelBase.render(tileEntity.xuanZhuan, 0.0625F);
+		MODEL.render(tileEntity.xuanZhuan, 0.0625F);
 		GL11.glPopMatrix();
 	}
 

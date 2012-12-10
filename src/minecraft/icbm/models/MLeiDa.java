@@ -112,7 +112,7 @@ public class MLeiDa extends ModelBase
 		setRotation(Secondary_Dish_Piece_2, 0F, 0.6108652F, 0F);
 	}
 
-	public void renderRadar(float rotation, float f5)
+	public void render(float rotation, float f5)
 	{
 		Main_Base.render(f5);
 		Main_Base_Outer_Layer.render(f5);
