@@ -1,6 +1,7 @@
 package icbm.jiqi;
 
 import icbm.ZhuYao;
+import icbm.renders.RHJiQi;
 
 import java.util.List;
 import java.util.Random;
@@ -37,6 +38,25 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
  */
 public class BJiQi extends BlockMachine
 {
+	public enum JiQi
+	{
+		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class), LeiDaTai(TLeiDaTai.class), DianCiQi(TDianCiQi.class), CiGuiPao(TCiGuiPao.class), XiaoFaSheQi(TXiaoFaSheQi.class);
+
+		public Class<? extends TileEntity> tileEntity;
+
+		JiQi(Class<? extends TileEntity> tileEntity)
+		{
+			this.tileEntity = tileEntity;
+		}
+
+		public static JiQi get(int id)
+		{
+			if (id <= JiQi.values().length) { return JiQi.values()[id]; }
+
+			return null;
+		}
+	}
+
 	private static final int JI_QI_SHU = 13;
 
 	public BJiQi(int id)
@@ -320,22 +340,20 @@ public class BJiQi extends BlockMachine
 	@Override
 	public TileEntity createNewTileEntity(World var1, int metadata)
 	{
-		switch (metadata)
+		if (JiQi.get(metadata) != null)
 		{
-			case 0:
-				return new TFaSheDi();
-			case 1:
-				return new TFaSheShiMuo();
-			case 2:
-				return new TFaSheJia();
-			case 3:
-				return new TLeiDaTai();
-			case 4:
-				return new TDianCiQi();
-			case 5:
-				return new TCiGuiPao();
-			case 6:
-				return new TXiaoFaSheQi();
+			try
+			{
+				return JiQi.get(metadata).tileEntity.newInstance();
+			}
+			catch (InstantiationException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return null;
@@ -355,7 +373,7 @@ public class BJiQi extends BlockMachine
 	@Override
 	public int getRenderType()
 	{
-		return -1;
+		return RHJiQi.ID;
 	}
 
 	@Override

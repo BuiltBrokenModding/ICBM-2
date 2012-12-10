@@ -18,12 +18,13 @@ public class ItGenZongQi extends ItemElectric
 {
 	private static final float YONG_DIAN_LIANG = 0.05f;
 
-	public ItGenZongQi(int id, int iconIndex)
+	public ItGenZongQi(int id)
 	{
 		super(id);
-		this.setIconIndex(iconIndex);
+		this.setIconIndex(0);
 		this.setItemName("tracker");
 		this.setCreativeTab(ZhuYao.TAB);
+		this.setTextureFile(ZhuYao.TRACKER_TEXTURE_FILE);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -134,12 +135,6 @@ public class ItGenZongQi extends ItemElectric
 	public double getVoltage()
 	{
 		return 20;
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.TRACKER_TEXTURE_FILE;
 	}
 
 	@Override

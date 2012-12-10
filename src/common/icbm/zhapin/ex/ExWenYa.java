@@ -4,6 +4,7 @@ import icbm.ParticleSpawner;
 import icbm.ZhuYao;
 import icbm.zhapin.EZhaPin;
 import icbm.zhapin.ZhaPin;
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockFluid;
 import net.minecraft.src.Entity;
@@ -126,7 +127,7 @@ public class ExWenYa extends ZhaPin
 
 		if (r > 0)
 		{
-			if (worldObj.isRemote && ZhuYao.GAO_PARTICLE)
+			if (worldObj.isRemote && ZhuYao.proxy.isGaoQing())
 			{
 				for (int x = -r; x < r; x++)
 				{
@@ -140,7 +141,7 @@ public class ExWenYa extends ZhaPin
 
 							if (!reverse)
 							{
-								if (worldObj.rand.nextFloat() < Math.max(0.0006 * r, 0.005) || (ZhuYao.GAO_VISUAL && worldObj.rand.nextFloat() < Math.max(0.0008 * r, 0.008)))
+								if (worldObj.rand.nextFloat() < Math.max(0.0006 * r, 0.005))
 								{
 									worldObj.spawnParticle("hugeexplosion", targetPosition.x, targetPosition.y, targetPosition.z, 0, 0, 0);
 								}
@@ -201,26 +202,9 @@ public class ExWenYa extends ZhaPin
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 10.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
 
-	/**
-	 * Called when the explosive is on fuse and going to explode. Called only when the explosive is
-	 * in it's TNT form.
-	 * 
-	 * @param fuseTicks - The amount of ticks this explosive is on fuse
-	 */
-	@Override
-	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
-	{
-		super.onYinZha(worldObj, position, fuseTicks);
-
-		if (fuseTicks % 25 == 0)
-		{
-			worldObj.playSoundEffect((int) position.x, (int) position.y, (int) position.z, "icbm.alarm", 4F, 1F);
-		}
-	}
-
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "TTT", "TUT", "TTT", 'T', Block.tnt, 'U', "ingotUranium" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ITC", "TRT", "CTI", 'T', Block.tnt, 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

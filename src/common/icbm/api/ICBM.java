@@ -20,19 +20,8 @@ public class ICBM
 	/**
 	 * A reference to the explosive TNT block instance.
 	 */
-	public static Block explosiveBlock;
+	public static Block blockExplosive;
 	public static Class explosionManager;
-
-	/**
-	 * Returns an ItemStack of the explosive with the explosive block.
-	 * 
-	 * @param explosiveID
-	 * @return
-	 */
-	public static ItemStack getExplosiveBlock(int explosiveID)
-	{
-		return new ItemStack(explosiveBlock, 1, explosiveID);
-	}
 
 	/**
 	 * Creates an ICBM explosion anywhere in this specific position.

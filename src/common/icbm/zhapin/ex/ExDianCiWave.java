@@ -85,7 +85,7 @@ public class ExDianCiWave extends ZhaPin
 
 							if (tileEntity instanceof TYinXing)
 							{
-								((TYinXing) tileEntity).setJiaHaoMa(1);
+								((TYinXing) tileEntity).setFangGe(0, 0);
 								((TYinXing) tileEntity).setQing(false);
 								worldObj.markBlockForRenderUpdate(i + x, j + y, k + z);
 							}

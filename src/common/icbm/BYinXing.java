@@ -1,5 +1,6 @@
 package icbm;
 
+import icbm.renders.RHYinXing;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
@@ -12,9 +13,10 @@ import universalelectricity.prefab.BlockMachine;
 
 public class BYinXing extends BlockMachine
 {
-	protected BYinXing(int id)
+	protected BYinXing(int id, int texture)
 	{
 		super("camouflage", id, Material.cloth);
+		this.blockIndexInTexture = texture;
 		this.setHardness(0.3F);
 		this.setResistance(1F);
 		this.setStepSound(this.soundClothFootstep);
@@ -34,21 +36,27 @@ public class BYinXing extends BlockMachine
 		{
 			if (t instanceof TYinXing)
 			{
-				TYinXing tileEntity = (TYinXing) par1IBlockAccess.getBlockTileEntity(x, y, z);
+				TYinXing tileEntity = (TYinXing) t;
 
 				if (tileEntity.getQing(ForgeDirection.getOrientation(side))) { return Block.glass.blockIndexInTexture; }
 
-				try
+				Block block = Block.blocksList[tileEntity.getJiaHaoMa()];
+
+				if (block != null)
 				{
-					return Block.blocksList[tileEntity.getJiaHaoMa()].getBlockTexture(par1IBlockAccess, x, y, z, side);
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
+					try
+					{
+						return Block.blocksList[tileEntity.getJiaHaoMa()].getBlockTextureFromSideAndMetadata(side, tileEntity.getJiaMetadata());
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-		return 0;
+
+		return this.blockIndexInTexture;
 	}
 
 	@Override
@@ -60,9 +68,9 @@ public class BYinXing extends BlockMachine
 
 			if (block != null)
 			{
-				if ((block.getRenderType() == 0 || block.getRenderType() == 31) && block.blockID <= 145)
+				if ((block.getRenderType() == 0 || block.getRenderType() == 31))
 				{
-					((TYinXing) par1World.getBlockTileEntity(x, y, z)).setJiaHaoMa(block.blockID);
+					((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
 					par1World.markBlockForRenderUpdate(x, y, z);
 					return true;
 				}
@@ -115,27 +123,30 @@ public class BYinXing extends BlockMachine
 		{
 			Block block = Block.blocksList[((TYinXing) par1IBlockAccess.getBlockTileEntity(x, y, z)).getJiaHaoMa()];
 
-			if (block == Block.grass)
+			if (block != null)
 			{
-				int redColor = 0;
-				int greenColor = 0;
-				int blueColork = 0;
-
-				for (int izy = -1; izy <= 1; izy++)
+				if (block == Block.grass)
 				{
-					for (int ix = -1; ix <= 1; ix++)
+					int redColor = 0;
+					int greenColor = 0;
+					int blueColork = 0;
+
+					for (int izy = -1; izy <= 1; izy++)
 					{
-						int grassColor = par1IBlockAccess.getBiomeGenForCoords(x + ix, z + izy).getBiomeGrassColor();
-						redColor += ((grassColor & 0xFF0000) >> 16);
-						greenColor += ((grassColor & 0xFF00) >> 8);
-						blueColork += (grassColor & 0xFF);
+						for (int ix = -1; ix <= 1; ix++)
+						{
+							int grassColor = par1IBlockAccess.getBiomeGenForCoords(x + ix, z + izy).getBiomeGrassColor();
+							redColor += ((grassColor & 0xFF0000) >> 16);
+							greenColor += ((grassColor & 0xFF00) >> 8);
+							blueColork += (grassColor & 0xFF);
+						}
 					}
+
+					return (redColor / 9 & 0xFF) << 16 | (greenColor / 9 & 0xFF) << 8 | blueColork / 9 & 0xFF;
 				}
 
-				return (redColor / 9 & 0xFF) << 16 | (greenColor / 9 & 0xFF) << 8 | blueColork / 9 & 0xFF;
+				return block.colorMultiplier(par1IBlockAccess, x, y, x);
 			}
-
-			return block.colorMultiplier(par1IBlockAccess, x, y, x);
 		}
 		catch (Exception e)
 		{
@@ -171,6 +182,12 @@ public class BYinXing extends BlockMachine
 	public boolean renderAsNormalBlock()
 	{
 		return false;
+	}
+
+	@Override
+	public int getRenderType()
+	{
+		return RHYinXing.ID;
 	}
 
 	@Override

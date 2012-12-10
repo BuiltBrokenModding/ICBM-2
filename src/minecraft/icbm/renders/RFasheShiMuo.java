@@ -10,11 +10,11 @@ import net.minecraft.src.TileEntitySpecialRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-public class RFasheShiMuo extends TileEntitySpecialRenderer
+public class RFaSheShiMuo extends TileEntitySpecialRenderer
 {
-	MFaSheShiMuo0 model0 = new MFaSheShiMuo0();
-	MFaSheShiMuo1 model1 = new MFaSheShiMuo1();
-	MFaSheShiMuo2 model2 = new MFaSheShiMuo2();
+	public static final MFaSheShiMuo0 model0 = new MFaSheShiMuo0();
+	public static final MFaSheShiMuo1 model1 = new MFaSheShiMuo1();
+	public static final MFaSheShiMuo2 model2 = new MFaSheShiMuo2();
 
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)

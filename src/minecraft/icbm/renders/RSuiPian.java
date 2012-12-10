@@ -12,7 +12,7 @@ import net.minecraft.src.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class RShuiPian extends Render
+public class RSuiPian extends Render
 {
 	public void renderArrow(ESuiPian suiPian, double par2, double par4, double par6, float par8, float par9)
 	{

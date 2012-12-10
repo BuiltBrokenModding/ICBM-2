@@ -1,8 +1,8 @@
 package icbm.zhapin;
 
 import icbm.BaoHu;
-import icbm.RH;
 import icbm.ZhuYao;
+import icbm.renders.RHZhaPin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,6 +184,8 @@ public class BZhaDan extends BlockContainer
 		super.onBlockAdded(par1World, x, y, z);
 
 		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
+		
+		par1World.markBlockForRenderUpdate(x, y, z);
 	}
 
 	/**
@@ -295,7 +297,7 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public int getRenderType()
 	{
-		return RH.R_HAO_MA;
+		return RHZhaPin.ID;
 	}
 
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)

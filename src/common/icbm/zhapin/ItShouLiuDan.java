@@ -16,7 +16,7 @@ public class ItShouLiuDan extends ICBMItem
 {
 	public ItShouLiuDan(int par1, int par2)
 	{
-		super("Grenade", par1, par2, ZhuYao.TAB);
+		super("Grenade", par1, par2);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}

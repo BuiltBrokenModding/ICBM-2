@@ -35,7 +35,6 @@ import net.minecraft.src.BehaviorDefaultDispenseItem;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockDispenser;
 import net.minecraft.src.BlockRail;
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumFacing;
 import net.minecraft.src.IBehaviorDispenseItem;
 import net.minecraft.src.IBlockSource;
@@ -91,7 +90,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String BAN_BEN = "0.6.4";
+	public static final String BAN_BEN = "0.7.0";
 
 	public static final String MING_ZI = "ICBM";
 
@@ -102,7 +101,7 @@ public class ZhuYao
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
-	private static final String[] YU_YAN = new String[] { "en_US" };
+	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES", "es_AR", "es_MX", "es_UY", "es_VE" };;
 
 	@SidedProxy(clientSide = "icbm.ICBMClient", serverSide = "icbm.ICBMCommon")
 	public static ICBMCommon proxy;
@@ -112,8 +111,6 @@ public class ZhuYao
 	/**
 	 * Settings and Configurations
 	 */
-	public static boolean GAO_PARTICLE;
-	public static boolean GAO_VISUAL;
 	public static boolean ZAI_KUAI;
 	public static int DAO_DAN_ZUI_YUAN;
 
@@ -160,6 +157,7 @@ public class ZhuYao
 	 * Some texture file directory references.
 	 */
 	public static final String TEXTURE_FILE_PATH = "/icbm/textures/";
+	public static final String SMINE_TEXTURE = TEXTURE_FILE_PATH + "S-Mine.png";
 	public static final String BLOCK_TEXTURE_FILE = TEXTURE_FILE_PATH + "blocks.png";
 	public static final String ITEM_TEXTURE_FILE = TEXTURE_FILE_PATH + "items.png";
 	public static final String TRACKER_TEXTURE_FILE = TEXTURE_FILE_PATH + "tracker.png";
@@ -181,8 +179,6 @@ public class ZhuYao
 		}
 
 		CONFIGURATION.load();
-		GAO_PARTICLE = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Spawn Particle Effects", true).getBoolean(true);
-		GAO_VISUAL = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Advanced Visual Effects", false).getBoolean(false);
 		ZAI_KUAI = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
 		DAO_DAN_ZUI_YUAN = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 2000).getInt(2000);
 		BaoHu.SHE_DING_BAO_HU = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
@@ -196,22 +192,22 @@ public class ZhuYao
 		bJia = new BlockMulti(CONFIGURATION.getBlock("BlockID6", B_HAO_MA + 7).getInt());
 		bBuoLiEnNiu = new BEnNiu(CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 8).getInt());
 		bZha = new BZha(CONFIGURATION.getBlock("BlockID8", B_HAO_MA + 9).getInt(), 1);
-		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 10).getInt());
+		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 10).getInt(), 11);
 
 		// ITEMS
-		itLiu = new ICBMItem("sulfur", CONFIGURATION.getItem("ItemID1", I_HAO_MA + 0).getInt(), 3, CreativeTabs.tabMaterials);
-		itDu = new ICBMItem("poisonPowder", CONFIGURATION.getItem("ItemID2", I_HAO_MA + 1).getInt(), 0, CreativeTabs.tabMaterials);
-		itYao = new ItYao(CONFIGURATION.getItem("ItemID3", I_HAO_MA + 2).getInt(), 5);
+		itDu = new ICBMItem("poisonPowder", CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt(), 0);
+		itLiu = new ICBMItem("sulfur", CONFIGURATION.getItem("ItemID1", I_HAO_MA + 1).getInt(), 1);
+		itYao = new ItYao(CONFIGURATION.getItem("ItemID3", I_HAO_MA + 2).getInt(), 2);
 		itDaoDan = new ItDaoDan("missile", CONFIGURATION.getItem("ItemID4", I_HAO_MA + 3).getInt(), 32);
 		itTeBieDaoDan = new ItTeBieDaoDan("specialMissile", CONFIGURATION.getItem("ItemID5", I_HAO_MA + 4).getInt(), 32);
 
-		itJieJa = new ItJieJa(CONFIGURATION.getItem("ItemID6", I_HAO_MA + 5).getInt(), 21);
-		itLeiDaQiang = new ItLeiDaQiang(CONFIGURATION.getItem("ItemID7", I_HAO_MA + 6).getInt(), 19);
-		itYaoKong = new ItYaoKong(CONFIGURATION.getItem("ItemID8", I_HAO_MA + 7).getInt(), 20);
-		itLeiSheZhiBiao = new ItLeiShiZhiBiao(CONFIGURATION.getItem("ItemID9", I_HAO_MA + 8).getInt(), 22);
-		itHuoLaunQi = new ItHuoLuanQi(CONFIGURATION.getItem("ItemID10", I_HAO_MA + 9).getInt(), 23);
-		itGenZongQi = new ItGenZongQi(CONFIGURATION.getItem("ItemID11", I_HAO_MA + 10).getInt(), 0);
-		itFaSheQi = new ItFaSheQi(CONFIGURATION.getItem("ItemID12", I_HAO_MA + 11).getInt(), 0);
+		itJieJa = new ItJieJa(CONFIGURATION.getItem("ItemID6", I_HAO_MA + 5).getInt(), 5);
+		itLeiDaQiang = new ItLeiDaQiang(CONFIGURATION.getItem("ItemID7", I_HAO_MA + 6).getInt(), 3);
+		itYaoKong = new ItYaoKong(CONFIGURATION.getItem("ItemID8", I_HAO_MA + 7).getInt(), 4);
+		itLeiSheZhiBiao = new ItLeiShiZhiBiao(CONFIGURATION.getItem("ItemID9", I_HAO_MA + 8).getInt(), 6);
+		itHuoLaunQi = new ItHuoLuanQi(CONFIGURATION.getItem("ItemID10", I_HAO_MA + 9).getInt(), 7);
+		itGenZongQi = new ItGenZongQi(CONFIGURATION.getItem("ItemID11", I_HAO_MA + 10).getInt());
+		itFaSheQi = new ItFaSheQi(CONFIGURATION.getItem("ItemID12", I_HAO_MA + 11).getInt());
 
 		itShouLiuDan = new ItShouLiuDan(CONFIGURATION.getItem("ItemID13", I_HAO_MA + 12).getInt(), 64);
 		itZiDan = new ItZiDan("bullet", CONFIGURATION.getItem("ItemID14", I_HAO_MA + 13).getInt(), 80);
@@ -316,7 +312,7 @@ public class ZhuYao
 		MinecraftForge.EVENT_BUS.register(this);
 
 		// Set ICBM API Variables
-		ICBM.explosiveBlock = this.bZhaDan;
+		ICBM.blockExplosive = this.bZhaDan;
 		ICBM.explosionManager = ZhaPin.class;
 
 		UpdateNotifier.INSTANCE.checkUpdate(MING_ZI, BAN_BEN, "http://calclavia.com/downloads/icbm/modversion.txt");

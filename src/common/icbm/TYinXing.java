@@ -15,7 +15,8 @@ import com.google.common.io.ByteArrayDataInput;
 public class TYinXing extends TileEntity implements IPacketReceiver
 {
 	// The block Id this block is trying to mimik
-	private int jiaHaoMa = 1;
+	private int jiaHaoMa = 0;
+	private int jiaMetadata = 0;
 	private boolean isYing = true;
 	private final boolean[] qingBian = new boolean[] { false, false, false, false, false, false };
 
@@ -30,7 +31,7 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	{
 		try
 		{
-			this.setJiaHaoMa(dataStream.readInt());
+			this.setFangGe(dataStream.readInt(), dataStream.readInt());
 			this.qingBian[0] = dataStream.readBoolean();
 			this.qingBian[1] = dataStream.readBoolean();
 			this.qingBian[2] = dataStream.readBoolean();
@@ -48,7 +49,7 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.jiaHaoMa, this.qingBian[0], this.qingBian[1], this.qingBian[2], this.qingBian[3], this.qingBian[4], this.qingBian[5], this.isYing);
+		return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.jiaHaoMa, this.jiaMetadata, this.qingBian[0], this.qingBian[1], this.qingBian[2], this.qingBian[3], this.qingBian[4], this.qingBian[5], this.isYing);
 	}
 
 	public boolean getYing()
@@ -71,13 +72,22 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 		return this.jiaHaoMa;
 	}
 
-	public void setJiaHaoMa(int blockID)
+	public int getJiaMetadata()
 	{
-		jiaHaoMa = Math.max(blockID, 1);
+		return this.jiaMetadata;
+	}
 
-		if (!this.worldObj.isRemote)
+	public void setFangGe(int blockID, int metadata)
+	{
+		if (this.jiaHaoMa != blockID || this.jiaMetadata != metadata)
 		{
-			PacketManager.sendPacketToClients(this.getDescriptionPacket());
+			this.jiaHaoMa = Math.max(blockID, 0);
+			this.jiaMetadata = Math.max(metadata, 0);
+
+			if (!this.worldObj.isRemote)
+			{
+				PacketManager.sendPacketToClients(this.getDescriptionPacket());
+			}
 		}
 	}
 
@@ -119,7 +129,8 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	{
 		super.readFromNBT(par1NBTTagCompound);
 
-		this.jiaHaoMa = par1NBTTagCompound.getInteger("fakeBlockID");
+		this.jiaHaoMa = par1NBTTagCompound.getInteger("jiaHaoMa");
+		this.jiaMetadata = par1NBTTagCompound.getInteger("jiaMetadata");
 
 		for (int i = 0; i < qingBian.length; i++)
 		{
@@ -137,7 +148,8 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	{
 		super.writeToNBT(par1NBTTagCompound);
 
-		par1NBTTagCompound.setInteger("fakeBlockID", this.jiaHaoMa);
+		par1NBTTagCompound.setInteger("jiaHaoMa", this.jiaHaoMa);
+		par1NBTTagCompound.setInteger("jiaMetadata", this.jiaMetadata);
 
 		for (int i = 0; i < qingBian.length; i++)
 		{

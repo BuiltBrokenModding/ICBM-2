@@ -13,7 +13,7 @@ public class ItDaoDan extends ICBMItem
 {
 	public ItDaoDan(String name, int id, int texture)
 	{
-		super(name, id, texture, ZhuYao.TAB);
+		super(name, id, texture);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.maxStackSize = 1;

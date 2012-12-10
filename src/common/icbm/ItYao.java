@@ -9,7 +9,7 @@ public class ItYao extends ICBMItem
 {
 	public ItYao(int par1, int par2)
 	{
-		super("antidote", par1, par2, ZhuYao.TAB);
+		super("antidote", par1, par2);
 	}
 
 	@Override

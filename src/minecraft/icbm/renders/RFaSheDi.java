@@ -16,14 +16,14 @@ import org.lwjgl.opengl.GL11;
 
 public class RFaSheDi extends TileEntitySpecialRenderer
 {
-	MFaSheDi0 modelBase0 = new MFaSheDi0();
-	MFaSheDiRail0 modelRail0 = new MFaSheDiRail0();
+	public static final MFaSheDi0 modelBase0 = new MFaSheDi0();
+	public static final MFaSheDiRail0 modelRail0 = new MFaSheDiRail0();
 
-	MFaSheDi1 modelBase1 = new MFaSheDi1();
-	MFaSheDiRail1 modelRail1 = new MFaSheDiRail1();
+	public static final MFaSheDi1 modelBase1 = new MFaSheDi1();
+	public static final MFaSheDiRail1 modelRail1 = new MFaSheDiRail1();
 
-	MFaSheDi2 modelBase2 = new MFaSheDi2();
-	MFaSheDiRail2 modelRail2 = new MFaSheDiRail2();
+	public static final MFaSheDi2 modelBase2 = new MFaSheDi2();
+	public static final MFaSheDiRail2 modelRail2 = new MFaSheDiRail2();
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)

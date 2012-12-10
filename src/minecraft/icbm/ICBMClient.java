@@ -28,11 +28,14 @@ import icbm.renders.REZhaDan;
 import icbm.renders.RFaSheDi;
 import icbm.renders.RFaSheJia;
 import icbm.renders.RFake;
-import icbm.renders.RFasheShiMuo;
+import icbm.renders.RFaSheShiMuo;
 import icbm.renders.RFeiBlock;
 import icbm.renders.RGuangBang;
+import icbm.renders.RHJiQi;
+import icbm.renders.RHYinXing;
+import icbm.renders.RHZhaPin;
 import icbm.renders.RShouLiuDan;
-import icbm.renders.RShuiPian;
+import icbm.renders.RSuiPian;
 import icbm.renders.RXiaoFaSheQi;
 import icbm.renders.RZhaPin;
 import icbm.renders.RenderRadarStation;
@@ -67,15 +70,17 @@ public class ICBMClient extends ICBMCommon
 	public void init()
 	{
 		super.init();
-		
-		RenderingRegistry.registerBlockHandler(new RH());
+
+		RenderingRegistry.registerBlockHandler(new RHZhaPin());
+		RenderingRegistry.registerBlockHandler(new RHYinXing());
+		RenderingRegistry.registerBlockHandler(new RHJiQi());
 
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
 		RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
 		RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RFeiBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
-		RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RShuiPian());
+		RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RSuiPian());
 		RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RShouLiuDan());
 		RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RFake());
 		RenderingRegistry.registerEntityRenderingHandler(EChe.class, new RChe());
@@ -85,7 +90,7 @@ public class ICBMClient extends ICBMCommon
 		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
 		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class, new RXiaoFaSheQi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class, new RFaSheDi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class, new RFasheShiMuo());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class, new RFaSheShiMuo());
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class, new RFaSheJia());
 		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RenderRadarStation());
 		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
@@ -128,5 +133,10 @@ public class ICBMClient extends ICBMCommon
 	public String getMinecraftDir()
 	{
 		return Minecraft.getMinecraftDir().toString();
+	}
+
+	public boolean isGaoQing()
+	{
+		return Minecraft.getMinecraft().gameSettings.fancyGraphics;
 	}
 }

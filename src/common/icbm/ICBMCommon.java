@@ -83,4 +83,9 @@ public class ICBMCommon implements IGuiHandler
 	{
 		return "";
 	}
+	
+	public boolean isGaoQing()
+	{
+		return false;
+	}
 }

@@ -20,10 +20,9 @@ public class ItFaSheQi extends ItemElectric
 {
 	private static final int YONG_DIAN_LIANG = 8000;
 
-	public ItFaSheQi(int par1, int par2)
+	public ItFaSheQi(int par1)
 	{
 		super(par1);
-		this.iconIndex = par2;
 		this.setItemName("launcher");
 		this.setCreativeTab(ZhuYao.TAB);
 		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
