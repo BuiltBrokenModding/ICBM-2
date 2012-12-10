@@ -29,13 +29,6 @@ import universalelectricity.prefab.implement.ITier;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 
-/**
- * Metadata of block 0 - Launcher Base 1 - Launcher Screen 2 - Support Frame 3 - Radar Station 4 -
- * EMP Tower 5 - Railgun 6 - Cruise Launcher
- * 
- * @author Calclavia
- * 
- */
 public class BJiQi extends BlockMachine
 {
 	public enum JiQi

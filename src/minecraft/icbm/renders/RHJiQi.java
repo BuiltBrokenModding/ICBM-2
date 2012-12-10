@@ -26,16 +26,14 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 		if (modelID == ID)
 		{
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) 0.0F, (float) 0.1F, (float) 0.0F);
-			GL11.glRotatef(180f, 0f, 0f, 1f);
-
-			int tier = 0;
 
 			if (metadata < JiQi.FaSheDi.ordinal() * 3 + 3)
 			{
-				tier = metadata;
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "Launcher" + tier + ".png"));
+				int tier = metadata;
+
+				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glScalef(0.4f, 0.4f, 0.4f);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "Launcher" + tier + ".png"));
 
 				if (tier == 0)
 				{
@@ -59,9 +57,12 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 			}
 			else if (metadata < JiQi.FaSheShiMuo.ordinal() * 3 + 3)
 			{
-				tier = metadata - 3;
+				int tier = metadata - 3;
+				GL11.glTranslatef(0f, 0.9f, 0f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				GL11.glRotatef(180f, 0f, 180f, 1f);
+
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "Launcher" + tier + ".png"));
-				GL11.glScalef(0.4f, 0.4f, 0.4f);
 
 				if (tier == 0)
 				{
@@ -75,6 +76,17 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				{
 					RFaSheShiMuo.model2.render(0.0625F);
 				}
+			}
+			else if (metadata < JiQi.FaSheJia.ordinal() * 3 + 3)
+			{
+				int tier = metadata - 6;
+				GL11.glTranslatef(0f, 0f, 0f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				GL11.glScalef(0.8f, 0.4f, 0.8f);
+
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "Launcher0.png"));
+
+				RFaSheJia.model.render(0.0625F);
 			}
 
 			GL11.glPopMatrix();

@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RFaSheJia extends TileEntitySpecialRenderer
 {
-	private MFaSheJia model = new MFaSheJia();
+	public static final MFaSheJia model = new MFaSheJia();
 
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)

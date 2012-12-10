@@ -139,22 +139,22 @@ public abstract class ZhaPin implements ITier
 
 	public String getMing()
 	{
-		return LanguageRegistry.instance().getStringLocalization("icbm.explosive." + this.mingZi);
+		return ZhuYao.getLocal("icbm.explosive." + this.mingZi);
 	}
 
 	public String getZhaPinMing()
 	{
-		return this.getMing() + " " + LanguageRegistry.instance().getStringLocalization("icbm.explosive");
+		return this.getMing() + " " + ZhuYao.getLocal("icbm.explosive");
 	}
 
 	public String getShouLiuDanMing()
 	{
-		return this.getMing() + " " + LanguageRegistry.instance().getStringLocalization("icbm.grenade");
+		return this.getMing() + " " +ZhuYao.getLocal("icbm.grenade");
 	}
 
 	public String getDaoDanMing()
 	{
-		return this.getMing() + " " + LanguageRegistry.instance().getStringLocalization("icbm.missile");
+		return this.getMing() + " " +ZhuYao.getLocal("icbm.missile");
 	}
 
 	public String getCheMing()

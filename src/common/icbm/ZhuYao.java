@@ -176,6 +176,23 @@ public class ZhuYao
 		for (String language : YU_YAN)
 		{
 			LanguageRegistry.instance().loadLocalization(ZhuYao.YU_YAN_PATH + language + ".properties", language, false);
+
+			if (getLocal("children") != "")
+			{
+				try
+				{
+					String[] children = getLocal("children").split(",");
+
+					for (String child : children)
+					{
+						LanguageRegistry.instance().loadLocalization(ZhuYao.YU_YAN_PATH + language + ".properties", child, false);
+					}
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 
 		CONFIGURATION.load();
@@ -359,7 +376,7 @@ public class ZhuYao
 			LanguageRegistry.addName(new ItemStack(ZhuYao.itTeBieDaoDan, 1, i), ((ItTeBieDaoDan) ZhuYao.itTeBieDaoDan).names[i]);
 		}
 
-		LanguageRegistry.addName(new ItemStack(ZhuYao.bZhaDan, 1, ZhaPin.diLei.getID()), LanguageRegistry.instance().getStringLocalization("icbm.sMine"));
+		LanguageRegistry.addName(new ItemStack(ZhuYao.bZhaDan, 1, ZhaPin.diLei.getID()), ZhuYao.getLocal("icbm.sMine"));
 
 		// Explosives and missile recipe
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
@@ -519,6 +536,18 @@ public class ZhuYao
 		var4 = -MathHelper.cos(-rotationPitch * 0.017453292F);
 		var5 = MathHelper.sin(-rotationPitch * 0.017453292F);
 		return new Vector3(var3 * var4, var5, var2 * var4);
+	}
+
+	public static String getLocal(String key)
+	{
+		String text = LanguageRegistry.instance().getStringLocalization(key);
+
+		if (text == null || text == "")
+		{
+			text = LanguageRegistry.instance().getStringLocalization(key, "en_US");
+		}
+
+		return text;
 	}
 
 	@ServerStarting
