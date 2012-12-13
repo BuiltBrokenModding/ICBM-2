@@ -2,6 +2,8 @@ package icbm.api;
 
 import java.lang.reflect.Method;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLLog;
 

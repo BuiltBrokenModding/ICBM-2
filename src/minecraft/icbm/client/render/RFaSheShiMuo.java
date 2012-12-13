@@ -1,10 +1,10 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
 import icbm.client.models.MFaSheShiMuo0;
 import icbm.client.models.MFaSheShiMuo1;
 import icbm.client.models.MFaSheShiMuo2;
-import icbm.jiqi.TFaSheShiMuo;
+import icbm.common.ZhuYao;
+import icbm.common.jiqi.TFaSheShiMuo;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 

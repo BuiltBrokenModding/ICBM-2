@@ -1,9 +1,9 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
 import icbm.client.models.ICBMModelBase;
-import icbm.zhapin.EZhaDan;
-import icbm.zhapin.ZhaPin;
+import icbm.common.ZhuYao;
+import icbm.common.zhapin.EZhaDan;
+import icbm.common.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;

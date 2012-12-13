@@ -1,7 +1,7 @@
 package icbm.client.render;
 
-import icbm.EFeiBlock;
-import icbm.ICBMRenderBlocks;
+import icbm.common.EFeiBlock;
+import icbm.common.ICBMRenderBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RFeiBlock extends Render
 {

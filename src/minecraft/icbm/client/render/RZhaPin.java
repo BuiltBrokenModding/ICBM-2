@@ -1,8 +1,8 @@
 package icbm.client.render;
 
 import icbm.client.models.ICBMModelBase;
-import icbm.zhapin.EZhaPin;
-import icbm.zhapin.ZhaPin;
+import icbm.common.zhapin.EZhaPin;
+import icbm.common.zhapin.ZhaPin;
 
 import java.util.Random;
 

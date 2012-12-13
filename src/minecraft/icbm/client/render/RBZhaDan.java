@@ -1,8 +1,8 @@
 package icbm.client.render;
 
 import icbm.client.models.ICBMModelBase;
-import icbm.zhapin.TZhaDan;
-import icbm.zhapin.ZhaPin;
+import icbm.common.zhapin.TZhaDan;
+import icbm.common.zhapin.ZhaPin;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RBZhaDan extends TileEntitySpecialRenderer
 {

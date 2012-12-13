@@ -1,7 +1,7 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
-import icbm.jiqi.BJiQi.JiQi;
+import icbm.common.ZhuYao;
+import icbm.common.jiqi.BJiQi.JiQi;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
@@ -13,6 +13,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RHJiQi implements ISimpleBlockRenderingHandler
 {

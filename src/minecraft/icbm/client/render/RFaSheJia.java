@@ -1,8 +1,8 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
 import icbm.client.models.MFaSheJia;
-import icbm.jiqi.TFaSheJia;
+import icbm.common.ZhuYao;
+import icbm.common.jiqi.TFaSheJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RFaSheJia extends TileEntitySpecialRenderer
 {

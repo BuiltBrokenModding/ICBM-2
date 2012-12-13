@@ -1,9 +1,9 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
 import icbm.client.models.MDiLei;
-import icbm.zhapin.TZhaDan;
-import icbm.zhapin.ZhaPin;
+import icbm.common.ZhuYao;
+import icbm.common.zhapin.TZhaDan;
+import icbm.common.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;

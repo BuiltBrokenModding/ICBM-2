@@ -1,7 +1,11 @@
 package icbm.client.models;
 
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class MDiLei extends ICBMModelBase
 {
 	public static final MDiLei INSTANCE = new MDiLei();

@@ -1,8 +1,8 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
 import icbm.client.models.MDianCiQi;
-import icbm.jiqi.TDianCiQi;
+import icbm.common.ZhuYao;
+import icbm.common.jiqi.TDianCiQi;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RDianCiQi extends TileEntitySpecialRenderer
 {

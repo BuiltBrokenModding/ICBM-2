@@ -1,13 +1,13 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
 import icbm.client.models.MFaSheDi0;
 import icbm.client.models.MFaSheDi1;
 import icbm.client.models.MFaSheDi2;
 import icbm.client.models.MFaSheDiRail0;
 import icbm.client.models.MFaSheDiRail1;
 import icbm.client.models.MFaSheDiRail2;
-import icbm.jiqi.TFaSheDi;
+import icbm.common.ZhuYao;
+import icbm.common.jiqi.TFaSheDi;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RFaSheDi extends TileEntitySpecialRenderer
 {

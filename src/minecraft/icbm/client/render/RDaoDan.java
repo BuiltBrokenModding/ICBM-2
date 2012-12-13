@@ -1,6 +1,5 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
 import icbm.client.models.MMBingDan;
 import icbm.client.models.MMDianCi;
 import icbm.client.models.MMDuQi;
@@ -25,8 +24,9 @@ import icbm.client.models.MMYaSuo;
 import icbm.client.models.MMYuanZi;
 import icbm.client.models.MMZhen;
 import icbm.client.models.MMZhuiZhong;
-import icbm.daodan.EDaoDan;
-import icbm.daodan.EDaoDan.XingShi;
+import icbm.common.ZhuYao;
+import icbm.common.daodan.EDaoDan;
+import icbm.common.daodan.EDaoDan.XingShi;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -35,6 +35,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RDaoDan extends Render
 {

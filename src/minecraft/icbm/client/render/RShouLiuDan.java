@@ -1,7 +1,7 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
-import icbm.zhapin.EShouLiuDan;
+import icbm.common.ZhuYao;
+import icbm.common.zhapin.EShouLiuDan;
 
 import java.util.Random;
 
@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class RShouLiuDan extends Render
 {

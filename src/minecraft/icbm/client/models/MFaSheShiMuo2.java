@@ -2,7 +2,10 @@ package icbm.client.models;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class MFaSheShiMuo2 extends ModelBase
 {
 	// fields

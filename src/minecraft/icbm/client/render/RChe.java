@@ -1,7 +1,7 @@
 package icbm.client.render;
 
-import icbm.ZhuYao;
-import icbm.cart.EChe;
+import icbm.common.ZhuYao;
+import icbm.common.cart.EChe;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelMinecart;
