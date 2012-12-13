@@ -192,6 +192,31 @@ public class MShouFaSheQi extends ModelBase
 		u.render(f5);
 	}
 
+	public void render(float f5)
+	{
+		a.render(f5);
+		b.render(f5);
+		c.render(f5);
+		d.render(f5);
+		e.render(f5);
+		f.render(f5);
+		g.render(f5);
+		h.render(f5);
+		i.render(f5);
+		j.render(f5);
+		k.render(f5);
+		l.render(f5);
+		m.render(f5);
+		n.render(f5);
+		o.render(f5);
+		p.render(f5);
+		q.render(f5);
+		r.render(f5);
+		s.render(f5);
+		t.render(f5);
+		u.render(f5);
+	}
+
 	private void setRotation(ModelRenderer model, float x, float y, float z)
 	{
 		model.rotateAngleX = x;

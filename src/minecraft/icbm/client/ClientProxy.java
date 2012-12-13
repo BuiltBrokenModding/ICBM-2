@@ -15,6 +15,7 @@ import icbm.client.render.RGuangBang;
 import icbm.client.render.RHJiQi;
 import icbm.client.render.RHYinXing;
 import icbm.client.render.RHZhaPin;
+import icbm.client.render.RItH;
 import icbm.client.render.RLeiDaTai;
 import icbm.client.render.RShouLiuDan;
 import icbm.client.render.RSuiPian;
@@ -62,6 +63,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
+
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {
@@ -79,7 +81,9 @@ public class ClientProxy extends CommonProxy
 	public void init()
 	{
 		super.init();
-
+		
+		MinecraftForgeClient.registerItemRenderer(ZhuYao.itFaSheQi.shiftedIndex, new RItH());
+		
 		RenderingRegistry.registerBlockHandler(new RHZhaPin());
 		RenderingRegistry.registerBlockHandler(new RHYinXing());
 		RenderingRegistry.registerBlockHandler(new RHJiQi());
