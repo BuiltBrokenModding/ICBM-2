@@ -6,9 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.Entity;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.RenderEngine;
+import net.minecraft.client.renderer.RenderEngine;
+import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 

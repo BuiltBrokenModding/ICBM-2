@@ -3,9 +3,9 @@ package icbm.gui;
 import icbm.ZhuYao;
 import icbm.jiqi.TCiGuiPao;
 import icbm.rongqi.CCiGuiPao;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiContainer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.opengl.GL11;
 

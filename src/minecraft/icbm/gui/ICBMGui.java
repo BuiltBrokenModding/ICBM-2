@@ -1,7 +1,7 @@
 package icbm.gui;
 
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.OpenGlHelper;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;

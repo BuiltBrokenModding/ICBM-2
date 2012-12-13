@@ -7,7 +7,7 @@ import icbm.jiqi.TLeiDaTai;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.GuiTextField;
+import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 

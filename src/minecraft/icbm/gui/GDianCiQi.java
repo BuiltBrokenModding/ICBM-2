@@ -2,8 +2,8 @@ package icbm.gui;
 
 import icbm.ZhuYao;
 import icbm.jiqi.TDianCiQi;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiTextField;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 

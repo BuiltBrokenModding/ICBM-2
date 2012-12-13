@@ -1,7 +1,7 @@
 package icbm;
 
-import net.minecraft.src.EntityPortalFX;
-import net.minecraft.src.World;
+import net.minecraft.client.particle.EntityPortalFX;
+import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.ReflectionHelper;

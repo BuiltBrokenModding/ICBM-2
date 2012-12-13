@@ -1,9 +1,8 @@
 package icbm;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.World;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.World;
 
 public class ICBMRenderBlocks extends RenderBlocks
 {

@@ -3,8 +3,8 @@ package icbm.gui;
 import icbm.ICBMPacketManager.ICBMPacketType;
 import icbm.ZhuYao;
 import icbm.dianqi.ItHuoLuanQi;
-import net.minecraft.src.GuiTextField;
-import net.minecraft.src.ItemStack;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 

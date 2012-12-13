@@ -3,10 +3,10 @@ package icbm.gui;
 import icbm.ZhuYao;
 import icbm.jiqi.TXiaoFaSheQi;
 import icbm.rongqi.CXiaoFaSheQi;
-import net.minecraft.src.GuiContainer;
-import net.minecraft.src.GuiTextField;
-import net.minecraft.src.InventoryPlayer;
-import net.minecraft.src.StatCollector;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 

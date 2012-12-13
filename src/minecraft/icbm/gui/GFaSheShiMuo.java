@@ -2,7 +2,7 @@ package icbm.gui;
 
 import icbm.ZhuYao;
 import icbm.jiqi.TFaSheShiMuo;
-import net.minecraft.src.GuiTextField;
+import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
