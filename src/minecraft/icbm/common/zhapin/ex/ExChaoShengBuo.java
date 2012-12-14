@@ -12,6 +12,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -20,12 +21,12 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 import chb.mods.mffs.api.IForceFieldBlock;
 
-public class ExShengBuo extends ZhaPin
+public class ExChaoShengBuo extends ZhaPin
 {
-	private static final int BAN_JING = 10;
-	private static final int NENG_LIANG = 40;
+	private static final int BAN_JING = 15;
+	private static final int NENG_LIANG = 80;
 
-	public ExShengBuo(String name, int ID, int tier)
+	public ExChaoShengBuo(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 	}
@@ -36,6 +37,28 @@ public class ExShengBuo extends ZhaPin
 		if (!worldObj.isRemote)
 		{
 			EZhaPin source = (EZhaPin) explosionSource;
+
+			for (int x = -BAN_JING * 2; x < BAN_JING * 2; ++x)
+			{
+				for (int y = -BAN_JING * 2; y < BAN_JING * 2; ++y)
+				{
+					for (int z = -BAN_JING * 2; z < BAN_JING * 2; ++z)
+					{
+						Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
+						int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+
+						if (blockID > 0)
+						{
+							Material material = worldObj.getBlockMaterial(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+
+							if (!(Block.blocksList[blockID] instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) > NENG_LIANG || material == Material.glass))
+							{
+								targetPosition.setBlockWithNotify(worldObj, 0);
+							}
+						}
+					}
+				}
+			}
 
 			for (int x = 0; x < BAN_JING; ++x)
 			{
@@ -98,7 +121,7 @@ public class ExShengBuo extends ZhaPin
 			}
 		}
 
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.sonicwave", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.hypersonic", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.1F) * 0.9F);
 	}
 
 	// Sonic Explosion is a procedural explosive
@@ -143,7 +166,7 @@ public class ExShengBuo extends ZhaPin
 
 					targetPosition.add(0.5D);
 
-					if (worldObj.rand.nextFloat() < 0.3 * (BAN_JING - r))
+					if (worldObj.rand.nextFloat() < 0.2 * (BAN_JING - r))
 					{
 						EFeiBlock entity = new EFeiBlock(worldObj, targetPosition, blockID, metadata);
 						worldObj.spawnEntityInWorld(entity);
@@ -177,7 +200,7 @@ public class ExShengBuo extends ZhaPin
 					r = (int) -BAN_JING;
 
 				entity.motionX += (r - xDifference) * 0.02 * worldObj.rand.nextFloat();
-				entity.motionY += 3 * worldObj.rand.nextFloat();
+				entity.motionY += 4 * worldObj.rand.nextFloat();
 
 				r = (int) BAN_JING;
 				if (zDifference < 0)
@@ -206,6 +229,6 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', "plateBronze" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "SSS", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
 	}
 }

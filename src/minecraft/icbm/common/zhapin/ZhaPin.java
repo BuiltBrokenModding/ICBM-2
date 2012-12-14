@@ -11,6 +11,7 @@ import icbm.common.zhapin.ex.ExDianCiSignal;
 import icbm.common.zhapin.ex.ExDianCiWave;
 import icbm.common.zhapin.ex.ExFanWuSu;
 import icbm.common.zhapin.ex.ExFuLan;
+import icbm.common.zhapin.ex.ExChaoShengBuo;
 import icbm.common.zhapin.ex.ExHongSu;
 import icbm.common.zhapin.ex.ExHuanYuan;
 import icbm.common.zhapin.ex.ExHuo;
@@ -82,13 +83,14 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin bingDan = new ExBingDan("endothermic", 16, 3);
 	public static final ZhaPin piaoFu = new ExPiaoFu("antiGravitational", 17, 3);
 	public static final ZhaPin wanDan = new ExWan("ender", 18, 2);
+	public static final ZhaPin gaoShengBuo = new ExChaoShengBuo("hypersonic", 19, 2);
 
-	public static final int E_SAN_ID = 19;
+	public static final int E_SAN_ID = 20;
 
-	public static final ZhaPin fanWuSu = new ExFanWuSu("antimatter", 19, 4);
-	public static final ZhaPin hongSu = new ExHongSu("redMatter", 20, 4);
+	public static final ZhaPin fanWuSu = new ExFanWuSu("antimatter", 20, 4);
+	public static final ZhaPin hongSu = new ExHongSu("redMatter", 21, 4);
 
-	public static final int E_SI_ID = 21;
+	public static final int E_SI_ID = 22;
 
 	public static final ZhaPin diLei = new ExDiLei("sMine", 25, 2);
 

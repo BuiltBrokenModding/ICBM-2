@@ -35,6 +35,6 @@ public class BEnNiu extends BlockButton
 	@Override
 	public int tickRate()
 	{
-		return 10;
+		return 4;
 	}
 }

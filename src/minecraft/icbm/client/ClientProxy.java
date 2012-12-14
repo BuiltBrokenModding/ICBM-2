@@ -25,7 +25,7 @@ import icbm.common.CommonProxy;
 import icbm.common.EFeiBlock;
 import icbm.common.EGuang;
 import icbm.common.ESuiPian;
-import icbm.common.ICBMSound;
+import icbm.common.ShengYin;
 import icbm.common.TGenZhongQiFX;
 import icbm.common.ZhuYao;
 import icbm.common.cart.EChe;
@@ -74,7 +74,7 @@ public class ClientProxy extends CommonProxy
 		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
 		MinecraftForgeClient.preloadTexture(ZhuYao.TRACKER_TEXTURE_FILE);
 
-		MinecraftForge.EVENT_BUS.register(ICBMSound.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
 	}
 
 	@Override
