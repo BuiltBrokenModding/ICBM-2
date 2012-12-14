@@ -419,6 +419,9 @@ public class ZhuYao
 		// Tracker
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', "advancedCircuit", 'B', "battery", 'S', "ingotSteel" }));
 
+		// Glass Pressure Plate
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bBuoLiPan, 1, 0), new Object[] { "##", '#', Block.glass }));
+
 		// Glass Button
 		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
 
@@ -468,10 +471,6 @@ public class ZhuYao
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 11), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYao.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }));
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 12), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYao.bJiQi, 1, 2), '?', new ItemStack(ZhuYao.bJiQi, 1, 8) }));
-		// Laser Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 13), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYao.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "advancedCircuit" }));
-		// Glass Pressure Plate
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bBuoLiPan, 1, 0), new Object[] { "##", '#', Block.glass }));
 
 		// Missile Module
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', "oilBucket", '#', "basicCircuit" }));

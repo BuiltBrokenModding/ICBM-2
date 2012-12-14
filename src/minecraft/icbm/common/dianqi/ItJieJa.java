@@ -46,7 +46,6 @@ public class ItJieJa extends ItemElectric
 	{
 		if (this.getJoules(stack) > YONG_DIAN_LIANG)
 		{
-
 			if (entity instanceof EZhaDan)
 			{
 				if (!entity.worldObj.isRemote)

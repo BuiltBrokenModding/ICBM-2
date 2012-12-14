@@ -7,8 +7,10 @@ import icbm.common.jiqi.TLeiDaTai;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.core.vector.Vector2;
@@ -108,40 +110,10 @@ public class GLeiDaTai extends ICBMGui
 	}
 
 	/**
-	 * Called when the mouse is moved or a mouse button is released. Signature: (mouseX, mouseY,
-	 * which) which==-1 is mouseMove, which==0 or which==1 is mouseUp
-	 */
-	protected void mouseMovedOrUp(int x, int y, int which)
-	{
-		super.mouseMovedOrUp(x, y, which);
-
-		// Check if mouse click is within map
-		// region
-		if (which == -1)
-		{
-			float difference = (int) this.tileEntity.MAX_BIAN_JING / this.radarMapRadius;
-
-			if (x > this.radarCenter.x - difference && x < this.radarCenter.x + difference && y > this.radarCenter.y - difference && y < this.radarCenter.y + difference)
-			{
-				// Calculate from the mouse
-				// position the relative position
-				// on the grid
-
-				int xDifference = (int) (x - this.radarCenter.x);
-				int yDifference = (int) (y - this.radarCenter.y);
-				int xBlockDistance = (int) (xDifference * this.radarMapRadius);
-				int yBlockDistance = (int) (yDifference * this.radarMapRadius);
-
-				this.mouseOverCoords = new Vector2(this.tileEntity.xCoord + xBlockDistance, this.tileEntity.zCoord - yBlockDistance);
-			}
-		}
-	}
-
-	/**
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	protected void drawGuiContainerForegroundLayer()
+	protected void drawForegroundLayer()
 	{
 		this.fontRenderer.drawString("Radar Station", this.xSize / 2 - 87, 6, 4210752);
 
@@ -185,7 +157,7 @@ public class GLeiDaTai extends ICBMGui
 	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
+	protected void drawBackgroundLayer(float par1, int par2, int par3)
 	{
 		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "RadarGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -234,7 +206,29 @@ public class GLeiDaTai extends ICBMGui
 	public void updateScreen()
 	{
 		super.updateScreen();
+		
+		if(Mouse.isInsideWindow())
+		{
+			if(Mouse.getEventButton() == -1)
+			{
+		        int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
+		        int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+		        
+		        float difference = (int) this.tileEntity.MAX_BIAN_JING / this.radarMapRadius;
 
+				if (x > this.radarCenter.x - difference && x < this.radarCenter.x + difference && y > this.radarCenter.y - difference && y < this.radarCenter.y + difference)
+				{
+					// Calculate from the mouse position the relative position on the grid
+					int xDifference = (int) (x - this.radarCenter.x);
+					int yDifference = (int) (y - this.radarCenter.y);
+					int xBlockDistance = (int) (xDifference * this.radarMapRadius);
+					int yBlockDistance = (int) (yDifference * this.radarMapRadius);
+
+					this.mouseOverCoords = new Vector2(this.tileEntity.xCoord + xBlockDistance, this.tileEntity.zCoord - yBlockDistance);
+				}
+			}
+		}
+		
 		if (!this.textFieldSafetyZone.isFocused())
 			this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
 		if (!this.textFieldAlarmRange.isFocused())

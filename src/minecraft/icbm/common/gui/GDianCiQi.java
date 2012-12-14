@@ -109,7 +109,7 @@ public class GDianCiQi extends ICBMGui
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	protected void drawGuiContainerForegroundLayer()
+	protected void drawForegroundLayer()
 	{
 		this.fontRenderer.drawString("EMP Tower", 65, 6, 4210752);
 
@@ -159,7 +159,7 @@ public class GDianCiQi extends ICBMGui
 	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
+	protected void drawBackgroundLayer(float par1, int par2, int par3)
 	{
 		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "EmptyGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

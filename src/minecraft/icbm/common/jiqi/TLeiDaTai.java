@@ -103,8 +103,8 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 					{
 						if (!this.isDisabled())
 						{
-							((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN / this.getVoltage(), this.getVoltage());
-							this.dian += ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts();
+							((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN *2 / this.getVoltage(), this.getVoltage());
+							this.dian = Math.ceil(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
 						}
 						else
 						{
@@ -113,7 +113,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 					}
 				}
 			}
-
+			
 			if (this.ticks % 40 == 0)
 			{
 				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
@@ -204,7 +204,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	}
 
 	private Packet getDescriptionPacket2()
-	{
+	{		
 		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.alarmBanJing, this.safetyBanJing);
 	}
 

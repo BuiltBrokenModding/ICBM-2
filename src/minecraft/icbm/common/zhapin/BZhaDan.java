@@ -6,6 +6,7 @@ import icbm.common.ZhuYao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -211,13 +212,14 @@ public class BZhaDan extends BlockContainer
 	 * Called to detonate the TNT. Args: world, x, y, z, metaData, CauseOfExplosion (0, intentional,
 	 * 1, exploded, 2 burned)
 	 */
-	public static void yinZha(World par1World, int x, int y, int z, int metadata, int causeOfExplosion)
+	public static void yinZha(World par1World, int x, int y, int z, int explosiveID, int causeOfExplosion)
 	{
 		if (!par1World.isRemote)
 		{
 			if (BaoHu.nengDanBaoHu(par1World, new Vector2(x, z)))
 			{
-				ZhaPin.list[metadata].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
+				((TZhaDan) par1World.getBlockTileEntity(x, y, z)).exploding = true;
+				ZhaPin.list[explosiveID].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
 				par1World.setBlockWithNotify(x, y, z, 0);
 			}
 		}
@@ -300,6 +302,7 @@ public class BZhaDan extends BlockContainer
 		return RHZhaPin.ID;
 	}
 
+	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
 	{
 		if (world.getBlockTileEntity(x, y, z) != null)
@@ -313,26 +316,31 @@ public class BZhaDan extends BlockContainer
 	}
 
 	@Override
-	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
+	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
 	{
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (world.getBlockTileEntity(x, y, z) != null)
+		if (tileEntity != null)
 		{
-			int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).explosiveID;
-
-			int count = quantityDropped(metadata, fortune, world.rand);
-			for (int i = 0; i < count; i++)
+			if (tileEntity instanceof TZhaDan)
 			{
-				int id = idDropped(metadata, world.rand, 0);
-				if (id > 0)
+				if (!((TZhaDan) tileEntity).exploding)
 				{
-					ret.add(new ItemStack(id, 1, explosiveID));
+					int explosiveID = ((TZhaDan) tileEntity).explosiveID;
+					int id = idDropped(world.getBlockMetadata(x, y, z), world.rand, 0);
+
+					this.dropBlockAsItem_do(world, x, y, z, new ItemStack(id, 1, explosiveID));
 				}
 			}
 		}
 
-		return ret;
+		super.breakBlock(world, x, y, z, par5, par6);
+	}
+
+	@Override
+	public int quantityDropped(Random par1Random)
+	{
+		return 0;
 	}
 
 	@Override

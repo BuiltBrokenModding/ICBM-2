@@ -1,5 +1,6 @@
 package icbm.common.zhapin.ex;
 
+import icbm.client.fx.ParticleSpawner;
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -13,9 +14,9 @@ import universalelectricity.prefab.RecipeHelper;
 
 public class ExFanWuSu extends ZhaPin
 {
-	private static final int BAN_JING = 28;
+	private static final int BAN_JING = 40;
 	private static final int LAYERS_PER_TICK = 2;
-	public boolean destroyBedrock = true;
+	public boolean destroyBedrock = false;
 
 	public ExFanWuSu(String name, int ID, int tier)
 	{
@@ -31,7 +32,7 @@ public class ExFanWuSu extends ZhaPin
 	 */
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antimatter", 5F, 1F);
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antimatter", 7F, (float) (worldObj.rand.nextFloat() * 0.1 + 0.9F));
 		explosionSource.posY += 5;
 
 		doDamageEntities(worldObj, position, BAN_JING * 2, Integer.MAX_VALUE);
@@ -42,38 +43,68 @@ public class ExFanWuSu extends ZhaPin
 	{
 		if (!worldObj.isRemote)
 		{
-			while (position.y > 0)
+			if (callCount == 1)
 			{
 				for (int x = -BAN_JING; x < BAN_JING; x++)
 				{
-					for (int z = -BAN_JING; z < BAN_JING; z++)
+					for (int y = -BAN_JING; y < BAN_JING; y++)
 					{
-						double dist = MathHelper.sqrt_double((x * x + z * z));
-
-						if (dist > BAN_JING)
-							continue;
-
-						Vector3 targetPosition = Vector3.add(new Vector3(x, 0, z), position);
-						int blockID = targetPosition.getBlockID(worldObj);
-
-						if (blockID > 0)
+						for (int z = -BAN_JING; z < BAN_JING; z++)
 						{
-							if (blockID == Block.bedrock.blockID && !destroyBedrock)
-								continue;
+							Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
+							double dist = position.distanceTo(targetPosition);
 
-							if (dist < BAN_JING - 1 || worldObj.rand.nextFloat() > 0.7)
+							if (dist < BAN_JING)
 							{
-								targetPosition.setBlock(worldObj, 0);
+								int blockID = targetPosition.getBlockID(worldObj);
+
+								if (blockID > 0)
+								{
+									if (blockID == Block.bedrock.blockID && !destroyBedrock)
+										continue;
+
+									if (dist < BAN_JING - 1 || worldObj.rand.nextFloat() > 0.7)
+									{
+										targetPosition.setBlockWithNotify(worldObj, 0);
+									}
+								}
 							}
 						}
 					}
 				}
+			}
+		}
+		else if (ZhuYao.proxy.isGaoQing())
+		{
+			for (int x = -BAN_JING; x < BAN_JING; x++)
+			{
+				for (int y = -BAN_JING; y < BAN_JING; y++)
+				{
+					for (int z = -BAN_JING; z < BAN_JING; z++)
+					{
+						Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
+						double distance = position.distanceTo(targetPosition);
 
-				position.y--;
+						if (targetPosition.getBlockID(worldObj) == 0)
+						{							
+							if (distance < BAN_JING && distance > BAN_JING - 1 && worldObj.rand.nextFloat() > 0.5)
+							{
+								ParticleSpawner.spawnParticle("antimatter", worldObj, targetPosition);
+							}
+						}
+					}
+				}
 			}
 		}
 
-		return false;
+		if (callCount > BAN_JING)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	@Override
@@ -103,5 +134,11 @@ public class ExFanWuSu extends ZhaPin
 	public void init()
 	{
 		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	protected int proceduralInterval()
+	{
+		return 1;
 	}
 }

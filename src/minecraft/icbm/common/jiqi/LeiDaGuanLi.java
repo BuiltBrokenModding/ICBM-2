@@ -1,6 +1,7 @@
 package icbm.common.jiqi;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import universalelectricity.core.vector.Vector2;
@@ -44,16 +45,32 @@ public class LeiDaGuanLi
 
 	public static void cleanUpRadarArray()
 	{
-		for (int i = 0; i < radarStations.size(); i++)
+		try
 		{
-			if (radarStations.get(i) == null)
+			Iterator it = radarStations.iterator();
+
+			while (it.hasNext())
 			{
-				radarStations.remove(i);
+				TLeiDaTai tileEntity = (TLeiDaTai) it.next();
+
+				if (tileEntity == null)
+				{
+					it.remove();
+				}
+				else if (tileEntity.isInvalid())
+				{
+					it.remove();
+				}
+				else if (tileEntity.worldObj.getBlockTileEntity(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) != tileEntity)
+				{
+					it.remove();
+				}
 			}
-			else if (radarStations.get(i).isInvalid())
-			{
-				radarStations.remove(i);
-			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("Failed to clean up Radar properly.");
+			e.printStackTrace();
 		}
 	}
 }

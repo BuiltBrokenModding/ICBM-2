@@ -269,14 +269,8 @@ public class BJiQi extends BlockMachine
 			itemMetadata = 9 + metadata - 3;
 		}
 
-		EntityItem entityItem = new EntityItem(par1World, x, y, z, new ItemStack(ZhuYao.bJiQi, 1, itemMetadata));
-
-		float var13 = 0.05F;
-		entityItem.motionX = ((float) random.nextGaussian() * var13);
-		entityItem.motionY = ((float) random.nextGaussian() * var13 + 0.2F);
-		entityItem.motionZ = ((float) random.nextGaussian() * var13);
-		par1World.spawnEntityInWorld(entityItem);
-
+		this.dropBlockAsItem_do(par1World, x, y, z, new ItemStack(ZhuYao.bJiQi, 1, itemMetadata));
+		
 		if (tileEntity instanceof IMultiBlock)
 		{
 			((IMultiBlock) tileEntity).onDestroy(tileEntity);

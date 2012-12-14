@@ -46,7 +46,7 @@ public abstract class ICBMGui extends GuiScreen
 		this.drawDefaultBackground();
 		int var4 = this.guiLeft;
 		int var5 = this.guiTop;
-		this.drawGuiContainerBackgroundLayer(par3, par1, par2);
+		this.drawBackgroundLayer(par3, par1, par2);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) var4, (float) var5, 0.0F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -56,7 +56,7 @@ public abstract class ICBMGui extends GuiScreen
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) var7 / 1.0F, (float) var8 / 1.0F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		this.drawGuiContainerForegroundLayer();
+		this.drawForegroundLayer();
 
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -71,14 +71,14 @@ public abstract class ICBMGui extends GuiScreen
 	/**
 	 * Draw the foreground layer for the GuiContainer (everythin in front of the items)
 	 */
-	protected void drawGuiContainerForegroundLayer()
+	protected void drawForegroundLayer()
 	{
 	}
 
 	/**
 	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
-	protected abstract void drawGuiContainerBackgroundLayer(float var1, int var2, int var3);
+	protected abstract void drawBackgroundLayer(float var1, int var2, int var3);
 
 	/**
 	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).

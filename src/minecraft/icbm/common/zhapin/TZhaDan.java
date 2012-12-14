@@ -16,6 +16,7 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TZhaDan extends TileEntity implements IPacketReceiver
 {
+	public boolean exploding = false;
 	public int explosiveID = 0;
 
 	@Override

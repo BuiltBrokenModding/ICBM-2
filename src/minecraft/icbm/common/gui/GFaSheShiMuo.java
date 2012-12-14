@@ -140,7 +140,7 @@ public class GFaSheShiMuo extends ICBMGui
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	public void drawGuiContainerForegroundLayer()
+	public void drawForegroundLayer()
 	{
 		this.textFieldX.drawTextBox();
 		this.textFieldZ.drawTextBox();
@@ -186,7 +186,7 @@ public class GFaSheShiMuo extends ICBMGui
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
+	protected void drawBackgroundLayer(float var1, int var2, int var3)
 	{
 		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "EmptyGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

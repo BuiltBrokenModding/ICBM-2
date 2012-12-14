@@ -69,7 +69,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 				{
 					if (tileEntity instanceof IConductor)
 					{
-						if (!this.isDisabled())
+						if (!this.isDisabled() && this.getJoules() < this.getMaxJoules())
 						{
 							((IConductor) tileEntity).getNetwork().startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
 							this.setJoules(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
