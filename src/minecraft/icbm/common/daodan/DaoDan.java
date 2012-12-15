@@ -43,7 +43,7 @@ public class DaoDan implements ITier
 
 	public String getMing()
 	{
-		return LanguageRegistry.instance().getStringLocalization("icbm.missile." + this.mingZi);
+		return ZhuYao.getLocal("icbm.missile." + this.mingZi);
 	}
 
 	@Override

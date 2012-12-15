@@ -137,6 +137,11 @@ public abstract class ZhaPin implements ITier
 	{
 		return this.ID;
 	}
+	
+	public String getMingZi()
+	{
+		return this.mingZi;
+	}
 
 	public String getMing()
 	{

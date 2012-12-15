@@ -87,84 +87,91 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	{
 		super.updateEntity();
 
-		this.prevDian = this.dian;
-
-		if (!this.worldObj.isRemote)
+		try
 		{
-			for (int i = 0; i < 6; i++)
-			{
-				Vector3 diDian = new Vector3(this);
-				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
-				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+			this.prevDian = this.dian;
 
-				if (tileEntity != null)
+			if (!this.worldObj.isRemote)
+			{
+				for (int i = 0; i < 6; i++)
 				{
-					if (tileEntity instanceof IConductor)
+					Vector3 diDian = new Vector3(this);
+					diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+					TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+
+					if (tileEntity != null)
 					{
-						if (!this.isDisabled())
+						if (tileEntity instanceof IConductor)
 						{
-							((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN *2 / this.getVoltage(), this.getVoltage());
-							this.dian = Math.ceil(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
-						}
-						else
-						{
-							((IConductor) tileEntity).getNetwork().stopRequesting(this);
+							if (!this.isDisabled())
+							{
+								((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN * 2 / this.getVoltage(), this.getVoltage());
+								this.dian = Math.ceil(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
+							}
+							else
+							{
+								((IConductor) tileEntity).getNetwork().stopRequesting(this);
+							}
 						}
 					}
 				}
+
+				if (this.ticks % 40 == 0)
+				{
+					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
+				}
+				else if (this.ticks % 3 == 0 && this.yongZhe > 0)
+				{
+					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 12);
+				}
 			}
-			
+
+			if (!this.isDisabled())
+			{
+				if (this.dian >= this.YAO_DIAN)
+				{
+					this.xuanZhuan += 0.05F;
+
+					if (this.xuanZhuan > 360)
+						this.xuanZhuan = 0;
+
+					if (!this.worldObj.isRemote)
+					{
+						this.dian -= this.YAO_DIAN;
+					}
+
+					boolean previousMissileDetection = this.detectedMissiles.size() > 0;
+
+					// Do a radar scan
+					this.doScan();
+
+					if (previousMissileDetection != this.detectedMissiles.size() > 0)
+					{
+						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+					}
+				}
+				else
+				{
+					if (this.detectedMissiles.size() > 0)
+					{
+						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+					}
+
+					this.detectedMissiles.clear();
+					this.detectedRadarStations.clear();
+
+					this.dian = 0;
+				}
+			}
+
 			if (this.ticks % 40 == 0)
 			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
-			}
-			else if (this.ticks % 3 == 0 && this.yongZhe > 0)
-			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 12);
+				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 			}
 		}
-
-		if (!this.isDisabled())
+		catch (Exception e)
 		{
-			if (this.dian >= this.YAO_DIAN)
-			{
-				this.xuanZhuan += 0.05F;
-
-				if (this.xuanZhuan > 360)
-					this.xuanZhuan = 0;
-
-				if (!this.worldObj.isRemote)
-				{
-					this.dian -= this.YAO_DIAN;
-				}
-
-				boolean previousMissileDetection = this.detectedMissiles.size() > 0;
-
-				// Do a radar scan
-				this.doScan();
-
-				if (previousMissileDetection != this.detectedMissiles.size() > 0)
-				{
-					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-				}
-			}
-			else
-			{
-				if (this.detectedMissiles.size() > 0)
-				{
-					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-				}
-
-				this.detectedMissiles.clear();
-				this.detectedRadarStations.clear();
-
-				this.dian = 0;
-			}
-		}
-
-		if (this.ticks % 40 == 0)
-		{
-			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+			e.printStackTrace();
 		}
 	}
 
@@ -204,7 +211,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	}
 
 	private Packet getDescriptionPacket2()
-	{		
+	{
 		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.alarmBanJing, this.safetyBanJing);
 	}
 

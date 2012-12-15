@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -218,9 +219,16 @@ public class BZhaDan extends BlockContainer
 		{
 			if (BaoHu.nengDanBaoHu(par1World, new Vector2(x, z)))
 			{
-				((TZhaDan) par1World.getBlockTileEntity(x, y, z)).exploding = true;
-				ZhaPin.list[explosiveID].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
-				par1World.setBlockWithNotify(x, y, z, 0);
+				TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+				if (tileEntity != null)
+				{
+					if (tileEntity instanceof TZhaDan)
+					{
+						((TZhaDan) tileEntity).exploding = true;
+						ZhaPin.list[explosiveID].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
+						par1World.setBlockWithNotify(x, y, z, 0);
+					}
+				}
 			}
 		}
 	}

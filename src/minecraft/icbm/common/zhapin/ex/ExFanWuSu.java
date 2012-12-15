@@ -14,8 +14,7 @@ import universalelectricity.prefab.RecipeHelper;
 
 public class ExFanWuSu extends ZhaPin
 {
-	private static final int BAN_JING = 40;
-	private static final int LAYERS_PER_TICK = 2;
+	private static final int BAN_JING = 50;
 	public boolean destroyBedrock = false;
 
 	public ExFanWuSu(String name, int ID, int tier)
@@ -72,30 +71,20 @@ public class ExFanWuSu extends ZhaPin
 						}
 					}
 				}
-			}
-		}
-		else if (ZhuYao.proxy.isGaoQing())
-		{
-			for (int x = -BAN_JING; x < BAN_JING; x++)
-			{
-				for (int y = -BAN_JING; y < BAN_JING; y++)
-				{
-					for (int z = -BAN_JING; z < BAN_JING; z++)
-					{
-						Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
-						double distance = position.distanceTo(targetPosition);
 
-						if (targetPosition.getBlockID(worldObj) == 0)
-						{							
-							if (distance < BAN_JING && distance > BAN_JING - 1 && worldObj.rand.nextFloat() > 0.5)
-							{
-								ParticleSpawner.spawnParticle("antimatter", worldObj, targetPosition);
-							}
-						}
-					}
-				}
+				return false;
 			}
 		}
+		/*
+		 * else if (ZhuYao.proxy.isGaoQing()) { for (int x = -BAN_JING; x < BAN_JING; x++) { for
+		 * (int y = -BAN_JING; y < BAN_JING; y++) { for (int z = -BAN_JING; z < BAN_JING; z++) {
+		 * Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z)); double distance =
+		 * position.distanceTo(targetPosition);
+		 * 
+		 * if (targetPosition.getBlockID(worldObj) == 0) { if (distance < BAN_JING && distance >
+		 * BAN_JING - 1 && worldObj.rand.nextFloat() > 0.5) {
+		 * ParticleSpawner.spawnParticle("antimatter", worldObj, targetPosition); } } } } } }
+		 */
 
 		if (callCount > BAN_JING)
 		{

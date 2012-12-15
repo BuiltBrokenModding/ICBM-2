@@ -90,7 +90,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String BAN_BEN = "0.7.0";
+	public static final String BAN_BEN = "0.7.1";
 
 	public static final String MING_ZI = "ICBM";
 
@@ -101,7 +101,7 @@ public class ZhuYao
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
-	private static final String[] YU_YAN = new String[] { "en_US", /* "zh_CN", */"es_ES" };
+	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES", "it_IT" };
 
 	@SidedProxy(clientSide = "icbm.client.ClientProxy", serverSide = "icbm.common.CommonProxy")
 	public static CommonProxy proxy;

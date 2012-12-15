@@ -39,6 +39,6 @@ public class IBZhaDan extends ItemBlock
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return (new StringBuilder()).append(super.getItemName()).append(".").append(ZhaPin.list[itemstack.getItemDamage()] + " Explosives").toString();
+		return "icbm.explosive."+ZhaPin.list[itemstack.getItemDamage()].getMing();
 	}
 }

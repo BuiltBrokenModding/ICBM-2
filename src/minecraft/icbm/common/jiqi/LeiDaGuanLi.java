@@ -13,8 +13,6 @@ public class LeiDaGuanLi
 
 	public static void addRadarStation(TLeiDaTai radarStation)
 	{
-		cleanUpRadarArray();
-
 		if (!radarStations.contains(radarStation))
 		{
 			radarStations.add(radarStation);
