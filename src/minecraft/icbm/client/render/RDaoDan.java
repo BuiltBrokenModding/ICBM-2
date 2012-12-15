@@ -1,5 +1,6 @@
 package icbm.client.render;
 
+import icbm.client.models.ICBMModelBase;
 import icbm.client.models.MMBingDan;
 import icbm.client.models.MMDianCi;
 import icbm.client.models.MMDuQi;
@@ -27,7 +28,6 @@ import icbm.client.models.MMZhuiZhong;
 import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
 import icbm.common.daodan.EDaoDan.XingShi;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 
@@ -39,19 +39,19 @@ import cpw.mods.fml.common.asm.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RDaoDan extends Render
 {
-	private class RData
+	public static class RData
 	{
-		public final ModelBase model;
+		public final ICBMModelBase model;
 		public final String texture;
 
-		public RData(ModelBase model, String texture)
+		public RData(ICBMModelBase model, String texture)
 		{
 			this.model = model;
 			this.texture = texture;
 		}
 	}
 
-	private final RData[] models = { new RData(new MMYaSuo(), "MissileConventional"), new RData(new MMXiaoQunDan(), "MissileShrapnel"), new RData(new MMHuo(), "MissileIncendiary"), new RData(new MMDuQi(), "MissileChemical"), new RData(new MMZhen(), "MissileAnvil"), new RData(new MMTui(), "MissileRepulsive"), new RData(new MMLa(), "MissileAttractive")
+	public static final RData[] models = { new RData(new MMYaSuo(), "MissileConventional"), new RData(new MMXiaoQunDan(), "MissileShrapnel"), new RData(new MMHuo(), "MissileIncendiary"), new RData(new MMDuQi(), "MissileChemical"), new RData(new MMZhen(), "MissileAnvil"), new RData(new MMTui(), "MissileRepulsive"), new RData(new MMLa(), "MissileAttractive")
 
 	, new RData(new MMQunDan(), "MissileFragmentation"), new RData(new MMGanRanDu(), "MissileContagious"), new RData(new MMShengBuo(), "MissileSonic"), new RData(new MMTuPuo(), "MissileBreaching"), new RData(new MMHuanYuan(), "MissileRejuvenation"), new RData(new MMLiZi(), "MissileIon"),
 
@@ -59,7 +59,7 @@ public class RDaoDan extends Render
 
 	new RData(new MMFanWuSu(), "MissileAntimatter"), new RData(new MMHongSu(), "MissileRedMatter") };
 
-	private final RData[] specialModels = { new RData(new MMFanDan(), "MissileAntiBallistic"), new RData(new MMFenZiDan(), "MissileCluster"), new RData(new MMFenZiDan(), "MissileCluster"), new RData(new MMZhuiZhong(), "MissileHoming") };
+	public static final RData[] specialModels = { new RData(new MMFanDan(), "MissileAntiBallistic"), new RData(new MMFenZiDan(), "MissileCluster"), new RData(new MMFenZiDan(), "MissileCluster"), new RData(new MMZhuiZhong(), "MissileHoming") };
 
 	public RDaoDan(float f)
 	{

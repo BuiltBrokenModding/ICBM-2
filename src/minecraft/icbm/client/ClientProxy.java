@@ -15,6 +15,7 @@ import icbm.client.render.RGuangBang;
 import icbm.client.render.RHJiQi;
 import icbm.client.render.RHYinXing;
 import icbm.client.render.RHZhaPin;
+import icbm.client.render.RItDaoDan;
 import icbm.client.render.RItH;
 import icbm.client.render.RLeiDaTai;
 import icbm.client.render.RShouLiuDan;
@@ -81,9 +82,11 @@ public class ClientProxy extends CommonProxy
 	public void init()
 	{
 		super.init();
-		
+
 		MinecraftForgeClient.registerItemRenderer(ZhuYao.itFaSheQi.shiftedIndex, new RItH());
-		
+		MinecraftForgeClient.registerItemRenderer(ZhuYao.itDaoDan.shiftedIndex, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(ZhuYao.itTeBieDaoDan.shiftedIndex, new RItDaoDan());
+
 		RenderingRegistry.registerBlockHandler(new RHZhaPin());
 		RenderingRegistry.registerBlockHandler(new RHYinXing());
 		RenderingRegistry.registerBlockHandler(new RHJiQi());

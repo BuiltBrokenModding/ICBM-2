@@ -1,13 +1,13 @@
 package icbm.client.fx;
 
 import icbm.common.ZhuYao;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
+
+import org.lwjgl.opengl.GL11;
+
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Side;

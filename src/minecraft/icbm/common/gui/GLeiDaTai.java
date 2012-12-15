@@ -7,7 +7,6 @@ import icbm.common.jiqi.TLeiDaTai;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.input.Mouse;
@@ -206,15 +205,15 @@ public class GLeiDaTai extends ICBMGui
 	public void updateScreen()
 	{
 		super.updateScreen();
-		
-		if(Mouse.isInsideWindow())
+
+		if (Mouse.isInsideWindow())
 		{
-			if(Mouse.getEventButton() == -1)
+			if (Mouse.getEventButton() == -1)
 			{
-		        int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
-		        int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
-		        
-		        float difference = (int) this.tileEntity.MAX_BIAN_JING / this.radarMapRadius;
+				int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
+				int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+
+				float difference = (int) this.tileEntity.MAX_BIAN_JING / this.radarMapRadius;
 
 				if (x > this.radarCenter.x - difference && x < this.radarCenter.x + difference && y > this.radarCenter.y - difference && y < this.radarCenter.y + difference)
 				{
@@ -228,7 +227,7 @@ public class GLeiDaTai extends ICBMGui
 				}
 			}
 		}
-		
+
 		if (!this.textFieldSafetyZone.isFocused())
 			this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
 		if (!this.textFieldAlarmRange.isFocused())

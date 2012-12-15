@@ -43,9 +43,14 @@ public class DZhuiZhong extends DaoDan
 				missileObj.feiXingShiJian = (float) Math.max(100, 2.4 * missileObj.diShangJuLi);
 				missileObj.jiaSu = (float) missileObj.tianGao * 2 / (missileObj.feiXingShiJian * missileObj.feiXingShiJian);
 
-				missileObj.motionX = missileObj.xXiangCha / (missileObj.feiXingShiJian * 0.4);
-				missileObj.motionY = missileObj.yXiangCha / (missileObj.feiXingShiJian * 0.4);
-				missileObj.motionZ = missileObj.zXiangCha / (missileObj.feiXingShiJian * 0.4);
+				if (missileObj.xiaoDanMotion.isEqual(new Vector3()) || missileObj.xiaoDanMotion == null)
+				{
+					float suDu = 0.3f;
+					missileObj.xiaoDanMotion = new Vector3();
+					missileObj.xiaoDanMotion.x = missileObj.xXiangCha / (missileObj.feiXingShiJian * suDu);
+					missileObj.xiaoDanMotion.y = missileObj.yXiangCha / (missileObj.feiXingShiJian * suDu);
+					missileObj.xiaoDanMotion.z = missileObj.zXiangCha / (missileObj.feiXingShiJian * suDu);
+				}
 			}
 		}
 	}

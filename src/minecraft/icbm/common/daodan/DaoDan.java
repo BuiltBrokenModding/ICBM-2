@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.ITier;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class DaoDan implements ITier
 {

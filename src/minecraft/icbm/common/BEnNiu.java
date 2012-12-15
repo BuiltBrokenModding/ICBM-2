@@ -3,7 +3,6 @@ package icbm.common;
 import java.util.Random;
 
 import net.minecraft.block.BlockButton;
-import net.minecraft.block.material.Material;
 
 public class BEnNiu extends BlockButton
 {

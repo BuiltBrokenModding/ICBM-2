@@ -1,13 +1,12 @@
 package icbm.client.models;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.asm.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMTui extends ModelBase
+public class MMTui extends ICBMModelBase
 {
 	// fields
 	ModelRenderer a;
@@ -134,6 +133,13 @@ public class MMTui extends ModelBase
 	{
 		super.render(entity, x, y, z, f3, f4, f5);
 		this.setRotationAngles(x, y, z, f3, f4, f5, entity);
+
+		this.render(f5);
+	}
+
+	@Override
+	public void render(float f5)
+	{
 		a.render(f5);
 		b.render(f5);
 		c.render(f5);

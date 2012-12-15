@@ -6,12 +6,12 @@ import icbm.common.daodan.EDaoDan;
 import icbm.common.zhapin.ex.ExBianZhong;
 import icbm.common.zhapin.ex.ExBingDan;
 import icbm.common.zhapin.ex.ExBingDan2;
+import icbm.common.zhapin.ex.ExChaoShengBuo;
 import icbm.common.zhapin.ex.ExDianCi;
 import icbm.common.zhapin.ex.ExDianCiSignal;
 import icbm.common.zhapin.ex.ExDianCiWave;
 import icbm.common.zhapin.ex.ExFanWuSu;
 import icbm.common.zhapin.ex.ExFuLan;
-import icbm.common.zhapin.ex.ExChaoShengBuo;
 import icbm.common.zhapin.ex.ExHongSu;
 import icbm.common.zhapin.ex.ExHuanYuan;
 import icbm.common.zhapin.ex.ExHuo;
@@ -82,8 +82,8 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin taiYang = new ExTaiYang("conflagration", 15, 3);
 	public static final ZhaPin bingDan = new ExBingDan("endothermic", 16, 3);
 	public static final ZhaPin piaoFu = new ExPiaoFu("antiGravitational", 17, 3);
-	public static final ZhaPin wanDan = new ExWan("ender", 18, 2);
-	public static final ZhaPin gaoShengBuo = new ExChaoShengBuo("hypersonic", 19, 2);
+	public static final ZhaPin wanDan = new ExWan("ender", 18, 3);
+	public static final ZhaPin gaoShengBuo = new ExChaoShengBuo("hypersonic", 19, 3);
 
 	public static final int E_SAN_ID = 20;
 
@@ -137,7 +137,7 @@ public abstract class ZhaPin implements ITier
 	{
 		return this.ID;
 	}
-	
+
 	public String getMingZi()
 	{
 		return this.mingZi;
