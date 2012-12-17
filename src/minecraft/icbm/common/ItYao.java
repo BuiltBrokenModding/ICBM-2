@@ -2,14 +2,19 @@ package icbm.common;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItYao extends ICBMItem
+public class ItYao extends Item
 {
 	public ItYao(int par1, int par2)
 	{
-		super("antidote", par1, par2);
+		super(par1);
+		this.setIconIndex(par2);
+		this.setItemName("antidote");
+		this.setCreativeTab(ZhuYao.TAB);
+		this.setTextureFile(ZhuYao.TEXTURE_FILE_PATH);
 	}
 
 	@Override

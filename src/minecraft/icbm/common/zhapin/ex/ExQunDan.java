@@ -86,15 +86,15 @@ public class ExQunDan extends ZhaPin
 	{
 		if (this.getID() == ZhaPin.xiaoQunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', Block.tnt, '?', Item.arrow }), this.getMing(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', Block.tnt, '?', Item.arrow }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.zhen.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.qunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 		}
 	}
 }

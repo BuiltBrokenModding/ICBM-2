@@ -208,6 +208,6 @@ public class ExHongSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.wanDan.getItemStack(), 'A', "strangeMatter" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.wanDan.getItemStack(), 'A', "strangeMatter" }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 	}
 }

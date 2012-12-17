@@ -3,16 +3,21 @@ package icbm.common;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItZiDan extends ICBMItem
+public class ItZiDan extends Item
 {
-	public ItZiDan(String name, int par1, int par2)
+	public ItZiDan(int par1, int par2)
 	{
-		super(name, par1, par2);
+		super(par1);
+		this.setMaxStackSize(16);
+		this.setIconIndex(par2);
+		this.setItemName("bullet");
+		this.setCreativeTab(ZhuYao.TAB);
+		this.setTextureFile(ZhuYao.TEXTURE_FILE_PATH);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.maxStackSize = 16;
 	}
 
 	@Override
@@ -24,7 +29,7 @@ public class ItZiDan extends ICBMItem
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return "item.bullet." + itemstack.getItemDamage();
+		return this.getItemName()+"." + itemstack.getItemDamage();
 	}
 
 	@Override

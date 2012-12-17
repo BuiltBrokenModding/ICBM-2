@@ -257,6 +257,6 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?@?", "@!@", "?@?", '!', yaSuo.getItemStack(), '@', Block.tnt, '?', "ingotUranium" }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 	}
 }

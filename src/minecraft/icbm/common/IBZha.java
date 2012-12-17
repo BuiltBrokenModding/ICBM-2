@@ -27,6 +27,6 @@ public class IBZha extends ItemBlock
 	@Override
 	public String getItemName()
 	{
-		return "item.spike";
+		return "tile.spike";
 	}
 }

@@ -222,11 +222,11 @@ public class ZhuYao
 		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 10).getInt(), 11);
 
 		// ITEMS
-		itDu = new ICBMItem("poisonPowder", CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt(), 0);
-		itLiu = new ICBMItem("sulfur", CONFIGURATION.getItem("ItemID1", I_HAO_MA + 1).getInt(), 1);
+		itDu = new Item(CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt()).setCreativeTab(TAB).setTextureFile(TEXTURE_FILE_PATH).setItemName("poisonPowder").setIconIndex(0);
+		itLiu = new Item(CONFIGURATION.getItem("ItemID1", I_HAO_MA + 1).getInt()).setCreativeTab(TAB).setTextureFile(TEXTURE_FILE_PATH).setItemName("sulfur").setIconIndex(1);
 		itYao = new ItYao(CONFIGURATION.getItem("ItemID3", I_HAO_MA + 2).getInt(), 2);
-		itDaoDan = new ItDaoDan("missile", CONFIGURATION.getItem("ItemID4", I_HAO_MA + 3).getInt(), 32);
-		itTeBieDaoDan = new ItTeBieDaoDan("specialMissile", CONFIGURATION.getItem("ItemID5", I_HAO_MA + 4).getInt(), 32);
+		itDaoDan = new ItDaoDan(CONFIGURATION.getItem("ItemID4", I_HAO_MA + 3).getInt(), 32);
+		itTeBieDaoDan = new ItTeBieDaoDan(CONFIGURATION.getItem("ItemID5", I_HAO_MA + 4).getInt(), 32);
 
 		itJieJa = new ItJieJa(CONFIGURATION.getItem("ItemID6", I_HAO_MA + 5).getInt(), 5);
 		itLeiDaQiang = new ItLeiDaQiang(CONFIGURATION.getItem("ItemID7", I_HAO_MA + 6).getInt(), 3);
@@ -237,7 +237,7 @@ public class ZhuYao
 		itFaSheQi = new ItFaSheQi(CONFIGURATION.getItem("ItemID12", I_HAO_MA + 11).getInt());
 
 		itShouLiuDan = new ItShouLiuDan(CONFIGURATION.getItem("ItemID13", I_HAO_MA + 12).getInt(), 64);
-		itZiDan = new ItZiDan("bullet", CONFIGURATION.getItem("ItemID14", I_HAO_MA + 13).getInt(), 80);
+		itZiDan = new ItZiDan(CONFIGURATION.getItem("ItemID14", I_HAO_MA + 13).getInt(), 80);
 
 		itChe = new ItChe(CONFIGURATION.getItem("ItemID15", I_HAO_MA + 11).getInt(), 135);
 
@@ -381,30 +381,6 @@ public class ZhuYao
 			}
 		}
 
-		for (int i = 0; i < ((ItTeBieDaoDan) ZhuYao.itTeBieDaoDan).names.length; i++)
-		{
-			LanguageRegistry.addName(new ItemStack(ZhuYao.itTeBieDaoDan, 1, i), ((ItTeBieDaoDan) ZhuYao.itTeBieDaoDan).names[i]);
-		}
-
-		LanguageRegistry.addName(new ItemStack(ZhuYao.bZhaDan, 1, ZhaPin.diLei.getID()), ZhuYao.getLocal("icbm.sMine"));
-
-		// Explosives and missile recipe
-		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
-		{
-			LanguageRegistry.addName(new ItemStack(ZhuYao.bZhaDan, 1, i), ZhaPin.list[i].getZhaPinMing());
-			LanguageRegistry.addName(new ItemStack(ZhuYao.itDaoDan, 1, i), ZhaPin.list[i].getDaoDanMing());
-
-			if (i < ZhaPin.E_YI_ID)
-			{
-				LanguageRegistry.addName(new ItemStack(itShouLiuDan, 1, i), ZhaPin.list[i].getShouLiuDanMing());
-			}
-
-			if (i < ZhaPin.E_ER_ID)
-			{
-				LanguageRegistry.addName(new ItemStack(itChe, 1, i), ZhaPin.list[i].getCheMing());
-			}
-		}
-
 		// -- Recipes
 		// Spikes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 5), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', "ingotBronze" }));
@@ -489,18 +465,18 @@ public class ZhuYao
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZhaDan, 1, i) }), ZhaPin.list[i].getDaoDanMing(), CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZhaDan, 1, i) }), ZhaPin.list[i].getMingZi() + " Missile", CONFIGURATION, true);
 
 			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYao.bZhaDan, 1, i), '?', Item.silk }), CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYao.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getMingZi() + " Grenade", CONFIGURATION, true);
 			}
 
 			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYao.bZhaDan, 1, i), '@', Item.minecartEmpty }), CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYao.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getMingZi() + " Minecart", CONFIGURATION, true);
 			}
 		}
 

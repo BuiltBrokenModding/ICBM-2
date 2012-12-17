@@ -130,7 +130,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public String getEntityName()
 	{
-		if (this.haoMa > 100) { return DaoDan.list[this.haoMa].getMing(); }
+		if (this.haoMa > 100) { return DaoDan.list[this.haoMa].getTranslatedMing(); }
 
 		return ZhaPin.list[this.haoMa].getDaoDanMing();
 	}

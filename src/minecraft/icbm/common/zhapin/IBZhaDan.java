@@ -39,6 +39,12 @@ public class IBZhaDan extends ItemBlock
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return "icbm.explosive." + ZhaPin.list[itemstack.getItemDamage()].getMing();
+		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getMingZi();
+	}
+
+	@Override
+	public String getItemName()
+	{
+		return "icbm.explosive";
 	}
 }

@@ -150,6 +150,6 @@ public class ExYaSuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 	}
 }

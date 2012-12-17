@@ -1,21 +1,25 @@
 package icbm.common.zhapin;
 
 import icbm.common.BaoHu;
-import icbm.common.ICBMItem;
+import icbm.common.ZhuYao;
 
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class ItShouLiuDan extends ICBMItem
+public class ItShouLiuDan extends Item
 {
 	public ItShouLiuDan(int par1, int par2)
 	{
-		super("Grenade", par1, par2);
+		super(par1);
+		this.setIconIndex(par2);
+		this.setMaxStackSize(64);
+		this.setCreativeTab(ZhuYao.TAB);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}
@@ -57,9 +61,15 @@ public class ItShouLiuDan extends ICBMItem
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return ZhaPin.list[itemstack.getItemDamage()].getShouLiuDanMing();
+		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getMingZi();
 	}
 
+	@Override
+	public String getItemName()
+	{
+		return "icbm.grenade";
+	}
+	
 	@Override
 	public int getIconFromDamage(int i)
 	{

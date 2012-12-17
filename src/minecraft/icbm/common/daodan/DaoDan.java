@@ -39,8 +39,13 @@ public class DaoDan implements ITier
 	{
 		return this.ID;
 	}
+	
+	public String getMingZing()
+	{
+		return this.mingZi;
+	}
 
-	public String getMing()
+	public String getTranslatedMing()
 	{
 		return ZhuYao.getLocal("icbm.missile." + this.mingZi);
 	}

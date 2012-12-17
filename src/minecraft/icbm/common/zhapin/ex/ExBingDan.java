@@ -206,7 +206,7 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 	}
 
 	public boolean canFocusBeam(World worldObj, Vector3 position)

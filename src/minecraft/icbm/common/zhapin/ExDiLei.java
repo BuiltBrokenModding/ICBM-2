@@ -95,7 +95,7 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@SideOnly(Side.CLIENT)

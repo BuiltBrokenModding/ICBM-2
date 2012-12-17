@@ -206,6 +206,6 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', "plateBronze" }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', "plateBronze" }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 	}
 }

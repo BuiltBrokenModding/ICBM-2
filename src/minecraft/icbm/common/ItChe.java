@@ -21,7 +21,6 @@ public class ItChe extends Item
 		this.setIconIndex(texture);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setItemName("Explosive Cart");
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 
@@ -60,7 +59,7 @@ public class ItChe extends Item
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return ZhaPin.list[itemstack.getItemDamage()].getCheMing();
+		return "icbm.minecart." +ZhaPin.list[itemstack.getItemDamage()].getMingZi();
 	}
 
 	@Override

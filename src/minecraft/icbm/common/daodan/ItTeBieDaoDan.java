@@ -9,18 +9,22 @@ import net.minecraft.item.ItemStack;
 
 public class ItTeBieDaoDan extends ItDaoDan
 {
-	public static String[] names = { ZhuYao.getLocal("icbm.missile.missileModule"), ZhuYao.getLocal("icbm.missile.antiBallistic") + " " + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.cluster") + " " + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.nuclearCluster") + " " + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.homing") + " " + ZhuYao.getLocal("icbm.missile") };
-
-	public ItTeBieDaoDan(String name, int id, int texture)
+	public ItTeBieDaoDan(int id, int texture)
 	{
-		super(name, id, texture);
+		super(id, texture);
 		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return names[itemstack.getItemDamage()];
+		return this.getItemName() + "." + DaoDan.list[itemstack.getItemDamage()-1].getTranslatedMing();
+	}
+	
+	@Override
+	public String getItemName()
+	{
+		return "icbm.missile";
 	}
 
 	@Override
@@ -32,9 +36,9 @@ public class ItTeBieDaoDan extends ItDaoDan
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < names.length; i++)
+		for (int i = 0; i < DaoDan.list.length; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
-	}
+	}	
 }

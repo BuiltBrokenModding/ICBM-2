@@ -109,7 +109,7 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', Block.tnt, '!', Item.bucketLava }), this.getMing(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', Block.tnt, '!', Item.bucketLava }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
 	}
 
 }

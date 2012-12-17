@@ -1,21 +1,24 @@
 package icbm.common.daodan;
 
-import icbm.common.ICBMItem;
+import icbm.common.ZhuYao;
 import icbm.common.zhapin.ZhaPin;
 
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItDaoDan extends ICBMItem
+public class ItDaoDan extends Item
 {
-	public ItDaoDan(String name, int id, int texture)
+	public ItDaoDan(int id, int texture)
 	{
-		super(name, id, texture);
+		super(id);
+		this.setIconIndex(texture);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.maxStackSize = 1;
+		this.setMaxStackSize(1);
+		this.setCreativeTab(ZhuYao.TAB);
 	}
 
 	@Override
@@ -27,9 +30,15 @@ public class ItDaoDan extends ICBMItem
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return ZhaPin.list[itemstack.getItemDamage()].getDaoDanMing();
+		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getMingZi();
 	}
 
+	@Override
+	public String getItemName()
+	{
+		return "icbm.missile";
+	}
+	
 	@Override
 	public int getIconFromDamage(int i)
 	{

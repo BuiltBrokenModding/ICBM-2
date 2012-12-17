@@ -44,7 +44,7 @@ public class IBJiQi extends ItemBlock
 	@Override
 	public String getItemName()
 	{
-		return "item.machine";
+		return "icbm.machine";
 	}
 
 	@Override
