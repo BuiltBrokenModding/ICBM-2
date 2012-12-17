@@ -90,7 +90,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String BAN_BEN = "0.7.1";
+	public static final String BAN_BEN = "0.7.3";
 
 	public static final String MING_ZI = "ICBM";
 

@@ -6,6 +6,9 @@ import icbm.common.ZhuYao;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -309,6 +312,7 @@ public class BJiQi extends BlockMachine
 	/**
 	 * The type of render function that is called for this block
 	 */
+	@SideOnly(Side.CLIENT)
 	@Override
 	public int getRenderType()
 	{

@@ -15,6 +15,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityNetwork;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
@@ -66,30 +67,30 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
 
-				if (tileEntity != null)
+				ElectricityNetwork network = ElectricityNetwork.getNetworkFromTileEntity(tileEntity, ForgeDirection.getOrientation(i));
+
+				if (network != null)
 				{
-					if (tileEntity instanceof IConductor)
+					if (!this.isDisabled())
 					{
-						if (!this.isDisabled())
-						{
-							((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN / this.getVoltage(), this.getVoltage());
-							this.dian += ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts();
-						}
-						else
-						{
-							((IConductor) tileEntity).getNetwork().stopRequesting(this);
-						}
+						network.startRequesting(this, this.YAO_DIAN / this.getVoltage(), this.getVoltage());
+						this.dian += network.consumeElectricity(this).getWatts();
 					}
+					else
+					{
+						network.stopRequesting(this);
+					}
+
 				}
+			}
+		
+			if (this.ticks % 5 == 0 && this.yongZhe > 0)
+			{
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
 			}
 
 			if (!this.isDisabled())
 			{
-				if (this.ticks % 5 == 0 && this.yongZhe > 0)
-				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
-				}
-
 				if (this.dian >= this.YAO_DIAN)
 				{
 					boolean isDetectThisCheck = false;
@@ -140,11 +141,15 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 
 					this.dian = 0;
 				}
+				else
+				{
+					this.isDetect = false;
+				}
 			}
 
 			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-
 		}
+		
 	}
 
 	@Override

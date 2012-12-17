@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItTeBieDaoDan extends ItDaoDan
 {
-	public static String[] names = { ZhuYao.getLocal("icbm.missile.missileModule"), ZhuYao.getLocal("icbm.missile.antiBallistic") + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.cluster") + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.nuclearCluster") + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.homing") + ZhuYao.getLocal("icbm.missile") };
+	public static String[] names = { ZhuYao.getLocal("icbm.missile.missileModule"), ZhuYao.getLocal("icbm.missile.antiBallistic") + " " + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.cluster") + " " + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.nuclearCluster") + " " + ZhuYao.getLocal("icbm.missile"), ZhuYao.getLocal("icbm.missile.homing") + " " + ZhuYao.getLocal("icbm.missile") };
 
 	public ItTeBieDaoDan(String name, int id, int texture)
 	{

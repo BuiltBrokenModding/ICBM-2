@@ -1,8 +1,11 @@
 package icbm.common;
 
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 import icbm.client.render.RHYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -62,19 +65,26 @@ public class BYinXing extends BlockMachine
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		if (par5EntityPlayer.getCurrentEquippedItem() != null)
+		try
 		{
-			Block block = Block.blocksList[par5EntityPlayer.getCurrentEquippedItem().itemID];
-
-			if (block != null)
+			if (par5EntityPlayer.getCurrentEquippedItem() != null)
 			{
-				if ((block.getRenderType() == 0 || block.getRenderType() == 31))
+				Block block = Block.blocksList[par5EntityPlayer.getCurrentEquippedItem().itemID];
+
+				if (block != null)
 				{
-					((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
-					par1World.markBlockForRenderUpdate(x, y, z);
-					return true;
+					if (block.renderAsNormalBlock() && (block.getRenderType() == 0 || block.getRenderType() == 31))
+					{
+						((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
+						par1World.markBlockForRenderUpdate(x, y, z);
+						return true;
+					}
 				}
 			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 
 		return false;
@@ -184,6 +194,7 @@ public class BYinXing extends BlockMachine
 		return false;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public int getRenderType()
 	{

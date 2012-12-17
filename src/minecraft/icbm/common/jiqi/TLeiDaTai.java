@@ -20,6 +20,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityNetwork;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
@@ -97,22 +98,22 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 				{
 					Vector3 diDian = new Vector3(this);
 					diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+					
 					TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+					ElectricityNetwork network = ElectricityNetwork.getNetworkFromTileEntity(tileEntity, ForgeDirection.getOrientation(i));
 
-					if (tileEntity != null)
+					if (network != null)
 					{
-						if (tileEntity instanceof IConductor)
+						if (!this.isDisabled())
 						{
-							if (!this.isDisabled())
-							{
-								((IConductor) tileEntity).getNetwork().startRequesting(this, this.YAO_DIAN * 2 / this.getVoltage(), this.getVoltage());
-								this.dian = Math.ceil(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
-							}
-							else
-							{
-								((IConductor) tileEntity).getNetwork().stopRequesting(this);
-							}
+							network.startRequesting(this, this.YAO_DIAN * 2 / this.getVoltage(), this.getVoltage());
+							this.dian = Math.ceil(this.dian + network.consumeElectricity(this).getWatts());
 						}
+						else
+						{
+							network.stopRequesting(this);
+						}
+
 					}
 				}
 

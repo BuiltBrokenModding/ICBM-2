@@ -7,6 +7,9 @@ import icbm.common.ZhuYao;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -302,6 +305,7 @@ public class BZhaDan extends BlockContainer
 		return ZhuYao.BLOCK_TEXTURE_FILE;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public int getRenderType()
 	{

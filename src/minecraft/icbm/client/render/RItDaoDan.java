@@ -32,7 +32,7 @@ public class RItDaoDan implements IItemRenderer
 			float scale = 0.4f;
 			float right = 0.15f;
 
-			if (ZhaPin.list[item.getItemDamage()].getTier() == 2)
+			if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYao.itTeBieDaoDan.shiftedIndex)
 			{
 				scale = 0.3f;
 			}
@@ -59,10 +59,10 @@ public class RItDaoDan implements IItemRenderer
 
 			GL11.glScalef(scale, scale, scale);
 
-			if (item.getItemDamage() > 100)
+			if (item.itemID == ZhuYao.itTeBieDaoDan.shiftedIndex)
 			{
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RDaoDan.specialModels[item.getItemDamage() - 101].texture + ".png"));
-				RDaoDan.specialModels[item.getItemDamage() - 101].model.render(0.0625F);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RDaoDan.specialModels[item.getItemDamage() - 1].texture + ".png"));
+				RDaoDan.specialModels[item.getItemDamage() - 1].model.render(0.0625F);
 			}
 			else
 			{

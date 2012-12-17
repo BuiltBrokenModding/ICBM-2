@@ -18,6 +18,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import universalelectricity.core.electricity.ElectricityNetwork;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
@@ -191,22 +192,23 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				Vector3 diDian = new Vector3(this);
 				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+				
 				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
+				ElectricityNetwork network = ElectricityNetwork.getNetworkFromTileEntity(tileEntity, ForgeDirection.getOrientation(i));
 
-				if (tileEntity != null)
+				if (network != null)
 				{
-					if (tileEntity instanceof IConductor)
+
+					if (!this.isDisabled())
 					{
-						if (!this.isDisabled())
-						{
-							((IConductor) tileEntity).getNetwork().startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
-							this.setJoules(this.dian + ((IConductor) tileEntity).getNetwork().consumeElectricity(this).getWatts());
-						}
-						else
-						{
-							((IConductor) tileEntity).getNetwork().stopRequesting(this);
-						}
+						network.startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
+						this.setJoules(this.dian + network.consumeElectricity(this).getWatts());
 					}
+					else
+					{
+						network.stopRequesting(this);
+					}
+
 				}
 			}
 		}
