@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.implement.IDisableable;
 import universalelectricity.core.implement.IJouleStorage;
 import universalelectricity.core.vector.Vector3;
-import chb.mods.mffs.api.IForceEnergyCapacitor;
+import chb.mods.mffs.api.IForceEnergyStorageBlock;
 import chb.mods.mffs.api.IForceFieldBlock;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
@@ -73,9 +73,9 @@ public class ExDianCiWave extends ZhaPin
 								((IDisableable) tileEntity).onDisable(400);
 							}
 
-							if (tileEntity instanceof IForceEnergyCapacitor)
+							if (tileEntity instanceof IForceEnergyStorageBlock)
 							{
-								((IForceEnergyCapacitor) tileEntity).onEMPPulse((int) Math.max(worldObj.rand.nextFloat() * 30, 8));
+								((IForceEnergyStorageBlock) tileEntity).consumePowerfromStorage((int) Math.max(worldObj.rand.nextFloat() * 30, 8), false);
 							}
 
 							if (tileEntity instanceof IForceFieldBlock)
