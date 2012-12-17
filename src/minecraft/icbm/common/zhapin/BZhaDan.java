@@ -7,9 +7,6 @@ import icbm.common.ZhuYao;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.Side;
-import cpw.mods.fml.common.asm.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -29,6 +26,8 @@ import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.IToolConfigurator;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 
 public class BZhaDan extends BlockContainer
 {

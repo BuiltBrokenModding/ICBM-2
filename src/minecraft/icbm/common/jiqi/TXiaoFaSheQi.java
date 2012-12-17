@@ -19,7 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.electricity.ElectricityNetwork;
-import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;

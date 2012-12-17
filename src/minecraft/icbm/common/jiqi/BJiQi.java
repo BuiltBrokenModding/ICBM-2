@@ -6,9 +6,6 @@ import icbm.common.ZhuYao;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.common.Side;
-import cpw.mods.fml.common.asm.SideOnly;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +25,8 @@ import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.ITier;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.multiblock.IMultiBlock;
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
 
 public class BJiQi extends BlockMachine
 {
