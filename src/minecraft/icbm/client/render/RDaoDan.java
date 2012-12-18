@@ -2,6 +2,7 @@ package icbm.client.render;
 
 import icbm.client.models.ICBMModelBase;
 import icbm.client.models.MMBingDan;
+import icbm.client.models.MMChaoShengBuo;
 import icbm.client.models.MMDianCi;
 import icbm.client.models.MMDuQi;
 import icbm.client.models.MMFanDan;
@@ -55,7 +56,7 @@ public class RDaoDan extends Render
 
 	, new RData(new MMQunDan(), "MissileFragmentation"), new RData(new MMGanRanDu(), "MissileContagious"), new RData(new MMShengBuo(), "MissileSonic"), new RData(new MMTuPuo(), "MissileBreaching"), new RData(new MMHuanYuan(), "MissileRejuvenation"), new RData(new MMLiZi(), "MissileIon"),
 
-	new RData(new MMYuanZi(), "MissileNuclear"), new RData(new MMDianCi(), "MissileEMP"), new RData(new MMTaiYang(), "MissileConflagration"), new RData(new MMBingDan(), "MissileEndothermic"), new RData(new MMPiaoFu(), "MissileAntiGravity"), new RData(new MMWan(), "MissileEnder"), new RData(new MMWan(), "MissileEnder"),
+	new RData(new MMYuanZi(), "MissileNuclear"), new RData(new MMDianCi(), "MissileEMP"), new RData(new MMTaiYang(), "MissileConflagration"), new RData(new MMBingDan(), "MissileEndothermic"), new RData(new MMPiaoFu(), "MissileAntiGravity"), new RData(new MMWan(), "MissileEnder"), new RData(new MMChaoShengBuo(), "MissileHypersonic"),
 
 	new RData(new MMFanWuSu(), "MissileAntimatter"), new RData(new MMHongSu(), "MissileRedMatter") };
 
