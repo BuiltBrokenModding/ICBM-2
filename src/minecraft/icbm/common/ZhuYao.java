@@ -212,18 +212,20 @@ public class ZhuYao
 
 		// BLOCKS
 		bLiu = new BLiu(CONFIGURATION.getBlock("BlockID1", B_HAO_MA - 1).getInt());
+
 		bBuoLiPan = new BBuoLiPan(CONFIGURATION.getBlock("BlockID2", B_HAO_MA + 0).getInt(), 0);
+		bBuoLiEnNiu = new BEnNiu(CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 8).getInt());
+
 		bZhaDan = new BZhaDan(CONFIGURATION.getBlock("BlockID3", B_HAO_MA + 1).getInt(), 16);
 		bJiQi = new BJiQi(CONFIGURATION.getBlock("BlockID4", B_HAO_MA + 3).getInt());
 		bYinGanQi = new BYinGanQi(CONFIGURATION.getBlock("BlockID5", B_HAO_MA + 6).getInt(), 7);
 		bJia = new BlockMulti(CONFIGURATION.getBlock("BlockID6", B_HAO_MA + 7).getInt());
-		bBuoLiEnNiu = new BEnNiu(CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 8).getInt());
 		bZha = new BZha(CONFIGURATION.getBlock("BlockID8", B_HAO_MA + 9).getInt(), 1);
 		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 10).getInt(), 11);
 
 		// ITEMS
-		itDu = new Item(CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt()).setCreativeTab(TAB).setTextureFile(TEXTURE_FILE_PATH).setItemName("poisonPowder").setIconIndex(0);
-		itLiu = new Item(CONFIGURATION.getItem("ItemID1", I_HAO_MA + 1).getInt()).setCreativeTab(TAB).setTextureFile(TEXTURE_FILE_PATH).setItemName("sulfur").setIconIndex(1);
+		itDu = new Item(CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
+		itLiu = new Item(CONFIGURATION.getItem("ItemID1", I_HAO_MA + 1).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
 		itYao = new ItYao(CONFIGURATION.getItem("ItemID3", I_HAO_MA + 2).getInt(), 2);
 		itDaoDan = new ItDaoDan(CONFIGURATION.getItem("ItemID4", I_HAO_MA + 3).getInt(), 32);
 		itTeBieDaoDan = new ItTeBieDaoDan(CONFIGURATION.getItem("ItemID5", I_HAO_MA + 4).getInt(), 32);

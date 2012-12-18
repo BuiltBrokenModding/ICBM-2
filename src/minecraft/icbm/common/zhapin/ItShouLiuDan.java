@@ -22,6 +22,7 @@ public class ItShouLiuDan extends Item
 		this.setCreativeTab(ZhuYao.TAB);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class ItShouLiuDan extends Item
 	{
 		return "icbm.grenade";
 	}
-	
+
 	@Override
 	public int getIconFromDamage(int i)
 	{

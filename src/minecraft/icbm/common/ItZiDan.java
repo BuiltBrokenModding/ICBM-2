@@ -15,7 +15,7 @@ public class ItZiDan extends Item
 		this.setIconIndex(par2);
 		this.setItemName("bullet");
 		this.setCreativeTab(ZhuYao.TAB);
-		this.setTextureFile(ZhuYao.TEXTURE_FILE_PATH);
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}
@@ -29,7 +29,7 @@ public class ItZiDan extends Item
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return this.getItemName()+"." + itemstack.getItemDamage();
+		return this.getItemName() + "." + itemstack.getItemDamage();
 	}
 
 	@Override

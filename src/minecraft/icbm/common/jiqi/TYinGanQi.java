@@ -82,7 +82,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 
 				}
 			}
-		
+
 			if (this.ticks % 5 == 0 && this.yongZhe > 0)
 			{
 				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
@@ -148,7 +148,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 
 			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
-		
+
 	}
 
 	@Override

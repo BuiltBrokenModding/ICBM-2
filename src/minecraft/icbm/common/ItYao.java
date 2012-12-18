@@ -14,7 +14,7 @@ public class ItYao extends Item
 		this.setIconIndex(par2);
 		this.setItemName("antidote");
 		this.setCreativeTab(ZhuYao.TAB);
-		this.setTextureFile(ZhuYao.TEXTURE_FILE_PATH);
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
 	@Override

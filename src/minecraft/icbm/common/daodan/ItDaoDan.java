@@ -19,6 +19,7 @@ public class ItDaoDan extends Item
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(ZhuYao.TAB);
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
 	@Override
@@ -38,17 +39,11 @@ public class ItDaoDan extends Item
 	{
 		return "icbm.missile";
 	}
-	
-	@Override
-	public int getIconFromDamage(int i)
-	{
-		return this.iconIndex;
-	}
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
+		for (int i = 0; i < ZhaPin.E_SAN_ID; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
