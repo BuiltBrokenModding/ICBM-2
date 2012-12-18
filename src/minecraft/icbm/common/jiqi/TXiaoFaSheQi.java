@@ -521,13 +521,16 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itDaoDan.shiftedIndex && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
+			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itDaoDan.shiftedIndex)
 			{
-				if (!(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItTeBieDaoDan) && entityPlayer.inventory.getCurrentItem().getItemDamage() == 0)
+				if (DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()] != null)
 				{
-					this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
-					entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
-					return true;
+					if (DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
+					{
+						this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
+						entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+						return true;
+					}
 				}
 			}
 		}

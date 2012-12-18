@@ -101,7 +101,7 @@ public class ZhuYao
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
-	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES", "it_IT" };
+	private static final String[] YU_YAN = new String[] { "en_US"/*, "zh_CN", "es_ES", "it_IT"*/ };
 
 	@SidedProxy(clientSide = "icbm.client.ClientProxy", serverSide = "icbm.common.CommonProxy")
 	public static CommonProxy proxy;
@@ -211,17 +211,17 @@ public class ZhuYao
 		BaoHu.SHE_DING_BAO_HU = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
 
 		// BLOCKS
-		bLiu = new BLiu(CONFIGURATION.getBlock("BlockID1", B_HAO_MA - 1).getInt());
+		bLiu = new BLiu(CONFIGURATION.getBlock("BlockID1", B_HAO_MA + 0).getInt());
 
-		bBuoLiPan = new BBuoLiPan(CONFIGURATION.getBlock("BlockID2", B_HAO_MA + 0).getInt(), 0);
-		bBuoLiEnNiu = new BEnNiu(CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 8).getInt());
+		bBuoLiPan = new BBuoLiPan(CONFIGURATION.getBlock("BlockID2", B_HAO_MA + 1).getInt(), 0);
+		bBuoLiEnNiu = new BEnNiu(CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 2).getInt());
 
-		bZhaDan = new BZhaDan(CONFIGURATION.getBlock("BlockID3", B_HAO_MA + 1).getInt(), 16);
-		bJiQi = new BJiQi(CONFIGURATION.getBlock("BlockID4", B_HAO_MA + 3).getInt());
-		bYinGanQi = new BYinGanQi(CONFIGURATION.getBlock("BlockID5", B_HAO_MA + 6).getInt(), 7);
-		bJia = new BlockMulti(CONFIGURATION.getBlock("BlockID6", B_HAO_MA + 7).getInt());
-		bZha = new BZha(CONFIGURATION.getBlock("BlockID8", B_HAO_MA + 9).getInt(), 1);
-		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 10).getInt(), 11);
+		bZhaDan = new BZhaDan(CONFIGURATION.getBlock("BlockID3", B_HAO_MA + 3).getInt(), 16);
+		bJiQi = new BJiQi(CONFIGURATION.getBlock("BlockID4", B_HAO_MA + 4).getInt());
+		bYinGanQi = new BYinGanQi(CONFIGURATION.getBlock("BlockID5", B_HAO_MA + 5).getInt(), 7);
+		bJia = new BlockMulti(CONFIGURATION.getBlock("BlockID6", B_HAO_MA + 6).getInt());
+		bZha = new BZha(CONFIGURATION.getBlock("BlockID8", B_HAO_MA + 7).getInt(), 1);
+		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 8).getInt(), 11);
 
 		// ITEMS
 		itDu = new Item(CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);

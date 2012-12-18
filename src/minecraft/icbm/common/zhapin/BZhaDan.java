@@ -77,7 +77,10 @@ public class BZhaDan extends BlockContainer
 
 		if (tileEntity != null)
 		{
-			if (((TZhaDan) tileEntity).explosiveID == ZhaPin.diLei.getID()) { return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ); }
+			if (tileEntity instanceof TZhaDan)
+			{
+				if (((TZhaDan) tileEntity).explosiveID == ZhaPin.diLei.getID()) { return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ); }
+			}
 		}
 
 		return super.getCollisionBoundingBoxFromPool(par1World, x, y, z);

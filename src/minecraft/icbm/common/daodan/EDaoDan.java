@@ -302,7 +302,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 				{
 					if (this.feiXingTick == 0)
 					{
-						this.xiaoDanMotion = new Vector3(this.xXiangCha / (feiXingShiJian * 0.4), this.yXiangCha / (feiXingShiJian * 0.4), this.zXiangCha / (feiXingShiJian * 0.4));
+						this.xiaoDanMotion = new Vector3(this.xXiangCha / (feiXingShiJian * 0.3), this.yXiangCha / (feiXingShiJian * 0.3), this.zXiangCha / (feiXingShiJian * 0.3));
 					}
 
 					this.motionX = this.xiaoDanMotion.x;
@@ -316,7 +316,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 					DaoDan.list[this.haoMa].onTickFlight(this);
 
-					if (this.posY > 1000 || this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ) != 0 || (this.isCollided && this.baoHuShiJian <= 0) || this.feiXingTick > 20 * 600 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0))
+					if (this.baoHuShiJian <= 0 && (this.posY > 1000 || this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ) != 0 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
 					{
 						this.explode();
 						return;
