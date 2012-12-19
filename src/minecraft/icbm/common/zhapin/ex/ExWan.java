@@ -134,7 +134,7 @@ public class ExWan extends ZhaPin
 			}
 		}
 
-		worldObj.playSound(position.x, position.y, position.z, "portal.portal", 2F, worldObj.rand.nextFloat() * 0.4F + 0.8F);
+		worldObj.playSound(position.x, position.y, position.z, "portal.portal", 2F, worldObj.rand.nextFloat() * 0.4F + 0.8F, false);
 
 		if (callCount > SHI_JIAN) { return false; }
 

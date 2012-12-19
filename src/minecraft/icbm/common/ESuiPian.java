@@ -238,13 +238,13 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 			++this.ticksInAir;
 			Vec3 var16 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
 			Vec3 var17 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition var3 = this.worldObj.rayTraceBlocks_do_do(var16, var17, false, true);
+			MovingObjectPosition movingObjPos = this.worldObj.rayTraceBlocks_do_do(var16, var17, false, true);
 			var16 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
 			var17 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
-			if (var3 != null)
+			if (movingObjPos != null)
 			{
-				var17 = Vec3.createVectorHelper(var3.hitVec.xCoord, var3.hitVec.yCoord, var3.hitVec.zCoord);
+				var17 = Vec3.createVectorHelper(movingObjPos.hitVec.xCoord, movingObjPos.hitVec.yCoord, movingObjPos.hitVec.zCoord);
 			}
 
 			Entity var4 = null;
@@ -278,14 +278,14 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 
 			if (var4 != null)
 			{
-				var3 = new MovingObjectPosition(var4);
+				movingObjPos = new MovingObjectPosition(var4);
 			}
 
 			float speed;
 
-			if (var3 != null)
+			if (movingObjPos != null)
 			{
-				if (var3.entityHit != null)
+				if (movingObjPos.entityHit != null)
 				{
 					speed = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
 					int damage = (int) Math.ceil(speed * this.damage);
@@ -299,17 +299,18 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 
 					if (this.isBurning())
 					{
-						var3.entityHit.setFire(5);
+						movingObjPos.entityHit.setFire(5);
 					}
 
-					if (var3.entityHit.attackEntityFrom(damageSource, damage))
+					if (movingObjPos.entityHit.attackEntityFrom(damageSource, damage))
 					{
-						if (var3.entityHit instanceof EntityLiving)
+						if (movingObjPos.entityHit instanceof EntityLiving)
 						{
+							EntityLiving var24 = (EntityLiving) movingObjPos.entityHit;
+
 							if (!this.worldObj.isRemote)
 							{
-								EntityLiving var24 = (EntityLiving) var3.entityHit;
-								var24.func_85034_r(var24.func_85035_bI() + 1);
+								var24.setArrowCountInEntity(var24.getArrowCountInEntity() + 1);
 							}
 
 							if (this.knowBackStrength > 0)
@@ -318,7 +319,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 
 								if (var21 > 0.0F)
 								{
-									var3.entityHit.addVelocity(this.motionX * this.knowBackStrength * 0.6000000238418579D / var21, 0.1D, this.motionZ * this.knowBackStrength * 0.6000000238418579D / var21);
+									movingObjPos.entityHit.addVelocity(this.motionX * this.knowBackStrength * 0.6000000238418579D / var21, 0.1D, this.motionZ * this.knowBackStrength * 0.6000000238418579D / var21);
 								}
 							}
 						}
@@ -338,14 +339,14 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 				}
 				else
 				{
-					this.xTile = var3.blockX;
-					this.yTile = var3.blockY;
-					this.zTile = var3.blockZ;
+					this.xTile = movingObjPos.blockX;
+					this.yTile = movingObjPos.blockY;
+					this.zTile = movingObjPos.blockZ;
 					this.inTile = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
 					this.inData = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
-					this.motionX = ((float) (var3.hitVec.xCoord - this.posX));
-					this.motionY = ((float) (var3.hitVec.yCoord - this.posY));
-					this.motionZ = ((float) (var3.hitVec.zCoord - this.posZ));
+					this.motionX = ((float) (movingObjPos.hitVec.xCoord - this.posX));
+					this.motionY = ((float) (movingObjPos.hitVec.yCoord - this.posY));
+					this.motionZ = ((float) (movingObjPos.hitVec.zCoord - this.posZ));
 					speed = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
 					this.posX -= this.motionX / speed * 0.05000000074505806D;
 					this.posY -= this.motionY / speed * 0.05000000074505806D;

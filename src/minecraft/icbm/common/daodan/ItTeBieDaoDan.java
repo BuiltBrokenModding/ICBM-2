@@ -1,7 +1,5 @@
 package icbm.common.daodan;
 
-import icbm.common.ZhuYao;
-
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;

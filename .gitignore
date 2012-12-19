@@ -15,7 +15,7 @@ CHANGELOG
 !/src/minecraft/railcraft/
 !/src/minecraft/atomicscience/
 !/src/minecraft/universalelectricity/
-!/resources/icbm/
+!/resources/
 !info.txt
 !mcmod.info
 !publish.bat

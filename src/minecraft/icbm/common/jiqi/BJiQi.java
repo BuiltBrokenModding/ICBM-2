@@ -25,8 +25,8 @@ import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.ITier;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.multiblock.IMultiBlock;
-import cpw.mods.fml.common.Side;
-import cpw.mods.fml.common.asm.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BJiQi extends BlockMachine
 {

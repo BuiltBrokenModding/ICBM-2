@@ -101,7 +101,7 @@ public class ZhuYao
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
-	private static final String[] YU_YAN = new String[] { "en_US"/*, "zh_CN", "es_ES", "it_IT"*/ };
+	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN"/* , "es_ES", "it_IT" */};
 
 	@SidedProxy(clientSide = "icbm.client.ClientProxy", serverSide = "icbm.common.CommonProxy")
 	public static CommonProxy proxy;
@@ -166,7 +166,7 @@ public class ZhuYao
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UniversalElectricity.register(this, 1, 2, 0, false);
+		UniversalElectricity.register(this, 1, 2, 1, false);
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
@@ -213,7 +213,7 @@ public class ZhuYao
 		// BLOCKS
 		bLiu = new BLiu(CONFIGURATION.getBlock("BlockID1", B_HAO_MA + 0).getInt());
 
-		bBuoLiPan = new BBuoLiPan(CONFIGURATION.getBlock("BlockID2", B_HAO_MA + 1).getInt(), 0);
+		bBuoLiPan = new BBuoLiPan(CONFIGURATION.getBlock("BlockID2", B_HAO_MA + 1).getInt());
 		bBuoLiEnNiu = new BEnNiu(CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 2).getInt());
 
 		bZhaDan = new BZhaDan(CONFIGURATION.getBlock("BlockID3", B_HAO_MA + 3).getInt(), 16);
@@ -318,15 +318,15 @@ public class ZhuYao
 		});
 
 		// -- Registering Blocks
-		GameRegistry.registerBlock(bLiu);
-		GameRegistry.registerBlock(bBuoLiPan);
-		GameRegistry.registerBlock(bZhaDan, IBZhaDan.class);
-		GameRegistry.registerBlock(bJiQi, IBJiQi.class);
-		GameRegistry.registerBlock(bYinGanQi);
-		GameRegistry.registerBlock(bJia);
-		GameRegistry.registerBlock(bBuoLiEnNiu);
-		GameRegistry.registerBlock(bYinXing);
-		GameRegistry.registerBlock(bZha, IBZha.class);
+		GameRegistry.registerBlock(bLiu, "bLiu");
+		GameRegistry.registerBlock(bBuoLiPan, "bBuoLiPan");
+		GameRegistry.registerBlock(bBuoLiEnNiu, "bBuoLiEnNiu");
+		GameRegistry.registerBlock(bZhaDan, IBZhaDan.class, "bZhaDan");
+		GameRegistry.registerBlock(bJiQi, IBJiQi.class, "bJiQi");
+		GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
+		GameRegistry.registerBlock(bJia, "bJia");
+		GameRegistry.registerBlock(bYinXing, "bYinXing");
+		GameRegistry.registerBlock(bZha, IBZha.class, "bZha");
 
 		if (OreDictionary.getOres("blockRadioactive").size() > 0)
 		{
@@ -344,7 +344,7 @@ public class ZhuYao
 		ICBM.blockExplosive = this.bZhaDan;
 		ICBM.explosionManager = ZhaPin.class;
 
-		UpdateNotifier.INSTANCE.checkUpdate(MING_ZI, BAN_BEN, "http://calclavia.com/downloads/icbm/modversion.txt");
+		UpdateNotifier.INSTANCE.checkUpdate(MING_ZI, BAN_BEN, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
 
 		this.proxy.preInit();
 	}
@@ -372,7 +372,7 @@ public class ZhuYao
 			CONFIGURATION.load();
 			bFuShe = new BlockRadioactive(CONFIGURATION.getBlock("Radioactive Block", B_HAO_MA + 5).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
 			CONFIGURATION.save();
-			GameRegistry.registerBlock(bFuShe);
+			GameRegistry.registerBlock(bFuShe, "Radioactive");
 		}
 
 		for (int i = 0; i < ZhaPin.list.length; i++)

@@ -8,9 +8,9 @@ import net.minecraft.block.material.Material;
 
 public class BBuoLiPan extends BlockPressurePlate
 {
-	protected BBuoLiPan(int id, int texture)
+	protected BBuoLiPan(int id)
 	{
-		super(id, texture, EnumMobType.everything, Material.glass);
+		super(id, 0, EnumMobType.everything, Material.glass);
 		this.setTickRandomly(true);
 		this.setResistance(1F);
 		this.setHardness(0.3F);

@@ -14,8 +14,8 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.Side;
-import cpw.mods.fml.common.asm.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RHZhaPin implements ISimpleBlockRenderingHandler
@@ -41,7 +41,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 				Tessellator var4 = Tessellator.instance;
 
 				block.setBlockBoundsForItemRender();
-				renderer.func_83018_a(block);
+				renderer.updateCustomBlockBounds(block);
 				GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 				var4.startDrawingQuads();
