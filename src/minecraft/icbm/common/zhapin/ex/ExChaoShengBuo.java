@@ -51,7 +51,7 @@ public class ExChaoShengBuo extends ZhaPin
 						{
 							Material material = worldObj.getBlockMaterial(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
-							if (!(Block.blocksList[blockID] instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) > NENG_LIANG || material == Material.glass))
+							if (blockID != Block.bedrock.blockID && !(Block.blocksList[blockID] instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) > NENG_LIANG || material == Material.glass))
 							{
 								targetPosition.setBlockWithNotify(worldObj, 0);
 							}

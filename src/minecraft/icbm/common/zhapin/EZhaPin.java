@@ -42,6 +42,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 		this.setSize(0.98F, 0.98F);
 		this.yOffset = this.height / 2.0F;
 		this.renderDistanceWeight = 2f;
+		this.ticksExisted = 0;
 	}
 
 	public EZhaPin(World par1World, Vector3 position, int explosionID, boolean isMobile)
@@ -49,7 +50,6 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 		this(par1World);
 		this.jiaoShuMu = 0;
 		this.explosiveID = explosionID;
-		this.ticksExisted = 0;
 		this.isMobile = isMobile;
 		this.setPosition(position.x, position.y, position.z);
 	}
@@ -123,7 +123,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 		}
 
-		if (this.ticksExisted == 0)
+		if (this.ticksExisted == 1)
 		{
 			ZhaPin.list[this.explosiveID].baoZhaQian(this.worldObj, new Vector3(this), this);
 		}
@@ -145,6 +145,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 		tickCallCounter++;
 
 		ZhaPin.list[this.explosiveID].gengXin(worldObj, new Vector3(this.posX, this.posY, this.posZ), this.ticksExisted);
+
 		this.ticksExisted++;
 	}
 

@@ -9,12 +9,14 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TZhaDan extends TileEntity implements IPacketReceiver
+public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
 {
 	public boolean exploding = false;
 	public int explosiveID = 0;
@@ -79,5 +81,17 @@ public class TZhaDan extends TileEntity implements IPacketReceiver
 	public Packet getDescriptionPacket()
 	{
 		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (byte) 1, this.explosiveID);
+	}
+
+	@Override
+	public ForgeDirection getDirection()
+	{
+		return ForgeDirection.getOrientation(this.getBlockMetadata());
+	}
+
+	@Override
+	public void setDirection(ForgeDirection facingDirection)
+	{
+		this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, facingDirection.ordinal());
 	}
 }

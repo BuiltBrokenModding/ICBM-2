@@ -177,7 +177,9 @@ public class BZhaDan extends BlockContainer
 
 		columnPrefix *= 3;
 
-		return side == 0 ? rowPrefix + columnPrefix : (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
+		int index = side == 0 ? rowPrefix + columnPrefix : (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
+		System.out.println(index);
+		return index;
 	}
 
 	/**
@@ -256,11 +258,13 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
+		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+
 		if (par5EntityPlayer.getCurrentEquippedItem() != null)
 		{
 			if (par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
 			{
-				int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
+				int explosiveID = ((TZhaDan) tileEntity).explosiveID;
 				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
 				return true;
 			}
@@ -269,7 +273,7 @@ public class BZhaDan extends BlockContainer
 				byte change = 3;
 
 				// Reorient the block
-				switch (((IRotatable) par1World.getBlockTileEntity(x, y, z)).getDirection().ordinal())
+				switch (par1World.getBlockMetadata(x, y, z))
 				{
 					case 0:
 						change = 2;
@@ -296,6 +300,7 @@ public class BZhaDan extends BlockContainer
 				par1World.notifyBlockChange(x, y, z, this.blockID);
 				return true;
 			}
+
 		}
 
 		return false;
