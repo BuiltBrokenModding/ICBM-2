@@ -48,9 +48,9 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 	public int alarmBanJing = 100;
 
-	public int safetyBanJing = 20;
+	public int safetyBanJing = 50;
 
-	public List<EDaoDan> detectedMissiles = new ArrayList<EDaoDan>();
+	public List<EDaoDan> xunZhaoDaoDan = new ArrayList<EDaoDan>();
 
 	public List<TLeiDaTai> detectedRadarStations = new ArrayList<TLeiDaTai>();
 
@@ -140,24 +140,24 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 						this.dian -= this.YAO_DIAN;
 					}
 
-					boolean previousMissileDetection = this.detectedMissiles.size() > 0;
+					int prevShuMu = this.xunZhaoDaoDan.size();
 
 					// Do a radar scan
 					this.doScan();
 
-					if (previousMissileDetection != this.detectedMissiles.size() > 0)
+					if (prevShuMu != this.xunZhaoDaoDan.size())
 					{
 						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 					}
 				}
 				else
 				{
-					if (this.detectedMissiles.size() > 0)
+					if (this.xunZhaoDaoDan.size() > 0)
 					{
 						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 					}
 
-					this.detectedMissiles.clear();
+					this.xunZhaoDaoDan.clear();
 					this.detectedRadarStations.clear();
 
 					this.dian = 0;
@@ -178,21 +178,21 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	private boolean doScan()
 	{
 		this.missileAlert = false;
-		this.detectedMissiles.clear();
+		this.xunZhaoDaoDan.clear();
 		this.detectedRadarStations.clear();
 
-		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector3(this).toVector2(), this.alarmBanJing);
+		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector3(this).toVector2(), MAX_BIAN_JING);
 
-		for (EDaoDan missile : missilesNearby)
+		for (EDaoDan daoDan : missilesNearby)
 		{
-			if (missile.feiXingTick > -1)
+			if (daoDan.feiXingTick > -1)
 			{
-				if (!this.detectedMissiles.contains(missile))
+				if (!this.xunZhaoDaoDan.contains(daoDan))
 				{
-					this.detectedMissiles.add(missile);
+					this.xunZhaoDaoDan.add(daoDan);
 				}
 
-				if (Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing)
+				if (this.isWeiXianDaoDan(daoDan))
 				{
 					this.missileAlert = true;
 				}
@@ -208,6 +208,14 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		}
 
 		return this.missileAlert;
+	}
+
+	public boolean isWeiXianDaoDan(EDaoDan daoDan)
+	{
+		if (daoDan == null) { return false; }
+		if (daoDan.muBiao == null) { return false; }
+
+		return (Vector2.distance(new Vector3(daoDan).toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.alarmBanJing && Vector2.distance(daoDan.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing);
 	}
 
 	private Packet getDescriptionPacket2()
@@ -289,7 +297,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	{
 		if (this.prevDian <= 0 && this.dian <= 0) { return false; }
 
-		return this.doScan() && this.detectedMissiles.size() > 0;
+		return this.missileAlert;
 	}
 
 	@Override

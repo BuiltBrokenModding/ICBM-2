@@ -11,7 +11,7 @@ import icbm.common.dianqi.ItGenZongQi;
 import icbm.common.dianqi.ItHuoLuanQi;
 import icbm.common.dianqi.ItJieJa;
 import icbm.common.dianqi.ItLeiDaQiang;
-import icbm.common.dianqi.ItLeiShiZhiBiao;
+import icbm.common.dianqi.ItLeiSheZhiBiao;
 import icbm.common.dianqi.ItYaoKong;
 import icbm.common.jiqi.BJiQi;
 import icbm.common.jiqi.BYinGanQi;
@@ -233,7 +233,7 @@ public class ZhuYao
 		itJieJa = new ItJieJa(CONFIGURATION.getItem("ItemID6", I_HAO_MA + 5).getInt(), 5);
 		itLeiDaQiang = new ItLeiDaQiang(CONFIGURATION.getItem("ItemID7", I_HAO_MA + 6).getInt(), 3);
 		itYaoKong = new ItYaoKong(CONFIGURATION.getItem("ItemID8", I_HAO_MA + 7).getInt(), 4);
-		itLeiSheZhiBiao = new ItLeiShiZhiBiao(CONFIGURATION.getItem("ItemID9", I_HAO_MA + 8).getInt(), 6);
+		itLeiSheZhiBiao = new ItLeiSheZhiBiao(CONFIGURATION.getItem("ItemID9", I_HAO_MA + 8).getInt(), 6);
 		itHuoLaunQi = new ItHuoLuanQi(CONFIGURATION.getItem("ItemID10", I_HAO_MA + 9).getInt(), 7);
 		itGenZongQi = new ItGenZongQi(CONFIGURATION.getItem("ItemID11", I_HAO_MA + 10).getInt());
 		itFaSheQi = new ItFaSheQi(CONFIGURATION.getItem("ItemID12", I_HAO_MA + 11).getInt());

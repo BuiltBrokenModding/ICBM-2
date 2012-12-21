@@ -75,7 +75,7 @@ public class ExDianCiWave extends ZhaPin
 
 							if (tileEntity instanceof IForceEnergyStorageBlock)
 							{
-								((IForceEnergyStorageBlock) tileEntity).consumePowerfromStorage((int) Math.max(worldObj.rand.nextFloat() * 30, 8), false);
+								((IForceEnergyStorageBlock) tileEntity).consumePowerfromStorage((int) worldObj.rand.nextFloat() * ((IForceEnergyStorageBlock) tileEntity).getStorageMaxPower(), false);
 							}
 
 							if (tileEntity instanceof IForceFieldBlock)

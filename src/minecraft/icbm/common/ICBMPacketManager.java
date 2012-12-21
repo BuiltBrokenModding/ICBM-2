@@ -2,7 +2,7 @@ package icbm.common;
 
 import icbm.common.dianqi.ItHuoLuanQi;
 import icbm.common.dianqi.ItLeiDaQiang;
-import icbm.common.dianqi.ItLeiShiZhiBiao;
+import icbm.common.dianqi.ItLeiSheZhiBiao;
 import icbm.common.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -65,18 +65,18 @@ public class ICBMPacketManager extends PacketManager
 			}
 			else if (icbmPacketType == ICBMPacketType.LASER_DESIGNATOR)
 			{
-				if (player.inventory.getCurrentItem().getItem() instanceof ItLeiShiZhiBiao)
+				if (player.inventory.getCurrentItem().getItem() instanceof ItLeiSheZhiBiao)
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
 					Vector3 position = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 
-					((ItLeiShiZhiBiao) ZhuYao.itLeiSheZhiBiao).setLauncherCountDown(itemStack, 119);
+					((ItLeiSheZhiBiao) ZhuYao.itLeiSheZhiBiao).setLauncherCountDown(itemStack, 119);
 
 					player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), "icbm.airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
 					player.worldObj.spawnEntityInWorld(new EGuang(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
 
-					((ItemElectric) ZhuYao.itLeiDaQiang).onUse(ItLeiShiZhiBiao.YONG_DIAN_LIANG, itemStack);
+					((ItemElectric) ZhuYao.itLeiDaQiang).onUse(ItLeiSheZhiBiao.YONG_DIAN_LIANG, itemStack);
 				}
 			}
 			else if (icbmPacketType == ICBMPacketType.SIGNAL_DISRUPTER)

@@ -25,7 +25,7 @@ public class ExDianCi extends ZhaPin
 	{
 		if (radius < 0)
 		{
-			radius = 40;
+			radius = 50;
 		}
 
 		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, null, radius, callCount);

@@ -132,7 +132,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	{
 		if (this.haoMa > 100) { return DaoDan.list[this.haoMa].getTranslatedMing(); }
 
-		return ZhaPin.list[this.haoMa].getDaoDanMing();
+		return ZhaPin.list[this.haoMa].getMingZi();
 	}
 
 	@Override
@@ -296,6 +296,11 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 		if (this.feiXingTick >= 0)
 		{
+			if (this.feiXingTick == 1)
+			{
+				DaoDanGuanLi.addMissile(this);
+			}
+
 			if (!this.worldObj.isRemote)
 			{
 				if (this.xingShi == XingShi.XIAO_DAN || this.xingShi == XingShi.HUO_JIAN)

@@ -57,7 +57,8 @@ public class ItFaSheQi extends ItemElectric
 									Vector3 diDian = Vector3.add(new Vector3(player), new Vector3(0, 0.5, 0));
 									Vector3 kan = new Vector3(player.getLook(1));
 									Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 2));
-									Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 1000));
+									Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
+
 									EDaoDan eDaoDan = new EDaoDan(world, zhaPin.getID(), kaiShiDiDian, player.rotationYaw, player.rotationPitch);
 									world.spawnEntityInWorld(eDaoDan);
 									eDaoDan.faShe(muBiao);

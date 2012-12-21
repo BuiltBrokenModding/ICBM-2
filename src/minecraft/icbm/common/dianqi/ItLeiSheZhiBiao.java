@@ -24,12 +24,12 @@ import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
+public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 {
 	public static final int BAN_JING = 100;
 	public static final int YONG_DIAN_LIANG = 5000;
 
-	public ItLeiShiZhiBiao(int id, int icon)
+	public ItLeiSheZhiBiao(int id, int icon)
 	{
 		super(id);
 		this.setIconIndex(icon);
@@ -338,13 +338,13 @@ public class ItLeiShiZhiBiao extends ItemElectric implements IFrequency
 	@Override
 	public double getVoltage()
 	{
-		return 20;
+		return 30;
 	}
 
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 400000;
+		return 40000;
 	}
 
 	@Override

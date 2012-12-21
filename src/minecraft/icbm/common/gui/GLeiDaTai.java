@@ -168,14 +168,14 @@ public class GLeiDaTai extends ICBMGui
 		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
 		radarMapRadius = this.tileEntity.MAX_BIAN_JING / 65F;
 
-		if (this.tileEntity.detectedMissiles.size() > 0)
+		if (this.tileEntity.xunZhaoDaoDan.size() > 0)
 		{
-			for (EDaoDan missile : this.tileEntity.detectedMissiles)
+			for (EDaoDan daoDan : this.tileEntity.xunZhaoDaoDan)
 			{
-				float x = (int) (missile.posX - this.tileEntity.xCoord) / radarMapRadius;
-				float z = (int) (missile.posZ - this.tileEntity.zCoord) / radarMapRadius;
+				float x = (int) (daoDan.posX - this.tileEntity.xCoord) / radarMapRadius;
+				float z = (int) (daoDan.posZ - this.tileEntity.zCoord) / radarMapRadius;
 
-				if (Vector2.distance(missile.muBiao.toVector2(), new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord)) < this.tileEntity.safetyBanJing)
+				if (this.tileEntity.isWeiXianDaoDan(daoDan))
 				{
 					var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "reddot.png");
 				}

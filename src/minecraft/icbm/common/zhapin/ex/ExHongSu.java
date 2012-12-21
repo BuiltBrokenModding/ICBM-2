@@ -19,7 +19,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import chb.mods.mffs.api.ForcefieldProtected;
 import chb.mods.mffs.api.IForceFieldBlock;
+import cpw.mods.fml.common.Loader;
 
 public class ExHongSu extends ZhaPin
 {
@@ -44,14 +46,7 @@ public class ExHongSu extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
 	{
-		if (worldObj.isRemote)
-		{
-			// Spawn red matter particle
-			// ParticleSpawner.spawnParticle("smoke", worldObj, position, 0.1F, 0F, 0F, 10F, 2F);
-		}
-
-		// Try to find and grab some blocks to
-		// orbit
+		// Try to find and grab some blocks to orbit
 		if (!worldObj.isRemote)
 		{
 			Vector3 currentPos;
@@ -78,6 +73,12 @@ public class ExHongSu extends ZhaPin
 
 							if (blockID == 0 || Block.blocksList[blockID] == null)
 								continue;
+
+							if (Loader.isModLoaded("ModularForceFieldSystem"))
+							{
+								if (ForcefieldProtected.BlockProtected(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ(), null))
+									continue;
+							}
 
 							if (Block.blocksList[blockID] instanceof IForceFieldBlock)
 							{
