@@ -1,0 +1,9 @@
+open calclavia.com
+icbm@calclavia.com
+9ZxLl43ur1Gv
+binary
+put "recommendedversion.txt"
+put "builds\ICBM_v0.7.3.97.jar"
+put "builds\ICBM_v0.7.3.97_api.zip"
+put info.txt
+quit

@@ -13,7 +13,7 @@ public class DaoDan implements ITier
 	public static final DaoDan Cluster = new DFenZhiDan("cluster", 102, 2);
 	public static final DaoDan NuclearCluster = new DYuanZiFenZhiDan("nuclearCluster", 103, 2);
 	public static final DaoDan Homing = new DZhuiZhong("homing", 104, 1);
-	
+
 	public static final int MAX_DAO_DAN = 4;
 
 	public static DaoDan[] list;

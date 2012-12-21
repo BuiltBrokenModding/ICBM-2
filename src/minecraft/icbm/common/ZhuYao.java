@@ -87,6 +87,7 @@ public class ZhuYao
 	@Instance("ICBM")
 	public static ZhuYao instance;
 
+
 	/**
 	 * The version of ICBM.
 	 */
@@ -101,7 +102,7 @@ public class ZhuYao
 	// Configurations
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
-	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN"/* , "es_ES", "it_IT" */};
+	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES"/* , "it_IT" */};
 
 	@SidedProxy(clientSide = "icbm.client.ClientProxy", serverSide = "icbm.common.CommonProxy")
 	public static CommonProxy proxy;
@@ -405,7 +406,7 @@ public class ZhuYao
 
 		// Railgun Bullet
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itZiDan, 3, 0), new Object[] { "@", "!", "!", '@', Item.diamond, '!', "ingotBronze" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itZiDan, 1, 1), new Object[] { "@", "!", "!", '@', "antimatter", '!', ZhuYao.itZiDan }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itZiDan, 1, 1), new Object[] { "@", "!", "!", '@', "antimatterGram", '!', ZhuYao.itZiDan }));
 
 		// Poison Powder
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itDu), new Object[] { Item.fermentedSpiderEye, Item.rottenFlesh }));

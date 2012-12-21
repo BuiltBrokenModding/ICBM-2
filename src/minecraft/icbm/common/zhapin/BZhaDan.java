@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.IToolConfigurator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -178,7 +177,6 @@ public class BZhaDan extends BlockContainer
 		columnPrefix *= 3;
 
 		int index = side == 0 ? rowPrefix + columnPrefix : (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
-		System.out.println(index);
 		return index;
 	}
 
