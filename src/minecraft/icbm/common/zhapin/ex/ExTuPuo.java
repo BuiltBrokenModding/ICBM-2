@@ -9,6 +9,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
@@ -17,6 +18,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.implement.IRotatable;
+import atomicscience.api.IExplosionReactor;
 import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExTuPuo extends ZhaPin
@@ -148,6 +150,15 @@ public class ExTuPuo extends ZhaPin
 
 					if (blockID > 0)
 					{
+						TileEntity tileEntity = position.getTileEntity(worldObj);
+
+						if (tileEntity != null)
+						{
+							if (tileEntity instanceof IExplosionReactor)
+							{
+								((IExplosionReactor) tileEntity).onExplode(6000);
+							}
+						}
 						Block.blocksList[blockID].dropBlockAsItemWithChance(worldObj, var5, var6, var7, worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
 						Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, var5, var6, var7);
 						worldObj.setBlockWithNotify(var5, var6, var7, 0);

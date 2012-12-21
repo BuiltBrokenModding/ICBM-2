@@ -29,9 +29,10 @@ public class Region3
 		this.max = max;
 	}
 
-	public Region3 get(AxisAlignedBB aabb)
+	public Region3(AxisAlignedBB aabb)
 	{
-		return new Region3(new Vector3(aabb.minX, aabb.minY, aabb.minZ), new Vector3(aabb.maxX, aabb.maxY, aabb.maxZ));
+		this.min = new Vector3(aabb.minX, aabb.minY, aabb.minZ);
+		this.max = new Vector3(aabb.maxX, aabb.maxY, aabb.maxZ);
 	}
 
 	public AxisAlignedBB toAABB()

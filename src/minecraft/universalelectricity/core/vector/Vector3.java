@@ -113,36 +113,6 @@ public class Vector3 extends Vector2 implements Cloneable
 		return new Vector3(this.x, this.y, this.z);
 	}
 
-	@Deprecated
-	public static Vector3 get(Entity par1)
-	{
-		return new Vector3(par1);
-	}
-
-	@Deprecated
-	public static Vector3 get(TileEntity par1)
-	{
-		return new Vector3(par1);
-	}
-
-	@Deprecated
-	public static Vector3 get(Vec3 par1)
-	{
-		return new Vector3(par1);
-	}
-
-	@Deprecated
-	public static Vector3 get(MovingObjectPosition par1)
-	{
-		return new Vector3(par1);
-	}
-
-	@Deprecated
-	public static Vector3 get(ChunkCoordinates par1)
-	{
-		return new Vector3(par1);
-	}
-
 	public int getBlockID(IBlockAccess world)
 	{
 		return world.getBlockId(this.intX(), this.intY(), this.intZ());

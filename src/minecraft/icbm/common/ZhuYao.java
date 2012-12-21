@@ -87,7 +87,6 @@ public class ZhuYao
 	@Instance("ICBM")
 	public static ZhuYao instance;
 
-
 	/**
 	 * The version of ICBM.
 	 */

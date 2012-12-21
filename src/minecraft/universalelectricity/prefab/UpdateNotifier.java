@@ -45,7 +45,7 @@ public class UpdateNotifier implements IPlayerTracker
 
 		if (latestUpdate != null && latestUpdate != "" && !currentVersion.trim().equals(latestUpdate.trim()))
 		{
-			modsToUpdate.put(modName, latestUpdate);
+			modsToUpdate.put(modName, latestUpdate.trim());
 		}
 
 		return latestUpdate;

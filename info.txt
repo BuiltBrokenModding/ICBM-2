@@ -95,7 +95,7 @@ Minecraft 1.4.4
 @ ICBM_v0.6.2.67.jar
 * ICBM_v0.6.2.68.jar
 x ICBM_v0.6.3.69.jar
-@ ICBM_v0.6.3.70.jar
+@ ICBM_v0.6.3.70.ja
 * ICBM_v0.6.3.71.jar
 @ ICBM_v0.6.4.72.jar
 @ ICBM_v0.6.4.73.jar
@@ -118,4 +118,5 @@ Minecraft 1.4.5
 @ ICBM_v0.7.3.94.jar
 @ ICBM_v0.7.3.95.jar
 @ ICBM_v0.7.3.96.jar
-* ICBM_v0.7.3.97.jar
+@ ICBM_v0.7.3.97.jar
+* ICBM_v0.7.3.98.jar
