@@ -40,6 +40,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.ITier;
+import co.uk.flansmods.api.IExplodeable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -398,6 +399,12 @@ public abstract class ZhaPin implements ITier
 			if (entity instanceof EDaoDan)
 			{
 				((EDaoDan) entity).explode();
+				break;
+			}
+
+			if (entity instanceof IExplodeable)
+			{
+				((IExplodeable) entity).explode();
 				break;
 			}
 

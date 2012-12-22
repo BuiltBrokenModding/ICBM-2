@@ -28,7 +28,7 @@ cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "dan200\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "ic2\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "railcraft\"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "buildcraft\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "co\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "universalelectricity\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME%" "icbm\"
 

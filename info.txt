@@ -123,3 +123,5 @@ Minecraft 1.4.5
 * ICBM_v0.7.3.99.jar
 @ ICBM_v0.7.3.100.jar
 @ ICBM_v1.0.0.101.jar
+@ ICBM_v1.0.0.103.jar
+@ ICBM_v1.0.0.105.jar

@@ -5,7 +5,6 @@ import icbm.common.ICBMRenderBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -18,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RFeiBlock extends Render
 {
-	private ICBMRenderBlocks renderBlocks = new ICBMRenderBlocks();
+	private ICBMRenderBlocks icbmRenderBlocks;
 
 	public RFeiBlock()
 	{
@@ -30,9 +29,9 @@ public class RFeiBlock extends Render
 	 */
 	public void doRenderGravityBlock(EFeiBlock entity, double x, double y, double z, float par8, float par9)
 	{
-		if (this.renderManager == null)
+		if (this.icbmRenderBlocks == null)
 		{
-			this.setRenderManager(RenderManager.instance);
+			this.icbmRenderBlocks = new ICBMRenderBlocks(this.renderBlocks.blockAccess);
 		}
 
 		GL11.glPushMatrix();
@@ -48,17 +47,17 @@ public class RFeiBlock extends Render
 
 		if (block == Block.dragonEgg || block == Block.grass || block == Block.fence || block == Block.crops || block == Block.leaves || block == Block.torchRedstoneActive || block == Block.torchWood || block == Block.torchRedstoneIdle || block == Block.tallGrass || block == Block.vine || block == Block.wood || block == Block.bookShelf || block == Block.pumpkin)
 		{
-			renderBlocks.blockAccess = world;
+			this.icbmRenderBlocks.blockAccess = world;
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
 			tessellator.setTranslation((float) (-MathHelper.floor_double(entity.posX)) - 0.5F, (float) (-MathHelper.floor_double(entity.posY)) - 0.5F, (float) (-MathHelper.floor_double(entity.posZ)) - 0.5F);
-			renderBlocks.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
+			this.icbmRenderBlocks.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
 			tessellator.setTranslation(0.0D, 0.0D, 0.0D);
 			tessellator.draw();
 		}
 		else
 		{
-			this.renderBlocks.renderBlockGravity(block, world, (int) entity.posX, (int) entity.posY, (int) entity.posZ, entity.metadata);
+			this.icbmRenderBlocks.renderBlockGravity(block, world, (int) entity.posX, (int) entity.posY, (int) entity.posZ, entity.metadata);
 		}
 
 		GL11.glEnable(GL11.GL_LIGHTING);

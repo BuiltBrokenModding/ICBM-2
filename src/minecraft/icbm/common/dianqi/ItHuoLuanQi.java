@@ -67,7 +67,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 
 		if (this.getJoules(par1ItemStack) > 1)
 		{
-			this.onUse(10, par1ItemStack);
+			this.onUse(5, par1ItemStack);
 		}
 	}
 

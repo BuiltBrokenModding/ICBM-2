@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RBZhaDan extends TileEntitySpecialRenderer
+public class RZhaDan extends TileEntitySpecialRenderer
 {
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)

@@ -60,6 +60,11 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	public void setYing(boolean isYing)
 	{
 		this.isYing = isYing;
+
+		if (!this.worldObj.isRemote)
+		{
+			PacketManager.sendPacketToClients(this.getDescriptionPacket());
+		}
 	}
 
 	public void setYing()

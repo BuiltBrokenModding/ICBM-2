@@ -104,7 +104,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 					{
 						if (!this.isDisabled())
 						{
-							network.startRequesting(this, this.YAO_DIAN * 2 / this.getVoltage(), this.getVoltage());
+							network.startRequesting(this, (this.YAO_DIAN * 2) / this.getVoltage(), this.getVoltage());
 							this.dian = Math.ceil(this.dian + network.consumeElectricity(this).getWatts());
 						}
 						else
@@ -467,12 +467,12 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public void attach(IComputerAccess computer)
 	{
-		
+
 	}
 
 	@Override
 	public void detach(IComputerAccess computer)
 	{
-		
+
 	}
 }

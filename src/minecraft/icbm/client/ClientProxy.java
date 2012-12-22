@@ -1,6 +1,6 @@
 package icbm.client;
 
-import icbm.client.render.RBZhaDan;
+import icbm.client.render.RBYinXing;
 import icbm.client.render.RChe;
 import icbm.client.render.RCiGuiPao;
 import icbm.client.render.RDaoDan;
@@ -13,7 +13,6 @@ import icbm.client.render.RFake;
 import icbm.client.render.RFeiBlock;
 import icbm.client.render.RGuangBang;
 import icbm.client.render.RHJiQi;
-import icbm.client.render.RHYinXing;
 import icbm.client.render.RHZhaPin;
 import icbm.client.render.RItDaoDan;
 import icbm.client.render.RItH;
@@ -21,6 +20,7 @@ import icbm.client.render.RLeiDaTai;
 import icbm.client.render.RShouLiuDan;
 import icbm.client.render.RSuiPian;
 import icbm.client.render.RXiaoFaSheQi;
+import icbm.client.render.RZhaDan;
 import icbm.client.render.RZhaPin;
 import icbm.common.CommonProxy;
 import icbm.common.EFeiBlock;
@@ -88,7 +88,7 @@ public class ClientProxy extends CommonProxy
 		MinecraftForgeClient.registerItemRenderer(ZhuYao.itTeBieDaoDan.shiftedIndex, new RItDaoDan());
 
 		RenderingRegistry.registerBlockHandler(new RHZhaPin());
-		RenderingRegistry.registerBlockHandler(new RHYinXing());
+		RenderingRegistry.registerBlockHandler(new RBYinXing());
 		RenderingRegistry.registerBlockHandler(new RHJiQi());
 
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
@@ -110,7 +110,7 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class, new RFaSheJia());
 		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RLeiDaTai());
 		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RBZhaDan());
+		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RZhaDan());
 
 	}
 

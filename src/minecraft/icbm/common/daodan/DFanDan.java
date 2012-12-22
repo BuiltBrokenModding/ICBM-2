@@ -3,6 +3,7 @@ package icbm.common.daodan;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
+import co.uk.flansmods.api.IExplodeable;
 
 public class DFanDan extends DaoDan
 {
@@ -18,20 +19,22 @@ public class DFanDan extends DaoDan
 	{
 		if (missileObj.lockedTarget != null)
 		{
-			if (!missileObj.lockedTarget.zhengZaiBaoZha)
-			{
-				Vector3 guJiDiDian = missileObj.lockedTarget.guJi(4);
+			Vector3 guJiDiDian = new Vector3(missileObj);
 
-				System.out.println(new Vector3(missileObj) + " vs " + guJiDiDian);
-
-				missileObj.motionX = (guJiDiDian.x - missileObj.posX) * (0.3F);
-				missileObj.motionY = (guJiDiDian.y - missileObj.posY) * (0.3F);
-				missileObj.motionZ = (guJiDiDian.z - missileObj.posZ) * (0.3F);
-			}
-			else
+			if (missileObj instanceof EDaoDan)
 			{
-				missileObj.explode();
+				if (((EDaoDan) missileObj.lockedTarget).zhengZaiBaoZha)
+				{
+					missileObj.explode();
+					return;
+				}
+
+				guJiDiDian = ((EDaoDan) missileObj.lockedTarget).guJi(4);
 			}
+
+			missileObj.motionX = (guJiDiDian.x - missileObj.posX) * (0.3F);
+			missileObj.motionY = (guJiDiDian.y - missileObj.posY) * (0.3F);
+			missileObj.motionZ = (guJiDiDian.z - missileObj.posZ) * (0.3F);
 
 			return;
 		}
@@ -43,12 +46,18 @@ public class DFanDan extends DaoDan
 		{
 			if (((EDaoDan) nearestEntity).feiXingTick >= 0)
 			{
-				// Lock target onto missileObj
-				// missile
+				// Lock target onto missileObj missile
 				missileObj.lockedTarget = (EDaoDan) nearestEntity;
 				missileObj.didTargetLockBefore = true;
 				missileObj.worldObj.playSoundAtEntity(missileObj, "icbm.targetlocked", 5F, 0.9F);
 			}
+		}
+		else if (nearestEntity instanceof IExplodeable)
+		{
+			// Lock target onto missileObj missile
+			missileObj.lockedTarget = nearestEntity;
+			missileObj.didTargetLockBefore = true;
+			missileObj.worldObj.playSoundAtEntity(missileObj, "icbm.targetlocked", 5F, 0.9F);
 		}
 		else
 		{

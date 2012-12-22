@@ -27,7 +27,7 @@ import com.google.common.io.ByteArrayDataInput;
 public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
 {
 	// Watts Per Tick
-	public static final float YAO_DIAN = 5;
+	public static final float YAO_DIAN = 8;
 
 	// The electricity stored
 	public double prevDian, dian = 0;
@@ -58,6 +58,8 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	{
 		super.updateEntity();
 
+		this.prevDian = this.dian;
+
 		if (!this.worldObj.isRemote)
 		{
 			for (int i = 0; i < 6; i++)
@@ -72,7 +74,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 				{
 					if (!this.isDisabled())
 					{
-						network.startRequesting(this, this.YAO_DIAN / this.getVoltage(), this.getVoltage());
+						network.startRequesting(this, (this.YAO_DIAN * 2) / this.getVoltage(), this.getVoltage());
 						this.dian += network.consumeElectricity(this).getWatts();
 					}
 					else
@@ -140,13 +142,7 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 
 					this.dian = 0;
 				}
-				else
-				{
-					this.isDetect = false;
-				}
 			}
-
-			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
 
 	}
@@ -244,12 +240,12 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	@Override
 	public boolean isPoweringTo(ForgeDirection side)
 	{
-		return isDetect;
+		return this.isDetect;
 	}
 
 	@Override
 	public boolean isIndirectlyPoweringTo(ForgeDirection side)
 	{
-		return isDetect;
+		return this.isDetect;
 	}
 }

@@ -3,7 +3,6 @@ package icbm.common.gui;
 import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
 import icbm.common.jiqi.BJiQi;
-import icbm.common.jiqi.TDianCiQi;
 import icbm.common.jiqi.TLeiDaTai;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.core.vector.Vector2;
-import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 import universalelectricity.prefab.vector.Region2;

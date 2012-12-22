@@ -1,6 +1,6 @@
 package icbm.common;
 
-import icbm.client.render.RHYinXing;
+import icbm.client.render.RBYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +23,7 @@ public class BYinXing extends BlockMachine
 		this.setResistance(1F);
 		this.setStepSound(this.soundClothFootstep);
 		this.setCreativeTab(ZhuYao.TAB);
+		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
 	}
 
 	/**
@@ -68,15 +69,18 @@ public class BYinXing extends BlockMachine
 		{
 			if (par5EntityPlayer.getCurrentEquippedItem() != null)
 			{
-				Block block = Block.blocksList[par5EntityPlayer.getCurrentEquippedItem().itemID];
-
-				if (block != null)
+				if (par5EntityPlayer.getCurrentEquippedItem().itemID < Block.blocksList.length)
 				{
-					if (block.renderAsNormalBlock() && (block.getRenderType() == 0 || block.getRenderType() == 31))
+					Block block = Block.blocksList[par5EntityPlayer.getCurrentEquippedItem().itemID];
+
+					if (block != null)
 					{
-						((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
-						par1World.markBlockForRenderUpdate(x, y, z);
-						return true;
+						if (block.getRenderType() == 0 || block.getRenderType() == 31)
+						{
+							((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
+							par1World.markBlockForRenderUpdate(x, y, z);
+							return true;
+						}
 					}
 				}
 			}
@@ -197,7 +201,7 @@ public class BYinXing extends BlockMachine
 	@Override
 	public int getRenderType()
 	{
-		return RHYinXing.ID;
+		return RBYinXing.ID;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package icbm.common;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,6 +13,11 @@ public class ICBMRenderBlocks extends RenderBlocks
 {
 	private boolean didSetBrightness = false;
 
+	public ICBMRenderBlocks(IBlockAccess iBlockAccess)
+	{
+		super(iBlockAccess);
+	}
+
 	public void renderBlockGravity(Block par1Block, World par2World, int par3, int par4, int par5, int metadata)
 	{
 		float var6 = 0.5F;
@@ -20,12 +26,6 @@ public class ICBMRenderBlocks extends RenderBlocks
 		float var9 = 0.6F;
 		Tessellator var10 = Tessellator.instance;
 		var10.startDrawingQuads();
-
-		if (!didSetBrightness)
-		{
-			var10.setBrightness(par1Block.getMixedBrightnessForBlock(par2World, par3, par4, par5));
-			didSetBrightness = true;
-		}
 
 		float var12 = 1.0F;
 

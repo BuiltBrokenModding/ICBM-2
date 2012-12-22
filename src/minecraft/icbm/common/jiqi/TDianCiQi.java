@@ -44,7 +44,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 		super();
 		LeiDaJiQiGuanLi.register(this);
 	}
-	
+
 	@Override
 	public void invalidate()
 	{

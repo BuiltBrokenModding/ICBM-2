@@ -65,7 +65,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	private Ticket chunkTicket;
 
 	// For anti-ballistic missile
-	public EDaoDan lockedTarget;
+	public Entity lockedTarget;
 	// Has this missile lock it's target before?
 	public boolean didTargetLockBefore = false;
 	// Tracking
