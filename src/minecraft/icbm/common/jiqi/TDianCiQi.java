@@ -159,7 +159,7 @@ public class TDianCiQi extends TileEntityElectricityReceiver implements IJouleSt
 	@Override
 	public double getVoltage()
 	{
-		return 220;
+		return 240;
 	}
 
 	/**

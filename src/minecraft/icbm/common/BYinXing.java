@@ -134,31 +134,41 @@ public class BYinXing extends BlockMachine
 	{
 		try
 		{
-			Block block = Block.blocksList[((TYinXing) par1IBlockAccess.getBlockTileEntity(x, y, z)).getJiaHaoMa()];
-
-			if (block != null)
+			TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
+			
+			if (tileEntity instanceof TYinXing)
 			{
-				if (block == Block.grass)
+				int haoMa = ((TYinXing) tileEntity).getJiaHaoMa();
+
+				if (haoMa < Block.blocksList.length)
 				{
-					int redColor = 0;
-					int greenColor = 0;
-					int blueColork = 0;
+					Block block = Block.blocksList[haoMa];
 
-					for (int izy = -1; izy <= 1; izy++)
+					if (block != null)
 					{
-						for (int ix = -1; ix <= 1; ix++)
+						if (block == Block.grass)
 						{
-							int grassColor = par1IBlockAccess.getBiomeGenForCoords(x + ix, z + izy).getBiomeGrassColor();
-							redColor += ((grassColor & 0xFF0000) >> 16);
-							greenColor += ((grassColor & 0xFF00) >> 8);
-							blueColork += (grassColor & 0xFF);
+							int redColor = 0;
+							int greenColor = 0;
+							int blueColork = 0;
+
+							for (int izy = -1; izy <= 1; izy++)
+							{
+								for (int ix = -1; ix <= 1; ix++)
+								{
+									int grassColor = par1IBlockAccess.getBiomeGenForCoords(x + ix, z + izy).getBiomeGrassColor();
+									redColor += ((grassColor & 0xFF0000) >> 16);
+									greenColor += ((grassColor & 0xFF00) >> 8);
+									blueColork += (grassColor & 0xFF);
+								}
+							}
+
+							return (redColor / 9 & 0xFF) << 16 | (greenColor / 9 & 0xFF) << 8 | blueColork / 9 & 0xFF;
 						}
+
+						return block.colorMultiplier(par1IBlockAccess, x, y, x);
 					}
-
-					return (redColor / 9 & 0xFF) << 16 | (greenColor / 9 & 0xFF) << 8 | blueColork / 9 & 0xFF;
 				}
-
-				return block.colorMultiplier(par1IBlockAccess, x, y, x);
 			}
 		}
 		catch (Exception e)
