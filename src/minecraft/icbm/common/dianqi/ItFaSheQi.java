@@ -33,7 +33,7 @@ public class ItFaSheQi extends ItemElectric
 	{
 		if (!world.isRemote)
 		{
-			if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+			if (this.getJoules(itemStack) >= YONG_DIAN_LIANG)
 			{
 				// Check the player's inventory and look for missiles.
 				for (int i = 0; i < player.inventory.getSizeInventory(); i++)

@@ -11,13 +11,21 @@ public class DaoDanGuanLi
 	// Static methods
 	private static List<EDaoDan> missiles = new ArrayList<EDaoDan>();
 
-	public static void addMissile(EDaoDan missile)
+	public static void register(EDaoDan missile)
 	{
 		cleanUpMissiles();
 
 		if (!missiles.contains(missile))
 		{
 			missiles.add(missile);
+		}
+	}
+
+	public static void unregister(EDaoDan missile)
+	{
+		if (missiles.contains(missile))
+		{
+			missiles.remove(missile);
 		}
 	}
 

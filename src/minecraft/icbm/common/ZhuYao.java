@@ -46,6 +46,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
@@ -90,7 +91,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String BAN_BEN = "0.7.3";
+	public static final String BAN_BEN = "1.0.0";
 
 	public static final String MING_ZI = "ICBM";
 
@@ -337,7 +338,22 @@ public class ZhuYao
 		OreDictionary.registerOre("dustSulfur", itLiu);
 
 		OreGenerator.addOre(liuGenData);
-		ForgeChunkManager.setForcedChunkLoadingCallback(this, new DaoDanCLCallBack());
+
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback()
+		{
+			@Override
+			public void ticketsLoaded(List<Ticket> tickets, World world)
+			{
+				for (Ticket ticket : tickets)
+				{
+					if (ticket.getEntity() != null)
+					{
+						((EDaoDan) ticket.getEntity()).daoDanInit(ticket);
+					}
+				}
+			}
+		});
+
 		MinecraftForge.EVENT_BUS.register(this);
 
 		// Set ICBM API Variables
@@ -347,21 +363,6 @@ public class ZhuYao
 		UpdateNotifier.INSTANCE.checkUpdate(MING_ZI, BAN_BEN, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
 
 		this.proxy.preInit();
-	}
-
-	public class DaoDanCLCallBack implements ForgeChunkManager.LoadingCallback
-	{
-		@Override
-		public void ticketsLoaded(List<Ticket> tickets, World world)
-		{
-			for (Ticket ticket : tickets)
-			{
-				if (ticket.getEntity() != null)
-				{
-					((EDaoDan) ticket.getEntity()).daoDanInit(ticket);
-				}
-			}
-		}
 	}
 
 	@Init

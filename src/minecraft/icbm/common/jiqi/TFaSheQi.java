@@ -149,12 +149,14 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	}
 
 	@Override
-	public void attach(IComputerAccess computer, String computerSide)
+	public void attach(IComputerAccess computer)
 	{
+
 	}
 
 	@Override
 	public void detach(IComputerAccess computer)
 	{
+
 	}
 }

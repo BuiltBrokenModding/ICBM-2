@@ -2,6 +2,8 @@ package icbm.common.gui;
 
 import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
+import icbm.common.jiqi.BJiQi;
+import icbm.common.jiqi.TDianCiQi;
 import icbm.common.jiqi.TLeiDaTai;
 
 import java.util.ArrayList;
@@ -13,7 +15,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.core.vector.Vector2;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
+import universalelectricity.prefab.vector.Region2;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GLeiDaTai extends ICBMGui
@@ -28,11 +33,17 @@ public class GLeiDaTai extends ICBMGui
 
 	private List<Vector2> missileCoords = new ArrayList<Vector2>();
 
-	private Vector2 mouseOverCoords;
+	private Vector2 mouseOverCoords = new Vector2();
+
+	private Vector2 mousePosition = new Vector2();
 
 	// Radar Map
 	private Vector2 radarCenter;
 	private float radarMapRadius;
+
+	private String info = "";
+
+	private String info2;
 
 	public GLeiDaTai(TLeiDaTai tileEntity)
 	{
@@ -116,10 +127,13 @@ public class GLeiDaTai extends ICBMGui
 	{
 		this.fontRenderer.drawString("Radar Station", this.xSize / 2 - 87, 6, 4210752);
 
-		this.fontRenderer.drawString("Settings", this.xSize / 2 + 63, 6, 4210752);
+		this.fontRenderer.drawString("Settings", this.xSize / 2 + 55, 6, 4210752);
 
-		this.fontRenderer.drawString("Coordinates:", 155, 37, 4210752);
-		this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 50, 4210752);
+		this.fontRenderer.drawString("Coordinates:", 155, 18, 4210752);
+		this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
+
+		this.fontRenderer.drawString("\u00a76" + this.info, 155, 42, 4210752);
+		this.fontRenderer.drawString("\u00a74" + this.info2, 155, 54, 4210752);
 
 		this.fontRenderer.drawString("Safe Zone:", 155, 70, 4210752);
 		this.textFieldSafetyZone.drawTextBox();
@@ -165,15 +179,19 @@ public class GLeiDaTai extends ICBMGui
 		this.containerPosY = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
 
-		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
-		radarMapRadius = this.tileEntity.MAX_BIAN_JING / 65F;
+		this.radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
+		this.radarMapRadius = this.tileEntity.MAX_BIAN_JING / 65F;
 
-		if (this.tileEntity.xunZhaoDaoDan.size() > 0)
+		this.info = "";
+		this.info2 = "";
+
+		if (this.tileEntity.prevDian >= TLeiDaTai.YAO_DIAN)
 		{
+			int range = 4;
+
 			for (EDaoDan daoDan : this.tileEntity.xunZhaoDaoDan)
 			{
-				float x = (int) (daoDan.posX - this.tileEntity.xCoord) / radarMapRadius;
-				float z = (int) (daoDan.posZ - this.tileEntity.zCoord) / radarMapRadius;
+				Vector2 position = new Vector2(radarCenter.x + (daoDan.posX - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (daoDan.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
 
 				if (this.tileEntity.isWeiXianDaoDan(daoDan))
 				{
@@ -185,19 +203,46 @@ public class GLeiDaTai extends ICBMGui
 				}
 
 				this.mc.renderEngine.bindTexture(var4);
-				this.drawTexturedModalRect((int) (radarCenter.x + x), (int) (radarCenter.y - z), 0, 0, 2, 2);
+				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
+
+				// Hover Detection
+				Vector2 minPosition = position.clone();
+				minPosition.add(-range);
+				Vector2 maxPosition = position.clone();
+				maxPosition.add(range);
+
+				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
+				{
+					this.info = daoDan.getEntityName();
+
+					if (daoDan.muBiao != null)
+					{
+						this.info2 = "(" + daoDan.muBiao.intX() + " ," + daoDan.muBiao.intZ() + ")";
+					}
+				}
 			}
-		}
 
-		for (TLeiDaTai radarStation : this.tileEntity.detectedRadarStations)
-		{
-			float x = (int) (radarStation.xCoord - this.tileEntity.xCoord) / radarMapRadius;
-			float z = (int) (radarStation.zCoord - this.tileEntity.zCoord) / radarMapRadius;
+			range = 2;
 
-			var4 = this.mc.renderEngine.getTexture("/icbm/yellowdot.png");
+			for (TileEntityElectricityReceiver jiQi : this.tileEntity.xunZhaoJiQi)
+			{
+				Vector2 position = new Vector2(this.radarCenter.x + (int) (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (int) (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
 
-			this.mc.renderEngine.bindTexture(var4);
-			this.drawTexturedModalRect((int) (radarCenter.x + x), (int) (radarCenter.y - z), 0, 0, 2, 2);
+				var4 = this.mc.renderEngine.getTexture("/icbm/whitedot.png");
+
+				this.mc.renderEngine.bindTexture(var4);
+				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
+
+				Vector2 minPosition = position.clone();
+				minPosition.add(-range);
+				Vector2 maxPosition = position.clone();
+				maxPosition.add(range);
+
+				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
+				{
+					this.info = BJiQi.getJiQiMing(jiQi);
+				}
+			}
 		}
 	}
 
@@ -210,16 +255,15 @@ public class GLeiDaTai extends ICBMGui
 		{
 			if (Mouse.getEventButton() == -1)
 			{
-				int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
-				int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+				this.mousePosition = new Vector2(Mouse.getEventX() * this.width / this.mc.displayWidth, this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1);
 
 				float difference = (int) this.tileEntity.MAX_BIAN_JING / this.radarMapRadius;
 
-				if (x > this.radarCenter.x - difference && x < this.radarCenter.x + difference && y > this.radarCenter.y - difference && y < this.radarCenter.y + difference)
+				if (this.mousePosition.x > this.radarCenter.x - difference && this.mousePosition.x < this.radarCenter.x + difference && this.mousePosition.y > this.radarCenter.y - difference && this.mousePosition.y < this.radarCenter.y + difference)
 				{
 					// Calculate from the mouse position the relative position on the grid
-					int xDifference = (int) (x - this.radarCenter.x);
-					int yDifference = (int) (y - this.radarCenter.y);
+					int xDifference = (int) (this.mousePosition.x - this.radarCenter.x);
+					int yDifference = (int) (this.mousePosition.y - this.radarCenter.y);
 					int xBlockDistance = (int) (xDifference * this.radarMapRadius);
 					int yBlockDistance = (int) (yDifference * this.radarMapRadius);
 

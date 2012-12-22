@@ -130,9 +130,8 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public String getEntityName()
 	{
-		if (this.haoMa > 100) { return DaoDan.list[this.haoMa].getTranslatedMing(); }
-
-		return ZhaPin.list[this.haoMa].getMingZi();
+		if (this.haoMa > 100) { return ZhuYao.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getMingZing()) + ".name"; }
+		return ZhuYao.getLocal("icbm.missile." + ZhaPin.list[this.haoMa].getMingZi() + ".name");
 	}
 
 	@Override
@@ -195,7 +194,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.feiXingTick = 0;
 
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		DaoDanGuanLi.addMissile(this);
+		DaoDanGuanLi.register(this);
 
 		FMLLog.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
@@ -296,10 +295,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 		if (this.feiXingTick >= 0)
 		{
-			if (this.feiXingTick == 1)
-			{
-				DaoDanGuanLi.addMissile(this);
-			}
+			DaoDanGuanLi.register(this);
 
 			if (!this.worldObj.isRemote)
 			{
@@ -556,10 +552,12 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public void setDead()
 	{
+		DaoDanGuanLi.unregister(this);
 		if (chunkTicket != null)
 		{
 			ForgeChunkManager.releaseTicket(chunkTicket);
 		}
+
 		super.setDead();
 	}
 

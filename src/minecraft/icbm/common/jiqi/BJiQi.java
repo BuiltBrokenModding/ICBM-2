@@ -336,9 +336,14 @@ public class BJiQi extends BlockMachine
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World par1World, int x, int y, int z)
 	{
-		int metadata = par1World.getBlockMetadata(x, y, z);
-
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+
+		return new ItemStack(ZhuYao.bJiQi, 1, getJiQiID(tileEntity));
+	}
+
+	public static int getJiQiID(TileEntity tileEntity)
+	{
+		int metadata = tileEntity.getBlockMetadata();
 
 		int itemMetadata = 0;
 
@@ -350,7 +355,11 @@ public class BJiQi extends BlockMachine
 		{
 			itemMetadata = 9 + metadata - 3;
 		}
+		return itemMetadata;
+	}
 
-		return new ItemStack(ZhuYao.bJiQi, 1, itemMetadata);
+	public static String getJiQiMing(TileEntity tileEntity)
+	{
+		return ZhuYao.getLocal("icbm.machine." + getJiQiID(tileEntity) + ".name");
 	}
 }
