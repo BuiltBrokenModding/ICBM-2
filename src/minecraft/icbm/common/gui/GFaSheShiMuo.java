@@ -44,7 +44,7 @@ public class GFaSheShiMuo extends ICBMGui
 		this.textFieldZ.setMaxStringLength(6);
 		this.textFieldY.setMaxStringLength(2);
 
-		this.textFieldFreq.setText(this.tileEntity.frequency + "");
+		this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
 
 		if (this.tileEntity.getTarget() == null)
 		{
@@ -105,8 +105,8 @@ public class GFaSheShiMuo extends ICBMGui
 		{
 			short newFrequency = (short) Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
 
-			this.tileEntity.frequency = newFrequency;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 1, this.tileEntity.frequency));
+			this.tileEntity.setFrequency(newFrequency);
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 1, this.tileEntity.getFrequency()));
 		}
 		catch (NumberFormatException e)
 		{
@@ -209,6 +209,6 @@ public class GFaSheShiMuo extends ICBMGui
 			this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 
 		if (!this.textFieldFreq.isFocused())
-			this.textFieldFreq.setText(this.tileEntity.frequency + "");
+			this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
 	}
 }

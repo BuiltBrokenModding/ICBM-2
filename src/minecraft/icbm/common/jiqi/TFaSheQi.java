@@ -1,20 +1,18 @@
 package icbm.common.jiqi;
 
-import icbm.api.Launcher.ILauncher;
-import icbm.api.Launcher.LauncherType;
+import icbm.api.ILauncher;
+import icbm.api.LauncherType;
 import icbm.common.daodan.EDaoDan;
+import net.minecraft.nbt.NBTTagCompound;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TFaSheQi extends TileEntityElectricityReceiver implements ILauncher, IPeripheral
+public abstract class TFaSheQi extends TJiQiCun implements ILauncher, IPeripheral
 {
 	protected Vector3 muBiao = null;
 
 	protected short shengBuo = 0;
-
-	protected double dian = 0;
 
 	public TFaSheQi()
 	{
@@ -58,18 +56,6 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	public void setFrequency(short frequency, Object... data)
 	{
 		this.shengBuo = frequency;
-	}
-
-	@Override
-	public double getJoules(Object... data)
-	{
-		return this.dian;
-	}
-
-	@Override
-	public void setJoules(double joules, Object... data)
-	{
-		this.dian = Math.max(Math.min(Math.ceil(joules), this.getMaxJoules()), 0);
 	}
 
 	@Override
@@ -158,5 +144,26 @@ public abstract class TFaSheQi extends TileEntityElectricityReceiver implements 
 	public void detach(IComputerAccess computer)
 	{
 
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	{
+		super.readFromNBT(par1NBTTagCompound);
+		this.setFrequency(par1NBTTagCompound.getShort("frequency"));
+		this.muBiao = Vector3.readFromNBT("target", par1NBTTagCompound);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	{
+		super.writeToNBT(par1NBTTagCompound);
+
+		par1NBTTagCompound.setShort("frequency", this.getFrequency());
+
+		if (this.muBiao != null)
+		{
+			this.muBiao.writeToNBT("target", par1NBTTagCompound);
+		}
 	}
 }

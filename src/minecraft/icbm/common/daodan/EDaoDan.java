@@ -1,6 +1,7 @@
 package icbm.common.daodan;
 
 import icbm.api.IMissile;
+import icbm.api.RadarRegistry;
 import icbm.client.fx.ParticleSpawner;
 import icbm.common.BaoHu;
 import icbm.common.ZhuYao;
@@ -194,7 +195,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		this.feiXingTick = 0;
 
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-		DaoDanGuanLi.register(this);
+		RadarRegistry.register(this);
 
 		FMLLog.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
@@ -295,7 +296,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 
 		if (this.feiXingTick >= 0)
 		{
-			DaoDanGuanLi.register(this);
+			RadarRegistry.register(this);
 
 			if (!this.worldObj.isRemote)
 			{
@@ -539,11 +540,13 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 		return guJiDiDian;
 	}
 
+	@Override
 	public void setNormalExplode()
 	{
 		this.setNormalExplode = true;
 	}
 
+	@Override
 	public void setExplode()
 	{
 		this.setExplode = true;
@@ -552,7 +555,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	@Override
 	public void setDead()
 	{
-		DaoDanGuanLi.unregister(this);
+		RadarRegistry.unregister(this);
 		if (chunkTicket != null)
 		{
 			ForgeChunkManager.releaseTicket(chunkTicket);

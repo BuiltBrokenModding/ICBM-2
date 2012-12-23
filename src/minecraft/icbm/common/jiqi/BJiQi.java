@@ -215,6 +215,12 @@ public class BJiQi extends BlockMachine
 		return false;
 	}
 
+	@Override
+	public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
+	{
+		return this.onMachineActivated(par1World, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
+	}
+
 	/**
 	 * Checks of this block is being powered by redstone
 	 */

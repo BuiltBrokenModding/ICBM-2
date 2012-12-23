@@ -120,8 +120,11 @@ public class ElectricityNetwork
 
 				if (pairs.getKey() != null && pairs.getValue() != null && pack != null)
 				{
-					totalElectricity.amperes += pack.amperes;
-					totalElectricity.voltage = Math.max(totalElectricity.voltage, pack.voltage);
+					double newWatts = totalElectricity.getWatts() + pack.getWatts();
+					double newVoltage = Math.max(totalElectricity.voltage, pack.voltage);
+
+					totalElectricity.amperes = newWatts / newVoltage;
+					totalElectricity.voltage = newVoltage;
 				}
 			}
 		}
@@ -208,8 +211,8 @@ public class ElectricityNetwork
 					totalElectricity.amperes *= (tileRequest.amperes / totalRequest.amperes);
 
 					int distance = this.conductors.size();
-					double ampsReceived = totalElectricity.amperes - (totalElectricity.amperes * totalElectricity.amperes * this.getResistance() * distance) / totalElectricity.voltage;
-					double voltsReceived = totalElectricity.voltage - (totalElectricity.amperes * this.getResistance() * distance);
+					double ampsReceived = totalElectricity.amperes - (totalElectricity.amperes * totalElectricity.amperes * this.getTotalResistance()) / totalElectricity.voltage;
+					double voltsReceived = totalElectricity.voltage - (totalElectricity.amperes * this.getTotalResistance());
 
 					totalElectricity.amperes = ampsReceived;
 					totalElectricity.voltage = voltsReceived;
@@ -320,15 +323,15 @@ public class ElectricityNetwork
 	}
 
 	/**
-	 * Gets the resistance of this electrical network.
+	 * Gets the total amount of resistance of this electrical network. In Ohms.
 	 */
-	public double getResistance()
+	public double getTotalResistance()
 	{
 		double resistance = 0;
 
 		for (int i = 0; i < conductors.size(); i++)
 		{
-			resistance = Math.max(resistance, conductors.get(i).getResistance());
+			resistance += conductors.get(i).getResistance();
 		}
 
 		return resistance;

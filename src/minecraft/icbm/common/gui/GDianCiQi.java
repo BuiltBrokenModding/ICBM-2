@@ -38,8 +38,8 @@ public class GDianCiQi extends ICBMGui
 		this.controlList.add(new GuiButton(1, this.width / 2 - 25, this.height / 2 - 10, 65, 20, "Electricity"));
 		this.controlList.add(new GuiButton(2, this.width / 2 + 43, this.height / 2 - 10, 35, 20, "Both"));
 
-		this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 20, 12);
-		this.textFieldBanJing.setMaxStringLength(2);
+		this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 30, 12);
+		this.textFieldBanJing.setMaxStringLength(3);
 		this.textFieldBanJing.setText(this.tileEntity.banJing + "");
 		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) -1, true));
 	}
@@ -113,7 +113,7 @@ public class GDianCiQi extends ICBMGui
 	{
 		this.fontRenderer.drawString("EMP Tower", 65, 6, 4210752);
 
-		this.fontRenderer.drawString("EMP Radius:       blocks", 12, 30, 4210752);
+		this.fontRenderer.drawString("EMP Radius:          blocks", 12, 30, 4210752);
 		this.textFieldBanJing.drawTextBox();
 
 		this.fontRenderer.drawString("EMP Effect:", 12, 55, 4210752);

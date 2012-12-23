@@ -12,26 +12,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricityNetwork;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinGanQi extends TileEntityElectricityReceiver implements IRedstoneProvider, IPacketReceiver
+public class TYinGanQi extends TJiQiPao implements IRedstoneProvider, IPacketReceiver
 {
-	// Watts Per Tick
-	public static final float YAO_DIAN = 8;
-
-	// The electricity stored
-	public double prevDian, dian = 0;
-
 	public short frequency = 0;
 
 	public boolean isDetect = false;
@@ -58,79 +49,62 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	{
 		super.updateEntity();
 
-		this.prevDian = this.dian;
-
 		if (!this.worldObj.isRemote)
 		{
-			for (int i = 0; i < 6; i++)
+			if (this.ticks % 20 == 0)
 			{
-				Vector3 diDian = new Vector3(this);
-				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
-				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
-
-				ElectricityNetwork network = ElectricityNetwork.getNetworkFromTileEntity(tileEntity, ForgeDirection.getOrientation(i));
-
-				if (network != null)
+				if (this.yongZhe > 0)
 				{
-					if (!this.isDisabled())
-					{
-						network.startRequesting(this, (this.YAO_DIAN * 2) / this.getVoltage(), this.getVoltage());
-						this.dian += network.consumeElectricity(this).getWatts();
-					}
-					else
-					{
-						network.stopRequesting(this);
-					}
-
+					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
 				}
-			}
 
-			if (this.ticks % 5 == 0 && this.yongZhe > 0)
-			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
-			}
-
-			if (!this.isDisabled())
-			{
-				if (this.dian >= this.YAO_DIAN)
+				if (!this.isDisabled())
 				{
 					boolean isDetectThisCheck = false;
 
-					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
-					List<EntityLiving> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
-
-					for (EntityLiving entity : entitiesNearby)
+					if (this.dian >= this.getWattRequest())
 					{
-						if (entity instanceof EntityPlayer && (this.mode == 0 || this.mode == 1))
-						{
-							boolean gotDisrupter = false;
+						AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
+						List<EntityLiving> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
 
-							for (ItemStack inventory : ((EntityPlayer) entity).inventory.mainInventory)
+						for (EntityLiving entity : entitiesNearby)
+						{
+							if (entity instanceof EntityPlayer && (this.mode == 0 || this.mode == 1))
 							{
-								if (inventory != null)
+								boolean gotDisrupter = false;
+
+								for (ItemStack inventory : ((EntityPlayer) entity).inventory.mainInventory)
 								{
-									if (inventory.getItem() instanceof ItHuoLuanQi)
+									if (inventory != null)
 									{
-										if (((ItHuoLuanQi) inventory.getItem()).getFrequency(inventory) == this.frequency)
+										if (inventory.getItem() instanceof ItHuoLuanQi)
 										{
-											gotDisrupter = true;
-											break;
+											if (((ItHuoLuanQi) inventory.getItem()).getFrequency(inventory) == this.frequency)
+											{
+												gotDisrupter = true;
+												break;
+											}
 										}
 									}
 								}
-							}
 
-							if (gotDisrupter)
+								if (gotDisrupter)
+								{
+									continue;
+								}
+
+								isDetectThisCheck = true;
+							}
+							else if (!(entity instanceof EntityPlayer) && (this.mode == 0 || this.mode == 2))
 							{
-								continue;
+								isDetectThisCheck = true;
+								break;
 							}
-
-							isDetectThisCheck = true;
 						}
-						else if (!(entity instanceof EntityPlayer) && (this.mode == 0 || this.mode == 2))
+
+						if (!this.worldObj.isRemote)
 						{
-							isDetectThisCheck = true;
-							break;
+							this.dian = 0;
 						}
 					}
 
@@ -139,18 +113,22 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 						this.isDetect = isDetectThisCheck;
 						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 					}
-
-					this.dian = 0;
 				}
 			}
 		}
-
 	}
 
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.dian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+		double sendDian = this.dian;
+
+		if (sendDian > 0)
+		{
+			sendDian = this.getWattRequest();
+		}
+
+		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, sendDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
 	}
 
 	@Override
@@ -203,12 +181,6 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 		}
 	}
 
-	@Override
-	public double getVoltage()
-	{
-		return 120;
-	}
-
 	/**
 	 * Reads a tile entity from NBT.
 	 */
@@ -247,5 +219,11 @@ public class TYinGanQi extends TileEntityElectricityReceiver implements IRedston
 	public boolean isIndirectlyPoweringTo(ForgeDirection side)
 	{
 		return this.isDetect;
+	}
+
+	@Override
+	public double getWattRequest()
+	{
+		return 8;
 	}
 }

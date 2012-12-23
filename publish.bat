@@ -39,12 +39,12 @@ cd resources\
 "..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*" -phenry
 cd ..\
 cd src\
-"..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "*\icbm\" -phenry
-"..\..\7za.exe" a "..\builds\%API_NAME%" "*\icbm\api\"
+"..\..\7za.exe" a "..\builds\ICBM_v%MODVERSION%.%BUILD_NUMBER%_backup.zip" "minecraft\icbm\" -phenry
+"..\..\7za.exe" a "..\builds\%API_NAME%" "minecraft\icbm\api\"
 cd ..\
 
 ::UPDATE INFO FILE
-echo %PROMOTION% %FILE_NAME%>>info.txt
+echo %PROMOTION% %FILE_NAME% %API_NAME%>>info.txt
 
 ::GENERATE FTP Script
 echo open calclavia.com>ftpscript.txt

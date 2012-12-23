@@ -49,6 +49,8 @@ public class UniversalElectricity
 	public static double TO_IC2_RATIO = 1 / IC2_RATIO;
 	public static double TO_BC_RATIO = 1 / BC3_RATIO;
 
+	public static boolean isVoltageSensitive = false;
+	
 	/**
 	 * Use this material for all your machine blocks. It can be breakable by hand.
 	 */

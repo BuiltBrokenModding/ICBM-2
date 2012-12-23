@@ -1,14 +1,15 @@
 package icbm.common.jiqi;
 
+import icbm.api.RadarRegistry;
 import icbm.common.CommonProxy;
 import icbm.common.ZhuYao;
-import icbm.common.daodan.DaoDanGuanLi;
 import icbm.common.daodan.EDaoDan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -20,29 +21,22 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricityNetwork;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
+import universalelectricity.prefab.implement.IToolConfigurator;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
+public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
 {
-	// Watts Per Tick
-	public final static int YAO_DIAN = 15;
-
 	public final static int MAX_BIAN_JING = 500;
-
-	// The electricity stored
-	public double dian, prevDian = 0;
 
 	public float xuanZhuan = 0;
 
@@ -52,18 +46,20 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 	private List<EDaoDan> weiXianDaoDan = new ArrayList<EDaoDan>();
 
-	public List<EDaoDan> xunZhaoDaoDan = new ArrayList<EDaoDan>();
+	public List<Entity> xunZhaoEntity = new ArrayList<Entity>();
 
-	public List<TileEntityElectricityReceiver> xunZhaoJiQi = new ArrayList<TileEntityElectricityReceiver>();
+	public List<TileEntity> xunZhaoJiQi = new ArrayList<TileEntity>();
 
 	private int yongZhe = 0;
+
+	public boolean emitAll = false;
 
 	private Ticket ticket;
 
 	public TLeiDaTai()
 	{
 		super();
-		LeiDaJiQiGuanLi.register(this);
+		RadarRegistry.register(this);
 	}
 
 	@Override
@@ -82,39 +78,15 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		ForgeChunkManager.forceChunk(this.ticket, new ChunkCoordIntPair(this.xCoord >> 4, this.zCoord >> 4));
 	}
 
+	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 
 		try
 		{
-			this.prevDian = this.dian;
-
 			if (!this.worldObj.isRemote)
 			{
-				for (int i = 0; i < 6; i++)
-				{
-					Vector3 diDian = new Vector3(this);
-					diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
-
-					TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
-					ElectricityNetwork network = ElectricityNetwork.getNetworkFromTileEntity(tileEntity, ForgeDirection.getOrientation(i));
-
-					if (network != null)
-					{
-						if (!this.isDisabled())
-						{
-							network.startRequesting(this, (this.YAO_DIAN * 2) / this.getVoltage(), this.getVoltage());
-							this.dian = Math.ceil(this.dian + network.consumeElectricity(this).getWatts());
-						}
-						else
-						{
-							network.stopRequesting(this);
-						}
-
-					}
-				}
-
 				if (this.ticks % 40 == 0)
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
@@ -127,7 +99,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 			if (!this.isDisabled())
 			{
-				if (this.dian >= this.YAO_DIAN)
+				if (this.dian >= this.getWattRequest())
 				{
 					this.xuanZhuan += 0.05F;
 
@@ -136,30 +108,28 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 					if (!this.worldObj.isRemote)
 					{
-						this.dian -= this.YAO_DIAN;
+						this.dian -= this.getWattRequest() / 2;
 					}
 
-					int prevShuMu = this.xunZhaoDaoDan.size();
+					int prevShuMu = this.xunZhaoEntity.size();
 
 					// Do a radar scan
 					this.doScan();
 
-					if (prevShuMu != this.xunZhaoDaoDan.size())
+					if (prevShuMu != this.xunZhaoEntity.size())
 					{
 						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 					}
 				}
 				else
 				{
-					if (this.xunZhaoDaoDan.size() > 0)
+					if (this.xunZhaoEntity.size() > 0)
 					{
 						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 					}
 
-					this.xunZhaoDaoDan.clear();
+					this.xunZhaoEntity.clear();
 					this.xunZhaoJiQi.clear();
-
-					this.dian = 0;
 				}
 			}
 
@@ -177,32 +147,39 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	private void doScan()
 	{
 		this.weiXianDaoDan.clear();
-		this.xunZhaoDaoDan.clear();
+		this.xunZhaoEntity.clear();
 		this.xunZhaoJiQi.clear();
 
-		List<EDaoDan> missilesNearby = DaoDanGuanLi.getMissileInArea(new Vector3(this).toVector2(), MAX_BIAN_JING);
+		List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), MAX_BIAN_JING);
 
-		for (EDaoDan daoDan : missilesNearby)
+		for (Entity entity : entities)
 		{
-			if (daoDan.feiXingTick > -1)
+			if (entity instanceof EDaoDan)
 			{
-				if (!this.xunZhaoDaoDan.contains(daoDan))
+				if (((EDaoDan) entity).feiXingTick > -1)
 				{
-					this.xunZhaoDaoDan.add(daoDan);
-				}
+					if (!this.xunZhaoEntity.contains(entity))
+					{
+						this.xunZhaoEntity.add(entity);
+					}
 
-				if (this.isWeiXianDaoDan(daoDan))
-				{
-					weiXianDaoDan.add(daoDan);
+					if (this.isWeiXianDaoDan((EDaoDan) entity))
+					{
+						weiXianDaoDan.add((EDaoDan) entity);
+					}
 				}
+			}
+			else
+			{
+				this.xunZhaoEntity.add(entity);
 			}
 		}
 
-		for (TileEntityElectricityReceiver jiQi : LeiDaJiQiGuanLi.getJiQiInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
+		for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
 		{
 			if (jiQi instanceof TLeiDaTai)
 			{
-				if (!jiQi.isDisabled() && ((TLeiDaTai) jiQi).prevDian > 0)
+				if (!((TLeiDaTai) jiQi).isDisabled() && ((TLeiDaTai) jiQi).prevDian > 0)
 				{
 					this.xunZhaoJiQi.add(jiQi);
 				}
@@ -234,7 +211,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 
 		if (sendDian > 0)
 		{
-			sendDian = this.YAO_DIAN;
+			sendDian = this.getWattRequest();
 		}
 
 		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, sendDian, this.disabledTicks);
@@ -291,35 +268,35 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	}
 
 	@Override
-	public double getVoltage()
-	{
-		return 120;
-	}
-
-	@Override
 	public boolean isPoweringTo(ForgeDirection side)
 	{
 		if (this.prevDian > 0 || this.dian > 0)
 		{
-			for (EDaoDan daoDan : this.weiXianDaoDan)
+			if (this.weiXianDaoDan.size() > 0)
 			{
-				Vector2 position = new Vector3(daoDan).toVector2();
-				ForgeDirection daoDanFangXiang = ForgeDirection.UNKNOWN;
-				double closest = -1;
-
-				for (int i = 2; i < 6; i++)
-				{
-					double dist = Vector2.distance(position, new Vector2(this.xCoord + ForgeDirection.getOrientation(i).offsetX, this.zCoord + ForgeDirection.getOrientation(i).offsetZ));
-
-					if (dist < closest || closest < 0)
-					{
-						daoDanFangXiang = ForgeDirection.getOrientation(i);
-						closest = dist;
-					}
-				}
-
-				if (daoDanFangXiang.getOpposite() == side)
+				if (this.emitAll)
 					return true;
+
+				for (EDaoDan daoDan : this.weiXianDaoDan)
+				{
+					Vector2 position = new Vector3(daoDan).toVector2();
+					ForgeDirection daoDanFangXiang = ForgeDirection.UNKNOWN;
+					double closest = -1;
+
+					for (int i = 2; i < 6; i++)
+					{
+						double dist = Vector2.distance(position, new Vector2(this.xCoord + ForgeDirection.getOrientation(i).offsetX, this.zCoord + ForgeDirection.getOrientation(i).offsetZ));
+
+						if (dist < closest || closest < 0)
+						{
+							daoDanFangXiang = ForgeDirection.getOrientation(i);
+							closest = dist;
+						}
+					}
+
+					if (daoDanFangXiang.getOpposite() == side)
+						return true;
+				}
 			}
 		}
 		return false;
@@ -335,12 +312,13 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		super.readFromNBT(par1NBTTagCompound);
+		super.readFromNBT(nbt);
 
-		this.safetyBanJing = par1NBTTagCompound.getInteger("safetyRadius");
-		this.alarmBanJing = par1NBTTagCompound.getInteger("alarmRadius");
+		this.safetyBanJing = nbt.getInteger("safetyBanJing");
+		this.alarmBanJing = nbt.getInteger("alarmBanJing");
+		this.emitAll = nbt.getBoolean("emitAll");
 	}
 
 	/**
@@ -351,8 +329,9 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	{
 		super.writeToNBT(par1NBTTagCompound);
 
-		par1NBTTagCompound.setInteger("safetyRadius", this.safetyBanJing);
-		par1NBTTagCompound.setInteger("alarmRadius", this.alarmBanJing);
+		par1NBTTagCompound.setInteger("safetyBanJing", this.safetyBanJing);
+		par1NBTTagCompound.setInteger("alarmBanJing", this.alarmBanJing);
+		par1NBTTagCompound.setBoolean("emitAll", this.emitAll);
 	}
 
 	@Override
@@ -378,6 +357,19 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
+		if (entityPlayer.inventory.getCurrentItem() != null)
+		{
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof IToolConfigurator)
+			{
+				if (!this.worldObj.isRemote)
+				{
+					this.emitAll = !this.emitAll;
+					entityPlayer.addChatMessage("Radar redstone all side emission: " + this.emitAll);
+				}
+				return true;
+			}
+		}
+
 		entityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
@@ -410,13 +402,13 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	@Override
 	public String[] getMethodNames()
 	{
-		return new String[] { "getMissiles", "getMachines" };
+		return new String[] { "getEntities", "getBlocks" };
 	}
 
 	@Override
 	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
 	{
-		if (this.prevDian < this.YAO_DIAN) { throw new Exception("Radar has insufficient electricity!"); }
+		if (this.prevDian < this.getWattRequest()) { throw new Exception("Radar has insufficient electricity!"); }
 
 		HashMap<String, Double> returnArray = new HashMap();
 
@@ -424,25 +416,22 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 		{
 			case 0:
 
-				List<EDaoDan> daoDans = DaoDanGuanLi.getMissileInArea(new Vector3(this).toVector2(), this.alarmBanJing);
+				List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), this.alarmBanJing);
 
-				for (EDaoDan daoDan : daoDans)
+				for (Entity entity : entities)
 				{
-					returnArray.put("x", daoDan.posX);
-					returnArray.put("y", daoDan.posY);
-					returnArray.put("z", daoDan.posZ);
+					returnArray.put("x", entity.posX);
+					returnArray.put("y", entity.posY);
+					returnArray.put("z", entity.posZ);
 				}
 
 				return new Object[] { returnArray };
 			case 1:
-				for (TileEntityElectricityReceiver jiQi : LeiDaJiQiGuanLi.getJiQiInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
+				for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
 				{
-					if (!jiQi.isDisabled())
-					{
-						returnArray.put("x", (double) jiQi.xCoord);
-						returnArray.put("y", (double) jiQi.yCoord);
-						returnArray.put("z", (double) jiQi.zCoord);
-					}
+					returnArray.put("x", (double) jiQi.xCoord);
+					returnArray.put("y", (double) jiQi.yCoord);
+					returnArray.put("z", (double) jiQi.zCoord);
 				}
 				return new Object[] { returnArray };
 		}
@@ -454,7 +443,7 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	public void invalidate()
 	{
 		ForgeChunkManager.releaseTicket(ticket);
-		LeiDaJiQiGuanLi.unregister(this);
+		RadarRegistry.unregister(this);
 		super.invalidate();
 	}
 
@@ -474,5 +463,11 @@ public class TLeiDaTai extends TileEntityElectricityReceiver implements IPacketR
 	public void detach(IComputerAccess computer)
 	{
 
+	}
+
+	@Override
+	public double getWattRequest()
+	{
+		return 15;
 	}
 }

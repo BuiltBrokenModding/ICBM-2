@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 import universalelectricity.prefab.vector.Region2;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -123,7 +124,7 @@ public class GLeiDaTai extends ICBMGui
 	@Override
 	protected void drawForegroundLayer()
 	{
-		this.fontRenderer.drawString("Radar Station", this.xSize / 2 - 87, 6, 4210752);
+		this.fontRenderer.drawString(ZhuYao.getLocal("icbm.machine.9.name"), this.xSize / 2 - 85, 6, 4210752);
 
 		this.fontRenderer.drawString("Settings", this.xSize / 2 + 55, 6, 4210752);
 
@@ -151,7 +152,7 @@ public class GLeiDaTai extends ICBMGui
 		{
 			status = "Disabled!";
 		}
-		else if (this.tileEntity.prevDian >= TLeiDaTai.YAO_DIAN)
+		else if (this.tileEntity.prevDian >= this.tileEntity.getWattRequest())
 		{
 			color = "\u00a72";
 			status = "Radar On!";
@@ -183,17 +184,25 @@ public class GLeiDaTai extends ICBMGui
 		this.info = "";
 		this.info2 = "";
 
-		if (this.tileEntity.prevDian >= TLeiDaTai.YAO_DIAN)
+		if (this.tileEntity.prevDian >= this.tileEntity.getWattRequest())
 		{
 			int range = 4;
 
-			for (EDaoDan daoDan : this.tileEntity.xunZhaoDaoDan)
+			for (Entity entity : this.tileEntity.xunZhaoEntity)
 			{
-				Vector2 position = new Vector2(radarCenter.x + (daoDan.posX - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (daoDan.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
+				Vector2 position = new Vector2(radarCenter.x + (entity.posX - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (entity.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
 
-				if (this.tileEntity.isWeiXianDaoDan(daoDan))
+				if (entity instanceof EDaoDan)
 				{
-					var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "reddot.png");
+					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
+					{
+						var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "reddot.png");
+					}
+					else
+					{
+						var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "yellowdot.png");
+
+					}
 				}
 				else
 				{
@@ -211,18 +220,20 @@ public class GLeiDaTai extends ICBMGui
 
 				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
 				{
-					this.info = daoDan.getEntityName();
-
-					if (daoDan.muBiao != null)
+					this.info = entity.getEntityName();
+					if (entity instanceof EDaoDan)
 					{
-						this.info2 = "(" + daoDan.muBiao.intX() + " ," + daoDan.muBiao.intZ() + ")";
+						if (((EDaoDan) entity).muBiao != null)
+						{
+							this.info2 = "(" + ((EDaoDan) entity).muBiao.intX() + ", " + ((EDaoDan) entity).muBiao.intZ() + ")";
+						}
 					}
 				}
 			}
 
 			range = 2;
 
-			for (TileEntityElectricityReceiver jiQi : this.tileEntity.xunZhaoJiQi)
+			for (TileEntity jiQi : this.tileEntity.xunZhaoJiQi)
 			{
 				Vector2 position = new Vector2(this.radarCenter.x + (int) (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (int) (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
 
@@ -238,7 +249,17 @@ public class GLeiDaTai extends ICBMGui
 
 				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
 				{
-					this.info = BJiQi.getJiQiMing(jiQi);
+					if (jiQi.getBlockType() != null)
+					{
+						if (jiQi.getBlockType() instanceof BJiQi)
+						{
+							this.info = BJiQi.getJiQiMing(jiQi);
+						}
+						else
+						{
+							this.info = jiQi.getBlockType().translateBlockName();
+						}
+					}
 				}
 			}
 		}

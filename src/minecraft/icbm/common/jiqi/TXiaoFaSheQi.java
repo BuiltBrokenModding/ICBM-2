@@ -1,6 +1,6 @@
 package icbm.common.jiqi;
 
-import icbm.api.Launcher.LauncherType;
+import icbm.api.LauncherType;
 import icbm.common.BaoHu;
 import icbm.common.CommonProxy;
 import icbm.common.ZhuYao;
@@ -14,10 +14,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import universalelectricity.core.electricity.ElectricityNetwork;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;
@@ -150,7 +148,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			status = "Disabled";
 		}
-		else if (this.dian < this.getMaxJoules())
+		else if (this.getJoules() < this.getMaxJoules())
 		{
 			status = "No Power!";
 		}
@@ -183,33 +181,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public void updateEntity()
 	{
 		super.updateEntity();
-
-		if (!this.worldObj.isRemote)
-		{
-			for (int i = 0; i < 6; i++)
-			{
-				Vector3 diDian = new Vector3(this);
-				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
-
-				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
-				ElectricityNetwork network = ElectricityNetwork.getNetworkFromTileEntity(tileEntity, ForgeDirection.getOrientation(i));
-
-				if (network != null)
-				{
-
-					if (!this.isDisabled())
-					{
-						network.startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
-						this.setJoules(this.dian + network.consumeElectricity(this).getWatts());
-					}
-					else
-					{
-						network.stopRequesting(this);
-					}
-
-				}
-			}
-		}
 
 		if (!this.isDisabled())
 		{
@@ -246,7 +217,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.dian, this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
@@ -302,7 +273,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 			if (ID == 0)
 			{
-				this.dian = dataStream.readDouble();
+				this.setJoules(dataStream.readDouble());
 				this.shengBuo = dataStream.readShort();
 				this.disabledTicks = dataStream.readInt();
 				this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
@@ -369,7 +340,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if (this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex && missile.isCruise() && missile.getTier() <= 3)
 				{
-					if (this.dian >= this.getMaxJoules())
+					if (this.getJoules() >= this.getMaxJoules())
 					{
 						if (!this.isTooClose(this.muBiao)) { return true; }
 					}
@@ -414,13 +385,9 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		super.readFromNBT(par1NBTTagCompound);
 
-		this.shengBuo = par1NBTTagCompound.getShort("frequency");
-		this.muBiao = Vector3.readFromNBT("target", par1NBTTagCompound);
-
 		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
 
 		this.containingItems = new ItemStack[this.getSizeInventory()];
-		this.dian = par1NBTTagCompound.getDouble("electricityStored");
 
 		for (int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
@@ -441,14 +408,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.writeToNBT(par1NBTTagCompound);
-
-		if (this.muBiao != null)
-		{
-			this.muBiao.writeToNBT("target", par1NBTTagCompound);
-		}
-
-		par1NBTTagCompound.setShort("frequency", this.shengBuo);
-		par1NBTTagCompound.setDouble("electricityStored", this.dian);
 
 		NBTTagList var2 = new NBTTagList();
 

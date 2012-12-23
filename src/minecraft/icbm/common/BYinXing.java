@@ -135,7 +135,7 @@ public class BYinXing extends BlockMachine
 		try
 		{
 			TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
-			
+
 			if (tileEntity instanceof TYinXing)
 			{
 				int haoMa = ((TYinXing) tileEntity).getJiaHaoMa();

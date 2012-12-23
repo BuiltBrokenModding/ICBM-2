@@ -63,23 +63,19 @@ public class CCiGuiPao extends Container
 			ItemStack var4 = var3.getStack();
 			var2 = var4.copy();
 
-			if (par1 > 3)
+			if (par1 != 0)
 			{
 				if (var4.getItem() instanceof ItZiDan)
 				{
-					if (!this.mergeItemStack(var4, 0, 1, false))
-					{
-						return null;
-					}
-					else if (!this.mergeItemStack(var4, 3, 4, false)) { return null; }
+					if (!this.mergeItemStack(var4, 0, 1, false)) { return null; }
 				}
-				else if (par1 >= 3 && par1 < 30)
+				else if (par1 >= 1 && par1 < 28)
 				{
-					if (!this.mergeItemStack(var4, 30, 40, false)) { return null; }
+					if (!this.mergeItemStack(var4, 28, 37, false)) { return null; }
 				}
-				else if (par1 >= 30 && par1 < 40 && !this.mergeItemStack(var4, 4, 30, false)) { return null; }
+				else if (par1 >= 28 && par1 < 37 && !this.mergeItemStack(var4, 1, 28, false)) { return null; }
 			}
-			else if (!this.mergeItemStack(var4, 3, 39, false)) { return null; }
+			else if (!this.mergeItemStack(var4, 1, 37, false)) { return null; }
 
 			if (var4.stackSize == 0)
 			{
