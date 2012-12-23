@@ -78,4 +78,16 @@ public class ExFuLan extends ZhaPin
 
 		return false;
 	}
+
+	@Override
+	public float getRadius()
+	{
+		return 50;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
+	}
 }

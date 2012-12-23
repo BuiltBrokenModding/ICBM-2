@@ -26,7 +26,6 @@ import universalelectricity.prefab.potion.CustomPotionEffect;
 
 public class ExBingDan extends ZhaPin
 {
-	private final int iceRadius = 40;
 	private final int radius = 5;
 
 	public ExBingDan(String name, int ID, int tier)
@@ -160,6 +159,8 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaHou(worldObj, position, explosionSource);
+
 		if (!worldObj.isRemote)
 		{
 			((EZhaPin) explosionSource).entityList.get(0).setDead();
@@ -189,7 +190,7 @@ public class ExBingDan extends ZhaPin
 					}
 				}
 
-				List<EntityLiving> livingEntities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(position.x - iceRadius, position.y - iceRadius, position.z - iceRadius, position.x + iceRadius, position.y + iceRadius, position.z + iceRadius));
+				List<EntityLiving> livingEntities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(position.x - getRadius(), position.y - getRadius(), position.z - getRadius(), position.x + getRadius(), position.y + getRadius(), position.z + getRadius()));
 
 				for (EntityLiving entity : livingEntities)
 				{
@@ -206,7 +207,7 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', Block.tnt, '?', Block.ice, '!', Block.blockSnow }), this.getName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	public boolean canFocusBeam(World worldObj, Vector3 position)
@@ -230,5 +231,17 @@ public class ExBingDan extends ZhaPin
 	public int proceduralInterval()
 	{
 		return 5;
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 40;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
 	}
 }

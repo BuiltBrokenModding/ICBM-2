@@ -1,5 +1,7 @@
 package icbm.common.cart;
 
+import icbm.api.IExplosive;
+import icbm.api.IExplosiveContainer;
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.ZhaPin;
 
@@ -22,10 +24,10 @@ import com.google.common.io.ByteArrayDataOutput;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAdditionalSpawnData
+public class EChe extends EntityMinecart implements IExplosiveContainer, IExplosiveCart, IEntityAdditionalSpawnData
 {
-	public int explosiveID = 0;
-	public int fuse = -1;
+	public int haoMa = 0;
+	public int yinXin = -1;
 	private boolean isPrimed = false;
 
 	public EChe(World par1World)
@@ -36,29 +38,29 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	public EChe(World par1World, double x, double y, double z, int explosiveID)
 	{
 		super(par1World, x, y, z, 3);
-		this.explosiveID = explosiveID;
-		this.fuse = Math.max(ZhaPin.list[explosiveID].getYinXin(), 60);
+		this.haoMa = explosiveID;
+		this.yinXin = Math.max(ZhaPin.list[explosiveID].getYinXin(), 60);
 	}
 
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
-		data.writeInt(this.explosiveID);
-		data.writeInt(this.fuse);
+		data.writeInt(this.haoMa);
+		data.writeInt(this.yinXin);
 	}
 
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
-		this.explosiveID = data.readInt();
-		this.fuse = data.readInt();
+		this.haoMa = data.readInt();
+		this.yinXin = data.readInt();
 	}
 
 	@Override
 	protected void entityInit()
 	{
 		super.entityInit();
-		this.dataWatcher.addObject(20, (int) this.fuse);
+		this.dataWatcher.addObject(20, (int) this.yinXin);
 		this.dataWatcher.addObject(21, (byte) 0);
 	}
 
@@ -69,7 +71,7 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 
 		if (this.worldObj.isRemote)
 		{
-			this.fuse = this.dataWatcher.getWatchableObjectInt(20);
+			this.yinXin = this.dataWatcher.getWatchableObjectInt(20);
 
 			if (this.dataWatcher.getWatchableObjectByte(21) > 0)
 			{
@@ -82,7 +84,7 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 		}
 		else
 		{
-			this.dataWatcher.updateObject(20, this.fuse);
+			this.dataWatcher.updateObject(20, this.yinXin);
 
 			byte isPri = 0;
 
@@ -94,17 +96,17 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 
 		if (this.isPrimed)
 		{
-			if (this.fuse < 1)
+			if (this.yinXin < 1)
 			{
 				this.explode();
 			}
 			else
 			{
-				ZhaPin.list[explosiveID].onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.explosiveID);
+				ZhaPin.list[haoMa].onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.haoMa);
 				this.worldObj.spawnParticle("largesmoke", this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D);
 			}
 
-			this.fuse--;
+			this.yinXin--;
 		}
 		else
 		{
@@ -130,7 +132,7 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	@Override
 	public int getFuse()
 	{
-		return this.fuse;
+		return this.yinXin;
 	}
 
 	@Override
@@ -138,18 +140,18 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	{
 		if (fuse < 0)
 		{
-			this.fuse = ZhaPin.list[explosiveID].getYinXin();
+			this.yinXin = ZhaPin.list[haoMa].getYinXin();
 		}
 		else
 		{
-			this.fuse = fuse;
+			this.yinXin = fuse;
 		}
 	}
 
 	@Override
 	public float getBlastRadius()
 	{
-		return ZhaPin.list[explosiveID].getBanJing();
+		return ZhaPin.list[haoMa].getRadius();
 	}
 
 	@Override
@@ -162,7 +164,7 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	public void explode()
 	{
 		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-		ZhaPin.createBaoZha(this.worldObj, new Vector3(this), this, this.explosiveID);
+		ZhaPin.createBaoZha(this.worldObj, new Vector3(this), this, this.haoMa);
 		this.setDead();
 	}
 
@@ -187,7 +189,7 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 
 		if (!this.isPrimed)
 		{
-			items.add(new ItemStack(ZhuYao.itChe, 1, this.explosiveID));
+			items.add(new ItemStack(ZhuYao.itChe, 1, this.haoMa));
 		}
 
 		return items;
@@ -197,8 +199,8 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("explosiveID", this.explosiveID);
-		par1NBTTagCompound.setInteger("fuse", this.fuse);
+		par1NBTTagCompound.setInteger("haoMa", this.haoMa);
+		par1NBTTagCompound.setInteger("yinXin", this.yinXin);
 		par1NBTTagCompound.setBoolean("isPrimed", this.isPrimed);
 	}
 
@@ -206,8 +208,14 @@ public class EChe extends EntityMinecart implements IExplosiveCart, IEntityAddit
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.readEntityFromNBT(par1NBTTagCompound);
-		this.explosiveID = par1NBTTagCompound.getInteger("explosiveID");
-		this.fuse = par1NBTTagCompound.getInteger("fuse");
+		this.haoMa = par1NBTTagCompound.getInteger("haoMa");
+		this.yinXin = par1NBTTagCompound.getInteger("yinXin");
 		this.isPrimed = par1NBTTagCompound.getBoolean("isPrimed");
+	}
+
+	@Override
+	public IExplosive getExplosiveType()
+	{
+		return ZhaPin.list[this.haoMa];
 	}
 }

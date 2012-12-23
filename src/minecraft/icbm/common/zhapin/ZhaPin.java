@@ -1,5 +1,8 @@
 package icbm.common.zhapin;
 
+import icbm.api.ExplosionEvent.PostExplosionEvent;
+import icbm.api.ExplosionEvent.PreExplosionEvent;
+import icbm.api.IExplosive;
 import icbm.common.ZhuYao;
 import icbm.common.daodan.DaoDan;
 import icbm.common.daodan.EDaoDan;
@@ -38,13 +41,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.ITier;
-import co.uk.flansmods.api.IExplodeable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class ZhaPin implements ITier
+public abstract class ZhaPin implements ITier, IExplosive
 {
 	public enum ZhaPinType
 	{
@@ -95,12 +98,12 @@ public abstract class ZhaPin implements ITier
 	public static final ZhaPin diLei = new ExDiLei("sMine", 25, 2);
 
 	// Hidden Explosives
-	public static final ZhaPin dianCiWave = new ExDianCiWave("EMP", 26, 3);
-	public static final ZhaPin dianCiSignal = new ExDianCiSignal("EMP", 27, 3);
-	public static final ZhaPin taiYang2 = new ExTaiYang2("Conflagration", 28, 3);
-	public static final ZhaPin fuLan = new ExFuLan("Decay Land", 29, 3);
-	public static final ZhaPin bianZhong = new ExBianZhong("Mutation Living", 30, 3);
-	public static final ZhaPin bingDan2 = new ExBingDan2("Endothermic", 31, 3);
+	public static final ZhaPin dianCiWave = new ExDianCiWave("emp", 26, 3);
+	public static final ZhaPin dianCiSignal = new ExDianCiSignal("emp", 27, 3);
+	public static final ZhaPin taiYang2 = new ExTaiYang2("conflagration", 28, 3);
+	public static final ZhaPin fuLan = new ExFuLan("decayLand", 29, 3);
+	public static final ZhaPin bianZhong = new ExBianZhong("mutateLiving", 30, 3);
+	public static final ZhaPin bingDan2 = new ExBingDan2("endothermic", 31, 3);
 
 	public static ZhaPin[] list;
 
@@ -133,39 +136,40 @@ public abstract class ZhaPin implements ITier
 		ZhuYao.CONFIGURATION.save();
 	}
 
+	@Override
 	public int getID()
 	{
 		return this.ID;
 	}
 
-	public String getMingZi()
+	@Override
+	public String getName()
 	{
 		return this.mingZi;
 	}
 
-	public String getZhaPinMing()
+	@Override
+	public String getExplosiveName()
 	{
-		return ZhuYao.getLocal("icbm.missile." + this.mingZi);
+		return ZhuYao.getLocal("icbm.explosive." + this.mingZi + ".name");
 	}
 
-	public String getShouLiuDanMing()
+	@Override
+	public String getGrenadeName()
 	{
-		return ZhuYao.getLocal("icbm.grenade." + this.mingZi);
+		return ZhuYao.getLocal("icbm.grenade." + this.mingZi + ".name");
 	}
 
-	public String getDaoDanMing()
+	@Override
+	public String getMissileName()
 	{
-		return ZhuYao.getLocal("icbm.missile." + this.mingZi);
+		return ZhuYao.getLocal("icbm.missile." + this.mingZi + ".name");
 	}
 
-	public String getCheMing()
+	@Override
+	public String getMinecartName()
 	{
-		return ZhuYao.getLocal("icbm.minecart." + this.mingZi);
-	}
-
-	public float getBanJing()
-	{
-		return 0;
+		return ZhuYao.getLocal("icbm.minecart." + this.mingZi + ".name");
 	}
 
 	@Override
@@ -247,6 +251,7 @@ public abstract class ZhaPin implements ITier
 	 */
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		MinecraftForge.EVENT_BUS.post(new PreExplosionEvent(worldObj, position.x, position.y, position.z, this));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -294,7 +299,8 @@ public abstract class ZhaPin implements ITier
 	 */
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
-	};
+		MinecraftForge.EVENT_BUS.post(new PostExplosionEvent(worldObj, position.x, position.y, position.z, this));
+	}
 
 	public int countIncrement()
 	{
@@ -399,12 +405,6 @@ public abstract class ZhaPin implements ITier
 			if (entity instanceof EDaoDan)
 			{
 				((EDaoDan) entity).explode();
-				break;
-			}
-
-			if (entity instanceof IExplodeable)
-			{
-				((IExplodeable) entity).explode();
 				break;
 			}
 

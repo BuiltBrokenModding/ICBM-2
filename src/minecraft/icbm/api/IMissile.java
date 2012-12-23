@@ -27,4 +27,10 @@ public interface IMissile
 	 * Drops the specified missile as an item.
 	 */
 	public void dropMissileAsItem();
+
+	/**
+	 * The amount of ticks this missile has been flying for. Returns -1 if the missile is not
+	 * flying.
+	 */
+	public int getTicksInAir();
 }

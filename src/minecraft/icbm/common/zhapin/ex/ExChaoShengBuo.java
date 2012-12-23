@@ -157,7 +157,7 @@ public class ExChaoShengBuo extends ZhaPin
 				{
 					if (blockID == ZhuYao.bZhaDan.blockID)
 					{
-						BZhaDan.yinZha(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TZhaDan) worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).explosiveID, 1);
+						BZhaDan.yinZha(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TZhaDan) worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
 					}
 					else
 					{
@@ -229,6 +229,18 @@ public class ExChaoShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "SSS", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "SSS", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return BAN_JING;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 500;
 	}
 }

@@ -8,7 +8,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
@@ -16,7 +15,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.vector.Region3;
-import atomicscience.api.IExplosionReactor;
 
 public class ExTuiLa extends ZhaPin
 {
@@ -127,15 +125,6 @@ public class ExTuiLa extends ZhaPin
 
 				if (blockID > 0)
 				{
-					TileEntity tileEntity = position.getTileEntity(worldObj);
-
-					if (tileEntity != null)
-					{
-						if (tileEntity instanceof IExplosionReactor)
-						{
-							((IExplosionReactor) tileEntity).onExplode(2000);
-						}
-					}
 					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, var5, var6, var7);
 					Block.blocksList[blockID].dropBlockAsItemWithChance(worldObj, var5, var6, var7, worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
 					worldObj.setBlockWithNotify(var5, var6, var7, 0);
@@ -194,11 +183,23 @@ public class ExTuiLa extends ZhaPin
 	{
 		if (this.getID() == ZhaPin.la.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
 		}
 		else
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
 		}
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return MAX_BAN_JING;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 2000;
 	}
 }

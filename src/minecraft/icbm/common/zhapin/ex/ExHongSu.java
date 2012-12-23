@@ -25,7 +25,6 @@ import cpw.mods.fml.common.Loader;
 
 public class ExHongSu extends ZhaPin
 {
-	public static final int BAN_JING = 35;
 	private static final int MAX_TAKE_BLOCKS = 5;
 
 	public ExHongSu(String name, int ID, int tier)
@@ -55,7 +54,7 @@ public class ExHongSu extends ZhaPin
 			double dist;
 			int takenBlocks = 0;
 
-			for (int r = 1; r < BAN_JING; r++)
+			for (int r = 1; r < this.getRadius(); r++)
 			{
 				for (int x = -r; x < r; x++)
 				{
@@ -123,7 +122,7 @@ public class ExHongSu extends ZhaPin
 
 		// Make the blocks controlled by this red
 		// matter orbit around it
-		int radius = BAN_JING;
+		int radius = (int) this.getRadius();
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
 		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 		boolean explosionCreated = false;
@@ -143,20 +142,20 @@ public class ExHongSu extends ZhaPin
 			double yDifference = entity.posY - position.y;
 			double zDifference = entity.posZ - position.z;
 
-			int r = BAN_JING;
+			int r = (int) this.getRadius();
 			if (xDifference < 0)
-				r = (int) -BAN_JING;
+				r = (int) -this.getRadius();
 
 			entity.motionX -= (r - xDifference) * Math.abs(xDifference) * 0.0005;
 
-			r = BAN_JING;
+			r = (int) this.getRadius();
 			if (entity.posY > position.y)
-				r = -BAN_JING;
+				r = (int) -this.getRadius();
 			entity.motionY += (r - yDifference) * Math.abs(yDifference) * 0.0012;
 
-			r = (int) BAN_JING;
+			r = (int) this.getRadius();
 			if (zDifference < 0)
-				r = (int) -BAN_JING;
+				r = (int) -this.getRadius();
 
 			entity.motionZ -= (r - zDifference) * Math.abs(zDifference) * 0.0005;
 
@@ -209,6 +208,18 @@ public class ExHongSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.wanDan.getItemStack(), 'A', "strangeMatter" }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.wanDan.getItemStack(), 'A', "strangeMatter" }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 35;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 4000;
 	}
 }

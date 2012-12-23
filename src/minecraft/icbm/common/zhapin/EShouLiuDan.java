@@ -1,5 +1,7 @@
 package icbm.common.zhapin;
 
+import icbm.api.IExplosive;
+import icbm.api.IExplosiveContainer;
 import icbm.common.BaoHu;
 import icbm.common.ZhuYao;
 import net.minecraft.block.material.Material;
@@ -17,14 +19,14 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
+public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityAdditionalSpawnData
 {
 	/**
 	 * Is the entity that throws this 'thing' (snowball, ender pearl, eye of ender or potion)
 	 */
 	protected EntityLiving thrower;
 
-	public int explosiveID;
+	public int haoMa;
 
 	public EShouLiuDan(World par1World, Vector3 position, int explosiveID)
 	{
@@ -33,7 +35,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 		this.setPosition(position.x, position.y, position.z);
 		this.yOffset = 0.0F;
 
-		this.explosiveID = explosiveID;
+		this.haoMa = explosiveID;
 	}
 
 	public EShouLiuDan(World par1World, EntityLiving par2EntityLiving, int explosiveID)
@@ -53,7 +55,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 		this.motionY = (double) (-MathHelper.sin((this.rotationPitch) / 180.0F * (float) Math.PI) * var3);
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.9F, 1.0F);
 
-		this.explosiveID = explosiveID;
+		this.haoMa = explosiveID;
 	}
 
 	@Override
@@ -65,13 +67,13 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
-		data.writeInt(this.explosiveID);
+		data.writeInt(this.haoMa);
 	}
 
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
-		this.explosiveID = data.readInt();
+		this.haoMa = data.readInt();
 	}
 
 	/**
@@ -147,7 +149,7 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 				double var7 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
 				double var9 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
 				double var11 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
-				EntityItem var13 = new EntityItem(this.worldObj, (double) this.posX + var7, (double) this.posY + var9, (double) this.posZ + var11, new ItemStack(ZhuYao.itShouLiuDan, this.explosiveID, 1));
+				EntityItem var13 = new EntityItem(this.worldObj, (double) this.posX + var7, (double) this.posY + var9, (double) this.posZ + var11, new ItemStack(ZhuYao.itShouLiuDan, this.haoMa, 1));
 				var13.delayBeforeCanPickup = 10;
 				this.worldObj.spawnEntityInWorld(var13);
 			}
@@ -217,17 +219,17 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 			this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
 		}
 
-		if (this.ticksExisted > Math.max(60, ZhaPin.list[explosiveID].getYinXin()))
+		if (this.ticksExisted > Math.max(60, ZhaPin.list[haoMa].getYinXin()))
 		{
 			this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 
-			ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.explosiveID);
+			ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.haoMa);
 
 			this.setDead();
 		}
 		else
 		{
-			ZhaPin.list[explosiveID].onYinZha(this.worldObj, new Vector3(this.posX, this.posY + 0.5, this.posZ), this.ticksExisted);
+			ZhaPin.list[haoMa].onYinZha(this.worldObj, new Vector3(this.posX, this.posY + 0.5, this.posZ), this.ticksExisted);
 		}
 
 	}
@@ -259,13 +261,19 @@ public class EShouLiuDan extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		this.explosiveID = par1NBTTagCompound.getInteger("explosiveID");
+		this.haoMa = par1NBTTagCompound.getInteger("haoMa");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		par1NBTTagCompound.setInteger("explosiveID", this.explosiveID);
+		par1NBTTagCompound.setInteger("haoMa", this.haoMa);
+	}
+
+	@Override
+	public IExplosive getExplosiveType()
+	{
+		return ZhaPin.list[this.haoMa];
 	}
 
 }

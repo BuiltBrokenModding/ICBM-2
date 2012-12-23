@@ -75,7 +75,7 @@ public class BYinXing extends BlockMachine
 
 					if (block != null)
 					{
-						if (block.getRenderType() == 0 || block.getRenderType() == 31)
+						if (block.blockID != this.blockID && block.getRenderType() == 0 || block.getRenderType() == 31)
 						{
 							((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
 							par1World.markBlockForRenderUpdate(x, y, z);

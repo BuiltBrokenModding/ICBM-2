@@ -1,9 +1,9 @@
 package icbm.common.daodan;
 
+import icbm.api.IMissileLockable;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
-import co.uk.flansmods.api.IExplodeable;
 
 public class DFanDan extends DaoDan
 {
@@ -42,22 +42,15 @@ public class DFanDan extends DaoDan
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(missileObj.posX - ABMRange, missileObj.posY - ABMRange, missileObj.posZ - ABMRange, missileObj.posX + ABMRange, missileObj.posY + ABMRange, missileObj.posZ + ABMRange);
 		Entity nearestEntity = missileObj.worldObj.findNearestEntityWithinAABB(EDaoDan.class, bounds, missileObj);
 
-		if (nearestEntity instanceof EDaoDan)
+		if (nearestEntity instanceof IMissileLockable)
 		{
-			if (((EDaoDan) nearestEntity).feiXingTick >= 0)
+			if (((IMissileLockable) nearestEntity).canLock())
 			{
 				// Lock target onto missileObj missile
-				missileObj.lockedTarget = (EDaoDan) nearestEntity;
+				missileObj.lockedTarget = nearestEntity;
 				missileObj.didTargetLockBefore = true;
 				missileObj.worldObj.playSoundAtEntity(missileObj, "icbm.targetlocked", 5F, 0.9F);
 			}
-		}
-		else if (nearestEntity instanceof IExplodeable)
-		{
-			// Lock target onto missileObj missile
-			missileObj.lockedTarget = nearestEntity;
-			missileObj.didTargetLockBefore = true;
-			missileObj.worldObj.playSoundAtEntity(missileObj, "icbm.targetlocked", 5F, 0.9F);
 		}
 		else
 		{

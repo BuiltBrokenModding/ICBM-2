@@ -100,9 +100,9 @@ public class RChe extends Render
 		GL11.glTranslatef(0.0F, 0.3125F, 0.0F);
 		float var101;
 
-		if (minecart.isPrimed() && (float) minecart.fuse - par9 + 1.0F < 10.0F)
+		if (minecart.isPrimed() && (float) minecart.yinXin - par9 + 1.0F < 10.0F)
 		{
-			var101 = 1.0F - ((float) minecart.fuse - par9 + 1.0F) / 10.0F;
+			var101 = 1.0F - ((float) minecart.yinXin - par9 + 1.0F) / 10.0F;
 
 			if (var101 < 0.0F)
 			{
@@ -120,11 +120,11 @@ public class RChe extends Render
 			GL11.glScalef(var11, var11, var11);
 		}
 
-		var101 = (1.0F - ((float) minecart.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
+		var101 = (1.0F - ((float) minecart.yinXin - par9 + 1.0F) / 100.0F) * 0.8F;
 		this.loadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
-		this.blockRenderer.renderBlockAsItem(ZhuYao.bZhaDan, minecart.explosiveID, minecart.getBrightness(par9));
+		this.blockRenderer.renderBlockAsItem(ZhuYao.bZhaDan, minecart.haoMa, minecart.getBrightness(par9));
 
-		if (minecart.isPrimed() && minecart.fuse / 5 % 2 == 0)
+		if (minecart.isPrimed() && minecart.yinXin / 5 % 2 == 0)
 		{
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_LIGHTING);

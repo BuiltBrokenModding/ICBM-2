@@ -78,7 +78,7 @@ public class BZhaDan extends BlockContainer
 		{
 			if (tileEntity instanceof TZhaDan)
 			{
-				if (((TZhaDan) tileEntity).explosiveID == ZhaPin.diLei.getID()) { return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ); }
+				if (((TZhaDan) tileEntity).haoMa == ZhaPin.diLei.getID()) { return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ); }
 			}
 		}
 
@@ -91,7 +91,7 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
 	{
-		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
+		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
 
 		if (!par1World.isRemote)
 		{
@@ -132,7 +132,7 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public int getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
-		int explosiveID = ((TZhaDan) par1IBlockAccess.getBlockTileEntity(x, y, z)).explosiveID;
+		int explosiveID = ((TZhaDan) par1IBlockAccess.getBlockTileEntity(x, y, z)).haoMa;
 
 		return this.getBlockTextureFromSideAndMetadata(side, explosiveID);
 	}
@@ -188,7 +188,7 @@ public class BZhaDan extends BlockContainer
 	{
 		super.onBlockAdded(par1World, x, y, z);
 
-		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
+		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
 
 		par1World.markBlockForRenderUpdate(x, y, z);
 	}
@@ -200,7 +200,7 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public void onNeighborBlockChange(World par1World, int x, int y, int z, int blockId)
 	{
-		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
+		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
 
 		if ((blockId > 0 && Block.blocksList[blockId].canProvidePower() && par1World.isBlockIndirectlyGettingPowered(x, y, z)))
 		{
@@ -244,7 +244,7 @@ public class BZhaDan extends BlockContainer
 	{
 		if (par1World.getBlockTileEntity(x, y, z) != null)
 		{
-			int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).explosiveID;
+			int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
 			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 1);
 		}
 	}
@@ -262,7 +262,7 @@ public class BZhaDan extends BlockContainer
 		{
 			if (par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
 			{
-				int explosiveID = ((TZhaDan) tileEntity).explosiveID;
+				int explosiveID = ((TZhaDan) tileEntity).haoMa;
 				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
 				return true;
 			}
@@ -322,7 +322,7 @@ public class BZhaDan extends BlockContainer
 	{
 		if (world.getBlockTileEntity(x, y, z) != null)
 		{
-			int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).explosiveID;
+			int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
 
 			return new ItemStack(this.blockID, 1, explosiveID);
 		}
@@ -341,7 +341,7 @@ public class BZhaDan extends BlockContainer
 			{
 				if (!((TZhaDan) tileEntity).exploding)
 				{
-					int explosiveID = ((TZhaDan) tileEntity).explosiveID;
+					int explosiveID = ((TZhaDan) tileEntity).haoMa;
 					int id = idDropped(world.getBlockMetadata(x, y, z), world.rand, 0);
 
 					this.dropBlockAsItem_do(world, x, y, z, new ItemStack(id, 1, explosiveID));

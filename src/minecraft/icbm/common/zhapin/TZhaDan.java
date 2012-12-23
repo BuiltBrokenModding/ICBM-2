@@ -1,5 +1,7 @@
 package icbm.common.zhapin;
 
+import icbm.api.IExplosive;
+import icbm.api.IExplosiveContainer;
 import icbm.common.ZhuYao;
 import icbm.common.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,10 +18,10 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
+public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketReceiver, IRotatable
 {
 	public boolean exploding = false;
-	public int explosiveID = 0;
+	public int haoMa = 0;
 
 	@Override
 	public boolean canUpdate()
@@ -35,7 +37,7 @@ public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
 	{
 		super.readFromNBT(par1NBTTagCompound);
 
-		this.explosiveID = par1NBTTagCompound.getInteger("explosiveID");
+		this.haoMa = par1NBTTagCompound.getInteger("explosiveID");
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
 	{
 		super.writeToNBT(par1NBTTagCompound);
 
-		par1NBTTagCompound.setInteger("explosiveID", this.explosiveID);
+		par1NBTTagCompound.setInteger("explosiveID", this.haoMa);
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
 
 			if (ID == 1)
 			{
-				this.explosiveID = dataStream.readInt();
+				this.haoMa = dataStream.readInt();
 			}
 			else if (ID == 2 && !this.worldObj.isRemote)
 			{
@@ -66,7 +68,7 @@ public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
 				if (player.inventory.getCurrentItem().getItem() instanceof ItYaoKong)
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
-					BZhaDan.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.explosiveID, 0);
+					BZhaDan.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
 					((ItYaoKong) ZhuYao.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
 				}
 			}
@@ -80,7 +82,7 @@ public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (byte) 1, this.explosiveID);
+		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (byte) 1, this.haoMa);
 	}
 
 	@Override
@@ -93,5 +95,11 @@ public class TZhaDan extends TileEntity implements IPacketReceiver, IRotatable
 	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, facingDirection.ordinal());
+	}
+
+	@Override
+	public IExplosive getExplosiveType()
+	{
+		return ZhaPin.list[this.haoMa];
 	}
 }

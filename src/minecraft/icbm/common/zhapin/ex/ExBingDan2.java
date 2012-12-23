@@ -10,8 +10,6 @@ import universalelectricity.core.vector.Vector3;
 
 public class ExBingDan2 extends ZhaPin
 {
-	private static final int MAX_RADIUS = 40;
-
 	public ExBingDan2(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
@@ -21,26 +19,28 @@ public class ExBingDan2 extends ZhaPin
 	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaQian(worldObj, position, explosionSource);
+
 		if (!worldObj.isRemote)
 		{
 			EZhaPin source = (EZhaPin) explosionSource;
 
-			for (int x = 0; x < MAX_RADIUS; ++x)
+			for (int x = 0; x < this.getRadius(); ++x)
 			{
-				for (int y = 0; y < MAX_RADIUS; ++y)
+				for (int y = 0; y < this.getRadius(); ++y)
 				{
-					for (int z = 0; z < MAX_RADIUS; ++z)
+					for (int z = 0; z < this.getRadius(); ++z)
 					{
-						if (x == 0 || x == MAX_RADIUS - 1 || y == 0 || y == MAX_RADIUS - 1 || z == 0 || z == MAX_RADIUS - 1)
+						if (x == 0 || x == this.getRadius() - 1 || y == 0 || y == this.getRadius() - 1 || z == 0 || z == this.getRadius() - 1)
 						{
-							double xStep = (double) ((float) x / ((float) MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
-							double yStep = (double) ((float) y / ((float) MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
-							double zStep = (double) ((float) z / ((float) MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+							double xStep = (double) ((float) x / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double yStep = (double) ((float) y / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double zStep = (double) ((float) z / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
 							double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 							xStep /= diagonalDistance;
 							yStep /= diagonalDistance;
 							zStep /= diagonalDistance;
-							float power = MAX_RADIUS * (0.7F + worldObj.rand.nextFloat() * 0.6F);
+							float power = this.getRadius() * (0.7F + worldObj.rand.nextFloat() * 0.6F);
 							double var15 = position.x;
 							double var17 = position.y;
 							double var19 = position.z;
@@ -131,7 +131,7 @@ public class ExBingDan2 extends ZhaPin
 
 		worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, "icbm.redmatter", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
 
-		if (callCount > MAX_RADIUS) { return false; }
+		if (callCount > this.getRadius()) { return false; }
 		return true;
 	}
 
@@ -145,16 +145,16 @@ public class ExBingDan2 extends ZhaPin
 		return 3;
 	}
 
-	/**
-	 * Called every tick
-	 * 
-	 * @param ticksExisted
-	 * @Override public void onUpdate(World worldObj, Vector3 position, int ticksExisted) { long
-	 * worldTime = worldObj.getWorldTime();
-	 * 
-	 * while(worldTime > 23999) { worldTime -= 23999; }
-	 * 
-	 * if(worldTime < 0) { worldObj.setWorldTime (worldObj.getWorldTime()+150); } }
-	 */
+	@Override
+	public float getRadius()
+	{
+		return 40;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
+	}
 
 }

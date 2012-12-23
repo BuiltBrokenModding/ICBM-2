@@ -32,7 +32,7 @@ public abstract class TJiQiCun extends TileEntityElectricityReceiver implements 
 
 				if (inputNetwork != null)
 				{
-					if (!this.isDisabled() && !didFind)
+					if (!this.isDisabled() && this.getJoules() < this.getMaxJoules() && !didFind)
 					{
 						inputNetwork.startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
 						ElectricityPack electricityPack = inputNetwork.consumeElectricity(this);
@@ -46,7 +46,7 @@ public abstract class TJiQiCun extends TileEntityElectricityReceiver implements 
 							}
 						}
 
-						this.setJoules(this.dian + electricityPack.getWatts());
+						this.setJoules(Math.ceil(this.dian + electricityPack.getWatts()));
 						didFind = true;
 					}
 					else

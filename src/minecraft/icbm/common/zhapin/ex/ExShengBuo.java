@@ -22,7 +22,6 @@ import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExShengBuo extends ZhaPin
 {
-	private static final int BAN_JING = 10;
 	private static final int NENG_LIANG = 40;
 
 	public ExShengBuo(String name, int ID, int tier)
@@ -37,17 +36,17 @@ public class ExShengBuo extends ZhaPin
 		{
 			EZhaPin source = (EZhaPin) explosionSource;
 
-			for (int x = 0; x < BAN_JING; ++x)
+			for (int x = 0; x < this.getRadius(); ++x)
 			{
-				for (int y = 0; y < BAN_JING; ++y)
+				for (int y = 0; y < this.getRadius(); ++y)
 				{
-					for (int z = 0; z < BAN_JING; ++z)
+					for (int z = 0; z < this.getRadius(); ++z)
 					{
-						if (x == 0 || x == BAN_JING - 1 || y == 0 || y == BAN_JING - 1 || z == 0 || z == BAN_JING - 1)
+						if (x == 0 || x == this.getRadius() - 1 || y == 0 || y == this.getRadius() - 1 || z == 0 || z == this.getRadius() - 1)
 						{
-							double xStep = (double) ((float) x / ((float) BAN_JING - 1.0F) * 2.0F - 1.0F);
-							double yStep = (double) ((float) y / ((float) BAN_JING - 1.0F) * 2.0F - 1.0F);
-							double zStep = (double) ((float) z / ((float) BAN_JING - 1.0F) * 2.0F - 1.0F);
+							double xStep = (double) ((float) x / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double yStep = (double) ((float) y / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double zStep = (double) ((float) z / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
 							double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 							xStep /= diagonalDistance;
 							yStep /= diagonalDistance;
@@ -134,7 +133,7 @@ public class ExShengBuo extends ZhaPin
 				{
 					if (blockID == ZhuYao.bZhaDan.blockID)
 					{
-						BZhaDan.yinZha(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TZhaDan) worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).explosiveID, 1);
+						BZhaDan.yinZha(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TZhaDan) worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
 					}
 					else
 					{
@@ -143,7 +142,7 @@ public class ExShengBuo extends ZhaPin
 
 					targetPosition.add(0.5D);
 
-					if (worldObj.rand.nextFloat() < 0.3 * (BAN_JING - r))
+					if (worldObj.rand.nextFloat() < 0.3 * (this.getRadius() - r))
 					{
 						EFeiBlock entity = new EFeiBlock(worldObj, targetPosition, blockID, metadata);
 						worldObj.spawnEntityInWorld(entity);
@@ -172,22 +171,22 @@ public class ExShengBuo extends ZhaPin
 				double xDifference = entity.posX - position.x;
 				double zDifference = entity.posZ - position.z;
 
-				r = (int) BAN_JING;
+				r = (int) this.getRadius();
 				if (xDifference < 0)
-					r = (int) -BAN_JING;
+					r = (int) -this.getRadius();
 
 				entity.motionX += (r - xDifference) * 0.02 * worldObj.rand.nextFloat();
 				entity.motionY += 3 * worldObj.rand.nextFloat();
 
-				r = (int) BAN_JING;
+				r = (int) this.getRadius();
 				if (zDifference < 0)
-					r = (int) -BAN_JING;
+					r = (int) -this.getRadius();
 
 				entity.motionZ += (r - zDifference) * 0.02 * worldObj.rand.nextFloat();
 			}
 		}
 
-		if (callCount > BAN_JING) { return false; }
+		if (callCount > this.getRadius()) { return false; }
 
 		return true;
 	}
@@ -206,6 +205,18 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', "plateBronze" }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', "plateBronze" }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 10;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
 	}
 }

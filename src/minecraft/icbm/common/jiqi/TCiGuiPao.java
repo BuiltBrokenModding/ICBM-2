@@ -5,7 +5,7 @@ import icbm.common.CommonProxy;
 import icbm.common.ItZiDan;
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.EZhaPin;
-import icbm.common.zhapin.ex.ExHongSu;
+import icbm.common.zhapin.ZhaPin;
 
 import java.util.List;
 
@@ -149,7 +149,7 @@ public class TCiGuiPao extends TJiQiCun implements IPacketReceiver, IRedstoneRec
 							{
 								if (isAntimatter)
 								{
-									int radius = ExHongSu.BAN_JING;
+									int radius = (int) ZhaPin.hongSu.getRadius();
 									AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
 									List<EZhaPin> missilesNearby = worldObj.getEntitiesWithinAABB(EZhaPin.class, bounds);
 

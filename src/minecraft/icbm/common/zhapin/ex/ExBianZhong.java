@@ -51,4 +51,15 @@ public class ExBianZhong extends ZhaPin
 		return false;
 	}
 
+	@Override
+	public float getRadius()
+	{
+		return 0;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
+	}
 }

@@ -1,6 +1,9 @@
 package icbm.common.daodan;
 
+import icbm.api.IExplosive;
+import icbm.api.IExplosiveContainer;
 import icbm.api.IMissile;
+import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
 import icbm.client.fx.ParticleSpawner;
 import icbm.common.BaoHu;
@@ -32,7 +35,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMissile
+public class EDaoDan extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile
 {
 	public enum XingShi
 	{
@@ -132,7 +135,7 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public String getEntityName()
 	{
 		if (this.haoMa > 100) { return ZhuYao.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getMingZing()) + ".name"; }
-		return ZhuYao.getLocal("icbm.missile." + ZhaPin.list[this.haoMa].getMingZi() + ".name");
+		return ZhuYao.getLocal("icbm.missile." + ZhaPin.list[this.haoMa].getName() + ".name");
 	}
 
 	@Override
@@ -628,8 +631,9 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 			entityItem.motionY = ((float) random.nextGaussian() * var13 + 0.2F);
 			entityItem.motionZ = ((float) random.nextGaussian() * var13);
 			this.worldObj.spawnEntityInWorld(entityItem);
-			this.setDead();
 		}
+
+		this.setDead();
 	}
 
 	/**
@@ -677,5 +681,23 @@ public class EDaoDan extends Entity implements IEntityAdditionalSpawnData, IMiss
 	public float getShadowSize()
 	{
 		return 1.0F;
+	}
+
+	@Override
+	public int getTicksInAir()
+	{
+		return this.feiXingTick;
+	}
+
+	@Override
+	public IExplosive getExplosiveType()
+	{
+		return ZhaPin.list[this.haoMa];
+	}
+
+	@Override
+	public boolean canLock()
+	{
+		return this.feiXingTick > 0;
 	}
 }

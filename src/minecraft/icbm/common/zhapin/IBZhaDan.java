@@ -22,7 +22,7 @@ public class IBZhaDan extends ItemBlock
 
 		if (world.getBlockId(x, y, z) == this.getBlockID())
 		{
-			((TZhaDan) world.getBlockTileEntity(x, y, z)).explosiveID = stack.getItemDamage();
+			((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa = stack.getItemDamage();
 			Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player);
 			Block.blocksList[this.getBlockID()].func_85105_g(world, x, y, z, metadata);
 		}
@@ -39,7 +39,7 @@ public class IBZhaDan extends ItemBlock
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getMingZi();
+		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getName();
 	}
 
 	@Override

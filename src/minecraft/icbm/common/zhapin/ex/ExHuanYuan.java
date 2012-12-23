@@ -76,6 +76,18 @@ public class ExHuanYuan extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 16;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
 	}
 }

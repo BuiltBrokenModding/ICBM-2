@@ -9,7 +9,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StringTranslate;
 import net.minecraft.world.ChunkPosition;
@@ -17,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import atomicscience.api.IExplosionReactor;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ExYaSuo extends ZhaPin
@@ -129,15 +127,6 @@ public class ExYaSuo extends ZhaPin
 
 				if (blockID > 0)
 				{
-					TileEntity tileEntity = position.getTileEntity(worldObj);
-
-					if (tileEntity != null)
-					{
-						if (tileEntity instanceof IExplosionReactor)
-						{
-							((IExplosionReactor) tileEntity).onExplode(4000);
-						}
-					}
 
 					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, var5, var6, var7);
 					Block.blocksList[blockID].dropBlockAsItemWithChance(worldObj, var5, var6, var7, worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
@@ -148,13 +137,13 @@ public class ExYaSuo extends ZhaPin
 	}
 
 	@Override
-	public String getDaoDanMing()
+	public String getMissileName()
 	{
 		return LanguageRegistry.instance().getStringLocalization("icbm.explosive.conventional") + " " + LanguageRegistry.instance().getStringLocalization("icbm.missile");
 	}
 
 	@Override
-	public String getCheMing()
+	public String getMinecartName()
 	{
 		return LanguageRegistry.instance().getStringLocalization("icbm.explosive") + " " + StringTranslate.getInstance().translateKey("item.minecart.name");
 	}
@@ -162,6 +151,18 @@ public class ExYaSuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return BAN_JING;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 4000;
 	}
 }

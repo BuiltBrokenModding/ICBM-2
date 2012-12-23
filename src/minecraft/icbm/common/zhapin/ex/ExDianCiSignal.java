@@ -1,12 +1,12 @@
 package icbm.common.zhapin.ex;
 
-import icbm.common.daodan.EDaoDan;
+import icbm.api.IMissile;
+import icbm.api.RadarRegistry;
 import icbm.common.zhapin.ZhaPin;
 
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
@@ -25,14 +25,16 @@ public class ExDianCiSignal extends ZhaPin
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
 		// Drop all missiles
-		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, 0, position.z - radius, position.x + radius, worldObj.getHeight(), position.z + radius);
-		List<EDaoDan> entitiesNearby = worldObj.getEntitiesWithinAABB(EDaoDan.class, bounds);
+		List<Entity> entitiesNearby = RadarRegistry.getEntitiesWithinRadius(position.toVector2(), radius);
 
-		for (EDaoDan missile : entitiesNearby)
+		for (Entity entity : entitiesNearby)
 		{
-			if (missile.feiXingTick > -1)
+			if (entity instanceof IMissile)
 			{
-				missile.dropMissileAsItem();
+				if (((IMissile) entity).getTicksInAir() > -1)
+				{
+					((IMissile) entity).dropMissileAsItem();
+				}
 			}
 		}
 
@@ -40,4 +42,15 @@ public class ExDianCiSignal extends ZhaPin
 		return false;
 	}
 
+	@Override
+	public float getRadius()
+	{
+		return 50;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
+	}
 }

@@ -7,13 +7,11 @@ import icbm.common.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import atomicscience.api.IExplosionReactor;
 
 public class ExWenYa extends ZhaPin
 {
@@ -30,6 +28,8 @@ public class ExWenYa extends ZhaPin
 	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaQian(worldObj, position, explosionSource);
+
 		EZhaPin source = (EZhaPin) explosionSource;
 
 		int steps = (int) Math.ceil(Math.PI / Math.atan(1.0D / BAN_JING));
@@ -181,6 +181,8 @@ public class ExWenYa extends ZhaPin
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaHou(worldObj, position, explosionSource);
+
 		EZhaPin source = (EZhaPin) explosionSource;
 
 		if (!worldObj.isRemote)
@@ -192,15 +194,6 @@ public class ExWenYa extends ZhaPin
 
 				if (blockID > 0)
 				{
-					TileEntity tileEntity = position.getTileEntity(worldObj);
-
-					if (tileEntity != null)
-					{
-						if (tileEntity instanceof IExplosionReactor)
-						{
-							((IExplosionReactor) tileEntity).onExplode(80000);
-						}
-					}
 					worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
 					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 				}
@@ -215,6 +208,18 @@ public class ExWenYa extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ITC", "TRT", "CTI", 'T', Block.tnt, 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ITC", "TRT", "CTI", 'T', Block.tnt, 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return BAN_JING;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 80000;
 	}
 }

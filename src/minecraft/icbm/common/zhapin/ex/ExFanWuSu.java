@@ -12,7 +12,6 @@ import universalelectricity.prefab.RecipeHelper;
 
 public class ExFanWuSu extends ZhaPin
 {
-	private static final int BAN_JING = 50;
 	public boolean destroyBedrock = false;
 
 	public ExFanWuSu(String name, int ID, int tier)
@@ -32,7 +31,7 @@ public class ExFanWuSu extends ZhaPin
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antimatter", 7F, (float) (worldObj.rand.nextFloat() * 0.1 + 0.9F));
 		explosionSource.posY += 5;
 
-		doDamageEntities(worldObj, position, BAN_JING * 2, Integer.MAX_VALUE);
+		doDamageEntities(worldObj, position, this.getRadius() * 2, Integer.MAX_VALUE);
 	}
 
 	@Override
@@ -42,16 +41,16 @@ public class ExFanWuSu extends ZhaPin
 		{
 			if (callCount == 1)
 			{
-				for (int x = -BAN_JING; x < BAN_JING; x++)
+				for (int x = (int) -this.getRadius(); x < this.getRadius(); x++)
 				{
-					for (int y = -BAN_JING; y < BAN_JING; y++)
+					for (int y = (int) -this.getRadius(); y < this.getRadius(); y++)
 					{
-						for (int z = -BAN_JING; z < BAN_JING; z++)
+						for (int z = (int) -this.getRadius(); z < this.getRadius(); z++)
 						{
 							Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
 							double dist = position.distanceTo(targetPosition);
 
-							if (dist < BAN_JING)
+							if (dist < this.getRadius())
 							{
 								int blockID = targetPosition.getBlockID(worldObj);
 
@@ -60,7 +59,7 @@ public class ExFanWuSu extends ZhaPin
 									if (blockID == Block.bedrock.blockID && !destroyBedrock)
 										continue;
 
-									if (dist < BAN_JING - 1 || worldObj.rand.nextFloat() > 0.7)
+									if (dist < this.getRadius() - 1 || worldObj.rand.nextFloat() > 0.7)
 									{
 										targetPosition.setBlockWithNotify(worldObj, 0);
 									}
@@ -74,17 +73,18 @@ public class ExFanWuSu extends ZhaPin
 			}
 		}
 		/*
-		 * else if (ZhuYao.proxy.isGaoQing()) { for (int x = -BAN_JING; x < BAN_JING; x++) { for
-		 * (int y = -BAN_JING; y < BAN_JING; y++) { for (int z = -BAN_JING; z < BAN_JING; z++) {
-		 * Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z)); double distance =
+		 * else if (ZhuYao.proxy.isGaoQing()) { for (int x = -this.getRadius(); x <
+		 * this.getRadius(); x++) { for (int y = -this.getRadius(); y < this.getRadius(); y++) { for
+		 * (int z = -this.getRadius(); z < this.getRadius(); z++) { Vector3 targetPosition =
+		 * Vector3.add(position, new Vector3(x, y, z)); double distance =
 		 * position.distanceTo(targetPosition);
 		 * 
-		 * if (targetPosition.getBlockID(worldObj) == 0) { if (distance < BAN_JING && distance >
-		 * BAN_JING - 1 && worldObj.rand.nextFloat() > 0.5) {
+		 * if (targetPosition.getBlockID(worldObj) == 0) { if (distance < this.getRadius() &&
+		 * distance > this.getRadius() - 1 && worldObj.rand.nextFloat() > 0.5) {
 		 * ParticleSpawner.spawnParticle("antimatter", worldObj, targetPosition); } } } } } }
 		 */
 
-		if (callCount > BAN_JING)
+		if (callCount > this.getRadius())
 		{
 			return false;
 		}
@@ -97,7 +97,9 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		doDamageEntities(worldObj, position, BAN_JING * 2, Integer.MAX_VALUE);
+		super.baoZhaHou(worldObj, position, explosionSource);
+
+		doDamageEntities(worldObj, position, this.getRadius() * 2, Integer.MAX_VALUE);
 	}
 
 	/**
@@ -120,12 +122,24 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@Override
 	protected int proceduralInterval()
 	{
 		return 1;
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 50;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 1000000;
 	}
 }

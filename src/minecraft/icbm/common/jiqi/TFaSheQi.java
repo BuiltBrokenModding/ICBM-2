@@ -147,23 +147,22 @@ public abstract class TFaSheQi extends TJiQiCun implements ILauncher, IPeriphera
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		super.readFromNBT(par1NBTTagCompound);
-		this.setFrequency(par1NBTTagCompound.getShort("frequency"));
-		this.muBiao = Vector3.readFromNBT("target", par1NBTTagCompound);
+		super.readFromNBT(nbt);
+		this.setFrequency(nbt.getShort("frequency"));
+		this.muBiao = Vector3.readFromNBT("target", nbt);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	public void writeToNBT(NBTTagCompound nbt)
 	{
-		super.writeToNBT(par1NBTTagCompound);
-
-		par1NBTTagCompound.setShort("frequency", this.getFrequency());
+		super.writeToNBT(nbt);
+		nbt.setShort("frequency", this.getFrequency());
 
 		if (this.muBiao != null)
 		{
-			this.muBiao.writeToNBT("target", par1NBTTagCompound);
+			this.muBiao.writeToNBT("target", nbt);
 		}
 	}
 }

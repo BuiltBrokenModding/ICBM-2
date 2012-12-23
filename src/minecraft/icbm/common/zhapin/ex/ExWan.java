@@ -19,7 +19,6 @@ import cpw.mods.fml.common.FMLLog;
 
 public class ExWan extends ZhaPin
 {
-	public static final int BAN_JING = 20;
 	public static final int SHI_JIAN = 20 * 8;
 
 	public ExWan(String name, int ID, int tier)
@@ -41,7 +40,7 @@ public class ExWan extends ZhaPin
 	{
 		if (worldObj.isRemote)
 		{
-			int r = (int) (BAN_JING - (double) (((double) callCount / (double) SHI_JIAN) * BAN_JING));
+			int r = (int) (this.getRadius() - (double) (((double) callCount / (double) SHI_JIAN) * this.getRadius()));
 
 			for (int x = -r; x < r; x++)
 			{
@@ -77,7 +76,7 @@ public class ExWan extends ZhaPin
 
 		// Make the blocks controlled by this red
 		// matter orbit around it
-		int radius = BAN_JING;
+		int radius = (int) this.getRadius();
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
 		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 		boolean explosionCreated = false;
@@ -91,20 +90,20 @@ public class ExWan extends ZhaPin
 			double yDifference = entity.posY - position.y;
 			double zDifference = entity.posZ - position.z;
 
-			int r = BAN_JING;
+			int r = (int) this.getRadius();
 			if (xDifference < 0)
-				r = (int) -BAN_JING;
+				r = (int) -this.getRadius();
 
 			entity.motionX -= (r - xDifference) * Math.abs(xDifference) * 0.0006;
 
-			r = BAN_JING;
+			r = (int) this.getRadius();
 			if (entity.posY > position.y)
-				r = -BAN_JING;
+				r = (int) -this.getRadius();
 			entity.motionY += (r - yDifference) * Math.abs(yDifference) * 0.0011;
 
-			r = (int) BAN_JING;
+			r = (int) this.getRadius();
 			if (zDifference < 0)
-				r = (int) -BAN_JING;
+				r = (int) -this.getRadius();
 
 			entity.motionZ -= (r - zDifference) * Math.abs(zDifference) * 0.0006;
 
@@ -144,6 +143,7 @@ public class ExWan extends ZhaPin
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaHou(worldObj, position, explosionSource);
 		if (!explosionSource.worldObj.isRemote)
 		{
 			for (int i = 0; i < 20; i++)
@@ -169,7 +169,19 @@ public class ExWan extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'E', "dustEndium", 'T', ZhaPin.la.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'E', "dustEndium", 'T', ZhaPin.la.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 20;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
 	}
 }

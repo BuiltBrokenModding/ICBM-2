@@ -95,7 +95,7 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -103,5 +103,17 @@ public class ExDiLei extends ZhaPin
 	public Object[] getRenderData()
 	{
 		return new Object[] { MDiLei.INSTANCE, ZhuYao.TEXTURE_FILE_PATH + "S-Mine.png" };
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 20;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 2000;
 	}
 }

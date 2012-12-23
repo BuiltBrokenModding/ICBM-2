@@ -112,7 +112,7 @@ public class ItYaoKong extends ItemElectric
 
 					if (tile != null)
 					{
-						int explosiveID = ((TZhaDan) tile).explosiveID;
+						int explosiveID = ((TZhaDan) tile).haoMa;
 
 						if (blockID == ZhuYao.bJiQi.blockID)
 						{
@@ -162,7 +162,7 @@ public class ItYaoKong extends ItemElectric
 	{
 		if (tileEntity != null)
 		{
-			if (tileEntity instanceof TZhaDan) { return ((TZhaDan) tileEntity).explosiveID == ZhaPin.yaSuo.getID() || ((TZhaDan) tileEntity).explosiveID == ZhaPin.tuPuo.getID(); }
+			if (tileEntity instanceof TZhaDan) { return ((TZhaDan) tileEntity).haoMa == ZhaPin.yaSuo.getID() || ((TZhaDan) tileEntity).haoMa == ZhaPin.tuPuo.getID(); }
 		}
 
 		return false;

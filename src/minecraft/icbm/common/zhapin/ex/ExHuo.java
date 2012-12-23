@@ -24,7 +24,7 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		int radius = 14;
+		int radius = (int) this.getRadius();
 
 		if (explosionSource instanceof EShouLiuDan)
 		{
@@ -109,7 +109,18 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', Block.tnt, '!', Item.bucketLava }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', Block.tnt, '!', Item.bucketLava }), this.getName(), ZhuYao.CONFIGURATION, true);
 	}
 
+	@Override
+	public float getRadius()
+	{
+		return 14;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 1000;
+	}
 }

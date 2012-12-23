@@ -18,7 +18,7 @@ public class RZhaDan extends TileEntitySpecialRenderer
 	public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)
 	{
 		TZhaDan tileEntity = (TZhaDan) var1;
-		Object[] data = ZhaPin.list[tileEntity.explosiveID].getRenderData();
+		Object[] data = ZhaPin.list[tileEntity.haoMa].getRenderData();
 
 		if (data != null)
 		{

@@ -31,7 +31,7 @@ public class ItDaoDan extends Item
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getMingZi();
+		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getName();
 	}
 
 	@Override

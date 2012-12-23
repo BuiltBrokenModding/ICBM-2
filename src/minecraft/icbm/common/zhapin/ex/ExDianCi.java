@@ -25,7 +25,7 @@ public class ExDianCi extends ZhaPin
 	{
 		if (radius < 0)
 		{
-			radius = 50;
+			radius = (int) this.getRadius();
 		}
 
 		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, null, radius, callCount);
@@ -36,6 +36,18 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', "battery" }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', "battery" }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 50;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
 	}
 }

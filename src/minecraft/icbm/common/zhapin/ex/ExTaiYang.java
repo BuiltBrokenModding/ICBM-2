@@ -43,7 +43,6 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{
-
 		List<Entity> gravityBlocks = new ArrayList();
 
 		int radius = this.radius;
@@ -151,6 +150,8 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaHou(worldObj, position, explosionSource);
+
 		if (!worldObj.isRemote)
 		{
 			((EZhaPin) explosionSource).entityList.get(0).setDead();
@@ -212,6 +213,18 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', ZhaPin.huo.getItemStack() }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', ZhaPin.huo.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 5;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 1000;
 	}
 }

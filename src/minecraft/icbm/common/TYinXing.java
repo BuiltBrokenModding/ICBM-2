@@ -39,6 +39,8 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 			this.qingBian[4] = dataStream.readBoolean();
 			this.qingBian[5] = dataStream.readBoolean();
 			this.isYing = dataStream.readBoolean();
+
+			this.worldObj.markBlockForRenderUpdate(this.xCoord, this.yCoord, this.zCoord);
 		}
 		catch (Exception e)
 		{

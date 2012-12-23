@@ -59,7 +59,7 @@ public class ItChe extends Item
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		return "icbm.minecart." + ZhaPin.list[itemstack.getItemDamage()].getMingZi();
+		return "icbm.minecart." + ZhaPin.list[itemstack.getItemDamage()].getName();
 	}
 
 	@Override

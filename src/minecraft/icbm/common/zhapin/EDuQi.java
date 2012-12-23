@@ -21,20 +21,26 @@ public class EDuQi extends ZhaPin
 		super(name, ID, tier);
 	}
 
+	@Override
+	public float getRadius()
+	{
+		return this.getTier() == 2 ? 20 : 14;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
+	}
+
 	/**
 	 * World worldObj, Vector3 position, int radius, boolean isContagious
 	 */
 	@Override
 	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		boolean isContagious = false;
-		int radius = 14;
-
-		if (this.getTier() == 2)
-		{
-			isContagious = true;
-			radius = 20;
-		}
+		boolean isContagious = this.getTier() == 2;
+		int radius = (int) this.getRadius();
 
 		if (explosionSource instanceof EShouLiuDan)
 		{

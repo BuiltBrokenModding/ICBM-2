@@ -80,7 +80,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 	{
 		if (modelID == ID)
 		{
-			if (((TZhaDan) iBlockAccess.getBlockTileEntity(x, y, z)).explosiveID == ZhaPin.diLei.getID())
+			if (((TZhaDan) iBlockAccess.getBlockTileEntity(x, y, z)).haoMa == ZhaPin.diLei.getID())
 			{
 				return false;
 			}

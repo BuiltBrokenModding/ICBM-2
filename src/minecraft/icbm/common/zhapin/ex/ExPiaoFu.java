@@ -20,8 +20,6 @@ import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExPiaoFu extends ZhaPin
 {
-	private static final int MAX_RADIUS = 15;
-
 	public ExPiaoFu(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
@@ -30,26 +28,28 @@ public class ExPiaoFu extends ZhaPin
 	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaQian(worldObj, position, explosionSource);
+
 		if (!worldObj.isRemote)
 		{
 			EZhaPin source = (EZhaPin) explosionSource;
 
-			for (int x = 0; x < MAX_RADIUS; ++x)
+			for (int x = 0; x < this.getRadius(); ++x)
 			{
-				for (int y = 0; y < MAX_RADIUS; ++y)
+				for (int y = 0; y < this.getRadius(); ++y)
 				{
-					for (int z = 0; z < MAX_RADIUS; ++z)
+					for (int z = 0; z < this.getRadius(); ++z)
 					{
-						if (x == 0 || x == MAX_RADIUS - 1 || y == 0 || y == MAX_RADIUS - 1 || z == 0 || z == MAX_RADIUS - 1)
+						if (x == 0 || x == this.getRadius() - 1 || y == 0 || y == this.getRadius() - 1 || z == 0 || z == this.getRadius() - 1)
 						{
-							double xStep = (double) ((float) x / ((float) MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
-							double yStep = (double) ((float) y / ((float) MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
-							double zStep = (double) ((float) z / ((float) MAX_RADIUS - 1.0F) * 2.0F - 1.0F);
+							double xStep = (double) ((float) x / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double yStep = (double) ((float) y / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double zStep = (double) ((float) z / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
 							double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 							xStep /= diagonalDistance;
 							yStep /= diagonalDistance;
 							zStep /= diagonalDistance;
-							float power = MAX_RADIUS * (0.7F + worldObj.rand.nextFloat() * 0.6F);
+							float power = this.getRadius() * (0.7F + worldObj.rand.nextFloat() * 0.6F);
 							double var15 = position.x;
 							double var17 = position.y;
 							double var19 = position.z;
@@ -134,7 +134,7 @@ public class ExPiaoFu extends ZhaPin
 
 					targetPosition.add(0.5D);
 
-					if (worldObj.rand.nextFloat() < 0.3 * (MAX_RADIUS - r))
+					if (worldObj.rand.nextFloat() < 0.3 * (this.getRadius() - r))
 					{
 						EFeiBlock entity = new EFeiBlock(worldObj, targetPosition, blockID, metadata, 0);
 						worldObj.spawnEntityInWorld(entity);
@@ -148,7 +148,7 @@ public class ExPiaoFu extends ZhaPin
 			}
 		}
 
-		int radius = MAX_RADIUS;
+		int radius = (int) this.getRadius();
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, 100, position.z + radius);
 		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
@@ -182,6 +182,18 @@ public class ExPiaoFu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', Block.tnt, 'E', Item.eyeOfEnder }), this.getMingZi(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', Block.tnt, 'E', Item.eyeOfEnder }), this.getName(), ZhuYao.CONFIGURATION, true);
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 15;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
 	}
 }

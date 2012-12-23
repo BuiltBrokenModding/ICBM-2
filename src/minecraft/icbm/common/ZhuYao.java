@@ -1,6 +1,5 @@
 package icbm.common;
 
-import icbm.api.ICBM;
 import icbm.common.cart.EChe;
 import icbm.common.daodan.DaoDan;
 import icbm.common.daodan.EDaoDan;
@@ -356,10 +355,6 @@ public class ZhuYao
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		// Set ICBM API Variables
-		ICBM.blockExplosive = this.bZhaDan;
-		ICBM.explosionManager = ZhaPin.class;
-
 		UpdateNotifier.INSTANCE.checkUpdate(MING_ZI, BAN_BEN, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
 
 		this.proxy.preInit();
@@ -384,7 +379,10 @@ public class ZhuYao
 			}
 		}
 
-		// -- Recipes
+		/**
+		 * Add all Recipes
+		 */
+
 		// Spikes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 5), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', "ingotBronze" }));
 
@@ -468,18 +466,18 @@ public class ZhuYao
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZhaDan, 1, i) }), ZhaPin.list[i].getMingZi() + " Missile", CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZhaDan, 1, i) }), ZhaPin.list[i].getName() + " Missile", CONFIGURATION, true);
 
 			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYao.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getMingZi() + " Grenade", CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYao.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getName() + " Grenade", CONFIGURATION, true);
 			}
 
 			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYao.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getMingZi() + " Minecart", CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYao.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getName() + " Minecart", CONFIGURATION, true);
 			}
 		}
 
