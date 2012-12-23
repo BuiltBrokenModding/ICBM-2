@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.core.implement.IItemElectric;
+import universalelectricity.prefab.implement.ISneakUseWrench;
 import universalelectricity.prefab.implement.IToolConfigurator;
 
 /**
@@ -20,7 +21,7 @@ import universalelectricity.prefab.implement.IToolConfigurator;
  * block if you do not want to. It's optional but it comes with some useful functions that will make
  * coding easier for you.
  */
-public abstract class BlockMachine extends BlockContainer
+public abstract class BlockMachine extends BlockContainer implements ISneakUseWrench
 {
 	public BlockMachine(int id, Material material)
 	{
@@ -89,14 +90,7 @@ public abstract class BlockMachine extends BlockContainer
 				world.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
 				((IToolConfigurator) par5EntityPlayer.inventory.getCurrentItem().getItem()).wrenchUsed(par5EntityPlayer, x, y, z);
 
-				if (par5EntityPlayer.isSneaking())
-				{
-					return this.onSneakUseWrench(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
-				}
-				else
-				{
-					return this.onUseWrench(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
-				}
+				return this.onUseWrench(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
 			}
 			else if (par5EntityPlayer.inventory.getCurrentItem().getItem() instanceof IItemElectric)
 			{
@@ -124,11 +118,7 @@ public abstract class BlockMachine extends BlockContainer
 		return false;
 	}
 
-	/**
-	 * Called when the machine is right clicked by the player while sneaking (shift clicking)
-	 * 
-	 * @return True if something happens
-	 */
+	@Deprecated
 	public boolean onSneakMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		return false;
@@ -159,6 +149,7 @@ public abstract class BlockMachine extends BlockContainer
 	 * 
 	 * @return True if some happens
 	 */
+	@Override
 	public boolean onSneakUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		return this.onUseWrench(par1World, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);

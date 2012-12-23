@@ -37,7 +37,8 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket("BasicComponents", this, this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z);
+		if (this.mainBlockPosition != null) { return PacketManager.getPacket("BasicComponents", this, this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z); }
+		return null;
 	}
 
 	public void onBlockRemoval()

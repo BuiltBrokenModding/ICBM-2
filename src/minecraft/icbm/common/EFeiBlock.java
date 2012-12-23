@@ -149,7 +149,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 			{
 				if (!(Block.blocksList[this.blockID] instanceof BlockFluid) && (this.motionX > 2 || this.motionY > 2 || this.motionZ > 2))
 				{
-					int damage = (int) (1.2 * ((this.motionX + this.motionY + this.motionZ)));
+					int damage = (int) (1.2 * (Math.abs(this.motionX) + Math.abs(this.motionY) + Math.abs(this.motionZ)));
 					((EntityLiving) par1Entity).attackEntityFrom(DamageSource.fallingBlock, damage);
 				}
 			}
