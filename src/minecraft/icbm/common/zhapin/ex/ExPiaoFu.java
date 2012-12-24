@@ -107,7 +107,7 @@ public class ExPiaoFu extends ZhaPin
 
 		if (!worldObj.isRemote)
 		{
-			int blocksToTake = 10;
+			int blocksToTake = 20;
 
 			for (Object obj : source.dataList)
 			{
@@ -140,7 +140,7 @@ public class ExPiaoFu extends ZhaPin
 						worldObj.spawnEntityInWorld(entity);
 						entity.yawChange = 50 * worldObj.rand.nextFloat();
 						entity.pitchChange = 100 * worldObj.rand.nextFloat();
-						entity.motionY += Math.max(0.2 * worldObj.rand.nextFloat(), 0.1);
+						entity.motionY += Math.max(0.15 * worldObj.rand.nextFloat(), 0.1);
 					}
 
 					blocksToTake--;

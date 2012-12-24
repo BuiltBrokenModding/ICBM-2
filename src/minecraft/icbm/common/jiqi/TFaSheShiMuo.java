@@ -292,7 +292,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			case 1:
 				return 240;
 			case 2:
-				return 580;
+				return 480;
 		}
 	}
 
@@ -338,12 +338,12 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		switch (this.getTier())
 		{
 			case 0:
-				return 100000;
+				return 400000;
 			case 1:
-				return 150000;
+				return 60000;
 		}
 
-		return 200000;
+		return 800000;
 	}
 
 	@Override

@@ -112,23 +112,26 @@ public class ItYaoKong extends ItemElectric
 
 					if (tile != null)
 					{
-						int explosiveID = ((TZhaDan) tile).haoMa;
+						if (tile instanceof TZhaDan)
+						{
+							int explosiveID = ((TZhaDan) tile).haoMa;
 
-						if (blockID == ZhuYao.bJiQi.blockID)
-						{
-							return itemStack;
-						}
-						else if (this.nengZha(tileEntity))
-						{
-							// Check for electricity
-							if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+							if (blockID == ZhuYao.bJiQi.blockID)
 							{
-								PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte) 2));
 								return itemStack;
 							}
-							else
+							else if (this.nengZha(tileEntity))
 							{
-								entityPlayer.addChatMessage("Remote out of electricity!");
+								// Check for electricity
+								if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+								{
+									PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte) 2));
+									return itemStack;
+								}
+								else
+								{
+									entityPlayer.addChatMessage("Remote out of electricity!");
+								}
 							}
 						}
 					}

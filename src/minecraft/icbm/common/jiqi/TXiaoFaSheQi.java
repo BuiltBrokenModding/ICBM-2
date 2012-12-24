@@ -471,7 +471,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 100000;
+		return 400000;
 	}
 
 	@Override

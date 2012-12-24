@@ -1,5 +1,6 @@
 package icbm.common.zhapin.ex;
 
+import cpw.mods.fml.common.FMLLog;
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.EZhaPin;
 import icbm.common.zhapin.ZhaPin;
@@ -97,67 +98,74 @@ public class ExTaiYang2 extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
 	{
-		if (!worldObj.isRemote)
+		try
 		{
-			EZhaPin source = (EZhaPin) explosionSource;
-
-			int radius = callCount;
-
-			for (Object obj : source.dataList)
+			if (!worldObj.isRemote)
 			{
-				Vector3 targetPosition = (Vector3) obj;
+				EZhaPin source = (EZhaPin) explosionSource;
 
-				double distance = Vector3.distance(targetPosition, position);
+				int radius = callCount;
 
-				double distanceFromCenter = position.distanceTo(targetPosition);
-
-				if (distanceFromCenter > radius || distanceFromCenter < radius - 2)
-					continue;
-
-				double chance = radius - (Math.random() * distanceFromCenter);
-
-				// System.out.println("Distance: "+distance+", "+chance);
-				if (chance > distanceFromCenter * 0.55)
+				for (Object obj : source.dataList)
 				{
-					// Check to see if the block
-					// is an air block and there
-					// is a block below it to
-					// support the fire
-					int blockID = worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z);
+					Vector3 targetPosition = (Vector3) obj;
 
-					if (blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID || blockID == Block.ice.blockID)
-					{
-						worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0);
-					}
+					double distance = Vector3.distance(targetPosition, position);
 
-					if ((blockID == 0 || blockID == Block.snow.blockID) && worldObj.getBlockMaterial((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z).isSolid())
+					double distanceFromCenter = position.distanceTo(targetPosition);
+
+					if (distanceFromCenter > radius || distanceFromCenter < radius - 2)
+						continue;
+
+					double chance = radius - (Math.random() * distanceFromCenter);
+
+					// System.out.println("Distance: "+distance+", "+chance);
+					if (chance > distanceFromCenter * 0.55)
 					{
-						if (worldObj.rand.nextFloat() > 0.999)
+						// Check to see if the block
+						// is an air block and there
+						// is a block below it to
+						// support the fire
+						int blockID = worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z);
+
+						if (blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID || blockID == Block.ice.blockID)
 						{
-							worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.lavaMoving.blockID);
+							worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0);
 						}
-						else
+
+						if ((blockID == 0 || blockID == Block.snow.blockID) && worldObj.getBlockMaterial((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z).isSolid())
 						{
-							worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID);
-
-							blockID = worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z);
-
-							if (this.createNetherrack && (blockID == Block.stone.blockID || blockID == Block.grass.blockID || blockID == Block.dirt.blockID) && worldObj.rand.nextFloat() > 0.75)
+							if (worldObj.rand.nextFloat() > 0.999)
 							{
-								worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z, Block.netherrack.blockID);
+								worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.lavaMoving.blockID);
+							}
+							else
+							{
+								worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID);
+
+								blockID = worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z);
+
+								if (this.createNetherrack && (blockID == Block.stone.blockID || blockID == Block.grass.blockID || blockID == Block.dirt.blockID) && worldObj.rand.nextFloat() > 0.75)
+								{
+									worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z, Block.netherrack.blockID);
+								}
 							}
 						}
-					}
-					else if (blockID == Block.ice.blockID)
-					{
-						worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0);
+						else if (blockID == Block.ice.blockID)
+						{
+							worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0);
+						}
 					}
 				}
 			}
+
+			worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, "icbm.explosionfire", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
 		}
-
-		worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, "icbm.explosionfire", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
-
+		catch (Exception e)
+		{
+			FMLLog.severe("Conflagration explosive failed!");
+			e.printStackTrace();
+		}
 		if (callCount > this.getRadius()) { return false; }
 		return true;
 	}

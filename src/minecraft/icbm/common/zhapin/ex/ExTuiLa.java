@@ -160,19 +160,21 @@ public class ExTuiLa extends ZhaPin
 
 				if (this.getID() == ZhaPin.la.getID())
 				{
-					double modifier = var13 * 5;
+					double modifier = var13 * 4;
 
 					entity.motionX -= xDifference * modifier;
 					entity.motionY -= yDifference * modifier;
 					entity.motionZ -= zDifference * modifier;
+					entity.isAirBorne = true;
 				}
 				else
 				{
-					double modifier = (1.0D - var13) * 3.5;
+					double modifier = (1.0D - var13) * 3;
 
 					entity.motionX += xDifference * modifier;
 					entity.motionY += yDifference * modifier;
 					entity.motionZ += zDifference * modifier;
+					entity.isAirBorne = true;
 				}
 			}
 		}
