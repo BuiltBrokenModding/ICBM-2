@@ -392,7 +392,7 @@ public class ZhuYao
 		GameRegistry.addRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', itLiu, 'S', bZha });
 
 		// Rocket Launcher
-		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB", 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal()), 'G', Block.glass, 'S', "ingotSteel" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 9), 'B', Block.stoneButton, 'S', "ingotSteel" }));
 
 		// Camouflage
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 5), new Object[] { "WGW", "GCG", "WGW", 'C', "basicCircuit", 'G', Block.glass, 'W', Block.cloth }));

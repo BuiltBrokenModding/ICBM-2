@@ -624,7 +624,17 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	{
 		if (!this.zhengZaiBaoZha && !this.worldObj.isRemote)
 		{
-			EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itDaoDan, 1, this.haoMa + 1));
+			EntityItem entityItem;
+
+			if (this.haoMa < 100)
+			{
+				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itDaoDan, 1, this.haoMa));
+			}
+			else
+			{
+				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itTeBieDaoDan, 1, this.haoMa - 100));
+			}
+
 			float var13 = 0.05F;
 			Random random = new Random();
 			entityItem.motionX = ((float) random.nextGaussian() * var13);

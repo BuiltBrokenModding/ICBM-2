@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RItH implements IItemRenderer
+public class RItFaSheQi implements IItemRenderer
 {
 	public static final MShouFaSheQi MODEL = new MShouFaSheQi();
 
@@ -35,10 +35,18 @@ public class RItH implements IItemRenderer
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "RocketLauncher.png"));
 
+		GL11.glTranslatef(0, 1.5f, 0);
+		GL11.glRotatef(180, 0, 0, 1);
+
 		if (type == ItemRenderType.INVENTORY)
 		{
 			GL11.glScalef(0.8f, 1f, 0.8f);
-			GL11.glTranslatef(0, -1.2f, 0);
+			GL11.glTranslatef(0, 0.3f, 0);
+		}
+		else if (type == ItemRenderType.EQUIPPED)
+		{
+			GL11.glTranslatef(0.5f, -1f, 0.5f);
+			GL11.glRotatef(50, 0, 1, 0);
 		}
 
 		MODEL.render(0.0625F);
