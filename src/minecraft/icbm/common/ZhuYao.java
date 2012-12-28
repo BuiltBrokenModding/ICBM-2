@@ -13,6 +13,7 @@ import icbm.common.dianqi.ItLeiDaQiang;
 import icbm.common.dianqi.ItLeiSheZhiBiao;
 import icbm.common.dianqi.ItYaoKong;
 import icbm.common.jiqi.BJiQi;
+import icbm.common.jiqi.BJiQi.JiQi;
 import icbm.common.jiqi.BYinGanQi;
 import icbm.common.jiqi.EFake;
 import icbm.common.jiqi.IBJiQi;
@@ -389,6 +390,9 @@ public class ZhuYao
 		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', itDu, 'S', bZha });
 
 		GameRegistry.addRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', itLiu, 'S', bZha });
+
+		// Rocket Launcher
+		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB", 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal()), 'G', Block.glass, 'S', "ingotSteel" }));
 
 		// Camouflage
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 5), new Object[] { "WGW", "GCG", "WGW", 'C', "basicCircuit", 'G', Block.glass, 'W', Block.cloth }));

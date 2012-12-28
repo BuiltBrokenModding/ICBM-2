@@ -1,6 +1,5 @@
 package icbm.common.zhapin.ex;
 
-import cpw.mods.fml.common.FMLLog;
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.EZhaPin;
 import icbm.common.zhapin.ZhaPin;
@@ -10,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import universalelectricity.core.vector.Vector3;
+import cpw.mods.fml.common.FMLLog;
 
 public class ExTaiYang2 extends ZhaPin
 {
