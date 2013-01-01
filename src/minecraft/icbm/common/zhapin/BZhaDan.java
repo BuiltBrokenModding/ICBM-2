@@ -260,7 +260,7 @@ public class BZhaDan extends BlockContainer
 
 		if (par5EntityPlayer.getCurrentEquippedItem() != null)
 		{
-			if (par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
+			if (par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
 			{
 				int explosiveID = ((TZhaDan) tileEntity).haoMa;
 				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);

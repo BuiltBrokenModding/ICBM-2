@@ -91,7 +91,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String BAN_BEN = "1.0.0";
+	public static final String BAN_BEN = "1.0.1";
 
 	public static final String MING_ZI = "ICBM";
 
@@ -167,7 +167,7 @@ public class ZhuYao
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UniversalElectricity.register(this, 1, 2, 1, false);
+		UniversalElectricity.register(this, 1, 2, 2, false);
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 

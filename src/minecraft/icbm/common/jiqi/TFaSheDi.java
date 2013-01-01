@@ -258,7 +258,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	 * 
 	 * @param target - The target in which the missile will land in
 	 */
-	public void launchMissile(Vector3 target)
+	public void launchMissile(Vector3 target, int gaoDu)
 	{
 		// Apply inaccuracy
 		float inaccuracy;
@@ -283,7 +283,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		target.z += inaccuracy;
 
 		this.decrStackSize(0, 1);
-		this.eDaoDan.faShe(target);
+		this.eDaoDan.faShe(target, gaoDu);
 		this.eDaoDan = null;
 	}
 

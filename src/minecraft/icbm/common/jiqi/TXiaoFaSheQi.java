@@ -230,7 +230,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
 		{
-			if (this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex)
+			if (this.containingItems[0].itemID == ZhuYao.itDaoDan.itemID)
 			{
 				int missileId = this.containingItems[0].getItemDamage();
 
@@ -338,7 +338,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 			if (missile != null)
 			{
-				if (this.containingItems[0].itemID == ZhuYao.itDaoDan.shiftedIndex && missile.isCruise() && missile.getTier() <= 3)
+				if (this.containingItems[0].itemID == ZhuYao.itDaoDan.itemID && missile.isCruise() && missile.getTier() <= 3)
 				{
 					if (this.getJoules() >= this.getMaxJoules())
 					{
@@ -479,7 +479,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itDaoDan.shiftedIndex)
+			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itDaoDan.itemID)
 			{
 				if (DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()] != null)
 				{

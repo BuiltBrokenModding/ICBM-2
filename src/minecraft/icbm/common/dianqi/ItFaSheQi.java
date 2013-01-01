@@ -42,7 +42,7 @@ public class ItFaSheQi extends ItemElectric
 
 					if (inventoryStack != null)
 					{
-						if (inventoryStack.itemID == ZhuYao.itDaoDan.shiftedIndex)
+						if (inventoryStack.itemID == ZhuYao.itDaoDan.itemID)
 						{
 							int daoDanHaoMa = inventoryStack.getItemDamage();
 

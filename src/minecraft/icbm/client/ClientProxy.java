@@ -83,9 +83,9 @@ public class ClientProxy extends CommonProxy
 	{
 		super.init();
 
-		MinecraftForgeClient.registerItemRenderer(ZhuYao.itFaSheQi.shiftedIndex, new RItFaSheQi());
-		MinecraftForgeClient.registerItemRenderer(ZhuYao.itDaoDan.shiftedIndex, new RItDaoDan());
-		MinecraftForgeClient.registerItemRenderer(ZhuYao.itTeBieDaoDan.shiftedIndex, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(ZhuYao.itFaSheQi.itemID, new RItFaSheQi());
+		MinecraftForgeClient.registerItemRenderer(ZhuYao.itDaoDan.itemID, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(ZhuYao.itTeBieDaoDan.itemID, new RItDaoDan());
 
 		RenderingRegistry.registerBlockHandler(new RHZhaPin());
 		RenderingRegistry.registerBlockHandler(new RBYinXing());

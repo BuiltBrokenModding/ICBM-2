@@ -85,7 +85,7 @@ public class ItGenZongQi extends ItemElectric
 
 			if (player.inventory.getCurrentItem() != null)
 			{
-				if (player.inventory.getCurrentItem().itemID == this.shiftedIndex)
+				if (player.inventory.getCurrentItem().itemID == this.itemID)
 				{
 					Entity trackingEntity = ItGenZongQi.getTrackingEntity(par2World, par1ItemStack);
 

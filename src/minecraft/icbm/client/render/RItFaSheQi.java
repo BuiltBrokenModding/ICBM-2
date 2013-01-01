@@ -19,13 +19,13 @@ public class RItFaSheQi implements IItemRenderer
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)
 	{
-		return item.itemID == ZhuYao.itFaSheQi.shiftedIndex;
+		return item.itemID == ZhuYao.itFaSheQi.itemID;
 	}
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.itemID == ZhuYao.itFaSheQi.shiftedIndex;
+		return item.itemID == ZhuYao.itFaSheQi.itemID;
 	}
 
 	@Override

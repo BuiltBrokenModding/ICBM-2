@@ -198,11 +198,11 @@ public class BJiQi extends BlockMachine
 	{
 		if (par5EntityPlayer.inventory.getCurrentItem() != null)
 		{
-			if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiSheZhiBiao.shiftedIndex)
+			if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiSheZhiBiao.itemID)
 			{
 				return false;
 			}
-			else if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiDaQiang.shiftedIndex) { return false; }
+			else if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiDaQiang.itemID) { return false; }
 		}
 
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);

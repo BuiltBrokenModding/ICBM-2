@@ -98,7 +98,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 
 			if (this.mc.thePlayer.getCurrentEquippedItem() != null)
 			{
-				if (this.mc.thePlayer.getCurrentEquippedItem().itemID == ZhuYao.itGenZongQi.shiftedIndex)
+				if (this.mc.thePlayer.getCurrentEquippedItem().itemID == ZhuYao.itGenZongQi.itemID)
 				{
 					ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
 

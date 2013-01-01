@@ -173,7 +173,7 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	{
 		if (par1EntityPlayer.getCurrentEquippedItem() != null)
 		{
-			if (par1EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.shiftedIndex)
+			if (par1EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
 			{
 				this.setPrimed(true);
 				return true;

@@ -53,7 +53,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		Tessellator var4 = Tessellator.instance;
 
 		block.setBlockBoundsForItemRender();
-		renderer.updateCustomBlockBounds(block);
+		renderer.setRenderBoundsFromBlock(block);
 		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		var4.startDrawingQuads();
@@ -103,9 +103,13 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		}
 
 		return this.renderStandardBlockWithAmbientOcclusion(renderBlocks, par1Block, x, y, z, var6, var7, var8);
-		// return Minecraft.isAmbientOcclusionEnabled() && Block.lightValue[par1Block.blockID] == 0
-		// ? this.renderStandardBlockWithAmbientOcclusion(renderBlocks, par1Block, x, y, z, var6,
-		// var7, var8) : this.renderStandardBlockWithColorMultiplier(renderBlocks, par1Block, x, y,
+		// return Minecraft.isAmbientOcclusionEnabled() &&
+		// Block.lightValue[par1Block.blockID] == 0
+		// ? this.renderStandardBlockWithAmbientOcclusion(renderBlocks,
+		// par1Block, x, y, z, var6,
+		// var7, var8) :
+		// this.renderStandardBlockWithColorMultiplier(renderBlocks, par1Block,
+		// x, y,
 		// z, var6, var7, var8);
 	}
 
@@ -256,32 +260,32 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		int var24 = var19;
 		int var25 = var19;
 
-		if (renderBlocks.customMinY <= 0.0D)
+		if (renderBlocks.renderMinY <= 0.0D)
 		{
 			var21 = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y - 1, z);
 		}
 
-		if (renderBlocks.customMaxY >= 1.0D)
+		if (renderBlocks.renderMaxY >= 1.0D)
 		{
 			var24 = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y + 1, z);
 		}
 
-		if (renderBlocks.customMinX <= 0.0D)
+		if (renderBlocks.renderMinX <= 0.0D)
 		{
 			var20 = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y, z);
 		}
 
-		if (renderBlocks.customMaxX >= 1.0D)
+		if (renderBlocks.renderMaxX >= 1.0D)
 		{
 			var23 = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y, z);
 		}
 
-		if (renderBlocks.customMinZ <= 0.0D)
+		if (renderBlocks.renderMinZ <= 0.0D)
 		{
 			var22 = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z - 1);
 		}
 
-		if (renderBlocks.customMaxZ >= 1.0D)
+		if (renderBlocks.renderMaxZ >= 1.0D)
 		{
 			var25 = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z + 1);
 		}
@@ -323,7 +327,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		{
 			if (renderBlocks.aoType > 0)
 			{
-				if (renderBlocks.customMinY <= 0.0D)
+				if (renderBlocks.renderMinY <= 0.0D)
 				{
 					--y;
 				}
@@ -381,7 +385,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 					renderBlocks.aoBrightnessXYZPNP = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y, z + 1);
 				}
 
-				if (renderBlocks.customMinY <= 0.0D)
+				if (renderBlocks.renderMinY <= 0.0D)
 				{
 					++y;
 				}
@@ -427,7 +431,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		{
 			if (renderBlocks.aoType > 0)
 			{
-				if (renderBlocks.customMaxY >= 1.0D)
+				if (renderBlocks.renderMaxY >= 1.0D)
 				{
 					++y;
 				}
@@ -485,7 +489,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 					renderBlocks.aoBrightnessXYZPPP = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y, z + 1);
 				}
 
-				if (renderBlocks.customMaxY >= 1.0D)
+				if (renderBlocks.renderMaxY >= 1.0D)
 				{
 					--y;
 				}
@@ -533,7 +537,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		{
 			if (renderBlocks.aoType > 0)
 			{
-				if (renderBlocks.customMinZ <= 0.0D)
+				if (renderBlocks.renderMinZ <= 0.0D)
 				{
 					--z;
 				}
@@ -591,7 +595,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 					renderBlocks.aoBrightnessXYZPPN = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y + 1, z);
 				}
 
-				if (renderBlocks.customMinZ <= 0.0D)
+				if (renderBlocks.renderMinZ <= 0.0D)
 				{
 					++z;
 				}
@@ -639,7 +643,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		{
 			if (renderBlocks.aoType > 0)
 			{
-				if (renderBlocks.customMaxZ >= 1.0D)
+				if (renderBlocks.renderMaxZ >= 1.0D)
 				{
 					++z;
 				}
@@ -697,7 +701,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 					renderBlocks.aoBrightnessXYZPPP = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y + 1, z);
 				}
 
-				if (renderBlocks.customMaxZ >= 1.0D)
+				if (renderBlocks.renderMaxZ >= 1.0D)
 				{
 					--z;
 				}
@@ -762,7 +766,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		{
 			if (renderBlocks.aoType > 0)
 			{
-				if (renderBlocks.customMinX <= 0.0D)
+				if (renderBlocks.renderMinX <= 0.0D)
 				{
 					--x;
 				}
@@ -820,7 +824,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 					renderBlocks.aoBrightnessXYZNPP = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y + 1, z + 1);
 				}
 
-				if (renderBlocks.customMinX <= 0.0D)
+				if (renderBlocks.renderMinX <= 0.0D)
 				{
 					++x;
 				}
@@ -885,7 +889,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		{
 			if (renderBlocks.aoType > 0)
 			{
-				if (renderBlocks.customMaxX >= 1.0D)
+				if (renderBlocks.renderMaxX >= 1.0D)
 				{
 					++x;
 				}
@@ -943,7 +947,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 					renderBlocks.aoBrightnessXYZPPP = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y + 1, z + 1);
 				}
 
-				if (renderBlocks.customMaxX >= 1.0D)
+				if (renderBlocks.renderMaxX >= 1.0D)
 				{
 					--x;
 				}
@@ -1007,100 +1011,6 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 		renderBlocks.enableAO = false;
 		return var8;
 	}
-
-	/*
-	 * public boolean renderStandardBlockWithColorMultiplier(RenderBlocks renderBlocks, Block
-	 * par1Block, int par2, int par3, int par4, float par5, float par6, float par7) {
-	 * renderBlocks.enableAO = false; Tessellator var8 = Tessellator.instance; boolean var9 = false;
-	 * float var10 = 0.5F; float var11 = 1.0F; float var12 = 0.8F; float var13 = 0.6F; float var14 =
-	 * var11 * par5; float var15 = var11 * par6; float var16 = var11 * par7; float var17 = var10;
-	 * float var18 = var12; float var19 = var13; float var20 = var10; float var21 = var12; float
-	 * var22 = var13; float var23 = var10; float var24 = var12; float var25 = var13;
-	 * 
-	 * if (par1Block != Block.grass) { var17 = var10 * par5; var18 = var12 * par5; var19 = var13 *
-	 * par5; var20 = var10 * par6; var21 = var12 * par6; var22 = var13 * par6; var23 = var10 * par7;
-	 * var24 = var12 * par7; var25 = var13 * par7; }
-	 * 
-	 * int var26 = par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3, par4);
-	 * 
-	 * if (renderBlocks.renderAllFaces || par1Block.shouldSideBeRendered(renderBlocks.blockAccess,
-	 * par2, par3 - 1, par4, 0)) { var8.setBrightness(renderBlocks.customMinY > 0.0D ? var26 :
-	 * par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3 - 1, par4));
-	 * var8.setColorOpaque_F(var17, var20, var23); this.renderBottomFace(renderBlocks, par1Block,
-	 * (double) par2, (double) par3, (double) par4,
-	 * par1Block.getBlockTexture(renderBlocks.blockAccess, par2, par3, par4, 0)); var9 = true; }
-	 * 
-	 * if (renderBlocks.renderAllFaces || par1Block.shouldSideBeRendered(renderBlocks.blockAccess,
-	 * par2, par3 + 1, par4, 1)) { var8.setBrightness(renderBlocks.customMaxY < 1.0D ? var26 :
-	 * par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3 + 1, par4));
-	 * var8.setColorOpaque_F(var14, var15, var16); this.renderTopFace(renderBlocks, par1Block,
-	 * (double) par2, (double) par3, (double) par4,
-	 * par1Block.getBlockTexture(renderBlocks.blockAccess, par2, par3, par4, 1)); var9 = true; }
-	 * 
-	 * int var28;
-	 * 
-	 * if (renderBlocks.renderAllFaces || par1Block.shouldSideBeRendered(renderBlocks.blockAccess,
-	 * par2, par3, par4 - 1, 2)) { var8.setBrightness(renderBlocks.customMinZ > 0.0D ? var26 :
-	 * par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3, par4 - 1));
-	 * var8.setColorOpaque_F(var18, var21, var24); var28 =
-	 * par1Block.getBlockTexture(renderBlocks.blockAccess, par2, par3, par4, 2);
-	 * this.renderEastFace(renderBlocks, par1Block, (double) par2, (double) par3, (double) par4,
-	 * var28);
-	 * 
-	 * if (Tessellator.instance.defaultTexture && renderBlocks.fancyGrass && var28 == 3 &&
-	 * renderBlocks.overrideBlockTexture < 0) { var8.setColorOpaque_F(var18 * par5, var21 * par6,
-	 * var24 * par7); this.renderEastFace(renderBlocks, par1Block, (double) par2, (double) par3,
-	 * (double) par4, 38); }
-	 * 
-	 * var9 = true; }
-	 * 
-	 * if (renderBlocks.renderAllFaces || par1Block.shouldSideBeRendered(renderBlocks.blockAccess,
-	 * par2, par3, par4 + 1, 3)) { var8.setBrightness(renderBlocks.customMaxZ < 1.0D ? var26 :
-	 * par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3, par4 + 1));
-	 * var8.setColorOpaque_F(var18, var21, var24); var28 =
-	 * par1Block.getBlockTexture(renderBlocks.blockAccess, par2, par3, par4, 3);
-	 * this.renderWestFace(renderBlocks, par1Block, (double) par2, (double) par3, (double) par4,
-	 * var28);
-	 * 
-	 * if (Tessellator.instance.defaultTexture && renderBlocks.fancyGrass && var28 == 3 &&
-	 * renderBlocks.overrideBlockTexture < 0) { var8.setColorOpaque_F(var18 * par5, var21 * par6,
-	 * var24 * par7); this.renderWestFace(renderBlocks, par1Block, (double) par2, (double) par3,
-	 * (double) par4, 38); }
-	 * 
-	 * var9 = true; }
-	 * 
-	 * if (renderBlocks.renderAllFaces || par1Block.shouldSideBeRendered(renderBlocks.blockAccess,
-	 * par2 - 1, par3, par4, 4)) { var8.setBrightness(renderBlocks.customMinX > 0.0D ? var26 :
-	 * par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2 - 1, par3, par4));
-	 * var8.setColorOpaque_F(var19, var22, var25); var28 =
-	 * par1Block.getBlockTexture(renderBlocks.blockAccess, par2, par3, par4, 4);
-	 * this.renderNorthFace(renderBlocks, par1Block, (double) par2, (double) par3, (double) par4,
-	 * var28);
-	 * 
-	 * if (Tessellator.instance.defaultTexture && renderBlocks.fancyGrass && var28 == 3 &&
-	 * renderBlocks.overrideBlockTexture < 0) { var8.setColorOpaque_F(var19 * par5, var22 * par6,
-	 * var25 * par7); this.renderNorthFace(renderBlocks, par1Block, (double) par2, (double) par3,
-	 * (double) par4, 38); }
-	 * 
-	 * var9 = true; }
-	 * 
-	 * if (renderBlocks.renderAllFaces || par1Block.shouldSideBeRendered(renderBlocks.blockAccess,
-	 * par2 + 1, par3, par4, 5)) { var8.setBrightness(renderBlocks.customMaxX < 1.0D ? var26 :
-	 * par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2 + 1, par3, par4));
-	 * var8.setColorOpaque_F(var19, var22, var25); var28 =
-	 * par1Block.getBlockTexture(renderBlocks.blockAccess, par2, par3, par4, 5);
-	 * this.renderSouthFace(renderBlocks, par1Block, (double) par2, (double) par3, (double) par4,
-	 * var28);
-	 * 
-	 * if (Tessellator.instance.defaultTexture && renderBlocks.fancyGrass && var28 == 3 &&
-	 * renderBlocks.overrideBlockTexture < 0) { var8.setColorOpaque_F(var19 * par5, var22 * par6,
-	 * var25 * par7); this.renderSouthFace(renderBlocks, par1Block, (double) par2, (double) par3,
-	 * (double) par4, 38); }
-	 * 
-	 * var9 = true; }
-	 * 
-	 * return var9; }
-	 */
 
 	@Override
 	public boolean shouldRender3DInInventory()

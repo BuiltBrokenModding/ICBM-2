@@ -138,3 +138,5 @@ x ICBM_v1.0.0.107.jar ICBM_v1.0.0.107_api.zip
 @ ICBM_v1.0.0.116.jar ICBM_v1.0.0.116_api.zip
 @ ICBM_v1.0.0.117.jar ICBM_v1.0.0.117_api.zip
 * ICBM_v1.0.0.118.jar ICBM_v1.0.0.118_api.zip
+Minecraft 1.4.6
+* ICBM_v1.0.1.119.jar ICBM_v1.0.1.119_api.zip

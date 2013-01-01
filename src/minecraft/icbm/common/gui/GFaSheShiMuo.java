@@ -15,10 +15,11 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class GFaSheShiMuo extends ICBMGui
 {
 	private TFaSheShiMuo tileEntity;
-	private GuiTextField textFieldX;
-	private GuiTextField textFieldZ;
-	private GuiTextField textFieldY;
-	private GuiTextField textFieldFreq;
+	private GuiTextField tFX;
+	private GuiTextField tFY;
+	private GuiTextField tFZ;
+	private GuiTextField tFFreq;
+	private GuiTextField tFGaoDu;
 
 	private int containerWidth;
 	private int containerHeight;
@@ -35,28 +36,32 @@ public class GFaSheShiMuo extends ICBMGui
 	public void initGui()
 	{
 		super.initGui();
-		this.textFieldX = new GuiTextField(fontRenderer, 110, 37, 45, 12);
-		this.textFieldZ = new GuiTextField(fontRenderer, 110, 52, 45, 12);
-		this.textFieldY = new GuiTextField(fontRenderer, 110, 82, 45, 12);
-		this.textFieldFreq = new GuiTextField(fontRenderer, 110, 97, 45, 12);
-		this.textFieldFreq.setMaxStringLength(4);
-		this.textFieldX.setMaxStringLength(6);
-		this.textFieldZ.setMaxStringLength(6);
-		this.textFieldY.setMaxStringLength(2);
+		this.tFX = new GuiTextField(fontRenderer, 110, 37, 45, 12);
+		this.tFZ = new GuiTextField(fontRenderer, 110, 52, 45, 12);
+		this.tFY = new GuiTextField(fontRenderer, 110, 67, 45, 12);
+		this.tFGaoDu = new GuiTextField(fontRenderer, 110, 82, 45, 12);
+		this.tFFreq = new GuiTextField(fontRenderer, 110, 97, 45, 12);
 
-		this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
+		this.tFFreq.setMaxStringLength(4);
+		this.tFX.setMaxStringLength(6);
+		this.tFZ.setMaxStringLength(6);
+		this.tFY.setMaxStringLength(2);
+		this.tFGaoDu.setMaxStringLength(2);
+
+		this.tFFreq.setText(this.tileEntity.getFrequency() + "");
+		this.tFGaoDu.setText(this.tileEntity.gaoDu + "");
 
 		if (this.tileEntity.getTarget() == null)
 		{
-			this.textFieldX.setText(Math.round(this.tileEntity.xCoord) + "");
-			this.textFieldZ.setText(Math.round(this.tileEntity.zCoord) + "");
-			this.textFieldY.setText("0");
+			this.tFX.setText(Math.round(this.tileEntity.xCoord) + "");
+			this.tFZ.setText(Math.round(this.tileEntity.zCoord) + "");
+			this.tFY.setText("0");
 		}
 		else
 		{
-			this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-			this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-			this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+			this.tFX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+			this.tFZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+			this.tFY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 		}
 
 		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) -1, true));
@@ -76,22 +81,23 @@ public class GFaSheShiMuo extends ICBMGui
 	public void keyTyped(char par1, int par2)
 	{
 		super.keyTyped(par1, par2);
-		this.textFieldX.textboxKeyTyped(par1, par2);
-		this.textFieldZ.textboxKeyTyped(par1, par2);
+		this.tFX.textboxKeyTyped(par1, par2);
+		this.tFZ.textboxKeyTyped(par1, par2);
 
 		if (tileEntity.getTier() >= 1)
 		{
-			this.textFieldY.textboxKeyTyped(par1, par2);
+			this.tFY.textboxKeyTyped(par1, par2);
+			this.tFGaoDu.textboxKeyTyped(par1, par2);
 
 			if (tileEntity.getTier() > 1)
 			{
-				this.textFieldFreq.textboxKeyTyped(par1, par2);
+				this.tFFreq.textboxKeyTyped(par1, par2);
 			}
 		}
 
 		try
 		{
-			Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Math.max(Integer.parseInt(this.textFieldY.getText()), 0), Integer.parseInt(this.textFieldZ.getText()));
+			Vector3 newTarget = new Vector3(Integer.parseInt(this.tFX.getText()), Math.max(Integer.parseInt(this.tFY.getText()), 0), Integer.parseInt(this.tFZ.getText()));
 
 			this.tileEntity.setTarget(newTarget);
 			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
@@ -103,10 +109,22 @@ public class GFaSheShiMuo extends ICBMGui
 
 		try
 		{
-			short newFrequency = (short) Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
+			short newFrequency = (short) Math.max(Short.parseShort(this.tFFreq.getText()), 0);
 
 			this.tileEntity.setFrequency(newFrequency);
 			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 1, this.tileEntity.getFrequency()));
+		}
+		catch (NumberFormatException e)
+		{
+
+		}
+
+		try
+		{
+			short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.tFGaoDu.getText()), 99), 3);
+
+			this.tileEntity.gaoDu = newGaoDu;
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.gaoDu));
 		}
 		catch (NumberFormatException e)
 		{
@@ -121,16 +139,17 @@ public class GFaSheShiMuo extends ICBMGui
 	public void mouseClicked(int par1, int par2, int par3)
 	{
 		super.mouseClicked(par1, par2, par3);
-		this.textFieldX.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
-		this.textFieldZ.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+		this.tFX.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+		this.tFZ.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
 
 		if (tileEntity.getTier() >= 1)
 		{
-			this.textFieldY.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+			this.tFY.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+			this.tFGaoDu.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
 
 			if (tileEntity.getTier() > 1)
 			{
-				this.textFieldFreq.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+				this.tFFreq.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
 			}
 		}
 
@@ -142,20 +161,22 @@ public class GFaSheShiMuo extends ICBMGui
 	@Override
 	public void drawForegroundLayer()
 	{
-		this.textFieldX.drawTextBox();
-		this.textFieldZ.drawTextBox();
+		this.tFX.drawTextBox();
+		this.tFZ.drawTextBox();
 
 		// Draw the air detonation GUI
 		if (tileEntity.getTier() >= 1)
 		{
-			this.textFieldY.drawTextBox();
-			this.fontRenderer.drawString("Air Detonation", 12, 70, 4210752);
-			this.fontRenderer.drawString("Height:", 12, 85, 4210752);
+			this.tFY.drawTextBox();
+			this.fontRenderer.drawString("Detonation Height:", 12, 68, 4210752);
+
+			this.tFGaoDu.drawTextBox();
+			this.fontRenderer.drawString("Lock Height:", 12, 83, 4210752);
 
 			if (tileEntity.getTier() > 1)
 			{
-				this.textFieldFreq.drawTextBox();
-				this.fontRenderer.drawString("Frequency:", 12, 100, 4210752);
+				this.tFFreq.drawTextBox();
+				this.fontRenderer.drawString("Frequency:", 12, 98, 4210752);
 			}
 		}
 
@@ -178,8 +199,7 @@ public class GFaSheShiMuo extends ICBMGui
 
 		this.fontRenderer.drawString("Inaccuracy: " + inaccuracy + " blocks", 12, 113, 4210752);
 
-		// Shows the status of the missile
-		// launcher
+		// Shows the status of the missile launcher
 		this.fontRenderer.drawString("Status: " + this.tileEntity.getStatus(), 12, 125, 4210752);
 		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 12, 137, 4210752);
 		this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 12, 150, 4210752);
@@ -201,14 +221,17 @@ public class GFaSheShiMuo extends ICBMGui
 	{
 		super.updateScreen();
 
-		if (!this.textFieldX.isFocused())
-			this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-		if (!this.textFieldZ.isFocused())
-			this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-		if (!this.textFieldY.isFocused())
-			this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+		if (!this.tFX.isFocused())
+			this.tFX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+		if (!this.tFZ.isFocused())
+			this.tFZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+		if (!this.tFY.isFocused())
+			this.tFY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 
-		if (!this.textFieldFreq.isFocused())
-			this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
+		if (!this.tFGaoDu.isFocused())
+			this.tFGaoDu.setText(this.tileEntity.gaoDu + "");
+
+		if (!this.tFFreq.isFocused())
+			this.tFFreq.setText(this.tileEntity.getFrequency() + "");
 	}
 }

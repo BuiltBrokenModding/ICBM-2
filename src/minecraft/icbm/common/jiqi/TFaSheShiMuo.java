@@ -33,7 +33,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	private boolean isPowered = false;
 
 	// The rotation of this missile component
-	private byte orientation = 3;
+	private byte fangXiang = 3;
 
 	// The tier of this screen
 	private int tier = 0;
@@ -41,6 +41,8 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	// The missile launcher base in which this
 	// screen is connected with
 	public TFaSheDi connectedBase = null;
+
+	public short gaoDu = 3;
 
 	private int yongZhe = 0;
 
@@ -69,7 +71,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 						if (tileEntity instanceof TFaSheDi)
 						{
 							this.connectedBase = (TFaSheDi) tileEntity;
-							this.orientation = i;
+							this.fangXiang = i;
 						}
 					}
 				}
@@ -108,7 +110,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.orientation, this.tier, this.getFrequency());
+		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
 	}
 
 	@Override
@@ -144,9 +146,10 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			}
 			else if (ID == 0)
 			{
-				this.orientation = dataStream.readByte();
+				this.fangXiang = dataStream.readByte();
 				this.tier = dataStream.readInt();
 				this.setFrequency(dataStream.readShort());
+				this.gaoDu = dataStream.readShort();
 			}
 			else if (!this.worldObj.isRemote)
 			{
@@ -162,6 +165,10 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 					{
 						this.muBiao.y = 0;
 					}
+				}
+				else if (ID == 3)
+				{
+					this.gaoDu = (short) Math.max(Math.min(dataStream.readShort(), 99), 3);
 				}
 			}
 			else if (ID == 3)
@@ -207,7 +214,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		if (this.canLaunch())
 		{
 			this.setJoules(0);
-			this.connectedBase.launchMissile(this.muBiao.clone());
+			this.connectedBase.launchMissile(this.muBiao.clone(), this.gaoDu);
 		}
 	}
 
@@ -267,7 +274,8 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		super.readFromNBT(par1NBTTagCompound);
 
 		this.tier = par1NBTTagCompound.getInteger("tier");
-		this.orientation = par1NBTTagCompound.getByte("facingDirection");
+		this.fangXiang = par1NBTTagCompound.getByte("facingDirection");
+		this.gaoDu = par1NBTTagCompound.getShort("gaoDu");
 	}
 
 	/**
@@ -279,7 +287,8 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		super.writeToNBT(par1NBTTagCompound);
 
 		par1NBTTagCompound.setInteger("tier", this.tier);
-		par1NBTTagCompound.setByte("facingDirection", this.orientation);
+		par1NBTTagCompound.setByte("facingDirection", this.fangXiang);
+		par1NBTTagCompound.setShort("gaoDu", this.gaoDu);
 	}
 
 	@Override
@@ -323,13 +332,13 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public ForgeDirection getDirection()
 	{
-		return ForgeDirection.getOrientation(this.orientation);
+		return ForgeDirection.getOrientation(this.fangXiang);
 	}
 
 	@Override
 	public void setDirection(ForgeDirection facingDirection)
 	{
-		this.orientation = (byte) facingDirection.ordinal();
+		this.fangXiang = (byte) facingDirection.ordinal();
 	}
 
 	@Override

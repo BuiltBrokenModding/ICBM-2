@@ -26,7 +26,7 @@ public class SDaoDan extends Slot
 	{
 		if (par1ItemStack.getItem() instanceof ItDaoDan)
 		{
-			if (par1ItemStack.itemID == ZhuYao.itDaoDan.shiftedIndex)
+			if (par1ItemStack.itemID == ZhuYao.itDaoDan.itemID)
 			{
 				return true;
 			}

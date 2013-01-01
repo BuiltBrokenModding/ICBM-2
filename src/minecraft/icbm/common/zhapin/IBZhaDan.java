@@ -24,7 +24,7 @@ public class IBZhaDan extends ItemBlock
 		{
 			((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa = stack.getItemDamage();
 			Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player);
-			Block.blocksList[this.getBlockID()].func_85105_g(world, x, y, z, metadata);
+			Block.blocksList[this.getBlockID()].onPostBlockPlaced(world, x, y, z, metadata);
 		}
 
 		return true;

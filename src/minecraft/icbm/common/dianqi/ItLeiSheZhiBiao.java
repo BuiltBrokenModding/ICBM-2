@@ -26,7 +26,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 {
-	public static final int BAN_JING = 100;
+	public static final int BAN_JING = 200;
 	public static final int YONG_DIAN_LIANG = 5000;
 
 	public ItLeiSheZhiBiao(int id, int icon)

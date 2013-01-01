@@ -21,7 +21,7 @@ public class RItDaoDan implements IItemRenderer
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.itemID == ZhuYao.itDaoDan.shiftedIndex || (item.itemID == ZhuYao.itTeBieDaoDan.shiftedIndex && item.getItemDamage() > 0);
+		return item.itemID == ZhuYao.itDaoDan.itemID || (item.itemID == ZhuYao.itTeBieDaoDan.itemID && item.getItemDamage() > 0);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class RItDaoDan implements IItemRenderer
 			float scale = 0.4f;
 			float right = 0.15f;
 
-			if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYao.itTeBieDaoDan.shiftedIndex)
+			if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYao.itTeBieDaoDan.itemID)
 			{
 				scale = 0.3f;
 			}
@@ -59,7 +59,7 @@ public class RItDaoDan implements IItemRenderer
 
 			GL11.glScalef(scale, scale, scale);
 
-			if (item.itemID == ZhuYao.itTeBieDaoDan.shiftedIndex)
+			if (item.itemID == ZhuYao.itTeBieDaoDan.itemID)
 			{
 				if (item.getItemDamage() - 1 < RDaoDan.specialModels.length)
 				{

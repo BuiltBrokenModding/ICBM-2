@@ -87,6 +87,8 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public Vector3 xiaoDanMotion = new Vector3();
 
+	private double qiFeiGaoDu = 3;
+
 	public EDaoDan(World par1World)
 	{
 		super(par1World);
@@ -201,6 +203,12 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		RadarRegistry.register(this);
 
 		FMLLog.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+	}
+
+	public void faShe(Vector3 muBiao, int qiFeiGaoDu)
+	{
+		this.qiFeiGaoDu = qiFeiGaoDu;
+		this.faShe(muBiao);
 	}
 
 	@Override
@@ -332,17 +340,20 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 				else
 				{
 					// Start the launch
-					if (this.feiXingTick < 20)
+					if (this.qiFeiGaoDu > 0)
 					{
 						this.motionY = this.JIA_KUAI_SU_DU * this.feiXingTick * (this.feiXingTick / 2);
+						this.motionX = 0;
+						this.motionZ = 0;
+						this.qiFeiGaoDu -= this.motionY;
 						this.moveEntity(this.motionX, this.motionY, this.motionZ);
-					}
-					else if (this.feiXingTick == 20)
-					{
-						this.motionY = this.jiaSu * (this.feiXingShiJian / 2);
 
-						this.motionX = this.xXiangCha / feiXingShiJian;
-						this.motionZ = this.zXiangCha / feiXingShiJian;
+						if (this.qiFeiGaoDu <= 0)
+						{
+							this.motionY = this.jiaSu * (this.feiXingShiJian / 2);
+							this.motionX = this.xXiangCha / feiXingShiJian;
+							this.motionZ = this.zXiangCha / feiXingShiJian;
+						}
 					}
 					else
 					{
@@ -659,6 +670,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.baoZhaGaoDu = par1NBTTagCompound.getInteger("baoZhaGaoDu");
 		this.haoMa = par1NBTTagCompound.getInteger("haoMa");
 		this.feiXingTick = par1NBTTagCompound.getInteger("feiXingTick");
+		this.qiFeiGaoDu = par1NBTTagCompound.getDouble("qiFeiGaoDu");
 		this.xingShi = XingShi.values()[par1NBTTagCompound.getInteger("xingShi")];
 	}
 
@@ -684,7 +696,9 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		par1NBTTagCompound.setInteger("haoMa", this.haoMa);
 		par1NBTTagCompound.setInteger("baoZhaGaoDu", this.baoZhaGaoDu);
 		par1NBTTagCompound.setInteger("feiXingTick", this.feiXingTick);
+		par1NBTTagCompound.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);
 		par1NBTTagCompound.setInteger("xingShi", this.xingShi.ordinal());
+
 	}
 
 	@Override
