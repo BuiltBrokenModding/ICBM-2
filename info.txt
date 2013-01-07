@@ -142,4 +142,5 @@ Minecraft 1.4.6
 @ ICBM_v1.0.1.119.jar ICBM_v1.0.1.119_api.zip
 @ ICBM_v1.0.1.120.jar ICBM_v1.0.1.120_api.zip
 @ ICBM_v1.0.1.121.jar ICBM_v1.0.1.121_api.zip
-* ICBM_v1.0.1.122.jar ICBM_v1.0.1.122_api.zip
+@ ICBM_v1.0.1.122.jar ICBM_v1.0.1.122_api.zip
+* ICBM_v1.0.1.123.jar ICBM_v1.0.1.123_api.zip
