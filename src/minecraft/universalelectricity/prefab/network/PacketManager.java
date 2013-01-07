@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
@@ -15,7 +17,6 @@ import universalelectricity.core.vector.Vector3;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -41,6 +42,23 @@ public class PacketManager implements IPacketHandler, IPacketReceiver
 		{
 			if (id >= 0 && id < PacketType.values().length) { return PacketType.values()[id]; }
 			return UNSPECIFIED;
+		}
+	}
+
+	/**
+	 * Writes a compressed NBTTagCompound to the OutputStream
+	 */
+	public static void writeNBTTagCompound(NBTTagCompound tag, DataOutputStream stream) throws IOException
+	{
+		if (tag == null)
+		{
+			stream.writeShort(-1);
+		}
+		else
+		{
+			byte[] var2 = CompressedStreamTools.compress(tag);
+			stream.writeShort((short) var2.length);
+			stream.write(var2);
 		}
 	}
 
@@ -149,10 +167,7 @@ public class PacketManager implements IPacketHandler, IPacketReceiver
 	{
 		try
 		{
-			if (FMLCommonHandler.instance().getMinecraftServerInstance() != null)
-			{
-				FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().sendPacketToAllPlayers(packet);
-			}
+			PacketDispatcher.sendPacketToAllPlayers(packet);
 		}
 		catch (Exception e)
 		{
@@ -198,6 +213,10 @@ public class PacketManager implements IPacketHandler, IPacketReceiver
 				else if (dataValue instanceof Long)
 				{
 					data.writeLong((Long) dataValue);
+				}
+				else if (dataValue instanceof NBTTagCompound)
+				{
+					writeNBTTagCompound((NBTTagCompound) dataValue, data);
 				}
 			}
 

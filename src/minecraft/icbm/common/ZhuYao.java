@@ -49,6 +49,9 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.liquids.LiquidContainerData;
+import net.minecraftforge.liquids.LiquidContainerRegistry;
+import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -63,15 +66,18 @@ import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
 import atomicscience.api.PoisonRadiation;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.Mod.ServerStopping;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
@@ -371,7 +377,11 @@ public class ZhuYao
 			CONFIGURATION.save();
 			GameRegistry.registerBlock(bFuShe, "Radioactive");
 		}
+	}
 
+	@PostInit
+	public void postInit(FMLPostInitializationEvent evt)
+	{
 		for (int i = 0; i < ZhaPin.list.length; i++)
 		{
 			if (ZhaPin.list[i] != null)
@@ -383,7 +393,6 @@ public class ZhuYao
 		/**
 		 * Add all Recipes
 		 */
-
 		// Spikes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 5), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', "ingotBronze" }));
 
@@ -454,7 +463,46 @@ public class ZhuYao
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 12), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYao.bJiQi, 1, 2), '?', new ItemStack(ZhuYao.bJiQi, 1, 8) }));
 
 		// Missile Module
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', "oilBucket", '#', "basicCircuit" }));
+		// Find and try to add a recipe with fuel, then oil then coal.
+		try
+		{
+			if (LiquidDictionary.getLiquid("Fuel", 1) != null)
+			{
+				for (LiquidContainerData data : LiquidContainerRegistry.getRegisteredLiquidContainerData())
+				{
+					if (data.stillLiquid != null)
+					{
+						if (data.stillLiquid.isLiquidEqual(LiquidDictionary.getLiquid("Fuel", 1)))
+						{
+							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itTeBieDaoDan, 2, 0), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', data.filled, '#', "basicCircuit" }));
+						}
+					}
+				}
+			}
+			else if (LiquidDictionary.getLiquid("Oil", 1) != null)
+			{
+				for (LiquidContainerData data : LiquidContainerRegistry.getRegisteredLiquidContainerData())
+				{
+					if (data.stillLiquid != null)
+					{
+						if (data.stillLiquid.isLiquidEqual(LiquidDictionary.getLiquid("Oil", 1)))
+						{
+							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itTeBieDaoDan, 2, 0), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', data.filled, '#', "basicCircuit" }));
+						}
+					}
+				}
+			}
+			else
+			{
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itTeBieDaoDan, 2, 0), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', Item.coal, '#', "basicCircuit" }));
+			}
+		}
+		catch (Exception e)
+		{
+			FMLLog.severe("Failed to add missile module recipe!");
+			e.printStackTrace();
+		}
+
 		// Anti-ballistic
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itTeBieDaoDan, 1, 1), new Object[] { "!", "?", "@", '@', new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), '?', new ItemStack(ZhuYao.bZhaDan, 1, 0), '!', "basicCircuit" }));
 		// Cluster

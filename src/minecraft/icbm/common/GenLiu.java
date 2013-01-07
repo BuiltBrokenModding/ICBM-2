@@ -18,7 +18,6 @@ public class GenLiu extends OreGenReplace
 	public GenLiu(String name, String oreDiectionaryName, ItemStack stack, int replaceID, int minGenerateLevel, int maxGenerateLevel, int amountPerChunk, int amountPerBranch, String harvestTool, int harvestLevel)
 	{
 		super(name, oreDiectionaryName, stack, 0, replaceID, maxGenerateLevel, amountPerChunk, amountPerBranch, "pickaxe", 1);
-		this.generateSurface = true;
 	}
 
 	public GenLiu(String name, String oreDiectionaryName, ItemStack stack, int replaceID, int maxGenerateLevel, int amountPerChunk, int amountPerBranch)

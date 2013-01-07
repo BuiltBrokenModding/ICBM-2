@@ -33,13 +33,13 @@ public class ElectricInfo
 
 		public String name;
 		public String symbol;
-		public double process;
+		public double value;
 
-		private MeasurementUnit(String name, String symbol, double process)
+		private MeasurementUnit(String name, String symbol, double value)
 		{
 			this.name = name;
 			this.symbol = symbol;
-			this.process = process;
+			this.value = value;
 		}
 
 		public String getName(boolean isSymbol)
@@ -56,7 +56,7 @@ public class ElectricInfo
 
 		public double process(double value)
 		{
-			return value / this.process;
+			return value / this.value;
 		}
 	}
 
@@ -133,7 +133,7 @@ public class ElectricInfo
 	/**
 	 * Displays the unit as text. Works only for positive numbers.
 	 */
-	public static String getDisplay(double value, ElectricUnit unit, int significantFigures, boolean isShort)
+	public static String getDisplay(double value, ElectricUnit unit, int decimalPlaces, boolean isShort)
 	{
 		String unitName = unit.name;
 
@@ -148,20 +148,15 @@ public class ElectricInfo
 
 		if (value == 0) { return value + " " + unitName; }
 
-		if (value <= MeasurementUnit.MILLI.process) { return roundDecimals(MeasurementUnit.MICRO.process(value), significantFigures) + " " + MeasurementUnit.MICRO.getName(isShort) + unitName; }
+		if (value <= MeasurementUnit.MILLI.value) { return roundDecimals(MeasurementUnit.MICRO.process(value), decimalPlaces) + " " + MeasurementUnit.MICRO.getName(isShort) + unitName; }
 
-		if (value < 1) { return roundDecimals(MeasurementUnit.MILLI.process(value), significantFigures) + " " + MeasurementUnit.MILLI.getName(isShort) + unitName; }
+		if (value < 1) { return roundDecimals(MeasurementUnit.MILLI.process(value), decimalPlaces) + " " + MeasurementUnit.MILLI.getName(isShort) + unitName; }
 
-		if (value > MeasurementUnit.KILO.process) { return roundDecimals(MeasurementUnit.KILO.process(value), significantFigures) + " " + MeasurementUnit.KILO.getName(isShort) + unitName; }
+		if (value > MeasurementUnit.MEGA.value) { return roundDecimals(MeasurementUnit.MEGA.process(value), decimalPlaces) + " " + MeasurementUnit.MEGA.getName(isShort) + unitName; }
 
-		if (value > MeasurementUnit.MEGA.process) { return roundDecimals(MeasurementUnit.MEGA.process(value), significantFigures) + " " + MeasurementUnit.MEGA.getName(isShort) + unitName; }
+		if (value > MeasurementUnit.KILO.value) { return roundDecimals(MeasurementUnit.KILO.process(value), decimalPlaces) + " " + MeasurementUnit.KILO.getName(isShort) + unitName; }
 
-		return roundDecimals(value, significantFigures) + " " + unitName;
-	}
-
-	public static String getDisplayShort(double value, ElectricUnit unit)
-	{
-		return getDisplay(value, unit, 2, true);
+		return roundDecimals(value, decimalPlaces) + " " + unitName;
 	}
 
 	public static String getDisplay(double value, ElectricUnit unit)
@@ -169,18 +164,28 @@ public class ElectricInfo
 		return getDisplay(value, unit, 2, false);
 	}
 
-	public static String getDisplaySimple(double value, ElectricUnit unit, int significantFigures)
+	public static String getDisplayShort(double value, ElectricUnit unit)
+	{
+		return getDisplay(value, unit, 2, true);
+	}
+
+	public static String getDisplayShort(double value, ElectricUnit unit, int decimalPlaces)
+	{
+		return getDisplay(value, unit, decimalPlaces, true);
+	}
+
+	public static String getDisplaySimple(double value, ElectricUnit unit, int decimalPlaces)
 	{
 		if (value > 1)
 		{
-			if (significantFigures < 1) { return (int) value + " " + unit.getPlural(); }
+			if (decimalPlaces < 1) { return (int) value + " " + unit.getPlural(); }
 
-			return roundDecimals(value, significantFigures) + " " + unit.getPlural();
+			return roundDecimals(value, decimalPlaces) + " " + unit.getPlural();
 		}
 
-		if (significantFigures < 1) { return (int) value + " " + unit.name; }
+		if (decimalPlaces < 1) { return (int) value + " " + unit.name; }
 
-		return roundDecimals(value, significantFigures) + " " + unit.name;
+		return roundDecimals(value, decimalPlaces) + " " + unit.name;
 	}
 
 	/**
@@ -189,10 +194,10 @@ public class ElectricInfo
 	 * @param The number
 	 * @return The rounded number
 	 */
-	public static double roundDecimals(double d, int significantFigures)
+	public static double roundDecimals(double d, int decimalPlaces)
 	{
-		int j = (int) (d * Math.pow(10, significantFigures));
-		return j / (double) Math.pow(10, significantFigures);
+		int j = (int) (d * Math.pow(10, decimalPlaces));
+		return j / (double) Math.pow(10, decimalPlaces);
 	}
 
 	public static double roundDecimals(double d)

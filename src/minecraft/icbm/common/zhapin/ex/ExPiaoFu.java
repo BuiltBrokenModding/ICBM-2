@@ -182,7 +182,7 @@ public class ExPiaoFu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', Block.tnt, 'E', Item.eyeOfEnder }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'R', tui.getItemStack(), 'E', Item.eyeOfEnder }), this.getName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@Override

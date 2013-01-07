@@ -27,9 +27,12 @@ public class OreGenReplace extends OreGenBase
 	public int amountPerBranch;
 	public int replaceID;
 
-	public boolean generateSurface;
-	public boolean generateNether;
-	public boolean generateEnd;
+	/**
+	 * Dimensions to ignore ore generation
+	 */
+	public boolean ignoreSurface = false;
+	public boolean ignoreNether = true;
+	public boolean ignoreEnd = true;
 
 	/**
 	 * @param name - The name of the ore for display
@@ -52,7 +55,6 @@ public class OreGenReplace extends OreGenBase
 
 	public void generate(World world, Random random, int varX, int varZ)
 	{
-
 		for (int i = 0; i < this.amountPerChunk; i++)
 		{
 			int x = varX + random.nextInt(16);
@@ -121,6 +123,9 @@ public class OreGenReplace extends OreGenBase
 	@Override
 	public boolean isOreGeneratedInWorld(World world, IChunkProvider chunkGenerator)
 	{
-		return ((this.generateSurface && chunkGenerator instanceof ChunkProviderGenerate) || (this.generateNether && chunkGenerator instanceof ChunkProviderHell) || (this.generateEnd && chunkGenerator instanceof ChunkProviderEnd));
+		if (this.ignoreSurface && chunkGenerator instanceof ChunkProviderGenerate) { return false; }
+		if (this.ignoreNether && chunkGenerator instanceof ChunkProviderHell) { return false; }
+		if (this.ignoreEnd && chunkGenerator instanceof ChunkProviderEnd) { return false; }
+		return true;
 	}
 }

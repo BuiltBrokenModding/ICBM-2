@@ -3,8 +3,10 @@ package universalelectricity.prefab;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +25,12 @@ public class UpdateNotifier implements IPlayerTracker
 	public static final UpdateNotifier INSTANCE = new UpdateNotifier();
 	public static boolean isInitialized = false;
 
-	public static final HashMap<String, String> modsToUpdate = new HashMap<String, String>();
+	public static final HashMap<String, String> MODS_TO_UPDATE = new HashMap<String, String>();
+
+	/**
+	 * Add variables to this array if you want extra custom notifications to be output.
+	 */
+	public static final List<String> NOTIFICATIONS = new ArrayList<String>();
 
 	/**
 	 * Call this in your FML Pre-Initialize Event.
@@ -45,7 +52,7 @@ public class UpdateNotifier implements IPlayerTracker
 
 		if (latestUpdate != null && latestUpdate != "" && !currentVersion.trim().equals(latestUpdate.trim()))
 		{
-			modsToUpdate.put(modName, latestUpdate.trim());
+			MODS_TO_UPDATE.put(modName, latestUpdate.trim());
 		}
 
 		return latestUpdate;
@@ -76,19 +83,26 @@ public class UpdateNotifier implements IPlayerTracker
 	@Override
 	public void onPlayerLogin(EntityPlayer player)
 	{
-		if (modsToUpdate.size() > 0)
+		if (MODS_TO_UPDATE.size() > 0)
 		{
-			String notification = "You have " + modsToUpdate.size() + " mod(s) that needs to be updated: ";
+			// Output Notification Message.
+			String updateNotification = "You have " + MODS_TO_UPDATE.size() + " mod(s) that needs to be updated: ";
 
-			Iterator it = modsToUpdate.entrySet().iterator();
+			Iterator it = MODS_TO_UPDATE.entrySet().iterator();
 
 			while (it.hasNext())
 			{
 				Map.Entry pairs = (Map.Entry) it.next();
 
-				notification += pairs.getKey() + " [" + pairs.getValue() + "] ";
+				updateNotification += pairs.getKey() + " [" + pairs.getValue() + "] ";
 			}
 
+			player.addChatMessage(updateNotification);
+		}
+
+		// Output Extra Notifications
+		for (String notification : NOTIFICATIONS)
+		{
 			player.addChatMessage(notification);
 		}
 	}

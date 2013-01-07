@@ -26,12 +26,12 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 	public BlockMachine(int id, Material material)
 	{
 		super(id, material);
-		this.setHardness(0.5F);
+		this.setHardness(0.5f);
 	}
 
 	public BlockMachine(String name, int id, Material material)
 	{
-		super(id, material);
+		this(id, material);
 		this.setBlockName(name);
 	}
 

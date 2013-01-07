@@ -10,6 +10,7 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.core.UniversalElectricity;
+import cpw.mods.fml.common.FMLLog;
 
 /**
  * This class is used for storing ore generation data. If you are too lazy to generate your own
@@ -57,17 +58,25 @@ public abstract class OreGenBase
 	 */
 	public OreGenBase(String name, String oreDiectionaryName, ItemStack stack, String harvestTool, int harvestLevel)
 	{
-		this.name = name;
-		this.shouldGenerate = false;
-		this.harvestTool = harvestTool;
-		this.harvestLevel = harvestLevel;
-		this.oreDictionaryName = oreDiectionaryName;
-		this.oreStack = stack;
-		this.oreID = stack.itemID;
-		this.oreMeta = stack.getItemDamage();
+		if (stack != null)
+		{
 
-		OreDictionary.registerOre(oreDictionaryName, stack);
-		MinecraftForge.setBlockHarvestLevel(Block.blocksList[stack.itemID], stack.getItemDamage(), harvestTool, harvestLevel);
+			this.name = name;
+			this.shouldGenerate = false;
+			this.harvestTool = harvestTool;
+			this.harvestLevel = harvestLevel;
+			this.oreDictionaryName = oreDiectionaryName;
+			this.oreStack = stack;
+			this.oreID = stack.itemID;
+			this.oreMeta = stack.getItemDamage();
+
+			OreDictionary.registerOre(oreDictionaryName, stack);
+			MinecraftForge.setBlockHarvestLevel(Block.blocksList[stack.itemID], stack.getItemDamage(), harvestTool, harvestLevel);
+		}
+		else
+		{
+			FMLLog.severe("ItemStack is null while registering ore generation!");
+		}
 	}
 
 	public OreGenBase enable(Configuration config)

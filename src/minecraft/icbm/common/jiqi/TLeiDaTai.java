@@ -69,10 +69,15 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 		{
 			this.worldObj.notifyBlocksOfNeighborChange((int) this.xCoord, (int) this.yCoord, (int) this.zCoord, this.getBlockType().blockID);
 		}
+
 		if (this.ticket == null)
 		{
 			this.ticket = ForgeChunkManager.requestTicket(ZhuYao.instance, this.worldObj, Type.NORMAL);
-			this.ticket.getModData();
+
+			if (this.ticket != null)
+			{
+				this.ticket.getModData();
+			}
 		}
 
 		ForgeChunkManager.forceChunk(this.ticket, new ChunkCoordIntPair(this.xCoord >> 4, this.zCoord >> 4));

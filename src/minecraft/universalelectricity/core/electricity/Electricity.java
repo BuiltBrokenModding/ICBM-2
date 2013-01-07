@@ -78,25 +78,36 @@ public class Electricity
 	 */
 	public void splitConnection(IConductor conductorA, IConductor conductorB)
 	{
-		ElectricityNetwork network = conductorA.getNetwork();
-
-		if (network != null)
+		try
 		{
-			network.cleanConductors();
-			network.resetConductors();
+			ElectricityNetwork network = conductorA.getNetwork();
 
-			for (IConductor conductor : network.conductors)
+			if (network != null)
 			{
-				for (byte i = 0; i < 6; i++)
+				network.cleanConductors();
+				network.resetConductors();
+
+				Iterator it = network.conductors.iterator();
+
+				while (it.hasNext())
 				{
-					conductor.updateConnectionWithoutSplit(Vector3.getConnectorFromSide(((TileEntity) conductor).worldObj, new Vector3((TileEntity) conductor), ForgeDirection.getOrientation(i)), ForgeDirection.getOrientation(i));
+					IConductor conductor = (IConductor) it.next();
+
+					for (byte i = 0; i < 6; i++)
+					{
+						conductor.updateConnectionWithoutSplit(Vector3.getConnectorFromSide(((TileEntity) conductor).worldObj, new Vector3((TileEntity) conductor), ForgeDirection.getOrientation(i)), ForgeDirection.getOrientation(i));
+					}
 				}
 			}
-
+			else
+			{
+				FMLLog.severe("Conductor invalid network while splitting connection!");
+			}
 		}
-		else
+		catch (Exception e)
 		{
-			FMLLog.severe("Conductor invalid network while splitting connection!");
+			FMLLog.severe("Failed to split wire connection!");
+			e.printStackTrace();
 		}
 	}
 
@@ -111,7 +122,7 @@ public class Electricity
 
 			while (it.hasNext())
 			{
-				ElectricityNetwork network = ((ElectricityNetwork) it.next());
+				ElectricityNetwork network = (ElectricityNetwork) it.next();
 				network.cleanConductors();
 
 				if (network.conductors.size() == 0)
