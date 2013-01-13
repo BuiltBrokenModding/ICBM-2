@@ -27,13 +27,4 @@ public class BEnNiu extends BlockButton
 	{
 		return false;
 	}
-
-	/**
-	 * How many world ticks before ticking
-	 */
-	@Override
-	public int tickRate()
-	{
-		return 4;
-	}
 }

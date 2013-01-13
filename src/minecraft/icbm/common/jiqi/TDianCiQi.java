@@ -128,7 +128,7 @@ public class TDianCiQi extends TJiQiCun implements IPacketReceiver, IMultiBlock,
 	}
 
 	@Override
-	public double getVoltage()
+	public double getVoltage(Object... data)
 	{
 		return 240;
 	}

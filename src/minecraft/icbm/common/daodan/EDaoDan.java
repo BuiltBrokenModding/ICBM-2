@@ -264,7 +264,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.nengDaoDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
+		if (!BaoHu.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.feiXingTick >= 0)
 			{

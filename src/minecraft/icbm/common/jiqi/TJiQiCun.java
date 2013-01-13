@@ -1,13 +1,10 @@
 package icbm.common.jiqi;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityNetwork;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.implement.IJouleStorage;
-import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.tile.TileEntityElectricityReceiver;
 
 public abstract class TJiQiCun extends TileEntityElectricityReceiver implements IJouleStorage
@@ -21,40 +18,18 @@ public abstract class TJiQiCun extends TileEntityElectricityReceiver implements 
 
 		if (!this.worldObj.isRemote)
 		{
-			boolean didFind = false;
+			ElectricityPack electricityPack = ElectricityNetwork.consumeFromMultipleSides(this, new ElectricityPack((this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage()));
 
-			for (int i = 0; i < 6; i++)
+			if (UniversalElectricity.isVoltageSensitive)
 			{
-				Vector3 diDian = new Vector3(this);
-				diDian.modifyPositionFromSide(ForgeDirection.getOrientation(i));
-				TileEntity tileEntity = diDian.getTileEntity(this.worldObj);
-				ElectricityNetwork inputNetwork = ElectricityNetwork.getNetworkFromTileEntity(tileEntity, ForgeDirection.getOrientation(i));
-
-				if (inputNetwork != null)
+				if (electricityPack.voltage > this.getVoltage())
 				{
-					if (!this.isDisabled() && this.getJoules() < this.getMaxJoules() && !didFind)
-					{
-						inputNetwork.startRequesting(this, (this.getMaxJoules() - this.dian) / this.getVoltage(), this.getVoltage());
-						ElectricityPack electricityPack = inputNetwork.consumeElectricity(this);
-
-						if (UniversalElectricity.isVoltageSensitive)
-						{
-							if (electricityPack.voltage > this.getVoltage())
-							{
-								this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
-								return;
-							}
-						}
-
-						this.setJoules(Math.ceil(this.dian + electricityPack.getWatts()));
-						didFind = true;
-					}
-					else
-					{
-						inputNetwork.stopRequesting(this);
-					}
+					this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
+					return;
 				}
 			}
+
+			this.setJoules(Math.ceil(this.getJoules() + electricityPack.getWatts()));
 		}
 
 	}

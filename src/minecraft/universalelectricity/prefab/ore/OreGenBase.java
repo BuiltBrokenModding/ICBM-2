@@ -26,7 +26,7 @@ public abstract class OreGenBase
 
 	public String oreDictionaryName;
 
-	public boolean shouldGenerate;
+	public boolean shouldGenerate = false;
 
 	public int blockIndexTexture;
 
@@ -60,9 +60,7 @@ public abstract class OreGenBase
 	{
 		if (stack != null)
 		{
-
 			this.name = name;
-			this.shouldGenerate = false;
 			this.harvestTool = harvestTool;
 			this.harvestLevel = harvestLevel;
 			this.oreDictionaryName = oreDiectionaryName;
@@ -82,12 +80,6 @@ public abstract class OreGenBase
 	public OreGenBase enable(Configuration config)
 	{
 		this.shouldGenerate = shouldGenerateOre(config, this.name);
-		return this;
-	}
-
-	public OreGenBase enable()
-	{
-		this.enable(UniversalElectricity.CONFIGURATION);
 		return this;
 	}
 

@@ -292,7 +292,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public double getVoltage()
+	public double getVoltage(Object... data)
 	{
 		switch (this.getTier())
 		{

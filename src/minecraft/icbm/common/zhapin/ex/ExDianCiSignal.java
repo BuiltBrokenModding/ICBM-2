@@ -12,7 +12,6 @@ import universalelectricity.core.vector.Vector3;
 
 public class ExDianCiSignal extends ZhaPin
 {
-
 	public ExDianCiSignal(String name, int ID, int tier)
 	{
 		super(name, ID, tier);

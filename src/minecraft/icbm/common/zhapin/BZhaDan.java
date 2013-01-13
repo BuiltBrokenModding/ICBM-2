@@ -25,6 +25,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IToolConfigurator;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -95,7 +96,7 @@ public class BZhaDan extends BlockContainer
 
 		if (!par1World.isRemote)
 		{
-			if (!BaoHu.nengDanBaoHu(par1World, new Vector2(x, z)))
+			if (!BaoHu.nengFangZhaDan(par1World, new Vector2(x, z)))
 			{
 				this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
 				par1World.setBlockWithNotify(x, y, z, 0);
@@ -124,6 +125,8 @@ public class BZhaDan extends BlockContainer
 				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 2);
 			}
 		}
+
+		FMLLog.fine(par5EntityLiving.getEntityName() + " placed " + ZhaPin.list[explosiveID].getExplosiveName() + " in: " + x + ", " + y + ", " + z + ".");
 	}
 
 	/**
@@ -220,7 +223,7 @@ public class BZhaDan extends BlockContainer
 	{
 		if (!par1World.isRemote)
 		{
-			if (BaoHu.nengDanBaoHu(par1World, new Vector2(x, z)))
+			if (BaoHu.nengFangZhaDan(par1World, new Vector2(x, z)))
 			{
 				TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 				if (tileEntity != null)

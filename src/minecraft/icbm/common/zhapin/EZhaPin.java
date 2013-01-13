@@ -112,7 +112,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.nengDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
+		if (!BaoHu.nengFangZhaDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			this.setDead();
 			return;

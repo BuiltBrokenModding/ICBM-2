@@ -79,7 +79,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	}
 
 	@Override
-	public double getVoltage()
+	public double getVoltage(Object... data)
 	{
 		return 25;
 	}

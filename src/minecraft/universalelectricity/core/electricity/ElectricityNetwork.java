@@ -1,14 +1,18 @@
 package universalelectricity.core.electricity;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.implement.IConductor;
+import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.FMLLog;
 
 public class ElectricityNetwork
@@ -202,7 +206,8 @@ public class ElectricityNetwork
 
 			if (this.consumers.containsKey(tileEntity) && tileRequest != null)
 			{
-				// Calculate the electricity this tile entity is receiving in percentage.
+				// Calculate the electricity this tile entity is receiving in
+				// percentage.
 				totalElectricity = this.getProduced();
 
 				if (totalElectricity.getWatts() > 0)
@@ -387,5 +392,133 @@ public class ElectricityNetwork
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param tileEntity - The TileEntity's sides.
+	 * @param approachingDirection - The directions that can be connected.
+	 * @return A list of networks from all specified sides. There will be no repeated
+	 * ElectricityNetworks and it will never return null.
+	 */
+	public static List<ElectricityNetwork> getNetworksFromMultipleSides(TileEntity tileEntity, EnumSet<ForgeDirection> approachingDirection)
+	{
+		final List<ElectricityNetwork> connectedNetworks = new ArrayList<ElectricityNetwork>();
+
+		for (int i = 0; i < 6; i++)
+		{
+			ForgeDirection direction = ForgeDirection.getOrientation(i);
+
+			if (approachingDirection.contains(direction))
+			{
+				Vector3 position = new Vector3(tileEntity);
+				position.modifyPositionFromSide(direction);
+				TileEntity outputConductor = position.getTileEntity(tileEntity.worldObj);
+				ElectricityNetwork electricityNetwork = getNetworkFromTileEntity(outputConductor, direction);
+
+				if (electricityNetwork != null && !connectedNetworks.contains(connectedNetworks))
+				{
+					connectedNetworks.add(electricityNetwork);
+				}
+			}
+		}
+
+		return connectedNetworks;
+	}
+
+	/**
+	 * Consumes electricity from all specified sides. Use this as a simple helper function.
+	 * 
+	 * @param tileEntity- The TileEntity consuming the electricity.
+	 * @param approachDirection - The sides in which you can connect.
+	 * @param requestPack - The amount of electricity to be requested.
+	 * @return The consumed ElectricityPack.
+	 */
+	public static ElectricityPack consumeFromMultipleSides(TileEntity tileEntity, EnumSet<ForgeDirection> approachingDirection, ElectricityPack requestPack)
+	{
+		ElectricityPack consumedPack = new ElectricityPack();
+
+		if (tileEntity != null && approachingDirection != null)
+		{
+			final List<ElectricityNetwork> connectedNetworks = getNetworksFromMultipleSides(tileEntity, approachingDirection);
+
+			if (connectedNetworks.size() > 0)
+			{
+				/**
+				 * Requests an even amount of electricity from all sides.
+				 */
+				double wattsPerSide = (requestPack.getWatts() / connectedNetworks.size());
+				double voltage = requestPack.voltage;
+
+				for (ElectricityNetwork network : connectedNetworks)
+				{
+					if (wattsPerSide > 0 && requestPack.getWatts() > 0)
+					{
+						network.startRequesting(tileEntity, wattsPerSide / voltage, voltage);
+						ElectricityPack receivedPack = network.consumeElectricity(tileEntity);
+						consumedPack.amperes += receivedPack.amperes;
+						consumedPack.voltage = Math.max(consumedPack.voltage, receivedPack.voltage);
+					}
+					else
+					{
+						network.stopRequesting(tileEntity);
+					}
+				}
+			}
+		}
+
+		return consumedPack;
+	}
+
+	public static ElectricityPack consumeFromMultipleSides(TileEntity tileEntity, ElectricityPack electricityPack)
+	{
+		return consumeFromMultipleSides(tileEntity, ElectricityConnections.getDirections(tileEntity), electricityPack);
+	}
+
+	/**
+	 * Produces electricity from all specified sides. Use this as a simple helper function.
+	 * 
+	 * @param tileEntity- The TileEntity consuming the electricity.
+	 * @param approachDirection - The sides in which you can connect to.
+	 * @param producePack - The amount of electricity to be produced.
+	 * @return What remained in the electricity pack.
+	 */
+	public static ElectricityPack produceFromMultipleSides(TileEntity tileEntity, EnumSet<ForgeDirection> approachingDirection, ElectricityPack producingPack)
+	{
+		ElectricityPack remainingElectricity = producingPack.clone();
+
+		if (tileEntity != null && approachingDirection != null)
+		{
+			final List<ElectricityNetwork> connectedNetworks = getNetworksFromMultipleSides(tileEntity, approachingDirection);
+
+			if (connectedNetworks.size() > 0)
+			{
+				/**
+				 * Requests an even amount of electricity from all sides.
+				 */
+				double wattsPerSide = (producingPack.getWatts() / connectedNetworks.size());
+				double voltage = producingPack.voltage;
+
+				for (ElectricityNetwork network : connectedNetworks)
+				{
+					if (wattsPerSide > 0 && producingPack.getWatts() > 0)
+					{
+						double amperes = wattsPerSide / voltage;
+						network.startProducing(tileEntity, amperes, voltage);
+						remainingElectricity.amperes -= amperes;
+					}
+					else
+					{
+						network.stopProducing(tileEntity);
+					}
+				}
+			}
+		}
+
+		return remainingElectricity;
+	}
+
+	public static ElectricityPack produceFromMultipleSides(TileEntity tileEntity, ElectricityPack electricityPack)
+	{
+		return produceFromMultipleSides(tileEntity, ElectricityConnections.getDirections(tileEntity), electricityPack);
 	}
 }

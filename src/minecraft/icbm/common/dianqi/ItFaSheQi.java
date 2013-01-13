@@ -78,7 +78,7 @@ public class ItFaSheQi extends ItemElectric
 	}
 
 	@Override
-	public double getVoltage()
+	public double getVoltage(Object... data)
 	{
 		return 20;
 	}

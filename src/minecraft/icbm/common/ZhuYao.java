@@ -97,7 +97,7 @@ public class ZhuYao
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String BAN_BEN = "1.0.1";
+	public static final String BAN_BEN = "1.0.2";
 
 	public static final String MING_ZI = "ICBM";
 
@@ -401,7 +401,7 @@ public class ZhuYao
 		GameRegistry.addRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', itLiu, 'S', bZha });
 
 		// Rocket Launcher
-		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 9), 'B', Block.stoneButton, 'S', "ingotSteel" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 6), 'B', Block.stoneButton, 'S', "ingotSteel" }));
 
 		// Camouflage
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 5), new Object[] { "WGW", "GCG", "WGW", 'C', "basicCircuit", 'G', Block.glass, 'W', Block.cloth }));
@@ -456,9 +456,9 @@ public class ZhuYao
 		// Radar Station
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ZhuYao.itLeiDaQiang.getUncharged(), '!', "ingotSteel", '#', "eliteCircuit", '?', Item.ingotGold }));
 		// EMP Tower
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 10), new Object[] { "???", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor" }));
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 10), new Object[] { "???", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor" }), "EMP Tower", CONFIGURATION, true);
 		// Railgun
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 11), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYao.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }));
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 11), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYao.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }), "Railgun", CONFIGURATION, true);
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 12), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYao.bJiQi, 1, 2), '?', new ItemStack(ZhuYao.bJiQi, 1, 8) }));
 

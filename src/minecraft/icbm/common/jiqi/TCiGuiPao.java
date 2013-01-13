@@ -1,6 +1,7 @@
 package icbm.common.jiqi;
 
 import icbm.client.fx.ParticleSpawner;
+import icbm.common.BaoHu;
 import icbm.common.CommonProxy;
 import icbm.common.ItZiDan;
 import icbm.common.ZhuYao;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,8 +23,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
@@ -32,7 +32,7 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TJiQiCun implements IPacketReceiver, IRedstoneReceptor, IMultiBlock, ISidedInventory
+public class TCiGuiPao extends TJiQiCun implements IPacketReceiver, IRedstoneReceptor, IMultiBlock, IInventory
 {
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;
@@ -145,7 +145,7 @@ public class TCiGuiPao extends TJiQiCun implements IPacketReceiver, IRedstoneRec
 
 						if (objectMouseOver != null)
 						{
-							if (objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+							if (BaoHu.nengFangZhaDan(this.worldObj, new Vector3(objectMouseOver).toVector2()) && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
 							{
 								if (isAntimatter)
 								{
@@ -285,7 +285,7 @@ public class TCiGuiPao extends TJiQiCun implements IPacketReceiver, IRedstoneRec
 	}
 
 	@Override
-	public double getVoltage()
+	public double getVoltage(Object... data)
 	{
 		return 220;
 	}
@@ -501,25 +501,6 @@ public class TCiGuiPao extends TJiQiCun implements IPacketReceiver, IRedstoneRec
 		}
 
 		par1NBTTagCompound.setTag("Items", var2);
-	}
-
-	@Override
-	public int getStartInventorySide(ForgeDirection side)
-	{
-		for (int i = 0; i < this.containingItems.length; i++)
-		{
-			ItemStack stack = this.containingItems[i];
-
-			if (stack.stackSize < stack.getMaxStackSize()) { return i; }
-		}
-
-		return 0;
-	}
-
-	@Override
-	public int getSizeInventorySide(ForgeDirection side)
-	{
-		return this.containingItems.length;
 	}
 
 	@Override

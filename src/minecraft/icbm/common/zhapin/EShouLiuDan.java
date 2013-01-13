@@ -141,7 +141,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	 */
 	public void onUpdate()
 	{
-		if (!BaoHu.nengShouLiuDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
+		if (!BaoHu.nengFangShouLiuDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (!this.worldObj.isRemote)
 			{

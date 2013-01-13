@@ -82,7 +82,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 
 	public static final ZhaPin yuanZi = new ExYuanZi("nuclear", 13, 3);
 	public static final ZhaPin dianCi = new ExDianCi("emp", 14, 3);
-	public static final ZhaPin taiYang = new ExTaiYang("conflagration", 15, 3);
+	public static final ZhaPin taiYang = new ExTaiYang("exothermic", 15, 3);
 	public static final ZhaPin bingDan = new ExBingDan("endothermic", 16, 3);
 	public static final ZhaPin piaoFu = new ExPiaoFu("antiGravitational", 17, 3);
 	public static final ZhaPin wanDan = new ExWan("ender", 18, 3);

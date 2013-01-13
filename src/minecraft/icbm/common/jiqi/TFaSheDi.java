@@ -223,7 +223,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 	private void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.nengDaoDanBaoHu(this.worldObj, new Vector3(this).toVector2()))
+		if (this.containingItems[0] != null && BaoHu.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.containingItems[0].getItem() instanceof ItDaoDan)
 			{

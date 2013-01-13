@@ -38,7 +38,7 @@ public class BaoHu
 			{
 				NBTTagCompound dimData = nbtData.getCompoundTag("dim" + worldObj.provider.dimensionId);
 
-				if (nengQuanQiuBaoHu(dimData)) { return true; }
+				if (nengFangQuanQiu(dimData)) { return true; }
 
 				// Regions check
 				Iterator i = dimData.getTags().iterator();
@@ -64,22 +64,22 @@ public class BaoHu
 		return false;
 	}
 
-	public static boolean nengDanBaoHu(World worldObj, Vector2 position)
+	public static boolean nengFangZhaDan(World worldObj, Vector2 position)
 	{
 		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.ZHA_DAN);
 	}
 
-	public static boolean nengShouLiuDanBaoHu(World worldObj, Vector2 position)
+	public static boolean nengFangShouLiuDan(World worldObj, Vector2 position)
 	{
 		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.SHOU_LIU_DAN);
 	}
 
-	public static boolean nengDaoDanBaoHu(World worldObj, Vector2 position)
+	public static boolean nengFangDaoDan(World worldObj, Vector2 position)
 	{
 		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.DAO_DAN);
 	}
 
-	public static boolean nengQuanQiuBaoHu(NBTTagCompound dimData)
+	public static boolean nengFangQuanQiu(NBTTagCompound dimData)
 	{
 		return ((!dimData.hasKey(FIELD_GLOBAL_BAN) && SHE_DING_BAO_HU) || dimData.getBoolean(FIELD_GLOBAL_BAN));
 	}
