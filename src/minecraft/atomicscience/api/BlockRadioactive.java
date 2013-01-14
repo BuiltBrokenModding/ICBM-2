@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 
 public class BlockRadioactive extends Block
 {
+	public static int RECOMMENDED_ID = 3768;
+
 	public BlockRadioactive(int id, int texture, String textureFile)
 	{
 		super(id, texture, Material.ground);
@@ -50,14 +52,14 @@ public class BlockRadioactive extends Block
 		{
 			for (int var6 = 0; var6 < 4; ++var6)
 			{
-				int var7 = x + par5Random.nextInt(3) - 1;
-				int var8 = y + par5Random.nextInt(5) - 3;
-				int var9 = z + par5Random.nextInt(3) - 1;
-				int var10 = par1World.getBlockId(var7, var8 + 1, var9);
+				int newX = x + par5Random.nextInt(3) - 1;
+				int newY = y + par5Random.nextInt(5) - 3;
+				int newZ = z + par5Random.nextInt(3) - 1;
+				int var10 = par1World.getBlockId(newX, newY + 1, newZ);
 
-				if (par5Random.nextFloat() > 0.8 && (par1World.getBlockId(var7, var8, var9) == Block.tilledField.blockID || par1World.getBlockId(var7, var8, var9) == Block.grass.blockID))
+				if (par5Random.nextFloat() > 0.8 && (par1World.getBlockId(newX, newY, newZ) == Block.tilledField.blockID || par1World.getBlockId(newX, newY, newZ) == Block.grass.blockID))
 				{
-					par1World.setBlockWithNotify(var7, var8, var9, this.blockID);
+					par1World.setBlockWithNotify(newX, newY, newZ, this.blockID);
 				}
 			}
 
@@ -86,20 +88,5 @@ public class BlockRadioactive extends Block
 		{
 			PoisonRadiation.INSTANCE.poisonEntity((EntityLiving) par5Entity);
 		}
-	}
-
-	/**
-	 * Returns the ID of the items to drop on destruction.
-	 */
-	@Override
-	public int idDropped(int par1, Random par2Random, int par3)
-	{
-		return Block.dirt.idDropped(0, par2Random, par3);
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-	{
-		return null;
 	}
 }
