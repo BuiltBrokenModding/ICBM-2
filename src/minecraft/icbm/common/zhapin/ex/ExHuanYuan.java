@@ -29,40 +29,43 @@ public class ExHuanYuan extends ZhaPin
 	{
 		if (!worldObj.isRemote)
 		{
-			Chunk oldChunk = worldObj.getChunkFromBlockCoords(position.intX(), position.intZ());
-
-			WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[worldObj.provider.dimensionId];
-			ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
-
 			try
 			{
-				ChunkProviderGenerate chunkProviderGenerate = ((ChunkProviderGenerate) ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "currentChunkProvider", "d"));
+				Chunk oldChunk = worldObj.getChunkFromBlockCoords(position.intX(), position.intZ());
 
-				Chunk newChunk = chunkProviderGenerate.provideChunk(oldChunk.xPosition, oldChunk.zPosition);
-
-				for (int x = 0; x < 16; x++)
+				if (worldObj.provider.dimensionId < FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length && worldObj.provider.dimensionId > 0)
 				{
-					for (int z = 0; z < 16; z++)
+					WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[worldObj.provider.dimensionId];
+					ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
+
+					ChunkProviderGenerate chunkProviderGenerate = ((ChunkProviderGenerate) ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "currentChunkProvider", "d"));
+
+					Chunk newChunk = chunkProviderGenerate.provideChunk(oldChunk.xPosition, oldChunk.zPosition);
+
+					for (int x = 0; x < 16; x++)
 					{
-						for (int y = 0; y < worldObj.getHeight(); y++)
+						for (int z = 0; z < 16; z++)
 						{
-							int blockID = newChunk.getBlockID(x, y, z);
-							int metadata = newChunk.getBlockMetadata(x, y, z);
-
-							worldServer.setBlockAndMetadata(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, blockID, metadata);
-
-							TileEntity tileEntity = newChunk.getChunkBlockTileEntity(x, y, z);
-
-							if (tileEntity != null)
+							for (int y = 0; y < worldObj.getHeight(); y++)
 							{
-								worldServer.setBlockTileEntity(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, tileEntity);
+								int blockID = newChunk.getBlockID(x, y, z);
+								int metadata = newChunk.getBlockMetadata(x, y, z);
+
+								worldServer.setBlockAndMetadata(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, blockID, metadata);
+
+								TileEntity tileEntity = newChunk.getChunkBlockTileEntity(x, y, z);
+
+								if (tileEntity != null)
+								{
+									worldServer.setBlockTileEntity(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, tileEntity);
+								}
 							}
 						}
 					}
-				}
 
-				oldChunk.isTerrainPopulated = false;
-				chunkProviderGenerate.populate(chunkProviderGenerate, oldChunk.xPosition, oldChunk.zPosition);
+					oldChunk.isTerrainPopulated = false;
+					chunkProviderGenerate.populate(chunkProviderGenerate, oldChunk.xPosition, oldChunk.zPosition);
+				}
 			}
 			catch (Exception e)
 			{

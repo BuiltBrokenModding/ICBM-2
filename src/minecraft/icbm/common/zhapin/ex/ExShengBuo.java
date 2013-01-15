@@ -8,6 +8,7 @@ import icbm.common.zhapin.EZhaPin;
 import icbm.common.zhapin.TZhaDan;
 import icbm.common.zhapin.ZhaPin;
 
+import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -157,32 +158,35 @@ public class ExShengBuo extends ZhaPin
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
 		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
-		for (int var11 = 0; var11 < allEntities.size(); ++var11)
+		synchronized (allEntities)
 		{
-			Entity entity = (Entity) allEntities.get(var11);
-
-			if (entity instanceof EDaoDan)
+			for (Iterator it = allEntities.iterator(); it.hasNext();)
 			{
-				((EDaoDan) entity).explode();
-				break;
-			}
-			else
-			{
-				double xDifference = entity.posX - position.x;
-				double zDifference = entity.posZ - position.z;
+				Entity entity = (Entity) it.next();
 
-				r = (int) this.getRadius();
-				if (xDifference < 0)
-					r = (int) -this.getRadius();
+				if (entity instanceof EDaoDan)
+				{
+					((EDaoDan) entity).explode();
+					break;
+				}
+				else
+				{
+					double xDifference = entity.posX - position.x;
+					double zDifference = entity.posZ - position.z;
 
-				entity.motionX += (r - xDifference) * 0.02 * worldObj.rand.nextFloat();
-				entity.motionY += 3 * worldObj.rand.nextFloat();
+					r = (int) this.getRadius();
+					if (xDifference < 0)
+						r = (int) -this.getRadius();
 
-				r = (int) this.getRadius();
-				if (zDifference < 0)
-					r = (int) -this.getRadius();
+					entity.motionX += (r - xDifference) * 0.02 * worldObj.rand.nextFloat();
+					entity.motionY += 3 * worldObj.rand.nextFloat();
 
-				entity.motionZ += (r - zDifference) * 0.02 * worldObj.rand.nextFloat();
+					r = (int) this.getRadius();
+					if (zDifference < 0)
+						r = (int) -this.getRadius();
+
+					entity.motionZ += (r - zDifference) * 0.02 * worldObj.rand.nextFloat();
+				}
 			}
 		}
 

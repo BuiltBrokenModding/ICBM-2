@@ -8,6 +8,7 @@ import icbm.common.zhapin.EZhaPin;
 import icbm.common.zhapin.TZhaDan;
 import icbm.common.zhapin.ZhaPin;
 
+import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -24,7 +25,7 @@ import chb.mods.mffs.api.IForceFieldBlock;
 public class ExChaoShengBuo extends ZhaPin
 {
 	private static final int BAN_JING = 15;
-	private static final int NENG_LIANG = 80;
+	private static final int NENG_LIANG = 70;
 
 	public ExChaoShengBuo(String name, int ID, int tier)
 	{
@@ -181,32 +182,35 @@ public class ExChaoShengBuo extends ZhaPin
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
 		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
-		for (int var11 = 0; var11 < allEntities.size(); ++var11)
+		synchronized (allEntities)
 		{
-			Entity entity = (Entity) allEntities.get(var11);
-
-			if (entity instanceof EDaoDan)
+			for (Iterator it = allEntities.iterator(); it.hasNext();)
 			{
-				((EDaoDan) entity).explode();
-				break;
-			}
-			else
-			{
-				double xDifference = entity.posX - position.x;
-				double zDifference = entity.posZ - position.z;
+				Entity entity = (Entity) it.next();
 
-				r = (int) BAN_JING;
-				if (xDifference < 0)
-					r = (int) -BAN_JING;
+				if (entity instanceof EDaoDan)
+				{
+					((EDaoDan) entity).explode();
+					break;
+				}
+				else
+				{
+					double xDifference = entity.posX - position.x;
+					double zDifference = entity.posZ - position.z;
 
-				entity.motionX += (r - xDifference) * 0.02 * worldObj.rand.nextFloat();
-				entity.motionY += 4 * worldObj.rand.nextFloat();
+					r = (int) BAN_JING;
+					if (xDifference < 0)
+						r = (int) -BAN_JING;
 
-				r = (int) BAN_JING;
-				if (zDifference < 0)
-					r = (int) -BAN_JING;
+					entity.motionX += (r - xDifference) * 0.02 * worldObj.rand.nextFloat();
+					entity.motionY += 4 * worldObj.rand.nextFloat();
 
-				entity.motionZ += (r - zDifference) * 0.02 * worldObj.rand.nextFloat();
+					r = (int) BAN_JING;
+					if (zDifference < 0)
+						r = (int) -BAN_JING;
+
+					entity.motionZ += (r - zDifference) * 0.02 * worldObj.rand.nextFloat();
+				}
 			}
 		}
 

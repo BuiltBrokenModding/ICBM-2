@@ -232,7 +232,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
-		if (!this.worldObj.isRemote && ZhuYao.ZAI_KUAI)
+		if (!this.worldObj.isRemote && ZhuYao.ZAI_KUAI && this.chunkTicket != null)
 		{
 			for (int x = -2; x <= 2; x++)
 			{

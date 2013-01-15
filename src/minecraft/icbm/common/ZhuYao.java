@@ -373,7 +373,7 @@ public class ZhuYao
 		if (bFuShe == null)
 		{
 			CONFIGURATION.load();
-			bFuShe = new BlockRadioactive(CONFIGURATION.getBlock("Radioactive Block", B_HAO_MA + 5).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
+			bFuShe = new BlockRadioactive(CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
 			CONFIGURATION.save();
 			GameRegistry.registerBlock(bFuShe, "Radioactive");
 		}
