@@ -43,7 +43,7 @@ public class BJiQi extends BlockMachine
 
 		public static JiQi get(int id)
 		{
-			if (id <= JiQi.values().length) { return JiQi.values()[id]; }
+			if (id < JiQi.values().length && id > 0) { return JiQi.values()[id]; }
 
 			return null;
 		}
