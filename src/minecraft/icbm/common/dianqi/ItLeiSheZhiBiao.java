@@ -344,7 +344,7 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 40000;
+		return 60000;
 	}
 
 	@Override

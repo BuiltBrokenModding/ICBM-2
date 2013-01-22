@@ -25,6 +25,8 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TYinGanQi extends TileEntityElectricityRunnable implements IRedstoneProvider, IPacketReceiver
 {
+	private static final int MAX_DISTANCE = 30;
+
 	public short frequency = 0;
 
 	public boolean isDetect = false;
@@ -35,6 +37,8 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 	public byte mode = 0;
 
 	private int yongZhe = 0;
+
+	public boolean isInverted = false;
 
 	public TYinGanQi()
 	{
@@ -92,12 +96,21 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 
 								if (gotDisrupter)
 								{
+									if (this.isInverted)
+									{
+										isDetectThisCheck = true;
+										break;
+									}
+
 									continue;
 								}
 
-								isDetectThisCheck = true;
+								if (!this.isInverted)
+								{
+									isDetectThisCheck = true;
+								}
 							}
-							else if (!(entity instanceof EntityPlayer) && (this.mode == 0 || this.mode == 2))
+							else if (!this.isInverted && !(entity instanceof EntityPlayer) && (this.mode == 0 || this.mode == 2))
 							{
 								isDetectThisCheck = true;
 								break;
@@ -130,7 +143,7 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 			sendDian = this.getRequest().getWatts();
 		}
 
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, sendDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
+		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
 	}
 
 	@Override
@@ -157,8 +170,9 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 				this.wattsReceived = dataStream.readDouble();
 				this.frequency = dataStream.readShort();
 				this.mode = dataStream.readByte();
-				this.minCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
-				this.maxCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+				this.isInverted = dataStream.readBoolean();
+				this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
+				this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
 			}
 			else if (ID == 2)
 			{
@@ -170,11 +184,11 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 			}
 			else if (ID == 4)
 			{
-				this.minCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+				this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
 			}
 			else if (ID == 5)
 			{
-				this.maxCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+				this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
 			}
 		}
 		catch (Exception e)
@@ -193,6 +207,8 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 
 		this.mode = par1NBTTagCompound.getByte("mode");
 		this.frequency = par1NBTTagCompound.getShort("frequency");
+		this.isInverted = par1NBTTagCompound.getBoolean("isInverted");
+
 		this.minCoord = Vector3.readFromNBT("minCoord", par1NBTTagCompound);
 		this.maxCoord = Vector3.readFromNBT("maxCoord", par1NBTTagCompound);
 	}
@@ -207,6 +223,8 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 
 		par1NBTTagCompound.setShort("frequency", this.frequency);
 		par1NBTTagCompound.setByte("mode", this.mode);
+		par1NBTTagCompound.setBoolean("isInverted", this.isInverted);
+
 		this.minCoord.writeToNBT("minCoord", par1NBTTagCompound);
 		this.maxCoord.writeToNBT("maxCoord", par1NBTTagCompound);
 	}

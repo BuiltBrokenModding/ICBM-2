@@ -61,30 +61,30 @@ public class GYinGanQi extends ICBMGui
 		this.textFieldFreq.setText(this.tileEntity.frequency + "");
 
 		// Min
-		this.textFieldminX = new GuiTextField(fontRenderer, 75, 50, 15, 12);
-		this.textFieldminX.setMaxStringLength(1);
-		this.textFieldminX.setText(this.tileEntity.minCoord.x + "");
+		this.textFieldminX = new GuiTextField(fontRenderer, 75, 50, 20, 12);
+		this.textFieldminX.setMaxStringLength(2);
+		this.textFieldminX.setText(this.tileEntity.minCoord.intX() + "");
 
-		this.textFieldminY = new GuiTextField(fontRenderer, 75, 67, 15, 12);
-		this.textFieldminY.setMaxStringLength(1);
-		this.textFieldminY.setText(this.tileEntity.minCoord.y + "");
+		this.textFieldminY = new GuiTextField(fontRenderer, 75, 67, 20, 12);
+		this.textFieldminY.setMaxStringLength(2);
+		this.textFieldminY.setText(this.tileEntity.minCoord.intY() + "");
 
-		this.textFieldminZ = new GuiTextField(fontRenderer, 75, 82, 15, 12);
-		this.textFieldminZ.setMaxStringLength(1);
-		this.textFieldminZ.setText(this.tileEntity.minCoord.z + "");
+		this.textFieldminZ = new GuiTextField(fontRenderer, 75, 82, 20, 12);
+		this.textFieldminZ.setMaxStringLength(2);
+		this.textFieldminZ.setText(this.tileEntity.minCoord.intZ() + "");
 
 		// Max
-		this.textFieldmaxX = new GuiTextField(fontRenderer, 130, 50, 15, 12);
-		this.textFieldmaxX.setMaxStringLength(1);
-		this.textFieldmaxX.setText(this.tileEntity.maxCoord.x + "");
+		this.textFieldmaxX = new GuiTextField(fontRenderer, 130, 50, 20, 12);
+		this.textFieldmaxX.setMaxStringLength(2);
+		this.textFieldmaxX.setText(this.tileEntity.maxCoord.intX() + "");
 
-		this.textFieldmaxY = new GuiTextField(fontRenderer, 130, 67, 15, 12);
-		this.textFieldmaxY.setMaxStringLength(1);
-		this.textFieldmaxY.setText(this.tileEntity.maxCoord.y + "");
+		this.textFieldmaxY = new GuiTextField(fontRenderer, 130, 67, 20, 12);
+		this.textFieldmaxY.setMaxStringLength(2);
+		this.textFieldmaxY.setText(this.tileEntity.maxCoord.intY() + "");
 
-		this.textFieldmaxZ = new GuiTextField(fontRenderer, 130, 82, 15, 12);
-		this.textFieldmaxZ.setMaxStringLength(1);
-		this.textFieldmaxZ.setText(this.tileEntity.maxCoord.z + "");
+		this.textFieldmaxZ = new GuiTextField(fontRenderer, 130, 82, 20, 12);
+		this.textFieldmaxZ.setMaxStringLength(2);
+		this.textFieldmaxZ.setText(this.tileEntity.maxCoord.intZ() + "");
 
 		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) -1, true));
 
@@ -138,11 +138,10 @@ public class GYinGanQi extends ICBMGui
 			Vector3 newMinCoord = new Vector3(Integer.parseInt(this.textFieldminX.getText()), Integer.parseInt(this.textFieldminY.getText()), Integer.parseInt(this.textFieldminZ.getText()));
 
 			this.tileEntity.minCoord = newMinCoord;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 4, this.tileEntity.minCoord.x, this.tileEntity.minCoord.y, this.tileEntity.minCoord.z));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 4, this.tileEntity.minCoord.intX(), this.tileEntity.minCoord.intY(), this.tileEntity.minCoord.intZ()));
 		}
 		catch (Exception e)
 		{
-
 		}
 
 		try
@@ -150,7 +149,7 @@ public class GYinGanQi extends ICBMGui
 			Vector3 newMaxCoord = new Vector3(Integer.parseInt(this.textFieldmaxX.getText()), Integer.parseInt(this.textFieldmaxY.getText()), Integer.parseInt(this.textFieldmaxZ.getText()));
 
 			this.tileEntity.maxCoord = newMaxCoord;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 5, this.tileEntity.maxCoord.x, this.tileEntity.maxCoord.y, this.tileEntity.maxCoord.z));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 5, this.tileEntity.maxCoord.intX(), this.tileEntity.maxCoord.intY(), this.tileEntity.maxCoord.intZ()));
 		}
 		catch (Exception e)
 		{
@@ -213,6 +212,14 @@ public class GYinGanQi extends ICBMGui
 
 		this.fontRenderer.drawString("Frequency:", 15, 102, 4210752);
 
+		if (this.tileEntity.isInverted)
+		{
+			this.fontRenderer.drawString("Exclude", 120, 102, 4210752);
+		}
+		else
+		{
+			this.fontRenderer.drawString("Include", 120, 102, 4210752);
+		}
 		this.fontRenderer.drawString("Target:", 15, 120, 4210752);
 
 		this.textFieldFreq.drawTextBox();
@@ -224,7 +231,7 @@ public class GYinGanQi extends ICBMGui
 		{
 			status = "Disabled";
 		}
-		else if (this.tileEntity.prevDian < this.tileEntity.getWattRequest())
+		else if (this.tileEntity.prevWatts < this.tileEntity.getRequest().getWatts())
 		{
 			status = "Insufficient electricity!";
 		}
@@ -271,18 +278,18 @@ public class GYinGanQi extends ICBMGui
 		((GuiButton) this.controlList.get(0)).displayString = mode;
 
 		if (!this.textFieldminX.isFocused())
-			this.textFieldminX.setText(this.tileEntity.minCoord.x + "");
+			this.textFieldminX.setText(this.tileEntity.minCoord.intX() + "");
 		if (!this.textFieldminY.isFocused())
-			this.textFieldminY.setText(this.tileEntity.minCoord.y + "");
+			this.textFieldminY.setText(this.tileEntity.minCoord.intY() + "");
 		if (!this.textFieldminZ.isFocused())
-			this.textFieldminZ.setText(this.tileEntity.minCoord.z + "");
+			this.textFieldminZ.setText(this.tileEntity.minCoord.intZ() + "");
 
 		if (!this.textFieldmaxX.isFocused())
-			this.textFieldmaxX.setText(this.tileEntity.maxCoord.x + "");
+			this.textFieldmaxX.setText(this.tileEntity.maxCoord.intX() + "");
 		if (!this.textFieldmaxY.isFocused())
-			this.textFieldmaxY.setText(this.tileEntity.maxCoord.y + "");
+			this.textFieldmaxY.setText(this.tileEntity.maxCoord.intY() + "");
 		if (!this.textFieldmaxZ.isFocused())
-			this.textFieldmaxZ.setText(this.tileEntity.maxCoord.z + "");
+			this.textFieldmaxZ.setText(this.tileEntity.maxCoord.intZ() + "");
 
 		if (!this.textFieldFreq.isFocused())
 			this.textFieldFreq.setText(this.tileEntity.frequency + "");

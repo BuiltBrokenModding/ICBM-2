@@ -67,7 +67,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 
 		if (this.getJoules(par1ItemStack) > 1)
 		{
-			this.onUse(5, par1ItemStack);
+			this.onUse(1, par1ItemStack);
 		}
 	}
 
@@ -87,6 +87,6 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 100000;
+		return 80000;
 	}
 }

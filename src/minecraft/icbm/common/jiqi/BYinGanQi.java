@@ -35,23 +35,21 @@ public class BYinGanQi extends BlockMachine
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		TYinGanQi tileEntity = (TYinGanQi) par1World.getBlockTileEntity(x, y, z);
-
-		if (tileEntity != null)
-		{
-			par5EntityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_DETECTOR, par1World, x, y, z);
-		}
-
+		par5EntityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_DETECTOR, par1World, x, y, z);
 		return true;
 	}
 
-	/**
-	 * If this block doesn't render as an ordinary block it will return False (examples: signs,
-	 * buttons, stairs, etc)
-	 */
 	@Override
-	public boolean renderAsNormalBlock()
+	public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
+		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+
+		if (tileEntity instanceof TYinGanQi)
+		{
+			((TYinGanQi) tileEntity).isInverted = !((TYinGanQi) tileEntity).isInverted;
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -85,6 +83,12 @@ public class BYinGanQi extends BlockMachine
 	public boolean canProvidePower()
 	{
 		return true;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
 	}
 
 	@Override

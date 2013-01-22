@@ -4,6 +4,7 @@ import icbm.api.RadarRegistry;
 import icbm.common.CommonProxy;
 import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
+import icbm.common.dianqi.ItHuoLuanQi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +12,13 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -179,6 +182,36 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 			else
 			{
 				this.xunZhaoEntity.add(entity);
+			}
+		}
+
+		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - MAX_BIAN_JING, this.yCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING, this.xCoord + MAX_BIAN_JING, this.yCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
+
+		for (EntityPlayer player : players)
+		{
+			if (player != null)
+			{
+				boolean youHuoLuan = false;
+
+				for (int i = 0; i < player.inventory.getSizeInventory(); i++)
+				{
+					ItemStack itemStack = player.inventory.getStackInSlot(i);
+
+					if (itemStack != null)
+					{
+						if (itemStack.getItem() instanceof ItHuoLuanQi)
+						{
+							youHuoLuan = true;
+
+							break;
+						}
+					}
+				}
+
+				if (!youHuoLuan)
+				{
+					this.xunZhaoEntity.add(player);
+				}
 			}
 		}
 

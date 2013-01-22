@@ -10,6 +10,7 @@ import java.util.List;
 
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.input.Mouse;
@@ -152,7 +153,7 @@ public class GLeiDaTai extends ICBMGui
 		{
 			status = "Disabled!";
 		}
-		else if (this.tileEntity.prevDian >= this.tileEntity.getWattRequest())
+		else if (this.tileEntity.prevWatts >= this.tileEntity.getRequest().getWatts())
 		{
 			color = "\u00a72";
 			status = "Radar On!";
@@ -184,7 +185,7 @@ public class GLeiDaTai extends ICBMGui
 		this.info = "";
 		this.info2 = "";
 
-		if (this.tileEntity.prevDian >= this.tileEntity.getWattRequest())
+		if (this.tileEntity.prevWatts >= this.tileEntity.getRequest().getWatts())
 		{
 			int range = 4;
 
@@ -221,6 +222,12 @@ public class GLeiDaTai extends ICBMGui
 				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
 				{
 					this.info = entity.getEntityName();
+
+					if (entity instanceof EntityPlayer)
+					{
+						this.info = "\u00a71" + this.info;
+					}
+
 					if (entity instanceof EDaoDan)
 					{
 						if (((EDaoDan) entity).muBiao != null)

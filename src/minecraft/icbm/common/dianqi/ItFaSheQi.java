@@ -20,7 +20,7 @@ import universalelectricity.prefab.ItemElectric;
 
 public class ItFaSheQi extends ItemElectric
 {
-	private static final int YONG_DIAN_LIANG = 8000;
+	private static final int YONG_DIAN_LIANG = 16000;
 
 	public ItFaSheQi(int par1)
 	{
