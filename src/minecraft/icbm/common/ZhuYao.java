@@ -173,7 +173,7 @@ public class ZhuYao
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UniversalElectricity.register(this, 1, 2, 2, false);
+		UniversalElectricity.register(this, 1, 2, 4, false);
 
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
@@ -338,7 +338,7 @@ public class ZhuYao
 		if (OreDictionary.getOres("blockRadioactive").size() > 0)
 		{
 			bFuShe = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
-			System.out.println("Detected radioative block from another mod.");
+			System.out.println("Detected radioative block from another mod, utilizing it.");
 		}
 
 		OreDictionary.registerOre("dustSulfur", itLiu);

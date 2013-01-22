@@ -9,7 +9,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
-import universalelectricity.core.UniversalElectricity;
 import cpw.mods.fml.common.FMLLog;
 
 /**

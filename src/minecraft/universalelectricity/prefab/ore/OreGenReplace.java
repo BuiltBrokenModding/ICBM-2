@@ -60,7 +60,7 @@ public class OreGenReplace extends OreGenBase
 			int x = varX + random.nextInt(16);
 			int z = varZ + random.nextInt(16);
 			int y = random.nextInt(this.maxGenerateLevel - this.minGenerateLevel) + this.minGenerateLevel;
-			generateReplace(world, random, x, y, z);
+			this.generateReplace(world, random, x, y, z);
 		}
 	}
 
@@ -123,6 +123,7 @@ public class OreGenReplace extends OreGenBase
 	@Override
 	public boolean isOreGeneratedInWorld(World world, IChunkProvider chunkGenerator)
 	{
+		if (!this.shouldGenerate) { return false; }
 		if (this.ignoreSurface && chunkGenerator instanceof ChunkProviderGenerate) { return false; }
 		if (this.ignoreNether && chunkGenerator instanceof ChunkProviderHell) { return false; }
 		if (this.ignoreEnd && chunkGenerator instanceof ChunkProviderEnd) { return false; }

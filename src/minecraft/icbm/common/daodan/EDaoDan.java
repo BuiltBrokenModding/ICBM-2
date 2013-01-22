@@ -220,14 +220,17 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public void daoDanInit(Ticket ticket)
 	{
-		if (this.chunkTicket == null)
+		if (ticket != null)
 		{
-			this.chunkTicket = ticket;
-			this.chunkTicket.bindEntity(this);
-			this.chunkTicket.getModData();
-		}
+			if (this.chunkTicket == null)
+			{
+				this.chunkTicket = ticket;
+				this.chunkTicket.bindEntity(this);
+				this.chunkTicket.getModData();
+			}
 
-		ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+			ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+		}
 	}
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)

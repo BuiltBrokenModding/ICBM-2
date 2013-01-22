@@ -221,7 +221,6 @@ public class PacketManager implements IPacketHandler, IPacketReceiver
 			}
 
 			return data;
-
 		}
 		catch (IOException e)
 		{

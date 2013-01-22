@@ -31,7 +31,7 @@ public class UniversalElectricity
 	 */
 	public static final int MAJOR_VERSION = 1;
 	public static final int MINOR_VERSION = 2;
-	public static final int REVISION_VERSION = 3;
+	public static final int REVISION_VERSION = 4;
 	public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION;
 
 	/**
@@ -43,12 +43,16 @@ public class UniversalElectricity
 	 * Conversion ratios between Buildcraft and Industrialcraft energy.
 	 */
 	// The amount of UE Joules equivalent to IC2 EU
-	public static double IC2_RATIO = 50;
+	public static double IC2_RATIO = 40;
 	// The amount of UE Joules equivalent to BC Minecraft Joules
-	public static double BC3_RATIO = 500;
+	public static double BC3_RATIO = 400;
 	public static double TO_IC2_RATIO = 1 / IC2_RATIO;
 	public static double TO_BC_RATIO = 1 / BC3_RATIO;
 
+	/**
+	 * Is Universal Electricity currently being voltage sensitive? If so, all machines should
+	 * explode under high voltage and react to different amounts of voltage differently.
+	 */
 	public static boolean isVoltageSensitive = false;
 
 	/**
@@ -56,6 +60,9 @@ public class UniversalElectricity
 	 */
 	public static final Material machine = new Material(MapColor.ironColor);
 
+	/**
+	 * A list of all mods Universal Electricity has loaded.
+	 */
 	public static final List<Object> mods = new ArrayList<Object>();
 
 	/**

@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.implement.IConductor;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.FMLLog;
@@ -426,7 +424,8 @@ public class ElectricityNetwork
 	}
 
 	/**
-	 * Consumes electricity from all specified sides. Use this as a simple helper function.
+	 * Requests and attempts to consume electricity from all specified sides. Use this as a simple
+	 * helper function.
 	 * 
 	 * @param tileEntity- The TileEntity consuming the electricity.
 	 * @param approachDirection - The sides in which you can connect.
