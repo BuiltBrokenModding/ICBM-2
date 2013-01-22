@@ -2,6 +2,8 @@ package icbm.client.render;
 
 import icbm.client.models.MShouFaSheQi;
 import icbm.common.ZhuYao;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -35,18 +37,41 @@ public class RItFaSheQi implements IItemRenderer
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "RocketLauncher.png"));
 
-		GL11.glTranslatef(0, 1.5f, 0);
-		GL11.glRotatef(180, 0, 0, 1);
-
 		if (type == ItemRenderType.INVENTORY)
 		{
+			GL11.glTranslatef(0, 1.5f, 0);
+			GL11.glRotatef(180, 0, 0, 1);
 			GL11.glScalef(0.8f, 1f, 0.8f);
 			GL11.glTranslatef(0, 0.3f, 0);
 		}
 		else if (type == ItemRenderType.EQUIPPED)
 		{
-			GL11.glTranslatef(0.5f, -1f, 0.5f);
-			GL11.glRotatef(50, 0, 1, 0);
+
+			/**
+			 * Check to see if we should do a first person render or not.
+			 */
+			boolean isThisEntity = false;
+			boolean isFirstPerson = (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0);
+
+			if (data != null)
+			{
+				if (data.length >= 2)
+				{
+					isThisEntity = data[1] == Minecraft.getMinecraft().renderViewEntity;
+				}
+			}
+
+			if (isThisEntity && isFirstPerson)
+			{
+				GL11.glTranslatef(0, 2f, 0);
+				GL11.glRotatef(180, 0, 0, 1);
+				GL11.glRotatef(20, 0, 1, 0);
+			}
+			else
+			{
+				GL11.glTranslatef(0f, -0.2f, 1f);
+				GL11.glRotatef(-120, 0, 1, 0);
+			}
 		}
 
 		MODEL.render(0.0625F);

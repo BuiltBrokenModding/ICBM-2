@@ -4,6 +4,8 @@ import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
 import icbm.common.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
@@ -29,7 +31,53 @@ public class ItFaSheQi extends ItemElectric
 	}
 
 	@Override
+	public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	{
+		return EnumAction.bow;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	{
+		return 60;
+	}
+
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+	{
+		if (this.getJoules(itemStack) >= YONG_DIAN_LIANG)
+		{
+			// Check the player's inventory and look for missiles.
+			for (int i = 0; i < player.inventory.getSizeInventory(); i++)
+			{
+				ItemStack inventoryStack = player.inventory.getStackInSlot(i);
+
+				if (inventoryStack != null)
+				{
+					if (inventoryStack.itemID == ZhuYao.itDaoDan.itemID)
+					{
+						int daoDanHaoMa = inventoryStack.getItemDamage();
+
+						// Limit the missile to tier two.
+						if (daoDanHaoMa < ZhaPin.E_ER_ID)
+						{
+							ZhaPin zhaPin = ZhaPin.list[daoDanHaoMa];
+
+							if (zhaPin != null)
+							{
+								player.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return itemStack;
+	}
+
+	@Override
+	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int par4)
 	{
 		if (!world.isRemote)
 		{
@@ -62,9 +110,14 @@ public class ItFaSheQi extends ItemElectric
 									EDaoDan eDaoDan = new EDaoDan(world, zhaPin.getID(), kaiShiDiDian, player.rotationYaw, player.rotationPitch);
 									world.spawnEntityInWorld(eDaoDan);
 									eDaoDan.faShe(muBiao);
-									player.inventory.setInventorySlotContents(i, null);
+
+									if (!player.capabilities.isCreativeMode)
+									{
+										player.inventory.setInventorySlotContents(i, null);
+									}
+
 									this.onUse(YONG_DIAN_LIANG, itemStack);
-									return itemStack;
+									return;
 								}
 							}
 						}
@@ -73,8 +126,6 @@ public class ItFaSheQi extends ItemElectric
 			}
 
 		}
-
-		return itemStack;
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
@@ -28,13 +29,14 @@ import universalelectricity.prefab.implement.IToolConfigurator;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
+public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
 {
 	public final static int MAX_BIAN_JING = 500;
 
@@ -104,7 +106,7 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 
 			if (!this.isDisabled())
 			{
-				if (this.dian >= this.getWattRequest())
+				if (this.wattsReceived >= this.getRequest().getWatts())
 				{
 					this.xuanZhuan += 0.05F;
 
@@ -113,7 +115,7 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 
 					if (!this.worldObj.isRemote)
 					{
-						this.dian -= this.getWattRequest() / 2;
+						this.wattsReceived -= this.getRequest().getWatts() / 2;
 					}
 
 					int prevShuMu = this.xunZhaoEntity.size();
@@ -184,7 +186,7 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 		{
 			if (jiQi instanceof TLeiDaTai)
 			{
-				if (!((TLeiDaTai) jiQi).isDisabled() && ((TLeiDaTai) jiQi).prevDian > 0)
+				if (!((TLeiDaTai) jiQi).isDisabled() && ((TLeiDaTai) jiQi).prevWatts > 0)
 				{
 					this.xunZhaoJiQi.add(jiQi);
 				}
@@ -212,11 +214,11 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		double sendDian = this.dian;
+		double sendDian = this.wattsReceived;
 
 		if (sendDian > 0)
 		{
-			sendDian = this.getWattRequest();
+			sendDian = this.getRequest().getWatts();
 		}
 
 		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, sendDian, this.disabledTicks);
@@ -250,7 +252,7 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 				}
 				else if (ID == 4)
 				{
-					this.dian = dataStream.readDouble();
+					this.wattsReceived = dataStream.readDouble();
 					this.disabledTicks = dataStream.readInt();
 				}
 			}
@@ -275,7 +277,7 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 	@Override
 	public boolean isPoweringTo(ForgeDirection side)
 	{
-		if (this.prevDian > 0 || this.dian > 0)
+		if (this.prevWatts > 0 || this.wattsReceived > 0)
 		{
 			if (this.weiXianDaoDan.size() > 0)
 			{
@@ -413,7 +415,7 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 	@Override
 	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
 	{
-		if (this.prevDian < this.getWattRequest()) { throw new Exception("Radar has insufficient electricity!"); }
+		if (this.prevWatts < this.getRequest().getWatts()) { throw new Exception("Radar has insufficient electricity!"); }
 
 		HashMap<String, Double> returnArray = new HashMap();
 
@@ -471,8 +473,8 @@ public class TLeiDaTai extends TJiQiPao implements IPacketReceiver, IRedstonePro
 	}
 
 	@Override
-	public double getWattRequest()
+	public ElectricityPack getRequest()
 	{
-		return 15;
+		return new ElectricityPack(15 / this.getVoltage(), this.getVoltage());
 	}
 }

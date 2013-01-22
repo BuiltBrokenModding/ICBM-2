@@ -14,14 +14,16 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinGanQi extends TJiQiPao implements IRedstoneProvider, IPacketReceiver
+public class TYinGanQi extends TileEntityElectricityRunnable implements IRedstoneProvider, IPacketReceiver
 {
 	public short frequency = 0;
 
@@ -62,7 +64,7 @@ public class TYinGanQi extends TJiQiPao implements IRedstoneProvider, IPacketRec
 				{
 					boolean isDetectThisCheck = false;
 
-					if (this.dian >= this.getWattRequest())
+					if (this.wattsReceived >= this.getRequest().getWatts())
 					{
 						AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
 						List<EntityLiving> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
@@ -104,7 +106,7 @@ public class TYinGanQi extends TJiQiPao implements IRedstoneProvider, IPacketRec
 
 						if (!this.worldObj.isRemote)
 						{
-							this.dian = 0;
+							this.wattsReceived = 0;
 						}
 					}
 
@@ -121,11 +123,11 @@ public class TYinGanQi extends TJiQiPao implements IRedstoneProvider, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		double sendDian = this.dian;
+		double sendDian = this.wattsReceived;
 
 		if (sendDian > 0)
 		{
-			sendDian = this.getWattRequest();
+			sendDian = this.getRequest().getWatts();
 		}
 
 		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, sendDian, this.frequency, this.mode, this.minCoord.x, this.minCoord.y, this.minCoord.z, this.maxCoord.x, this.maxCoord.y, this.maxCoord.z);
@@ -152,7 +154,7 @@ public class TYinGanQi extends TJiQiPao implements IRedstoneProvider, IPacketRec
 			}
 			else if (ID == 1)
 			{
-				this.dian = dataStream.readDouble();
+				this.wattsReceived = dataStream.readDouble();
 				this.frequency = dataStream.readShort();
 				this.mode = dataStream.readByte();
 				this.minCoord = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
@@ -222,8 +224,8 @@ public class TYinGanQi extends TJiQiPao implements IRedstoneProvider, IPacketRec
 	}
 
 	@Override
-	public double getWattRequest()
+	public ElectricityPack getRequest()
 	{
-		return 8;
+		return new ElectricityPack(8 / this.getVoltage(), this.getVoltage());
 	}
 }

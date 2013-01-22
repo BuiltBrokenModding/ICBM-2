@@ -29,10 +29,11 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityElectricityStorage;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TCiGuiPao extends TJiQiCun implements IPacketReceiver, IRedstoneReceptor, IMultiBlock, IInventory
+public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketReceiver, IRedstoneReceptor, IMultiBlock, IInventory
 {
 	public float rotationYaw = 0;
 	public float rotationPitch = 0;

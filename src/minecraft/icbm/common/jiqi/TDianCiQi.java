@@ -15,10 +15,11 @@ import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityElectricityStorage;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TJiQiCun implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
+public class TDianCiQi extends TileEntityElectricityStorage implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
 	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 150;
