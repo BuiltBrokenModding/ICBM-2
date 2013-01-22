@@ -18,7 +18,7 @@ public class ExFuLan extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
-		if (worldObj.isRemote)
+		if (!worldObj.isRemote)
 		{
 			for (int x = -radius; x < radius; x++)
 			{
@@ -34,10 +34,9 @@ public class ExFuLan extends ZhaPin
 						Vector3 blockPosition = new Vector3(x, y, z);
 						blockPosition.add(position);
 
-						// Check what type of block
-						// this is. Decay the land
-						// depending on the block
-						// type.
+						/**
+						 * Decay the blocks.
+						 */
 						int blockID = worldObj.getBlockId((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z);
 
 						if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
@@ -69,7 +68,7 @@ public class ExFuLan extends ZhaPin
 						}
 						else if (blockID == Block.tilledField.blockID)
 						{
-							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.mycelium.blockID);
+							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
 						}
 					}
 				}
