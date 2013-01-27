@@ -7,19 +7,28 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 
 public class BlockRadioactive extends Block
 {
 	public static int RECOMMENDED_ID = 3768;
+	public boolean canSpread = true;
+	public float radius = 5;
+	public int amplifier = 2;
+	public boolean canWalkPoison = true;
+
+	public BlockRadioactive(int id, int texture, Material material)
+	{
+		super(id, texture, material);
+		this.setTickRandomly(true);
+	}
 
 	public BlockRadioactive(int id, int texture, String textureFile)
 	{
-		super(id, texture, Material.ground);
-		this.setTickRandomly(true);
+		this(id, texture, Material.ground);
 		this.setHardness(0.2F);
 		this.setLightValue(0.1F);
 		this.setBlockName("radioactive");
@@ -27,54 +36,58 @@ public class BlockRadioactive extends Block
 	}
 
 	/**
-	 * Called whenever the block is added into the world. Args: world, x, y, z
-	 */
-	@Override
-	public void onBlockAdded(World par1World, int x, int y, int z)
-	{
-		par1World.scheduleBlockUpdate(x, y, z, 20, 20);
-	}
-
-	/**
 	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
-	public int getBlockTextureFromSideAndMetadata(int side, int par2)
+	@Override
+	public int getBlockTextureFromSide(int side)
 	{
 		return side == 1 ? this.blockIndexInTexture : (side == 0 ? this.blockIndexInTexture + 2 : this.blockIndexInTexture + 1);
+	}
+
+	@Override
+	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer par5EntityPlayer)
+	{
+		if (world.rand.nextFloat() > 0.9)
+		{
+			this.updateTick(world, x, y, z, world.rand);
+		}
 	}
 
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
-	public void updateTick(World par1World, int x, int y, int z, Random par5Random)
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand)
 	{
-		if (!par1World.isRemote)
+		if (!world.isRemote)
 		{
-			for (int var6 = 0; var6 < 4; ++var6)
-			{
-				int newX = x + par5Random.nextInt(3) - 1;
-				int newY = y + par5Random.nextInt(5) - 3;
-				int newZ = z + par5Random.nextInt(3) - 1;
-				int var10 = par1World.getBlockId(newX, newY + 1, newZ);
-
-				if (par5Random.nextFloat() > 0.8 && (par1World.getBlockId(newX, newY, newZ) == Block.tilledField.blockID || par1World.getBlockId(newX, newY, newZ) == Block.grass.blockID))
-				{
-					par1World.setBlockWithNotify(newX, newY, newZ, this.blockID);
-				}
-			}
-
-			int radius = 5;
-			AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
-			List<EntityLiving> entitiesNearby = par1World.getEntitiesWithinAABB(EntityLiving.class, bounds);
+			AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - this.radius, y - this.radius, z - this.radius, x + this.radius, y + this.radius, z + this.radius);
+			List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
 
 			for (EntityLiving entity : entitiesNearby)
 			{
-				PoisonRadiation.INSTANCE.poisonEntity((EntityLiving) entity);
+				PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), (EntityLiving) entity, amplifier);
 			}
 
-			if (par5Random.nextFloat() > 0.95)
+			if (this.canSpread)
 			{
-				par1World.setBlockWithNotify(x, y, z, Block.mycelium.blockID);
+				for (int i = 0; i < 4; ++i)
+				{
+					int newX = x + rand.nextInt(3) - 1;
+					int newY = y + rand.nextInt(5) - 3;
+					int newZ = z + rand.nextInt(3) - 1;
+					int var10 = world.getBlockId(newX, newY + 1, newZ);
+
+					if (rand.nextFloat() > 0.5 && (world.getBlockId(newX, newY, newZ) == Block.tilledField.blockID || world.getBlockId(newX, newY, newZ) == Block.grass.blockID))
+					{
+						world.setBlockWithNotify(newX, newY, newZ, this.blockID);
+					}
+				}
+
+				if (rand.nextFloat() > 0.8)
+				{
+					world.setBlockWithNotify(x, y, z, Block.mycelium.blockID);
+				}
 			}
 		}
 	}
@@ -82,11 +95,12 @@ public class BlockRadioactive extends Block
 	/**
 	 * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
 	 */
-	public void onEntityWalking(World par1World, int par2, int par3, int par4, Entity par5Entity)
+	@Override
+	public void onEntityWalking(World par1World, int x, int y, int z, Entity par5Entity)
 	{
-		if (par5Entity instanceof EntityLiving)
+		if (par5Entity instanceof EntityLiving && this.canWalkPoison)
 		{
-			PoisonRadiation.INSTANCE.poisonEntity((EntityLiving) par5Entity);
+			PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), (EntityLiving) par5Entity);
 		}
 	}
 }

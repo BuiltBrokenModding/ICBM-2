@@ -17,7 +17,7 @@ public class PotionRadiation extends CustomPotion
 	@Override
 	public void performEffect(EntityLiving par1EntityLiving, int amplifier)
 	{
-		if (par1EntityLiving.worldObj.rand.nextFloat() > 0.85 - (amplifier * 0.2))
+		if (par1EntityLiving.worldObj.rand.nextFloat() > 0.9 - (amplifier * 0.2))
 		{
 			par1EntityLiving.attackEntityFrom(PoisonRadiation.damageSource, 1);
 

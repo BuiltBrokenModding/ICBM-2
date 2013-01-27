@@ -8,6 +8,7 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotion;
 
 public class PChuanRanDu extends CustomPotion
@@ -50,7 +51,7 @@ public class PChuanRanDu extends CustomPotion
 				nearestEntity.setDead();
 			}
 
-			ZhuYao.DU_CHUAN_RAN.poisonEntity(nearestEntity);
+			ZhuYao.DU_CHUAN_RAN.poisonEntity(new Vector3(par1EntityLiving), nearestEntity);
 		}
 	}
 

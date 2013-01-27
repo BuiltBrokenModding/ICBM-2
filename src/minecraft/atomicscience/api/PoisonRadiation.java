@@ -3,6 +3,7 @@ package atomicscience.api;
 import java.util.EnumSet;
 
 import net.minecraft.entity.EntityLiving;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.UEDamageSource;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 
@@ -17,14 +18,22 @@ public class PoisonRadiation extends Poison
 	}
 
 	@Override
-	protected void doPoisonEntity(EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
+	protected void doPoisonEntity(Vector3 emitPosition, EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
 	{
-		entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 60, amplifier, null));
+		if (emitPosition == null)
+		{
+			entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 60, amplifier, null));
+			return;
+		}
+
+		if (entity.worldObj.getBlockDensity(emitPosition.toVec3(), entity.boundingBox) < 3)
+		{
+			entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 60, amplifier, null));
+		}
 	}
 
 	public static void register()
 	{
 		PotionRadiation.INSTANCE.register();
-		PoisonRadiation.damageSource.registerDeathMessage();
 	}
 }

@@ -7,8 +7,10 @@ import java.util.EnumSet;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.potion.Potion;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 import atomicscience.api.Poison;
+import atomicscience.api.Poison.ArmorType;
 
 public class Du extends Poison
 {
@@ -21,7 +23,7 @@ public class Du extends Poison
 	}
 
 	@Override
-	protected void doPoisonEntity(EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
+	protected void doPoisonEntity(Vector3 emitPosition, EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
 	{
 		if (this.isContagious)
 		{

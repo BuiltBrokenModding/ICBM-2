@@ -53,11 +53,11 @@ public class ExDuQi extends ZhaPin
 		{
 			if (isContagious)
 			{
-				ZhuYao.DU_CHUAN_RAN.poisonEntity(entity);
+				ZhuYao.DU_CHUAN_RAN.poisonEntity(position, entity);
 			}
 			else
 			{
-				ZhuYao.DU_DU.poisonEntity(entity);
+				ZhuYao.DU_DU.poisonEntity(position, entity);
 			}
 		}
 

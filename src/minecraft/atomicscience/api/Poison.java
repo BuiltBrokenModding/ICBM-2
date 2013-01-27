@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import universalelectricity.core.vector.Vector3;
 
 public abstract class Poison
 {
@@ -46,7 +47,7 @@ public abstract class Poison
 	 * @armorRequired - The amount of pieces of armor required to be protected.
 	 * @param entity
 	 */
-	public void poisonEntity(EntityLiving entity, int amplifier)
+	public void poisonEntity(Vector3 emitPosition, EntityLiving entity, int amplifier)
 	{
 		EnumSet<ArmorType> armorWorn = EnumSet.of(ArmorType.UNKNOWN);
 
@@ -72,14 +73,14 @@ public abstract class Poison
 
 		if (!armorWorn.containsAll(this.armorRequired))
 		{
-			this.doPoisonEntity(entity, armorWorn, amplifier);
+			this.doPoisonEntity(emitPosition, entity, armorWorn, amplifier);
 		}
 	}
 
-	public void poisonEntity(EntityLiving entity)
+	public void poisonEntity(Vector3 emitPosition, EntityLiving entity)
 	{
-		this.poisonEntity(entity, 0);
+		this.poisonEntity(emitPosition, entity, 0);
 	}
 
-	protected abstract void doPoisonEntity(EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier);
+	protected abstract void doPoisonEntity(Vector3 emitPosition, EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier);
 }
