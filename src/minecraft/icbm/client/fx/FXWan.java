@@ -9,9 +9,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class PortalFX extends EntityPortalFX
+public class FXWan extends EntityPortalFX
 {
-	public PortalFX(World par1World, Vector3 position, float red, float green, float blue, float scale, double distance)
+	public FXWan(World par1World, Vector3 position, float red, float green, float blue, float scale, double distance)
 	{
 		super(par1World, position.x, position.y, position.z, 0, 0, 0);
 		this.particleScale = scale;

@@ -13,15 +13,15 @@ public class ParticleSpawner
 	{
 		if (name == "smoke")
 		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new SmokeFX(world, position, red, green, blue, scale, distance));
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXYan(world, position, red, green, blue, scale, distance));
 		}
 		else if (name == "portal")
 		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new PortalFX(world, position, red, green, blue, scale, distance));
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXWan(world, position, red, green, blue, scale, distance));
 		}
 		else if (name == "antimatter")
 		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new AntimatterFX(world, position, red, green, blue, scale, distance));
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxFanWuSu(world, position, red, green, blue, scale, distance));
 		}
 	}
 

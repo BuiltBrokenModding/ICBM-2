@@ -2,7 +2,6 @@ package icbm.common.zhapin.ex;
 
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.ZhaPin;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -36,7 +35,7 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', Block.tnt, 'R', Item.redstone, 'B', "battery" }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Item.redstone, 'B', "battery" }), this.getName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@Override

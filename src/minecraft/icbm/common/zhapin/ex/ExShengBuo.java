@@ -215,7 +215,7 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public float getRadius()
 	{
-		return 10;
+		return 8;
 	}
 
 	@Override

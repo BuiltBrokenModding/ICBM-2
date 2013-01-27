@@ -63,11 +63,14 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
-		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
-
-		if (this.getJoules(par1ItemStack) > 1)
+		if (!par2World.isRemote)
 		{
-			this.onUse(1, par1ItemStack);
+			super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+
+			if (this.getJoules(par1ItemStack) > 1)
+			{
+				this.onUse(1, par1ItemStack);
+			}
 		}
 	}
 

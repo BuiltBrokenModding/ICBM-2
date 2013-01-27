@@ -451,27 +451,27 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 		if (this.prevWatts < this.getRequest().getWatts()) { throw new Exception("Radar has insufficient electricity!"); }
 
 		HashMap<String, Double> returnArray = new HashMap();
+		int count = 0;
 
 		switch (method)
 		{
 			case 0:
-
 				List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), this.alarmBanJing);
 
 				for (Entity entity : entities)
 				{
-					returnArray.put("x", entity.posX);
-					returnArray.put("y", entity.posY);
-					returnArray.put("z", entity.posZ);
+					returnArray.put("x_" + count, entity.posX);
+					returnArray.put("y" + count, entity.posY);
+					returnArray.put("z+count", entity.posZ);
 				}
 
 				return new Object[] { returnArray };
 			case 1:
 				for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
 				{
-					returnArray.put("x", (double) jiQi.xCoord);
-					returnArray.put("y", (double) jiQi.yCoord);
-					returnArray.put("z", (double) jiQi.zCoord);
+					returnArray.put("x" + count, (double) jiQi.xCoord);
+					returnArray.put("y" + count, (double) jiQi.yCoord);
+					returnArray.put("z" + count, (double) jiQi.zCoord);
 				}
 				return new Object[] { returnArray };
 		}

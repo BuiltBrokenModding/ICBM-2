@@ -24,7 +24,6 @@ import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExChaoShengBuo extends ZhaPin
 {
-	private static final int BAN_JING = 15;
 	private static final int NENG_LIANG = 70;
 
 	public ExChaoShengBuo(String name, int ID, int tier)
@@ -39,11 +38,11 @@ public class ExChaoShengBuo extends ZhaPin
 		{
 			EZhaPin source = (EZhaPin) explosionSource;
 
-			for (int x = -BAN_JING * 2; x < BAN_JING * 2; ++x)
+			for (int x = (int) (-this.getRadius() * 2); x < this.getRadius() * 2; ++x)
 			{
-				for (int y = -BAN_JING * 2; y < BAN_JING * 2; ++y)
+				for (int y = (int) (-this.getRadius() * 2); y < this.getRadius() * 2; ++y)
 				{
-					for (int z = -BAN_JING * 2; z < BAN_JING * 2; ++z)
+					for (int z = (int) (-this.getRadius() * 2); z < this.getRadius() * 2; ++z)
 					{
 						Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
 						int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
@@ -61,17 +60,17 @@ public class ExChaoShengBuo extends ZhaPin
 				}
 			}
 
-			for (int x = 0; x < BAN_JING; ++x)
+			for (int x = 0; x < this.getRadius(); ++x)
 			{
-				for (int y = 0; y < BAN_JING; ++y)
+				for (int y = 0; y < this.getRadius(); ++y)
 				{
-					for (int z = 0; z < BAN_JING; ++z)
+					for (int z = 0; z < this.getRadius(); ++z)
 					{
-						if (x == 0 || x == BAN_JING - 1 || y == 0 || y == BAN_JING - 1 || z == 0 || z == BAN_JING - 1)
+						if (x == 0 || x == this.getRadius() - 1 || y == 0 || y == this.getRadius() - 1 || z == 0 || z == this.getRadius() - 1)
 						{
-							double xStep = (double) ((float) x / ((float) BAN_JING - 1.0F) * 2.0F - 1.0F);
-							double yStep = (double) ((float) y / ((float) BAN_JING - 1.0F) * 2.0F - 1.0F);
-							double zStep = (double) ((float) z / ((float) BAN_JING - 1.0F) * 2.0F - 1.0F);
+							double xStep = (double) ((float) x / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double yStep = (double) ((float) y / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double zStep = (double) ((float) z / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
 							double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 							xStep /= diagonalDistance;
 							yStep /= diagonalDistance;
@@ -167,7 +166,7 @@ public class ExChaoShengBuo extends ZhaPin
 
 					targetPosition.add(0.5D);
 
-					if (worldObj.rand.nextFloat() < 0.2 * (BAN_JING - r))
+					if (worldObj.rand.nextFloat() < 0.2 * (this.getRadius() - r))
 					{
 						EFeiBlock entity = new EFeiBlock(worldObj, targetPosition, blockID, metadata);
 						worldObj.spawnEntityInWorld(entity);
@@ -198,23 +197,23 @@ public class ExChaoShengBuo extends ZhaPin
 					double xDifference = entity.posX - position.x;
 					double zDifference = entity.posZ - position.z;
 
-					r = (int) BAN_JING;
+					r = (int) this.getRadius();
 					if (xDifference < 0)
-						r = (int) -BAN_JING;
+						r = (int) -this.getRadius();
 
 					entity.motionX += (r - xDifference) * 0.02 * worldObj.rand.nextFloat();
 					entity.motionY += 4 * worldObj.rand.nextFloat();
 
-					r = (int) BAN_JING;
+					r = (int) this.getRadius();
 					if (zDifference < 0)
-						r = (int) -BAN_JING;
+						r = (int) -this.getRadius();
 
 					entity.motionZ += (r - zDifference) * 0.02 * worldObj.rand.nextFloat();
 				}
 			}
 		}
 
-		if (callCount > BAN_JING) { return false; }
+		if (callCount > this.getRadius()) { return false; }
 
 		return true;
 	}
@@ -239,7 +238,7 @@ public class ExChaoShengBuo extends ZhaPin
 	@Override
 	public float getRadius()
 	{
-		return BAN_JING;
+		return 12;
 	}
 
 	@Override

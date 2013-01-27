@@ -43,7 +43,7 @@ public class BJiQi extends BlockMachine
 
 		public static JiQi get(int id)
 		{
-			if (id < JiQi.values().length && id > 0) { return JiQi.values()[id]; }
+			if (id < JiQi.values().length && id >= 0) { return JiQi.values()[id]; }
 
 			return null;
 		}
@@ -347,20 +347,30 @@ public class BJiQi extends BlockMachine
 		return new ItemStack(ZhuYao.bJiQi, 1, getJiQiID(tileEntity));
 	}
 
+	@Override
+	public int damageDropped(int metadata)
+	{
+		return metadata;
+	}
+
 	public static int getJiQiID(TileEntity tileEntity)
 	{
-		int metadata = tileEntity.getBlockMetadata();
-
 		int itemMetadata = 0;
 
-		if (tileEntity instanceof ITier)
+		if (tileEntity != null)
 		{
-			itemMetadata = ((ITier) tileEntity).getTier() + metadata * 3;
+			int metadata = tileEntity.getBlockMetadata();
+
+			if (tileEntity instanceof ITier)
+			{
+				itemMetadata = ((ITier) tileEntity).getTier() + metadata * 3;
+			}
+			else
+			{
+				itemMetadata = 9 + metadata - 3;
+			}
 		}
-		else
-		{
-			itemMetadata = 9 + metadata - 3;
-		}
+
 		return itemMetadata;
 	}
 

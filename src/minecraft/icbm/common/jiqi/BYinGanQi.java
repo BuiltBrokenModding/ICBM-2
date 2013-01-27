@@ -49,7 +49,7 @@ public class BYinGanQi extends BlockMachine
 			((TYinGanQi) tileEntity).isInverted = !((TYinGanQi) tileEntity).isInverted;
 			return true;
 		}
-		
+
 		return false;
 	}
 

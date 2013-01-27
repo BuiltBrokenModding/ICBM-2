@@ -2,11 +2,13 @@ package icbm.common.zhapin.ex;
 
 import icbm.api.IMissile;
 import icbm.api.RadarRegistry;
+import icbm.common.zhapin.EZhaDan;
 import icbm.common.zhapin.ZhaPin;
 
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
@@ -35,6 +37,14 @@ public class ExDianCiSignal extends ZhaPin
 					((IMissile) entity).dropMissileAsItem();
 				}
 			}
+		}
+
+		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
+		List<EZhaDan> eZhaDans = worldObj.getEntitiesWithinAABB(EZhaDan.class, bounds);
+
+		for (EZhaDan eZhaDan : eZhaDans)
+		{
+			eZhaDan.setDead();
 		}
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.emp", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);

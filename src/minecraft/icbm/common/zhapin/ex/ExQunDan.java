@@ -86,7 +86,7 @@ public class ExQunDan extends ZhaPin
 	{
 		if (this.getID() == ZhaPin.xiaoQunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', Block.tnt, '?', Item.arrow }), this.getName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', tui.getItemStack(), '?', Item.arrow }), this.getName(), ZhuYao.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.zhen.getID())
 		{

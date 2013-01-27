@@ -1,5 +1,6 @@
 package icbm.client;
 
+import icbm.client.fx.FXLeiShe;
 import icbm.client.render.RBYinXing;
 import icbm.client.render.RChe;
 import icbm.client.render.RCiGuiPao;
@@ -58,6 +59,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.TextureFXManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -154,5 +156,11 @@ public class ClientProxy extends CommonProxy
 	public boolean isGaoQing()
 	{
 		return Minecraft.getMinecraft().gameSettings.fancyGraphics;
+	}
+
+	@Override
+	public void leiShe(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+	{
+		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXLeiShe(world, position, target, red, green, blue, age));
 	}
 }

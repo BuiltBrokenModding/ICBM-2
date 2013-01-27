@@ -14,7 +14,6 @@ import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class ExHuanYuan extends ZhaPin
@@ -33,9 +32,10 @@ public class ExHuanYuan extends ZhaPin
 			{
 				Chunk oldChunk = worldObj.getChunkFromBlockCoords(position.intX(), position.intZ());
 
-				if (worldObj.provider.dimensionId < FMLCommonHandler.instance().getMinecraftServerInstance().worldServers.length && worldObj.provider.dimensionId > 0)
+				if (worldObj instanceof WorldServer)
 				{
-					WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[worldObj.provider.dimensionId];
+					WorldServer worldServer = (WorldServer) worldObj;
+
 					ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
 
 					ChunkProviderGenerate chunkProviderGenerate = ((ChunkProviderGenerate) ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "currentChunkProvider", "d"));
@@ -69,7 +69,8 @@ public class ExHuanYuan extends ZhaPin
 			}
 			catch (Exception e)
 			{
-				System.out.println("ICBM Rejuvenation Failed! Contact developers!");
+				System.out.println("ICBM Rejuvenation Failed!");
+				e.printStackTrace();
 			}
 		}
 

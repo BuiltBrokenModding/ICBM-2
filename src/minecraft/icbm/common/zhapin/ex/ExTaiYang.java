@@ -26,6 +26,13 @@ public class ExTaiYang extends ZhaPin
 		super(name, ID, tier);
 	}
 
+	@Override
+	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
+	{
+		super.onYinZha(worldObj, position, fuseTicks);
+		worldObj.spawnParticle("lava", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
+	}
+
 	/**
 	 * Called before an explosion happens
 	 */

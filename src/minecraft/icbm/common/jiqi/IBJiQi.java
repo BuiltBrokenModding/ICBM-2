@@ -10,8 +10,6 @@ import universalelectricity.prefab.implement.ITier;
 
 public class IBJiQi extends ItemBlock
 {
-	private static final int spawnID = ZhuYao.bJiQi.blockID;
-
 	public IBJiQi(int id)
 	{
 		super(id);
@@ -77,11 +75,11 @@ public class IBJiQi extends ItemBlock
 
 		if (BJiQi.canBePlacedAt(world, x, y, z, jiQiMetadata, entityPlayer))
 		{
-			Block var9 = Block.blocksList[IBJiQi.spawnID];
+			Block var9 = Block.blocksList[this.getBlockID()];
 
-			if (world.setBlockAndMetadataWithNotify(x, y, z, this.spawnID, jiQiMetadata))
+			if (world.setBlockAndMetadataWithNotify(x, y, z, this.getBlockID(), jiQiMetadata))
 			{
-				if (world.getBlockId(x, y, z) == this.spawnID)
+				if (world.getBlockId(x, y, z) == this.getBlockID())
 				{
 					if (itemStack.getItemDamage() < 9)
 					{
@@ -104,7 +102,7 @@ public class IBJiQi extends ItemBlock
 						}
 					}
 
-					Block.blocksList[IBJiQi.spawnID].onBlockPlacedBy(world, x, y, z, entityPlayer);
+					Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, entityPlayer);
 				}
 
 				return true;

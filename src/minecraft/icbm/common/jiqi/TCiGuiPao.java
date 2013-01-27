@@ -74,15 +74,15 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 
 		if (!this.isDisabled())
 		{
-			if (mountedPlayer != null)
+			if (this.mountedPlayer != null)
 			{
-				if (mountedPlayer.rotationPitch > 30)
-					mountedPlayer.rotationPitch = 30;
-				if (mountedPlayer.rotationPitch < -45)
-					mountedPlayer.rotationPitch = -45;
+				if (this.mountedPlayer.rotationPitch > 30)
+					this.mountedPlayer.rotationPitch = 30;
+				if (this.mountedPlayer.rotationPitch < -45)
+					this.mountedPlayer.rotationPitch = -45;
 
-				this.rotationPitch = mountedPlayer.rotationPitch;
-				this.rotationYaw = mountedPlayer.rotationYaw;
+				this.rotationPitch = this.mountedPlayer.rotationPitch;
+				this.rotationYaw = this.mountedPlayer.rotationYaw;
 
 				this.displayRotationPitch = this.rotationPitch * 0.0175f;
 				this.displayRotationYaw = this.rotationYaw * 0.0175f;
@@ -352,7 +352,7 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 	 */
 	public MovingObjectPosition rayTrace(double distance)
 	{
-		Vector3 muzzlePosition = getMuzzle();
+		Vector3 muzzlePosition = this.getMuzzle();
 		Vector3 lookDistance = ZhuYao.getLook(this.rotationYaw, this.rotationPitch);
 		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
 		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
@@ -361,7 +361,7 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(ZhuYao.getLook(this.rotationYaw, this.rotationPitch), 2.2));
+		return Vector3.add(position, Vector3.multiply(ZhuYao.getLook(this.rotationYaw, this.rotationPitch - 10), 1.9));
 	}
 
 	@Override
@@ -519,6 +519,6 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 800000;
+		return 3000000;
 	}
 }

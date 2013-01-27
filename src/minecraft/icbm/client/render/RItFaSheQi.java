@@ -3,7 +3,6 @@ package icbm.client.render;
 import icbm.client.models.MShouFaSheQi;
 import icbm.common.ZhuYao;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

@@ -15,6 +15,7 @@ import icbm.common.zhapin.TZhaDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -87,5 +88,10 @@ public class CommonProxy implements IGuiHandler
 	public boolean isGaoQing()
 	{
 		return false;
+	}
+
+	public void leiShe(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+	{
+
 	}
 }

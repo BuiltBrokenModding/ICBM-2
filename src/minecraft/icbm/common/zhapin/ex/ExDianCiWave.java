@@ -1,6 +1,6 @@
 package icbm.common.zhapin.ex;
 
-import ic2.api.IEnergyStorage;
+import ic2.api.energy.tile.IEnergyTile;
 import icbm.common.TYinXing;
 import icbm.common.zhapin.ZhaPin;
 
@@ -90,7 +90,7 @@ public class ExDianCiWave extends ZhaPin
 								worldObj.markBlockForRenderUpdate(i + x, j + y, k + z);
 							}
 
-							if (tileEntity instanceof IEnergyStorage)
+							if (tileEntity instanceof IEnergyTile)
 							{
 								try
 								{

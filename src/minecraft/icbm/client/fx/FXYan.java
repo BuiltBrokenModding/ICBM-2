@@ -7,9 +7,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class SmokeFX extends EntitySmokeFX
+public class FXYan extends EntitySmokeFX
 {
-	public SmokeFX(World par1World, Vector3 position, float red, float green, float blue, float scale, double distance)
+	public FXYan(World par1World, Vector3 position, float red, float green, float blue, float scale, double distance)
 	{
 		super(par1World, position.x, position.y, position.z, 0, 0, 0, scale);
 		this.renderDistanceWeight = distance;

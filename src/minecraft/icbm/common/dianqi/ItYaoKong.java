@@ -22,7 +22,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ItYaoKong extends ItemElectric
 {
 	public static final int BAN_JING = 100;
-	public static final int YONG_DIAN_LIANG = 2000;
+	public static final int YONG_DIAN_LIANG = 1500;
 
 	public ItYaoKong(int par1, int par2)
 	{
@@ -199,6 +199,6 @@ public class ItYaoKong extends ItemElectric
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 40000;
+		return 50000;
 	}
 }

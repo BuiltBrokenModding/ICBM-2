@@ -21,6 +21,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ItLeiDaQiang extends ItemElectric
 {
 	public static final int YONG_DIAN_LIANG = 1000;
+	public static final int JU_LI = 1000;
 
 	public ItLeiDaQiang(int par1, int par2)
 	{
@@ -28,12 +29,7 @@ public class ItLeiDaQiang extends ItemElectric
 		this.iconIndex = par2;
 		this.setItemName("radarGun");
 		this.setCreativeTab(ZhuYao.TAB);
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
 	/**
@@ -57,7 +53,7 @@ public class ItLeiDaQiang extends ItemElectric
 	{
 		if (par2World.isRemote)
 		{
-			MovingObjectPosition objectMouseOver = par3EntityPlayer.rayTrace(1000, 1);
+			MovingObjectPosition objectMouseOver = par3EntityPlayer.rayTrace(JU_LI, 1);
 
 			if (objectMouseOver != null)
 			{
@@ -179,6 +175,6 @@ public class ItLeiDaQiang extends ItemElectric
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 100000;
+		return 80000;
 	}
 }

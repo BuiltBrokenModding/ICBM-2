@@ -134,7 +134,7 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public float getRadius()
 	{
-		return 50;
+		return 40;
 	}
 
 	@Override
