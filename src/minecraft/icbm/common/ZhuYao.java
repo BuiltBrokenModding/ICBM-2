@@ -215,7 +215,7 @@ public class ZhuYao
 
 		CONFIGURATION.load();
 		ZAI_KUAI = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
-		DAO_DAN_ZUI_YUAN = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 2000).getInt(2000);
+		DAO_DAN_ZUI_YUAN = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
 		BaoHu.SHE_DING_BAO_HU = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
 
 		// BLOCKS
