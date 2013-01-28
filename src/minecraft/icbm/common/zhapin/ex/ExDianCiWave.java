@@ -1,7 +1,7 @@
 package icbm.common.zhapin.ex;
 
 import ic2.api.energy.tile.IEnergyTile;
-import icbm.common.TYinXing;
+import icbm.api.IEMPBlock;
 import icbm.common.zhapin.ZhaPin;
 
 import java.lang.reflect.Field;
@@ -33,10 +33,6 @@ public class ExDianCiWave extends ZhaPin
 	{
 		int r = radius;
 
-		int i = MathHelper.floor_double(position.x);
-		int j = MathHelper.floor_double(position.y);
-		int k = MathHelper.floor_double(position.z);
-
 		for (int x = -r; x < r; x++)
 		{
 			for (int y = -r; y < r; y++)
@@ -44,22 +40,29 @@ public class ExDianCiWave extends ZhaPin
 				for (int z = -r; z < r; z++)
 				{
 					double dist = MathHelper.sqrt_double((x * x + y * y + z * z));
+
+					Vector3 searchPosition = Vector3.add(position, new Vector3(x, y, z));
 					if (dist > r)
 						continue;
 
-					if (Math.round(j + y) == position.intY())
+					if (Math.round(position.x + y) == position.intY())
 					{
-						worldObj.spawnParticle("largesmoke", i + x, j + y, k + z, 0, 0, 0);
+						worldObj.spawnParticle("largesmoke", searchPosition.x, searchPosition.y, searchPosition.z, 0, 0, 0);
 					}
 
-					TileEntity tileEntity = worldObj.getBlockTileEntity(i + x, j + y, k + z);
-					int blockID = worldObj.getBlockId(i + x, j + y, k + z);
+					int blockID = searchPosition.getBlockID(worldObj);
+					Block block = Block.blocksList[blockID];
+					TileEntity tileEntity = searchPosition.getTileEntity(worldObj);
 
-					if (Block.blocksList[blockID] != null)
+					if (block != null)
 					{
-						if (Block.blocksList[blockID] instanceof IForceFieldBlock)
+						if (block instanceof IForceFieldBlock)
 						{
-							((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(worldObj, i + x, j + y, k + z);
+							((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ());
+						}
+						else if (block instanceof IEMPBlock)
+						{
+							((IEMPBlock) block).onEMP(worldObj, searchPosition, dianCi);
 						}
 						else if (tileEntity != null)
 						{
@@ -80,14 +83,7 @@ public class ExDianCiWave extends ZhaPin
 
 							if (tileEntity instanceof IForceFieldBlock)
 							{
-								((IForceFieldBlock) tileEntity).weakenForceField(worldObj, i + x, j + y, k + z);
-							}
-
-							if (tileEntity instanceof TYinXing)
-							{
-								((TYinXing) tileEntity).setFangGe(0, 0);
-								((TYinXing) tileEntity).setQing(false);
-								worldObj.markBlockForRenderUpdate(i + x, j + y, k + z);
+								((IForceFieldBlock) tileEntity).weakenForceField(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ());
 							}
 
 							if (tileEntity instanceof IEnergyTile)
@@ -99,7 +95,7 @@ public class ExDianCiWave extends ZhaPin
 								}
 								catch (Exception e)
 								{
-									worldObj.createExplosion(explosionSource, i + x, j + y, k + z, 1.5f, true);
+									worldObj.createExplosion(explosionSource, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1.5f, true);
 									System.err.println("Failed to EMP strike an IC2 energy storage.");
 									e.printStackTrace();
 								}

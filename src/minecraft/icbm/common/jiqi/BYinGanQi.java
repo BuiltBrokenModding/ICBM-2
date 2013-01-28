@@ -1,6 +1,9 @@
 package icbm.common.jiqi;
 
+import icbm.api.IEMPBlock;
+import icbm.api.IExplosive;
 import icbm.common.CommonProxy;
+import icbm.common.TYinXing;
 import icbm.common.ZhuYao;
 
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.BlockMachine;
 import universalelectricity.prefab.implement.IRedstoneProvider;
 

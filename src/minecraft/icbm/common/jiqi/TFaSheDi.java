@@ -291,37 +291,36 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	public boolean isInRange(Vector3 target)
 	{
 		if (target != null)
-		{
-			if (isTooClose(target)) { return false; }
-
-			if (!isTooFar(target)) { return true; }
-		}
+			return !shiTaiYuan(target) && !shiTaiJin(target);
 
 		return false;
 	}
 
-	// Is the target too close?
-	public boolean isTooClose(Vector3 target)
+	/**
+	 * Checks to see if the target is too close.
+	 * 
+	 * @param target
+	 * @return
+	 */
+	public boolean shiTaiJin(Vector3 target)
 	{
-		// Check if it is greater than the minimum
-		// range
-		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 8) { return true; }
+		// Check if it is greater than the minimum range
+		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 10) { return true; }
 
 		return false;
 	}
 
 	// Is the target too far?
-	public boolean isTooFar(Vector3 target)
+	public boolean shiTaiYuan(Vector3 target)
 	{
-		// Checks if it is greater than the
-		// maximum range for the launcher base
+		// Checks if it is greater than the maximum range for the launcher base
 		if (this.tier == 0)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 200) { return false; }
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 10) { return false; }
 		}
 		else if (this.tier == 1)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 500) { return false; }
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 5) { return false; }
 		}
 		else if (this.tier == 2)
 		{

@@ -248,11 +248,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			status = "Target is invalid!";
 		}
-		else if (this.connectedBase.isTooClose(this.muBiao))
+		else if (this.connectedBase.shiTaiJin(this.muBiao))
 		{
 			status = "Target too close!";
 		}
-		else if (this.connectedBase.isTooFar(this.muBiao))
+		else if (this.connectedBase.shiTaiYuan(this.muBiao))
 		{
 			status = "Target too far!";
 		}

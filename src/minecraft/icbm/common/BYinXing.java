@@ -1,5 +1,7 @@
 package icbm.common;
 
+import icbm.api.IEMPBlock;
+import icbm.api.IExplosive;
 import icbm.client.render.RBYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -9,11 +11,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.BlockMachine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BYinXing extends BlockMachine
+public class BYinXing extends BlockMachine implements IEMPBlock
 {
 	protected BYinXing(int id, int texture)
 	{
@@ -24,6 +27,19 @@ public class BYinXing extends BlockMachine
 		this.setStepSound(this.soundClothFootstep);
 		this.setCreativeTab(ZhuYao.TAB);
 		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
+	}
+
+	@Override
+	public void onEMP(World world, Vector3 position, IExplosive empExplosive)
+	{
+		TileEntity tileEntity = position.getTileEntity(world);
+
+		if (tileEntity instanceof TYinXing)
+		{
+			((TYinXing) tileEntity).setFangGe(0, 0);
+			((TYinXing) tileEntity).setQing(false);
+			world.markBlockForRenderUpdate(position.intX(), position.intY(), position.intZ());
+		}
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.IEMPItem;
 import icbm.api.IMissile;
 import icbm.api.RadarRegistry;
 import icbm.common.zhapin.EZhaDan;
@@ -8,8 +9,12 @@ import icbm.common.zhapin.ZhaPin;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import universalelectricity.core.implement.IItemElectric;
 import universalelectricity.core.vector.Vector3;
 
 public class ExDianCiSignal extends ZhaPin
@@ -40,11 +45,38 @@ public class ExDianCiSignal extends ZhaPin
 		}
 
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-		List<EZhaDan> eZhaDans = worldObj.getEntitiesWithinAABB(EZhaDan.class, bounds);
+		List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
-		for (EZhaDan eZhaDan : eZhaDans)
+		for (Entity entity : entities)
 		{
-			eZhaDan.setDead();
+			if (entity instanceof EntityPlayer)
+			{
+				IInventory inventory = ((EntityPlayer) entity).inventory;
+
+				for (int i = 0; i < inventory.getSizeInventory(); i++)
+				{
+					ItemStack itemStack = inventory.getStackInSlot(i);
+
+					if (itemStack != null)
+					{
+						if (itemStack.getItem() instanceof IItemElectric)
+						{
+							if (itemStack.getItem() instanceof IEMPItem)
+							{
+								((IEMPItem) itemStack.getItem()).onEMP(itemStack, entity, dianCi);
+							}
+							else
+							{
+								((IItemElectric) itemStack.getItem()).setJoules(0, itemStack);
+							}
+						}
+					}
+				}
+			}
+			else if (entity instanceof EZhaDan)
+			{
+				entity.setDead();
+			}
 		}
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.emp", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
