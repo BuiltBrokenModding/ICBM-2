@@ -1,8 +1,8 @@
 package icbm.client.render;
 
 import icbm.api.ICBM;
-import icbm.client.models.MDianCiQi;
-import icbm.common.jiqi.TDianCiQi;
+import icbm.explosion.jiqi.TDianCiQi;
+import icbm.explosion.muoxing.jiqi.MDianCiQi;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 

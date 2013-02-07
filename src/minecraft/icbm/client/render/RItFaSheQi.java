@@ -1,8 +1,8 @@
 package icbm.client.render;
 
 import icbm.api.ICBM;
-import icbm.client.models.MShouFaSheQi;
-import icbm.common.ZhuYao;
+import icbm.explosion.ZhuYao;
+import icbm.explosion.muoxing.jiqi.MShouFaSheQi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;

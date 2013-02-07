@@ -11,8 +11,6 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.FMLLog;
 
 /**
- * THIS IS THE NEW ELECTRICITY MANAGER. THIS IS ONLY A DRAFT!
- * 
  * The Electricity Network Manager.
  * 
  * @author Calclavia

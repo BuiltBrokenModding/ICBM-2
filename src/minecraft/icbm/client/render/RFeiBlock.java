@@ -1,7 +1,7 @@
 package icbm.client.render;
 
-import icbm.common.EFeiBlock;
-import icbm.common.ICBMRenderBlocks;
+import icbm.core.ICBMRenderBlocks;
+import icbm.explosion.EFeiBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;

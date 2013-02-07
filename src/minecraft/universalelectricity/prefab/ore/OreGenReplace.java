@@ -55,12 +55,20 @@ public class OreGenReplace extends OreGenBase
 
 	public void generate(World world, Random random, int varX, int varZ)
 	{
-		for (int i = 0; i < this.amountPerChunk; i++)
+		try
 		{
-			int x = varX + random.nextInt(16);
-			int z = varZ + random.nextInt(16);
-			int y = random.nextInt(this.maxGenerateLevel - this.minGenerateLevel) + this.minGenerateLevel;
-			this.generateReplace(world, random, x, y, z);
+			for (int i = 0; i < this.amountPerChunk; i++)
+			{
+				int x = varX + random.nextInt(16);
+				int z = varZ + random.nextInt(16);
+				int y = random.nextInt(Math.max(this.maxGenerateLevel - this.minGenerateLevel, 0)) + this.minGenerateLevel;
+				this.generateReplace(world, random, x, y, z);
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error generating ore: " + this.name);
+			e.printStackTrace();
 		}
 	}
 

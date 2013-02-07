@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.core.implement.IConductor;
-import universalelectricity.core.vector.Vector3;
 
 public abstract class BlockConductor extends BlockContainer
 {

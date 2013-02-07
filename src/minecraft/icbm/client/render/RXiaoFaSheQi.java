@@ -1,9 +1,9 @@
 package icbm.client.render;
 
 import icbm.api.ICBM;
-import icbm.client.models.MXiaoFaSheQi;
-import icbm.client.models.MXiaoFaSheQiJia;
-import icbm.common.jiqi.TXiaoFaSheQi;
+import icbm.explosion.jiqi.TXiaoFaSheQi;
+import icbm.explosion.muoxing.jiqi.MXiaoFaSheQi;
+import icbm.explosion.muoxing.jiqi.MXiaoFaSheQiJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 

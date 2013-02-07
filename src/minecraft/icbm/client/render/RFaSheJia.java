@@ -1,8 +1,8 @@
 package icbm.client.render;
 
 import icbm.api.ICBM;
-import icbm.client.models.MFaSheJia;
-import icbm.common.jiqi.TFaSheJia;
+import icbm.explosion.jiqi.TFaSheJia;
+import icbm.explosion.muoxing.jiqi.MFaSheJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;

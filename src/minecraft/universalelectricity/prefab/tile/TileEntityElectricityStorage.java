@@ -56,7 +56,7 @@ public abstract class TileEntityElectricityStorage extends TileEntityElectricity
 	 */
 	public ElectricityPack getRequest()
 	{
-		return new ElectricityPack((this.getMaxJoules() - this.joules) / this.getVoltage(), this.getVoltage());
+		return new ElectricityPack((this.getMaxJoules() - this.getJoules()) / this.getVoltage(), this.getVoltage());
 	}
 
 	/**
@@ -79,7 +79,7 @@ public abstract class TileEntityElectricityStorage extends TileEntityElectricity
 			}
 		}
 
-		this.setJoules(Math.ceil(this.getJoules() + electricityPack.getWatts()));
+		this.setJoules(this.getJoules() + electricityPack.getWatts());
 	}
 
 	@Override

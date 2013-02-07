@@ -1,8 +1,8 @@
 package icbm.client.render;
 
-import icbm.common.BYinXing;
-import icbm.common.TYinXing;
-import icbm.common.ZhuYao;
+import icbm.contraption.BYinXing;
+import icbm.contraption.TYinXing;
+import icbm.explosion.ZhuYao;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;

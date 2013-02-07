@@ -1,8 +1,8 @@
 package icbm.client.render;
 
 import icbm.api.ICBM;
-import icbm.common.ZhuYao;
-import icbm.common.zhapin.ZhaPin;
+import icbm.explosion.ZhuYao;
+import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

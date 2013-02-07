@@ -1,7 +1,7 @@
 package icbm.client.render;
 
 import icbm.api.ICBM;
-import icbm.common.jiqi.BJiQi.JiQi;
+import icbm.explosion.jiqi.BJiQi.JiQi;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;

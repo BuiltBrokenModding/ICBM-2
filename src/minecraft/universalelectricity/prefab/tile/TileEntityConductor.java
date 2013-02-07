@@ -2,14 +2,15 @@ package universalelectricity.prefab.tile;
 
 import java.util.EnumSet;
 
-import org.bouncycastle.util.Arrays;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+
+import org.bouncycastle.util.Arrays;
+
 import universalelectricity.core.electricity.Electricity;
 import universalelectricity.core.electricity.ElectricityConnections;
 import universalelectricity.core.electricity.ElectricityNetwork;

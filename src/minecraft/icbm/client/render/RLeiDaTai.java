@@ -1,8 +1,8 @@
 package icbm.client.render;
 
 import icbm.api.ICBM;
-import icbm.client.models.MLeiDa;
-import icbm.common.jiqi.TLeiDaTai;
+import icbm.explosion.jiqi.TLeiDaTai;
+import icbm.explosion.muoxing.jiqi.MLeiDa;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 

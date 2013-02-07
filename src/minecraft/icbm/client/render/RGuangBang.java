@@ -1,6 +1,6 @@
 package icbm.client.render;
 
-import icbm.common.EGuang;
+import icbm.explosion.EGuang;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
