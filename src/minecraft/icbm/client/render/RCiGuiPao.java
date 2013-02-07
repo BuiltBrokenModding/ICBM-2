@@ -1,7 +1,7 @@
 package icbm.client.render;
 
+import icbm.api.ICBM;
 import icbm.client.models.MCiGuiPao;
-import icbm.common.ZhuYao;
 import icbm.common.jiqi.TCiGuiPao;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +22,7 @@ public class RCiGuiPao extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 2.2F, (float) d2 + 0.5F);
 		GL11.glScalef(1.5f, 1.5f, 1.5f);
-		this.bindTextureByName(ZhuYao.TEXTURE_FILE_PATH + TEXTURE_FILE);
+		this.bindTextureByName(ICBM.TEXTURE_FILE_PATH + TEXTURE_FILE);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
 		MODEL.render(tileEntity.displayRotationYaw, tileEntity.displayRotationPitch, 0.0625F);

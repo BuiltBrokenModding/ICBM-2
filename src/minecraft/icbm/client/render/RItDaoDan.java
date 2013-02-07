@@ -1,5 +1,6 @@
 package icbm.client.render;
 
+import icbm.api.ICBM;
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.ZhaPin;
 import net.minecraft.item.ItemStack;
@@ -63,13 +64,13 @@ public class RItDaoDan implements IItemRenderer
 			{
 				if (item.getItemDamage() - 1 < RDaoDan.specialModels.length)
 				{
-					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RDaoDan.specialModels[item.getItemDamage() - 1].texture + ".png"));
+					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RDaoDan.specialModels[item.getItemDamage() - 1].texture + ".png"));
 					RDaoDan.specialModels[item.getItemDamage() - 1].model.render(0.0625F);
 				}
 			}
 			else
 			{
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RDaoDan.models[item.getItemDamage()].texture + ".png"));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RDaoDan.models[item.getItemDamage()].texture + ".png"));
 				RDaoDan.models[item.getItemDamage()].model.render(0.0625F);
 			}
 		}

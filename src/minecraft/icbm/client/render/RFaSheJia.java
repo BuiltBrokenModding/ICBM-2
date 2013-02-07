@@ -1,7 +1,7 @@
 package icbm.client.render;
 
+import icbm.api.ICBM;
 import icbm.client.models.MFaSheJia;
-import icbm.common.ZhuYao;
 import icbm.common.jiqi.TFaSheJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -27,7 +27,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.25F, (float) d2 + 0.5F);
 		GL11.glScalef(1f, 0.85f, 1f);
 
-		String textureFile = ZhuYao.TEXTURE_FILE_PATH + TEXTURE_FILE;
+		String textureFile = ICBM.TEXTURE_FILE_PATH + TEXTURE_FILE;
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

@@ -1,6 +1,6 @@
 package icbm.client.fx;
 
-import icbm.common.ZhuYao;
+import icbm.api.ICBM;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLiving;
@@ -169,7 +169,7 @@ public class FXLeiShe extends EntityFX
 			op = 0.4F - (4 - (this.particleMaxAge - this.particleAge)) * 0.1F;
 		}
 
-		ForgeHooksClient.bindTexture(ZhuYao.TEXTURE_FILE_PATH + "noise.png", 0);
+		ForgeHooksClient.bindTexture(ICBM.TEXTURE_FILE_PATH + "noise.png", 0);
 
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
 		GL11.glTexParameterf(3553, 10243, 10497.0F);

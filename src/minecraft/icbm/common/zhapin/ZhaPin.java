@@ -2,6 +2,7 @@ package icbm.common.zhapin;
 
 import icbm.api.ExplosionEvent.PostExplosionEvent;
 import icbm.api.ExplosionEvent.PreExplosionEvent;
+import icbm.api.ICBM;
 import icbm.api.IExplosive;
 import icbm.common.ZhuYao;
 import icbm.common.daodan.DaoDan;
@@ -131,9 +132,9 @@ public abstract class ZhaPin implements ITier, IExplosive
 		this.ID = ID;
 		this.daoDan = new DaoDan(name, ID, tier);
 
-		ZhuYao.CONFIGURATION.load();
-		this.isDisabled = ZhuYao.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);
-		ZhuYao.CONFIGURATION.save();
+		ICBM.CONFIGURATION.load();
+		this.isDisabled = ICBM.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);
+		ICBM.CONFIGURATION.save();
 	}
 
 	@Override

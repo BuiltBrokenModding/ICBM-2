@@ -1,5 +1,6 @@
 package icbm.client.render;
 
+import icbm.api.ICBM;
 import icbm.client.models.MShouFaSheQi;
 import icbm.common.ZhuYao;
 import net.minecraft.client.Minecraft;
@@ -34,7 +35,7 @@ public class RItFaSheQi implements IItemRenderer
 	{
 		GL11.glPushMatrix();
 
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "RocketLauncher.png"));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "RocketLauncher.png"));
 
 		if (type == ItemRenderType.INVENTORY)
 		{

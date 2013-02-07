@@ -1,7 +1,7 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.ICBM;
 import icbm.common.EFeiBlock;
-import icbm.common.ZhuYao;
 import icbm.common.zhapin.EZhaPin;
 import icbm.common.zhapin.ZhaPin;
 
@@ -182,7 +182,7 @@ public class ExPiaoFu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', tui.getItemStack(), 'E', Item.eyeOfEnder }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', tui.getItemStack(), 'E', Item.eyeOfEnder }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

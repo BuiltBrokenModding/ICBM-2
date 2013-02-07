@@ -1,6 +1,6 @@
 package icbm.client.render;
 
-import icbm.common.ZhuYao;
+import icbm.api.ICBM;
 import icbm.common.jiqi.BJiQi.JiQi;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -32,7 +32,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glScalef(0.4f, 0.4f, 0.4f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "Launcher" + tier + ".png"));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "Launcher" + tier + ".png"));
 
 				if (tier == 0)
 				{
@@ -61,7 +61,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glRotatef(180f, 0f, 180f, 1f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "Launcher" + tier + ".png"));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "Launcher" + tier + ".png"));
 
 				if (tier == 0)
 				{
@@ -83,7 +83,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glScalef(0.8f, 0.4f, 0.8f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RFaSheJia.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RFaSheJia.TEXTURE_FILE));
 
 				RFaSheJia.MODEL.render(0.0625F);
 			}
@@ -93,7 +93,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glScalef(0.55f, 0.6f, 0.55f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RLeiDaTai.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RLeiDaTai.TEXTURE_FILE));
 
 				RLeiDaTai.MODEL.render(1.2f, 0.0625F);
 			}
@@ -103,7 +103,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glScalef(0.6f, 0.6f, 0.6f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RDianCiQi.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RDianCiQi.TEXTURE_FILE));
 
 				RDianCiQi.MODEL.render(0, 0.0625F);
 			}
@@ -112,7 +112,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				GL11.glTranslatef(0f, 0.9f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RCiGuiPao.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RCiGuiPao.TEXTURE_FILE));
 
 				RCiGuiPao.MODEL.render(90, 0, 0.0625F);
 			}
@@ -122,7 +122,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glScalef(0.55f, 0.5f, 0.55f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + RXiaoFaSheQi.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RXiaoFaSheQi.TEXTURE_FILE));
 
 				RXiaoFaSheQi.MODEL0.render(0.0625F);
 				RXiaoFaSheQi.MODEL1.render(0.0625F);

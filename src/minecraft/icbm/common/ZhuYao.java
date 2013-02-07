@@ -1,5 +1,6 @@
 package icbm.common;
 
+import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.common.cart.EChe;
 import icbm.common.daodan.DaoDan;
@@ -29,7 +30,6 @@ import icbm.common.zhapin.IBZhaDan;
 import icbm.common.zhapin.ItShouLiuDan;
 import icbm.common.zhapin.ZhaPin;
 
-import java.io.File;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -42,8 +42,6 @@ import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -70,7 +68,6 @@ import atomicscience.api.BlockRadioactive;
 import atomicscience.api.PoisonRadiation;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -90,26 +87,16 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = ZhuYao.MING_ZI, name = ZhuYao.MING_ZI, version = ZhuYao.BAN_BEN, dependencies = "after:BasicComponents;after:AtomicScience")
+@Mod(modid = ICBM.NAME, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
 @NetworkMod(channels = ZhuYao.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 public class ZhuYao
 {
 	@Instance("ICBM")
 	public static ZhuYao instance;
 
-	/**
-	 * The version of ICBM.
-	 */
-	public static final String BAN_BEN = "1.0.4";
-
-	public static final String MING_ZI = "ICBM";
-
-	public static final String CHANNEL = MING_ZI;
+	public static final String CHANNEL = ICBM.NAME;
 
 	public static final ICBMTab TAB = new ICBMTab();
-
-	// Configurations
-	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
 	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES"/* , "it_IT" */};
 
@@ -163,14 +150,10 @@ public class ZhuYao
 
 	public static OreGenBase liuGenData;
 
-	/**
-	 * Some texture file directory references.
-	 */
-	public static final String TEXTURE_FILE_PATH = "/icbm/textures/";
-	public static final String SMINE_TEXTURE = TEXTURE_FILE_PATH + "S-Mine.png";
-	public static final String BLOCK_TEXTURE_FILE = TEXTURE_FILE_PATH + "blocks.png";
-	public static final String ITEM_TEXTURE_FILE = TEXTURE_FILE_PATH + "items.png";
-	public static final String TRACKER_TEXTURE_FILE = TEXTURE_FILE_PATH + "tracker.png";
+	public static final String SMINE_TEXTURE = ICBM.TEXTURE_FILE_PATH + "S-Mine.png";
+	public static final String BLOCK_TEXTURE_FILE = ICBM.TEXTURE_FILE_PATH + "blocks.png";
+	public static final String ITEM_TEXTURE_FILE = ICBM.TEXTURE_FILE_PATH + "items.png";
+	public static final String TRACKER_TEXTURE_FILE = ICBM.TEXTURE_FILE_PATH + "tracker.png";
 	public static final String YU_YAN_PATH = "/icbm/yuyan/";
 
 	@PreInit
@@ -215,46 +198,46 @@ public class ZhuYao
 
 		System.out.println("Loaded " + languages + " languages.");
 
-		CONFIGURATION.load();
-		ZAI_KUAI = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
-		DAO_DAN_ZUI_YUAN = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
-		BaoHu.SHE_DING_BAO_HU = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
+		ICBM.CONFIGURATION.load();
+		ZAI_KUAI = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
+		DAO_DAN_ZUI_YUAN = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
+		BaoHu.SHE_DING_BAO_HU = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
 
 		// BLOCKS
-		bLiu = new BLiu(CONFIGURATION.getBlock("BlockID1", B_HAO_MA + 0).getInt());
+		bLiu = new BLiu(ICBM.CONFIGURATION.getBlock("BlockID1", B_HAO_MA + 0).getInt());
 
-		bBuoLiPan = new BBuoLiPan(CONFIGURATION.getBlock("BlockID2", B_HAO_MA + 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 2).getInt());
+		bBuoLiPan = new BBuoLiPan(ICBM.CONFIGURATION.getBlock("BlockID2", B_HAO_MA + 1).getInt());
+		bBuoLiEnNiu = new BEnNiu(ICBM.CONFIGURATION.getBlock("BlockID7", B_HAO_MA + 2).getInt());
 
-		bZhaDan = new BZhaDan(CONFIGURATION.getBlock("BlockID3", B_HAO_MA + 3).getInt(), 16);
-		bJiQi = new BJiQi(CONFIGURATION.getBlock("BlockID4", B_HAO_MA + 4).getInt());
-		bYinGanQi = new BYinGanQi(CONFIGURATION.getBlock("BlockID5", B_HAO_MA + 5).getInt(), 7);
-		bJia = new BlockMulti(CONFIGURATION.getBlock("BlockID6", B_HAO_MA + 6).getInt());
-		bZha = new BZha(CONFIGURATION.getBlock("BlockID8", B_HAO_MA + 7).getInt(), 1);
-		bYinXing = new BYinXing(CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 8).getInt(), 11);
+		bZhaDan = new BZhaDan(ICBM.CONFIGURATION.getBlock("BlockID3", B_HAO_MA + 3).getInt(), 16);
+		bJiQi = new BJiQi(ICBM.CONFIGURATION.getBlock("BlockID4", B_HAO_MA + 4).getInt());
+		bYinGanQi = new BYinGanQi(ICBM.CONFIGURATION.getBlock("BlockID5", B_HAO_MA + 5).getInt(), 7);
+		bJia = new BlockMulti(ICBM.CONFIGURATION.getBlock("BlockID6", B_HAO_MA + 6).getInt());
+		bZha = new BZha(ICBM.CONFIGURATION.getBlock("BlockID8", B_HAO_MA + 7).getInt(), 1);
+		bYinXing = new BYinXing(ICBM.CONFIGURATION.getBlock("BlockID9", B_HAO_MA + 8).getInt(), 11);
 
 		// ITEMS
-		itDu = new Item(CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
-		itLiu = new Item(CONFIGURATION.getItem("ItemID1", I_HAO_MA + 1).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
-		itYao = new ItYao(CONFIGURATION.getItem("ItemID3", I_HAO_MA + 2).getInt(), 2);
-		itDaoDan = new ItDaoDan(CONFIGURATION.getItem("ItemID4", I_HAO_MA + 3).getInt(), 32);
-		itTeBieDaoDan = new ItTeBieDaoDan(CONFIGURATION.getItem("ItemID5", I_HAO_MA + 4).getInt(), 32);
+		itDu = new Item(ICBM.CONFIGURATION.getItem("ItemID2", I_HAO_MA + 0).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
+		itLiu = new Item(ICBM.CONFIGURATION.getItem("ItemID1", I_HAO_MA + 1).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
+		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", I_HAO_MA + 2).getInt(), 2);
+		itDaoDan = new ItDaoDan(ICBM.CONFIGURATION.getItem("ItemID4", I_HAO_MA + 3).getInt(), 32);
+		itTeBieDaoDan = new ItTeBieDaoDan(ICBM.CONFIGURATION.getItem("ItemID5", I_HAO_MA + 4).getInt(), 32);
 
-		itJieJa = new ItJieJa(CONFIGURATION.getItem("ItemID6", I_HAO_MA + 5).getInt(), 5);
-		itLeiDaQiang = new ItLeiDaQiang(CONFIGURATION.getItem("ItemID7", I_HAO_MA + 6).getInt(), 3);
-		itYaoKong = new ItYaoKong(CONFIGURATION.getItem("ItemID8", I_HAO_MA + 7).getInt(), 4);
-		itLeiSheZhiBiao = new ItLeiSheZhiBiao(CONFIGURATION.getItem("ItemID9", I_HAO_MA + 8).getInt(), 6);
-		itHuoLaunQi = new ItHuoLuanQi(CONFIGURATION.getItem("ItemID10", I_HAO_MA + 9).getInt(), 7);
-		itGenZongQi = new ItGenZongQi(CONFIGURATION.getItem("ItemID11", I_HAO_MA + 10).getInt());
-		itFaSheQi = new ItFaSheQi(CONFIGURATION.getItem("ItemID12", I_HAO_MA + 11).getInt());
+		itJieJa = new ItJieJa(ICBM.CONFIGURATION.getItem("ItemID6", I_HAO_MA + 5).getInt(), 5);
+		itLeiDaQiang = new ItLeiDaQiang(ICBM.CONFIGURATION.getItem("ItemID7", I_HAO_MA + 6).getInt(), 3);
+		itYaoKong = new ItYaoKong(ICBM.CONFIGURATION.getItem("ItemID8", I_HAO_MA + 7).getInt(), 4);
+		itLeiSheZhiBiao = new ItLeiSheZhiBiao(ICBM.CONFIGURATION.getItem("ItemID9", I_HAO_MA + 8).getInt(), 6);
+		itHuoLaunQi = new ItHuoLuanQi(ICBM.CONFIGURATION.getItem("ItemID10", I_HAO_MA + 9).getInt(), 7);
+		itGenZongQi = new ItGenZongQi(ICBM.CONFIGURATION.getItem("ItemID11", I_HAO_MA + 10).getInt());
+		itFaSheQi = new ItFaSheQi(ICBM.CONFIGURATION.getItem("ItemID12", I_HAO_MA + 11).getInt());
 
-		itShouLiuDan = new ItShouLiuDan(CONFIGURATION.getItem("ItemID13", I_HAO_MA + 12).getInt(), 64);
-		itZiDan = new ItZiDan(CONFIGURATION.getItem("ItemID14", I_HAO_MA + 13).getInt(), 80);
+		itShouLiuDan = new ItShouLiuDan(ICBM.CONFIGURATION.getItem("ItemID13", I_HAO_MA + 12).getInt(), 64);
+		itZiDan = new ItZiDan(ICBM.CONFIGURATION.getItem("ItemID14", I_HAO_MA + 13).getInt(), 80);
 
-		itChe = new ItChe(CONFIGURATION.getItem("ItemID15", I_HAO_MA + 11).getInt(), 135);
+		itChe = new ItChe(ICBM.CONFIGURATION.getItem("ItemID15", I_HAO_MA + 11).getInt(), 135);
 
-		liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(CONFIGURATION);
-		CONFIGURATION.save();
+		liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(ICBM.CONFIGURATION);
+		ICBM.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(ZhuYao.bZhaDan);
 
@@ -367,7 +350,7 @@ public class ZhuYao
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		UpdateNotifier.INSTANCE.checkUpdate(MING_ZI, BAN_BEN, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
+		UpdateNotifier.INSTANCE.checkUpdate(ICBM.NAME, ICBM.VERSION, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
 
 		this.proxy.preInit();
 	}
@@ -377,9 +360,9 @@ public class ZhuYao
 	{
 		if (bFuShe == null)
 		{
-			CONFIGURATION.load();
-			bFuShe = new BlockRadioactive(CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
-			CONFIGURATION.save();
+			ICBM.CONFIGURATION.load();
+			bFuShe = new BlockRadioactive(ICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
+			ICBM.CONFIGURATION.save();
 			GameRegistry.registerBlock(bFuShe, "Radioactive");
 		}
 	}
@@ -463,9 +446,9 @@ public class ZhuYao
 		// Radar Station
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ZhuYao.itLeiDaQiang.getUncharged(), '!', "plateSteel", '#', "basicCircuit", '?', Item.ingotGold }));
 		// EMP Tower
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor", 'W', "copperWire" }), "EMP Tower", CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor", 'W', "copperWire" }), "EMP Tower", ICBM.CONFIGURATION, true);
 		// Railgun
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 11), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYao.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }), "Railgun", CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 11), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYao.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }), "Railgun", ICBM.CONFIGURATION, true);
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.bJiQi, 1, 12), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYao.bJiQi, 1, 2), '?', new ItemStack(ZhuYao.bJiQi, 1, 8) }));
 
@@ -525,18 +508,18 @@ public class ZhuYao
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZhaDan, 1, i) }), ZhaPin.list[i].getName() + " Missile", CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYao.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYao.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYao.bZhaDan, 1, i) }), ZhaPin.list[i].getName() + " Missile", ICBM.CONFIGURATION, true);
 
 			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYao.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getName() + " Grenade", CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYao.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getName() + " Grenade", ICBM.CONFIGURATION, true);
 			}
 
 			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYao.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getName() + " Minecart", CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYao.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYao.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getName() + " Minecart", ICBM.CONFIGURATION, true);
 			}
 		}
 

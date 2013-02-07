@@ -1,5 +1,6 @@
 package icbm.common.zhapin;
 
+import icbm.api.ICBM;
 import icbm.common.ZhuYao;
 
 import java.util.List;
@@ -74,11 +75,11 @@ public class ExDuQi extends ZhaPin
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', tui.getItemStack() }), "Chemical", ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', tui.getItemStack() }), "Chemical", ICBM.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ICBM.CONFIGURATION, true);
 		}
 	}
 }

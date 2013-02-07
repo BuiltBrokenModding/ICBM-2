@@ -1,8 +1,8 @@
 package icbm.common.zhapin;
 
+import icbm.api.ICBM;
 import icbm.client.models.MDiLei;
 import icbm.common.ESuiPian;
-import icbm.common.ZhuYao;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -95,14 +95,14 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Object[] getRenderData()
 	{
-		return new Object[] { MDiLei.INSTANCE, ZhuYao.TEXTURE_FILE_PATH + "S-Mine.png" };
+		return new Object[] { MDiLei.INSTANCE, ICBM.TEXTURE_FILE_PATH + "S-Mine.png" };
 	}
 
 	@Override

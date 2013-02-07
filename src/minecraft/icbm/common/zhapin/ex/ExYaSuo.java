@@ -1,6 +1,6 @@
 package icbm.common.zhapin.ex;
 
-import icbm.common.ZhuYao;
+import icbm.api.ICBM;
 import icbm.common.zhapin.ZhaPin;
 
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public class ExYaSuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

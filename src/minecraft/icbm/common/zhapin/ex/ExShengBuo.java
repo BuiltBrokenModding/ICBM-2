@@ -1,5 +1,6 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.ICBM;
 import icbm.common.EFeiBlock;
 import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
@@ -209,7 +210,7 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', "plateBronze" }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', "plateBronze" }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.ICBM;
 import icbm.common.EFeiBlock;
-import icbm.common.ZhuYao;
 import icbm.common.zhapin.EZhaDan;
 import icbm.common.zhapin.EZhaPin;
 import icbm.common.zhapin.ZhaPin;
@@ -208,7 +208,7 @@ public class ExHongSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', fanWuSu.getItemStack(), 'A', "strangeMatter" }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', fanWuSu.getItemStack(), 'A', "strangeMatter" }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

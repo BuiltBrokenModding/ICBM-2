@@ -1,5 +1,6 @@
 package icbm.common.gui;
 
+import icbm.api.ICBM;
 import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
 import icbm.common.jiqi.BJiQi;
@@ -172,7 +173,7 @@ public class GLeiDaTai extends ICBMGui
 	@Override
 	protected void drawBackgroundLayer(float par1, int par2, int par3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "RadarGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "RadarGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		this.containerPosX = (this.width - this.xSize) / 2;
@@ -197,17 +198,17 @@ public class GLeiDaTai extends ICBMGui
 				{
 					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
 					{
-						var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "reddot.png");
+						var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "reddot.png");
 					}
 					else
 					{
-						var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "yellowdot.png");
+						var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "yellowdot.png");
 
 					}
 				}
 				else
 				{
-					var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "yellowdot.png");
+					var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "yellowdot.png");
 				}
 
 				this.mc.renderEngine.bindTexture(var4);

@@ -1,5 +1,6 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.ICBM;
 import icbm.common.ZhuYao;
 import icbm.common.zhapin.EShouLiuDan;
 import icbm.common.zhapin.ZhaPin;
@@ -17,7 +18,7 @@ public class ExHuo extends ZhaPin
 	{
 		super(name, ID, tier);
 	}
-	
+
 	@Override
 	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
 	{
@@ -116,7 +117,7 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', tui.getItemStack(), '!', Item.bucketLava }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', tui.getItemStack(), '!', Item.bucketLava }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

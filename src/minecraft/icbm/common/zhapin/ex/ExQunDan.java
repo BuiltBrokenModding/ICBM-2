@@ -1,7 +1,7 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.ICBM;
 import icbm.common.ESuiPian;
-import icbm.common.ZhuYao;
 import icbm.common.zhapin.EShouLiuDan;
 import icbm.common.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -86,15 +86,15 @@ public class ExQunDan extends ZhaPin
 	{
 		if (this.getID() == ZhaPin.xiaoQunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', tui.getItemStack(), '?', Item.arrow }), this.getName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', tui.getItemStack(), '?', Item.arrow }), this.getName(), ICBM.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.zhen.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getName(), ICBM.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.qunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getName(), ICBM.CONFIGURATION, true);
 		}
 	}
 

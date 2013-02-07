@@ -1,6 +1,6 @@
 package icbm.common.zhapin.ex;
 
-import icbm.common.ZhuYao;
+import icbm.api.ICBM;
 import icbm.common.zhapin.ZhaPin;
 
 import java.util.ArrayList;
@@ -162,7 +162,7 @@ public class ExTuPuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', yaSuo.getItemStack(), 'G', Item.gunpowder }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', yaSuo.getItemStack(), 'G', Item.gunpowder }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

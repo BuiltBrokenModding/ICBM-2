@@ -1,7 +1,6 @@
 package icbm.api;
 
 import net.minecraft.world.World;
-import universalelectricity.core.implement.IItemElectric;
 import universalelectricity.core.vector.Vector3;
 
 /**

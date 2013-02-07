@@ -1,6 +1,6 @@
 package icbm.common.zhapin.ex;
 
-import icbm.common.ZhuYao;
+import icbm.api.ICBM;
 import icbm.common.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -80,7 +80,7 @@ public class ExHuanYuan extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockSteel }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.ICBM;
 import icbm.client.fx.ParticleSpawner;
-import icbm.common.ZhuYao;
 import icbm.common.zhapin.ZhaPin;
 
 import java.util.List;
@@ -169,7 +169,7 @@ public class ExWan extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

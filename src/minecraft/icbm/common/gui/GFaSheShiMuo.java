@@ -1,5 +1,6 @@
 package icbm.common.gui;
 
+import icbm.api.ICBM;
 import icbm.common.ZhuYao;
 import icbm.common.jiqi.TFaSheShiMuo;
 import net.minecraft.client.gui.GuiTextField;
@@ -208,7 +209,7 @@ public class GFaSheShiMuo extends ICBMGui
 	@Override
 	protected void drawBackgroundLayer(float var1, int var2, int var3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_FILE_PATH + "EmptyGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "EmptyGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		containerWidth = (this.width - this.xSize) / 2;

@@ -1,5 +1,6 @@
 package icbm.client.render;
 
+import icbm.api.ICBM;
 import icbm.client.models.ICBMModelBase;
 import icbm.client.models.MMBingDan;
 import icbm.client.models.MMChaoShengBuo;
@@ -26,7 +27,6 @@ import icbm.client.models.MMYaSuo;
 import icbm.client.models.MMYuanZi;
 import icbm.client.models.MMZhen;
 import icbm.client.models.MMZhuiZhong;
-import icbm.common.ZhuYao;
 import icbm.common.daodan.EDaoDan;
 import icbm.common.daodan.EDaoDan.XingShi;
 import net.minecraft.client.renderer.entity.Render;
@@ -84,12 +84,12 @@ public class RDaoDan extends Render
 
 		if (entityMissile.haoMa > 100)
 		{
-			this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + this.specialModels[entityMissile.haoMa - 101].texture + ".png");
+			this.loadTexture(ICBM.TEXTURE_FILE_PATH + this.specialModels[entityMissile.haoMa - 101].texture + ".png");
 			this.specialModels[entityMissile.haoMa - 101].model.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{
-			this.loadTexture(ZhuYao.TEXTURE_FILE_PATH + this.models[entityMissile.haoMa].texture + ".png");
+			this.loadTexture(ICBM.TEXTURE_FILE_PATH + this.models[entityMissile.haoMa].texture + ".png");
 			this.models[entityMissile.haoMa].model.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 

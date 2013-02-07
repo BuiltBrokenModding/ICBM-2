@@ -1,6 +1,6 @@
 package icbm.common.zhapin.ex;
 
-import icbm.common.ZhuYao;
+import icbm.api.ICBM;
 import icbm.common.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -18,9 +18,9 @@ public class ExFanWuSu extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(300);
-		ZhuYao.CONFIGURATION.load();
-		this.destroyBedrock = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Destroy Bedrock", destroyBedrock).getBoolean(destroyBedrock);
-		ZhuYao.CONFIGURATION.save();
+		ICBM.CONFIGURATION.load();
+		this.destroyBedrock = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Destroy Bedrock", destroyBedrock).getBoolean(destroyBedrock);
+		ICBM.CONFIGURATION.save();
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

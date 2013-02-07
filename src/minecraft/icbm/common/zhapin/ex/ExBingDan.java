@@ -1,8 +1,8 @@
 package icbm.common.zhapin.ex;
 
+import icbm.api.ICBM;
 import icbm.common.EFeiBlock;
 import icbm.common.EGuang;
-import icbm.common.ZhuYao;
 import icbm.common.po.PDongShang;
 import icbm.common.zhapin.EShouLiuDan;
 import icbm.common.zhapin.EZhaPin;
@@ -207,7 +207,7 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', la.getItemStack(), '?', Block.ice, '!', Block.blockSnow }), this.getName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', la.getItemStack(), '?', Block.ice, '!', Block.blockSnow }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	public boolean canFocusBeam(World worldObj, Vector3 position)
