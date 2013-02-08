@@ -2,6 +2,7 @@ package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TFaSheQi;
 import icbm.explosion.jiqi.TFaSheShiMuo;
@@ -30,7 +31,7 @@ public class ItLeiDaQiang extends ItemElectric
 		this.iconIndex = par2;
 		this.setItemName("radarGun");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
 	/**

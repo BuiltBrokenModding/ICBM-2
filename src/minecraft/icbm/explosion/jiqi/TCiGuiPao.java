@@ -1,6 +1,7 @@
 package icbm.explosion.jiqi;
 
 import icbm.core.BaoHu;
+import icbm.core.ZhuYao;
 import icbm.explosion.CommonProxy;
 import icbm.explosion.ItZiDan;
 import icbm.explosion.ZhuYaoExplosion;
@@ -359,7 +360,7 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 	public MovingObjectPosition rayTrace(double distance)
 	{
 		Vector3 muzzlePosition = this.getMuzzle();
-		Vector3 lookDistance = ZhuYaoExplosion.getLook(this.rotationYaw, this.rotationPitch);
+		Vector3 lookDistance = ZhuYao.getLook(this.rotationYaw, this.rotationPitch);
 		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
 		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
 	}
@@ -367,7 +368,7 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(ZhuYaoExplosion.getLook(this.rotationYaw, this.rotationPitch - 10), 1.9));
+		return Vector3.add(position, Vector3.multiply(ZhuYao.getLook(this.rotationYaw, this.rotationPitch - 10), 1.9));
 	}
 
 	@Override

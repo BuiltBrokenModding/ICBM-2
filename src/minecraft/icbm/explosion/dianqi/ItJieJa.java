@@ -1,6 +1,7 @@
 package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.zhapin.EZhaDan;
@@ -31,7 +32,7 @@ public class ItJieJa extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	/**

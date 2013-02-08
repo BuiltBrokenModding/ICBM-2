@@ -1,6 +1,7 @@
 package icbm.explosion.zhapin;
 
 import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.List;
@@ -75,7 +76,7 @@ public class ExDuQi extends ZhaPin
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYaoExplosion.itDu, '?', tui.getItemStack() }), "Chemical", ICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', tui.getItemStack() }), "Chemical", ICBM.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{

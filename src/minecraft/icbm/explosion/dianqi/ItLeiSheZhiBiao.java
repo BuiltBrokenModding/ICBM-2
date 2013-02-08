@@ -3,6 +3,7 @@ package icbm.explosion.dianqi;
 import icbm.api.ICBMTab;
 import icbm.api.IFrequency;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.FaSheQiGuanLi;
 import icbm.explosion.jiqi.TFaSheQi;
@@ -366,6 +367,6 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 }

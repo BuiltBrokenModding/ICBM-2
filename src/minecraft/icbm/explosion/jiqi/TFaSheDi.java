@@ -1,6 +1,7 @@
 package icbm.explosion.jiqi;
 
 import icbm.core.BaoHu;
+import icbm.core.ZhuYao;
 import icbm.explosion.CommonProxy;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
@@ -322,21 +323,21 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		// Checks if it is greater than the maximum range for the launcher base
 		if (this.tier == 0)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoExplosion.DAO_DAN_ZUI_YUAN / 10)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 10)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 1)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoExplosion.DAO_DAN_ZUI_YUAN / 5)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 5)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 2)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoExplosion.DAO_DAN_ZUI_YUAN)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN)
 			{
 				return false;
 			}

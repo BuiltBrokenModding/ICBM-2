@@ -1,6 +1,7 @@
 package icbm.explosion;
 
 import icbm.api.ICBMTab;
+import icbm.core.ZhuYao;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ItZiDan extends Item
 		this.setIconIndex(par2);
 		this.setItemName("bullet");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}

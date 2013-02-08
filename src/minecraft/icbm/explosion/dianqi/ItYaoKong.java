@@ -2,6 +2,7 @@ package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.TZhaDan;
 import icbm.explosion.zhapin.ZhaPin;
@@ -53,7 +54,7 @@ public class ItYaoKong extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
+		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	/**

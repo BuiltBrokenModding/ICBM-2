@@ -1,7 +1,6 @@
 package icbm.core;
 
 import icbm.api.ICBMTab;
-import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.Random;
 
@@ -26,7 +25,7 @@ public class BLiu extends ICBMBlock
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
 	{
-		return ZhuYaoExplosion.itLiu.itemID;
+		return ZhuYao.itLiu.itemID;
 	}
 
 	@Override

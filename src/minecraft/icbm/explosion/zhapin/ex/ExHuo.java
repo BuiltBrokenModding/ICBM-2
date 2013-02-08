@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin.ex;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYaoExplosion;
+import icbm.core.ZhuYao;
 import icbm.explosion.zhapin.EShouLiuDan;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -117,7 +117,7 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYaoExplosion.itLiu, '?', tui.getItemStack(), '!', Item.bucketLava }), this.getName(), ICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', ZhuYao.itLiu, '?', tui.getItemStack(), '!', Item.bucketLava }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override

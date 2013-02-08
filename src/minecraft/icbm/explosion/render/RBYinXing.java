@@ -2,7 +2,7 @@ package icbm.explosion.render;
 
 import icbm.contraption.BYinXing;
 import icbm.contraption.TYinXing;
-import icbm.explosion.ZhuYaoExplosion;
+import icbm.core.ZhuYao;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -30,7 +30,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 	{
 		if (modelID == ID)
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoExplosion.BLOCK_TEXTURE_FILE));
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.BLOCK_TEXTURE_FILE));
 
 			this.renderNormalBlock(block, metadata, renderer);
 		}
@@ -150,7 +150,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 						}
 						else
 						{
-							ForgeHooksClient.bindTexture(ZhuYaoExplosion.BLOCK_TEXTURE_FILE, 0);
+							ForgeHooksClient.bindTexture(ZhuYao.BLOCK_TEXTURE_FILE, 0);
 							callBack.renderFace(renderBlocks, block, x, y, z, texture);
 						}
 					}

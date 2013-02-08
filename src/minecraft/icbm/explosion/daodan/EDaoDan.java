@@ -6,6 +6,7 @@ import icbm.api.IMissile;
 import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
 import icbm.core.BaoHu;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.fx.ParticleSpawner;
 import icbm.explosion.jiqi.TFaSheDi;
@@ -239,7 +240,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
-		if (!this.worldObj.isRemote && ZhuYaoExplosion.ZAI_KUAI && this.chunkTicket != null)
+		if (!this.worldObj.isRemote && ZhuYao.ZAI_KUAI && this.chunkTicket != null)
 		{
 			for (int x = -2; x <= 2; x++)
 			{

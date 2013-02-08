@@ -1,7 +1,7 @@
 package icbm.contraption;
 
 import icbm.api.ICBMTab;
-import icbm.explosion.ZhuYaoExplosion;
+import icbm.core.ZhuYao;
 
 import java.util.Random;
 
@@ -16,7 +16,7 @@ public class BEnNiu extends BlockButton
 		this.setBlockName("glassButton");
 		this.setStepSound(soundGlassFootstep);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYaoExplosion.BLOCK_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
 	}
 
 	@Override

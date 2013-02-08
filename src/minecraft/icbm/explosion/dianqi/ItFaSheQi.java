@@ -1,6 +1,7 @@
 package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.zhapin.ZhaPin;
@@ -28,7 +29,7 @@ public class ItFaSheQi extends ItemElectric
 		super(par1);
 		this.setItemName("launcher");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
 	@Override

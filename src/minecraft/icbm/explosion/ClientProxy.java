@@ -2,6 +2,7 @@ package icbm.explosion;
 
 import icbm.contraption.TGenZhongQiFX;
 import icbm.core.ShengYin;
+import icbm.core.ZhuYao;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.fx.FXLeiShe;
@@ -70,9 +71,9 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void preInit()
 	{
-		MinecraftForgeClient.preloadTexture(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
-		MinecraftForgeClient.preloadTexture(ZhuYaoExplosion.BLOCK_TEXTURE_FILE);
-		MinecraftForgeClient.preloadTexture(ZhuYaoExplosion.TRACKER_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYao.TRACKER_TEXTURE_FILE);
 
 		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
 	}

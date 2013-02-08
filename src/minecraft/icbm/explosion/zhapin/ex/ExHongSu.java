@@ -178,13 +178,16 @@ public class ExHongSu extends ZhaPin
 							entity.setDead();
 							return false;
 						}
+
 					}
 					else if (entity instanceof EZhaDan)
 					{
 						((EZhaDan) entity).explode();
 					}
-
-					entity.setDead();
+					else
+					{
+						entity.setDead();
+					}
 				}
 			}
 		}

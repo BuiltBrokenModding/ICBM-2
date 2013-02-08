@@ -2,7 +2,7 @@ package icbm.explosion.zhapin;
 
 import icbm.api.ICBMTab;
 import icbm.core.BaoHu;
-import icbm.explosion.ZhuYaoExplosion;
+import icbm.core.ZhuYao;
 import icbm.explosion.render.RHZhaPin;
 
 import java.util.List;
@@ -320,7 +320,7 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYaoExplosion.BLOCK_TEXTURE_FILE;
+		return ZhuYao.BLOCK_TEXTURE_FILE;
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -3,7 +3,7 @@ package icbm.contraption;
 import icbm.api.ICBMTab;
 import icbm.api.IEMPBlock;
 import icbm.api.IExplosive;
-import icbm.explosion.ZhuYaoExplosion;
+import icbm.core.ZhuYao;
 import icbm.explosion.render.RBYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -28,7 +28,7 @@ public class BYinXing extends BlockMachine implements IEMPBlock
 		this.setResistance(1F);
 		this.setStepSound(this.soundClothFootstep);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYaoExplosion.BLOCK_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
 	}
 
 	@Override

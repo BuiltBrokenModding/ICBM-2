@@ -1,5 +1,6 @@
 package icbm.contraption;
 
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.dianqi.ItGenZongQi;
 
@@ -48,7 +49,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 
 		try
 		{
-			BufferedImage bufferedImage = TextureFXManager.instance().loadImageFromTexturePack(this.mc.renderEngine, ZhuYaoExplosion.TRACKER_TEXTURE_FILE);
+			BufferedImage bufferedImage = TextureFXManager.instance().loadImageFromTexturePack(this.mc.renderEngine, ZhuYao.TRACKER_TEXTURE_FILE);
 			int xCoord = this.iconIndex % this.tileSizeBase * tileSizeBase;
 			int yCoord = this.iconIndex / this.tileSizeBase * tileSizeBase;
 			bufferedImage.getRGB(xCoord, yCoord, this.tileSizeBase, this.tileSizeBase, this.trackerIconImageData, 0, tileSizeBase);
@@ -62,7 +63,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 	@Override
 	public void bindImage(RenderEngine par1RenderEngine)
 	{
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1RenderEngine.getTexture(ZhuYaoExplosion.TRACKER_TEXTURE_FILE));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1RenderEngine.getTexture(ZhuYao.TRACKER_TEXTURE_FILE));
 	}
 
 	public void onTick()

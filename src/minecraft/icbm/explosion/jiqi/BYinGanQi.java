@@ -1,6 +1,7 @@
 package icbm.explosion.jiqi;
 
 import icbm.api.ICBMTab;
+import icbm.core.ZhuYao;
 import icbm.explosion.CommonProxy;
 import icbm.explosion.ZhuYaoExplosion;
 
@@ -117,6 +118,6 @@ public class BYinGanQi extends BlockMachine
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYaoExplosion.BLOCK_TEXTURE_FILE;
+		return ZhuYao.BLOCK_TEXTURE_FILE;
 	}
 }
