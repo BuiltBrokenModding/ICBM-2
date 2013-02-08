@@ -57,7 +57,10 @@ public abstract class ZhaPin implements ITier, IExplosive
 
 		public static ZhaPinType get(int id)
 		{
-			if (id >= 0 && id < ZhaPinType.values().length) { return ZhaPinType.values()[id]; }
+			if (id >= 0 && id < ZhaPinType.values().length)
+			{
+				return ZhaPinType.values()[id];
+			}
 
 			return null;
 		}
@@ -124,7 +127,10 @@ public abstract class ZhaPin implements ITier, IExplosive
 			list = new ZhaPin[32];
 		}
 
-		if (list[ID] != null) { throw new IllegalArgumentException("Explosive " + ID + " is already occupied by " + list[ID].getClass().getSimpleName() + "!"); }
+		if (list[ID] != null)
+		{
+			throw new IllegalArgumentException("Explosive " + ID + " is already occupied by " + list[ID].getClass().getSimpleName() + "!");
+		}
 
 		list[ID] = this;
 		this.mingZi = name;

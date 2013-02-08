@@ -214,7 +214,10 @@ public class ExChaoShengBuo extends ZhaPin
 			}
 		}
 
-		if (callCount > this.getRadius()) { return false; }
+		if (callCount > this.getRadius())
+		{
+			return false;
+		}
 
 		return true;
 	}

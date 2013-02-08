@@ -241,7 +241,10 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 					this.worldObj.spawnEntityInWorld(this.eDaoDan);
 					return;
 				}
-				else if (this.eDaoDan.haoMa == missileId) { return; }
+				else if (this.eDaoDan.haoMa == missileId)
+				{
+					return;
+				}
 			}
 		}
 
@@ -305,7 +308,10 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	public boolean shiTaiJin(Vector3 target)
 	{
 		// Check if it is greater than the minimum range
-		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 10) { return true; }
+		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 10)
+		{
+			return true;
+		}
 
 		return false;
 	}
@@ -316,15 +322,24 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		// Checks if it is greater than the maximum range for the launcher base
 		if (this.tier == 0)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 10) { return false; }
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 10)
+			{
+				return false;
+			}
 		}
 		else if (this.tier == 1)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 5) { return false; }
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 5)
+			{
+				return false;
+			}
 		}
 		else if (this.tier == 2)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN) { return false; }
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN)
+			{
+				return false;
+			}
 		}
 
 		return true;

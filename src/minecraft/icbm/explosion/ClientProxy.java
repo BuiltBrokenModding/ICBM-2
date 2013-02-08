@@ -1,27 +1,5 @@
 package icbm.explosion;
 
-import icbm.client.render.RBYinXing;
-import icbm.client.render.RChe;
-import icbm.client.render.RCiGuiPao;
-import icbm.client.render.RDaoDan;
-import icbm.client.render.RDianCiQi;
-import icbm.client.render.REZhaDan;
-import icbm.client.render.RFaSheDi;
-import icbm.client.render.RFaSheJia;
-import icbm.client.render.RFaSheShiMuo;
-import icbm.client.render.RFake;
-import icbm.client.render.RFeiBlock;
-import icbm.client.render.RGuangBang;
-import icbm.client.render.RHJiQi;
-import icbm.client.render.RHZhaPin;
-import icbm.client.render.RItDaoDan;
-import icbm.client.render.RItFaSheQi;
-import icbm.client.render.RLeiDaTai;
-import icbm.client.render.RShouLiuDan;
-import icbm.client.render.RSuiPian;
-import icbm.client.render.RXiaoFaSheQi;
-import icbm.client.render.RZhaDan;
-import icbm.client.render.RZhaPin;
 import icbm.contraption.TGenZhongQiFX;
 import icbm.core.ShengYin;
 import icbm.explosion.cart.EChe;
@@ -43,7 +21,31 @@ import icbm.explosion.jiqi.TFaSheJia;
 import icbm.explosion.jiqi.TFaSheShiMuo;
 import icbm.explosion.jiqi.TLeiDaTai;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
+import icbm.explosion.jiqi.TYinDaoQi;
 import icbm.explosion.jiqi.TYinGanQi;
+import icbm.explosion.render.RBYinXing;
+import icbm.explosion.render.RChe;
+import icbm.explosion.render.RCiGuiPao;
+import icbm.explosion.render.RDaoDan;
+import icbm.explosion.render.RDianCiQi;
+import icbm.explosion.render.REZhaDan;
+import icbm.explosion.render.RFaSheDi;
+import icbm.explosion.render.RFaSheJia;
+import icbm.explosion.render.RFaSheShiMuo;
+import icbm.explosion.render.RFake;
+import icbm.explosion.render.RFeiBlock;
+import icbm.explosion.render.RGuangBang;
+import icbm.explosion.render.RHJiQi;
+import icbm.explosion.render.RHZhaPin;
+import icbm.explosion.render.RItDaoDan;
+import icbm.explosion.render.RItFaSheQi;
+import icbm.explosion.render.RLeiDaTai;
+import icbm.explosion.render.RShouLiuDan;
+import icbm.explosion.render.RSuiPian;
+import icbm.explosion.render.RXiaoFaSheQi;
+import icbm.explosion.render.RYinDaoQi;
+import icbm.explosion.render.RZhaDan;
+import icbm.explosion.render.RZhaPin;
 import icbm.explosion.zhapin.EShouLiuDan;
 import icbm.explosion.zhapin.EZhaDan;
 import icbm.explosion.zhapin.EZhaPin;
@@ -108,6 +110,7 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RLeiDaTai());
 		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RZhaDan());
+		ClientRegistry.bindTileEntitySpecialRenderer(TYinDaoQi.class, new RYinDaoQi());
 
 	}
 

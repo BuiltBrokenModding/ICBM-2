@@ -1,4 +1,4 @@
-package icbm.client.render;
+package icbm.explosion.render;
 
 import icbm.api.ICBM;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
@@ -19,7 +19,7 @@ public class RXiaoFaSheQi extends TileEntitySpecialRenderer
 	public static final MXiaoFaSheQi MODEL0 = new MXiaoFaSheQi();
 	public static final MXiaoFaSheQiJia MODEL1 = new MXiaoFaSheQiJia();
 
-	public void renderAModelAt(TXiaoFaSheQi tileEntity, double d, double d1, double d2, float f)
+	public void renderModelAt(TXiaoFaSheQi tileEntity, double d, double d1, double d2, float f)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
@@ -35,6 +35,6 @@ public class RXiaoFaSheQi extends TileEntitySpecialRenderer
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
 	{
-		renderAModelAt((TXiaoFaSheQi) tileentity, d, d1, d2, f);
+		renderModelAt((TXiaoFaSheQi) tileentity, d, d1, d2, f);
 	}
 }

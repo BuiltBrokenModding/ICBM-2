@@ -139,7 +139,10 @@ public class ExBingDan2 extends ZhaPin
 			FMLLog.severe("Endothermic Explosives Failure!");
 			e.printStackTrace();
 		}
-		if (callCount > this.getRadius()) { return false; }
+		if (callCount > this.getRadius())
+		{
+			return false;
+		}
 		return true;
 	}
 

@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 
 public class ICBMTab extends CreativeTabs
 {
+	public static final ICBMTab INSTANCE = new ICBMTab();
+
 	public static ItemStack itemStack;
 
 	public ICBMTab()

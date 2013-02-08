@@ -56,10 +56,16 @@ public class CFaShiDi extends Container
 			{
 				if (SDaoDan.itemValid(var4))
 				{
-					if (!this.mergeItemStack(var4, 0, 1, false)) { return null; }
+					if (!this.mergeItemStack(var4, 0, 1, false))
+					{
+						return null;
+					}
 				}
 			}
-			else if (!this.mergeItemStack(var4, 3, 37, false)) { return null; }
+			else if (!this.mergeItemStack(var4, 3, 37, false))
+			{
+				return null;
+			}
 
 			if (var4.stackSize == 0)
 			{
@@ -70,7 +76,10 @@ public class CFaShiDi extends Container
 				var3.onSlotChanged();
 			}
 
-			if (var4.stackSize == var2.stackSize) { return null; }
+			if (var4.stackSize == var2.stackSize)
+			{
+				return null;
+			}
 
 			var3.onPickupFromSlot(par1EntityPlayer, var4);
 		}

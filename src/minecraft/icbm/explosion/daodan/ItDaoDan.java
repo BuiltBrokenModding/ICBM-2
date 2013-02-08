@@ -1,5 +1,6 @@
 package icbm.explosion.daodan;
 
+import icbm.api.ICBMTab;
 import icbm.explosion.ZhuYao;
 import icbm.explosion.zhapin.ZhaPin;
 
@@ -18,7 +19,7 @@ public class ItDaoDan extends Item
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
@@ -31,7 +32,10 @@ public class ItDaoDan extends Item
 	@Override
 	public String getItemNameIS(ItemStack itemStack)
 	{
-		if (itemStack.getItemDamage() < ZhaPin.list.length) { return this.getItemName() + "." + ZhaPin.list[itemStack.getItemDamage()].getName(); }
+		if (itemStack.getItemDamage() < ZhaPin.list.length)
+		{
+			return this.getItemName() + "." + ZhaPin.list[itemStack.getItemDamage()].getName();
+		}
 
 		return "";
 	}

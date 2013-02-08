@@ -1,4 +1,4 @@
-package icbm.client.render;
+package icbm.explosion.render;
 
 import icbm.api.ICBM;
 import icbm.explosion.jiqi.TFaSheDi;

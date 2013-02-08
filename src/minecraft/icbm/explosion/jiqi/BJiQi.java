@@ -1,7 +1,8 @@
 package icbm.explosion.jiqi;
 
-import icbm.client.render.RHJiQi;
+import icbm.api.ICBMTab;
 import icbm.explosion.ZhuYao;
+import icbm.explosion.render.RHJiQi;
 
 import java.util.List;
 import java.util.Random;
@@ -33,7 +34,7 @@ public class BJiQi extends BlockMachine
 {
 	public enum JiQi
 	{
-		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class), LeiDaTai(TLeiDaTai.class), DianCiQi(TDianCiQi.class), CiGuiPao(TCiGuiPao.class), XiaoFaSheQi(TXiaoFaSheQi.class);
+		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class), LeiDaTai(TLeiDaTai.class), DianCiQi(TDianCiQi.class), CiGuiPao(TCiGuiPao.class), XiaoFaSheQi(TXiaoFaSheQi.class), YinDaoQi(TYinDaoQi.class);
 
 		public Class<? extends TileEntity> tileEntity;
 
@@ -44,17 +45,18 @@ public class BJiQi extends BlockMachine
 
 		public static JiQi get(int id)
 		{
-			if (id < JiQi.values().length && id >= 0) { return JiQi.values()[id]; }
+			if (id < JiQi.values().length && id >= 0)
+			{
+				return JiQi.values()[id];
+			}
 
 			return null;
 		}
 	}
 
-	private static final int JI_QI_SHU = 13;
-
 	public BJiQi(int id)
 	{
-		super("ICBM Machine", id, UniversalElectricity.machine, ZhuYao.TAB);
+		super("ICBM Machine", id, UniversalElectricity.machine, ICBMTab.INSTANCE);
 	}
 
 	/**
@@ -64,7 +66,10 @@ public class BJiQi extends BlockMachine
 	public boolean isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side)); }
+		if (tileEntity instanceof IRedstoneProvider)
+		{
+			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side));
+		}
 
 		return false;
 	}
@@ -76,7 +81,10 @@ public class BJiQi extends BlockMachine
 	public boolean isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side)); }
+		if (tileEntity instanceof IRedstoneProvider)
+		{
+			return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side));
+		}
 
 		return false;
 	}
@@ -132,57 +140,64 @@ public class BJiQi extends BlockMachine
 		}
 	}
 
-	public static boolean canBePlacedAt(World par1World, int x, int y, int z, int metadata, EntityLiving entityLiving)
+	public static boolean canBePlacedAt(World world, int x, int y, int z, int metadata, int direction)
 	{
-		int angle = MathHelper.floor_double((entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-
-		// Launcher Base
-		if (metadata == 0)
+		switch (metadata)
 		{
-			if (angle == 0 || angle == 2)
+			default:
 			{
-				return par1World.getBlockId(x, y, z) == 0 &&
-				// Left
-						par1World.getBlockId(x + 1, y, z) == 0 && par1World.getBlockId(x + 1, y + 1, z) == 0 && par1World.getBlockId(x + 1, y + 2, z) == 0 &&
-						// Right
-						par1World.getBlockId(x - 1, y, z) == 0 && par1World.getBlockId(x - 1, y + 1, z) == 0 && par1World.getBlockId(x - 1, y + 2, z) == 0;
+				return world.getBlockMaterial(x, y - 1, z).isSolid();
 			}
-			else if (angle == 1 || angle == 3) { return par1World.getBlockId(x, y, z) == 0 &&
-			// Front
-					par1World.getBlockId(x, y, z + 1) == 0 && par1World.getBlockId(x, y + 1, z + 1) == 0 && par1World.getBlockId(x, y + 2, z + 1) == 0 &&
-					// Back
-					par1World.getBlockId(x, y, z - 1) == 0 && par1World.getBlockId(x, y + 1, z - 1) == 0 && par1World.getBlockId(x, y + 2, z - 1) == 0; }
-		}
-		// Launcher Screen
-		else if (metadata == 1 || metadata == 5 || metadata == 6)
-		{
-			return par1World.getBlockMaterial(x, y - 1, z).isSolid();
-		}
-		// Launcher Frame
-		else if (metadata == 2)
-		{
-			return par1World.getBlockMaterial(x, y - 1, z).isSolid() && par1World.getBlockId(x, y, z) == 0 && par1World.getBlockId(x, y + 1, z) == 0 && par1World.getBlockId(x, y + 2, z) == 0;
-		}
-		// Radar
-		else if (metadata == 3)
-		{
-			return par1World.getBlockMaterial(x, y - 1, z).isSolid() && par1World.getBlockId(x, y, z) == 0 &&
+			case 0:
+			{
+				// Launcher Base
+				if (direction == 0 || direction == 2)
+				{
+					return world.getBlockId(x, y, z) == 0 &&
+					// Left
+							world.getBlockId(x + 1, y, z) == 0 && world.getBlockId(x + 1, y + 1, z) == 0 && world.getBlockId(x + 1, y + 2, z) == 0 &&
+							// Right
+							world.getBlockId(x - 1, y, z) == 0 && world.getBlockId(x - 1, y + 1, z) == 0 && world.getBlockId(x - 1, y + 2, z) == 0;
+				}
+				else if (direction == 1 || direction == 3)
+				{
+					return world.getBlockId(x, y, z) == 0 &&
+					// Front
+							world.getBlockId(x, y, z + 1) == 0 && world.getBlockId(x, y + 1, z + 1) == 0 && world.getBlockId(x, y + 2, z + 1) == 0 &&
+							// Back
+							world.getBlockId(x, y, z - 1) == 0 && world.getBlockId(x, y + 1, z - 1) == 0 && world.getBlockId(x, y + 2, z - 1) == 0;
+				}
+			}
+			case 2:
+			{
+				// Launcher Frame
+				return world.getBlockMaterial(x, y - 1, z).isSolid() && world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x, y + 2, z) == 0;
+			}
+			case 3:
+			{
+				// Radar
+				return world.getBlockMaterial(x, y - 1, z).isSolid() && world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x + 1, y + 1, z) == 0 && world.getBlockId(x - 1, y + 1, z) == 0 && world.getBlockId(x, y + 1, z + 1) == 0 && world.getBlockId(x, y + 1, z - 1) == 0 && world.getBlockId(x + 1, y + 1, z + 1) == 0 && world.getBlockId(x - 1, y + 1, z - 1) == 0 && world.getBlockId(x + 1, y + 1, z - 1) == 0 && world.getBlockId(x - 1, y + 1, z + 1) == 0;
 
-			par1World.getBlockId(x, y + 1, z) == 0 && par1World.getBlockId(x + 1, y + 1, z) == 0 && par1World.getBlockId(x - 1, y + 1, z) == 0 && par1World.getBlockId(x, y + 1, z + 1) == 0 && par1World.getBlockId(x, y + 1, z - 1) == 0 && par1World.getBlockId(x + 1, y + 1, z + 1) == 0 && par1World.getBlockId(x - 1, y + 1, z - 1) == 0 && par1World.getBlockId(x + 1, y + 1, z - 1) == 0 && par1World.getBlockId(x - 1, y + 1, z + 1) == 0;
+			}
+			case 4:
+			{
+				return world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0;
+			}
 		}
-		else if (metadata == 4) { return par1World.getBlockId(x, y, z) == 0 && par1World.getBlockId(x, y + 1, z) == 0; }
-
-		return false;
 	}
 
-	/**
-	 * Can this block stay at this position. Similar to canPlaceBlockAt except gets checked often
-	 * with plants.
-	 */
 	@Override
-	public boolean canBlockStay(World par1World, int x, int y, int z)
+	public boolean canBlockStay(World world, int x, int y, int z)
 	{
-		return true;
+		int direction = 0;
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+		if (tileEntity instanceof IRotatable)
+		{
+			direction = ((IRotatable) tileEntity).getDirection().ordinal();
+		}
+
+		return canBePlacedAt(world, x, y, z, world.getBlockMetadata(x, y, z), direction);
 	}
 
 	@Override
@@ -203,14 +218,20 @@ public class BJiQi extends BlockMachine
 			{
 				return false;
 			}
-			else if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiDaQiang.itemID) { return false; }
+			else if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiDaQiang.itemID)
+			{
+				return false;
+			}
 		}
 
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
 		if (tileEntity != null)
 		{
-			if (tileEntity instanceof IBlockActivate) { return ((IBlockActivate) tileEntity).onActivated(par5EntityPlayer); }
+			if (tileEntity instanceof IBlockActivate)
+			{
+				return ((IBlockActivate) tileEntity).onActivated(par5EntityPlayer);
+			}
 		}
 
 		return false;
@@ -334,7 +355,7 @@ public class BJiQi extends BlockMachine
 	@Override
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < JI_QI_SHU; i++)
+		for (int i = 0; i < JiQi.values().length + 6; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}

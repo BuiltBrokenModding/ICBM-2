@@ -137,7 +137,10 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public String getEntityName()
 	{
-		if (this.haoMa > 100) { return TranslationHelper.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getMingZing()) + ".name"; }
+		if (this.haoMa > 100)
+		{
+			return TranslationHelper.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getMingZing()) + ".name";
+		}
 		return TranslationHelper.getLocal("icbm.missile." + ZhaPin.list[this.haoMa].getName() + ".name");
 	}
 
@@ -480,7 +483,10 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer)
 	{
-		if (DaoDan.list[this.haoMa] != null) { return DaoDan.list[this.haoMa].onInteract(this, par1EntityPlayer); }
+		if (DaoDan.list[this.haoMa] != null)
+		{
+			return DaoDan.list[this.haoMa].onInteract(this, par1EntityPlayer);
+		}
 
 		return false;
 	}

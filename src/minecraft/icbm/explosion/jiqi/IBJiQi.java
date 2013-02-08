@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.prefab.implement.ITier;
 
@@ -73,7 +74,9 @@ public class IBJiQi extends ItemBlock
 			jiQiMetadata = itemStack.getItemDamage() - 6;
 		}
 
-		if (BJiQi.canBePlacedAt(world, x, y, z, jiQiMetadata, entityPlayer))
+		int direction = MathHelper.floor_double((entityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+		if (BJiQi.canBePlacedAt(world, x, y, z, jiQiMetadata, direction))
 		{
 			Block var9 = Block.blocksList[this.getBlockID()];
 

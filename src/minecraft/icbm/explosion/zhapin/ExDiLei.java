@@ -40,7 +40,10 @@ public class ExDiLei extends ZhaPin
 		explosionSource.motionY -= 0.03D;
 		explosionSource.rotationPitch += 1 * worldObj.rand.nextFloat();
 
-		if (callCount < 20 * 2 && !explosionSource.isCollided) { return true; }
+		if (callCount < 20 * 2 && !explosionSource.isCollided)
+		{
+			return true;
+		}
 
 		if (callCount >= 20 * 2 && callCount % 2 == 0 && !worldObj.isRemote)
 		{
@@ -75,7 +78,10 @@ public class ExDiLei extends ZhaPin
 			}
 		}
 
-		if (callCount >= 20 * 2 + 20) { return false; }
+		if (callCount >= 20 * 2 + 20)
+		{
+			return false;
+		}
 
 		return true;
 	}

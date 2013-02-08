@@ -67,15 +67,27 @@ public class CCiGuiPao extends Container
 			{
 				if (var4.getItem() instanceof ItZiDan)
 				{
-					if (!this.mergeItemStack(var4, 0, 1, false)) { return null; }
+					if (!this.mergeItemStack(var4, 0, 1, false))
+					{
+						return null;
+					}
 				}
 				else if (par1 >= 1 && par1 < 28)
 				{
-					if (!this.mergeItemStack(var4, 28, 37, false)) { return null; }
+					if (!this.mergeItemStack(var4, 28, 37, false))
+					{
+						return null;
+					}
 				}
-				else if (par1 >= 28 && par1 < 37 && !this.mergeItemStack(var4, 1, 28, false)) { return null; }
+				else if (par1 >= 28 && par1 < 37 && !this.mergeItemStack(var4, 1, 28, false))
+				{
+					return null;
+				}
 			}
-			else if (!this.mergeItemStack(var4, 1, 37, false)) { return null; }
+			else if (!this.mergeItemStack(var4, 1, 37, false))
+			{
+				return null;
+			}
 
 			if (var4.stackSize == 0)
 			{
@@ -86,7 +98,10 @@ public class CCiGuiPao extends Container
 				var3.onSlotChanged();
 			}
 
-			if (var4.stackSize == var2.stackSize) { return null; }
+			if (var4.stackSize == var2.stackSize)
+			{
+				return null;
+			}
 
 			var3.onPickupFromSlot(par1EntityPlayer, var4);
 		}

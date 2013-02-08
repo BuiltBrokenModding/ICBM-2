@@ -47,7 +47,10 @@ public class PDongShang extends CustomPotion
 	@Override
 	public boolean isReady(int duration, int amplifier)
 	{
-		if (duration % 20 == 0) { return true; }
+		if (duration % 20 == 0)
+		{
+			return true;
+		}
 
 		return false;
 	}

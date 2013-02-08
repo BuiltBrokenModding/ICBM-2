@@ -36,7 +36,10 @@ public class ICBMPacketManager extends PacketManager
 
 		public static ICBMPacketType get(int id)
 		{
-			if (id >= 0 && id < ICBMPacketType.values().length) { return ICBMPacketType.values()[id]; }
+			if (id >= 0 && id < ICBMPacketType.values().length)
+			{
+				return ICBMPacketType.values()[id];
+			}
 			return UNSPECIFIED;
 		}
 	}

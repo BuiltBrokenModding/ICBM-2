@@ -1,5 +1,6 @@
 package icbm.explosion.zhapin;
 
+import icbm.api.ICBMTab;
 import icbm.core.BaoHu;
 import icbm.explosion.ZhuYao;
 
@@ -19,7 +20,7 @@ public class ItShouLiuDan extends Item
 		super(par1);
 		this.setIconIndex(par2);
 		this.setMaxStackSize(64);
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);

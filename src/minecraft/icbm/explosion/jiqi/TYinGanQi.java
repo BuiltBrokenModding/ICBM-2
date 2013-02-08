@@ -40,11 +40,6 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 
 	public boolean isInverted = false;
 
-	public TYinGanQi()
-	{
-		super();
-	}
-
 	@Override
 	public void initiate()
 	{

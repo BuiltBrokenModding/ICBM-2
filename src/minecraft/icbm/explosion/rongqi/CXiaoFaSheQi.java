@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import universalelectricity.prefab.SlotElectricItem;
 
 public class CXiaoFaSheQi extends Container
 {
@@ -15,7 +16,11 @@ public class CXiaoFaSheQi extends Container
 	public CXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TXiaoFaSheQi tileEntity)
 	{
 		this.tileEntity = tileEntity;
-		this.addSlotToContainer(new SDaoDan(tileEntity, 0, 84, 47));
+		// Missile Slot
+		this.addSlotToContainer(new SDaoDan(tileEntity, 0, 151, 23));
+		// Battery Slot
+		this.addSlotToContainer(new SlotElectricItem(tileEntity, 1, 151, 47));
+
 		int var3;
 
 		for (var3 = 0; var3 < 3; ++var3)
@@ -60,14 +65,27 @@ public class CXiaoFaSheQi extends Container
 			ItemStack var4 = var3.getStack();
 			var2 = var4.copy();
 
-			if (par1 != 0)
+			if (par1 > 1)
 			{
 				if (SDaoDan.itemValid(var4))
 				{
-					if (!this.mergeItemStack(var4, 0, 1, false)) { return null; }
+					if (!this.mergeItemStack(var4, 0, 1, false))
+					{
+						return null;
+					}
+				}
+				else if (this.getSlot(1).isItemValid(var4))
+				{
+					if (!this.mergeItemStack(var4, 1, 2, false))
+					{
+						return null;
+					}
 				}
 			}
-			else if (!this.mergeItemStack(var4, 3, 37, false)) { return null; }
+			else if (!this.mergeItemStack(var4, 2, 36 + 2, false))
+			{
+				return null;
+			}
 
 			if (var4.stackSize == 0)
 			{
@@ -78,7 +96,10 @@ public class CXiaoFaSheQi extends Container
 				var3.onSlotChanged();
 			}
 
-			if (var4.stackSize == var2.stackSize) { return null; }
+			if (var4.stackSize == var2.stackSize)
+			{
+				return null;
+			}
 
 			var3.onPickupFromSlot(par1EntityPlayer, var4);
 		}

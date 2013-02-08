@@ -1,6 +1,6 @@
 package icbm.explosion.cart;
 
-import icbm.explosion.ZhuYao;
+import icbm.api.ICBMTab;
 import icbm.explosion.zhapin.ZhaPin;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class ItChe extends Item
 		this.setIconIndex(texture);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	/**

@@ -163,7 +163,10 @@ public class ExPiaoFu extends ZhaPin
 			}
 		}
 
-		if (callCount > 20 * 120) { return false; }
+		if (callCount > 20 * 120)
+		{
+			return false;
+		}
 
 		return true;
 	}

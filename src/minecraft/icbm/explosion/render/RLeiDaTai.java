@@ -1,8 +1,8 @@
-package icbm.client.render;
+package icbm.explosion.render;
 
 import icbm.api.ICBM;
-import icbm.explosion.jiqi.TDianCiQi;
-import icbm.explosion.muoxing.jiqi.MDianCiQi;
+import icbm.explosion.jiqi.TLeiDaTai;
+import icbm.explosion.muoxing.jiqi.MLeiDa;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -12,12 +12,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RDianCiQi extends TileEntitySpecialRenderer
+public class RLeiDaTai extends TileEntitySpecialRenderer
 {
-	public static final MDianCiQi MODEL = new MDianCiQi();
-	public static final String TEXTURE_FILE = "EMPTower.png";
+	public static final MLeiDa MODEL = new MLeiDa();
+	public static final String TEXTURE_FILE = "Radar.png";
 
-	public void renderAModelAt(TDianCiQi tileEntity, double x, double y, double z, float f)
+	public void renderAModelAt(TLeiDaTai tileEntity, double x, double y, double z, float f)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
@@ -28,8 +28,8 @@ public class RDianCiQi extends TileEntitySpecialRenderer
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
 	{
-		renderAModelAt((TDianCiQi) tileentity, x, y, z, f);
+		renderAModelAt((TLeiDaTai) tileentity, d, d1, d2, f);
 	}
 }

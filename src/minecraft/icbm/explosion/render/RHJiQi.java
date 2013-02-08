@@ -1,4 +1,4 @@
-package icbm.client.render;
+package icbm.explosion.render;
 
 import icbm.api.ICBM;
 import icbm.explosion.jiqi.BJiQi.JiQi;
@@ -126,6 +126,16 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 
 				RXiaoFaSheQi.MODEL0.render(0.0625F);
 				RXiaoFaSheQi.MODEL1.render(0.0625F);
+			}
+			else if (metadata == JiQi.YinDaoQi.ordinal() + 6)
+			{
+				GL11.glTranslatef(0f, 1.1f, 0f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				GL11.glRotatef(180f, 0f, 1f, 0f);
+
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RYinDaoQi.TEXTURE_FILE));
+
+				RYinDaoQi.MODEL.render(0, 0.0625F);
 			}
 
 			GL11.glPopMatrix();

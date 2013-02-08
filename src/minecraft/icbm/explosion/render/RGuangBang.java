@@ -1,4 +1,4 @@
-package icbm.client.render;
+package icbm.explosion.render;
 
 import icbm.explosion.EGuang;
 import net.minecraft.client.renderer.Tessellator;

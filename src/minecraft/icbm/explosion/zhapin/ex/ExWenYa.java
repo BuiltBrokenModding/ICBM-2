@@ -161,7 +161,10 @@ public class ExWenYa extends ZhaPin
 			}
 		}
 
-		if (r <= 0 && i > source.dataList.size()) { return false; }
+		if (r <= 0 && i > source.dataList.size())
+		{
+			return false;
+		}
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 

@@ -1,5 +1,6 @@
 package icbm.explosion.dianqi;
 
+import icbm.api.ICBMTab;
 import icbm.api.IFrequency;
 import icbm.explosion.CommonProxy;
 import icbm.explosion.ZhuYao;
@@ -20,7 +21,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 		super(par1);
 		this.iconIndex = par2;
 		this.setItemName("signalDisrupter");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	@Override
@@ -43,7 +44,10 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	public short getFrequency(Object... data)
 	{
 		ItemStack itemStack = (ItemStack) data[0];
-		if (itemStack.stackTagCompound == null) { return 0; }
+		if (itemStack.stackTagCompound == null)
+		{
+			return 0;
+		}
 		return itemStack.stackTagCompound.getShort("frequency");
 	}
 

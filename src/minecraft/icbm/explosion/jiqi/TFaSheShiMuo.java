@@ -197,7 +197,10 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if (this.getJoules() >= this.getMaxJoules())
 				{
-					if (this.connectedBase.isInRange(this.muBiao)) { return true; }
+					if (this.connectedBase.isInRange(this.muBiao))
+					{
+						return true;
+					}
 
 				}
 			}
@@ -371,7 +374,10 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public EDaoDan getMissile()
 	{
-		if (this.connectedBase != null) { return this.connectedBase.eDaoDan; }
+		if (this.connectedBase != null)
+		{
+			return this.connectedBase.eDaoDan;
+		}
 
 		return null;
 	}

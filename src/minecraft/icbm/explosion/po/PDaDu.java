@@ -28,7 +28,10 @@ public class PDaDu extends CustomPotion
 	@Override
 	public boolean isReady(int duration, int amplifier)
 	{
-		if (duration % (20 * 2) == 0) { return true; }
+		if (duration % (20 * 2) == 0)
+		{
+			return true;
+		}
 
 		return false;
 	}

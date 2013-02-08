@@ -38,10 +38,10 @@ public class GXiaoFaSheQi extends GuiContainer
 	public void initGui()
 	{
 		super.initGui();
-		this.textFieldX = new GuiTextField(fontRenderer, 20, 18, 35, 12);
-		this.textFieldY = new GuiTextField(fontRenderer, 75, 18, 35, 12);
-		this.textFieldZ = new GuiTextField(fontRenderer, 130, 18, 35, 12);
-		this.textFieldFreq = new GuiTextField(fontRenderer, 20, 50, 35, 12);
+		this.textFieldX = new GuiTextField(fontRenderer, 20, 21, 35, 12);
+		this.textFieldY = new GuiTextField(fontRenderer, 20, 37, 35, 12);
+		this.textFieldZ = new GuiTextField(fontRenderer, 20, 52, 35, 12);
+		this.textFieldFreq = new GuiTextField(fontRenderer, 70, 33, 35, 12);
 		this.textFieldFreq.setMaxStringLength(4);
 		this.textFieldX.setMaxStringLength(6);
 		this.textFieldZ.setMaxStringLength(6);
@@ -112,22 +112,22 @@ public class GXiaoFaSheQi extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		this.fontRenderer.drawString(tileEntity.getInvName(), 48, 6, 4210752);
+		this.fontRenderer.drawString(tileEntity.getInvName(), 52, 6, 4210752);
 
-		this.fontRenderer.drawString("X:", 8, 20, 4210752);
-		this.fontRenderer.drawString("Y:", 65, 20, 4210752);
-		this.fontRenderer.drawString("Z:", 120, 20, 4210752);
-		this.fontRenderer.drawString("Frequency:", 10, 40, 4210752);
+		this.fontRenderer.drawString("X:", 8, 23, 4210752);
+		this.fontRenderer.drawString("Y:", 8, 39, 4210752);
+		this.fontRenderer.drawString("Z:", 8, 54, 4210752);
+
+		this.fontRenderer.drawString("Frequency:", 70, 20, 4210752);
 
 		this.textFieldX.drawTextBox();
 		this.textFieldZ.drawTextBox();
 		this.textFieldY.drawTextBox();
 		this.textFieldFreq.drawTextBox();
 
-		this.fontRenderer.drawString(this.tileEntity.getStatus(), 108, 40, 4210752);
-		this.fontRenderer.drawString(this.tileEntity.getVoltage() + "v", 108, 50, 4210752);
-		this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES), 108, 60, 4210752);
-		this.fontRenderer.drawString("Max: " + ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 105, 70, 4210752);
+		this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50, 4210752);
+		this.fontRenderer.drawString(this.tileEntity.getVoltage() + "v", 70, 60, 4210752);
+		this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 70, 70, 4210752);
 
 		this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
@@ -138,7 +138,7 @@ public class GXiaoFaSheQi extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "MissileLauncher.png");
+		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_cruise_launcher.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		containerWidth = (this.width - this.xSize) / 2;

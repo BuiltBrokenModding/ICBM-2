@@ -1,5 +1,6 @@
 package icbm.explosion.dianqi;
 
+import icbm.api.ICBMTab;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
 import icbm.explosion.ZhuYao;
 import icbm.explosion.zhapin.TZhaDan;
@@ -29,7 +30,7 @@ public class ItYaoKong extends ItemElectric
 		super(par1);
 		this.iconIndex = par2;
 		this.setItemName("remoteDetonator");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	@Override
@@ -165,7 +166,10 @@ public class ItYaoKong extends ItemElectric
 	{
 		if (tileEntity != null)
 		{
-			if (tileEntity instanceof TZhaDan) { return ((TZhaDan) tileEntity).haoMa == ZhaPin.yaSuo.getID() || ((TZhaDan) tileEntity).haoMa == ZhaPin.tuPuo.getID(); }
+			if (tileEntity instanceof TZhaDan)
+			{
+				return ((TZhaDan) tileEntity).haoMa == ZhaPin.yaSuo.getID() || ((TZhaDan) tileEntity).haoMa == ZhaPin.tuPuo.getID();
+			}
 		}
 
 		return false;
@@ -185,7 +189,10 @@ public class ItYaoKong extends ItemElectric
 
 	public Vector3 getSavedCoord(ItemStack par1ItemStack)
 	{
-		if (par1ItemStack.stackTagCompound == null) { return new Vector3(); }
+		if (par1ItemStack.stackTagCompound == null)
+		{
+			return new Vector3();
+		}
 
 		return new Vector3(par1ItemStack.stackTagCompound.getInteger("x"), par1ItemStack.stackTagCompound.getInteger("y"), par1ItemStack.stackTagCompound.getInteger("z"));
 	}

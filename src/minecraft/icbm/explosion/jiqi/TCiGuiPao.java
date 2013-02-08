@@ -277,10 +277,16 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 				}
 			}
 
-			if (i == this.containingItems.length - 1) { return false; }
+			if (i == this.containingItems.length - 1)
+			{
+				return false;
+			}
 		}
 
-		if (this.getJoules() < this.getMaxJoules()) { return false; }
+		if (this.getJoules() < this.getMaxJoules())
+		{
+			return false;
+		}
 
 		return true;
 	}

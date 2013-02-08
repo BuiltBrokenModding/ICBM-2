@@ -8,6 +8,7 @@ import icbm.explosion.jiqi.TFaSheJia;
 import icbm.explosion.jiqi.TFaSheShiMuo;
 import icbm.explosion.jiqi.TLeiDaTai;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
+import icbm.explosion.jiqi.TYinDaoQi;
 import icbm.explosion.jiqi.TYinGanQi;
 import icbm.explosion.rongqi.CCiGuiPao;
 import icbm.explosion.rongqi.CFaShiDi;
@@ -48,6 +49,7 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMLeiDaTai");
 		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMDianCiQi");
 		GameRegistry.registerTileEntity(TYinXing.class, "ICBMYinXin");
+		GameRegistry.registerTileEntity(TYinDaoQi.class, "ICBMYinDaoQi");
 
 		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMZhaDan");
 		GameRegistry.registerTileEntity(TYinGanQi.class, "ICBMYinGanQi");

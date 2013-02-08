@@ -1,5 +1,6 @@
 package icbm.explosion.dianqi;
 
+import icbm.api.ICBMTab;
 import icbm.explosion.ZhuYao;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.zhapin.EZhaDan;
@@ -24,7 +25,7 @@ public class ItJieJa extends ItemElectric
 		super(par1);
 		this.iconIndex = par2;
 		this.setItemName("defuser");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	@Override

@@ -15,7 +15,10 @@ public class ItTeBieDaoDan extends ItDaoDan
 	@Override
 	public String getItemNameIS(ItemStack itemstack)
 	{
-		if (itemstack.getItemDamage() == 0) { return this.getItemName() + ".missileModule"; }
+		if (itemstack.getItemDamage() == 0)
+		{
+			return this.getItemName() + ".missileModule";
+		}
 
 		return this.getItemName() + "." + DaoDan.list[itemstack.getItemDamage() + 100].getMingZing();
 	}

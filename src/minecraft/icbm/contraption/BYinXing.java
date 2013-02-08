@@ -1,9 +1,10 @@
 package icbm.contraption;
 
+import icbm.api.ICBMTab;
 import icbm.api.IEMPBlock;
 import icbm.api.IExplosive;
-import icbm.client.render.RBYinXing;
 import icbm.explosion.ZhuYao;
+import icbm.explosion.render.RBYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +27,7 @@ public class BYinXing extends BlockMachine implements IEMPBlock
 		this.setHardness(0.3F);
 		this.setResistance(1F);
 		this.setStepSound(this.soundClothFootstep);
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
 	}
 
@@ -58,7 +59,10 @@ public class BYinXing extends BlockMachine implements IEMPBlock
 			{
 				TYinXing tileEntity = (TYinXing) t;
 
-				if (tileEntity.getQing(ForgeDirection.getOrientation(side))) { return Block.glass.blockIndexInTexture; }
+				if (tileEntity.getQing(ForgeDirection.getOrientation(side)))
+				{
+					return Block.glass.blockIndexInTexture;
+				}
 
 				Block block = Block.blocksList[tileEntity.getJiaHaoMa()];
 
@@ -205,7 +209,10 @@ public class BYinXing extends BlockMachine implements IEMPBlock
 		{
 			if (t instanceof TYinXing)
 			{
-				if (((TYinXing) t).getYing()) { return super.getCollisionBoundingBoxFromPool(par1World, x, y, z); }
+				if (((TYinXing) t).getYing())
+				{
+					return super.getCollisionBoundingBoxFromPool(par1World, x, y, z);
+				}
 			}
 		}
 

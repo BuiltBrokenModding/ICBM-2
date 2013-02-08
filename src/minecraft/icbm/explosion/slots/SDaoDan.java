@@ -30,7 +30,10 @@ public class SDaoDan extends Slot
 			{
 				return true;
 			}
-			else if (par1ItemStack.getItemDamage() > 0) { return true; }
+			else if (par1ItemStack.getItemDamage() > 0)
+			{
+				return true;
+			}
 		}
 		return false;
 	}

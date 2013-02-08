@@ -151,7 +151,10 @@ public class ExBingDan extends ZhaPin
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 4.0F, 0.8F);
 
-		if (callCount > 35) { return false; }
+		if (callCount > 35)
+		{
+			return false;
+		}
 
 		return true;
 	}

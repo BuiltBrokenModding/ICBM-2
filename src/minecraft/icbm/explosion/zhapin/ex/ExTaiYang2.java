@@ -166,7 +166,10 @@ public class ExTaiYang2 extends ZhaPin
 			FMLLog.severe("Conflagration explosive failed!");
 			e.printStackTrace();
 		}
-		if (callCount > this.getRadius()) { return false; }
+		if (callCount > this.getRadius())
+		{
+			return false;
+		}
 		return true;
 	}
 

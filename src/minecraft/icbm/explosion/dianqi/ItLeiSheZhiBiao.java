@@ -1,5 +1,6 @@
 package icbm.explosion.dianqi;
 
+import icbm.api.ICBMTab;
 import icbm.api.IFrequency;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
 import icbm.explosion.ZhuYao;
@@ -34,7 +35,7 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 		super(id);
 		this.setIconIndex(icon);
 		this.setItemName("laserDesignator");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	/**
@@ -60,7 +61,10 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 	{
 		ItemStack itemStack = (ItemStack) data[0];
 
-		if (itemStack.stackTagCompound == null) { return 0; }
+		if (itemStack.stackTagCompound == null)
+		{
+			return 0;
+		}
 		return itemStack.stackTagCompound.getShort("frequency");
 	}
 
@@ -79,7 +83,10 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 
 	public int getLauncherCountDown(ItemStack par1ItemStack)
 	{
-		if (par1ItemStack.stackTagCompound == null) { return -1; }
+		if (par1ItemStack.stackTagCompound == null)
+		{
+			return -1;
+		}
 
 		return par1ItemStack.stackTagCompound.getInteger("countDown");
 	}
@@ -96,7 +103,10 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 
 	public int getLauncherCount(ItemStack par1ItemStack)
 	{
-		if (par1ItemStack.stackTagCompound == null) { return 0; }
+		if (par1ItemStack.stackTagCompound == null)
+		{
+			return 0;
+		}
 		return par1ItemStack.stackTagCompound.getInteger("launcherCount");
 	}
 
@@ -112,7 +122,10 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 
 	public int getLauncherDelay(ItemStack par1ItemStack)
 	{
-		if (par1ItemStack.stackTagCompound == null) { return 0; }
+		if (par1ItemStack.stackTagCompound == null)
+		{
+			return 0;
+		}
 		return par1ItemStack.stackTagCompound.getInteger("launcherDelay");
 	}
 
@@ -250,7 +263,10 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 				int blockId = par2World.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 				int blockMetadata = par2World.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 
-				if (this.getLauncherCountDown(par1ItemStack) > 0) { return par1ItemStack; }
+				if (this.getLauncherCountDown(par1ItemStack) > 0)
+				{
+					return par1ItemStack;
+				}
 
 				// Prevents calling air strike if
 				// the user is trying to set the

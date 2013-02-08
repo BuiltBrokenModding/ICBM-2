@@ -1,5 +1,6 @@
 package icbm.core;
 
+import icbm.api.ICBMTab;
 import icbm.explosion.ZhuYao;
 
 import java.util.Random;
@@ -13,7 +14,7 @@ public class BLiu extends ICBMBlock
 		super(id, 10, Material.rock);
 		this.setBlockName("sulfurOre");
 		this.setHardness(3.0f);
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	@Override

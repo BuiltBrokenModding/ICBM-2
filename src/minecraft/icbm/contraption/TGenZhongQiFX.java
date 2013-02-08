@@ -113,7 +113,10 @@ public class TGenZhongQiFX extends FMLTextureFX
 				}
 			}
 
-			if (xDifference == 0 && zDifference == 0) { return; }
+			if (xDifference == 0 && zDifference == 0)
+			{
+				return;
+			}
 
 			var20 = (double) (this.mc.thePlayer.rotationYaw - 90.0F) * Math.PI / 180.0D - Math.atan2(zDifference, xDifference);
 

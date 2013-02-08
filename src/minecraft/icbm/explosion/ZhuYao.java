@@ -108,8 +108,6 @@ public class ZhuYao
 
 	public static final String CHANNEL = ICBM.NAME;
 
-	public static final ICBMTab TAB = new ICBMTab();
-
 	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
 
 	@SidedProxy(clientSide = "icbm.explosion.ClientProxy", serverSide = "icbm.explosion.CommonProxy")
@@ -225,8 +223,8 @@ public class ZhuYao
 		bYinXing = new BYinXing(ICBM.CONFIGURATION.getBlock("BlockID9", ICBM.BLOCK_ID_PREFIX + 8).getInt(), 11);
 
 		// ITEMS
-		itDu = new Item(ICBM.CONFIGURATION.getItem("ItemID2", ICBM.ITEM_ID_PREFIX + 0).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
-		itLiu = new Item(ICBM.CONFIGURATION.getItem("ItemID1", ICBM.ITEM_ID_PREFIX + 1).getInt()).setCreativeTab(TAB).setTextureFile(ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
+		itDu = new Item(ICBM.CONFIGURATION.getItem("ItemID2", ICBM.ITEM_ID_PREFIX + 0).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
+		itLiu = new Item(ICBM.CONFIGURATION.getItem("ItemID1", ICBM.ITEM_ID_PREFIX + 1).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
 		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt(), 2);
 		itDaoDan = new ItDaoDan(ICBM.CONFIGURATION.getItem("ItemID4", ICBM.ITEM_ID_PREFIX + 3).getInt(), 32);
 		itTeBieDaoDan = new ItTeBieDaoDan(ICBM.CONFIGURATION.getItem("ItemID5", ICBM.ITEM_ID_PREFIX + 4).getInt(), 32);
@@ -305,7 +303,10 @@ public class ZhuYao
 					}
 					else
 					{
-						if (var14 != 0 || !BlockRail.isRailBlock(var4.getBlockId(var11, var12 - 1, var13))) { return this.defaultItemDispenseBehavior.dispense(blockSource, itemStack); }
+						if (var14 != 0 || !BlockRail.isRailBlock(var4.getBlockId(var11, var12 - 1, var13)))
+						{
+							return this.defaultItemDispenseBehavior.dispense(blockSource, itemStack);
+						}
 
 						var15 = -1.0D;
 					}

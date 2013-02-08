@@ -101,7 +101,10 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 
 	public boolean getQing(ForgeDirection direction)
 	{
-		if (direction.ordinal() < qingBian.length) { return qingBian[direction.ordinal()]; }
+		if (direction.ordinal() < qingBian.length)
+		{
+			return qingBian[direction.ordinal()];
+		}
 
 		return false;
 	}

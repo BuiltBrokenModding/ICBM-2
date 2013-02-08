@@ -39,7 +39,10 @@ public class BaoHu
 			{
 				NBTTagCompound dimData = nbtData.getCompoundTag("dim" + worldObj.provider.dimensionId);
 
-				if (nengFangQuanQiu(dimData)) { return true; }
+				if (nengFangQuanQiu(dimData))
+				{
+					return true;
+				}
 
 				// Regions check
 				Iterator i = dimData.getTags().iterator();
@@ -49,7 +52,10 @@ public class BaoHu
 					{
 						NBTTagCompound region = (NBTTagCompound) i.next();
 
-						if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R)) { return (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.QUAN_BU || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type); }
+						if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R))
+						{
+							return (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.QUAN_BU || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type);
+						}
 					}
 					catch (Exception e)
 					{

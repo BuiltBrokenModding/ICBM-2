@@ -1,5 +1,6 @@
 package icbm.explosion.jiqi;
 
+import icbm.api.ICBMTab;
 import icbm.explosion.CommonProxy;
 import icbm.explosion.ZhuYao;
 
@@ -19,7 +20,7 @@ public class BYinGanQi extends BlockMachine
 {
 	public BYinGanQi(int id, int texture)
 	{
-		super("proximityDetector", id, UniversalElectricity.machine, ZhuYao.TAB);
+		super("proximityDetector", id, UniversalElectricity.machine, ICBMTab.INSTANCE);
 		this.blockIndexInTexture = texture;
 	}
 
@@ -61,7 +62,10 @@ public class BYinGanQi extends BlockMachine
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side)); }
+		if (tileEntity instanceof IRedstoneProvider)
+		{
+			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side));
+		}
 
 		return false;
 	}
@@ -74,7 +78,10 @@ public class BYinGanQi extends BlockMachine
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IRedstoneProvider) { return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side)); }
+		if (tileEntity instanceof IRedstoneProvider)
+		{
+			return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side));
+		}
 
 		return false;
 	}

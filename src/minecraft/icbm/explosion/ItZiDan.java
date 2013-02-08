@@ -1,5 +1,7 @@
 package icbm.explosion;
 
+import icbm.api.ICBMTab;
+
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,7 +16,7 @@ public class ItZiDan extends Item
 		this.setMaxStackSize(16);
 		this.setIconIndex(par2);
 		this.setItemName("bullet");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);

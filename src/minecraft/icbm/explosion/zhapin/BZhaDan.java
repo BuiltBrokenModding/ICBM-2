@@ -1,8 +1,9 @@
 package icbm.explosion.zhapin;
 
-import icbm.client.render.RHZhaPin;
+import icbm.api.ICBMTab;
 import icbm.core.BaoHu;
 import icbm.explosion.ZhuYao;
+import icbm.explosion.render.RHZhaPin;
 
 import java.util.List;
 import java.util.Random;
@@ -38,7 +39,7 @@ public class BZhaDan extends BlockContainer
 		this.setBlockName("Explosives");
 		this.setStepSound(soundGrassFootstep);
 		this.setRequiresSelfNotify();
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	/**
@@ -50,9 +51,15 @@ public class BZhaDan extends BlockContainer
 		{
 			double var5 = entityLiving.posY + 1.82D - (double) entityLiving.yOffset;
 
-			if (var5 - (double) y > 2.0D) { return 1; }
+			if (var5 - (double) y > 2.0D)
+			{
+				return 1;
+			}
 
-			if ((double) y - var5 > 0.0D) { return 0; }
+			if ((double) y - var5 > 0.0D)
+			{
+				return 0;
+			}
 		}
 
 		int rotation = MathHelper.floor_double((double) (entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
@@ -79,7 +86,10 @@ public class BZhaDan extends BlockContainer
 		{
 			if (tileEntity instanceof TZhaDan)
 			{
-				if (((TZhaDan) tileEntity).haoMa == ZhaPin.diLei.getID()) { return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ); }
+				if (((TZhaDan) tileEntity).haoMa == ZhaPin.diLei.getID())
+				{
+					return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ);
+				}
 			}
 		}
 

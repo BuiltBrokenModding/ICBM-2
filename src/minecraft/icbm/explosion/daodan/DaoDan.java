@@ -30,7 +30,10 @@ public class DaoDan implements ITier
 			list = new DaoDan[256];
 		}
 
-		if (list[ID] != null) { throw new IllegalArgumentException("Missile " + ID + " is already occupied when adding " + this + "!"); }
+		if (list[ID] != null)
+		{
+			throw new IllegalArgumentException("Missile " + ID + " is already occupied when adding " + this + "!");
+		}
 
 		list[ID] = this;
 		this.mingZi = name;

@@ -1,5 +1,6 @@
 package icbm.contraption;
 
+import icbm.api.ICBMTab;
 import icbm.explosion.ZhuYao;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -14,7 +15,7 @@ public class ItYao extends Item
 		super(par1);
 		this.setIconIndex(par2);
 		this.setItemName("antidote");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 

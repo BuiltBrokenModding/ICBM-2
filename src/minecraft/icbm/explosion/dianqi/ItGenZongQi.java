@@ -1,5 +1,6 @@
 package icbm.explosion.dianqi;
 
+import icbm.api.ICBMTab;
 import icbm.explosion.ZhuYao;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ItGenZongQi extends ItemElectric
 		super(id);
 		this.setIconIndex(0);
 		this.setItemName("tracker");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setTextureFile(ZhuYao.TRACKER_TEXTURE_FILE);
 	}
 

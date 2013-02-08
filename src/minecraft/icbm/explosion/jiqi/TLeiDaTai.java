@@ -233,8 +233,14 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 
 	public boolean isWeiXianDaoDan(EDaoDan daoDan)
 	{
-		if (daoDan == null) { return false; }
-		if (daoDan.muBiao == null) { return false; }
+		if (daoDan == null)
+		{
+			return false;
+		}
+		if (daoDan.muBiao == null)
+		{
+			return false;
+		}
 
 		return (Vector2.distance(new Vector3(daoDan).toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.alarmBanJing && Vector2.distance(daoDan.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing);
 	}
@@ -448,7 +454,10 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 	@Override
 	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
 	{
-		if (this.prevWatts < this.getRequest().getWatts()) { throw new Exception("Radar has insufficient electricity!"); }
+		if (this.prevWatts < this.getRequest().getWatts())
+		{
+			throw new Exception("Radar has insufficient electricity!");
+		}
 
 		HashMap<String, Double> returnArray = new HashMap();
 		int count = 0;

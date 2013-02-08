@@ -85,7 +85,10 @@ public class GenLiu extends OreGenReplace
 			{
 				int id = world.getBlockId(position.intX(), position.intY(), position.intZ());
 
-				if (id == Block.lavaStill.blockID || id == Block.lavaMoving.blockID) { return true; }
+				if (id == Block.lavaStill.blockID || id == Block.lavaMoving.blockID)
+				{
+					return true;
+				}
 			}
 		}
 
@@ -97,7 +100,10 @@ public class GenLiu extends OreGenReplace
 			{
 				return true;
 			}
-			else if (id != 0) { return false; }
+			else if (id != 0)
+			{
+				return false;
+			}
 		}
 
 		return false;

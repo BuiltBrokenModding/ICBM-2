@@ -1,7 +1,7 @@
 package icbm.contraption;
 
+import icbm.api.ICBMTab;
 import icbm.core.ICBMBlock;
-import icbm.explosion.ZhuYao;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class BZha extends ICBMBlock
 		super(par1, par2, Material.cactus);
 		this.setHardness(1.0F);
 		this.setBlockName("Zha");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	/**

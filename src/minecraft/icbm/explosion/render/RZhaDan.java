@@ -1,4 +1,4 @@
-package icbm.client.render;
+package icbm.explosion.render;
 
 import icbm.core.muoxing.ICBMModelBase;
 import icbm.explosion.zhapin.TZhaDan;

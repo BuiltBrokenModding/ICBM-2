@@ -1,5 +1,6 @@
 package icbm.explosion.dianqi;
 
+import icbm.api.ICBMTab;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
 import icbm.explosion.ZhuYao;
 import icbm.explosion.jiqi.TFaSheQi;
@@ -28,7 +29,7 @@ public class ItLeiDaQiang extends ItemElectric
 		super(par1);
 		this.iconIndex = par2;
 		this.setItemName("radarGun");
-		this.setCreativeTab(ZhuYao.TAB);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
@@ -161,7 +162,10 @@ public class ItLeiDaQiang extends ItemElectric
 
 	public Vector3 getSavedCoord(ItemStack par1ItemStack)
 	{
-		if (par1ItemStack.stackTagCompound == null) { return new Vector3(); }
+		if (par1ItemStack.stackTagCompound == null)
+		{
+			return new Vector3();
+		}
 
 		return new Vector3(par1ItemStack.stackTagCompound.getInteger("x"), par1ItemStack.stackTagCompound.getInteger("y"), par1ItemStack.stackTagCompound.getInteger("z"));
 	}

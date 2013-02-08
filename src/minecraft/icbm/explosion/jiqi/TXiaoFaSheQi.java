@@ -35,7 +35,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	/**
 	 * The ItemStacks that hold the items currently being used in the missileLauncher
 	 */
-	private ItemStack[] containingItems = new ItemStack[1];
+	private ItemStack[] containingItems = new ItemStack[2];
 
 	private boolean isPowered = false;
 
@@ -342,7 +342,10 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 				{
 					if (this.getJoules() >= this.getMaxJoules())
 					{
-						if (!this.isTooClose(this.muBiao)) { return true; }
+						if (!this.isTooClose(this.muBiao))
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -372,7 +375,10 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		// Check if it is greater than the minimum
 		// range
-		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 8) { return true; }
+		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 8)
+		{
+			return true;
+		}
 
 		return false;
 	}
