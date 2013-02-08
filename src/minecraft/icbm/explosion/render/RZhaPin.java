@@ -6,12 +6,15 @@ import icbm.explosion.zhapin.ZhaPin;
 
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.Sphere;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,46 +25,30 @@ public class RZhaPin extends Render
 	public Random random = new Random();
 
 	@Override
-	public void doRender(Entity par1Entity, double x, double y, double z, float par8, float par9)
+	public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
 	{
-		EZhaPin eZhaPin = (EZhaPin) par1Entity;
+		EZhaPin eZhaPin = (EZhaPin) entity;
 
 		if (eZhaPin.explosiveID == ZhaPin.hongSu.getID())
 		{
 			Tessellator tessellator = Tessellator.instance;
 
 			/**
-			 * Sphere
-			 * 
-			 * GL11.glPushMatrix(); GL11.glTranslatef((float) x, (float) y, (float) z);
-			 * 
-			 * GL11.glScalef(5f, 5f, 5f); GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
-			 * 
-			 * this.loadTexture(ICBM.TEXTURE_FILE_PATH + "black_circle.png");
-			 * 
-			 * float var4 = (float)(0 % 16 * 16 + 0) / 256.0F; float var5 = (float)(0 % 16 * 16 +
-			 * 16) / 256.0F; float var6 = (float)(0 / 16 * 16 + 0) / 256.0F; float var7 = (float)(0
-			 * / 16 * 16 + 16) / 256.0F; float var8 = 1.0F; float var9 = 0.5F; float var10 = 0.25F;
-			 * 
-			 * GL11.glPushMatrix();
-			 * 
-			 * GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-			 * tessellator.startDrawingQuads(); tessellator.setNormal(0.0F, 1.0F, 0.0F);
-			 * tessellator.addVertexWithUV((double) (0.0F - var9), (double) (0.0F - var10), 0.0D,
-			 * (double) var4, (double) var7); tessellator.addVertexWithUV((double) (var8 - var9),
-			 * (double) (0.0F - var10), 0.0D, (double) var5, (double) var7);
-			 * tessellator.addVertexWithUV((double) (var8 - var9), (double) (1.0F - var10), 0.0D,
-			 * (double) var5, (double) var6); tessellator.addVertexWithUV((double) (0.0F - var9),
-			 * (double) (1.0F - var10), 0.0D, (double) var4, (double) var6); tessellator.draw();
-			 * GL11.glPopMatrix();
-			 * 
-			 * GL11.glPopMatrix();
+			 * Draw Sphere
 			 */
+			GL11.glPushMatrix();
+			GL11.glTranslatef((float) x, (float) y, (float) z);
+			Sphere sphere = new Sphere();
+			GL11.glShadeModel(7425);
+			GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
+			sphere.draw(5, 32, 32);
+			GL11.glDisable(3042);
+			GL11.glPopMatrix();
 
 			/**
 			 * Enderdragon Light
 			 */
-			float par2 = (float) (par1Entity.ticksExisted);
+			float par2 = (float) (entity.ticksExisted);
 
 			while (par2 > 200)
 				par2 -= 100;

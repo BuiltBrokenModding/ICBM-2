@@ -21,7 +21,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 
 	public int jiaoShuMu;
 
-	private int tickCallCounter;
+	public int tickCallCounter;
 
 	private int metadata = -1;
 
