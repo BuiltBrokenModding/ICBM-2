@@ -159,3 +159,4 @@ x ICBM_v1.0.3.127.jar ICBM_v1.0.3.127_api.zip
 @ ICBM_v1.0.4.137.jar ICBM_v1.0.4.137_api.zip
 @ ICBM_v1.0.4.138.jar ICBM_v1.0.4.138_api.zip
 @ ICBM_v1.0.4.139.jar ICBM_v1.0.4.139_api.zip
+@ ICBM_v1.0.4.140.jar ICBM_v1.0.4.140_api.zip
