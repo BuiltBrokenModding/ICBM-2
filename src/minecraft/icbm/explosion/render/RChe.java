@@ -1,6 +1,6 @@
 package icbm.explosion.render;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.cart.EChe;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
@@ -121,8 +121,8 @@ public class RChe extends Render
 		}
 
 		var101 = (1.0F - ((float) minecart.yinXin - par9 + 1.0F) / 100.0F) * 0.8F;
-		this.loadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
-		this.blockRenderer.renderBlockAsItem(ZhuYao.bZhaDan, minecart.haoMa, minecart.getBrightness(par9));
+		this.loadTexture(ZhuYaoExplosion.BLOCK_TEXTURE_FILE);
+		this.blockRenderer.renderBlockAsItem(ZhuYaoExplosion.bZhaDan, minecart.haoMa, minecart.getBrightness(par9));
 
 		if (minecart.isPrimed() && minecart.yinXin / 5 % 2 == 0)
 		{

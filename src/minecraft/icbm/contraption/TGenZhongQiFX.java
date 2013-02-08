@@ -1,6 +1,6 @@
 package icbm.contraption;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.dianqi.ItGenZongQi;
 
 import java.awt.image.BufferedImage;
@@ -34,7 +34,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 
 	public TGenZhongQiFX(Minecraft par1Minecraft)
 	{
-		super(ZhuYao.itGenZongQi.getIconFromDamage(0));
+		super(ZhuYaoExplosion.itGenZongQi.getIconFromDamage(0));
 		this.mc = par1Minecraft;
 		this.tileImage = 1;
 		setup();
@@ -48,7 +48,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 
 		try
 		{
-			BufferedImage bufferedImage = TextureFXManager.instance().loadImageFromTexturePack(this.mc.renderEngine, ZhuYao.TRACKER_TEXTURE_FILE);
+			BufferedImage bufferedImage = TextureFXManager.instance().loadImageFromTexturePack(this.mc.renderEngine, ZhuYaoExplosion.TRACKER_TEXTURE_FILE);
 			int xCoord = this.iconIndex % this.tileSizeBase * tileSizeBase;
 			int yCoord = this.iconIndex / this.tileSizeBase * tileSizeBase;
 			bufferedImage.getRGB(xCoord, yCoord, this.tileSizeBase, this.tileSizeBase, this.trackerIconImageData, 0, tileSizeBase);
@@ -62,7 +62,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 	@Override
 	public void bindImage(RenderEngine par1RenderEngine)
 	{
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1RenderEngine.getTexture(ZhuYao.TRACKER_TEXTURE_FILE));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1RenderEngine.getTexture(ZhuYaoExplosion.TRACKER_TEXTURE_FILE));
 	}
 
 	public void onTick()
@@ -99,7 +99,7 @@ public class TGenZhongQiFX extends FMLTextureFX
 
 			if (this.mc.thePlayer.getCurrentEquippedItem() != null)
 			{
-				if (this.mc.thePlayer.getCurrentEquippedItem().itemID == ZhuYao.itGenZongQi.itemID)
+				if (this.mc.thePlayer.getCurrentEquippedItem().itemID == ZhuYaoExplosion.itGenZongQi.itemID)
 				{
 					ItemStack itemStack = this.mc.thePlayer.getCurrentEquippedItem();
 

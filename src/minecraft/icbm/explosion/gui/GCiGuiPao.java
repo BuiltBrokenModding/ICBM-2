@@ -1,7 +1,7 @@
 package icbm.explosion.gui;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TCiGuiPao;
 import icbm.explosion.rongqi.CCiGuiPao;
 import net.minecraft.client.gui.GuiButton;
@@ -60,7 +60,7 @@ public class GCiGuiPao extends GuiContainer
 		switch (par1GuiButton.id)
 		{
 			case 0:
-				PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 2));
+				PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this.tileEntity, (int) 2));
 				this.tileEntity.mount(this.mc.thePlayer);
 				this.mc.thePlayer.closeScreen();
 				break;

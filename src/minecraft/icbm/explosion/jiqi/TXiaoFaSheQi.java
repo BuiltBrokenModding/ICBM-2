@@ -3,7 +3,7 @@ package icbm.explosion.jiqi;
 import icbm.api.LauncherType;
 import icbm.core.BaoHu;
 import icbm.explosion.CommonProxy;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.DaoDan;
 import icbm.explosion.daodan.EDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +16,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.core.implement.IItemElectric;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;
@@ -184,6 +186,20 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 		if (!this.isDisabled())
 		{
+			if (this.containingItems[1] != null)
+			{
+				if (this.containingItems[1].getItem() instanceof IItemElectric)
+				{
+					IItemElectric electricItem = (IItemElectric) this.containingItems[1].getItem();
+
+					if (electricItem.canProduceElectricity())
+					{
+						double receivedWatts = electricItem.onUse(Math.min(electricItem.getMaxJoules(this.containingItems[1]) * 0.01, this.getRequest().getWatts()), this.containingItems[1]);
+						this.onReceive(new ElectricityPack(receivedWatts / this.getVoltage(), this.getVoltage()));
+					}
+				}
+			}
+
 			// Rotate the yaw
 			if (this.getYawFromTarget() - this.rotationYaw != 0)
 			{
@@ -217,7 +233,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, (int) 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
@@ -230,7 +246,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (this.containingItems[0] != null && BaoHu.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
 		{
-			if (this.containingItems[0].itemID == ZhuYao.itDaoDan.itemID)
+			if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID)
 			{
 				int missileId = this.containingItems[0].getItemDamage();
 
@@ -338,7 +354,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 			if (missile != null)
 			{
-				if (this.containingItems[0].itemID == ZhuYao.itDaoDan.itemID && missile.isCruise() && missile.getTier() <= 3)
+				if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID && missile.isCruise() && missile.getTier() <= 3)
 				{
 					if (this.getJoules() >= this.getMaxJoules())
 					{
@@ -477,7 +493,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 400000;
+		return 800000;
 	}
 
 	@Override
@@ -485,7 +501,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itDaoDan.itemID)
+			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYaoExplosion.itDaoDan.itemID)
 			{
 				if (DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()] != null)
 				{
@@ -499,7 +515,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			}
 		}
 
-		entityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}

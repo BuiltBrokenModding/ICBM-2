@@ -2,7 +2,7 @@ package icbm.explosion.cart;
 
 import icbm.api.IExplosive;
 import icbm.api.IExplosiveContainer;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin;
 
 import java.util.ArrayList;
@@ -189,7 +189,7 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 
 		if (!this.isPrimed)
 		{
-			items.add(new ItemStack(ZhuYao.itChe, 1, this.haoMa));
+			items.add(new ItemStack(ZhuYaoExplosion.itChe, 1, this.haoMa));
 		}
 
 		return items;

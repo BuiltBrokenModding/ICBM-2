@@ -1,6 +1,6 @@
 package icbm.explosion.jiqi;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -48,7 +48,7 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.orientation, this.getTier());
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, this.orientation, this.getTier());
 	}
 
 	/**
@@ -126,9 +126,9 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ(), ZhuYao.bJia.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoExplosion.bJia.blockID);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ(), ZhuYao.bJia.blockID);
+		this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoExplosion.bJia.blockID);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
 	}
 

@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin;
 
 import icbm.core.BaoHu;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -72,7 +72,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	{
 		if (!BaoHu.nengFangZhaDan(this.worldObj, new Vector3(this).toVector2()))
 		{
-			ZhuYao.bZhaDan.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
+			ZhuYaoExplosion.bZhaDan.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
 			this.setDead();
 			return;
 		}

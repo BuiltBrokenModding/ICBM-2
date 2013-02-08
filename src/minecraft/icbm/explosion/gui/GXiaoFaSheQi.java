@@ -1,7 +1,7 @@
 package icbm.explosion.gui;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
 import icbm.explosion.rongqi.CXiaoFaSheQi;
 import net.minecraft.client.gui.GuiTextField;
@@ -76,7 +76,7 @@ public class GXiaoFaSheQi extends GuiContainer
 		{
 			Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Integer.parseInt(this.textFieldY.getText()), Integer.parseInt(this.textFieldZ.getText()));
 			this.tileEntity.setTarget(newTarget);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
 		}
 		catch (NumberFormatException e)
 		{
@@ -86,7 +86,7 @@ public class GXiaoFaSheQi extends GuiContainer
 		{
 			short newFrequency = (short) Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
 			this.tileEntity.setFrequency(newFrequency);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 1, this.tileEntity.getFrequency()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this.tileEntity, (int) 1, this.tileEntity.getFrequency()));
 		}
 		catch (NumberFormatException e)
 		{

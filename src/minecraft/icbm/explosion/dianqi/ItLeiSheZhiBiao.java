@@ -3,7 +3,7 @@ package icbm.explosion.dianqi;
 import icbm.api.ICBMTab;
 import icbm.api.IFrequency;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.FaSheQiGuanLi;
 import icbm.explosion.jiqi.TFaSheQi;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
@@ -271,7 +271,7 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 				// Prevents calling air strike if
 				// the user is trying to set the
 				// frequency of the remote.
-				if (blockId == ZhuYao.bJiQi.blockID)
+				if (blockId == ZhuYaoExplosion.bJiQi.blockID)
 				{
 					return par1ItemStack;
 				}
@@ -331,7 +331,7 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 
 							if (doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
 							{
-								PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYao.CHANNEL, (int) ICBMPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+								PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoExplosion.CHANNEL, (int) ICBMPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 								par3EntityPlayer.addChatMessage("Calling air strike into designated position!");
 							}
 						}
@@ -366,6 +366,6 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IFrequency
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
+		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
 	}
 }

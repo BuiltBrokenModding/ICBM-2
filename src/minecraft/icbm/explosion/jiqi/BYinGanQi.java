@@ -2,7 +2,7 @@ package icbm.explosion.jiqi;
 
 import icbm.api.ICBMTab;
 import icbm.explosion.CommonProxy;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class BYinGanQi extends BlockMachine
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		par5EntityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_DETECTOR, par1World, x, y, z);
+		par5EntityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_DETECTOR, par1World, x, y, z);
 		return true;
 	}
 
@@ -117,6 +117,6 @@ public class BYinGanQi extends BlockMachine
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.BLOCK_TEXTURE_FILE;
+		return ZhuYaoExplosion.BLOCK_TEXTURE_FILE;
 	}
 }

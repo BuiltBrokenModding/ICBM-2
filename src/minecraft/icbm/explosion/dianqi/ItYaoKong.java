@@ -2,7 +2,7 @@ package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.TZhaDan;
 import icbm.explosion.zhapin.ZhaPin;
 
@@ -53,7 +53,7 @@ public class ItYaoKong extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
+		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class ItYaoKong extends ItemElectric
 						{
 							int explosiveID = ((TZhaDan) tile).haoMa;
 
-							if (blockID == ZhuYao.bJiQi.blockID)
+							if (blockID == ZhuYaoExplosion.bJiQi.blockID)
 							{
 								return itemStack;
 							}
@@ -126,7 +126,7 @@ public class ItYaoKong extends ItemElectric
 								// Check for electricity
 								if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
 								{
-									PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte) 2));
+									PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, tileEntity, (byte) 2));
 									return itemStack;
 								}
 								else
@@ -147,9 +147,9 @@ public class ItYaoKong extends ItemElectric
 					if (this.nengZha(tileEntity))
 					{
 						// Blow it up
-						PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte) 2));
+						PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, tileEntity, (byte) 2));
 						// Use Energy
-						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYao.CHANNEL, (int) ICBMPacketType.REMOTE.ordinal()));
+						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoExplosion.CHANNEL, (int) ICBMPacketType.REMOTE.ordinal()));
 					}
 				}
 				else

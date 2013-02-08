@@ -1,6 +1,6 @@
 package icbm.explosion.jiqi;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -49,7 +49,7 @@ public class IBJiQi extends ItemBlock
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
+		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
 	}
 
 	@Override

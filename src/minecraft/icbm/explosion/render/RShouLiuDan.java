@@ -1,6 +1,6 @@
 package icbm.explosion.render;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.EShouLiuDan;
 
 import java.util.Random;
@@ -52,7 +52,7 @@ public class RShouLiuDan extends Render
 	public void doRenderItem(EShouLiuDan par1EntityItem, double par2, double par4, double par6, float par8, float par9)
 	{
 		this.random.setSeed(187L);
-		ItemStack var10 = new ItemStack(ZhuYao.itShouLiuDan, 1, par1EntityItem.haoMa);
+		ItemStack var10 = new ItemStack(ZhuYaoExplosion.itShouLiuDan, 1, par1EntityItem.haoMa);
 		GL11.glPushMatrix();
 		byte var13 = 1;
 

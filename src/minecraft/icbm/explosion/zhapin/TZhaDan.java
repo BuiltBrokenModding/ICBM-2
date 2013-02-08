@@ -2,7 +2,7 @@ package icbm.explosion.zhapin;
 
 import icbm.api.IExplosive;
 import icbm.api.IExplosiveContainer;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -69,7 +69,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
 					BZhaDan.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
-					((ItYaoKong) ZhuYao.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
+					((ItYaoKong) ZhuYaoExplosion.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
 				}
 			}
 		}
@@ -82,7 +82,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (byte) 1, this.haoMa);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, (byte) 1, this.haoMa);
 	}
 
 	@Override

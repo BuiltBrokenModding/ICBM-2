@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.api.ICBM;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.dianqi.ItHuoLuanQi;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.item.ItemStack;
@@ -98,7 +98,7 @@ public class GFrequency extends ICBMGui
 			{
 				((ItHuoLuanQi) this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
 
-				PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYao.CHANNEL, ICBMPacketType.SIGNAL_DISRUPTER.ordinal(), newFrequency));
+				PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoExplosion.CHANNEL, ICBMPacketType.SIGNAL_DISRUPTER.ordinal(), newFrequency));
 			}
 		}
 		catch (NumberFormatException e)

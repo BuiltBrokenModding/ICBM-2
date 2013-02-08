@@ -1,7 +1,7 @@
 package icbm.explosion.daodan;
 
 import icbm.api.ICBMTab;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class ItDaoDan extends Item
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
 	}
 
 	@Override

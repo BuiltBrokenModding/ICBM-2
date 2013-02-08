@@ -2,7 +2,7 @@ package icbm.explosion.jiqi;
 
 import icbm.api.RadarRegistry;
 import icbm.explosion.CommonProxy;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.dianqi.ItHuoLuanQi;
 
@@ -77,7 +77,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 
 		if (this.ticket == null)
 		{
-			this.ticket = ForgeChunkManager.requestTicket(ZhuYao.instance, this.worldObj, Type.NORMAL);
+			this.ticket = ForgeChunkManager.requestTicket(ZhuYaoExplosion.instance, this.worldObj, Type.NORMAL);
 
 			if (this.ticket != null)
 			{
@@ -247,7 +247,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 
 	private Packet getDescriptionPacket2()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.alarmBanJing, this.safetyBanJing);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, (int) 1, this.alarmBanJing, this.safetyBanJing);
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 			sendDian = this.getRequest().getWatts();
 		}
 
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, sendDian, this.disabledTicks);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, (int) 4, sendDian, this.disabledTicks);
 	}
 
 	@Override
@@ -416,26 +416,26 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 			}
 		}
 
-		entityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), new Vector3(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), new Vector3(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), new Vector3(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), new Vector3(this));
 
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), new Vector3(this));
-		ZhuYao.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), new Vector3(this));
 
 	}
 

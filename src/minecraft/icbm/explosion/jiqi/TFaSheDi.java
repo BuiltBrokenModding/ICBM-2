@@ -2,7 +2,7 @@ package icbm.explosion.jiqi;
 
 import icbm.core.BaoHu;
 import icbm.explosion.CommonProxy;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.daodan.ItDaoDan;
 import icbm.explosion.daodan.ItTeBieDaoDan;
@@ -204,7 +204,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.orientation, this.tier);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, this.orientation, this.tier);
 	}
 
 	@Override
@@ -322,21 +322,21 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		// Checks if it is greater than the maximum range for the launcher base
 		if (this.tier == 0)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 10)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoExplosion.DAO_DAN_ZUI_YUAN / 10)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 1)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN / 5)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoExplosion.DAO_DAN_ZUI_YUAN / 5)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 2)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYao.DAO_DAN_ZUI_YUAN)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoExplosion.DAO_DAN_ZUI_YUAN)
 			{
 				return false;
 			}
@@ -468,7 +468,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 			}
 		}
 
-		entityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
@@ -478,35 +478,35 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		if (this.orientation == 3 || this.orientation == 2)
 		{
 			// Left
-			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY(), position.intZ(), ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY(), position.intZ(), ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY() + 1, position.intZ(), ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY() + 1, position.intZ(), ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY() + 1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY() + 2, position.intZ(), ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY() + 2, position.intZ(), ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY() + 2, position.intZ())).setMainBlock(position);
 			// Right
-			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY(), position.intZ(), ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY(), position.intZ(), ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY() + 1, position.intZ(), ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY() + 1, position.intZ(), ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY() + 1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY() + 2, position.intZ(), ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY() + 2, position.intZ(), ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY() + 2, position.intZ())).setMainBlock(position);
 		}
 		else
 		{
 			// Left
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ() + 1, ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ() + 1, ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ() + 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ() + 1, ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ() + 1, ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ() + 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ() + 1, ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ() + 1, ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ() + 1)).setMainBlock(position);
 			// Right
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ() - 1, ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ() - 1, ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ() - 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ() - 1, ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ() - 1, ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ() - 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ() - 1, ZhuYao.bJia.blockID);
+			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ() - 1, ZhuYaoExplosion.bJia.blockID);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ() - 1)).setMainBlock(position);
 		}
 	}

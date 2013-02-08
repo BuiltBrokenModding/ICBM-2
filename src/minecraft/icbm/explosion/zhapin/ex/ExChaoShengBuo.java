@@ -2,7 +2,7 @@ package icbm.explosion.zhapin.ex;
 
 import icbm.api.ICBM;
 import icbm.explosion.EFeiBlock;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.zhapin.BZhaDan;
 import icbm.explosion.zhapin.EZhaPin;
@@ -156,7 +156,7 @@ public class ExChaoShengBuo extends ZhaPin
 
 				if (distance < r - 1 || worldObj.rand.nextInt(3) > 0)
 				{
-					if (blockID == ZhuYao.bZhaDan.blockID)
+					if (blockID == ZhuYaoExplosion.bZhaDan.blockID)
 					{
 						BZhaDan.yinZha(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TZhaDan) worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
 					}

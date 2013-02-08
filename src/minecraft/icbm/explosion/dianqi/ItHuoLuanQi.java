@@ -3,7 +3,7 @@ package icbm.explosion.dianqi;
 import icbm.api.ICBMTab;
 import icbm.api.IFrequency;
 import icbm.explosion.CommonProxy;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
+		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		par3EntityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_FREQUENCY, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+		par3EntityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_FREQUENCY, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
 		return par1ItemStack;
 	}
 

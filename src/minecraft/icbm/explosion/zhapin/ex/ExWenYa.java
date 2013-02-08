@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin.ex;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.fx.ParticleSpawner;
 import icbm.explosion.zhapin.EZhaPin;
 import icbm.explosion.zhapin.ZhaPin;
@@ -129,7 +129,7 @@ public class ExWenYa extends ZhaPin
 
 		if (r > 0)
 		{
-			if (worldObj.isRemote && ZhuYao.proxy.isGaoQing())
+			if (worldObj.isRemote && ZhuYaoExplosion.proxy.isGaoQing())
 			{
 				for (int x = -r; x < r; x++)
 				{

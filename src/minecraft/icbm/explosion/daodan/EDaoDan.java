@@ -6,7 +6,7 @@ import icbm.api.IMissile;
 import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
 import icbm.core.BaoHu;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.fx.ParticleSpawner;
 import icbm.explosion.jiqi.TFaSheDi;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
@@ -219,7 +219,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	public void entityInit()
 	{
 		this.dataWatcher.addObject(16, -1);
-		this.daoDanInit(ForgeChunkManager.requestTicket(ZhuYao.instance, this.worldObj, Type.ENTITY));
+		this.daoDanInit(ForgeChunkManager.requestTicket(ZhuYaoExplosion.instance, this.worldObj, Type.ENTITY));
 	}
 
 	public void daoDanInit(Ticket ticket)
@@ -239,7 +239,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
-		if (!this.worldObj.isRemote && ZhuYao.ZAI_KUAI && this.chunkTicket != null)
+		if (!this.worldObj.isRemote && ZhuYaoExplosion.ZAI_KUAI && this.chunkTicket != null)
 		{
 			for (int x = -2; x <= 2; x++)
 			{
@@ -649,11 +649,11 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 			if (this.haoMa < 100)
 			{
-				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itDaoDan, 1, this.haoMa));
+				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoExplosion.itDaoDan, 1, this.haoMa));
 			}
 			else
 			{
-				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYao.itTeBieDaoDan, 1, this.haoMa - 100));
+				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, this.haoMa - 100));
 			}
 
 			float var13 = 0.05F;

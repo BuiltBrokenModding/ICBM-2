@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.List;
 
@@ -54,11 +54,11 @@ public class ExDuQi extends ZhaPin
 		{
 			if (isContagious)
 			{
-				ZhuYao.DU_CHUAN_RAN.poisonEntity(position, entity);
+				ZhuYaoExplosion.DU_CHUAN_RAN.poisonEntity(position, entity);
 			}
 			else
 			{
-				ZhuYao.DU_DU.poisonEntity(position, entity);
+				ZhuYaoExplosion.DU_DU.poisonEntity(position, entity);
 			}
 		}
 
@@ -75,7 +75,7 @@ public class ExDuQi extends ZhaPin
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', tui.getItemStack() }), "Chemical", ICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYaoExplosion.itDu, '?', tui.getItemStack() }), "Chemical", ICBM.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{

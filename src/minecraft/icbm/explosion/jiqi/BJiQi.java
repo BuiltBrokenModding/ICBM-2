@@ -1,7 +1,7 @@
 package icbm.explosion.jiqi;
 
 import icbm.api.ICBMTab;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.render.RHJiQi;
 
 import java.util.List;
@@ -214,11 +214,11 @@ public class BJiQi extends BlockMachine
 	{
 		if (par5EntityPlayer.inventory.getCurrentItem() != null)
 		{
-			if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiSheZhiBiao.itemID)
+			if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYaoExplosion.itLeiSheZhiBiao.itemID)
 			{
 				return false;
 			}
-			else if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYao.itLeiDaQiang.itemID)
+			else if (par5EntityPlayer.inventory.getCurrentItem().itemID == ZhuYaoExplosion.itLeiDaQiang.itemID)
 			{
 				return false;
 			}
@@ -296,7 +296,7 @@ public class BJiQi extends BlockMachine
 			itemMetadata = 9 + metadata - 3;
 		}
 
-		this.dropBlockAsItem_do(par1World, x, y, z, new ItemStack(ZhuYao.bJiQi, 1, itemMetadata));
+		this.dropBlockAsItem_do(par1World, x, y, z, new ItemStack(ZhuYaoExplosion.bJiQi, 1, itemMetadata));
 
 		if (tileEntity instanceof IMultiBlock)
 		{
@@ -366,7 +366,7 @@ public class BJiQi extends BlockMachine
 	{
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
-		return new ItemStack(ZhuYao.bJiQi, 1, getJiQiID(tileEntity));
+		return new ItemStack(ZhuYaoExplosion.bJiQi, 1, getJiQiID(tileEntity));
 	}
 
 	@Override

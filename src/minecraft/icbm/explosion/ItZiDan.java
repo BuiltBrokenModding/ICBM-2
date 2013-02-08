@@ -17,7 +17,7 @@ public class ItZiDan extends Item
 		this.setIconIndex(par2);
 		this.setItemName("bullet");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}

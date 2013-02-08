@@ -1,6 +1,6 @@
 package icbm.contraption;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -52,7 +52,7 @@ public class TYinXing extends TileEntity implements IPacketReceiver
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.jiaHaoMa, this.jiaMetadata, this.qingBian[0], this.qingBian[1], this.qingBian[2], this.qingBian[3], this.qingBian[4], this.qingBian[5], this.isYing);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, this.jiaHaoMa, this.jiaMetadata, this.qingBian[0], this.qingBian[1], this.qingBian[2], this.qingBian[3], this.qingBian[4], this.qingBian[5], this.isYing);
 	}
 
 	public boolean getYing()

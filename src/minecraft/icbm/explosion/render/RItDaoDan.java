@@ -1,7 +1,7 @@
 package icbm.explosion.render;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -22,7 +22,7 @@ public class RItDaoDan implements IItemRenderer
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.itemID == ZhuYao.itDaoDan.itemID || (item.itemID == ZhuYao.itTeBieDaoDan.itemID && item.getItemDamage() > 0);
+		return item.itemID == ZhuYaoExplosion.itDaoDan.itemID || (item.itemID == ZhuYaoExplosion.itTeBieDaoDan.itemID && item.getItemDamage() > 0);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class RItDaoDan implements IItemRenderer
 			float scale = 0.4f;
 			float right = 0.15f;
 
-			if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYao.itTeBieDaoDan.itemID)
+			if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYaoExplosion.itTeBieDaoDan.itemID)
 			{
 				scale = 0.3f;
 			}
@@ -60,7 +60,7 @@ public class RItDaoDan implements IItemRenderer
 
 			GL11.glScalef(scale, scale, scale);
 
-			if (item.itemID == ZhuYao.itTeBieDaoDan.itemID)
+			if (item.itemID == ZhuYaoExplosion.itTeBieDaoDan.itemID)
 			{
 				if (item.getItemDamage() - 1 < RDaoDan.specialModels.length)
 				{

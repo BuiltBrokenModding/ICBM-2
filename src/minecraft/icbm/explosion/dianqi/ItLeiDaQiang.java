@@ -2,7 +2,7 @@ package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TFaSheQi;
 import icbm.explosion.jiqi.TFaSheShiMuo;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
@@ -30,7 +30,7 @@ public class ItLeiDaQiang extends ItemElectric
 		this.iconIndex = par2;
 		this.setItemName("radarGun");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class ItLeiDaQiang extends ItemElectric
 					// Check for electricity
 					if (this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
 					{
-						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYao.CHANNEL, (int) ICBMPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoExplosion.CHANNEL, (int) ICBMPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 						par3EntityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ);
 					}
 					else
@@ -92,7 +92,7 @@ public class ItLeiDaQiang extends ItemElectric
 		int blockId = par3World.getBlockId(x, y, z);
 		int blockMetadata = par3World.getBlockMetadata(x, y, z);
 
-		if (blockId == ZhuYao.bJiQi.blockID)
+		if (blockId == ZhuYaoExplosion.bJiQi.blockID)
 		{
 			TileEntity tileEntity = par3World.getBlockTileEntity(x, y, z);
 
@@ -117,7 +117,7 @@ public class ItLeiDaQiang extends ItemElectric
 
 						if (par3World.isRemote)
 						{
-							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, missileLauncher, (int) 2, savedCords.x, missileLauncher.getTarget().y, savedCords.z));
+							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, missileLauncher, (int) 2, savedCords.x, missileLauncher.getTarget().y, savedCords.z));
 							par2EntityPlayer.addChatMessage("Coordinate information transfered!");
 						}
 					}
@@ -144,7 +144,7 @@ public class ItLeiDaQiang extends ItemElectric
 
 						if (par3World.isRemote)
 						{
-							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, missileLauncher, (int) 2, savedCords.x, savedCords.y, savedCords.z));
+							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, missileLauncher, (int) 2, savedCords.x, savedCords.y, savedCords.z));
 							par2EntityPlayer.addChatMessage("Coordinate information transfered!");
 						}
 					}

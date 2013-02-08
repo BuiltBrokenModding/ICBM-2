@@ -70,9 +70,9 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void preInit()
 	{
-		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_TEXTURE_FILE);
-		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
-		MinecraftForgeClient.preloadTexture(ZhuYao.TRACKER_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYaoExplosion.BLOCK_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYaoExplosion.TRACKER_TEXTURE_FILE);
 
 		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
 	}
@@ -82,9 +82,9 @@ public class ClientProxy extends CommonProxy
 	{
 		super.init();
 
-		MinecraftForgeClient.registerItemRenderer(ZhuYao.itFaSheQi.itemID, new RItFaSheQi());
-		MinecraftForgeClient.registerItemRenderer(ZhuYao.itDaoDan.itemID, new RItDaoDan());
-		MinecraftForgeClient.registerItemRenderer(ZhuYao.itTeBieDaoDan.itemID, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(ZhuYaoExplosion.itFaSheQi.itemID, new RItFaSheQi());
+		MinecraftForgeClient.registerItemRenderer(ZhuYaoExplosion.itDaoDan.itemID, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(ZhuYaoExplosion.itTeBieDaoDan.itemID, new RItDaoDan());
 
 		RenderingRegistry.registerBlockHandler(new RHZhaPin());
 		RenderingRegistry.registerBlockHandler(new RBYinXing());

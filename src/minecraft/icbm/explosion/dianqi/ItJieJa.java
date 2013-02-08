@@ -1,7 +1,7 @@
 package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.zhapin.EZhaDan;
 
@@ -31,7 +31,7 @@ public class ItJieJa extends ItemElectric
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
+		return ZhuYaoExplosion.ITEM_TEXTURE_FILE;
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class ItJieJa extends ItemElectric
 				if (!entity.worldObj.isRemote)
 				{
 					EZhaDan entityTNT = (EZhaDan) entity;
-					EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ZhuYao.bZhaDan, 1, entityTNT.explosiveID));
+					EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ZhuYaoExplosion.bZhaDan, 1, entityTNT.explosiveID));
 					float var13 = 0.05F;
 					Random random = new Random();
 					entityItem.motionX = ((float) random.nextGaussian() * var13);

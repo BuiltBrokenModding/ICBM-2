@@ -1,6 +1,6 @@
 package icbm.explosion.po;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
@@ -51,7 +51,7 @@ public class PChuanRanDu extends CustomPotion
 				nearestEntity.setDead();
 			}
 
-			ZhuYao.DU_CHUAN_RAN.poisonEntity(new Vector3(par1EntityLiving), nearestEntity);
+			ZhuYaoExplosion.DU_CHUAN_RAN.poisonEntity(new Vector3(par1EntityLiving), nearestEntity);
 		}
 	}
 

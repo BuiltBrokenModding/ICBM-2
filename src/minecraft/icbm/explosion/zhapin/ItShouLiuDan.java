@@ -2,7 +2,7 @@ package icbm.explosion.zhapin;
 
 import icbm.api.ICBMTab;
 import icbm.core.BaoHu;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class ItShouLiuDan extends Item
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
 	}
 
 	/**

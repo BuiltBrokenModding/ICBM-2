@@ -1,7 +1,7 @@
 package icbm.contraption;
 
 import icbm.api.ICBMTab;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.Random;
 
@@ -20,7 +20,7 @@ public class BBuoLiPan extends BlockPressurePlate
 		this.setStepSound(soundGlassFootstep);
 		this.setBlockName("glassPressurePlate");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
+		this.setTextureFile(ZhuYaoExplosion.BLOCK_TEXTURE_FILE);
 	}
 
 	@Override

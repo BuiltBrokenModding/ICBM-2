@@ -4,7 +4,7 @@ import icbm.api.ExplosionEvent.PostExplosionEvent;
 import icbm.api.ExplosionEvent.PreExplosionEvent;
 import icbm.api.ICBM;
 import icbm.api.IExplosive;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.DaoDan;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.zhapin.ex.ExBianZhong;
@@ -357,12 +357,12 @@ public abstract class ZhaPin implements ITier, IExplosive
 
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(ZhuYao.bZhaDan, 1, this.getID());
+		return new ItemStack(ZhuYaoExplosion.bZhaDan, 1, this.getID());
 	}
 
 	public ItemStack getItemStack(int amount)
 	{
-		return new ItemStack(ZhuYao.bZhaDan, amount, this.getID());
+		return new ItemStack(ZhuYaoExplosion.bZhaDan, amount, this.getID());
 	}
 
 	/**

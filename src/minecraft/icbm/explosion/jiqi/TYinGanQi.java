@@ -1,6 +1,6 @@
 package icbm.explosion.jiqi;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.dianqi.ItHuoLuanQi;
 
 import java.util.List;
@@ -138,7 +138,7 @@ public class TYinGanQi extends TileEntityElectricityRunnable implements IRedston
 			sendDian = this.getRequest().getWatts();
 		}
 
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, (int) 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
 	}
 
 	@Override

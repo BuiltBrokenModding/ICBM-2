@@ -91,7 +91,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 			return;
 		}
 
-		if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ZhuYao.bJia.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+		if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ZhuYaoExplosion.bJia.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
 		{
 			this.setDead();
 			return;

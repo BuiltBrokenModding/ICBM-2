@@ -1,6 +1,6 @@
 package icbm.core;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class ICBMBlock extends Block
 	public ICBMBlock(int par1, int par2, Material par3Material)
 	{
 		super(par1, par2, par3Material);
-		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
+		this.setTextureFile(ZhuYaoExplosion.BLOCK_TEXTURE_FILE);
 	}
 
 	public ICBMBlock(int par1, int par2, Material par3Material, int i)

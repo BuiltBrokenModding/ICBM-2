@@ -3,7 +3,7 @@ package icbm.explosion.zhapin;
 import icbm.api.IExplosive;
 import icbm.api.IExplosiveContainer;
 import icbm.core.BaoHu;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -149,7 +149,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 				double var7 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
 				double var9 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
 				double var11 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
-				EntityItem var13 = new EntityItem(this.worldObj, (double) this.posX + var7, (double) this.posY + var9, (double) this.posZ + var11, new ItemStack(ZhuYao.itShouLiuDan, this.haoMa, 1));
+				EntityItem var13 = new EntityItem(this.worldObj, (double) this.posX + var7, (double) this.posY + var9, (double) this.posZ + var11, new ItemStack(ZhuYaoExplosion.itShouLiuDan, this.haoMa, 1));
 				var13.delayBeforeCanPickup = 10;
 				this.worldObj.spawnEntityInWorld(var13);
 			}

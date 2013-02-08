@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin.ex;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.fx.ParticleSpawner;
 import icbm.explosion.zhapin.EZhaPin;
 import icbm.explosion.zhapin.ZhaPin;
@@ -129,7 +129,7 @@ public class ExYuanZi extends ZhaPin
 				reverse = true;
 			}
 
-			if (r > 0 && ZhuYao.proxy.isGaoQing())
+			if (r > 0 && ZhuYaoExplosion.proxy.isGaoQing())
 			{
 				for (int x = -r; x < r; x++)
 				{
@@ -203,7 +203,7 @@ public class ExYuanZi extends ZhaPin
 		ZhaPin.fuLan.doBaoZha(worldObj, position, null, BAN_JING + 15, -1);
 		ZhaPin.bianZhong.doBaoZha(worldObj, position, null, BAN_JING + 20, -1);
 
-		if (worldObj.isRemote && ZhuYao.proxy.isGaoQing())
+		if (worldObj.isRemote && ZhuYaoExplosion.proxy.isGaoQing())
 		{
 			for (int y = 0; y < 25; y++)
 			{

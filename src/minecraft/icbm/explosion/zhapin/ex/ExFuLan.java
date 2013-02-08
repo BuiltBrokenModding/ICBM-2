@@ -1,6 +1,6 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -43,7 +43,7 @@ public class ExFuLan extends ZhaPin
 						{
 							if (worldObj.rand.nextFloat() > 0.9)
 							{
-								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYaoExplosion.bFuShe.blockID);
 							}
 						}
 
@@ -51,7 +51,7 @@ public class ExFuLan extends ZhaPin
 						{
 							if (worldObj.rand.nextFloat() > 0.97)
 							{
-								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYaoExplosion.bFuShe.blockID);
 							}
 						}
 
@@ -68,7 +68,7 @@ public class ExFuLan extends ZhaPin
 						}
 						else if (blockID == Block.tilledField.blockID)
 						{
-							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYaoExplosion.bFuShe.blockID);
 						}
 					}
 				}

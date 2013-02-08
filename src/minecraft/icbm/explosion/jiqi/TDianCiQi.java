@@ -2,7 +2,7 @@ package icbm.explosion.jiqi;
 
 import icbm.api.RadarRegistry;
 import icbm.explosion.CommonProxy;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -125,7 +125,7 @@ public class TDianCiQi extends TileEntityElectricityStorage implements IPacketRe
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.getJoules(), this.disabledTicks, this.banJing, this.muoShi);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, (int) 1, this.getJoules(), this.disabledTicks, this.banJing, this.muoShi);
 	}
 
 	@Override
@@ -192,14 +192,14 @@ public class TDianCiQi extends TileEntityElectricityStorage implements IPacketRe
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		ZhuYao.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
+		ZhuYaoExplosion.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
 	}
 
 	@Override

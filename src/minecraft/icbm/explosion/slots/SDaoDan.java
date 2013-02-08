@@ -1,6 +1,6 @@
 package icbm.explosion.slots;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.ItDaoDan;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -26,7 +26,7 @@ public class SDaoDan extends Slot
 	{
 		if (par1ItemStack.getItem() instanceof ItDaoDan)
 		{
-			if (par1ItemStack.itemID == ZhuYao.itDaoDan.itemID)
+			if (par1ItemStack.itemID == ZhuYaoExplosion.itDaoDan.itemID)
 			{
 				return true;
 			}

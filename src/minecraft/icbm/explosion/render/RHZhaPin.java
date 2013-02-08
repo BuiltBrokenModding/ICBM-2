@@ -1,6 +1,6 @@
 package icbm.explosion.render;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.muoxing.jiqi.MDiLei;
 import icbm.explosion.zhapin.TZhaDan;
 import icbm.explosion.zhapin.ZhaPin;
@@ -32,7 +32,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 				GL11.glPushMatrix();
 				GL11.glTranslatef((float) 0.0F, (float) 1.5F, (float) 0.0F);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.SMINE_TEXTURE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoExplosion.SMINE_TEXTURE));
 				MDiLei.INSTANCE.render(0.0625F);
 				GL11.glPopMatrix();
 			}

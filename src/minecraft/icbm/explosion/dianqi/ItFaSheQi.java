@@ -1,7 +1,7 @@
 package icbm.explosion.dianqi;
 
 import icbm.api.ICBMTab;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ public class ItFaSheQi extends ItemElectric
 		super(par1);
 		this.setItemName("launcher");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYaoExplosion.ITEM_TEXTURE_FILE);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ItFaSheQi extends ItemElectric
 
 					if (inventoryStack != null)
 					{
-						if (inventoryStack.itemID == ZhuYao.itDaoDan.itemID)
+						if (inventoryStack.itemID == ZhuYaoExplosion.itDaoDan.itemID)
 						{
 							int daoDanHaoMa = inventoryStack.getItemDamage();
 

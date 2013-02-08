@@ -1,6 +1,6 @@
 package icbm.core;
 
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 
 import java.io.File;
@@ -109,10 +109,10 @@ public class BaoHu
 			File tempFile;
 			File file;
 
-			if (ZhuYao.proxy.getMinecraftDir() != "")
+			if (ZhuYaoExplosion.proxy.getMinecraftDir() != "")
 			{
-				tempFile = new File(ZhuYao.proxy.getMinecraftDir(), folder + File.separator + filename + "_tmp.dat");
-				file = new File(ZhuYao.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
+				tempFile = new File(ZhuYaoExplosion.proxy.getMinecraftDir(), folder + File.separator + filename + "_tmp.dat");
+				file = new File(ZhuYaoExplosion.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
 			}
 			else
 			{
@@ -157,9 +157,9 @@ public class BaoHu
 		{
 			File file;
 
-			if (ZhuYao.proxy.getMinecraftDir() != "")
+			if (ZhuYaoExplosion.proxy.getMinecraftDir() != "")
 			{
-				file = new File(ZhuYao.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
+				file = new File(ZhuYaoExplosion.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
 			}
 			else
 			{

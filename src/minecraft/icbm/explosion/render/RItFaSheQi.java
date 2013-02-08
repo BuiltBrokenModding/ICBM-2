@@ -1,7 +1,7 @@
 package icbm.explosion.render;
 
 import icbm.api.ICBM;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.muoxing.jiqi.MShouFaSheQi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -21,13 +21,13 @@ public class RItFaSheQi implements IItemRenderer
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)
 	{
-		return item.itemID == ZhuYao.itFaSheQi.itemID;
+		return item.itemID == ZhuYaoExplosion.itFaSheQi.itemID;
 	}
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.itemID == ZhuYao.itFaSheQi.itemID;
+		return item.itemID == ZhuYaoExplosion.itFaSheQi.itemID;
 	}
 
 	@Override

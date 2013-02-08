@@ -2,7 +2,7 @@ package icbm.explosion.jiqi;
 
 import icbm.api.LauncherType;
 import icbm.explosion.CommonProxy;
-import icbm.explosion.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -110,7 +110,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
+		return PacketManager.getPacket(ZhuYaoExplosion.CHANNEL, this, (int) 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
 	}
 
 	@Override
@@ -361,7 +361,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYao.instance, CommonProxy.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
