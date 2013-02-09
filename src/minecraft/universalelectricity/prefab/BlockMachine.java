@@ -94,7 +94,10 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 			}
 			else if (par5EntityPlayer.inventory.getCurrentItem().getItem() instanceof IItemElectric)
 			{
-				if (this.onUseElectricItem(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ)) { return true; }
+				if (this.onUseElectricItem(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ))
+				{
+					return true;
+				}
 			}
 		}
 
@@ -205,7 +208,7 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 
 							if (var7.hasTagCompound())
 							{
-								var12.func_92014_d().setTagCompound((NBTTagCompound) var7.getTagCompound().copy());
+								var12.getEntityItem().setTagCompound((NBTTagCompound) var7.getTagCompound().copy());
 							}
 
 							float var13 = 0.05F;

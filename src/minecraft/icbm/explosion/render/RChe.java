@@ -81,7 +81,7 @@ public class RChe extends Render
 		GL11.glTranslatef((float) x, (float) y, (float) z);
 		GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-var24, 0.0F, 0.0F, 1.0F);
-		float var28 = (float) minecart.func_70496_j() - par9;
+		float var28 = (float) minecart.getRollingAmplitude() - par9;
 		float var30 = (float) minecart.getDamage() - par9;
 
 		if (var30 < 0.0F)
@@ -91,7 +91,7 @@ public class RChe extends Render
 
 		if (var28 > 0.0F)
 		{
-			GL11.glRotatef(MathHelper.sin(var28) * var28 * var30 / 10.0F * (float) minecart.func_70493_k(), 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(MathHelper.sin(var28) * var28 * var30 / 10.0F * (float) minecart.getRollingDirection(), 1.0F, 0.0F, 0.0F);
 		}
 
 		float var29 = 0.75F;
@@ -141,54 +141,9 @@ public class RChe extends Render
 
 		GL11.glPopMatrix();
 
-		GL11.glScalef(1.0F / var29, 1.0F / var29, 1.0F / var29);
-
 		this.loadTexture("/item/cart.png");
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 		this.modelMinecart.render(minecart, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
-		GL11.glPopMatrix();
-	}
-
-	public void renderTNTCart(EChe cart, float light, float time)
-	{
-		GL11.glPushMatrix();
-		loadTexture("/terrain.png");
-		GL11.glTranslatef(0.0F, 0.3125F, 0.0F);
-		GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
-
-		EChe tnt = (EChe) cart;
-
-		if (tnt.isPrimed() && ((float) tnt.getFuse() - time) + 1.0F < 10F)
-		{
-			float scale = 1.0F - (((float) tnt.getFuse() - time) + 1.0F) / 10F;
-			if (scale < 0.0F)
-			{
-				scale = 0.0F;
-			}
-			if (scale > 1.0F)
-			{
-				scale = 1.0F;
-			}
-			scale *= scale;
-			scale *= scale;
-			scale = 1.0F + scale * 0.3F;
-			GL11.glScalef(scale, scale, scale);
-		}
-		(new RenderBlocks()).renderBlockAsItem(Block.tnt, 0, light);
-		if (tnt.isPrimed() && (tnt.getFuse() / 5) % 2 == 0)
-		{
-			GL11.glDisable(3553);
-			GL11.glDisable(2896);
-			GL11.glEnable(3042);
-			GL11.glBlendFunc(770, 772);
-			float alpha = (1.0F - (((float) tnt.getFuse() - time) + 1.0F) / 100F) * 0.8F;
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, alpha);
-			renderBlocks.renderBlockAsItem(Block.tnt, 0, 1.0F);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glDisable(3042);
-			GL11.glEnable(2896);
-			GL11.glEnable(3553);
-		}
 		GL11.glPopMatrix();
 	}
 
