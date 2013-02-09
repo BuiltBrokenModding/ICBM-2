@@ -1,7 +1,8 @@
-package icbm.explosion.gui;
+package icbm.contraption.gui;
 
 import icbm.api.ICBM;
-import icbm.contraption.ItHuoLuanQi;
+import icbm.api.IFrequency;
+import icbm.core.GuiBase;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
 import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.client.gui.GuiTextField;
@@ -12,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GFrequency extends ICBMGui
+public class GFrequency extends GuiBase
 {
 	private ItemStack itemStack;
 
@@ -35,7 +36,7 @@ public class GFrequency extends ICBMGui
 		super.initGui();
 		this.textFieldFrequency = new GuiTextField(fontRenderer, 80, 50, 40, 12);
 		this.textFieldFrequency.setMaxStringLength(4);
-		this.textFieldFrequency.setText(((ItHuoLuanQi) this.itemStack.getItem()).getFrequency(this.itemStack) + "");
+		this.textFieldFrequency.setText(((IFrequency) this.itemStack.getItem()).getFrequency(this.itemStack) + "");
 	}
 
 	/**
@@ -94,9 +95,9 @@ public class GFrequency extends ICBMGui
 			short newFrequency = (short) Math.max(0, Short.parseShort(this.textFieldFrequency.getText()));
 			this.textFieldFrequency.setText(newFrequency + "");
 
-			if (((ItHuoLuanQi) this.itemStack.getItem()).getFrequency(this.itemStack) != newFrequency)
+			if (((IFrequency) this.itemStack.getItem()).getFrequency(this.itemStack) != newFrequency)
 			{
-				((ItHuoLuanQi) this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
+				((IFrequency) this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
 
 				PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoExplosion.CHANNEL, ICBMPacketType.SIGNAL_DISRUPTER.ordinal(), newFrequency));
 			}

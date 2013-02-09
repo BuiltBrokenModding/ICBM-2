@@ -1,6 +1,7 @@
 package icbm.explosion.gui;
 
 import icbm.api.ICBM;
+import icbm.core.GuiBase;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TDianCiQi;
 import net.minecraft.client.gui.GuiButton;
@@ -13,7 +14,7 @@ import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GDianCiQi extends ICBMGui
+public class GDianCiQi extends GuiBase
 {
 	private TDianCiQi tileEntity;
 	private GuiTextField textFieldBanJing;

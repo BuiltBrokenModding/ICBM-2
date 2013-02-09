@@ -16,6 +16,7 @@ import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.UpdateNotifier;
+import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
@@ -78,6 +79,19 @@ public class ZhuYao
 
 	public static int DAO_DAN_ZUI_YUAN;
 
+	/**
+	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
+	 */
+	public static final int GUI_RAIL_GUN = 0;
+	public static final int GUI_CRUISE_LAUNCHER = 1;
+	public static final int GUI_LAUNCHER_SCREEN = 2;
+	public static final int GUI_RADAR_STATION = 3;
+	public static final int GUI_DETECTOR = 4;
+	public static final int GUI_FREQUENCY = 5;
+	public static final int GUI_EMP_TOWER = 6;
+	public static final int GUI_LAUNCHER_BASE = 7;
+	public static final int GUI_LASER_TURRET = 8;
+
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -135,6 +149,8 @@ public class ZhuYao
 
 		// Poison Powder
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itDu, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
+
+		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
 	}
 
 	@ServerStarting

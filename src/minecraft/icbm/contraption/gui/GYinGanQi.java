@@ -1,7 +1,8 @@
-package icbm.explosion.gui;
+package icbm.contraption.gui;
 
 import icbm.api.ICBM;
 import icbm.contraption.TYinGanQi;
+import icbm.core.GuiBase;
 import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -12,7 +13,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GYinGanQi extends ICBMGui
+public class GYinGanQi extends GuiBase
 {
 	private TYinGanQi tileEntity;
 

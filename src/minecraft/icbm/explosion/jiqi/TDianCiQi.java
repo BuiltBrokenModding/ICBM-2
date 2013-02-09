@@ -1,7 +1,7 @@
 package icbm.explosion.jiqi;
 
 import icbm.api.RadarRegistry;
-import icbm.explosion.CommonProxy;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
@@ -192,7 +192,7 @@ public class TDianCiQi extends TileEntityElectricityStorage implements IPacketRe
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

@@ -3,7 +3,6 @@ package icbm.contraption;
 import icbm.api.ICBMTab;
 import icbm.api.IFrequency;
 import icbm.core.ZhuYao;
-import icbm.explosion.CommonProxy;
 import icbm.explosion.ZhuYaoExplosion;
 
 import java.util.List;
@@ -82,7 +81,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		par3EntityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_FREQUENCY, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+		par3EntityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_FREQUENCY, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
 		return par1ItemStack;
 	}
 

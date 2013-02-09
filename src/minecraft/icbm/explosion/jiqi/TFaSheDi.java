@@ -2,7 +2,6 @@ package icbm.explosion.jiqi;
 
 import icbm.core.BaoHu;
 import icbm.core.ZhuYao;
-import icbm.explosion.CommonProxy;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.daodan.ItDaoDan;
@@ -469,7 +468,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

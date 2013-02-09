@@ -1,6 +1,7 @@
 package icbm.explosion.gui;
 
 import icbm.api.ICBM;
+import icbm.core.GuiBase;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TFaSheShiMuo;
 import net.minecraft.client.gui.GuiTextField;
@@ -13,7 +14,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GFaSheShiMuo extends ICBMGui
+public class GFaSheShiMuo extends GuiBase
 {
 	private TFaSheShiMuo tileEntity;
 	private GuiTextField tFX;

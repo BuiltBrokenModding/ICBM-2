@@ -2,7 +2,6 @@ package icbm.explosion.jiqi;
 
 import icbm.core.BaoHu;
 import icbm.core.ZhuYao;
-import icbm.explosion.CommonProxy;
 import icbm.explosion.ItZiDan;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.fx.ParticleSpawner;
@@ -322,7 +321,7 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 		}
 		else
 		{
-			entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_RAIL_GUN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_RAIL_GUN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
 
 		return true;

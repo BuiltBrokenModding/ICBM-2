@@ -1,7 +1,5 @@
 package icbm.explosion;
 
-import icbm.contraption.FXGenZhongQi;
-import icbm.contraption.TYinGanQi;
 import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
 import icbm.explosion.cart.EChe;
@@ -11,10 +9,8 @@ import icbm.explosion.gui.GCiGuiPao;
 import icbm.explosion.gui.GDianCiQi;
 import icbm.explosion.gui.GFaSheDi;
 import icbm.explosion.gui.GFaSheShiMuo;
-import icbm.explosion.gui.GFrequency;
 import icbm.explosion.gui.GLeiDaTai;
 import icbm.explosion.gui.GXiaoFaSheQi;
-import icbm.explosion.gui.GYinGanQi;
 import icbm.explosion.jiqi.EFake;
 import icbm.explosion.jiqi.TCiGuiPao;
 import icbm.explosion.jiqi.TDianCiQi;
@@ -59,7 +55,6 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.TextureFXManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -101,8 +96,6 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RFake());
 		RenderingRegistry.registerEntityRenderingHandler(EChe.class, new RChe());
 
-		TextureFXManager.instance().addAnimation(new FXGenZhongQi(FMLClientHandler.instance().getClient()));
-
 		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
 		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class, new RXiaoFaSheQi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class, new RFaSheDi());
@@ -120,25 +113,21 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == CommonProxy.GUI_FREQUENCY)
+		if (tileEntity != null || ID == ZhuYao.GUI_FREQUENCY)
 		{
 			switch (ID)
 			{
-				case CommonProxy.GUI_RAIL_GUN:
+				case ZhuYao.GUI_RAIL_GUN:
 					return new GCiGuiPao((TCiGuiPao) tileEntity, entityPlayer);
-				case CommonProxy.GUI_CRUISE_LAUNCHER:
+				case ZhuYao.GUI_CRUISE_LAUNCHER:
 					return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi) tileEntity);
-				case CommonProxy.GUI_LAUNCHER_SCREEN:
+				case ZhuYao.GUI_LAUNCHER_SCREEN:
 					return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
-				case CommonProxy.GUI_RADAR_STATION:
+				case ZhuYao.GUI_RADAR_STATION:
 					return new GLeiDaTai(((TLeiDaTai) tileEntity));
-				case CommonProxy.GUI_DETECTOR:
-					return new GYinGanQi((TYinGanQi) tileEntity);
-				case CommonProxy.GUI_FREQUENCY:
-					return new GFrequency(entityPlayer.inventory.getCurrentItem());
-				case CommonProxy.GUI_EMP_TOWER:
+				case ZhuYao.GUI_EMP_TOWER:
 					return new GDianCiQi((TDianCiQi) tileEntity);
-				case CommonProxy.GUI_LAUNCHER_BASE:
+				case ZhuYao.GUI_LAUNCHER_BASE:
 					return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
 			}
 		}
@@ -152,6 +141,7 @@ public class ClientProxy extends CommonProxy
 		return Minecraft.getMinecraftDir().toString();
 	}
 
+	@Override
 	public boolean isGaoQing()
 	{
 		return Minecraft.getMinecraft().gameSettings.fancyGraphics;

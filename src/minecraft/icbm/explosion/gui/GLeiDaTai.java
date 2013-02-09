@@ -1,6 +1,7 @@
 package icbm.explosion.gui;
 
 import icbm.api.ICBM;
+import icbm.core.GuiBase;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.jiqi.BJiQi;
@@ -23,7 +24,7 @@ import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.vector.Region2;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GLeiDaTai extends ICBMGui
+public class GLeiDaTai extends GuiBase
 {
 	private TLeiDaTai tileEntity;
 

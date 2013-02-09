@@ -2,7 +2,7 @@ package icbm.explosion.jiqi;
 
 import icbm.api.LauncherType;
 import icbm.core.BaoHu;
-import icbm.explosion.CommonProxy;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.DaoDan;
 import icbm.explosion.daodan.EDaoDan;
@@ -515,7 +515,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}

@@ -1,7 +1,6 @@
 package icbm.explosion;
 
-import icbm.contraption.TYinGanQi;
-import icbm.contraption.TYinXing;
+import icbm.core.ZhuYao;
 import icbm.explosion.jiqi.TCiGuiPao;
 import icbm.explosion.jiqi.TDianCiQi;
 import icbm.explosion.jiqi.TFaSheDi;
@@ -18,23 +17,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.multiblock.TileEntityMulti;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy implements IGuiHandler
 {
-	// GUI IDs
-	public static final int GUI_RAIL_GUN = 0;
-	public static final int GUI_CRUISE_LAUNCHER = 1;
-	public static final int GUI_LAUNCHER_SCREEN = 2;
-	public static final int GUI_RADAR_STATION = 3;
-	public static final int GUI_DETECTOR = 4;
-	public static final int GUI_FREQUENCY = 5;
-	public static final int GUI_EMP_TOWER = 6;
-	public static final int GUI_LAUNCHER_BASE = 7;
-	public static final int GUI_LASER_TURRET = 8;
-
 	public void preInit()
 	{
 	}
@@ -48,12 +35,8 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMFaSheJia");
 		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMLeiDaTai");
 		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMDianCiQi");
-		GameRegistry.registerTileEntity(TYinXing.class, "ICBMYinXin");
 		GameRegistry.registerTileEntity(TYinDaoQi.class, "ICBMYinDaoQi");
-
 		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMZhaDan");
-		GameRegistry.registerTileEntity(TYinGanQi.class, "ICBMYinGanQi");
-		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
 	}
 
 	@Override
@@ -71,11 +54,11 @@ public class CommonProxy implements IGuiHandler
 		{
 			switch (ID)
 			{
-				case CommonProxy.GUI_RAIL_GUN:
+				case ZhuYao.GUI_RAIL_GUN:
 					return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
-				case CommonProxy.GUI_CRUISE_LAUNCHER:
+				case ZhuYao.GUI_CRUISE_LAUNCHER:
 					return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
-				case CommonProxy.GUI_LAUNCHER_BASE:
+				case ZhuYao.GUI_LAUNCHER_BASE:
 					return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
 		}

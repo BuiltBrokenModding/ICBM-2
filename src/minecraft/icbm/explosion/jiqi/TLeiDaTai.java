@@ -2,7 +2,7 @@ package icbm.explosion.jiqi;
 
 import icbm.api.RadarRegistry;
 import icbm.contraption.ItHuoLuanQi;
-import icbm.explosion.CommonProxy;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
 
@@ -416,7 +416,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoExplosion.instance, CommonProxy.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
