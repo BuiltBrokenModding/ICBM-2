@@ -14,16 +14,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class FxFanWuSu extends EntityFX
+public class FXFanWuSu extends EntityFX
 {
 	float antimatterParticleScale;
 
-	public FxFanWuSu(World par1World, Vector3 position, double par8, double par10, double par12, double distance)
+	public FXFanWuSu(World par1World, Vector3 position, double par8, double par10, double par12, double distance)
 	{
 		this(par1World, position, par8, par10, par12, 1.0F, distance);
 	}
 
-	public FxFanWuSu(World par1World, Vector3 position, double par8, double par10, double par12, float par14, double distance)
+	public FXFanWuSu(World par1World, Vector3 position, double par8, double par10, double par12, float par14, double distance)
 	{
 		super(par1World, position.x, position.y, position.z, 0.0D, 0.0D, 0.0D);
 		this.motionX *= 0.10000000149011612D;

@@ -1,8 +1,8 @@
 package icbm.core;
 
+import icbm.contraption.ItHuoLuanQi;
 import icbm.explosion.EGuang;
 import icbm.explosion.ZhuYaoExplosion;
-import icbm.explosion.dianqi.ItHuoLuanQi;
 import icbm.explosion.dianqi.ItLeiDaQiang;
 import icbm.explosion.dianqi.ItLeiSheZhiBiao;
 import icbm.explosion.dianqi.ItYaoKong;

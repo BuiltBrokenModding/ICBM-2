@@ -1,9 +1,9 @@
 package icbm.explosion.gui;
 
 import icbm.api.ICBM;
+import icbm.contraption.ItHuoLuanQi;
 import icbm.core.ICBMPacketManager.ICBMPacketType;
 import icbm.explosion.ZhuYaoExplosion;
-import icbm.explosion.dianqi.ItHuoLuanQi;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.item.ItemStack;
 

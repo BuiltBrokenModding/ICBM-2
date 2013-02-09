@@ -2,14 +2,7 @@ package icbm.explosion;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
-import icbm.contraption.BBuoLiPan;
-import icbm.contraption.BEnNiu;
-import icbm.contraption.BYinXing;
-import icbm.contraption.BZha;
-import icbm.contraption.IBZha;
-import icbm.contraption.ItYao;
 import icbm.core.ICBMPacketManager;
-import icbm.core.ZhuYao;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.cart.ItChe;
 import icbm.explosion.daodan.DaoDan;
@@ -17,15 +10,12 @@ import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.daodan.ItDaoDan;
 import icbm.explosion.daodan.ItTeBieDaoDan;
 import icbm.explosion.dianqi.ItFaSheQi;
-import icbm.explosion.dianqi.ItGenZongQi;
-import icbm.explosion.dianqi.ItHuoLuanQi;
 import icbm.explosion.dianqi.ItJieJa;
 import icbm.explosion.dianqi.ItLeiDaQiang;
 import icbm.explosion.dianqi.ItLeiSheZhiBiao;
 import icbm.explosion.dianqi.ItYaoKong;
 import icbm.explosion.jiqi.BJiQi;
 import icbm.explosion.jiqi.BJiQi.JiQi;
-import icbm.explosion.jiqi.BYinGanQi;
 import icbm.explosion.jiqi.EFake;
 import icbm.explosion.jiqi.IBJiQi;
 import icbm.explosion.po.PChuanRanDu;
@@ -77,7 +67,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZhuYaoExplosion.NAME, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "after:ICBM")
+@Mod(modid = ZhuYaoExplosion.NAME, name = ZhuYaoExplosion.NAME, version = ICBM.VERSION, dependencies = "after:ICBM")
 @NetworkMod(channels = ZhuYaoExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
 public class ZhuYaoExplosion
 {
@@ -95,16 +85,12 @@ public class ZhuYaoExplosion
 	/**
 	 * Settings and Configurations
 	 */
-	public static Block bBuoLiPan;
+	// Blocks
 	public static Block bZhaDan;
 	public static Block bJiQi;
-	public static Block bYinGanQi;
 	public static BlockMulti bJia;
-	public static BEnNiu bBuoLiEnNiu;
-	public static Block bZha;
-	public static Block bYinXing;
 
-	public static Item itYao;
+	// Items
 	public static Item itDaoDan;
 	public static Item itTeBieDaoDan;
 
@@ -112,13 +98,10 @@ public class ZhuYaoExplosion
 	public static ItemElectric itLeiDaQiang;
 	public static ItemElectric itYaoKong;
 	public static ItemElectric itLeiSheZhiBiao;
-	public static ItemElectric itHuoLaunQi;
-	public static ItemElectric itGenZongQi;
 	public static ItemElectric itFaSheQi;
 
 	public static Item itShouLiuDan;
 	public static Item itZiDan;
-
 	public static Item itChe;
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
@@ -131,18 +114,11 @@ public class ZhuYaoExplosion
 
 		ICBM.CONFIGURATION.load();
 
-		bBuoLiPan = new BBuoLiPan(ICBM.CONFIGURATION.getBlock("BlockID2", ICBM.BLOCK_ID_PREFIX + 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(ICBM.CONFIGURATION.getBlock("BlockID7", ICBM.BLOCK_ID_PREFIX + 2).getInt());
-
 		bZhaDan = new BZhaDan(ICBM.CONFIGURATION.getBlock("BlockID3", ICBM.BLOCK_ID_PREFIX + 3).getInt(), 16);
 		bJiQi = new BJiQi(ICBM.CONFIGURATION.getBlock("BlockID4", ICBM.BLOCK_ID_PREFIX + 4).getInt());
-		bYinGanQi = new BYinGanQi(ICBM.CONFIGURATION.getBlock("BlockID5", ICBM.BLOCK_ID_PREFIX + 5).getInt(), 7);
 		bJia = new BlockMulti(ICBM.CONFIGURATION.getBlock("BlockID6", ICBM.BLOCK_ID_PREFIX + 6).getInt());
-		bZha = new BZha(ICBM.CONFIGURATION.getBlock("BlockID8", ICBM.BLOCK_ID_PREFIX + 7).getInt(), 1);
-		bYinXing = new BYinXing(ICBM.CONFIGURATION.getBlock("BlockID9", ICBM.BLOCK_ID_PREFIX + 8).getInt(), 11);
 
 		// ITEMS
-		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt(), 2);
 		itDaoDan = new ItDaoDan(ICBM.CONFIGURATION.getItem("ItemID4", ICBM.ITEM_ID_PREFIX + 3).getInt(), 32);
 		itTeBieDaoDan = new ItTeBieDaoDan(ICBM.CONFIGURATION.getItem("ItemID5", ICBM.ITEM_ID_PREFIX + 4).getInt(), 32);
 
@@ -150,8 +126,6 @@ public class ZhuYaoExplosion
 		itLeiDaQiang = new ItLeiDaQiang(ICBM.CONFIGURATION.getItem("ItemID7", ICBM.ITEM_ID_PREFIX + 6).getInt(), 3);
 		itYaoKong = new ItYaoKong(ICBM.CONFIGURATION.getItem("ItemID8", ICBM.ITEM_ID_PREFIX + 7).getInt(), 4);
 		itLeiSheZhiBiao = new ItLeiSheZhiBiao(ICBM.CONFIGURATION.getItem("ItemID9", ICBM.ITEM_ID_PREFIX + 8).getInt(), 6);
-		itHuoLaunQi = new ItHuoLuanQi(ICBM.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt(), 7);
-		itGenZongQi = new ItGenZongQi(ICBM.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 		itFaSheQi = new ItFaSheQi(ICBM.CONFIGURATION.getItem("ItemID12", ICBM.ITEM_ID_PREFIX + 11).getInt());
 
 		itShouLiuDan = new ItShouLiuDan(ICBM.CONFIGURATION.getItem("ItemID13", ICBM.ITEM_ID_PREFIX + 12).getInt(), 64);
@@ -238,14 +212,9 @@ public class ZhuYaoExplosion
 		});
 
 		// -- Registering Blocks
-		GameRegistry.registerBlock(bBuoLiPan, "bBuoLiPan");
-		GameRegistry.registerBlock(bBuoLiEnNiu, "bBuoLiEnNiu");
 		GameRegistry.registerBlock(bZhaDan, IBZhaDan.class, "bZhaDan");
 		GameRegistry.registerBlock(bJiQi, IBJiQi.class, "bJiQi");
-		GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
 		GameRegistry.registerBlock(bJia, "bJia");
-		GameRegistry.registerBlock(bYinXing, "bYinXing");
-		GameRegistry.registerBlock(bZha, IBZha.class, "bZha");
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback()
 		{
@@ -281,100 +250,41 @@ public class ZhuYaoExplosion
 		/**
 		 * Add all Recipes
 		 */
-		// Spikes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] {
-				"CCC", "BBB", 'C', Block.cactus, 'B', "ingotBronze" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] {
-				"CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
-
-		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] {
-				"E", "S", 'E', ZhuYao.itDu, 'S', bZha });
-
-		GameRegistry.addRecipe(new ItemStack(bZha, 1, 2), new Object[] {
-				"E", "S", 'E', ZhuYao.itLiu, 'S', bZha });
-
 		// Rocket Launcher
-		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] {
-				"SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 6), 'B', Block.stoneButton, 'S', "ingotSteel" }));
-
-		// Camouflage
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] {
-				"WGW", "GCG", "WGW", 'C', "basicCircuit", 'G', Block.glass, 'W', Block.cloth }));
-
-		// Tracker
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] {
-				" Z ", "SBS", "SCS", 'Z', Item.compass, 'C', "basicCircuit", 'B', "battery", 'S', "ingotSteel" }));
-
-		// Glass Pressure Plate
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bBuoLiPan, 1, 0), new Object[] {
-				"##", '#', Block.glass }));
-
-		// Glass Button
-		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] {
-				"G", "G", 'G', Block.glass });
+		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 6), 'B', Block.stoneButton, 'S', "ingotSteel" }));
 
 		// Railgun Bullet
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itZiDan, 4, 0), new Object[] {
-				"@", "!", "!", '@', Item.diamond, '!', "ingotBronze" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itZiDan, 1, 1), new Object[] {
-				"@", "!", "!", '@', "antimatterGram", '!', ZhuYaoExplosion.itZiDan }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itZiDan, 4, 0), new Object[] { "@", "!", "!", '@', Item.diamond, '!', "ingotBronze" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itZiDan, 1, 1), new Object[] { "@", "!", "!", '@', "antimatterGram", '!', ZhuYaoExplosion.itZiDan }));
 
 		// Radar Gun
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itLeiDaQiang), new Object[] {
-				"@#!", " $!", "  !", '@', Block.glass, '!', "ingotSteel", '#', "basicCircuit", '$', Block.stoneButton }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itLeiDaQiang), new Object[] { "@#!", " $!", "  !", '@', Block.glass, '!', "ingotSteel", '#', "basicCircuit", '$', Block.stoneButton }));
 		// Remote
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itYaoKong), new Object[] {
-				"?@@", "@#$", "@@@", '@', "ingotSteel", '?', Item.redstone, '#', "advancedCircuit", '$', Block.stoneButton }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itYaoKong), new Object[] { "?@@", "@#$", "@@@", '@', "ingotSteel", '?', Item.redstone, '#', "advancedCircuit", '$', Block.stoneButton }));
 		// Laser Designator
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itLeiSheZhiBiao), new Object[] {
-				"!  ", " ? ", "  @", '@', ZhuYaoExplosion.itYaoKong.getUncharged(), '?', "eliteCircuit", '!', ZhuYaoExplosion.itLeiDaQiang.getUncharged() }));
-		// Proximity Detector
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bYinGanQi), new Object[] {
-				"SSS", "S?S", "SSS", 'S', "ingotSteel", '?', itYaoKong.getUncharged() }));
-		// Signal Disrupter
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itHuoLaunQi, 2), new Object[] {
-				"WWW", "W!W", "WWW", '!', ZhuYaoExplosion.itYaoKong.getUncharged(), 'W', "copperWire" }));
-		// Antidote
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itYao, 6), new Object[] {
-				"@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itYao), new Object[] {
-				"@@@", "@@@", "@@@", '@', Item.seeds }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itLeiSheZhiBiao), new Object[] { "!  ", " ? ", "  @", '@', ZhuYaoExplosion.itYaoKong.getUncharged(), '?', "eliteCircuit", '!', ZhuYaoExplosion.itLeiDaQiang.getUncharged() }));
 		// Defuser
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itJieJa), new Object[] {
-				"I  ", " W ", "  C", 'C', "advancedCircuit", 'W', "wrench", 'I', "copperWire" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itJieJa), new Object[] { "I  ", " W ", "  C", 'C', "advancedCircuit", 'W', "wrench", 'I', "copperWire" }));
 		// Missile Launcher Platform
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 0), new Object[] {
-				"! !", "!C!", "!!!", '!', "ingotBronze", 'C', "basicCircuit" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 1), new Object[] {
-				"! !", "!C!", "!@!", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 0), '!', "ingotSteel", 'C', "advancedCircuit" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 2), new Object[] {
-				"! !", "!C!", "!@!", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 1), '!', "plateSteel", 'C', "eliteCircuit" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 0), new Object[] { "! !", "!C!", "!!!", '!', "ingotBronze", 'C', "basicCircuit" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 1), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 0), '!', "ingotSteel", 'C', "advancedCircuit" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 1), '!', "plateSteel", 'C', "eliteCircuit" }));
 		// Missile Launcher Panel
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 3), new Object[] {
-				"!!!", "!#!", "!?!", '#', "basicCircuit", '!', Block.glass, '?', "copperWire" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 4), new Object[] {
-				"!$!", "!#!", "!?!", '#', "advancedCircuit", '!', "ingotSteel", '?', "copperWire", '$', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 3) }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 5), new Object[] {
-				"!$!", "!#!", "!?!", '#', "eliteCircuit", '!', Item.ingotGold, '?', "copperWire", '$', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 4) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', "basicCircuit", '!', Block.glass, '?', "copperWire" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 4), new Object[] { "!$!", "!#!", "!?!", '#', "advancedCircuit", '!', "ingotSteel", '?', "copperWire", '$', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 3) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 5), new Object[] { "!$!", "!#!", "!?!", '#', "eliteCircuit", '!', Item.ingotGold, '?', "copperWire", '$', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 4) }));
 		// Missile Launcher Support Frame
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 6), new Object[] {
-				"! !", "!!!", "! !", '!', "ingotBronze" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 7), new Object[] {
-				"! !", "!@!", "! !", '!', "ingotSteel", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 6) }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 8), new Object[] {
-				"! !", "!@!", "! !", '!', "plateSteel", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 7) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 6), new Object[] { "! !", "!!!", "! !", '!', "ingotBronze" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 7), new Object[] { "! !", "!@!", "! !", '!', "ingotSteel", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 6) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 8), new Object[] { "! !", "!@!", "! !", '!', "plateSteel", '@', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 7) }));
 		// Radar Station
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 9), new Object[] {
-				"?@?", " ! ", "!#!", '@', ZhuYaoExplosion.itLeiDaQiang.getUncharged(), '!', "plateSteel", '#', "basicCircuit", '?', Item.ingotGold }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ZhuYaoExplosion.itLeiDaQiang.getUncharged(), '!', "plateSteel", '#', "basicCircuit", '?', Item.ingotGold }));
 		// EMP Tower
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 10), new Object[] {
-				"?W?", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor", 'W', "copperWire" }), "EMP Tower", ICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor", 'W', "copperWire" }), "EMP Tower", ICBM.CONFIGURATION, true);
 		// Railgun
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 11), new Object[] {
-				"?!#", "@@@", '@', "plateSteel", '!', ZhuYaoExplosion.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }), "Railgun", ICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 11), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYaoExplosion.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }), "Railgun", ICBM.CONFIGURATION, true);
 		// Cruise Launcher
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 12), new Object[] {
-				"?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 8) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.bJiQi, 1, 12), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoExplosion.bJiQi, 1, 8) }));
 
 		// Missile Module
 		// Find and try to add a recipe with fuel, then oil then coal.
@@ -388,8 +298,7 @@ public class ZhuYaoExplosion
 					{
 						if (data.stillLiquid.isLiquidEqual(LiquidDictionary.getLiquid("Fuel", 1)))
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan), new Object[] {
-									" @ ", "@#@", "@?@", '@', "ingotSteel", '?', data.filled, '#', "basicCircuit" }));
+							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', data.filled, '#', "basicCircuit" }));
 						}
 					}
 				}
@@ -402,16 +311,14 @@ public class ZhuYaoExplosion
 					{
 						if (data.stillLiquid.isLiquidEqual(LiquidDictionary.getLiquid("Oil", 1)))
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan), new Object[] {
-									" @ ", "@#@", "@?@", '@', "ingotSteel", '?', data.filled, '#', "basicCircuit" }));
+							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', data.filled, '#', "basicCircuit" }));
 						}
 					}
 				}
 			}
 			else
 			{
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan), new Object[] {
-						" @ ", "@#@", "@?@", '@', "ingotSteel", '?', Item.coal, '#', "basicCircuit" }));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan), new Object[] { " @ ", "@#@", "@?@", '@', "ingotSteel", '?', Item.coal, '#', "basicCircuit" }));
 			}
 		}
 		catch (Exception e)
@@ -421,17 +328,13 @@ public class ZhuYaoExplosion
 		}
 
 		// Anti-ballistic
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 1), new Object[] {
-				"!", "?", "@", '@', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), '?', new ItemStack(ZhuYaoExplosion.bZhaDan, 1, 0), '!', "basicCircuit" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 1), new Object[] { "!", "?", "@", '@', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), '?', new ItemStack(ZhuYaoExplosion.bZhaDan, 1, 0), '!', "basicCircuit" }));
 		// Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 2), new Object[] {
-				" ! ", " ? ", "!@!", '@', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.qunDan.getID()].getItemStack(), '!', new ItemStack(ZhuYaoExplosion.itDaoDan, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 2), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.qunDan.getID()].getItemStack(), '!', new ItemStack(ZhuYaoExplosion.itDaoDan, 1, 0) }));
 		// Nuclear Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 3), new Object[] {
-				" N ", "NCN", 'C', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 2), 'N', ZhaPin.yuanZi.getItemStack() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 3), new Object[] { " N ", "NCN", 'C', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 2), 'N', ZhaPin.yuanZi.getItemStack() }));
 		// Homing
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 4), new Object[] {
-				" B ", " C ", "BMB", 'M', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), 'C', "basicCircuit", 'B', "ingotBronze" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 4), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), 'C', "basicCircuit", 'B', "ingotBronze" }));
 
 		/**
 		 * Add all explosive recipes.
@@ -439,21 +342,18 @@ public class ZhuYaoExplosion
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoExplosion.itDaoDan, 1, i), new Object[] {
-					new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoExplosion.bZhaDan, 1, i) }), ZhaPin.list[i].getName() + " Missile", ICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoExplosion.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoExplosion.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoExplosion.bZhaDan, 1, i) }), ZhaPin.list[i].getName() + " Missile", ICBM.CONFIGURATION, true);
 
 			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itShouLiuDan, 1, i), new Object[] {
-						"?", "@", '@', new ItemStack(ZhuYaoExplosion.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getName() + " Grenade", ICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoExplosion.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getName() + " Grenade", ICBM.CONFIGURATION, true);
 			}
 
 			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itChe, 1, i), new Object[] {
-						"?", "@", '?', new ItemStack(ZhuYaoExplosion.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getName() + " Minecart", ICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoExplosion.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getName() + " Minecart", ICBM.CONFIGURATION, true);
 			}
 		}
 

@@ -1,8 +1,8 @@
 package icbm.explosion.gui;
 
 import icbm.api.ICBM;
+import icbm.contraption.TYinGanQi;
 import icbm.explosion.ZhuYaoExplosion;
-import icbm.explosion.jiqi.TYinGanQi;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 

@@ -1,7 +1,5 @@
-package icbm.explosion;
+package icbm.contraption;
 
-import icbm.contraption.TYinGanQi;
-import icbm.contraption.TYinXing;
 import icbm.explosion.jiqi.TCiGuiPao;
 import icbm.explosion.jiqi.TDianCiQi;
 import icbm.explosion.jiqi.TFaSheDi;

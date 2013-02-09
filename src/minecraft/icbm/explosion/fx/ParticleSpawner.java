@@ -21,7 +21,7 @@ public class ParticleSpawner
 		}
 		else if (name == "antimatter")
 		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxFanWuSu(world, position, red, green, blue, scale, distance));
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXFanWuSu(world, position, red, green, blue, scale, distance));
 		}
 	}
 

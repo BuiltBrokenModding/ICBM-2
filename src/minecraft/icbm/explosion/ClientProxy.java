@@ -1,6 +1,7 @@
 package icbm.explosion;
 
-import icbm.contraption.TGenZhongQiFX;
+import icbm.contraption.FXGenZhongQi;
+import icbm.contraption.TYinGanQi;
 import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
 import icbm.explosion.cart.EChe;
@@ -23,7 +24,6 @@ import icbm.explosion.jiqi.TFaSheShiMuo;
 import icbm.explosion.jiqi.TLeiDaTai;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
 import icbm.explosion.jiqi.TYinDaoQi;
-import icbm.explosion.jiqi.TYinGanQi;
 import icbm.explosion.render.RBYinXing;
 import icbm.explosion.render.RChe;
 import icbm.explosion.render.RCiGuiPao;
@@ -101,7 +101,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RFake());
 		RenderingRegistry.registerEntityRenderingHandler(EChe.class, new RChe());
 
-		TextureFXManager.instance().addAnimation(new TGenZhongQiFX(FMLClientHandler.instance().getClient()));
+		TextureFXManager.instance().addAnimation(new FXGenZhongQi(FMLClientHandler.instance().getClient()));
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
 		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class, new RXiaoFaSheQi());

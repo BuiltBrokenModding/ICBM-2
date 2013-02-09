@@ -1,7 +1,7 @@
 package icbm.explosion.daodan;
 
+import icbm.contraption.ItGenZongQi;
 import icbm.explosion.daodan.EDaoDan.XingShi;
-import icbm.explosion.dianqi.ItGenZongQi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.WorldServer;

@@ -1,10 +1,10 @@
 package icbm.explosion.jiqi;
 
 import icbm.api.RadarRegistry;
+import icbm.contraption.ItHuoLuanQi;
 import icbm.explosion.CommonProxy;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
-import icbm.explosion.dianqi.ItHuoLuanQi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
