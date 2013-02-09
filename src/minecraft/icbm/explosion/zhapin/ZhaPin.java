@@ -396,12 +396,12 @@ public abstract class ZhaPin implements ITier, IExplosive
 		}
 	}
 
-	public static void doDamageEntities(World worldObj, Vector3 position, float radius, float power)
+	public void doDamageEntities(World worldObj, Vector3 position, float radius, float power)
 	{
-		doDamageEntities(worldObj, position, radius, power, true);
+		this.doDamageEntities(worldObj, position, radius, power, true);
 	}
 
-	public static void doDamageEntities(World worldObj, Vector3 position, float radius, float power, boolean destroyItem)
+	public void doDamageEntities(World worldObj, Vector3 position, float radius, float power, boolean destroyItem)
 	{
 		// Step 2: Damage all entities
 		radius *= 2.0F;
@@ -412,22 +412,27 @@ public abstract class ZhaPin implements ITier, IExplosive
 		List allEntities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.intX(), minCoord.intY(), minCoord.intZ(), maxCoord.intX(), maxCoord.intY(), maxCoord.intZ()));
 		Vec3 var31 = Vec3.createVectorHelper(position.x, position.y, position.z);
 
-		for (int var11 = 0; var11 < allEntities.size(); ++var11)
+		for (int i = 0; i < allEntities.size(); ++i)
 		{
-			Entity entity = (Entity) allEntities.get(var11);
+			Entity entity = (Entity) allEntities.get(i);
+
+			if (this.onDamageEntity(entity))
+			{
+				continue;
+			}
 
 			if (entity instanceof EDaoDan)
 			{
 				((EDaoDan) entity).explode();
-				break;
+				continue;
 			}
 
 			if (entity instanceof EntityItem && !destroyItem)
 				continue;
 
-			double var13 = entity.getDistance(position.x, position.y, position.z) / radius;
+			double distance = entity.getDistance(position.x, position.y, position.z) / radius;
 
-			if (var13 <= 1.0D)
+			if (distance <= 1.0D)
 			{
 				double xDifference = entity.posX - position.x;
 				double yDifference = entity.posY - position.y;
@@ -437,7 +442,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 				yDifference /= var35;
 				zDifference /= var35;
 				double var34 = worldObj.getBlockDensity(var31, entity.boundingBox);
-				double var36 = (1.0D - var13) * var34;
+				double var36 = (1.0D - distance) * var34;
 				int damage = 0;
 
 				damage = (int) ((var36 * var36 + var36) / 2.0D * 8.0D * power + 1.0D);
@@ -449,5 +454,16 @@ public abstract class ZhaPin implements ITier, IExplosive
 				entity.motionZ += zDifference * var36;
 			}
 		}
+	}
+
+	/**
+	 * Called by doDamageEntity on each entity being damaged. This function should be inherited if
+	 * something special is to happen to a specific entity.
+	 * 
+	 * @return True if something special happens to this specific entity.
+	 */
+	protected boolean onDamageEntity(Entity entity)
+	{
+		return false;
 	}
 }

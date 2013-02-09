@@ -1,6 +1,7 @@
 package icbm.explosion.zhapin.ex;
 
 import icbm.api.ICBM;
+import icbm.explosion.zhapin.EZhaPin;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -28,9 +29,9 @@ public class ExFanWuSu extends ZhaPin
 	 */
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
+		super.baoZhaQian(worldObj, position, explosionSource);
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.antimatter", 7F, (float) (worldObj.rand.nextFloat() * 0.1 + 0.9F));
 		explosionSource.posY += 5;
-
 		doDamageEntities(worldObj, position, this.getRadius() * 2, Integer.MAX_VALUE);
 	}
 
@@ -102,6 +103,21 @@ public class ExFanWuSu extends ZhaPin
 		doDamageEntities(worldObj, position, this.getRadius() * 2, Integer.MAX_VALUE);
 	}
 
+	@Override
+	protected boolean onDamageEntity(Entity entity)
+	{
+		if (entity instanceof EZhaPin)
+		{
+			if (((EZhaPin) entity).explosiveID == this.hongSu.getID())
+			{
+				entity.setDead();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Called when the explosive is on fuse and going to explode. Called only when the explosive is
 	 * in it's TNT form.
@@ -122,7 +138,8 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getName(), ICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] {
+				"AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getName(), ICBM.CONFIGURATION, true);
 	}
 
 	@Override
