@@ -416,7 +416,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_RADAR_STATION, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_LEI_DA_TAI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

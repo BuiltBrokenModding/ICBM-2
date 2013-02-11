@@ -31,9 +31,8 @@ public class FlagRegistry
 		if (!flags.contains(name))
 		{
 			flags.add(name);
-			return name;
 		}
 
-		return null;
+		return name;
 	}
 }

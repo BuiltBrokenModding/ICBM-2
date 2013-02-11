@@ -62,9 +62,9 @@ public class CommonProxy implements IGuiHandler
 			{
 				case ZhuYao.GUI_RAIL_GUN:
 					return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
-				case ZhuYao.GUI_CRUISE_LAUNCHER:
+				case ZhuYao.GUI_XIA_FA_SHE_QI:
 					return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
-				case ZhuYao.GUI_LAUNCHER_BASE:
+				case ZhuYao.GUI_FA_SHE_DI:
 					return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
 		}

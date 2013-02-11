@@ -18,6 +18,7 @@ import universalelectricity.core.vector.Vector3;
  */
 public class CommandFlag extends CommandBase
 {
+	public static final String[] commands = new String[] { "list", "addregion", "removeregion", "set" };
 	public String commandName = "flag";
 	public ModFlagData modFlagData;
 
@@ -35,91 +36,118 @@ public class CommandFlag extends CommandBase
 	@Override
 	public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return "Flags are region based.  \n" + "/" + getCommandName() + " protectOn" + "\n" + "/" + getCommandName() + " protectOff" + "\n" + "/" + getCommandName() + " list" + "\n" + "/" + getCommandName() + " lag" + "\n" + "/" + getCommandName() + " addRegion <name> <radius> <type:all,block,grenade,missile>" + "\n" + "/" + getCommandName() + " removeRegion <name>";
+		String returnString = "";
+
+		for (String command : commands)
+		{
+			returnString = returnString + "\n/" + this.getCommandName() + " " + command;
+		}
+
+		return returnString;
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args)
 	{
-		try
+		EntityPlayer entityPlayer = (EntityPlayer) sender;
+
+		// The world data the player is on.
+		FlagWorld flagWorld = this.modFlagData.getFlagWorld(entityPlayer.worldObj);
+
+		String commandName = args[0].toLowerCase();
+
+		switch (commandName)
 		{
-			EntityPlayer entityPlayer = (EntityPlayer) sender;
-
-			// The world data the player is on.
-			FlagWorld flagWorld = this.modFlagData.getWorldFlags(entityPlayer.worldObj);
-
-			String commandName = args[0].toLowerCase();
-
-			switch (commandName)
+		/**
+		 * The list command lists out all regions in this world/region.
+		 */
+			case "list":
 			{
-			/**
-			 * The list command lists out all regions in this world/region.
-			 */
-				case "list":
+				try
 				{
-					try
+					String regionName = args[1];
+
+					if (flagWorld.getRegion(regionName) != null)
 					{
-						String regionName = args[1];
+						String msg = "";
 
-						if (flagWorld.getRegion(regionName) != null)
+						Iterator<Flag> i = flagWorld.getRegion(regionName).getFlags().iterator();
+
+						while (i.hasNext())
 						{
-							String msg = "List of flags in region " + regionName + ":\n";
+							Flag flag = i.next();
+							msg = msg + " " + flag.name + "=>" + flag.value + ",";
+						}
 
-							Iterator<Flag> i = flagWorld.getRegion(regionName).flags.iterator();
-
-							while (i.hasNext())
-							{
-								Flag flag = i.next();
-								msg = msg + " " + flag.name + "=>" + flag.value + ",";
-							}
-
-							sender.sendChatToPlayer(msg);
+						if (msg != "")
+						{
+							msg = "List of flags in region " + regionName + ":\n" + msg;
 						}
 						else
 						{
-							String msg = "Region does not exist, but here are existing flags in the position you are standing on:\n";
-
-							Iterator<Flag> i = flagWorld.getFlagsInPosition(new Vector3(entityPlayer)).iterator();
-
-							while (i.hasNext())
-							{
-								Flag flag = i.next();
-								msg = msg + " " + flag.name + "=>" + flag.value + ",";
-							}
-
-							sender.sendChatToPlayer(msg);
-
-							sender.sendChatToPlayer(msg);
-						}
-
-					}
-					catch (Exception e)
-					{
-						String msg = "List of regions in this dimension: ";
-
-						Iterator<FlagRegion> i = flagWorld.regions.iterator();
-						while (i.hasNext())
-						{
-							FlagRegion flagRegion = i.next();
-							msg = msg + " " + flagRegion.name + " (" + flagRegion.region.min.x + "," + flagRegion.region.min.z + ")" + ",";
+							msg = "No flags in this region.";
 						}
 
 						sender.sendChatToPlayer(msg);
 					}
-					break;
-				}
-				case "addregion":
-				{
-					if (args.length > 2)
+					else
 					{
-						String regionName = args[0];
-						int radius = Integer.parseInt(args[1]);
+						String msg = "Region does not exist, but here are existing flags in the position you are standing on:\n";
+
+						Iterator<Flag> i = flagWorld.getFlagsInPosition(new Vector3(entityPlayer)).iterator();
+
+						while (i.hasNext())
+						{
+							Flag flag = i.next();
+							msg = msg + " " + flag.name + "=>" + flag.value + ",";
+						}
+
+						sender.sendChatToPlayer(msg);
+					}
+
+				}
+				catch (Exception e)
+				{
+					String msg = "";
+
+					Iterator<FlagRegion> i = flagWorld.getRegions().iterator();
+					while (i.hasNext())
+					{
+						FlagRegion flagRegion = i.next();
+						msg = msg + " " + flagRegion.name + " (" + flagRegion.region.min.x + "," + flagRegion.region.min.z + ")" + ",";
+					}
+
+					if (msg != "")
+					{
+						msg = "List of regions in this dimension:\n" + msg;
+					}
+					else
+					{
+						msg = "No regions in this dimension.";
+					}
+
+					sender.sendChatToPlayer(msg);
+				}
+				return;
+			}
+			case "addregion":
+			{
+				if (args.length > 2)
+				{
+					String regionName = args[1];
+					try
+					{
+						int radius = Integer.parseInt(args[2]);
 
 						if (radius > 0)
 						{
 							if (flagWorld.getRegion(regionName) == null)
 							{
-								flagWorld.addRegion(regionName, new Vector3(entityPlayer), radius);
+								if (flagWorld.addRegion(regionName, new Vector3(entityPlayer), radius))
+								{
+									sender.sendChatToPlayer("Region " + regionName + " added.");
+									return;
+								}
 							}
 							else
 							{
@@ -131,86 +159,90 @@ public class CommandFlag extends CommandBase
 							throw new WrongUsageException("Radius has to be greater than zero!");
 						}
 					}
-					else
+					catch (Exception e)
 					{
-						throw new WrongUsageException("/" + this.getCommandName() + " <name> <radius>");
+						throw new WrongUsageException("/" + this.getCommandName() + " addregion <name> <radius>");
 					}
-
-					break;
 				}
-				case "removeregion":
+				else
 				{
-					if (args.length > 1)
-					{
-						String regionName = args[1];
-
-						if (flagWorld.removeRegion(regionName))
-						{
-							sender.sendChatToPlayer("Region with name " + regionName + " is removed.");
-						}
-						else
-						{
-							throw new WrongUsageException("The specified region does not exist.");
-						}
-					}
-					else
-					{
-						throw new WrongUsageException("Please specify the region name.");
-					}
-					break;
-				}
-				case "set":
-				{
-					if (args.length > 2)
-					{
-						String regionName = args[0];
-						String flagName = args[1];
-						FlagRegion flagRegion = flagWorld.getRegion(regionName);
-
-						if (flagRegion != null)
-						{
-							try
-							{
-								String flagValue = args[2];
-
-								if (FlagRegistry.flags.contains(flagName))
-								{
-									flagRegion.setFlag(flagName, flagValue);
-									sender.sendChatToPlayer("Flag " + flagName + " has been set to " + flagValue + " in " + regionName + ".");
-								}
-								else
-								{
-									String flags = "Flag does not exist. Existing flags:\n";
-
-									for (String registeredFlag : FlagRegistry.flags)
-									{
-										flags = flags + registeredFlag + ", ";
-									}
-
-									throw new WrongUsageException(flags);
-								}
-							}
-							catch (Exception e)
-							{
-								flagRegion.removeFlag(flagName);
-							}
-						}
-						else
-						{
-							throw new WrongUsageException("The specified region does not exist.");
-						}
-					}
-					else
-					{
-						throw new WrongUsageException("/" + this.getCommandName() + " set <regionName> <flagName> <value>");
-					}
+					throw new WrongUsageException("/" + this.getCommandName() + " addregion <name> <radius>");
 				}
 			}
+			case "removeregion":
+			{
+				if (args.length > 1)
+				{
+					String regionName = args[1];
+
+					if (flagWorld.removeRegion(regionName))
+					{
+						sender.sendChatToPlayer("Region with name " + regionName + " is removed.");
+					}
+					else
+					{
+						throw new WrongUsageException("The specified region does not exist.");
+					}
+				}
+				else
+				{
+					throw new WrongUsageException("Please specify the region name.");
+				}
+
+				return;
+			}
+			case "set":
+			{
+				if (args.length > 2)
+				{
+					String regionName = args[0];
+					String flagName = args[1];
+					FlagRegion flagRegion = flagWorld.getRegion(regionName);
+
+					if (flagRegion != null)
+					{
+						try
+						{
+							String flagValue = args[2];
+
+							if (FlagRegistry.flags.contains(flagName))
+							{
+								flagRegion.setFlag(flagName, flagValue);
+								sender.sendChatToPlayer("Flag " + flagName + " has been set to " + flagValue + " in " + regionName + ".");
+							}
+							else
+							{
+								String flags = "Flag does not exist. Existing flags:\n";
+
+								for (String registeredFlag : FlagRegistry.flags)
+								{
+									flags = flags + registeredFlag + ", ";
+								}
+
+								throw new WrongUsageException(flags);
+							}
+						}
+						catch (Exception e)
+						{
+							flagRegion.removeFlag(flagName);
+						}
+					}
+					else
+					{
+						throw new WrongUsageException("The specified region does not exist.");
+					}
+				}
+				else
+				{
+					throw new WrongUsageException("/" + this.getCommandName() + " set <regionName> <flagName> <value>");
+				}
+
+				return;
+			}
 		}
-		catch (Exception e)
-		{
-			throw new WrongUsageException(this.getCommandUsage(sender));
-		}
+
+		throw new WrongUsageException(this.getCommandUsage(sender));
+
 	}
 
 	@Override
@@ -222,7 +254,7 @@ public class CommandFlag extends CommandBase
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args)
 	{
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] { "protectOn", "protectOff", "list", "lag" }) : null;
+		return args.length == 1 ? getListOfStringsMatchingLastWord(args, commands) : null;
 	}
 
 }

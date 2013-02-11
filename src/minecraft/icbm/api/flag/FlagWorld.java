@@ -18,7 +18,7 @@ import universalelectricity.prefab.vector.Region3;
 public class FlagWorld extends FlagBase
 {
 	public World world;
-	public final List<FlagRegion> regions = new ArrayList<FlagRegion>();
+	private final List<FlagRegion> regions = new ArrayList<FlagRegion>();
 
 	public FlagWorld(World world)
 	{
@@ -92,7 +92,7 @@ public class FlagWorld extends FlagBase
 		{
 			if (flagRegion.region.isIn(position) || flagRegion.name.equals("global"))
 			{
-				for (Flag flag : flagRegion.flags)
+				for (Flag flag : flagRegion.getFlags())
 				{
 					returnFlags.add(flag);
 				}
@@ -135,8 +135,8 @@ public class FlagWorld extends FlagBase
 
 	public boolean addRegion(String name, Vector3 position, int radius)
 	{
-		Vector3 minVec = new Vector3(position.x - radius, 0, position.z - radius);
-		Vector3 maxVec = new Vector3(position.x + radius, this.world.getHeight(), position.z + radius);
+		Vector3 minVec = new Vector3(position.intX() - radius, 0, position.intZ() - radius);
+		Vector3 maxVec = new Vector3(position.intX() + radius, this.world.getHeight(), position.intZ() + radius);
 
 		return this.regions.add(new FlagRegion(this, name, new Region3(minVec, maxVec)));
 	}
@@ -181,5 +181,28 @@ public class FlagWorld extends FlagBase
 		}
 
 		return false;
+	}
+
+	public List<FlagRegion> getRegions()
+	{
+		Iterator<FlagRegion> it = this.regions.iterator();
+		while (it.hasNext())
+		{
+			FlagRegion region = it.next();
+
+			if (region == null)
+			{
+				it.remove();
+				continue;
+			}
+
+			if (region.name == null || region.name == "")
+			{
+				it.remove();
+				continue;
+			}
+		}
+
+		return this.regions;
 	}
 }

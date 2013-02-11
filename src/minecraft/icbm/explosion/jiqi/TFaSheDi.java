@@ -471,7 +471,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_LAUNCHER_BASE, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_FA_SHE_DI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

@@ -361,7 +361,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_LAUNCHER_SCREEN, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_FA_SHE_SHI_MUO, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

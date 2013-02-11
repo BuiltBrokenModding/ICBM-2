@@ -21,7 +21,6 @@ public class NBTFileLoader
 	 */
 	public static boolean saveData(File saveDirectory, String filename, NBTTagCompound data)
 	{
-
 		try
 		{
 			File tempFile = new File(saveDirectory, filename + "_tmp.dat");
@@ -41,7 +40,7 @@ public class NBTFileLoader
 		}
 		catch (Exception e)
 		{
-			FMLLog.severe("Failed to save " + filename + ".dat!");
+			System.out.println("Failed to save " + filename + ".dat!");
 			e.printStackTrace();
 			return false;
 		}
@@ -65,16 +64,18 @@ public class NBTFileLoader
 
 			if (file.exists())
 			{
+				FMLLog.fine("Loaded " + filename + " data.");
 				return CompressedStreamTools.readCompressed(new FileInputStream(file));
 			}
 			else
 			{
+				FMLLog.fine("Created new " + filename + " data.");
 				return new NBTTagCompound();
 			}
 		}
 		catch (Exception e)
 		{
-			FMLLog.severe("Failed to load " + filename + ".dat!");
+			System.out.println("Failed to load " + filename + ".dat!");
 			e.printStackTrace();
 			return null;
 		}

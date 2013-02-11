@@ -518,7 +518,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_CRUISE_LAUNCHER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_XIA_FA_SHE_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}

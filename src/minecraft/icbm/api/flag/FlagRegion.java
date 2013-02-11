@@ -23,7 +23,7 @@ public class FlagRegion extends FlagBase
 
 	public String name;
 	public Region3 region;
-	public final List<Flag> flags = new ArrayList<Flag>();
+	private final List<Flag> flags = new ArrayList<Flag>();
 
 	public FlagRegion(FlagWorld worldFlagData)
 	{
@@ -40,7 +40,7 @@ public class FlagRegion extends FlagBase
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		String flagName = nbt.getString("name");
+		this.name = nbt.getName();
 
 		Vector3 startVector = Vector3.readFromNBT("min_", nbt);
 		Vector3 endVector = Vector3.readFromNBT("max_", nbt);
@@ -73,7 +73,7 @@ public class FlagRegion extends FlagBase
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		nbt.setString("name", this.name);
+		nbt.setName(this.name);
 
 		this.region.min.writeToNBT("min_", nbt);
 		this.region.max.writeToNBT("max_", nbt);
@@ -133,4 +133,26 @@ public class FlagRegion extends FlagBase
 		return false;
 	}
 
+	public List<Flag> getFlags()
+	{
+		Iterator<Flag> it = this.flags.iterator();
+		while (it.hasNext())
+		{
+			Flag region = it.next();
+
+			if (region == null)
+			{
+				it.remove();
+				continue;
+			}
+
+			if (region.name == null || region.name == "")
+			{
+				it.remove();
+				continue;
+			}
+		}
+
+		return this.flags;
+	}
 }

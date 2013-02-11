@@ -13,6 +13,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.world.WorldEvent.Save;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -89,14 +92,13 @@ public class ZhuYao
 	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
 	 */
 	public static final int GUI_RAIL_GUN = 0;
-	public static final int GUI_CRUISE_LAUNCHER = 1;
-	public static final int GUI_LAUNCHER_SCREEN = 2;
-	public static final int GUI_RADAR_STATION = 3;
-	public static final int GUI_DETECTOR = 4;
-	public static final int GUI_FREQUENCY = 5;
-	public static final int GUI_EMP_TOWER = 6;
-	public static final int GUI_LAUNCHER_BASE = 7;
-	public static final int GUI_LASER_TURRET = 8;
+	public static final int GUI_XIA_FA_SHE_QI = 1;
+	public static final int GUI_FA_SHE_SHI_MUO = 2;
+	public static final int GUI_LEI_DA_TAI = 3;
+	public static final int GUI_YIN_GAN_QI = 4;
+	public static final int GUI_SHENG_BUO = 5;
+	public static final int GUI_DIAN_CI_QI = 6;
+	public static final int GUI_FA_SHE_DI = 7;
 
 	public static final String QIZI_ZHA_DAN = FlagRegistry.registerFlag("ban_explosive");
 	public static final String QIZI_SHOU_LIU_DAN = FlagRegistry.registerFlag("ban_grenade");
@@ -107,6 +109,7 @@ public class ZhuYao
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		UniversalElectricity.register(this, 1, 2, 5, false);
+		MinecraftForge.EVENT_BUS.register(this);
 
 		System.out.println(ICBM.NAME + " Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
 
@@ -178,6 +181,15 @@ public class ZhuYao
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
 		NBTFileLoader.saveData("ICBM", BAO_HU.getNBT());
+	}
+
+	@ForgeSubscribe
+	public void worldSave(Save evt)
+	{
+		if (!evt.world.isRemote)
+		{
+			NBTFileLoader.saveData("ICBM", BAO_HU.getNBT());
+		}
 	}
 
 	public static Vector3 getLook(float rotationYaw, float rotationPitch)

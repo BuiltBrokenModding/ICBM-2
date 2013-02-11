@@ -81,7 +81,7 @@ public class ItHuoLuanQi extends ItemElectric implements IFrequency
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		par3EntityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_FREQUENCY, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+		par3EntityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_SHENG_BUO, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
 		return par1ItemStack;
 	}
 

@@ -15,7 +15,7 @@ public class ModFlagData extends FlagBase
 	/**
 	 * An array of world flag data. Each representing a world.
 	 */
-	private final List<FlagWorld> worldData = new ArrayList<FlagWorld>();
+	private final List<FlagWorld> flagWorlds = new ArrayList<FlagWorld>();
 
 	/**
 	 * Initiates a new mod flag data and loads everything from NBT into memory. Only exists server
@@ -43,7 +43,7 @@ public class ModFlagData extends FlagBase
 				int dimensionID = Integer.parseInt(dimension.getName());
 				World world = DimensionManager.getWorld(dimensionID);
 				FlagWorld readData = new FlagWorld(world, nbt);
-				this.worldData.add(readData);
+				this.flagWorlds.add(readData);
 			}
 			catch (Exception e)
 			{
@@ -56,7 +56,7 @@ public class ModFlagData extends FlagBase
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		for (FlagWorld worldData : this.worldData)
+		for (FlagWorld worldData : this.flagWorlds)
 		{
 			try
 			{
@@ -70,13 +70,13 @@ public class ModFlagData extends FlagBase
 		}
 	}
 
-	public FlagWorld getWorldFlags(World world)
+	public FlagWorld getFlagWorld(World world)
 	{
 		FlagWorld worldData = null;
 
-		for (FlagWorld data : this.worldData)
+		for (FlagWorld data : this.flagWorlds)
 		{
-			if (data.world == world)
+			if (data.world.provider.dimensionId == world.provider.dimensionId)
 			{
 				worldData = data;
 				break;
@@ -87,6 +87,7 @@ public class ModFlagData extends FlagBase
 		if (worldData == null)
 		{
 			worldData = new FlagWorld(world);
+			this.flagWorlds.add(worldData);
 		}
 
 		return worldData;
@@ -94,6 +95,6 @@ public class ModFlagData extends FlagBase
 
 	public boolean containsValue(World world, String flagName, String checkValue, Vector3 position)
 	{
-		return this.getWorldFlags(world).containsValue(flagName, checkValue, position);
+		return this.getFlagWorld(world).containsValue(flagName, checkValue, position);
 	}
 }

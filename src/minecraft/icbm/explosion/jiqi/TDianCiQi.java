@@ -192,7 +192,7 @@ public class TDianCiQi extends TileEntityElectricityStorage implements IPacketRe
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_EMP_TOWER, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoExplosion.instance, ZhuYao.GUI_DIAN_CI_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

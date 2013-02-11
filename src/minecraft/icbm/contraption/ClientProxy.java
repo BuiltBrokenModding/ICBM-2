@@ -39,13 +39,13 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == ZhuYao.GUI_FREQUENCY)
+		if (tileEntity != null || ID == ZhuYao.GUI_SHENG_BUO)
 		{
 			switch (ID)
 			{
-				case ZhuYao.GUI_DETECTOR:
+				case ZhuYao.GUI_YIN_GAN_QI:
 					return new GYinGanQi((TYinGanQi) tileEntity);
-				case ZhuYao.GUI_FREQUENCY:
+				case ZhuYao.GUI_SHENG_BUO:
 					return new GFrequency(entityPlayer.inventory.getCurrentItem());
 			}
 		}
