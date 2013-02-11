@@ -1,6 +1,5 @@
-package icbm.core;
+package icbm.api.flag;
 
-import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 
 import java.io.File;
@@ -15,7 +14,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector2;
 import cpw.mods.fml.common.FMLLog;
 
-public class BaoHu
+public class ICBMProtection
 {
 	/**
 	 * File Structure: Tag: DimData -Tag: DimID -boolean: globalBan -Tag: RegionName -int: X -int: Z
@@ -31,7 +30,10 @@ public class BaoHu
 
 	public static boolean SHE_DING_BAO_HU;
 
-	public static boolean shiWeiZhiBaoHu(World worldObj, Vector2 position, ZhaPinType type)
+	/**
+	 * Does this position contain a specific flag?
+	 */
+	public static boolean hasFlag(World worldObj, Vector2 position, String flag)
 	{
 		try
 		{
@@ -73,17 +75,17 @@ public class BaoHu
 
 	public static boolean nengFangZhaDan(World worldObj, Vector2 position)
 	{
-		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.ZHA_DAN);
+		return !hasFlag(worldObj, position, ZhaPinType.ZHA_DAN);
 	}
 
 	public static boolean nengFangShouLiuDan(World worldObj, Vector2 position)
 	{
-		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.SHOU_LIU_DAN);
+		return !hasFlag(worldObj, position, ZhaPinType.SHOU_LIU_DAN);
 	}
 
 	public static boolean nengFangDaoDan(World worldObj, Vector2 position)
 	{
-		return !shiWeiZhiBaoHu(worldObj, position, ZhaPinType.DAO_DAN);
+		return !hasFlag(worldObj, position, ZhaPinType.DAO_DAN);
 	}
 
 	public static boolean nengFangQuanQiu(NBTTagCompound dimData)
@@ -91,7 +93,10 @@ public class BaoHu
 		return ((!dimData.hasKey(FIELD_GLOBAL_BAN) && SHE_DING_BAO_HU) || dimData.getBoolean(FIELD_GLOBAL_BAN));
 	}
 
-	public static boolean saveData(NBTTagCompound data, String filename)
+	/**
+	 * Saves NBT data in the world folder.
+	 */
+	public static boolean saveData(NBTTagCompound data, String filename, String minecraftDir)
 	{
 		String folder;
 
@@ -109,10 +114,10 @@ public class BaoHu
 			File tempFile;
 			File file;
 
-			if (ZhuYaoExplosion.proxy.getMinecraftDir() != "")
+			if (minecraftDir != "")
 			{
-				tempFile = new File(ZhuYaoExplosion.proxy.getMinecraftDir(), folder + File.separator + filename + "_tmp.dat");
-				file = new File(ZhuYaoExplosion.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
+				tempFile = new File(minecraftDir, folder + File.separator + filename + "_tmp.dat");
+				file = new File(minecraftDir, folder + File.separator + filename + ".dat");
 			}
 			else
 			{
@@ -140,8 +145,16 @@ public class BaoHu
 		}
 	}
 
-	public static NBTTagCompound loadData(String filename)
+	/**
+	 * Reads NBT data from the world folder.
+	 * 
+	 * @param filename
+	 * @param minecraftDir
+	 * @return
+	 */
+	public static NBTTagCompound loadData(String filename, String minecraftDir)
 	{
+		// ZhuYaoExplosion.proxy.getMinecraftDir()
 		String folder;
 
 		if (MinecraftServer.getServer().isDedicatedServer())
@@ -157,9 +170,9 @@ public class BaoHu
 		{
 			File file;
 
-			if (ZhuYaoExplosion.proxy.getMinecraftDir() != "")
+			if (minecraftDir != "")
 			{
-				file = new File(ZhuYaoExplosion.proxy.getMinecraftDir(), folder + File.separator + filename + ".dat");
+				file = new File(minecraftDir, folder + File.separator + filename + ".dat");
 			}
 			else
 			{

@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin;
 
 import icbm.api.ICBMTab;
-import icbm.core.BaoHu;
+import icbm.api.flag.ICBMProtection;
 import icbm.core.ZhuYao;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class ItShouLiuDan extends Item
 	 */
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if (BaoHu.nengFangShouLiuDan(par2World, new Vector3(par3EntityPlayer).toVector2()))
+		if (ICBMProtection.nengFangShouLiuDan(par2World, new Vector3(par3EntityPlayer).toVector2()))
 		{
 			if (!par3EntityPlayer.capabilities.isCreativeMode)
 			{

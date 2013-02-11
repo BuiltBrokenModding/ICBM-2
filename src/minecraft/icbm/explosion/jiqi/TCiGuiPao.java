@@ -1,6 +1,6 @@
 package icbm.explosion.jiqi;
 
-import icbm.core.BaoHu;
+import icbm.api.flag.ICBMProtection;
 import icbm.core.ZhuYao;
 import icbm.explosion.ItZiDan;
 import icbm.explosion.ZhuYaoExplosion;
@@ -146,7 +146,7 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 
 						if (objectMouseOver != null)
 						{
-							if (BaoHu.nengFangZhaDan(this.worldObj, new Vector3(objectMouseOver).toVector2()) && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+							if (ICBMProtection.nengFangZhaDan(this.worldObj, new Vector3(objectMouseOver).toVector2()) && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
 							{
 								if (isAntimatter)
 								{

@@ -1,5 +1,6 @@
-package icbm.core;
+package icbm.api.flag;
 
+import icbm.api.flag.ICBMProtection;
 import icbm.explosion.EFeiBlock;
 import icbm.explosion.zhapin.EZhaPin;
 
@@ -16,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import cpw.mods.fml.common.FMLCommonHandler;
 
-public class MingLing extends CommandBase
+public class ProtectionCommand extends CommandBase
 {
 	@Override
 	public String getCommandName()
@@ -43,18 +44,18 @@ public class MingLing extends CommandBase
 		{
 			EntityPlayer entityPlayer = (EntityPlayer) sender;
 			int dimension = entityPlayer.worldObj.getWorldInfo().getDimension();
-			NBTTagCompound dimData = BaoHu.nbtData.getCompoundTag("dim" + dimension);
+			NBTTagCompound dimData = ICBMProtection.nbtData.getCompoundTag("dim" + dimension);
 
 			if (args.length == 1)
 			{
 				if (args[0].equalsIgnoreCase("protectOn"))
 				{
-					dimData.setBoolean(BaoHu.FIELD_GLOBAL_BAN, true);
+					dimData.setBoolean(ICBMProtection.FIELD_GLOBAL_BAN, true);
 					sender.sendChatToPlayer("The dimension you are in is now protected from ICBM.");
 				}
 				else if (args[0].equalsIgnoreCase("protectOff"))
 				{
-					dimData.setBoolean(BaoHu.FIELD_GLOBAL_BAN, false);
+					dimData.setBoolean(ICBMProtection.FIELD_GLOBAL_BAN, false);
 					sender.sendChatToPlayer("The dimension you are in is now unprotected from ICBM.");
 				}
 				else if (args[0].equalsIgnoreCase("list"))
@@ -164,19 +165,19 @@ public class MingLing extends CommandBase
 
 						if (args[3].equalsIgnoreCase("block"))
 						{
-							region.setInteger(BaoHu.FIELD_TYPE, 1);
+							region.setInteger(ICBMProtection.FIELD_TYPE, 1);
 						}
 						else if (args[3].equalsIgnoreCase("grenade"))
 						{
-							region.setInteger(BaoHu.FIELD_TYPE, 2);
+							region.setInteger(ICBMProtection.FIELD_TYPE, 2);
 						}
 						else if (args[3].equalsIgnoreCase("missile"))
 						{
-							region.setInteger(BaoHu.FIELD_TYPE, 3);
+							region.setInteger(ICBMProtection.FIELD_TYPE, 3);
 						}
 						else
 						{
-							region.setInteger(BaoHu.FIELD_TYPE, 0);
+							region.setInteger(ICBMProtection.FIELD_TYPE, 0);
 						}
 
 						dimData.setCompoundTag(name, region);
@@ -189,7 +190,7 @@ public class MingLing extends CommandBase
 				throw new WrongUsageException(this.getCommandUsage(sender));
 			}
 
-			BaoHu.nbtData.setCompoundTag("dim" + dimension, dimData);
+			ICBMProtection.nbtData.setCompoundTag("dim" + dimension, dimData);
 		}
 		catch (Exception e)
 		{
@@ -202,7 +203,7 @@ public class MingLing extends CommandBase
 	{
 		if (sender instanceof EntityPlayer)
 		{
-			return FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().areCommandsAllowed(sender.getCommandSenderName()) || sender.getCommandSenderName().toLowerCase() == "calclavia";
+			return FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().areCommandsAllowed(sender.getCommandSenderName());
 		}
 
 		return false;

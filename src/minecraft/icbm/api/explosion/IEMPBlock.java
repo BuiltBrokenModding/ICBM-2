@@ -1,4 +1,4 @@
-package icbm.api;
+package icbm.api.explosion;
 
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;

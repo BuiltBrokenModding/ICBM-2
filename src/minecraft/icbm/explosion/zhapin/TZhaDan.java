@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin;
 
-import icbm.api.IExplosive;
-import icbm.api.IExplosiveContainer;
+import icbm.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosiveContainer;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;

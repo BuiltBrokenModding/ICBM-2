@@ -1,8 +1,8 @@
 package icbm.contraption;
 
 import icbm.api.ICBMTab;
-import icbm.api.IEMPBlock;
-import icbm.api.IExplosive;
+import icbm.api.explosion.IEMPBlock;
+import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYao;
 import icbm.explosion.render.RBYinXing;
 import net.minecraft.block.Block;

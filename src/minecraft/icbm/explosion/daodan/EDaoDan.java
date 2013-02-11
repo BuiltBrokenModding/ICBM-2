@@ -1,11 +1,11 @@
 package icbm.explosion.daodan;
 
-import icbm.api.IExplosive;
-import icbm.api.IExplosiveContainer;
 import icbm.api.IMissile;
 import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
-import icbm.core.BaoHu;
+import icbm.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosiveContainer;
+import icbm.api.flag.ICBMProtection;
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.fx.ParticleSpawner;
@@ -272,7 +272,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public void onUpdate()
 	{
-		if (!BaoHu.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
+		if (!ICBMProtection.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.feiXingTick >= 0)
 			{

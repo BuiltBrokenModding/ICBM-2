@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin.ex;
 
 import ic2.api.IEnergyStorage;
-import icbm.api.IEMPBlock;
+import icbm.api.explosion.IEMPBlock;
 import icbm.explosion.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

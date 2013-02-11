@@ -2,6 +2,7 @@ package icbm.core;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
+import icbm.api.flag.ICBMProtection;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -102,7 +103,7 @@ public class ZhuYao
 		ICBM.CONFIGURATION.load();
 		ZAI_KUAI = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
 		DAO_DAN_ZUI_YUAN = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
-		BaoHu.SHE_DING_BAO_HU = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
+		ICBMProtection.SHE_DING_BAO_HU = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
 
 		// BLOCKS
 		bLiu = new BLiu(ICBM.CONFIGURATION.getBlock("BlockID1", ICBM.BLOCK_ID_PREFIX + 0).getInt());
@@ -158,15 +159,15 @@ public class ZhuYao
 	{
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-		serverCommandManager.registerCommand(new MingLing());
+		serverCommandManager.registerCommand(new ProtectionCommand());
 
-		BaoHu.nbtData = BaoHu.loadData("ICBM");
+		ICBMProtection.nbtData = ICBMProtection.loadData("ICBM");
 	}
 
 	@ServerStopping
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
-		BaoHu.saveData(BaoHu.nbtData, "ICBM");
+		ICBMProtection.saveData(ICBMProtection.nbtData, "ICBM");
 	}
 
 	public static Vector3 getLook(float rotationYaw, float rotationPitch)

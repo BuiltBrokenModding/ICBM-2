@@ -1,7 +1,7 @@
 package icbm.explosion.jiqi;
 
 import icbm.api.LauncherType;
-import icbm.core.BaoHu;
+import icbm.api.flag.ICBMProtection;
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.DaoDan;
@@ -244,7 +244,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public void setMissile()
 	{
-		if (this.containingItems[0] != null && BaoHu.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
+		if (this.containingItems[0] != null && ICBMProtection.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID)
 			{

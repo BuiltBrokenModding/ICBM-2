@@ -1,8 +1,8 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.api.IEMPItem;
 import icbm.api.IMissile;
 import icbm.api.RadarRegistry;
+import icbm.api.explosion.IEMPItem;
 import icbm.explosion.zhapin.EZhaDan;
 import icbm.explosion.zhapin.ZhaPin;
 
