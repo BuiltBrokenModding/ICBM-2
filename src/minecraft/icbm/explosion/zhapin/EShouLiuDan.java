@@ -3,6 +3,7 @@ package icbm.explosion.zhapin;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.flag.NBTFileLoader;
+import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -141,9 +142,9 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	 */
 	public void onUpdate()
 	{
-		if (!NBTFileLoader.nengFangShouLiuDan(this.worldObj, new Vector3(this).toVector2()))
+		if (!this.worldObj.isRemote)
 		{
-			if (!this.worldObj.isRemote)
+			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_SHOU_LIU_DAN, "true", new Vector3(this)))
 			{
 				float var6 = 0.7F;
 				double var7 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;
@@ -152,10 +153,9 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 				EntityItem var13 = new EntityItem(this.worldObj, (double) this.posX + var7, (double) this.posY + var9, (double) this.posZ + var11, new ItemStack(ZhuYaoExplosion.itShouLiuDan, this.haoMa, 1));
 				var13.delayBeforeCanPickup = 10;
 				this.worldObj.spawnEntityInWorld(var13);
+				this.setDead();
+				return;
 			}
-
-			this.setDead();
-			return;
 		}
 
 		this.lastTickPosX = this.posX;

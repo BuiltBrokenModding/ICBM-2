@@ -16,35 +16,16 @@ public class NBTFileLoader
 {
 	/**
 	 * Saves NBT data in the world folder.
+	 * 
+	 * @return True on success.
 	 */
-	public static boolean saveData(NBTTagCompound data, String filename, String minecraftDir)
+	public static boolean saveData(File saveDirectory, String filename, NBTTagCompound data)
 	{
-		String folder;
-
-		if (MinecraftServer.getServer().isDedicatedServer())
-		{
-			folder = MinecraftServer.getServer().getFolderName();
-		}
-		else
-		{
-			folder = "saves" + File.separator + MinecraftServer.getServer().getFolderName();
-		}
 
 		try
 		{
-			File tempFile;
-			File file;
-
-			if (minecraftDir != "")
-			{
-				tempFile = new File(minecraftDir, folder + File.separator + filename + "_tmp.dat");
-				file = new File(minecraftDir, folder + File.separator + filename + ".dat");
-			}
-			else
-			{
-				tempFile = new File(folder + File.separator + filename + "_tmp.dat");
-				file = new File(folder + File.separator + filename + ".dat");
-			}
+			File tempFile = new File(saveDirectory, filename + "_tmp.dat");
+			File file = new File(saveDirectory, filename + ".dat");
 
 			CompressedStreamTools.writeCompressed(data, new FileOutputStream(tempFile));
 
@@ -55,7 +36,7 @@ public class NBTFileLoader
 
 			tempFile.renameTo(file);
 
-			FMLLog.fine("Saved ICBM data successfully.");
+			FMLLog.fine("Saved " + filename + " NBT data file successfully.");
 			return true;
 		}
 		catch (Exception e)
@@ -66,38 +47,21 @@ public class NBTFileLoader
 		}
 	}
 
+	public static boolean saveData(String filename, NBTTagCompound data)
+	{
+		return saveData(getSaveDirectory(MinecraftServer.getServer().getFolderName()), filename, data);
+	}
+
 	/**
 	 * Reads NBT data from the world folder.
 	 * 
-	 * @param filename
-	 * @param minecraftDir
-	 * @return
+	 * @return The NBT data
 	 */
-	public static NBTTagCompound loadData(String filename, String minecraftDir)
+	public static NBTTagCompound loadData(File saveDirectory, String filename)
 	{
-		String folder;
-
-		if (MinecraftServer.getServer().isDedicatedServer())
-		{
-			folder = MinecraftServer.getServer().getFolderName();
-		}
-		else
-		{
-			folder = "saves" + File.separator + MinecraftServer.getServer().getFolderName();
-		}
-
 		try
 		{
-			File file;
-
-			if (minecraftDir != "")
-			{
-				file = new File(minecraftDir, folder + File.separator + filename + ".dat");
-			}
-			else
-			{
-				file = new File(folder + File.separator + filename + ".dat");
-			}
+			File file = new File(saveDirectory, filename + ".dat");
 
 			if (file.exists())
 			{
@@ -116,7 +80,24 @@ public class NBTFileLoader
 		}
 	}
 
-	public File getSaveDirectory()
+	public static NBTTagCompound loadData(String filename)
+	{
+		return loadData(getSaveDirectory(MinecraftServer.getServer().getFolderName()), filename);
+	}
+
+	public static File getSaveDirectory(String worldName)
+	{
+		File parent = getBaseDirectory();
+
+		if (FMLCommonHandler.instance().getSide().isClient())
+		{
+			parent = new File(getBaseDirectory(), "saves" + File.separator);
+		}
+
+		return new File(parent, worldName + File.separator);
+	}
+
+	public static File getBaseDirectory()
 	{
 		if (FMLCommonHandler.instance().getSide().isClient())
 		{

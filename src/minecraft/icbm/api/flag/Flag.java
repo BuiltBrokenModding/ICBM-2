@@ -1,8 +1,6 @@
 package icbm.api.flag;
 
 import net.minecraft.nbt.NBTTagCompound;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.vector.Region3;
 
 public class Flag extends FlagBase
 {
@@ -18,6 +16,14 @@ public class Flag extends FlagBase
 	public Flag(FlagRegion flagRegion)
 	{
 		this.flagRegion = flagRegion;
+	}
+
+	public Flag(FlagRegion flagRegion, String name, String value)
+	{
+		this(flagRegion);
+		this.name = name;
+		this.value = value;
+
 	}
 
 	@Override

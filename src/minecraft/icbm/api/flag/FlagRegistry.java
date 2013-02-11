@@ -18,22 +18,22 @@ public class FlagRegistry
 	/**
 	 * Registers a flag name, allowing it to be used by the player. Call this in your mod's init
 	 * function.
-	 * 
-	 * @return True on success of registry.
 	 */
-	public static boolean registerFlag(String name)
+	public static String registerFlag(String name)
 	{
 		if (!isInitiated)
 		{
 			isInitiated = true;
 		}
 
+		name = name.toLowerCase();
+
 		if (!flags.contains(name))
 		{
 			flags.add(name);
-			return true;
+			return name;
 		}
 
-		return false;
+		return null;
 	}
 }

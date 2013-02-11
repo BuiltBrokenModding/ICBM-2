@@ -4,6 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosive;
+import icbm.api.flag.FlagRegistry;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.DaoDan;
 import icbm.explosion.daodan.EDaoDan;
@@ -117,10 +118,11 @@ public abstract class ZhaPin implements ITier, IExplosive
 	private int tier;
 	private int yinXin;
 	private DaoDan daoDan;
+	protected String qiZi;
 	protected boolean isDisabled;
 	protected boolean isMobile = false;
 
-	protected ZhaPin(String name, int ID, int tier)
+	protected ZhaPin(String mingZi, int ID, int tier)
 	{
 		if (list == null)
 		{
@@ -133,11 +135,12 @@ public abstract class ZhaPin implements ITier, IExplosive
 		}
 
 		list[ID] = this;
-		this.mingZi = name;
+		this.mingZi = mingZi;
 		this.tier = tier;
 		this.yinXin = 100;
 		this.ID = ID;
-		this.daoDan = new DaoDan(name, ID, tier);
+		this.daoDan = new DaoDan(mingZi, ID, tier);
+		this.qiZi = FlagRegistry.registerFlag(this.mingZi);
 
 		ICBM.CONFIGURATION.load();
 		this.isDisabled = ICBM.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);

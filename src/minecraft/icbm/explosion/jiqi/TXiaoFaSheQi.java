@@ -244,29 +244,32 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public void setMissile()
 	{
-		if (this.containingItems[0] != null && NBTFileLoader.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
+		if (this.containingItems[0] != null)
 		{
-			if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID)
+			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_DAO_DAN, "true", new Vector3(this)))
 			{
-				int missileId = this.containingItems[0].getItemDamage();
-
-				if (this.eDaoDan == null)
+				if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID)
 				{
-					if (DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
+					int missileId = this.containingItems[0].getItemDamage();
+
+					if (this.eDaoDan == null)
 					{
-						Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-						this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), missileId);
-						this.worldObj.spawnEntityInWorld(this.eDaoDan);
-						return;
+						if (DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
+						{
+							Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
+							this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), missileId);
+							this.worldObj.spawnEntityInWorld(this.eDaoDan);
+							return;
+						}
 					}
-				}
 
-				if (this.eDaoDan != null)
-				{
-					if (this.eDaoDan.haoMa == missileId)
+					if (this.eDaoDan != null)
 					{
-						this.eDaoDan.posY = this.yCoord + 0.2f;
-						return;
+						if (this.eDaoDan.haoMa == missileId)
+						{
+							this.eDaoDan.posY = this.yCoord + 0.2f;
+							return;
+						}
 					}
 				}
 			}

@@ -1,7 +1,5 @@
 package icbm.api.flag;
 
-import java.util.Iterator;
-
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class FlagBase

@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.vector.Region3;
 
 /**
  * Data structure for world protection.
@@ -89,7 +90,7 @@ public class FlagWorld extends FlagBase
 
 		for (FlagRegion flagRegion : this.regions)
 		{
-			if (flagRegion.region.isIn(position))
+			if (flagRegion.region.isIn(position) || flagRegion.name.equals("global"))
 			{
 				for (Flag flag : flagRegion.flags)
 				{
@@ -131,10 +132,13 @@ public class FlagWorld extends FlagBase
 
 		return false;
 	}
-	
-	public FlagRegion addRegion(String name)
+
+	public boolean addRegion(String name, Vector3 position, int radius)
 	{
-		this.regions.add(new FlagRegion());
+		Vector3 minVec = new Vector3(position.x - radius, 0, position.z - radius);
+		Vector3 maxVec = new Vector3(position.x + radius, this.world.getHeight(), position.z + radius);
+
+		return this.regions.add(new FlagRegion(this, name, new Region3(minVec, maxVec)));
 	}
 
 	public FlagRegion getRegion(String name)
@@ -147,6 +151,22 @@ public class FlagWorld extends FlagBase
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Gets all regions that intersect this point.
+	 */
+	public List<FlagRegion> getRegions(Vector3 position)
+	{
+		List<FlagRegion> returnRegions = new ArrayList<FlagRegion>();
+		for (FlagRegion region : this.regions)
+		{
+			if (region.region.isIn(position))
+			{
+				returnRegions.add(region);
+			}
+		}
+		return returnRegions;
 	}
 
 	public boolean removeRegion(String name)

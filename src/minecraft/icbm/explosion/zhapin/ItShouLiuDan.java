@@ -30,25 +30,24 @@ public class ItShouLiuDan extends Item
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
 	 * world, entityPlayer
 	 */
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World world, EntityPlayer entityPlayer)
 	{
-		if (NBTFileLoader.nengFangShouLiuDan(par2World, new Vector3(par3EntityPlayer).toVector2()))
+		if (!world.isRemote)
 		{
-			if (!par3EntityPlayer.capabilities.isCreativeMode)
+			if (ZhuYao.BAO_HU.containsValue(world, ZhuYao.QIZI_SHOU_LIU_DAN, "true", new Vector3(entityPlayer)))
 			{
-				--par1ItemStack.stackSize;
+				if (!entityPlayer.capabilities.isCreativeMode)
+				{
+					--par1ItemStack.stackSize;
+				}
+
+				world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
 			}
-
-			par2World.playSoundAtEntity(par3EntityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-			if (!par2World.isRemote)
+			else
 			{
-				par2World.spawnEntityInWorld(new EShouLiuDan(par2World, par3EntityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
+				entityPlayer.sendChatToPlayer("Grenades are banned in this region.");
 			}
-		}
-		else
-		{
-			par3EntityPlayer.sendChatToPlayer("Grenades are banned in this region.");
 		}
 
 		return par1ItemStack;

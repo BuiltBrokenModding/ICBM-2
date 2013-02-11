@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.vector.Region3;
-import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * A defined region.
@@ -92,6 +92,45 @@ public class FlagRegion extends FlagBase
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public boolean containsValue(String flagName, String checkValue, Vector3 position)
+	{
+		for (Flag flag : this.flags)
+		{
+			if (flag.name.equalsIgnoreCase(flagName) && flag.value.equalsIgnoreCase(checkValue))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean setFlag(String flagName, String value)
+	{
+		this.removeFlag(flagName);
+
+		if (value != null && value != "")
+		{
+			return this.flags.add(new Flag(this, flagName, value));
+		}
+
+		return false;
+	}
+
+	public boolean removeFlag(String flagName)
+	{
+		for (Flag region : this.flags)
+		{
+			if (region.name.equalsIgnoreCase(name))
+			{
+				this.flags.remove(region);
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

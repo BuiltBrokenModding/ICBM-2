@@ -1,6 +1,7 @@
 package icbm.explosion.zhapin;
 
 import icbm.api.flag.NBTFileLoader;
+import icbm.core.ZhuYao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,10 +113,13 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
-		if (!NBTFileLoader.nengFangZhaDan(this.worldObj, new Vector3(this).toVector2()))
+		if (!this.worldObj.isRemote)
 		{
-			this.setDead();
-			return;
+			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(this)))
+			{
+				this.setDead();
+				return;
+			}
 		}
 
 		if (this.isMobile && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))

@@ -223,27 +223,30 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 	private void setMissile()
 	{
-		if (this.containingItems[0] != null && NBTFileLoader.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
+		if (this.containingItems[0] != null)
 		{
-			if (this.containingItems[0].getItem() instanceof ItDaoDan)
+			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_DAO_DAN, "true", new Vector3(this)))
 			{
-				int missileId = this.containingItems[0].getItemDamage();
+				if (this.containingItems[0].getItem() instanceof ItDaoDan)
+				{
+					int missileId = this.containingItems[0].getItemDamage();
 
-				if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
-				{
-					missileId += 100;
-				}
+					if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
+					{
+						missileId += 100;
+					}
 
-				if (eDaoDan == null)
-				{
-					Vector3 position = new Vector3((this.xCoord + 0.5F), (this.yCoord + 2), (this.zCoord + 0.5F));
-					this.eDaoDan = new EDaoDan(this.worldObj, position, new Vector3(this), missileId);
-					this.worldObj.spawnEntityInWorld(this.eDaoDan);
-					return;
-				}
-				else if (this.eDaoDan.haoMa == missileId)
-				{
-					return;
+					if (eDaoDan == null)
+					{
+						Vector3 position = new Vector3((this.xCoord + 0.5F), (this.yCoord + 2), (this.zCoord + 0.5F));
+						this.eDaoDan = new EDaoDan(this.worldObj, position, new Vector3(this), missileId);
+						this.worldObj.spawnEntityInWorld(this.eDaoDan);
+						return;
+					}
+					else if (this.eDaoDan.haoMa == missileId)
+					{
+						return;
+					}
 				}
 			}
 		}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import universalelectricity.core.vector.Vector3;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -88,5 +90,10 @@ public class ModFlagData extends FlagBase
 		}
 
 		return worldData;
+	}
+
+	public boolean containsValue(World world, String flagName, String checkValue, Vector3 position)
+	{
+		return this.getWorldFlags(world).containsValue(flagName, checkValue, position);
 	}
 }

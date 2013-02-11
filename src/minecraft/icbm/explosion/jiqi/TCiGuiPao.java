@@ -1,6 +1,5 @@
 package icbm.explosion.jiqi;
 
-import icbm.api.flag.NBTFileLoader;
 import icbm.core.ZhuYao;
 import icbm.explosion.ItZiDan;
 import icbm.explosion.ZhuYaoExplosion;
@@ -21,7 +20,6 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
@@ -146,26 +144,29 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 
 						if (objectMouseOver != null)
 						{
-							if (NBTFileLoader.nengFangZhaDan(this.worldObj, new Vector3(objectMouseOver).toVector2()) && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+							if (!this.worldObj.isRemote)
 							{
-								if (isAntimatter)
+								if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(this)))
 								{
-									int radius = (int) ZhaPin.hongSu.getRadius();
-									AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
-									List<EZhaPin> missilesNearby = worldObj.getEntitiesWithinAABB(EZhaPin.class, bounds);
-
-									for (EZhaPin entity : missilesNearby)
+									if (isAntimatter)
 									{
-										entity.endExplosion();
+										int radius = (int) ZhaPin.hongSu.getRadius();
+										AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
+										List<EZhaPin> missilesNearby = worldObj.getEntitiesWithinAABB(EZhaPin.class, bounds);
+
+										for (EZhaPin entity : missilesNearby)
+										{
+											entity.endExplosion();
+										}
 									}
-								}
 
-								if (this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID)
-								{
-									this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
-								}
+									if (this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID)
+									{
+										this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
+									}
 
-								this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true, true);
+									this.worldObj.newExplosion(mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true, true);
+								}
 							}
 						}
 

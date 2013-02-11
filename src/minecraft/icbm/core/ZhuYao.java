@@ -2,10 +2,11 @@ package icbm.core;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
+import icbm.api.flag.CommandFlag;
+import icbm.api.flag.FlagRegistry;
 import icbm.api.flag.ModFlagData;
 import icbm.api.flag.NBTFileLoader;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.Item;
@@ -97,6 +98,11 @@ public class ZhuYao
 	public static final int GUI_LAUNCHER_BASE = 7;
 	public static final int GUI_LASER_TURRET = 8;
 
+	public static final String QIZI_ZHA_DAN = FlagRegistry.registerFlag("ban_explosive");
+	public static final String QIZI_SHOU_LIU_DAN = FlagRegistry.registerFlag("ban_grenade");
+	public static final String QIZI_CHE = FlagRegistry.registerFlag("ban_minecart");
+	public static final String QIZI_DAO_DAN = FlagRegistry.registerFlag("ban_missile");
+
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -107,7 +113,6 @@ public class ZhuYao
 		ICBM.CONFIGURATION.load();
 		ZAI_KUAI = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
 		DAO_DAN_ZUI_YUAN = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
-		NBTFileLoader.SHE_DING_BAO_HU = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Protect Worlds by Default", false).getBoolean(false);
 
 		// BLOCKS
 		bLiu = new BLiu(ICBM.CONFIGURATION.getBlock("BlockID1", ICBM.BLOCK_ID_PREFIX + 0).getInt());
@@ -157,31 +162,22 @@ public class ZhuYao
 
 		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
 	}
-	
-	
 
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
+		BAO_HU = new ModFlagData(NBTFileLoader.loadData("ICBM"));
+
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new MingLing());
-
-		File parent = FunctionHelper.getBaseDir();
-        if (FMLCommonHandler.instance().getSide().isClient())
-        {
-                parent = new File(FunctionHelper.getBaseDir(), "saves/");
-        }
-        baseFile = new File(parent, worldName + "/" + getName() + "/");
-		
-		// Minecraft.getMinecraftDir().toString();
-		BAO_HU = new ModFlagData(NBTFileLoader.loadData("ICBM", ""));
+		serverCommandManager.registerCommand(new CommandFlag(BAO_HU));
 	}
 
 	@ServerStopping
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
-		NBTFileLoader.saveData(BAO_HU.getNBT(), "ICBM", "");
+		NBTFileLoader.saveData("ICBM", BAO_HU.getNBT());
 	}
 
 	public static Vector3 getLook(float rotationYaw, float rotationPitch)

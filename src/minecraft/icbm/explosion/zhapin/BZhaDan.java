@@ -100,25 +100,25 @@ public class BZhaDan extends BlockContainer
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving par5EntityLiving)
 	{
-		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
+		int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
 
-		if (!par1World.isRemote)
+		if (!world.isRemote)
 		{
-			if (!NBTFileLoader.nengFangZhaDan(par1World, new Vector2(x, z)))
+			if (ZhuYao.BAO_HU.containsValue(world, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(x, y, z)))
 			{
-				this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
-				par1World.setBlockWithNotify(x, y, z, 0);
+				this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
+				world.setBlockWithNotify(x, y, z, 0);
 				return;
 			}
 		}
 
-		par1World.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(par1World, x, y, z, par5EntityLiving)), ForgeDirection.NORTH).ordinal());
+		world.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(world, x, y, z, par5EntityLiving)), ForgeDirection.NORTH).ordinal());
 
-		if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
+		if (world.isBlockIndirectlyGettingPowered(x, y, z))
 		{
-			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
+			BZhaDan.yinZha(world, x, y, z, explosiveID, 0);
 		}
 
 		// Check to see if there is fire nearby.
@@ -128,11 +128,11 @@ public class BZhaDan extends BlockContainer
 			Vector3 position = new Vector3(x, y, z);
 			position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 
-			int blockId = position.getBlockID(par1World);
+			int blockId = position.getBlockID(world);
 
 			if (blockId == Block.fire.blockID || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
 			{
-				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 2);
+				BZhaDan.yinZha(world, x, y, z, explosiveID, 2);
 			}
 		}
 
@@ -229,20 +229,20 @@ public class BZhaDan extends BlockContainer
 	 * Called to detonate the TNT. Args: world, x, y, z, metaData, CauseOfExplosion (0, intentional,
 	 * 1, exploded, 2 burned)
 	 */
-	public static void yinZha(World par1World, int x, int y, int z, int explosiveID, int causeOfExplosion)
+	public static void yinZha(World world, int x, int y, int z, int explosiveID, int causeOfExplosion)
 	{
-		if (!par1World.isRemote)
+		if (!world.isRemote)
 		{
-			if (NBTFileLoader.nengFangZhaDan(par1World, new Vector2(x, z)))
+			if (ZhuYao.BAO_HU.containsValue(world, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(x, y, z)))
 			{
-				TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 				if (tileEntity != null)
 				{
 					if (tileEntity instanceof TZhaDan)
 					{
 						((TZhaDan) tileEntity).exploding = true;
-						ZhaPin.list[explosiveID].spawnZhaDan(par1World, new Vector3(x, y, z), ForgeDirection.getOrientation(par1World.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
-						par1World.setBlockWithNotify(x, y, z, 0);
+						ZhaPin.list[explosiveID].spawnZhaDan(world, new Vector3(x, y, z), ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
+						world.setBlockWithNotify(x, y, z, 0);
 					}
 				}
 			}
