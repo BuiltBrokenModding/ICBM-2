@@ -2,7 +2,6 @@ package icbm.explosion.zhapin;
 
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.api.flag.NBTFileLoader;
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.block.material.Material;

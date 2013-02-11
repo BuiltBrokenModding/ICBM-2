@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import universalelectricity.core.vector.Vector3;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import universalelectricity.core.vector.Vector3;
 
 public class ModFlagData extends FlagBase
 {
@@ -36,18 +35,19 @@ public class ModFlagData extends FlagBase
 
 		while (dimensions.hasNext())
 		{
-			NBTTagCompound dimension = (NBTTagCompound) dimensions.next();
+			NBTTagCompound dimensionCompound = (NBTTagCompound) dimensions.next();
 
 			try
 			{
-				int dimensionID = Integer.parseInt(dimension.getName());
+				int dimensionID = Integer.parseInt(dimensionCompound.getName().replace("dim_", ""));
 				World world = DimensionManager.getWorld(dimensionID);
-				FlagWorld readData = new FlagWorld(world, nbt);
-				this.flagWorlds.add(readData);
+				FlagWorld flagWorld = new FlagWorld(world);
+				flagWorld.readFromNBT(dimensionCompound);
+				this.flagWorlds.add(flagWorld);
 			}
 			catch (Exception e)
 			{
-				System.out.println("Mod Flag: Failed to read dimension data: " + dimension.getName());
+				System.out.println("Mod Flag: Failed to read dimension data: " + dimensionCompound.getName());
 				e.printStackTrace();
 			}
 		}
@@ -60,7 +60,7 @@ public class ModFlagData extends FlagBase
 		{
 			try
 			{
-				nbt.setTag(worldData.world.provider.dimensionId + "", worldData.getNBT());
+				nbt.setTag("dim_" + worldData.world.provider.dimensionId, worldData.getNBT());
 			}
 			catch (Exception e)
 			{
@@ -96,5 +96,10 @@ public class ModFlagData extends FlagBase
 	public boolean containsValue(World world, String flagName, String checkValue, Vector3 position)
 	{
 		return this.getFlagWorld(world).containsValue(flagName, checkValue, position);
+	}
+
+	public List<FlagWorld> getFlagWorlds()
+	{
+		return this.flagWorlds;
 	}
 }

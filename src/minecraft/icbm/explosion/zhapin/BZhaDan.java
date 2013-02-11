@@ -1,7 +1,6 @@
 package icbm.explosion.zhapin;
 
 import icbm.api.ICBMTab;
-import icbm.api.flag.NBTFileLoader;
 import icbm.core.ZhuYao;
 import icbm.explosion.render.RHZhaPin;
 
@@ -23,7 +22,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IToolConfigurator;
 import cpw.mods.fml.common.FMLLog;

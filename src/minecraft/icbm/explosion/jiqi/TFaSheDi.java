@@ -1,6 +1,5 @@
 package icbm.explosion.jiqi;
 
-import icbm.api.flag.NBTFileLoader;
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;

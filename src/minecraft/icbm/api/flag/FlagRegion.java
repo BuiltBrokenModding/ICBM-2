@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.vector.Region3;
 
@@ -50,11 +51,11 @@ public class FlagRegion extends FlagBase
 		/**
 		 * Child Data
 		 */
-		Iterator childNodes = nbt.getTags().iterator();
+		NBTTagList flagList = nbt.getTagList("flags");
 
-		while (childNodes.hasNext())
+		for (int i = 0; i < flagList.tagCount(); i++)
 		{
-			NBTTagCompound childNode = (NBTTagCompound) childNodes.next();
+			NBTTagCompound childNode = (NBTTagCompound) flagList.tagAt(i);
 
 			try
 			{
@@ -78,13 +79,13 @@ public class FlagRegion extends FlagBase
 		this.region.min.writeToNBT("min_", nbt);
 		this.region.max.writeToNBT("max_", nbt);
 
+		NBTTagList flagList = new NBTTagList();
+
 		for (Flag flag : this.flags)
 		{
 			try
 			{
-				NBTTagCompound flagCompound = new NBTTagCompound();
-				flag.writeToNBT(flagCompound);
-				nbt.setTag(flag.name, flagCompound);
+				flagList.appendTag(flag.getNBT());
 			}
 			catch (Exception e)
 			{
@@ -92,6 +93,8 @@ public class FlagRegion extends FlagBase
 				e.printStackTrace();
 			}
 		}
+
+		nbt.setTag("flags", flagList);
 	}
 
 	public boolean containsValue(String flagName, String checkValue, Vector3 position)
@@ -113,9 +116,24 @@ public class FlagRegion extends FlagBase
 
 		if (value != null && value != "")
 		{
-			return this.flags.add(new Flag(this, flagName, value));
+			if (!containsFlag(flagName))
+			{
+				return this.flags.add(new Flag(this, flagName, value));
+			}
 		}
 
+		return false;
+	}
+
+	public boolean containsFlag(String flagName)
+	{
+		for (Flag region : this.flags)
+		{
+			if (region.name.equalsIgnoreCase(name))
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -136,17 +154,18 @@ public class FlagRegion extends FlagBase
 	public List<Flag> getFlags()
 	{
 		Iterator<Flag> it = this.flags.iterator();
+
 		while (it.hasNext())
 		{
-			Flag region = it.next();
+			Flag flag = it.next();
 
-			if (region == null)
+			if (flag == null)
 			{
 				it.remove();
 				continue;
 			}
 
-			if (region.name == null || region.name == "")
+			if (flag.name == null || flag.name == "")
 			{
 				it.remove();
 				continue;

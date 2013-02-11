@@ -25,35 +25,25 @@ public class FlagWorld extends FlagBase
 		this.world = world;
 	}
 
-	/**
-	 * @param world - The World Object.
-	 * @param nbt - The nbt compound of this world, containing tags of each flag.
-	 */
-	public FlagWorld(World world, NBTTagCompound nbt)
-	{
-		this(world);
-		this.readFromNBT(nbt);
-	}
-
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		// A list containing all flags within it for this world.
-		Iterator loadFlags = nbt.getTags().iterator();
+		Iterator<NBTTagCompound> childCompounds = nbt.getTags().iterator();
 
-		while (loadFlags.hasNext())
+		while (childCompounds.hasNext())
 		{
-			NBTTagCompound flagCompound = (NBTTagCompound) loadFlags.next();
+			NBTTagCompound childCompound = childCompounds.next();
 
 			try
 			{
-				FlagRegion flag = new FlagRegion(this);
-				flag.readFromNBT(flagCompound);
-				this.regions.add(flag);
+				FlagRegion flagRegion = new FlagRegion(this);
+				flagRegion.readFromNBT(childCompound);
+				this.regions.add(flagRegion);
 			}
 			catch (Exception e)
 			{
-				System.out.println("Mod Flag: Failed to read flag data: " + flagCompound.getName());
+				System.out.println("Mod Flag: Failed to read flag data: " + childCompound.getName());
 				e.printStackTrace();
 			}
 		}

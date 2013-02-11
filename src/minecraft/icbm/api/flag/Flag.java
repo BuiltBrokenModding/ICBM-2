@@ -37,7 +37,7 @@ public class Flag extends FlagBase
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		nbt.setString("name", this.name);
-		nbt.setString("value", value);
+		nbt.setString("value", this.value);
 
 	}
 }

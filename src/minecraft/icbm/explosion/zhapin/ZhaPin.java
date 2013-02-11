@@ -140,7 +140,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 		this.yinXin = 100;
 		this.ID = ID;
 		this.daoDan = new DaoDan(mingZi, ID, tier);
-		this.qiZi = FlagRegistry.registerFlag(this.mingZi);
+		this.qiZi = FlagRegistry.registerFlag("ban_" + this.mingZi);
 
 		ICBM.CONFIGURATION.load();
 		this.isDisabled = ICBM.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);
