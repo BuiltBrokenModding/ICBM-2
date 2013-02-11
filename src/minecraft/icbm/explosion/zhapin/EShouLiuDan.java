@@ -2,7 +2,7 @@ package icbm.explosion.zhapin;
 
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.api.flag.ICBMProtection;
+import icbm.api.flag.NBTFileLoader;
 import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -141,7 +141,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	 */
 	public void onUpdate()
 	{
-		if (!ICBMProtection.nengFangShouLiuDan(this.worldObj, new Vector3(this).toVector2()))
+		if (!NBTFileLoader.nengFangShouLiuDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (!this.worldObj.isRemote)
 			{

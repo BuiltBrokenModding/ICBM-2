@@ -1,85 +1,90 @@
 package icbm.api.flag;
 
-import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
-
-import universalelectricity.core.vector.Vector2;
+import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 
-public class ModFlagData
+public class ModFlagData extends FlagBase
 {
-	protected NBTTagCompound nbt;
-
 	/**
 	 * An array of world flag data. Each representing a world.
 	 */
-	public HashMap<World, WorldFlagData> worldData = new HashMap<World, WorldFlagData>();
+	private final List<FlagWorld> worldData = new ArrayList<FlagWorld>();
 
 	/**
-	 * Initiates a new mod flag data and loads everything from NBT into memory.
+	 * Initiates a new mod flag data and loads everything from NBT into memory. Only exists server
+	 * side.
 	 * 
 	 * @param nbt
 	 */
 	public ModFlagData(NBTTagCompound nbt)
 	{
-		this.nbt = nbt;
+		this.readFromNBT(nbt);
+	}
 
-		// A list containing all dimension and data within it.
-		Iterator dimensions = this.nbt.getTags().iterator();
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		// A list containing all dimension ID and data within it.
+		Iterator dimensions = nbt.getTags().iterator();
 
 		while (dimensions.hasNext())
 		{
+			NBTTagCompound dimension = (NBTTagCompound) dimensions.next();
+
 			try
 			{
-				NBTTagCompound dimension = (NBTTagCompound) dimensions.next();
-
+				int dimensionID = Integer.parseInt(dimension.getName());
+				World world = DimensionManager.getWorld(dimensionID);
+				FlagWorld readData = new FlagWorld(world, nbt);
+				this.worldData.add(readData);
 			}
 			catch (Exception e)
 			{
-				System.out.println("Mod Flag: Failed to read dimension data.");
+				System.out.println("Mod Flag: Failed to read dimension data: " + dimension.getName());
 				e.printStackTrace();
 			}
 		}
+	}
 
-		getCompoundTag("dim" + world.provider.dimensionId);
-
-		Iterator i = dimensions.getTags().iterator();
-		while (i.hasNext())
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		for (FlagWorld worldData : this.worldData)
 		{
 			try
 			{
-				NBTTagCompound region = (NBTTagCompound) i.next();
-
-				if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R))
-				{
-					return (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.QUAN_BU || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type);
-				}
+				nbt.setTag(worldData.world.provider.dimensionId + "", worldData.getNBT());
 			}
 			catch (Exception e)
 			{
+				System.out.println("Failed to save world flag data: " + worldData.world);
+				e.printStackTrace();
 			}
 		}
 	}
 
-	public void addWorld(WorldFlagData data)
+	public FlagWorld getWorldFlags(World world)
 	{
+		FlagWorld worldData = null;
 
-	}
+		for (FlagWorld data : this.worldData)
+		{
+			if (data.world == world)
+			{
+				worldData = data;
+				break;
+			}
+		}
 
-	public WorldFlagData getWorldFlags(World world)
-	{
-		WorldFlagData worldData = this.worldData.get(world);
-
-		/**
-		 * If data is null, create it.
-		 */
+		// If data is null, create it.
 		if (worldData == null)
 		{
-
+			worldData = new FlagWorld(world);
 		}
 
 		return worldData;

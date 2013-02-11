@@ -1,6 +1,6 @@
 package icbm.explosion.zhapin;
 
-import icbm.api.flag.ICBMProtection;
+import icbm.api.flag.NBTFileLoader;
 import icbm.explosion.ZhuYaoExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -70,7 +70,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	@Override
 	public void onUpdate()
 	{
-		if (!ICBMProtection.nengFangZhaDan(this.worldObj, new Vector3(this).toVector2()))
+		if (!NBTFileLoader.nengFangZhaDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			ZhuYaoExplosion.bZhaDan.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
 			this.setDead();

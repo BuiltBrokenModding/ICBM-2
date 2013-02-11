@@ -1,6 +1,6 @@
 package icbm.explosion.jiqi;
 
-import icbm.api.flag.ICBMProtection;
+import icbm.api.flag.NBTFileLoader;
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.EDaoDan;
@@ -223,7 +223,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 	private void setMissile()
 	{
-		if (this.containingItems[0] != null && ICBMProtection.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
+		if (this.containingItems[0] != null && NBTFileLoader.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.containingItems[0].getItem() instanceof ItDaoDan)
 			{

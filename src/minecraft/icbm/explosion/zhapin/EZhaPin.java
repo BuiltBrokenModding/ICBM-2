@@ -1,6 +1,6 @@
 package icbm.explosion.zhapin;
 
-import icbm.api.flag.ICBMProtection;
+import icbm.api.flag.NBTFileLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +112,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
-		if (!ICBMProtection.nengFangZhaDan(this.worldObj, new Vector3(this).toVector2()))
+		if (!NBTFileLoader.nengFangZhaDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			this.setDead();
 			return;

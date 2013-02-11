@@ -1,98 +1,19 @@
 package icbm.api.flag;
 
-import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Iterator;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector2;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 
-public class ICBMProtection
+public class NBTFileLoader
 {
-	/**
-	 * File Structure: Tag: DimData -Tag: DimID -boolean: globalBan -Tag: RegionName -int: X -int: Z
-	 * -int: R -int: TYPE
-	 */
-	public static NBTTagCompound nbtData;
-
-	public static final String FIELD_GLOBAL_BAN = "globalBan";
-	public static final String FIELD_TYPE = "type";
-	public static final String FIELD_X = "X";
-	public static final String FIELD_Z = "Z";
-	public static final String FIELD_R = "R";
-
-	public static boolean SHE_DING_BAO_HU;
-
-	/**
-	 * Does this position contain a specific flag?
-	 */
-	public static boolean hasFlag(World worldObj, Vector2 position, String flag)
-	{
-		try
-		{
-			if (!worldObj.isRemote)
-			{
-				NBTTagCompound dimData = nbtData.getCompoundTag("dim" + worldObj.provider.dimensionId);
-
-				if (nengFangQuanQiu(dimData))
-				{
-					return true;
-				}
-
-				// Regions check
-				Iterator i = dimData.getTags().iterator();
-				while (i.hasNext())
-				{
-					try
-					{
-						NBTTagCompound region = (NBTTagCompound) i.next();
-
-						if (Vector2.distance(position, new Vector2(region.getInteger(FIELD_X), region.getInteger(FIELD_Z))) <= region.getInteger(FIELD_R))
-						{
-							return (ZhaPinType.get(region.getInteger(FIELD_TYPE)) == ZhaPinType.QUAN_BU || ZhaPinType.get(region.getInteger(FIELD_TYPE)) == type);
-						}
-					}
-					catch (Exception e)
-					{
-					}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	public static boolean nengFangZhaDan(World worldObj, Vector2 position)
-	{
-		return !hasFlag(worldObj, position, ZhaPinType.ZHA_DAN);
-	}
-
-	public static boolean nengFangShouLiuDan(World worldObj, Vector2 position)
-	{
-		return !hasFlag(worldObj, position, ZhaPinType.SHOU_LIU_DAN);
-	}
-
-	public static boolean nengFangDaoDan(World worldObj, Vector2 position)
-	{
-		return !hasFlag(worldObj, position, ZhaPinType.DAO_DAN);
-	}
-
-	public static boolean nengFangQuanQiu(NBTTagCompound dimData)
-	{
-		return ((!dimData.hasKey(FIELD_GLOBAL_BAN) && SHE_DING_BAO_HU) || dimData.getBoolean(FIELD_GLOBAL_BAN));
-	}
-
 	/**
 	 * Saves NBT data in the world folder.
 	 */
@@ -154,7 +75,6 @@ public class ICBMProtection
 	 */
 	public static NBTTagCompound loadData(String filename, String minecraftDir)
 	{
-		// ZhuYaoExplosion.proxy.getMinecraftDir()
 		String folder;
 
 		if (MinecraftServer.getServer().isDedicatedServer())
@@ -193,6 +113,19 @@ public class ICBMProtection
 			FMLLog.severe("Failed to load " + filename + ".dat!");
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	public File getSaveDirectory()
+	{
+		if (FMLCommonHandler.instance().getSide().isClient())
+		{
+			FMLClientHandler.instance().getClient();
+			return Minecraft.getMinecraftDir();
+		}
+		else
+		{
+			return new File(".");
 		}
 	}
 }

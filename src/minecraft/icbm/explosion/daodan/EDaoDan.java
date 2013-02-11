@@ -5,7 +5,7 @@ import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.api.flag.ICBMProtection;
+import icbm.api.flag.NBTFileLoader;
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.fx.ParticleSpawner;
@@ -272,7 +272,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public void onUpdate()
 	{
-		if (!ICBMProtection.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
+		if (!NBTFileLoader.nengFangDaoDan(this.worldObj, new Vector3(this).toVector2()))
 		{
 			if (this.feiXingTick >= 0)
 			{

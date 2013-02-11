@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin;
 
 import icbm.api.ICBMTab;
-import icbm.api.flag.ICBMProtection;
+import icbm.api.flag.NBTFileLoader;
 import icbm.core.ZhuYao;
 import icbm.explosion.render.RHZhaPin;
 
@@ -106,7 +106,7 @@ public class BZhaDan extends BlockContainer
 
 		if (!par1World.isRemote)
 		{
-			if (!ICBMProtection.nengFangZhaDan(par1World, new Vector2(x, z)))
+			if (!NBTFileLoader.nengFangZhaDan(par1World, new Vector2(x, z)))
 			{
 				this.dropBlockAsItem(par1World, x, y, z, explosiveID, 0);
 				par1World.setBlockWithNotify(x, y, z, 0);
@@ -233,7 +233,7 @@ public class BZhaDan extends BlockContainer
 	{
 		if (!par1World.isRemote)
 		{
-			if (ICBMProtection.nengFangZhaDan(par1World, new Vector2(x, z)))
+			if (NBTFileLoader.nengFangZhaDan(par1World, new Vector2(x, z)))
 			{
 				TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 				if (tileEntity != null)

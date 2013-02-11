@@ -136,12 +136,6 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@Override
-	public String getMinecraftDir()
-	{
-		return Minecraft.getMinecraftDir().toString();
-	}
-
-	@Override
 	public boolean isGaoQing()
 	{
 		return Minecraft.getMinecraft().gameSettings.fancyGraphics;

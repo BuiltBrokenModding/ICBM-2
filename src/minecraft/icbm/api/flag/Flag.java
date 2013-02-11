@@ -1,22 +1,37 @@
 package icbm.api.flag;
 
+import net.minecraft.nbt.NBTTagCompound;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.vector.Region3;
 
-public class Flag
+public class Flag extends FlagBase
 {
 	/**
 	 * The region in which this flag has affect in.
 	 */
-	public Region3 region;
+	public FlagRegion flagRegion;
 
 	public String name;
 
 	public String value;
 
-	public Flag(Region3 region, String name, String value)
+	public Flag(FlagRegion flagRegion)
 	{
-		this.region = region;
-		this.name = name;
-		this.value = value;
+		this.flagRegion = flagRegion;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		String flagName = nbt.getString("name");
+		String flagValue = nbt.getString("value");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		nbt.setString("name", this.name);
+		nbt.setString("value", value);
+
 	}
 }
