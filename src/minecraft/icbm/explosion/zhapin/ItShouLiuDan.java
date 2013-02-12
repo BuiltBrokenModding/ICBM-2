@@ -2,6 +2,8 @@ package icbm.explosion.zhapin;
 
 import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class ItShouLiuDan extends Item
 	{
 		if (!world.isRemote)
 		{
-			if (ZhuYao.BAO_HU.containsValue(world, ZhuYao.QIZI_SHOU_LIU_DAN, "true", new Vector3(entityPlayer)))
+			if (!ZhuYaoExplosion.baoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN))
 			{
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{

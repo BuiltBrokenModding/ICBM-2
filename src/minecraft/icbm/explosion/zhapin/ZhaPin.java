@@ -54,7 +54,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 {
 	public enum ZhaPinType
 	{
-		QUAN_BU, ZHA_DAN, SHOU_LIU_DAN, DAO_DAN;
+		QUAN_BU, ZHA_DAN, SHOU_LIU_DAN, DAO_DAN, CHE;
 
 		public static ZhaPinType get(int id)
 		{
@@ -118,7 +118,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 	private int tier;
 	private int yinXin;
 	private DaoDan daoDan;
-	protected String qiZi;
+	public final String qiZi;
 	protected boolean isDisabled;
 	protected boolean isMobile = false;
 

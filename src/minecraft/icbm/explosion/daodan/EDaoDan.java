@@ -11,6 +11,7 @@ import icbm.explosion.fx.ParticleSpawner;
 import icbm.explosion.jiqi.TFaSheDi;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
 import icbm.explosion.zhapin.ZhaPin;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 
 import java.util.Random;
 
@@ -273,7 +274,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	{
 		if (this.worldObj.isRemote)
 		{
-			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_DAO_DAN, "true", new Vector3(this)))
+			if (ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN))
 			{
 				if (this.feiXingTick >= 0)
 				{

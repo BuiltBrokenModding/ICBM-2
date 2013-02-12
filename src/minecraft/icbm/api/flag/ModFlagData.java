@@ -64,7 +64,7 @@ public class ModFlagData extends FlagBase
 			}
 			catch (Exception e)
 			{
-				System.out.println("Failed to save world flag data: " + worldData.world);
+				System.out.println("Mod Flag: Failed to save world flag data: " + worldData.world);
 				e.printStackTrace();
 			}
 		}

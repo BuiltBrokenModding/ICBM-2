@@ -5,6 +5,7 @@ import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.daodan.DaoDan;
 import icbm.explosion.daodan.EDaoDan;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -245,7 +246,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (this.containingItems[0] != null)
 		{
-			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_DAO_DAN, "true", new Vector3(this)))
+			if (!ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN))
 			{
 				if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID)
 				{

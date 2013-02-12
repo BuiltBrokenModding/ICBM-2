@@ -2,6 +2,7 @@ package icbm.explosion.zhapin;
 
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -72,7 +73,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(this)))
+			if (ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.ZHA_DAN))
 			{
 				ZhuYaoExplosion.bZhaDan.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
 				this.setDead();

@@ -146,7 +146,7 @@ public class TCiGuiPao extends TileEntityElectricityStorage implements IPacketRe
 						{
 							if (!this.worldObj.isRemote)
 							{
-								if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(this)))
+								if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYaoExplosion.QIZI_ZHA_DAN, "true", new Vector3(this)))
 								{
 									if (isAntimatter)
 									{

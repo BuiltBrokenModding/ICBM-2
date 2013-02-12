@@ -2,7 +2,9 @@ package icbm.explosion.zhapin;
 
 import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.render.RHZhaPin;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 
 import java.util.List;
 import java.util.Random;
@@ -98,13 +100,13 @@ public class BZhaDan extends BlockContainer
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving par5EntityLiving)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving)
 	{
 		int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
 
 		if (!world.isRemote)
 		{
-			if (ZhuYao.BAO_HU.containsValue(world, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(x, y, z)))
+			if (ZhuYaoExplosion.baoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN))
 			{
 				this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
 				world.setBlockWithNotify(x, y, z, 0);
@@ -112,7 +114,7 @@ public class BZhaDan extends BlockContainer
 			}
 		}
 
-		world.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(world, x, y, z, par5EntityLiving)), ForgeDirection.NORTH).ordinal());
+		world.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(world, x, y, z, entityLiving)), ForgeDirection.NORTH).ordinal());
 
 		if (world.isBlockIndirectlyGettingPowered(x, y, z))
 		{
@@ -134,7 +136,7 @@ public class BZhaDan extends BlockContainer
 			}
 		}
 
-		FMLLog.fine(par5EntityLiving.getEntityName() + " placed " + ZhaPin.list[explosiveID].getExplosiveName() + " in: " + x + ", " + y + ", " + z + ".");
+		FMLLog.fine(entityLiving.getEntityName() + " placed " + ZhaPin.list[explosiveID].getExplosiveName() + " in: " + x + ", " + y + ", " + z + ".");
 	}
 
 	/**
@@ -231,7 +233,7 @@ public class BZhaDan extends BlockContainer
 	{
 		if (!world.isRemote)
 		{
-			if (ZhuYao.BAO_HU.containsValue(world, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(x, y, z)))
+			if (!ZhuYaoExplosion.baoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN))
 			{
 				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 				if (tileEntity != null)

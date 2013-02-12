@@ -4,6 +4,7 @@ import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ZhuYao;
 import icbm.explosion.ZhuYaoExplosion;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -143,7 +144,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_SHOU_LIU_DAN, "true", new Vector3(this)))
+			if (ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.SHOU_LIU_DAN))
 			{
 				float var6 = 0.7F;
 				double var7 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;

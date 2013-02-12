@@ -2,7 +2,9 @@ package icbm.explosion;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
+import icbm.api.flag.FlagRegistry;
 import icbm.core.ICBMPacketManager;
+import icbm.core.ZhuYao;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.cart.ItChe;
 import icbm.explosion.daodan.DaoDan;
@@ -28,6 +30,7 @@ import icbm.explosion.zhapin.EZhaPin;
 import icbm.explosion.zhapin.IBZhaDan;
 import icbm.explosion.zhapin.ItShouLiuDan;
 import icbm.explosion.zhapin.ZhaPin;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 
 import java.util.List;
 
@@ -106,6 +109,15 @@ public class ZhuYaoExplosion
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
+
+	/**
+	 * Flags used for protection commands.
+	 */
+	private static final String QIZI_QUAN_BU = FlagRegistry.registerFlag("ban_icbm");
+	private static final String QIZI_ZHA_DAN = FlagRegistry.registerFlag("ban_explosive");
+	private static final String QIZI_SHOU_LIU_DAN = FlagRegistry.registerFlag("ban_grenade");
+	private static final String QIZI_DAO_DAN = FlagRegistry.registerFlag("ban_missile");
+	private static final String QIZI_CHE = FlagRegistry.registerFlag("ban_minecart");
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
@@ -384,5 +396,32 @@ public class ZhuYaoExplosion
 		PDongShang.INSTANCE.register();
 
 		this.proxy.init();
+	}
+	
+	/**
+	 * Is a specific position being protected from a specific type of danger?
+	 */
+	public static boolean baoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
+	{
+		if (ZhuYao.BAO_HU.containsValue(world, QIZI_QUAN_BU, "true", diDian))
+		{
+			return true;
+		}
+
+		switch (type)
+		{
+			case QUAN_BU:
+				return ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+			case CHE:
+				return ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian);
+			case DAO_DAN:
+				return ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian);
+			case SHOU_LIU_DAN:
+				return ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
+			case ZHA_DAN:
+				return ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+		}
+
+		return false;
 	}
 }

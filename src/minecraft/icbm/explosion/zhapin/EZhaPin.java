@@ -1,6 +1,8 @@
 package icbm.explosion.zhapin;
 
 import icbm.core.ZhuYao;
+import icbm.explosion.ZhuYaoExplosion;
+import icbm.explosion.zhapin.ZhaPin.ZhaPinType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +116,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYao.BAO_HU.containsValue(this.worldObj, ZhuYao.QIZI_ZHA_DAN, "true", new Vector3(this)))
+			if (ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.ZHA_DAN))
 			{
 				this.setDead();
 				return;

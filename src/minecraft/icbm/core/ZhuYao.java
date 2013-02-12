@@ -3,7 +3,6 @@ package icbm.core;
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.api.flag.CommandFlag;
-import icbm.api.flag.FlagRegistry;
 import icbm.api.flag.ModFlagData;
 import icbm.api.flag.NBTFileLoader;
 import net.minecraft.block.Block;
@@ -99,11 +98,6 @@ public class ZhuYao
 	public static final int GUI_SHENG_BUO = 5;
 	public static final int GUI_DIAN_CI_QI = 6;
 	public static final int GUI_FA_SHE_DI = 7;
-
-	public static final String QIZI_ZHA_DAN = FlagRegistry.registerFlag("ban_explosive");
-	public static final String QIZI_SHOU_LIU_DAN = FlagRegistry.registerFlag("ban_grenade");
-	public static final String QIZI_CHE = FlagRegistry.registerFlag("ban_minecart");
-	public static final String QIZI_DAO_DAN = FlagRegistry.registerFlag("ban_missile");
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
