@@ -1,7 +1,6 @@
 package icbm.explosion;
 
 import icbm.core.ZhuYao;
-import icbm.explosion.jiqi.TCiGuiPao;
 import icbm.explosion.jiqi.TDianCiQi;
 import icbm.explosion.jiqi.TFaSheDi;
 import icbm.explosion.jiqi.TFaSheJia;
@@ -9,7 +8,6 @@ import icbm.explosion.jiqi.TFaSheShiMuo;
 import icbm.explosion.jiqi.TLeiDaTai;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
 import icbm.explosion.jiqi.TYinDaoQi;
-import icbm.explosion.rongqi.CCiGuiPao;
 import icbm.explosion.rongqi.CFaShiDi;
 import icbm.explosion.rongqi.CXiaoFaSheQi;
 import icbm.explosion.zhapin.TZhaDan;
@@ -34,7 +32,6 @@ public class CommonProxy implements IGuiHandler
 
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMCiGuiPao");
 		GameRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMXiaoFaSheQi");
 		GameRegistry.registerTileEntity(TFaSheDi.class, "ICBMFaSheDi");
 		GameRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMFaSheShiMuo");
@@ -60,8 +57,6 @@ public class CommonProxy implements IGuiHandler
 		{
 			switch (ID)
 			{
-				case ZhuYao.GUI_RAIL_GUN:
-					return new CCiGuiPao(player.inventory, (TCiGuiPao) tileEntity);
 				case ZhuYao.GUI_XIA_FA_SHE_QI:
 					return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
 				case ZhuYao.GUI_FA_SHE_DI:

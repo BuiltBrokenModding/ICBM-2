@@ -5,14 +5,12 @@ import icbm.core.ZhuYao;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.daodan.EDaoDan;
 import icbm.explosion.fx.FXLeiShe;
-import icbm.explosion.gui.GCiGuiPao;
 import icbm.explosion.gui.GDianCiQi;
 import icbm.explosion.gui.GFaSheDi;
 import icbm.explosion.gui.GFaSheShiMuo;
 import icbm.explosion.gui.GLeiDaTai;
 import icbm.explosion.gui.GXiaoFaSheQi;
 import icbm.explosion.jiqi.EFake;
-import icbm.explosion.jiqi.TCiGuiPao;
 import icbm.explosion.jiqi.TDianCiQi;
 import icbm.explosion.jiqi.TFaSheDi;
 import icbm.explosion.jiqi.TFaSheJia;
@@ -22,7 +20,6 @@ import icbm.explosion.jiqi.TXiaoFaSheQi;
 import icbm.explosion.jiqi.TYinDaoQi;
 import icbm.explosion.render.RBYinXing;
 import icbm.explosion.render.RChe;
-import icbm.explosion.render.RCiGuiPao;
 import icbm.explosion.render.RDaoDan;
 import icbm.explosion.render.RDianCiQi;
 import icbm.explosion.render.REZhaDan;
@@ -96,7 +93,6 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RFake());
 		RenderingRegistry.registerEntityRenderingHandler(EChe.class, new RChe());
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
 		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class, new RXiaoFaSheQi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class, new RFaSheDi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class, new RFaSheShiMuo());
@@ -117,8 +113,6 @@ public class ClientProxy extends CommonProxy
 		{
 			switch (ID)
 			{
-				case ZhuYao.GUI_RAIL_GUN:
-					return new GCiGuiPao((TCiGuiPao) tileEntity, entityPlayer);
 				case ZhuYao.GUI_XIA_FA_SHE_QI:
 					return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi) tileEntity);
 				case ZhuYao.GUI_FA_SHE_SHI_MUO:

@@ -90,7 +90,6 @@ public class ZhuYao
 	/**
 	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
 	 */
-	public static final int GUI_RAIL_GUN = 0;
 	public static final int GUI_XIA_FA_SHE_QI = 1;
 	public static final int GUI_FA_SHE_SHI_MUO = 2;
 	public static final int GUI_LEI_DA_TAI = 3;
