@@ -24,6 +24,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.UpdateNotifier;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
+import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
@@ -50,7 +51,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
  */
 
 @Mod(modid = ICBM.NAME, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
-@NetworkMod(channels = ZhuYao.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketManager.class)
+@NetworkMod(channels = ZhuYao.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class ZhuYao
 {
 	@Instance("ICBM")
@@ -167,7 +168,6 @@ public class ZhuYao
 
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-		serverCommandManager.registerCommand(new MingLing());
 		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.FLAG_DATA));
 	}
 

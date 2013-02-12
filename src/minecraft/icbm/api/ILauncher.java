@@ -10,7 +10,7 @@ import universalelectricity.prefab.implement.IRedstoneReceptor;
  * 
  * @author Calclavia
  */
-public interface ILauncher extends IJouleStorage, IRedstoneReceptor, IFrequency
+public interface ILauncher extends IJouleStorage, IRedstoneReceptor, IBlockFrequency
 {
 	/**
 	 * What type of launcher is this?
