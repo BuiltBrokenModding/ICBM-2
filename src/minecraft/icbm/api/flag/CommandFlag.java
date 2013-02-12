@@ -161,9 +161,18 @@ public class CommandFlag extends CommandBase
 			}
 			else if (commandName.equalsIgnoreCase("addregion"))
 			{
-				if (args.length > 2)
+				String regionName = args[1];
+
+				if (regionName.equalsIgnoreCase(FlagWorld.GLOBAL_REGION))
 				{
-					String regionName = args[1];
+					if (flagWorld.addRegion(regionName, new Vector3(entityPlayer), 1))
+					{
+						sender.sendChatToPlayer("Created global dimension region setting.");
+						return;
+					}
+				}
+				else if (args.length > 2)
+				{
 					int radius = 0;
 
 					try
@@ -214,7 +223,7 @@ public class CommandFlag extends CommandBase
 					}
 					else
 					{
-						throw new WrongUsageException("The specified region does not exist.");
+						throw new WrongUsageException("The specified region does not exist in this world.");
 					}
 				}
 				else

@@ -1,7 +1,8 @@
 package icbm.explosion.rongqi;
 
+import icbm.api.SlotSpecific;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TFaSheDi;
-import icbm.explosion.slots.SDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -15,7 +16,7 @@ public class CFaShiDi extends Container
 	public CFaShiDi(InventoryPlayer par1InventoryPlayer, TFaSheDi tileEntity)
 	{
 		this.missileLauncher = tileEntity;
-		this.addSlotToContainer(new SDaoDan(tileEntity, 0, 84, 47));
+		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ZhuYaoExplosion.itDaoDan)));
 		int var3;
 
 		for (var3 = 0; var3 < 3; ++var3)
@@ -54,7 +55,7 @@ public class CFaShiDi extends Container
 
 			if (par1 != 0)
 			{
-				if (SDaoDan.itemValid(var4))
+				if (this.getSlot(0).isItemValid(var4))
 				{
 					if (!this.mergeItemStack(var4, 0, 1, false))
 					{

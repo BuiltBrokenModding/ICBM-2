@@ -17,6 +17,8 @@ import universalelectricity.prefab.vector.Region3;
  */
 public class FlagWorld extends FlagBase
 {
+	public static final String GLOBAL_REGION = "dimension";
+
 	public World world;
 	private final List<FlagRegion> regions = new ArrayList<FlagRegion>();
 
@@ -80,7 +82,7 @@ public class FlagWorld extends FlagBase
 
 		for (FlagRegion flagRegion : this.regions)
 		{
-			if (flagRegion.region.isIn(position) || flagRegion.name.equals("global"))
+			if (flagRegion.region.isIn(position) || flagRegion.name.equalsIgnoreCase(GLOBAL_REGION))
 			{
 				for (Flag flag : flagRegion.getFlags())
 				{

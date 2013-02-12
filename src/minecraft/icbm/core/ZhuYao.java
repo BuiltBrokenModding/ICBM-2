@@ -3,6 +3,7 @@ package icbm.core;
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.api.flag.CommandFlag;
+import icbm.api.flag.FlagRegistry;
 import icbm.api.flag.ModFlagData;
 import icbm.api.flag.NBTFileLoader;
 import net.minecraft.block.Block;
@@ -85,8 +86,6 @@ public class ZhuYao
 
 	public static int DAO_DAN_ZUI_YUAN;
 
-	public static ModFlagData BAO_HU;
-
 	/**
 	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
 	 */
@@ -164,18 +163,18 @@ public class ZhuYao
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
-		BAO_HU = new ModFlagData(NBTFileLoader.loadData("ICBM"));
+		FlagRegistry.FLAG_DATA = new ModFlagData(NBTFileLoader.loadData("ICBM"));
 
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new MingLing());
-		serverCommandManager.registerCommand(new CommandFlag(BAO_HU));
+		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.FLAG_DATA));
 	}
 
 	@ServerStopping
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
-		NBTFileLoader.saveData("ICBM", BAO_HU.getNBT());
+		NBTFileLoader.saveData("ICBM", FlagRegistry.FLAG_DATA.getNBT());
 	}
 
 	@ForgeSubscribe
@@ -183,7 +182,7 @@ public class ZhuYao
 	{
 		if (!evt.world.isRemote)
 		{
-			NBTFileLoader.saveData("ICBM", BAO_HU.getNBT());
+			NBTFileLoader.saveData("ICBM", FlagRegistry.FLAG_DATA.getNBT());
 		}
 	}
 

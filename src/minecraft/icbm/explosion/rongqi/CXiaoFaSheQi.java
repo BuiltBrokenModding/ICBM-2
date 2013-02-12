@@ -1,7 +1,8 @@
 package icbm.explosion.rongqi;
 
+import icbm.api.SlotSpecific;
+import icbm.explosion.ZhuYaoExplosion;
 import icbm.explosion.jiqi.TXiaoFaSheQi;
-import icbm.explosion.slots.SDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -17,7 +18,7 @@ public class CXiaoFaSheQi extends Container
 	{
 		this.tileEntity = tileEntity;
 		// Missile Slot
-		this.addSlotToContainer(new SDaoDan(tileEntity, 0, 151, 23));
+		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 151, 23, new ItemStack(ZhuYaoExplosion.itDaoDan)));
 		// Battery Slot
 		this.addSlotToContainer(new SlotElectricItem(tileEntity, 1, 151, 47));
 
@@ -67,7 +68,7 @@ public class CXiaoFaSheQi extends Container
 
 			if (par1 > 1)
 			{
-				if (SDaoDan.itemValid(var4))
+				if (this.getSlot(0).isItemValid(var4))
 				{
 					if (!this.mergeItemStack(var4, 0, 1, false))
 					{

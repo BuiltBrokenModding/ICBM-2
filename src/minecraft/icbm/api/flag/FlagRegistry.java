@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class FlagRegistry
 {
+	public static ModFlagData FLAG_DATA;
 
 	public static final List<String> flags = new ArrayList<String>();
 	public static boolean isInitiated = false;

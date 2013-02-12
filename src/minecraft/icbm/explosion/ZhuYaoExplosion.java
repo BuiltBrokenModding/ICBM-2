@@ -4,7 +4,6 @@ import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.api.flag.FlagRegistry;
 import icbm.core.ICBMPacketManager;
-import icbm.core.ZhuYao;
 import icbm.explosion.cart.EChe;
 import icbm.explosion.cart.ItChe;
 import icbm.explosion.daodan.DaoDan;
@@ -104,7 +103,6 @@ public class ZhuYaoExplosion
 	public static ItemElectric itFaSheQi;
 
 	public static Item itShouLiuDan;
-	public static Item itZiDan;
 	public static Item itChe;
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
@@ -141,8 +139,6 @@ public class ZhuYaoExplosion
 		itFaSheQi = new ItFaSheQi(ICBM.CONFIGURATION.getItem("ItemID12", ICBM.ITEM_ID_PREFIX + 11).getInt());
 
 		itShouLiuDan = new ItShouLiuDan(ICBM.CONFIGURATION.getItem("ItemID13", ICBM.ITEM_ID_PREFIX + 12).getInt(), 64);
-		itZiDan = new ItZiDan(ICBM.CONFIGURATION.getItem("ItemID14", ICBM.ITEM_ID_PREFIX + 13).getInt(), 80);
-
 		itChe = new ItChe(ICBM.CONFIGURATION.getItem("ItemID15", ICBM.ITEM_ID_PREFIX + 11).getInt(), 135);
 
 		ICBM.CONFIGURATION.save();
@@ -264,10 +260,6 @@ public class ZhuYaoExplosion
 		 */
 		// Rocket Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 6), 'B', Block.stoneButton, 'S', "ingotSteel" }));
-
-		// Railgun Bullet
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itZiDan, 4, 0), new Object[] { "@", "!", "!", '@', Item.diamond, '!', "ingotBronze" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itZiDan, 1, 1), new Object[] { "@", "!", "!", '@', "antimatterGram", '!', ZhuYaoExplosion.itZiDan }));
 
 		// Radar Gun
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoExplosion.itLeiDaQiang), new Object[] { "@#!", " $!", "  !", '@', Block.glass, '!', "ingotSteel", '#', "basicCircuit", '$', Block.stoneButton }));
@@ -403,7 +395,7 @@ public class ZhuYaoExplosion
 	 */
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
 	{
-		if (ZhuYao.BAO_HU.containsValue(world, QIZI_QUAN_BU, "true", diDian))
+		if (FlagRegistry.FLAG_DATA.containsValue(world, QIZI_QUAN_BU, "true", diDian))
 		{
 			return true;
 		}
@@ -413,23 +405,23 @@ public class ZhuYaoExplosion
 		switch (type)
 		{
 			case QUAN_BU:
-				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_CHE, "true", diDian) || FlagRegistry.FLAG_DATA.containsValue(world, QIZI_DAO_DAN, "true", diDian) || FlagRegistry.FLAG_DATA.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || FlagRegistry.FLAG_DATA.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
 				break;
 			case CHE:
-				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian);
+				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_CHE, "true", diDian);
 				break;
 			case DAO_DAN:
-				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian);
+				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_DAO_DAN, "true", diDian);
 				break;
 			case SHOU_LIU_DAN:
-				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
+				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
 				break;
 			case ZHA_DAN:
-				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
 				break;
 		}
 
-		return ZhuYao.BAO_HU.containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
+		return FlagRegistry.FLAG_DATA.containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
 	}
 
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, int zhaPinID)
