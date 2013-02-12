@@ -30,7 +30,7 @@ public class REZhaDan extends Render
 	{
 		EZhaDan entityExplosive = (EZhaDan) par1Entity;
 
-		Object[] data = ZhaPin.list[entityExplosive.explosiveID].getRenderData();
+		Object[] data = ZhaPin.list[entityExplosive.haoMa].getRenderData();
 
 		if (data != null)
 		{
@@ -69,7 +69,7 @@ public class REZhaDan extends Render
 
 			var10 = (1.0F - ((float) entityExplosive.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
 			this.loadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
-			this.blockRenderer.renderBlockAsItem(ZhuYaoExplosion.bZhaDan, entityExplosive.explosiveID, entityExplosive.getBrightness(par9));
+			this.blockRenderer.renderBlockAsItem(ZhuYaoExplosion.bZhaDan, entityExplosive.haoMa, entityExplosive.getBrightness(par9));
 
 			if (entityExplosive.fuse / 5 % 2 == 0)
 			{

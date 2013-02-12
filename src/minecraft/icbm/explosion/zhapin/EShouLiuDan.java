@@ -144,7 +144,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.SHOU_LIU_DAN))
+			if (ZhuYaoExplosion.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.SHOU_LIU_DAN, this.haoMa))
 			{
 				float var6 = 0.7F;
 				double var7 = (double) (this.worldObj.rand.nextFloat() * var6) + (double) (1.0F - var6) * 0.5D;

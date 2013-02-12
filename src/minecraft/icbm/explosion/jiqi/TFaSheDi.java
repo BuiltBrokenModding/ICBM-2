@@ -225,25 +225,25 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	{
 		if (this.containingItems[0] != null)
 		{
-			if (!ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN))
+			if (this.containingItems[0].getItem() instanceof ItDaoDan)
 			{
-				if (this.containingItems[0].getItem() instanceof ItDaoDan)
-				{
-					int missileId = this.containingItems[0].getItemDamage();
+				int haoMa = this.containingItems[0].getItemDamage();
 
-					if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan && missileId > 0)
+				if (!ZhuYaoExplosion.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
+				{
+					if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan && haoMa > 0)
 					{
-						missileId += 100;
+						haoMa += 100;
 					}
 
 					if (eDaoDan == null)
 					{
 						Vector3 position = new Vector3((this.xCoord + 0.5F), (this.yCoord + 2), (this.zCoord + 0.5F));
-						this.eDaoDan = new EDaoDan(this.worldObj, position, new Vector3(this), missileId);
+						this.eDaoDan = new EDaoDan(this.worldObj, position, new Vector3(this), haoMa);
 						this.worldObj.spawnEntityInWorld(this.eDaoDan);
 						return;
 					}
-					else if (this.eDaoDan.haoMa == missileId)
+					else if (this.eDaoDan.haoMa == haoMa)
 					{
 						return;
 					}

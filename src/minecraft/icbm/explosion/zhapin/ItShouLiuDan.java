@@ -35,7 +35,8 @@ public class ItShouLiuDan extends Item
 	{
 		if (!world.isRemote)
 		{
-			if (!ZhuYaoExplosion.baoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN))
+			int haoMa = ZhaPin.list[par1ItemStack.getItemDamage()].getID();
+			if (!ZhuYaoExplosion.shiBaoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN, haoMa))
 			{
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{
@@ -43,7 +44,7 @@ public class ItShouLiuDan extends Item
 				}
 
 				world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, ZhaPin.list[par1ItemStack.getItemDamage()].getID()));
+				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, haoMa));
 			}
 			else
 			{

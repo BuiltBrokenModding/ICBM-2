@@ -27,7 +27,7 @@ public class RZhaPin extends Render
 	{
 		EZhaPin eZhaPin = (EZhaPin) entity;
 
-		if (eZhaPin.explosiveID == ZhaPin.hongSu.getID())
+		if (eZhaPin.haoMa == ZhaPin.hongSu.getID())
 		{
 			Tessellator tessellator = Tessellator.instance;
 
@@ -108,7 +108,7 @@ public class RZhaPin extends Render
 		}
 		else
 		{
-			Object[] data = ZhaPin.list[eZhaPin.explosiveID].getRenderData();
+			Object[] data = ZhaPin.list[eZhaPin.haoMa].getRenderData();
 
 			if (data != null)
 			{

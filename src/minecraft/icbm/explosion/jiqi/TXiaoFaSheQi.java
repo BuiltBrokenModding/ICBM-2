@@ -246,18 +246,18 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (this.containingItems[0] != null)
 		{
-			if (!ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN))
+			if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID)
 			{
-				if (this.containingItems[0].itemID == ZhuYaoExplosion.itDaoDan.itemID)
-				{
-					int missileId = this.containingItems[0].getItemDamage();
+				int haoMa = this.containingItems[0].getItemDamage();
 
+				if (!ZhuYaoExplosion.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
+				{
 					if (this.eDaoDan == null)
 					{
-						if (DaoDan.list[missileId].isCruise() && DaoDan.list[missileId].getTier() <= 3)
+						if (DaoDan.list[haoMa].isCruise() && DaoDan.list[haoMa].getTier() <= 3)
 						{
 							Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-							this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), missileId);
+							this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
 							this.worldObj.spawnEntityInWorld(this.eDaoDan);
 							return;
 						}
@@ -265,7 +265,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 					if (this.eDaoDan != null)
 					{
-						if (this.eDaoDan.haoMa == missileId)
+						if (this.eDaoDan.haoMa == haoMa)
 						{
 							this.eDaoDan.posY = this.yCoord + 0.2f;
 							return;

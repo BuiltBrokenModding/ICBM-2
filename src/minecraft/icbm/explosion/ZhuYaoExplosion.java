@@ -397,11 +397,11 @@ public class ZhuYaoExplosion
 
 		this.proxy.init();
 	}
-	
+
 	/**
 	 * Is a specific position being protected from a specific type of danger?
 	 */
-	public static boolean baoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
+	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
 	{
 		if (ZhuYao.BAO_HU.containsValue(world, QIZI_QUAN_BU, "true", diDian))
 		{
@@ -420,6 +420,16 @@ public class ZhuYaoExplosion
 				return ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
 			case ZHA_DAN:
 				return ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+		}
+
+		return ZhuYao.BAO_HU.containsValue(world, zhaPin.qiZi, "true", diDian);
+	}
+
+	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, int zhaPinID)
+	{
+		if (zhaPinID < ZhaPin.list.length && zhaPinID > 0)
+		{
+			return shiBaoHu(world, diDian, type, ZhaPin.list[zhaPinID]);
 		}
 
 		return false;

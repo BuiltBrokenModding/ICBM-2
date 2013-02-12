@@ -34,7 +34,7 @@ public class BJiQi extends BlockMachine
 {
 	public enum JiQi
 	{
-		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class), LeiDaTai(TLeiDaTai.class), DianCiQi(TDianCiQi.class), CiGuiPao(TCiGuiPao.class), XiaoFaSheQi(TXiaoFaSheQi.class), YinDaoQi(TYinDaoQi.class);
+		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class), LeiDaTai(TLeiDaTai.class), DianCiQi(TDianCiQi.class), XiaoFaSheQi(TXiaoFaSheQi.class), YinDaoQi(TYinDaoQi.class);
 
 		public Class<? extends TileEntity> tileEntity;
 

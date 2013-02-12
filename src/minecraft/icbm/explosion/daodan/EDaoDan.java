@@ -274,7 +274,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	{
 		if (this.worldObj.isRemote)
 		{
-			if (ZhuYaoExplosion.baoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN))
+			if (ZhuYaoExplosion.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, this.haoMa))
 			{
 				if (this.feiXingTick >= 0)
 				{

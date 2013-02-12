@@ -106,7 +106,7 @@ public class BZhaDan extends BlockContainer
 
 		if (!world.isRemote)
 		{
-			if (ZhuYaoExplosion.baoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN))
+			if (ZhuYaoExplosion.shiBaoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN, explosiveID))
 			{
 				this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
 				world.setBlockWithNotify(x, y, z, 0);
@@ -233,7 +233,7 @@ public class BZhaDan extends BlockContainer
 	{
 		if (!world.isRemote)
 		{
-			if (!ZhuYaoExplosion.baoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN))
+			if (!ZhuYaoExplosion.shiBaoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN, explosiveID))
 			{
 				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 				if (tileEntity != null)

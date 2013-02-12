@@ -107,15 +107,6 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 
 				RDianCiQi.MODEL.render(0, 0.0625F);
 			}
-			else if (metadata == JiQi.CiGuiPao.ordinal() + 6)
-			{
-				GL11.glTranslatef(0f, 0.9f, 0f);
-				GL11.glRotatef(180f, 0f, 0f, 1f);
-
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + RCiGuiPao.TEXTURE_FILE));
-
-				RCiGuiPao.MODEL.render(90, 0, 0.0625F);
-			}
 			else if (metadata == JiQi.XiaoFaSheQi.ordinal() + 6)
 			{
 				GL11.glTranslatef(0f, 0.4f, 0f);

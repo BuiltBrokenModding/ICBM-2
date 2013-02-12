@@ -108,7 +108,7 @@ public class ExFanWuSu extends ZhaPin
 	{
 		if (entity instanceof EZhaPin)
 		{
-			if (((EZhaPin) entity).explosiveID == this.hongSu.getID())
+			if (((EZhaPin) entity).haoMa == this.hongSu.getID())
 			{
 				entity.setDead();
 				return true;
