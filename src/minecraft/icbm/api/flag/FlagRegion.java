@@ -81,7 +81,7 @@ public class FlagRegion extends FlagBase
 
 		NBTTagList flagList = new NBTTagList();
 
-		for (Flag flag : this.flags)
+		for (Flag flag : this.getFlags())
 		{
 			try
 			{
@@ -129,7 +129,7 @@ public class FlagRegion extends FlagBase
 	{
 		for (Flag region : this.flags)
 		{
-			if (region.name.equalsIgnoreCase(name))
+			if (region.name.equalsIgnoreCase(flagName))
 			{
 				return true;
 			}
@@ -141,7 +141,7 @@ public class FlagRegion extends FlagBase
 	{
 		for (Flag region : this.flags)
 		{
-			if (region.name.equalsIgnoreCase(name))
+			if (region.name.equalsIgnoreCase(flagName))
 			{
 				this.flags.remove(region);
 				return true;

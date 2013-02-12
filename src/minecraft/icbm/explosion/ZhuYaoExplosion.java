@@ -408,26 +408,33 @@ public class ZhuYaoExplosion
 			return true;
 		}
 
+		boolean baoHu = false;
+
 		switch (type)
 		{
 			case QUAN_BU:
-				return ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				break;
 			case CHE:
-				return ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian);
+				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_CHE, "true", diDian);
+				break;
 			case DAO_DAN:
-				return ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian);
+				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_DAO_DAN, "true", diDian);
+				break;
 			case SHOU_LIU_DAN:
-				return ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
+				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
+				break;
 			case ZHA_DAN:
-				return ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				baoHu = ZhuYao.BAO_HU.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				break;
 		}
 
-		return ZhuYao.BAO_HU.containsValue(world, zhaPin.qiZi, "true", diDian);
+		return ZhuYao.BAO_HU.containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
 	}
 
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, int zhaPinID)
 	{
-		if (zhaPinID < ZhaPin.list.length && zhaPinID > 0)
+		if (zhaPinID < ZhaPin.list.length && zhaPinID >= 0)
 		{
 			return shiBaoHu(world, diDian, type, ZhaPin.list[zhaPinID]);
 		}
