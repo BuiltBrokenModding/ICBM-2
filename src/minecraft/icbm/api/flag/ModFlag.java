@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import universalelectricity.core.vector.Vector3;
 
-public class ModFlagData extends FlagBase
+public class ModFlag extends FlagBase
 {
 	/**
 	 * An array of world flag data. Each representing a world.
@@ -22,7 +22,7 @@ public class ModFlagData extends FlagBase
 	 * 
 	 * @param nbt
 	 */
-	public ModFlagData(NBTTagCompound nbt)
+	public ModFlag(NBTTagCompound nbt)
 	{
 		this.readFromNBT(nbt);
 	}

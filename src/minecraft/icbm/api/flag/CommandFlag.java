@@ -20,9 +20,9 @@ public class CommandFlag extends CommandBase
 {
 	public static final String[] commands = new String[] { "list", "addregion", "removeregion", "set" };
 	public String commandName = "flag";
-	public ModFlagData modFlagData;
+	public ModFlag modFlagData;
 
-	public CommandFlag(ModFlagData modFlagData)
+	public CommandFlag(ModFlag modFlagData)
 	{
 		this.modFlagData = modFlagData;
 	}

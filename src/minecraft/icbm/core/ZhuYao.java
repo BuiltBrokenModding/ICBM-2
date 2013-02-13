@@ -4,7 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.api.flag.CommandFlag;
 import icbm.api.flag.FlagRegistry;
-import icbm.api.flag.ModFlagData;
+import icbm.api.flag.ModFlag;
 import icbm.api.flag.NBTFileLoader;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -164,17 +164,17 @@ public class ZhuYao
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
-		FlagRegistry.FLAG_DATA = new ModFlagData(NBTFileLoader.loadData("ICBM"));
+		FlagRegistry.registerModFlag("ICBM", new ModFlag(NBTFileLoader.loadData("ICBM")));
 
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.FLAG_DATA));
+		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag("ICBM")));
 	}
 
 	@ServerStopping
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
-		NBTFileLoader.saveData("ICBM", FlagRegistry.FLAG_DATA.getNBT());
+		NBTFileLoader.saveData("ICBM", FlagRegistry.getModFlag("ICBM").getNBT());
 	}
 
 	@ForgeSubscribe
@@ -182,7 +182,7 @@ public class ZhuYao
 	{
 		if (!evt.world.isRemote)
 		{
-			NBTFileLoader.saveData("ICBM", FlagRegistry.FLAG_DATA.getNBT());
+			NBTFileLoader.saveData("ICBM", FlagRegistry.getModFlag("ICBM").getNBT());
 		}
 	}
 

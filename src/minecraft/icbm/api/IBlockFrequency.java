@@ -1,7 +1,5 @@
 package icbm.api;
 
-import net.minecraft.item.ItemStack;
-
 /**
  * Applied to all blocks that has a frequency.
  * 

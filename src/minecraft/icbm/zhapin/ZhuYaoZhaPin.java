@@ -399,7 +399,7 @@ public class ZhuYaoZhaPin
 	 */
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
 	{
-		if (FlagRegistry.FLAG_DATA.containsValue(world, QIZI_QUAN_BU, "true", diDian))
+		if (FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_QUAN_BU, "true", diDian))
 		{
 			return true;
 		}
@@ -409,23 +409,23 @@ public class ZhuYaoZhaPin
 		switch (type)
 		{
 			case QUAN_BU:
-				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_CHE, "true", diDian) || FlagRegistry.FLAG_DATA.containsValue(world, QIZI_DAO_DAN, "true", diDian) || FlagRegistry.FLAG_DATA.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || FlagRegistry.FLAG_DATA.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				baoHu = FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_CHE, "true", diDian) || FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_DAO_DAN, "true", diDian) || FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_ZHA_DAN, "true", diDian);
 				break;
 			case CHE:
-				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_CHE, "true", diDian);
+				baoHu = FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_CHE, "true", diDian);
 				break;
 			case DAO_DAN:
-				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_DAO_DAN, "true", diDian);
+				baoHu = FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_DAO_DAN, "true", diDian);
 				break;
 			case SHOU_LIU_DAN:
-				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
+				baoHu = FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
 				break;
 			case ZHA_DAN:
-				baoHu = FlagRegistry.FLAG_DATA.containsValue(world, QIZI_ZHA_DAN, "true", diDian);
+				baoHu = FlagRegistry.getModFlag("ICBM").containsValue(world, QIZI_ZHA_DAN, "true", diDian);
 				break;
 		}
 
-		return FlagRegistry.FLAG_DATA.containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
+		return FlagRegistry.getModFlag("ICBM").containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
 	}
 
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, int zhaPinID)

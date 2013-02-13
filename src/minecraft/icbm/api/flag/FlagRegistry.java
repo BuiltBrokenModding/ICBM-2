@@ -1,6 +1,7 @@
 package icbm.api.flag;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,10 +12,20 @@ import java.util.List;
  */
 public class FlagRegistry
 {
-	public static ModFlagData FLAG_DATA;
+	private static final HashMap<String, ModFlag> MOD_FLAGS = new HashMap<String, ModFlag>();
 
 	public static final List<String> flags = new ArrayList<String>();
 	public static boolean isInitiated = false;
+
+	public static void registerModFlag(String name, ModFlag flagData)
+	{
+		MOD_FLAGS.put(name, flagData);
+	}
+
+	public static ModFlag getModFlag(String name)
+	{
+		return MOD_FLAGS.get(name);
+	}
 
 	/**
 	 * Registers a flag name, allowing it to be used by the player. Call this in your mod's init

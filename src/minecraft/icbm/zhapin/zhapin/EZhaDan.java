@@ -1,6 +1,5 @@
 package icbm.zhapin.zhapin;
 
-import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.Entity;
