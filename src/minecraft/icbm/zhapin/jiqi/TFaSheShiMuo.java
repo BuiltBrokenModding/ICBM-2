@@ -96,8 +96,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			if (this.ticks % 3 == 0 && this.yongZhe > 0)
 			{
 				if (this.muBiao == null)
+				{
 					this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
-				PacketManager.sendPacketToClients(PacketManager.getPacket("ICBM", this, (int) 3, this.getJoules(), this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, new Vector3(this), 15);
+				}
+
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 3, this.getJoules(), this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, new Vector3(this), 15);
 			}
 
 			if (this.ticks % 600 == 0)
@@ -110,7 +113,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
 	}
 
 	@Override
@@ -148,14 +151,14 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				this.fangXiang = dataStream.readByte();
 				this.tier = dataStream.readInt();
-				this.setFrequency(dataStream.readShort());
+				this.setFrequency(dataStream.readInt());
 				this.gaoDu = dataStream.readShort();
 			}
 			else if (!this.worldObj.isRemote)
 			{
 				if (ID == 1)
 				{
-					this.setFrequency(dataStream.readShort());
+					this.setFrequency(dataStream.readInt());
 				}
 				else if (ID == 2)
 				{

@@ -241,7 +241,7 @@ public class PacketManager implements IPacketHandler, IPacketReceiver
 			int packetTypeID = data.readInt();
 
 			PacketType packetType = PacketType.get(packetTypeID);
-
+			
 			if (packetType == PacketType.TILEENTITY)
 			{
 				int x = data.readInt();

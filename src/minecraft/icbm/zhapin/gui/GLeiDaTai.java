@@ -2,7 +2,7 @@ package icbm.zhapin.gui;
 
 import icbm.api.ICBM;
 import icbm.core.GuiBase;
-import icbm.core.ZhuYao;
+import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.jiqi.BJiQi;
 import icbm.zhapin.jiqi.TLeiDaTai;
@@ -93,7 +93,7 @@ public class GLeiDaTai extends GuiBase
 		{
 			int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
 			this.tileEntity.safetyBanJing = newSafetyRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.safetyBanJing));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.safetyBanJing));
 		}
 		catch (NumberFormatException e)
 		{
@@ -103,7 +103,7 @@ public class GLeiDaTai extends GuiBase
 		{
 			int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
 			this.tileEntity.alarmBanJing = newAlarmRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.alarmBanJing));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.alarmBanJing));
 		}
 		catch (NumberFormatException e)
 		{

@@ -10,7 +10,6 @@ import icbm.zhapin.gui.GFaSheDi;
 import icbm.zhapin.gui.GFaSheShiMuo;
 import icbm.zhapin.gui.GLeiDaTai;
 import icbm.zhapin.gui.GXiaoFaSheQi;
-import icbm.zhapin.jiqi.EFake;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.jiqi.TFaSheDi;
 import icbm.zhapin.jiqi.TFaSheJia;
@@ -18,7 +17,6 @@ import icbm.zhapin.jiqi.TFaSheShiMuo;
 import icbm.zhapin.jiqi.TLeiDaTai;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.jiqi.TYinDaoQi;
-import icbm.zhapin.render.RBYinXing;
 import icbm.zhapin.render.RChe;
 import icbm.zhapin.render.RDaoDan;
 import icbm.zhapin.render.RDianCiQi;
@@ -26,7 +24,6 @@ import icbm.zhapin.render.REZhaDan;
 import icbm.zhapin.render.RFaSheDi;
 import icbm.zhapin.render.RFaSheJia;
 import icbm.zhapin.render.RFaSheShiMuo;
-import icbm.zhapin.render.RFake;
 import icbm.zhapin.render.RFeiBlock;
 import icbm.zhapin.render.RGuangBang;
 import icbm.zhapin.render.RHJiQi;
@@ -80,7 +77,6 @@ public class ClientProxy extends CommonProxy
 		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itTeBieDaoDan.itemID, new RItDaoDan());
 
 		RenderingRegistry.registerBlockHandler(new RHZhaPin());
-		RenderingRegistry.registerBlockHandler(new RBYinXing());
 		RenderingRegistry.registerBlockHandler(new RHJiQi());
 
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
@@ -90,7 +86,6 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
 		RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RSuiPian());
 		RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RShouLiuDan());
-		RenderingRegistry.registerEntityRenderingHandler(EFake.class, new RFake());
 		RenderingRegistry.registerEntityRenderingHandler(EChe.class, new RChe());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class, new RXiaoFaSheQi());

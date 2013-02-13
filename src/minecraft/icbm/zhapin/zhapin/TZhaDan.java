@@ -2,7 +2,6 @@ package icbm.zhapin.zhapin;
 
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;
@@ -83,7 +82,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (byte) 1, this.haoMa);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (byte) 1, this.haoMa);
 	}
 
 	@Override

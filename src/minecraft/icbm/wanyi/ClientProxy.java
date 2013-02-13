@@ -4,6 +4,7 @@ import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
 import icbm.wanyi.gui.GFrequency;
 import icbm.wanyi.gui.GYinGanQi;
+import icbm.wanyi.render.RBYinXing;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -11,6 +12,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.TextureFXManager;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,6 +33,7 @@ public class ClientProxy extends CommonProxy
 	public void init()
 	{
 		super.init();
+		RenderingRegistry.registerBlockHandler(new RBYinXing());
 		TextureFXManager.instance().addAnimation(new FXGenZhongQi(FMLClientHandler.instance().getClient()));
 	}
 

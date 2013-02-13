@@ -1,5 +1,6 @@
 package icbm.wanyi;
 
+import icbm.core.ItGenZongQi;
 import icbm.core.ZhuYao;
 
 import java.awt.image.BufferedImage;

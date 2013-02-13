@@ -127,7 +127,7 @@ public class ItYaoKong extends ItemElectric
 								// Check for electricity
 								if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
 								{
-									PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte) 2));
+									PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, tileEntity, (byte) 2));
 									return itemStack;
 								}
 								else
@@ -148,9 +148,9 @@ public class ItYaoKong extends ItemElectric
 					if (this.nengZha(tileEntity))
 					{
 						// Blow it up
-						PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, tileEntity, (byte) 2));
+						PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, tileEntity, (byte) 2));
 						// Use Energy
-						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYao.CHANNEL, (int) ZhaPinPacketType.REMOTE.ordinal()));
+						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, (int) ZhaPinPacketType.REMOTE.ordinal()));
 					}
 				}
 				else

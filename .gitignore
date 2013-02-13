@@ -18,6 +18,7 @@ CHANGELOG
 !/resources/
 !info.txt
 !mcmod.info
+!publish_local.bat
 !publish.bat
 !include.bat
 !/README

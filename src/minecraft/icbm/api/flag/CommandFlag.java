@@ -22,9 +22,15 @@ public class CommandFlag extends CommandBase
 	public String commandName = "flag";
 	public ModFlag modFlagData;
 
-	public CommandFlag(ModFlag modFlagData)
+	public CommandFlag(ModFlag modFlag)
 	{
-		this.modFlagData = modFlagData;
+		this.modFlagData = modFlag;
+	}
+
+	public CommandFlag(ModFlag modFlag, String commandName)
+	{
+		this(modFlag);
+		this.commandName = commandName;
 	}
 
 	@Override

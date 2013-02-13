@@ -17,7 +17,6 @@ import icbm.zhapin.dianqi.ItLeiSheZhiBiao;
 import icbm.zhapin.dianqi.ItYaoKong;
 import icbm.zhapin.jiqi.BJiQi;
 import icbm.zhapin.jiqi.BJiQi.JiQi;
-import icbm.zhapin.jiqi.EFake;
 import icbm.zhapin.jiqi.IBJiQi;
 import icbm.zhapin.po.PChuanRanDu;
 import icbm.zhapin.po.PDaDu;
@@ -74,11 +73,12 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:ICBM")
-@NetworkMod(channels = ZhuYao.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ZhaPinPacketGuanLi.class)
+@Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
+@NetworkMod(channels = ZhuYaoZhaPin.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ZhaPinPacketGuanLi.class)
 public class ZhuYaoZhaPin
 {
 	public static final String NAME = ICBM.NAME + "|Explosion";
+	public static final String CHANNEL = ICBM.NAME + "|E";
 
 	@Instance(ZhuYaoZhaPin.NAME)
 	public static ZhuYaoZhaPin instance;
@@ -124,6 +124,7 @@ public class ZhuYaoZhaPin
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		ZhuYao.INSTANCE.init();
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
 		ICBM.CONFIGURATION.load();
@@ -372,7 +373,6 @@ public class ZhuYaoZhaPin
 		EntityRegistry.registerGlobalEntityID(EGuang.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(ESuiPian.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EShouLiuDan.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EFake.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EChe.class, "ICBMChe", EntityRegistry.findGlobalUniqueEntityId());
 
 		EntityRegistry.registerModEntity(EZhaDan.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
@@ -382,7 +382,6 @@ public class ZhuYaoZhaPin
 		EntityRegistry.registerModEntity(EGuang.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);
 		EntityRegistry.registerModEntity(ESuiPian.class, "ICBMFragment", ENTITY_ID_PREFIX + 5, this, 40, 8, true);
 		EntityRegistry.registerModEntity(EShouLiuDan.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
-		EntityRegistry.registerModEntity(EFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EChe.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
 
 		// Register potion effects
@@ -441,6 +440,7 @@ public class ZhuYaoZhaPin
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
+		ZhuYao.INSTANCE.serverStarting(event);
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new MingLing());

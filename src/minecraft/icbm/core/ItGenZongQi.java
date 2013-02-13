@@ -1,7 +1,6 @@
-package icbm.wanyi;
+package icbm.core;
 
 import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
 
 import java.util.List;
 

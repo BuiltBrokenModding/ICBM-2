@@ -1,6 +1,6 @@
 package icbm.zhapin.daodan;
 
-import icbm.wanyi.ItGenZongQi;
+import icbm.core.ItGenZongQi;
 import icbm.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

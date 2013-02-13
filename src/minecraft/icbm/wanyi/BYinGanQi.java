@@ -2,7 +2,6 @@ package icbm.wanyi;
 
 import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;
-import icbm.zhapin.ZhuYaoZhaPin;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class BYinGanQi extends BlockMachine
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		par5EntityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYao.GUI_YIN_GAN_QI, par1World, x, y, z);
+		par5EntityPlayer.openGui(ZhuYaoWanYi.instance, ZhuYao.GUI_YIN_GAN_QI, par1World, x, y, z);
 		return true;
 	}
 

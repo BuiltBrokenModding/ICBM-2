@@ -2,7 +2,7 @@ package icbm.zhapin.gui;
 
 import icbm.api.ICBM;
 import icbm.core.GuiBase;
-import icbm.core.ZhuYao;
+import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TFaSheShiMuo;
 import net.minecraft.client.gui.GuiTextField;
 
@@ -66,14 +66,14 @@ public class GFaSheShiMuo extends GuiBase
 			this.tFY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) -1, true));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) -1, true));
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) -1, false));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) -1, false));
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class GFaSheShiMuo extends GuiBase
 			Vector3 newTarget = new Vector3(Integer.parseInt(this.tFX.getText()), Math.max(Integer.parseInt(this.tFY.getText()), 0), Integer.parseInt(this.tFZ.getText()));
 
 			this.tileEntity.setTarget(newTarget);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
 		}
 		catch (NumberFormatException e)
 		{
@@ -114,7 +114,7 @@ public class GFaSheShiMuo extends GuiBase
 			short newFrequency = (short) Math.max(Short.parseShort(this.tFFreq.getText()), 0);
 
 			this.tileEntity.setFrequency(newFrequency);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 1, this.tileEntity.getFrequency()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 1, this.tileEntity.getFrequency()));
 		}
 		catch (NumberFormatException e)
 		{
@@ -126,7 +126,7 @@ public class GFaSheShiMuo extends GuiBase
 			short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.tFGaoDu.getText()), 99), 3);
 
 			this.tileEntity.gaoDu = newGaoDu;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.gaoDu));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.gaoDu));
 		}
 		catch (NumberFormatException e)
 		{

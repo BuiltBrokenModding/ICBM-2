@@ -4,7 +4,7 @@ import icbm.api.ICBMTab;
 import icbm.api.explosion.IEMPBlock;
 import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYao;
-import icbm.zhapin.render.RBYinXing;
+import icbm.wanyi.render.RBYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

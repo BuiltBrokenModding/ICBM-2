@@ -233,7 +233,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
@@ -293,7 +293,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			if (ID == 0)
 			{
 				this.setJoules(dataStream.readDouble());
-				this.shengBuo = dataStream.readShort();
+				this.setFrequency(dataStream.readInt());
 				this.disabledTicks = dataStream.readInt();
 				this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
@@ -301,7 +301,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if (!this.worldObj.isRemote)
 				{
-					this.shengBuo = dataStream.readShort();
+					this.setFrequency(dataStream.readInt());
 				}
 			}
 			else if (ID == 2)

@@ -1,6 +1,5 @@
 package icbm.zhapin.jiqi;
 
-import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,7 +48,7 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.orientation, this.getTier());
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, this.orientation, this.getTier());
 	}
 
 	/**

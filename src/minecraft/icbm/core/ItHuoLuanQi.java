@@ -1,8 +1,8 @@
-package icbm.wanyi;
+package icbm.core;
 
 import icbm.api.ICBMTab;
 import icbm.api.IItemFrequency;
-import icbm.core.ZhuYao;
+import icbm.wanyi.ZhuYaoWanYi;
 
 import java.util.List;
 

@@ -6,6 +6,7 @@ import icbm.api.flag.CommandFlag;
 import icbm.api.flag.FlagRegistry;
 import icbm.api.flag.ModFlag;
 import icbm.api.flag.NBTFileLoader;
+import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -50,14 +51,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * 
  */
 
-@Mod(modid = ICBM.NAME, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
-@NetworkMod(channels = ZhuYao.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class ZhuYao
 {
-	@Instance("ICBM")
-	public static ZhuYao instance;
-
-	public static final String CHANNEL = ICBM.NAME;
+	public static final ZhuYao INSTANCE = new ZhuYao();
 
 	public static boolean ZAI_KUAI;
 
@@ -98,67 +94,72 @@ public class ZhuYao
 	public static final int GUI_DIAN_CI_QI = 6;
 	public static final int GUI_FA_SHE_DI = 7;
 
-	@PreInit
-	public void preInit(FMLPreInitializationEvent event)
+	private boolean isInitialized;
+
+	public void init()
 	{
-		UniversalElectricity.register(this, 1, 2, 5, false);
-		MinecraftForge.EVENT_BUS.register(this);
-
-		System.out.println(ICBM.NAME + " Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
-
-		ICBM.CONFIGURATION.load();
-		ZAI_KUAI = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
-		DAO_DAN_ZUI_YUAN = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
-
-		// BLOCKS
-		bLiu = new BLiu(ICBM.CONFIGURATION.getBlock("BlockID1", ICBM.BLOCK_ID_PREFIX + 0).getInt());
-
-		itDu = new Item(ICBM.CONFIGURATION.getItem("ItemID2", ICBM.ITEM_ID_PREFIX + 0).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ZhuYao.ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
-		itLiu = new Item(ICBM.CONFIGURATION.getItem("ItemID1", ICBM.ITEM_ID_PREFIX + 1).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ZhuYao.ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
-
-		// -- Registering Blocks
-		GameRegistry.registerBlock(bLiu, "bLiu");
-
-		liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(ICBM.CONFIGURATION);
-
-		/**
-		 * Check for existence of radioactive block. If it does not exist, then create it.
-		 */
-		if (OreDictionary.getOres("blockRadioactive").size() > 0)
+		if (!isInitialized)
 		{
-			bFuShe = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
-			System.out.println(ICBM.NAME + " detected radioative block from another mod, utilizing it.");
+			UniversalElectricity.register(this, 1, 2, 5, false);
+			MinecraftForge.EVENT_BUS.register(this);
+
+			System.out.println(ICBM.NAME + " Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
+
+			ICBM.CONFIGURATION.load();
+			ZAI_KUAI = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
+			DAO_DAN_ZUI_YUAN = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
+
+			// BLOCKS
+			bLiu = new BLiu(ICBM.CONFIGURATION.getBlock("BlockID1", ICBM.BLOCK_ID_PREFIX + 0).getInt());
+
+			itDu = new Item(ICBM.CONFIGURATION.getItem("ItemID2", ICBM.ITEM_ID_PREFIX + 0).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ZhuYao.ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
+			itLiu = new Item(ICBM.CONFIGURATION.getItem("ItemID1", ICBM.ITEM_ID_PREFIX + 1).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ZhuYao.ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
+
+			// -- Registering Blocks
+			GameRegistry.registerBlock(bLiu, "bLiu");
+
+			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(ICBM.CONFIGURATION);
+
+			/**
+			 * Check for existence of radioactive block. If it does not exist, then create it.
+			 */
+			if (OreDictionary.getOres("blockRadioactive").size() > 0)
+			{
+				bFuShe = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
+				System.out.println(ICBM.NAME + " detected radioative block from another mod, utilizing it.");
+			}
+			else
+			{
+				bFuShe = new BlockRadioactive(ICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
+				GameRegistry.registerBlock(bFuShe, "Radioactive");
+				OreDictionary.registerOre("blockRadioactive", bFuShe);
+				System.out.println(ICBM.NAME + " cannot find radioactive block in ore dictionary. Creating one.");
+			}
+
+			ICBM.CONFIGURATION.save();
+
+			OreDictionary.registerOre("dustSulfur", itLiu);
+			OreGenerator.addOre(liuGenData);
+
+			UpdateNotifier.INSTANCE.checkUpdate(ICBM.NAME, ICBM.VERSION, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
+
+			/**
+			 * LOAD.
+			 */
+
+			// Sulfur
+			GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4), 0.8f);
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
+
+			GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
+
+			// Poison Powder
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itDu, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
+
+			GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
+			this.isInitialized = true;
 		}
-		else
-		{
-			bFuShe = new BlockRadioactive(ICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
-			GameRegistry.registerBlock(bFuShe, "Radioactive");
-			OreDictionary.registerOre("blockRadioactive", bFuShe);
-			System.out.println(ICBM.NAME + " cannot find radioactive block in ore dictionary. Creating one.");
-		}
-
-		ICBM.CONFIGURATION.save();
-
-		OreDictionary.registerOre("dustSulfur", itLiu);
-		OreGenerator.addOre(liuGenData);
-
-		UpdateNotifier.INSTANCE.checkUpdate(ICBM.NAME, ICBM.VERSION, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
-	}
-
-	@Init
-	public void load(FMLInitializationEvent evt)
-	{
-		// Sulfur
-		GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4), 0.8f);
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
-
-		GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
-
-		// Poison Powder
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itDu, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
-
-		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
 	}
 
 	@ServerStarting
@@ -169,12 +170,6 @@ public class ZhuYao
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag("ICBM")));
-	}
-
-	@ServerStopping
-	public void serverStopping(FMLServerStoppingEvent event)
-	{
-		NBTFileLoader.saveData("ICBM", FlagRegistry.getModFlag("ICBM").getNBT());
 	}
 
 	@ForgeSubscribe

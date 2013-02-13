@@ -1,8 +1,8 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
+import icbm.core.ItHuoLuanQi;
 import icbm.core.ZhuYao;
-import icbm.wanyi.ItHuoLuanQi;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 
@@ -247,7 +247,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 
 	private Packet getDescriptionPacket2()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.alarmBanJing, this.safetyBanJing);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 1, this.alarmBanJing, this.safetyBanJing);
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 			sendDian = this.getRequest().getWatts();
 		}
 
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 4, sendDian, this.disabledTicks);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 4, sendDian, this.disabledTicks);
 	}
 
 	@Override
@@ -470,17 +470,17 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 				for (Entity entity : entities)
 				{
 					returnArray.put("x_" + count, entity.posX);
-					returnArray.put("y" + count, entity.posY);
-					returnArray.put("z+count", entity.posZ);
+					returnArray.put("y_" + count, entity.posY);
+					returnArray.put("z_" + count, entity.posZ);
 				}
 
 				return new Object[] { returnArray };
 			case 1:
 				for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
 				{
-					returnArray.put("x" + count, (double) jiQi.xCoord);
-					returnArray.put("y" + count, (double) jiQi.yCoord);
-					returnArray.put("z" + count, (double) jiQi.zCoord);
+					returnArray.put("x_" + count, (double) jiQi.xCoord);
+					returnArray.put("y_" + count, (double) jiQi.yCoord);
+					returnArray.put("z_" + count, (double) jiQi.zCoord);
 				}
 				return new Object[] { returnArray };
 		}

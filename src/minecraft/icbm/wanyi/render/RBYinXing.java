@@ -1,4 +1,4 @@
-package icbm.zhapin.render;
+package icbm.wanyi.render;
 
 import icbm.core.ZhuYao;
 import icbm.wanyi.BYinXing;

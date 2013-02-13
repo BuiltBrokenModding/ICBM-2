@@ -328,7 +328,7 @@ public class ItLeiSheZhiBiao extends ItemElectric implements IItemFrequency
 
 							if (doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
 							{
-								PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYao.CHANNEL, (int) ZhaPinPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+								PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, (int) ZhaPinPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 								par3EntityPlayer.addChatMessage("Calling air strike into designated position!");
 							}
 						}

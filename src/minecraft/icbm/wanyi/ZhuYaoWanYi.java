@@ -2,6 +2,8 @@ package icbm.wanyi;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
+import icbm.core.ItGenZongQi;
+import icbm.core.ItHuoLuanQi;
 import icbm.core.ZhuYao;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -12,19 +14,21 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:ICBM")
+@Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
 @NetworkMod(channels = ZhuYaoWanYi.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = WanYiPacketGuanLi.class)
 public class ZhuYaoWanYi
 {
 	public static final String NAME = ICBM.NAME + "|Contraption";
-	public static final String CHANNEL = ICBM.NAME;
+	public static final String CHANNEL = ICBM.NAME + "|C";
 
 	@Instance(ZhuYaoWanYi.NAME)
 	public static ZhuYaoWanYi instance;
@@ -47,6 +51,7 @@ public class ZhuYaoWanYi
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		ZhuYao.INSTANCE.init();
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
 		ICBM.CONFIGURATION.load();
@@ -102,5 +107,11 @@ public class ZhuYaoWanYi
 		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
 
 		this.proxy.init();
+	}
+
+	@ServerStarting
+	public void serverStarting(FMLServerStartingEvent event)
+	{
+		ZhuYao.INSTANCE.serverStarting(event);
 	}
 }

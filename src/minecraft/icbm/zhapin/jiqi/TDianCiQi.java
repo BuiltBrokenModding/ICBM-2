@@ -125,7 +125,7 @@ public class TDianCiQi extends TileEntityElectricityStorage implements IPacketRe
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, (int) 1, this.getJoules(), this.disabledTicks, this.banJing, this.muoShi);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 1, this.getJoules(), this.disabledTicks, this.banJing, this.muoShi);
 	}
 
 	@Override

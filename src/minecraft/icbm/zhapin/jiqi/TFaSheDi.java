@@ -204,7 +204,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYao.CHANNEL, this, this.orientation, this.tier);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, this.orientation, this.tier);
 	}
 
 	@Override

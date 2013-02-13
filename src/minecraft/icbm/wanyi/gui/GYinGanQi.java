@@ -2,8 +2,8 @@ package icbm.wanyi.gui;
 
 import icbm.api.ICBM;
 import icbm.core.GuiBase;
-import icbm.core.ZhuYao;
 import icbm.wanyi.TYinGanQi;
+import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 
@@ -88,7 +88,7 @@ public class GYinGanQi extends GuiBase
 		this.textFieldmaxZ.setMaxStringLength(2);
 		this.textFieldmaxZ.setText(this.tileEntity.maxCoord.intZ() + "");
 
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) -1, true));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) -1, true));
 
 	}
 
@@ -96,7 +96,7 @@ public class GYinGanQi extends GuiBase
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) -1, false));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) -1, false));
 
 	}
 
@@ -116,7 +116,7 @@ public class GYinGanQi extends GuiBase
 				this.tileEntity.mode = 0;
 			}
 
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.mode));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.mode));
 		}
 	}
 
@@ -140,7 +140,7 @@ public class GYinGanQi extends GuiBase
 			Vector3 newMinCoord = new Vector3(Integer.parseInt(this.textFieldminX.getText()), Integer.parseInt(this.textFieldminY.getText()), Integer.parseInt(this.textFieldminZ.getText()));
 
 			this.tileEntity.minCoord = newMinCoord;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 4, this.tileEntity.minCoord.intX(), this.tileEntity.minCoord.intY(), this.tileEntity.minCoord.intZ()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 4, this.tileEntity.minCoord.intX(), this.tileEntity.minCoord.intY(), this.tileEntity.minCoord.intZ()));
 		}
 		catch (Exception e)
 		{
@@ -151,7 +151,7 @@ public class GYinGanQi extends GuiBase
 			Vector3 newMaxCoord = new Vector3(Integer.parseInt(this.textFieldmaxX.getText()), Integer.parseInt(this.textFieldmaxY.getText()), Integer.parseInt(this.textFieldmaxZ.getText()));
 
 			this.tileEntity.maxCoord = newMaxCoord;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 5, this.tileEntity.maxCoord.intX(), this.tileEntity.maxCoord.intY(), this.tileEntity.maxCoord.intZ()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 5, this.tileEntity.maxCoord.intX(), this.tileEntity.maxCoord.intY(), this.tileEntity.maxCoord.intZ()));
 		}
 		catch (Exception e)
 		{
@@ -163,7 +163,7 @@ public class GYinGanQi extends GuiBase
 			short newFrequency = (short) Math.max(0, Short.parseShort(this.textFieldFreq.getText()));
 
 			this.tileEntity.frequency = newFrequency;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYao.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.frequency));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.frequency));
 		}
 		catch (Exception e)
 		{
