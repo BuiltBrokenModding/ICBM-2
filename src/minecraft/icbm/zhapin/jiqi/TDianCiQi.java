@@ -10,6 +10,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
@@ -206,5 +207,11 @@ public class TDianCiQi extends TileEntityElectricityStorage implements IPacketRe
 	public double getMaxJoules(Object... data)
 	{
 		return Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 800000);
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
 	}
 }

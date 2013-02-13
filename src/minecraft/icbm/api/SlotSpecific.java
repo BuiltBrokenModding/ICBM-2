@@ -6,12 +6,19 @@ import net.minecraft.item.ItemStack;
 
 public class SlotSpecific extends Slot
 {
-	private ItemStack[] itemStacks;
+	public ItemStack[] itemStacks;
+	public boolean isMetadataSensitive = false;
 
 	public SlotSpecific(IInventory par2IInventory, int par3, int par4, int par5, ItemStack... itemStacks)
 	{
 		super(par2IInventory, par3, par4, par5);
 		this.itemStacks = itemStacks;
+	}
+
+	public SlotSpecific setMetadataSensitive()
+	{
+		this.isMetadataSensitive = true;
+		return this;
 	}
 
 	/**
@@ -22,7 +29,7 @@ public class SlotSpecific extends Slot
 	{
 		for (ItemStack itemStack : itemStacks)
 		{
-			if (compareStack.isItemEqual(itemStack))
+			if (compareStack.isItemEqual(itemStack) || (!this.isMetadataSensitive && compareStack.itemID == itemStack.itemID))
 			{
 				return true;
 			}

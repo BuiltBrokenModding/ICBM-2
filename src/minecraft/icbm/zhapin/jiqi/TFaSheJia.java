@@ -7,6 +7,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
@@ -72,6 +73,7 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	 * 
 	 * @return True if you want updateEntity() to be called, false if not
 	 */
+	@Override
 	public boolean canUpdate()
 	{
 		return false;
@@ -142,5 +144,11 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
 	}
 }

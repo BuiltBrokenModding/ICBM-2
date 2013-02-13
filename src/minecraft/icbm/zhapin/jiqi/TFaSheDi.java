@@ -15,6 +15,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.vector.Vector3;
@@ -556,5 +557,11 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
 	}
 }

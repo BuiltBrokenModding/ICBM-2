@@ -165,7 +165,7 @@ public class CommandFlag extends CommandBase
 
 				return;
 			}
-			else if (commandName.equalsIgnoreCase("addregion"))
+			else if (commandName.equalsIgnoreCase("addregion") && args.length > 1)
 			{
 				String regionName = args[1];
 
@@ -240,7 +240,6 @@ public class CommandFlag extends CommandBase
 				return;
 			}
 			else if (commandName.equalsIgnoreCase("set"))
-
 			{
 				if (args.length > 2)
 				{
@@ -250,31 +249,31 @@ public class CommandFlag extends CommandBase
 
 					if (flagRegion != null)
 					{
-						if (args.length > 3)
+						if (FlagRegistry.flags.contains(flagName))
 						{
-							String flagValue = args[3];
-
-							if (FlagRegistry.flags.contains(flagName))
+							if (args.length > 3)
 							{
+								String flagValue = args[3];
+
 								flagRegion.setFlag(flagName, flagValue);
 								sender.sendChatToPlayer("Flag '" + flagName + "' has been set to '" + flagValue + "' in " + regionName + ".");
 							}
 							else
 							{
-								String flags = "Flag does not exist. Existing flags:\n";
-
-								for (String registeredFlag : FlagRegistry.flags)
-								{
-									flags = flags + registeredFlag + ", ";
-								}
-
-								throw new WrongUsageException(flags);
+								flagRegion.removeFlag(flagName);
+								sender.sendChatToPlayer("Removed flag '" + flagName + "'.");
 							}
 						}
 						else
 						{
-							flagRegion.removeFlag(flagName);
-							sender.sendChatToPlayer("Removed flag '" + flagName + "'.");
+							String flags = "Flag does not exist. Existing flags:\n";
+
+							for (String registeredFlag : FlagRegistry.flags)
+							{
+								flags = flags + registeredFlag + ", ";
+							}
+
+							throw new WrongUsageException(flags);
 						}
 					}
 					else

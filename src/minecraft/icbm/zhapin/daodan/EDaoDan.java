@@ -97,6 +97,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.setSize(1F, 1F);
 		this.renderDistanceWeight = 2F;
 		this.isImmuneToFire = true;
+		this.ignoreFrustumCheck = true;
 	}
 
 	/**

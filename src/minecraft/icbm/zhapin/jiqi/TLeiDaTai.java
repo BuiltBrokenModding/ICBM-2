@@ -519,4 +519,10 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 	{
 		return new ElectricityPack(15 / this.getVoltage(), this.getVoltage());
 	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
+	}
 }
