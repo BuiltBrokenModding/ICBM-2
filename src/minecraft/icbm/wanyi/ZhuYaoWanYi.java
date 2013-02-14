@@ -3,7 +3,6 @@ package icbm.wanyi;
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.core.ItGenZongQi;
-import icbm.core.ItHuoLuanQi;
 import icbm.core.ZhuYao;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -22,6 +21,8 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
 @NetworkMod(channels = ZhuYaoWanYi.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = WanYiPacketGuanLi.class)
@@ -53,7 +54,7 @@ public class ZhuYaoWanYi
 	{
 		ZhuYao.INSTANCE.init();
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
-
+		
 		ICBM.CONFIGURATION.load();
 
 		// Blocks

@@ -51,6 +51,7 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -60,6 +61,8 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void preInit()
 	{
+		TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
+
 		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_TEXTURE_FILE);
 		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
 		MinecraftForgeClient.preloadTexture(ZhuYao.TRACKER_TEXTURE_FILE);

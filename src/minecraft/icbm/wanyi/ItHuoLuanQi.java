@@ -1,8 +1,8 @@
-package icbm.core;
+package icbm.wanyi;
 
 import icbm.api.ICBMTab;
 import icbm.api.IItemFrequency;
-import icbm.wanyi.ZhuYaoWanYi;
+import icbm.core.ZhuYao;
 
 import java.util.List;
 
@@ -21,12 +21,7 @@ public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
 		this.iconIndex = par2;
 		this.setItemName("signalDisrupter");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
+		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
 	}
 
 	/**
@@ -91,5 +86,11 @@ public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
 	public double getMaxJoules(Object... data)
 	{
 		return 80000;
+	}
+
+	@Override
+	public boolean canProduceElectricity()
+	{
+		return true;
 	}
 }

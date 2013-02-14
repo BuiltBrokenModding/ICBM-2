@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.implement.IDisableable;
 import universalelectricity.core.implement.IJouleStorage;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 import chb.mods.mffs.api.IForceEnergyStorageBlock;
 import chb.mods.mffs.api.IForceFieldBlock;
 
@@ -85,6 +86,11 @@ public class ExDianCiWave extends ZhaPin
 							if (tileEntity instanceof IEnergyStorage)
 							{
 								((IEnergyStorage) tileEntity).setStored(0);
+							}
+
+							if (tileEntity instanceof TileEntityElectricityRunnable)
+							{
+								((TileEntityElectricityRunnable) tileEntity).wattsReceived = 0;
 							}
 						}
 					}

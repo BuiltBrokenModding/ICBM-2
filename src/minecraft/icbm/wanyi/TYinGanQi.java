@@ -1,6 +1,5 @@
 package icbm.wanyi;
 
-import icbm.core.ItHuoLuanQi;
 import icbm.zhapin.ZhuYaoZhaPin;
 
 import java.util.List;

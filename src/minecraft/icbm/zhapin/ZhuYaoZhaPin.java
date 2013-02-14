@@ -112,10 +112,6 @@ public class ZhuYaoZhaPin
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
 
-	/**
-	 * Flags used for protection commands.
-	 */
-	private static final String QIZI_QUAN_BU = FlagRegistry.registerFlag("ban_icbm");
 	private static final String QIZI_ZHA_DAN = FlagRegistry.registerFlag("ban_explosive");
 	private static final String QIZI_SHOU_LIU_DAN = FlagRegistry.registerFlag("ban_grenade");
 	private static final String QIZI_DAO_DAN = FlagRegistry.registerFlag("ban_missile");
@@ -290,10 +286,8 @@ public class ZhuYaoZhaPin
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ZhuYaoZhaPin.itLeiDaQiang.getUncharged(), '!', "plateSteel", '#', "basicCircuit", '?', Item.ingotGold }));
 		// EMP Tower
 		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor", 'W', "copperWire" }), "EMP Tower", ICBM.CONFIGURATION, true);
-		// Railgun
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?!#", "@@@", '@', "plateSteel", '!', ZhuYaoZhaPin.itLeiDaQiang.getUncharged(), '#', Item.diamond, '?', "eliteCircuit" }), "Railgun", ICBM.CONFIGURATION, true);
 		// Cruise Launcher
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 12), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
 
 		// Missile Module
 		// Find and try to add a recipe with fuel, then oil then coal.
@@ -398,7 +392,7 @@ public class ZhuYaoZhaPin
 	 */
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
 	{
-		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_QUAN_BU, "true", diDian))
+		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBM.FLAG_GLOBAL_BAN, "true", diDian))
 		{
 			return true;
 		}

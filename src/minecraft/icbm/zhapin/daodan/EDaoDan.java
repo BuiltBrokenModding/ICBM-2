@@ -15,6 +15,8 @@ import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -341,7 +343,9 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 					DaoDan.list[this.haoMa].onTickFlight(this);
 
-					if (this.baoHuShiJian <= 0 && (this.posY > 1000 || this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ) != 0 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
+					Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
+
+					if (this.baoHuShiJian <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
 					{
 						this.explode();
 						return;

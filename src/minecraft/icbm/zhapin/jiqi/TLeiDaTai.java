@@ -1,7 +1,7 @@
 package icbm.zhapin.jiqi;
 
+import icbm.api.IItemFrequency;
 import icbm.api.RadarRegistry;
-import icbm.core.ItHuoLuanQi;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
@@ -199,7 +199,7 @@ public class TLeiDaTai extends TileEntityElectricityRunnable implements IPacketR
 
 					if (itemStack != null)
 					{
-						if (itemStack.getItem() instanceof ItHuoLuanQi)
+						if (itemStack.getItem() instanceof IItemFrequency)
 						{
 							youHuoLuan = true;
 

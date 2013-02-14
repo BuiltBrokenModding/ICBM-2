@@ -1,5 +1,7 @@
 package icbm.api;
 
+import icbm.api.flag.FlagRegistry;
+
 import java.io.File;
 import java.lang.reflect.Method;
 
@@ -45,6 +47,11 @@ public class ICBM
 	 * The item ID in which ICBM starts with.
 	 */
 	public static final int ITEM_ID_PREFIX = 3900;
+
+	/**
+	 * The flag for banning ICBM components.
+	 */
+	public static final String FLAG_GLOBAL_BAN = FlagRegistry.registerFlag("ban_icbm");
 
 	public static Class explosionManager;
 

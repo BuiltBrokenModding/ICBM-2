@@ -214,13 +214,13 @@ public class GYinGanQi extends GuiBase
 
 		this.fontRenderer.drawString("Frequency:", 15, 102, 4210752);
 
-		if (this.tileEntity.isInverted)
+		if (!this.tileEntity.isInverted)
 		{
-			this.fontRenderer.drawString("Exclude", 120, 102, 4210752);
+			this.fontRenderer.drawString("Exclusive", 120, 102, 4210752);
 		}
 		else
 		{
-			this.fontRenderer.drawString("Include", 120, 102, 4210752);
+			this.fontRenderer.drawString("Inclusive", 120, 102, 4210752);
 		}
 		this.fontRenderer.drawString("Target:", 15, 120, 4210752);
 

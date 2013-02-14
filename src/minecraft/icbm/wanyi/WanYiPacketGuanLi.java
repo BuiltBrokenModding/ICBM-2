@@ -1,6 +1,5 @@
 package icbm.wanyi;
 
-import icbm.core.ItHuoLuanQi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;

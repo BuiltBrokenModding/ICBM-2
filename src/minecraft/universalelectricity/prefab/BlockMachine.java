@@ -94,10 +94,7 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 			}
 			else if (par5EntityPlayer.inventory.getCurrentItem().getItem() instanceof IItemElectric)
 			{
-				if (this.onUseElectricItem(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ))
-				{
-					return true;
-				}
+				if (this.onUseElectricItem(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ)) { return true; }
 			}
 		}
 
