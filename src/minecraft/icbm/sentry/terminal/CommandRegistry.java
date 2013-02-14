@@ -1,27 +1,27 @@
 package icbm.sentry.terminal;
 
-import icbm.sentry.gui.GuiConsole;
-import icbm.sentry.terminal.commands.CmdHelp;
+import icbm.sentry.gui.GuiTerminal;
+import icbm.sentry.terminal.command.CommandHelp;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class CmdHandler
+public class CommandRegistry
 {
-	public static List<ConsoleCommand> cmds = new ArrayList<ConsoleCommand>();
+	public static final List<TerminalCommand> COMMANDS = new ArrayList<TerminalCommand>();
 
 	/**
 	 * 
 	 * @param prefix - what the command starts with for example /time
 	 * @param cmd - Cmd instance that will execute the command
 	 */
-	public static void regCmd(ConsoleCommand cmd)
+	public static void register(TerminalCommand cmd)
 	{
-		if (!cmds.contains(cmd))
+		if (!COMMANDS.contains(cmd))
 		{
-			cmds.add(cmd);
+			COMMANDS.add(cmd);
 		}
 	}
 
@@ -33,25 +33,24 @@ public class CmdHandler
 	 * @param gui
 	 * @param cmd
 	 */
-	public static void onCmd(EntityPlayer player, ISpecialAccess TE, GuiConsole gui, String cmd)
+	public static void onCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String cmd)
 	{
 		boolean wasUsed = false;
-		ConsoleCommand command = null;
+		TerminalCommand command = null;
 		String[] args = cmd.split(" ");
 		if (args[0] != null)
 		{
 			if (args[0].equalsIgnoreCase("help"))
 			{
-				command = new CmdHelp();
+				command = new CommandHelp();
 				if (command.processCommand(player, TE, gui, args))
 				{
 					wasUsed = true;
 				}
-
 			}
 			else
 			{
-				for (ConsoleCommand cm : cmds)
+				for (TerminalCommand cm : COMMANDS)
 				{
 					if (cm.getCommandPrefix().equalsIgnoreCase(args[0]))
 					{
@@ -65,7 +64,7 @@ public class CmdHandler
 						{
 							if (!cm.canPlayerUse(player, TE))
 							{
-								gui.addToConsole("no access");
+								gui.addToConsole("Access Denied.");
 								wasUsed = true;
 								break;
 							}
@@ -85,7 +84,7 @@ public class CmdHandler
 		}
 		if (!wasUsed)
 		{
-			gui.addToConsole("unkown command");
+			gui.addToConsole("Unkown Command.");
 		}
 	}
 

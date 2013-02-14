@@ -50,15 +50,11 @@ public class LookHelper
 
 		if (getAngleDif(sentry.rotationYaw, yaw) <= allowedError)
 		{
-			// System.out.println("PitchMatch");
 			if (getAngleDif(sentry.rotationPitch, pitch) <= allowedError)
 			{
-				// System.out.println("PitchMatch");
 				return true;
 			}
-			// System.out.println("pitchMiss Dif " + getAngleDif(sentry.rotationPitch, pitch));
 		}
-		// System.out.println("YawMiss Dif " + getAngleDif(sentry.rotationYaw, yaw));
 
 		return false;
 	}
@@ -76,22 +72,22 @@ public class LookHelper
 	}
 
 	/**
-	 * gets the pitch angle between the two points
+	 * Gets the pitch angle between the two points
 	 */
 	public static float getPitch(Vector3 position, Vector3 target)
 	{
 		Vector3 difference = Vector3.subtract(target, position);
 		double verticleDistance = MathHelper.sqrt_double(difference.x * difference.x + difference.z * difference.z);
 		return MathHelper.wrapAngleTo180_float((float) Math.abs((Math.atan2(difference.y, verticleDistance) * 180.0D / Math.PI)));
+
 	}
 
 	/**
-	 * gets the yaw angle between the two points
+	 * Gets the rotation yaw between the two points in angles
 	 */
 	public static float getYaw(Vector3 position, Vector3 target)
 	{
 		Vector3 difference = Vector3.subtract(target, position);
-
 		return MathHelper.wrapAngleTo180_float((float) (Math.atan2(difference.z, difference.x) * 180.0D / Math.PI) - 90.0F);
 	}
 

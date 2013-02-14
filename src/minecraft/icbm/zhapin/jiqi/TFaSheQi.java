@@ -2,14 +2,14 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.ILauncher;
 import icbm.api.LauncherType;
+import icbm.core.TIC2Storable;
 import icbm.zhapin.daodan.EDaoDan;
 import net.minecraft.nbt.NBTTagCompound;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.tile.TileEntityElectricityStorage;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TFaSheQi extends TileEntityElectricityStorage implements ILauncher, IPeripheral
+public abstract class TFaSheQi extends TIC2Storable implements ILauncher, IPeripheral
 {
 	protected Vector3 muBiao = null;
 

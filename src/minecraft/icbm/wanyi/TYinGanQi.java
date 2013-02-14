@@ -1,5 +1,6 @@
 package icbm.wanyi;
 
+import icbm.core.TIC2Runnable;
 import icbm.zhapin.ZhuYaoZhaPin;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinGanQi extends TileEntityElectricityRunnable implements IRedstoneProvider, IPacketReceiver
+public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacketReceiver
 {
 	private static final int MAX_DISTANCE = 30;
 

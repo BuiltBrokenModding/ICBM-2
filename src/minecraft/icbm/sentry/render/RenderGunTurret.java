@@ -32,13 +32,13 @@ public class RenderGunTurret extends RenderTaggedTile
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
 			// Bind texture TODO change this to render different textures based on state and player.
 			this.setTextureBaseOnState(tileEntity);
-			this.render(tileEntity.renderRotationPitch, tileEntity.renderRotationYaw);
+			this.render(tileEntity.renderRotationYaw, tileEntity.renderRotationPitch);
 
 			GL11.glPopMatrix();
 		}
 	}
 
-	public static void render(float renderYaw, float renderPitch)
+	public static void render(float renderPitch, float renderYaw)
 	{
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);

@@ -40,7 +40,7 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
 
 	public final ActionManager actionManager = new ActionManager();
-	public LookHelper lookManager;
+	public LookHelper lookHelper;
 	/**
 	 * The rotation of the arms. In Degrees.
 	 */
@@ -52,7 +52,7 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 
 	public TileEntityBaseTurret()
 	{
-		lookManager = new LookHelper(this);
+		lookHelper = new LookHelper(this);
 	}
 
 	@Override

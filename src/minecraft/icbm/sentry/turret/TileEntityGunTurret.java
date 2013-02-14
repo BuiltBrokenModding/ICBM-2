@@ -17,7 +17,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 			if (this.target instanceof EntityLiving && this.getPlatform().useAmmunition(ICBMSentry.conventionalBullet))
 			{
 				((EntityLiving) this.target).attackEntityFrom(DamageSource.generic, 2);
-				Vector3 look = lookManager.getDeltaPositionFromRotation(this.rotationYaw, this.rotationPitch);
+				Vector3 look = lookHelper.getDeltaPositionFromRotation(this.rotationYaw, this.rotationPitch);
 				look.multiply(-3);
 				((EntityLiving) this.target).knockBack(null, 0, look.intX(), look.intZ());
 				this.getPlatform().wattsReceived -= this.getRequest();

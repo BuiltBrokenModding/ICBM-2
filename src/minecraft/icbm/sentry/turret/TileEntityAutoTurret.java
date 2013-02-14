@@ -12,6 +12,8 @@ import icbm.sentry.terminal.AccessLevel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import universalelectricity.core.vector.Vector3;
 
 /**
  * Extend this class for all turrets that are automatic.
@@ -124,39 +126,50 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 	@Override
 	public boolean isValidTarget(Entity entity)
 	{
-		if (entity == null || entity.isDead)
+		if (entity != null)
 		{
-			return false;
-		}
-		if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) > this.getDetectRange())
-		{
-			return false;
-		}
-		if (entity instanceof EntityPlayer)
-		{
-			EntityPlayer player = ((EntityPlayer) entity);
-
-			if (player.capabilities.isCreativeMode)
+			if (!entity.isDead && !entity.isEntityInvulnerable())
 			{
-				return false;
-			}
-			if (this.getPlatform() != null && this.getPlatform().getPlayerAccess(player).ordinal() >= AccessLevel.USER.ordinal())
-			{
-				return false;
-			}
+				if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) < this.getDetectRange())
+				{
+					// TODO: RAY TRACE ENTITY
+					// MovingObjectPosition mop = this.worldObj.rayTraceBlocks(Vector3.add(new
+					// Vector3(this), new Vector3(0, 1, 0)).toVec3(), new Vector3(entity).toVec3());
 
+					// if (mop == null)
+					{
+						if (entity instanceof EntityPlayer)
+						{
+							EntityPlayer player = ((EntityPlayer) entity);
+
+							if (player.capabilities.isCreativeMode)
+							{
+								return false;
+							}
+
+							if (this.getPlatform() != null && this.getPlatform().getPlayerAccess(player).ordinal() >= AccessLevel.USER.ordinal())
+							{
+								return false;
+							}
+						}
+
+						return true;
+					}
+				}
+			}
 		}
-		return true;
+
+		return false;
 	}
 
 	@Override
 	public boolean canActivateWeapon()
 	{
-		if (this.isValidTarget(this.target))
+		if (this.isValidTarget(this.target) && this.getPlatform() != null)
 		{
-			if (!lookManager.isLookingAt(target, 30f))
+			if (!this.lookHelper.isLookingAt(this.target, 30f))
 			{
-				lookManager.lookAtEntity(target);
+				this.lookHelper.lookAtEntity(this.target);
 				return false;
 			}
 			else
@@ -164,6 +177,7 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest() || ICBMSentry.debugMode) && this.getPlatform().hasAmmunition(ICBMSentry.conventionalBullet);
 			}
 		}
+
 		return false;
 	}
 }

@@ -1,9 +1,9 @@
-package icbm.sentry.terminal.commands;
+package icbm.sentry.terminal.command;
 
-import icbm.sentry.gui.GuiConsole;
+import icbm.sentry.gui.GuiTerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
-import icbm.sentry.terminal.ConsoleCommand;
+import icbm.sentry.terminal.TerminalCommand;
 import icbm.sentry.terminal.ISpecialAccess;
 import icbm.sentry.terminal.UserAccess;
 
@@ -12,9 +12,8 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class CmdGet extends ConsoleCommand
+public class CommandGet extends TerminalCommand
 {
-
 	@Override
 	public String getCommandPrefix()
 	{
@@ -22,7 +21,7 @@ public class CmdGet extends ConsoleCommand
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiConsole gui, String[] args)
+	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args)
 	{
 		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
 		{
@@ -30,15 +29,23 @@ public class CmdGet extends ConsoleCommand
 			if (args[1].equalsIgnoreCase("owner"))
 			{
 				List<UserAccess> userList = turret.getUsersWithAcess(AccessLevel.OWNER);
-				for (UserAccess access : userList)
+
+				if (userList.size() > 0)
 				{
-					gui.addToConsole("" + access.username);
+					for (UserAccess access : userList)
+					{
+						gui.addToConsole("" + access.username);
+					}
+				}
+				else
+				{
+					gui.addToConsole("No owners");
 				}
 				return true;
 			}
-			else if (args[1].equalsIgnoreCase("loc"))
+			else if (args[1].equalsIgnoreCase("position"))
 			{
-				gui.addToConsole("Loc: " + turret.xCoord + "x " + turret.yCoord + "y " + turret.zCoord + "z ");
+				gui.addToConsole("position: " + turret.xCoord + "x " + turret.yCoord + "y " + turret.zCoord + "z ");
 				return true;
 			}
 			else if (args[1].equalsIgnoreCase("kills"))
@@ -68,12 +75,12 @@ public class CmdGet extends ConsoleCommand
 	{
 		List<String> cmds = new ArrayList<String>();
 		cmds.add("get owner");
-		cmds.add("get kills");
-		cmds.add("get ammo");
-		cmds.add("get ammoTypes");
-		cmds.add("get attackTypes");
-		cmds.add("get loc");
-		cmds.add("get termanal/root");
+		cmds.add("get position");
+		// cmds.add("get kills");
+		// cmds.add("get ammo");
+		// cmds.add("get ammoTypes");
+		// cmds.add("get attackTypes");
+		// cmds.add("get terminal/root");
 		return cmds;
 	}
 

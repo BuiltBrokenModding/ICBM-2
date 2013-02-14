@@ -1,6 +1,7 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
+import icbm.core.TIC2Storable;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -16,11 +17,10 @@ import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityStorage;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TDianCiQi extends TileEntityElectricityStorage implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
+public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
 	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 150;

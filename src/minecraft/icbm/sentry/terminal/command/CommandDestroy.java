@@ -1,9 +1,9 @@
-package icbm.sentry.terminal.commands;
+package icbm.sentry.terminal.command;
 
-import icbm.sentry.gui.GuiConsole;
+import icbm.sentry.gui.GuiTerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
-import icbm.sentry.terminal.ConsoleCommand;
+import icbm.sentry.terminal.TerminalCommand;
 import icbm.sentry.terminal.ISpecialAccess;
 
 import java.util.ArrayList;
@@ -11,31 +11,30 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class CmdAccess extends ConsoleCommand
+public class CommandDestroy extends TerminalCommand
 {
 
 	@Override
 	public String getCommandPrefix()
 	{
-		return "access";
+		return "enable";
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiConsole gui, String[] args)
+	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args)
 	{
-		if (args[0].equalsIgnoreCase("access") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
+		if (args[0].equalsIgnoreCase("destroy") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
 		{
 			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) TE;
-			if (args[1].equalsIgnoreCase("?"))
+			if (args.length > 1)
 			{
-				gui.addToConsole("Access = " + turret.getPlayerAccess(player).displayName);
 
-				return true;
 			}
-			else if (args[1].equalsIgnoreCase("set") && args.length > 3)
+			else
 			{
-				// TODO readd this feature later
+
 			}
+
 		}
 		return false;
 	}
@@ -43,7 +42,7 @@ public class CmdAccess extends ConsoleCommand
 	@Override
 	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
 	{
-		return mm.getPlayerAccess(var1).ordinal() >= AccessLevel.STANARD.ordinal();
+		return mm.getPlayerAccess(var1).ordinal() >= AccessLevel.OPERATOR.ordinal();
 	}
 
 	@Override
@@ -56,8 +55,8 @@ public class CmdAccess extends ConsoleCommand
 	public List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm)
 	{
 		List<String> cmds = new ArrayList<String>();
-		cmds.add("access set root [pass]");
-		cmds.add("access ?");
+		cmds.add("destroy");
+		cmds.add("destroy code");
 		return cmds;
 	}
 

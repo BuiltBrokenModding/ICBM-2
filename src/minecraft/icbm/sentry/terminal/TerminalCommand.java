@@ -1,12 +1,12 @@
 package icbm.sentry.terminal;
 
-import icbm.sentry.gui.GuiConsole;
+import icbm.sentry.gui.GuiTerminal;
 
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public abstract class ConsoleCommand
+public abstract class TerminalCommand
 {
 	/**
 	 * what the commands starts with /help /time /day
@@ -21,7 +21,7 @@ public abstract class ConsoleCommand
 	 * @param var1
 	 * @param args
 	 */
-	public abstract boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiConsole gui, String[] args);
+	public abstract boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args);
 
 	/**
 	 * Returns true if the given command sender is allowed to use this command.

@@ -7,12 +7,12 @@ import icbm.api.flag.FlagRegistry;
 import icbm.api.flag.ModFlag;
 import icbm.api.flag.NBTFileLoader;
 import icbm.sentry.platform.BlockTurretPlatform;
-import icbm.sentry.terminal.CmdHandler;
-import icbm.sentry.terminal.commands.CmdAccess;
-import icbm.sentry.terminal.commands.CmdDestroy;
-import icbm.sentry.terminal.commands.CmdGet;
-import icbm.sentry.terminal.commands.CmdHelp;
-import icbm.sentry.terminal.commands.CmdUsers;
+import icbm.sentry.terminal.CommandRegistry;
+import icbm.sentry.terminal.command.CommandAccess;
+import icbm.sentry.terminal.command.CommandDestroy;
+import icbm.sentry.terminal.command.CommandGet;
+import icbm.sentry.terminal.command.CommandUsers;
+import icbm.sentry.terminal.command.CommandHelp;
 import icbm.sentry.turret.BlockTurret;
 import icbm.sentry.turret.FakeMountableEntity;
 import icbm.sentry.turret.ItemAmmo;
@@ -145,13 +145,13 @@ public class ICBMSentry
 		// Gun Turret
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', "basicCircuit", 'S', "ingotSteel" }));
 		// Railgun
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', "plateSteel", 'C', "eliteCircuit", 'G', new ItemStack(blockTurret, 1, 1) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', "plateSteel", 'C', "eliteCircuit", 'G', new ItemStack(blockTurret, 1, 0) }));
 
-		CmdHandler.regCmd(new CmdAccess());
-		CmdHandler.regCmd(new CmdUsers());
-		CmdHandler.regCmd(new CmdDestroy());
-		CmdHandler.regCmd(new CmdHelp());
-		CmdHandler.regCmd(new CmdGet());
+		CommandRegistry.register(new CommandAccess());
+		CommandRegistry.register(new CommandUsers());
+		CommandRegistry.register(new CommandDestroy());
+		CommandRegistry.register(new CommandHelp());
+		CommandRegistry.register(new CommandGet());
 		proxy.init();
 	}
 

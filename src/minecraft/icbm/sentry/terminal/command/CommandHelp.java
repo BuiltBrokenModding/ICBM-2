@@ -1,8 +1,8 @@
-package icbm.sentry.terminal.commands;
+package icbm.sentry.terminal.command;
 
-import icbm.sentry.gui.GuiConsole;
-import icbm.sentry.terminal.CmdHandler;
-import icbm.sentry.terminal.ConsoleCommand;
+import icbm.sentry.gui.GuiTerminal;
+import icbm.sentry.terminal.CommandRegistry;
+import icbm.sentry.terminal.TerminalCommand;
 import icbm.sentry.terminal.ISpecialAccess;
 
 import java.util.ArrayList;
@@ -10,9 +10,8 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class CmdHelp extends ConsoleCommand
+public class CommandHelp extends TerminalCommand
 {
-
 	@Override
 	public String getCommandPrefix()
 	{
@@ -20,12 +19,12 @@ public class CmdHelp extends ConsoleCommand
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiConsole gui, String[] args)
+	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args)
 	{
 		if (args.length > 1)
 		{
 			List<String> displayed = new ArrayList<String>();
-			for (ConsoleCommand cc : CmdHandler.cmds)
+			for (TerminalCommand cc : CommandRegistry.COMMANDS)
 			{
 				if (cc.getCommandPrefix().equalsIgnoreCase(args[1]) && cc.showOnHelp(player, TE) && cc.canMachineUse(TE))
 				{
@@ -52,10 +51,10 @@ public class CmdHelp extends ConsoleCommand
 			gui.addToConsole("----------------------");
 			gui.addToConsole("Listing commands");
 			gui.addToConsole("----------------------");
-			gui.addToConsole("help command");
-			for (ConsoleCommand cc : CmdHandler.cmds)
+			gui.addToConsole("Help command");
+			
+			for (TerminalCommand cc : CommandRegistry.COMMANDS)
 			{
-
 				if (cc.showOnHelp(player, TE) && cc.canMachineUse(TE))
 				{
 					List<String> ccList = cc.getCmdUses(player, TE);

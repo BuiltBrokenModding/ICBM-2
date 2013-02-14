@@ -1,7 +1,7 @@
 package icbm.sentry.gui;
 
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.terminal.CmdHandler;
+import icbm.sentry.terminal.CommandRegistry;
 import icbm.sentry.terminal.TileEntityConsole;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -18,11 +18,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The console GUI used by turrets.
  * 
- * @author Darkguardsman, Calclavia
+ * @author Darkguardsman, Edited by Calclavia
  * 
  */
 @SideOnly(Side.CLIENT)
-public class GuiConsole extends GuiBase
+public class GuiTerminal extends GuiBase
 {
 	private TileEntityConsole tileEntity;
 	private GuiTextField commandLine;
@@ -34,7 +34,7 @@ public class GuiConsole extends GuiBase
 	private int usedLines = 0;
 	private String[] printLine = new String[400];
 
-	public GuiConsole(EntityPlayer invPlayer, TileEntityConsole tileEntity)
+	public GuiTerminal(EntityPlayer invPlayer, TileEntityConsole tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		this.entityPlayer = invPlayer;
@@ -54,9 +54,8 @@ public class GuiConsole extends GuiBase
 		this.controlList.add(new GuiButtonArrow(1, wid + 146, hig + 138, true));
 		// ---------
 		this.commandLine.setMaxStringLength(30);
-		this.addToConsole("Sentry Console");
+		this.addToConsole("Sentry Terminal");
 		this.addToConsole("---------------------");
-		this.commandLine.setText("/");
 	}
 
 	/**
@@ -170,7 +169,7 @@ public class GuiConsole extends GuiBase
 
 		if (par2 == 28)
 		{
-			CmdHandler.onCmd(this.entityPlayer, tileEntity, this, this.cmdInput);
+			CommandRegistry.onCommand(this.entityPlayer, tileEntity, this, this.cmdInput);
 			this.cmdInput = "";
 			this.commandLine.setText("");
 		}

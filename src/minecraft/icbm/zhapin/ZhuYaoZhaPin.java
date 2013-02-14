@@ -73,7 +73,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
+@Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:ICBM|Sentry;after:BasicComponents;after:AtomicScience")
 @NetworkMod(channels = ZhuYaoZhaPin.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ZhaPinPacketGuanLi.class)
 public class ZhuYaoZhaPin
 {

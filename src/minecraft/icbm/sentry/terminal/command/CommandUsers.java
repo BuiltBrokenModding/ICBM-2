@@ -1,9 +1,9 @@
-package icbm.sentry.terminal.commands;
+package icbm.sentry.terminal.command;
 
-import icbm.sentry.gui.GuiConsole;
+import icbm.sentry.gui.GuiTerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
-import icbm.sentry.terminal.ConsoleCommand;
+import icbm.sentry.terminal.TerminalCommand;
 import icbm.sentry.terminal.ISpecialAccess;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class CmdUsers extends ConsoleCommand
+public class CommandUsers extends TerminalCommand
 {
 
 	@Override
@@ -21,7 +21,7 @@ public class CmdUsers extends ConsoleCommand
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiConsole gui, String[] args)
+	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args)
 	{
 		if (args[0].equalsIgnoreCase("users") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
 		{
