@@ -7,6 +7,7 @@ import icbm.sentry.turret.TileEntityBaseTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.TranslationHelper;
 
@@ -27,6 +28,27 @@ public class TileEntityTurretPlatform extends TileEntityConsole implements IAmmu
 		{
 			this.getTurret();
 		}
+	}
+
+	public void onReceive(ElectricityPack electricityPack)
+	{
+		/**
+		 * Creates an explosion if the voltage is too high.
+		 */
+		if (UniversalElectricity.isVoltageSensitive)
+		{
+			if (electricityPack.voltage > this.getVoltage())
+			{
+				/**
+				 * Since this block is indestructable, we have to delete it.
+				 */
+				this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord, this.zCoord, 0);
+				this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 1.5f, true);
+				return;
+			}
+		}
+
+		this.wattsReceived = Math.min(this.wattsReceived + electricityPack.getWatts(), this.getWattBuffer());
 	}
 
 	@Override

@@ -21,8 +21,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
 @NetworkMod(channels = ZhuYaoWanYi.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = WanYiPacketGuanLi.class)
@@ -54,7 +52,7 @@ public class ZhuYaoWanYi
 	{
 		ZhuYao.INSTANCE.init();
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
-		
+
 		ICBM.CONFIGURATION.load();
 
 		// Blocks
@@ -106,6 +104,16 @@ public class ZhuYaoWanYi
 
 		// Glass Button
 		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
+
+		// Proximity Detector
+		GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', "ingotSteel", '?', itGenZongQi.getUncharged() }));
+
+		// Signal Disrupter
+		GameRegistry.addRecipe(new ShapedOreRecipe(itHuoLaunQi, new Object[] { "WWW", "SCS", "SSS", 'S', "ingotSteel", 'C', "basicCircuit", 'W', "copperWire" }));
+
+		// Antidote
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
 
 		this.proxy.init();
 	}
