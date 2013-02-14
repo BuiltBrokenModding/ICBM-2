@@ -18,8 +18,8 @@ import universalelectricity.core.vector.Vector3;
  */
 public class CommandFlag extends CommandBase
 {
-	public static final String[] commands = new String[] { "list", "addregion", "removeregion", "set" };
-	public String commandName = "flag";
+	public static final String[] COMMANDS = new String[] { "list", "setregion", "removeregion", "set" };
+	public String commandName = "modflag";
 	public ModFlag modFlagData;
 
 	public CommandFlag(ModFlag modFlag)
@@ -44,7 +44,7 @@ public class CommandFlag extends CommandBase
 	{
 		String returnString = "";
 
-		for (String command : commands)
+		for (String command : COMMANDS)
 		{
 			returnString = returnString + "\n/" + this.getCommandName() + " " + command;
 		}
@@ -165,56 +165,66 @@ public class CommandFlag extends CommandBase
 
 				return;
 			}
-			else if (commandName.equalsIgnoreCase("addregion") && args.length > 1)
+			else if (commandName.equalsIgnoreCase("setregion"))
 			{
-				String regionName = args[1];
-
-				if (regionName.equalsIgnoreCase(FlagWorld.GLOBAL_REGION))
+				if (args.length > 1)
 				{
-					if (flagWorld.addRegion(regionName, new Vector3(entityPlayer), 1))
-					{
-						sender.sendChatToPlayer("Created global dimension region setting.");
-						return;
-					}
-				}
-				else if (args.length > 2)
-				{
-					int radius = 0;
+					String regionName = args[1];
 
-					try
+					if (regionName.equalsIgnoreCase(FlagWorld.GLOBAL_REGION))
 					{
-						radius = Integer.parseInt(args[2]);
-					}
-					catch (Exception e)
-					{
-						throw new WrongUsageException("Radius not a number!");
-					}
-
-					if (radius > 0)
-					{
-						if (flagWorld.getRegion(regionName) == null)
+						if (flagWorld.addRegion(regionName, new Vector3(entityPlayer), 1))
 						{
-							if (flagWorld.addRegion(regionName, new Vector3(entityPlayer), radius))
+							sender.sendChatToPlayer("Created global dimension region setting.");
+							return;
+						}
+					}
+					else if (args.length > 2)
+					{
+						int radius = 0;
+
+						try
+						{
+							radius = Integer.parseInt(args[2]);
+						}
+						catch (Exception e)
+						{
+							throw new WrongUsageException("Radius not a number!");
+						}
+
+						if (radius > 0)
+						{
+							FlagRegion region = flagWorld.getRegion(regionName);
+							if (region == null)
 							{
-								sender.sendChatToPlayer("Region " + regionName + " added.");
-								return;
+								if (flagWorld.addRegion(regionName, new Vector3(entityPlayer), radius))
+								{
+									sender.sendChatToPlayer("Region " + regionName + " added.");
+								}
+							}
+							else
+							{
+								region.edit(new Vector3(entityPlayer), radius);
+								sender.sendChatToPlayer("Region " + regionName + " already exists. Modified region to have a radius of: " + radius);
 							}
 						}
 						else
 						{
-							throw new WrongUsageException("Region already exists.");
+							throw new WrongUsageException("Radius has to be greater than zero!");
 						}
+
 					}
 					else
 					{
-						throw new WrongUsageException("Radius has to be greater than zero!");
+						throw new WrongUsageException("/" + this.getCommandName() + " addregion <name> <radius>");
 					}
-
 				}
 				else
 				{
-					throw new WrongUsageException("/" + this.getCommandName() + " addregion <name> <radius>");
+					throw new WrongUsageException("Please specify the region name.");
 				}
+
+				return;
 			}
 			else if (commandName.equalsIgnoreCase("removeregion"))
 
@@ -303,7 +313,7 @@ public class CommandFlag extends CommandBase
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args)
 	{
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, commands) : null;
+		return args.length == 1 ? getListOfStringsMatchingLastWord(args, COMMANDS) : null;
 	}
 
 }

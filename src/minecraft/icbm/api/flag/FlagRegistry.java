@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class FlagRegistry
 {
+	public static final String DEFAULT_NAME = "ModFlags";
+
 	private static final HashMap<String, ModFlag> MOD_FLAGS = new HashMap<String, ModFlag>();
 
 	public static final List<String> flags = new ArrayList<String>();

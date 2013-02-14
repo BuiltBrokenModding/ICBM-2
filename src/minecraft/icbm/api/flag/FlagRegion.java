@@ -174,4 +174,11 @@ public class FlagRegion extends FlagBase
 
 		return this.flags;
 	}
+
+	public void edit(Vector3 position, int radius)
+	{
+		Vector3 minVec = new Vector3(position.intX() - radius, 0, position.intZ() - radius);
+		Vector3 maxVec = new Vector3(position.intX() + radius, this.flagWorld.world.getHeight(), position.intZ() + radius);
+		this.region = new Region3(minVec, maxVec);
+	}
 }

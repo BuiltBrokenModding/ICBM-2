@@ -29,8 +29,8 @@ public class Flag extends FlagBase
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		String flagName = nbt.getString("name");
-		String flagValue = nbt.getString("value");
+		this.name = nbt.getString("name");
+		this.value = nbt.getString("value");
 	}
 
 	@Override

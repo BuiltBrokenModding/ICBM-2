@@ -165,11 +165,11 @@ public class ZhuYao
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
-		FlagRegistry.registerModFlag("ICBM", new ModFlag(NBTFileLoader.loadData("ICBM")));
+		FlagRegistry.registerModFlag(FlagRegistry.DEFAULT_NAME, new ModFlag(NBTFileLoader.loadData(FlagRegistry.DEFAULT_NAME)));
 
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag("ICBM")));
+		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME)));
 	}
 
 	@ForgeSubscribe
@@ -177,7 +177,7 @@ public class ZhuYao
 	{
 		if (!evt.world.isRemote)
 		{
-			NBTFileLoader.saveData("ICBM", FlagRegistry.getModFlag("ICBM").getNBT());
+			NBTFileLoader.saveData(FlagRegistry.DEFAULT_NAME, FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getNBT());
 		}
 	}
 

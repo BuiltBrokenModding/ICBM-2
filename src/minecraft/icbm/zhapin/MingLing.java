@@ -22,7 +22,7 @@ public class MingLing extends CommandBase
 	@Override
 	public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return "icbm lag <radius>";
+		return "/icbm lag <radius>";
 	}
 
 	@Override
