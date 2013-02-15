@@ -2,6 +2,7 @@ package icbm.zhapin.dianqi;
 
 import icbm.api.ICBMTab;
 import icbm.api.IItemFrequency;
+import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -22,11 +23,10 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiSheZhiBiao extends ItemElectric implements IItemFrequency
+public class ItLeiSheZhiBiao extends ItIC2ElectricItem implements IItemFrequency
 {
 	public static final int BAN_JING = 200;
 	public static final int YONG_DIAN_LIANG = 5000;

@@ -1,6 +1,7 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.ICBMTab;
+import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -16,11 +17,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiDaQiang extends ItemElectric
+public class ItLeiDaQiang extends ItIC2ElectricItem
 {
 	public static final int YONG_DIAN_LIANG = 1000;
 	public static final int JU_LI = 1000;

@@ -1,6 +1,7 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.ICBMTab;
+import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.cart.EChe;
@@ -14,10 +15,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import universalelectricity.prefab.ItemElectric;
 
 //Explosive Defuser
-public class ItJieJa extends ItemElectric
+public class ItJieJa extends ItIC2ElectricItem
 {
 	private static final int YONG_DIAN_LIANG = 2000;
 
@@ -103,6 +103,6 @@ public class ItJieJa extends ItemElectric
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return 50000;
+		return 80000;
 	}
 }

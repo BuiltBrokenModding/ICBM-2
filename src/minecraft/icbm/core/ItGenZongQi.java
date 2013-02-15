@@ -14,7 +14,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItGenZongQi extends ItemElectric
+public class ItGenZongQi extends ItIC2ElectricItem
 {
 	private static final float YONG_DIAN_LIANG = 0.05f;
 

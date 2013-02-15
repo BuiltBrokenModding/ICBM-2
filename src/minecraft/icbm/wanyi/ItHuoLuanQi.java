@@ -2,6 +2,7 @@ package icbm.wanyi;
 
 import icbm.api.ICBMTab;
 import icbm.api.IItemFrequency;
+import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
 
 import java.util.List;
@@ -11,9 +12,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import universalelectricity.prefab.ItemElectric;
 
-public class ItHuoLuanQi extends ItemElectric implements IItemFrequency
+public class ItHuoLuanQi extends ItIC2ElectricItem implements IItemFrequency
 {
 	public ItHuoLuanQi(int par1, int par2)
 	{

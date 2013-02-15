@@ -1,6 +1,7 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.ICBMTab;
+import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
@@ -10,7 +11,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.ItemElectric;
 
 /**
  * Rocket Launcher
@@ -19,7 +19,7 @@ import universalelectricity.prefab.ItemElectric;
  * 
  */
 
-public class ItFaSheQi extends ItemElectric
+public class ItFaSheQi extends ItIC2ElectricItem
 {
 	private static final int YONG_DIAN_LIANG = 5000;
 
