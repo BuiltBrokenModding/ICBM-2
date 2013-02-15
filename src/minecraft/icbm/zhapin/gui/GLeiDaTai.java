@@ -1,7 +1,6 @@
 package icbm.zhapin.gui;
 
 import icbm.api.ICBM;
-import icbm.core.GuiBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.jiqi.BJiQi;
@@ -21,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.core.vector.Vector2;
+import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.vector.Region2;
@@ -128,7 +128,7 @@ public class GLeiDaTai extends GuiBase
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	protected void drawForegroundLayer()
+	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
 		this.fontRenderer.drawString(TranslationHelper.getLocal("icbm.machine.9.name"), this.xSize / 2 - 85, 6, 4210752);
 
@@ -177,7 +177,7 @@ public class GLeiDaTai extends GuiBase
 	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
-	protected void drawBackgroundLayer(float par1, int par2, int par3)
+	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
 		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "RadarGUI.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

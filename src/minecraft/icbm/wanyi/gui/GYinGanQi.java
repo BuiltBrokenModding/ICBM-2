@@ -1,7 +1,6 @@
 package icbm.wanyi.gui;
 
 import icbm.api.ICBM;
-import icbm.core.GuiBase;
 import icbm.wanyi.TYinGanQi;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.client.gui.GuiButton;
@@ -12,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -193,9 +193,9 @@ public class GYinGanQi extends GuiBase
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	protected void drawForegroundLayer()
+	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
-		this.fontRenderer.drawString("Proximity Detector", 48, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77Proximity Detector", 48, 6, 4210752);
 
 		this.fontRenderer.drawString("Detection Range", 12, 25, 4210752);
 
@@ -218,11 +218,11 @@ public class GYinGanQi extends GuiBase
 
 		if (!this.tileEntity.isInverted)
 		{
-			this.fontRenderer.drawString("Exclusive", 120, 102, 4210752);
+			this.fontRenderer.drawString("Exclude", 120, 102, 4210752);
 		}
 		else
 		{
-			this.fontRenderer.drawString("Inclusive", 120, 102, 4210752);
+			this.fontRenderer.drawString("Include", 120, 102, 4210752);
 		}
 		this.fontRenderer.drawString("Target:", 15, 120, 4210752);
 
@@ -253,9 +253,9 @@ public class GYinGanQi extends GuiBase
 	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
-	protected void drawBackgroundLayer(float par1, int par2, int par3)
+	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "EmptyGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_empty.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		containerWidth = (this.width - this.xSize) / 2;

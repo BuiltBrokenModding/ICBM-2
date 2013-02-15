@@ -1,7 +1,6 @@
 package icbm.zhapin.gui;
 
 import icbm.api.ICBM;
-import icbm.core.GuiBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TFaSheShiMuo;
 import net.minecraft.client.gui.GuiTextField;
@@ -11,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -161,7 +161,7 @@ public class GFaSheShiMuo extends GuiBase
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	public void drawForegroundLayer()
+	public void drawForegroundLayer(int var2, int var3, float var1)
 	{
 		this.tFX.drawTextBox();
 		this.tFZ.drawTextBox();
@@ -183,7 +183,7 @@ public class GFaSheShiMuo extends GuiBase
 		}
 
 		this.fontRenderer.drawString("", 45, 6, 4210752);
-		this.fontRenderer.drawString("Launcher Control Panel", 30, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77Launcher Control Panel", 30, 6, 4210752);
 
 		this.fontRenderer.drawString("Missile Target", 12, 25, 4210752);
 		this.fontRenderer.drawString("X-Coord:", 25, 40, 4210752);
@@ -208,9 +208,9 @@ public class GFaSheShiMuo extends GuiBase
 	}
 
 	@Override
-	protected void drawBackgroundLayer(float var1, int var2, int var3)
+	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "EmptyGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_empty.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		containerWidth = (this.width - this.xSize) / 2;
