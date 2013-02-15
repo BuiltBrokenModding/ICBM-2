@@ -47,7 +47,7 @@ public class BlockRadioactive extends Block
 	@Override
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer par5EntityPlayer)
 	{
-		if (world.rand.nextFloat() > 0.9)
+		if (world.rand.nextFloat() > 0.8)
 		{
 			this.updateTick(world, x, y, z, world.rand);
 		}
@@ -84,7 +84,7 @@ public class BlockRadioactive extends Block
 					}
 				}
 
-				if (rand.nextFloat() > 0.8)
+				if (rand.nextFloat() > 0.99)
 				{
 					world.setBlockWithNotify(x, y, z, Block.mycelium.blockID);
 				}
@@ -102,5 +102,11 @@ public class BlockRadioactive extends Block
 		{
 			PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), (EntityLiving) par5Entity);
 		}
+	}
+
+	@Override
+	public int quantityDropped(Random par1Random)
+	{
+		return 0;
 	}
 }

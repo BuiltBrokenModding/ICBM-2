@@ -89,7 +89,7 @@ public class ZhuYao
 	{
 		if (!isInitialized)
 		{
-			UniversalElectricity.register(this, 1, 2, 5, false);
+			UniversalElectricity.register(this, 1, 2, 6, false);
 			MinecraftForge.EVENT_BUS.register(this);
 
 			System.out.println(ICBM.NAME + " Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");

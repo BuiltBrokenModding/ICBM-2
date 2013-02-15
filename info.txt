@@ -170,3 +170,4 @@ x ICBM_Explosion_v1.0.4.147.jar ICBM_Contraption_v1.0.4.147.jar ICBM_Sentry_v1.0
 @ ICBM_Explosion_v1.0.4.150.jar ICBM_Contraption_v1.0.4.150.jar ICBM_Sentry_v1.0.4.150.jar ICBM_v1.0.4.150_api.zip
 * ICBM_Explosion_v1.0.4.151.jar ICBM_Contraption_v1.0.4.151.jar ICBM_Sentry_v1.0.4.151.jar ICBM_v1.0.4.151_api.zip
 @ ICBM_Explosion_v1.0.5.153.jar ICBM_Contraption_v1.0.5.153.jar ICBM_Sentry_v1.0.5.153.jar ICBM_v1.0.5.153_api.zip
+@ ICBM_Explosion_v1.0.5.154.jar ICBM_Contraption_v1.0.5.154.jar ICBM_Sentry_v1.0.5.154.jar ICBM_v1.0.5.154_api.zip

@@ -17,7 +17,7 @@ public class PotionRadiation extends CustomPotion
 	@Override
 	public void performEffect(EntityLiving par1EntityLiving, int amplifier)
 	{
-		if (par1EntityLiving.worldObj.rand.nextFloat() > 0.9 - (amplifier * 0.2))
+		if (par1EntityLiving.worldObj.rand.nextFloat() > 0.9 - (amplifier * 0.1))
 		{
 			par1EntityLiving.attackEntityFrom(PoisonRadiation.damageSource, 1);
 
@@ -31,7 +31,10 @@ public class PotionRadiation extends CustomPotion
 	@Override
 	public boolean isReady(int duration, int amplifier)
 	{
-		if (duration % 10 == 0) { return true; }
+		if (duration % 10 == 0)
+		{
+			return true;
+		}
 
 		return false;
 	}
