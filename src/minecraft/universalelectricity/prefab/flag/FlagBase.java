@@ -1,4 +1,4 @@
-package icbm.api.flag;
+package universalelectricity.prefab.flag;
 
 import net.minecraft.nbt.NBTTagCompound;
 

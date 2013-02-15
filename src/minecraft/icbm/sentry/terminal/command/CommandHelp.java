@@ -2,8 +2,8 @@ package icbm.sentry.terminal.command;
 
 import icbm.sentry.gui.GuiTerminal;
 import icbm.sentry.terminal.CommandRegistry;
-import icbm.sentry.terminal.TerminalCommand;
 import icbm.sentry.terminal.ISpecialAccess;
+import icbm.sentry.terminal.TerminalCommand;
 
 import java.util.ArrayList;
 import java.util.List;

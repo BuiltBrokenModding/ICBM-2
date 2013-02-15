@@ -27,7 +27,10 @@ public class UETab extends CreativeTabs
 	@Override
 	public ItemStack getIconItemStack()
 	{
-		if (itemStack == null) { return new ItemStack(Block.blocksList[this.getTabIconItemIndex()]); }
+		if (itemStack == null)
+		{
+			return new ItemStack(Block.blocksList[this.getTabIconItemIndex()]);
+		}
 
 		return itemStack;
 	}

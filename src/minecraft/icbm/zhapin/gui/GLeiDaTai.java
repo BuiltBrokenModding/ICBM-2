@@ -18,6 +18,8 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.network.PacketManager;
@@ -146,7 +148,9 @@ public class GLeiDaTai extends GuiBase
 		this.textFieldAlarmRange.drawTextBox();
 		this.fontRenderer.drawString("Blocks", 190, 112, 4210752);
 
-		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 155, 138, 4210752);
+		this.fontRenderer.drawString(ElectricInfo.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT) , 155, 128, 4210752);
+
+		this.fontRenderer.drawString(ElectricInfo.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
 
 		// Shows the status of the radar
 		String color = "\u00a74";

@@ -1,6 +1,5 @@
 package icbm.zhapin.rongqi;
 
-import icbm.api.SlotSpecific;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import universalelectricity.prefab.SlotElectricItem;
+import universalelectricity.prefab.SlotSpecific;
 
 public class CXiaoFaSheQi extends Container
 {

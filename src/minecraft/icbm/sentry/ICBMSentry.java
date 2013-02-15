@@ -1,18 +1,15 @@
 package icbm.sentry;
 
 import icbm.api.ICBM;
+import icbm.api.ICBMFlags;
 import icbm.api.ICBMTab;
-import icbm.api.flag.CommandFlag;
-import icbm.api.flag.FlagRegistry;
-import icbm.api.flag.ModFlag;
-import icbm.api.flag.NBTFileLoader;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.terminal.CommandRegistry;
 import icbm.sentry.terminal.command.CommandAccess;
 import icbm.sentry.terminal.command.CommandDestroy;
 import icbm.sentry.terminal.command.CommandGet;
-import icbm.sentry.terminal.command.CommandUsers;
 import icbm.sentry.terminal.command.CommandHelp;
+import icbm.sentry.terminal.command.CommandUsers;
 import icbm.sentry.turret.BlockTurret;
 import icbm.sentry.turret.FakeMountableEntity;
 import icbm.sentry.turret.ItemAmmo;
@@ -31,6 +28,10 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
+import universalelectricity.prefab.flag.CommandFlag;
+import universalelectricity.prefab.flag.FlagRegistry;
+import universalelectricity.prefab.flag.ModFlag;
+import universalelectricity.prefab.flag.NBTFileLoader;
 import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -160,7 +161,7 @@ public class ICBMSentry
 	 */
 	public static boolean isProtected(World world, Vector3 diDian, String banFlag)
 	{
-		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBM.FLAG_GLOBAL_BAN, "true", diDian))
+		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))
 		{
 			return true;
 		}

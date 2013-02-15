@@ -84,14 +84,17 @@ public class ElectricityNetwork
 	}
 
 	/**
+	 * @param ignoreTiles The TileEntities to ignore during this calculation. Null will make it not
+	 * ignore any.
 	 * @return The electricity produced in this electricity network
 	 */
-	public ElectricityPack getProduced()
+	public ElectricityPack getProduced(TileEntity... ignoreTiles)
 	{
 		ElectricityPack totalElectricity = new ElectricityPack(0, 0);
 
 		Iterator it = this.producers.entrySet().iterator();
 
+		loop:
 		while (it.hasNext())
 		{
 			Map.Entry pairs = (Map.Entry) it.next();
@@ -118,6 +121,17 @@ public class ElectricityNetwork
 					continue;
 				}
 
+				if (ignoreTiles != null)
+				{
+					for (TileEntity ignoreTile : ignoreTiles)
+					{
+						if (tileEntity == ignoreTile)
+						{
+							continue loop;
+						}
+					}
+				}
+
 				ElectricityPack pack = (ElectricityPack) pairs.getValue();
 
 				if (pairs.getKey() != null && pairs.getValue() != null && pack != null)
@@ -137,11 +151,10 @@ public class ElectricityNetwork
 	/**
 	 * @return How much electricity this network needs.
 	 */
-	public ElectricityPack getRequest()
+	public ElectricityPack getRequest(TileEntity... ignoreTiles)
 	{
 		ElectricityPack totalElectricity = this.getRequestWithoutReduction();
-		totalElectricity.amperes = Math.max(totalElectricity.amperes - this.getProduced().amperes, 0);
-
+		totalElectricity.amperes = Math.max(totalElectricity.amperes - this.getProduced(ignoreTiles).amperes, 0);
 		return totalElectricity;
 	}
 
@@ -384,7 +397,10 @@ public class ElectricityNetwork
 			{
 				if (ElectricityConnections.isConnector(tileEntity))
 				{
-					if (ElectricityConnections.canConnect(tileEntity, approachDirection.getOpposite())) { return ((IConductor) tileEntity).getNetwork(); }
+					if (ElectricityConnections.canConnect(tileEntity, approachDirection.getOpposite()))
+					{
+						return ((IConductor) tileEntity).getNetwork();
+					}
 				}
 			}
 		}

@@ -48,7 +48,7 @@ public abstract class TIC2Runnable extends TileEntityElectricityRunnable impleme
 	@Override
 	public int demandsEnergy()
 	{
-		return (int) (this.getRequest().getWatts() * UniversalElectricity.TO_IC2_RATIO);
+		return (int) Math.ceil(this.getRequest().getWatts() * UniversalElectricity.TO_IC2_RATIO);
 	}
 
 	@Override

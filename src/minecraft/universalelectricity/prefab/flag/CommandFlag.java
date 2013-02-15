@@ -1,4 +1,4 @@
-package icbm.api.flag;
+package universalelectricity.prefab.flag;
 
 import java.util.Iterator;
 import java.util.List;

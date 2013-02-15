@@ -1,4 +1,4 @@
-package icbm.api.flag;
+package universalelectricity.prefab.flag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,8 +30,8 @@ public class FlagRegistry
 	}
 
 	/**
-	 * Registers a flag name, allowing it to be used by the player. Call this in your mod's init
-	 * function.
+	 * Registers a flag name, allowing it to be used and called by the player. Call this in your
+	 * mod's init function.
 	 */
 	public static String registerFlag(String name)
 	{

@@ -41,7 +41,10 @@ public class OreGenerator implements IWorldGenerator
 	{
 		for (OreGenBase ore : ORES_TO_GENERATE)
 		{
-			if (ore.oreDictionaryName == oreName) { return true; }
+			if (ore.oreDictionaryName == oreName)
+			{
+				return true;
+			}
 		}
 
 		return false;

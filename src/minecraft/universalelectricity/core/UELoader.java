@@ -2,11 +2,9 @@ package universalelectricity.core;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import universalelectricity.core.electricity.Electricity;
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 
 /**
  * A class used to load Universal Electricity and make it work.

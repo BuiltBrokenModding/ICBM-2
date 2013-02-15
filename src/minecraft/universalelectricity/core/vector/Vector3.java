@@ -348,7 +348,10 @@ public class Vector3 extends Vector2 implements Cloneable
 
 		if (ElectricityConnections.isConnector(tileEntity))
 		{
-			if (ElectricityConnections.canConnect(tileEntity, getOrientationFromSide(side, ForgeDirection.NORTH))) { return tileEntity; }
+			if (ElectricityConnections.canConnect(tileEntity, getOrientationFromSide(side, ForgeDirection.NORTH)))
+			{
+				return tileEntity;
+			}
 		}
 
 		return null;

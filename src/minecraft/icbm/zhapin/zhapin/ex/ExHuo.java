@@ -1,7 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
-import icbm.core.ZhuYao;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;

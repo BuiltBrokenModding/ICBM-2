@@ -275,7 +275,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public void onUpdate()
 	{
-		if (this.worldObj.isRemote)
+		if (!this.worldObj.isRemote)
 		{
 			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, this.haoMa))
 			{

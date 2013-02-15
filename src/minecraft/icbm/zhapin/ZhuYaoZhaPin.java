@@ -1,8 +1,8 @@
 package icbm.zhapin;
 
 import icbm.api.ICBM;
+import icbm.api.ICBMFlags;
 import icbm.api.ICBMTab;
-import icbm.api.flag.FlagRegistry;
 import icbm.core.ZhuYao;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.cart.ItChe;
@@ -55,6 +55,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.RecipeHelper;
+import universalelectricity.prefab.flag.FlagRegistry;
 import universalelectricity.prefab.multiblock.BlockMulti;
 import atomicscience.api.PoisonRadiation;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -111,11 +112,6 @@ public class ZhuYaoZhaPin
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
-
-	private static final String QIZI_ZHA_DAN = FlagRegistry.registerFlag("ban_explosive");
-	private static final String QIZI_SHOU_LIU_DAN = FlagRegistry.registerFlag("ban_grenade");
-	private static final String QIZI_DAO_DAN = FlagRegistry.registerFlag("ban_missile");
-	private static final String QIZI_CHE = FlagRegistry.registerFlag("ban_minecart");
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
@@ -392,33 +388,38 @@ public class ZhuYaoZhaPin
 	 */
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
 	{
-		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBM.FLAG_GLOBAL_BAN, "true", diDian))
+		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) != null)
 		{
-			return true;
+			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))
+			{
+				return true;
+			}
+
+			boolean baoHu = false;
+
+			switch (type)
+			{
+				case QUAN_BU:
+					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
+					break;
+				case CHE:
+					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian);
+					break;
+				case DAO_DAN:
+					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian);
+					break;
+				case SHOU_LIU_DAN:
+					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian);
+					break;
+				case ZHA_DAN:
+					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
+					break;
+			}
+
+			return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
 		}
 
-		boolean baoHu = false;
-
-		switch (type)
-		{
-			case QUAN_BU:
-				baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_CHE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_DAO_DAN, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_ZHA_DAN, "true", diDian);
-				break;
-			case CHE:
-				baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_CHE, "true", diDian);
-				break;
-			case DAO_DAN:
-				baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_DAO_DAN, "true", diDian);
-				break;
-			case SHOU_LIU_DAN:
-				baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_SHOU_LIU_DAN, "true", diDian);
-				break;
-			case ZHA_DAN:
-				baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, QIZI_ZHA_DAN, "true", diDian);
-				break;
-		}
-
-		return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
+		return false;
 	}
 
 	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, int zhaPinID)

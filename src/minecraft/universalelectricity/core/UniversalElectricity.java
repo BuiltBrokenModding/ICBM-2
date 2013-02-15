@@ -31,7 +31,7 @@ public class UniversalElectricity
 	 */
 	public static final int MAJOR_VERSION = 1;
 	public static final int MINOR_VERSION = 2;
-	public static final int REVISION_VERSION = 5;
+	public static final int REVISION_VERSION = 6;
 	public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION;
 
 	/**
@@ -45,7 +45,7 @@ public class UniversalElectricity
 	// The amount of UE Joules equivalent to IC2 EU
 	public static double IC2_RATIO = 40;
 	// The amount of UE Joules equivalent to BC Minecraft Joules
-	public static double BC3_RATIO = 400;
+	public static double BC3_RATIO = 100;
 	public static double TO_IC2_RATIO = 1 / IC2_RATIO;
 	public static double TO_BC_RATIO = 1 / BC3_RATIO;
 
@@ -71,19 +71,25 @@ public class UniversalElectricity
 	 */
 	public static void register(Object mod, int major, int minor, int revision, boolean strict)
 	{
-		if (MAJOR_VERSION != major) { throw new RuntimeException("A Universal Electricity mod is way too old! Make sure it is update to v" + major + "." + minor + "." + revision); }
+		if (MAJOR_VERSION != major)
+		{
+			throw new RuntimeException("A Universal Electricity mod " + mod.getClass().getSimpleName() + " is way too old! Make sure it is update to v" + major + "." + minor + "." + revision);
+		}
 
-		if (MINOR_VERSION < minor) { throw new RuntimeException("A Universal Electricity mod is too old! Make sure it is update to v" + major + "." + minor + "." + revision); }
+		if (MINOR_VERSION < minor)
+		{
+			throw new RuntimeException("A Universal Electricity mod " + mod.getClass().getSimpleName() + " is too old! Make sure it is update to v" + major + "." + minor + "." + revision);
+		}
 
 		if (REVISION_VERSION < revision)
 		{
 			if (strict)
 			{
-				throw new RuntimeException("A Universal Electricity mod is too old! Require v" + major + "." + minor + "." + revision);
+				throw new RuntimeException("A Universal Electricity mod " + mod.getClass().getSimpleName() + " is too old! Require v" + major + "." + minor + "." + revision);
 			}
 			else
 			{
-				FMLLog.warning("The version of Universal Electricity detected is not the recommended version by the mod. Odd things might happen. Recommended to try v" + major + "." + minor + "." + revision);
+				FMLLog.warning("The version of Universal Electricity detected is not the recommended version by the mod " + mod.getClass().getSimpleName() + ". Odd things might happen. Recommended to try v" + major + "." + minor + "." + revision);
 			}
 		}
 
@@ -99,9 +105,15 @@ public class UniversalElectricity
 	 */
 	public static void forgeLock(int major, int minor, int revision, boolean strict)
 	{
-		if (ForgeVersion.getMajorVersion() != major) { throw new RuntimeException("Universal Electricity: Wrong Minecraft Forge version! Require " + major + "." + minor + "." + revision); }
+		if (ForgeVersion.getMajorVersion() != major)
+		{
+			throw new RuntimeException("Universal Electricity: Wrong Minecraft Forge version! Require " + major + "." + minor + "." + revision);
+		}
 
-		if (ForgeVersion.getMinorVersion() < minor) { throw new RuntimeException("Universal Electricity: Minecraft Forge minor version is too old! Require " + major + "." + minor + "." + revision); }
+		if (ForgeVersion.getMinorVersion() < minor)
+		{
+			throw new RuntimeException("Universal Electricity: Minecraft Forge minor version is too old! Require " + major + "." + minor + "." + revision);
+		}
 
 		if (ForgeVersion.getRevisionVersion() < revision)
 		{

@@ -1,6 +1,5 @@
 package icbm.sentry.container;
 
-import icbm.api.SlotSpecific;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.turret.ItemAmmo;
@@ -9,6 +8,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import universalelectricity.prefab.SlotSpecific;
 import universalelectricity.prefab.modifier.IModifier;
 
 public class ContainerTurretPlatform extends Container

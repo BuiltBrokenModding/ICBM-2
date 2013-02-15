@@ -7,6 +7,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 
 import org.bouncycastle.util.Arrays;
@@ -20,6 +21,9 @@ import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * This tile entity pre-fabricated for all conductors.
@@ -202,5 +206,11 @@ public abstract class TileEntityConductor extends TileEntityAdvanced implements 
 	public Packet getDescriptionPacket()
 	{
 		return PacketManager.getPacket(this.channel, this, this.visuallyConnected[0], this.visuallyConnected[1], this.visuallyConnected[2], this.visuallyConnected[3], this.visuallyConnected[4], this.visuallyConnected[5]);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
 	}
 }

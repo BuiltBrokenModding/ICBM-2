@@ -146,15 +146,30 @@ public class ElectricInfo
 			unitName = unit.getPlural();
 		}
 
-		if (value == 0) { return value + " " + unitName; }
+		if (value == 0)
+		{
+			return value + " " + unitName;
+		}
 
-		if (value <= MeasurementUnit.MILLI.value) { return roundDecimals(MeasurementUnit.MICRO.process(value), decimalPlaces) + " " + MeasurementUnit.MICRO.getName(isShort) + unitName; }
+		if (value <= MeasurementUnit.MILLI.value)
+		{
+			return roundDecimals(MeasurementUnit.MICRO.process(value), decimalPlaces) + " " + MeasurementUnit.MICRO.getName(isShort) + unitName;
+		}
 
-		if (value < 1) { return roundDecimals(MeasurementUnit.MILLI.process(value), decimalPlaces) + " " + MeasurementUnit.MILLI.getName(isShort) + unitName; }
+		if (value < 1)
+		{
+			return roundDecimals(MeasurementUnit.MILLI.process(value), decimalPlaces) + " " + MeasurementUnit.MILLI.getName(isShort) + unitName;
+		}
 
-		if (value > MeasurementUnit.MEGA.value) { return roundDecimals(MeasurementUnit.MEGA.process(value), decimalPlaces) + " " + MeasurementUnit.MEGA.getName(isShort) + unitName; }
+		if (value > MeasurementUnit.MEGA.value)
+		{
+			return roundDecimals(MeasurementUnit.MEGA.process(value), decimalPlaces) + " " + MeasurementUnit.MEGA.getName(isShort) + unitName;
+		}
 
-		if (value > MeasurementUnit.KILO.value) { return roundDecimals(MeasurementUnit.KILO.process(value), decimalPlaces) + " " + MeasurementUnit.KILO.getName(isShort) + unitName; }
+		if (value > MeasurementUnit.KILO.value)
+		{
+			return roundDecimals(MeasurementUnit.KILO.process(value), decimalPlaces) + " " + MeasurementUnit.KILO.getName(isShort) + unitName;
+		}
 
 		return roundDecimals(value, decimalPlaces) + " " + unitName;
 	}
@@ -178,12 +193,18 @@ public class ElectricInfo
 	{
 		if (value > 1)
 		{
-			if (decimalPlaces < 1) { return (int) value + " " + unit.getPlural(); }
+			if (decimalPlaces < 1)
+			{
+				return (int) value + " " + unit.getPlural();
+			}
 
 			return roundDecimals(value, decimalPlaces) + " " + unit.getPlural();
 		}
 
-		if (decimalPlaces < 1) { return (int) value + " " + unit.name; }
+		if (decimalPlaces < 1)
+		{
+			return (int) value + " " + unit.name;
+		}
 
 		return roundDecimals(value, decimalPlaces) + " " + unit.name;
 	}

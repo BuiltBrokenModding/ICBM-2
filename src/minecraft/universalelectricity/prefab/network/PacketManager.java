@@ -40,7 +40,10 @@ public class PacketManager implements IPacketHandler, IPacketReceiver
 
 		public static PacketType get(int id)
 		{
-			if (id >= 0 && id < PacketType.values().length) { return PacketType.values()[id]; }
+			if (id >= 0 && id < PacketType.values().length)
+			{
+				return PacketType.values()[id];
+			}
 			return UNSPECIFIED;
 		}
 	}

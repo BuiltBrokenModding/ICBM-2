@@ -26,43 +26,27 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 	public BlockMachine(int id, Material material)
 	{
 		super(id, material);
-		this.setHardness(0.5f);
+		this.setHardness(0.6f);
 	}
 
-	public BlockMachine(String name, int id, Material material)
+	public BlockMachine(int id, int textureIndex, Material material)
+	{
+		super(id, textureIndex, material);
+		this.setHardness(0.6f);
+	}
+
+	@Deprecated
+	public BlockMachine(String string, int id, Material material)
 	{
 		this(id, material);
-		this.setBlockName(name);
+		this.setBlockName(string);
 	}
 
-	public BlockMachine(String name, int id, Material material, CreativeTabs creativeTab)
+	@Deprecated
+	public BlockMachine(String string, int id, Material material, CreativeTabs creativeTab)
 	{
-		this(name, id, material);
+		this(string, id, material);
 		this.setCreativeTab(creativeTab);
-	}
-
-	@Override
-	public int damageDropped(int metadata)
-	{
-		return metadata;
-	}
-
-	/**
-	 * Returns the quantity of items to drop on block destruction.
-	 */
-	@Override
-	public int quantityDropped(Random par1Random)
-	{
-		return 1;
-	}
-
-	/**
-	 * Returns the ID of the items to drop on destruction.
-	 */
-	@Override
-	public int idDropped(int par1, Random par2Random, int par3)
-	{
-		return this.blockID;
 	}
 
 	/**
@@ -71,9 +55,9 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 	 * override this function. Use onMachineActivated instead! (It does the same thing)
 	 * 
 	 * @param world The World Object.
-	 * @param x, y, z The coordinate of the block.
+	 * @param x , y, z The coordinate of the block.
 	 * @param side The side the player clicked on.
-	 * @param hitX, hitY, hitZ The position the player clicked on relative to the block.
+	 * @param hitX , hitY, hitZ The position the player clicked on relative to the block.
 	 */
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
@@ -94,18 +78,22 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 			}
 			else if (par5EntityPlayer.inventory.getCurrentItem().getItem() instanceof IItemElectric)
 			{
-				if (this.onUseElectricItem(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ)) { return true; }
+				if (this.onUseElectricItem(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ))
+				{
+					return true;
+				}
 			}
 		}
 
 		if (par5EntityPlayer.isSneaking())
 		{
-			return this.onSneakMachineActivated(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
+			if (this.onSneakMachineActivated(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ))
+			{
+				return true;
+			}
 		}
-		else
-		{
-			return this.onMachineActivated(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
-		}
+
+		return this.onMachineActivated(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
 	}
 
 	/**
@@ -118,7 +106,11 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 		return false;
 	}
 
-	@Deprecated
+	/**
+	 * Called when the machine is being wrenched by a player while sneaking.
+	 * 
+	 * @return True if something happens
+	 */
 	public boolean onSneakMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		return false;
@@ -145,7 +137,8 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 	}
 
 	/**
-	 * Called when a player uses a wrench on the machine while sneaking
+	 * Called when a player uses a wrench on the machine while sneaking. Only works with the UE
+	 * wrench.
 	 * 
 	 * @return True if some happens
 	 */
@@ -165,12 +158,18 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 		return null;
 	}
 
-	/**
-	 * Override this if you don't need it. This will eject all items out of this machine if it has
-	 * an inventory
-	 */
 	@Override
 	public void breakBlock(World par1World, int x, int y, int z, int par5, int par6)
+	{
+		this.dropEntireInventory(par1World, x, y, z, par5, par6);
+		super.breakBlock(par1World, x, y, z, par5, par6);
+	}
+
+	/**
+	 * Override this if you don't need it. This will eject all items out of this machine if it has
+	 * an inventory.
+	 */
+	public void dropEntireInventory(World par1World, int x, int y, int z, int par5, int par6)
 	{
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
@@ -218,7 +217,5 @@ public abstract class BlockMachine extends BlockContainer implements ISneakUseWr
 				}
 			}
 		}
-
-		super.breakBlock(par1World, x, y, z, par5, par6);
 	}
 }

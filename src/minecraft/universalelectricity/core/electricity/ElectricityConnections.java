@@ -44,7 +44,10 @@ public class ElectricityConnections
 		{
 			EnumSet<ForgeDirection> enumSet = connectors.get(tileEntity);
 
-			if (enumSet != null) { return enumSet.contains(side); }
+			if (enumSet != null)
+			{
+				return enumSet.contains(side);
+			}
 		}
 
 		return false;

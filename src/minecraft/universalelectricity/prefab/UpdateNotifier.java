@@ -20,6 +20,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * @author Calclavia
  * 
  */
+@Deprecated
 public class UpdateNotifier implements IPlayerTracker
 {
 	public static final UpdateNotifier INSTANCE = new UpdateNotifier();
@@ -86,7 +87,7 @@ public class UpdateNotifier implements IPlayerTracker
 		if (MODS_TO_UPDATE.size() > 0)
 		{
 			// Output Notification Message.
-			String updateNotification = "You have " + MODS_TO_UPDATE.size() + " mod(s) that needs to be updated: ";
+			String updateNotification = "Please update the following mod(s): ";
 
 			Iterator it = MODS_TO_UPDATE.entrySet().iterator();
 

@@ -1,18 +1,5 @@
 [
 {
-  "modid" : "ICBM",
-  "name" : "ICBM",
-  "version" : "1.0.4",
-  "url" : "http://universalelectricity.com/?m=icbm",
-  "authors": [
-    "Calclavia"
-  ],
-  "description": "ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!",
-  "logoFile" : "/icbm_logo.png",
-  "updateUrl" : "http://universalelectricity.com/?m=icbm"
-},
-
-{
   "modid" : "ICBM|Explosion",
   "name" : "ICBM|Explosion",
   "url" : "http://universalelectricity.com/?m=icbm",

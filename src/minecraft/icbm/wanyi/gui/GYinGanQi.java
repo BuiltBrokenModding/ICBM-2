@@ -9,6 +9,8 @@ import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.core.electricity.ElectricInfo;
+import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -244,7 +246,7 @@ public class GYinGanQi extends GuiBase
 		}
 
 		this.fontRenderer.drawString(color + "Status: " + status, 12, 138, 4210752);
-		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 12, 150, 4210752);
+		this.fontRenderer.drawString(ElectricInfo.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT) + " " + ElectricInfo.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 12, 150, 4210752);
 	}
 
 	/**

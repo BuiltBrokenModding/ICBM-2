@@ -19,7 +19,6 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -43,6 +42,7 @@ public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacke
 	@Override
 	public void initiate()
 	{
+		super.initiate();
 		this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 	}
 

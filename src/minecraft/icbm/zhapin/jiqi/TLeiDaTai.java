@@ -118,7 +118,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 
 					if (!this.worldObj.isRemote)
 					{
-						this.wattsReceived -= this.getRequest().getWatts() / 2;
+						this.wattsReceived -= this.getRequest().getWatts();
 					}
 
 					int prevShuMu = this.xunZhaoEntity.size();

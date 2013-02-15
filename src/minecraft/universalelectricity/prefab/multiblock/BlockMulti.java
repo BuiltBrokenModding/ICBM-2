@@ -90,7 +90,10 @@ public class BlockMulti extends BlockContainer
 		{
 			int mainBlockID = par1World.getBlockId(mainBlockPosition.intX(), mainBlockPosition.intY(), mainBlockPosition.intZ());
 
-			if (mainBlockID > 0) { return Block.blocksList[mainBlockID].getPickBlock(target, par1World, mainBlockPosition.intX(), mainBlockPosition.intY(), mainBlockPosition.intZ()); }
+			if (mainBlockID > 0)
+			{
+				return Block.blocksList[mainBlockID].getPickBlock(target, par1World, mainBlockPosition.intX(), mainBlockPosition.intY(), mainBlockPosition.intZ());
+			}
 		}
 
 		return null;

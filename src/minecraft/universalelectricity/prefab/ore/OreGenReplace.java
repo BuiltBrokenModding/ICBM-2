@@ -131,10 +131,22 @@ public class OreGenReplace extends OreGenBase
 	@Override
 	public boolean isOreGeneratedInWorld(World world, IChunkProvider chunkGenerator)
 	{
-		if (!this.shouldGenerate) { return false; }
-		if (this.ignoreSurface && chunkGenerator instanceof ChunkProviderGenerate) { return false; }
-		if (this.ignoreNether && chunkGenerator instanceof ChunkProviderHell) { return false; }
-		if (this.ignoreEnd && chunkGenerator instanceof ChunkProviderEnd) { return false; }
+		if (!this.shouldGenerate)
+		{
+			return false;
+		}
+		if (this.ignoreSurface && chunkGenerator instanceof ChunkProviderGenerate)
+		{
+			return false;
+		}
+		if (this.ignoreNether && chunkGenerator instanceof ChunkProviderHell)
+		{
+			return false;
+		}
+		if (this.ignoreEnd && chunkGenerator instanceof ChunkProviderEnd)
+		{
+			return false;
+		}
 		return true;
 	}
 }

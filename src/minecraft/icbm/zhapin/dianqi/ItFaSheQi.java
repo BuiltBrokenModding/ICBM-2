@@ -5,7 +5,6 @@ import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.ZhaPin;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;

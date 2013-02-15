@@ -12,8 +12,6 @@ import icbm.sentry.terminal.AccessLevel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.core.vector.Vector3;
 
 /**
  * Extend this class for all turrets that are automatic.

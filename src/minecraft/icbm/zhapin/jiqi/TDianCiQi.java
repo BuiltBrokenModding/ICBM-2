@@ -46,7 +46,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	public void invalidate()
 	{
 		RadarRegistry.unregister(this);
-		super.initiate();
+		super.invalidate();
 	}
 
 	public void updateEntity()
@@ -206,7 +206,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	@Override
 	public double getMaxJoules(Object... data)
 	{
-		return Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 800000);
+		return Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000);
 	}
 
 	@Override
