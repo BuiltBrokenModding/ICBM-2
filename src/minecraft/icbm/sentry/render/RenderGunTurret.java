@@ -4,7 +4,6 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.model.ModelGunTurret;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.turret.TileEntityBaseTurret;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -16,7 +15,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderGunTurret extends RenderTaggedTile
 {
-	public static final String TEXTURE_FILE = "gun_turret_t1.png";
+	public static final String TEXTURE_FILE = "gun_turret_neutral.png";
+	public static final String TEXTURE_FILE_FRIENDLY = "gun_turret_friendly.png";
+	public static final String TEXTURE_FILE_HOSTILE = "gun_turret_hostile.png";
 	public static final ModelGunTurret MODEL = new ModelGunTurret();
 
 	@Override
@@ -30,7 +31,7 @@ public class RenderGunTurret extends RenderTaggedTile
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
-			// Bind texture TODO change this to render different textures based on state and player.
+
 			this.setTextureBaseOnState(tileEntity);
 			this.render(tileEntity.renderRotationYaw, tileEntity.renderRotationPitch);
 
@@ -54,29 +55,24 @@ public class RenderGunTurret extends RenderTaggedTile
 	public void setTextureBaseOnState(TileEntityBaseTurret tileEntity)
 	{
 		EntityPlayer player = this.getPlayer();
-		if (player != null && player.getDistance(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord) <= RenderPlayer.NAME_TAG_RANGE && tileEntity.getPlatform() != null)
+
+		if (tileEntity.getPlatform() != null)
 		{
 			AccessLevel level = tileEntity.getPlatform().getPlayerAccess(player);
 
 			if (level == AccessLevel.OPERATOR)
 			{
 				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE);
+				return;
 			}
 			else if (level.ordinal() >= AccessLevel.USER.ordinal())
 			{
-				// TODO add friendly texture
-				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE);
-			}
-			else
-			{
-				// TODO add hostile texture
-				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE);
+				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE_FRIENDLY);
+				return;
 			}
 		}
-		else
-		{
-			// TODO add neutral texture
-			this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE);
-		}
+
+		this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE_HOSTILE);
+
 	}
 }

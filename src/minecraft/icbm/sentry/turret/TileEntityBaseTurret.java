@@ -3,9 +3,9 @@ package icbm.sentry.turret;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.api.ITurret;
 import icbm.sentry.logic.actions.ActionManager;
+import icbm.sentry.logic.actions.LookHelper;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.render.ITagRender;
-import icbm.sentry.render.LookHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

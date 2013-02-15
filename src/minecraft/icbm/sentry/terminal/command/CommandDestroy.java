@@ -1,9 +1,9 @@
 package icbm.sentry.terminal.command;
 
-import icbm.sentry.gui.GuiTerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.terminal.ISpecialAccess;
+import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class CommandDestroy extends TerminalCommand
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args)
+	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
 	{
 		if (args[0].equalsIgnoreCase("destroy") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
 		{

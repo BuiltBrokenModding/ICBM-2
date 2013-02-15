@@ -31,6 +31,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 				}
 
 				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
+
 			}
 		}
 	}

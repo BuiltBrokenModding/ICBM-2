@@ -2,7 +2,7 @@ package icbm.sentry.turret;
 
 import icbm.api.explosion.IExplosive;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.render.LookHelper;
+import icbm.sentry.logic.actions.LookHelper;
 
 import java.util.HashMap;
 import java.util.List;

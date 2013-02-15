@@ -27,7 +27,7 @@ public class PChuanRanDu extends CustomPotion
 	public void performEffect(EntityLiving entityLiving, int amplifier)
 	{
 		if (!(entityLiving instanceof EntityZombie) && !(entityLiving instanceof EntityPigZombie))
-		{	
+		{
 			entityLiving.attackEntityFrom(DamageSource.magic, 1);
 		}
 

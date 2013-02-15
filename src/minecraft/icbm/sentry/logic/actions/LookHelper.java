@@ -1,4 +1,4 @@
-package icbm.sentry.render;
+package icbm.sentry.logic.actions;
 
 import icbm.sentry.turret.TileEntityBaseTurret;
 import net.minecraft.entity.Entity;
@@ -117,4 +117,17 @@ public class LookHelper
 
 	}
 
+	/**
+	 * does a ray trace to the Entity to see if the turret can see it
+	 */
+	public boolean canEntityBeSeen(Vector3 target)
+	{
+		Vector3 barrel = Vector3.add(this.sentry.getMuzzle(), new Vector3(Math.sin(sentry.rotationYaw) * 1, 0, Math.cos(sentry.rotationYaw) * 1));
+		return this.sentry.worldObj.rayTraceBlocks(barrel.toVec3(), target.toVec3()) == null;
+	}
+
+	public boolean canEntityBeSenn(Entity entity)
+	{
+		return this.canEntityBeSeen(Vector3.add(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0)));
+	}
 }

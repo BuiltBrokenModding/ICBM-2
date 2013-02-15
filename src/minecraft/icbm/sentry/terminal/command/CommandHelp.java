@@ -1,8 +1,8 @@
 package icbm.sentry.terminal.command;
 
-import icbm.sentry.gui.GuiTerminal;
 import icbm.sentry.terminal.CommandRegistry;
 import icbm.sentry.terminal.ISpecialAccess;
+import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class CommandHelp extends TerminalCommand
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args)
+	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
 	{
 		if (args.length > 1)
 		{
@@ -28,31 +28,31 @@ public class CommandHelp extends TerminalCommand
 			{
 				if (cc.getCommandPrefix().equalsIgnoreCase(args[1]) && cc.showOnHelp(player, TE) && cc.canMachineUse(TE))
 				{
-					gui.addToConsole("----------------------");
-					gui.addToConsole(args[1] + " commands");
-					gui.addToConsole("----------------------");
+					TE.addToConsole("----------------------");
+					TE.addToConsole(args[1] + " commands");
+					TE.addToConsole("----------------------");
 					List<String> ccList = cc.getCmdUses(player, TE);
 
 					for (String cm : ccList)
 					{
 						if (!displayed.contains(cm.toLowerCase()))
 						{
-							gui.addToConsole(cm);
+							TE.addToConsole(cm);
 							displayed.add(cm.toLowerCase());
 						}
 					}
-					gui.addToConsole("----------------------");
+					TE.addToConsole("----------------------");
 				}
 			}
 			return true;
 		}
 		else
 		{
-			gui.addToConsole("----------------------");
-			gui.addToConsole("Listing commands");
-			gui.addToConsole("----------------------");
-			gui.addToConsole("Help command");
-			
+			TE.addToConsole("----------------------");
+			TE.addToConsole("Listing commands");
+			TE.addToConsole("----------------------");
+			TE.addToConsole("Help command");
+
 			for (TerminalCommand cc : CommandRegistry.COMMANDS)
 			{
 				if (cc.showOnHelp(player, TE) && cc.canMachineUse(TE))
@@ -60,11 +60,11 @@ public class CommandHelp extends TerminalCommand
 					List<String> ccList = cc.getCmdUses(player, TE);
 					for (String cm : ccList)
 					{
-						gui.addToConsole(cm);
+						TE.addToConsole(cm);
 					}
 				}
 			}
-			gui.addToConsole("-----------------------");
+			TE.addToConsole("-----------------------");
 			return true;
 		}
 	}

@@ -1,8 +1,5 @@
 package icbm.sentry.terminal;
 
-import icbm.sentry.gui.GuiTerminal;
-import icbm.sentry.terminal.command.CommandHelp;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,63 +25,48 @@ public class CommandRegistry
 	/**
 	 * When a player uses a command in any CMD machine it pass threw here first
 	 * 
-	 * @param player
-	 * @param TE
-	 * @param gui
-	 * @param cmd
+	 * @param terminal - The terminal, can be cast to TileEntity.
 	 */
-	public static void onCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String cmd)
+	public static void onCommand(EntityPlayer player, ITerminal terminal, String cmd)
 	{
-		boolean wasUsed = false;
-		TerminalCommand command = null;
-		String[] args = cmd.split(" ");
-		if (args[0] != null)
+		if (cmd != null && cmd != "")
 		{
-			if (args[0].equalsIgnoreCase("help"))
+			TerminalCommand currentCommand = null;
+			String[] args = cmd.split(" ");
+			terminal.addToConsole("\u00a7A" + player.username + ": " + cmd);
+
+			if (args[0] != null)
 			{
-				command = new CommandHelp();
-				if (command.processCommand(player, TE, gui, args))
+				for (TerminalCommand command : COMMANDS)
 				{
-					wasUsed = true;
-				}
-			}
-			else
-			{
-				for (TerminalCommand cm : COMMANDS)
-				{
-					if (cm.getCommandPrefix().equalsIgnoreCase(args[0]))
+					if (command.getCommandPrefix().equalsIgnoreCase(args[0]))
 					{
-						if (!cm.canMachineUse(TE))
+						if (!command.canMachineUse(terminal))
 						{
-							gui.addToConsole("N/A");
-							wasUsed = true;
-							break;
+							terminal.addToConsole("N/A");
+							return;
 						}
 						else
 						{
-							if (!cm.canPlayerUse(player, TE))
+							if (!command.canPlayerUse(player, terminal))
 							{
-								gui.addToConsole("Access Denied.");
-								wasUsed = true;
-								break;
+								terminal.addToConsole("Access Denied.");
+								return;
 							}
 							else
 							{
-								if (cm.processCommand(player, TE, gui, args))
+								if (command.processCommand(player, terminal, args))
 								{
-									wasUsed = true;
-									command = cm;
-									break;
+									currentCommand = command;
+									return;
 								}
 							}
 						}
 					}
 				}
 			}
-		}
-		if (!wasUsed)
-		{
-			gui.addToConsole("Unkown Command.");
+
+			terminal.addToConsole("Unkown Command.");
 		}
 	}
 

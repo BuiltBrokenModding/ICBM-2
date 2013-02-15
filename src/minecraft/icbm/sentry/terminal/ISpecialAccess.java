@@ -29,4 +29,12 @@ public interface ISpecialAccess
 	 */
 	public boolean setAccess(String player, AccessLevel lvl, boolean save);
 
+	/**
+	 * removes the user from the access list
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public boolean removeUser(String player);
+
 }

@@ -1,7 +1,5 @@
 package icbm.sentry.terminal;
 
-import icbm.sentry.gui.GuiTerminal;
-
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +19,7 @@ public abstract class TerminalCommand
 	 * @param var1
 	 * @param args
 	 */
-	public abstract boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args);
+	public abstract boolean processCommand(EntityPlayer player, ITerminal TE, String[] args);
 
 	/**
 	 * Returns true if the given command sender is allowed to use this command.

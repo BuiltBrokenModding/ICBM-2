@@ -2,7 +2,7 @@ package icbm.sentry.platform;
 
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.api.IAmmunition;
-import icbm.sentry.terminal.TileEntityConsole;
+import icbm.sentry.terminal.TileEntityTerminal;
 import icbm.sentry.turret.TileEntityBaseTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +11,7 @@ import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.TranslationHelper;
 
-public class TileEntityTurretPlatform extends TileEntityConsole implements IAmmunition
+public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition
 {
 	/**
 	 * The turret linked to this platform.
@@ -22,6 +22,15 @@ public class TileEntityTurretPlatform extends TileEntityConsole implements IAmmu
 	@Override
 	public void updateEntity()
 	{
+		if (!this.worldObj.isRemote)
+		{
+			if (this.getTerminalOuput().size() <= 0)
+			{
+				this.getTerminalOuput().add("Control Terminal");
+				this.getTerminalOuput().add("---------------------");
+			}
+		}
+
 		super.updateEntity();
 
 		if (this.isRunning())
@@ -30,6 +39,7 @@ public class TileEntityTurretPlatform extends TileEntityConsole implements IAmmu
 		}
 	}
 
+	@Override
 	public void onReceive(ElectricityPack electricityPack)
 	{
 		/**
@@ -96,7 +106,7 @@ public class TileEntityTurretPlatform extends TileEntityConsole implements IAmmu
 	 * 
 	 * @return
 	 */
-	public boolean removeSentry()
+	public boolean removeTurret()
 	{
 		TileEntity ent = worldObj.getBlockTileEntity(xCoord + deployDirection.offsetX, yCoord + deployDirection.offsetY, zCoord + deployDirection.offsetZ);
 		if (ent instanceof TileEntityBaseTurret)

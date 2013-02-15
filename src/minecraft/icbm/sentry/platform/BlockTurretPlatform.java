@@ -16,9 +16,10 @@ public class BlockTurretPlatform extends BlockMachine
 {
 	public BlockTurretPlatform(int id)
 	{
-		super("turretPlatform", id, UniversalElectricity.machine);
-		this.setHardness(100f);
-		this.setResistance(100f);
+		super(id, UniversalElectricity.machine);
+		this.setBlockName("turretPlatform");
+		this.setHardness(10f);
+		this.setResistance(50f);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setTextureFile(ICBMSentry.BLOCK_TEXTURE_PATH);
 	}

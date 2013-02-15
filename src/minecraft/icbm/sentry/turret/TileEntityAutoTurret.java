@@ -7,7 +7,7 @@ import icbm.sentry.logic.actions.ActionKillTarget;
 import icbm.sentry.logic.actions.ActionManager;
 import icbm.sentry.logic.actions.ActionRepeat;
 import icbm.sentry.logic.actions.ActionRotateTo;
-import icbm.sentry.logic.actions.ActionTargetSearch;
+import icbm.sentry.logic.actions.ActionSearchTarget;
 import icbm.sentry.terminal.AccessLevel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,10 +31,14 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 
 	public final ActionManager AIManager = new ActionManager();
 
-	public TileEntityAutoTurret()
+	@Override
+	public void initiate()
 	{
-		this.addIdleSet();
-		this.addHostileSet();
+		if (!this.worldObj.isRemote)
+		{
+			this.addIdleSet();
+			this.addHostileSet();
+		}
 	}
 
 	/**
@@ -64,7 +68,7 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 	{
 		if (!this.isHunting)
 		{
-			this.AIManager.addCommand(this, ActionTargetSearch.class);
+			this.AIManager.addCommand(this, ActionSearchTarget.class);
 			this.AIManager.addCommand(this, ActionKillTarget.class);
 			this.AIManager.addCommand(this, ActionRepeat.class);
 		}
@@ -75,14 +79,11 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 	{
 		super.onUpdate();
 
-		if (this.isRunning())
-		{
-			this.AIManager.onUpdate();
+		this.AIManager.onUpdate();
 
-			if (this.target == null)
-			{
-				this.actionManager.onUpdate();
-			}
+		if (this.target == null)
+		{
+			this.actionManager.onUpdate();
 		}
 	}
 
@@ -130,29 +131,26 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 			{
 				if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) < this.getDetectRange())
 				{
-					// TODO: RAY TRACE ENTITY
-					// MovingObjectPosition mop = this.worldObj.rayTraceBlocks(Vector3.add(new
-					// Vector3(this), new Vector3(0, 1, 0)).toVec3(), new Vector3(entity).toVec3());
-
-					// if (mop == null)
+					if (!this.lookHelper.canEntityBeSenn(entity))
 					{
-						if (entity instanceof EntityPlayer)
+						return false;
+					}
+					if (entity instanceof EntityPlayer)
+					{
+						EntityPlayer player = ((EntityPlayer) entity);
+
+						if (player.capabilities.isCreativeMode)
 						{
-							EntityPlayer player = ((EntityPlayer) entity);
-
-							if (player.capabilities.isCreativeMode)
-							{
-								return false;
-							}
-
-							if (this.getPlatform() != null && this.getPlatform().getPlayerAccess(player).ordinal() >= AccessLevel.USER.ordinal())
-							{
-								return false;
-							}
+							return false;
 						}
 
-						return true;
+						if (this.getPlatform() != null && this.getPlatform().getPlayerAccess(player).ordinal() >= AccessLevel.USER.ordinal())
+						{
+							return false;
+						}
 					}
+
+					return true;
 				}
 			}
 		}

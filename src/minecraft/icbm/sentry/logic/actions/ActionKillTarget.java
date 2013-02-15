@@ -2,7 +2,7 @@ package icbm.sentry.logic.actions;
 
 import icbm.sentry.api.IAutoSentry;
 
-public class ActionKillTarget extends ActionTargetSearch
+public class ActionKillTarget extends ActionSearchTarget
 {
 	int ticksTarget = 0;/* ticks since target has been seen */
 

@@ -73,7 +73,7 @@ public class ContainerTurretPlatform extends Container
 			ItemStack var4 = var3.getStack();
 			var2 = var4.copy();
 
-			if (par1 > this.tileEntity.containingItems.length)
+			if (par1 > this.tileEntity.containingItems.length - 1)
 			{
 				if (var4.getItem() instanceof ItemAmmo)
 				{
@@ -96,7 +96,7 @@ public class ContainerTurretPlatform extends Container
 						return null;
 					}
 				}
-				else if (par1 >= this.tileEntity.containingItems.length + 27 && par1 < this.tileEntity.containingItems.length + 36 && !this.mergeItemStack(var4, this.tileEntity.containingItems.length, this.tileEntity.containingItems.length + 27, false))
+				else if (par1 < this.tileEntity.containingItems.length + 36 && !this.mergeItemStack(var4, this.tileEntity.containingItems.length, this.tileEntity.containingItems.length + 27, false))
 				{
 					return null;
 				}

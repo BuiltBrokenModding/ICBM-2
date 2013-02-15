@@ -1,9 +1,9 @@
 package icbm.sentry.terminal.command;
 
-import icbm.sentry.gui.GuiTerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.terminal.ISpecialAccess;
+import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
 import icbm.sentry.terminal.UserAccess;
 
@@ -21,7 +21,7 @@ public class CommandGet extends TerminalCommand
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ISpecialAccess TE, GuiTerminal gui, String[] args)
+	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
 	{
 		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
 		{
@@ -34,24 +34,24 @@ public class CommandGet extends TerminalCommand
 				{
 					for (UserAccess access : userList)
 					{
-						gui.addToConsole("" + access.username);
+						TE.addToConsole("" + access.username);
 					}
 				}
 				else
 				{
-					gui.addToConsole("No owners");
+					TE.addToConsole("No owners");
 				}
 				return true;
 			}
 			else if (args[1].equalsIgnoreCase("position"))
 			{
-				gui.addToConsole("position: " + turret.xCoord + "x " + turret.yCoord + "y " + turret.zCoord + "z ");
+				TE.addToConsole("position: " + turret.xCoord + "x " + turret.yCoord + "y " + turret.zCoord + "z ");
 				return true;
 			}
 			else if (args[1].equalsIgnoreCase("kills"))
 			{
 				// TODO track
-				gui.addToConsole("Not yet useable");
+				TE.addToConsole("Not yet useable");
 				return true;
 			}
 		}

@@ -6,7 +6,7 @@ import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.render.BlockRenderingHandler;
 import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.RenderRailgun;
-import icbm.sentry.terminal.TileEntityConsole;
+import icbm.sentry.terminal.TileEntityTerminal;
 import icbm.sentry.turret.TileEntityBaseTurret;
 import icbm.sentry.turret.TileEntityRailgun;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +55,7 @@ public class ClientProxy extends CommonProxy
 				case GUI_PLATFORM_ID:
 					return new GuiTurretPlatform(player.inventory, ((TileEntityTurretPlatform) tileEntity));
 				case GUI_CONSOLE_ID:
-					return new GuiTerminal(player, ((TileEntityConsole) tileEntity));
+					return new GuiTerminal(player, ((TileEntityTerminal) tileEntity));
 			}
 		}
 

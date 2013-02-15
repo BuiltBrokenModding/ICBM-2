@@ -1,8 +1,8 @@
 package icbm.sentry.gui;
 
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.terminal.CommandRegistry;
-import icbm.sentry.terminal.TileEntityConsole;
+import icbm.sentry.terminal.TileEntityTerminal;
+import icbm.sentry.terminal.TileEntityTerminal.PacketType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +12,9 @@ import net.minecraft.util.StringTranslate;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.prefab.GuiBase;
+import universalelectricity.prefab.network.PacketManager;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -24,17 +27,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiTerminal extends GuiBase
 {
-	private TileEntityConsole tileEntity;
+	private TileEntityTerminal tileEntity;
 	private GuiTextField commandLine;
 	private EntityPlayer entityPlayer;
 	private String linkErrorA = "";
 	private IInventory iInventory;
-	private String cmdInput;
-	private int scroll = 0;
 	private int usedLines = 0;
-	private String[] printLine = new String[400];
 
-	public GuiTerminal(EntityPlayer invPlayer, TileEntityConsole tileEntity)
+	public GuiTerminal(EntityPlayer invPlayer, TileEntityTerminal tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		this.entityPlayer = invPlayer;
@@ -54,71 +54,23 @@ public class GuiTerminal extends GuiBase
 		this.controlList.add(new GuiButtonArrow(1, wid + 146, hig + 138, true));
 		// ---------
 		this.commandLine.setMaxStringLength(30);
-		this.addToConsole("Sentry Terminal");
-		this.addToConsole("---------------------");
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMSentry.CHANNEL, this.tileEntity, PacketType.GUI_EVENT.ordinal(), true));
+		Keyboard.enableRepeatEvents(true);
 	}
 
-	/**
-	 * Adds a line to the console.
-	 * 
-	 * @param msg
-	 */
-	public void addToConsole(String msg)
+	@Override
+	public void onGuiClosed()
 	{
-		// TODO limit to 21 chars
-		for (int i = 0; i < printLine.length; i++)
-		{
-			String ll = printLine[i];
-			boolean flag = false;
-			if (ll == null)
-			{
-				flag = true;
-			}
-			else if (ll.equalsIgnoreCase(""))
-			{
-				flag = true;
-			}
-			if (flag)
-			{
-				if (msg.length() > 23)
-				{
-					msg = msg.substring(0, 22);
-				}
-				printLine[i] = msg;
-				++usedLines;
-				if (usedLines > 10)
-				{
-					this.scroll++;
-				}
-				break;
-			}
-			else
-			{
-				/**
-				 * if reached max of array move the array down 50, removing the first 50 in the
-				 * process
-				 */
-				if (i == this.printLine.length - 1)
-				{
-					/**
-					 * Reset the search by 50,+2 to be since some lines, just freed up
-					 */
-					i = Math.max(printLine.length - 52, 0);
-					for (int l = 0; l < printLine.length; l++)
-					{
-						printLine[i] = printLine[i + 50];
-					}
-				}
-			}
-
-		}
+		super.onGuiClosed();
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMSentry.CHANNEL, this.tileEntity, PacketType.GUI_EVENT.ordinal(), false));
+		Keyboard.enableRepeatEvents(false);
 	}
 
 	@Override
 	public void updateScreen()
 	{
-		this.commandLine.updateCursorCounter();
-		cmdInput = commandLine.getText();
+		super.updateScreen();
+		this.commandLine.setFocused(true);
 	}
 
 	/**
@@ -128,50 +80,46 @@ public class GuiTerminal extends GuiBase
 	@Override
 	protected void actionPerformed(GuiButton par1GuiButton)
 	{
-		this.cmdInput = commandLine.getText();
-
 		switch (par1GuiButton.id)
 		{
 			case 0:
 			{
 				// Arrow Up
-				if (this.scroll > 0)
-				{
-					this.scroll--;
-				}
-				else
-				{
-					this.scroll = 0;
-				}
+				this.tileEntity.scrollUp(1);
 				break;
 			}
 			case 1:
 			{
 				// Arrow Down
-				if (this.printLine.length > (this.scroll + 1))
-				{
-					this.scroll++;
-				}
+				this.tileEntity.scrollDown(1);
 				break;
 			}
 		}
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2)
+	protected void keyTyped(char character, int keycode)
 	{
-		if (par2 == Keyboard.KEY_ESCAPE)
+		if (keycode == Keyboard.KEY_ESCAPE)
 		{
 			this.mc.thePlayer.closeScreen();
 		}
-
-		this.commandLine.textboxKeyTyped(par1, par2);
-
-		if (par2 == 28)
+		else if (keycode == 200) // PAGE UP (no constant)
 		{
-			CommandRegistry.onCommand(this.entityPlayer, tileEntity, this, this.cmdInput);
-			this.cmdInput = "";
+			this.tileEntity.scrollUp(1);
+		}
+		else if (keycode == 208) // PAGE DOWN (no constant)
+		{
+			this.tileEntity.scrollDown(1);
+		}
+		else if (keycode == Keyboard.KEY_RETURN)
+		{
+			this.tileEntity.sendCommandToServer(this.entityPlayer, this.commandLine.getText());
 			this.commandLine.setText("");
+		}
+		else
+		{
+			this.commandLine.textboxKeyTyped(character, keycode);
 		}
 	}
 
@@ -183,55 +131,35 @@ public class GuiTerminal extends GuiBase
 	}
 
 	@Override
-	public void onGuiClosed()
+	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
-		super.onGuiClosed();
-		Keyboard.enableRepeatEvents(false);
+		this.drawConsole(10, 10, TileEntityTerminal.SCROLL_SIZE);
 	}
 
-	@Override
-	protected void drawForegroundLayer()
+	public void drawConsole(int height, int width, int lines)
 	{
-		this.drawConsole(10, 10, 14);
-	}
-
-	public void drawConsole(int x, int y, int lines)
-	{
-		int hight = y;
-		int width = x;
 		int spacing = 10;
 		int color = 14737632;
-		String[] display = new String[lines];
-		// writes the current page to display array
-		try
+
+		// Draws each line
+		for (int i = 0; i < lines; i++)
 		{
-			for (int u = 0; u < lines; u++)
+			int currentLine = i + this.tileEntity.getScroll();
+
+			if (currentLine < this.tileEntity.getTerminalOuput().size() && currentLine >= 0)
 			{
-				int currentLine = u + this.scroll;
-				String ll = printLine[((int) u + this.scroll)];
-				if (ll != null && currentLine < printLine.length && !ll.equalsIgnoreCase(""))
+				String line = this.tileEntity.getTerminalOuput().get(currentLine);
+
+				if (line != null && line != "")
 				{
-					display[u] = ll;
-				}
-				else
-				{
-					display[u] = "-";
+					this.fontRenderer.drawString(line, width, spacing * i + height, color);
 				}
 			}
-			// draws display array to screen
-			for (int i = 0; i < display.length; i++)
-			{
-				this.fontRenderer.drawString(display[i], width, spacing * i + hight, color);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
 		}
 	}
 
 	@Override
-	protected void drawBackgroundLayer(float var1, int var2, int var3)
+	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
 		int var4 = this.mc.renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + "gui_cmd.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
