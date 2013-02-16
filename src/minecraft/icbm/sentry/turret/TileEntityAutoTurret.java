@@ -144,7 +144,7 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 							return false;
 						}
 
-						if (this.getPlatform() != null && this.getPlatform().getPlayerAccess(player).ordinal() >= AccessLevel.USER.ordinal())
+						if (this.getPlatform() != null && this.getPlatform().getPlayerAccess(player.username).ordinal() >= AccessLevel.USER.ordinal())
 						{
 							return false;
 						}

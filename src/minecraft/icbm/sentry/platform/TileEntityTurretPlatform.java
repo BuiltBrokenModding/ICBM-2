@@ -22,15 +22,6 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public void updateEntity()
 	{
-		if (!this.worldObj.isRemote)
-		{
-			if (this.getTerminalOuput().size() <= 0)
-			{
-				this.getTerminalOuput().add("Control Terminal");
-				this.getTerminalOuput().add("---------------------");
-			}
-		}
-
 		super.updateEntity();
 
 		if (this.isRunning())
@@ -184,5 +175,4 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		}
 		return false;
 	}
-
 }

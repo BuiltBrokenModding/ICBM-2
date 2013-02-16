@@ -4,6 +4,7 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.model.ModelGunTurret;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.turret.TileEntityBaseTurret;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -58,7 +59,7 @@ public class RenderGunTurret extends RenderTaggedTile
 
 		if (tileEntity.getPlatform() != null)
 		{
-			AccessLevel level = tileEntity.getPlatform().getPlayerAccess(player);
+			AccessLevel level = tileEntity.getPlatform().getPlayerAccess(player.username);
 
 			if (level == AccessLevel.OPERATOR)
 			{

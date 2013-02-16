@@ -1,6 +1,7 @@
 package icbm.sentry.terminal.command;
 
 import icbm.sentry.platform.TileEntityTurretPlatform;
+
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.terminal.ISpecialAccess;
 import icbm.sentry.terminal.ITerminal;
@@ -11,6 +12,11 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
+/**
+ * Manipulates the access level of the turret platform.
+ * 
+ * @author Darkguardsman, Calclavia
+ */
 public class CommandAccess extends TerminalCommand
 {
 
@@ -21,21 +27,31 @@ public class CommandAccess extends TerminalCommand
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
+	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
 	{
-		if (args[0].equalsIgnoreCase("access") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
+		if (args[0].equalsIgnoreCase("access") && args.length > 1 && args[1] != null && terminal instanceof TileEntityTurretPlatform)
 		{
-			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) TE;
+			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
+			AccessLevel userAccess = terminal.getPlayerAccess(player.username);
+
 			if (args[1].equalsIgnoreCase("?"))
 			{
-				TE.addToConsole("Access = " + turret.getPlayerAccess(player).displayName);
-
+				terminal.addToConsole("Access Level: " + turret.getPlayerAccess(player.username).displayName);
 				return true;
 			}
-			else if (args[1].equalsIgnoreCase("set") && args.length > 3)
+			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.OPERATOR.ordinal())
 			{
-				// TODO readd this feature later
+				String username = args[2];
+				AccessLevel access = AccessLevel.get(args[3]);
 
+				if (terminal.getPlayerAccess(username) != AccessLevel.NONE & access != AccessLevel.NONE)
+				{
+					if (terminal.setAccess(username, access, true))
+					{
+						terminal.addToConsole(username + " set to " + access.displayName);
+						return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -44,7 +60,7 @@ public class CommandAccess extends TerminalCommand
 	@Override
 	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
 	{
-		return mm.getPlayerAccess(var1).ordinal() >= AccessLevel.BASIC.ordinal();
+		return mm.getPlayerAccess(var1.username).ordinal() >= AccessLevel.BASIC.ordinal();
 	}
 
 	@Override

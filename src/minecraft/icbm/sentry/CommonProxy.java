@@ -17,8 +17,8 @@ public class CommonProxy implements IGuiHandler
 	 * GUI IDs
 	 */
 	public static final int GUI_PLATFORM_ID = 0;
-	public static final int GUI_CONSOLE_ID = 1;
-	public static final int GUI_RAILGUN_ID = 2;
+	public static final int GUI_PLATFORM_TERMINAL_ID = 1;
+	public static final int GUI_PLATFORM_ACCESS_ID = 2;
 
 	public void init()
 	{

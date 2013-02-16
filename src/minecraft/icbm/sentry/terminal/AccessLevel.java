@@ -2,7 +2,7 @@ package icbm.sentry.terminal;
 
 public enum AccessLevel
 {
-	NONE("None"), BASIC("Basic"), USER("Standard"), OPERATOR("Admin"), OWNER("Root-Admin");
+	NONE("None"), BASIC("Basic"), USER("Standard"), OPERATOR("Admin"), OWNER("Owner");
 
 	public String displayName;
 
@@ -18,20 +18,26 @@ public enum AccessLevel
 	 */
 	public static AccessLevel get(Object ob)
 	{
-		if (ob instanceof Integer && ((Integer) ob) < AccessLevel.values().length)
-		{
-			return AccessLevel.values()[((Integer) ob)];
-		}
 		if (ob instanceof String)
 		{
-			for (AccessLevel a : AccessLevel.values())
+			for (AccessLevel access : AccessLevel.values())
 			{
-				if (a.name().equalsIgnoreCase(((String) ob)))
+				if (access.displayName.equalsIgnoreCase((String) ob) || access.name().equalsIgnoreCase((String) ob))
 				{
-					return a;
+					return access;
 				}
 			}
 		}
+		if (ob instanceof Integer)
+		{
+			int i = (Integer) ob;
+
+			if (i >= 0 && i < AccessLevel.values().length)
+			{
+				return AccessLevel.values()[i];
+			}
+		}
+
 		return NONE;
 	}
 }

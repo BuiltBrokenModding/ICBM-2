@@ -12,7 +12,7 @@ public interface ISpecialAccess
 	 * @return access level of the player, make sure to return no access if the player doesn't have
 	 * any
 	 */
-	public AccessLevel getPlayerAccess(EntityPlayer player);
+	public AccessLevel getPlayerAccess(String username);
 
 	/**
 	 * gets the access list for the machine

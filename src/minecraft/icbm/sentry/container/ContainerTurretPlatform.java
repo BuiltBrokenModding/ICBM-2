@@ -26,14 +26,14 @@ public class ContainerTurretPlatform extends Container
 		{
 			for (int column = 0; column < 4; column++)
 			{
-				this.addSlotToContainer(new SlotSpecific(tileEntity, column + row * 4, 8 + column * 18, 27 + row * 18, ICBMSentry.conventionalBullet.copy()));
+				this.addSlotToContainer(new SlotSpecific(tileEntity, column + row * 4, 8 + column * 18, 40 + row * 18, ICBMSentry.conventionalBullet.copy()));
 			}
 		}
 
 		// Turret Upgrade Slots
 		for (int i = 0; i < 4; i++)
 		{
-			this.addSlotToContainer(new Slot(tileEntity, i + TileEntityTurretPlatform.UPGRADE_START_INDEX, 89 + i * 18, 64));
+			this.addSlotToContainer(new Slot(tileEntity, i + TileEntityTurretPlatform.UPGRADE_START_INDEX, 89 + i * 18, 77));
 		}
 
 		// Player Inventory
@@ -41,12 +41,12 @@ public class ContainerTurretPlatform extends Container
 		{
 			for (int slot = 0; slot < 9; ++slot)
 			{
-				this.addSlotToContainer(new Slot(player, slot + row * 9 + 9, 8 + slot * 18, 84 + row * 18));
+				this.addSlotToContainer(new Slot(player, slot + row * 9 + 9, 8 + slot * 18, 97 + row * 18));
 			}
 		}
 		for (row = 0; row < 9; ++row)
 		{
-			this.addSlotToContainer(new Slot(player, row, 8 + row * 18, 142));
+			this.addSlotToContainer(new Slot(player, row, 8 + row * 18, 155));
 		}
 
 		this.tileEntity.openChest();

@@ -19,12 +19,12 @@ public abstract class TerminalCommand
 	 * @param var1
 	 * @param args
 	 */
-	public abstract boolean processCommand(EntityPlayer player, ITerminal TE, String[] args);
+	public abstract boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args);
 
 	/**
 	 * Returns true if the given command sender is allowed to use this command.
 	 */
-	public abstract boolean canPlayerUse(EntityPlayer player, ISpecialAccess mm);
+	public abstract boolean canPlayerUse(EntityPlayer player, ISpecialAccess specialAccess);
 
 	/**
 	 * should this command show on /help
@@ -32,7 +32,7 @@ public abstract class TerminalCommand
 	 * @param player - used to find if it should show
 	 * @return true/false
 	 */
-	public abstract boolean showOnHelp(EntityPlayer player, ISpecialAccess mm);
+	public abstract boolean showOnHelp(EntityPlayer player, ISpecialAccess specialAccess);
 
 	/**
 	 * returns the list of commands that the player can view on /help keep it shorter than 22 chars
@@ -41,7 +41,7 @@ public abstract class TerminalCommand
 	 * @param player
 	 * @return
 	 */
-	public abstract List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm);
+	public abstract List<String> getCmdUses(EntityPlayer player, ISpecialAccess specialAccess);
 
 	/**
 	 * some cmds can only be use on some machines but will be access by all machines. to prevent the
@@ -50,5 +50,5 @@ public abstract class TerminalCommand
 	 * @param mm
 	 * @return
 	 */
-	public abstract boolean canMachineUse(ISpecialAccess mm);
+	public abstract boolean canMachineUse(ISpecialAccess specialAccess);
 }

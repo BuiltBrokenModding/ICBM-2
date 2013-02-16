@@ -78,7 +78,7 @@ public class LookHelper
 	{
 		Vector3 difference = Vector3.subtract(target, position);
 		double verticleDistance = MathHelper.sqrt_double(difference.x * difference.x + difference.z * difference.z);
-		return MathHelper.wrapAngleTo180_float((float) Math.abs((Math.atan2(difference.y, verticleDistance) * 180.0D / Math.PI)));
+		return MathHelper.wrapAngleTo180_float((float)Math.abs((Math.atan2(difference.y, verticleDistance) * 180.0D / Math.PI)));
 
 	}
 

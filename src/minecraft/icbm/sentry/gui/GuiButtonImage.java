@@ -55,4 +55,13 @@ public class GuiButtonImage extends GuiButton
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, var6, var5, this.width, this.height);
 		}
 	}
+
+	/**
+	 * Checks to see if the x and y coords are intersecting with the button.
+	 */
+	public boolean isIntersect(int x, int y)
+	{
+		return x >= this.xPosition && y >= this.yPosition && x < this.xPosition + this.width && y < this.yPosition + this.height;
+
+	}
 }

@@ -1,8 +1,10 @@
 package icbm.sentry.terminal;
 
+import icbm.sentry.api.IScroll;
+
 import java.util.List;
 
-public interface ITerminal extends ISpecialAccess
+public interface ITerminal extends ISpecialAccess, IScroll
 {
 	/**
 	 * Gets an output of the string stored in the console.
@@ -13,16 +15,4 @@ public interface ITerminal extends ISpecialAccess
 	 * Adds a string to the console. Server side only.
 	 */
 	public boolean addToConsole(String msg);
-
-	/**
-	 * Scrolls the terminal up and down. Client side only.
-	 * 
-	 * @param amount - Lines.
-	 */
-	public void scrollUp(int amount);
-
-	public void scrollDown(int amount);
-
-	public int getScroll();
-
 }

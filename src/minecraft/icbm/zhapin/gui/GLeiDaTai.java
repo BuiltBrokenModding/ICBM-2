@@ -185,7 +185,7 @@ public class GLeiDaTai extends GuiBase
 		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
 
 		this.radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
-		this.radarMapRadius = this.tileEntity.MAX_BIAN_JING / 65F;
+		this.radarMapRadius = this.tileEntity.MAX_BIAN_JING / 71f;
 
 		this.info = "";
 		this.info2 = "";

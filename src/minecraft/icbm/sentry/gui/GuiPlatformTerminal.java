@@ -2,7 +2,6 @@ package icbm.sentry.gui;
 
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.terminal.TileEntityTerminal;
-import icbm.sentry.terminal.TileEntityTerminal.PacketType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,11 +9,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.prefab.GuiBase;
-import universalelectricity.prefab.network.PacketManager;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -25,20 +22,15 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  */
 @SideOnly(Side.CLIENT)
-public class GuiTerminal extends GuiBase
+public class GuiPlatformTerminal extends GuiPlatformBase
 {
 	private TileEntityTerminal tileEntity;
 	private GuiTextField commandLine;
-	private EntityPlayer entityPlayer;
-	private String linkErrorA = "";
-	private IInventory iInventory;
-	private int usedLines = 0;
 
-	public GuiTerminal(EntityPlayer invPlayer, TileEntityTerminal tileEntity)
+	public GuiPlatformTerminal(EntityPlayer entityPlayer, TileEntityTerminal tileEntity)
 	{
+		super(entityPlayer, tileEntity);
 		this.tileEntity = tileEntity;
-		this.entityPlayer = invPlayer;
-		this.xSize = 200;
 	}
 
 	@Override
@@ -46,15 +38,14 @@ public class GuiTerminal extends GuiBase
 	{
 		super.initGui();
 		StringTranslate var1 = StringTranslate.getInstance();
-		this.controlList.clear();
-		int wid = (this.width - this.xSize) / 2;
-		int hig = (this.height - this.ySize) / 2;
-		this.commandLine = new GuiTextField(this.fontRenderer, wid + 7, hig + 150, 135, 11);
-		this.controlList.add(new GuiButtonArrow(0, wid + 146, hig + 7, false));
-		this.controlList.add(new GuiButtonArrow(1, wid + 146, hig + 138, true));
-		// ---------
+		int width = (this.width - this.xSize) / 2;
+		int height = (this.height - this.ySize) / 2;
+
+		this.commandLine = new GuiTextField(this.fontRenderer, width + 12, height + 165, 135, 11);
 		this.commandLine.setMaxStringLength(30);
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMSentry.CHANNEL, this.tileEntity, PacketType.GUI_EVENT.ordinal(), true));
+
+		this.controlList.add(new GuiButtonArrow(MAX_BUTTON_ID + 1, width + 151, height + 21, false));
+		this.controlList.add(new GuiButtonArrow(MAX_BUTTON_ID + 2, width + 151, height + 152, true));
 		Keyboard.enableRepeatEvents(true);
 	}
 
@@ -62,7 +53,6 @@ public class GuiTerminal extends GuiBase
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMSentry.CHANNEL, this.tileEntity, PacketType.GUI_EVENT.ordinal(), false));
 		Keyboard.enableRepeatEvents(false);
 	}
 
@@ -73,25 +63,38 @@ public class GuiTerminal extends GuiBase
 		this.commandLine.setFocused(true);
 	}
 
-	/**
-	 * Fired when a control is clicked. This is the equivalent of
-	 * ActionListener.actionPerformed(ActionEvent e).
-	 */
 	@Override
-	protected void actionPerformed(GuiButton par1GuiButton)
+	public void handleMouseInput()
 	{
-		switch (par1GuiButton.id)
+		super.handleMouseInput();
+		int wheel = Mouse.getEventDWheel();
+		if (wheel > 0)
 		{
-			case 0:
+			this.tileEntity.scroll(-2);
+		}
+		else if (wheel < 0)
+		{
+			this.tileEntity.scroll(2);
+		}
+	}
+
+	@Override
+	protected void actionPerformed(GuiButton button)
+	{
+		super.actionPerformed(button);
+
+		switch (button.id)
+		{
+			case MAX_BUTTON_ID + 1:
 			{
 				// Arrow Up
-				this.tileEntity.scrollUp(1);
+				this.tileEntity.scroll(-1);
 				break;
 			}
-			case 1:
+			case MAX_BUTTON_ID + 2:
 			{
 				// Arrow Down
-				this.tileEntity.scrollDown(1);
+				this.tileEntity.scroll(1);
 				break;
 			}
 		}
@@ -106,11 +109,11 @@ public class GuiTerminal extends GuiBase
 		}
 		else if (keycode == 200) // PAGE UP (no constant)
 		{
-			this.tileEntity.scrollUp(1);
+			this.tileEntity.scroll(-1);
 		}
 		else if (keycode == 208) // PAGE DOWN (no constant)
 		{
-			this.tileEntity.scrollDown(1);
+			this.tileEntity.scroll(1);
 		}
 		else if (keycode == Keyboard.KEY_RETURN)
 		{
@@ -131,15 +134,22 @@ public class GuiTerminal extends GuiBase
 	}
 
 	@Override
-	protected void drawForegroundLayer(int var2, int var3, float var1)
+	protected void drawForegroundLayer(int x, int y, float var1)
 	{
-		this.drawConsole(10, 10, TileEntityTerminal.SCROLL_SIZE);
+		String title = "Terminal";
+		this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
+		this.drawConsole(25, 16, TileEntityTerminal.SCROLL_SIZE);
+		super.drawForegroundLayer(x, y, var1);
 	}
 
-	public void drawConsole(int height, int width, int lines)
+	public void drawConsole(int x, int y, int lines)
 	{
 		int spacing = 10;
 		int color = 14737632;
+
+		GL11.glPushMatrix();
+		float scale = 0.92f;
+		GL11.glScalef(scale, scale, scale);
 
 		// Draws each line
 		for (int i = 0; i < lines; i++)
@@ -152,16 +162,19 @@ public class GuiTerminal extends GuiBase
 
 				if (line != null && line != "")
 				{
-					this.fontRenderer.drawString(line, width, spacing * i + height, color);
+					this.fontRenderer.drawString(line, y, spacing * i + x, color);
 				}
 			}
 		}
+
+		GL11.glPopMatrix();
 	}
 
 	@Override
-	protected void drawBackgroundLayer(int var2, int var3, float var1)
+	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + "gui_cmd.png");
+		super.drawBackgroundLayer(x, y, var1);
+		int var4 = this.mc.renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + "gui_platform_terminal.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		int var5 = (this.width - this.xSize) / 2;

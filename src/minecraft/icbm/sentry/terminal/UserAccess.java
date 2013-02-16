@@ -5,13 +5,13 @@ import net.minecraft.nbt.NBTTagCompound;
 public class UserAccess
 {
 	public String username;
-	public AccessLevel access;
+	public AccessLevel level;
 	public boolean shouldSave;
 
-	public UserAccess(String user, AccessLevel lvl, boolean save)
+	public UserAccess(String user, AccessLevel level, boolean save)
 	{
 		this.username = user;
-		this.access = lvl;
+		this.level = level;
 		this.shouldSave = save;
 	}
 
@@ -21,7 +21,7 @@ public class UserAccess
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
 		nbt.setString("username", this.username);
-		nbt.setInteger("ID", this.access.ordinal());
+		nbt.setInteger("ID", this.level.ordinal());
 		return nbt;
 	}
 
@@ -31,7 +31,7 @@ public class UserAccess
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		this.username = nbt.getString("username");
-		this.access = AccessLevel.get(nbt.getInteger("ID"));
+		this.level = AccessLevel.get(nbt.getInteger("ID"));
 	}
 
 	public static UserAccess loadFromNBT(NBTTagCompound nbt)

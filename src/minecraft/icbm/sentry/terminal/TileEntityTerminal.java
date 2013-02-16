@@ -51,7 +51,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	/**
 	 * A list of user access data.
 	 */
-	public final List<UserAccess> users = new ArrayList<UserAccess>();
+	private final List<UserAccess> users = new ArrayList<UserAccess>();
 
 	/**
 	 * The amount of players using the console.
@@ -61,7 +61,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	/**
 	 * The amount of lines the terminal can store.
 	 */
-	public static final int SCROLL_SIZE = 14;
+	public static final int SCROLL_SIZE = 15;
 
 	/**
 	 * Used on client side to determine the scroll of the terminal.
@@ -83,7 +83,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 		{
 			if (this.playersUsing > 0)
 			{
-				if (this.ticks % 3 == 0)
+				if (this.ticks % 5 == 0)
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
 				}
@@ -95,7 +95,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	 * Packet Methods
 	 */
 	/**
-	 * Server -> Client
+	 * Sends all NBT data. Server -> Client
 	 */
 	@Override
 	public Packet getDescriptionPacket()
@@ -106,7 +106,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	}
 
 	/**
-	 * Server -> Client
+	 * Sends all Terminal data Server -> Client
 	 */
 	public void sendTerminalOutputToClients()
 	{
@@ -145,51 +145,63 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 			{
 				case DESCRIPTION_DATA:
 				{
-					short size = dataStream.readShort();
-
-					if (size > 0)
+					if (this.worldObj.isRemote)
 					{
-						byte[] byteCode = new byte[size];
-						dataStream.readFully(byteCode);
-						this.readFromNBT(CompressedStreamTools.decompress(byteCode));
+						short size = dataStream.readShort();
+
+						if (size > 0)
+						{
+							byte[] byteCode = new byte[size];
+							dataStream.readFully(byteCode);
+							this.readFromNBT(CompressedStreamTools.decompress(byteCode));
+						}
 					}
 
 					break;
 				}
 				case GUI_COMMAND:
 				{
-					CommandRegistry.onCommand(this.worldObj.getPlayerEntityByName(dataStream.readUTF()), this, dataStream.readUTF());
-					this.sendTerminalOutputToClients();
+					if (!this.worldObj.isRemote)
+					{
+						CommandRegistry.onCommand(this.worldObj.getPlayerEntityByName(dataStream.readUTF()), this, dataStream.readUTF());
+						this.sendTerminalOutputToClients();
+					}
 					break;
 				}
 				case GUI_EVENT:
 				{
-					if (dataStream.readBoolean())
+					if (!this.worldObj.isRemote)
 					{
-						this.playersUsing++;
-						this.sendTerminalOutputToClients();
-					}
-					else
-					{
-						this.playersUsing--;
+						if (dataStream.readBoolean())
+						{
+							this.playersUsing++;
+							this.sendTerminalOutputToClients();
+						}
+						else
+						{
+							this.playersUsing--;
+						}
 					}
 					break;
 				}
 				case TERMINAL_OUTPUT:
 				{
-					int size = dataStream.readInt();
-
-					List<String> oldTerminalOutput = new ArrayList(this.terminalOutput);
-					this.terminalOutput.clear();
-
-					for (int i = 0; i < size; i++)
+					if (this.worldObj.isRemote)
 					{
-						this.terminalOutput.add(dataStream.readUTF());
-					}
+						int size = dataStream.readInt();
 
-					if (!this.terminalOutput.equals(oldTerminalOutput) && this.terminalOutput.size() != oldTerminalOutput.size())
-					{
-						this.scroll = Math.max(this.getTerminalOuput().size() - SCROLL_SIZE, 0);
+						List<String> oldTerminalOutput = new ArrayList(this.terminalOutput);
+						this.terminalOutput.clear();
+
+						for (int i = 0; i < size; i++)
+						{
+							this.terminalOutput.add(dataStream.readUTF());
+						}
+
+						if (!this.terminalOutput.equals(oldTerminalOutput) && this.terminalOutput.size() != oldTerminalOutput.size())
+						{
+							this.setScroll(this.getTerminalOuput().size() - SCROLL_SIZE);
+						}
 					}
 
 					break;
@@ -215,7 +227,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 		// Read user list
 		this.users.clear();
 
-		NBTTagList userList = nbt.getTagList("UserList");
+		NBTTagList userList = nbt.getTagList("users");
 
 		for (int i = 0; i < userList.tagCount(); ++i)
 		{
@@ -258,7 +270,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 			}
 		}
 
-		nbt.setTag("UserList", usersTag);
+		nbt.setTag("users", usersTag);
 
 		// Inventory
 		NBTTagList itemTag = new NBTTagList();
@@ -380,13 +392,13 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	}
 
 	@Override
-	public AccessLevel getPlayerAccess(EntityPlayer player)
+	public AccessLevel getPlayerAccess(String username)
 	{
 		for (int i = 0; i < this.users.size(); i++)
 		{
-			if (this.users.get(i).username.equalsIgnoreCase(player.username))
+			if (this.users.get(i).username.equalsIgnoreCase(username))
 			{
-				return this.users.get(i).access;
+				return this.users.get(i).level;
 			}
 		}
 		return AccessLevel.NONE;
@@ -395,23 +407,24 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	@Override
 	public String getInvName()
 	{
-		return "console";
+		return "terminal";
 	}
 
 	@Override
 	public List<UserAccess> getUsers()
 	{
-
 		return this.users;
 	}
 
-	public List<UserAccess> getUsersWithAcess(AccessLevel lvl)
+	public List<UserAccess> getUsersWithAcess(AccessLevel level)
 	{
 		List<UserAccess> players = new ArrayList<UserAccess>();
+
 		for (int i = 0; i < this.users.size(); i++)
 		{
 			UserAccess ref = this.users.get(i);
-			if (ref.access == lvl)
+
+			if (ref.level == level)
 			{
 				players.add(ref);
 			}
@@ -474,15 +487,15 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	}
 
 	@Override
-	public void scrollUp(int amount)
+	public void scroll(int amount)
 	{
-		this.scroll = Math.max(this.scroll - amount, 0);
+		this.setScroll(this.scroll + amount);
 	}
 
 	@Override
-	public void scrollDown(int amount)
+	public void setScroll(int length)
 	{
-		this.scroll = Math.min(this.scroll + amount, this.getTerminalOuput().size());
+		this.scroll = Math.max(Math.min(length, this.getTerminalOuput().size()), 0);
 	}
 
 	@Override
