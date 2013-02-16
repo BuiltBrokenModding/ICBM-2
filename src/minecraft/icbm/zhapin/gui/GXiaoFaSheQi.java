@@ -112,7 +112,7 @@ public class GXiaoFaSheQi extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		this.fontRenderer.drawString(tileEntity.getInvName(), 52, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77" + tileEntity.getInvName(), 52, 6, 4210752);
 
 		this.fontRenderer.drawString("X:", 8, 23, 4210752);
 		this.fontRenderer.drawString("Y:", 8, 39, 4210752);

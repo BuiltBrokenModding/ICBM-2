@@ -130,9 +130,7 @@ public class GLeiDaTai extends GuiBase
 	@Override
 	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
-		this.fontRenderer.drawString(TranslationHelper.getLocal("icbm.machine.9.name"), this.xSize / 2 - 85, 6, 4210752);
-
-		this.fontRenderer.drawString("Settings", this.xSize / 2 + 55, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77" + TranslationHelper.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
 
 		this.fontRenderer.drawString("Coordinates:", 155, 18, 4210752);
 		this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
@@ -179,7 +177,7 @@ public class GLeiDaTai extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "RadarGUI.png");
+		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_radar.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(var4);
 		this.containerPosX = (this.width - this.xSize) / 2;
