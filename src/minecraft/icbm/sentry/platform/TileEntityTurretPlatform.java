@@ -1,6 +1,6 @@
 package icbm.sentry.platform;
 
-import icbm.sentry.ICBMSentry;
+import icbm.api.ICBM;
 import icbm.sentry.api.IAmmunition;
 import icbm.sentry.terminal.TileEntityTerminal;
 import icbm.sentry.turret.TileEntityBaseTurret;
@@ -136,7 +136,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 	public boolean isRunning()
 	{
-		return ICBMSentry.debugMode || (!this.isDisabled());
+		return !this.isDisabled();
 	}
 
 	@Override

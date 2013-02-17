@@ -46,6 +46,12 @@ public class ICBM
 	 */
 	public static final int ITEM_ID_PREFIX = 3900;
 
+	/**
+	 * TODO: Turn this to false every single time you build. Determines if ICBM should run on debug
+	 * mod, not requiring any power.
+	 */
+	public static boolean debugMode = false;
+
 	public static Class explosionManager;
 
 	/**

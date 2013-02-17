@@ -32,11 +32,11 @@ public class CommandAccess extends TerminalCommand
 		if (args[0].equalsIgnoreCase("access") && args.length > 1 && args[1] != null && terminal instanceof TileEntityTurretPlatform)
 		{
 			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
-			AccessLevel userAccess = terminal.getPlayerAccess(player.username);
+			AccessLevel userAccess = terminal.getUserAccess(player.username);
 
 			if (args[1].equalsIgnoreCase("?"))
 			{
-				terminal.addToConsole("Access Level: " + turret.getPlayerAccess(player.username).displayName);
+				terminal.addToConsole("Access Level: " + turret.getUserAccess(player.username).displayName);
 				return true;
 			}
 			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.OPERATOR.ordinal())
@@ -47,10 +47,10 @@ public class CommandAccess extends TerminalCommand
 				{
 					terminal.addToConsole("WIP");
 				}
-				else if (terminal.getPlayerAccess(username) != AccessLevel.NONE)
+				else if (terminal.getUserAccess(username) != AccessLevel.NONE)
 				{
 					AccessLevel access = AccessLevel.get(args[3]);
-					if (access != AccessLevel.NONE && terminal.setAccess(username, access, true))
+					if (access != AccessLevel.NONE && terminal.addUserAccess(username, access, true))
 					{
 						terminal.addToConsole(username + " set to " + access.displayName);
 						return true;
@@ -64,7 +64,7 @@ public class CommandAccess extends TerminalCommand
 	@Override
 	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
 	{
-		return mm.getPlayerAccess(var1.username).ordinal() >= AccessLevel.BASIC.ordinal();
+		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.BASIC.ordinal();
 	}
 
 	@Override

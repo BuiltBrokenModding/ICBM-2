@@ -48,7 +48,7 @@ public class BlockTurretPlatform extends BlockMachine
 
 			if (ent instanceof ISpecialAccess)
 			{
-				((ISpecialAccess) ent).setAccess(((EntityPlayer) entity).username, AccessLevel.OWNER, true);
+				((ISpecialAccess) ent).addUserAccess(((EntityPlayer) entity).username, AccessLevel.OWNER, true);
 			}
 		}
 	}

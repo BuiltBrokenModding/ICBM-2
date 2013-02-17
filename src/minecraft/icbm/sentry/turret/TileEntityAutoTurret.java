@@ -1,5 +1,6 @@
 package icbm.sentry.turret;
 
+import icbm.api.ICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.api.IAutoSentry;
 import icbm.sentry.logic.actions.ActionIdle;
@@ -144,7 +145,7 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 							return false;
 						}
 
-						if (this.getPlatform() != null && this.getPlatform().getPlayerAccess(player.username).ordinal() >= AccessLevel.USER.ordinal())
+						if (this.getPlatform() != null && this.getPlatform().getUserAccess(player.username).ordinal() >= AccessLevel.USER.ordinal())
 						{
 							return false;
 						}
@@ -170,7 +171,7 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 			}
 			else
 			{
-				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest() || ICBMSentry.debugMode) && this.getPlatform().hasAmmunition(ICBMSentry.conventionalBullet);
+				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest() || ICBM.debugMode) && this.getPlatform().hasAmmunition(ICBMSentry.conventionalBullet);
 			}
 		}
 

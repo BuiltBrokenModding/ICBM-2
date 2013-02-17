@@ -67,9 +67,6 @@ public class ICBMSentry
 
 	public static final int ENTITY_ID_PREFIX = 50;
 
-	// TODO: Turn this to false every single time you build.
-	public static boolean debugMode = true;
-
 	/**
 	 * Multiblock.
 	 */
@@ -100,10 +97,7 @@ public class ICBMSentry
 		MinecraftForge.EVENT_BUS.register(this);
 
 		ICBM.CONFIGURATION.load();
-		/*
-		 * debugMode = ICBM.CONFIGURATION.get(Configuration.CATEGORY_BLOCK, "RunWithoutPower",
-		 * false).value;
-		 */
+
 		blockTurret = new BlockTurret(Integer.parseInt(ICBM.CONFIGURATION.get(Configuration.CATEGORY_BLOCK, "Turret", BLOCK_ID_PREFIX).value));
 		blockPlatform = new BlockTurretPlatform(Integer.parseInt(ICBM.CONFIGURATION.get(Configuration.CATEGORY_BLOCK, "Platform", BLOCK_ID_PREFIX + 1).value));
 		blockFake = new BlockMulti(ICBM.CONFIGURATION.getBlock("Sentry Multiblock", BLOCK_ID_PREFIX + 2).getInt());

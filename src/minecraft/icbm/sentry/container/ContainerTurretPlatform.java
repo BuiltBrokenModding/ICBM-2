@@ -1,14 +1,15 @@
 package icbm.sentry.container;
 
-import icbm.sentry.ICBMSentry;
+import icbm.sentry.SlotAmmunition;
+import icbm.sentry.api.ITerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.turret.ItemAmmo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import universalelectricity.prefab.SlotSpecific;
 import universalelectricity.prefab.modifier.IModifier;
 
 public class ContainerTurretPlatform extends Container
@@ -26,7 +27,7 @@ public class ContainerTurretPlatform extends Container
 		{
 			for (int column = 0; column < 4; column++)
 			{
-				this.addSlotToContainer(new SlotSpecific(tileEntity, column + row * 4, 8 + column * 18, 40 + row * 18, ICBMSentry.conventionalBullet.copy()));
+				this.addSlotToContainer(new SlotAmmunition(tileEntity, column + row * 4, 8 + column * 18, 40 + row * 18));
 			}
 		}
 
@@ -63,64 +64,67 @@ public class ContainerTurretPlatform extends Container
 	 * Called to transfer a stack from one inventory to the other eg. when shift clicking.
 	 */
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+	public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotID)
 	{
 		ItemStack var2 = null;
-		Slot var3 = (Slot) this.inventorySlots.get(par1);
+		Slot slot = (Slot) this.inventorySlots.get(slotID);
 
-		if (var3 != null && var3.getHasStack())
+		if (slot != null && slot.getHasStack())
 		{
-			ItemStack var4 = var3.getStack();
-			var2 = var4.copy();
+			ItemStack itemStack = slot.getStack();
+			var2 = itemStack.copy();
 
-			if (par1 > this.tileEntity.containingItems.length - 1)
+			if (slotID > this.tileEntity.containingItems.length - 1)
 			{
-				if (var4.getItem() instanceof ItemAmmo)
+				if (this.tileEntity.getUserAccess(entityPlayer.username).ordinal() > AccessLevel.NONE.ordinal())
 				{
-					if (!this.mergeItemStack(var4, 0, TileEntityTurretPlatform.UPGRADE_START_INDEX, false))
+					if (itemStack.getItem() instanceof ItemAmmo)
+					{
+						if (!this.mergeItemStack(itemStack, 0, TileEntityTurretPlatform.UPGRADE_START_INDEX, false))
+						{
+							return null;
+						}
+					}
+					else if (itemStack.getItem() instanceof IModifier)
+					{
+						if (!this.mergeItemStack(itemStack, TileEntityTurretPlatform.UPGRADE_START_INDEX, this.tileEntity.containingItems.length, false))
+						{
+							return null;
+						}
+					}
+				}
+				else if (slotID < this.tileEntity.containingItems.length + 27)
+				{
+					if (!this.mergeItemStack(itemStack, this.tileEntity.containingItems.length + 27, this.tileEntity.containingItems.length + 36, false))
 					{
 						return null;
 					}
 				}
-				else if (var4.getItem() instanceof IModifier)
-				{
-					if (!this.mergeItemStack(var4, TileEntityTurretPlatform.UPGRADE_START_INDEX, this.tileEntity.containingItems.length, false))
-					{
-						return null;
-					}
-				}
-				else if (par1 < this.tileEntity.containingItems.length + 27)
-				{
-					if (!this.mergeItemStack(var4, this.tileEntity.containingItems.length + 27, this.tileEntity.containingItems.length + 36, false))
-					{
-						return null;
-					}
-				}
-				else if (par1 < this.tileEntity.containingItems.length + 36 && !this.mergeItemStack(var4, this.tileEntity.containingItems.length, this.tileEntity.containingItems.length + 27, false))
+				else if (!this.mergeItemStack(itemStack, this.tileEntity.containingItems.length, this.tileEntity.containingItems.length + 27, false))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var4, this.tileEntity.containingItems.length, 36 + this.tileEntity.containingItems.length, false))
+			else if (!this.mergeItemStack(itemStack, this.tileEntity.containingItems.length, 36 + this.tileEntity.containingItems.length, false))
 			{
 				return null;
 			}
 
-			if (var4.stackSize == 0)
+			if (itemStack.stackSize == 0)
 			{
-				var3.putStack((ItemStack) null);
+				slot.putStack((ItemStack) null);
 			}
 			else
 			{
-				var3.onSlotChanged();
+				slot.onSlotChanged();
 			}
 
-			if (var4.stackSize == var2.stackSize)
+			if (itemStack.stackSize == var2.stackSize)
 			{
 				return null;
 			}
 
-			var3.onPickupFromSlot(par1EntityPlayer, var4);
+			slot.onPickupFromSlot(entityPlayer, itemStack);
 		}
 
 		return var2;

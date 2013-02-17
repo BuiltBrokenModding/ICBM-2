@@ -394,7 +394,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	}
 
 	@Override
-	public AccessLevel getPlayerAccess(String username)
+	public AccessLevel getUserAccess(String username)
 	{
 		for (int i = 0; i < this.users.size(); i++)
 		{
@@ -418,6 +418,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 		return this.users;
 	}
 
+	@Override
 	public List<UserAccess> getUsersWithAcess(AccessLevel level)
 	{
 		List<UserAccess> players = new ArrayList<UserAccess>();
@@ -436,14 +437,14 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	}
 
 	@Override
-	public boolean setAccess(String player, AccessLevel lvl, boolean save)
+	public boolean addUserAccess(String player, AccessLevel lvl, boolean save)
 	{
-		this.removeUser(player);
+		this.removeUserAccess(player);
 		return this.users.add(new UserAccess(player, lvl, save));
 	}
 
 	@Override
-	public boolean removeUser(String player)
+	public boolean removeUserAccess(String player)
 	{
 		List<UserAccess> removeList = new ArrayList<UserAccess>();
 		for (int i = 0; i < this.users.size(); i++)

@@ -65,7 +65,7 @@ public class BZhaDan extends BlockContainer
 		int rotation = MathHelper.floor_double((double) (entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		return (byte) (rotation == 0 ? 2 : (rotation == 1 ? 5 : (rotation == 2 ? 3 : (rotation == 3 ? 4 : 0))));
 	}
-	/*
+
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int x, int y, int z)
 	{
@@ -82,17 +82,15 @@ public class BZhaDan extends BlockContainer
 				}
 			}
 		}
+		
 		this.setBlockBounds(0, 0, 0, 1f, 1f, 1f);
-	}*/
+	}
 
-	/**
-	 * Returns the bounding box of the wired rectangular prism to render.
-	*/
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	public void setBlockBoundsForItemRender()
 	{
-		return this.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
-	} 
+		this.setBlockBounds(0, 0, 0, 1f, 1f, 1f);
+	}
 
 	/**
 	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after

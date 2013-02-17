@@ -37,7 +37,7 @@ public class ActionSearchTarget extends Action
 					if (entity instanceof EntityPlayer)
 					{
 						EntityPlayer player = (EntityPlayer) entity;
-						AccessLevel level = this.tileEntity.getPlatform().getPlayerAccess(player.username);
+						AccessLevel level = this.tileEntity.getPlatform().getUserAccess(player.username);
 
 						/**
 						 * Checks to see if this player is friendly. If so, attempt to protect the

@@ -59,7 +59,7 @@ public class RenderGunTurret extends RenderTaggedTile
 
 		if (tileEntity.getPlatform() != null)
 		{
-			AccessLevel level = tileEntity.getPlatform().getPlayerAccess(player.username);
+			AccessLevel level = tileEntity.getPlatform().getUserAccess(player.username);
 
 			if (level == AccessLevel.OPERATOR)
 			{

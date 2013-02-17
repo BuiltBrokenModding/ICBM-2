@@ -15,7 +15,7 @@ public interface ISpecialAccess
 	 * @return access level of the player, make sure to return no access if the player doesn't have
 	 * any
 	 */
-	public AccessLevel getPlayerAccess(String username);
+	public AccessLevel getUserAccess(String username);
 
 	/**
 	 * gets the access list for the machine
@@ -30,14 +30,22 @@ public interface ISpecialAccess
 	 * @param player
 	 * @return true if the level was set false if something went wrong
 	 */
-	public boolean setAccess(String player, AccessLevel lvl, boolean save);
+	public boolean addUserAccess(String username, AccessLevel level, boolean save);
 
 	/**
-	 * removes the user from the access list
+	 * Removes the user from the access list
 	 * 
-	 * @param player
+	 * @param username
 	 * @return
 	 */
-	public boolean removeUser(String player);
+	public boolean removeUserAccess(String username);
+
+	/**
+	 * Gets a list of users with this specified access level.
+	 * 
+	 * @param level
+	 * @return
+	 */
+	List<UserAccess> getUsersWithAcess(AccessLevel level);
 
 }

@@ -41,7 +41,7 @@ public class CommandUser extends TerminalCommand
 			{
 				if (args[2] != null)
 				{
-					if (turret.removeUser(args[2]))
+					if (turret.removeUserAccess(args[2]))
 					{
 						terminal.addToConsole("Removed: " + args[2]);
 						return true;
@@ -62,7 +62,7 @@ public class CommandUser extends TerminalCommand
 			{
 				if (args[2] != null)
 				{
-					if (turret.setAccess(args[2], AccessLevel.USER, true))
+					if (turret.addUserAccess(args[2], AccessLevel.USER, true))
 					{
 						terminal.addToConsole("Added: " + args[2]);
 						return true;
@@ -87,7 +87,7 @@ public class CommandUser extends TerminalCommand
 	@Override
 	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
 	{
-		return mm.getPlayerAccess(var1.username).ordinal() >= AccessLevel.OPERATOR.ordinal();
+		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.OPERATOR.ordinal();
 	}
 
 	@Override
