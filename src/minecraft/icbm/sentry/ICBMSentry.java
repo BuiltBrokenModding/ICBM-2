@@ -92,7 +92,7 @@ public class ICBMSentry
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UniversalElectricity.register(this, 1, 2, 5, false);
+		UniversalElectricity.register(this, 1, 2, 6, false);
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
 		MinecraftForge.EVENT_BUS.register(this);

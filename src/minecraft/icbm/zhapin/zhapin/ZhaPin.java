@@ -387,7 +387,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 	 * @param entity - The entity that created this explosion. The explosion source.
 	 * @param explosiveID - The ID of the explosive.
 	 */
-	public static void createExplosion(World worldObj, double x, double y, double z, Entity entity, int explosiveID)
+	public static void createExplosion(World worldObj, Double x, Double y, Double z, Entity entity, Integer explosiveID)
 	{
 		createBaoZha(worldObj, new Vector3(x, y, z), entity, explosiveID);
 	}

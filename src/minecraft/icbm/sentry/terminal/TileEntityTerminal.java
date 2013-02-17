@@ -28,22 +28,12 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public abstract class TileEntityTerminal extends TileEntityIC2Runnable implements IInventory, ISpecialAccess, ISidedInventory, IPacketReceiver, ITerminal
+public abstract class TileEntityTerminal extends TileEntityIC2Runnable implements ISpecialAccess, IPacketReceiver, ITerminal
 {
 	public enum PacketType
 	{
 		GUI_EVENT, GUI_COMMAND, TERMINAL_OUTPUT, DESCRIPTION_DATA;
 	}
-
-	/**
-	 * The start index of the upgrade slots for the turret.
-	 */
-	public static final int UPGRADE_START_INDEX = 12;
-
-	/**
-	 * The first 12 slots are for ammunition. The last 4 slots are for upgrades.
-	 */
-	public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
 
 	/**
 	 * A list of everything typed inside the terminal.
@@ -220,180 +210,6 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		super.readFromNBT(nbt);
-
-		this.wattsReceived = nbt.getDouble("wattsReceived");
-
-		// Read user list
-		this.users.clear();
-
-		NBTTagList userList = nbt.getTagList("users");
-
-		for (int i = 0; i < userList.tagCount(); ++i)
-		{
-			NBTTagCompound var4 = (NBTTagCompound) userList.tagAt(i);
-			this.users.add(UserAccess.loadFromNBT(var4));
-		}
-
-		// Inventory
-		NBTTagList var2 = nbt.getTagList("Items");
-		this.containingItems = new ItemStack[this.getSizeInventory()];
-
-		for (int var3 = 0; var3 < var2.tagCount(); ++var3)
-		{
-			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
-			byte var5 = var4.getByte("Slot");
-
-			if (var5 >= 0 && var5 < this.containingItems.length)
-			{
-				this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
-			}
-		}
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
-		super.writeToNBT(nbt);
-
-		nbt.setDouble("wattsReceived", this.wattsReceived);
-		// write user list
-		NBTTagList usersTag = new NBTTagList();
-		for (int player = 0; player < this.users.size(); ++player)
-		{
-			UserAccess access = this.users.get(player);
-			if (access != null && access.shouldSave)
-			{
-				NBTTagCompound accessData = new NBTTagCompound();
-				access.writeToNBT(accessData);
-				usersTag.appendTag(accessData);
-			}
-		}
-
-		nbt.setTag("users", usersTag);
-
-		// Inventory
-		NBTTagList itemTag = new NBTTagList();
-		for (int slots = 0; slots < this.containingItems.length; ++slots)
-		{
-			if (this.containingItems[slots] != null)
-			{
-				NBTTagCompound itemNbtData = new NBTTagCompound();
-				itemNbtData.setByte("Slot", (byte) slots);
-				this.containingItems[slots].writeToNBT(itemNbtData);
-				itemTag.appendTag(itemNbtData);
-			}
-		}
-
-		nbt.setTag("Items", itemTag);
-	}
-
-	public int getSizeInventory()
-	{
-		return this.containingItems.length;
-	}
-
-	/**
-	 * Returns the stack in slot i
-	 */
-	public ItemStack getStackInSlot(int par1)
-	{
-		return this.containingItems[par1];
-	}
-
-	@Override
-	public int getStartInventorySide(ForgeDirection side)
-	{
-		return 0;
-	}
-
-	@Override
-	public int getSizeInventorySide(ForgeDirection side)
-	{
-		return 0;
-	}
-
-	public ItemStack getStackInSlotOnClosing(int par1)
-	{
-		if (this.containingItems[par1] != null)
-		{
-			ItemStack var2 = this.containingItems[par1];
-			this.containingItems[par1] = null;
-			return var2;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	public ItemStack decrStackSize(int par1, int par2)
-	{
-		if (this.containingItems[par1] != null)
-		{
-			ItemStack var3;
-
-			if (this.containingItems[par1].stackSize <= par2)
-			{
-				var3 = this.containingItems[par1];
-				this.containingItems[par1] = null;
-				return var3;
-			}
-			else
-			{
-				var3 = this.containingItems[par1].splitStack(par2);
-
-				if (this.containingItems[par1].stackSize == 0)
-				{
-					this.containingItems[par1] = null;
-				}
-
-				return var3;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
-	{
-		this.containingItems[par1] = par2ItemStack;
-
-		if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
-		{
-			par2ItemStack.stackSize = this.getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return 64;
-	}
-
-	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
-	{
-		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
-	}
-
-	@Override
-	public void openChest()
-	{
-		this.playersUsing++;
-	}
-
-	@Override
-	public void closeChest()
-	{
-		this.playersUsing--;
-	}
-
-	@Override
 	public AccessLevel getUserAccess(String username)
 	{
 		for (int i = 0; i < this.users.size(); i++)
@@ -404,12 +220,6 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 			}
 		}
 		return AccessLevel.NONE;
-	}
-
-	@Override
-	public String getInvName()
-	{
-		return "terminal";
 	}
 
 	@Override
@@ -505,5 +315,47 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 	public int getScroll()
 	{
 		return this.scroll;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+
+		this.wattsReceived = nbt.getDouble("wattsReceived");
+
+		// Read user list
+		this.users.clear();
+
+		NBTTagList userList = nbt.getTagList("Users");
+
+		for (int i = 0; i < userList.tagCount(); ++i)
+		{
+			NBTTagCompound var4 = (NBTTagCompound) userList.tagAt(i);
+			this.users.add(UserAccess.loadFromNBT(var4));
+		}
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+
+		nbt.setDouble("wattsReceived", this.wattsReceived);
+		
+		// Write user list
+		NBTTagList usersTag = new NBTTagList();
+		for (int player = 0; player < this.users.size(); ++player)
+		{
+			UserAccess access = this.users.get(player);
+			if (access != null && access.shouldSave)
+			{
+				NBTTagCompound accessData = new NBTTagCompound();
+				access.writeToNBT(accessData);
+				usersTag.appendTag(accessData);
+			}
+		}
+
+		nbt.setTag("Users", usersTag);
 	}
 }

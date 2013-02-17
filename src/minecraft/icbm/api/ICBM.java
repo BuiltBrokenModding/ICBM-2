@@ -61,7 +61,7 @@ public class ICBM
 		try
 		{
 			Method method = explosionManager.getMethod("createExplosion", World.class, Double.class, Double.class, Double.class, Entity.class, Integer.class);
-			method.invoke(worldObj, x, y, z, entity, explosiveID);
+			method.invoke(null, worldObj, x, y, z, entity, explosiveID);
 		}
 		catch (Exception e)
 		{
@@ -80,7 +80,7 @@ public class ICBM
 			try
 			{
 				Method method = explosionManager.getMethod("getExplosiveByName", String.class);
-				return (IExplosive) method.invoke(name);
+				return (IExplosive) method.invoke(null, name);
 			}
 			catch (Exception e)
 			{

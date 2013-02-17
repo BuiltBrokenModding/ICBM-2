@@ -16,7 +16,11 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 		{
 			if (this.target instanceof EntityLiving && this.getPlatform().useAmmunition(ICBMSentry.conventionalBullet))
 			{
-				((EntityLiving) this.target).attackEntityFrom(DamageSource.generic, 3);
+				if (this.worldObj.rand.nextFloat() > 0.1)
+				{
+					((EntityLiving) this.target).attackEntityFrom(DamageSource.explosion2, 3);
+				}
+
 				Vector3 look = lookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
 				look.multiply(-3);
 				((EntityLiving) this.target).knockBack(null, 0, look.intX(), look.intZ());
@@ -39,7 +43,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public boolean isRunning()
 	{
-		return super.isRunning() && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
+		return super.isRunning() && this.getPlatform().wattsReceived > 0 && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
 	}
 
 	@Override
@@ -51,7 +55,14 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public double getDetectRange()
 	{
-		return 20;
+		int baseRange = 15;
+
+		if (this.getPlatform() != null)
+		{
+			return baseRange + 10 * this.getPlatform().getUpgrades("Capacity");
+		}
+
+		return baseRange;
 	}
 
 	@Override
