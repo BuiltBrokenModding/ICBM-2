@@ -1,5 +1,7 @@
 package icbm.sentry.terminal;
 
+import icbm.sentry.api.ITerminal;
+
 import java.util.ArrayList;
 import java.util.List;
 

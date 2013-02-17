@@ -1,6 +1,5 @@
-package icbm.sentry.terminal;
+package icbm.sentry.api;
 
-import icbm.sentry.api.IScroll;
 
 import java.util.List;
 

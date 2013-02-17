@@ -68,7 +68,7 @@ public class ICBMSentry
 	public static final int ENTITY_ID_PREFIX = 50;
 
 	// TODO: Turn this to false every single time you build.
-	public static boolean debugMode = false;
+	public static boolean debugMode = true;
 
 	/**
 	 * Multiblock.

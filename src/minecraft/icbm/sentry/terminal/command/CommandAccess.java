@@ -1,10 +1,10 @@
 package icbm.sentry.terminal.command;
 
+import icbm.sentry.api.ISpecialAccess;
+import icbm.sentry.api.ITerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 
 import icbm.sentry.terminal.AccessLevel;
-import icbm.sentry.terminal.ISpecialAccess;
-import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
 
 import java.util.ArrayList;
@@ -42,11 +42,15 @@ public class CommandAccess extends TerminalCommand
 			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.OPERATOR.ordinal())
 			{
 				String username = args[2];
-				AccessLevel access = AccessLevel.get(args[3]);
 
-				if (terminal.getPlayerAccess(username) != AccessLevel.NONE & access != AccessLevel.NONE)
+				if (username.equalsIgnoreCase("~root"))
 				{
-					if (terminal.setAccess(username, access, true))
+					terminal.addToConsole("WIP");
+				}
+				else if (terminal.getPlayerAccess(username) != AccessLevel.NONE)
+				{
+					AccessLevel access = AccessLevel.get(args[3]);
+					if (access != AccessLevel.NONE && terminal.setAccess(username, access, true))
 					{
 						terminal.addToConsole(username + " set to " + access.displayName);
 						return true;
@@ -73,7 +77,8 @@ public class CommandAccess extends TerminalCommand
 	public List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm)
 	{
 		List<String> cmds = new ArrayList<String>();
-		cmds.add("access set root [pass]");
+		cmds.add("access set ~root [pass]");
+		cmds.add("access set username level");
 		cmds.add("access ?");
 		return cmds;
 	}

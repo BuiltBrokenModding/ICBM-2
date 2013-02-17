@@ -65,19 +65,40 @@ public class BZhaDan extends BlockContainer
 		int rotation = MathHelper.floor_double((double) (entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		return (byte) (rotation == 0 ? 2 : (rotation == 1 ? 5 : (rotation == 2 ? 3 : (rotation == 3 ? 4 : 0))));
 	}
+	/*
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int x, int y, int z)
+	{
+		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
+
+		if (tileEntity != null)
+		{
+			if (tileEntity instanceof TZhaDan)
+			{
+				if (((TZhaDan) tileEntity).haoMa == ZhaPin.diLei.getID())
+				{
+					this.setBlockBounds(0, 0, 0, 1f, 0.2f, 1f);
+					return;
+				}
+			}
+		}
+		this.setBlockBounds(0, 0, 0, 1f, 1f, 1f);
+	}*/
 
 	/**
 	 * Returns the bounding box of the wired rectangular prism to render.
-	 */
+	*/
+	@Override
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		return this.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
-	}
+	} 
 
 	/**
 	 * Returns a bounding box from the pool of bounding boxes (this means this box can change after
 	 * the pool has been cleared to be reused)
 	 */
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int x, int y, int z)
 	{
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);

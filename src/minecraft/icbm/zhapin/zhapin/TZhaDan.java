@@ -56,7 +56,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	{
 		try
 		{
-			final int ID = dataStream.readByte();
+			final byte ID = dataStream.readByte();
 
 			if (ID == 1)
 			{

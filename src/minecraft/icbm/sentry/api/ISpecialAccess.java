@@ -1,4 +1,7 @@
-package icbm.sentry.terminal;
+package icbm.sentry.api;
+
+import icbm.sentry.terminal.AccessLevel;
+import icbm.sentry.terminal.UserAccess;
 
 import java.util.List;
 

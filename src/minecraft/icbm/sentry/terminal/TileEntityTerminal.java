@@ -2,6 +2,8 @@ package icbm.sentry.terminal;
 
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.TileEntityIC2Runnable;
+import icbm.sentry.api.ISpecialAccess;
+import icbm.sentry.api.ITerminal;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,8 @@
 package icbm.sentry.terminal;
 
+import icbm.sentry.api.ISpecialAccess;
+import icbm.sentry.api.ITerminal;
+
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;

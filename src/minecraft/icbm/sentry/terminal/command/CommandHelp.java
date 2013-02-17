@@ -1,8 +1,8 @@
 package icbm.sentry.terminal.command;
 
+import icbm.sentry.api.ISpecialAccess;
+import icbm.sentry.api.ITerminal;
 import icbm.sentry.terminal.CommandRegistry;
-import icbm.sentry.terminal.ISpecialAccess;
-import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
 
 import java.util.ArrayList;
