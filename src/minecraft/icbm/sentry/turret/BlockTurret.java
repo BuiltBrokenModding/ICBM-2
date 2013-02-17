@@ -53,10 +53,8 @@ public class BlockTurret extends BlockMachine
 		super(par1, UniversalElectricity.machine);
 		this.setBlockName("turret");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-
-		// Set high so that it can't be destroyed easily
-		this.setHardness(1000f);
-		this.setResistance(1000f);
+		this.setHardness(50f);
+		this.setResistance(100f);
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package icbm.sentry.platform;
 
 import icbm.sentry.api.IAmmunition;
 import icbm.sentry.terminal.TileEntityTerminal;
-import icbm.sentry.terminal.UserAccess;
 import icbm.sentry.turret.TileEntityBaseTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -112,35 +111,41 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	 * 
 	 * @return
 	 */
-	public boolean removeTurret()
+	public boolean destroyTurret()
 	{
-		TileEntity ent = worldObj.getBlockTileEntity(xCoord + deployDirection.offsetX, yCoord + deployDirection.offsetY, zCoord + deployDirection.offsetZ);
+		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + deployDirection.offsetX, this.yCoord + deployDirection.offsetY, this.zCoord + deployDirection.offsetZ);
+
 		if (ent instanceof TileEntityBaseTurret)
 		{
 			this.turret = null;
 			return ((TileEntityBaseTurret) ent).destroy(false);
 		}
+
 		return false;
+	}
+
+	public boolean destroy(boolean doExplosion)
+	{
+		if (doExplosion)
+		{
+			this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
+		}
+
+		this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
+
+		return this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord, this.zCoord, 0);
 	}
 
 	@Override
 	public int getStartInventorySide(ForgeDirection side)
 	{
-		if (side != ForgeDirection.DOWN && side != ForgeDirection.UP)
-		{
-			return 0;
-		}
 		return 0;
 	}
 
 	@Override
 	public int getSizeInventorySide(ForgeDirection side)
 	{
-		if (side != ForgeDirection.DOWN && side != ForgeDirection.UP)
-		{
-			return 15;
-		}
-		return 0;
+		return UPGRADE_START_INDEX;
 	}
 
 	@Override

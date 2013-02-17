@@ -13,28 +13,30 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class CommandDestroy extends TerminalCommand
 {
-
 	@Override
 	public String getCommandPrefix()
 	{
-		return "enable";
+		return "destroy";
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
+	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
 	{
-		if (args[0].equalsIgnoreCase("destroy") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
+		if (terminal instanceof TileEntityTurretPlatform)
 		{
-			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) TE;
+			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
+
 			if (args.length > 1)
 			{
-
+				turret.destroyTurret();
+				terminal.addToConsole("Destroyed Turret");
+				return true;
 			}
 			else
 			{
-
+				turret.destroy(false);
+				return true;
 			}
-
 		}
 		return false;
 	}
@@ -42,7 +44,7 @@ public class CommandDestroy extends TerminalCommand
 	@Override
 	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
 	{
-		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.OPERATOR.ordinal();
+		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.ADMIN.ordinal();
 	}
 
 	@Override
@@ -56,7 +58,6 @@ public class CommandDestroy extends TerminalCommand
 	{
 		List<String> cmds = new ArrayList<String>();
 		cmds.add("destroy");
-		cmds.add("destroy code");
 		return cmds;
 	}
 

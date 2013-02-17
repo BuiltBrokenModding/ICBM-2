@@ -60,7 +60,7 @@ public class RenderGunTurretOld extends RenderTaggedTile
 		{
 			AccessLevel level = tileEntity.getPlatform().getUserAccess(player.username);
 
-			if (level == AccessLevel.OPERATOR)
+			if (level == AccessLevel.ADMIN)
 			{
 				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE);
 				return;

@@ -1,6 +1,7 @@
 package icbm.sentry.gui;
 
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.TileEntityTerminal;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -26,7 +27,7 @@ public class GuiPlatformTerminal extends GuiPlatformBase
 	private TileEntityTerminal tileEntity;
 	private GuiTextField commandLine;
 
-	public GuiPlatformTerminal(EntityPlayer entityPlayer, TileEntityTerminal tileEntity)
+	public GuiPlatformTerminal(EntityPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
 	{
 		super(entityPlayer, tileEntity);
 		this.tileEntity = tileEntity;

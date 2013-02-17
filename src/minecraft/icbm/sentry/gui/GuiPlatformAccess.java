@@ -2,6 +2,7 @@ package icbm.sentry.gui;
 
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.api.IScroll;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.terminal.TileEntityTerminal;
 import icbm.sentry.terminal.UserAccess;
@@ -33,16 +34,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 {
-	private TileEntityTerminal tileEntity;
 	private GuiTextField commandLine;
 	private int scroll = 0;
 	private static final int SPACING = 10;
 	private final HashMap<UserAccess, Vector2> outputMap = new HashMap<UserAccess, Vector2>();
 
-	public GuiPlatformAccess(EntityPlayer entityPlayer, TileEntityTerminal tileEntity)
+	public GuiPlatformAccess(EntityPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
 	{
 		super(entityPlayer, tileEntity);
-		this.tileEntity = tileEntity;
 	}
 
 	@Override

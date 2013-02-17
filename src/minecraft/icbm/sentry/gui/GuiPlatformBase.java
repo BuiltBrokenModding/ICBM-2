@@ -2,11 +2,11 @@ package icbm.sentry.gui;
 
 import icbm.sentry.CommonProxy;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.TileEntityTerminal.PacketType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -27,10 +27,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class GuiPlatformBase extends GuiBase
 {
 	protected static final int MAX_BUTTON_ID = 3;
-	protected TileEntity tileEntity;
+	protected TileEntityTurretPlatform tileEntity;
 	protected EntityPlayer entityPlayer;
 
-	public GuiPlatformBase(EntityPlayer player, TileEntity tileEntity)
+	public GuiPlatformBase(EntityPlayer player, TileEntityTurretPlatform tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		this.entityPlayer = player;
@@ -54,28 +54,42 @@ public abstract class GuiPlatformBase extends GuiBase
 	}
 
 	@Override
+	public void updateScreen()
+	{
+		super.updateScreen();
+
+		if (this.tileEntity.getTurret() == null)
+		{
+			this.mc.thePlayer.closeScreen();
+		}
+	}
+
+	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		switch (button.id)
+		if (this.tileEntity.getTurret() != null)
 		{
-			case 0:
+			switch (button.id)
 			{
-				this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_TERMINAL_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
-				break;
-			}
-			case 1:
-			{
-				this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ACCESS_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
-				break;
-			}
-			case 2:
-			{
-				// TODO: User Settings.
-			}
-			case 3:
-			{
-				this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
-				break;
+				case 0:
+				{
+					this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_TERMINAL_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
+					break;
+				}
+				case 1:
+				{
+					this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ACCESS_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
+					break;
+				}
+				case 2:
+				{
+					// TODO: User Settings.
+				}
+				case 3:
+				{
+					this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
+					break;
+				}
 			}
 		}
 	}

@@ -8,7 +8,6 @@ import icbm.sentry.render.BlockRenderingHandler;
 import icbm.sentry.render.RenderFakeMountable;
 import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.RenderRailgun;
-import icbm.sentry.terminal.TileEntityTerminal;
 import icbm.sentry.turret.EntityFakeMountable;
 import icbm.sentry.turret.TileEntityBaseTurret;
 import icbm.sentry.turret.TileEntityRailgun;
@@ -59,9 +58,9 @@ public class ClientProxy extends CommonProxy
 				case GUI_PLATFORM_ID:
 					return new GuiPlatformSlots(player.inventory, ((TileEntityTurretPlatform) tileEntity));
 				case GUI_PLATFORM_TERMINAL_ID:
-					return new GuiPlatformTerminal(player, ((TileEntityTerminal) tileEntity));
+					return new GuiPlatformTerminal(player, ((TileEntityTurretPlatform) tileEntity));
 				case GUI_PLATFORM_ACCESS_ID:
-					return new GuiPlatformAccess(player, ((TileEntityTerminal) tileEntity));
+					return new GuiPlatformAccess(player, ((TileEntityTurretPlatform) tileEntity));
 			}
 		}
 

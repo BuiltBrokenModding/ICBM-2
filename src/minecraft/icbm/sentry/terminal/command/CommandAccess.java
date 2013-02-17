@@ -5,7 +5,6 @@ import icbm.sentry.api.ITerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.terminal.TerminalCommand;
-import icbm.sentry.terminal.UserAccess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class CommandAccess extends TerminalCommand
 				terminal.addToConsole("Access Level: " + turret.getUserAccess(player.username).displayName);
 				return true;
 			}
-			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.OPERATOR.ordinal())
+			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.ADMIN.ordinal())
 			{
 				String username = args[2];
 				AccessLevel currentAccess = terminal.getUserAccess(username);

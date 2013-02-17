@@ -2,7 +2,7 @@ package icbm.sentry.terminal;
 
 public enum AccessLevel
 {
-	NONE("None"), BASIC("Basic"), USER("Standard"), OPERATOR("Admin"), OWNER("Owner");
+	NONE("None"), BASIC("Basic"), USER("Standard"), ADMIN("Admin"), OWNER("Owner");
 
 	public String displayName;
 

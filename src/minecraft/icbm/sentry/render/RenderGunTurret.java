@@ -1,7 +1,6 @@
 package icbm.sentry.render;
 
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.model.ModelGunTurret;
 import icbm.sentry.model.ModelSentryCannon;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.turret.TileEntityBaseTurret;
@@ -59,7 +58,7 @@ public class RenderGunTurret extends RenderTaggedTile
 		{
 			AccessLevel level = tileEntity.getPlatform().getUserAccess(player.username);
 
-			if (level == AccessLevel.OPERATOR)
+			if (level == AccessLevel.ADMIN)
 			{
 				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE);
 				return;

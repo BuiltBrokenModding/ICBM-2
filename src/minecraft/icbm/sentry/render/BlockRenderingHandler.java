@@ -37,8 +37,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				/**
 				 * Render the gun turret.
 				 */
-				GL11.glTranslatef(0.1f, 0.65f, 0f);
-				GL11.glScalef(0.75f, 0.75f, 0.75f);
+				GL11.glTranslatef(0.1f, 1f, 0f);
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + RenderGunTurret.TEXTURE_FILE));
 				RenderGunTurret.render(0, 0);
 			}

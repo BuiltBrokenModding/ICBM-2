@@ -54,28 +54,43 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	}
 
 	@Override
+	public void updateScreen()
+	{
+		super.updateScreen();
+
+		if (this.tileEntity.getTurret() == null)
+		{
+			this.mc.thePlayer.closeScreen();
+		}
+	}
+
+	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		switch (button.id)
+		if (tileEntity.getTurret() != null)
 		{
-			case 0:
+
+			switch (button.id)
 			{
-				this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_TERMINAL_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
-				break;
-			}
-			case 1:
-			{
-				this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ACCESS_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
-				break;
-			}
-			case 2:
-			{
-				// TODO: User Settings.
-			}
-			case 3:
-			{
-				this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
-				break;
+				case 0:
+				{
+					this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_TERMINAL_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
+					break;
+				}
+				case 1:
+				{
+					this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ACCESS_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
+					break;
+				}
+				case 2:
+				{
+					// TODO: User Settings.
+				}
+				case 3:
+				{
+					this.entityPlayer.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
+					break;
+				}
 			}
 		}
 	}

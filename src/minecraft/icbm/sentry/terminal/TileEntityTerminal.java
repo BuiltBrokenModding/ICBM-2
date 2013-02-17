@@ -9,16 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
@@ -342,7 +338,7 @@ public abstract class TileEntityTerminal extends TileEntityIC2Runnable implement
 		super.writeToNBT(nbt);
 
 		nbt.setDouble("wattsReceived", this.wattsReceived);
-		
+
 		// Write user list
 		NBTTagList usersTag = new NBTTagList();
 		for (int player = 0; player < this.users.size(); ++player)
