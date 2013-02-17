@@ -82,7 +82,7 @@ public class BZhaDan extends BlockContainer
 				}
 			}
 		}
-		
+
 		this.setBlockBounds(0, 0, 0, 1f, 1f, 1f);
 	}
 

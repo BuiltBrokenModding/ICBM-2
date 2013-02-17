@@ -18,6 +18,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.implement.IVoltage;
 import universalelectricity.core.vector.Vector3;
@@ -37,15 +38,21 @@ import cpw.mods.fml.common.FMLLog;
  */
 public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ITurret
 {
+	/**
+	 * The maximum amount of pitch allowed. From -30 to 30.
+	 */
+	public static final float MAX_PITCH = 30;
+
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
 
 	public final ActionManager actionManager = new ActionManager();
 	public LookHelper lookHelper;
+
 	/**
 	 * The rotation of the arms. In Degrees.
 	 */
+	public float targetRotationYaw, targetRotationPitch = 0;
 	public float rotationYaw, rotationPitch = 0;
-	public float renderRotationYaw, renderRotationPitch = 0;
 	public final float rotationSpeed = 4f;
 
 	private int health = 100;
@@ -103,46 +110,42 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 	}
 
 	/**
-	 * updates the turrets rotation over time
+	 * Adjusts the turret's rotation to its target rotation over time.
 	 */
 	public void updateRotation()
 	{
-		if (Math.abs(this.renderRotationPitch - this.rotationYaw) > 0.001f)
+		if (Math.abs(this.rotationYaw - this.targetRotationYaw) > 0.001f)
 		{
 			float speedYaw;
-			if (this.renderRotationPitch > this.rotationYaw)
+			if (this.rotationYaw > this.targetRotationYaw)
 			{
-				if (Math.abs(this.renderRotationPitch - this.rotationYaw) >= 180)
-					speedYaw = this.rotationSpeed;
-				else
-					speedYaw = -this.rotationSpeed;
+				/*
+				 * if (Math.abs(this.rotationYaw - this.targetRotationYaw) >= 180) speedYaw =
+				 * this.rotationSpeed; else
+				 */
+				speedYaw = -this.rotationSpeed;
 			}
 			else
 			{
-				if (Math.abs(this.renderRotationPitch - this.rotationYaw) >= 180)
-					speedYaw = -this.rotationSpeed;
-				else
-					speedYaw = this.rotationSpeed;
+				/*
+				 * if (Math.abs(this.rotationYaw - this.targetRotationYaw) >= 180) speedYaw =
+				 * -this.rotationSpeed; else
+				 */
+				speedYaw = this.rotationSpeed;
 			}
 
-			this.renderRotationPitch += speedYaw;
+			this.rotationYaw += speedYaw;
 
-			// keep it within 0 - 360 degrees so ROTATE commands work properly
-			while (this.renderRotationPitch < 0)
-				this.renderRotationPitch += 360;
-			while (this.renderRotationPitch > 360)
-				this.renderRotationPitch -= 360;
-
-			if (Math.abs(this.renderRotationPitch - this.rotationYaw) < this.rotationSpeed + 0.1f)
+			if (Math.abs(this.rotationYaw - this.targetRotationYaw) < this.rotationSpeed + 0.1f)
 			{
-				this.renderRotationPitch = this.rotationYaw;
+				this.rotationYaw = this.targetRotationYaw;
 			}
 		}
 
-		if (Math.abs(this.renderRotationYaw - this.rotationPitch) > 0.001f)
+		if (Math.abs(this.rotationPitch - this.targetRotationPitch) > 0.001f)
 		{
 			float speedPitch;
-			if (this.renderRotationYaw > this.rotationPitch)
+			if (this.rotationPitch > this.targetRotationPitch)
 			{
 				speedPitch = -this.rotationSpeed;
 			}
@@ -151,28 +154,25 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 				speedPitch = this.rotationSpeed;
 			}
 
-			this.renderRotationYaw += speedPitch;
+			this.rotationPitch += speedPitch;
 
-			while (this.renderRotationYaw < 0)
-				this.renderRotationYaw += 60;
-			while (this.renderRotationYaw > 60)
-				this.renderRotationYaw -= 60;
-
-			if (Math.abs(this.renderRotationYaw - this.rotationPitch) < this.rotationSpeed + 0.1f)
+			if (Math.abs(this.rotationPitch - this.targetRotationPitch) < this.rotationSpeed + 0.1f)
 			{
-				this.renderRotationYaw = this.rotationPitch;
+				this.rotationPitch = this.targetRotationPitch;
 			}
 		}
 
-		while (this.rotationYaw < 0)
-			this.rotationYaw += 360;
-		while (this.rotationYaw > 360)
-			this.rotationYaw -= 360;
-		while (this.rotationPitch < 0)
-			this.rotationPitch += 60;
-		while (this.rotationPitch > 60)
-			this.rotationPitch -= 60;
+		/**
+		 * Wraps all the angels and cleans them up.
+		 */
+		// this.rotationYaw = MathHelper.wrapAngleTo180_float(this.rotationYaw);
+		this.rotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.rotationPitch, 60), -60));
 
+		this.targetRotationYaw = MathHelper.wrapAngleTo180_float(this.targetRotationYaw);
+		this.targetRotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.targetRotationPitch, 60), -60));
+
+		// System.out.println(this.rotationYaw + " , " + this.rotationPitch);
+		// System.out.println(this.targetRotationYaw + " : " + this.targetRotationPitch);
 	}
 
 	/**
@@ -226,8 +226,8 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setFloat("yaw", this.rotationYaw);
-		nbt.setFloat("pitch", this.rotationPitch);
+		nbt.setFloat("yaw", this.targetRotationYaw);
+		nbt.setFloat("pitch", this.targetRotationPitch);
 		nbt.setInteger("hp", this.health);
 		nbt.setInteger("dir", this.platformDirection.ordinal());
 	}
@@ -236,8 +236,8 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.rotationYaw = nbt.getFloat("yaw");
-		this.rotationPitch = nbt.getFloat("pitch");
+		this.targetRotationYaw = nbt.getFloat("yaw");
+		this.targetRotationPitch = nbt.getFloat("pitch");
 		this.health = nbt.getInteger("hp");
 		this.platformDirection = ForgeDirection.getOrientation(nbt.getInteger("dir"));
 	}
@@ -278,14 +278,14 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 	@Override
 	public void setRotation(float yaw, float pitch)
 	{
-		this.rotationYaw = yaw;
-		this.rotationPitch = pitch;
+		this.targetRotationYaw = yaw;
+		this.targetRotationPitch = pitch;
 	}
 
 	@Override
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.rotationYaw, this.rotationPitch - 10), 0.5));
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch - 10), 0.5));
 	}
 }

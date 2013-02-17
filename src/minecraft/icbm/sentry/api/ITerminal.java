@@ -1,6 +1,5 @@
 package icbm.sentry.api;
 
-
 import java.util.List;
 
 public interface ITerminal extends ISpecialAccess, IScroll

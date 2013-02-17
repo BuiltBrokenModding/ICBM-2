@@ -5,8 +5,6 @@ import icbm.sentry.terminal.UserAccess;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
-
 public interface ISpecialAccess
 {
 	/**

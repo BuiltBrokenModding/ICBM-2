@@ -1,7 +1,6 @@
 package icbm.sentry.container;
 
 import icbm.sentry.SlotAmmunition;
-import icbm.sentry.api.ITerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.turret.ItemAmmo;

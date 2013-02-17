@@ -17,19 +17,19 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
  * 
  * @author Calclavia
  */
-public class FakeMountableEntity extends Entity implements IEntityAdditionalSpawnData
+public class EntityFakeMountable extends Entity implements IEntityAdditionalSpawnData
 {
 	private TileEntity controller;
 	private boolean shouldSit = false;
 
-	public FakeMountableEntity(World par1World)
+	public EntityFakeMountable(World par1World)
 	{
 		super(par1World);
 		this.setSize(1F, 0.5F);
 		this.yOffset = this.height / 2.0F;
 	}
 
-	public FakeMountableEntity(World par1World, Vector3 position, TileEntity controller, boolean sit)
+	public EntityFakeMountable(World par1World, Vector3 position, TileEntity controller, boolean sit)
 	{
 		this(par1World);
 		this.isImmuneToFire = true;

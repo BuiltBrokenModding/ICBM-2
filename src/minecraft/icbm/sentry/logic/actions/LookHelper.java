@@ -12,6 +12,7 @@ import universalelectricity.core.vector.Vector3;
  */
 public class LookHelper
 {
+	public static final int PITCH_DISPLACEMENT = 0;
 	TileEntityBaseTurret sentry;
 
 	public LookHelper(TileEntityBaseTurret turret)
@@ -20,12 +21,12 @@ public class LookHelper
 	}
 
 	/**
-	 * Adjusts the turret to look at a specific location.
+	 * Adjusts the turret target to look at a specific location.
 	 */
 	public void lookAt(Vector3 target)
 	{
-		sentry.rotationYaw = getYaw(sentry.getMuzzle(), target);
-		sentry.rotationPitch = getPitch(sentry.getMuzzle(), target);
+		sentry.targetRotationYaw = getYaw(sentry.getMuzzle(), target);
+		sentry.targetRotationPitch = getPitch(sentry.getMuzzle(), target);
 	}
 
 	/**
@@ -78,8 +79,7 @@ public class LookHelper
 	{
 		Vector3 difference = Vector3.subtract(target, position);
 		double verticleDistance = MathHelper.sqrt_double(difference.x * difference.x + difference.z * difference.z);
-		return MathHelper.wrapAngleTo180_float((float)Math.abs((Math.atan2(difference.y, verticleDistance) * 180.0D / Math.PI)));
-
+		return -MathHelper.wrapAngleTo180_float((float) (Math.atan2(difference.y, verticleDistance) * 180.0D / Math.PI) + PITCH_DISPLACEMENT);
 	}
 
 	/**
@@ -111,10 +111,8 @@ public class LookHelper
 	 */
 	public static float getAngleDif(float angleOne, float angleTwo)
 	{
-
 		double dif = (Math.max(angleOne, angleTwo) - Math.min(angleOne, angleTwo));
 		return MathHelper.wrapAngleTo180_float((float) dif);
-
 	}
 
 	/**
@@ -122,11 +120,11 @@ public class LookHelper
 	 */
 	public boolean canEntityBeSeen(Vector3 target)
 	{
-		Vector3 barrel = Vector3.add(this.sentry.getMuzzle(), new Vector3(Math.sin(sentry.rotationYaw) * 1, 0, Math.cos(sentry.rotationYaw) * 1));
+		Vector3 barrel = Vector3.add(this.sentry.getMuzzle(), new Vector3(Math.sin(sentry.targetRotationYaw) * 1, 0, Math.cos(sentry.targetRotationYaw) * 1));
 		return this.sentry.worldObj.rayTraceBlocks(barrel.toVec3(), target.toVec3()) == null;
 	}
 
-	public boolean canEntityBeSenn(Entity entity)
+	public boolean canEntityBeSeen(Entity entity)
 	{
 		return this.canEntityBeSeen(Vector3.add(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0)));
 	}

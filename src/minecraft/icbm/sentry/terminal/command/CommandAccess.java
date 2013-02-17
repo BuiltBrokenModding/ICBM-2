@@ -3,7 +3,6 @@ package icbm.sentry.terminal.command;
 import icbm.sentry.api.ISpecialAccess;
 import icbm.sentry.api.ITerminal;
 import icbm.sentry.platform.TileEntityTurretPlatform;
-
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.terminal.TerminalCommand;
 

@@ -4,10 +4,6 @@ import icbm.sentry.CommonProxy;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.container.ContainerTurretPlatform;
 import icbm.sentry.platform.TileEntityTurretPlatform;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -17,8 +13,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import universalelectricity.core.electricity.ElectricInfo;
-import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
 import universalelectricity.prefab.TranslationHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

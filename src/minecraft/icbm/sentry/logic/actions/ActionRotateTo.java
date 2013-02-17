@@ -1,5 +1,6 @@
 package icbm.sentry.logic.actions;
 
+import icbm.sentry.turret.TileEntityBaseTurret;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -11,15 +12,11 @@ public class ActionRotateTo extends Action
 {
 	float targetRotationYaw = 0;
 	float targetRotationPitch = 0;
-	int totalTicks = 0;
 
 	@Override
 	public void onTaskStart()
 	{
 		super.onTaskStart();
-
-		this.ticks = 0;
-		this.totalTicks = 0;
 
 		if (this.getArg(0) != null)
 		{
@@ -43,41 +40,26 @@ public class ActionRotateTo extends Action
 			this.targetRotationYaw += 360;
 		while (this.targetRotationYaw > 360)
 			this.targetRotationYaw -= 360;
-		while (this.targetRotationPitch < -60)
-			this.targetRotationPitch += 60;
-		while (this.targetRotationPitch > 60)
-			this.targetRotationPitch -= 60;
 
-		int totalTicksYaw = (int) (Math.abs(this.targetRotationYaw - this.tileEntity.renderRotationPitch) / this.tileEntity.rotationSpeed);
-		int totalTicksPitch = (int) (Math.abs(this.targetRotationPitch - this.tileEntity.renderRotationYaw) / this.tileEntity.rotationSpeed);
-		this.totalTicks = (int) Math.max(totalTicksYaw, totalTicksPitch);
+		while (this.targetRotationPitch < -TileEntityBaseTurret.MAX_PITCH)
+			this.targetRotationPitch += TileEntityBaseTurret.MAX_PITCH;
+		while (this.targetRotationPitch > TileEntityBaseTurret.MAX_PITCH)
+			this.targetRotationPitch -= TileEntityBaseTurret.MAX_PITCH;
 	}
 
 	@Override
 	protected boolean onUpdateTask()
 	{
 		super.onUpdateTask();
-		/*
-		 * float rotationalDifference = Math.abs(this.tileEntity.rotationYaw - this.targetRotation);
-		 * 
-		 * if (rotationalDifference < ROTATION_SPEED) { this.tileEntity.rotationYaw =
-		 * this.targetRotation; } else { if (this.tileEntity.rotationYaw > this.targetRotation) {
-		 * this.tileEntity.rotationYaw -= ROTATION_SPEED; } else { this.tileEntity.rotationYaw +=
-		 * ROTATION_SPEED; } this.ticks = 0; }
-		 */
 
-		// set the rotation to the target immediately and let the client handle animating it
-		// wait for the client to catch up
+		this.tileEntity.targetRotationYaw = this.targetRotationYaw;
+		this.tileEntity.targetRotationPitch = this.targetRotationPitch;
 
-		this.tileEntity.rotationYaw = this.targetRotationYaw;
-		this.tileEntity.rotationPitch = this.targetRotationPitch;
-
-		// if (this.ticks < this.totalTicks) { return true; }
-		if (Math.abs(this.tileEntity.renderRotationYaw - this.tileEntity.rotationPitch) > 0.001f)
+		if (Math.abs(this.tileEntity.rotationPitch - this.tileEntity.targetRotationPitch) > 0.001f)
 		{
 			return true;
 		}
-		if (Math.abs(this.tileEntity.renderRotationPitch - this.tileEntity.rotationYaw) > 0.001f)
+		if (Math.abs(this.tileEntity.rotationYaw - this.tileEntity.targetRotationYaw) > 0.001f)
 		{
 			return true;
 		}

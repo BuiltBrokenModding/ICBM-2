@@ -38,7 +38,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 {
 	private EntityPlayer mountedPlayer = null;
 
-	private FakeMountableEntity entityFake = null;
+	private EntityFakeMountable entityFake = null;
 
 	private int gunChargingTicks = 0;
 
@@ -61,11 +61,11 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 			if (this.mountedPlayer.rotationPitch < -45)
 				this.mountedPlayer.rotationPitch = -45;
 
-			this.rotationPitch = this.mountedPlayer.rotationPitch;
-			this.rotationYaw = this.mountedPlayer.rotationYaw;
+			this.targetRotationPitch = this.mountedPlayer.rotationPitch;
+			this.targetRotationYaw = this.mountedPlayer.rotationYaw;
 
-			this.renderRotationPitch = this.rotationPitch * 0.0175f;
-			this.renderRotationYaw = this.rotationYaw * 0.0175f;
+			this.rotationPitch = this.targetRotationPitch * 0.0175f;
+			this.rotationYaw = this.targetRotationYaw * 0.0175f;
 		}
 		else if (this.entityFake != null)
 		{
@@ -152,8 +152,8 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 
 			if (ID == 1)
 			{
-				this.renderRotationYaw = dataStream.readFloat();
-				this.renderRotationPitch = dataStream.readFloat();
+				this.rotationYaw = dataStream.readFloat();
+				this.rotationPitch = dataStream.readFloat();
 			}
 			else if (ID == 2)
 			{
@@ -182,7 +182,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ICBMSentry.CHANNEL, this, (int) 1, this.renderRotationYaw, this.renderRotationPitch);
+		return PacketManager.getPacket(ICBMSentry.CHANNEL, this, (int) 1, this.rotationYaw, this.rotationPitch);
 	}
 
 	@Override
@@ -229,7 +229,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 		{
 			if (!this.worldObj.isRemote)
 			{
-				this.entityFake = new FakeMountableEntity(this.worldObj, new Vector3(this.xCoord + 0.5D, this.yCoord, this.zCoord + 0.5D), this, false);
+				this.entityFake = new EntityFakeMountable(this.worldObj, new Vector3(this.xCoord + 0.5D, this.yCoord, this.zCoord + 0.5D), this, false);
 				this.worldObj.spawnEntityInWorld(entityFake);
 				entityPlayer.mountEntity(entityFake);
 			}
@@ -254,7 +254,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	public MovingObjectPosition rayTrace(double distance)
 	{
 		Vector3 muzzlePosition = this.getMuzzle();
-		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.rotationYaw, this.rotationPitch);
+		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
 		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
 		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
 	}
@@ -263,7 +263,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.rotationYaw, this.rotationPitch - 10), 1.9));
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch - 10), 1.9));
 	}
 
 	@Override
@@ -271,11 +271,11 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	{
 		super.readFromNBT(par1NBTTagCompound);
 
-		this.rotationYaw = par1NBTTagCompound.getFloat("rotationYaw");
-		this.rotationPitch = par1NBTTagCompound.getFloat("rotationPitch");
+		this.targetRotationYaw = par1NBTTagCompound.getFloat("rotationYaw");
+		this.targetRotationPitch = par1NBTTagCompound.getFloat("rotationPitch");
 
-		this.renderRotationPitch = this.rotationPitch * 0.0175f;
-		this.renderRotationYaw = this.rotationYaw * 0.0175f;
+		this.rotationPitch = this.targetRotationPitch * 0.0175f;
+		this.rotationYaw = this.targetRotationYaw * 0.0175f;
 	}
 
 	/**
@@ -286,8 +286,8 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	{
 		super.writeToNBT(par1NBTTagCompound);
 
-		par1NBTTagCompound.setFloat("rotationYaw", this.rotationYaw);
-		par1NBTTagCompound.setFloat("rotationPitch", this.rotationPitch);
+		par1NBTTagCompound.setFloat("rotationYaw", this.targetRotationYaw);
+		par1NBTTagCompound.setFloat("rotationPitch", this.targetRotationPitch);
 
 		NBTTagList var2 = new NBTTagList();
 

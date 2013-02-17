@@ -5,7 +5,6 @@ import icbm.sentry.terminal.TileEntityTerminal;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.input.Keyboard;

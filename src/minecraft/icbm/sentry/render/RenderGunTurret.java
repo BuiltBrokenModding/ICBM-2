@@ -4,7 +4,6 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.model.ModelGunTurret;
 import icbm.sentry.terminal.AccessLevel;
 import icbm.sentry.turret.TileEntityBaseTurret;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -34,22 +33,22 @@ public class RenderGunTurret extends RenderTaggedTile
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
 
 			this.setTextureBaseOnState(tileEntity);
-			this.render(tileEntity.renderRotationYaw, tileEntity.renderRotationPitch);
+			this.render(tileEntity.rotationYaw, tileEntity.rotationPitch);
 
 			GL11.glPopMatrix();
 		}
 	}
 
-	public static void render(float renderPitch, float renderYaw)
+	public static void render(float renderYaw, float renderPitch)
 	{
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
 		MODEL.render(0.0625F);
-		// Render base rotation
+		// Render base yaw rotation
 		GL11.glRotatef(renderYaw, 0F, 1F, 0F);
 		MODEL.renderBody(0.0625F);
-		// Render gun rotation
-		GL11.glRotatef(renderPitch, 1F, 0F, 0F);
+		// Render gun pitch rotation
+		GL11.glRotatef(renderPitch + 10, 1F, 0F, 0F);
 		MODEL.renderCannon(0.0625F);
 	}
 

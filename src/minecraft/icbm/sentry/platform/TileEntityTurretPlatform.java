@@ -1,6 +1,5 @@
 package icbm.sentry.platform;
 
-import icbm.api.ICBM;
 import icbm.sentry.api.IAmmunition;
 import icbm.sentry.terminal.TileEntityTerminal;
 import icbm.sentry.turret.TileEntityBaseTurret;

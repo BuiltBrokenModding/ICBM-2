@@ -11,7 +11,7 @@ import icbm.sentry.terminal.command.CommandGet;
 import icbm.sentry.terminal.command.CommandHelp;
 import icbm.sentry.terminal.command.CommandUser;
 import icbm.sentry.turret.BlockTurret;
-import icbm.sentry.turret.FakeMountableEntity;
+import icbm.sentry.turret.EntityFakeMountable;
 import icbm.sentry.turret.ItemAmmo;
 import icbm.sentry.turret.ItemBlockTurret;
 import net.minecraft.block.Block;
@@ -68,6 +68,7 @@ public class ICBMSentry
 	public static final int ENTITY_ID_PREFIX = 50;
 
 	/**
+	 * 
 	 * Multiblock.
 	 */
 	public static BlockMulti blockFake;
@@ -114,8 +115,8 @@ public class ICBMSentry
 		GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
 		GameRegistry.registerBlock(blockFake, "ICBMFake");
 
-		EntityRegistry.registerGlobalEntityID(FakeMountableEntity.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(FakeMountableEntity.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityFakeMountable.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityFakeMountable.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
 
 		ICBMTab.itemStack = new ItemStack(blockTurret);
 

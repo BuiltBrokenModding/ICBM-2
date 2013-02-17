@@ -2,10 +2,8 @@ package icbm.sentry;
 
 import icbm.sentry.api.ITerminal;
 import icbm.sentry.terminal.AccessLevel;
-import icbm.sentry.terminal.UserAccess;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import universalelectricity.prefab.SlotSpecific;
 
 public class SlotAmmunition extends SlotSpecific

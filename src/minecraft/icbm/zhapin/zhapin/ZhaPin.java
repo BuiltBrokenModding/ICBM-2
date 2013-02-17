@@ -368,6 +368,19 @@ public abstract class ZhaPin implements ITier, IExplosive
 		return new ItemStack(ZhuYaoZhaPin.bZhaDan, amount, this.getID());
 	}
 
+	public static IExplosive getExplosiveByName(String name)
+	{
+		for (IExplosive explosive : list)
+		{
+			if (explosive.getName().equalsIgnoreCase(name))
+			{
+				return explosive;
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * Created an ICBM explosion.
 	 * 

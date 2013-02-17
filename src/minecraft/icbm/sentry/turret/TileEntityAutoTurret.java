@@ -1,6 +1,5 @@
 package icbm.sentry.turret;
 
-import icbm.api.ICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.api.IAutoSentry;
 import icbm.sentry.logic.actions.ActionIdle;
@@ -27,47 +26,12 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 	 */
 	public Entity target;
 
-	public boolean isIdle = false;
-	public boolean isHunting = false;
-
 	public final ActionManager AIManager = new ActionManager();
 
 	@Override
 	public void initiate()
 	{
 		if (!this.worldObj.isRemote)
-		{
-			this.addIdleSet();
-			this.addHostileSet();
-		}
-	}
-
-	/**
-	 * sets the sentry into an idle like animation state in which it just goes left to right to
-	 * simulate searching for a target.
-	 */
-	public void addIdleSet()
-	{
-		if (!this.isIdle)
-		{
-			this.isIdle = true;
-			this.actionManager.clear();
-			this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "30", "0" });
-			this.actionManager.addCommand(this, ActionIdle.class, new String[] { "10" });
-
-			this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "-60", "0" });
-			this.actionManager.addCommand(this, ActionIdle.class, new String[] { "10" });
-
-			this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "30", "0" });
-			this.actionManager.addCommand(this, ActionIdle.class, new String[] { "10" });
-
-			this.actionManager.addCommand(this, ActionRepeat.class);
-		}
-	}
-
-	public void addHostileSet()
-	{
-		if (!this.isHunting)
 		{
 			this.AIManager.addCommand(this, ActionSearchTarget.class);
 			this.AIManager.addCommand(this, ActionKillTarget.class);
@@ -82,10 +46,27 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 
 		this.AIManager.onUpdate();
 
-		if (this.target == null)
+		/**
+		 * Only update the action manager for idle movements if the target is invalid.
+		 */
+		if (this.target == null && !this.worldObj.isRemote)
 		{
 			this.actionManager.onUpdate();
+
+			if (!this.actionManager.hasTasks())
+			{
+				this.actionManager.clear();
+				this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "" + (this.worldObj.rand.nextInt(60) + 30), "0" });
+				this.actionManager.addCommand(this, ActionIdle.class, new String[] { "" + (this.worldObj.rand.nextInt(50) + 10) });
+
+				this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "" + (-this.worldObj.rand.nextInt(60) - 30), "0" });
+				this.actionManager.addCommand(this, ActionIdle.class, new String[] { "" + (this.worldObj.rand.nextInt(50) + 10) });
+
+				this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "" + (this.worldObj.rand.nextInt(60) + 30), "0" });
+				this.actionManager.addCommand(this, ActionIdle.class, new String[] { "" + (this.worldObj.rand.nextInt(50) + 10) });
+			}
 		}
+
 	}
 
 	@Override
@@ -95,8 +76,8 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 		 * TODO use meta data to find facing direction and restrict the grid to in front of the
 		 * sentry
 		 */
-		int blockID = this.worldObj.getBlockId(xCoord, yCoord, zCoord);
-		int meta = this.worldObj.getBlockMetadata(xCoord, yCoord - 1, zCoord);
+		int blockID = this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord);
+		int meta = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord - 1, this.zCoord);
 
 		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), yCoord - 5, zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + 5, zCoord + this.getDetectRange());
 	}
@@ -132,7 +113,7 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 			{
 				if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) < this.getDetectRange())
 				{
-					if (!this.lookHelper.canEntityBeSenn(entity))
+					if (!this.lookHelper.canEntityBeSeen(entity))
 					{
 						return false;
 					}
@@ -164,14 +145,14 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 	{
 		if (this.isValidTarget(this.target) && this.getPlatform() != null)
 		{
-			if (!this.lookHelper.isLookingAt(this.target, 30f))
+			if (!this.lookHelper.isLookingAt(this.target, 10f))
 			{
 				this.lookHelper.lookAtEntity(this.target);
 				return false;
 			}
 			else
 			{
-				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest() || ICBM.debugMode) && this.getPlatform().hasAmmunition(ICBMSentry.conventionalBullet);
+				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest()) && this.getPlatform().hasAmmunition(ICBMSentry.conventionalBullet);
 			}
 		}
 

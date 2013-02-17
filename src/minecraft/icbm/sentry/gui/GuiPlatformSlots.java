@@ -2,11 +2,9 @@ package icbm.sentry.gui;
 
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.platform.TileEntityTurretPlatform;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import universalelectricity.core.electricity.ElectricInfo;
 import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;

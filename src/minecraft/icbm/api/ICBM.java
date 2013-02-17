@@ -1,5 +1,7 @@
 package icbm.api;
 
+import icbm.api.explosion.IExplosive;
+
 import java.io.File;
 import java.lang.reflect.Method;
 
@@ -46,12 +48,6 @@ public class ICBM
 	 */
 	public static final int ITEM_ID_PREFIX = 3900;
 
-	/**
-	 * TODO: Turn this to false every single time you build. Determines if ICBM should run on debug
-	 * mod, not requiring any power.
-	 */
-	public static boolean debugMode = false;
-
 	public static Class explosionManager;
 
 	/**
@@ -72,5 +68,27 @@ public class ICBM
 			System.out.println("ICBM: Failed to create an ICBM explosion with the ID: " + explosiveID);
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @return Gets an explosive object based on the name of the explosive.
+	 */
+	public static IExplosive getExplosive(String name)
+	{
+		if (name != null)
+		{
+			try
+			{
+				Method method = explosionManager.getMethod("getExplosiveByName", String.class);
+				return (IExplosive) method.invoke(name);
+			}
+			catch (Exception e)
+			{
+				System.out.println("ICBM: Failed to get explosive with the name: " + name);
+				e.printStackTrace();
+			}
+		}
+
+		return null;
 	}
 }
