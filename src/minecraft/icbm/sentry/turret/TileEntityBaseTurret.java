@@ -165,14 +165,9 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 		/**
 		 * Wraps all the angels and cleans them up.
 		 */
-		// this.rotationYaw = MathHelper.wrapAngleTo180_float(this.rotationYaw);
 		this.rotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.rotationPitch, 60), -60));
-
 		this.targetRotationYaw = MathHelper.wrapAngleTo180_float(this.targetRotationYaw);
 		this.targetRotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.targetRotationPitch, 60), -60));
-
-		// System.out.println(this.rotationYaw + " , " + this.rotationPitch);
-		// System.out.println(this.targetRotationYaw + " : " + this.targetRotationPitch);
 	}
 
 	/**

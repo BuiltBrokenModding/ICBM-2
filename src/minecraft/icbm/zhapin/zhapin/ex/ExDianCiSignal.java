@@ -1,5 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
+import ic2.api.ICustomElectricItem;
 import icbm.api.IMissile;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IEMPItem;
@@ -59,16 +60,17 @@ public class ExDianCiSignal extends ZhaPin
 
 					if (itemStack != null)
 					{
-						if (itemStack.getItem() instanceof IItemElectric)
+						if (itemStack.getItem() instanceof IEMPItem)
 						{
-							if (itemStack.getItem() instanceof IEMPItem)
-							{
-								((IEMPItem) itemStack.getItem()).onEMP(itemStack, entity, dianCi);
-							}
-							else
-							{
-								((IItemElectric) itemStack.getItem()).setJoules(0, itemStack);
-							}
+							((IEMPItem) itemStack.getItem()).onEMP(itemStack, entity, dianCi);
+						}
+						else if (itemStack.getItem() instanceof IItemElectric)
+						{
+							((IItemElectric) itemStack.getItem()).setJoules(0, itemStack);
+						}
+						else if (itemStack.getItem() instanceof ICustomElectricItem)
+						{
+							((ICustomElectricItem) itemStack.getItem()).discharge(itemStack, ((ICustomElectricItem) itemStack.getItem()).getMaxCharge(), 0, true, false);
 						}
 					}
 				}

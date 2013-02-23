@@ -47,9 +47,13 @@ public class EntityFakeMountable extends Entity implements IEntityAdditionalSpaw
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
-		data.writeInt(this.controller.xCoord);
-		data.writeInt(this.controller.yCoord);
-		data.writeInt(this.controller.zCoord);
+		if (this.controller != null)
+		{
+			data.writeInt(this.controller.xCoord);
+			data.writeInt(this.controller.yCoord);
+			data.writeInt(this.controller.zCoord);
+		}
+		
 		data.writeBoolean(this.shouldSit);
 	}
 
