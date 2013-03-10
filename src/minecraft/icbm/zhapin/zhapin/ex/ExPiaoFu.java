@@ -7,6 +7,7 @@ import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
+import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
@@ -16,7 +17,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExPiaoFu extends ZhaPin
 {

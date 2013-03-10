@@ -78,13 +78,13 @@ public class BlockRadioactive extends Block
 					int newZ = z + rand.nextInt(3) - 1;
 					int var10 = world.getBlockId(newX, newY + 1, newZ);
 
-					if (rand.nextFloat() > 0.5 && (world.getBlockId(newX, newY, newZ) == Block.tilledField.blockID || world.getBlockId(newX, newY, newZ) == Block.grass.blockID))
+					if (rand.nextFloat() > 0.4 && (world.getBlockId(newX, newY, newZ) == Block.tilledField.blockID || world.getBlockId(newX, newY, newZ) == Block.grass.blockID))
 					{
 						world.setBlockWithNotify(newX, newY, newZ, this.blockID);
 					}
 				}
 
-				if (rand.nextFloat() > 0.99)
+				if (rand.nextFloat() > 0.85)
 				{
 					world.setBlockWithNotify(x, y, z, Block.mycelium.blockID);
 				}

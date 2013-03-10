@@ -8,6 +8,8 @@ import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
+import mffs.api.ForcefieldProtected;
+import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
@@ -19,8 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import chb.mods.mffs.api.ForcefieldProtected;
-import chb.mods.mffs.api.IForceFieldBlock;
 import cpw.mods.fml.common.Loader;
 
 public class ExHongSu extends ZhaPin
@@ -167,7 +167,11 @@ public class ExHongSu extends ZhaPin
 					explosionCreated = true;
 				}
 
-				if (!(entity instanceof EntityLiving))
+				if (entity instanceof EntityLiving)
+				{
+					entity.fallDistance = 0;
+				}
+				else
 				{
 					if (entity instanceof EZhaPin)
 					{

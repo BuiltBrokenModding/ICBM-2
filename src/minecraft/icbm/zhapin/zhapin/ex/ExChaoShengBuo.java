@@ -12,6 +12,7 @@ import icbm.zhapin.zhapin.ZhaPin;
 import java.util.Iterator;
 import java.util.List;
 
+import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;
@@ -21,7 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExChaoShengBuo extends ZhaPin
 {

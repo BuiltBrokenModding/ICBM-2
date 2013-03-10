@@ -11,6 +11,7 @@ public class PoisonRadiation extends Poison
 {
 	public static final Poison INSTANCE = new PoisonRadiation("Radiation", 0);
 	public static final UEDamageSource damageSource = (UEDamageSource) new UEDamageSource("radiation", "%1$s died from radiation.").setDamageBypassesArmor();
+	public static boolean disabled = false;
 
 	public PoisonRadiation(String name, int id)
 	{
@@ -20,15 +21,18 @@ public class PoisonRadiation extends Poison
 	@Override
 	protected void doPoisonEntity(Vector3 emitPosition, EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
 	{
-		if (emitPosition == null)
+		if (!PoisonRadiation.disabled)
 		{
-			entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 60, amplifier, null));
-			return;
-		}
+			if (emitPosition == null)
+			{
+				entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 15 * (amplifier + 1), amplifier, null));
+				return;
+			}
 
-		if (entity.worldObj.getBlockDensity(emitPosition.toVec3(), entity.boundingBox) < 3)
-		{
-			entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 60, amplifier, null));
+			if (entity.worldObj.getBlockDensity(emitPosition.toVec3(), entity.boundingBox) < 3)
+			{
+				entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 20 * (amplifier + 1), amplifier, null));
+			}
 		}
 	}
 

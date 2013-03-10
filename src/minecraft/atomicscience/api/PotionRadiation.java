@@ -26,6 +26,7 @@ public class PotionRadiation extends CustomPotion
 				((EntityPlayer) par1EntityLiving).addExhaustion(0.015F * (float) (amplifier + 1));
 			}
 		}
+
 	}
 
 	@Override

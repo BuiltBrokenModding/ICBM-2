@@ -6,6 +6,7 @@ import icbm.zhapin.zhapin.ZhaPin;
 import java.util.ArrayList;
 import java.util.List;
 
+import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -17,7 +18,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.implement.IRotatable;
-import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExTuPuo extends ZhaPin
 {

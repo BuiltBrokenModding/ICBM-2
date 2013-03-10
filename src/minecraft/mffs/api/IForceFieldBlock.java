@@ -18,7 +18,7 @@
     Thunderdark - initial implementation
 */
 
-package chb.mods.mffs.api;
+package mffs.api;
 
 import net.minecraft.world.World;
 

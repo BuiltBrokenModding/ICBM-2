@@ -1,4 +1,4 @@
-package chb.mods.mffs.api;
+package mffs.api;
 
 public interface IForceEnergyStorageBlock {
 	

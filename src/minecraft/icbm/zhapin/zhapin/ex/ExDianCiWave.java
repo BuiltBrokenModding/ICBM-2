@@ -3,6 +3,8 @@ package icbm.zhapin.zhapin.ex;
 import ic2.api.IEnergyStorage;
 import icbm.api.explosion.IEMPBlock;
 import icbm.zhapin.zhapin.ZhaPin;
+import mffs.api.IForceEnergyStorageBlock;
+import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -12,8 +14,6 @@ import universalelectricity.core.implement.IDisableable;
 import universalelectricity.core.implement.IJouleStorage;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
-import chb.mods.mffs.api.IForceEnergyStorageBlock;
-import chb.mods.mffs.api.IForceFieldBlock;
 
 public class ExDianCiWave extends ZhaPin
 {
