@@ -2,6 +2,7 @@ package icbm.zhapin.zhapin;
 
 import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;
+import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
@@ -10,7 +11,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -19,8 +19,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -30,15 +32,13 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BZhaDan extends BlockContainer
+public class BZhaDan extends BICBM
 {
-	public BZhaDan(int par1, int par2)
+	public BZhaDan(int id)
 	{
-		super(par1, par2, Material.tnt);
+		super(id, "explosives", Material.tnt);
 		this.setHardness(0.0F);
-		this.setBlockName("Explosives");
 		this.setStepSound(soundGrassFootstep);
-		this.setRequiresSelfNotify();
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
@@ -162,15 +162,14 @@ public class BZhaDan extends BlockContainer
 	 * Returns the block texture based on the side being looked at. Args: side
 	 */
 	@Override
-	public int getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+	public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
 		int explosiveID = ((TZhaDan) par1IBlockAccess.getBlockTileEntity(x, y, z)).haoMa;
-
 		return this.getBlockTextureFromSideAndMetadata(side, explosiveID);
 	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int side, int explosiveID)
+	public Icon getBlockTextureFromSideAndMetadata(int side, int explosiveID)
 	{
 		// Get the tier of the explosive and find
 		// the row of it
@@ -261,7 +260,7 @@ public class BZhaDan extends BlockContainer
 					{
 						((TZhaDan) tileEntity).exploding = true;
 						ZhaPin.list[explosiveID].spawnZhaDan(world, new Vector3(x, y, z), ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
-						world.setBlockWithNotify(x, y, z, 0);
+						world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 2);
 					}
 				}
 			}
@@ -272,7 +271,7 @@ public class BZhaDan extends BlockContainer
 	 * Called upon the block being destroyed by an explosion
 	 */
 	@Override
-	public void onBlockDestroyedByExplosion(World par1World, int x, int y, int z)
+	public void onBlockDestroyedByExplosion(World par1World, int x, int y, int z, Explosion explosion)
 	{
 		if (par1World.getBlockTileEntity(x, y, z) != null)
 		{
@@ -325,7 +324,7 @@ public class BZhaDan extends BlockContainer
 						break;
 				}
 
-				par1World.setBlockMetadataWithNotify(x, y, z, ForgeDirection.getOrientation(change).ordinal());
+				par1World.setBlockMetadataWithNotify(x, y, z, ForgeDirection.getOrientation(change).ordinal(), 3);
 
 				par1World.notifyBlockChange(x, y, z, this.blockID);
 				return true;
@@ -339,7 +338,7 @@ public class BZhaDan extends BlockContainer
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.BLOCK_TEXTURE_FILE;
+		return ZhuYao.BLOCK_PATH;
 	}
 
 	@SideOnly(Side.CLIENT)

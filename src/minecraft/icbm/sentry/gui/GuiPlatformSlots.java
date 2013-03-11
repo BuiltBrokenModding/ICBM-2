@@ -6,8 +6,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.core.electricity.ElectricInfo;
-import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
+import universalelectricity.core.electricity.ElectricityDisplay;
+import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -36,7 +36,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 		}
 
 		this.fontRenderer.drawString("Energy Per Shot", 85, 43, 4210752);
-		this.fontRenderer.drawString(color + ElectricInfo.getDisplayShort(this.tileEntity.wattsReceived, ElectricUnit.JOULES) + "/" + ElectricInfo.getDisplayShort(this.tileEntity.getWattBuffer(), ElectricUnit.JOULES), 87, 53, 4210752);
+		this.fontRenderer.drawString(color + ElectricityDisplay.getDisplayShort(this.tileEntity.wattsReceived, ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getWattBuffer(), ElectricUnit.JOULES), 87, 53, 4210752);
 		this.fontRenderer.drawString("Upgrades", 87, 66, 4210752);
 		super.drawGuiContainerForegroundLayer(x, y);
 	}
@@ -48,9 +48,9 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 	protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
 	{
 		super.drawGuiContainerBackgroundLayer(par1, x, y);
-		int var4 = this.mc.renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + "gui_platform_slot.png");
+		this.mc.renderEngine.func_98187_b(ICBMSentry.GUI_PATH + "gui_platform_slot.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		int containerWidth = (this.width - this.xSize) / 2;
 		int containerHeight = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);

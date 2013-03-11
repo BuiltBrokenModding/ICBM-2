@@ -2,7 +2,8 @@ package atomicscience.api;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
-import atomicscience.api.Poison.ArmorType;
+import atomicscience.api.poison.Poison;
+import atomicscience.api.poison.Poison.ArmorType;
 
 /**
  * Apply this to all item armors and it will prevent the player from receiving a specific type of

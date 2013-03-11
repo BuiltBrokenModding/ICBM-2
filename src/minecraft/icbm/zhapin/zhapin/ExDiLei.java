@@ -1,6 +1,7 @@
 package icbm.zhapin.zhapin;
 
 import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.zhapin.ESuiPian;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
 import net.minecraft.entity.Entity;
@@ -108,7 +109,7 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public Object[] getRenderData()
 	{
-		return new Object[] { MDiLei.INSTANCE, ICBM.TEXTURE_FILE_PATH + "S-Mine.png" };
+		return new Object[] { MDiLei.INSTANCE, ZhuYao.TEXTURE_PATH + "S-Mine.png" };
 	}
 
 	@Override

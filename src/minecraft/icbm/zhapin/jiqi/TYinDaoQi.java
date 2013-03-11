@@ -1,6 +1,6 @@
 package icbm.zhapin.jiqi;
 
-import icbm.core.TIC2Runnable;
+import icbm.core.di.TIC2Runnable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;

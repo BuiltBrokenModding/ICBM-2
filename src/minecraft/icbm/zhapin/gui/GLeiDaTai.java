@@ -1,6 +1,6 @@
 package icbm.zhapin.gui;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.jiqi.BJiQi;
@@ -17,8 +17,8 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.core.electricity.ElectricInfo;
-import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
+import universalelectricity.core.electricity.ElectricityDisplay;
+import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.TranslationHelper;
@@ -146,9 +146,9 @@ public class GLeiDaTai extends GuiBase
 		this.textFieldAlarmRange.drawTextBox();
 		this.fontRenderer.drawString("Blocks", 190, 112, 4210752);
 
-		this.fontRenderer.drawString(ElectricInfo.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT), 155, 128, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT), 155, 128, 4210752);
 
-		this.fontRenderer.drawString(ElectricInfo.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
 
 		// Shows the status of the radar
 		String color = "\u00a74";
@@ -177,9 +177,9 @@ public class GLeiDaTai extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_radar.png");
+		this.mc.renderEngine.func_98187_b(ZhuYao.GUI_PATH + "gui_radar.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		this.containerPosX = (this.width - this.xSize) / 2;
 		this.containerPosY = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
@@ -202,20 +202,19 @@ public class GLeiDaTai extends GuiBase
 				{
 					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
 					{
-						var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "reddot.png");
+						this.mc.renderEngine.func_98187_b(ZhuYao.GUI_PATH + "reddot.png");
 					}
 					else
 					{
-						var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "yellowdot.png");
+						this.mc.renderEngine.func_98187_b(ZhuYao.GUI_PATH + "yellowdot.png");
 
 					}
 				}
 				else
 				{
-					var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "yellowdot.png");
+					this.mc.renderEngine.func_98187_b(ZhuYao.GUI_PATH + "yellowdot.png");
 				}
 
-				this.mc.renderEngine.bindTexture(var4);
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
 
 				// Hover Detection
@@ -249,9 +248,8 @@ public class GLeiDaTai extends GuiBase
 			{
 				Vector2 position = new Vector2(this.radarCenter.x + (int) (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (int) (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
 
-				var4 = this.mc.renderEngine.getTexture("/icbm/whitedot.png");
+				this.mc.renderEngine.func_98187_b(ZhuYao.GUI_PATH + "whitedot.png");
 
-				this.mc.renderEngine.bindTexture(var4);
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
 
 				Vector2 minPosition = position.clone();
@@ -269,7 +267,7 @@ public class GLeiDaTai extends GuiBase
 						}
 						else
 						{
-							this.info = jiQi.getBlockType().translateBlockName();
+							this.info = jiQi.getBlockType().getLocalizedName();
 						}
 					}
 				}

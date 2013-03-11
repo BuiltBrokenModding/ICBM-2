@@ -2,8 +2,8 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.IItemFrequency;
 import icbm.api.RadarRegistry;
-import icbm.core.TIC2Runnable;
 import icbm.core.ZhuYao;
+import icbm.core.di.TIC2Runnable;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 

@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.ICBMRenderBlocks;
+import icbm.core.RBICBM;
 import icbm.zhapin.EFeiBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RFeiBlock extends Render
 {
-	private ICBMRenderBlocks icbmRenderBlocks;
+	private RBICBM icbmRenderBlocks;
 
 	public RFeiBlock()
 	{
@@ -31,7 +31,7 @@ public class RFeiBlock extends Render
 	{
 		if (this.icbmRenderBlocks == null)
 		{
-			this.icbmRenderBlocks = new ICBMRenderBlocks(this.renderBlocks.blockAccess);
+			this.icbmRenderBlocks = new RBICBM(this.renderBlocks.blockAccess);
 		}
 
 		GL11.glPushMatrix();

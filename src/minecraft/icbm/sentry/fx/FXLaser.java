@@ -1,6 +1,7 @@
 package icbm.sentry.fx;
 
 import icbm.sentry.ICBMSentry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLiving;
@@ -169,7 +170,7 @@ public class FXLaser extends EntityFX
 			op = 0.4F - (4 - (this.particleMaxAge - this.particleAge)) * 0.1F;
 		}
 
-		ForgeHooksClient.bindTexture(ICBMSentry.DIRECTORY_NO_SLASH + "noise.png", 0);
+		Minecraft.getMinecraft().renderEngine.func_98187_b(ICBMSentry.TEXTURE_PATH + "noise.png");
 
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
 		GL11.glTexParameterf(3553, 10243, 10497.0F);

@@ -55,8 +55,8 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 		this.commandLine = new GuiTextField(this.fontRenderer, width + 12, height + 165, 135, 11);
 		this.commandLine.setMaxStringLength(30);
 
-		this.controlList.add(new GuiButtonArrow(MAX_BUTTON_ID + 1, width + 151, height + 21, false));
-		this.controlList.add(new GuiButtonArrow(MAX_BUTTON_ID + 2, width + 151, height + 152, true));
+		this.buttonList.add(new GuiButtonArrow(MAX_BUTTON_ID + 1, width + 151, height + 21, false));
+		this.buttonList.add(new GuiButtonArrow(MAX_BUTTON_ID + 2, width + 151, height + 152, true));
 		Keyboard.enableRepeatEvents(true);
 	}
 
@@ -235,9 +235,9 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
 		super.drawBackgroundLayer(x, y, var1);
-		int var4 = this.mc.renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + "gui_platform_terminal.png");
+		this.mc.renderEngine.func_98187_b(ICBMSentry.GUI_PATH + "gui_platform_terminal.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		int var5 = (this.width - this.xSize) / 2;
 		int var6 = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);

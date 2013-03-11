@@ -34,11 +34,6 @@ public class ICBM
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
 	/**
-	 * Some texture file directory references.
-	 */
-	public static final String TEXTURE_FILE_PATH = "/icbm/textures/";
-
-	/**
 	 * The block ID in which ICBM starts with.
 	 */
 	public static final int BLOCK_ID_PREFIX = 3880;

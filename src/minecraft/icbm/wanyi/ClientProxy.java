@@ -22,8 +22,8 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void preInit()
 	{
-		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_TEXTURE_FILE);
-		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
+		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_PATH);
+		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_PATH);
 		MinecraftForgeClient.preloadTexture(ZhuYao.TRACKER_TEXTURE_FILE);
 
 		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
@@ -34,7 +34,7 @@ public class ClientProxy extends CommonProxy
 	{
 		super.init();
 		RenderingRegistry.registerBlockHandler(new RBYinXing());
-		TextureFXManager.instance().addAnimation(new FXGenZhongQi(FMLClientHandler.instance().getClient()));
+		TextureFXManager.instance().addAnimation(new TextureGenZhongQi(FMLClientHandler.instance().getClient()));
 	}
 
 	@Override

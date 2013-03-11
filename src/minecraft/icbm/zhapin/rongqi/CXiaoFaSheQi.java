@@ -7,7 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import universalelectricity.prefab.SlotElectricItem;
+import universalelectricity.core.item.IItemElectric;
 import universalelectricity.prefab.SlotSpecific;
 
 public class CXiaoFaSheQi extends Container
@@ -20,7 +20,7 @@ public class CXiaoFaSheQi extends Container
 		// Missile Slot
 		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 151, 23, new ItemStack(ZhuYaoZhaPin.itDaoDan)));
 		// Battery Slot
-		this.addSlotToContainer(new SlotElectricItem(tileEntity, 1, 151, 47));
+		this.addSlotToContainer(new SlotSpecific(tileEntity, 1, 151, 47, IItemElectric.class));
 
 		int var3;
 

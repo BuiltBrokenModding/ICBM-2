@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.zhapin.jiqi.TLeiDaTai;
 import icbm.zhapin.muoxing.jiqi.MLeiDa;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -21,7 +21,7 @@ public class RLeiDaTai extends TileEntitySpecialRenderer
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		this.bindTextureByName(ICBM.TEXTURE_FILE_PATH + TEXTURE_FILE);
+		this.bindTextureByName(ZhuYao.TEXTURE_PATH + TEXTURE_FILE);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		MODEL.render(tileEntity.xuanZhuan, 0.0625F);
 		GL11.glPopMatrix();

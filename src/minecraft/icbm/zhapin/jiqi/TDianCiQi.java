@@ -1,8 +1,8 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
-import icbm.core.TIC2Storable;
 import icbm.core.ZhuYao;
+import icbm.core.di.TIC2Storable;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;

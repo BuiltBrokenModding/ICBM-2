@@ -1,6 +1,6 @@
 package icbm.wanyi.gui;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.wanyi.TYinGanQi;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.client.gui.GuiButton;
@@ -8,8 +8,8 @@ import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.core.electricity.ElectricInfo;
-import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
+import universalelectricity.core.electricity.ElectricityDisplay;
+import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.network.PacketManager;
@@ -45,7 +45,7 @@ public class GYinGanQi extends GuiBase
 	{
 		super.initGui();
 
-		this.controlList.clear();
+		this.buttonList.clear();
 
 		String mode = "All";
 
@@ -58,7 +58,7 @@ public class GYinGanQi extends GuiBase
 			mode = "Mobs";
 		}
 
-		this.controlList.add(new GuiButton(0, this.width / 2 - 15, this.height / 2 + 32, 45, 20, mode));
+		this.buttonList.add(new GuiButton(0, this.width / 2 - 15, this.height / 2 + 32, 45, 20, mode));
 
 		this.textFieldFreq = new GuiTextField(fontRenderer, 75, 100, 40, 12);
 		this.textFieldFreq.setMaxStringLength(4);
@@ -246,7 +246,7 @@ public class GYinGanQi extends GuiBase
 		}
 
 		this.fontRenderer.drawString(color + "Status: " + status, 12, 138, 4210752);
-		this.fontRenderer.drawString(ElectricInfo.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT) + " " + ElectricInfo.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 12, 150, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT) + " " + ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 12, 150, 4210752);
 	}
 
 	/**
@@ -255,9 +255,9 @@ public class GYinGanQi extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_empty.png");
+		this.mc.renderEngine.func_98187_b(ZhuYao.GUI_PATH + "gui_empty.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		containerWidth = (this.width - this.xSize) / 2;
 		containerHeight = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);
@@ -279,7 +279,7 @@ public class GYinGanQi extends GuiBase
 			mode = "Mobs";
 		}
 
-		((GuiButton) this.controlList.get(0)).displayString = mode;
+		((GuiButton) this.buttonList.get(0)).displayString = mode;
 
 		if (!this.textFieldminX.isFocused())
 			this.textFieldminX.setText(this.tileEntity.minCoord.intX() + "");

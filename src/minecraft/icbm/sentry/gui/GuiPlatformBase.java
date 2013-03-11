@@ -41,15 +41,15 @@ public abstract class GuiPlatformBase extends GuiBase
 	public void initGui()
 	{
 		super.initGui();
-		this.controlList.clear();
+		this.buttonList.clear();
 		// Terminal
-		this.controlList.add(new GuiButtonImage(0, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 0, 3));
+		this.buttonList.add(new GuiButtonImage(0, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 0, 3));
 		// Access
-		this.controlList.add(new GuiButtonImage(1, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 22, 0));
+		this.buttonList.add(new GuiButtonImage(1, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 22, 0));
 		// Protection
-		this.controlList.add(new GuiButtonImage(2, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 44, 1));
+		this.buttonList.add(new GuiButtonImage(2, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 44, 1));
 		// Ammunition
-		this.controlList.add(new GuiButtonImage(3, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 66, 2));
+		this.buttonList.add(new GuiButtonImage(3, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 66, 2));
 		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMSentry.CHANNEL, this.tileEntity, PacketType.GUI_EVENT.ordinal(), true));
 	}
 
@@ -110,19 +110,19 @@ public abstract class GuiPlatformBase extends GuiBase
 		/**
 		 * Render Tool Tips
 		 */
-		if (((GuiButtonImage) this.controlList.get(0)).isIntersect(x, y))
+		if (((GuiButtonImage) this.buttonList.get(0)).isIntersect(x, y))
 		{
 			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Terminal");
 		}
-		else if (((GuiButtonImage) this.controlList.get(1)).isIntersect(x, y))
+		else if (((GuiButtonImage) this.buttonList.get(1)).isIntersect(x, y))
 		{
 			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Access");
 		}
-		else if (((GuiButtonImage) this.controlList.get(2)).isIntersect(x, y))
+		else if (((GuiButtonImage) this.buttonList.get(2)).isIntersect(x, y))
 		{
 			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection");
 		}
-		else if (((GuiButtonImage) this.controlList.get(3)).isIntersect(x, y))
+		else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y))
 		{
 			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
 		}
@@ -134,9 +134,9 @@ public abstract class GuiPlatformBase extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + "gui_base.png");
+		this.mc.renderEngine.func_98187_b(ICBMSentry.GUI_PATH + "gui_base.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		int containerWidth = (this.width - this.xSize) / 2;
 		int containerHeight = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);

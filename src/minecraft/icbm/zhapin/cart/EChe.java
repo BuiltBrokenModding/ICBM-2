@@ -37,7 +37,7 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 
 	public EChe(World par1World, double x, double y, double z, int explosiveID)
 	{
-		super(par1World, x, y, z, 3);
+		super(par1World, x, y, z);
 		this.haoMa = explosiveID;
 		this.yinXin = Math.max(ZhaPin.list[explosiveID].getYinXin(), 60);
 	}
@@ -183,16 +183,9 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	}
 
 	@Override
-	public List<ItemStack> getItemsDropped()
+	public ItemStack getCartItem()
 	{
-		List<ItemStack> items = new ArrayList<ItemStack>();
-
-		if (!this.isPrimed)
-		{
-			items.add(new ItemStack(ZhuYaoZhaPin.itChe, 1, this.haoMa));
-		}
-
-		return items;
+		return new ItemStack(ZhuYaoZhaPin.itChe, 1, this.haoMa);
 	}
 
 	@Override
@@ -217,5 +210,11 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	public IExplosive getExplosiveType()
 	{
 		return ZhaPin.list[this.haoMa];
+	}
+
+	@Override
+	public int func_94087_l()
+	{
+		return 0;
 	}
 }

@@ -2,25 +2,21 @@ package icbm.wanyi;
 
 import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;
+import icbm.core.di.ItICBM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItYao extends Item
+public class ItYao extends ItICBM
 {
-	public ItYao(int par1, int par2)
+	public ItYao(int id)
 	{
-		super(par1);
-		this.setIconIndex(par2);
-		this.setItemName("antidote");
-		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		super(id, "antidote");
 	}
 
 	@Override
-	public ItemStack onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
 		par1ItemStack.stackSize--;
 

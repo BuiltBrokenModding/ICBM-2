@@ -1,25 +1,19 @@
 package icbm.core;
 
 import icbm.api.ICBMTab;
+import icbm.core.di.BICBM;
 
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
 
-public class BLiu extends ICBMBlock
+public class BLiu extends BICBM
 {
 	public BLiu(int id)
 	{
-		super(id, 10, Material.rock);
-		this.setBlockName("sulfurOre");
+		super(id, "oreSulfur", Material.rock);
 		this.setHardness(3.0f);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-	}
-
-	@Override
-	public int getBlockTextureFromSide(int side)
-	{
-		return this.blockIndexInTexture;
 	}
 
 	@Override

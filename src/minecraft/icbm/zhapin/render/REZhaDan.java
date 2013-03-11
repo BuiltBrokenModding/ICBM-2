@@ -68,7 +68,7 @@ public class REZhaDan extends Render
 			}
 
 			var10 = (1.0F - ((float) entityExplosive.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
-			this.loadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
+			this.loadTexture(ZhuYao.BLOCK_PATH);
 			this.blockRenderer.renderBlockAsItem(ZhuYaoZhaPin.bZhaDan, entityExplosive.haoMa, entityExplosive.getBrightness(par9));
 
 			if (entityExplosive.fuse / 5 % 2 == 0)

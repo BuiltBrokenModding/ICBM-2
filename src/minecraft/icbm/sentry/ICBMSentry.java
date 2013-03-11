@@ -55,6 +55,7 @@ public class ICBMSentry
 {
 	public static final String NAME = ICBM.NAME + "|Sentry";
 	public static final String CHANNEL = ICBM.NAME;
+	public static final String PREFIX = "icbmsentry:";
 
 	@SidedProxy(clientSide = "icbm.sentry.ClientProxy", serverSide = "icbm.sentry.CommonProxy")
 	public static CommonProxy proxy;
@@ -83,27 +84,30 @@ public class ICBMSentry
 
 	public static final String DIRECTORY_NO_SLASH = "icbm/sentry/";
 	public static final String DIRECTORY = "/" + DIRECTORY_NO_SLASH;
-	public static final String TEXTURE_PATH = DIRECTORY + "textures/";
-	public static final String BLOCK_TEXTURE_PATH = TEXTURE_PATH + "blocks.png";
-	public static final String ITEM_TEXTURE_PATH = TEXTURE_PATH + "items.png";
+
+	public static final String RESOURCE_PATH = "/mods/icbmsentry/";
+	public static final String TEXTURE_PATH = RESOURCE_PATH + "textures/";
+	public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
+	public static final String ITEM_PATH = TEXTURE_PATH + "items/";
+	public static final String GUI_PATH = TEXTURE_PATH + "gui/";
+	public static final String MOEDL_PATH = TEXTURE_PATH + "models/";
 
 	public static final String FLAG_RAILGUN = FlagRegistry.registerFlag("ban_railgun");
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		UniversalElectricity.register(this, 1, 2, 6, false);
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
 		ICBM.CONFIGURATION.load();
 
-		blockTurret = new BlockTurret(Integer.parseInt(ICBM.CONFIGURATION.get(Configuration.CATEGORY_BLOCK, "Turret", BLOCK_ID_PREFIX).value));
-		blockPlatform = new BlockTurretPlatform(Integer.parseInt(ICBM.CONFIGURATION.get(Configuration.CATEGORY_BLOCK, "Platform", BLOCK_ID_PREFIX + 1).value));
+		blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
+		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 		blockFake = new BlockMulti(ICBM.CONFIGURATION.getBlock("Sentry Multiblock", BLOCK_ID_PREFIX + 2).getInt());
 
-		itemAmmo = new ItemAmmo(Integer.parseInt(ICBM.CONFIGURATION.get(Configuration.CATEGORY_ITEM, "Ammunition", ITEM_ID_PREFIX + 1).value), 0);
+		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
 		ICBM.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);

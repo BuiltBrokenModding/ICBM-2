@@ -1,4 +1,4 @@
-package icbm.core;
+package icbm.core.di;
 
 import ic2.api.Direction;
 import ic2.api.energy.event.EnergyTileLoadEvent;

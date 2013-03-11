@@ -1,8 +1,8 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.ICBMTab;
-import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
+import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TFaSheQi;
@@ -16,22 +16,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiDaQiang extends ItIC2ElectricItem
+public class ItLeiDaQiang extends ItElectricICBM
 {
 	public static final int YONG_DIAN_LIANG = 1000;
 	public static final int JU_LI = 1000;
 
-	public ItLeiDaQiang(int par1, int par2)
+	public ItLeiDaQiang(int id)
 	{
-		super(par1);
-		this.iconIndex = par2;
-		this.setItemName("radarGun");
-		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		super(id, "radarGun");
 	}
 
 	/**
@@ -51,7 +48,7 @@ public class ItLeiDaQiang extends ItIC2ElectricItem
 	 * world, entityPlayer
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onItemRightClick(ItemStack itemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
 		if (par2World.isRemote)
 		{
@@ -66,9 +63,10 @@ public class ItLeiDaQiang extends ItIC2ElectricItem
 				if (!(tileEntity instanceof TFaSheQi))
 				{
 					// Check for electricity
-					if (this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
+					if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
 					{
 						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, (int) ZhaPinPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+						this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
 						par3EntityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ);
 					}
 					else
@@ -79,7 +77,7 @@ public class ItLeiDaQiang extends ItIC2ElectricItem
 			}
 		}
 
-		return par1ItemStack;
+		return itemStack;
 	}
 
 	/**
@@ -172,13 +170,13 @@ public class ItLeiDaQiang extends ItIC2ElectricItem
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage(ItemStack itemStack)
 	{
 		return 20;
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules(ItemStack itemStack)
 	{
 		return 80000;
 	}

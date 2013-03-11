@@ -10,9 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import universalelectricity.core.implement.IDisableable;
-import universalelectricity.core.implement.IJouleStorage;
+import universalelectricity.core.block.IElectricityStorage;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.implement.IDisableable;
 import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 public class ExDianCiWave extends ZhaPin
@@ -63,9 +63,9 @@ public class ExDianCiWave extends ZhaPin
 						}
 						else if (tileEntity != null)
 						{
-							if (tileEntity instanceof IJouleStorage)
+							if (tileEntity instanceof IElectricityStorage)
 							{
-								((IJouleStorage) tileEntity).setJoules(0);
+								((IElectricityStorage) tileEntity).setJoules(0);
 							}
 
 							if (tileEntity instanceof IDisableable)

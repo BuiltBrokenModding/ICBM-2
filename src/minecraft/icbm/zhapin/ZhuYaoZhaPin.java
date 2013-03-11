@@ -18,9 +18,6 @@ import icbm.zhapin.dianqi.ItYaoKong;
 import icbm.zhapin.jiqi.BJiQi;
 import icbm.zhapin.jiqi.BJiQi.JiQi;
 import icbm.zhapin.jiqi.IBJiQi;
-import icbm.zhapin.po.PChuanRanDu;
-import icbm.zhapin.po.PDaDu;
-import icbm.zhapin.po.PDongShang;
 import icbm.zhapin.zhapin.BZhaDan;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
@@ -52,12 +49,12 @@ import net.minecraftforge.liquids.LiquidContainerRegistry;
 import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import universalelectricity.core.item.ElectricItemHelper;
+import universalelectricity.core.item.ItemElectric;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.flag.FlagRegistry;
 import universalelectricity.prefab.multiblock.BlockMulti;
-import atomicscience.api.PoisonRadiation;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
@@ -121,7 +118,7 @@ public class ZhuYaoZhaPin
 
 		ICBM.CONFIGURATION.load();
 
-		bZhaDan = new BZhaDan(ICBM.CONFIGURATION.getBlock("BlockID3", ICBM.BLOCK_ID_PREFIX + 3).getInt(), 16);
+		bZhaDan = new BZhaDan(ICBM.CONFIGURATION.getBlock("BlockID3", ICBM.BLOCK_ID_PREFIX + 3).getInt());
 		bJiQi = new BJiQi(ICBM.CONFIGURATION.getBlock("BlockID4", ICBM.BLOCK_ID_PREFIX + 4).getInt());
 		bJia = new BlockMulti(ICBM.CONFIGURATION.getBlock("BlockID6", ICBM.BLOCK_ID_PREFIX + 6).getInt());
 
@@ -129,10 +126,10 @@ public class ZhuYaoZhaPin
 		itDaoDan = new ItDaoDan(ICBM.CONFIGURATION.getItem("ItemID4", ICBM.ITEM_ID_PREFIX + 3).getInt(), 32);
 		itTeBieDaoDan = new ItTeBieDaoDan(ICBM.CONFIGURATION.getItem("ItemID5", ICBM.ITEM_ID_PREFIX + 4).getInt(), 32);
 
-		itJieJa = new ItJieJa(ICBM.CONFIGURATION.getItem("ItemID6", ICBM.ITEM_ID_PREFIX + 5).getInt(), 5);
-		itLeiDaQiang = new ItLeiDaQiang(ICBM.CONFIGURATION.getItem("ItemID7", ICBM.ITEM_ID_PREFIX + 6).getInt(), 3);
-		itYaoKong = new ItYaoKong(ICBM.CONFIGURATION.getItem("ItemID8", ICBM.ITEM_ID_PREFIX + 7).getInt(), 4);
-		itLeiSheZhiBiao = new ItLeiSheZhiBiao(ICBM.CONFIGURATION.getItem("ItemID9", ICBM.ITEM_ID_PREFIX + 8).getInt(), 6);
+		itJieJa = new ItJieJa(ICBM.CONFIGURATION.getItem("ItemID6", ICBM.ITEM_ID_PREFIX + 5).getInt());
+		itLeiDaQiang = new ItLeiDaQiang(ICBM.CONFIGURATION.getItem("ItemID7", ICBM.ITEM_ID_PREFIX + 6).getInt());
+		itYaoKong = new ItYaoKong(ICBM.CONFIGURATION.getItem("ItemID8", ICBM.ITEM_ID_PREFIX + 7).getInt());
+		itLeiSheZhiBiao = new ItLeiSheZhiBiao(ICBM.CONFIGURATION.getItem("ItemID9", ICBM.ITEM_ID_PREFIX + 8).getInt());
 		itFaSheQi = new ItFaSheQi(ICBM.CONFIGURATION.getItem("ItemID12", ICBM.ITEM_ID_PREFIX + 11).getInt());
 
 		itShouLiuDan = new ItShouLiuDan(ICBM.CONFIGURATION.getItem("ItemID13", ICBM.ITEM_ID_PREFIX + 12).getInt(), 64);
@@ -263,7 +260,7 @@ public class ZhuYaoZhaPin
 		// Remote
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itYaoKong), new Object[] { "?@@", "@#$", "@@@", '@', "ingotSteel", '?', Item.redstone, '#', "advancedCircuit", '$', Block.stoneButton }));
 		// Laser Designator
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itLeiSheZhiBiao), new Object[] { "!  ", " ? ", "  @", '@', ZhuYaoZhaPin.itYaoKong.getUncharged(), '?', "eliteCircuit", '!', ZhuYaoZhaPin.itLeiDaQiang.getUncharged() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itLeiSheZhiBiao), new Object[] { "!  ", " ? ", "  @", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itYaoKong), '?', "eliteCircuit", '!', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang) }));
 		// Defuser
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itJieJa), new Object[] { "I  ", " W ", "  C", 'C', "advancedCircuit", 'W', "wrench", 'I', "copperWire" }));
 		// Missile Launcher Platform
@@ -279,7 +276,7 @@ public class ZhuYaoZhaPin
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 7), new Object[] { "! !", "!@!", "! !", '!', "ingotSteel", '@', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 6) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8), new Object[] { "! !", "!@!", "! !", '!', "plateSteel", '@', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 7) }));
 		// Radar Station
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ZhuYaoZhaPin.itLeiDaQiang.getUncharged(), '!', "plateSteel", '#', "basicCircuit", '?', Item.ingotGold }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang), '!', "plateSteel", '#', "basicCircuit", '?', Item.ingotGold }));
 		// EMP Tower
 		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor", 'W', "copperWire" }), "EMP Tower", ICBM.CONFIGURATION, true);
 		// Cruise Launcher
@@ -373,12 +370,6 @@ public class ZhuYaoZhaPin
 		EntityRegistry.registerModEntity(ESuiPian.class, "ICBMFragment", ENTITY_ID_PREFIX + 5, this, 40, 8, true);
 		EntityRegistry.registerModEntity(EShouLiuDan.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EChe.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
-
-		// Register potion effects
-		PoisonRadiation.register();
-		PDaDu.INSTANCE.register();
-		PChuanRanDu.INSTANCE.register();
-		PDongShang.INSTANCE.register();
 
 		this.proxy.init();
 	}

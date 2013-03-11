@@ -30,7 +30,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 	{
 		if (modelID == ID)
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.BLOCK_TEXTURE_FILE));
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.BLOCK_PATH));
 
 			this.renderNormalBlock(block, metadata, renderer);
 		}
@@ -150,7 +150,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 						}
 						else
 						{
-							ForgeHooksClient.bindTexture(ZhuYao.BLOCK_TEXTURE_FILE, 0);
+							ForgeHooksClient.bindTexture(ZhuYao.BLOCK_PATH, 0);
 							callBack.renderFace(renderBlocks, block, x, y, z, texture);
 						}
 					}

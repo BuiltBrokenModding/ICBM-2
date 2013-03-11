@@ -9,11 +9,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ICBMRenderBlocks extends RenderBlocks
+public class RBICBM extends RenderBlocks
 {
 	private boolean didSetBrightness = false;
 
-	public ICBMRenderBlocks(IBlockAccess iBlockAccess)
+	public RBICBM(IBlockAccess iBlockAccess)
 	{
 		super(iBlockAccess);
 	}

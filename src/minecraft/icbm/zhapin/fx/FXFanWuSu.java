@@ -1,6 +1,6 @@
 package icbm.zhapin.fx;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.World;
@@ -59,7 +59,7 @@ public class FXFanWuSu extends EntityFX
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 1);
 
-		ForgeHooksClient.bindTexture(ICBM.TEXTURE_FILE_PATH + "antimatter.png", 0);
+		ForgeHooksClient.bindTexture(ZhuYao.TEXTURE_PATH + "antimatter.png", 0);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 
@@ -84,7 +84,7 @@ public class FXFanWuSu extends EntityFX
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
-		GL11.glBindTexture(3553, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "antimatter.png"));
+		GL11.glBindTexture(3553, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_PATH + "antimatter.png"));
 
 		tessellator.startDrawingQuads();
 	}

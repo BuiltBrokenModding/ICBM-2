@@ -1,16 +1,24 @@
-package atomicscience.api;
+package atomicscience.api.poison;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import universalelectricity.prefab.potion.CustomPotion;
+import atomicscience.api.AtomicScience;
 
 public class PotionRadiation extends CustomPotion
 {
-	public static final PotionRadiation INSTANCE = new PotionRadiation(20, true, 5149489, "Radiation");
+	public static final PotionRadiation INSTANCE;
+
+	static
+	{
+		AtomicScience.CONFIGURATION.load();
+		INSTANCE = new PotionRadiation(20, true, 5149489, "radiation");
+		AtomicScience.CONFIGURATION.save();
+	}
 
 	public PotionRadiation(int id, boolean isBadEffect, int color, String name)
 	{
-		super(id, isBadEffect, color, name);
+		super(AtomicScience.CONFIGURATION.get("Potion", name + " potion ID", id).getInt(id), isBadEffect, color, name);
 		this.setIconIndex(6, 0);
 	}
 

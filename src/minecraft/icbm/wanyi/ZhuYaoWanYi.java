@@ -8,7 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.prefab.ItemElectric;
+import universalelectricity.core.item.ElectricItemHelper;
+import universalelectricity.core.item.ItemElectric;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -58,13 +59,13 @@ public class ZhuYaoWanYi
 		// Blocks
 		bBuoLiPan = new BBuoLiPan(ICBM.CONFIGURATION.getBlock("BlockID2", ICBM.BLOCK_ID_PREFIX + 1).getInt());
 		bBuoLiEnNiu = new BEnNiu(ICBM.CONFIGURATION.getBlock("BlockID7", ICBM.BLOCK_ID_PREFIX + 2).getInt());
-		bYinGanQi = new BYinGanQi(ICBM.CONFIGURATION.getBlock("BlockID5", ICBM.BLOCK_ID_PREFIX + 5).getInt(), 7);
-		bZha = new BZha(ICBM.CONFIGURATION.getBlock("BlockID8", ICBM.BLOCK_ID_PREFIX + 7).getInt(), 1);
+		bYinGanQi = new BYinGanQi(ICBM.CONFIGURATION.getBlock("BlockID5", ICBM.BLOCK_ID_PREFIX + 5).getInt());
+		bZha = new BZha(ICBM.CONFIGURATION.getBlock("BlockID8", ICBM.BLOCK_ID_PREFIX + 7).getInt());
 		bYinXing = new BYinXing(ICBM.CONFIGURATION.getBlock("BlockID9", ICBM.BLOCK_ID_PREFIX + 8).getInt(), 11);
 
 		// ITEMS
-		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt(), 2);
-		itHuoLaunQi = new ItHuoLuanQi(ICBM.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt(), 7);
+		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
+		itHuoLaunQi = new ItHuoLuanQi(ICBM.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
 		itGenZongQi = new ItGenZongQi(ICBM.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
 		ICBM.CONFIGURATION.save();
@@ -106,7 +107,7 @@ public class ZhuYaoWanYi
 		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
 
 		// Proximity Detector
-		GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', "ingotSteel", '?', itGenZongQi.getUncharged() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', "ingotSteel", '?', ElectricItemHelper.getUncharged(itGenZongQi) }));
 
 		// Signal Disrupter
 		GameRegistry.addRecipe(new ShapedOreRecipe(itHuoLaunQi, new Object[] { "WWW", "SCS", "SSS", 'S', "ingotSteel", 'C', "basicCircuit", 'W', "copperWire" }));

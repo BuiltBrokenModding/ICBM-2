@@ -1,8 +1,8 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.ICBMTab;
-import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
+import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.TZhaDan;
@@ -17,21 +17,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItYaoKong extends ItIC2ElectricItem
+public class ItYaoKong extends ItElectricICBM
 {
 	public static final int BAN_JING = 100;
 	public static final int YONG_DIAN_LIANG = 1500;
 
-	public ItYaoKong(int par1, int par2)
+	public ItYaoKong(int id)
 	{
-		super(par1);
-		this.iconIndex = par2;
-		this.setItemName("remoteDetonator");
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		super(id, "remoteDetonator");
 	}
 
 	@Override
@@ -51,12 +49,6 @@ public class ItYaoKong extends ItIC2ElectricItem
 		}
 	}
 
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
-	}
-
 	/**
 	 * Lock the remote to an explosive if it exists.
 	 */
@@ -74,7 +66,7 @@ public class ItYaoKong extends ItIC2ElectricItem
 				{
 
 					this.setSavedCoords(itemStack, new Vector3(x, y, z));
-					this.onUse(YONG_DIAN_LIANG, itemStack);
+					this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
 					if (world.isRemote)
 					{
 						entityPlayer.addChatMessage("Remote Locked to: X:" + x + ", Y:" + y + ", Z:" + z);
@@ -199,13 +191,13 @@ public class ItYaoKong extends ItIC2ElectricItem
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage(ItemStack itemStack)
 	{
 		return 20;
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules(ItemStack itemStack)
 	{
 		return 50000;
 	}

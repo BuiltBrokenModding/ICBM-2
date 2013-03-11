@@ -1,8 +1,8 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.ICBMTab;
-import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
+import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -20,16 +21,13 @@ import universalelectricity.core.vector.Vector3;
  * 
  */
 
-public class ItFaSheQi extends ItIC2ElectricItem
+public class ItFaSheQi extends ItElectricICBM
 {
 	private static final int YONG_DIAN_LIANG = 5000;
 
 	public ItFaSheQi(int par1)
 	{
-		super(par1);
-		this.setItemName("launcher");
-		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		super(par1, "rocketLauncher");
 	}
 
 	@Override
@@ -80,8 +78,8 @@ public class ItFaSheQi extends ItIC2ElectricItem
 										{
 											player.inventory.setInventorySlotContents(i, null);
 										}
-
-										this.onUse(YONG_DIAN_LIANG, itemStack);
+										
+										this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
 
 										return itemStack;
 									}
@@ -102,13 +100,13 @@ public class ItFaSheQi extends ItIC2ElectricItem
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage(ItemStack itemStack)
 	{
 		return 25;
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules(ItemStack itemStack)
 	{
 		return 100000;
 	}

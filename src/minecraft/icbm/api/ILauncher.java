@@ -1,7 +1,7 @@
 package icbm.api;
 
 import net.minecraft.item.ItemStack;
-import universalelectricity.core.implement.IJouleStorage;
+import universalelectricity.core.block.IElectricityStorage;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 
@@ -10,7 +10,7 @@ import universalelectricity.prefab.implement.IRedstoneReceptor;
  * 
  * @author Calclavia
  */
-public interface ILauncher extends IJouleStorage, IRedstoneReceptor, IBlockFrequency
+public interface ILauncher extends IElectricityStorage, IRedstoneReceptor, IBlockFrequency
 {
 	/**
 	 * What type of launcher is this?

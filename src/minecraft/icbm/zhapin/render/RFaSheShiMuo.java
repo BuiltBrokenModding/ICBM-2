@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.zhapin.jiqi.TFaSheShiMuo;
 import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo0;
 import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo1;
@@ -28,7 +28,7 @@ public class RFaSheShiMuo extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
 
-		String textureFile = ICBM.TEXTURE_FILE_PATH + "Launcher" + tileEntity.getTier() + ".png";
+		String textureFile = ZhuYao.TEXTURE_PATH + "Launcher" + tileEntity.getTier() + ".png";
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.BlockMachine;
 import universalelectricity.prefab.TranslationHelper;
+import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.implement.IRotatable;
@@ -30,11 +30,13 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BJiQi extends BlockMachine
+public class BJiQi extends BlockAdvanced
 {
 	public enum JiQi
 	{
-		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class), LeiDaTai(TLeiDaTai.class), DianCiQi(TDianCiQi.class), XiaoFaSheQi(TXiaoFaSheQi.class), YinDaoQi(TYinDaoQi.class);
+		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class),
+		LeiDaTai(TLeiDaTai.class), DianCiQi(TDianCiQi.class), XiaoFaSheQi(TXiaoFaSheQi.class),
+		YinDaoQi(TYinDaoQi.class);
 
 		public Class<? extends TileEntity> tileEntity;
 
@@ -56,37 +58,39 @@ public class BJiQi extends BlockMachine
 
 	public BJiQi(int id)
 	{
-		super("ICBM Machine", id, UniversalElectricity.machine, ICBMTab.INSTANCE);
+		super(id, UniversalElectricity.machine);
+		this.setUnlocalizedName("icbmMachine");
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	/**
 	 * Is this block powering the block on the specified side
 	 */
 	@Override
-	public boolean isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+	public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 		if (tileEntity instanceof IRedstoneProvider)
 		{
-			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side));
+			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side)) ? 15 : 0;
 		}
 
-		return false;
+		return 0;
 	}
 
 	/**
 	 * Is this block indirectly powering the block on the specified side
 	 */
 	@Override
-	public boolean isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+	public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 		if (tileEntity instanceof IRedstoneProvider)
 		{
-			return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side));
+			return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side)) ? 15 : 0;
 		}
 
-		return false;
+		return 0;
 	}
 
 	/**
@@ -107,11 +111,11 @@ public class BJiQi extends BlockMachine
 	/**
 	 * Called when the block is placed in the world.
 	 */
-	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving par5EntityLiving)
 	{
 		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity instanceof IRotatable)
 		{
@@ -120,16 +124,16 @@ public class BJiQi extends BlockMachine
 			switch (angle)
 			{
 				case 0:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(3));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(3));
 					break;
 				case 1:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(4));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(4));
 					break;
 				case 2:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(2));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(2));
 					break;
 				case 3:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(5));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(5));
 					break;
 			}
 		}
@@ -155,17 +159,17 @@ public class BJiQi extends BlockMachine
 				{
 					return world.getBlockId(x, y, z) == 0 &&
 					// Left
-							world.getBlockId(x + 1, y, z) == 0 && world.getBlockId(x + 1, y + 1, z) == 0 && world.getBlockId(x + 1, y + 2, z) == 0 &&
-							// Right
-							world.getBlockId(x - 1, y, z) == 0 && world.getBlockId(x - 1, y + 1, z) == 0 && world.getBlockId(x - 1, y + 2, z) == 0;
+					world.getBlockId(x + 1, y, z) == 0 && world.getBlockId(x + 1, y + 1, z) == 0 && world.getBlockId(x + 1, y + 2, z) == 0 &&
+					// Right
+					world.getBlockId(x - 1, y, z) == 0 && world.getBlockId(x - 1, y + 1, z) == 0 && world.getBlockId(x - 1, y + 2, z) == 0;
 				}
 				else if (direction == 1 || direction == 3)
 				{
 					return world.getBlockId(x, y, z) == 0 &&
 					// Front
-							world.getBlockId(x, y, z + 1) == 0 && world.getBlockId(x, y + 1, z + 1) == 0 && world.getBlockId(x, y + 2, z + 1) == 0 &&
-							// Back
-							world.getBlockId(x, y, z - 1) == 0 && world.getBlockId(x, y + 1, z - 1) == 0 && world.getBlockId(x, y + 2, z - 1) == 0;
+					world.getBlockId(x, y, z + 1) == 0 && world.getBlockId(x, y + 1, z + 1) == 0 && world.getBlockId(x, y + 2, z + 1) == 0 &&
+					// Back
+					world.getBlockId(x, y, z - 1) == 0 && world.getBlockId(x, y + 1, z - 1) == 0 && world.getBlockId(x, y + 2, z - 1) == 0;
 				}
 			}
 			case 2:
@@ -194,7 +198,7 @@ public class BJiQi extends BlockMachine
 
 		if (tileEntity instanceof IRotatable)
 		{
-			direction = ((IRotatable) tileEntity).getDirection().ordinal();
+			direction = ((IRotatable) tileEntity).getDirection(world, x, y, z).ordinal();
 		}
 
 		return canBePlacedAt(world, x, y, z, world.getBlockMetadata(x, y, z), direction);
@@ -307,7 +311,7 @@ public class BJiQi extends BlockMachine
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World var1, int metadata)
+	public TileEntity createTileEntity(World var1, int metadata)
 	{
 		if (JiQi.get(metadata) != null)
 		{

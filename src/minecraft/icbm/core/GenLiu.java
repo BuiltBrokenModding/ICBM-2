@@ -60,9 +60,9 @@ public class GenLiu extends OreGenReplace
 		{
 			Block block = Block.blocksList[world.getBlockId(x, y, z)];
 
-			if (block != null && block.isGenMineableReplaceable(world, x, y, z))
+			if (block != null && block.isGenMineableReplaceable(world, x, y, z, this.oreID))
 			{
-				world.setBlockAndMetadata(x, y, z, this.oreID, this.oreMeta);
+				world.setBlockAndMetadataWithNotify(x, y, z, this.oreID, this.oreMeta, 2);
 			}
 
 			ForgeDirection dir = ForgeDirection.values()[rand.nextInt(6)];

@@ -1,23 +1,26 @@
 package icbm.sentry.turret;
 
-import icbm.api.ICBMTab;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.ItemSentryBase;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemAmmo extends Item
+public class ItemAmmo extends ItemSentryBase
 {
-	public ItemAmmo(int id, int texture)
+	public static final List<Icon> ICONS = new ArrayList<Icon>();
+	public static final String[] TYPES = { "bulletShell", "bullet", "bulletRailgun", "bulletAntimatter" };
+
+	public ItemAmmo(int id)
 	{
-		super(id);
-		this.setIconIndex(texture);
-		this.setItemName("ammo");
-		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ICBMSentry.ITEM_TEXTURE_PATH);
+		super(id, "ammunition");
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}
@@ -29,21 +32,31 @@ public class ItemAmmo extends Item
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack)
+	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return this.getItemName() + "." + itemstack.getItemDamage();
+		return "item." + TYPES[itemStack.getItemDamage()];
 	}
 
 	@Override
-	public int getIconFromDamage(int i)
+	public Icon getIconFromDamage(int i)
 	{
-		return this.iconIndex + i;
+		return ICONS.get(i);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void func_94581_a(IconRegister iconRegister)
+	{
+		for (String type : TYPES)
+		{
+			ICONS.add(iconRegister.func_94245_a(ICBMSentry.PREFIX + type));
+		}
 	}
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < TYPES.length; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}

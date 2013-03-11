@@ -1,6 +1,6 @@
 package icbm.core;
 
-import icbm.api.ICBMTab;
+import icbm.core.di.ItElectricICBM;
 
 import java.util.List;
 
@@ -9,21 +9,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import universalelectricity.core.electricity.ElectricityPack;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItGenZongQi extends ItIC2ElectricItem
+public class ItGenZongQi extends ItElectricICBM
 {
 	private static final float YONG_DIAN_LIANG = 0.05f;
 
 	public ItGenZongQi(int id)
 	{
-		super(id);
-		this.setIconIndex(0);
-		this.setItemName("tracker");
-		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.TRACKER_TEXTURE_FILE);
+		super(id, "tracker");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -74,9 +71,9 @@ public class ItGenZongQi extends ItIC2ElectricItem
 	}
 
 	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+	public void onUpdate(ItemStack itemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
-		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+		super.onUpdate(itemStack, par2World, par3Entity, par4, par5);
 
 		if (par3Entity instanceof EntityPlayer)
 		{
@@ -86,15 +83,15 @@ public class ItGenZongQi extends ItIC2ElectricItem
 			{
 				if (player.inventory.getCurrentItem().itemID == this.itemID)
 				{
-					Entity trackingEntity = ItGenZongQi.getTrackingEntity(par2World, par1ItemStack);
+					Entity trackingEntity = ItGenZongQi.getTrackingEntity(par2World, itemStack);
 
 					if (trackingEntity != null)
 					{
-						this.onUse(YONG_DIAN_LIANG, par1ItemStack);
+						this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getVoltage(itemStack)), itemStack);
 
-						if (this.getJoules(par1ItemStack) < YONG_DIAN_LIANG)
+						if (this.getJoules(itemStack) < YONG_DIAN_LIANG)
 						{
-							this.setTrackingEntity(par1ItemStack, null);
+							this.setTrackingEntity(itemStack, null);
 						}
 					}
 				}
@@ -131,13 +128,13 @@ public class ItGenZongQi extends ItIC2ElectricItem
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage(ItemStack itemStack)
 	{
 		return 20;
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules(ItemStack itemStack)
 	{
 		return 100000;
 	}

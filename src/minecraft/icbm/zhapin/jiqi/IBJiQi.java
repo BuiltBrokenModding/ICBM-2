@@ -14,7 +14,6 @@ public class IBJiQi extends ItemBlock
 	public IBJiQi(int id)
 	{
 		super(id);
-		this.setIconIndex(48);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}
@@ -25,31 +24,16 @@ public class IBJiQi extends ItemBlock
 		return damage;
 	}
 
-	/**
-	 * Gets an icon index based on an item's damage value
-	 */
 	@Override
-	public int getIconFromDamage(int par1)
+	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return this.iconIndex + par1;
+		return this.getUnlocalizedName() + "." + itemstack.getItemDamage();
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack)
-	{
-		return this.getItemName() + "." + itemstack.getItemDamage();
-	}
-
-	@Override
-	public String getItemName()
+	public String getUnlocalizedName()
 	{
 		return "icbm.machine";
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 
 	@Override
@@ -80,7 +64,7 @@ public class IBJiQi extends ItemBlock
 		{
 			Block var9 = Block.blocksList[this.getBlockID()];
 
-			if (world.setBlockAndMetadataWithNotify(x, y, z, this.getBlockID(), jiQiMetadata))
+			if (world.setBlockAndMetadataWithNotify(x, y, z, this.getBlockID(), jiQiMetadata, 3))
 			{
 				if (world.getBlockId(x, y, z) == this.getBlockID())
 				{
@@ -105,7 +89,7 @@ public class IBJiQi extends ItemBlock
 						}
 					}
 
-					Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, entityPlayer);
+					Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, entityPlayer, itemStack);
 				}
 
 				return true;

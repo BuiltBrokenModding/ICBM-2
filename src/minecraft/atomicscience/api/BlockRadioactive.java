@@ -5,12 +5,17 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
+import atomicscience.api.poison.PoisonRadiation;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockRadioactive extends Block
 {
@@ -20,28 +25,34 @@ public class BlockRadioactive extends Block
 	public int amplifier = 2;
 	public boolean canWalkPoison = true;
 
-	public BlockRadioactive(int id, int texture, Material material)
-	{
-		super(id, texture, material);
-		this.setTickRandomly(true);
-	}
+	private Icon iconTop;
+	private Icon iconBottom;
 
-	public BlockRadioactive(int id, int texture, String textureFile)
+	public BlockRadioactive(int id, Material material)
 	{
-		this(id, texture, Material.ground);
+		super(id, material);
+		this.setTickRandomly(true);
 		this.setHardness(0.2F);
 		this.setLightValue(0.1F);
-		this.setBlockName("radioactive");
-		this.setTextureFile(textureFile);
 	}
 
-	/**
-	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
-	 */
-	@Override
-	public int getBlockTextureFromSide(int side)
+	public BlockRadioactive(int id)
 	{
-		return side == 1 ? this.blockIndexInTexture : (side == 0 ? this.blockIndexInTexture + 2 : this.blockIndexInTexture + 1);
+		this(id, Material.rock);
+	}
+
+	@Override
+	public Icon getBlockTextureFromSideAndMetadata(int side, int metadata)
+	{
+		return side == 1 ? this.iconTop : (side == 0 ? iconBottom : this.field_94336_cN);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void func_94332_a(IconRegister iconRegister)
+	{
+		super.func_94332_a(iconRegister);
+		this.iconTop = iconRegister.func_94245_a(this.func_94330_A() + "_top");
+		this.iconBottom = iconRegister.func_94245_a(this.func_94330_A() + "_bottom");
 	}
 
 	@Override
@@ -80,13 +91,13 @@ public class BlockRadioactive extends Block
 
 					if (rand.nextFloat() > 0.4 && (world.getBlockId(newX, newY, newZ) == Block.tilledField.blockID || world.getBlockId(newX, newY, newZ) == Block.grass.blockID))
 					{
-						world.setBlockWithNotify(newX, newY, newZ, this.blockID);
+						world.setBlockMetadataWithNotify(newX, newY, newZ, this.blockID, 2);
 					}
 				}
 
 				if (rand.nextFloat() > 0.85)
 				{
-					world.setBlockWithNotify(x, y, z, Block.mycelium.blockID);
+					world.setBlockMetadataWithNotify(x, y, z, Block.mycelium.blockID, 2);
 				}
 			}
 		}

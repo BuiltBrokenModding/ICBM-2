@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.zhapin.jiqi.TFaSheJia;
 import icbm.zhapin.muoxing.jiqi.MFaSheJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -27,7 +27,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.25F, (float) d2 + 0.5F);
 		GL11.glScalef(1f, 0.85f, 1f);
 
-		String textureFile = ICBM.TEXTURE_FILE_PATH + TEXTURE_FILE;
+		String textureFile = ZhuYao.TEXTURE_PATH + TEXTURE_FILE;
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import universalelectricity.core.item.ItemElectric;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.ItemElectric;
 import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;

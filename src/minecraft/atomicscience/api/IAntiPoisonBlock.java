@@ -1,6 +1,7 @@
 package atomicscience.api;
 
 import net.minecraft.world.World;
+import atomicscience.api.poison.Poison;
 
 public interface IAntiPoisonBlock
 {

@@ -1,6 +1,6 @@
 package icbm.zhapin.gui;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TDianCiQi;
 import net.minecraft.client.gui.GuiButton;
@@ -8,8 +8,8 @@ import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.core.electricity.ElectricInfo;
-import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
+import universalelectricity.core.electricity.ElectricityDisplay;
+import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -34,11 +34,11 @@ public class GDianCiQi extends GuiBase
 	public void initGui()
 	{
 		super.initGui();
-		this.controlList.clear();
+		this.buttonList.clear();
 
-		this.controlList.add(new GuiButton(0, this.width / 2 - 77, this.height / 2 - 10, 50, 20, "Missiles"));
-		this.controlList.add(new GuiButton(1, this.width / 2 - 25, this.height / 2 - 10, 65, 20, "Electricity"));
-		this.controlList.add(new GuiButton(2, this.width / 2 + 43, this.height / 2 - 10, 35, 20, "Both"));
+		this.buttonList.add(new GuiButton(0, this.width / 2 - 77, this.height / 2 - 10, 50, 20, "Missiles"));
+		this.buttonList.add(new GuiButton(1, this.width / 2 - 25, this.height / 2 - 10, 65, 20, "Electricity"));
+		this.buttonList.add(new GuiButton(2, this.width / 2 + 43, this.height / 2 - 10, 35, 20, "Both"));
 
 		this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 30, 12);
 		this.textFieldBanJing.setMaxStringLength(3);
@@ -154,7 +154,7 @@ public class GDianCiQi extends GuiBase
 
 		this.fontRenderer.drawString(color + "Status: " + status, 12, 120, 4210752);
 		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 12, 135, 4210752);
-		this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 12, 150, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 12, 150, 4210752);
 	}
 
 	/**
@@ -163,9 +163,9 @@ public class GDianCiQi extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_empty.png");
+		this.mc.renderEngine.func_98187_b(ZhuYao.TEXTURE_PATH + "gui_empty.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		containerWidth = (this.width - this.xSize) / 2;
 		containerHeight = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);

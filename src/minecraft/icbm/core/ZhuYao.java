@@ -1,7 +1,7 @@
 package icbm.core;
 
 import icbm.api.ICBM;
-import icbm.api.ICBMTab;
+import icbm.core.di.ItICBM;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -15,10 +15,8 @@ import net.minecraftforge.event.world.WorldEvent.Save;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
-import universalelectricity.prefab.UpdateNotifier;
 import universalelectricity.prefab.flag.CommandFlag;
 import universalelectricity.prefab.flag.FlagRegistry;
 import universalelectricity.prefab.flag.ModFlag;
@@ -46,27 +44,23 @@ public class ZhuYao
 
 	public static boolean ZAI_KUAI;
 
-	/**
-	 * Ores
-	 */
 	public static Block bLiu, bFuShe;
 
-	/**
-	 * Items
-	 */
 	public static Item itLiu, itDu;
 
 	public static OreGenBase liuGenData;
 
-	public static final String SMINE_TEXTURE = ICBM.TEXTURE_FILE_PATH + "S-Mine.png";
+	public static final String PREFIX = "icbm:";
 
-	public static final String BLOCK_TEXTURE_FILE = ICBM.TEXTURE_FILE_PATH + "blocks.png";
+	public static final String RESOURCE_PATH = "/mods/icbm/";
+	public static final String TEXTURE_PATH = RESOURCE_PATH + "textures/";
+	public static final String GUI_PATH = TEXTURE_PATH + "gui/";
+	public static final String MODEL_PATH = TEXTURE_PATH + "models/";
+	public static final String SMINE_TEXTURE = MODEL_PATH + "S-Mine.png";
+	public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
+	public static final String ITEM_PATH = TEXTURE_PATH + "items/";
 
-	public static final String ITEM_TEXTURE_FILE = ICBM.TEXTURE_FILE_PATH + "items.png";
-
-	public static final String TRACKER_TEXTURE_FILE = ICBM.TEXTURE_FILE_PATH + "tracker.png";
-
-	public static final String YU_YAN_PATH = "/icbm/yuyan/";
+	public static final String YU_YAN_PATH = RESOURCE_PATH + "yuyan/";
 
 	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
 
@@ -89,7 +83,6 @@ public class ZhuYao
 	{
 		if (!isInitialized)
 		{
-			UniversalElectricity.register(this, 1, 2, 6, false);
 			MinecraftForge.EVENT_BUS.register(this);
 
 			System.out.println(ICBM.NAME + " Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
@@ -101,8 +94,8 @@ public class ZhuYao
 			// BLOCKS
 			bLiu = new BLiu(ICBM.CONFIGURATION.getBlock("BlockID1", ICBM.BLOCK_ID_PREFIX + 0).getInt());
 
-			itDu = new Item(ICBM.CONFIGURATION.getItem("ItemID2", ICBM.ITEM_ID_PREFIX + 0).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ZhuYao.ITEM_TEXTURE_FILE).setItemName("poisonPowder").setIconIndex(0);
-			itLiu = new Item(ICBM.CONFIGURATION.getItem("ItemID1", ICBM.ITEM_ID_PREFIX + 1).getInt()).setCreativeTab(ICBMTab.INSTANCE).setTextureFile(ZhuYao.ITEM_TEXTURE_FILE).setItemName("sulfur").setIconIndex(1);
+			itDu = new ItICBM(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
+			itLiu = new ItICBM(ICBM.ITEM_ID_PREFIX + 1, "sulfur");
 
 			// -- Registering Blocks
 			GameRegistry.registerBlock(bLiu, "bLiu");
@@ -119,7 +112,7 @@ public class ZhuYao
 			}
 			else
 			{
-				bFuShe = new BlockRadioactive(ICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt(), 4, ZhuYao.BLOCK_TEXTURE_FILE);
+				bFuShe = new BlockRadioactive(ICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive");
 				GameRegistry.registerBlock(bFuShe, "Radioactive");
 				OreDictionary.registerOre("blockRadioactive", bFuShe);
 				System.out.println(ICBM.NAME + " cannot find radioactive block in ore dictionary. Creating one.");
@@ -130,12 +123,13 @@ public class ZhuYao
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);
 
-			UpdateNotifier.INSTANCE.checkUpdate(ICBM.NAME, ICBM.VERSION, "http://calclavia.com/downloads/icbm/recommendedversion.txt");
+			// TODO: SHEDAR MOD UPDATER
+			// UpdateNotifier.INSTANCE.checkUpdate(ICBM.NAME, ICBM.VERSION,
+			// "http://calclavia.com/downloads/icbm/recommendedversion.txt");
 
 			/**
 			 * LOAD.
 			 */
-
 			// Sulfur
 			GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4), 0.8f);
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));

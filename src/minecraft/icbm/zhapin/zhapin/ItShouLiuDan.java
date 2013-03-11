@@ -24,7 +24,7 @@ public class ItShouLiuDan extends Item
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.ITEM_PATH);
 	}
 
 	/**

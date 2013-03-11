@@ -4,31 +4,31 @@ import icbm.api.ICBMTab;
 import icbm.api.explosion.IEMPBlock;
 import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYao;
+import icbm.core.di.BICBM;
 import icbm.wanyi.render.RBYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.BlockMachine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BYinXing extends BlockMachine implements IEMPBlock
+public class BYinXing extends BICBM implements IEMPBlock
 {
 	public BYinXing(int id, int texture)
 	{
-		super("camouflage", id, Material.cloth);
-		this.blockIndexInTexture = texture;
+		super(id, "camouflage", Material.cloth);
 		this.setHardness(0.3F);
 		this.setResistance(1F);
 		this.setStepSound(this.soundClothFootstep);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.BLOCK_PATH);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class BYinXing extends BlockMachine implements IEMPBlock
 	 * side
 	 */
 	@Override
-	public int getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+	public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
 		TileEntity t = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
@@ -61,7 +61,7 @@ public class BYinXing extends BlockMachine implements IEMPBlock
 
 				if (tileEntity.getQing(ForgeDirection.getOrientation(side)))
 				{
-					return Block.glass.blockIndexInTexture;
+					return Block.glass.getBlockTextureFromSide(side);
 				}
 
 				Block block = Block.blocksList[tileEntity.getJiaHaoMa()];
@@ -80,7 +80,7 @@ public class BYinXing extends BlockMachine implements IEMPBlock
 			}
 		}
 
-		return this.blockIndexInTexture;
+		return this.field_94336_cN;
 	}
 
 	@Override

@@ -1,23 +1,28 @@
-package icbm.core;
+package icbm.core.di;
 
 import ic2.api.ICustomElectricItem;
+import icbm.api.ICBM;
+import icbm.api.ICBMTab;
+import icbm.core.ZhuYao;
 import net.minecraft.item.ItemStack;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.prefab.ItemElectric;
+import universalelectricity.core.item.ItemElectric;
 
-public abstract class ItIC2ElectricItem extends ItemElectric implements ICustomElectricItem
+public abstract class ItElectricICBM extends ItemElectric implements ICustomElectricItem
 {
 	public static final float CHARGE_RATE = 0.005f;
 
-	public ItIC2ElectricItem(int id)
+	public ItElectricICBM(int id, String name)
 	{
-		super(id);
+		super(ICBM.CONFIGURATION.getItem(name, id).getInt());
+		this.setUnlocalizedName(ZhuYao.PREFIX + name);
+		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	@Override
 	public boolean canProvideEnergy()
 	{
-		return this.canProduceElectricity();
+		return false;
 	}
 
 	@Override
@@ -35,7 +40,7 @@ public abstract class ItIC2ElectricItem extends ItemElectric implements ICustomE
 	@Override
 	public int getMaxCharge()
 	{
-		return (int) (this.getMaxJoules() * UniversalElectricity.TO_IC2_RATIO);
+		return (int) (this.getMaxJoules(null) * UniversalElectricity.TO_IC2_RATIO);
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public abstract class ItIC2ElectricItem extends ItemElectric implements ICustomE
 	@Override
 	public int getTransferLimit()
 	{
-		return (int) ((this.getMaxJoules() * CHARGE_RATE) * UniversalElectricity.TO_IC2_RATIO);
+		return (int) ((this.getMaxJoules(null) * CHARGE_RATE) * UniversalElectricity.TO_IC2_RATIO);
 	}
 
 	@Override

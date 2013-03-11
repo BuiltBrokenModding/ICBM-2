@@ -1,6 +1,7 @@
 package icbm.sentry.turret;
 
 import icbm.api.ICBMTab;
+import icbm.sentry.BlockSentryBase;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.render.BlockRenderingHandler;
 
@@ -19,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.BlockMachine;
+import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.multiblock.IBlockActivate;
@@ -34,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Calclavia
  * 
  */
-public class BlockTurret extends BlockMachine
+public class BlockTurret extends BlockSentryBase
 {
 	public enum TurretType
 	{
@@ -50,8 +51,7 @@ public class BlockTurret extends BlockMachine
 
 	public BlockTurret(int par1)
 	{
-		super(par1, UniversalElectricity.machine);
-		this.setBlockName("turret");
+		super(par1, "turret", UniversalElectricity.machine);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setHardness(50f);
 		this.setResistance(100f);
@@ -70,11 +70,11 @@ public class BlockTurret extends BlockMachine
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLiving par5EntityLiving)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving par5EntityLiving, ItemStack itemStack)
 	{
 		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity instanceof IRotatable)
 		{
@@ -83,16 +83,16 @@ public class BlockTurret extends BlockMachine
 			switch (angle)
 			{
 				case 0:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(3));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(3));
 					break;
 				case 1:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(4));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(4));
 					break;
 				case 2:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(2));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(2));
 					break;
 				case 3:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(5));
+					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(5));
 					break;
 			}
 		}
@@ -120,9 +120,9 @@ public class BlockTurret extends BlockMachine
 		int id = world.getBlockId(x, y - 1, z);
 		Block block = Block.blocksList[id];
 
-		if (block instanceof BlockMachine)
+		if (block instanceof BlockAdvanced)
 		{
-			return ((BlockMachine) block).onMachineActivated(world, x, y - 1, z, entityPlayer, side, hitX, hitY, hitZ);
+			return ((BlockAdvanced) block).onMachineActivated(world, x, y - 1, z, entityPlayer, side, hitX, hitY, hitZ);
 		}
 
 		return false;
@@ -156,7 +156,7 @@ public class BlockTurret extends BlockMachine
 			}
 
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			world.setBlockWithNotify(x, y, z, 0);
+			world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class BlockTurret extends BlockMachine
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta)
+	public TileEntity createTileEntity(World world, int meta)
 	{
 		if (meta < TurretType.values().length)
 		{

@@ -1,16 +1,16 @@
-package atomicscience.api;
+package atomicscience.api.poison;
 
 import java.util.EnumSet;
 
 import net.minecraft.entity.EntityLiving;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.UEDamageSource;
+import universalelectricity.prefab.CustomDamageSource;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 
 public class PoisonRadiation extends Poison
 {
-	public static final Poison INSTANCE = new PoisonRadiation("Radiation", 0);
-	public static final UEDamageSource damageSource = (UEDamageSource) new UEDamageSource("radiation", "%1$s died from radiation.").setDamageBypassesArmor();
+	public static final Poison INSTANCE = new PoisonRadiation("radiation", 0);
+	public static final CustomDamageSource damageSource = (CustomDamageSource) new CustomDamageSource("radiation").setDamageBypassesArmor();
 	public static boolean disabled = false;
 
 	public PoisonRadiation(String name, int id)
@@ -34,10 +34,5 @@ public class PoisonRadiation extends Poison
 				entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 20 * 20 * (amplifier + 1), amplifier, null));
 			}
 		}
-	}
-
-	public static void register()
-	{
-		PotionRadiation.INSTANCE.register();
 	}
 }

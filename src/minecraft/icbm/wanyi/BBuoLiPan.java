@@ -8,23 +8,24 @@ import java.util.Random;
 import net.minecraft.block.BlockPressurePlate;
 import net.minecraft.block.EnumMobType;
 import net.minecraft.block.material.Material;
+import net.minecraft.world.World;
 
 public class BBuoLiPan extends BlockPressurePlate
 {
 	public BBuoLiPan(int id)
 	{
-		super(id, 0, EnumMobType.everything, Material.glass);
+		super(id, ZhuYao.PREFIX + "glassPressurePlate", Material.glass, EnumMobType.everything);
 		this.setTickRandomly(true);
 		this.setResistance(1F);
 		this.setHardness(0.3F);
 		this.setStepSound(soundGlassFootstep);
-		this.setBlockName("glassPressurePlate");
+		this.setUnlocalizedName("glassPressurePlate");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.BLOCK_PATH);
 	}
 
 	@Override
-	public int tickRate()
+	public int tickRate(World world)
 	{
 		return 10;
 	}

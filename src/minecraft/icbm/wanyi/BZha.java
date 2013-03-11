@@ -1,12 +1,16 @@
 package icbm.wanyi;
 
 import icbm.api.ICBMTab;
-import icbm.core.ICBMBlock;
+import icbm.core.di.BICBM;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -15,17 +19,28 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BZha extends ICBMBlock
+public class BZha extends BICBM
 {
-	public BZha(int par1, int par2)
+	private Icon iconPoison, iconFlammable;
+
+	public BZha(int id)
 	{
-		super(par1, par2, Material.cactus);
+		super(id, "spikes", Material.cactus);
 		this.setHardness(1.0F);
-		this.setBlockName("Zha");
 		this.setCreativeTab(ICBMTab.INSTANCE);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void func_94332_a(IconRegister iconRegister)
+	{
+		super.func_94332_a(iconRegister);
+		this.iconPoison = iconRegister.func_94245_a(this.func_94330_A() + "Poison");
+		this.iconFlammable = iconRegister.func_94245_a(this.func_94330_A() + "Flammable");
 	}
 
 	/**
@@ -51,9 +66,18 @@ public class BZha extends ICBMBlock
 	 * Returns the block texture based on the side being looked at. Args: side
 	 */
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int par1, int metadata)
+	public Icon getBlockTextureFromSideAndMetadata(int par1, int metadata)
 	{
-		return this.blockIndexInTexture + metadata;
+		if (metadata == 2)
+		{
+			return this.iconPoison;
+		}
+		else if (metadata == 1)
+		{
+			return this.iconFlammable;
+		}
+
+		return this.field_94336_cN;
 	}
 
 	/**
@@ -116,7 +140,7 @@ public class BZha extends ICBMBlock
 		if (!this.canBlockStay(par1World, par2, par3, par4))
 		{
 			this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockWithNotify(par2, par3, par4, 0);
+			par1World.setBlockAndMetadataWithNotify(par2, par3, par4, 0, 0, 2);
 		}
 	}
 

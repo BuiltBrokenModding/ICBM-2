@@ -17,7 +17,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.implement.IItemElectric;
+import universalelectricity.core.item.IItemElectric;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;

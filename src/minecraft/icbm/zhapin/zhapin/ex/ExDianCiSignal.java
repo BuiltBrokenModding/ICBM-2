@@ -15,7 +15,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import universalelectricity.core.implement.IItemElectric;
+import universalelectricity.core.item.IItemElectric;
 import universalelectricity.core.vector.Vector3;
 
 public class ExDianCiSignal extends ZhaPin

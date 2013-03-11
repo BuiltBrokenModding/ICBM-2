@@ -1,6 +1,6 @@
 package icbm.zhapin.gui;
 
-import icbm.api.ICBM;
+import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.rongqi.CXiaoFaSheQi;
@@ -11,8 +11,8 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.core.electricity.ElectricInfo;
-import universalelectricity.core.electricity.ElectricInfo.ElectricUnit;
+import universalelectricity.core.electricity.ElectricityDisplay;
+import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -127,7 +127,7 @@ public class GXiaoFaSheQi extends GuiContainer
 
 		this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50, 4210752);
 		this.fontRenderer.drawString(this.tileEntity.getVoltage() + "v", 70, 60, 4210752);
-		this.fontRenderer.drawString(ElectricInfo.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricInfo.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 70, 70, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 70, 70, 4210752);
 
 		this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
@@ -138,9 +138,9 @@ public class GXiaoFaSheQi extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ICBM.TEXTURE_FILE_PATH + "gui_cruise_launcher.png");
+		this.mc.renderEngine.func_98187_b(ZhuYao.GUI_PATH + "gui_cruise_launcher.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		containerWidth = (this.width - this.xSize) / 2;
 		containerHeight = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);

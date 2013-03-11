@@ -1,35 +1,31 @@
 package icbm.wanyi;
 
-import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;
+import icbm.core.di.BICBM;
 
 import java.util.ArrayList;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.prefab.BlockMachine;
-import universalelectricity.prefab.implement.IRedstoneProvider;
 
-public class BYinGanQi extends BlockMachine
+public class BYinGanQi extends BICBM
 {
-	public BYinGanQi(int id, int texture)
+	public BYinGanQi(int id)
 	{
-		super("proximityDetector", id, UniversalElectricity.machine, ICBMTab.INSTANCE);
-		this.blockIndexInTexture = texture;
+		super(id, "proximityDetector", UniversalElectricity.machine);
 	}
 
 	/**
 	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int side, int par2)
+	public Icon getBlockTextureFromSideAndMetadata(int side, int metadata)
 	{
-		return side == 0 ? this.blockIndexInTexture : (side == 1 ? this.blockIndexInTexture + 1 : this.blockIndexInTexture + 2);
+		return side == 0 ? this.iconBottom : (side == 1 ? this.iconTop : this.iconSide);
 	}
 
 	@Override
@@ -48,38 +44,6 @@ public class BYinGanQi extends BlockMachine
 		{
 			((TYinGanQi) tileEntity).isInverted = !((TYinGanQi) tileEntity).isInverted;
 			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Is this block powering the block on the specified side
-	 */
-	@Override
-	public boolean isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
-	{
-		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
-
-		if (tileEntity instanceof IRedstoneProvider)
-		{
-			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side));
-		}
-
-		return false;
-	}
-
-	/**
-	 * Is this block indirectly powering the block on the specified side
-	 */
-	@Override
-	public boolean isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
-	{
-		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
-
-		if (tileEntity instanceof IRedstoneProvider)
-		{
-			return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side));
 		}
 
 		return false;
@@ -116,6 +80,6 @@ public class BYinGanQi extends BlockMachine
 	@Override
 	public String getTextureFile()
 	{
-		return ZhuYao.BLOCK_TEXTURE_FILE;
+		return ZhuYao.BLOCK_PATH;
 	}
 }

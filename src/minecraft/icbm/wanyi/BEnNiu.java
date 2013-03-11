@@ -11,12 +11,11 @@ public class BEnNiu extends BlockButton
 {
 	public BEnNiu(int id)
 	{
-		super(id, 0, true);
+		super(id, true);
 		this.setTickRandomly(true);
-		this.setBlockName("glassButton");
+		this.setUnlocalizedName("glassButton");
 		this.setStepSound(soundGlassFootstep);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.BLOCK_TEXTURE_FILE);
 	}
 
 	@Override

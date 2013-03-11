@@ -2,10 +2,12 @@ package icbm.wanyi;
 
 import icbm.api.ICBMTab;
 import icbm.api.IItemFrequency;
-import icbm.core.ItIC2ElectricItem;
 import icbm.core.ZhuYao;
+import icbm.core.di.ItElectricICBM;
 
 import java.util.List;
+
+import universalelectricity.core.electricity.ElectricityPack;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,15 +15,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class ItHuoLuanQi extends ItIC2ElectricItem implements IItemFrequency
+public class ItHuoLuanQi extends ItElectricICBM implements IItemFrequency
 {
-	public ItHuoLuanQi(int par1, int par2)
+	public ItHuoLuanQi(int id)
 	{
-		super(par1);
-		this.iconIndex = par2;
-		this.setItemName("signalDisrupter");
-		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		super(id, "signalDisrupter");
 	}
 
 	/**
@@ -56,15 +54,15 @@ public class ItHuoLuanQi extends ItIC2ElectricItem implements IItemFrequency
 	}
 
 	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+	public void onUpdate(ItemStack itemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
 		if (!par2World.isRemote)
 		{
-			super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+			super.onUpdate(itemStack, par2World, par3Entity, par4, par5);
 
-			if (this.getJoules(par1ItemStack) > 1)
+			if (this.getJoules(itemStack) > 1)
 			{
-				this.onUse(1, par1ItemStack);
+				this.onProvide(ElectricityPack.getFromWatts(1, this.getJoules(itemStack)), itemStack);
 			}
 		}
 	}
@@ -77,20 +75,14 @@ public class ItHuoLuanQi extends ItIC2ElectricItem implements IItemFrequency
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage(ItemStack itemStack)
 	{
 		return 25;
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules(ItemStack itemStack)
 	{
 		return 80000;
-	}
-
-	@Override
-	public boolean canProduceElectricity()
-	{
-		return true;
 	}
 }

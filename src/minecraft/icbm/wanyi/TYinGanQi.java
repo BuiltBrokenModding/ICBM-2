@@ -1,6 +1,6 @@
 package icbm.wanyi;
 
-import icbm.core.TIC2Runnable;
+import icbm.core.di.TIC2Runnable;
 import icbm.zhapin.ZhuYaoZhaPin;
 
 import java.util.List;

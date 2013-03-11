@@ -20,7 +20,7 @@ public class ItDaoDan extends Item
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_TEXTURE_FILE);
+		this.setTextureFile(ZhuYao.ITEM_PATH);
 	}
 
 	@Override

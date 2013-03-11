@@ -2,7 +2,7 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.ILauncher;
 import icbm.api.LauncherType;
-import icbm.core.TIC2Storable;
+import icbm.core.di.TIC2Storable;
 import icbm.zhapin.daodan.EDaoDan;
 import net.minecraft.nbt.NBTTagCompound;
 import universalelectricity.core.vector.Vector3;

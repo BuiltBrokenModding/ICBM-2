@@ -1,9 +1,7 @@
 package icbm.zhapin.dianqi;
 
-import icbm.api.ICBMTab;
 import icbm.api.IItemFrequency;
-import icbm.core.ItIC2ElectricItem;
-import icbm.core.ZhuYao;
+import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.FaSheQiGuanLi;
@@ -26,17 +24,14 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiSheZhiBiao extends ItIC2ElectricItem implements IItemFrequency
+public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 {
 	public static final int BAN_JING = 200;
 	public static final int YONG_DIAN_LIANG = 5000;
 
-	public ItLeiSheZhiBiao(int id, int icon)
+	public ItLeiSheZhiBiao(int id)
 	{
-		super(id);
-		this.setIconIndex(icon);
-		this.setItemName("laserDesignator");
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		super(id, "laserDesignator");
 	}
 
 	/**
@@ -349,20 +344,14 @@ public class ItLeiSheZhiBiao extends ItIC2ElectricItem implements IItemFrequency
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage(ItemStack itemStack)
 	{
 		return 30;
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules(ItemStack itemStack)
 	{
 		return 60000;
-	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.ITEM_TEXTURE_FILE;
 	}
 }

@@ -122,7 +122,7 @@ public class RChe extends Render
 		}
 
 		var101 = (1.0F - ((float) minecart.yinXin - par9 + 1.0F) / 100.0F) * 0.8F;
-		this.loadTexture(ZhuYao.BLOCK_TEXTURE_FILE);
+		this.loadTexture(ZhuYao.BLOCK_PATH);
 		this.blockRenderer.renderBlockAsItem(ZhuYaoZhaPin.bZhaDan, minecart.haoMa, minecart.getBrightness(par9));
 
 		if (minecart.isPrimed() && minecart.yinXin / 5 % 2 == 0)

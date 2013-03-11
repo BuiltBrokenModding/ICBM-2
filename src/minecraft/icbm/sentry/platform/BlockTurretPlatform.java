@@ -1,46 +1,38 @@
 package icbm.sentry.platform;
 
 import icbm.api.ICBMTab;
+import icbm.sentry.BlockSentryBase;
 import icbm.sentry.CommonProxy;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.api.ISpecialAccess;
 import icbm.sentry.terminal.AccessLevel;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.prefab.BlockMachine;
 
-public class BlockTurretPlatform extends BlockMachine
+public class BlockTurretPlatform extends BlockSentryBase
 {
 	public BlockTurretPlatform(int id)
 	{
-		super(id, UniversalElectricity.machine);
-		this.setBlockName("turretPlatform");
+		super(id, "turretPlatform", UniversalElectricity.machine);
 		this.setHardness(50f);
 		this.setResistance(100f);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ICBMSentry.BLOCK_TEXTURE_PATH);
+		this.setTextureFile(ICBMSentry.BLOCK_PATH);
 	}
 
 	@Override
-	public int getBlockTextureFromSide(int side)
+	public Icon getBlockTextureFromSideAndMetadata(int side, int metadata)
 	{
-		if (side == 0)
-		{
-			return this.blockIndexInTexture;
-		}
-		else if (side == 1)
-		{
-			return this.blockIndexInTexture + 1;
-		}
-
-		return this.blockIndexInTexture + 2;
+		return side == 0 ? this.iconBottom : (side == 1 ? this.iconTop : this.iconSide);
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entity)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entity, ItemStack itemStack)
 	{
 		if (entity instanceof EntityPlayer && !world.isRemote)
 		{
