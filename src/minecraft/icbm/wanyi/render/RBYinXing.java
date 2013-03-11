@@ -23,8 +23,8 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 	{
 		if (modelID == ID)
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.BLOCK_PATH));
-			// this.renderNormalBlock(block, metadata, renderer);
+			//GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.BLOCK_PATH));
+			//renderer.renderBlockAsItem(block, metadata, 1);
 		}
 	}
 

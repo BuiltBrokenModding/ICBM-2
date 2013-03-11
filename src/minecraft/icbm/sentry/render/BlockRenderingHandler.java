@@ -38,7 +38,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				 * Render the gun turret.
 				 */
 				GL11.glTranslatef(0.1f, 1f, 0f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + RenderGunTurret.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBMSentry.MODEL_PATH + RenderGunTurret.TEXTURE_FILE));
 				RenderGunTurret.render(0, 0);
 			}
 			else if (metadata == TurretType.RAILGUN.ordinal())
@@ -49,7 +49,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				GL11.glTranslatef(0f, 0.9f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBMSentry.TEXTURE_PATH + RenderRailgun.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ICBMSentry.MODEL_PATH + RenderRailgun.TEXTURE_FILE));
 
 				RenderRailgun.MODEL.render(90, 0, 0.0625F);
 			}

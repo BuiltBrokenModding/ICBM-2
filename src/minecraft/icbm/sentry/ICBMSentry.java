@@ -88,7 +88,7 @@ public class ICBMSentry
 	public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
 	public static final String ITEM_PATH = TEXTURE_PATH + "items/";
 	public static final String GUI_PATH = TEXTURE_PATH + "gui/";
-	public static final String MOEDL_PATH = TEXTURE_PATH + "models/";
+	public static final String MODEL_PATH = TEXTURE_PATH + "models/";
 
 	public static final String FLAG_RAILGUN = FlagRegistry.registerFlag("ban_railgun");
 
@@ -128,7 +128,7 @@ public class ICBMSentry
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
-		System.out.println(NAME + " loaded: " + TranslationHelper.loadLanguages(DIRECTORY + "languages/", new String[] { "en_US" }) + " languages.");
+		System.out.println(NAME + " loaded: " + TranslationHelper.loadLanguages(RESOURCE_PATH + "languages/", new String[] { "en_US" }) + " languages.");
 
 		// Shell
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));

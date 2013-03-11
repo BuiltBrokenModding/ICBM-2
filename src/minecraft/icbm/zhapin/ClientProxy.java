@@ -59,10 +59,6 @@ public class ClientProxy extends CommonProxy
 	public void preInit()
 	{
 		TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
-
-		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_PATH);
-		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_PATH);
-
 		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
 	}
 

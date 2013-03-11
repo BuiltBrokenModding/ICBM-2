@@ -69,11 +69,11 @@ public class BZha extends BICBM
 	{
 		if (metadata == 2)
 		{
-			return this.iconPoison;
+			return this.iconFlammable;
 		}
 		else if (metadata == 1)
 		{
-			return this.iconFlammable;
+			return this.iconPoison;
 		}
 
 		return this.field_94336_cN;

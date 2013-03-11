@@ -60,17 +60,17 @@ public class RenderGunTurret extends RenderTaggedTile
 
 			if (level == AccessLevel.ADMIN)
 			{
-				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE);
+				this.bindTextureByName(ICBMSentry.MODEL_PATH + TEXTURE_FILE);
 				return;
 			}
 			else if (level.ordinal() >= AccessLevel.USER.ordinal())
 			{
-				this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE_FRIENDLY);
+				this.bindTextureByName(ICBMSentry.MODEL_PATH + TEXTURE_FILE_FRIENDLY);
 				return;
 			}
 		}
 
-		this.bindTextureByName(ICBMSentry.TEXTURE_PATH + TEXTURE_FILE_HOSTILE);
+		this.bindTextureByName(ICBMSentry.MODEL_PATH + TEXTURE_FILE_HOSTILE);
 
 	}
 }

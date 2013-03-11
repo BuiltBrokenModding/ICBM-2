@@ -54,6 +54,7 @@ public class ExHongSu extends ZhaPin
 			double dist;
 			int takenBlocks = 0;
 
+			loop:
 			for (int r = 1; r < this.getRadius(); r++)
 			{
 				for (int x = -r; x < r; x++)
@@ -90,7 +91,15 @@ public class ExHongSu extends ZhaPin
 
 							metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 
-							worldObj.setBlockAndMetadataWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, 2);
+							int notify = 2;
+
+							// TODO: CHeck if this grabs water
+							if (Block.blocksList[blockID] instanceof BlockFluid)
+							{
+								notify = 0;
+							}
+
+							worldObj.setBlockAndMetadataWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, notify);
 
 							if (Block.blocksList[blockID] instanceof BlockFluid)
 								continue;
@@ -107,16 +116,10 @@ public class ExHongSu extends ZhaPin
 
 							takenBlocks++;
 							if (takenBlocks > MAX_TAKE_BLOCKS)
-								break;
+								break loop;
 						}
-						if (takenBlocks > MAX_TAKE_BLOCKS)
-							break;
 					}
-					if (takenBlocks > MAX_TAKE_BLOCKS)
-						break;
 				}
-				if (takenBlocks > MAX_TAKE_BLOCKS)
-					break;
 			}
 		}
 

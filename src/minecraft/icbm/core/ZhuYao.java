@@ -1,5 +1,7 @@
 package icbm.core;
 
+import java.util.logging.Logger;
+
 import icbm.api.ICBM;
 import icbm.core.di.ItICBM;
 import net.minecraft.block.Block;
@@ -56,7 +58,7 @@ public class ZhuYao
 	public static final String TEXTURE_PATH = RESOURCE_PATH + "textures/";
 	public static final String GUI_PATH = TEXTURE_PATH + "gui/";
 	public static final String MODEL_PATH = TEXTURE_PATH + "models/";
-	public static final String SMINE_TEXTURE = MODEL_PATH + "S-Mine.png";
+	public static final String SMINE_TEXTURE = MODEL_PATH + "s-mine.png";
 	public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
 	public static final String ITEM_PATH = TEXTURE_PATH + "items/";
 
@@ -79,13 +81,15 @@ public class ZhuYao
 
 	private boolean isInitialized;
 
+	public static final Logger LOGGER = Logger.getLogger(ICBM.NAME);
+
 	public void init()
 	{
 		if (!isInitialized)
 		{
 			MinecraftForge.EVENT_BUS.register(this);
 
-			System.out.println(ICBM.NAME + " Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
+			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
 
 			ICBM.CONFIGURATION.load();
 			ZAI_KUAI = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
@@ -108,14 +112,14 @@ public class ZhuYao
 			if (OreDictionary.getOres("blockRadioactive").size() > 0)
 			{
 				bFuShe = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
-				System.out.println(ICBM.NAME + " detected radioative block from another mod, utilizing it.");
+				LOGGER.fine("Detected radioative block from another mod, utilizing it.");
 			}
 			else
 			{
 				bFuShe = new BlockRadioactive(ICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive");
 				GameRegistry.registerBlock(bFuShe, "Radioactive");
 				OreDictionary.registerOre("blockRadioactive", bFuShe);
-				System.out.println(ICBM.NAME + " cannot find radioactive block in ore dictionary. Creating one.");
+				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
 			}
 
 			ICBM.CONFIGURATION.save();

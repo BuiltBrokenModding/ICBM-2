@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RFaSheJia extends TileEntitySpecialRenderer
 {
 	public static final MFaSheJia MODEL = new MFaSheJia();
-	public static final String TEXTURE_FILE = "Launcher0.png";
+	public static final String TEXTURE_FILE = "launcher_0.png";
 
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)
@@ -27,7 +27,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.25F, (float) z + 0.5F);
 		GL11.glScalef(1f, 0.85f, 1f);
 
-		String textureFile = ZhuYao.TEXTURE_PATH + TEXTURE_FILE;
+		String textureFile = ZhuYao.MODEL_PATH + TEXTURE_FILE;
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

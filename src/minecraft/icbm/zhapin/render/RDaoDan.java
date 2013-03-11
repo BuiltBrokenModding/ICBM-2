@@ -84,12 +84,12 @@ public class RDaoDan extends Render
 
 		if (entityMissile.haoMa > 100)
 		{
-			this.loadTexture(ZhuYao.TEXTURE_PATH + this.specialModels[entityMissile.haoMa - 101].texture + ".png");
+			this.loadTexture(ZhuYao.MODEL_PATH + this.specialModels[entityMissile.haoMa - 101].texture + ".png");
 			this.specialModels[entityMissile.haoMa - 101].model.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{
-			this.loadTexture(ZhuYao.TEXTURE_PATH + this.models[entityMissile.haoMa].texture + ".png");
+			this.loadTexture(ZhuYao.MODEL_PATH + this.models[entityMissile.haoMa].texture + ".png");
 			this.models[entityMissile.haoMa].model.render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 

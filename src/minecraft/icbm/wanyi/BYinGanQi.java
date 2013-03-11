@@ -17,6 +17,7 @@ public class BYinGanQi extends BICBM
 	public BYinGanQi(int id)
 	{
 		super(id, "proximityDetector", UniversalElectricity.machine);
+		this.requireSidedTextures = true;
 	}
 
 	/**

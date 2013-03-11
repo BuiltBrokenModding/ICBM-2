@@ -7,13 +7,19 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.texturepacks.ITexturePack;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -197,13 +203,34 @@ public class BZhaDan extends BICBM
 		/**
 		 * Register every single texture for all explosives.
 		 */
-
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
-			this.ICON_TOP.add(iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_" + ZhaPin.list[i].getUnlocalizedName() + "_top"));
-			this.ICON_SIDE.add(iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_" + ZhaPin.list[i].getUnlocalizedName() + "_side"));
-			this.ICON_BOTTOM.add(iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_" + ZhaPin.list[i].getUnlocalizedName() + "_bottom"));
+			this.ICON_TOP.add(this.getIcon(iconRegister, i, "_top"));
+			this.ICON_SIDE.add(this.getIcon(iconRegister, i, "_side"));
+			this.ICON_BOTTOM.add(this.getIcon(iconRegister, i, "_bottom"));
 		}
+	}
+
+	public Icon getIcon(IconRegister iconRegister, int i, String suffix)
+	{
+		ITexturePack itexturepack = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
+		String iconName = "explosive_" + ZhaPin.list[i].getUnlocalizedName() + suffix;
+		String path = "/mods/" + ZhuYao.PREFIX.replace(":", "") + "/textures/blocks/" + iconName + ".png";
+		try
+		{
+			BufferedImage bufferedimage = ImageIO.read(itexturepack.getResourceAsStream(path));
+			return iconRegister.func_94245_a(ZhuYao.PREFIX + iconName);
+		}
+		catch (Exception e)
+		{
+		}
+
+		if (suffix.equals("_bottom"))
+		{
+			return iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
+		}
+
+		return iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
 	}
 
 	/**

@@ -109,7 +109,7 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public Object[] getRenderData()
 	{
-		return new Object[] { MDiLei.INSTANCE, ZhuYao.TEXTURE_PATH + "S-Mine.png" };
+		return new Object[] { MDiLei.INSTANCE, ZhuYao.MODEL_PATH + "s-mine.png" };
 	}
 
 	@Override

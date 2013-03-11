@@ -36,8 +36,6 @@ public class ClientProxy extends CommonProxy
 	public void init()
 	{
 		super.init();
-		MinecraftForgeClient.preloadTexture(ICBMSentry.BLOCK_PATH);
-		MinecraftForgeClient.preloadTexture(ICBMSentry.ITEM_PATH);
 
 		/**
 		 * TileEntities

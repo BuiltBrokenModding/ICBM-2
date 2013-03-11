@@ -5,7 +5,11 @@ import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockRail;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -51,6 +55,12 @@ public class ItChe extends ItICBM
 	public int getMetadata(int damage)
 	{
 		return damage;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void func_94581_a(IconRegister par1IconRegister)
+	{
+		this.iconIndex = par1IconRegister.func_94245_a("minecartTnt");
 	}
 
 	@Override

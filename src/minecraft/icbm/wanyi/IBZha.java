@@ -1,5 +1,6 @@
 package icbm.wanyi;
 
+import icbm.core.ZhuYao;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -13,9 +14,9 @@ public class IBZha extends ItemBlock
 	}
 
 	@Override
-	public int getMetadata(int par1)
+	public int getMetadata(int damage)
 	{
-		return par1;
+		return damage;
 	}
 
 	@Override
@@ -27,6 +28,6 @@ public class IBZha extends ItemBlock
 	@Override
 	public String getUnlocalizedName()
 	{
-		return "tile.spike";
+		return "tile." + ZhuYao.PREFIX + "spikes";
 	}
 }

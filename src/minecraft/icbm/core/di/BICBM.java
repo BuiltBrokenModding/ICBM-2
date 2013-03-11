@@ -22,6 +22,7 @@ public class BICBM extends BlockAdvanced
 {
 	private int maxMetadata = 0;
 	protected Icon iconTop, iconSide, iconBottom;
+	protected boolean requireSidedTextures = false;
 
 	public BICBM(int id, String name, Material material)
 	{
@@ -47,9 +48,11 @@ public class BICBM extends BlockAdvanced
 	public void func_94332_a(IconRegister iconRegister)
 	{
 		super.func_94332_a(iconRegister);
+		
+		if(this.requireSidedTextures ){
 		this.iconTop = iconRegister.func_94245_a(this.func_94330_A() + "_top");
 		this.iconSide = iconRegister.func_94245_a(this.func_94330_A() + "_side");
-		this.iconBottom = iconRegister.func_94245_a(this.func_94330_A() + "_bottom");
+		this.iconBottom = iconRegister.func_94245_a(this.func_94330_A() + "_bottom");}
 	}
 
 	/**

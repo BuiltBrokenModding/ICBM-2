@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 
 public class ItDaoDan extends ItICBM
 {
-	public ItDaoDan(int id)
+	public ItDaoDan(int id, String name)
 	{
-		super(id, "missile");
+		super(id, name);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);

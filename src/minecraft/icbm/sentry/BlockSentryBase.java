@@ -2,7 +2,6 @@ package icbm.sentry;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
@@ -21,7 +20,7 @@ public class BlockSentryBase extends BlockAdvanced
 	public BlockSentryBase(int id, String name, Material material)
 	{
 		super(ICBM.CONFIGURATION.getBlock(name, id).getInt(), material);
-		this.setUnlocalizedName(ZhuYao.PREFIX + name);
+		this.setUnlocalizedName(ICBMSentry.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
