@@ -338,18 +338,18 @@ public class ZhuYaoZhaPin
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i) }), ZhaPin.list[i].getName() + " Missile", ICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i) }), ZhaPin.list[i].getUnlocalizedName() + " Missile", ICBM.CONFIGURATION, true);
 
 			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getName() + " Grenade", ICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getUnlocalizedName() + " Grenade", ICBM.CONFIGURATION, true);
 			}
 
 			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getName() + " Minecart", ICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getUnlocalizedName() + " Minecart", ICBM.CONFIGURATION, true);
 			}
 		}
 

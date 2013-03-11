@@ -29,7 +29,7 @@ public class ItDaoDan extends ItICBM
 	{
 		if (itemStack.getItemDamage() < ZhaPin.list.length)
 		{
-			return this.getUnlocalizedName() + "." + ZhaPin.list[itemStack.getItemDamage()].getName();
+			return this.getUnlocalizedName() + "." + ZhaPin.list[itemStack.getItemDamage()].getUnlocalizedName();
 		}
 
 		return "";

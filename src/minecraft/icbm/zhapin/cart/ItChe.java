@@ -56,7 +56,7 @@ public class ItChe extends ItICBM
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return "icbm.minecart." + ZhaPin.list[itemstack.getItemDamage()].getName();
+		return "icbm.minecart." + ZhaPin.list[itemstack.getItemDamage()].getUnlocalizedName();
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public class RItDaoDan implements IItemRenderer
 			{
 				if (item.getItemDamage() - 1 < RDaoDan.specialModels.length)
 				{
-					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_PATH + RDaoDan.specialModels[item.getItemDamage() - 1].texture + ".png"));
+					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.TEXTURE_PATH + RDaoDan.specialModels[Math.max(item.getItemDamage() - 1, 0)].texture + ".png"));
 					RDaoDan.specialModels[item.getItemDamage() - 1].model.render(0.0625F);
 				}
 			}

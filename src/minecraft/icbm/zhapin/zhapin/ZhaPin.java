@@ -154,7 +154,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 	}
 
 	@Override
-	public String getName()
+	public String getUnlocalizedName()
 	{
 		return this.mingZi;
 	}
@@ -372,7 +372,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 	{
 		for (IExplosive explosive : list)
 		{
-			if (explosive.getName().equalsIgnoreCase(name))
+			if (explosive.getUnlocalizedName().equalsIgnoreCase(name))
 			{
 				return explosive;
 			}

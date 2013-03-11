@@ -16,7 +16,7 @@ public interface IExplosive
 	/**
 	 * @return The name key in the ICBM language file.
 	 */
-	public String getName();
+	public String getUnlocalizedName();
 
 	/**
 	 * @return Gets the specific translated name of the following versions of the explosive.

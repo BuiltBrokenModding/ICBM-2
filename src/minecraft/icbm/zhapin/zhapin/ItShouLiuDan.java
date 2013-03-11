@@ -60,7 +60,7 @@ public class ItShouLiuDan extends ItICBM
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return this.getUnlocalizedName() + "." + ZhaPin.list[itemstack.getItemDamage()].getName();
+		return this.getUnlocalizedName() + "." + ZhaPin.list[itemstack.getItemDamage()].getUnlocalizedName();
 	}
 
 	@Override

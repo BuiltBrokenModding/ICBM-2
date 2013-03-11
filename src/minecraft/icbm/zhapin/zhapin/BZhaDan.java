@@ -7,11 +7,13 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,6 +37,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BZhaDan extends BICBM
 {
+	public static final List<Icon> ICON_TOP = new ArrayList<Icon>();
+	public static final List<Icon> ICON_SIDE = new ArrayList<Icon>();
+	public static final List<Icon> ICON_BOTTOM = new ArrayList<Icon>();
+
 	public BZhaDan(int id)
 	{
 		super(id, "explosives", Material.tnt);
@@ -172,45 +178,32 @@ public class BZhaDan extends BICBM
 	@Override
 	public Icon getBlockTextureFromSideAndMetadata(int side, int explosiveID)
 	{
-		// Get the tier of the explosive and find
-		// the row of it
-		int displacement = 0;
-
-		if (ZhaPin.list[explosiveID].getTier() == 1)
+		if (side == 0)
 		{
-			displacement = -1;
+			return ICON_BOTTOM.get(explosiveID);
 		}
-		else if (ZhaPin.list[explosiveID].getTier() == 3)
+		else if (side == 1)
 		{
-			displacement = 1;
-		}
-		else if (ZhaPin.list[explosiveID].getTier() == 4)
-		{
-			displacement = 2;
+			return ICON_TOP.get(explosiveID);
 		}
 
-		int rowPrefix = 16 + 16 * (ZhaPin.list[explosiveID].getTier() + displacement);
+		return ICON_SIDE.get(explosiveID);
+	}
 
-		int columnPrefix = explosiveID;
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void func_94332_a(IconRegister iconRegister)
+	{
+		/**
+		 * Register every single texture for all explosives.
+		 */
 
-		switch (ZhaPin.list[explosiveID].getTier())
+		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
-			case 2:
-				columnPrefix -= ZhaPin.E_YI_ID;
-				break;
-			case 3:
-				columnPrefix -= ZhaPin.E_ER_ID;
-				break;
-			case 4:
-				columnPrefix -= ZhaPin.E_SAN_ID;
-				break;
+			this.ICON_TOP.add(iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_" + ZhaPin.list[i].getUnlocalizedName() + "_top"));
+			this.ICON_SIDE.add(iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_" + ZhaPin.list[i].getUnlocalizedName() + "_side"));
+			this.ICON_BOTTOM.add(iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_" + ZhaPin.list[i].getUnlocalizedName() + "_bottom"));
 		}
-
-		columnPrefix *= 3;
-
-		// TODO FIX
-		int index = side == 0 ? rowPrefix + columnPrefix : (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
-		return null;
 	}
 
 	/**
@@ -222,7 +215,6 @@ public class BZhaDan extends BICBM
 		super.onBlockAdded(par1World, x, y, z);
 
 		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
-
 		par1World.markBlockForRenderUpdate(x, y, z);
 	}
 
