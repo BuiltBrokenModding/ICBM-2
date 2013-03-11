@@ -66,12 +66,6 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	}
 
 	@Override
-	public String getName()
-	{
-		return TranslationHelper.getLocal("tile.turret.0.name");
-	}
-
-	@Override
 	public double getVoltage()
 	{
 		return 120;

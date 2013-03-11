@@ -151,7 +151,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public String getInvName()
 	{
-		return TranslationHelper.getLocal("tile.turretPlatform.name");
+		return this.getBlockType().getLocalizedName();
 	}
 
 	public boolean isRunning()
@@ -376,7 +376,6 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public boolean canConnect(ForgeDirection direction)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }

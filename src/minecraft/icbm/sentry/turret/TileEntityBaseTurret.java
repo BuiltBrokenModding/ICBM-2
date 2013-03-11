@@ -273,6 +273,12 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 	}
 
 	@Override
+	public String getName()
+	{
+		return this.getBlockType().getLocalizedName();
+	}
+
+	@Override
 	public void setRotation(float yaw, float pitch)
 	{
 		this.targetRotationYaw = yaw;

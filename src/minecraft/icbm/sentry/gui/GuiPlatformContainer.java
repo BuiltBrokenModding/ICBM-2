@@ -101,27 +101,31 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y)
 	{
-		String title = TranslationHelper.getLocal("tile.turret." + this.tileEntity.getTurret().getBlockMetadata() + ".name");
-		this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
+		if (this.tileEntity.getTurret() != null)
+		{
+			// TODO: FIX THIS
+			String title = TranslationHelper.getLocal(this.tileEntity.getTurret().getBlockType().getLocalizedName());
+			this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
 
-		/**
-		 * Render Tool Tips
-		 */
-		if (((GuiButtonImage) this.buttonList.get(0)).isIntersect(x, y))
-		{
-			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Terminal");
-		}
-		else if (((GuiButtonImage) this.buttonList.get(1)).isIntersect(x, y))
-		{
-			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Access");
-		}
-		else if (((GuiButtonImage) this.buttonList.get(2)).isIntersect(x, y))
-		{
-			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection");
-		}
-		else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y))
-		{
-			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
+			/**
+			 * Render Tool Tips
+			 */
+			if (((GuiButtonImage) this.buttonList.get(0)).isIntersect(x, y))
+			{
+				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Terminal");
+			}
+			else if (((GuiButtonImage) this.buttonList.get(1)).isIntersect(x, y))
+			{
+				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Access");
+			}
+			else if (((GuiButtonImage) this.buttonList.get(2)).isIntersect(x, y))
+			{
+				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection");
+			}
+			else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y))
+			{
+				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
+			}
 		}
 	}
 

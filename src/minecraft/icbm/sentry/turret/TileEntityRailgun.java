@@ -234,7 +234,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 				entityPlayer.mountEntity(entityFake);
 			}
 
-			mountedPlayer = entityPlayer;
+			this.mountedPlayer = entityPlayer;
 			entityPlayer.rotationYaw = 0;
 			entityPlayer.rotationPitch = 0;
 		}
@@ -370,12 +370,6 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	{
 		super.addInformation(map, player);
 		return 2;
-	}
-
-	@Override
-	public String getName()
-	{
-		return TranslationHelper.getLocal("tile.turret.1.name");
 	}
 
 	@Override

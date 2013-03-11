@@ -484,36 +484,23 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		if (this.orientation == 3 || this.orientation == 2)
 		{
 			// Left
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX() + 1, position.intY(), position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX() + 1, position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY() + 1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX() + 1, position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY() + 2, position.intZ())).setMainBlock(position);
-			// Right
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX() - 1, position.intY(), position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX() - 1, position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY() + 1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX() - 1, position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY() + 2, position.intZ())).setMainBlock(position);
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 0, 0)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 1, 0)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 2, 0)), new Vector3(this));
+
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 0, 0)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 1, 0)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 2, 0)), new Vector3(this));
 		}
 		else
 		{
-			// Left
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY(), position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ() + 1)).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ() + 1)).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 2, position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ() + 1)).setMainBlock(position);
-			// Right
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY(), position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ() - 1)).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ() - 1)).setMainBlock(position);
-			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 2, position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
-			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ() - 1)).setMainBlock(position);
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, 1)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 1)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, 1)), new Vector3(this));
+
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, -1)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, -1)), new Vector3(this));
+			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, -1)), new Vector3(this));
 		}
 	}
 
