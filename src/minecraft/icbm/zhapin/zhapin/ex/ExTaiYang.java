@@ -85,7 +85,7 @@ public class ExTaiYang extends ZhaPin
 
 							if (worldObj.rand.nextInt(3) > 0)
 							{
-								worldObj.setBlockAndMetadataWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0,0,2);
+								worldObj.setBlockAndMetadataWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, 2);
 
 								currentPos.add(0.5D);
 								EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);

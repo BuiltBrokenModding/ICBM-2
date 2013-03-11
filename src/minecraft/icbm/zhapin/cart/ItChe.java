@@ -1,6 +1,6 @@
 package icbm.zhapin.cart;
 
-import icbm.api.ICBMTab;
+import icbm.core.di.ItICBM;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
@@ -8,20 +8,17 @@ import java.util.List;
 import net.minecraft.block.BlockRail;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItChe extends Item
+public class ItChe extends ItICBM
 {
-	public ItChe(int id, int texture)
+	public ItChe(int id)
 	{
-		super(id);
+		super(id, "minecart");
 		this.setMaxStackSize(1);
-		this.setIconIndex(texture);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	/**

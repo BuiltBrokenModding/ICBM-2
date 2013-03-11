@@ -135,7 +135,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 			int j = MathHelper.floor_double(posY);
 			int k = MathHelper.floor_double(posZ);
 
-			this.worldObj.setBlockAndMetadataWithNotify(i, j, k, this.blockID, this.metadata,2);
+			this.worldObj.setBlockAndMetadataWithNotify(i, j, k, this.blockID, this.metadata, 2);
 		}
 
 		this.setDead();

@@ -680,43 +680,43 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	protected void readEntityFromNBT(NBTTagCompound nbt)
 	{
-		this.kaiShi = Vector3.readFromNBT("kaiShi", par1NBTTagCompound);
-		this.muBiao = Vector3.readFromNBT("muBiao", par1NBTTagCompound);
-		this.faSheQi = Vector3.readFromNBT("faSheQi", par1NBTTagCompound);
-		this.jiaSu = par1NBTTagCompound.getFloat("jiaSu");
-		this.baoZhaGaoDu = par1NBTTagCompound.getInteger("baoZhaGaoDu");
-		this.haoMa = par1NBTTagCompound.getInteger("haoMa");
-		this.feiXingTick = par1NBTTagCompound.getInteger("feiXingTick");
-		this.qiFeiGaoDu = par1NBTTagCompound.getDouble("qiFeiGaoDu");
-		this.xingShi = XingShi.values()[par1NBTTagCompound.getInteger("xingShi")];
+		this.kaiShi = Vector3.readFromNBT(nbt.getCompoundTag("kaiShi"));
+		this.muBiao = Vector3.readFromNBT(nbt.getCompoundTag("muBiao"));
+		this.faSheQi = Vector3.readFromNBT(nbt.getCompoundTag("faSheQi"));
+		this.jiaSu = nbt.getFloat("jiaSu");
+		this.baoZhaGaoDu = nbt.getInteger("baoZhaGaoDu");
+		this.haoMa = nbt.getInteger("haoMa");
+		this.feiXingTick = nbt.getInteger("feiXingTick");
+		this.qiFeiGaoDu = nbt.getDouble("qiFeiGaoDu");
+		this.xingShi = XingShi.values()[nbt.getInteger("xingShi")];
 	}
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	protected void writeEntityToNBT(NBTTagCompound nbt)
 	{
-		this.kaiShi.writeToNBT("kaiShi", par1NBTTagCompound);
+		nbt.setCompoundTag("kaiShi", this.kaiShi.writeToNBT(new NBTTagCompound()));
 
 		if (this.muBiao != null)
 		{
-			this.muBiao.writeToNBT("muBiao", par1NBTTagCompound);
+			nbt.setCompoundTag("muBiao", this.muBiao.writeToNBT(new NBTTagCompound()));
 		}
 
 		if (this.faSheQi != null)
 		{
-			this.faSheQi.writeToNBT("faSheQi", par1NBTTagCompound);
+			nbt.setCompoundTag("faSheQi", this.faSheQi.writeToNBT(new NBTTagCompound()));
 		}
 
-		par1NBTTagCompound.setFloat("jiaSu", this.jiaSu);
-		par1NBTTagCompound.setInteger("haoMa", this.haoMa);
-		par1NBTTagCompound.setInteger("baoZhaGaoDu", this.baoZhaGaoDu);
-		par1NBTTagCompound.setInteger("feiXingTick", this.feiXingTick);
-		par1NBTTagCompound.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);
-		par1NBTTagCompound.setInteger("xingShi", this.xingShi.ordinal());
+		nbt.setFloat("jiaSu", this.jiaSu);
+		nbt.setInteger("haoMa", this.haoMa);
+		nbt.setInteger("baoZhaGaoDu", this.baoZhaGaoDu);
+		nbt.setInteger("feiXingTick", this.feiXingTick);
+		nbt.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);
+		nbt.setInteger("xingShi", this.xingShi.ordinal());
 
 	}
 

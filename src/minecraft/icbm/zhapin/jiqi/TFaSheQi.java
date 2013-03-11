@@ -152,7 +152,7 @@ public abstract class TFaSheQi extends TIC2Storable implements ILauncher, IPerip
 	{
 		super.readFromNBT(nbt);
 		this.setFrequency(nbt.getInteger("frequency"));
-		this.muBiao = Vector3.readFromNBT("target", nbt);
+		this.muBiao = Vector3.readFromNBT(nbt.getCompoundTag("target"));
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public abstract class TFaSheQi extends TIC2Storable implements ILauncher, IPerip
 
 		if (this.muBiao != null)
 		{
-			this.muBiao.writeToNBT("target", nbt);
+			nbt.setCompoundTag("target", this.muBiao.writeToNBT(new NBTTagCompound()));
 		}
 	}
 }

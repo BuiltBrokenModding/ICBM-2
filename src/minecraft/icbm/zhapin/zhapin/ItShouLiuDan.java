@@ -1,7 +1,6 @@
 package icbm.zhapin.zhapin;
 
-import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.di.ItICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 
@@ -9,23 +8,19 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class ItShouLiuDan extends Item
+public class ItShouLiuDan extends ItICBM
 {
-	public ItShouLiuDan(int par1, int par2)
+	public ItShouLiuDan(int id)
 	{
-		super(par1);
-		this.setIconIndex(par2);
-		this.setMaxStackSize(64);
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		super(id, "grenade");
+		this.setMaxStackSize(16);
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
-		this.setTextureFile(ZhuYao.ITEM_PATH);
 	}
 
 	/**
@@ -77,7 +72,8 @@ public class ItShouLiuDan extends Item
 	@Override
 	public Icon getIconFromDamage(int i)
 	{
-		return this.iconIndex + i;
+		// TODO: FIX
+		return null;
 	}
 
 	@Override

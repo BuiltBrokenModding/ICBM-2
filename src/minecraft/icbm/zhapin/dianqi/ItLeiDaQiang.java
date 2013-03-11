@@ -1,7 +1,5 @@
 package icbm.zhapin.dianqi;
 
-import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
 import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;

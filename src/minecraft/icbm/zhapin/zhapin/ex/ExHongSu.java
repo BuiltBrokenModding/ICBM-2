@@ -90,7 +90,7 @@ public class ExHongSu extends ZhaPin
 
 							metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 
-							worldObj.setBlockAndMetadataWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0,0,2);
+							worldObj.setBlockAndMetadataWithNotify(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, 2);
 
 							if (Block.blocksList[blockID] instanceof BlockFluid)
 								continue;

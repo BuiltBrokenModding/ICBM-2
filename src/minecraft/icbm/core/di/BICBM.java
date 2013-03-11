@@ -6,9 +6,6 @@ import icbm.core.ZhuYao;
 
 import java.util.ArrayList;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.ItemStack;
@@ -18,6 +15,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.implement.IRedstoneProvider;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BICBM extends BlockAdvanced
 {

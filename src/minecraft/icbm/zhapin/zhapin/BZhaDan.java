@@ -208,7 +208,7 @@ public class BZhaDan extends BICBM
 
 		columnPrefix *= 3;
 
-		//TODO FIX
+		// TODO FIX
 		int index = side == 0 ? rowPrefix + columnPrefix : (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
 		return null;
 	}

@@ -196,32 +196,32 @@ public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacke
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		super.readFromNBT(par1NBTTagCompound);
+		super.readFromNBT(nbt);
 
-		this.mode = par1NBTTagCompound.getByte("mode");
-		this.frequency = par1NBTTagCompound.getShort("frequency");
-		this.isInverted = par1NBTTagCompound.getBoolean("isInverted");
+		this.mode = nbt.getByte("mode");
+		this.frequency = nbt.getShort("frequency");
+		this.isInverted = nbt.getBoolean("isInverted");
 
-		this.minCoord = Vector3.readFromNBT("minCoord", par1NBTTagCompound);
-		this.maxCoord = Vector3.readFromNBT("maxCoord", par1NBTTagCompound);
+		this.minCoord = Vector3.readFromNBT(nbt.getCompoundTag("minCoord"));
+		this.maxCoord = Vector3.readFromNBT(nbt.getCompoundTag("maxCoord"));
 	}
 
 	/**
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	public void writeToNBT(NBTTagCompound nbt)
 	{
-		super.writeToNBT(par1NBTTagCompound);
+		super.writeToNBT(nbt);
 
-		par1NBTTagCompound.setShort("frequency", this.frequency);
-		par1NBTTagCompound.setByte("mode", this.mode);
-		par1NBTTagCompound.setBoolean("isInverted", this.isInverted);
+		nbt.setShort("frequency", this.frequency);
+		nbt.setByte("mode", this.mode);
+		nbt.setBoolean("isInverted", this.isInverted);
 
-		this.minCoord.writeToNBT("minCoord", par1NBTTagCompound);
-		this.maxCoord.writeToNBT("maxCoord", par1NBTTagCompound);
+		nbt.setCompoundTag("minCoord", this.minCoord.writeToNBT(new NBTTagCompound()));
+		nbt.setCompoundTag("maxCoord", this.maxCoord.writeToNBT(new NBTTagCompound()));
 	}
 
 	@Override

@@ -13,6 +13,8 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.core.item.ItemElectric;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
@@ -70,7 +72,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
 					BZhaDan.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
-					((ItYaoKong) ZhuYaoZhaPin.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
+					((ItYaoKong) ZhuYaoZhaPin.itYaoKong).onProvide(ElectricityPack.getFromWatts(ItYaoKong.YONG_DIAN_LIANG, ((ItemElectric) ZhuYaoZhaPin.itYaoKong).getVoltage(itemStack)), itemStack);
 				}
 			}
 		}

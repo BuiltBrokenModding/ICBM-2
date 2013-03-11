@@ -1,7 +1,5 @@
 package icbm.zhapin.dianqi;
 
-import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
 import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.cart.EChe;
@@ -9,14 +7,13 @@ import icbm.zhapin.zhapin.EZhaDan;
 
 import java.util.Random;
 
-import universalelectricity.core.electricity.ElectricityPack;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import universalelectricity.core.electricity.ElectricityPack;
 
 //Explosive Defuser
 public class ItJieJa extends ItElectricICBM

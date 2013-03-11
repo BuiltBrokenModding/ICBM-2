@@ -116,9 +116,9 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, IT
 	@Override
 	public void onDestroy(TileEntity callingBlock)
 	{
-		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0,0,2);
-		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0,0,2);
-		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 2, this.zCoord, 0,0,2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 2, this.zCoord, 0, 0, 2);
 	}
 
 	@Override
@@ -130,9 +130,9 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, IT
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID,0,2);
+		this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID,0,2);
+		this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
 	}
 

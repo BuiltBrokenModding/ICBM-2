@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.src.ModLoader;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.client.ForgeHooksClient;
 
 import org.lwjgl.opengl.GL11;
 

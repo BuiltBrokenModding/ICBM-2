@@ -1,6 +1,5 @@
 package icbm.zhapin.jiqi;
 
-import icbm.core.ZhuYao;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;

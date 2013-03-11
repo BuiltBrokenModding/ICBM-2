@@ -7,24 +7,24 @@ import net.minecraft.item.ItemStack;
 
 public class ItTeBieDaoDan extends ItDaoDan
 {
-	public ItTeBieDaoDan(int id, int texture)
+	public ItTeBieDaoDan(int id)
 	{
-		super(id, texture);
+		super(id);
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack)
+	public String getUnlocalizedName(ItemStack itemstack)
 	{
 		if (itemstack.getItemDamage() == 0)
 		{
-			return this.getItemName() + ".missileModule";
+			return this.getUnlocalizedName() + ".missileModule";
 		}
 
-		return this.getItemName() + "." + DaoDan.list[itemstack.getItemDamage() + 100].getMingZing();
+		return this.getUnlocalizedName() + "." + DaoDan.list[itemstack.getItemDamage() + 100].getMingZing();
 	}
 
 	@Override
-	public String getItemName()
+	public String getUnlocalizedName()
 	{
 		return "icbm.missile";
 	}

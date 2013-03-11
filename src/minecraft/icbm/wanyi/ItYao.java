@@ -1,7 +1,5 @@
 package icbm.wanyi;
 
-import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
 import icbm.core.di.ItICBM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;

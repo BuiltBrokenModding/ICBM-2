@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ItemElectric;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
@@ -62,7 +63,7 @@ public class ZhaPinPacketGuanLi extends PacketManager
 					itemStack.stackTagCompound.setInteger("x", dataStream.readInt());
 					itemStack.stackTagCompound.setInteger("y", dataStream.readInt());
 					itemStack.stackTagCompound.setInteger("z", dataStream.readInt());
-					((ItemElectric) ZhuYaoZhaPin.itLeiDaQiang).onUse(ItLeiDaQiang.YONG_DIAN_LIANG, itemStack);
+					((ItemElectric) ZhuYaoZhaPin.itLeiDaQiang).onProvide(ElectricityPack.getFromWatts(ItLeiDaQiang.YONG_DIAN_LIANG, ((ItemElectric) ZhuYaoZhaPin.itLeiDaQiang).getVoltage(itemStack)), itemStack);
 				}
 			}
 			else if (icbmPacketType == ZhaPinPacketType.LASER_DESIGNATOR)
@@ -78,13 +79,13 @@ public class ZhaPinPacketGuanLi extends PacketManager
 
 					player.worldObj.spawnEntityInWorld(new EGuang(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
 
-					((ItemElectric) ZhuYaoZhaPin.itLeiDaQiang).onUse(ItLeiSheZhiBiao.YONG_DIAN_LIANG, itemStack);
+					((ItemElectric) ZhuYaoZhaPin.itLeiDaQiang).onProvide(ElectricityPack.getFromWatts(ItLeiSheZhiBiao.YONG_DIAN_LIANG, ((ItemElectric) ZhuYaoZhaPin.itLeiDaQiang).getVoltage(itemStack)), itemStack);
 				}
 			}
 			else if (icbmPacketType == ZhaPinPacketType.REMOTE)
 			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
-				((ItemElectric) ZhuYaoZhaPin.itYaoKong).onUse(ItYaoKong.YONG_DIAN_LIANG, itemStack);
+				((ItemElectric) ZhuYaoZhaPin.itYaoKong).onProvide(ElectricityPack.getFromWatts(ItYaoKong.YONG_DIAN_LIANG, ((ItemElectric) ZhuYaoZhaPin.itYaoKong).getVoltage(itemStack)), itemStack);
 			}
 		}
 		catch (Exception e)

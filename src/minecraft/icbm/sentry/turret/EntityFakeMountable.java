@@ -53,7 +53,7 @@ public class EntityFakeMountable extends Entity implements IEntityAdditionalSpaw
 			data.writeInt(this.controller.yCoord);
 			data.writeInt(this.controller.zCoord);
 		}
-		
+
 		data.writeBoolean(this.shouldSit);
 	}
 

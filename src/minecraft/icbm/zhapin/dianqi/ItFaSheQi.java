@@ -1,7 +1,5 @@
 package icbm.zhapin.dianqi;
 
-import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
 import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
@@ -78,7 +76,7 @@ public class ItFaSheQi extends ItElectricICBM
 										{
 											player.inventory.setInventorySlotContents(i, null);
 										}
-										
+
 										this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
 
 										return itemStack;
