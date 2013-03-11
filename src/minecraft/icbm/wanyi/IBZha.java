@@ -19,13 +19,13 @@ public class IBZha extends ItemBlock
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack)
+	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return this.getItemName() + "." + itemstack.getItemDamage();
+		return this.getUnlocalizedName() + "." + itemstack.getItemDamage();
 	}
 
 	@Override
-	public String getItemName()
+	public String getUnlocalizedName()
 	{
 		return "tile.spike";
 	}

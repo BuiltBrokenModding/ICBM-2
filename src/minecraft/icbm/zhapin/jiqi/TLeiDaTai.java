@@ -383,21 +383,21 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 	@Override
 	public void onDestroy(TileEntity callingBlock)
 	{
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord, this.zCoord, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
 
 		// Top 3x3
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
 
-		this.worldObj.setBlockWithNotify(this.xCoord + 1, this.yCoord + 1, this.zCoord, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord - 1, this.yCoord + 1, this.zCoord, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord + 1, this.yCoord + 1, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord - 1, this.yCoord + 1, this.zCoord, 0, 0, 2);
 
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord + 1, this.zCoord + 1, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord + 1, this.zCoord - 1, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord + 1, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord - 1, 0, 0, 2);
 
-		this.worldObj.setBlockWithNotify(this.xCoord + 1, this.yCoord + 1, this.zCoord + 1, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord - 1, this.yCoord + 1, this.zCoord - 1, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord + 1, this.yCoord + 1, this.zCoord - 1, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord - 1, this.yCoord + 1, this.zCoord + 1, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord + 1, this.yCoord + 1, this.zCoord + 1, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord - 1, this.yCoord + 1, this.zCoord - 1, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord + 1, this.yCoord + 1, this.zCoord - 1, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord - 1, this.yCoord + 1, this.zCoord + 1, 0, 0, 2);
 	}
 
 	@Override

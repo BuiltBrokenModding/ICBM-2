@@ -11,6 +11,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
@@ -298,7 +299,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage()
 	{
 		switch (this.getTier())
 		{
@@ -336,19 +337,19 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public ForgeDirection getDirection()
+	public ForgeDirection getDirection(World world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.fangXiang);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection)
+	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
 	{
 		this.fangXiang = (byte) facingDirection.ordinal();
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules()
 	{
 		switch (this.getTier())
 		{

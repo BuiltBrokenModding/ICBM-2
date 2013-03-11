@@ -130,7 +130,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage()
 	{
 		return 240;
 	}
@@ -186,8 +186,8 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	@Override
 	public void onDestroy(TileEntity callingBlock)
 	{
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord, this.zCoord, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
 	}
 
 	@Override
@@ -204,7 +204,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules()
 	{
 		return Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000);
 	}

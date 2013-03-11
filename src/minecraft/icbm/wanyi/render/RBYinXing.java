@@ -4,6 +4,7 @@ import icbm.core.ZhuYao;
 import icbm.wanyi.BYinXing;
 import icbm.wanyi.TYinXing;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -136,7 +137,7 @@ public class RBYinXing implements ISimpleBlockRenderingHandler
 				{
 					if (((TYinXing) tileEntity).getQing(direction))
 					{
-						ForgeHooksClient.bindTexture(Block.glass.getTextureFile(), 0);
+						Minecraft.getMinecraft().renderEngine.func_98187_b(Block.glass.getTextureFile());
 						callBack.renderFace(renderBlocks, block, x, y, z, texture);
 					}
 					else

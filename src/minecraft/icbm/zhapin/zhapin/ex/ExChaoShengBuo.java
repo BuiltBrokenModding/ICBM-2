@@ -54,7 +54,7 @@ public class ExChaoShengBuo extends ZhaPin
 
 							if (blockID != Block.bedrock.blockID && !(Block.blocksList[blockID] instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) > NENG_LIANG || material == Material.glass))
 							{
-								targetPosition.setBlockWithNotify(worldObj, 0);
+								targetPosition.setBlockAndMetadataWithNotify(worldObj, 0, 0, 2);
 							}
 						}
 					}
@@ -162,7 +162,7 @@ public class ExChaoShengBuo extends ZhaPin
 					}
 					else
 					{
-						worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+						worldObj.setBlockAndMetadataWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 2);
 					}
 
 					targetPosition.add(0.5D);

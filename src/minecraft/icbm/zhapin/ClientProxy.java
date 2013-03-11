@@ -4,7 +4,6 @@ import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.daodan.EDaoDan;
-import icbm.zhapin.fx.FXLeiShe;
 import icbm.zhapin.gui.GDianCiQi;
 import icbm.zhapin.gui.GFaSheDi;
 import icbm.zhapin.gui.GFaSheShiMuo;
@@ -65,7 +64,6 @@ public class ClientProxy extends CommonProxy
 
 		MinecraftForgeClient.preloadTexture(ZhuYao.ITEM_PATH);
 		MinecraftForgeClient.preloadTexture(ZhuYao.BLOCK_PATH);
-		MinecraftForgeClient.preloadTexture(ZhuYao.TRACKER_TEXTURE_FILE);
 
 		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
 	}
@@ -131,11 +129,5 @@ public class ClientProxy extends CommonProxy
 	public boolean isGaoQing()
 	{
 		return Minecraft.getMinecraft().gameSettings.fancyGraphics;
-	}
-
-	@Override
-	public void leiShe(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
-	{
-		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXLeiShe(world, position, target, red, green, blue, age));
 	}
 }

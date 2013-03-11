@@ -130,30 +130,30 @@ public class ExTaiYang2 extends ZhaPin
 
 						if (blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID || blockID == Block.ice.blockID)
 						{
-							worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0);
+							worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0, 0, 2);
 						}
 
 						if ((blockID == 0 || blockID == Block.snow.blockID) && worldObj.getBlockMaterial((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z).isSolid())
 						{
 							if (worldObj.rand.nextFloat() > 0.999)
 							{
-								worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.lavaMoving.blockID);
+								worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.lavaMoving.blockID, 0, 2);
 							}
 							else
 							{
-								worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID);
+								worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID, 0, 2);
 
 								blockID = worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z);
 
 								if (this.createNetherrack && (blockID == Block.stone.blockID || blockID == Block.grass.blockID || blockID == Block.dirt.blockID) && worldObj.rand.nextFloat() > 0.75)
 								{
-									worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z, Block.netherrack.blockID);
+									worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z, Block.netherrack.blockID, 0, 2);
 								}
 							}
 						}
 						else if (blockID == Block.ice.blockID)
 						{
-							worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0);
+							worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0, 0, 2);
 						}
 					}
 				}

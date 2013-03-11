@@ -8,6 +8,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
@@ -16,6 +17,7 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.TileEntityAdvanced;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -25,7 +27,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMultiBlock, IRotatable
+public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, ITier, IMultiBlock, IRotatable
 {
 	// The tier of this screen
 	private int tier = 0;
@@ -114,9 +116,9 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	@Override
 	public void onDestroy(TileEntity callingBlock)
 	{
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord, this.zCoord, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord + 2, this.zCoord, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0,0,2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0,0,2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 2, this.zCoord, 0,0,2);
 	}
 
 	@Override
@@ -128,20 +130,20 @@ public class TFaSheJia extends TileEntity implements IPacketReceiver, ITier, IMu
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+		this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID,0,2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+		this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID,0,2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
 	}
 
 	@Override
-	public ForgeDirection getDirection()
+	public ForgeDirection getDirection(World world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection)
+	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
 	}

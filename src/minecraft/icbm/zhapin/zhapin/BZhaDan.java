@@ -27,6 +27,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.implement.IToolConfigurator;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
@@ -107,7 +108,7 @@ public class BZhaDan extends BICBM
 			{
 				if (((TZhaDan) tileEntity).haoMa == ZhaPin.diLei.getID())
 				{
-					return AxisAlignedBB.getAABBPool().addOrModifyAABBInPool((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ);
+					return AxisAlignedBB.getAABBPool().getAABB((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ);
 				}
 			}
 		}
@@ -119,7 +120,7 @@ public class BZhaDan extends BICBM
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack itemStack)
 	{
 		int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
 
@@ -128,12 +129,12 @@ public class BZhaDan extends BICBM
 			if (ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN, explosiveID))
 			{
 				this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
-				world.setBlockWithNotify(x, y, z, 0);
+				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 2);
 				return;
 			}
 		}
 
-		world.setBlockMetadata(x, y, z, Vector3.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(world, x, y, z, entityLiving)), ForgeDirection.NORTH).ordinal());
+		world.setBlockMetadataWithNotify(x, y, z, VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(determineOrientation(world, x, y, z, entityLiving)), ForgeDirection.NORTH).ordinal(), 2);
 
 		if (world.isBlockIndirectlyGettingPowered(x, y, z))
 		{
@@ -207,8 +208,9 @@ public class BZhaDan extends BICBM
 
 		columnPrefix *= 3;
 
+		//TODO FIX
 		int index = side == 0 ? rowPrefix + columnPrefix : (side == 1 ? rowPrefix + columnPrefix + 1 : rowPrefix + columnPrefix + 2);
-		return index;
+		return null;
 	}
 
 	/**

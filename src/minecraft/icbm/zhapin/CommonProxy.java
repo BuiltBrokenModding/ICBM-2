@@ -71,9 +71,4 @@ public class CommonProxy implements IGuiHandler
 	{
 		return false;
 	}
-
-	public void leiShe(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
-	{
-
-	}
 }

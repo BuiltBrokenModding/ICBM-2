@@ -106,8 +106,7 @@ public class RShouLiuDan extends Render
 
 				for (var15 = 0; var15 <= var10.getItem().getRenderPasses(var10.getItemDamage()); ++var15)
 				{
-					this.random.setSeed(187L); // Fixes
-												// Vanilla
+					this.random.setSeed(187L); // Fixes  Vanilla
 												// bug
 												// where
 												// layers
@@ -208,7 +207,7 @@ public class RShouLiuDan extends Render
 		if (par3ItemStack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.blocksList[par3ItemStack.itemID].getRenderType()))
 		{
 			Block var15 = Block.blocksList[var6];
-			par2RenderEngine.bindTexture(par2RenderEngine.getTexture(var15.getTextureFile()));
+			par2RenderEngine.func_98187_b(var15.getTextureFile());
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) (par4 - 2), (float) (par5 + 3), -3.0F + this.zLevel);
 			GL11.glScalef(10.0F, 10.0F, 10.0F);

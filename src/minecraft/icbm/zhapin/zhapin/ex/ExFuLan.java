@@ -43,7 +43,7 @@ public class ExFuLan extends ZhaPin
 						{
 							if (worldObj.rand.nextFloat() > 0.9)
 							{
-								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+								worldObj.setBlockAndMetadataWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
 							}
 						}
 
@@ -51,24 +51,24 @@ public class ExFuLan extends ZhaPin
 						{
 							if (worldObj.rand.nextFloat() > 0.97)
 							{
-								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+								worldObj.setBlockAndMetadataWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
 							}
 						}
 
 						else if (blockID == Block.leaves.blockID)
 						{
-							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0);
+							worldObj.setBlockAndMetadataWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0, 0, 2);
 						}
 						else if (blockID == Block.tallGrass.blockID)
 						{
 							if (Math.random() * 100 > 50)
-								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.cobblestone.blockID);
+								worldObj.setBlockAndMetadataWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.cobblestone.blockID, 0, 2);
 							else
-								worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0);
+								worldObj.setBlockAndMetadataWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0, 0, 2);
 						}
 						else if (blockID == Block.tilledField.blockID)
 						{
-							worldObj.setBlockWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID);
+							worldObj.setBlockAndMetadataWithNotify((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
 						}
 					}
 				}

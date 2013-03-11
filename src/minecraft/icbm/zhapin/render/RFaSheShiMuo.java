@@ -21,19 +21,19 @@ public class RFaSheShiMuo extends TileEntitySpecialRenderer
 	public static final MFaSheShiMuo2 model2 = new MFaSheShiMuo2();
 
 	@Override
-	public void renderTileEntityAt(TileEntity var1, double d, double d1, double d2, float var8)
+	public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)
 	{
 		TFaSheShiMuo tileEntity = (TFaSheShiMuo) var1;
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
+		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
 		String textureFile = ZhuYao.TEXTURE_PATH + "Launcher" + tileEntity.getTier() + ".png";
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
-		switch (tileEntity.getDirection().ordinal())
+		switch (tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z).ordinal())
 		{
 			case 2:
 				GL11.glRotatef(180F, 0.0F, 180F, 1.0F);

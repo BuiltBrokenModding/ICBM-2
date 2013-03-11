@@ -5,6 +5,7 @@ import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
@@ -71,5 +72,11 @@ public abstract class TIC2Runnable extends TileEntityElectricityRunnable impleme
 	public int getMaxSafeInput()
 	{
 		return 2048;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection direction)
+	{
+		return true;
 	}
 }

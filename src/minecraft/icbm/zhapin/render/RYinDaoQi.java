@@ -38,7 +38,7 @@ public class RYinDaoQi extends TileEntitySpecialRenderer
 
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
-		switch (tileEntity.getDirection().ordinal())
+		switch (tileEntity.getDirection(tileEntity.worldObj, (int)x, (int)y, (int)z).ordinal())
 		{
 			case 2:
 				GL11.glRotatef(180F, 0.0F, 180F, 1.0F);

@@ -11,6 +11,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
@@ -62,19 +63,19 @@ public class ItShouLiuDan extends Item
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack)
+	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getName();
+		return this.getUnlocalizedName() + "." + ZhaPin.list[itemstack.getItemDamage()].getName();
 	}
 
 	@Override
-	public String getItemName()
+	public String getUnlocalizedName()
 	{
 		return "icbm.grenade";
 	}
 
 	@Override
-	public int getIconFromDamage(int i)
+	public Icon getIconFromDamage(int i)
 	{
 		return this.iconIndex + i;
 	}

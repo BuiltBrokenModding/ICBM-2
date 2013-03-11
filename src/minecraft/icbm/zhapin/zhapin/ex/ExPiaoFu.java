@@ -130,7 +130,7 @@ public class ExPiaoFu extends ZhaPin
 
 				if (distance < r - 1 || worldObj.rand.nextInt(3) > 0)
 				{
-					worldObj.setBlockWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0);
+					worldObj.setBlockAndMetadataWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0,0,2);
 
 					targetPosition.add(0.5D);
 

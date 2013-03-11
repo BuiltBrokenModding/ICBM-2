@@ -51,7 +51,7 @@ public class ExHuanYuan extends ZhaPin
 								int blockID = newChunk.getBlockID(x, y, z);
 								int metadata = newChunk.getBlockMetadata(x, y, z);
 
-								worldServer.setBlockAndMetadata(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, blockID, metadata);
+								worldServer.setBlockAndMetadataWithNotify(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, blockID, metadata, 2);
 
 								TileEntity tileEntity = newChunk.getChunkBlockTileEntity(x, y, z);
 

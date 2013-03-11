@@ -125,9 +125,9 @@ public class ExTuiLa extends ZhaPin
 
 				if (blockID > 0)
 				{
-					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, var5, var6, var7);
+					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, var5, var6, var7, null);
 					Block.blocksList[blockID].dropBlockAsItemWithChance(worldObj, var5, var6, var7, worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
-					worldObj.setBlockWithNotify(var5, var6, var7, 0);
+					worldObj.setBlockAndMetadataWithNotify(var5, var6, var7, 0,0,2);
 				}
 			}
 		}

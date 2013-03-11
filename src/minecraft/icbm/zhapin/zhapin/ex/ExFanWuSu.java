@@ -62,7 +62,7 @@ public class ExFanWuSu extends ZhaPin
 
 									if (dist < this.getRadius() - 1 || worldObj.rand.nextFloat() > 0.7)
 									{
-										targetPosition.setBlockWithNotify(worldObj, 0);
+										targetPosition.setBlock(worldObj, 0);
 									}
 								}
 							}

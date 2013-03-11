@@ -17,8 +17,8 @@ public class ItemBlockTurret extends ItemBlock
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack par1ItemStack)
+	public String getUnlocalizedName(ItemStack par1ItemStack)
 	{
-		return this.getItemName() + "." + par1ItemStack.getItemDamage();
+		return this.getUnlocalizedName() + "." + par1ItemStack.getItemDamage();
 	}
 }

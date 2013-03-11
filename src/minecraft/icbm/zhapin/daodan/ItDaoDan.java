@@ -1,26 +1,21 @@
 package icbm.zhapin.daodan;
 
-import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.di.ItICBM;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItDaoDan extends Item
+public class ItDaoDan extends ItICBM
 {
-	public ItDaoDan(int id, int texture)
+	public ItDaoDan(int id)
 	{
-		super(id);
-		this.setIconIndex(texture);
+		super(id, "missile");
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
-		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.ITEM_PATH);
 	}
 
 	@Override
@@ -30,18 +25,18 @@ public class ItDaoDan extends Item
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemStack)
+	public String getUnlocalizedName(ItemStack itemStack)
 	{
 		if (itemStack.getItemDamage() < ZhaPin.list.length)
 		{
-			return this.getItemName() + "." + ZhaPin.list[itemStack.getItemDamage()].getName();
+			return this.getUnlocalizedName() + "." + ZhaPin.list[itemStack.getItemDamage()].getName();
 		}
 
 		return "";
 	}
 
 	@Override
-	public String getItemName()
+	public String getUnlocalizedName()
 	{
 		return "icbm.missile";
 	}

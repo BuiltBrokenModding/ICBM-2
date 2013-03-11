@@ -17,7 +17,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.item.IItemElectric;
+import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;
@@ -186,19 +186,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 		if (!this.isDisabled())
 		{
-			if (this.containingItems[1] != null)
-			{
-				if (this.containingItems[1].getItem() instanceof IItemElectric)
-				{
-					IItemElectric electricItem = (IItemElectric) this.containingItems[1].getItem();
-
-					if (electricItem.canProduceElectricity())
-					{
-						double receivedWatts = electricItem.onUse(Math.min(electricItem.getMaxJoules(this.containingItems[1]) * 0.01, this.getRequest().getWatts()), this.containingItems[1]);
-						this.onReceive(new ElectricityPack(receivedWatts / this.getVoltage(), this.getVoltage()));
-					}
-				}
-			}
+			this.onReceive(ElectricityPack.getFromWatts(ElectricItemHelper.dechargeItem(this.containingItems[1], this.getRequest().getWatts(), this.getVoltage()), this.getVoltage()));
 
 			// Rotate the yaw
 			if (this.getYawFromTarget() - this.rotationYaw != 0)
@@ -494,7 +482,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public double getMaxJoules(Object... data)
+	public double getMaxJoules()
 	{
 		return 800000;
 	}
@@ -533,5 +521,23 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public EDaoDan getMissile()
 	{
 		return this.eDaoDan;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection direction)
+	{
+		return true;
+	}
+
+	@Override
+	public boolean func_94042_c()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean func_94041_b(int i, ItemStack itemstack)
+	{
+		return false;
 	}
 }

@@ -114,7 +114,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 
 								if (this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID)
 								{
-									this.worldObj.setBlockWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0);
+									this.worldObj.setBlockAndMetadataWithNotify(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
 								}
 
 								this.worldObj.newExplosion(this.mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true, true);
@@ -186,7 +186,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	}
 
 	@Override
-	public double getVoltage(Object... data)
+	public double getVoltage()
 	{
 		return 220;
 	}
@@ -194,8 +194,8 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	@Override
 	public void onDestroy(TileEntity callingBlock)
 	{
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord, this.zCoord, 0);
-		this.worldObj.setBlockWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
 	}
 
 	@Override
@@ -243,7 +243,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ(), ICBMSentry.blockFake.blockID);
+		this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ(), ICBMSentry.blockFake.blockID, 0, 2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 

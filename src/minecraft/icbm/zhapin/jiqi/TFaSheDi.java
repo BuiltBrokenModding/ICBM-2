@@ -16,9 +16,11 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.ITier;
 import universalelectricity.prefab.multiblock.IMultiBlock;
@@ -174,7 +176,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 				if (tileEntity instanceof TFaSheJia)
 				{
 					this.jiaZi = (TFaSheJia) tileEntity;
-					this.jiaZi.setDirection(Vector3.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
+					this.jiaZi.setDirection(this.worldObj, this.xCoord, this.yCoord, this.zCoord, VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
 				}
 			}
 		}
@@ -482,35 +484,35 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		if (this.orientation == 3 || this.orientation == 2)
 		{
 			// Left
-			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY(), position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX() + 1, position.intY(), position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX() + 1, position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY() + 1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() + 1, position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX() + 1, position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() + 1, position.intY() + 2, position.intZ())).setMainBlock(position);
 			// Right
-			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY(), position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX() - 1, position.intY(), position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY(), position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX() - 1, position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY() + 1, position.intZ())).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX() - 1, position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX() - 1, position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX() - 1, position.intY() + 2, position.intZ())).setMainBlock(position);
 		}
 		else
 		{
 			// Left
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY(), position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ() + 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ() + 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 2, position.intZ() + 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ() + 1)).setMainBlock(position);
 			// Right
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY(), position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ() - 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 1, position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 1, position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ() - 1)).setMainBlock(position);
-			this.worldObj.setBlockWithNotify(position.intX(), position.intY() + 2, position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID);
+			this.worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY() + 2, position.intZ() - 1, ZhuYaoZhaPin.bJia.blockID, 0, 2);
 			((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ() - 1)).setMainBlock(position);
 		}
 	}
@@ -522,23 +524,23 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 		if (this.orientation == 3 || this.orientation == 2)
 		{
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y, (int) position.z, 0);
-			this.worldObj.setBlockWithNotify((int) position.x + 1, (int) position.y, (int) position.z, 0);
-			this.worldObj.setBlockWithNotify((int) position.x + 1, (int) position.y + 1, (int) position.z, 0);
-			this.worldObj.setBlockWithNotify((int) position.x + 1, (int) position.y + 2, (int) position.z, 0);
-			this.worldObj.setBlockWithNotify((int) position.x - 1, (int) position.y, (int) position.z, 0);
-			this.worldObj.setBlockWithNotify((int) position.x - 1, (int) position.y + 1, (int) position.z, 0);
-			this.worldObj.setBlockWithNotify((int) position.x - 1, (int) position.y + 2, (int) position.z, 0);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x + 1, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x + 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x + 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x - 1, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x - 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x - 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
 		}
 		else
 		{
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y, (int) position.z, 0);
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y, (int) position.z + 1, 0);
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y + 1, (int) position.z + 1, 0);
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y + 2, (int) position.z + 1, 0);
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y, (int) position.z - 1, 0);
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y + 1, (int) position.z - 1, 0);
-			this.worldObj.setBlockWithNotify((int) position.x, (int) position.y + 2, (int) position.z - 1, 0);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 1, (int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 2, (int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z - 1, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 1, (int) position.z - 1, 0, 0, 2);
+			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 2, (int) position.z - 1, 0, 0, 2);
 		}
 
 		if (this.eDaoDan != null)
@@ -548,13 +550,13 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	@Override
-	public ForgeDirection getDirection()
+	public ForgeDirection getDirection(World world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection)
+	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
 	}
@@ -563,5 +565,17 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	public AxisAlignedBB getRenderBoundingBox()
 	{
 		return INFINITE_EXTENT_AABB;
+	}
+
+	@Override
+	public boolean func_94042_c()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean func_94041_b(int i, ItemStack itemstack)
+	{
+		return false;
 	}
 }

@@ -91,9 +91,9 @@ public class GFrequency extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		int var4 = this.mc.renderEngine.getTexture(ZhuYao.TEXTURE_PATH + "gui_empty.png");
+		this.mc.renderEngine.func_98187_b(ZhuYao.TEXTURE_PATH + "gui_empty.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture(var4);
+
 		containerWidth = (this.width - this.xSize) / 2;
 		containerHeight = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);

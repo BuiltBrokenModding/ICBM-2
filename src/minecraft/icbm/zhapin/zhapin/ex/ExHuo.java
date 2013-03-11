@@ -92,11 +92,11 @@ public class ExHuo extends ZhaPin
 
 									if ((blockID == 0 || blockID == Block.snow.blockID) && worldObj.getBlockMaterial((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z).isSolid())
 									{
-										worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID);
+										worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID, 0, 2);
 									}
 									else if (blockID == Block.ice.blockID)
 									{
-										worldObj.setBlockWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0);
+										worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0, 0, 2);
 									}
 								}
 							}

@@ -178,13 +178,13 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	}
 
 	@Override
-	public ForgeDirection getDirection()
+	public ForgeDirection getDirection(World world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection)
+	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
 	}

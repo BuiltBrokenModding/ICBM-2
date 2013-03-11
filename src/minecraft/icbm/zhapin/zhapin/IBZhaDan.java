@@ -16,17 +16,17 @@ public class IBZhaDan extends ItemBlock
 	}
 
 	@Override
-	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
+	public boolean placeBlockAt(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
 	{
-		if (!world.setBlockWithNotify(x, y, z, this.getBlockID()))
+		if (!world.setBlockAndMetadataWithNotify(x, y, z, this.getBlockID(), 0, 3))
 		{
 			return false;
 		}
 
 		if (world.getBlockId(x, y, z) == this.getBlockID())
 		{
-			((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa = stack.getItemDamage();
-			Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player);
+			((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa = itemStack.getItemDamage();
+			Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, player, itemStack);
 			Block.blocksList[this.getBlockID()].onPostBlockPlaced(world, x, y, z, metadata);
 		}
 
@@ -40,13 +40,13 @@ public class IBZhaDan extends ItemBlock
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack)
+	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return this.getItemName() + "." + ZhaPin.list[itemstack.getItemDamage()].getName();
+		return this.getUnlocalizedName() + "." + ZhaPin.list[itemstack.getItemDamage()].getName();
 	}
 
 	@Override
-	public String getItemName()
+	public String getUnlocalizedName()
 	{
 		return "icbm.explosive";
 	}

@@ -30,19 +30,19 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 	public static final MFaSheDiRail2 modelRail2 = new MFaSheDiRail2();
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
 	{
 		TFaSheDi tileEntity = (TFaSheDi) tileentity;
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
+		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
 		String textureFile = ZhuYao.TEXTURE_PATH + "Launcher" + tileEntity.getTier() + ".png";
 
 		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
-		if (tileEntity.getDirection() != ForgeDirection.NORTH && tileEntity.getDirection() != ForgeDirection.SOUTH)
+		if (tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.NORTH && tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.SOUTH)
 		{
 			GL11.glRotatef(90F, 0F, 180F, 1.0F);
 		}
