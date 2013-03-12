@@ -1,7 +1,6 @@
 package universalelectricity.prefab.potion;
 
 import net.minecraft.potion.Potion;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public abstract class CustomPotion extends Potion
 {
@@ -17,7 +16,7 @@ public abstract class CustomPotion extends Potion
 	{
 		super(id, isBadEffect, color);
 		this.setPotionName("potion." + name);
-		LanguageRegistry.instance().addStringLocalization(this.getName(), name);
+		Potion.potionTypes[this.getId()] = this;
 	}
 
 	@Override
@@ -27,11 +26,10 @@ public abstract class CustomPotion extends Potion
 		return this;
 	}
 
-	/**
-	 * You must register all your potion effects during mod initialization!
-	 */
-	public void register()
+	@Override
+	protected Potion setEffectiveness(double par1)
 	{
-		Potion.potionTypes[this.getId()] = this;
+		super.setEffectiveness(par1);
+		return this;
 	}
 }

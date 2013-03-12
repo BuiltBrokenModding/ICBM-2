@@ -5,12 +5,11 @@ import java.util.EnumSet;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.electricity.ElectricityConnections;
-import universalelectricity.core.electricity.ElectricityNetwork;
+import universalelectricity.core.block.IElectricityStorage;
+import universalelectricity.core.electricity.ElectricityNetworkHelper;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.implement.IJouleStorage;
 
-public abstract class TileEntityElectricityStorage extends TileEntityElectricityReceiver implements IJouleStorage
+public abstract class TileEntityElectricityStorage extends TileEntityElectrical implements IElectricityStorage
 {
 	/**
 	 * The amount of joules stored within this machine. Use get and set functions instead of
@@ -31,23 +30,20 @@ public abstract class TileEntityElectricityStorage extends TileEntityElectricity
 		{
 			if (!this.isDisabled())
 			{
-				ElectricityPack electricityPack = ElectricityNetwork.consumeFromMultipleSides(this, this.getConsumingSides(), this.getRequest());
+				ElectricityPack electricityPack = ElectricityNetworkHelper.consumeFromMultipleSides(this, this.getConsumingSides(), this.getRequest());
 				this.onReceive(electricityPack);
 			}
 			else
 			{
-				ElectricityNetwork.consumeFromMultipleSides(this, new ElectricityPack());
+				ElectricityNetworkHelper.consumeFromMultipleSides(this, new ElectricityPack());
 			}
 		}
 
 	}
 
-	/**
-	 * The sides in which this machine can consume electricity from.
-	 */
 	protected EnumSet<ForgeDirection> getConsumingSides()
 	{
-		return ElectricityConnections.getDirections(this);
+		return ElectricityNetworkHelper.getDirections(this);
 	}
 
 	/**
@@ -101,13 +97,13 @@ public abstract class TileEntityElectricityStorage extends TileEntityElectricity
 	}
 
 	@Override
-	public double getJoules(Object... data)
+	public double getJoules()
 	{
 		return this.joules;
 	}
 
 	@Override
-	public void setJoules(double joules, Object... data)
+	public void setJoules(double joules)
 	{
 		this.joules = Math.max(Math.min(joules, this.getMaxJoules()), 0);
 	}

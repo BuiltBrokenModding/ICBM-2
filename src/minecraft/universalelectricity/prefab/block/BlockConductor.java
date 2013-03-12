@@ -1,10 +1,10 @@
-package universalelectricity.prefab;
+package universalelectricity.prefab.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import universalelectricity.core.implement.IConductor;
+import universalelectricity.core.block.IConductor;
 
 public abstract class BlockConductor extends BlockContainer
 {
@@ -23,13 +23,9 @@ public abstract class BlockConductor extends BlockContainer
 
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null)
+		if (tileEntity instanceof IConductor)
 		{
-			if (tileEntity instanceof IConductor)
-			{
-				((IConductor) tileEntity).refreshConnectedBlocks();
-				world.markBlockForUpdate(x, y, z);
-			}
+			((IConductor) tileEntity).updateAdjacentConnections();
 		}
 	}
 
@@ -42,13 +38,9 @@ public abstract class BlockConductor extends BlockContainer
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null)
+		if (tileEntity instanceof IConductor)
 		{
-			if (tileEntity instanceof IConductor)
-			{
-				((IConductor) tileEntity).refreshConnectedBlocks();
-				world.markBlockForUpdate(x, y, z);
-			}
+			((IConductor) tileEntity).updateAdjacentConnections();
 		}
 	}
 }

@@ -18,12 +18,12 @@ public class BlockMulti extends BlockContainer
 	{
 		super(id, UniversalElectricity.machine);
 		this.setHardness(0.8F);
-		this.setBlockName("MultiBlock");
+		this.setUnlocalizedName("MultiBlock");
 	}
 
 	public void makeFakeBlock(World worldObj, Vector3 position, Vector3 mainBlock)
 	{
-		worldObj.setBlockWithNotify(position.intX(), position.intY(), position.intZ(), this.blockID);
+		worldObj.setBlockAndMetadataWithNotify(position.intX(), position.intY(), position.intZ(), this.blockID, 0, 2);
 		((TileEntityMulti) worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ())).setMainBlock(mainBlock);
 	}
 

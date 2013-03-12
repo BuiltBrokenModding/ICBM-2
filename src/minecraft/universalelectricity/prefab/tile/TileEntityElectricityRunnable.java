@@ -4,8 +4,7 @@ import java.util.EnumSet;
 
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.electricity.ElectricityConnections;
-import universalelectricity.core.electricity.ElectricityNetwork;
+import universalelectricity.core.electricity.ElectricityNetworkHelper;
 import universalelectricity.core.electricity.ElectricityPack;
 
 /**
@@ -15,7 +14,7 @@ import universalelectricity.core.electricity.ElectricityPack;
  * @author Calclavia
  * 
  */
-public abstract class TileEntityElectricityRunnable extends TileEntityElectricityReceiver
+public abstract class TileEntityElectricityRunnable extends TileEntityElectrical
 {
 	/**
 	 * The amount of watts received this tick. This variable should be deducted when used.
@@ -39,14 +38,19 @@ public abstract class TileEntityElectricityRunnable extends TileEntityElectricit
 			 */
 			if (!this.isDisabled())
 			{
-				ElectricityPack electricityPack = ElectricityNetwork.consumeFromMultipleSides(this, this.getConsumingSides(), this.getRequest());
+				ElectricityPack electricityPack = ElectricityNetworkHelper.consumeFromMultipleSides(this, this.getConsumingSides(), this.getRequest());
 				this.onReceive(electricityPack);
 			}
 			else
 			{
-				ElectricityNetwork.consumeFromMultipleSides(this, new ElectricityPack());
+				ElectricityNetworkHelper.consumeFromMultipleSides(this, new ElectricityPack());
 			}
 		}
+	}
+
+	protected EnumSet<ForgeDirection> getConsumingSides()
+	{
+		return ElectricityNetworkHelper.getDirections(this);
 	}
 
 	/**
@@ -56,14 +60,6 @@ public abstract class TileEntityElectricityRunnable extends TileEntityElectricit
 	public ElectricityPack getRequest()
 	{
 		return new ElectricityPack();
-	}
-
-	/**
-	 * The sides in which this machine can consume electricity from.
-	 */
-	protected EnumSet<ForgeDirection> getConsumingSides()
-	{
-		return ElectricityConnections.getDirections(this);
 	}
 
 	/**

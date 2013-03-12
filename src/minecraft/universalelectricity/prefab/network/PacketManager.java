@@ -51,17 +51,36 @@ public class PacketManager implements IPacketHandler, IPacketReceiver
 	/**
 	 * Writes a compressed NBTTagCompound to the OutputStream
 	 */
-	public static void writeNBTTagCompound(NBTTagCompound tag, DataOutputStream stream) throws IOException
+	public static void writeNBTTagCompound(NBTTagCompound tag, DataOutputStream dataStream) throws IOException
 	{
 		if (tag == null)
 		{
-			stream.writeShort(-1);
+			dataStream.writeShort(-1);
 		}
 		else
 		{
 			byte[] var2 = CompressedStreamTools.compress(tag);
-			stream.writeShort((short) var2.length);
-			stream.write(var2);
+			dataStream.writeShort((short) var2.length);
+			dataStream.write(var2);
+		}
+	}
+
+	/**
+	 * Reads a compressed NBTTagCompount in a ByteStream.
+	 */
+	public static NBTTagCompound readNBTTagCompound(ByteArrayDataInput dataStream) throws IOException
+	{
+		short var1 = dataStream.readShort();
+
+		if (var1 < 0)
+		{
+			return null;
+		}
+		else
+		{
+			byte[] var2 = new byte[var1];
+			dataStream.readFully(var2);
+			return CompressedStreamTools.decompress(var2);
 		}
 	}
 

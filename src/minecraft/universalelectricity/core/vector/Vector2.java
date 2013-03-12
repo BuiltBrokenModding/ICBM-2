@@ -3,9 +3,7 @@ package universalelectricity.core.vector;
 import net.minecraft.util.MathHelper;
 
 /**
- * Vector2 Class is used for defining objects in a 2D space. Vector2 makes it easier to handle the
- * coordinates of objects. Instead of fumbling with x and y variables, all x and y variables are
- * stored in one class. Vector3.x, Vector3.y.
+ * Vector2 Class is used for defining objects in a 2D space.
  * 
  * @author Calclavia
  */
@@ -20,19 +18,17 @@ public class Vector2 implements Cloneable
 		this(0, 0);
 	}
 
-	public Vector2(int x, int y)
-	{
-		this.x = x;
-		this.y = y;
-	}
-
 	public Vector2(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
-	// Returns the values as an int
+	/**
+	 * Returns the integer floor value.
+	 * 
+	 * @return
+	 */
 	public int intX()
 	{
 		return (int) Math.floor(this.x);
@@ -52,42 +48,52 @@ public class Vector2 implements Cloneable
 		return new Vector2(this.x, this.y);
 	}
 
-	public static double distance(Vector2 par1, Vector2 par2)
+	public static double distance(Vector2 point1, Vector2 point2)
 	{
-		double var2 = par1.x - par2.x;
-		double var4 = par1.y - par2.y;
-		return MathHelper.sqrt_double(var2 * var2 + var4 * var4);
+		double xDifference = point1.x - point2.x;
+		double yDiference = point1.y - point2.y;
+		return MathHelper.sqrt_double(xDifference * xDifference + yDiference * yDiference);
 	}
 
-	public static double slope(Vector2 par1, Vector2 par2)
+	public static double slope(Vector2 point1, Vector2 point2)
 	{
-		double var2 = par1.x - par2.x;
-		double var4 = par1.y - par2.y;
-		return var4 / var2;
+		double xDifference = point1.x - point2.x;
+		double yDiference = point1.y - point2.y;
+		return yDiference / xDifference;
 	}
 
-	public void add(Vector2 par1)
+	public double distanceTo(Vector2 target)
+	{
+		double xDifference = this.x - target.x;
+		double yDifference = this.y - target.y;
+		return MathHelper.sqrt_double(xDifference * xDifference + yDifference * yDifference);
+	}
+
+	public Vector2 add(Vector2 par1)
 	{
 		this.x += par1.x;
 		this.y += par1.y;
+		return this;
 	}
 
-	public void add(double par1)
+	public Vector2 add(double par1)
 	{
 		this.x += par1;
 		this.y += par1;
+		return this;
 	}
 
-	public void substract(Vector2 par1)
+	public Vector2 invert()
 	{
-		this.x -= par1.x;
-		this.y -= par1.y;
+		this.multiply(-1);
+		return this;
 	}
 
-	public void substract(double par1)
+	public Vector2 multiply(double amount)
 	{
-		this.x -= par1;
-		this.y -= par1;
+		this.x *= amount;
+		this.y *= amount;
+		return this;
 	}
 
 	public Vector2 round()
@@ -100,7 +106,7 @@ public class Vector2 implements Cloneable
 		return new Vector2(Math.floor(this.x), Math.floor(this.y));
 	}
 
-	public boolean isEquals(Vector2 vector)
+	public boolean isEqual(Vector2 vector)
 	{
 		return this.x == vector.x && this.y == vector.y;
 	}

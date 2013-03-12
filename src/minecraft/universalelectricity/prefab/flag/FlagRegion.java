@@ -43,8 +43,8 @@ public class FlagRegion extends FlagBase
 	{
 		this.name = nbt.getName();
 
-		Vector3 startVector = Vector3.readFromNBT("min_", nbt);
-		Vector3 endVector = Vector3.readFromNBT("max_", nbt);
+		Vector3 startVector = Vector3.readFromNBT(nbt.getCompoundTag("min"));
+		Vector3 endVector = Vector3.readFromNBT(nbt.getCompoundTag("max"));
 
 		this.region = new Region3(startVector, endVector);
 
@@ -76,8 +76,8 @@ public class FlagRegion extends FlagBase
 	{
 		nbt.setName(this.name);
 
-		this.region.min.writeToNBT("min_", nbt);
-		this.region.max.writeToNBT("max_", nbt);
+		nbt.setTag("min", this.region.min.writeToNBT(new NBTTagCompound()));
+		nbt.setTag("max", this.region.max.writeToNBT(new NBTTagCompound()));
 
 		NBTTagList flagList = new NBTTagList();
 

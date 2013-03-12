@@ -1,7 +1,5 @@
 package universalelectricity.prefab;
 
-import java.util.List;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -123,22 +121,22 @@ public abstract class GuiBase extends GuiScreen
 		}
 	}
 
-	public void drawTooltip(List<String> toolTips, int x, int y)
+	public void drawTooltip(int x, int y, String... toolTips)
 	{
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-		if (!toolTips.isEmpty())
+		if (toolTips != null)
 		{
 			int var5 = 0;
 			int var6;
 			int var7;
 
-			for (var6 = 0; var6 < toolTips.size(); ++var6)
+			for (var6 = 0; var6 < toolTips.length; ++var6)
 			{
-				var7 = this.fontRenderer.getStringWidth((String) toolTips.get(var6));
+				var7 = this.fontRenderer.getStringWidth((String) toolTips[var6]);
 
 				if (var7 > var5)
 				{
@@ -150,9 +148,9 @@ public abstract class GuiBase extends GuiScreen
 			var7 = y - 12;
 			int var9 = 8;
 
-			if (toolTips.size() > 1)
+			if (toolTips.length > 1)
 			{
-				var9 += 2 + (toolTips.size() - 1) * 10;
+				var9 += 2 + (toolTips.length - 1) * 10;
 			}
 
 			if (this.guiTop + var7 + var9 + 6 > this.height)
@@ -174,9 +172,9 @@ public abstract class GuiBase extends GuiScreen
 			this.drawGradientRect(var6 - 3, var7 - 3, var6 + var5 + 3, var7 - 3 + 1, var11, var11);
 			this.drawGradientRect(var6 - 3, var7 + var9 + 2, var6 + var5 + 3, var7 + var9 + 3, var12, var12);
 
-			for (int var13 = 0; var13 < toolTips.size(); ++var13)
+			for (int var13 = 0; var13 < toolTips.length; ++var13)
 			{
-				String var14 = "\u00a77" + toolTips.get(var13);
+				String var14 = toolTips[var13];
 
 				this.fontRenderer.drawStringWithShadow(var14, var6, var7, -1);
 
@@ -190,5 +188,10 @@ public abstract class GuiBase extends GuiScreen
 
 			this.zLevel = 0.0F;
 		}
+
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		RenderHelper.enableGUIStandardItemLighting();
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 	}
 }
