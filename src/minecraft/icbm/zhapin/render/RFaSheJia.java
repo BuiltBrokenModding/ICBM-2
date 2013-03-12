@@ -22,7 +22,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 	public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)
 	{
 		TFaSheJia tileEntity = (TFaSheJia) var1;
-		
+
 		if (tileEntity != null && tileEntity.worldObj != null)
 		{
 			GL11.glPushMatrix();

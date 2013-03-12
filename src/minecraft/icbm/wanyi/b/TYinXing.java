@@ -1,4 +1,4 @@
-package icbm.wanyi;
+package icbm.wanyi.b;
 
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.entity.player.EntityPlayer;

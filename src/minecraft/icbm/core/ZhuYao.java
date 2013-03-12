@@ -123,6 +123,12 @@ public class ZhuYao
 				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
 			}
 
+			/**
+			 * Decrease Obsidian Resistance
+			 */
+			Block.obsidian.setResistance(ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+			LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
+
 			ICBM.CONFIGURATION.save();
 
 			OreDictionary.registerOre("dustSulfur", itLiu);

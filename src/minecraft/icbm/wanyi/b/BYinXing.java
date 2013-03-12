@@ -1,4 +1,4 @@
-package icbm.wanyi;
+package icbm.wanyi.b;
 
 import icbm.api.ICBMTab;
 import icbm.api.ICamouflageMaterial;
@@ -19,7 +19,7 @@ import universalelectricity.core.vector.Vector3;
 
 public class BYinXing extends BICBM implements IEMPBlock
 {
-	public BYinXing(int id, int texture)
+	public BYinXing(int id)
 	{
 		super(id, "camouflage", Material.cloth);
 		this.setHardness(0.3F);

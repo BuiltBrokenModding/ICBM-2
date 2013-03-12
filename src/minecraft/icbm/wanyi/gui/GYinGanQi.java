@@ -1,7 +1,7 @@
 package icbm.wanyi.gui;
 
 import icbm.core.ZhuYao;
-import icbm.wanyi.TYinGanQi;
+import icbm.wanyi.b.TYinGanQi;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;

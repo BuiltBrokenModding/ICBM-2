@@ -44,7 +44,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -145,15 +144,6 @@ public class ZhuYaoZhaPin
 		PChuanRanDu.INSTANCE = new PChuanRanDu(22, false, 5149489, "virus");
 		PDongShang.INSTANCE = new PDongShang(23, false, 5149489, "frostBite");
 
-		/**
-		 * Decrease Obsidian Resistance
-		 */
-		if (ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", true).getBoolean(true))
-		{
-			Block.obsidian.setResistance(50);
-			ZhuYao.LOGGER.fine("Decrease obsidian explosive resistance.");
-		}
-		
 		ICBM.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(ZhuYaoZhaPin.bZhaDan);

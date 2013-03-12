@@ -3,12 +3,8 @@ package icbm.core.di;
 import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;
-
-import java.util.ArrayList;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
@@ -20,7 +16,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BICBM extends BlockAdvanced
 {
-	private int maxMetadata = 0;
 	protected Icon iconTop, iconSide, iconBottom;
 	protected boolean requireSidedTextures = false;
 
@@ -29,12 +24,6 @@ public class BICBM extends BlockAdvanced
 		super(ICBM.CONFIGURATION.getBlock(name, id).getInt(), material);
 		this.setUnlocalizedName(ZhuYao.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-	}
-
-	public BICBM(int id, String name, Material material, int maxMetadata)
-	{
-		this(id, name, material);
-		this.maxMetadata = maxMetadata;
 	}
 
 	@Override
@@ -87,14 +76,5 @@ public class BICBM extends BlockAdvanced
 		}
 
 		return 0;
-	}
-
-	@Override
-	public void addCreativeItems(ArrayList list)
-	{
-		for (int i = 0; i < this.maxMetadata; i++)
-		{
-			list.add(new ItemStack(this, 1, i));
-		}
 	}
 }

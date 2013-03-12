@@ -1,5 +1,7 @@
 package icbm.wanyi;
 
+import icbm.wanyi.b.TYinGanQi;
+import icbm.wanyi.b.TYinXing;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;

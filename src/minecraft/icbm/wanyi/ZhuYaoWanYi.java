@@ -4,6 +4,13 @@ import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.core.ItGenZongQi;
 import icbm.core.ZhuYao;
+import icbm.wanyi.b.BBuoLiPan;
+import icbm.wanyi.b.BEnNiu;
+import icbm.wanyi.b.BNiTu;
+import icbm.wanyi.b.BYinGanQi;
+import icbm.wanyi.b.BYinXing;
+import icbm.wanyi.b.BZha;
+import icbm.wanyi.b.IBNiTu;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,11 +44,7 @@ public class ZhuYaoWanYi
 	public static CommonProxy proxy;
 
 	// Blocks
-	public static Block bBuoLiPan;
-	public static BEnNiu bBuoLiEnNiu;
-	public static Block bYinGanQi;
-	public static Block bZha;
-	public static Block bYinXing;
+	public static Block bBuoLiPan, bBuoLiEnNiu, bYinGanQi, bZha, bYinXing, bNiTu;
 
 	// Items
 	public static Item itYao;
@@ -57,14 +60,13 @@ public class ZhuYaoWanYi
 		ICBM.CONFIGURATION.load();
 
 		// Blocks
-		bBuoLiPan = new BBuoLiPan(ICBM.CONFIGURATION.getBlock("BlockID2", ICBM.BLOCK_ID_PREFIX + 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(ICBM.CONFIGURATION.getBlock("BlockID7", ICBM.BLOCK_ID_PREFIX + 2).getInt());
-		bYinGanQi = new BYinGanQi(ICBM.CONFIGURATION.getBlock("BlockID5", ICBM.BLOCK_ID_PREFIX + 5).getInt());
-		bZha = new BZha(ICBM.CONFIGURATION.getBlock("BlockID8", ICBM.BLOCK_ID_PREFIX + 7).getInt());
-		bYinXing = new BYinXing(ICBM.CONFIGURATION.getBlock("BlockID9", ICBM.BLOCK_ID_PREFIX + 8).getInt(), 11);
+		bBuoLiPan = new BBuoLiPan(ICBM.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX + 1).getInt());
+		bBuoLiEnNiu = new BEnNiu(ICBM.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX + 2).getInt());
+		bYinGanQi = new BYinGanQi(ICBM.BLOCK_ID_PREFIX - 1);
+		bZha = new BZha(ICBM.BLOCK_ID_PREFIX - 2);
+		bYinXing = new BYinXing(ICBM.BLOCK_ID_PREFIX - 3);
+		bNiTu = new BNiTu(ICBM.BLOCK_ID_PREFIX - 4);
 
-		//Concrete
-		
 		// ITEMS
 		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
 		itHuoLaunQi = new ItHuoLuanQi(ICBM.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
@@ -80,6 +82,7 @@ public class ZhuYaoWanYi
 		GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
 		GameRegistry.registerBlock(bYinXing, "bYinXing");
 		GameRegistry.registerBlock(bZha, IBZha.class, "bZha");
+		GameRegistry.registerBlock(bNiTu, IBNiTu.class, "bNiTu");
 
 		this.proxy.preInit();
 	}
@@ -117,6 +120,11 @@ public class ZhuYaoWanYi
 		// Antidote
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
+
+		// Concrete
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sandStone, 'W', Item.bucketWater }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 0), 'O', Block.obsidian }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', "ingotSteel" }));
 
 		this.proxy.init();
 	}

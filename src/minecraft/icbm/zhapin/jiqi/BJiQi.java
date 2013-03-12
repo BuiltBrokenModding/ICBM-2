@@ -1,14 +1,13 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHJiQi;
 
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +20,6 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
-import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.ITier;
@@ -30,7 +28,7 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BJiQi extends BlockAdvanced
+public class BJiQi extends BICBM
 {
 	public enum JiQi
 	{
@@ -58,16 +56,8 @@ public class BJiQi extends BlockAdvanced
 
 	public BJiQi(int id)
 	{
-		super(id, UniversalElectricity.machine);
-		this.setUnlocalizedName("icbmMachine");
+		super(id, "machine", UniversalElectricity.machine);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void func_94332_a(IconRegister iconRegister)
-	{
-		this.field_94336_cN = iconRegister.func_94245_a(ZhuYao.PREFIX + "machine");
 	}
 
 	/**

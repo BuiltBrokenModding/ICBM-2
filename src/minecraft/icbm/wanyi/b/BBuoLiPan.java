@@ -1,4 +1,4 @@
-package icbm.wanyi;
+package icbm.wanyi.b;
 
 import icbm.api.ICBMTab;
 import icbm.core.ZhuYao;

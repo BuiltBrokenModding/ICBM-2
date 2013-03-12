@@ -2,6 +2,7 @@ package icbm.wanyi;
 
 import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
+import icbm.wanyi.b.TYinGanQi;
 import icbm.wanyi.gui.GFrequency;
 import icbm.wanyi.gui.GYinGanQi;
 import net.minecraft.entity.player.EntityPlayer;
