@@ -10,7 +10,8 @@ import icbm.sentry.logic.actions.ActionRotateTo;
 import icbm.sentry.logic.actions.ActionSearchTarget;
 import icbm.sentry.terminal.AccessLevel;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -110,7 +111,7 @@ public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implemen
 	{
 		if (entity != null)
 		{
-			if (!entity.isDead && !entity.isEntityInvulnerable() && !(entity instanceof EntityAnimal))
+			if (!entity.isDead && !entity.isEntityInvulnerable() && (!(entity instanceof IAnimals) || entity instanceof IMob))
 			{
 				if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) < this.getDetectRange())
 				{
