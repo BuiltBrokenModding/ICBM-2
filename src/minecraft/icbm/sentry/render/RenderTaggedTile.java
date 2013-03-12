@@ -35,7 +35,17 @@ public abstract class RenderTaggedTile extends TileEntitySpecialRenderer
 
 				if (objectPosition != null)
 				{
-					if (objectPosition.blockX == t.xCoord && objectPosition.blockY == t.yCoord && objectPosition.blockZ == t.zCoord)
+					boolean isLooking = false;
+
+					for (int h = 0; h < height; h++)
+					{
+						if (objectPosition.blockX == t.xCoord && objectPosition.blockY == t.yCoord + h && objectPosition.blockZ == t.zCoord)
+						{
+							isLooking = true;
+						}
+					}
+
+					if (isLooking)
 					{
 						Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
 						int i = 0;

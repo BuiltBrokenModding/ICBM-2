@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -275,7 +276,7 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 	@Override
 	public String getName()
 	{
-		return this.getBlockType().getLocalizedName();
+		return new ItemStack(this.getBlockType(), 1, this.getBlockMetadata()).getDisplayName();
 	}
 
 	@Override
