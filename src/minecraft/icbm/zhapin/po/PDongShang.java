@@ -1,5 +1,6 @@
 package icbm.zhapin.po;
 
+import icbm.api.ICBM;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,8 +10,15 @@ import universalelectricity.prefab.potion.CustomPotion;
 
 public class PDongShang extends CustomPotion
 {
-	public static final PDongShang INSTANCE = new PDongShang(23, false, 5149489, "Frost Bite");
+	public static final PDongShang INSTANCE;
 
+	static
+	{
+		ICBM.CONFIGURATION.load();
+		INSTANCE = new PDongShang(ICBM.CONFIGURATION.get("Potion ID", "Frost Bite", 23).getInt(23), false, 5149489, "frostBite");
+		ICBM.CONFIGURATION.save();
+	}
+	
 	public PDongShang(int id, boolean isBadEffect, int color, String name)
 	{
 		super(id, isBadEffect, color, name);

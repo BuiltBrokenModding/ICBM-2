@@ -34,7 +34,7 @@ public class ItemAmmo extends ItemSentryBase
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return "item." + TYPES[itemStack.getItemDamage()];
+		return "item." + ICBMSentry.PREFIX + TYPES[itemStack.getItemDamage()];
 	}
 
 	@Override

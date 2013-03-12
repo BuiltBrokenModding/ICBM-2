@@ -56,8 +56,8 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	protected void entityInit()
 	{
 		super.entityInit();
-		this.dataWatcher.addObject(20, (int) this.yinXin);
-		this.dataWatcher.addObject(21, (byte) 0);
+		this.dataWatcher.addObject(21, (int) this.yinXin);
+		this.dataWatcher.addObject(22, (byte) 0);
 	}
 
 	@Override
@@ -67,9 +67,9 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 
 		if (this.worldObj.isRemote)
 		{
-			this.yinXin = this.dataWatcher.getWatchableObjectInt(20);
+			this.yinXin = this.dataWatcher.getWatchableObjectInt(21);
 
-			if (this.dataWatcher.getWatchableObjectByte(21) > 0)
+			if (this.dataWatcher.getWatchableObjectByte(22) > 0)
 			{
 				this.isPrimed = true;
 			}
@@ -80,14 +80,14 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 		}
 		else
 		{
-			this.dataWatcher.updateObject(20, this.yinXin);
+			this.dataWatcher.updateObject(21, this.yinXin);
 
 			byte isPri = 0;
 
 			if (this.isPrimed)
 				isPri = 1;
 
-			this.dataWatcher.updateObject(21, isPri);
+			this.dataWatcher.updateObject(22, isPri);
 		}
 
 		if (this.isPrimed)

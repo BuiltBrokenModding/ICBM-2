@@ -103,8 +103,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	{
 		if (this.tileEntity.getTurret() != null)
 		{
-			// TODO: FIX THIS
-			String title = TranslationHelper.getLocal(this.tileEntity.getTurret().getBlockType().getLocalizedName());
+			String title = TranslationHelper.getLocal(this.tileEntity.getTurret().getName());
 			this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
 
 			/**

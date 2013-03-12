@@ -57,6 +57,7 @@ public class MingLing extends CommandBase
 					}
 
 					sender.sendChatToPlayer("Removed all ICBM lag sources within " + radius + " radius.");
+					return;
 				}
 				else
 				{
