@@ -1,9 +1,10 @@
 package icbm.core;
 
-import java.util.logging.Logger;
-
 import icbm.api.ICBM;
 import icbm.core.di.ItICBM;
+
+import java.util.logging.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;

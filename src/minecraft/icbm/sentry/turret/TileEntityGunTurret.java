@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.TranslationHelper;
 
 public class TileEntityGunTurret extends TileEntityAutoTurret
 {

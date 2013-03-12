@@ -63,6 +63,8 @@ public class ZhuYaoWanYi
 		bZha = new BZha(ICBM.CONFIGURATION.getBlock("BlockID8", ICBM.BLOCK_ID_PREFIX + 7).getInt());
 		bYinXing = new BYinXing(ICBM.CONFIGURATION.getBlock("BlockID9", ICBM.BLOCK_ID_PREFIX + 8).getInt(), 11);
 
+		//Concrete
+		
 		// ITEMS
 		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
 		itHuoLaunQi = new ItHuoLuanQi(ICBM.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());

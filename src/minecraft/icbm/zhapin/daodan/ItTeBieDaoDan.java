@@ -4,12 +4,11 @@ import icbm.core.ZhuYao;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItTeBieDaoDan extends ItDaoDan
 {
@@ -26,7 +25,7 @@ public class ItTeBieDaoDan extends ItDaoDan
 			return this.getUnlocalizedName() + ".missileModule";
 		}
 
-		return this.getUnlocalizedName() + "." + DaoDan.list[itemstack.getItemDamage() + 100].getMingZing();
+		return this.getUnlocalizedName() + "." + DaoDan.list[itemstack.getItemDamage() + 100].getUnlocalizedName();
 	}
 
 	@SideOnly(Side.CLIENT)

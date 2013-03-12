@@ -27,7 +27,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 {
 	public static final int BAN_JING = 200;
-	public static final int YONG_DIAN_LIANG = 5000;
+	public static final int YONG_DIAN_LIANG = 6000;
 
 	public ItLeiSheZhiBiao(int id)
 	{
@@ -352,6 +352,6 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 	@Override
 	public double getMaxJoules(ItemStack itemStack)
 	{
-		return 80000;
+		return 100000;
 	}
 }

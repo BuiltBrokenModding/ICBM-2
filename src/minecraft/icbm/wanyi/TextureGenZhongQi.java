@@ -1,18 +1,12 @@
 package icbm.wanyi;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
 import icbm.core.ItGenZongQi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.Texture;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureStitched;
-import net.minecraft.client.texturepacks.ITexturePack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -37,7 +31,7 @@ public class TextureGenZhongQi extends TextureStitched
 		Minecraft minecraft = Minecraft.getMinecraft();
 		World world = minecraft.theWorld;
 		EntityPlayer player = minecraft.thePlayer;
-		
+
 		double angel = 0;
 
 		if (world != null)

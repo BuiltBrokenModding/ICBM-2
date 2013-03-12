@@ -1,11 +1,11 @@
 package icbm.wanyi;
 
 import icbm.api.ICBMTab;
+import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.IEMPBlock;
 import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYao;
 import icbm.core.di.BICBM;
-import icbm.wanyi.render.RBYinXing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,8 +16,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BYinXing extends BICBM implements IEMPBlock
 {
@@ -93,10 +91,9 @@ public class BYinXing extends BICBM implements IEMPBlock
 				if (par5EntityPlayer.getCurrentEquippedItem().itemID < Block.blocksList.length)
 				{
 					Block block = Block.blocksList[par5EntityPlayer.getCurrentEquippedItem().itemID];
-
 					if (block != null)
 					{
-						if (block.isOpaqueCube() && (block.getRenderType() == 0 || block.getRenderType() == 31))
+						if (block instanceof ICamouflageMaterial || (block.renderAsNormalBlock() || (block.getRenderType() == 0 || block.getRenderType() == 31)))
 						{
 							((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
 							par1World.markBlockForRenderUpdate(x, y, z);
@@ -167,26 +164,6 @@ public class BYinXing extends BICBM implements IEMPBlock
 
 					if (block != null)
 					{
-						if (block == Block.grass)
-						{
-							int redColor = 0;
-							int greenColor = 0;
-							int blueColork = 0;
-
-							for (int izy = -1; izy <= 1; izy++)
-							{
-								for (int ix = -1; ix <= 1; ix++)
-								{
-									int grassColor = par1IBlockAccess.getBiomeGenForCoords(x + ix, z + izy).getBiomeGrassColor();
-									redColor += ((grassColor & 0xFF0000) >> 16);
-									greenColor += ((grassColor & 0xFF00) >> 8);
-									blueColork += (grassColor & 0xFF);
-								}
-							}
-
-							return (redColor / 9 & 0xFF) << 16 | (greenColor / 9 & 0xFF) << 8 | blueColork / 9 & 0xFF;
-						}
-
 						return block.colorMultiplier(par1IBlockAccess, x, y, x);
 					}
 				}
@@ -229,13 +206,6 @@ public class BYinXing extends BICBM implements IEMPBlock
 	public boolean renderAsNormalBlock()
 	{
 		return false;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public int getRenderType()
-	{
-		return RBYinXing.ID;
 	}
 
 	@Override

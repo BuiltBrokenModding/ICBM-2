@@ -11,7 +11,6 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.potion.CustomPotion;
 
 public class PChuanRanDu extends PICBM
 {

@@ -1,6 +1,5 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
 import icbm.core.muoxing.ICBMModelBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EZhaDan;

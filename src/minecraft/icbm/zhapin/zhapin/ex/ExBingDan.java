@@ -199,7 +199,8 @@ public class ExBingDan extends ZhaPin
 				{
 					entity.addPotionEffect(new CustomPotionEffect(PDongShang.INSTANCE.getId(), 60 * 20, 1, null));
 					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 2));
-					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 45 * 20, 4));
+					entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 120 * 20, 2));
+					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120 * 20, 4));
 				}
 
 				ZhaPin.bingDan2.spawnZhaDan(worldObj, position, (byte) 0);

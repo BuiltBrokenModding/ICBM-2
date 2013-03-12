@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItGenZongQi extends ItElectricICBM
 {
-	private static final float YONG_DIAN_LIANG = 0.05f;
+	private static final float YONG_DIAN_LIANG = 0.1f;
 
 	public ItGenZongQi(int id)
 	{

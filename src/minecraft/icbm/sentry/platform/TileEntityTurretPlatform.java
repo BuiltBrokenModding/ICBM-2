@@ -12,7 +12,6 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.modifier.IModifier;
 
 public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, ISidedInventory

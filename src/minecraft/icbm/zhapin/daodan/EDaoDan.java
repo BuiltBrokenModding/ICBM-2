@@ -143,7 +143,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	{
 		if (this.haoMa > 100)
 		{
-			return TranslationHelper.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getMingZing() + ".name");
+			return TranslationHelper.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getUnlocalizedName() + ".name");
 		}
 		return TranslationHelper.getLocal("icbm.missile." + ZhaPin.list[this.haoMa].getUnlocalizedName() + ".name");
 	}

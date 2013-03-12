@@ -1,6 +1,7 @@
 package icbm.zhapin.zhapin;
 
 import icbm.api.ICBMTab;
+import icbm.api.ICamouflageMaterial;
 import icbm.core.ZhuYao;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -8,7 +9,6 @@ import icbm.zhapin.render.RHZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,7 +41,7 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BZhaDan extends BICBM
+public class BZhaDan extends BICBM implements ICamouflageMaterial
 {
 	public static final List<Icon> ICON_TOP = new ArrayList<Icon>();
 	public static final List<Icon> ICON_SIDE = new ArrayList<Icon>();

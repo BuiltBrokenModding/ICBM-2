@@ -1,15 +1,9 @@
 package icbm.zhapin.render;
 
-import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.cart.EChe;
 import net.minecraft.block.Block;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelMinecart;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderMinecart;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityMinecartTNT;
 
 import org.lwjgl.opengl.GL11;
 

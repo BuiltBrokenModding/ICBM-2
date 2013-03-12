@@ -40,9 +40,10 @@ public class RShouLiuDan extends Render
 		}
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glTranslatef((float) x, (float) y + 0.4f, (float) z);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		GL11.glScalef(0.6F, 0.6F, 0.6F);
+        this.loadTexture("/gui/items.png");
 		Tessellator tessellator = Tessellator.instance;
 		this.renderIcon(tessellator, this.itemIconIndex);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

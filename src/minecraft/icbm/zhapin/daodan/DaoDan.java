@@ -46,7 +46,7 @@ public class DaoDan implements ITier
 		return this.ID;
 	}
 
-	public String getMingZing()
+	public String getUnlocalizedName()
 	{
 		return this.mingZi;
 	}

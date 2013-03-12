@@ -24,7 +24,6 @@ import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.implement.ITier;
 import universalelectricity.prefab.multiblock.IMultiBlock;
-import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityAdvanced;

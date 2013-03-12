@@ -90,10 +90,6 @@ public class ExYuanZi extends ZhaPin
 						{
 							resistance = 1f;
 						}
-						else if (blockID == Block.obsidian.blockID)
-						{
-							resistance = 80f;
-						}
 						else
 						{
 							resistance = Block.blocksList[blockID].getExplosionResistance(explosionSource, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) * 4;

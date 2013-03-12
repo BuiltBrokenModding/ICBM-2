@@ -31,7 +31,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	public EShouLiuDan(World par1World, Vector3 position, int explosiveID)
 	{
 		super(par1World);
-		this.setSize(0.25F, 0.3F);
+		this.setSize(0.3F, 0.3F);
 		this.setPosition(position.x, position.y, position.z);
 		this.yOffset = 0.0F;
 
