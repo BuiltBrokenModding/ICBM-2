@@ -73,11 +73,19 @@ public class EntityFakeMountable extends Entity implements IEntityAdditionalSpaw
 		if (this.controller == null)
 		{
 			this.setDead();
+			return;
 		}
 		else if (this.controller.isInvalid())
 		{
 			this.setDead();
+			return;
 		}
+	}
+
+	@Override
+	public double getMountedYOffset()
+	{
+		return -0.5;
 	}
 
 	/**

@@ -96,7 +96,7 @@ public class ZhuYao
 			DAO_DAN_ZUI_YUAN = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
 
 			// BLOCKS
-			bLiu = new BLiu(ICBM.CONFIGURATION.getBlock("BlockID1", ICBM.BLOCK_ID_PREFIX + 0).getInt());
+			bLiu = new BLiu(ICBM.BLOCK_ID_PREFIX + 0);
 
 			itDu = new ItICBM(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
 			itLiu = new ItICBM(ICBM.ITEM_ID_PREFIX + 1, "sulfur");

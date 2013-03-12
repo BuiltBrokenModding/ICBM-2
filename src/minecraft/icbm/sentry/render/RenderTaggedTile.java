@@ -31,35 +31,39 @@ public abstract class RenderTaggedTile extends TileEntitySpecialRenderer
 				float height = ((ITagRender) t).addInformation(tags, this.getPlayer());
 
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				MovingObjectPosition objectPosition = player.rayTrace(8, 1);
 
-				if (objectPosition != null)
+				if (player.ridingEntity == null)
 				{
-					boolean isLooking = false;
+					MovingObjectPosition objectPosition = player.rayTrace(8, 1);
 
-					for (int h = 0; h < height; h++)
+					if (objectPosition != null)
 					{
-						if (objectPosition.blockX == t.xCoord && objectPosition.blockY == t.yCoord + h && objectPosition.blockZ == t.zCoord)
+						boolean isLooking = false;
+
+						for (int h = 0; h < height; h++)
 						{
-							isLooking = true;
-						}
-					}
-
-					if (isLooking)
-					{
-						Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
-						int i = 0;
-
-						while (it.hasNext())
-						{
-							Entry<String, Integer> entry = it.next();
-
-							if (entry.getKey() != null)
+							if (objectPosition.blockX == t.xCoord && objectPosition.blockY == t.yCoord + h && objectPosition.blockZ == t.zCoord)
 							{
-								RenderFloatingText.renderFloatingText(entry.getKey(), (float) x + 0.5f, ((float) y + (i * 0.25f)) - 2f + height, (float) z + 0.5f, entry.getValue());
+								isLooking = true;
 							}
+						}
 
-							i++;
+						if (isLooking)
+						{
+							Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
+							int i = 0;
+
+							while (it.hasNext())
+							{
+								Entry<String, Integer> entry = it.next();
+
+								if (entry.getKey() != null)
+								{
+									RenderFloatingText.renderFloatingText(entry.getKey(), (float) x + 0.5f, ((float) y + (i * 0.25f)) - 2f + height, (float) z + 0.5f, entry.getValue());
+								}
+
+								i++;
+							}
 						}
 					}
 				}

@@ -36,7 +36,7 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
-	private EntityPlayer mountedPlayer = null;
+	protected EntityPlayer mountedPlayer = null;
 
 	private EntityFakeMountable entityFake = null;
 
@@ -204,15 +204,13 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 		if (this.mountedPlayer != null && entityPlayer == this.mountedPlayer)
 		{
 			this.mountedPlayer = null;
-			entityPlayer.mountEntity(null);
+			entityPlayer.unmountEntity(this.entityFake);
 
 			if (this.entityFake != null)
 			{
 				this.entityFake.setDead();
 				this.entityFake = null;
 			}
-
-			entityPlayer.moveEntity(0, 3, 0);
 		}
 		else
 		{

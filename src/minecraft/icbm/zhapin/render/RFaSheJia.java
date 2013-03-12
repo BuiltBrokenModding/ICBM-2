@@ -22,24 +22,27 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 	public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)
 	{
 		TFaSheJia tileEntity = (TFaSheJia) var1;
-
-		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.25F, (float) z + 0.5F);
-		GL11.glScalef(1f, 0.85f, 1f);
-
-		String textureFile = ZhuYao.MODEL_PATH + TEXTURE_FILE;
-
-		this.bindTextureByName(textureFile);
-		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-
-		if (tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.NORTH && tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.SOUTH)
+		
+		if (tileEntity != null && tileEntity.worldObj != null)
 		{
-			GL11.glRotatef(90F, 0.0F, 180F, 1.0F);
+			GL11.glPushMatrix();
+			GL11.glTranslatef((float) x + 0.5F, (float) y + 1.25F, (float) z + 0.5F);
+			GL11.glScalef(1f, 0.85f, 1f);
+
+			String textureFile = ZhuYao.MODEL_PATH + TEXTURE_FILE;
+
+			this.bindTextureByName(textureFile);
+			GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+
+			if (tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.NORTH && tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.SOUTH)
+			{
+				GL11.glRotatef(90F, 0.0F, 180F, 1.0F);
+			}
+
+			MODEL.render(0.0625F);
+
+			GL11.glPopMatrix();
 		}
-
-		MODEL.render(0.0625F);
-
-		GL11.glPopMatrix();
 	}
 
 }

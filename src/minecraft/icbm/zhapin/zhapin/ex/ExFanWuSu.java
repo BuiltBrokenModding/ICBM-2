@@ -13,14 +13,14 @@ import universalelectricity.prefab.RecipeHelper;
 
 public class ExFanWuSu extends ZhaPin
 {
-	public boolean destroyBedrock = false;
+	public boolean destroyBedrock = true;
 
 	public ExFanWuSu(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 		this.setYinXin(300);
 		ICBM.CONFIGURATION.load();
-		this.destroyBedrock = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Destroy Bedrock", destroyBedrock).getBoolean(destroyBedrock);
+		this.destroyBedrock = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Antimatter Destroy Bedrock", this.destroyBedrock).getBoolean(this.destroyBedrock);
 		ICBM.CONFIGURATION.save();
 	}
 

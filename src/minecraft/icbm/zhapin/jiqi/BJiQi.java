@@ -1,12 +1,14 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.ICBMTab;
+import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHJiQi;
 
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,40 +65,18 @@ public class BJiQi extends BlockAdvanced
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
-	/**
-	 * Is this block powering the block on the specified side
-	 */
+	@SideOnly(Side.CLIENT)
 	@Override
-	public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+	public void func_94332_a(IconRegister iconRegister)
 	{
-		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof IRedstoneProvider)
-		{
-			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side)) ? 15 : 0;
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Is this block indirectly powering the block on the specified side
-	 */
-	@Override
-	public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
-	{
-		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof IRedstoneProvider)
-		{
-			return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side)) ? 15 : 0;
-		}
-
-		return 0;
+		this.field_94336_cN = iconRegister.func_94245_a(ZhuYao.PREFIX + "machine");
 	}
 
 	/**
 	 * Can this block provide power. Only wire currently seems to have this change based on its
 	 * state.
 	 */
+	@Override
 	public boolean canProvidePower()
 	{
 		return true;

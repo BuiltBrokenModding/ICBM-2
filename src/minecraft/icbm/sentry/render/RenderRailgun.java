@@ -3,6 +3,8 @@ package icbm.sentry.render;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.model.ModelRailgun;
 import icbm.sentry.turret.TileEntityRailgun;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
