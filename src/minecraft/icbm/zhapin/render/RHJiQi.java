@@ -61,7 +61,7 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glRotatef(180f, 0f, 180f, 1f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "Launcher" + tier + ".png"));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "launcher_" + tier + ".png"));
 
 				if (tier == 0)
 				{

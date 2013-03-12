@@ -5,6 +5,7 @@ import icbm.core.ZhuYao;
 import icbm.wanyi.b.TYinGanQi;
 import icbm.wanyi.gui.GFrequency;
 import icbm.wanyi.gui.GYinGanQi;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -18,6 +19,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void preInit()
 	{
+		super.preInit();
 		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
 	}
 

@@ -1,9 +1,12 @@
 package icbm.core;
 
 import icbm.core.di.ItElectricICBM;
+import icbm.wanyi.TextureGenZhongQi;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,6 +24,17 @@ public class ItGenZongQi extends ItElectricICBM
 	public ItGenZongQi(int id)
 	{
 		super(id, "tracker");
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void func_94581_a(IconRegister par1IconRegister)
+	{
+		if (par1IconRegister instanceof TextureMap)
+		{
+			((TextureMap) par1IconRegister).setTextureEntry(this.getUnlocalizedName().replace("item.", ""), new TextureGenZhongQi());
+			this.iconIndex = ((TextureMap) par1IconRegister).getTextureExtry(this.getUnlocalizedName().replace("item.", ""));
+			System.out.println("REGISTER TRACKER: " + this.iconIndex);
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

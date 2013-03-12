@@ -26,8 +26,6 @@ public class TextureGenZhongQi extends TextureStitched
 	@Override
 	public void func_94219_l()
 	{
-		// TODO: REGISTER TEXTURE FX
-
 		Minecraft minecraft = Minecraft.getMinecraft();
 		World world = minecraft.theWorld;
 		EntityPlayer player = minecraft.thePlayer;
