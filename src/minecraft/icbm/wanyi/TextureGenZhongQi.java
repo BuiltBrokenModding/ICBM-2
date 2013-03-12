@@ -1,12 +1,18 @@
 package icbm.wanyi;
 
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import icbm.core.ItGenZongQi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.Texture;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureStitched;
+import net.minecraft.client.texturepacks.ITexturePack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -26,14 +32,15 @@ public class TextureGenZhongQi extends TextureStitched
 	@Override
 	public void func_94219_l()
 	{
-		System.out.println("TRACKING");
+		// TODO: REGISTER TEXTURE FX
+
 		Minecraft minecraft = Minecraft.getMinecraft();
 		World world = minecraft.theWorld;
 		EntityPlayer player = minecraft.thePlayer;
+		
+		double angel = 0;
 
-		double angel = 0.0D;
-
-		if (world != null && player != null)
+		if (world != null)
 		{
 			double xDifference = 0;
 			double zDifference = 0;
@@ -54,51 +61,47 @@ public class TextureGenZhongQi extends TextureStitched
 				}
 			}
 
-			if (xDifference == 0 && zDifference == 0)
-			{
-				return;
-			}
+			player.rotationYaw %= 360.0D;
+			angel = -((player.rotationYaw - 90.0D) * Math.PI / 180.0D - Math.atan2(zDifference, xDifference));
+		}
 
-			angel = (double) (player.rotationYaw - 90.0F) * Math.PI / 180.0D - Math.atan2(zDifference, xDifference);
+		double d6;
 
-			double d6;
+		for (d6 = angel - this.field_94244_i; d6 < -Math.PI; d6 += (Math.PI * 2D))
+		{
+			;
+		}
 
-			for (d6 = angel - this.field_94244_i; d6 < -Math.PI; d6 += (Math.PI * 2D))
-			{
-				;
-			}
+		while (d6 >= Math.PI)
+		{
+			d6 -= (Math.PI * 2D);
+		}
 
-			while (d6 >= Math.PI)
-			{
-				d6 -= (Math.PI * 2D);
-			}
+		if (d6 < -1.0D)
+		{
+			d6 = -1.0D;
+		}
 
-			if (d6 < -1.0D)
-			{
-				d6 = -1.0D;
-			}
+		if (d6 > 1.0D)
+		{
+			d6 = 1.0D;
+		}
 
-			if (d6 > 1.0D)
-			{
-				d6 = 1.0D;
-			}
+		this.field_94242_j += d6 * 0.1D;
+		this.field_94242_j *= 0.8D;
+		this.field_94244_i += this.field_94242_j;
 
-			this.field_94242_j += d6 * 0.1D;
-			this.field_94242_j *= 0.8D;
-			this.field_94244_i += this.field_94242_j;
+		int i;
 
-			int i;
+		for (i = (int) ((this.field_94244_i / (Math.PI * 2D) + 1.0D) * (double) this.field_94226_b.size()) % this.field_94226_b.size(); i < 0; i = (i + this.field_94226_b.size()) % this.field_94226_b.size())
+		{
+			;
+		}
 
-			for (i = (int) ((this.field_94244_i / (Math.PI * 2D) + 1.0D) * (double) this.field_94226_b.size()) % this.field_94226_b.size(); i < 0; i = (i + this.field_94226_b.size()) % this.field_94226_b.size())
-			{
-				;
-			}
-
-			if (i != this.field_94222_f)
-			{
-				this.field_94222_f = i;
-				this.field_94228_a.func_94281_a(this.field_94224_d, this.field_94225_e, (Texture) this.field_94226_b.get(this.field_94222_f), this.field_94227_c);
-			}
+		if (i != this.field_94222_f)
+		{
+			this.field_94222_f = i;
+			this.field_94228_a.func_94281_a(this.field_94224_d, this.field_94225_e, (Texture) this.field_94226_b.get(this.field_94222_f), this.field_94227_c);
 		}
 	}
 }
