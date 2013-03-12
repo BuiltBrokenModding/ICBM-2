@@ -35,7 +35,7 @@ public class RItFaSheQi implements IItemRenderer
 	{
 		GL11.glPushMatrix();
 
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "RocketLauncher.png"));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "rocket_launcher.png"));
 
 		if (type == ItemRenderType.INVENTORY)
 		{

@@ -33,7 +33,6 @@ public class ItGenZongQi extends ItElectricICBM
 		{
 			((TextureMap) par1IconRegister).setTextureEntry(this.getUnlocalizedName().replace("item.", ""), new TextureGenZhongQi());
 			this.iconIndex = ((TextureMap) par1IconRegister).getTextureExtry(this.getUnlocalizedName().replace("item.", ""));
-			System.out.println("REGISTER TRACKER: " + this.iconIndex);
 		}
 	}
 

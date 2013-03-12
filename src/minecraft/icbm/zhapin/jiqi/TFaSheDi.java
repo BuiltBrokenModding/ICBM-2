@@ -8,6 +8,7 @@ import icbm.zhapin.daodan.ItTeBieDaoDan;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,7 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.implement.IRotatable;
@@ -434,18 +434,6 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	@Override
-	public int getStartInventorySide(ForgeDirection side)
-	{
-		return 0;
-	}
-
-	@Override
-	public int getSizeInventorySide(ForgeDirection side)
-	{
-		return 1;
-	}
-
-	@Override
 	public int getTier()
 	{
 		return this.tier;
@@ -563,5 +551,17 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	public boolean func_94041_b(int i, ItemStack itemstack)
 	{
 		return false;
+	}
+
+	@Override
+	public int func_94127_c(int i)
+	{
+		return 0;
+	}
+
+	@Override
+	public int func_94128_d(int i)
+	{
+		return 1;
 	}
 }

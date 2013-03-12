@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RXiaoFaSheQi extends TileEntitySpecialRenderer
 {
-	public static final String TEXTURE_FILE = "CruiseLauncher.png";
+	public static final String TEXTURE_FILE = "cruise_launcher.png";
 	public static final MXiaoFaSheQi MODEL0 = new MXiaoFaSheQi();
 	public static final MXiaoFaSheQiJia MODEL1 = new MXiaoFaSheQiJia();
 
