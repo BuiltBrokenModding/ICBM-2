@@ -18,6 +18,9 @@ import icbm.zhapin.dianqi.ItYaoKong;
 import icbm.zhapin.jiqi.BJiQi;
 import icbm.zhapin.jiqi.BJiQi.JiQi;
 import icbm.zhapin.jiqi.IBJiQi;
+import icbm.zhapin.po.PChuanRanDu;
+import icbm.zhapin.po.PDaDu;
+import icbm.zhapin.po.PDongShang;
 import icbm.zhapin.zhapin.BZhaDan;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
@@ -117,7 +120,6 @@ public class ZhuYaoZhaPin
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
 		ICBM.CONFIGURATION.load();
-
 		bZhaDan = new BZhaDan(ICBM.CONFIGURATION.getBlock("BlockID3", ICBM.BLOCK_ID_PREFIX + 3).getInt());
 		bJiQi = new BJiQi(ICBM.CONFIGURATION.getBlock("BlockID4", ICBM.BLOCK_ID_PREFIX + 4).getInt());
 		bJia = new BlockMulti(ICBM.CONFIGURATION.getBlock("BlockID6", ICBM.BLOCK_ID_PREFIX + 6).getInt());
@@ -134,6 +136,13 @@ public class ZhuYaoZhaPin
 
 		itShouLiuDan = new ItShouLiuDan(ICBM.CONFIGURATION.getItem("ItemID13", ICBM.ITEM_ID_PREFIX + 12).getInt());
 		itChe = new ItChe(ICBM.CONFIGURATION.getItem("ItemID15", ICBM.ITEM_ID_PREFIX + 11).getInt());
+
+		/**
+		 * Potion Effects
+		 */
+		PDaDu.INSTANCE = new PDaDu(21, true, 5149489, "toxin");
+		PChuanRanDu.INSTANCE = new PChuanRanDu(22, false, 5149489, "virus");
+		PDongShang.INSTANCE = new PDongShang(23, false, 5149489, "frostBite");
 
 		ICBM.CONFIGURATION.save();
 

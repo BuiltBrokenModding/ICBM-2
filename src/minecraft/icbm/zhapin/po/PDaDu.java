@@ -1,22 +1,13 @@
 package icbm.zhapin.po;
 
-import icbm.api.ICBM;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.DamageSource;
-import universalelectricity.prefab.potion.CustomPotion;
 
-public class PDaDu extends CustomPotion
+public class PDaDu extends PICBM
 {
-	public static final PDaDu INSTANCE;
-
-	static
-	{
-		ICBM.CONFIGURATION.load();
-		INSTANCE = new PDaDu(ICBM.CONFIGURATION.get("Potion ID", "Frost Bite", 21).getInt(21), true, 5149489, "toxin");
-		ICBM.CONFIGURATION.save();
-	}
+	public static PDaDu INSTANCE;
 
 	public PDaDu(int id, boolean isBadEffect, int color, String name)
 	{

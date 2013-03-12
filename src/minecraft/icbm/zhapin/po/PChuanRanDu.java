@@ -13,9 +13,9 @@ import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotion;
 
-public class PChuanRanDu extends CustomPotion
+public class PChuanRanDu extends PICBM
 {
-	public static final PChuanRanDu INSTANCE = new PChuanRanDu(22, false, 5149489, "Virus");
+	public static PChuanRanDu INSTANCE;
 
 	public PChuanRanDu(int id, boolean isBadEffect, int color, String name)
 	{
