@@ -32,6 +32,8 @@ import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRail;
@@ -120,22 +122,22 @@ public class ZhuYaoZhaPin
 		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
 
 		ICBM.CONFIGURATION.load();
-		bZhaDan = new BZhaDan(ICBM.CONFIGURATION.getBlock("BlockID3", ICBM.BLOCK_ID_PREFIX + 3).getInt());
-		bJiQi = new BJiQi(ICBM.CONFIGURATION.getBlock("BlockID4", ICBM.BLOCK_ID_PREFIX + 4).getInt());
-		bJia = new BlockMulti(ICBM.CONFIGURATION.getBlock("BlockID6", ICBM.BLOCK_ID_PREFIX + 6).getInt());
+		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
+		bJiQi = new BJiQi(ICBM.BLOCK_ID_PREFIX + 4);
+		bJia = new BlockMulti(ICBM.BLOCK_ID_PREFIX + 6);
 
 		// ITEMS
-		itDaoDan = new ItDaoDan(ICBM.CONFIGURATION.getItem("ItemID4", ICBM.ITEM_ID_PREFIX + 3).getInt(), "missile");
-		itTeBieDaoDan = new ItTeBieDaoDan(ICBM.CONFIGURATION.getItem("ItemID5", ICBM.ITEM_ID_PREFIX + 4).getInt());
+		itDaoDan = new ItDaoDan(ICBM.ITEM_ID_PREFIX + 3, "missile");
+		itTeBieDaoDan = new ItTeBieDaoDan(ICBM.ITEM_ID_PREFIX + 4);
 
-		itJieJa = new ItJieJa(ICBM.CONFIGURATION.getItem("ItemID6", ICBM.ITEM_ID_PREFIX + 5).getInt());
-		itLeiDaQiang = new ItLeiDaQiang(ICBM.CONFIGURATION.getItem("ItemID7", ICBM.ITEM_ID_PREFIX + 6).getInt());
-		itYaoKong = new ItYaoKong(ICBM.CONFIGURATION.getItem("ItemID8", ICBM.ITEM_ID_PREFIX + 7).getInt());
-		itLeiSheZhiBiao = new ItLeiSheZhiBiao(ICBM.CONFIGURATION.getItem("ItemID9", ICBM.ITEM_ID_PREFIX + 8).getInt());
-		itFaSheQi = new ItFaSheQi(ICBM.CONFIGURATION.getItem("ItemID12", ICBM.ITEM_ID_PREFIX + 11).getInt());
+		itJieJa = new ItJieJa(ICBM.ITEM_ID_PREFIX + 5);
+		itLeiDaQiang = new ItLeiDaQiang(ICBM.ITEM_ID_PREFIX + 6);
+		itYaoKong = new ItYaoKong(ICBM.ITEM_ID_PREFIX + 7);
+		itLeiSheZhiBiao = new ItLeiSheZhiBiao(ICBM.ITEM_ID_PREFIX + 8);
+		itFaSheQi = new ItFaSheQi(ICBM.ITEM_ID_PREFIX + 11);
 
-		itShouLiuDan = new ItShouLiuDan(ICBM.CONFIGURATION.getItem("ItemID13", ICBM.ITEM_ID_PREFIX + 12).getInt());
-		itChe = new ItChe(ICBM.CONFIGURATION.getItem("ItemID15", ICBM.ITEM_ID_PREFIX + 11).getInt());
+		itShouLiuDan = new ItShouLiuDan(ICBM.ITEM_ID_PREFIX + 12);
+		itChe = new ItChe(ICBM.ITEM_ID_PREFIX + 11);
 
 		/**
 		 * Potion Effects

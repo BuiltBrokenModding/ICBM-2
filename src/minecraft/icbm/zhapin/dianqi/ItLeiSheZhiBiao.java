@@ -352,6 +352,6 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 	@Override
 	public double getMaxJoules(ItemStack itemStack)
 	{
-		return 60000;
+		return 80000;
 	}
 }

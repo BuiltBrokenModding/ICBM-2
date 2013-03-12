@@ -56,8 +56,8 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	protected void entityInit()
 	{
 		super.entityInit();
-		this.dataWatcher.addObject(21, (int) this.yinXin);
-		this.dataWatcher.addObject(22, (byte) 0);
+		this.dataWatcher.addObject(23, (int) this.yinXin);
+		this.dataWatcher.addObject(24, (byte) 0);
 	}
 
 	@Override
@@ -67,9 +67,9 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 
 		if (this.worldObj.isRemote)
 		{
-			this.yinXin = this.dataWatcher.getWatchableObjectInt(21);
+			this.yinXin = this.dataWatcher.getWatchableObjectInt(23);
 
-			if (this.dataWatcher.getWatchableObjectByte(22) > 0)
+			if (this.dataWatcher.getWatchableObjectByte(24) > 0)
 			{
 				this.isPrimed = true;
 			}
@@ -80,14 +80,14 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 		}
 		else
 		{
-			this.dataWatcher.updateObject(21, this.yinXin);
+			this.dataWatcher.updateObject(23, this.yinXin);
 
 			byte isPri = 0;
 
 			if (this.isPrimed)
 				isPri = 1;
 
-			this.dataWatcher.updateObject(22, isPri);
+			this.dataWatcher.updateObject(24, isPri);
 		}
 
 		if (this.isPrimed)
@@ -104,12 +104,14 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 
 			this.yinXin--;
 		}
-		else
+	}
+
+	@Override
+	public void func_96095_a(int par1, int par2, int par3, boolean par4)
+	{
+		if (this.worldObj.isBlockIndirectlyGettingPowered((int) this.posX, (int) this.posY - 1, (int) this.posZ))
 		{
-			if (this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ) == Block.rail.blockID && this.worldObj.isBlockIndirectlyGettingPowered((int) this.posX, (int) this.posY, (int) this.posZ))
-			{
-				this.setPrimed(true);
-			}
+			this.setPrimed(true);
 		}
 	}
 
@@ -206,6 +208,18 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	public IExplosive getExplosiveType()
 	{
 		return ZhaPin.list[this.haoMa];
+	}
+
+	@Override
+	public Block func_94089_m()
+	{
+		return ZhuYaoZhaPin.bZhaDan;
+	}
+
+	@Override
+	public int func_94098_o()
+	{
+		return this.haoMa;
 	}
 
 	@Override

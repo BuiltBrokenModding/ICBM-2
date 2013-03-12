@@ -26,6 +26,7 @@ public class TextureGenZhongQi extends TextureStitched
 	@Override
 	public void func_94219_l()
 	{
+		System.out.println("TRACKING");
 		Minecraft minecraft = Minecraft.getMinecraft();
 		World world = minecraft.theWorld;
 		EntityPlayer player = minecraft.thePlayer;
