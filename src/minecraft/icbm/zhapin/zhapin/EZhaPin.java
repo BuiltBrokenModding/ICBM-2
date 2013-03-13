@@ -43,7 +43,6 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 		this.setSize(0.98F, 0.98F);
 		this.yOffset = this.height / 2.0F;
 		this.renderDistanceWeight = 2f;
-		this.ticksExisted = 0;
 		this.ignoreFrustumCheck = true;
 	}
 

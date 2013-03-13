@@ -34,11 +34,10 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 		this.setSize(0.3F, 0.3F);
 		this.setPosition(position.x, position.y, position.z);
 		this.yOffset = 0.0F;
-
 		this.haoMa = explosiveID;
 	}
 
-	public EShouLiuDan(World par1World, EntityLiving par2EntityLiving, int explosiveID)
+	public EShouLiuDan(World par1World, EntityLiving par2EntityLiving, int explosiveID, float nengLiang)
 	{
 		super(par1World);
 		this.thrower = par2EntityLiving;
@@ -53,8 +52,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 		this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * var3);
 		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * var3);
 		this.motionY = (double) (-MathHelper.sin((this.rotationPitch) / 180.0F * (float) Math.PI) * var3);
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 0.9F, 1.0F);
-
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 2.5f * nengLiang, 1.0F);
 		this.haoMa = explosiveID;
 	}
 

@@ -174,7 +174,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 			while (var5.hasNext())
 			{
 				Entity entity = (Entity) var5.next();
-				entity.attackEntityFrom(DamageSource.anvil, 5);
+				entity.attackEntityFrom(DamageSource.anvil, 15);
 			}
 		}
 
@@ -220,6 +220,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 					{
 						this.worldObj.playAuxSFX(1022, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
 					}
+
 					this.setDead();
 				}
 			}

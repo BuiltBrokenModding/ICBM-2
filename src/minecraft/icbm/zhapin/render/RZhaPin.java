@@ -37,10 +37,8 @@ public class RZhaPin extends Render
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x, (float) y, (float) z);
 			Sphere sphere = new Sphere();
-			GL11.glShadeModel(7425);
-			GL11.glColor4f(0.0F, 0.0F, 0.0F, 1F);
+			GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.5f);
 			sphere.draw(5, 32, 32);
-			GL11.glDisable(3042);
 			GL11.glPopMatrix();
 
 			/**

@@ -11,9 +11,13 @@ import java.util.List;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,15 +34,51 @@ public class ItShouLiuDan extends ItICBM
 		this.setHasSubtypes(true);
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
-	 * world, entityPlayer
-	 */
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World world, EntityPlayer entityPlayer)
+	@Override
+	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	{
+		return par1ItemStack;
+	}
+
+	@Override
+	public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	{
+		return EnumAction.bow;
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	{
+		return 3 * 20;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
+	{
+		if (itemStack != null)
+		{
+			int haoMa = ZhaPin.list[itemStack.getItemDamage()].getID();
+
+			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN, haoMa))
+			{
+				entityPlayer.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
+			}
+			else
+			{
+				entityPlayer.sendChatToPlayer("Grenades are banned in this region.");
+			}
+		}
+
+		return itemStack;
+	}
+
+	@Override
+	public void onPlayerStoppedUsing(ItemStack par1ItemStack, World world, EntityPlayer entityPlayer, int nengLiang)
 	{
 		if (!world.isRemote)
 		{
 			int haoMa = ZhaPin.list[par1ItemStack.getItemDamage()].getID();
+
 			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN, haoMa))
 			{
 				if (!entityPlayer.capabilities.isCreativeMode)
@@ -47,15 +87,13 @@ public class ItShouLiuDan extends ItICBM
 				}
 
 				world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, haoMa));
+				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, haoMa, (float) (this.getMaxItemUseDuration(par1ItemStack) - nengLiang) / (float) this.getMaxItemUseDuration(par1ItemStack)));
 			}
 			else
 			{
 				entityPlayer.sendChatToPlayer("Grenades are banned in this region.");
 			}
 		}
-
-		return par1ItemStack;
 	}
 
 	@Override
