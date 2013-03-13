@@ -12,8 +12,7 @@ public class BBuoLi extends BICBM
 {
 	public BBuoLi(int id)
 	{
-		super(id, "reinforcedGlass", Material.glass);
-		this.setUnlocalizedName(ZhuYao.PREFIX + "reinforcedGlass");
+		super(id, "glassReinforced", Material.glass);
 		this.setResistance(48);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
