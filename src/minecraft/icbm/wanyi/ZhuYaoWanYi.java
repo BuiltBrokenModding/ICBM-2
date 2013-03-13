@@ -4,6 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.ICBMTab;
 import icbm.core.ItGenZongQi;
 import icbm.core.ZhuYao;
+import icbm.wanyi.b.BBuoLi;
 import icbm.wanyi.b.BBuoLiPan;
 import icbm.wanyi.b.BEnNiu;
 import icbm.wanyi.b.BNiTu;
@@ -44,7 +45,7 @@ public class ZhuYaoWanYi
 	public static CommonProxy proxy;
 
 	// Blocks
-	public static Block bBuoLiPan, bBuoLiEnNiu, bYinGanQi, bZha, bYinXing, bNiTu;
+	public static Block bBuoLiPan, bBuoLiEnNiu, bYinGanQi, bZha, bYinXing, bNiTu, bBuoLi;
 
 	// Items
 	public static Item itYao;
@@ -60,12 +61,13 @@ public class ZhuYaoWanYi
 		ICBM.CONFIGURATION.load();
 
 		// Blocks
-		bBuoLiPan = new BBuoLiPan(ICBM.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX + 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(ICBM.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX + 2).getInt());
-		bYinGanQi = new BYinGanQi(ICBM.BLOCK_ID_PREFIX - 1);
-		bZha = new BZha(ICBM.BLOCK_ID_PREFIX - 2);
-		bYinXing = new BYinXing(ICBM.BLOCK_ID_PREFIX - 3);
-		bNiTu = new BNiTu(ICBM.BLOCK_ID_PREFIX - 4);
+		bBuoLiPan = new BBuoLiPan(ICBM.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
+		bBuoLiEnNiu = new BEnNiu(ICBM.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
+		bYinGanQi = new BYinGanQi(ICBM.BLOCK_ID_PREFIX - 3);
+		bZha = new BZha(ICBM.BLOCK_ID_PREFIX - 4);
+		bYinXing = new BYinXing(ICBM.BLOCK_ID_PREFIX - 5);
+		bNiTu = new BNiTu(ICBM.BLOCK_ID_PREFIX - 6);
+		bBuoLi = new BBuoLi(ICBM.BLOCK_ID_PREFIX - 7);
 
 		// ITEMS
 		itYao = new ItYao(ICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
@@ -81,6 +83,7 @@ public class ZhuYaoWanYi
 		GameRegistry.registerBlock(bBuoLiEnNiu, "bBuoLiEnNiu");
 		GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
 		GameRegistry.registerBlock(bYinXing, "bYinXing");
+		GameRegistry.registerBlock(bBuoLi, "bBuoLi");
 		GameRegistry.registerBlock(bZha, IBZha.class, "bZha");
 		GameRegistry.registerBlock(bNiTu, IBNiTu.class, "bNiTu");
 
@@ -125,6 +128,9 @@ public class ZhuYaoWanYi
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sandStone, 'W', Item.bucketWater }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 0), 'O', Block.obsidian }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', "ingotSteel" }));
+
+		// Reinforced Glass
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
 		this.proxy.init();
 	}

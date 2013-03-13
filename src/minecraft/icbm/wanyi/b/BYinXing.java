@@ -90,7 +90,8 @@ public class BYinXing extends BICBM implements IEMPBlock
 				if (par5EntityPlayer.getCurrentEquippedItem().itemID < Block.blocksList.length)
 				{
 					Block block = Block.blocksList[par5EntityPlayer.getCurrentEquippedItem().itemID];
-					if (block != null)
+
+					if (block != null && block != this)
 					{
 						if (block instanceof ICamouflageMaterial || (block.renderAsNormalBlock() || (block.getRenderType() == 0 || block.getRenderType() == 31)))
 						{

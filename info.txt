@@ -185,3 +185,4 @@ Minecraft 1.4.7
 x ICBM_Explosion_v1.1.0.170.jar ICBM_Contraption_v1.1.0.170.jar ICBM_Sentry_v1.1.0.170.jar ICBM_v1.1.0.170_api.zip
 x ICBM_Explosion_v1.1.0.171.jar ICBM_Contraption_v1.1.0.171.jar ICBM_Sentry_v1.1.0.171.jar ICBM_v1.1.0.171_api.zip
 x ICBM_Explosion_v1.1.0.172.jar ICBM_Contraption_v1.1.0.172.jar ICBM_Sentry_v1.1.0.172.jar ICBM_v1.1.0.172_api.zip
+@ ICBM_Explosion_v1.1.0.173.jar ICBM_Contraption_v1.1.0.173.jar ICBM_Sentry_v1.1.0.173.jar ICBM_v1.1.0.173_api.zip
