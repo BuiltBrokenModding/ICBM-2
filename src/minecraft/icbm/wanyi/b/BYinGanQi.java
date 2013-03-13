@@ -78,10 +78,4 @@ public class BYinGanQi extends BICBM
 	{
 		itemList.add(new ItemStack(this));
 	}
-
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.BLOCK_PATH;
-	}
 }

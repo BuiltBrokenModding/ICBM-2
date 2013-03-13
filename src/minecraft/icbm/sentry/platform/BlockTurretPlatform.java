@@ -22,7 +22,6 @@ public class BlockTurretPlatform extends BlockSentryBase
 		this.setHardness(50f);
 		this.setResistance(100f);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ICBMSentry.BLOCK_PATH);
 	}
 
 	@Override

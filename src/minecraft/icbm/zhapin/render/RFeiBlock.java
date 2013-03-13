@@ -36,7 +36,7 @@ public class RFeiBlock extends Render
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
-		this.loadTexture(Block.blocksList[entity.blockID].getTextureFile());
+		this.loadTexture("/terrain.png");
 
 		Block block = Block.blocksList[entity.blockID];
 		World world = entity.worldObj;

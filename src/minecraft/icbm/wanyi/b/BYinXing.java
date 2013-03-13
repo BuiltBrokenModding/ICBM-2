@@ -26,7 +26,6 @@ public class BYinXing extends BICBM implements IEMPBlock
 		this.setResistance(1F);
 		this.setStepSound(this.soundClothFootstep);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.BLOCK_PATH);
 	}
 
 	@Override

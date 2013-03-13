@@ -21,7 +21,6 @@ public class BBuoLiPan extends BlockPressurePlate
 		this.setStepSound(soundGlassFootstep);
 		this.setUnlocalizedName(ZhuYao.PREFIX + "glassPressurePlate");
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setTextureFile(ZhuYao.BLOCK_PATH);
 	}
 
 	@Override

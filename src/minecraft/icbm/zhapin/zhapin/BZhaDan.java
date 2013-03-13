@@ -356,12 +356,6 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		return false;
 	}
 
-	@Override
-	public String getTextureFile()
-	{
-		return ZhuYao.BLOCK_PATH;
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public int getRenderType()
