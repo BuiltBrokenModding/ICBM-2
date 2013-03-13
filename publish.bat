@@ -27,7 +27,7 @@ runtime\bin\python\python_mcp runtime\reobfuscate.py %*
 cd reobf\minecraft\
 :: BUILD ICBM EXPLOSION
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "atomicscience\"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "chb\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "mffs\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "dan200\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "ic2\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "railcraft\"
@@ -39,7 +39,7 @@ cd reobf\minecraft\
 
 :: BUILD ICBM CONTRAPTION
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "atomicscience\"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "chb\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "mffs\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "dan200\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "ic2\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "railcraft\"
@@ -51,7 +51,7 @@ cd reobf\minecraft\
 
 :: BUILD ICBM SENTRY
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "atomicscience\"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "chb\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "mffs\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "dan200\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "ic2\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "railcraft\"
