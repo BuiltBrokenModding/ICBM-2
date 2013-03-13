@@ -1,6 +1,8 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
+import icbm.api.explosion.ExplosionEvent;
+import icbm.api.explosion.IExplosiveIgnore;
 import icbm.zhapin.EFeiBlock;
 import icbm.zhapin.zhapin.EZhaDan;
 import icbm.zhapin.zhapin.EZhaPin;
@@ -41,7 +43,6 @@ public class ExHongSu extends ZhaPin
 		}
 	}
 
-	// Sonic Explosion is a procedural explosive
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
 	{
@@ -135,6 +136,12 @@ public class ExHongSu extends ZhaPin
 			if (entity == explosionSource)
 				continue;
 
+			if (entity instanceof IExplosiveIgnore)
+			{
+				if (((IExplosiveIgnore) entity).canIgnore(new ExplosionEvent(worldObj, position.x, position.y, position.z, this)))
+					continue;
+			}
+
 			if (entity instanceof EntityPlayer)
 			{
 				if (((EntityPlayer) entity).capabilities.isCreativeMode)
@@ -178,12 +185,15 @@ public class ExHongSu extends ZhaPin
 				{
 					if (entity instanceof EZhaPin)
 					{
-						worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-
-						if (worldObj.rand.nextFloat() > 0.85 && !worldObj.isRemote)
+						if (((EZhaPin) entity).haoMa == ZhaPin.fanWuSu.getID())
 						{
-							entity.setDead();
-							return false;
+							worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+
+							if (worldObj.rand.nextFloat() > 0.85 && !worldObj.isRemote)
+							{
+								entity.setDead();
+								return false;
+							}
 						}
 
 					}

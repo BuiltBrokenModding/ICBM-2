@@ -106,8 +106,6 @@ public class ItYaoKong extends ItElectricICBM
 					{
 						if (tile instanceof TZhaDan)
 						{
-							int explosiveID = ((TZhaDan) tile).haoMa;
-
 							if (blockID == ZhuYaoZhaPin.bJiQi.blockID)
 							{
 								return itemStack;
@@ -159,7 +157,7 @@ public class ItYaoKong extends ItElectricICBM
 		{
 			if (tileEntity instanceof TZhaDan)
 			{
-				return ((TZhaDan) tileEntity).haoMa == ZhaPin.yaSuo.getID() || ((TZhaDan) tileEntity).haoMa == ZhaPin.tuPuo.getID();
+				return ((TZhaDan) tileEntity).haoMa == ZhaPin.yaSuo.getID() || ((TZhaDan) tileEntity).haoMa == ZhaPin.tuPuo.getID() || ((TZhaDan) tileEntity).haoMa == ZhaPin.diLei.getID();
 			}
 		}
 

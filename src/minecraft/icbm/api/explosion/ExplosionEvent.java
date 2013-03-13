@@ -10,7 +10,7 @@ import net.minecraftforge.event.Event;
  * @author Calclavia
  * 
  */
-public abstract class ExplosionEvent extends Event
+public class ExplosionEvent extends Event
 {
 	/**
 	 * The world in which the explosion happened.
