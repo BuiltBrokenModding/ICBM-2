@@ -180,17 +180,17 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 		}
 		return false;
 	}
-	
-	@Override
-    public void func_94095_a(DamageSource par1DamageSource)
-    {
-        super.func_94095_a(par1DamageSource);
 
-        if (!par1DamageSource.func_94541_c())
-        {
-            this.entityDropItem(new ItemStack(ZhuYaoZhaPin.bZhaDan, 1,this.haoMa), 0.0F);
-        }
-    }
+	@Override
+	public void func_94095_a(DamageSource par1DamageSource)
+	{
+		super.func_94095_a(par1DamageSource);
+
+		if (!par1DamageSource.func_94541_c())
+		{
+			this.entityDropItem(new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, this.haoMa), 0.0F);
+		}
+	}
 
 	@Override
 	public ItemStack getCartItem()
