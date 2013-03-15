@@ -5,7 +5,9 @@ import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
@@ -35,7 +37,10 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Item.redstone, 'B', "battery" }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
+		if (OreDictionary.getOres("battery").size() > 0)
+		{
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Item.redstone, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres("battery").get(0)) }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
+		}
 	}
 
 	@Override

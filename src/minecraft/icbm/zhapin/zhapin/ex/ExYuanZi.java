@@ -10,6 +10,7 @@ import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
@@ -262,7 +263,15 @@ public class ExYuanZi extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
+		if (OreDictionary.getOres("ingotUranium").size() > 0)
+		{
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
+		}
+		else
+		{
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack(), 'U' }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
+
+		}
 	}
 
 	@Override

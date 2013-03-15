@@ -50,6 +50,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.liquids.LiquidContainerData;
 import net.minecraftforge.liquids.LiquidContainerRegistry;
 import net.minecraftforge.liquids.LiquidDictionary;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.core.item.ElectricItemHelper;
@@ -288,6 +289,7 @@ public class ZhuYaoZhaPin
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang), '!', "plateSteel", '#', "basicCircuit", '?', Item.ingotGold }));
 		// EMP Tower
 		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', "plateSteel", '!', "eliteCircuit", '@', "batteryBox", '#', "motor", 'W', "copperWire" }), "EMP Tower", ICBM.CONFIGURATION, true);
+
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?! ", "@@@", '@', "plateSteel", '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
 

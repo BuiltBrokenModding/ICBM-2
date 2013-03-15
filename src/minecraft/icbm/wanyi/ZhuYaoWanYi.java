@@ -15,6 +15,7 @@ import icbm.wanyi.b.IBNiTu;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.item.ItemElectric;
@@ -105,9 +106,11 @@ public class ZhuYaoWanYi
 		// Camouflage
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', "basicCircuit", 'G', Block.glass, 'W', Block.cloth }));
 
-		// Tracker
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', "basicCircuit", 'B', "battery", 'S', "ingotSteel" }));
-
+		if (OreDictionary.getOres("battery").size() > 0)
+		{
+			// Tracker
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', "basicCircuit", 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres("battery").get(0)), 'S', "ingotSteel" }));
+		}
 		// Glass Pressure Plate
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoWanYi.bBuoLiPan, 1, 0), new Object[] { "##", '#', Block.glass }));
 
