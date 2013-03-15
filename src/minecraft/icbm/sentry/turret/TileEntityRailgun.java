@@ -19,6 +19,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
@@ -51,6 +53,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 
 	private boolean packetGengXin = true;
 
+	@Override
 	public void onUpdate()
 	{
 		if (this.mountedPlayer != null)
@@ -142,6 +145,37 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 		}
 	}
 
+	public void drawParticleStreamTo(Vector3 endPosition)
+	{
+		if (this.worldObj.isRemote)
+		{
+			Vector3 startPosition = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
+			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.rotationYaw - 15, this.rotationPitch);
+			double scale = 1.0;
+			double xoffset = 1.3f;
+			double yoffset = -.2;
+			double zoffset = 0.3f;
+			Vector3 horzdir = direction.normalize();
+			horzdir.y = 0;
+			horzdir = horzdir.normalize();
+			double cx = startPosition.x + direction.x * xoffset - direction.y * horzdir.x * yoffset - horzdir.z * zoffset;
+			double cy = startPosition.y + direction.y * xoffset + (1 - Math.abs(direction.y)) * yoffset;
+			double cz = startPosition.z + direction.x * xoffset - direction.y * horzdir.x * yoffset + horzdir.x * zoffset;
+			double dx = endPosition.x - cx;
+			double dy = endPosition.y - cy;
+			double dz = endPosition.z - cz;
+			double ratio = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+			while (Math.abs(cx - endPosition.x) > Math.abs(dx / ratio))
+			{
+				this.worldObj.spawnParticle("townaura", cx, cy, cz, 0.0D, 0.0D, 0.0D);
+				cx += dx * 0.1 / ratio;
+				cy += dy * 0.1 / ratio;
+				cz += dz * 0.1 / ratio;
+			}
+		}
+	}
+
 	@Override
 	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
@@ -168,6 +202,13 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 					Vector3 muzzilePosition = this.getMuzzle();
 					this.worldObj.spawnParticle("smoke", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
 					this.worldObj.spawnParticle("flame", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
+
+					MovingObjectPosition objectMouseOver = this.rayTrace(2000);
+
+					if (objectMouseOver != null)
+					{
+						this.drawParticleStreamTo(Vector3.add(new Vector3(objectMouseOver), 0.5));
+					}
 				}
 
 			}
@@ -259,8 +300,8 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	@Override
 	public Vector3 getMuzzle()
 	{
-		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch - 10), 1.9));
+		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw - 10, this.targetRotationPitch), 1.5));
 	}
 
 	@Override

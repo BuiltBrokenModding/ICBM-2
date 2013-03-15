@@ -155,6 +155,27 @@ public class Vector3 implements Cloneable
 		return Vec3.createVectorHelper(this.x, this.y, this.z);
 	}
 
+	public double getMagnitude()
+	{
+		return Math.sqrt(this.getMagnitudeSquared());
+	}
+
+	public double getMagnitudeSquared()
+	{
+		return x * x + y * y + z * z;
+	}
+
+	public Vector3 normalize()
+	{
+		double d = getMagnitude();
+		
+		if (d != 0)
+		{
+			multiply(1 / d);
+		}
+		return this;
+	}
+
 	/**
 	 * Gets the distance between two vectors
 	 * 

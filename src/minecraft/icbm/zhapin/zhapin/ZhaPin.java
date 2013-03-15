@@ -106,7 +106,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 	// Hidden Explosives
 	public static final ZhaPin dianCiWave = new ExDianCiWave("emp", 26, 3);
 	public static final ZhaPin dianCiSignal = new ExDianCiSignal("emp", 27, 3);
-	public static final ZhaPin taiYang2 = new ExTaiYang2("conflagration", 28, 3);
+	public static final ZhaPin taiYang2 = new ExTaiYang2("exothermic", 28, 3);
 	public static final ZhaPin fuLan = new ExFuLan("decayLand", 29, 3);
 	public static final ZhaPin bianZhong = new ExBianZhong("mutateLiving", 30, 3);
 	public static final ZhaPin bingDan2 = new ExBingDan2("endothermic", 31, 3);
