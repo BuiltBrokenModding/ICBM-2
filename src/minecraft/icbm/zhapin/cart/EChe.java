@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import railcraft.common.api.carts.IExplosiveCart;
 import universalelectricity.core.vector.Vector3;
@@ -179,6 +180,17 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 		}
 		return false;
 	}
+	
+	@Override
+    public void func_94095_a(DamageSource par1DamageSource)
+    {
+        super.func_94095_a(par1DamageSource);
+
+        if (!par1DamageSource.func_94541_c())
+        {
+            this.entityDropItem(new ItemStack(ZhuYaoZhaPin.bZhaDan, 1,this.haoMa), 0.0F);
+        }
+    }
 
 	@Override
 	public ItemStack getCartItem()
