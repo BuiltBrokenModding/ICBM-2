@@ -73,21 +73,26 @@ public class ItShouLiuDan extends ItICBM
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack par1ItemStack, World world, EntityPlayer entityPlayer, int nengLiang)
+	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer entityPlayer, int nengLiang)
 	{
 		if (!world.isRemote)
 		{
-			int haoMa = ZhaPin.list[par1ItemStack.getItemDamage()].getID();
+			int haoMa = ZhaPin.list[itemStack.getItemDamage()].getID();
 
 			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN, haoMa))
 			{
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{
-					--par1ItemStack.stackSize;
+					itemStack.stackSize--;
+					
+					if (itemStack.stackSize <= 0)
+					{
+						entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+					}
 				}
 
 				world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, haoMa, (float) (this.getMaxItemUseDuration(par1ItemStack) - nengLiang) / (float) this.getMaxItemUseDuration(par1ItemStack)));
+				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, haoMa, (float) (this.getMaxItemUseDuration(itemStack) - nengLiang) / (float) this.getMaxItemUseDuration(itemStack)));
 			}
 			else
 			{

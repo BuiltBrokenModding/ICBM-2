@@ -28,18 +28,23 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 
 	public int haoMa;
 
-	public EShouLiuDan(World par1World, Vector3 position, int explosiveID)
+	public EShouLiuDan(World par1World)
 	{
 		super(par1World);
 		this.setSize(0.3F, 0.3F);
+		this.renderDistanceWeight = 10.0D;
+	}
+
+	public EShouLiuDan(World par1World, Vector3 position, int explosiveID)
+	{
+		this(par1World);
 		this.setPosition(position.x, position.y, position.z);
-		this.yOffset = 0.0F;
 		this.haoMa = explosiveID;
 	}
 
 	public EShouLiuDan(World par1World, EntityLiving par2EntityLiving, int explosiveID, float nengLiang)
 	{
-		super(par1World);
+		this(par1World);
 		this.thrower = par2EntityLiving;
 		this.setSize(0.25F, 0.25F);
 		this.setLocationAndAngles(par2EntityLiving.posX, par2EntityLiving.posY + (double) par2EntityLiving.getEyeHeight(), par2EntityLiving.posZ, par2EntityLiving.rotationYaw, par2EntityLiving.rotationPitch);
@@ -52,7 +57,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 		this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * var3);
 		this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * var3);
 		this.motionY = (double) (-MathHelper.sin((this.rotationPitch) / 180.0F * (float) Math.PI) * var3);
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 2.5f * nengLiang, 1.0F);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.8f * nengLiang, 1.0F);
 		this.haoMa = explosiveID;
 	}
 
@@ -100,6 +105,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	/**
 	 * Sets the velocity to the args. Args: x, y, z
 	 */
+	@Override
 	public void setVelocity(double par1, double par3, double par5)
 	{
 		this.motionX = par1;
@@ -118,18 +124,13 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for
 	 * spiders and wolves to prevent them from trampling crops
 	 */
+	@Override
 	protected boolean canTriggerWalking()
 	{
 		return false;
 	}
 
-	public EShouLiuDan(World par1World)
-	{
-		super(par1World);
-		this.setSize(0.25F, 0.3F);
-		this.yOffset = this.height / 2.0F;
-	}
-
+	@Override
 	protected void entityInit()
 	{
 	}
@@ -137,6 +138,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	/**
 	 * Called to update the entity's position/logic.
 	 */
+	@Override
 	public void onUpdate()
 	{
 		if (!this.worldObj.isRemote)
@@ -234,6 +236,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	/**
 	 * Returns if this entity is in water and will end up adding the waters velocity to the entity
 	 */
+	@Override
 	public boolean handleWaterMovement()
 	{
 		return this.worldObj.handleMaterialAcceleration(this.boundingBox, Material.water, this);
@@ -242,6 +245,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	/**
 	 * Returns true if other Entities should be prevented from moving through this Entity.
 	 */
+	@Override
 	public boolean canBeCollidedWith()
 	{
 		return true;
@@ -250,6 +254,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	/**
 	 * Returns true if this entity should push and be pushed by other entities when colliding.
 	 */
+	@Override
 	public boolean canBePushed()
 	{
 		return true;
