@@ -53,6 +53,11 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 
 	private boolean packetGengXin = true;
 
+	/**
+	 * A counter used client side for the smoke and streaming effects of the Railgun after a shot.
+	 */
+	private int endTicks = 0;
+
 	@Override
 	public void onUpdate()
 	{
@@ -142,6 +147,20 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 					this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 				}
 			}
+			else if (this.endTicks > 0)
+			{
+				Vector3 muzzilePosition = this.getMuzzle();
+				this.worldObj.spawnParticle("smoke", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
+				this.worldObj.spawnParticle("flame", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
+
+				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
+
+				if (objectMouseOver != null)
+				{
+					this.drawParticleStreamTo(Vector3.add(new Vector3(objectMouseOver), 0.5));
+				}
+				this.endTicks--;
+			}
 		}
 	}
 
@@ -199,16 +218,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 				 */
 				if (this.worldObj.isRemote)
 				{
-					Vector3 muzzilePosition = this.getMuzzle();
-					this.worldObj.spawnParticle("smoke", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
-					this.worldObj.spawnParticle("flame", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
-
-					MovingObjectPosition objectMouseOver = this.rayTrace(2000);
-
-					if (objectMouseOver != null)
-					{
-						this.drawParticleStreamTo(Vector3.add(new Vector3(objectMouseOver), 0.5));
-					}
+					this.endTicks = 20 * 3;
 				}
 
 			}

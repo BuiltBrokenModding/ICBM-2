@@ -46,7 +46,7 @@ public class ExWenYa extends ZhaPin
 			}
 		}
 
-		doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG * 1000);
+		doDamageEntities(worldObj, position, BAN_JING * 2, NENG_LIANG * 100);
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
@@ -198,13 +198,13 @@ public class ExWenYa extends ZhaPin
 
 				if (blockID > 0)
 				{
-					worldObj.setBlockAndMetadataWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 2);
+					worldObj.setBlockAndMetadataWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 3);
 					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), null);
 				}
 			}
 		}
 
-		doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG * 1000);
+		doDamageEntities(worldObj, position, BAN_JING * 2, NENG_LIANG * 000);
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 10.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 	}
