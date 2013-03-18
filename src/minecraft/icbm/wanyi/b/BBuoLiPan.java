@@ -24,6 +24,26 @@ public class BBuoLiPan extends BlockPressurePlate
 	}
 
 	@Override
+	protected void setStateIfMobInteractsWithPlate(World par1World, int par2, int par3, int par4, int par5)
+	{
+		int i1 = this.func_94351_d(par1World, par2, par3, par4);
+		boolean flag = par5 > 0;
+		boolean flag1 = i1 > 0;
+
+		if (par5 != i1)
+		{
+			par1World.setBlockMetadataWithNotify(par2, par3, par4, this.func_94355_d(i1), 2);
+			this.func_94354_b_(par1World, par2, par3, par4);
+			par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
+		}
+
+		if (flag1)
+		{
+			par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
+		}
+	}
+
+	@Override
 	public int tickRate(World world)
 	{
 		return 10;

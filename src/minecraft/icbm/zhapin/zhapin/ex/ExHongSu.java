@@ -10,7 +10,6 @@ import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
-import mffs.api.ForcefieldProtected;
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
@@ -23,7 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import cpw.mods.fml.common.Loader;
 
 public class ExHongSu extends ZhaPin
 {
@@ -74,12 +72,6 @@ public class ExHongSu extends ZhaPin
 
 							if (blockID == 0 || Block.blocksList[blockID] == null)
 								continue;
-
-							if (Loader.isModLoaded("ModularForceFieldSystem"))
-							{
-								if (ForcefieldProtected.BlockProtected(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ(), null))
-									continue;
-							}
 
 							if (Block.blocksList[blockID] instanceof IForceFieldBlock)
 							{

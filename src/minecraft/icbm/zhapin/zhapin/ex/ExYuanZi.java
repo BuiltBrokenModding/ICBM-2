@@ -269,7 +269,7 @@ public class ExYuanZi extends ZhaPin
 		}
 		else
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack(), 'U' }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack() }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
 
 		}
 	}

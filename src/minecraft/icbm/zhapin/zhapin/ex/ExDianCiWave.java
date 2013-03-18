@@ -3,8 +3,8 @@ package icbm.zhapin.zhapin.ex;
 import ic2.api.IEnergyStorage;
 import icbm.api.explosion.IEMPBlock;
 import icbm.zhapin.zhapin.ZhaPin;
-import mffs.api.IForceEnergyStorageBlock;
 import mffs.api.IForceFieldBlock;
+import mffs.api.IFortronStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -73,9 +73,9 @@ public class ExDianCiWave extends ZhaPin
 								((IDisableable) tileEntity).onDisable(400);
 							}
 
-							if (tileEntity instanceof IForceEnergyStorageBlock)
+							if (tileEntity instanceof IFortronStorage)
 							{
-								((IForceEnergyStorageBlock) tileEntity).consumePowerfromStorage((int) worldObj.rand.nextFloat() * ((IForceEnergyStorageBlock) tileEntity).getStorageMaxPower(), false);
+								((IFortronStorage) tileEntity).provideFortron((int) worldObj.rand.nextFloat() * ((IFortronStorage) tileEntity).getFortronCapacity(), true);
 							}
 
 							if (tileEntity instanceof IForceFieldBlock)

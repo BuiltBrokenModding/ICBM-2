@@ -1,7 +1,6 @@
 package icbm.wanyi.b;
 
 import icbm.api.ICBMTab;
-import icbm.core.ZhuYao;
 import icbm.core.di.BICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
