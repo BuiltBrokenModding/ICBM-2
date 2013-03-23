@@ -11,6 +11,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
@@ -337,7 +338,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public ForgeDirection getDirection(World world, int x, int y, int z)
+	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.fangXiang);
 	}

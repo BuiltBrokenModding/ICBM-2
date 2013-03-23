@@ -17,7 +17,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 			{
 				if (this.worldObj.rand.nextFloat() > 0.1)
 				{
-					((EntityLiving) this.target).attackEntityFrom(DamageSource.func_94539_a(null), 3);
+					((EntityLiving) this.target).attackEntityFrom(DamageSource.setExplosionSource(null), 3);
 				}
 
 				Vector3 look = lookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);

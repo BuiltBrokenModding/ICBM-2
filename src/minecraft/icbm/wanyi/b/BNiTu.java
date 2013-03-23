@@ -37,17 +37,17 @@ public class BNiTu extends BICBM
 				return this.iconReinforced;
 		}
 
-		return this.field_94336_cN;
+		return this.blockIcon;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_94332_a(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		super.func_94332_a(iconRegister);
+		super.registerIcons(iconRegister);
 
-		this.iconCompact = iconRegister.func_94245_a(this.func_94330_A() + "Compact");
-		this.iconReinforced = iconRegister.func_94245_a(this.func_94330_A() + "Reinforced");
+		this.iconCompact = iconRegister.registerIcon(this.getUnlocalizedName2() + "Compact");
+		this.iconReinforced = iconRegister.registerIcon(this.getUnlocalizedName2() + "Reinforced");
 
 	}
 

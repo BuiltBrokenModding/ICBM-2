@@ -34,7 +34,8 @@ public class ICBM
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
 	/**
-	 * The block ID in which ICBM starts with. ICBM Explosion will count up, ICBM Contraption will count down.
+	 * The block ID in which ICBM starts with. ICBM Explosion will count up, ICBM Contraption will
+	 * count down.
 	 */
 	public static final int BLOCK_ID_PREFIX = 3880;
 

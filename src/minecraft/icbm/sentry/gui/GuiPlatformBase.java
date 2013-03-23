@@ -134,7 +134,7 @@ public abstract class GuiPlatformBase extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
-		this.mc.renderEngine.func_98187_b(ICBMSentry.GUI_PATH + "gui_base.png");
+		this.mc.renderEngine.bindTexture(ICBMSentry.GUI_PATH + "gui_base.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int containerWidth = (this.width - this.xSize) / 2;

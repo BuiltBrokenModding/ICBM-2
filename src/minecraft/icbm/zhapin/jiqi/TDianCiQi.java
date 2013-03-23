@@ -186,8 +186,8 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	@Override
 	public void onDestroy(TileEntity callingBlock)
 	{
-		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
-		this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
 	}
 
 	@Override

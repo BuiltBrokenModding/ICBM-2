@@ -39,7 +39,7 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 	{
 		if (this.mainBlockPosition != null)
 		{
-			return PacketManager.getPacket("BasicComponents", this, this.mainBlockPosition.x, this.mainBlockPosition.y, this.mainBlockPosition.z);
+			return PacketManager.getPacket("BasicComponents", this, this.mainBlockPosition.intX(), this.mainBlockPosition.intY(), this.mainBlockPosition.intZ());
 		}
 		return null;
 	}
@@ -48,7 +48,7 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 	{
 		if (mainBlockPosition != null)
 		{
-			TileEntity tileEntity = this.worldObj.getBlockTileEntity((int) mainBlockPosition.x, (int) mainBlockPosition.y, (int) mainBlockPosition.z);
+			TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.mainBlockPosition.intX(), this.mainBlockPosition.intY(), this.mainBlockPosition.intZ());
 
 			if (tileEntity != null && tileEntity instanceof IMultiBlock)
 			{
@@ -64,9 +64,9 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 
 	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer)
 	{
-		if (mainBlockPosition != null)
+		if (this.mainBlockPosition != null)
 		{
-			TileEntity tileEntity = this.worldObj.getBlockTileEntity((int) mainBlockPosition.x, (int) mainBlockPosition.y, (int) mainBlockPosition.z);
+			TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.mainBlockPosition.intX(), this.mainBlockPosition.intY(), this.mainBlockPosition.intZ());
 
 			if (tileEntity != null)
 			{
@@ -87,7 +87,6 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-
 		this.mainBlockPosition = Vector3.readFromNBT(nbt.getCompoundTag("mainBlockPosition"));
 	}
 
@@ -99,7 +98,10 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 	{
 		super.writeToNBT(nbt);
 
-		nbt.setCompoundTag("mainBlockPosition", this.mainBlockPosition.writeToNBT(new NBTTagCompound()));
+		if (this.mainBlockPosition != null)
+		{
+			nbt.setCompoundTag("mainBlockPosition", this.mainBlockPosition.writeToNBT(new NBTTagCompound()));
+		}
 	}
 
 	/**

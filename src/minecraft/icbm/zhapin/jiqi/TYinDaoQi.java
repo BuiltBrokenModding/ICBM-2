@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.implement.IRotatable;
@@ -45,7 +46,7 @@ public class TYinDaoQi extends TIC2Runnable implements IPacketReceiver, IRotatab
 	}
 
 	@Override
-	public ForgeDirection getDirection(World world, int x, int y, int z)
+	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.fangXiang);
 	}

@@ -57,9 +57,10 @@ public class ItChe extends ItICBM
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_94581_a(IconRegister par1IconRegister)
+	@Override
+	public void updateIcons(IconRegister iconRegister)
 	{
-		this.iconIndex = par1IconRegister.func_94245_a("minecartTnt");
+		this.iconIndex = iconRegister.registerIcon("minecartTnt");
 	}
 
 	@Override

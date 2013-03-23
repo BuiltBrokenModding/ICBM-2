@@ -169,7 +169,7 @@ public class FXLaser extends EntityFX
 			op = 0.4F - (4 - (this.particleMaxAge - this.particleAge)) * 0.1F;
 		}
 
-		Minecraft.getMinecraft().renderEngine.func_98187_b(ICBMSentry.TEXTURE_PATH + "noise.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(ICBMSentry.TEXTURE_PATH + "noise.png");
 
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
 		GL11.glTexParameterf(3553, 10243, 10497.0F);

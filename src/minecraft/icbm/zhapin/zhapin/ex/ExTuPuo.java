@@ -150,7 +150,7 @@ public class ExTuPuo extends ZhaPin
 					{
 						Block.blocksList[blockID].dropBlockAsItemWithChance(worldObj, var5, var6, var7, worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
 						Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, var5, var6, var7, null);
-						worldObj.setBlockAndMetadataWithNotify(var5, var6, var7, 0, 0, 2);
+						worldObj.setBlock(var5, var6, var7, 0, 0, 2);
 					}
 				}
 

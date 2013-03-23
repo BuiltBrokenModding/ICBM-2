@@ -463,7 +463,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 
 				damage = (int) ((var36 * var36 + var36) / 2.0D * 8.0D * power + 1.0D);
 
-				entity.attackEntityFrom(DamageSource.func_94539_a(null), damage);
+				entity.attackEntityFrom(DamageSource.setExplosionSource(null), damage);
 
 				entity.motionX += xDifference * var36;
 				entity.motionY += yDifference * var36;

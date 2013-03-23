@@ -59,7 +59,7 @@ public class FXFanWuSu extends EntityFX
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 1);
 
-		Minecraft.getMinecraft().renderEngine.func_98187_b(ZhuYao.TEXTURE_PATH + "antimatter.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(ZhuYao.TEXTURE_PATH + "antimatter.png");
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 

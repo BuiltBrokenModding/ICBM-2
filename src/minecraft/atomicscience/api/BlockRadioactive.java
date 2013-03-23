@@ -44,15 +44,16 @@ public class BlockRadioactive extends Block
 	@Override
 	public Icon getBlockTextureFromSideAndMetadata(int side, int metadata)
 	{
-		return side == 1 ? this.iconTop : (side == 0 ? iconBottom : this.field_94336_cN);
+		return side == 1 ? this.iconTop : (side == 0 ? iconBottom : this.blockIcon);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_94332_a(IconRegister iconRegister)
+	@Override
+	public void registerIcons(IconRegister iconRegister)
 	{
-		super.func_94332_a(iconRegister);
-		this.iconTop = iconRegister.func_94245_a(this.func_94330_A() + "_top");
-		this.iconBottom = iconRegister.func_94245_a(this.func_94330_A() + "_bottom");
+		super.registerIcons(iconRegister);
+		this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName2() + "_top");
+		this.iconBottom = iconRegister.registerIcon(this.getUnlocalizedName2() + "_bottom");
 	}
 
 	@Override

@@ -76,7 +76,7 @@ public class BYinXing extends BICBM implements IEMPBlock
 			}
 		}
 
-		return this.field_94336_cN;
+		return this.blockIcon;
 	}
 
 	@Override

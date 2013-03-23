@@ -5,6 +5,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 
+/**
+ * Antiballistic missile.
+ * 
+ * @author Calclavia
+ * 
+ */
 public class DFanDan extends DaoDan
 {
 	public static final int ABMRange = 30;

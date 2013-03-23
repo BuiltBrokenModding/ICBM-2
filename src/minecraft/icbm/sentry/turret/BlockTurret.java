@@ -156,7 +156,7 @@ public class BlockTurret extends BlockSentryBase
 			}
 
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 3);
+			world.setBlock(x, y, z, 0, 0, 3);
 		}
 	}
 

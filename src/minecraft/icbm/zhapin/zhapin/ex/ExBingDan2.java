@@ -122,11 +122,11 @@ public class ExBingDan2 extends ZhaPin
 
 						if (blockID == Block.fire.blockID || blockID == Block.lavaMoving.blockID || blockID == Block.lavaStill.blockID)
 						{
-							worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.snow.blockID, 0, 2);
+							worldObj.setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.snow.blockID, 0, 2);
 						}
 						else if (blockID == 0 && worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z) != Block.ice.blockID && worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z) != 0)
 						{
-							worldObj.setBlockAndMetadataWithNotify((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.ice.blockID, 0, 2);
+							worldObj.setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.ice.blockID, 0, 2);
 						}
 					}
 				}

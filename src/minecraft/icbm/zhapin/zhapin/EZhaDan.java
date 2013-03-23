@@ -4,6 +4,7 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
@@ -178,7 +179,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	}
 
 	@Override
-	public ForgeDirection getDirection(World world, int x, int y, int z)
+	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}

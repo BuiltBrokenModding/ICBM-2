@@ -138,13 +138,13 @@ public class ICBMSentry
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 1), new Object[] { "SBS", "SGS", "SSS", 'B', Item.ingotIron, 'G', Item.gunpowder, 'S', bulletShell.copy() }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B", 'D', Item.diamond, 'B', conventionalBullet }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
-		
+
 		if (OreDictionary.getOres("battery").size() > 0)
 		{
 			// Turret Platform
 			GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', ElectricItemHelper.getUncharged(OreDictionary.getOres("battery").get(0)), 'S', "plateSteel", 'C', Block.chest, 'B', "basicCircuit" }));
 		}
-		
+
 		// Gun Turret
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', "basicCircuit", 'S', "ingotSteel" }));
 		// Railgun

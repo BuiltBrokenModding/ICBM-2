@@ -9,6 +9,8 @@ import universalelectricity.core.block.IConnectionProvider;
 /**
  * Finds all the possible conductors. Inspired by A* Pathfinding Algorithm.
  * 
+ * *NOTE* WIP, not finished yet!
+ * 
  * @author Calclavia
  * 
  */

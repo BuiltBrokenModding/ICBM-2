@@ -162,7 +162,7 @@ public class ExChaoShengBuo extends ZhaPin
 					}
 					else
 					{
-						worldObj.setBlockAndMetadataWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 2);
+						worldObj.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 2);
 					}
 
 					targetPosition.add(0.5D);

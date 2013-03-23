@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItShouLiuDan extends ItICBM
 {
-	public static final List<Icon> ICONS = new ArrayList<Icon>();
+	public static final Icon[] ICONS = new Icon[256];
 
 	public ItShouLiuDan(int id)
 	{
@@ -81,7 +81,7 @@ public class ItShouLiuDan extends ItICBM
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{
 					itemStack.stackSize--;
-					
+
 					if (itemStack.stackSize <= 0)
 					{
 						entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
@@ -117,18 +117,19 @@ public class ItShouLiuDan extends ItICBM
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_94581_a(IconRegister par1IconRegister)
+	@Override
+	public void updateIcons(IconRegister iconRegister)
 	{
 		for (int i = 0; i < ZhaPin.E_YI_ID; i++)
 		{
-			ICONS.add(par1IconRegister.func_94245_a(ZhuYao.PREFIX + "grenade_" + ZhaPin.list[i].getUnlocalizedName()));
+			ICONS[i] = iconRegister.registerIcon(ZhuYao.PREFIX + "grenade_" + ZhaPin.list[i].getUnlocalizedName());
 		}
 	}
 
 	@Override
 	public Icon getIconFromDamage(int i)
 	{
-		return ICONS.get(i);
+		return ICONS[i];
 	}
 
 	@Override

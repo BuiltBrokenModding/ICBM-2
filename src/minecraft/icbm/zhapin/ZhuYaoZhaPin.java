@@ -160,7 +160,7 @@ public class ZhuYaoZhaPin
 					int x = blockSource.getXInt();
 					int y = blockSource.getYInt();
 					int z = blockSource.getZInt();
-					EnumFacing enumFacing = EnumFacing.getFront(blockSource.func_82620_h());
+					EnumFacing enumFacing = EnumFacing.getFront(blockSource.getBlockMetadata());
 
 					EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), itemStack.getItemDamage());
 					entity.setThrowableHeading((double) enumFacing.getFrontOffsetX(), 0.10000000149011612D, (double) enumFacing.getFrontOffsetZ(), 0.5F, 1.0F);
@@ -187,7 +187,7 @@ public class ZhuYaoZhaPin
 					int y = blockSource.getYInt();
 					int z = blockSource.getZInt();
 
-					EnumFacing var3 = EnumFacing.getFront(blockSource.func_82620_h());
+					EnumFacing var3 = EnumFacing.getFront(blockSource.getBlockMetadata());
 					World var4 = blockSource.getWorld();
 					double var5 = blockSource.getX() + (double) ((float) var3.getFrontOffsetX() * 1.125F);
 					double var7 = blockSource.getY();

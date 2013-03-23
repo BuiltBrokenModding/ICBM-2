@@ -8,7 +8,6 @@ import icbm.zhapin.daodan.ItTeBieDaoDan;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -17,6 +16,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
@@ -36,7 +36,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory, ISidedInventory
+public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory
 {
 	// The missile that this launcher is holding
 	public EDaoDan eDaoDan = null;
@@ -498,23 +498,23 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 		if (this.orientation == 3 || this.orientation == 2)
 		{
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x + 1, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x + 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x + 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x - 1, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x - 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x - 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x + 1, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x - 1, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
 		}
 		else
 		{
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 1, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 2, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y, (int) position.z - 1, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 1, (int) position.z - 1, 0, 0, 2);
-			this.worldObj.setBlockAndMetadataWithNotify((int) position.x, (int) position.y + 2, (int) position.z - 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 1, (int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 2, (int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z - 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 1, (int) position.z - 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 2, (int) position.z - 1, 0, 0, 2);
 		}
 
 		if (this.eDaoDan != null)
@@ -524,7 +524,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	@Override
-	public ForgeDirection getDirection(World world, int x, int y, int z)
+	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
 	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}
@@ -542,26 +542,14 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	}
 
 	@Override
-	public boolean func_94042_c()
+	public boolean isInvNameLocalized()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
-	public boolean func_94041_b(int i, ItemStack itemstack)
+	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
 	{
-		return false;
-	}
-
-	@Override
-	public int func_94127_c(int i)
-	{
-		return 0;
-	}
-
-	@Override
-	public int func_94128_d(int i)
-	{
-		return 1;
+		return itemStack.getItem() instanceof ItDaoDan;
 	}
 }

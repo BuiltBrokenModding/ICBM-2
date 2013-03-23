@@ -36,10 +36,10 @@ public class RShouLiuDan extends Render
 
 	private void renderIcon(Tessellator par1Tessellator, Icon icon)
 	{
-		float f = icon.func_94209_e();
-		float f1 = icon.func_94212_f();
-		float f2 = icon.func_94206_g();
-		float f3 = icon.func_94210_h();
+		float f = icon.getMinU();
+		float f1 = icon.getMaxU();
+		float f2 = icon.getMinV();
+		float f3 = icon.getMaxV();
 		float f4 = 1.0F;
 		float f5 = 0.5F;
 		float f6 = 0.25F;

@@ -45,11 +45,11 @@ public class ItemAmmo extends ItemSentryBase
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_94581_a(IconRegister iconRegister)
+	public void updateIcons(IconRegister iconRegister)
 	{
 		for (String type : TYPES)
 		{
-			ICONS.add(iconRegister.func_94245_a(ICBMSentry.PREFIX + type));
+			ICONS.add(iconRegister.registerIcon(ICBMSentry.PREFIX + type));
 		}
 	}
 

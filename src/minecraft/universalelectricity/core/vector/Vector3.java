@@ -73,6 +73,13 @@ public class Vector3 implements Cloneable
 		this.z = par1.posZ;
 	}
 
+	public Vector3(ForgeDirection direction)
+	{
+		this.x = direction.offsetX;
+		this.y = direction.offsetY;
+		this.z = direction.offsetZ;
+	}
+
 	/**
 	 * Returns the coordinates as integers, ideal for block placement.
 	 */
@@ -129,14 +136,19 @@ public class Vector3 implements Cloneable
 		return world.getBlockTileEntity(this.intX(), this.intY(), this.intZ());
 	}
 
+	public boolean setBlock(World world, int id, int metadata, int notify)
+	{
+		return world.setBlock(this.intX(), this.intY(), this.intZ(), id, metadata, notify);
+	}
+
 	public boolean setBlock(World world, int id, int metadata)
 	{
-		return world.setBlockAndMetadataWithNotify(this.intX(), this.intY(), this.intZ(), id, metadata, 2);
+		return this.setBlock(world, id, metadata, 3);
 	}
 
 	public boolean setBlock(World world, int id)
 	{
-		return world.setBlockAndMetadataWithNotify(this.intX(), this.intY(), this.intZ(), id, 0, 2);
+		return this.setBlock(world, id, 0);
 	}
 
 	/**
@@ -168,7 +180,7 @@ public class Vector3 implements Cloneable
 	public Vector3 normalize()
 	{
 		double d = getMagnitude();
-		
+
 		if (d != 0)
 		{
 			multiply(1 / d);

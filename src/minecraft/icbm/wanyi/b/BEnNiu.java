@@ -22,9 +22,10 @@ public class BEnNiu extends BlockButton
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_94332_a(IconRegister par1IconRegister)
+	@Override
+	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.field_94336_cN = par1IconRegister.func_94245_a(this.func_94330_A());
+		this.blockIcon = par1IconRegister.registerIcon(this.getUnlocalizedName2());
 	}
 
 	@Override

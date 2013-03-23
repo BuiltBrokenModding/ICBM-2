@@ -63,7 +63,7 @@ public class IBJiQi extends ItemBlock
 		{
 			Block var9 = Block.blocksList[this.getBlockID()];
 
-			if (world.setBlockAndMetadataWithNotify(x, y, z, this.getBlockID(), jiQiMetadata, 3))
+			if (world.setBlock(x, y, z, this.getBlockID(), jiQiMetadata, 3))
 			{
 				if (world.getBlockId(x, y, z) == this.getBlockID())
 				{

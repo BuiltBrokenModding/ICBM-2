@@ -141,7 +141,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 			if (ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN, explosiveID))
 			{
 				this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
-				world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 2);
+				world.setBlock(x, y, z, 0, 0, 2);
 				return;
 			}
 		}
@@ -198,7 +198,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_94332_a(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
 		/**
 		 * Register every single texture for all explosives.
@@ -219,7 +219,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		try
 		{
 			BufferedImage bufferedimage = ImageIO.read(itexturepack.getResourceAsStream(path));
-			return iconRegister.func_94245_a(ZhuYao.PREFIX + iconName);
+			return iconRegister.registerIcon(ZhuYao.PREFIX + iconName);
 		}
 		catch (Exception e)
 		{
@@ -227,10 +227,10 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 
 		if (suffix.equals("_bottom"))
 		{
-			return iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
+			return iconRegister.registerIcon(ZhuYao.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
 		}
 
-		return iconRegister.func_94245_a(ZhuYao.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
+		return iconRegister.registerIcon(ZhuYao.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 					{
 						((TZhaDan) tileEntity).exploding = true;
 						ZhaPin.list[explosiveID].spawnZhaDan(world, new Vector3(x, y, z), ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
-						world.setBlockAndMetadataWithNotify(x, y, z, 0, 0, 2);
+						world.setBlock(x, y, z, 0, 0, 2);
 					}
 				}
 			}

@@ -18,7 +18,7 @@ public class IBZhaDan extends ItemBlock
 	@Override
 	public boolean placeBlockAt(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
 	{
-		if (!world.setBlockAndMetadataWithNotify(x, y, z, this.getBlockID(), 0, 3))
+		if (!world.setBlock(x, y, z, this.getBlockID(), 0, 3))
 		{
 			return false;
 		}

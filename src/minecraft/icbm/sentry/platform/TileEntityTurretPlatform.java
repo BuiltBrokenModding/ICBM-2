@@ -56,7 +56,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 				/**
 				 * Since this block is indestructable, we have to delete it.
 				 */
-				this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+				this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
 				this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 1.5f, true);
 				return;
 			}
@@ -132,7 +132,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 		this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
 
-		return this.worldObj.setBlockAndMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
 	}
 
 	@Override
@@ -359,21 +359,19 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	}
 
 	@Override
-	public boolean func_94042_c()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean func_94041_b(int i, ItemStack itemstack)
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean canConnect(ForgeDirection direction)
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isInvNameLocalized()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
 	{
 		return true;
 	}

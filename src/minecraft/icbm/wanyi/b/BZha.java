@@ -35,11 +35,11 @@ public class BZha extends BICBM
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_94332_a(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		super.func_94332_a(iconRegister);
-		this.iconPoison = iconRegister.func_94245_a(this.func_94330_A() + "Poison");
-		this.iconFlammable = iconRegister.func_94245_a(this.func_94330_A() + "Flammable");
+		super.registerIcons(iconRegister);
+		this.iconPoison = iconRegister.registerIcon(this.getUnlocalizedName2() + "Poison");
+		this.iconFlammable = iconRegister.registerIcon(this.getUnlocalizedName2() + "Flammable");
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class BZha extends BICBM
 			return this.iconPoison;
 		}
 
-		return this.field_94336_cN;
+		return this.blockIcon;
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class BZha extends BICBM
 		if (!this.canBlockStay(par1World, par2, par3, par4))
 		{
 			this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockAndMetadataWithNotify(par2, par3, par4, 0, 0, 2);
+			par1World.setBlock(par2, par3, par4, 0, 0, 2);
 		}
 	}
 

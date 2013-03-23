@@ -32,12 +32,12 @@ public class BlockSentryBase extends BlockAdvanced
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_94332_a(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		super.func_94332_a(iconRegister);
-		this.iconTop = iconRegister.func_94245_a(this.func_94330_A() + "_top");
-		this.iconSide = iconRegister.func_94245_a(this.func_94330_A() + "_side");
-		this.iconBottom = iconRegister.func_94245_a(this.func_94330_A() + "_bottom");
+		super.registerIcons(iconRegister);
+		this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName2() + "_top");
+		this.iconSide = iconRegister.registerIcon(this.getUnlocalizedName2() + "_side");
+		this.iconBottom = iconRegister.registerIcon(this.getUnlocalizedName2() + "_bottom");
 	}
 
 	/**

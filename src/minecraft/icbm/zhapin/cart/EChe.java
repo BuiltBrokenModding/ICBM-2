@@ -186,7 +186,7 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	{
 		super.func_94095_a(par1DamageSource);
 
-		if (!par1DamageSource.func_94541_c())
+		if (!par1DamageSource.isExplosion())
 		{
 			this.entityDropItem(new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, this.haoMa), 0.0F);
 		}

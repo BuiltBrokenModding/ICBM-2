@@ -198,7 +198,7 @@ public class ExWenYa extends ZhaPin
 
 				if (blockID > 0)
 				{
-					worldObj.setBlockAndMetadataWithNotify(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 3);
+					worldObj.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 3);
 					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), null);
 				}
 			}
