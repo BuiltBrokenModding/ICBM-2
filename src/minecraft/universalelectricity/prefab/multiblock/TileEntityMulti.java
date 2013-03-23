@@ -119,7 +119,7 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 	{
 		try
 		{
-			this.mainBlockPosition = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+			this.mainBlockPosition = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 		}
 		catch (Exception e)
 		{

@@ -33,7 +33,7 @@ public class ExQunDan extends ZhaPin
 			}
 			else if (this.getID() == ZhaPin.zhen.getID())
 			{
-				amount = 20;
+				amount = 25;
 			}
 
 			if (explosionSource instanceof EShouLiuDan)

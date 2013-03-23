@@ -122,7 +122,7 @@ public class ZhuYaoZhaPin
 		ICBM.CONFIGURATION.load();
 		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
 		bJiQi = new BJiQi(ICBM.BLOCK_ID_PREFIX + 4);
-		bJia = new BlockMulti(ICBM.BLOCK_ID_PREFIX + 6);
+		bJia = new BlockMulti(ICBM.BLOCK_ID_PREFIX + 6).setTextureName(ZhuYao.PREFIX + "machine");
 
 		// ITEMS
 		itDaoDan = new ItDaoDan(ICBM.ITEM_ID_PREFIX + 3, "missile");

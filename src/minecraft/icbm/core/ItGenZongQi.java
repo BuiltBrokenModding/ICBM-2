@@ -27,7 +27,8 @@ public class ItGenZongQi extends ItElectricICBM
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void func_94581_a(IconRegister par1IconRegister)
+	@Override
+	public void updateIcons(IconRegister par1IconRegister)
 	{
 		if (par1IconRegister instanceof TextureMap)
 		{

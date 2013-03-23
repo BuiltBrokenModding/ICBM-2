@@ -57,7 +57,6 @@ public class BJiQi extends BICBM
 	public BJiQi(int id)
 	{
 		super(id, "machine", UniversalElectricity.machine);
-		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
 	/**
@@ -303,7 +302,7 @@ public class BJiQi extends BICBM
 
 	/**
 	 * Returns the quantity of items to drop on block destruction.
-	 */
+	 */@Override
 	public int quantityDropped(Random par1Random)
 	{
 		return 0;

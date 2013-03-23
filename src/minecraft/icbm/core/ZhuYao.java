@@ -18,6 +18,10 @@ import net.minecraftforge.event.world.WorldEvent.Save;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import org.modstats.ModstatInfo;
+import org.modstats.Modstats;
+
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.flag.CommandFlag;
@@ -34,13 +38,12 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
- * Main class for ICBM core to run on. Treat as a core mod that all other modules are dependent from
- * but remain packaged in each module for distribution.
+ * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
  * @author Calclavia
  * 
  */
-
+@ModstatInfo(prefix = "icbm", name = ICBM.NAME, version = ICBM.VERSION)
 public class ZhuYao
 {
 	public static final ZhuYao INSTANCE = new ZhuYao();
@@ -88,6 +91,7 @@ public class ZhuYao
 	{
 		if (!isInitialized)
 		{
+			Modstats.instance().getReporter().registerMod(this);
 			MinecraftForge.EVENT_BUS.register(this);
 
 			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
@@ -133,10 +137,6 @@ public class ZhuYao
 
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);
-
-			// TODO: SHEDAR MOD UPDATER
-			// UpdateNotifier.INSTANCE.checkUpdate(ICBM.NAME, ICBM.VERSION,
-			// "http://calclavia.com/downloads/icbm/recommendedversion.txt");
 
 			/**
 			 * LOAD.

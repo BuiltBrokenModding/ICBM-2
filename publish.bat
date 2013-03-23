@@ -32,8 +32,9 @@ cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "ic2\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "railcraft\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "universalelectricity\"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "icbm\api"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "icbm\core"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "icbm\api\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "icbm\core\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "org\"
 
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME1%" "icbm\zhapin\"
 
@@ -44,8 +45,9 @@ cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "ic2\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "railcraft\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "universalelectricity\"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "icbm\api"
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "icbm\core"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "icbm\api\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "icbm\core\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "org\"
 
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME2%" "icbm\wanyi\"
 
@@ -57,6 +59,8 @@ cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "railcraft\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "universalelectricity\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "icbm\api\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "icbm\core\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "org\"
 
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "icbm\sentry\"
 

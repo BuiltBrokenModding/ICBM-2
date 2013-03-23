@@ -2,8 +2,12 @@ package universalelectricity.prefab.multiblock;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -14,17 +18,39 @@ import universalelectricity.core.vector.Vector3;
 
 public class BlockMulti extends BlockContainer
 {
+	public String textureName;
+
 	public BlockMulti(int id)
 	{
 		super(id, UniversalElectricity.machine);
 		this.setHardness(0.8F);
-		this.setUnlocalizedName("MultiBlock");
+		this.setUnlocalizedName("multiBlock");
 	}
 
 	public void makeFakeBlock(World worldObj, Vector3 position, Vector3 mainBlock)
 	{
 		worldObj.setBlock(position.intX(), position.intY(), position.intZ(), this.blockID);
 		((TileEntityMulti) worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ())).setMainBlock(mainBlock);
+	}
+
+	public BlockMulti setTextureName(String name)
+	{
+		this.textureName = name;
+		return this;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IconRegister iconRegister)
+	{
+		if (textureName != null)
+		{
+			this.blockIcon = iconRegister.registerIcon(this.textureName);
+		}
+		else
+		{
+			super.registerIcons(iconRegister);
+		}
 	}
 
 	@Override
