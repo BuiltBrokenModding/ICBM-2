@@ -47,6 +47,13 @@ public class UniversalElectricity
 	public static boolean isVoltageSensitive = false;
 
 	/**
+	 * Set this value to true if your mod contains and has the ability to transfer electricity via
+	 * the ElectricityNetwork. Examples would be a mod that adds any sort of wire. This value will
+	 * be true as long as there is a way to conduct electricity.
+	 */
+	public static boolean isNetworkActive = false;
+
+	/**
 	 * A general material that can be used by machines. Breakable by hand, suitable for machines.
 	 */
 	public static final Material machine = new Material(MapColor.ironColor);

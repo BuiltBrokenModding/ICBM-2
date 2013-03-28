@@ -1,4 +1,4 @@
-package mffs.api;
+package mffs.api.fortron;
 
 public interface IFortronStorage
 {
@@ -32,7 +32,7 @@ public interface IFortronStorage
 	/**
 	 * Called to use and give fortron energy from this storage unit.
 	 * 
-	 * @param joules - Amount of fortron energy to use.
+	 * @param joules - Amount of fortron energy to give.
 	 * @param doUse - True if actually using, false if just simulating.
 	 * 
 	 * @return joules - The amount of energy that was actually injected.

@@ -4,7 +4,7 @@ import ic2.api.IEnergyStorage;
 import icbm.api.explosion.IEMPBlock;
 import icbm.zhapin.zhapin.ZhaPin;
 import mffs.api.IForceFieldBlock;
-import mffs.api.IFortronStorage;
+import mffs.api.fortron.IFortronStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;

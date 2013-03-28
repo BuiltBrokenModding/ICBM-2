@@ -46,7 +46,8 @@ public class DFanDan extends DaoDan
 		}
 
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(missileObj.posX - ABMRange, missileObj.posY - ABMRange, missileObj.posZ - ABMRange, missileObj.posX + ABMRange, missileObj.posY + ABMRange, missileObj.posZ + ABMRange);
-		Entity nearestEntity = missileObj.worldObj.findNearestEntityWithinAABB(EDaoDan.class, bounds, missileObj);
+		// TODO: Check if this works.
+		Entity nearestEntity = missileObj.worldObj.findNearestEntityWithinAABB(IMissileLockable.class, bounds, missileObj);
 
 		if (nearestEntity instanceof IMissileLockable)
 		{

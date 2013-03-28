@@ -2,9 +2,6 @@ package universalelectricity.prefab.multiblock;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,6 +12,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockMulti extends BlockContainer
 {
