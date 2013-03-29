@@ -9,7 +9,6 @@ import icbm.zhapin.render.RHZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -43,9 +42,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BZhaDan extends BICBM implements ICamouflageMaterial
 {
-	public static final List<Icon> ICON_TOP = new ArrayList<Icon>();
-	public static final List<Icon> ICON_SIDE = new ArrayList<Icon>();
-	public static final List<Icon> ICON_BOTTOM = new ArrayList<Icon>();
+	public static final Icon[] ICON_TOP = new Icon[ZhaPin.list.length];
+	public static final Icon[] ICON_SIDE = new Icon[ZhaPin.list.length];
+	public static final Icon[] ICON_BOTTOM = new Icon[ZhaPin.list.length];
 
 	public BZhaDan(int id)
 	{
@@ -186,14 +185,14 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	{
 		if (side == 0)
 		{
-			return ICON_BOTTOM.get(explosiveID);
+			return ICON_BOTTOM[explosiveID];
 		}
 		else if (side == 1)
 		{
-			return ICON_TOP.get(explosiveID);
+			return ICON_TOP[explosiveID];
 		}
 
-		return ICON_SIDE.get(explosiveID);
+		return ICON_SIDE[explosiveID];
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -205,9 +204,9 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		 */
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
-			this.ICON_TOP.add(this.getIcon(iconRegister, i, "_top"));
-			this.ICON_SIDE.add(this.getIcon(iconRegister, i, "_side"));
-			this.ICON_BOTTOM.add(this.getIcon(iconRegister, i, "_bottom"));
+			this.ICON_TOP[i] = this.getIcon(iconRegister, i, "_top");
+			this.ICON_SIDE[i] = this.getIcon(iconRegister, i, "_side");
+			this.ICON_BOTTOM[i] = this.getIcon(iconRegister, i, "_bottom");
 		}
 	}
 
