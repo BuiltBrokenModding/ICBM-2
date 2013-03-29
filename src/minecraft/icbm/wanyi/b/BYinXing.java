@@ -66,7 +66,12 @@ public class BYinXing extends BICBM implements IEMPBlock
 				{
 					try
 					{
-						return Block.blocksList[tileEntity.getJiaHaoMa()].getBlockTextureFromSideAndMetadata(side, tileEntity.getJiaMetadata());
+						Icon blockIcon = Block.blocksList[tileEntity.getJiaHaoMa()].getBlockTextureFromSideAndMetadata(side, tileEntity.getJiaMetadata());
+
+						if (blockIcon != null)
+						{
+							return blockIcon;
+						}
 					}
 					catch (Exception e)
 					{
@@ -92,7 +97,7 @@ public class BYinXing extends BICBM implements IEMPBlock
 
 					if (block != null && block != this)
 					{
-						if (block instanceof ICamouflageMaterial || (block.renderAsNormalBlock() || (block.getRenderType() == 0 || block.getRenderType() == 31)))
+						if (block instanceof ICamouflageMaterial || (isNormalCube(block.blockID) && (block.getRenderType() == 0 || block.getRenderType() == 31)))
 						{
 							((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
 							par1World.markBlockForRenderUpdate(x, y, z);
