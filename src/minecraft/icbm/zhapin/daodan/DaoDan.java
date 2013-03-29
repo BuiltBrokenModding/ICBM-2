@@ -1,5 +1,6 @@
 package icbm.zhapin.daodan;
 
+import icbm.api.explosion.IExplosive;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,7 +9,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.implement.ITier;
 
-public class DaoDan implements ITier
+public class DaoDan implements ITier, IExplosive
 {
 	public static final DaoDan AntiBallistic = new DFanDan("antiBallistic", 101, 2);
 	public static final DaoDan Cluster = new DFenZhiDan("cluster", 102, 2);
@@ -41,11 +42,13 @@ public class DaoDan implements ITier
 		this.ID = ID;
 	}
 
+	@Override
 	public int getID()
 	{
 		return this.ID;
 	}
 
+	@Override
 	public String getUnlocalizedName()
 	{
 		return this.mingZi;
@@ -97,5 +100,41 @@ public class DaoDan implements ITier
 	public boolean isCruise()
 	{
 		return true;
+	}
+
+	@Override
+	public String getExplosiveName()
+	{
+		return this.getTranslatedMing();
+	}
+
+	@Override
+	public String getGrenadeName()
+	{
+		return this.getTranslatedMing();
+	}
+
+	@Override
+	public String getMissileName()
+	{
+		return this.getTranslatedMing();
+	}
+
+	@Override
+	public String getMinecartName()
+	{
+		return this.getTranslatedMing();
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 0;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
 	}
 }

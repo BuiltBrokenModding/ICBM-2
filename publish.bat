@@ -62,7 +62,7 @@ cd reobf\minecraft\
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "icbm\core\"
 "..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "org\"
 
-"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "icbm\sentry\"
+"..\..\..\7za.exe" a "..\..\builds\%FILE_NAME3%" "icbm\gangshao\"
 
 cd ..\..\
 

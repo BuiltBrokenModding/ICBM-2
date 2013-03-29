@@ -1,6 +1,6 @@
 package icbm.wanyi.b;
 
-import icbm.api.ICBMTab;
+import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 
 import java.util.List;

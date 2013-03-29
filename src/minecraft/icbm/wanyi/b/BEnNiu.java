@@ -1,6 +1,6 @@
 package icbm.wanyi.b;
 
-import icbm.api.ICBMTab;
+import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 
 import java.util.Random;

@@ -1,7 +1,7 @@
 package icbm.core.di;
 
 import icbm.api.ICBM;
-import icbm.api.ICBMTab;
+import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import net.minecraft.item.Item;
 

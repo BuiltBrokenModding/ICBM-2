@@ -1,8 +1,10 @@
 package icbm.zhapin.daodan;
 
 import icbm.api.IMissileLockable;
+import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -25,17 +27,17 @@ public class DFanDan extends DaoDan
 	{
 		if (missileObj.lockedTarget != null)
 		{
-			Vector3 guJiDiDian = new Vector3(missileObj);
+			Vector3 guJiDiDian = new Vector3(missileObj.lockedTarget);
 
-			if (missileObj instanceof EDaoDan)
+			if (missileObj.lockedTarget.isDead)
 			{
-				if (((EDaoDan) missileObj.lockedTarget).zhengZaiBaoZha)
-				{
-					missileObj.explode();
-					return;
-				}
+				missileObj.explode();
+				return;
+			}
 
-				guJiDiDian = ((EDaoDan) missileObj.lockedTarget).guJi(4);
+			if (missileObj.lockedTarget instanceof IMissileLockable)
+			{
+				guJiDiDian = ((IMissileLockable) missileObj.lockedTarget).getPredictedPosition(4);
 			}
 
 			missileObj.motionX = (guJiDiDian.x - missileObj.posX) * (0.3F);
@@ -51,7 +53,7 @@ public class DFanDan extends DaoDan
 
 		if (nearestEntity instanceof IMissileLockable)
 		{
-			if (((IMissileLockable) nearestEntity).canLock())
+			if (((IMissileLockable) nearestEntity).canLock(missileObj))
 			{
 				// Lock target onto missileObj missile
 				missileObj.lockedTarget = nearestEntity;
@@ -75,6 +77,19 @@ public class DFanDan extends DaoDan
 	public void onExplode(EDaoDan missileObj)
 	{
 		missileObj.worldObj.createExplosion(missileObj, missileObj.posX, missileObj.posY, missileObj.posZ, 6F, true);
+		MinecraftForge.EVENT_BUS.post(new PostExplosionEvent(missileObj.worldObj, missileObj.posX, missileObj.posY, missileObj.posZ, this));
+	}
+
+	@Override
+	public float getRadius()
+	{
+		return 6;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 100;
 	}
 
 	@Override

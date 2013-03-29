@@ -1,6 +1,6 @@
 package icbm.zhapin.jiqi;
 
-import icbm.api.ICBMTab;
+import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHJiQi;

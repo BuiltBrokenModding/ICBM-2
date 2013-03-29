@@ -2,7 +2,7 @@ package icbm.core.di;
 
 import ic2.api.ICustomElectricItem;
 import icbm.api.ICBM;
-import icbm.api.ICBMTab;
+import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import net.minecraft.item.ItemStack;
 import universalelectricity.core.UniversalElectricity;

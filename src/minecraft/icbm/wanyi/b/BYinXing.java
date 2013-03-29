@@ -1,9 +1,9 @@
 package icbm.wanyi.b;
 
-import icbm.api.ICBMTab;
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.IEMPBlock;
 import icbm.api.explosion.IExplosive;
+import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

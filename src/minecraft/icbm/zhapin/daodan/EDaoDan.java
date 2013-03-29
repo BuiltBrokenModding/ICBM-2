@@ -544,7 +544,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		return null;
 	}
 
-	public Vector3 guJi(int t)
+	public Vector3 getPredictedPosition(int t)
 	{
 		Vector3 guJiDiDian = new Vector3(this);
 		double tempMotionY = this.motionY;
@@ -739,7 +739,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	}
 
 	@Override
-	public boolean canLock()
+	public boolean canLock(IMissile missile)
 	{
 		return this.feiXingTick > 0;
 	}

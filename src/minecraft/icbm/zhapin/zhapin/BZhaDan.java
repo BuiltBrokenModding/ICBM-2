@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin;
 
-import icbm.api.ICBMTab;
 import icbm.api.ICamouflageMaterial;
+import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;

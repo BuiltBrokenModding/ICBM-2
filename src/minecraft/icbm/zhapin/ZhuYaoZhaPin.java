@@ -2,7 +2,7 @@ package icbm.zhapin;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMFlags;
-import icbm.api.ICBMTab;
+import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.cart.ItChe;
