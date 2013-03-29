@@ -59,14 +59,11 @@ public class ExWan extends ZhaPin
 
 							if (worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.01))
 							{
-								float var13 = 0.0f;
-								float var15 = 0.0f;
-								float var17 = 0.0f;
-								var13 = (float) ((worldObj.rand.nextFloat() - 0.5D) * 0.5D);
-								var15 = (float) ((worldObj.rand.nextFloat() - 0.5D) * 0.5D);
-								var17 = (float) ((worldObj.rand.nextFloat() - 0.5D) * 0.5D);
+								float velX = (float) ((targetPosition.x - position.x) * 0.5);
+								float velY = (float) ((targetPosition.y - position.y) * 0.5);
+								float velZ = (float) ((targetPosition.z - position.z) * 0.5);
 
-								ParticleSpawner.spawnParticle("portal", worldObj, targetPosition, var13, var15, var17, 5f, 1);
+								ParticleSpawner.spawnParticle("portal", worldObj, targetPosition, velX, velY, velZ, 5f, 1);
 							}
 						}
 					}

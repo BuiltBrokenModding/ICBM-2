@@ -23,4 +23,9 @@ public class FXYan extends EntitySmokeFX
 		this.particleGreen *= colorVarient;
 	}
 
+	public FXYan setAge(int age)
+	{
+		this.particleMaxAge = age;
+		return this;
+	}
 }

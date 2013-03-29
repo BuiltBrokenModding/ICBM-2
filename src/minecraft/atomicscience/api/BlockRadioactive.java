@@ -5,6 +5,8 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -120,5 +122,24 @@ public class BlockRadioactive extends Block
 	public int quantityDropped(Random par1Random)
 	{
 		return 0;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random par5Random)
+	{
+		int radius = 10;
+
+		for (int i = 0; i < 5; i++)
+		{
+			Vector3 diDian = new Vector3(x, y, z);
+
+			diDian.x += Math.random() * radius - radius / 2;
+			diDian.y += Math.random() * radius - radius / 2;
+			diDian.z += Math.random() * radius - radius / 2;
+
+			EntitySmokeFX fx = new EntitySmokeFX(world, diDian.x, diDian.y, diDian.z, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2);
+			fx.setRBGColorF(0.2f, 0.8f, 0);
+			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+		}
 	}
 }

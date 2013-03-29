@@ -29,7 +29,7 @@ public class ExDuQi extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
 	{
-		int duration = (3 * 20) / 5;
+		int duration = (3 * 20) / this.proceduralInterval();
 
 		if (worldObj.isRemote)
 		{
@@ -45,7 +45,7 @@ public class ExDuQi extends ZhaPin
 				if (diDian.getMagnitude() <= this.getRadius())
 				{
 					diDian.add(new Vector3(explosionSource));
-					FXYan fx = new FXYan(explosionSource.worldObj, diDian, 0.2f, 0.8f, 0, 4.0F, 8);
+					FXYan fx = new FXYan(explosionSource.worldObj, diDian, 0.3f, 0.8f, 0, 4.0F, 8);
 					fx.motionX = (Math.random() - 0.5) / 2;
 					fx.motionY = (Math.random() - 0.5) / 2;
 					fx.motionZ = (Math.random() - 0.5) / 2;
@@ -114,7 +114,7 @@ public class ExDuQi extends ZhaPin
 	@Override
 	public float getRadius()
 	{
-		return this.getTier() == 2 ? 20 : 14;
+		return this.getTier() == 2 ? 22 : 15;
 	}
 
 	@Override

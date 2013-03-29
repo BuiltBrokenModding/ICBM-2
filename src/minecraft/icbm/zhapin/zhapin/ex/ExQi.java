@@ -41,7 +41,8 @@ public class ExQi extends ZhaPin
 		{
 			radius /= 2;
 		}
-		int duration = 20 * 30;
+
+		int duration = (20 * 30) / this.proceduralInterval();
 
 		if (worldObj.isRemote)
 		{
