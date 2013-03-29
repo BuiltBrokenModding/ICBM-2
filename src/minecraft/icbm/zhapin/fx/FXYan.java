@@ -16,6 +16,11 @@ public class FXYan extends EntitySmokeFX
 		this.particleRed = red;
 		this.particleBlue = blue;
 		this.particleGreen = green;
+
+		float colorVarient = (float) (Math.random() * 0.90000001192092896D);
+		this.particleRed *= colorVarient;
+		this.particleBlue *= colorVarient;
+		this.particleGreen *= colorVarient;
 	}
 
 }

@@ -9,7 +9,7 @@ public class ShengYin
 {
 	public static final ShengYin INSTANCE = new ShengYin();
 
-	public static final String[] SOUND_FILES = { "airstrike.ogg", "hypersonic.ogg", "missilelaunch.ogg", "emp.ogg", "sonicwave.ogg", "machinehum.ogg", "alarm.ogg", "explosion1.ogg", "explosionfire.ogg", "gasleak.ogg", "beamcharging.ogg", "powerdown.ogg", "targetlocked.ogg", "redmatter.ogg", "railgun.ogg", "antigravity.ogg", "antimatter.ogg", "laser.ogg" };
+	public static final String[] SOUND_FILES = { "debilitation.ogg", "airstrike.ogg", "hypersonic.ogg", "missilelaunch.ogg", "emp.ogg", "sonicwave.ogg", "machinehum.ogg", "alarm.ogg", "explosion1.ogg", "explosionfire.ogg", "gasleak.ogg", "beamcharging.ogg", "powerdown.ogg", "targetlocked.ogg", "redmatter.ogg", "railgun.ogg", "antigravity.ogg", "antimatter.ogg", "laser.ogg" };
 
 	@ForgeSubscribe
 	public void loadSoundEvents(SoundLoadEvent event)

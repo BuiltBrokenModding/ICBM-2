@@ -21,7 +21,7 @@ echo Starting to build ICBM
 
 ::BUILD
 runtime\bin\python\python_mcp runtime\recompile.py %*
-runtime\bin\python\python_mcp runtime\reobfuscate.py %*
+runtime\bin\python\python_mcp runtime\reobfuscate.py --srgnames %*
 
 ::ZIP-UP
 cd reobf\minecraft\

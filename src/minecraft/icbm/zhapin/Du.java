@@ -31,11 +31,11 @@ public class Du extends atomicscience.api.poison.Poison
 		else
 		{
 			entity.addPotionEffect(new CustomPotionEffect(PDaDu.INSTANCE.getId(), 30 * 20, amplifier, null));
-			entity.addPotionEffect(new CustomPotionEffect(Potion.confusion.id, 20 * 20, amplifier));
+			entity.addPotionEffect(new CustomPotionEffect(Potion.confusion.id, 30 * 20, amplifier));
 		}
 
-		entity.addPotionEffect(new CustomPotionEffect(Potion.hunger.id, 20 * 20, amplifier));
-		entity.addPotionEffect(new CustomPotionEffect(Potion.weakness.id, 20 * 20, amplifier));
+		entity.addPotionEffect(new CustomPotionEffect(Potion.hunger.id, 30 * 20, amplifier));
+		entity.addPotionEffect(new CustomPotionEffect(Potion.weakness.id, 35 * 20, amplifier));
 	}
 
 }

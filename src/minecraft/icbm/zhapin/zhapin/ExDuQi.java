@@ -3,17 +3,21 @@ package icbm.zhapin.zhapin;
 import icbm.api.ICBM;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.fx.FXYan;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import universalelectricity.prefab.potion.CustomPotionEffect;
 
 public class ExDuQi extends ZhaPin
 {
@@ -23,25 +27,35 @@ public class ExDuQi extends ZhaPin
 	}
 
 	@Override
-	public float getRadius()
+	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
 	{
-		return this.getTier() == 2 ? 20 : 14;
-	}
+		int duration = (3 * 20) / 5;
 
-	@Override
-	public double getEnergy()
-	{
-		return 0;
-	}
+		if (worldObj.isRemote)
+		{
+			for (int i = 0; i < 200; i++)
+			{
+				Vector3 diDian = new Vector3();
 
-	/**
-	 * World worldObj, Vector3 position, int radius, boolean isContagious
-	 */
-	@Override
-	public void doBaoZha(World worldObj, Vector3 position, Entity explosionSource)
-	{
+				diDian.x = Math.random() * this.getRadius() / 2 - this.getRadius() / 4;
+				diDian.y = Math.random() * this.getRadius() / 2 - this.getRadius() / 4;
+				diDian.z = Math.random() * this.getRadius() / 2 - this.getRadius() / 4;
+				diDian.multiply(Math.min(this.getRadius(), callCount) / 10);
+
+				if (diDian.getMagnitude() <= this.getRadius())
+				{
+					diDian.add(new Vector3(explosionSource));
+					FXYan fx = new FXYan(explosionSource.worldObj, diDian, 0.2f, 0.8f, 0, 4.0F, 8);
+					fx.motionX = (Math.random() - 0.5) / 2;
+					fx.motionY = (Math.random() - 0.5) / 2;
+					fx.motionZ = (Math.random() - 0.5) / 2;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+		}
+
 		boolean isContagious = this.getTier() == 2;
-		int radius = (int) this.getRadius();
+		float radius = this.getRadius();
 
 		if (explosionSource instanceof EShouLiuDan)
 		{
@@ -67,8 +81,21 @@ public class ExDuQi extends ZhaPin
 
 		if (isContagious)
 		{
-			ZhaPin.bianZhong.doBaoZha(worldObj, position, null, radius, -1);
+			ZhaPin.bianZhong.doBaoZha(worldObj, position, null, (int) radius, -1);
 		}
+
+		if (callCount > duration)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int proceduralInterval()
+	{
+		return 5;
 	}
 
 	@Override
@@ -76,11 +103,24 @@ public class ExDuQi extends ZhaPin
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', tui.getItemStack() }), "Chemical", ICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', qi.getItemStack() }), "Chemical", ICBM.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{
 			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ICBM.CONFIGURATION, true);
 		}
 	}
+
+	@Override
+	public float getRadius()
+	{
+		return this.getTier() == 2 ? 20 : 14;
+	}
+
+	@Override
+	public double getEnergy()
+	{
+		return 0;
+	}
+
 }

@@ -21,6 +21,7 @@ import icbm.zhapin.zhapin.ex.ExHongSu;
 import icbm.zhapin.zhapin.ex.ExHuanYuan;
 import icbm.zhapin.zhapin.ex.ExHuo;
 import icbm.zhapin.zhapin.ex.ExPiaoFu;
+import icbm.zhapin.zhapin.ex.ExQi;
 import icbm.zhapin.zhapin.ex.ExQunDan;
 import icbm.zhapin.zhapin.ex.ExShengBuo;
 import icbm.zhapin.zhapin.ex.ExTaiYang;
@@ -71,6 +72,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 	public static final ZhaPin yaSuo = new ExYaSuo("condensed", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
 	public static final ZhaPin xiaoQunDan = new ExQunDan("shrapnel", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
 	public static final ZhaPin huo = new ExHuo("incendiary", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
+	public static final ZhaPin qi = new ExQi("debilitation", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
 	public static final ZhaPin duQi = new ExDuQi("chemical", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
 	public static final ZhaPin zhen = new ExQunDan("anvil", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
 	public static final ZhaPin tui = new ExTuiLa("repulsive", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);

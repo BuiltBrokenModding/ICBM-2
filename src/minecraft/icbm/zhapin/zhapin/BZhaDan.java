@@ -250,17 +250,17 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	 * (coordinates passed are their own) Args: x, y, z, neighbor blockID
 	 */
 	@Override
-	public void onNeighborBlockChange(World par1World, int x, int y, int z, int blockId)
+	public void onNeighborBlockChange(World world, int x, int y, int z, int blockId)
 	{
-		int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
+		int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
 
-		if ((blockId > 0 && Block.blocksList[blockId].canProvidePower() && par1World.isBlockIndirectlyGettingPowered(x, y, z)))
+		if (world.isBlockIndirectlyGettingPowered(x, y, z))
 		{
-			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
+			BZhaDan.yinZha(world, x, y, z, explosiveID, 0);
 		}
 		else if (blockId == Block.fire.blockID || blockId == Block.lavaMoving.blockID || blockId == Block.lavaStill.blockID)
 		{
-			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 2);
+			BZhaDan.yinZha(world, x, y, z, explosiveID, 2);
 		}
 	}
 

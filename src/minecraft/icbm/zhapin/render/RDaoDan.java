@@ -42,7 +42,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RDaoDan extends Render
 {
-	public static final ICBMModelBase[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
+	public static final ICBMModelBase[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMYaSuo(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
 
 	, new MMQunDan(), new MMGanRanDu(), new MMShengBuo(), new MMTuPuo(), new MMHuanYuan(), new MMLiZi(),
 
