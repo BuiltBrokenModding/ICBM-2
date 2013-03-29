@@ -4,6 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosive;
+import icbm.core.HaoMa;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
@@ -67,49 +68,49 @@ public abstract class ZhaPin implements ITier, IExplosive
 		}
 	}
 
-	public static final ZhaPin yaSuo = new ExYaSuo("condensed", 0, 1);
-	public static final ZhaPin xiaoQunDan = new ExQunDan("shrapnel", 1, 1);
-	public static final ZhaPin huo = new ExHuo("incendiary", 2, 1);
-	public static final ZhaPin duQi = new ExDuQi("chemical", 3, 1);
-	public static final ZhaPin zhen = new ExQunDan("anvil", 4, 1);
-	public static final ZhaPin tui = new ExTuiLa("repulsive", 5, 1);
-	public static final ZhaPin la = new ExTuiLa("attractive", 6, 1);
+	public static final ZhaPin yaSuo = new ExYaSuo("condensed", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
+	public static final ZhaPin xiaoQunDan = new ExQunDan("shrapnel", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
+	public static final ZhaPin huo = new ExHuo("incendiary", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
+	public static final ZhaPin duQi = new ExDuQi("chemical", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
+	public static final ZhaPin zhen = new ExQunDan("anvil", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
+	public static final ZhaPin tui = new ExTuiLa("repulsive", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
+	public static final ZhaPin la = new ExTuiLa("attractive", HaoMa.getID(ZhaPin.class.getSimpleName()), 1);
 
-	public static final int E_YI_ID = 7;
+	public static final int E_YI_ID = la.getID() + 1;
 
-	public static final ZhaPin qunDan = new ExQunDan("fragmentation", 7, 2);
-	public static final ZhaPin chuanRan = new ExDuQi("contagious", 8, 2);
-	public static final ZhaPin shengBuo = new ExShengBuo("sonic", 9, 2);
-	public static final ZhaPin tuPuo = new ExTuPuo("breaching", 10, 2);
-	public static final ZhaPin huanYuan = new ExHuanYuan("rejuvenation", 11, 2);
-	public static final ZhaPin wenYa = new ExWenYa("thermobaric", 12, 2);
+	public static final ZhaPin qunDan = new ExQunDan("fragmentation", HaoMa.getID(ZhaPin.class.getSimpleName()), 2);
+	public static final ZhaPin chuanRan = new ExDuQi("contagious", HaoMa.getID(ZhaPin.class.getSimpleName()), 2);
+	public static final ZhaPin shengBuo = new ExShengBuo("sonic", HaoMa.getID(ZhaPin.class.getSimpleName()), 2);
+	public static final ZhaPin tuPuo = new ExTuPuo("breaching", HaoMa.getID(ZhaPin.class.getSimpleName()), 2);
+	public static final ZhaPin huanYuan = new ExHuanYuan("rejuvenation", HaoMa.getID(ZhaPin.class.getSimpleName()), 2);
+	public static final ZhaPin wenYa = new ExWenYa("thermobaric", HaoMa.getID(ZhaPin.class.getSimpleName()), 2);
 
-	public static final int E_ER_ID = 13;
+	public static final int E_ER_ID = wenYa.getID() + 1;
 
-	public static final ZhaPin yuanZi = new ExYuanZi("nuclear", 13, 3);
-	public static final ZhaPin dianCi = new ExDianCi("emp", 14, 3);
-	public static final ZhaPin taiYang = new ExTaiYang("exothermic", 15, 3);
-	public static final ZhaPin bingDan = new ExBingDan("endothermic", 16, 3);
-	public static final ZhaPin piaoFu = new ExPiaoFu("antiGravitational", 17, 3);
-	public static final ZhaPin wanDan = new ExWan("ender", 18, 3);
-	public static final ZhaPin chaoShengBuo = new ExChaoShengBuo("hypersonic", 19, 3);
+	public static final ZhaPin yuanZi = new ExYuanZi("nuclear", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin dianCi = new ExDianCi("emp", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin taiYang = new ExTaiYang("exothermic", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin bingDan = new ExBingDan("endothermic", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin piaoFu = new ExPiaoFu("antiGravitational", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin wanDan = new ExWan("ender", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin chaoShengBuo = new ExChaoShengBuo("hypersonic", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
 
-	public static final int E_SAN_ID = 20;
+	public static final int E_SAN_ID = chaoShengBuo.getID() + 1;
 
-	public static final ZhaPin fanWuSu = new ExFanWuSu("antimatter", 20, 4);
-	public static final ZhaPin hongSu = new ExHongSu("redMatter", 21, 4);
+	public static final ZhaPin fanWuSu = new ExFanWuSu("antimatter", HaoMa.getID(ZhaPin.class.getSimpleName()), 4);
+	public static final ZhaPin hongSu = new ExHongSu("redMatter", HaoMa.getID(ZhaPin.class.getSimpleName()), 4);
 
-	public static final int E_SI_ID = 22;
+	public static final int E_SI_ID = hongSu.getID() + 1;
 
-	public static final ZhaPin diLei = new ExDiLei("sMine", 25, 2);
+	public static final ZhaPin diLei = new ExDiLei("sMine", HaoMa.getID(ZhaPin.class.getSimpleName()), 2);
 
 	// Hidden Explosives
-	public static final ZhaPin dianCiWave = new ExDianCiWave("emp", 26, 3);
-	public static final ZhaPin dianCiSignal = new ExDianCiSignal("emp", 27, 3);
-	public static final ZhaPin taiYang2 = new ExTaiYang2("exothermic", 28, 3);
-	public static final ZhaPin fuLan = new ExFuLan("decayLand", 29, 3);
-	public static final ZhaPin bianZhong = new ExBianZhong("mutateLiving", 30, 3);
-	public static final ZhaPin bingDan2 = new ExBingDan2("endothermic", 31, 3);
+	public static final ZhaPin dianCiWave = new ExDianCiWave("emp", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin dianCiSignal = new ExDianCiSignal("emp", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin taiYang2 = new ExTaiYang2("exothermic", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin fuLan = new ExFuLan("decayLand", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin bianZhong = new ExBianZhong("mutateLiving", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
+	public static final ZhaPin bingDan2 = new ExBingDan2("endothermic", HaoMa.getID(ZhaPin.class.getSimpleName()), 3);
 
 	public static ZhaPin[] list;
 
