@@ -1,6 +1,5 @@
 package icbm.zhapin;
 
-import universalelectricity.core.vector.Vector3;
 import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
 import icbm.zhapin.cart.EChe;
@@ -44,12 +43,16 @@ import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.TZhaDan;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityDiggingFX;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -131,19 +134,40 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@Override
-	public void spawnParticle(String name, World world, Vector3 position, float red, float green, float blue, float scale, double distance)
+	public int getParticleSetting()
 	{
+		return Minecraft.getMinecraft().gameSettings.particleSetting;
+	}
+
+	@Override
+	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float red, float green, float blue, float scale, double distance)
+	{
+		EntityFX fx = null;
+
 		if (name == "smoke")
 		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXYan(world, position, red, green, blue, scale, distance));
+			fx = new FXYan(world, position, red, green, blue, scale, distance);
 		}
 		else if (name == "portal")
 		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXWan(world, position, red, green, blue, scale, distance));
+			fx = new FXWan(world, position, red, green, blue, scale, distance);
 		}
 		else if (name == "antimatter")
 		{
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXFanWuSu(world, position, red, green, blue, scale, distance));
+			fx = new FXFanWuSu(world, position, red, green, blue, scale, distance);
+		}
+		else if (name == "digging")
+		{
+			fx = new EntityDiggingFX(world, position.x, position.y, position.z, motionX, motionY, motionZ, Block.blocksList[(int) red], 0, (int) green, Minecraft.getMinecraft().renderEngine);
+			fx.multipleParticleScaleBy(blue);
+		}
+
+		if (fx != null)
+		{
+			fx.motionX = motionX;
+			fx.motionY = motionY;
+			fx.motionZ = motionZ;
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
 		}
 	}
 }

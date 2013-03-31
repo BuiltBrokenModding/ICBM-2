@@ -3,13 +3,11 @@ package icbm.zhapin.zhapin.ex;
 import icbm.api.ICBM;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.fx.FXYan;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
@@ -31,8 +29,27 @@ public class ExDuQi extends ZhaPin
 	{
 		int duration = (3 * 20) / this.proceduralInterval();
 
+		boolean isContagious = this.getTier() == 2;
+		float radius = this.getRadius();
+
+		if (explosionSource instanceof EShouLiuDan)
+		{
+			radius /= 2;
+		}
+
 		if (worldObj.isRemote)
 		{
+			float red = 0.8f;
+			float green = 0.8f;
+			float blue = 0;
+
+			if (isContagious)
+			{
+				red = 0.3f;
+				green = 0.8f;
+				blue = 0;
+			}
+
 			for (int i = 0; i < 200; i++)
 			{
 				Vector3 diDian = new Vector3();
@@ -45,21 +62,10 @@ public class ExDuQi extends ZhaPin
 				if (diDian.getMagnitude() <= this.getRadius())
 				{
 					diDian.add(new Vector3(explosionSource));
-					FXYan fx = new FXYan(explosionSource.worldObj, diDian, 0.3f, 0.8f, 0, 4.0F, 8);
-					fx.motionX = (Math.random() - 0.5) / 2;
-					fx.motionY = (Math.random() - 0.5) / 2;
-					fx.motionZ = (Math.random() - 0.5) / 2;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+
+					ZhuYaoZhaPin.proxy.spawnParticle("smoke", explosionSource.worldObj, diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, red, green, blue, 4f, 8);
 				}
 			}
-		}
-
-		boolean isContagious = this.getTier() == 2;
-		float radius = this.getRadius();
-
-		if (explosionSource instanceof EShouLiuDan)
-		{
-			radius /= 2;
 		}
 
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);

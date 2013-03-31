@@ -5,7 +5,6 @@ import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
-import net.minecraft.block.BlockRail;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;

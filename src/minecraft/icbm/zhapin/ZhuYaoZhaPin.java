@@ -34,7 +34,6 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockRail;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;

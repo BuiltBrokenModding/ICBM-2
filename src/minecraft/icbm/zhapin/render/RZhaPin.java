@@ -38,13 +38,13 @@ public class RZhaPin extends Render
 
 			/**
 			 * Draw Sphere
-			*/
+			 */
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x, (float) y, (float) z);
 			Sphere sphere = new Sphere();
 			GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.5f);
 			sphere.draw(5, 32, 32);
-			GL11.glPopMatrix(); 
+			GL11.glPopMatrix();
 
 			GL11.glPushMatrix();
 			GL11.glDepthMask(false);
@@ -59,7 +59,7 @@ public class RZhaPin extends Render
 			 */
 			RenderHelper.disableStandardItemLighting();
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
-			
+
 			GL11.glTranslated(x, y, z);
 			GL11.glRotatef(entity.ticksExisted, 0, 1, 0);
 
@@ -95,14 +95,14 @@ public class RZhaPin extends Render
 			tessellator.addVertexWithUV(+size, 0, +size, x0, x2);
 			tessellator.addVertexWithUV(+size, 0, -size, x0, x3);
 			tessellator.draw();
-			
+
 			/**
 			 * Disable Blending
 			 */
 			GL11.glDisable(GL11.GL_LINE_SMOOTH);
 			GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
 			GL11.glDisable(GL11.GL_BLEND);
-			
+
 			GL11.glDepthMask(true);
 			GL11.glPopMatrix();
 

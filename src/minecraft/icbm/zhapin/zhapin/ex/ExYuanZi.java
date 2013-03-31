@@ -2,7 +2,6 @@ package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.fx.ParticleSpawner;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -149,7 +148,7 @@ public class ExYuanZi extends ZhaPin
 							{
 								if (worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.05))
 								{
-									ParticleSpawner.spawnParticle("smoke", worldObj, targetPosition, 0F, 0F, 0F, 5F, 1F);
+									ZhuYaoZhaPin.proxy.spawnParticle("smoke", worldObj, targetPosition, 5F, 1F);
 								}
 							}
 						}
@@ -223,7 +222,7 @@ public class ExYuanZi extends ZhaPin
 
 						if (r > distance && r - 3 < distance)
 						{
-							ParticleSpawner.spawnParticle("smoke", worldObj, Vector3.add(new Vector3(x * 2, (y - 2) * 2, z * 2), position), 0F, 0F, 0F, 10F, 1F);
+							ZhuYaoZhaPin.proxy.spawnParticle("smoke", worldObj, Vector3.add(new Vector3(x * 2, (y - 2) * 2, z * 2), position), 5F, 1F);
 						}
 					}
 				}

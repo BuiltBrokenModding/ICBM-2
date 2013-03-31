@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
-import icbm.zhapin.fx.ParticleSpawner;
+import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class ExWan extends ZhaPin
 								float velY = (float) ((targetPosition.y - position.y) * 0.5);
 								float velZ = (float) ((targetPosition.z - position.z) * 0.5);
 
-								ParticleSpawner.spawnParticle("portal", worldObj, targetPosition, velX, velY, velZ, 5f, 1);
+								ZhuYaoZhaPin.proxy.spawnParticle("portal", worldObj, targetPosition, velX, velY, velZ, 5f, 1);
 							}
 						}
 					}

@@ -1,13 +1,12 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
-import icbm.zhapin.fx.FXYan;
+import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
@@ -58,11 +57,7 @@ public class ExQi extends ZhaPin
 				if (diDian.getMagnitude() <= radius)
 				{
 					diDian.add(new Vector3(explosionSource));
-					FXYan fx = new FXYan(explosionSource.worldObj, diDian, 1, 1, 1, 7.0F, 8);
-					fx.motionX = (Math.random() - 0.5) / 2;
-					fx.motionY = (Math.random() - 0.5) / 2;
-					fx.motionZ = (Math.random() - 0.5) / 2;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					ZhuYaoZhaPin.proxy.spawnParticle("smoke", explosionSource.worldObj, diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, 1, 1, 1, 7.0F, 8);
 				}
 			}
 		}

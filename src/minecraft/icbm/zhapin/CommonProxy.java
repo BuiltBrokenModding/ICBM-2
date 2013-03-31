@@ -1,6 +1,5 @@
 package icbm.zhapin;
 
-import universalelectricity.core.vector.Vector3;
 import icbm.core.ZhuYao;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.jiqi.TFaSheDi;
@@ -15,6 +14,7 @@ import icbm.zhapin.zhapin.TZhaDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -72,8 +72,24 @@ public class CommonProxy implements IGuiHandler
 		return false;
 	}
 
-	public void spawnParticle(String name, World world, Vector3 position, float red, float green, float blue, float scale, double distance)
+	public void spawnParticle(String name, World world, Vector3 position, float scale, double distance)
 	{
-		
+		this.spawnParticle(name, world, position, 0, 0, 0, scale, distance);
 	}
+
+	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float scale, double distance)
+	{
+		this.spawnParticle(name, world, position, motionX, motionY, motionZ, 1, 1, 1, scale, distance);
+	}
+
+	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float red, float green, float blue, float scale, double distance)
+	{
+
+	}
+
+	public int getParticleSetting()
+	{
+		return -1;
+	}
+
 }

@@ -8,7 +8,6 @@ import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.fx.ParticleSpawner;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
@@ -526,7 +525,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			delta.x = Math.sin(Math.toRadians(this.rotationYaw)) * dH;
 			delta.z = Math.cos(Math.toRadians(this.rotationYaw)) * dH;
 			position.add(delta);
-			ParticleSpawner.spawnParticle("smoke", this.worldObj, position);
+			ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj, position, 1.5f, 4);
 			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
 		}
 	}

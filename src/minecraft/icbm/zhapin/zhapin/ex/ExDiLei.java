@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExDiLei extends ZhaPin
 {
-	protected ExDiLei(String name, int ID, int tier)
+	public ExDiLei(String name, int ID, int tier)
 	{
 		super(name, ID, tier);
 		this.isMobile = true;

@@ -4,6 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.explosion.ExplosionEvent;
 import icbm.api.explosion.IExplosiveIgnore;
 import icbm.zhapin.EFeiBlock;
+import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EZhaDan;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -13,8 +14,6 @@ import java.util.List;
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -169,13 +168,14 @@ public class ExHongSu extends ZhaPin
 
 			if (entity instanceof EFeiBlock)
 			{
-				if (worldObj.isRemote && worldObj.rand.nextInt(5) == 0)
+				if (worldObj.isRemote)
 				{
-					if (Minecraft.getMinecraft().gameSettings.particleSetting == 0)
+					if (ZhuYaoZhaPin.proxy.getParticleSetting() == 0)
 					{
-						EntityDiggingFX fx = new EntityDiggingFX(worldObj, entity.posX, entity.posY, entity.posZ, -xDifference, -yDifference + 10, -zDifference, Block.blocksList[((EFeiBlock) entity).blockID], 0, ((EFeiBlock) entity).metadata, Minecraft.getMinecraft().renderEngine);
-						fx.multipleParticleScaleBy(2);
-						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+						if (worldObj.rand.nextInt(5) == 0)
+						{
+							ZhuYaoZhaPin.proxy.spawnParticle("digging", worldObj, new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, ((EFeiBlock) entity).blockID, 0, ((EFeiBlock) entity).metadata, 2, 1);
+						}
 					}
 				}
 			}

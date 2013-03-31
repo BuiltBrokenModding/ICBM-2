@@ -2,7 +2,6 @@ package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.fx.ParticleSpawner;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -152,7 +151,7 @@ public class ExWenYa extends ZhaPin
 							{
 								if (worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.05))
 								{
-									ParticleSpawner.spawnParticle("smoke", worldObj, targetPosition, 0F, 0F, 0F, 5F, 1F);
+									ZhuYaoZhaPin.proxy.spawnParticle("smoke", worldObj, targetPosition, 5F, 1F);
 								}
 							}
 						}
