@@ -27,7 +27,6 @@ public class ClientProxy extends CommonProxy
 	public void preInit()
 	{
 		super.preInit();
-		MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
 	}
 
 	@Override

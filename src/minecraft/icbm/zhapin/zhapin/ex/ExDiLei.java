@@ -1,9 +1,10 @@
-package icbm.zhapin.zhapin;
+package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ESuiPian;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
+import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;

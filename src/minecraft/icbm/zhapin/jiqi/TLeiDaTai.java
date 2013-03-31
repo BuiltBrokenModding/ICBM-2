@@ -72,7 +72,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 	{
 		if (this.worldObj != null)
 		{
-			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
 		}
 
 		if (this.ticket == null)

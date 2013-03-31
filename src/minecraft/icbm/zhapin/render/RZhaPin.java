@@ -1,15 +1,19 @@
 package icbm.zhapin.render;
 
+import icbm.core.ZhuYao;
 import icbm.core.muoxing.ICBMModelBase;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.Random;
 
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.src.ModLoader;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
@@ -27,18 +31,79 @@ public class RZhaPin extends Render
 	{
 		EZhaPin eZhaPin = (EZhaPin) entity;
 
+		// RedM atter Render
 		if (eZhaPin.haoMa == ZhaPin.hongSu.getID())
 		{
 			Tessellator tessellator = Tessellator.instance;
 
 			/**
 			 * Draw Sphere
-			 */
+			*/
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x, (float) y, (float) z);
 			Sphere sphere = new Sphere();
 			GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.5f);
 			sphere.draw(5, 32, 32);
+			GL11.glPopMatrix(); 
+
+			GL11.glPushMatrix();
+			GL11.glDepthMask(false);
+			/**
+			 * Enable Blending
+			 */
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+			/**
+			 * Disable Lighting
+			 */
+			RenderHelper.disableStandardItemLighting();
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
+			
+			GL11.glTranslated(x, y, z);
+			GL11.glRotatef(entity.ticksExisted, 0, 1, 0);
+
+			float size = 10;
+
+			float f1 = ActiveRenderInfo.rotationX;
+			float f2 = ActiveRenderInfo.rotationXZ;
+			float f3 = ActiveRenderInfo.rotationZ;
+			float f4 = ActiveRenderInfo.rotationYZ;
+			float f5 = ActiveRenderInfo.rotationXY;
+
+			float f10 = 1.0F;
+
+			int textureSize = 50;
+			float size4 = size * 5;
+			float float_sizeMinus0_01 = textureSize - 0.01F;
+
+			float x0 = (textureSize + 0.0F) / size4;
+			float x1 = (textureSize + float_sizeMinus0_01) / size4;
+			float x2 = (textureSize + 0.0F) / size4;
+			float x3 = (textureSize + float_sizeMinus0_01) / size4;
+
+			float renderX = (float) x;
+			float renderY = (float) y;
+			float renderZ = (float) z;
+
+			GL11.glBindTexture(3553, ModLoader.getMinecraftInstance().renderEngine.getTexture(ZhuYao.TEXTURE_PATH + "blackhole.png"));
+			tessellator.startDrawingQuads();
+			tessellator.setBrightness(240);
+			tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);
+			tessellator.addVertexWithUV(-size, 0, -size, x1, x3);
+			tessellator.addVertexWithUV(-size, 0, +size, x1, x2);
+			tessellator.addVertexWithUV(+size, 0, +size, x0, x2);
+			tessellator.addVertexWithUV(+size, 0, -size, x0, x3);
+			tessellator.draw();
+			
+			/**
+			 * Disable Blending
+			 */
+			GL11.glDisable(GL11.GL_LINE_SMOOTH);
+			GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
+			GL11.glDisable(GL11.GL_BLEND);
+			
+			GL11.glDepthMask(true);
 			GL11.glPopMatrix();
 
 			/**
@@ -61,7 +126,7 @@ public class RZhaPin extends Render
 			Random rand = new Random(432L);
 
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
+			GL11.glTranslatef((float) x, (float) y, (float) z);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			GL11.glEnable(GL11.GL_BLEND);

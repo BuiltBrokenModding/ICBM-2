@@ -1,9 +1,13 @@
 package icbm.zhapin;
 
+import universalelectricity.core.vector.Vector3;
 import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.daodan.EDaoDan;
+import icbm.zhapin.fx.FXFanWuSu;
+import icbm.zhapin.fx.FXWan;
+import icbm.zhapin.fx.FXYan;
 import icbm.zhapin.gui.GDianCiQi;
 import icbm.zhapin.gui.GFaSheDi;
 import icbm.zhapin.gui.GFaSheShiMuo;
@@ -46,6 +50,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
@@ -123,5 +128,22 @@ public class ClientProxy extends CommonProxy
 	public boolean isGaoQing()
 	{
 		return Minecraft.getMinecraft().gameSettings.fancyGraphics;
+	}
+
+	@Override
+	public void spawnParticle(String name, World world, Vector3 position, float red, float green, float blue, float scale, double distance)
+	{
+		if (name == "smoke")
+		{
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXYan(world, position, red, green, blue, scale, distance));
+		}
+		else if (name == "portal")
+		{
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXWan(world, position, red, green, blue, scale, distance));
+		}
+		else if (name == "antimatter")
+		{
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXFanWuSu(world, position, red, green, blue, scale, distance));
+		}
 	}
 }

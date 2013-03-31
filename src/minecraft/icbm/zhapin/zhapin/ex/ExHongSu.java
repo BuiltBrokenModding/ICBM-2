@@ -13,6 +13,8 @@ import java.util.List;
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,56 +72,55 @@ public class ExHongSu extends ZhaPin
 
 							currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
 							blockID = worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+							Block block = Block.blocksList[blockID];
 
-							if (blockID == 0 || Block.blocksList[blockID] == null)
-								continue;
-
-							if (Block.blocksList[blockID] instanceof IForceFieldBlock)
+							if (block != null)
 							{
-								((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ());
-								continue;
-							}
+								if (block instanceof IForceFieldBlock)
+								{
+									((IForceFieldBlock) block).weakenForceField(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ());
+									continue;
+								}
 
-							if (Block.blocksList[blockID].getBlockHardness(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ()) <= -1)
-								continue;
+								if (block.getBlockHardness(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ()) <= -1)
+									continue;
 
-							metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+								metadata = worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 
-							int notify = 2;
+								int notify = 2;
 
-							// TODO: CHeck if this grabs water
-							if (Block.blocksList[blockID] instanceof BlockFluid)
-							{
-								notify = 0;
-							}
+								if (block instanceof BlockFluid)
+								{
+									notify = 0;
+								}
 
-							worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, notify);
+								worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, notify);
 
-							if (Block.blocksList[blockID] instanceof BlockFluid)
-								continue;
+								if (block instanceof BlockFluid)
+									continue;
 
-							if (worldObj.rand.nextFloat() > 0.8)
-							{
 								currentPos.add(0.5D);
 
-								EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
-								worldObj.spawnEntityInWorld(entity);
-								entity.yawChange = 50 * worldObj.rand.nextFloat();
-								entity.pitchChange = 50 * worldObj.rand.nextFloat();
-							}
+								if (worldObj.rand.nextFloat() > 0.8)
+								{
+									EFeiBlock entity = new EFeiBlock(worldObj, currentPos, blockID, metadata);
+									worldObj.spawnEntityInWorld(entity);
+									entity.yawChange = 50 * worldObj.rand.nextFloat();
+									entity.pitchChange = 50 * worldObj.rand.nextFloat();
+								}
 
-							takenBlocks++;
-							if (takenBlocks > MAX_TAKE_BLOCKS)
-								break loop;
+								takenBlocks++;
+								if (takenBlocks > MAX_TAKE_BLOCKS)
+									break loop;
+							}
 						}
 					}
 				}
 			}
 		}
 
-		// Make the blocks controlled by this red
-		// matter orbit around it
-		int radius = (int) this.getRadius();
+		// Make the blocks controlled by this red matter orbit around it
+		float radius = this.getRadius() + this.getRadius() / 2;
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
 		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 		boolean explosionCreated = false;
@@ -145,22 +146,39 @@ public class ExHongSu extends ZhaPin
 			double yDifference = entity.posY - position.y;
 			double zDifference = entity.posZ - position.z;
 
-			int r = (int) this.getRadius();
+			float r = radius;
+
 			if (xDifference < 0)
-				r = (int) -this.getRadius();
+				r = (int) -radius;
 
-			entity.motionX -= (r - xDifference) * Math.abs(xDifference) * 0.0005;
+			entity.motionX -= (r - xDifference) * 0.002;
 
-			r = (int) this.getRadius();
-			if (entity.posY > position.y)
-				r = (int) -this.getRadius();
-			entity.motionY += (r - yDifference) * Math.abs(yDifference) * 0.0012;
+			r = radius;
 
-			r = (int) this.getRadius();
+			if (yDifference < 0)
+				r = (int) -radius;
+
+			entity.motionY -= (r - yDifference) * 0.005;
+
+			r = radius;
+
 			if (zDifference < 0)
-				r = (int) -this.getRadius();
+				r = -radius;
 
-			entity.motionZ -= (r - zDifference) * Math.abs(zDifference) * 0.0005;
+			entity.motionZ -= (r - zDifference) * 0.002;
+
+			if (entity instanceof EFeiBlock)
+			{
+				if (worldObj.isRemote && worldObj.rand.nextInt(5) == 0)
+				{
+					if (Minecraft.getMinecraft().gameSettings.particleSetting == 0)
+					{
+						EntityDiggingFX fx = new EntityDiggingFX(worldObj, entity.posX, entity.posY, entity.posZ, -xDifference, -yDifference + 10, -zDifference, Block.blocksList[((EFeiBlock) entity).blockID], 0, ((EFeiBlock) entity).metadata, Minecraft.getMinecraft().renderEngine);
+						fx.multipleParticleScaleBy(2);
+						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					}
+				}
+			}
 
 			if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
 			{
@@ -202,7 +220,10 @@ public class ExHongSu extends ZhaPin
 			}
 		}
 
-		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+		if (worldObj.rand.nextInt(10) == 0)
+			worldObj.playSoundEffect(position.x + (Math.random() - 0.5) * radius, position.y + (Math.random() - 0.5) * radius, position.z + (Math.random() - 0.5) * radius, "icbm.collapse", 6.0F - worldObj.rand.nextFloat(), 1.0F - worldObj.rand.nextFloat() * 0.4F);
+
+		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.redmatter", 3.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
 
 		return true;
 	}

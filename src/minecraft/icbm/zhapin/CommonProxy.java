@@ -1,5 +1,6 @@
 package icbm.zhapin;
 
+import universalelectricity.core.vector.Vector3;
 import icbm.core.ZhuYao;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.jiqi.TFaSheDi;
@@ -69,5 +70,10 @@ public class CommonProxy implements IGuiHandler
 	public boolean isGaoQing()
 	{
 		return false;
+	}
+
+	public void spawnParticle(String name, World world, Vector3 position, float red, float green, float blue, float scale, double distance)
+	{
+		
 	}
 }
