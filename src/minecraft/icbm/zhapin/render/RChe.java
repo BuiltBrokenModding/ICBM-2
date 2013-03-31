@@ -20,9 +20,9 @@ public class RChe extends RenderMinecart
 	{
 		int yinXin = minecart.yinXin;
 
-		if (yinXin > -1 && (float) yinXin - brightness + 1.0F < 10.0F)
+		if (yinXin > -1 && yinXin - brightness + 1.0F < 10.0F)
 		{
-			float f1 = 1.0F - ((float) yinXin - brightness + 1.0F) / 10.0F;
+			float f1 = 1.0F - (yinXin - brightness + 1.0F) / 10.0F;
 
 			if (f1 < 0.0F)
 			{
@@ -48,7 +48,7 @@ public class RChe extends RenderMinecart
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, (1.0F - ((float) yinXin - brightness + 1.0F) / 100.0F) * 0.8F);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, (1.0F - (yinXin - brightness + 1.0F) / 100.0F) * 0.8F);
 			GL11.glPushMatrix();
 			this.field_94145_f.renderBlockAsItem(block, 0, 1.0F);
 			GL11.glPopMatrix();

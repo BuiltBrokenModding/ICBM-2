@@ -1,6 +1,6 @@
 package icbm.gangshao.actions;
 
-import icbm.api.IAutoSentry;
+import icbm.gangshao.IAutoSentry;
 import icbm.gangshao.terminal.AccessLevel;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class ActionSearchTarget extends Action
 					{
 						double distance = entity.getDistance(this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
 
-						if (sentry.isValidTarget((Entity) entity) && distance < smallestDis)
+						if (sentry.isValidTarget(entity) && distance < smallestDis)
 						{
 							currentTarget = entity;
 							smallestDis = distance;

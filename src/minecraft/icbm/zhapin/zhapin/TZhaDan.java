@@ -73,7 +73,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
 					BZhaDan.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
-					((ItYaoKong) ZhuYaoZhaPin.itYaoKong).onProvide(ElectricityPack.getFromWatts(ItYaoKong.YONG_DIAN_LIANG, ((ItemElectric) ZhuYaoZhaPin.itYaoKong).getVoltage(itemStack)), itemStack);
+					((ItYaoKong) ZhuYaoZhaPin.itYaoKong).onProvide(ElectricityPack.getFromWatts(ItYaoKong.YONG_DIAN_LIANG, ZhuYaoZhaPin.itYaoKong.getVoltage(itemStack)), itemStack);
 				}
 			}
 		}

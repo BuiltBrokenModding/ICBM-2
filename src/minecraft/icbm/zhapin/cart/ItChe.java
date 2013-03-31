@@ -6,6 +6,7 @@ import icbm.zhapin.zhapin.ZhaPin;
 import java.util.List;
 
 import net.minecraft.block.BlockRail;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,11 +35,11 @@ public class ItChe extends ItICBM
 	{
 		int var11 = par3World.getBlockId(x, y, z);
 
-		if (BlockRail.isRailBlock(var11))
+		if (BlockRailBase.isRailBlock(var11))
 		{
 			if (!par3World.isRemote)
 			{
-				par3World.spawnEntityInWorld(new EChe(par3World, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), par1ItemStack.getItemDamage()));
+				par3World.spawnEntityInWorld(new EChe(par3World, x + 0.5F, y + 0.5F, z + 0.5F, par1ItemStack.getItemDamage()));
 			}
 
 			--par1ItemStack.stackSize;

@@ -158,7 +158,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 
 			for (var6 = 0; var6 < toolTips.length; ++var6)
 			{
-				var7 = this.fontRenderer.getStringWidth((String) toolTips[var6]);
+				var7 = this.fontRenderer.getStringWidth(toolTips[var6]);
 
 				if (var7 > var5)
 				{

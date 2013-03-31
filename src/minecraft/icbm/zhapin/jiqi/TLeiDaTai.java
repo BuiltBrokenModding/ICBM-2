@@ -72,7 +72,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 	{
 		if (this.worldObj != null)
 		{
-			this.worldObj.notifyBlocksOfNeighborChange((int) this.xCoord, (int) this.yCoord, (int) this.zCoord, this.getBlockType().blockID);
+			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
 
 		if (this.ticket == null)
@@ -215,7 +215,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 			}
 		}
 
-		for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
+		for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TLeiDaTai.MAX_BIAN_JING, this.zCoord - TLeiDaTai.MAX_BIAN_JING), new Vector2(this.xCoord + TLeiDaTai.MAX_BIAN_JING, this.zCoord + TLeiDaTai.MAX_BIAN_JING)))
 		{
 			if (jiQi instanceof TLeiDaTai)
 			{
@@ -247,7 +247,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 
 	private Packet getDescriptionPacket2()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 1, this.alarmBanJing, this.safetyBanJing);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, this.alarmBanJing, this.safetyBanJing);
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 			sendDian = this.getRequest().getWatts();
 		}
 
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 4, sendDian, this.disabledTicks);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 4, sendDian, this.disabledTicks);
 	}
 
 	@Override
@@ -476,7 +476,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 
 				return new Object[] { returnArray };
 			case 1:
-				for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - this.MAX_BIAN_JING, this.zCoord - this.MAX_BIAN_JING), new Vector2(this.xCoord + this.MAX_BIAN_JING, this.zCoord + this.MAX_BIAN_JING)))
+				for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TLeiDaTai.MAX_BIAN_JING, this.zCoord - TLeiDaTai.MAX_BIAN_JING), new Vector2(this.xCoord + TLeiDaTai.MAX_BIAN_JING, this.zCoord + TLeiDaTai.MAX_BIAN_JING)))
 				{
 					returnArray.put("x_" + count, (double) jiQi.xCoord);
 					returnArray.put("y_" + count, (double) jiQi.yCoord);

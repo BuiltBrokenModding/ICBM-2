@@ -63,7 +63,7 @@ public class ItLeiDaQiang extends ItElectricICBM
 					// Check for electricity
 					if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
 					{
-						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, (int) ZhaPinPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, ZhaPinPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 						this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
 						par3EntityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ);
 					}
@@ -114,7 +114,7 @@ public class ItLeiDaQiang extends ItElectricICBM
 
 						if (par3World.isRemote)
 						{
-							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, missileLauncher, (int) 2, savedCords.x, missileLauncher.getTarget().y, savedCords.z));
+							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, missileLauncher, 2, savedCords.x, missileLauncher.getTarget().y, savedCords.z));
 							par2EntityPlayer.addChatMessage("Coordinate information transfered!");
 						}
 					}
@@ -141,7 +141,7 @@ public class ItLeiDaQiang extends ItElectricICBM
 
 						if (par3World.isRemote)
 						{
-							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, missileLauncher, (int) 2, savedCords.x, savedCords.y, savedCords.z));
+							PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, missileLauncher, 2, savedCords.x, savedCords.y, savedCords.z));
 							par2EntityPlayer.addChatMessage("Coordinate information transfered!");
 						}
 					}

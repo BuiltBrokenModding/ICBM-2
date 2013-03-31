@@ -27,6 +27,7 @@ public class ExWan extends ZhaPin
 		this.isMobile = true;
 	}
 
+	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		if (!worldObj.isRemote)
@@ -40,7 +41,7 @@ public class ExWan extends ZhaPin
 	{
 		if (worldObj.isRemote)
 		{
-			int r = (int) (this.getRadius() - (double) (((double) callCount / (double) SHI_JIAN) * this.getRadius()));
+			int r = (int) (this.getRadius() - ((double) callCount / (double) SHI_JIAN) * this.getRadius());
 
 			for (int x = -r; x < r; x++)
 			{

@@ -75,12 +75,12 @@ public class RDaoDan extends Render
 		if (entityMissile.haoMa > 100)
 		{
 			this.loadTexture(ZhuYao.MODEL_PATH + "missile_" + DaoDan.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
-			this.SPECIAL_MODELS[entityMissile.haoMa - 101].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			RDaoDan.SPECIAL_MODELS[entityMissile.haoMa - 101].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{
 			this.loadTexture(ZhuYao.MODEL_PATH + "missile_" + ZhaPin.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
-			this.MODELS[entityMissile.haoMa].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			RDaoDan.MODELS[entityMissile.haoMa].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 
 		GL11.glPopMatrix();

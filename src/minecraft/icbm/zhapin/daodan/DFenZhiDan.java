@@ -13,7 +13,7 @@ public class DFenZhiDan extends DaoDan
 	}
 
 	@Override
-	public void onTickFlight(EDaoDan missileObj)
+	public void update(EDaoDan missileObj)
 	{
 		if (missileObj.motionY < -0.5)
 		{
@@ -25,7 +25,7 @@ public class DFenZhiDan extends DaoDan
 					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, new Vector3(missileObj), 0);
 					clusterMissile.xingShi = XingShi.XIAO_DAN;
 					clusterMissile.baoHuShiJian = 20;
-					clusterMissile.faShe(Vector3.add(missileObj.muBiao, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6)));
+					clusterMissile.launch(Vector3.add(missileObj.muBiao, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6)));
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 				}
 				missileObj.baoHuShiJian = 20;

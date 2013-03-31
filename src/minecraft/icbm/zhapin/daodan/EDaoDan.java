@@ -1,5 +1,6 @@
 package icbm.zhapin.daodan;
 
+import icbm.api.ILauncherContainer;
 import icbm.api.IMissile;
 import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
@@ -8,7 +9,6 @@ import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.fx.ParticleSpawner;
-import icbm.zhapin.jiqi.TFaSheDi;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
@@ -160,9 +160,9 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			data.writeDouble(this.kaiShi.y);
 			data.writeDouble(this.kaiShi.z);
 
-			data.writeDouble(this.faSheQi.x);
-			data.writeDouble(this.faSheQi.y);
-			data.writeDouble(this.faSheQi.z);
+			data.writeInt(this.faSheQi.intX());
+			data.writeInt(this.faSheQi.intY());
+			data.writeInt(this.faSheQi.intZ());
 		}
 		catch (Exception e)
 		{
@@ -178,7 +178,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			this.haoMa = data.readInt();
 			this.xingShi = XingShi.values()[data.readInt()];
 			this.kaiShi = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
-			this.faSheQi = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
+			this.faSheQi = new Vector3(data.readInt(), data.readInt(), data.readInt());
 		}
 		catch (Exception e)
 		{
@@ -186,37 +186,48 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		}
 	}
 
-	public void faShe(Vector3 muBiao)
+	@Override
+	public void launch(Vector3 target)
 	{
-		this.kaiShi = new Vector3(this.posX, this.posY, this.posZ);
-		this.muBiao = muBiao;
-		this.baoZhaGaoDu = (int) muBiao.y;
-
-		// Calculate the distance difference of the missile
-		this.xXiangCha = this.muBiao.x - this.kaiShi.x;
-		this.yXiangCha = this.muBiao.y - this.kaiShi.y;
-		this.zXiangCha = this.muBiao.z - this.kaiShi.z;
-
-		// Calculate the power required to reach the target co-ordinates
-		this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), this.muBiao.toVector2());
-
-		this.tianGao = 160 + (int) (this.diShangJuLi * 3);
-
-		this.feiXingShiJian = (float) Math.max(100, 2 * diShangJuLi);
-		this.jiaSu = (float) tianGao * 2 / (feiXingShiJian * feiXingShiJian);
-
+		this.kaiShi = new Vector3(this);
+		this.muBiao = target;
+		this.baoZhaGaoDu = this.muBiao.intY();
+		DaoDan.list[this.haoMa].launch(this);
 		this.feiXingTick = 0;
-
+		this.jiSuan();
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
-
 		FMLLog.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
-	public void faShe(Vector3 muBiao, int qiFeiGaoDu)
+	@Override
+	public void launch(Vector3 target, int height)
 	{
-		this.qiFeiGaoDu = qiFeiGaoDu;
-		this.faShe(muBiao);
+		this.qiFeiGaoDu = height;
+		this.launch(target);
+	}
+
+	/**
+	 * Recalculates required parabolic path for the missile.
+	 * 
+	 * @param target
+	 */
+	public void jiSuan()
+	{
+		if (this.muBiao != null)
+		{
+			// Calculate the distance difference of the missile
+			this.xXiangCha = this.muBiao.x - this.kaiShi.x;
+			this.yXiangCha = this.muBiao.y - this.kaiShi.y;
+			this.zXiangCha = this.muBiao.z - this.kaiShi.z;
+
+			// TODO: Calcualte parabola and relative out the height.
+			// Calculate the power required to reach the target co-ordinates
+			this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), this.muBiao.toVector2());
+			this.tianGao = 160 + (int) (this.diShangJuLi * 3);
+			this.feiXingShiJian = (float) Math.max(100, 2 * this.diShangJuLi) - this.feiXingTick;
+			this.jiaSu = (float) this.tianGao * 2 / (this.feiXingShiJian * this.feiXingShiJian);
+		}
 	}
 
 	@Override
@@ -341,7 +352,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 					// Look at the next point
 					this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-					DaoDan.list[this.haoMa].onTickFlight(this);
+					DaoDan.list[this.haoMa].update(this);
 
 					Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
 
@@ -358,7 +369,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 					// Start the launch
 					if (this.qiFeiGaoDu > 0)
 					{
-						this.motionY = this.JIA_KUAI_SU_DU * this.feiXingTick * (this.feiXingTick / 2);
+						this.motionY = EDaoDan.JIA_KUAI_SU_DU * this.feiXingTick * (this.feiXingTick / 2);
 						this.motionX = 0;
 						this.motionZ = 0;
 						this.qiFeiGaoDu -= this.motionY;
@@ -383,7 +394,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 						// Look at the next point
 						this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-						DaoDan.list[this.haoMa].onTickFlight(this);
+						DaoDan.list[this.haoMa].update(this);
 
 						this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -419,74 +430,71 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		}
 		else if (this.xingShi != XingShi.HUO_JIAN)
 		{
-
 			// Check to find the launcher in which this missile belongs in.
-			if (this.faSheQi == null)
+			ILauncherContainer launcher = this.getLauncher();
+
+			if (launcher != null)
+			{
+				launcher.setContainingMissile(this);
+
+				if (launcher instanceof TXiaoFaSheQi)
+				{
+					this.xingShi = XingShi.XIAO_DAN;
+					this.noClip = true;
+
+					this.xXiangCha = ((TXiaoFaSheQi) launcher).getTarget().x - this.kaiShi.x;
+					this.yXiangCha = ((TXiaoFaSheQi) launcher).getTarget().y - this.kaiShi.y;
+					this.zXiangCha = ((TXiaoFaSheQi) launcher).getTarget().z - this.kaiShi.z;
+
+					this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), ((TXiaoFaSheQi) launcher).getTarget().toVector2());
+					this.tianGao = 150 + (int) (this.diShangJuLi * 1.8);
+					this.feiXingShiJian = (float) Math.max(100, 2.4 * diShangJuLi);
+					this.jiaSu = (float) tianGao * 2 / (feiXingShiJian * feiXingShiJian);
+
+					this.motionX = this.xXiangCha / (feiXingShiJian * 0.6);
+					this.motionY = this.yXiangCha / (feiXingShiJian * 0.6);
+					this.motionZ = this.zXiangCha / (feiXingShiJian * 0.6);
+
+					float newRotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
+					float newRotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+
+					if (newRotationYaw - this.rotationYaw != 0)
+					{
+						this.rotationYaw += (newRotationYaw - this.rotationYaw) * 0.1;
+					}
+
+					if (newRotationPitch - this.rotationPitch != 0)
+					{
+						this.rotationPitch += (newRotationPitch - this.rotationPitch) * 0.1;
+					}
+				}
+			}
+			else
 			{
 				this.setDead();
-				return;
-			}
-
-			TileEntity tileEntity = this.worldObj.getBlockTileEntity((int) faSheQi.x, (int) faSheQi.y, (int) faSheQi.z);
-
-			if (tileEntity == null)
-			{
-				this.setDead();
-				return;
-			}
-
-			if (tileEntity.isInvalid())
-			{
-				this.setDead();
-				return;
-			}
-
-			if (tileEntity instanceof TFaSheDi)
-			{
-				if (((TFaSheDi) tileEntity).eDaoDan == null)
-				{
-					((TFaSheDi) tileEntity).eDaoDan = this;
-				}
-			}
-			else if (tileEntity instanceof TXiaoFaSheQi)
-			{
-				if (((TXiaoFaSheQi) tileEntity).eDaoDan == null)
-				{
-					((TXiaoFaSheQi) tileEntity).eDaoDan = this;
-				}
-
-				this.xingShi = XingShi.XIAO_DAN;
-				this.noClip = true;
-
-				this.xXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().x - this.kaiShi.x;
-				this.yXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().y - this.kaiShi.y;
-				this.zXiangCha = ((TXiaoFaSheQi) tileEntity).getTarget().z - this.kaiShi.z;
-
-				this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), ((TXiaoFaSheQi) tileEntity).getTarget().toVector2());
-				this.tianGao = 150 + (int) (this.diShangJuLi * 1.8);
-				this.feiXingShiJian = (float) Math.max(100, 2.4 * diShangJuLi);
-				this.jiaSu = (float) tianGao * 2 / (feiXingShiJian * feiXingShiJian);
-
-				this.motionX = this.xXiangCha / (feiXingShiJian * 0.6);
-				this.motionY = this.yXiangCha / (feiXingShiJian * 0.6);
-				this.motionZ = this.zXiangCha / (feiXingShiJian * 0.6);
-
-				float newRotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
-				float newRotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-
-				if (newRotationYaw - this.rotationYaw != 0)
-				{
-					this.rotationYaw += (newRotationYaw - this.rotationYaw) * 0.1;
-				}
-
-				if (newRotationPitch - this.rotationPitch != 0)
-				{
-					this.rotationPitch += (newRotationPitch - this.rotationPitch) * 0.1;
-				}
 			}
 		}
 
 		super.onUpdate();
+	}
+
+	@Override
+	public ILauncherContainer getLauncher()
+	{
+		if (this.faSheQi != null)
+		{
+			TileEntity tileEntity = this.faSheQi.getTileEntity(this.worldObj);
+
+			if (tileEntity != null && tileEntity instanceof ILauncherContainer)
+			{
+				if (!tileEntity.isInvalid())
+				{
+					return (ILauncherContainer) tileEntity;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	@Override
@@ -507,7 +515,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			Vector3 position = new Vector3(this);
 			// The distance of the smoke relative
 			// to the missile.
-			double distance = -daoDanGaoDu - 0.2f;
+			double distance = -this.daoDanGaoDu - 0.2f;
 			Vector3 delta = new Vector3();
 			// The delta Y of the smoke.
 			delta.y = Math.sin(Math.toRadians(this.rotationPitch)) * distance;
@@ -544,6 +552,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		return null;
 	}
 
+	@Override
 	public Vector3 getPredictedPosition(int t)
 	{
 		Vector3 guJiDiDian = new Vector3(this);
@@ -650,6 +659,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		}
 	}
 
+	@Override
 	public void dropMissileAsItem()
 	{
 		if (!this.zhengZaiBaoZha && !this.worldObj.isRemote)
@@ -735,6 +745,11 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public IExplosive getExplosiveType()
 	{
+		if (this.haoMa > ZhaPin.list.length)
+		{
+			return DaoDan.list[this.haoMa];
+		}
+
 		return ZhaPin.list[this.haoMa];
 	}
 

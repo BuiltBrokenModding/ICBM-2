@@ -56,9 +56,10 @@ public class GLeiDaTai extends GuiBase
 		mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
 		this.xSize = 256;
 		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 14, this.containerPosY + this.ySize / 2 + 4);
-		radarMapRadius = this.tileEntity.MAX_BIAN_JING / 63.8F;
+		radarMapRadius = TLeiDaTai.MAX_BIAN_JING / 63.8F;
 	}
 
+	@Override
 	public void initGui()
 	{
 		super.initGui();
@@ -71,14 +72,14 @@ public class GLeiDaTai extends GuiBase
 		this.textFieldAlarmRange.setMaxStringLength(3);
 		this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
 
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int) -1, true));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, -1, true));
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, (int) -1, false));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, -1, false));
 	}
 
 	/**
@@ -93,9 +94,9 @@ public class GLeiDaTai extends GuiBase
 
 		try
 		{
-			int newSafetyRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
+			int newSafetyRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
 			this.tileEntity.safetyBanJing = newSafetyRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.safetyBanJing));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.safetyBanJing));
 		}
 		catch (NumberFormatException e)
 		{
@@ -103,9 +104,9 @@ public class GLeiDaTai extends GuiBase
 
 		try
 		{
-			int newAlarmRadius = Math.min(this.tileEntity.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
+			int newAlarmRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
 			this.tileEntity.alarmBanJing = newAlarmRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.alarmBanJing));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3, this.tileEntity.alarmBanJing));
 		}
 		catch (NumberFormatException e)
 		{
@@ -185,7 +186,7 @@ public class GLeiDaTai extends GuiBase
 		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
 
 		this.radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
-		this.radarMapRadius = this.tileEntity.MAX_BIAN_JING / 71f;
+		this.radarMapRadius = TLeiDaTai.MAX_BIAN_JING / 71f;
 
 		this.info = "";
 		this.info2 = "";
@@ -246,7 +247,7 @@ public class GLeiDaTai extends GuiBase
 
 			for (TileEntity jiQi : this.tileEntity.xunZhaoJiQi)
 			{
-				Vector2 position = new Vector2(this.radarCenter.x + (int) (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (int) (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
+				Vector2 position = new Vector2(this.radarCenter.x + (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
 
 				this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "whitedot.png");
 
@@ -286,7 +287,7 @@ public class GLeiDaTai extends GuiBase
 			{
 				this.mousePosition = new Vector2(Mouse.getEventX() * this.width / this.mc.displayWidth, this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1);
 
-				float difference = (int) this.tileEntity.MAX_BIAN_JING / this.radarMapRadius;
+				float difference = TLeiDaTai.MAX_BIAN_JING / this.radarMapRadius;
 
 				if (this.mousePosition.x > this.radarCenter.x - difference && this.mousePosition.x < this.radarCenter.x + difference && this.mousePosition.y > this.radarCenter.y - difference && this.mousePosition.y < this.radarCenter.y + difference)
 				{

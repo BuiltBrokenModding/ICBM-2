@@ -12,6 +12,7 @@ public class SlotAmmunition extends SlotSpecific
 		super(par1iInventory, par2, par3, par4, ZhuYaoGangShao.conventionalBullet.copy());
 	}
 
+	@Override
 	public boolean canTakeStack(EntityPlayer entityPlayer)
 	{
 		if (this.inventory instanceof ITerminal)

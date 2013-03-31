@@ -165,6 +165,7 @@ public class MShouFaSheQi extends ModelBase
 		setRotation(u, 0F, 0F, 0.7853982F);
 	}
 
+	@Override
 	public void render(Entity entity, float x, float y, float z, float f3, float f4, float f5)
 	{
 		super.render(entity, x, y, z, f3, f4, f5);

@@ -1,11 +1,15 @@
 package icbm.zhapin.jiqi;
 
+import icbm.api.ILauncherContainer;
+import icbm.api.ILauncherController;
+import icbm.api.IMissile;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.daodan.ItDaoDan;
 import icbm.zhapin.daodan.ItTeBieDaoDan;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -36,10 +40,10 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRotatable, ITier, IMultiBlock, IInventory
+public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory
 {
 	// The missile that this launcher is holding
-	public EDaoDan eDaoDan = null;
+	public IMissile daoDan = null;
 
 	// The connected missile launcher frame
 	public TFaSheJia jiaZi = null;
@@ -225,40 +229,43 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 	private void setMissile()
 	{
-		if (this.containingItems[0] != null)
+		if (!this.worldObj.isRemote)
 		{
-			if (this.containingItems[0].getItem() instanceof ItDaoDan)
+			if (this.containingItems[0] != null)
 			{
-				int haoMa = this.containingItems[0].getItemDamage();
-
-				if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
+				if (this.containingItems[0].getItem() instanceof ItDaoDan)
 				{
-					if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan && haoMa > 0)
-					{
-						haoMa += 100;
-					}
+					int haoMa = this.containingItems[0].getItemDamage();
 
-					if (eDaoDan == null)
+					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
 					{
-						Vector3 position = new Vector3((this.xCoord + 0.5F), (this.yCoord + 2), (this.zCoord + 0.5F));
-						this.eDaoDan = new EDaoDan(this.worldObj, position, new Vector3(this), haoMa);
-						this.worldObj.spawnEntityInWorld(this.eDaoDan);
-						return;
-					}
-					else if (this.eDaoDan.haoMa == haoMa)
-					{
-						return;
+						if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan && haoMa > 0)
+						{
+							haoMa += 100;
+						}
+
+						if (this.daoDan == null)
+						{
+							Vector3 position = new Vector3((this.xCoord + 0.5F), (this.yCoord + 2), (this.zCoord + 0.5F));
+							this.daoDan = new EDaoDan(this.worldObj, position, new Vector3(this), haoMa);
+							this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
+							return;
+						}
+						else if (this.daoDan.getExplosiveType().getID() == haoMa)
+						{
+							return;
+						}
 					}
 				}
 			}
-		}
 
-		if (this.eDaoDan != null)
-		{
-			this.eDaoDan.setDead();
-		}
+			if (this.daoDan != null)
+			{
+				((Entity) this.daoDan).setDead();
+			}
 
-		this.eDaoDan = null;
+			this.daoDan = null;
+		}
 	}
 
 	/**
@@ -273,7 +280,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 
 		if (this.jiaZi != null)
 		{
-			inaccuracy = (float) this.jiaZi.getInaccuracy();
+			inaccuracy = this.jiaZi.getInaccuracy();
 		}
 		else
 		{
@@ -291,8 +298,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 		target.z += inaccuracy;
 
 		this.decrStackSize(0, 1);
-		this.eDaoDan.faShe(target, gaoDu);
-		this.eDaoDan = null;
+		this.daoDan.launch(target, gaoDu);
+		this.daoDan = null;
 	}
 
 	// Checks if the missile target is in range
@@ -517,9 +524,9 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 			this.worldObj.setBlock((int) position.x, (int) position.y + 2, (int) position.z - 1, 0, 0, 2);
 		}
 
-		if (this.eDaoDan != null)
+		if (this.daoDan != null)
 		{
-			this.eDaoDan.setDead();
+			((Entity) this.daoDan).setDead();
 		}
 	}
 
@@ -552,4 +559,35 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, IRo
 	{
 		return itemStack.getItem() instanceof ItDaoDan;
 	}
+
+	@Override
+	public IMissile getContainingMissile()
+	{
+		return this.daoDan;
+	}
+
+	@Override
+	public void setContainingMissile(IMissile missile)
+	{
+		this.daoDan = missile;
+	}
+
+	@Override
+	public ILauncherController getController()
+	{
+		for (byte i = 2; i < 6; i++)
+		{
+			Vector3 position = new Vector3(this).modifyPositionFromSide(ForgeDirection.getOrientation(i));
+
+			TileEntity tileEntity = position.getTileEntity(this.worldObj);
+
+			if (tileEntity instanceof ILauncherController)
+			{
+				return (ILauncherController) tileEntity;
+			}
+		}
+
+		return null;
+	}
+
 }

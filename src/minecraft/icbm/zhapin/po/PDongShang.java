@@ -21,7 +21,7 @@ public class PDongShang extends PICBM
 	{
 		if (par1EntityLiving instanceof EntityPlayer)
 		{
-			((EntityPlayer) par1EntityLiving).addExhaustion(3F * (float) (amplifier + 1));
+			((EntityPlayer) par1EntityLiving).addExhaustion(3F * (amplifier + 1));
 		}
 
 		if (par1EntityLiving.isBurning())

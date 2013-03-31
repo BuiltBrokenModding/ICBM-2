@@ -33,6 +33,7 @@ public class ExHongSu extends ZhaPin
 		this.isMobile = true;
 	}
 
+	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		if (!worldObj.isRemote)

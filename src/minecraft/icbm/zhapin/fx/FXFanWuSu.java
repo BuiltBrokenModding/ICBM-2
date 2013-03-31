@@ -37,7 +37,7 @@ public class FXFanWuSu extends EntityFX
 		this.particleScale *= par14;
 		this.antimatterParticleScale = this.particleScale;
 		this.particleMaxAge = (int) (10D / (Math.random() * 0.8D + 0.2D));
-		this.particleMaxAge = (int) ((float) this.particleMaxAge * par14);
+		this.particleMaxAge = (int) (this.particleMaxAge * par14);
 		this.renderDistanceWeight = distance;
 		this.noClip = false;
 	}
@@ -92,6 +92,7 @@ public class FXFanWuSu extends EntityFX
 	/**
 	 * Called to update the entity's position/logic.
 	 */
+	@Override
 	public void onUpdate()
 	{
 		this.prevPosX = this.posX;

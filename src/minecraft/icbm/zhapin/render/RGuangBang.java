@@ -75,18 +75,18 @@ public class RGuangBang extends Render
 					// Set color
 					tessellator.setColorRGBA_F(entity.red, entity.green, entity.blue, 10F);
 
-					double d9 = 0.10000000000000001D + (double) i * 0.20000000000000001D;
+					double d9 = 0.10000000000000001D + i * 0.20000000000000001D;
 
 					if (ii == 0)
 					{
-						d9 *= (double) iii * 0.10000000000000001D + 1.0D;
+						d9 *= iii * 0.10000000000000001D + 1.0D;
 					}
 
-					double d10 = 0.10000000000000001D + (double) i * 0.20000000000000001D;
+					double d10 = 0.10000000000000001D + i * 0.20000000000000001D;
 
 					if (ii == 0)
 					{
-						d10 *= (double) (iii - 1) * 0.10000000000000001D + 1.0D;
+						d10 *= (iii - 1) * 0.10000000000000001D + 1.0D;
 					}
 
 					for (int iiii = 0; iiii < 5; iiii++)
@@ -116,8 +116,8 @@ public class RGuangBang extends Render
 							d14 += d10 * 2D;
 						}
 
-						tessellator.addVertex(d13 + d5, y + (double) (iii * 16), d14 + d6);
-						tessellator.addVertex(d11 + d7, y + (double) ((iii + 1) * 16), d12 + d8);
+						tessellator.addVertex(d13 + d5, y + iii * 16, d14 + d6);
+						tessellator.addVertex(d11 + d7, y + (iii + 1) * 16, d12 + d8);
 					}
 
 					tessellator.draw();

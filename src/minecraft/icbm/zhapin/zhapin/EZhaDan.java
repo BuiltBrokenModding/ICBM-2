@@ -60,6 +60,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		this.metadata = metadata;
 	}
 
+	@Override
 	public String getEntityName()
 	{
 		return "Explosives";

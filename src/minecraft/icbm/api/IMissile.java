@@ -1,12 +1,15 @@
 package icbm.api;
 
+import icbm.api.explosion.IExplosiveContainer;
+import universalelectricity.core.vector.Vector3;
+
 /**
  * This is an interface applied by all missile entities. You may cast this into an @Entity. The
  * "set" version of the function will make the entity do the action on the next tick.
  * 
  * @author Calclavia
  */
-public interface IMissile
+public interface IMissile extends IExplosiveContainer
 {
 	/**
 	 * Blows up this missile. It will detonate the missile with the appropriate explosion.
@@ -33,4 +36,18 @@ public interface IMissile
 	 * flying.
 	 */
 	public int getTicksInAir();
+
+	/**
+	 * Gets the launcher this missile is launched from.
+	 */
+	public ILauncherContainer getLauncher();
+
+	/**
+	 * Launches the missile into a specific target.
+	 * 
+	 * @param target
+	 */
+	public void launch(Vector3 target);
+
+	public void launch(Vector3 target, int height);
 }

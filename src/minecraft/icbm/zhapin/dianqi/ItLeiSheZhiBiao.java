@@ -147,7 +147,7 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 			if (this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
 			{
 				Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-				List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
+				List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - ItLeiSheZhiBiao.BAN_JING, position.z - ItLeiSheZhiBiao.BAN_JING), new Vector2(position.x + ItLeiSheZhiBiao.BAN_JING, position.z + ItLeiSheZhiBiao.BAN_JING));
 
 				for (TFaSheQi missileLauncher : launchers)
 				{
@@ -178,15 +178,12 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 				this.setLauncherCountDown(par1ItemStack, this.getLauncherCountDown(par1ItemStack) - 1);
 			}
 
-			if (this.getLauncherCount(par1ItemStack) > 0 && connectedLaunchers.size() > 0)
+			if (this.getLauncherCount(par1ItemStack) > 0 && this.getLauncherCount(par1ItemStack) <= connectedLaunchers.size() && connectedLaunchers.size() > 0)
 			{
-				// Launch a missile every two
-				// seconds from different
-				// launchers
+				// Launch a missile every two seconds from different launchers
 				if (this.getLauncherDelay(par1ItemStack) % 40 == 0)
 				{
 					connectedLaunchers.get(this.getLauncherCount(par1ItemStack) - 1).launch();
-
 					this.setLauncherCount(par1ItemStack, this.getLauncherCount(par1ItemStack) - 1);
 				}
 
@@ -281,7 +278,7 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 						if (this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
 						{
 							Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
-							List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - this.BAN_JING, position.z - this.BAN_JING), new Vector2(position.x + this.BAN_JING, position.z + this.BAN_JING));
+							List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - ItLeiSheZhiBiao.BAN_JING, position.z - ItLeiSheZhiBiao.BAN_JING), new Vector2(position.x + ItLeiSheZhiBiao.BAN_JING, position.z + ItLeiSheZhiBiao.BAN_JING));
 
 							boolean doAirStrike = false;
 							int errorCount = 0;
@@ -293,7 +290,7 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 									if (missileLauncher instanceof TXiaoFaSheQi)
 									{
 										missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
-										PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", missileLauncher, (int) 2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z));
+										PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", missileLauncher, 2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z));
 									}
 									else
 									{
@@ -306,7 +303,7 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 										}
 
 										missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, previousY, objectMouseOver.blockZ));
-										PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", missileLauncher, (int) 2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z));
+										PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", missileLauncher, 2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z));
 									}
 
 									if (missileLauncher.canLaunch())
@@ -323,7 +320,7 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 
 							if (doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
 							{
-								PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, (int) ZhaPinPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+								PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, ZhaPinPacketType.LASER_DESIGNATOR.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 								par3EntityPlayer.addChatMessage("Calling air strike into designated position!");
 							}
 						}
@@ -352,6 +349,6 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 	@Override
 	public double getMaxJoules(ItemStack itemStack)
 	{
-		return 100000;
+		return 80000;
 	}
 }

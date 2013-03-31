@@ -23,7 +23,7 @@ public class BYinXing extends BICBM implements IEMPBlock
 		super(id, "camouflage", Material.cloth);
 		this.setHardness(0.3F);
 		this.setResistance(1F);
-		this.setStepSound(this.soundClothFootstep);
+		this.setStepSound(Block.soundClothFootstep);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
@@ -152,6 +152,7 @@ public class BYinXing extends BICBM implements IEMPBlock
 	 * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color.
 	 * Note only called when first determining what to render.
 	 */
+	@Override
 	public int colorMultiplier(IBlockAccess par1IBlockAccess, int x, int y, int z)
 	{
 		try

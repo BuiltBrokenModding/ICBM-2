@@ -30,7 +30,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 			if (metadata == ZhaPin.diLei.getID())
 			{
 				GL11.glPushMatrix();
-				GL11.glTranslatef((float) 0.0F, (float) 1.5F, (float) 0.0F);
+				GL11.glTranslatef(0.0F, 1.5F, 0.0F);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.SMINE_TEXTURE));
 				MDiLei.INSTANCE.render(0.0625F);

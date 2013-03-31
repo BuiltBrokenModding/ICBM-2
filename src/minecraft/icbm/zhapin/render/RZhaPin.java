@@ -44,13 +44,13 @@ public class RZhaPin extends Render
 			/**
 			 * Enderdragon Light
 			 */
-			float par2 = (float) (entity.ticksExisted);
+			float par2 = (entity.ticksExisted);
 
 			while (par2 > 200)
 				par2 -= 100;
 
 			RenderHelper.disableStandardItemLighting();
-			float var41 = ((float) 5 + par2) / 200.0F;
+			float var41 = (5 + par2) / 200.0F;
 			float var51 = 0.0F;
 
 			if (var41 > 0.8F)
@@ -72,7 +72,7 @@ public class RZhaPin extends Render
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0.0F, -1.0F, -2.0F);
 
-			for (int i1 = 0; (float) i1 < (var41 + var41 * var41) / 2.0F * 60.0F; ++i1)
+			for (int i1 = 0; i1 < (var41 + var41 * var41) / 2.0F * 60.0F; ++i1)
 			{
 				GL11.glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
@@ -86,10 +86,10 @@ public class RZhaPin extends Render
 				tessellator.setColorRGBA_I(16777215, (int) (255.0F * (1.0F - var51)));
 				tessellator.addVertex(0.0D, 0.0D, 0.0D);
 				tessellator.setColorRGBA_I(0, 0);
-				tessellator.addVertex(-0.866D * (double) var91, (double) var81, (double) (-0.5F * var91));
-				tessellator.addVertex(0.866D * (double) var91, (double) var81, (double) (-0.5F * var91));
-				tessellator.addVertex(0.0D, (double) var81, (double) (1.0F * var91));
-				tessellator.addVertex(-0.866D * (double) var91, (double) var81, (double) (-0.5F * var91));
+				tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
+				tessellator.addVertex(0.866D * var91, var81, -0.5F * var91);
+				tessellator.addVertex(0.0D, var81, 1.0F * var91);
+				tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
 				tessellator.draw();
 			}
 

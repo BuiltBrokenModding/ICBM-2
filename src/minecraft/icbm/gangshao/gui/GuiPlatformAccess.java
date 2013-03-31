@@ -201,7 +201,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	protected void drawForegroundLayer(int x, int y, float var1)
 	{
 		String title = "User Access";
-		this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 3), 4, 4210752);
+		this.fontRenderer.drawString("\u00a77" + title, this.xSize / 2 - title.length() * 3, 4, 4210752);
 		this.drawConsole(15, 25, TileEntityTerminal.SCROLL_SIZE);
 		super.drawForegroundLayer(x, y, var1);
 	}

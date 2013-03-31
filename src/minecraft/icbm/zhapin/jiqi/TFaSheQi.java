@@ -1,15 +1,14 @@
 package icbm.zhapin.jiqi;
 
-import icbm.api.ILauncher;
+import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
 import icbm.core.di.TIC2Storable;
-import icbm.zhapin.daodan.EDaoDan;
 import net.minecraft.nbt.NBTTagCompound;
 import universalelectricity.core.vector.Vector3;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TFaSheQi extends TIC2Storable implements ILauncher, IPeripheral
+public abstract class TFaSheQi extends TIC2Storable implements ILauncherController, IPeripheral
 {
 	protected Vector3 muBiao = null;
 
@@ -20,8 +19,6 @@ public abstract class TFaSheQi extends TIC2Storable implements ILauncher, IPerip
 		super();
 		FaSheQiGuanLi.jiaFaSheQi(this);
 	}
-
-	public abstract EDaoDan getMissile();
 
 	@Override
 	public Vector3 getTarget()
@@ -44,7 +41,7 @@ public abstract class TFaSheQi extends TIC2Storable implements ILauncher, IPerip
 	@Override
 	public void setTarget(Vector3 target)
 	{
-		this.muBiao = target;
+		this.muBiao = target.floor();
 	}
 
 	@Override
@@ -118,7 +115,7 @@ public abstract class TFaSheQi extends TIC2Storable implements ILauncher, IPerip
 			case 6:
 				if (this.getMissile() != null)
 				{
-					return new Object[] { this.getMissile().getEntityName() };
+					return new Object[] { this.getMissile().getExplosiveType().getMissileName() };
 				}
 				else
 				{

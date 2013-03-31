@@ -62,6 +62,7 @@ public class EGuang extends Entity implements IEntityAdditionalSpawnData
 	{
 	}
 
+	@Override
 	public void onUpdate()
 	{
 		if (this.life > 0)

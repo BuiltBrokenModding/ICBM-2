@@ -138,7 +138,7 @@ public class ItYaoKong extends ItElectricICBM
 						// Blow it up
 						PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, tileEntity, (byte) 2));
 						// Use Energy
-						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, (int) ZhaPinPacketType.REMOTE.ordinal()));
+						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, ZhaPinPacketType.REMOTE.ordinal()));
 					}
 				}
 				else

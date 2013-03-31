@@ -41,9 +41,9 @@ public class ExTaiYang2 extends ZhaPin
 					{
 						if (x == 0 || x == this.getRadius() - 1 || y == 0 || y == this.getRadius() - 1 || z == 0 || z == this.getRadius() - 1)
 						{
-							double xStep = (double) ((float) x / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
-							double yStep = (double) ((float) y / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
-							double zStep = (double) ((float) z / ((float) this.getRadius() - 1.0F) * 2.0F - 1.0F);
+							double xStep = x / (this.getRadius() - 1.0F) * 2.0F - 1.0F;
+							double yStep = y / (this.getRadius() - 1.0F) * 2.0F - 1.0F;
+							double zStep = z / (this.getRadius() - 1.0F) * 2.0F - 1.0F;
 							double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 							xStep /= diagonalDistance;
 							yStep /= diagonalDistance;
@@ -84,9 +84,9 @@ public class ExTaiYang2 extends ZhaPin
 									source.dataList.add(targetPosition.clone());
 								}
 
-								var15 += xStep * (double) var21;
-								var17 += yStep * (double) var21;
-								var19 += zStep * (double) var21;
+								var15 += xStep * var21;
+								var17 += yStep * var21;
+								var19 += zStep * var21;
 							}
 						}
 					}
@@ -178,6 +178,7 @@ public class ExTaiYang2 extends ZhaPin
 	 * 
 	 * @return - Return -1 if this explosive does not need proceudral calls
 	 */
+	@Override
 	public int proceduralInterval()
 	{
 		return 2;

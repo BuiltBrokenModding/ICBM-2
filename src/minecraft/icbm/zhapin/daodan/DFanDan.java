@@ -23,7 +23,7 @@ public class DFanDan extends DaoDan
 	}
 
 	@Override
-	public void onTickFlight(EDaoDan missileObj)
+	public void update(EDaoDan missileObj)
 	{
 		if (missileObj.lockedTarget != null)
 		{

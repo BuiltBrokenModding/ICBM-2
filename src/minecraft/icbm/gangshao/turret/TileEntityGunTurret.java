@@ -1,6 +1,7 @@
 package icbm.gangshao.turret;
 
 import icbm.gangshao.ZhuYaoGangShao;
+import icbm.gangshao.actions.LookHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.DamageSource;
@@ -20,7 +21,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 					((EntityLiving) this.target).attackEntityFrom(DamageSource.setExplosionSource(null), 3);
 				}
 
-				Vector3 look = lookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
+				Vector3 look = LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
 				look.multiply(-3);
 				((EntityLiving) this.target).knockBack(null, 0, look.intX(), look.intZ());
 				this.getPlatform().wattsReceived -= this.getRequest();

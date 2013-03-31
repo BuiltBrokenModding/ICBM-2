@@ -1,6 +1,6 @@
 package icbm.gangshao.turret;
 
-import icbm.api.IAutoSentry;
+import icbm.gangshao.IAutoSentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionIdle;
 import icbm.gangshao.actions.ActionKillTarget;

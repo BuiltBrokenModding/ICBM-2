@@ -47,6 +47,7 @@ public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacke
 		this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 	}
 
+	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
@@ -139,7 +140,7 @@ public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacke
 			sendDian = this.getRequest().getWatts();
 		}
 
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
 	}
 
 	@Override

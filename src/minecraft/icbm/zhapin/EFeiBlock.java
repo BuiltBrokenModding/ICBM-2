@@ -83,6 +83,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 	{
 	}
 
+	@Override
 	public void onUpdate()
 	{
 		if (this.blockID >= Block.blocksList.length)
@@ -164,6 +165,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 		return null;
 	}
 
+	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbttagcompound)
 	{
 		nbttagcompound.setInteger("metadata", this.metadata);
@@ -171,6 +173,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 		nbttagcompound.setFloat("gravity", this.gravity);
 	}
 
+	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbttagcompound)
 	{
 		this.metadata = nbttagcompound.getInteger("metadata");

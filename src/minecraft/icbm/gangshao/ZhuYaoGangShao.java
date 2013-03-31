@@ -87,7 +87,7 @@ public class ZhuYaoGangShao
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
+		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoGangShao.proxy);
 
 		MinecraftForge.EVENT_BUS.register(this);
 

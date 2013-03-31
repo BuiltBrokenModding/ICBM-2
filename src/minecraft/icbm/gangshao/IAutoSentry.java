@@ -1,6 +1,5 @@
-package icbm.api;
+package icbm.gangshao;
 
-import icbm.gangshao.ITurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 

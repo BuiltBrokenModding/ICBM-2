@@ -23,6 +23,7 @@ public class GuiButtonArrow extends GuiButton
 	/**
 	 * Draws this button to the screen.
 	 */
+	@Override
 	public void drawButton(Minecraft par1Minecraft, int width, int hight)
 	{
 		if (this.drawButton)

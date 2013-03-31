@@ -1,6 +1,5 @@
 package icbm.zhapin.jiqi;
 
-import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHJiQi;
@@ -302,7 +301,8 @@ public class BJiQi extends BICBM
 
 	/**
 	 * Returns the quantity of items to drop on block destruction.
-	 */@Override
+	 */
+	@Override
 	public int quantityDropped(Random par1Random)
 	{
 		return 0;
@@ -337,7 +337,6 @@ public class BJiQi extends BICBM
 	public ItemStack getPickBlock(MovingObjectPosition target, World par1World, int x, int y, int z)
 	{
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
-
 		return new ItemStack(ZhuYaoZhaPin.bJiQi, 1, getJiQiID(tileEntity));
 	}
 

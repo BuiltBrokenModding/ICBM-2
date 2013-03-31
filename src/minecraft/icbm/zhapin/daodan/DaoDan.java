@@ -71,9 +71,16 @@ public class DaoDan implements ITier, IExplosive
 	}
 
 	/**
-	 * Called every tick while flying
+	 * Called when launched.
 	 */
-	public void onTickFlight(EDaoDan missileObj)
+	public void launch(EDaoDan missileObj)
+	{
+	}
+
+	/**
+	 * Called every tick while flying.
+	 */
+	public void update(EDaoDan missileObj)
 	{
 	}
 

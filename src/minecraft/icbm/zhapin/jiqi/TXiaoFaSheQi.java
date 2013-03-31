@@ -1,5 +1,8 @@
 package icbm.zhapin.jiqi;
 
+import icbm.api.ILauncherContainer;
+import icbm.api.ILauncherController;
+import icbm.api.IMissile;
 import icbm.api.LauncherType;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -7,6 +10,7 @@ import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.daodan.ItDaoDan;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -25,10 +29,10 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketReceiver, IInventory
+public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketReceiver, IInventory, ILauncherContainer
 {
 	// The missile that this launcher is holding
-	public EDaoDan eDaoDan = null;
+	public IMissile daoDan = null;
 
 	public float rotationYaw = 0;
 
@@ -141,6 +145,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	 * 
 	 * @return The string to be displayed
 	 */
+	@Override
 	public String getStatus()
 	{
 		String color = "\u00a74";
@@ -154,7 +159,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			status = "No Power!";
 		}
-		else if (this.eDaoDan == null)
+		else if (this.daoDan == null)
 		{
 			status = "Silo Empty!";
 		}
@@ -180,6 +185,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		return "Cruise Launcher";
 	}
 
+	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
@@ -221,7 +227,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
@@ -240,22 +246,22 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 				if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
 				{
-					if (this.eDaoDan == null)
+					if (this.daoDan == null)
 					{
 						if (DaoDan.list[haoMa].isCruise() && DaoDan.list[haoMa].getTier() <= 3)
 						{
 							Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-							this.eDaoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
-							this.worldObj.spawnEntityInWorld(this.eDaoDan);
+							this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
+							this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
 							return;
 						}
 					}
 
-					if (this.eDaoDan != null)
+					if (this.daoDan != null)
 					{
-						if (this.eDaoDan.haoMa == haoMa)
+						if (this.daoDan.getExplosiveType().getID() == haoMa)
 						{
-							this.eDaoDan.posY = this.yCoord + 0.2f;
+							((Entity) this.daoDan).posY = this.yCoord + 0.2f;
 							return;
 						}
 					}
@@ -263,12 +269,12 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			}
 		}
 
-		if (this.eDaoDan != null)
+		if (this.daoDan != null)
 		{
-			this.eDaoDan.setDead();
+			((Entity) this.daoDan).setDead();
 		}
 
-		this.eDaoDan = null;
+		this.daoDan = null;
 	}
 
 	@Override
@@ -331,15 +337,15 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	private float getYawFromTarget()
 	{
-		double xDifference = this.muBiao.x - (double) ((float) this.xCoord + 0.5F);
-		double yDifference = this.muBiao.z - (double) ((float) this.zCoord + 0.5F);
+		double xDifference = this.muBiao.x - (this.xCoord + 0.5F);
+		double yDifference = this.muBiao.z - (this.zCoord + 0.5F);
 		return (float) Math.toDegrees(Math.atan2(yDifference, xDifference));
 	}
 
 	@Override
 	public boolean canLaunch()
 	{
-		if (this.eDaoDan != null && this.containingItems[0] != null)
+		if (this.daoDan != null && this.containingItems[0] != null)
 		{
 			DaoDan missile = DaoDan.list[this.containingItems[0].getItemDamage()];
 
@@ -366,14 +372,15 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	 * 
 	 * @param muBiao - The target in which the missile will land in
 	 */
+	@Override
 	public void launch()
 	{
 		if (canLaunch())
 		{
 			this.decrStackSize(0, 1);
 			this.setJoules(0);
-			this.eDaoDan.faShe(this.muBiao);
-			this.eDaoDan = null;
+			this.daoDan.launch(this.muBiao);
+			this.daoDan = null;
 		}
 	}
 
@@ -506,12 +513,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public EDaoDan getMissile()
-	{
-		return this.eDaoDan;
-	}
-
-	@Override
 	public boolean canConnect(ForgeDirection direction)
 	{
 		return true;
@@ -527,5 +528,29 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
 	{
 		return itemStack.getItem() instanceof ItDaoDan;
+	}
+
+	@Override
+	public void setContainingMissile(IMissile missile)
+	{
+		this.daoDan = missile;
+	}
+
+	@Override
+	public ILauncherController getController()
+	{
+		return this;
+	}
+
+	@Override
+	public IMissile getMissile()
+	{
+		return this.daoDan;
+	}
+
+	@Override
+	public IMissile getContainingMissile()
+	{
+		return this.daoDan;
 	}
 }

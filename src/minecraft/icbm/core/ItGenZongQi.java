@@ -105,7 +105,7 @@ public class ItGenZongQi extends ItElectricICBM
 
 						if (this.getJoules(itemStack) < YONG_DIAN_LIANG)
 						{
-							this.setTrackingEntity(itemStack, null);
+							ItGenZongQi.setTrackingEntity(itemStack, null);
 						}
 					}
 				}
@@ -122,6 +122,7 @@ public class ItGenZongQi extends ItElectricICBM
 	 * @param entity The entity being attacked
 	 * @return True to cancel the rest of the interaction.
 	 */
+	@Override
 	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
 	{
 		if (!player.worldObj.isRemote)

@@ -46,9 +46,9 @@ public class REZhaDan extends Render
 			GL11.glTranslatef((float) x, (float) y, (float) z);
 			float f2;
 
-			if ((float) entityExplosive.fuse - par9 + 1.0F < 10.0F)
+			if (entityExplosive.fuse - par9 + 1.0F < 10.0F)
 			{
-				f2 = 1.0F - ((float) entityExplosive.fuse - par9 + 1.0F) / 10.0F;
+				f2 = 1.0F - (entityExplosive.fuse - par9 + 1.0F) / 10.0F;
 
 				if (f2 < 0.0F)
 				{
@@ -66,7 +66,7 @@ public class REZhaDan extends Render
 				GL11.glScalef(f3, f3, f3);
 			}
 
-			f2 = (1.0F - ((float) entityExplosive.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
+			f2 = (1.0F - (entityExplosive.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
 			this.loadTexture("/terrain.png");
 			this.blockRenderer.renderBlockAsItem(ZhuYaoZhaPin.bZhaDan, entityExplosive.haoMa, entityExplosive.getBrightness(par9));
 

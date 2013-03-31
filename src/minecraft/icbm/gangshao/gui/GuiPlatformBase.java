@@ -143,6 +143,7 @@ public abstract class GuiPlatformBase extends GuiBase
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);
 	}
 
+	@Override
 	public void drawTooltip(int x, int y, String... toolTips)
 	{
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -158,7 +159,7 @@ public abstract class GuiPlatformBase extends GuiBase
 
 			for (var6 = 0; var6 < toolTips.length; ++var6)
 			{
-				var7 = this.fontRenderer.getStringWidth((String) toolTips[var6]);
+				var7 = this.fontRenderer.getStringWidth(toolTips[var6]);
 
 				if (var7 > var5)
 				{

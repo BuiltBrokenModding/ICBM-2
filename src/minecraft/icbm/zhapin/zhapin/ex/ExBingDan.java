@@ -36,6 +36,7 @@ public class ExBingDan extends ZhaPin
 	/**
 	 * Called before an explosion happens
 	 */
+	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		EGuang lightBeam = new EGuang(worldObj, position, 20 * 20, 0F, 0.3F, 0.7F);
@@ -65,7 +66,7 @@ public class ExBingDan extends ZhaPin
 				int metadata;
 				double dist;
 
-				int r = (int) radius;
+				int r = radius;
 
 				for (int x = -r; x < r; x++)
 				{
@@ -112,9 +113,9 @@ public class ExBingDan extends ZhaPin
 					double xDifference = entity.posX - position.x;
 					double zDifference = entity.posZ - position.z;
 
-					int r = (int) radius;
+					int r = radius;
 					if (xDifference < 0)
-						r = (int) -radius;
+						r = -radius;
 
 					if (xDifference > 4)
 					{
@@ -131,9 +132,9 @@ public class ExBingDan extends ZhaPin
 						}
 					}
 
-					r = (int) radius;
+					r = radius;
 					if (zDifference < 0)
-						r = (int) -radius;
+						r = -radius;
 
 					if (zDifference > 4)
 					{
@@ -180,14 +181,14 @@ public class ExBingDan extends ZhaPin
 						int m = 1;
 
 						if (xDifference < 0)
-							m = (int) -1;
+							m = -1;
 
 						entity.motionX += m * 5 * worldObj.rand.nextFloat();
 
 						m = 1;
 
 						if (zDifference < 0)
-							m = (int) -1;
+							m = -1;
 
 						entity.motionZ += m * 5 * worldObj.rand.nextFloat();
 					}

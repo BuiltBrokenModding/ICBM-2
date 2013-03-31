@@ -46,9 +46,9 @@ public class ExHuo extends ZhaPin
 				{
 					if (x == 0 || x == radius - 1 || y == 0 || y == radius - 1 || z == 0 || z == radius - 1)
 					{
-						double xStep = (double) ((float) x / ((float) radius - 1.0F) * 2.0F - 1.0F);
-						double yStep = (double) ((float) y / ((float) radius - 1.0F) * 2.0F - 1.0F);
-						double zStep = (double) ((float) z / ((float) radius - 1.0F) * 2.0F - 1.0F);
+						double xStep = x / (radius - 1.0F) * 2.0F - 1.0F;
+						double yStep = y / (radius - 1.0F) * 2.0F - 1.0F;
+						double zStep = z / (radius - 1.0F) * 2.0F - 1.0F;
 						double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 						xStep /= diagonalDistance;
 						yStep /= diagonalDistance;
@@ -101,9 +101,9 @@ public class ExHuo extends ZhaPin
 								}
 							}
 
-							var15 += xStep * (double) var21;
-							var17 += yStep * (double) var21;
-							var19 += zStep * (double) var21;
+							var15 += xStep * var21;
+							var17 += yStep * var21;
+							var19 += zStep * var21;
 						}
 					}
 				}

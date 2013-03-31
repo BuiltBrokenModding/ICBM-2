@@ -131,7 +131,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 
 					if (!this.worldObj.isRemote)
 					{
-						PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, (int) 3), this.worldObj, new Vector3(this), 50);
+						PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 3), this.worldObj, new Vector3(this), 50);
 					}
 
 					this.gunChargingTicks = 0;
@@ -230,7 +230,7 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, (int) 1, this.rotationYaw, this.rotationPitch);
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 1, this.rotationYaw, this.rotationPitch);
 	}
 
 	@Override

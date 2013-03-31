@@ -49,6 +49,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 		super.invalidate();
 	}
 
+	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
@@ -57,7 +58,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 		{
 			if (this.ticks % 20 == 0 && this.getJoules() > 0)
 			{
-				this.worldObj.playSoundEffect((int) this.xCoord, (int) this.yCoord, (int) this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F * this.getJoules() / this.getMaxJoules()));
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F * this.getJoules() / this.getMaxJoules()));
 			}
 
 			this.xuanZhuanLu = (float) (Math.pow(this.getJoules() / this.getMaxJoules(), 2) * 0.5);
@@ -126,7 +127,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 1, this.getJoules(), this.disabledTicks, this.banJing, this.muoShi);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, this.getJoules(), this.disabledTicks, this.banJing, this.muoShi);
 	}
 
 	@Override

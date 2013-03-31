@@ -57,7 +57,7 @@ public class ZhuYaoWanYi
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		ZhuYao.INSTANCE.init();
-		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
+		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoWanYi.proxy);
 
 		ICBM.CONFIGURATION.load();
 
@@ -88,7 +88,7 @@ public class ZhuYaoWanYi
 		GameRegistry.registerBlock(bZha, IBZha.class, "bZha");
 		GameRegistry.registerBlock(bNiTu, IBNiTu.class, "bNiTu");
 
-		this.proxy.preInit();
+		ZhuYaoWanYi.proxy.preInit();
 	}
 
 	@Init
@@ -135,7 +135,7 @@ public class ZhuYaoWanYi
 		// Reinforced Glass
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-		this.proxy.init();
+		ZhuYaoWanYi.proxy.init();
 	}
 
 	@ServerStarting

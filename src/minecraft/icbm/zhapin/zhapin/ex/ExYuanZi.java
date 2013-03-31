@@ -2,13 +2,11 @@ package icbm.zhapin.zhapin.ex;
 
 import icbm.api.ICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.fx.FXYan;
 import icbm.zhapin.fx.ParticleSpawner;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -118,7 +116,7 @@ public class ExYuanZi extends ZhaPin
 
 		if (worldObj.isRemote)
 		{
-			int r = (int) (callCount / 2);
+			int r = callCount / 2;
 
 			boolean reverse = false;
 

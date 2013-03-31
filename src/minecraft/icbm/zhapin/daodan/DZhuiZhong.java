@@ -16,7 +16,27 @@ public class DZhuiZhong extends DaoDan
 	}
 
 	@Override
-	public void onTickFlight(EDaoDan missileObj)
+	public void launch(EDaoDan missileObj)
+	{
+		if (!missileObj.worldObj.isRemote)
+		{
+			WorldServer worldServer = (WorldServer) missileObj.worldObj;
+			Entity trackingEntity = worldServer.getEntityByID(missileObj.genZongE);
+
+			if (trackingEntity != null)
+			{
+				if (trackingEntity == missileObj)
+				{
+					missileObj.setExplode();
+				}
+
+				missileObj.muBiao = new Vector3(trackingEntity);
+			}
+		}
+	}
+
+	@Override
+	public void update(EDaoDan missileObj)
 	{
 		if (missileObj.feiXingTick > missileObj.feiXingShiJian / 2 && missileObj.xingShi == XingShi.DAO_DAN)
 		{
@@ -56,22 +76,30 @@ public class DZhuiZhong extends DaoDan
 	}
 
 	@Override
-	public boolean onInteract(EDaoDan missileObj, EntityPlayer par1EntityPlayer)
+	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
 	{
-		if (missileObj.feiXingTick <= 0 && !missileObj.worldObj.isRemote)
+		if (!missileObj.worldObj.isRemote && missileObj.feiXingTick <= 0)
 		{
-			if (par1EntityPlayer.getCurrentEquippedItem() != null)
+			if (entityPlayer.getCurrentEquippedItem() != null)
 			{
-				if (par1EntityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
+				if (entityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
 				{
-					Entity trackingEntity = ItGenZongQi.getTrackingEntity(missileObj.worldObj, par1EntityPlayer.getCurrentEquippedItem());
+					Entity trackingEntity = ItGenZongQi.getTrackingEntity(missileObj.worldObj, entityPlayer.getCurrentEquippedItem());
 
 					if (trackingEntity != null)
 					{
 						if (missileObj.genZongE != trackingEntity.entityId)
 						{
 							missileObj.genZongE = trackingEntity.entityId;
-							par1EntityPlayer.addChatMessage("Missile target locked to: " + trackingEntity.getEntityName());
+							entityPlayer.addChatMessage("Missile target locked to: " + trackingEntity.getEntityName());
+
+							if (missileObj.getLauncher() != null && missileObj.getLauncher().getController() != null)
+							{
+								Vector3 newTarget = new Vector3(trackingEntity);
+								newTarget.y = 0;
+								missileObj.getLauncher().getController().setTarget(newTarget);
+							}
+
 							return true;
 						}
 					}

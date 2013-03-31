@@ -47,8 +47,8 @@ public class TextureGenZhongQi extends TextureStitched
 
 					if (trackingEntity != null)
 					{
-						xDifference = (double) trackingEntity.posX - player.posX;
-						zDifference = (double) trackingEntity.posZ - player.posZ;
+						xDifference = trackingEntity.posX - player.posX;
+						zDifference = trackingEntity.posZ - player.posZ;
 					}
 				}
 			}
@@ -85,7 +85,7 @@ public class TextureGenZhongQi extends TextureStitched
 
 		int i;
 
-		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * (double) this.textureList.size()) % this.textureList.size(); i < 0; i = (i + this.textureList.size()) % this.textureList.size())
+		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * this.textureList.size()) % this.textureList.size(); i < 0; i = (i + this.textureList.size()) % this.textureList.size())
 		{
 			;
 		}

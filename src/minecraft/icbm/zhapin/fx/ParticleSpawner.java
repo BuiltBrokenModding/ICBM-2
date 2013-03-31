@@ -32,7 +32,7 @@ public class ParticleSpawner
 
 	public static void spawnParticle(String name, World world, Vector3 position)
 	{
-		spawnParticle(name, world, position, 0, 0, 0);
+		spawnParticle(name, world, position, 0.2f, 0.2f, 0.2f);
 	}
 
 }

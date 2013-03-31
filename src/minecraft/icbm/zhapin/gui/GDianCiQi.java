@@ -43,14 +43,14 @@ public class GDianCiQi extends GuiBase
 		this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 30, 12);
 		this.textFieldBanJing.setMaxStringLength(3);
 		this.textFieldBanJing.setText(this.tileEntity.banJing + "");
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) -1, true));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, -1, true));
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) -1, false));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, -1, false));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class GDianCiQi extends GuiBase
 				break;
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 3, this.tileEntity.muoShi));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3, this.tileEntity.muoShi));
 	}
 
 	/**
@@ -87,9 +87,9 @@ public class GDianCiQi extends GuiBase
 
 		try
 		{
-			int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), this.tileEntity.MAX_RADIUS);
+			int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), TDianCiQi.MAX_RADIUS);
 			this.tileEntity.banJing = radius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, (int) 2, this.tileEntity.banJing));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.banJing));
 		}
 		catch (NumberFormatException e)
 		{

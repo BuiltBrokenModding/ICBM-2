@@ -70,7 +70,7 @@ public class ItFaSheQi extends ItElectricICBM
 
 										EDaoDan eDaoDan = new EDaoDan(world, zhaPin.getID(), kaiShiDiDian, player.rotationYaw, player.rotationPitch);
 										world.spawnEntityInWorld(eDaoDan);
-										eDaoDan.faShe(muBiao);
+										eDaoDan.launch(muBiao);
 
 										if (!player.capabilities.isCreativeMode)
 										{

@@ -35,6 +35,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRail;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -117,7 +118,7 @@ public class ZhuYaoZhaPin
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		ZhuYao.INSTANCE.init();
-		NetworkRegistry.instance().registerGuiHandler(this, this.proxy);
+		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoZhaPin.proxy);
 
 		ICBM.CONFIGURATION.load();
 		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
@@ -163,7 +164,7 @@ public class ZhuYaoZhaPin
 					EnumFacing enumFacing = EnumFacing.getFront(blockSource.getBlockMetadata());
 
 					EShouLiuDan entity = new EShouLiuDan(world, new Vector3(x, y, z), itemStack.getItemDamage());
-					entity.setThrowableHeading((double) enumFacing.getFrontOffsetX(), 0.10000000149011612D, (double) enumFacing.getFrontOffsetZ(), 0.5F, 1.0F);
+					entity.setThrowableHeading(enumFacing.getFrontOffsetX(), 0.10000000149011612D, enumFacing.getFrontOffsetZ(), 0.5F, 1.0F);
 					world.spawnEntityInWorld(entity);
 				}
 
@@ -189,22 +190,22 @@ public class ZhuYaoZhaPin
 
 					EnumFacing var3 = EnumFacing.getFront(blockSource.getBlockMetadata());
 					World var4 = blockSource.getWorld();
-					double var5 = blockSource.getX() + (double) ((float) var3.getFrontOffsetX() * 1.125F);
+					double var5 = blockSource.getX() + var3.getFrontOffsetX() * 1.125F;
 					double var7 = blockSource.getY();
-					double var9 = blockSource.getZ() + (double) ((float) var3.getFrontOffsetZ() * 1.125F);
+					double var9 = blockSource.getZ() + var3.getFrontOffsetZ() * 1.125F;
 					int var11 = blockSource.getXInt() + var3.getFrontOffsetX();
 					int var12 = blockSource.getYInt();
 					int var13 = blockSource.getZInt() + var3.getFrontOffsetZ();
 					int var14 = var4.getBlockId(var11, var12, var13);
 					double var15;
 
-					if (BlockRail.isRailBlock(var14))
+					if (BlockRailBase.isRailBlock(var14))
 					{
 						var15 = 0.0D;
 					}
 					else
 					{
-						if (var14 != 0 || !BlockRail.isRailBlock(var4.getBlockId(var11, var12 - 1, var13)))
+						if (var14 != 0 || !BlockRailBase.isRailBlock(var4.getBlockId(var11, var12 - 1, var13)))
 						{
 							return this.defaultItemDispenseBehavior.dispense(blockSource, itemStack);
 						}
@@ -244,7 +245,7 @@ public class ZhuYaoZhaPin
 
 		ICBM.explosionManager = ZhaPin.class;
 
-		this.proxy.preInit();
+		ZhuYaoZhaPin.proxy.preInit();
 	}
 
 	@Init
@@ -381,7 +382,7 @@ public class ZhuYaoZhaPin
 		EntityRegistry.registerModEntity(EShouLiuDan.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EChe.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
 
-		this.proxy.init();
+		ZhuYaoZhaPin.proxy.init();
 	}
 
 	/**

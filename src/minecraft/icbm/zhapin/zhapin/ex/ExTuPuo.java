@@ -71,9 +71,9 @@ public class ExTuPuo extends ZhaPin
 						{
 							if (x == 0 || x == MAX_BAN_JING - 1 || y == 0 || y == MAX_BAN_JING - 1 || z == 0 || z == MAX_BAN_JING - 1)
 							{
-								double xStep = (double) ((float) x / ((float) MAX_BAN_JING - 1.0F) * 2.0F - 1.0F);
-								double yStep = (double) ((float) y / ((float) MAX_BAN_JING - 1.0F) * 2.0F - 1.0F);
-								double zStep = (double) ((float) z / ((float) MAX_BAN_JING - 1.0F) * 2.0F - 1.0F);
+								double xStep = x / (MAX_BAN_JING - 1.0F) * 2.0F - 1.0F;
+								double yStep = y / (MAX_BAN_JING - 1.0F) * 2.0F - 1.0F;
+								double zStep = z / (MAX_BAN_JING - 1.0F) * 2.0F - 1.0F;
 								double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 								xStep /= diagonalDistance;
 								yStep /= diagonalDistance;
@@ -100,9 +100,9 @@ public class ExTuPuo extends ZhaPin
 										blownBlocks.add(new ChunkPosition(var22, var23, var24));
 									}
 
-									var15 += xStep * (double) var21;
-									var17 += yStep * (double) var21;
-									var19 += zStep * (double) var21;
+									var15 += xStep * var21;
+									var17 += yStep * var21;
+									var19 += zStep * var21;
 								}
 							}
 						}

@@ -33,7 +33,7 @@ public class RenderGunTurretOld extends RenderTaggedTile
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
 
 			this.setTextureBaseOnState(tileEntity);
-			this.render(tileEntity.rotationYaw, tileEntity.rotationPitch);
+			RenderGunTurretOld.render(tileEntity.rotationYaw, tileEntity.rotationPitch);
 
 			GL11.glPopMatrix();
 		}

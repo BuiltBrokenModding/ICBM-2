@@ -6,11 +6,11 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
 
 /**
- * Applied to all launcher tile entities.
+ * Applied to all launcher TileEntitiies that operates the launching of missiles.
  * 
  * @author Calclavia
  */
-public interface ILauncher extends IElectricityStorage, IRedstoneReceptor, IBlockFrequency
+public interface ILauncherController extends IElectricityStorage, IRedstoneReceptor, IBlockFrequency
 {
 	/**
 	 * What type of launcher is this?
@@ -45,5 +45,7 @@ public interface ILauncher extends IElectricityStorage, IRedstoneReceptor, IBloc
 	/**
 	 * Places a missile into the launcher.
 	 */
-	void placeMissile(ItemStack itemStack);
+	public void placeMissile(ItemStack itemStack);
+
+	public IMissile getMissile();
 }

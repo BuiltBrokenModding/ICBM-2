@@ -34,6 +34,7 @@ public class ItJieJa extends ItElectricICBM
 	 * @param entity The entity being attacked
 	 * @return True to cancel the rest of the interaction.
 	 */
+	@Override
 	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
 	{
 		if (this.getJoules(itemStack) > YONG_DIAN_LIANG)

@@ -57,7 +57,7 @@ public class EChe extends EntityMinecart implements IExplosiveContainer, IExplos
 	protected void entityInit()
 	{
 		super.entityInit();
-		this.dataWatcher.addObject(23, (int) this.yinXin);
+		this.dataWatcher.addObject(23, this.yinXin);
 		this.dataWatcher.addObject(24, (byte) 0);
 	}
 

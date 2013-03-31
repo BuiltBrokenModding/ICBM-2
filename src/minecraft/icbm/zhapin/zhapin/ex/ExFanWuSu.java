@@ -27,6 +27,7 @@ public class ExFanWuSu extends ZhaPin
 	/**
 	 * Called before an explosion happens
 	 */
+	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
 		super.baoZhaQian(worldObj, position, explosionSource);
@@ -108,7 +109,7 @@ public class ExFanWuSu extends ZhaPin
 	{
 		if (entity instanceof EZhaPin)
 		{
-			if (((EZhaPin) entity).haoMa == this.hongSu.getID())
+			if (((EZhaPin) entity).haoMa == ZhaPin.hongSu.getID())
 			{
 				entity.setDead();
 				return true;

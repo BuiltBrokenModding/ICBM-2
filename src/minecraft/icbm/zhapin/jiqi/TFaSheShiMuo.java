@@ -1,9 +1,9 @@
 package icbm.zhapin.jiqi;
 
+import icbm.api.IMissile;
 import icbm.api.LauncherType;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.daodan.EDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,7 +42,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	// The missile launcher base in which this
 	// screen is connected with
-	public TFaSheDi connectedBase = null;
+	public TFaSheDi faSheDi = null;
 
 	public short gaoDu = 3;
 
@@ -53,13 +53,14 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		super();
 	}
 
+	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 
 		if (!this.isDisabled())
 		{
-			if (this.connectedBase == null)
+			if (this.faSheDi == null)
 			{
 				for (byte i = 2; i < 6; i++)
 				{
@@ -72,7 +73,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 					{
 						if (tileEntity instanceof TFaSheDi)
 						{
-							this.connectedBase = (TFaSheDi) tileEntity;
+							this.faSheDi = (TFaSheDi) tileEntity;
 							this.fangXiang = i;
 						}
 					}
@@ -80,9 +81,9 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			}
 			else
 			{
-				if (this.connectedBase.isInvalid())
+				if (this.faSheDi.isInvalid())
 				{
-					this.connectedBase = null;
+					this.faSheDi = null;
 				}
 			}
 
@@ -102,7 +103,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 					this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
 				}
 
-				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 3, this.getJoules(), this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, new Vector3(this), 15);
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 3, this.getJoules(), this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, new Vector3(this), 15);
 			}
 
 			if (this.ticks % 600 == 0)
@@ -115,17 +116,17 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, (int) 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
 	}
 
 	@Override
 	public void placeMissile(ItemStack itemStack)
 	{
-		if (this.connectedBase != null)
+		if (this.faSheDi != null)
 		{
-			if (!this.connectedBase.isInvalid())
+			if (!this.faSheDi.isInvalid())
 			{
-				this.connectedBase.setInventorySlotContents(0, itemStack);
+				this.faSheDi.setInventorySlotContents(0, itemStack);
 			}
 		}
 	}
@@ -194,15 +195,16 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	// Checks if the missile is launchable
+	@Override
 	public boolean canLaunch()
 	{
-		if (this.connectedBase != null && !this.isDisabled())
+		if (this.faSheDi != null && !this.isDisabled())
 		{
-			if (this.connectedBase.eDaoDan != null)
+			if (this.faSheDi.daoDan != null)
 			{
 				if (this.getJoules() >= this.getMaxJoules())
 				{
-					if (this.connectedBase.isInRange(this.muBiao))
+					if (this.faSheDi.isInRange(this.muBiao))
 					{
 						return true;
 					}
@@ -217,12 +219,13 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	/**
 	 * Calls the missile launcher base to launch it's missile towards a targeted location
 	 */
+	@Override
 	public void launch()
 	{
 		if (this.canLaunch())
 		{
 			this.setJoules(0);
-			this.connectedBase.launchMissile(this.muBiao.clone(), this.gaoDu);
+			this.faSheDi.launchMissile(this.muBiao.clone(), this.gaoDu);
 		}
 	}
 
@@ -231,6 +234,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	 * 
 	 * @return The string to be displayed
 	 */
+	@Override
 	public String getStatus()
 	{
 		String color = "\u00a74";
@@ -240,7 +244,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			status = "Disabled";
 		}
-		else if (this.connectedBase == null)
+		else if (this.faSheDi == null)
 		{
 			status = "Not connected!";
 		}
@@ -248,7 +252,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			status = "Insufficient electricity!";
 		}
-		else if (this.connectedBase.eDaoDan == null)
+		else if (this.faSheDi.daoDan == null)
 		{
 			status = "Missile silo is empty!";
 		}
@@ -256,11 +260,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			status = "Target is invalid!";
 		}
-		else if (this.connectedBase.shiTaiJin(this.muBiao))
+		else if (this.faSheDi.shiTaiJin(this.muBiao))
 		{
 			status = "Target too close!";
 		}
-		else if (this.connectedBase.shiTaiYuan(this.muBiao))
+		else if (this.faSheDi.shiTaiYuan(this.muBiao))
 		{
 			status = "Target too far!";
 		}
@@ -377,11 +381,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public EDaoDan getMissile()
+	public IMissile getMissile()
 	{
-		if (this.connectedBase != null)
+		if (this.faSheDi != null)
 		{
-			return this.connectedBase.eDaoDan;
+			return this.faSheDi.getContainingMissile();
 		}
 
 		return null;

@@ -59,22 +59,22 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	 */
 	private static byte determineOrientation(World world, int x, int y, int z, EntityLiving entityLiving)
 	{
-		if (MathHelper.abs((float) entityLiving.posX - (float) x) < 2.0F && MathHelper.abs((float) entityLiving.posZ - (float) z) < 2.0F)
+		if (MathHelper.abs((float) entityLiving.posX - x) < 2.0F && MathHelper.abs((float) entityLiving.posZ - z) < 2.0F)
 		{
-			double var5 = entityLiving.posY + 1.82D - (double) entityLiving.yOffset;
+			double var5 = entityLiving.posY + 1.82D - entityLiving.yOffset;
 
-			if (var5 - (double) y > 2.0D)
+			if (var5 - y > 2.0D)
 			{
 				return 1;
 			}
 
-			if ((double) y - var5 > 0.0D)
+			if (y - var5 > 0.0D)
 			{
 				return 0;
 			}
 		}
 
-		int rotation = MathHelper.floor_double((double) (entityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int rotation = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		return (byte) (rotation == 0 ? 2 : (rotation == 1 ? 5 : (rotation == 2 ? 3 : (rotation == 3 ? 4 : 0))));
 	}
 
@@ -119,7 +119,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 			{
 				if (((TZhaDan) tileEntity).haoMa == ZhaPin.diLei.getID())
 				{
-					return AxisAlignedBB.getAABBPool().getAABB((double) x + this.minX, (double) y + this.minY, (double) z + this.minZ, (double) x + this.maxX, (double) y + 0.2, (double) z + this.maxZ);
+					return AxisAlignedBB.getAABBPool().getAABB(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + 0.2, z + this.maxZ);
 				}
 			}
 		}
@@ -204,9 +204,9 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		 */
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
-			this.ICON_TOP[i] = this.getIcon(iconRegister, i, "_top");
-			this.ICON_SIDE[i] = this.getIcon(iconRegister, i, "_side");
-			this.ICON_BOTTOM[i] = this.getIcon(iconRegister, i, "_bottom");
+			BZhaDan.ICON_TOP[i] = this.getIcon(iconRegister, i, "_top");
+			BZhaDan.ICON_SIDE[i] = this.getIcon(iconRegister, i, "_side");
+			BZhaDan.ICON_BOTTOM[i] = this.getIcon(iconRegister, i, "_bottom");
 		}
 	}
 
