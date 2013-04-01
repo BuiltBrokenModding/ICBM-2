@@ -9,6 +9,7 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.daodan.ItDaoDan;
+import icbm.zhapin.daodan.ItTeBieDaoDan;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +20,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ElectricItemHelper;
@@ -240,9 +242,14 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (this.containingItems[0] != null)
 		{
-			if (this.containingItems[0].itemID == ZhuYaoZhaPin.itDaoDan.itemID)
+			if (this.containingItems[0].getItem() instanceof ItDaoDan)
 			{
 				int haoMa = this.containingItems[0].getItemDamage();
+
+				if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan)
+				{
+					haoMa += 100;
+				}
 
 				if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
 				{
@@ -349,16 +356,20 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			DaoDan missile = DaoDan.list[this.containingItems[0].getItemDamage()];
 
-			if (missile != null)
+			int haoMa = this.daoDan.getExplosiveType().getID();
+
+			if (this.daoDan.getExplosiveType().getID() >= 100)
 			{
-				if (this.containingItems[0].itemID == ZhuYaoZhaPin.itDaoDan.itemID && missile.isCruise() && missile.getTier() <= 3)
+				haoMa -= 100;
+			}
+
+			if (missile != null && missile.getID() == haoMa && missile.isCruise() && missile.getTier() <= 3)
+			{
+				if (this.getJoules() >= this.getMaxJoules())
 				{
-					if (this.getJoules() >= this.getMaxJoules())
+					if (!this.isTooClose(this.muBiao))
 					{
-						if (!this.isTooClose(this.muBiao))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}
@@ -485,20 +496,11 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
+		if (this.isStackValidForSlot(0, entityPlayer.inventory.getCurrentItem()))
 		{
-			if (entityPlayer.inventory.getCurrentItem().itemID == ZhuYaoZhaPin.itDaoDan.itemID)
-			{
-				if (DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()] != null)
-				{
-					if (DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].isCruise() && DaoDan.list[entityPlayer.inventory.getCurrentItem().getItemDamage()].getTier() <= 3)
-					{
-						this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
-						entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
-						return true;
-					}
-				}
-			}
+			this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
+			entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+			return true;
 		}
 
 		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYao.GUI_XIA_FA_SHE_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
@@ -527,7 +529,21 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
 	{
-		return itemStack.getItem() instanceof ItDaoDan;
+		if (itemStack != null)
+		{
+			if (itemStack.getItem() instanceof ItDaoDan && this.getStackInSlot(slotID) == null)
+			{
+				if (DaoDan.list[itemStack.getItemDamage()] != null)
+				{
+					if (DaoDan.list[itemStack.getItemDamage()].isCruise() && DaoDan.list[itemStack.getItemDamage()].getTier() <= 3)
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -553,4 +569,11 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		return this.daoDan;
 	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
+	}
+
 }

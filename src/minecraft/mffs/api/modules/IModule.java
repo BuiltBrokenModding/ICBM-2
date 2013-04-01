@@ -10,19 +10,31 @@ public interface IModule
 {
 
 	/**
-	 * The amount of fortron this module consumes per tick.
+	 * The amount of Fortron this module consumes per tick.
 	 * 
 	 * @return
 	 */
-	public float getFortronCost();
+	public float getFortronCost(int amplifier);
+
+	/**
+	 * Called when the projector is projecting a field.
+	 * 
+	 * @param projector
+	 * @return True to stop projecting.
+	 */
+	boolean onProject(IProjector projector);
 
 	/**
 	 * Called right after the projector creates a force field block.
 	 * 
 	 * @param projector
 	 * @param position
+	 * @return True to cancel projection action.
 	 */
-	public void onProject(IProjector projector, Vector3 position);
+
+	public boolean onProject(IProjector projector, Vector3 position);
+
+	public boolean canProject(IProjector projector, Vector3 position);
 
 	/**
 	 * Called when an entity collides with a force field block.
@@ -30,4 +42,12 @@ public interface IModule
 	 * @return True to stop the default process of entity collision.
 	 */
 	public boolean onCollideWithForceField(World world, int x, int y, int z, Entity entity, ItemStack moduleStack);
+
+	/**
+	 * Called in this module when it is being calculated by the projector.
+	 * 
+	 * @return False if to prevent this position from being added to the projection que.
+	 */
+	boolean onCalculate(IProjector projector, Vector3 position);
+
 }

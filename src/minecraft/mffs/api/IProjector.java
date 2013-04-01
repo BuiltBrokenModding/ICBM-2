@@ -2,7 +2,6 @@ package mffs.api;
 
 import java.util.Set;
 
-import mffs.api.fortron.IFortronFrequency;
 import mffs.api.modules.IModule;
 import mffs.api.modules.IModuleAcceptor;
 import mffs.api.modules.IProjectorMode;
@@ -10,12 +9,16 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IDisableable;
 import universalelectricity.prefab.implement.IRotatable;
 
-public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotatable, IDisableable, IFortronFrequency
+/**
+ * Also extends IDisableable, IFortronFrequency
+ * 
+ * @author Calclavia
+ * 
+ */
+public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotatable
 {
-	public Set<Vector3> getInteriorPoints();
 
 	public boolean isActive();
 
@@ -50,6 +53,8 @@ public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotat
 	public int getFortronCost();
 
 	public Set<Vector3> getCalculatedField();
+
+	public Set<Vector3> getInteriorPoints();
 
 	/**
 	 * The speed in which a force field is constructed.

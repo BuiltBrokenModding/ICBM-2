@@ -68,7 +68,7 @@ public class ItFaSheQi extends ItElectricICBM
 										Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 2));
 										Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
 
-										EDaoDan eDaoDan = new EDaoDan(world, zhaPin.getID(), kaiShiDiDian, player.rotationYaw, player.rotationPitch);
+										EDaoDan eDaoDan = new EDaoDan(world, kaiShiDiDian, zhaPin.getID(), player.rotationYaw, player.rotationPitch);
 										world.spawnEntityInWorld(eDaoDan);
 										eDaoDan.launch(muBiao);
 

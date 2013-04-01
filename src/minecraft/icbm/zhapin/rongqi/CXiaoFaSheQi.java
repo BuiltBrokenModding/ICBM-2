@@ -1,6 +1,6 @@
 package icbm.zhapin.rongqi;
 
-import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.daodan.ItDaoDan;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,7 +18,7 @@ public class CXiaoFaSheQi extends Container
 	{
 		this.tileEntity = tileEntity;
 		// Missile Slot
-		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 151, 23, new ItemStack(ZhuYaoZhaPin.itDaoDan)));
+		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 151, 23, ItDaoDan.class));
 		// Battery Slot
 		this.addSlotToContainer(new SlotSpecific(tileEntity, 1, 151, 47, IItemElectric.class));
 

@@ -95,6 +95,6 @@ public class DFanDan extends DaoDan
 	@Override
 	public boolean isCruise()
 	{
-		return false;
+		return true;
 	}
 }

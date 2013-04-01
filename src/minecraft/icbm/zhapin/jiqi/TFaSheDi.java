@@ -239,7 +239,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 
 					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
 					{
-						if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan && haoMa > 0)
+						if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan)
 						{
 							haoMa += 100;
 						}
@@ -251,9 +251,12 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 							this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
 							return;
 						}
-						else if (this.daoDan.getExplosiveType().getID() == haoMa)
+						else if (this.daoDan.getExplosiveType() != null)
 						{
-							return;
+							if (this.daoDan.getExplosiveType().getID() == haoMa)
+							{
+								return;
+							}
 						}
 					}
 				}

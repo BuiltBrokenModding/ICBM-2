@@ -126,13 +126,14 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	 * @param diDian - Starting Position
 	 * @param muBiao - Target Position
 	 */
-	public EDaoDan(World par1World, int haoMa, Vector3 diDian, float yaw, float pitch)
+	public EDaoDan(World par1World, Vector3 diDian, int haoMa, float yaw, float pitch)
 	{
 		this(par1World);
 		this.haoMa = haoMa;
 		this.faSheQi = this.kaiShi = diDian;
 		this.xingShi = XingShi.HUO_JIAN;
 		this.baoHuShiJian = 10;
+
 		this.setPosition(this.kaiShi.x, this.kaiShi.y, this.kaiShi.z);
 		this.setRotation(yaw, pitch);
 	}
@@ -140,10 +141,11 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public String getEntityName()
 	{
-		if (this.haoMa > 100)
+		if (this.haoMa >= 100)
 		{
 			return TranslationHelper.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getUnlocalizedName() + ".name");
 		}
+
 		return TranslationHelper.getLocal("icbm.missile." + ZhaPin.list[this.haoMa].getUnlocalizedName() + ".name");
 	}
 
@@ -418,6 +420,12 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 					} // end else
 				}
 			}
+			else
+			{
+				this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
+				// Look at the next point
+				this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+			}
 
 			this.lastTickPosX = this.posX;
 			this.lastTickPosY = this.posY;
@@ -441,30 +449,10 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 					this.xingShi = XingShi.XIAO_DAN;
 					this.noClip = true;
 
-					this.xXiangCha = ((TXiaoFaSheQi) launcher).getTarget().x - this.kaiShi.x;
-					this.yXiangCha = ((TXiaoFaSheQi) launcher).getTarget().y - this.kaiShi.y;
-					this.zXiangCha = ((TXiaoFaSheQi) launcher).getTarget().z - this.kaiShi.z;
-
-					this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), ((TXiaoFaSheQi) launcher).getTarget().toVector2());
-					this.tianGao = 150 + (int) (this.diShangJuLi * 1.8);
-					this.feiXingShiJian = (float) Math.max(100, 2.4 * diShangJuLi);
-					this.jiaSu = (float) tianGao * 2 / (feiXingShiJian * feiXingShiJian);
-
-					this.motionX = this.xXiangCha / (feiXingShiJian * 0.6);
-					this.motionY = this.yXiangCha / (feiXingShiJian * 0.6);
-					this.motionZ = this.zXiangCha / (feiXingShiJian * 0.6);
-
-					float newRotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
-					float newRotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-
-					if (newRotationYaw - this.rotationYaw != 0)
+					if (this.worldObj.isRemote)
 					{
-						this.rotationYaw += (newRotationYaw - this.rotationYaw) * 0.1;
-					}
-
-					if (newRotationPitch - this.rotationPitch != 0)
-					{
-						this.rotationPitch += (newRotationPitch - this.rotationPitch) * 0.1;
+						this.rotationYaw = -((TXiaoFaSheQi) launcher).rotationYaw + 90;
+						this.rotationPitch = ((TXiaoFaSheQi) launcher).rotationPitch;
 					}
 				}
 			}
@@ -614,8 +602,6 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			// already exploding
 			if (!this.zhengZaiBaoZha)
 			{
-				this.zhengZaiBaoZha = true;
-
 				if (this.haoMa == 0)
 				{
 					if (!this.worldObj.isRemote)
@@ -627,6 +613,8 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 				{
 					DaoDan.list[this.haoMa].onExplode(this);
 				}
+				
+				this.zhengZaiBaoZha = true;
 
 				FMLLog.fine(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 				System.out.println(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
@@ -665,13 +653,14 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		{
 			EntityItem entityItem;
 
-			if (this.haoMa < 100)
+			if (this.haoMa >= 100)
 			{
-				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.haoMa));
+				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, this.haoMa - 100));
+
 			}
 			else
 			{
-				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, this.haoMa - 100));
+				entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.haoMa));
 			}
 
 			float var13 = 0.05F;

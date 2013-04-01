@@ -3,6 +3,7 @@ package icbm.zhapin.render;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.DaoDan;
+import icbm.zhapin.daodan.ItDaoDan;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -23,7 +24,7 @@ public class RItDaoDan implements IItemRenderer
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.itemID == ZhuYaoZhaPin.itDaoDan.itemID || (item.itemID == ZhuYaoZhaPin.itTeBieDaoDan.itemID && item.getItemDamage() > 0);
+		return item.getItem() instanceof ItDaoDan;
 	}
 
 	@Override
@@ -63,10 +64,10 @@ public class RItDaoDan implements IItemRenderer
 
 			if (item.itemID == ZhuYaoZhaPin.itTeBieDaoDan.itemID)
 			{
-				if (item.getItemDamage() - 1 < RDaoDan.SPECIAL_MODELS.length)
+				if (item.getItemDamage() < RDaoDan.SPECIAL_MODELS.length)
 				{
 					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "missile_" + DaoDan.list[item.getItemDamage() + 100].getUnlocalizedName() + ".png"));
-					RDaoDan.SPECIAL_MODELS[item.getItemDamage() - 1].render(0.0625F);
+					RDaoDan.SPECIAL_MODELS[item.getItemDamage()].render(0.0625F);
 				}
 			}
 			else

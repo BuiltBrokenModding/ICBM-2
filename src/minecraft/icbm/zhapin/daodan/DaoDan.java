@@ -1,6 +1,7 @@
 package icbm.zhapin.daodan;
 
 import icbm.api.explosion.IExplosive;
+import icbm.core.HaoMa;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,10 +12,11 @@ import universalelectricity.prefab.implement.ITier;
 
 public class DaoDan implements ITier, IExplosive
 {
-	public static final DaoDan AntiBallistic = new DFanDan("antiBallistic", 101, 2);
-	public static final DaoDan Cluster = new DFenZhiDan("cluster", 102, 2);
-	public static final DaoDan NuclearCluster = new DYuanZiFenZhiDan("nuclearCluster", 103, 2);
-	public static final DaoDan Homing = new DZhuiZhong("homing", 104, 1);
+	public static final DaoDan missileModule = new DModule("missileModule", HaoMa.getID(DaoDan.class.getSimpleName(), 100), 1);
+	public static final DaoDan zhuiZhong = new DZhuiZhong("homing", HaoMa.getID(DaoDan.class.getSimpleName()), 1);
+	public static final DaoDan fanDan = new DFanDan("antiBallistic", HaoMa.getID(DaoDan.class.getSimpleName()), 2);
+	public static final DaoDan fenZhiDan = new DFenZhiDan("cluster", HaoMa.getID(DaoDan.class.getSimpleName()), 2);
+	public static final DaoDan yuanZiFenZhiDan = new DYuanZiFenZhiDan("nuclearCluster", HaoMa.getID(DaoDan.class.getSimpleName()), 2);
 
 	public static final int MAX_DAO_DAN = 4;
 
@@ -104,6 +106,11 @@ public class DaoDan implements ITier, IExplosive
 		return new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.getID());
 	}
 
+	/**
+	 * Is this missile compatible with the cruise launcher?
+	 * 
+	 * @return
+	 */
 	public boolean isCruise()
 	{
 		return true;

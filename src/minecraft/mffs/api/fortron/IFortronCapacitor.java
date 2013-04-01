@@ -2,7 +2,13 @@ package mffs.api.fortron;
 
 import java.util.Set;
 
-public interface IFortronCapacitor extends IFortronFrequency
+/**
+ * Applied to the Fortron Capacitor TileEntity. Extends IFortronFrequency
+ * 
+ * @author Calclavia
+ * 
+ */
+public interface IFortronCapacitor
 {
 	public Set<IFortronFrequency> getLinkedDevices();
 

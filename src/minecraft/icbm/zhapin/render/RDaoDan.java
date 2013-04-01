@@ -50,7 +50,7 @@ public class RDaoDan extends Render
 
 	new MMFanWuSu(), new MMHongSu() };
 
-	public static ICBMModelBase[] SPECIAL_MODELS = { new MMFanDan(), new MMFenZiDan(), new MMFenZiDan(), new MMZhuiZhong() };
+	public static ICBMModelBase[] SPECIAL_MODELS = { new MMYaSuo(), new MMZhuiZhong(), new MMFanDan(), new MMFenZiDan(), new MMFenZiDan() };
 
 	public RDaoDan(float f)
 	{
@@ -72,10 +72,10 @@ public class RDaoDan extends Render
 			GL11.glScalef(0.5f, 0.5f, 0.5f);
 		}
 
-		if (entityMissile.haoMa > 100)
+		if (entityMissile.haoMa >= 100)
 		{
 			this.loadTexture(ZhuYao.MODEL_PATH + "missile_" + DaoDan.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
-			RDaoDan.SPECIAL_MODELS[entityMissile.haoMa - 101].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			RDaoDan.SPECIAL_MODELS[entityMissile.haoMa - 100].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{

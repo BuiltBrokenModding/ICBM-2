@@ -1,8 +1,10 @@
 package icbm.api;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -20,8 +22,8 @@ import universalelectricity.prefab.vector.Region2;
  */
 public class RadarRegistry
 {
-	private static List<TileEntity> detectableTileEntities = new ArrayList<TileEntity>();
-	private static List<Entity> detectableEntities = new ArrayList<Entity>();
+	private static Set<TileEntity> detectableTileEntities = new HashSet<TileEntity>();
+	private static Set<Entity> detectableEntities = new HashSet<Entity>();
 
 	public static void register(TileEntity tileEntity)
 	{
@@ -87,13 +89,13 @@ public class RadarRegistry
 		return returnArray;
 	}
 
-	public static List<TileEntity> getTileEntities()
+	public static Set<TileEntity> getTileEntities()
 	{
 		cleanUpArray();
 		return detectableTileEntities;
 	}
 
-	public static List<Entity> getEntities()
+	public static Set<Entity> getEntities()
 	{
 		cleanUpArray();
 		return detectableEntities;
