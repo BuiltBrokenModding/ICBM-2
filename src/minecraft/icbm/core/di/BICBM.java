@@ -1,6 +1,5 @@
 package icbm.core.di;
 
-import icbm.api.ICBM;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import net.minecraft.block.material.Material;
@@ -21,7 +20,7 @@ public class BICBM extends BlockAdvanced
 
 	public BICBM(int id, String name, Material material)
 	{
-		super(ICBM.CONFIGURATION.getBlock(name, id).getInt(), material);
+		super(ZhuYao.CONFIGURATION.getBlock(name, id).getInt(), material);
 		this.setUnlocalizedName(ZhuYao.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}

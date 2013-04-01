@@ -2,13 +2,10 @@ package icbm.api;
 
 import icbm.api.explosion.IExplosive;
 
-import java.io.File;
 import java.lang.reflect.Method;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import cpw.mods.fml.common.Loader;
 
 /**
  * General ICBM references.
@@ -27,11 +24,6 @@ public class ICBM
 	 * The version of ICBM.
 	 */
 	public static final String VERSION = "1.1.1";
-
-	/**
-	 * Configuration file for ICBM.
-	 */
-	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
 
 	/**
 	 * The block ID in which ICBM starts with. ICBM Explosion will count up, ICBM Contraption will

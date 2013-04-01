@@ -1,7 +1,6 @@
 package icbm.core.di;
 
 import ic2.api.ICustomElectricItem;
-import icbm.api.ICBM;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import net.minecraft.item.ItemStack;
@@ -14,7 +13,7 @@ public abstract class ItElectricICBM extends ItemElectric implements ICustomElec
 
 	public ItElectricICBM(int id, String name)
 	{
-		super(ICBM.CONFIGURATION.getItem(name, id).getInt());
+		super(ZhuYao.CONFIGURATION.getItem(name, id).getInt());
 		this.setUnlocalizedName(ZhuYao.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}

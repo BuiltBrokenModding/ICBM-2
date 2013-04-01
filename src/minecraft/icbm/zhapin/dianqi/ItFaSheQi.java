@@ -2,7 +2,10 @@ package icbm.zhapin.dianqi;
 
 import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
+import icbm.zhapin.daodan.ItDaoDan;
+import icbm.zhapin.daodan.ItTeBieDaoDan;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,38 +52,40 @@ public class ItFaSheQi extends ItElectricICBM
 
 					if (inventoryStack != null)
 					{
-						if (inventoryStack.itemID == ZhuYaoZhaPin.itDaoDan.itemID)
+						if (inventoryStack.getItem() instanceof ItDaoDan)
 						{
 							int haoMa = inventoryStack.getItemDamage();
 
-							if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(player), ZhaPinType.DAO_DAN, haoMa))
+							if (inventoryStack.getItem() instanceof ItTeBieDaoDan)
+							{
+								haoMa += 100;
+							}
+
+							DaoDan daoDan = DaoDan.list[haoMa];
+
+							if (daoDan != null && !ZhuYaoZhaPin.shiBaoHu(world, new Vector3(player), ZhaPinType.DAO_DAN, haoMa))
 							{
 								// Limit the missile to tier two.
-								if (haoMa < ZhaPin.E_ER_ID)
+								if (daoDan.getTier() <= 2 && daoDan.isCruise())
 								{
-									ZhaPin zhaPin = ZhaPin.list[haoMa];
+									double dist = 5000;
+									Vector3 diDian = Vector3.add(new Vector3(player), new Vector3(0, 0.5, 0));
+									Vector3 kan = new Vector3(player.getLook(1));
+									Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 2));
+									Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
 
-									if (zhaPin != null)
+									EDaoDan eDaoDan = new EDaoDan(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
+									world.spawnEntityInWorld(eDaoDan);
+									eDaoDan.launch(muBiao);
+
+									if (!player.capabilities.isCreativeMode)
 									{
-										double dist = 5000;
-										Vector3 diDian = Vector3.add(new Vector3(player), new Vector3(0, 0.5, 0));
-										Vector3 kan = new Vector3(player.getLook(1));
-										Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 2));
-										Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
-
-										EDaoDan eDaoDan = new EDaoDan(world, kaiShiDiDian, zhaPin.getID(), player.rotationYaw, player.rotationPitch);
-										world.spawnEntityInWorld(eDaoDan);
-										eDaoDan.launch(muBiao);
-
-										if (!player.capabilities.isCreativeMode)
-										{
-											player.inventory.setInventorySlotContents(i, null);
-										}
-
-										this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
-
-										return itemStack;
+										player.inventory.setInventorySlotContents(i, null);
 									}
+
+									this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
+
+									return itemStack;
 								}
 							}
 							else

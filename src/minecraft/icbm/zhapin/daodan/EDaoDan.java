@@ -35,7 +35,6 @@ import universalelectricity.prefab.TranslationHelper;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EDaoDan extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile
@@ -198,7 +197,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.jiSuan();
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
-		FMLLog.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+		ZhuYao.LOGGER.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
 	@Override
@@ -454,6 +453,8 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 						this.rotationYaw = -((TXiaoFaSheQi) launcher).rotationYaw + 90;
 						this.rotationPitch = ((TXiaoFaSheQi) launcher).rotationPitch;
 					}
+					
+					this.posY = ((TXiaoFaSheQi) launcher).yCoord + 1;
 				}
 			}
 			else
@@ -585,7 +586,8 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	public void setDead()
 	{
 		RadarRegistry.unregister(this);
-		if (chunkTicket != null)
+
+		if (this.chunkTicket != null)
 		{
 			ForgeChunkManager.releaseTicket(chunkTicket);
 		}
@@ -613,11 +615,10 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 				{
 					DaoDan.list[this.haoMa].onExplode(this);
 				}
-				
+
 				this.zhengZaiBaoZha = true;
 
-				FMLLog.fine(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
-				System.out.println(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+				ZhuYao.LOGGER.fine(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
 
 			this.setDead();
@@ -625,7 +626,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		}
 		catch (Exception e)
 		{
-			System.err.println("Missile failed to explode properly. Report this to the developers.");
+			ZhuYao.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
 			e.printStackTrace();
 		}
 	}

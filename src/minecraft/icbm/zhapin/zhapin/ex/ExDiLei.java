@@ -1,6 +1,5 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.api.ICBM;
 import icbm.core.ZhuYao;
 import icbm.zhapin.ESuiPian;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
@@ -103,7 +102,7 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getUnlocalizedName(), ICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@SideOnly(Side.CLIENT)

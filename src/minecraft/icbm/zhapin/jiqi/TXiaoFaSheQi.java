@@ -268,7 +268,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 					{
 						if (this.daoDan.getExplosiveType().getID() == haoMa)
 						{
-							((Entity) this.daoDan).posY = this.yCoord + 0.2f;
 							return;
 						}
 					}
@@ -386,7 +385,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public void launch()
 	{
-		if (canLaunch())
+		if (this.canLaunch())
 		{
 			this.decrStackSize(0, 1);
 			this.setJoules(0);

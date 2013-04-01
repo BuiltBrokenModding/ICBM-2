@@ -16,7 +16,7 @@ public class DaoDan implements ITier, IExplosive
 	public static final DaoDan zhuiZhong = new DZhuiZhong("homing", HaoMa.getID(DaoDan.class.getSimpleName()), 1);
 	public static final DaoDan fanDan = new DFanDan("antiBallistic", HaoMa.getID(DaoDan.class.getSimpleName()), 2);
 	public static final DaoDan fenZhiDan = new DFenZhiDan("cluster", HaoMa.getID(DaoDan.class.getSimpleName()), 2);
-	public static final DaoDan yuanZiFenZhiDan = new DYuanZiFenZhiDan("nuclearCluster", HaoMa.getID(DaoDan.class.getSimpleName()), 2);
+	public static final DaoDan yuanZiFenZhiDan = new DYuanZiFenZhiDan("nuclearCluster", HaoMa.getID(DaoDan.class.getSimpleName()), 3);
 
 	public static final int MAX_DAO_DAN = 4;
 

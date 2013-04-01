@@ -28,7 +28,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.flag.CommandFlag;
 import universalelectricity.prefab.flag.FlagRegistry;
 import universalelectricity.prefab.flag.ModFlag;
@@ -87,18 +86,19 @@ public class ZhuYaoGangShao
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoGangShao.proxy);
+		ZhuYao.INSTANCE.init();
 
+		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoGangShao.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 
-		ICBM.CONFIGURATION.load();
+		ZhuYao.CONFIGURATION.load();
 
 		blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
-		blockFake = new BlockMulti(ICBM.CONFIGURATION.getBlock("Sentry Multiblock", BLOCK_ID_PREFIX + 2).getInt());
+		blockFake = new BlockMulti(ZhuYao.CONFIGURATION.getBlock("Sentry Multiblock", BLOCK_ID_PREFIX + 2).getInt());
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
-		ICBM.CONFIGURATION.save();
+		ZhuYao.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
 		conventionalBullet = new ItemStack(itemAmmo, 1, 1);
@@ -120,8 +120,6 @@ public class ZhuYaoGangShao
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
-		System.out.println(NAME + " loaded: " + TranslationHelper.loadLanguages(ZhuYao.YU_YAN_PATH + "languages/", new String[] { "en_US" }) + " languages.");
-
 		// Shell
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));
 		// Bullets

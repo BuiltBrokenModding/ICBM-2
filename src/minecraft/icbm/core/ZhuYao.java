@@ -3,6 +3,7 @@ package icbm.core;
 import icbm.api.ICBM;
 import icbm.core.di.ItICBM;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
@@ -33,6 +34,7 @@ import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -85,6 +87,11 @@ public class ZhuYao
 
 	private boolean isInitialized;
 
+	/**
+	 * Configuration file for ICBM.
+	 */
+	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
+
 	public static final Logger LOGGER = Logger.getLogger(ICBM.NAME);
 
 	public void init()
@@ -96,9 +103,9 @@ public class ZhuYao
 
 			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
 
-			ICBM.CONFIGURATION.load();
-			ZAI_KUAI = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
-			DAO_DAN_ZUI_YUAN = ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
+			ZhuYao.CONFIGURATION.load();
+			ZAI_KUAI = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
+			DAO_DAN_ZUI_YUAN = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
 
 			// BLOCKS
 			bLiu = new BLiu(ICBM.BLOCK_ID_PREFIX + 0);
@@ -109,7 +116,7 @@ public class ZhuYao
 			// -- Registering Blocks
 			GameRegistry.registerBlock(bLiu, "bLiu");
 
-			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(ICBM.CONFIGURATION);
+			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(ZhuYao.CONFIGURATION);
 
 			/**
 			 * Check for existence of radioactive block. If it does not exist, then create it.
@@ -121,7 +128,7 @@ public class ZhuYao
 			}
 			else
 			{
-				bFuShe = new BlockRadioactive(ICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive");
+				bFuShe = new BlockRadioactive(ZhuYao.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive");
 				GameRegistry.registerBlock(bFuShe, "Radioactive");
 				OreDictionary.registerOre("blockRadioactive", bFuShe);
 				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
@@ -130,10 +137,10 @@ public class ZhuYao
 			/**
 			 * Decrease Obsidian Resistance
 			 */
-			Block.obsidian.setResistance(ICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+			Block.obsidian.setResistance(ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
 			LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-			ICBM.CONFIGURATION.save();
+			ZhuYao.CONFIGURATION.save();
 
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);
