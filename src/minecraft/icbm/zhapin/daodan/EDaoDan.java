@@ -600,8 +600,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	{
 		try
 		{
-			// Make sure the missile is not
-			// already exploding
+			// Make sure the missile is not already exploding
 			if (!this.zhengZaiBaoZha)
 			{
 				if (this.haoMa == 0)

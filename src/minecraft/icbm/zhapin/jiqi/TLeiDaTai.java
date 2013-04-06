@@ -40,7 +40,6 @@ import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
-
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 

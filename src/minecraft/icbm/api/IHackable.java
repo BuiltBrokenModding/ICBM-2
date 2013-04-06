@@ -1,6 +1,5 @@
 package icbm.api;
 
-import icbm.gangshao.ISpecialAccess;
 import net.minecraft.entity.player.EntityPlayer;
 
 public interface IHackable

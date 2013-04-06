@@ -160,11 +160,11 @@ public class BlockTurret extends BICBM
 			}
 			else
 			{
-				/*if (tileEntity instanceof IMultiBlock)
-				{
-					((IMultiBlock) tileEntity).onDestroy(tileEntity);
-				}*/
-				
+				/*
+				 * if (tileEntity instanceof IMultiBlock) { ((IMultiBlock)
+				 * tileEntity).onDestroy(tileEntity); }
+				 */
+
 				if (tileEntity != null)
 				{
 					((TileEntityTurretBase) tileEntity).destroy(false);

@@ -213,7 +213,7 @@ public class ExBingDan extends ZhaPin
 					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120 * 20, 4));
 				}
 
-				bingDan2.createBaoZha(worldObj, position, explosionSource, bingDan2.getID());
+				ZhaPin.createBaoZha(worldObj, position, explosionSource, bingDan2.getID());
 			}
 		}
 	}

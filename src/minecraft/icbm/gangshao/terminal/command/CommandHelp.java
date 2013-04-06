@@ -24,7 +24,7 @@ public class CommandHelp extends TerminalCommand
 		if (args.length > 1)
 		{
 			List<String> displayed = new ArrayList<String>();
-			
+
 			for (TerminalCommand cc : CommandRegistry.COMMANDS)
 			{
 				if (cc.getCommandPrefix().equalsIgnoreCase(args[1]) && cc.showOnHelp(player, TE) && cc.canMachineUse(TE))

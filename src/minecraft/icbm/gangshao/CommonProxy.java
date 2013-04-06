@@ -2,8 +2,8 @@ package icbm.gangshao;
 
 import icbm.gangshao.container.ContainerTurretPlatform;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.turret.TileEntityGunTurret;
 import icbm.gangshao.turret.TCiGuiPao;
+import icbm.gangshao.turret.TileEntityGunTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

@@ -193,7 +193,7 @@ public class ExTaiYang extends ZhaPin
 					}
 				}
 
-				taiYang2.createBaoZha(worldObj, position, explosionSource, taiYang2.getID());
+				ZhaPin.createBaoZha(worldObj, position, explosionSource, taiYang2.getID());
 			}
 		}
 	}
