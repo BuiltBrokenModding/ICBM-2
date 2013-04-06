@@ -1,7 +1,7 @@
 package icbm.gangshao.turret;
 
 import icbm.core.ICBMTab;
-import icbm.gangshao.BlockSentryBase;
+import icbm.gangshao.BGangShaoDi;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.render.BlockRenderingHandler;
 
@@ -35,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Calclavia
  * 
  */
-public class BlockTurret extends BlockSentryBase
+public class BlockTurret extends BGangShaoDi
 {
 	public enum TurretType
 	{

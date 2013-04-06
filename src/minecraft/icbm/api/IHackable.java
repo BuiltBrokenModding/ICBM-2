@@ -3,7 +3,7 @@ package icbm.api;
 import icbm.gangshao.ISpecialAccess;
 import net.minecraft.entity.player.EntityPlayer;
 
-public interface IHackable extends ISpecialAccess
+public interface IHackable
 {
 	/**
 	 * Causes the machine to generate a new pass key

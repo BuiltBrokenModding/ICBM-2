@@ -13,7 +13,7 @@ import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GFrequency extends GuiBase
+public class GShengBuo extends GuiBase
 {
 	private ItemStack itemStack;
 
@@ -22,7 +22,7 @@ public class GFrequency extends GuiBase
 	private int containerWidth;
 	private int containerHeight;
 
-	public GFrequency(ItemStack par1ItemStack)
+	public GShengBuo(ItemStack par1ItemStack)
 	{
 		this.itemStack = par1ItemStack;
 	}
@@ -91,11 +91,11 @@ public class GFrequency extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYao.TEXTURE_PATH + "gui_empty.png");
+		this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "gui_empty.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		containerWidth = (this.width - this.xSize) / 2;
-		containerHeight = (this.height - this.ySize) / 2;
+		this.containerWidth = (this.width - this.xSize) / 2;
+		this.containerHeight = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);
 	}
 }

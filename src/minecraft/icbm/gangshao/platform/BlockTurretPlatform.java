@@ -1,7 +1,7 @@
 package icbm.gangshao.platform;
 
 import icbm.core.ICBMTab;
-import icbm.gangshao.BlockSentryBase;
+import icbm.gangshao.BGangShaoDi;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.ZhuYaoGangShao;
@@ -14,7 +14,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
 
-public class BlockTurretPlatform extends BlockSentryBase
+public class BlockTurretPlatform extends BGangShaoDi
 {
 	public BlockTurretPlatform(int id)
 	{

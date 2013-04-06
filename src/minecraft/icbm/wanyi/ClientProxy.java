@@ -3,7 +3,7 @@ package icbm.wanyi;
 import icbm.core.ShengYin;
 import icbm.core.ZhuYao;
 import icbm.wanyi.b.TYinGanQi;
-import icbm.wanyi.gui.GFrequency;
+import icbm.wanyi.gui.GShengBuo;
 import icbm.wanyi.gui.GYinGanQi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -34,7 +34,7 @@ public class ClientProxy extends CommonProxy
 				case ZhuYao.GUI_YIN_GAN_QI:
 					return new GYinGanQi((TYinGanQi) tileEntity);
 				case ZhuYao.GUI_SHENG_BUO:
-					return new GFrequency(entityPlayer.inventory.getCurrentItem());
+					return new GShengBuo(entityPlayer.inventory.getCurrentItem());
 			}
 		}
 
