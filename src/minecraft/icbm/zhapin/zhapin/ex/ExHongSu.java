@@ -77,7 +77,7 @@ public class ExHongSu extends ZhaPin
 							{
 								if (block instanceof IForceFieldBlock)
 								{
-									((IForceFieldBlock) block).weakenForceField(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ());
+									((IForceFieldBlock) block).weakenForceField(worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ(), 50);
 									continue;
 								}
 

@@ -55,7 +55,7 @@ public class ExDianCiWave extends ZhaPin
 					{
 						if (block instanceof IForceFieldBlock)
 						{
-							((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ());
+							((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1000);
 						}
 						else if (block instanceof IEMPBlock)
 						{
@@ -76,11 +76,6 @@ public class ExDianCiWave extends ZhaPin
 							if (tileEntity instanceof IFortronStorage)
 							{
 								((IFortronStorage) tileEntity).provideFortron((int) worldObj.rand.nextFloat() * ((IFortronStorage) tileEntity).getFortronCapacity(), true);
-							}
-
-							if (tileEntity instanceof IForceFieldBlock)
-							{
-								((IForceFieldBlock) tileEntity).weakenForceField(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ());
 							}
 
 							if (tileEntity instanceof IEnergyStorage)
