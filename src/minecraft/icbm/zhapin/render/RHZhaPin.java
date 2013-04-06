@@ -75,6 +75,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 				}
 				catch (Exception e)
 				{
+					ZhuYao.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
 					e.printStackTrace();
 				}
 			}
