@@ -7,6 +7,7 @@ public class DModule extends DaoDan
 		super(name, ID, tier);
 	}
 
+	@Override
 	public void onExplode(EDaoDan missileObj)
 	{
 		missileObj.dropMissileAsItem();

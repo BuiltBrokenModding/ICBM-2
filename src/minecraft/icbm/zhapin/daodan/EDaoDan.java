@@ -453,7 +453,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 						this.rotationYaw = -((TXiaoFaSheQi) launcher).rotationYaw + 90;
 						this.rotationPitch = ((TXiaoFaSheQi) launcher).rotationPitch;
 					}
-					
+
 					this.posY = ((TXiaoFaSheQi) launcher).yCoord + 1;
 				}
 			}

@@ -30,7 +30,7 @@ public class EZhaPin extends Entity implements IEntityAdditionalSpawnData
 
 	public List<Entity> entityList = new ArrayList<Entity>();
 
-	public List dataList = new ArrayList();
+	public List dataList1 = new ArrayList();
 
 	public List dataList2 = new ArrayList();
 

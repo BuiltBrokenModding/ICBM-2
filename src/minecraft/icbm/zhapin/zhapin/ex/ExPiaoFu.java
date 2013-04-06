@@ -82,7 +82,7 @@ public class ExPiaoFu extends ZhaPin
 
 								if (power > 0.0F)
 								{
-									source.dataList.add(targetPosition.clone());
+									source.dataList1.add(targetPosition.clone());
 								}
 
 								var15 += xStep * var21;
@@ -109,7 +109,7 @@ public class ExPiaoFu extends ZhaPin
 		{
 			int blocksToTake = 20;
 
-			for (Object obj : source.dataList)
+			for (Object obj : source.dataList1)
 			{
 				Vector3 targetPosition = (Vector3) obj;
 

@@ -41,7 +41,7 @@ public class ExWenYa extends ZhaPin
 				double phi = Math.PI * 2 / steps * phi_n;
 				double theta = Math.PI / steps * theta_n;
 
-				source.dataList.add(new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi)));
+				source.dataList1.add(new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi)));
 			}
 		}
 
@@ -59,12 +59,12 @@ public class ExWenYa extends ZhaPin
 
 		if (!worldObj.isRemote)
 		{
-			for (; i < source.dataList.size(); i++)
+			for (; i < source.dataList1.size(); i++)
 			{
 				if (i > (callCount + 1) * CALC_SPEED)
 					break;
 
-				Vector3 delta = (Vector3) source.dataList.get(i);
+				Vector3 delta = (Vector3) source.dataList1.get(i);
 
 				float power = NENG_LIANG - (NENG_LIANG * worldObj.rand.nextFloat() / 2);
 
@@ -160,7 +160,7 @@ public class ExWenYa extends ZhaPin
 			}
 		}
 
-		if (r <= 0 && i > source.dataList.size())
+		if (r <= 0 && i > source.dataList1.size())
 		{
 			return false;
 		}

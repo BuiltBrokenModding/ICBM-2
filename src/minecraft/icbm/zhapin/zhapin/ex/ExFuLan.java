@@ -41,7 +41,7 @@ public class ExFuLan extends ZhaPin
 
 						if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
 						{
-							if (worldObj.rand.nextFloat() > 0.92)
+							if (worldObj.rand.nextFloat() > 0.96)
 							{
 								worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
 							}
@@ -49,7 +49,7 @@ public class ExFuLan extends ZhaPin
 
 						if (blockID == Block.stone.blockID)
 						{
-							if (worldObj.rand.nextFloat() > 0.97)
+							if (worldObj.rand.nextFloat() > 0.98)
 							{
 								worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
 							}
