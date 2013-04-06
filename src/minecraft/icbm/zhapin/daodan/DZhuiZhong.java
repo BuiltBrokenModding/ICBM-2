@@ -63,7 +63,7 @@ public class DZhuiZhong extends DaoDan
 				missileObj.feiXingShiJian = (float) Math.max(100, 2.4 * missileObj.diShangJuLi);
 				missileObj.jiaSu = (float) missileObj.tianGao * 2 / (missileObj.feiXingShiJian * missileObj.feiXingShiJian);
 
-				if (missileObj.xiaoDanMotion.isEqual(new Vector3()) || missileObj.xiaoDanMotion == null)
+				if (missileObj.xiaoDanMotion.equals(new Vector3()) || missileObj.xiaoDanMotion == null)
 				{
 					float suDu = 0.3f;
 					missileObj.xiaoDanMotion = new Vector3();

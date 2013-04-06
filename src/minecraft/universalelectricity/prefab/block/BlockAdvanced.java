@@ -103,7 +103,7 @@ public abstract class BlockAdvanced extends BlockContainer
 			{
 				if (wrenchClass == Class.forName("ic2.core.item.tool.ItemToolWrench") || wrenchClass == Class.forName("ic2.core.item.tool.ItemToolWrenchElectric"))
 				{
-					return itemStack.getItemDamage() <= itemStack.getMaxDamage();
+					return itemStack.getItemDamage() < itemStack.getMaxDamage();
 				}
 			}
 			catch (Exception e)

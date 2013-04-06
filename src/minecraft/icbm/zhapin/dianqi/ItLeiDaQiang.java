@@ -102,7 +102,7 @@ public class ItLeiDaQiang extends ItElectricICBM
 					Vector3 savedCords = this.getSavedCoord(par1ItemStack);
 
 					// If the vector is NOT 0
-					if (!savedCords.isEqual(new Vector3()))
+					if (!savedCords.equals(new Vector3()))
 					{
 						if (missileLauncher.getTarget() == null)
 						{
@@ -130,7 +130,7 @@ public class ItLeiDaQiang extends ItElectricICBM
 
 					Vector3 savedCords = this.getSavedCoord(par1ItemStack);
 
-					if (!savedCords.isEqual(new Vector3()))
+					if (!savedCords.equals(new Vector3()))
 					{
 						if (missileLauncher.getTarget() == null)
 						{

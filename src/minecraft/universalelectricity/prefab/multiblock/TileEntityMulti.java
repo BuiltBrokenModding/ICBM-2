@@ -109,6 +109,7 @@ public class TileEntityMulti extends TileEntity implements IPacketReceiver
 	 * 
 	 * @return True if you want updateEntity() to be called, false if not
 	 */
+	@Override
 	public boolean canUpdate()
 	{
 		return false;

@@ -106,9 +106,22 @@ public class Vector2 implements Cloneable
 		return new Vector2(Math.floor(this.x), Math.floor(this.y));
 	}
 
-	public boolean isEqual(Vector2 vector)
+	@Override
+	public int hashCode()
 	{
-		return this.x == vector.x && this.y == vector.y;
+		return ("X:" + this.x + "Y:" + this.y).hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o instanceof Vector2)
+		{
+			Vector2 vector = (Vector2) o;
+			return this.x == vector.x && this.y == vector.y;
+		}
+
+		return false;
 	}
 
 	@Override
