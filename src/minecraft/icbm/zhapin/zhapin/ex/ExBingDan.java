@@ -39,10 +39,13 @@ public class ExBingDan extends ZhaPin
 	@Override
 	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		EGuang lightBeam = new EGuang(worldObj, position, 20 * 20, 0F, 0.3F, 0.7F);
-		worldObj.spawnEntityInWorld(lightBeam);
-		((EZhaPin) explosionSource).entityList.add(0, lightBeam);
-		worldObj.createExplosion(null, position.x, position.y, position.z, 4F, true);
+		if (!worldObj.isRemote)
+		{
+			EGuang lightBeam = new EGuang(worldObj, position, 20 * 20, 0F, 0.3F, 0.7F);
+			worldObj.spawnEntityInWorld(lightBeam);
+			((EZhaPin) explosionSource).entityList.add(0, lightBeam);
+			worldObj.createExplosion(null, position.x, position.y, position.z, 4F, true);
+		}
 	}
 
 	@Override
@@ -204,7 +207,7 @@ public class ExBingDan extends ZhaPin
 					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120 * 20, 4));
 				}
 
-				ZhaPin.bingDan2.spawnZhaDan(worldObj, position, (byte) 0);
+				bingDan2.createBaoZha(worldObj, position, explosionSource, bingDan2.getID());
 			}
 		}
 	}
