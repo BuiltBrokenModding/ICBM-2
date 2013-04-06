@@ -142,30 +142,34 @@ public class BlockTurret extends BICBM
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (this.canBlockStay(world, x, y, z))
+		if (tileEntity instanceof TileEntityTurretBase)
 		{
-			if (tileEntity instanceof IRedstoneReceptor)
+			if (this.canBlockStay(world, x, y, z))
 			{
-				if (world.isBlockIndirectlyGettingPowered(x, y, z))
+				if (tileEntity instanceof IRedstoneReceptor)
 				{
-					((IRedstoneReceptor) tileEntity).onPowerOn();
-				}
-				else
-				{
-					((IRedstoneReceptor) tileEntity).onPowerOff();
+					if (world.isBlockIndirectlyGettingPowered(x, y, z))
+					{
+						((IRedstoneReceptor) tileEntity).onPowerOn();
+					}
+					else
+					{
+						((IRedstoneReceptor) tileEntity).onPowerOff();
+					}
 				}
 			}
-		}
-		else
-		{
-
-			if (tileEntity instanceof IMultiBlock)
+			else
 			{
-				((IMultiBlock) tileEntity).onDestroy(tileEntity);
+				/*if (tileEntity instanceof IMultiBlock)
+				{
+					((IMultiBlock) tileEntity).onDestroy(tileEntity);
+				}*/
+				
+				if (tileEntity != null)
+				{
+					((TileEntityTurretBase) tileEntity).destroy(false);
+				}
 			}
-
-			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			world.setBlock(x, y, z, 0, 0, 3);
 		}
 	}
 
