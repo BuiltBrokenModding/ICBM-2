@@ -9,7 +9,9 @@ import icbm.zhapin.daodan.EDaoDan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +38,9 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
@@ -55,7 +60,7 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 
 	public List<TileEntity> xunZhaoJiQi = new ArrayList<TileEntity>();
 
-	private int yongZhe = 0;
+	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
 	public boolean emitAll = false;
 
@@ -101,9 +106,12 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
 				}
-				else if (this.ticks % 3 == 0 && this.yongZhe > 0)
+				else if (this.ticks % 3 == 0)
 				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 12);
+					for (EntityPlayer wanJia : this.yongZhe)
+					{
+						PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
+					}
 				}
 			}
 
@@ -275,11 +283,11 @@ public class TLeiDaTai extends TIC2Runnable implements IPacketReceiver, IRedston
 				if (dataStream.readBoolean())
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 15);
-					this.yongZhe++;
+					this.yongZhe.add(player);
 				}
 				else
 				{
-					this.yongZhe--;
+					this.yongZhe.remove(player);
 				}
 			}
 			else if (this.worldObj.isRemote)

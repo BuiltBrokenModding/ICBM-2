@@ -1,5 +1,8 @@
 package icbm.zhapin.jiqi;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import icbm.api.RadarRegistry;
 import icbm.core.ZhuYao;
 import icbm.core.di.TIC2Storable;
@@ -20,6 +23,9 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+
 public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
 	// The maximum possible radius for the EMP to strike
@@ -34,7 +40,7 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 	// The EMP explosion radius
 	public int banJing = 60;
 
-	private int yongZhe = 0;
+	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
 	public TDianCiQi()
 	{
@@ -69,9 +75,12 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 
 		if (!this.worldObj.isRemote)
 		{
-			if (this.ticks % 3 == 0 && this.yongZhe > 0)
+			if (this.ticks % 3 == 0)
 			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 12);
+				for (EntityPlayer wanJia : this.yongZhe)
+				{
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
+				}
 			}
 
 			if (this.ticks % 60 == 0 && this.prevXuanZhuanLu != this.xuanZhuanLu)
@@ -95,11 +104,11 @@ public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBl
 				if (dataStream.readBoolean())
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
-					this.yongZhe++;
+					this.yongZhe.add(player);
 				}
 				else
 				{
-					this.yongZhe--;
+					this.yongZhe.remove(player);
 				}
 			}
 			else if (ID == 1)

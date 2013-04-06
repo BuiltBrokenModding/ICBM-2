@@ -14,6 +14,14 @@ import universalelectricity.prefab.tile.TileEntityElectricityStorage;
 
 public abstract class TIC2Storable extends TileEntityElectricityStorage implements IEnergySink, IEnergyStorage
 {
+	public void openChest()
+	{
+	}
+
+	public void closeChest()
+	{
+	}
+
 	@Override
 	public void initiate()
 	{

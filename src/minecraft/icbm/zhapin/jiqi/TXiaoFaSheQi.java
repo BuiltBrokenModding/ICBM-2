@@ -11,6 +11,10 @@ import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.daodan.ItDaoDan;
 import icbm.zhapin.daodan.ItTeBieDaoDan;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -31,6 +35,9 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+
 public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketReceiver, IInventory, ILauncherContainer
 {
 	// The missile that this launcher is holding
@@ -47,7 +54,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	private boolean isPowered = false;
 
-	private int yongZhe;
+	public final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
 	public TXiaoFaSheQi()
 	{
@@ -217,11 +224,17 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 				}
 			}
 
-			if (!this.worldObj.isRemote && this.ticks % 3 == 0 && this.yongZhe > 0)
+			if (!this.worldObj.isRemote && this.ticks % 3 == 0)
 			{
 				if (this.muBiao == null)
+				{
 					this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+				}
+
+				for (EntityPlayer wanJia : this.yongZhe)
+				{
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
+				}
 			}
 		}
 	}
@@ -316,23 +329,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		{
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void openChest()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-		}
-
-		this.yongZhe++;
-	}
-
-	@Override
-	public void closeChest()
-	{
-		this.yongZhe--;
 	}
 
 	private float getPitchFromTarget()

@@ -1,5 +1,8 @@
 package icbm.zhapin.jiqi;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import icbm.api.IMissile;
 import icbm.api.LauncherType;
 import icbm.core.ZhuYao;
@@ -22,6 +25,9 @@ import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * This tile entity is for the screen of the missile launcher
@@ -46,7 +52,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public short gaoDu = 3;
 
-	private int yongZhe = 0;
+	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
 	public TFaSheShiMuo()
 	{
@@ -96,14 +102,17 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 
 		if (!this.worldObj.isRemote)
 		{
-			if (this.ticks % 3 == 0 && this.yongZhe > 0)
+			if (this.ticks % 3 == 0)
 			{
 				if (this.muBiao == null)
 				{
 					this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
 				}
 
-				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 3, this.getJoules(), this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z), this.worldObj, new Vector3(this), 15);
+				for (EntityPlayer wanJia : this.yongZhe)
+				{
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
+				}
 			}
 
 			if (this.ticks % 600 == 0)
@@ -117,6 +126,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	public Packet getDescriptionPacket()
 	{
 		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
+	}
+
+	public Packet getDescriptionPacket2()
+	{
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 3, this.getJoules(), this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
@@ -143,11 +157,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 				if (dataStream.readBoolean())
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket());
-					this.yongZhe++;
+					this.yongZhe.add(player);
 				}
 				else
 				{
-					this.yongZhe--;
+					this.yongZhe.remove(player);
 				}
 			}
 			else if (ID == 0)

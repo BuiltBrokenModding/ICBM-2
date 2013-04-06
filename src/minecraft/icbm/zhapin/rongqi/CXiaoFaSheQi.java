@@ -38,13 +38,15 @@ public class CXiaoFaSheQi extends Container
 		}
 
 		tileEntity.openChest();
+		tileEntity.yongZhe.add(par1InventoryPlayer.player);
 	}
 
 	@Override
 	public void onCraftGuiClosed(EntityPlayer entityplayer)
 	{
 		super.onCraftGuiClosed(entityplayer);
-		tileEntity.closeChest();
+		this.tileEntity.closeChest();
+		this.tileEntity.yongZhe.remove(entityplayer);
 	}
 
 	@Override
