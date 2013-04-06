@@ -21,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
  * @author Rseifert
  * 
  */
-public abstract class TileEntityAutoTurret extends TileEntityBaseTurret implements IAutoSentry
+public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
 {
 	/**
 	 * The target this turret is hitting.

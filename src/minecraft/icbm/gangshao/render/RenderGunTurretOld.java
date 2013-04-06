@@ -3,7 +3,7 @@ package icbm.gangshao.render;
 import icbm.core.ZhuYao;
 import icbm.gangshao.model.ModelGunTurret;
 import icbm.gangshao.terminal.AccessLevel;
-import icbm.gangshao.turret.TileEntityBaseTurret;
+import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -25,9 +25,9 @@ public class RenderGunTurretOld extends RenderTaggedTile
 	{
 		super.renderTileEntityAt(t, x, y, z, f);
 
-		if (t instanceof TileEntityBaseTurret)
+		if (t instanceof TileEntityTurretBase)
 		{
-			TileEntityBaseTurret tileEntity = (TileEntityBaseTurret) t;
+			TileEntityTurretBase tileEntity = (TileEntityTurretBase) t;
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
@@ -52,7 +52,7 @@ public class RenderGunTurretOld extends RenderTaggedTile
 		MODEL.renderCannon(0.0625F);
 	}
 
-	public void setTextureBaseOnState(TileEntityBaseTurret tileEntity)
+	public void setTextureBaseOnState(TileEntityTurretBase tileEntity)
 	{
 		EntityPlayer player = this.getPlayer();
 

@@ -1,6 +1,6 @@
 package icbm.gangshao.actions;
 
-import icbm.gangshao.turret.TileEntityBaseTurret;
+import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -18,7 +18,7 @@ public abstract class Action
 	protected int ticks = 0;
 
 	public World world;
-	public TileEntityBaseTurret tileEntity;
+	public TileEntityTurretBase tileEntity;
 	public ActionManager commandManager;
 
 	/**

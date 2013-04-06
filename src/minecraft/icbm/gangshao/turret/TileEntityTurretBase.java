@@ -37,7 +37,7 @@ import cpw.mods.fml.common.FMLLog;
  * @author Rseifert
  * 
  */
-public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ITurret
+public abstract class TileEntityTurretBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ITurret
 {
 	/**
 	 * The maximum amount of pitch allowed. From -30 to 30.
@@ -58,7 +58,7 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 
 	private int health = 100;
 
-	public TileEntityBaseTurret()
+	public TileEntityTurretBase()
 	{
 		lookHelper = new LookHelper(this);
 	}
@@ -78,6 +78,7 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 		{
 			this.destroy(true);
 		}
+
 		// Do packet update
 		if (!this.worldObj.isRemote && this.ticks % 10 == 0)
 		{
@@ -250,9 +251,12 @@ public abstract class TileEntityBaseTurret extends TileEntityAdvanced implements
 			this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
 		}
 
-		this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
-
-		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+		if (!this.worldObj.isRemote)
+		{
+			this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
+		}
+		
+		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 	}
 
 	/**

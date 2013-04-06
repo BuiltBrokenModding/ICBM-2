@@ -8,6 +8,8 @@ public class ItemBlockTurret extends ItemBlock
 	public ItemBlockTurret(int par1)
 	{
 		super(par1);
+		this.setMaxDamage(0);
+		this.setHasSubtypes(true);
 	}
 
 	@Override

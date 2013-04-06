@@ -1,6 +1,6 @@
 package icbm.gangshao.actions;
 
-import icbm.gangshao.turret.TileEntityBaseTurret;
+import icbm.gangshao.turret.TileEntityTurretBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class ActionManager
 		this.ticks++;
 	}
 
-	public Action getNewCommand(TileEntityBaseTurret tileEntity, Class<? extends Action> commandClass, String[] parameters)
+	public Action getNewCommand(TileEntityTurretBase tileEntity, Class<? extends Action> commandClass, String[] parameters)
 	{
 		try
 		{
@@ -100,7 +100,7 @@ public class ActionManager
 	 * @param tileEntity TE instance to register the task for
 	 * @param newCommand Task instance to register
 	 */
-	public void addCommand(TileEntityBaseTurret tileEntity, Class<? extends Action> commandClass, String[] parameters)
+	public void addCommand(TileEntityTurretBase tileEntity, Class<? extends Action> commandClass, String[] parameters)
 	{
 		Action newCommand = this.getNewCommand(tileEntity, commandClass, parameters);
 
@@ -110,7 +110,7 @@ public class ActionManager
 		}
 	}
 
-	public void addCommand(TileEntityBaseTurret tileEntity, Class<? extends Action> task)
+	public void addCommand(TileEntityTurretBase tileEntity, Class<? extends Action> task)
 	{
 		this.addCommand(tileEntity, task, new String[0]);
 	}

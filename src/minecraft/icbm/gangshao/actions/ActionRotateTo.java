@@ -1,6 +1,6 @@
 package icbm.gangshao.actions;
 
-import icbm.gangshao.turret.TileEntityBaseTurret;
+import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -41,10 +41,10 @@ public class ActionRotateTo extends Action
 		while (this.targetRotationYaw > 360)
 			this.targetRotationYaw -= 360;
 
-		while (this.targetRotationPitch < -TileEntityBaseTurret.MAX_PITCH)
-			this.targetRotationPitch += TileEntityBaseTurret.MAX_PITCH;
-		while (this.targetRotationPitch > TileEntityBaseTurret.MAX_PITCH)
-			this.targetRotationPitch -= TileEntityBaseTurret.MAX_PITCH;
+		while (this.targetRotationPitch < -TileEntityTurretBase.MAX_PITCH)
+			this.targetRotationPitch += TileEntityTurretBase.MAX_PITCH;
+		while (this.targetRotationPitch > TileEntityTurretBase.MAX_PITCH)
+			this.targetRotationPitch -= TileEntityTurretBase.MAX_PITCH;
 	}
 
 	@Override

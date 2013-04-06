@@ -1,7 +1,7 @@
 package icbm.gangshao.platform;
 
 import icbm.core.ICBMTab;
-import icbm.gangshao.BGangShaoDi;
+import icbm.core.di.BICBM;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.ZhuYaoGangShao;
@@ -14,7 +14,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
 
-public class BlockTurretPlatform extends BGangShaoDi
+public class BlockTurretPlatform extends BICBM
 {
 	public BlockTurretPlatform(int id)
 	{
@@ -22,6 +22,7 @@ public class BlockTurretPlatform extends BGangShaoDi
 		this.setHardness(50f);
 		this.setResistance(100f);
 		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.requireSidedTextures = true;
 	}
 
 	@Override

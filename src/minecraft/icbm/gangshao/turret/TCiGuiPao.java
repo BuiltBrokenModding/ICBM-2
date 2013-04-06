@@ -34,7 +34,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TCiGuiPao extends TileEntityBaseTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	protected EntityPlayer mountedPlayer = null;
 

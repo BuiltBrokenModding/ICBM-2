@@ -1,13 +1,15 @@
 package icbm.gangshao.turret;
 
 import icbm.core.ICBMTab;
-import icbm.gangshao.BGangShaoDi;
+import icbm.core.ZhuYao;
+import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.render.BlockRenderingHandler;
 
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -35,7 +37,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Calclavia
  * 
  */
-public class BlockTurret extends BGangShaoDi
+public class BlockTurret extends BICBM
 {
 	public enum TurretType
 	{
@@ -55,6 +57,13 @@ public class BlockTurret extends BGangShaoDi
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setHardness(50f);
 		this.setResistance(100f);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IconRegister iconRegister)
+	{
+		this.blockIcon = iconRegister.registerIcon(ZhuYao.PREFIX + "machine");
 	}
 
 	@Override

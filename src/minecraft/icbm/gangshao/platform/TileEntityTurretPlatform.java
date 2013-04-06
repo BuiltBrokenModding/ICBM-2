@@ -2,7 +2,7 @@ package icbm.gangshao.platform;
 
 import icbm.api.IAmmunition;
 import icbm.gangshao.terminal.TileEntityTerminal;
-import icbm.gangshao.turret.TileEntityBaseTurret;
+import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +19,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	/**
 	 * The turret linked to this platform.
 	 */
-	private TileEntityBaseTurret turret = null;
+	private TileEntityTurretBase turret = null;
 	public ForgeDirection deployDirection = ForgeDirection.UP;
 
 	/**
@@ -89,13 +89,13 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		return 0;
 	}
 
-	public TileEntityBaseTurret getTurret()
+	public TileEntityTurretBase getTurret()
 	{
 		TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.xCoord + this.deployDirection.offsetX, this.yCoord + this.deployDirection.offsetY, this.zCoord + this.deployDirection.offsetZ);
 
-		if (tileEntity instanceof TileEntityBaseTurret)
+		if (tileEntity instanceof TileEntityTurretBase)
 		{
-			this.turret = (TileEntityBaseTurret) tileEntity;
+			this.turret = (TileEntityTurretBase) tileEntity;
 		}
 		else
 		{
@@ -114,10 +114,10 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	{
 		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + deployDirection.offsetX, this.yCoord + deployDirection.offsetY, this.zCoord + deployDirection.offsetZ);
 
-		if (ent instanceof TileEntityBaseTurret)
+		if (ent instanceof TileEntityTurretBase)
 		{
 			this.turret = null;
-			return ((TileEntityBaseTurret) ent).destroy(false);
+			return ((TileEntityTurretBase) ent).destroy(false);
 		}
 
 		return false;
@@ -130,9 +130,12 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 			this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
 		}
 
-		this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
-
-		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
+		if (!this.worldObj.isRemote)
+		{
+			this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
+		}
+		
+		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 	}
 
 	@Override

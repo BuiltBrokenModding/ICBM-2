@@ -58,6 +58,7 @@ public class CommandDestroy extends TerminalCommand
 	{
 		List<String> cmds = new ArrayList<String>();
 		cmds.add("destroy");
+		cmds.add("destroy turret");
 		return cmds;
 	}
 
