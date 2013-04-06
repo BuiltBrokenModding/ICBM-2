@@ -25,8 +25,7 @@ public class EntityFakeMountable extends Entity implements IEntityAdditionalSpaw
 	public EntityFakeMountable(World par1World)
 	{
 		super(par1World);
-		this.setSize(1F, 0.5F);
-		this.yOffset = this.height / 2.0F;
+		this.setSize(1F, 1F);
 	}
 
 	public EntityFakeMountable(World par1World, Vector3 position, TileEntity controller, boolean sit)
@@ -80,6 +79,8 @@ public class EntityFakeMountable extends Entity implements IEntityAdditionalSpaw
 			this.setDead();
 			return;
 		}
+
+		this.posY = this.controller.yCoord + 1.2;
 	}
 
 	@Override

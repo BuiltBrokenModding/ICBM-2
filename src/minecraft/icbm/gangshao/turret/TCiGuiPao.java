@@ -29,11 +29,12 @@ import universalelectricity.prefab.network.PacketManager;
 import com.google.common.io.ByteArrayDataInput;
 
 /**
+ * Railgun
  * 
  * @author Calclavia
  * 
  */
-public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TCiGuiPao extends TileEntityBaseTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	protected EntityPlayer mountedPlayer = null;
 
@@ -275,9 +276,9 @@ public class TileEntityRailgun extends TileEntityBaseTurret implements IPacketRe
 		{
 			if (!this.worldObj.isRemote)
 			{
-				this.entityFake = new EntityFakeMountable(this.worldObj, new Vector3(this.xCoord + 0.5D, this.yCoord, this.zCoord + 0.5D), this, false);
+				this.entityFake = new EntityFakeMountable(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, false);
 				this.worldObj.spawnEntityInWorld(entityFake);
-				entityPlayer.mountEntity(entityFake);
+				entityPlayer.mountEntity(this.entityFake);
 			}
 
 			this.mountedPlayer = entityPlayer;

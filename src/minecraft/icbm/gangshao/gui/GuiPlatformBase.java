@@ -47,10 +47,11 @@ public abstract class GuiPlatformBase extends GuiBase
 		this.buttonList.add(new GuiButtonImage(0, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 0, 3));
 		// Access
 		this.buttonList.add(new GuiButtonImage(1, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 22, 0));
-		// Protection
-		this.buttonList.add(new GuiButtonImage(2, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 44, 1));
 		// Ammunition
-		this.buttonList.add(new GuiButtonImage(3, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 66, 2));
+		this.buttonList.add(new GuiButtonImage(2, (this.width - this.xSize) / 2 - 22, (this.height - this.ySize) / 2 + 44, 2));
+		// Protection
+		// this.buttonList.add(new GuiButtonImage(3, (this.width - this.xSize) / 2 - 22,
+		// (this.height - this.ySize) / 2 + 66, 1));
 		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this.tileEntity, PacketType.GUI_EVENT.ordinal(), true));
 	}
 
@@ -68,8 +69,9 @@ public abstract class GuiPlatformBase extends GuiBase
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if (this.tileEntity.getTurret() != null)
+		if (tileEntity.getTurret() != null)
 		{
+
 			switch (button.id)
 			{
 				case 0:
@@ -84,13 +86,14 @@ public abstract class GuiPlatformBase extends GuiBase
 				}
 				case 2:
 				{
-					// TODO: User Settings.
-				}
-				case 3:
-				{
 					this.entityPlayer.openGui(ZhuYaoGangShao.instance, CommonProxy.GUI_PLATFORM_ID, this.tileEntity.worldObj, this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
 					break;
 				}
+				case 3:
+				{
+					// TODO: User Settings.
+				}
+
 			}
 		}
 	}
@@ -108,6 +111,7 @@ public abstract class GuiPlatformBase extends GuiBase
 	@Override
 	protected void drawForegroundLayer(int x, int y, float var1)
 	{
+
 		/**
 		 * Render Tool Tips
 		 */
@@ -121,12 +125,11 @@ public abstract class GuiPlatformBase extends GuiBase
 		}
 		else if (((GuiButtonImage) this.buttonList.get(2)).isIntersect(x, y))
 		{
-			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection");
-		}
-		else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y))
-		{
 			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
-		}
+		}/*
+		 * else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y)) {
+		 * this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection"); }
+		 */
 	}
 
 	/**

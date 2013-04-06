@@ -39,7 +39,7 @@ public class BlockTurret extends BGangShaoDi
 {
 	public enum TurretType
 	{
-		GUN(TileEntityGunTurret.class), RAILGUN(TileEntityRailgun.class);
+		GUN(TileEntityGunTurret.class), RAILGUN(TCiGuiPao.class);
 
 		public Class tileEntity;
 
