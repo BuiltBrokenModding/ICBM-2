@@ -167,7 +167,7 @@ public class ExShengBuo extends ZhaPin
 
 				if (entity instanceof EDaoDan)
 				{
-					((EDaoDan) entity).explode();
+					((EDaoDan) entity).setExplode();
 					break;
 				}
 				else

@@ -9,6 +9,7 @@ import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -197,10 +198,15 @@ public class ExBingDan extends ZhaPin
 					}
 				}
 
+				((EZhaPin) explosionSource).entityList.clear();
+
 				List<EntityLiving> livingEntities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(position.x - getRadius(), position.y - getRadius(), position.z - getRadius(), position.x + getRadius(), position.y + getRadius(), position.z + getRadius()));
 
-				for (EntityLiving entity : livingEntities)
+				Iterator<EntityLiving> it = livingEntities.iterator();
+
+				while (it.hasNext())
 				{
+					EntityLiving entity = it.next();
 					entity.addPotionEffect(new CustomPotionEffect(PDongShang.INSTANCE.getId(), 60 * 20, 1, null));
 					entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 2));
 					entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 120 * 20, 2));

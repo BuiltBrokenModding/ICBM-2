@@ -109,7 +109,7 @@ public class ExTuPuo extends ZhaPin
 					}
 				}
 
-				doDamageEntities(worldObj, targetPosition, BAN_JING, NENG_LIANG / 2, false);
+				this.doDamageEntities(worldObj, targetPosition, BAN_JING, NENG_LIANG / 2, false);
 
 				int var3;
 				ChunkPosition var4;

@@ -444,7 +444,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 
 			if (entity instanceof EDaoDan)
 			{
-				((EDaoDan) entity).explode();
+				((EDaoDan) entity).setExplode();
 				continue;
 			}
 
