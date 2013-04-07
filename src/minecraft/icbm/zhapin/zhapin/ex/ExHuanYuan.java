@@ -35,9 +35,7 @@ public class ExHuanYuan extends ZhaPin
 				if (worldObj instanceof WorldServer)
 				{
 					WorldServer worldServer = (WorldServer) worldObj;
-
 					ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
-
 					IChunkProvider chunkProviderGenerate = ((IChunkProvider) ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "currentChunkProvider", "d", "field_73246_d"));
 
 					Chunk newChunk = chunkProviderGenerate.provideChunk(oldChunk.xPosition, oldChunk.zPosition);

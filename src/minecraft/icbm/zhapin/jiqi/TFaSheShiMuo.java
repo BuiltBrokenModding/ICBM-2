@@ -157,8 +157,8 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if (dataStream.readBoolean())
 				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket());
 					this.yongZhe.add(player);
+					PacketManager.sendPacketToClients(this.getDescriptionPacket());
 				}
 				else
 				{

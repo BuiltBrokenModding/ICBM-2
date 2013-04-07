@@ -589,7 +589,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 		if (this.chunkTicket != null)
 		{
-			ForgeChunkManager.releaseTicket(chunkTicket);
+			ForgeChunkManager.releaseTicket(this.chunkTicket);
 		}
 
 		super.setDead();

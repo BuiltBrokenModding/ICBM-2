@@ -287,15 +287,10 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		}
 		else
 		{
-			inaccuracy = 30F;
+			inaccuracy = 30f;
 		}
 
-		inaccuracy *= (float) Math.random();
-
-		if (Math.random() > 0.5F)
-		{
-			inaccuracy *= -1;
-		}
+		inaccuracy *= (float) Math.random() * 2 - 1;
 
 		target.x += inaccuracy;
 		target.z += inaccuracy;

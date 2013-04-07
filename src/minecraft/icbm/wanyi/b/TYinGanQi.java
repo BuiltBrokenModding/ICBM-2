@@ -4,7 +4,9 @@ import icbm.core.di.TIC2Runnable;
 import icbm.wanyi.ItHuoLuanQi;
 import icbm.zhapin.ZhuYaoZhaPin;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +25,9 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+
 public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacketReceiver
 {
 	private static final int MAX_DISTANCE = 30;
@@ -36,7 +41,7 @@ public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacke
 
 	public byte mode = 0;
 
-	private int yongZhe = 0;
+	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
 	public boolean isInverted = false;
 
@@ -56,9 +61,9 @@ public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacke
 		{
 			if (this.ticks % 20 == 0)
 			{
-				if (this.yongZhe > 0)
+				for (EntityPlayer wanJia : this.yongZhe)
 				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
 				}
 
 				if (!this.isDisabled())
@@ -154,12 +159,12 @@ public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacke
 			{
 				if (dataStream.readBoolean())
 				{
-					this.yongZhe++;
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
+					this.yongZhe.add(player);
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) player);
 				}
 				else
 				{
-					this.yongZhe--;
+					this.yongZhe.remove(player);
 				}
 			}
 			else if (ID == 1)

@@ -78,12 +78,15 @@ public class ModFlag extends FlagBase
 		{
 			for (FlagWorld data : this.flagWorlds)
 			{
-				if (data.world != null && data.world.provider != null)
+				if (data != null)
 				{
-					if (data.world.provider.dimensionId == world.provider.dimensionId)
+					if (data.world != null && data.world.provider != null)
 					{
-						worldData = data;
-						break;
+						if (data.world.provider.dimensionId == world.provider.dimensionId)
+						{
+							worldData = data;
+							break;
+						}
 					}
 				}
 			}
