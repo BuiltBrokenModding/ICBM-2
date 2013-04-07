@@ -66,7 +66,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	// Acceleration
 	public float jiaSu;
 	// Protection Time
-	public int baoHuShiJian = 10;
+	public int baoHuShiJian = 2;
 
 	private Ticket chunkTicket;
 
@@ -95,7 +95,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	{
 		super(par1World);
 		this.setSize(1F, 1F);
-		this.renderDistanceWeight = 2F;
+		this.renderDistanceWeight = 3;
 		this.isImmuneToFire = true;
 		this.ignoreFrustumCheck = true;
 	}

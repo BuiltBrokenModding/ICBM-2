@@ -21,6 +21,7 @@ public class EGuang extends Entity implements IEntityAdditionalSpawnData
 		this.setSize(1F, 1F);
 		this.preventEntitySpawning = true;
 		this.ignoreFrustumCheck = true;
+		this.renderDistanceWeight = 3;
 	}
 
 	public EGuang(World world, Vector3 position, int life, float red, float green, float blue)
