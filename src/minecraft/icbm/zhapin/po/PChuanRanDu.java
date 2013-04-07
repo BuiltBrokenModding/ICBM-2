@@ -3,6 +3,9 @@ package icbm.zhapin.po;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+
+import java.util.List;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
@@ -31,30 +34,33 @@ public class PChuanRanDu extends PICBM
 		}
 
 		// Poison things around it
-		if (ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ZhaPinType.QUAN_BU, ZhaPin.duQi))
+		if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ZhaPinType.QUAN_BU, ZhaPin.duQi))
 		{
 			int r = 13;
 			AxisAlignedBB entitySurroundings = AxisAlignedBB.getBoundingBox(entityLiving.posX - r, entityLiving.posY - r, entityLiving.posZ - r, entityLiving.posX + r, entityLiving.posY + r, entityLiving.posZ + r);
-			EntityLiving nearestEntity = (EntityLiving) entityLiving.worldObj.findNearestEntityWithinAABB(EntityLiving.class, entitySurroundings, entityLiving);
+			List<EntityLiving> entities = entityLiving.worldObj.getEntitiesWithinAABB(EntityLiving.class, entitySurroundings);
 
-			if (nearestEntity != null)
+			for (EntityLiving entity : entities)
 			{
-				if (nearestEntity instanceof EntityPig)
+				if (entity != null)
 				{
-					EntityPigZombie var2 = new EntityPigZombie(nearestEntity.worldObj);
-					var2.setLocationAndAngles(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ, nearestEntity.rotationYaw, nearestEntity.rotationPitch);
-					nearestEntity.worldObj.spawnEntityInWorld(var2);
-					nearestEntity.setDead();
-				}
-				else if (nearestEntity instanceof EntityVillager)
-				{
-					EntityZombie var2 = new EntityZombie(nearestEntity.worldObj);
-					var2.setLocationAndAngles(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ, nearestEntity.rotationYaw, nearestEntity.rotationPitch);
-					nearestEntity.worldObj.spawnEntityInWorld(var2);
-					nearestEntity.setDead();
-				}
+					if (entity instanceof EntityPig)
+					{
+						EntityPigZombie var2 = new EntityPigZombie(entity.worldObj);
+						var2.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+						entity.worldObj.spawnEntityInWorld(var2);
+						entity.setDead();
+					}
+					else if (entity instanceof EntityVillager)
+					{
+						EntityZombie var2 = new EntityZombie(entity.worldObj);
+						var2.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+						entity.worldObj.spawnEntityInWorld(var2);
+						entity.setDead();
+					}
 
-				ZhuYaoZhaPin.DU_CHUAN_RAN.poisonEntity(new Vector3(entityLiving), nearestEntity);
+					ZhuYaoZhaPin.DU_CHUAN_RAN.poisonEntity(new Vector3(entityLiving), entity);
+				}
 			}
 		}
 	}
