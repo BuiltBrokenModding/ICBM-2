@@ -66,7 +66,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	// Acceleration
 	public float jiaSu;
 	// Protection Time
-	public int baoHuShiJian = 20;
+	public int baoHuShiJian = 10;
 
 	private Ticket chunkTicket;
 

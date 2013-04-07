@@ -26,7 +26,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 				((EntityLiving) this.target).knockBack(null, 0, look.intX(), look.intZ());
 				this.getPlatform().wattsReceived -= this.getRequest();
 
-				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() > 0.1)
+				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() > 0.8)
 				{
 					Vector3 spawnPos = this.getMuzzle();
 					EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
