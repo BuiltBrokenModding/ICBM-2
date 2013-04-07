@@ -148,6 +148,8 @@ public class ZhuYao
 			/**
 			 * LOAD.
 			 */
+			EquivalentRecipes.initiate();
+
 			// Sulfur
 			GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4), 0.8f);
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));

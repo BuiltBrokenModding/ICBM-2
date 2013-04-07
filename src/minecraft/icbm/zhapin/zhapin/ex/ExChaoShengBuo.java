@@ -236,7 +236,7 @@ public class ExChaoShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "SSS", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "S S", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package icbm.wanyi;
 
 import icbm.api.ICBM;
+import icbm.core.EquivalentRecipes;
 import icbm.core.ICBMTab;
 import icbm.core.ItGenZongQi;
 import icbm.core.ZhuYao;
@@ -98,18 +99,18 @@ public class ZhuYaoWanYi
 		 * Add all Recipes
 		 */
 		// Spikes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', "ingotBronze" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', EquivalentRecipes.TIE_2 }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
 		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ZhuYao.itDu, 'S', bZha });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', bZha }));
 
 		// Camouflage
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', "basicCircuit", 'G', Block.glass, 'W', Block.cloth }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', EquivalentRecipes.DIAN_LU_1, 'G', Block.glass, 'W', Block.cloth }));
 
-		if (OreDictionary.getOres("battery").size() > 0)
+		if (OreDictionary.getOres(EquivalentRecipes.DIAN_CHI).size() > 0)
 		{
 			// Tracker
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', "basicCircuit", 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres("battery").get(0)), 'S', "ingotSteel" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', EquivalentRecipes.DIAN_LU_1, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres(EquivalentRecipes.DIAN_CHI).get(0)), 'S', EquivalentRecipes.TIE_1 }));
 		}
 		// Glass Pressure Plate
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoWanYi.bBuoLiPan, 1, 0), new Object[] { "##", '#', Block.glass }));
@@ -118,10 +119,10 @@ public class ZhuYaoWanYi
 		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
 
 		// Proximity Detector
-		GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', "ingotSteel", '?', ElectricItemHelper.getUncharged(itGenZongQi) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', EquivalentRecipes.TIE_1, '?', ElectricItemHelper.getUncharged(itGenZongQi) }));
 
 		// Signal Disrupter
-		GameRegistry.addRecipe(new ShapedOreRecipe(itHuoLaunQi, new Object[] { "WWW", "SCS", "SSS", 'S', "ingotSteel", 'C', "basicCircuit", 'W', "copperWire" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(itHuoLaunQi, new Object[] { "WWW", "SCS", "SSS", 'S', EquivalentRecipes.TIE_1, 'C', EquivalentRecipes.DIAN_LU_1, 'W', EquivalentRecipes.DIAN_XIAN }));
 
 		// Antidote
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
@@ -130,7 +131,7 @@ public class ZhuYaoWanYi
 		// Concrete
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sandStone, 'W', Item.bucketWater }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 0), 'O', Block.obsidian }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', "ingotSteel" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', EquivalentRecipes.TIE_1 }));
 
 		// Reinforced Glass
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
