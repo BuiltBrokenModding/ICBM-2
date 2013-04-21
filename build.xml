@@ -71,21 +71,21 @@
 		<copy todir="JarFile1">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/icbm/zhapin/" excludes=".git/**" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes="**" includes="**/icbm/zhapin/" />
 		</copy>
 	
 		<!-- ICBM Contraption -->
 		<copy todir="JarFile2">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/icbm/wanyi/" excludes=".git/**" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes="**" includes="**/icbm/wanyi/" />
 		</copy>
 		
 		<!-- ICBM Sentry -->
 		<copy todir="JarFile3">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/icbm/gangshao/" excludes=".git/**" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes="**" includes="**/icbm/gangshao/" />
 		</copy>
 		
 		<!-- ICBM API -->
