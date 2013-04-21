@@ -4,19 +4,12 @@
 
 	<property file="build.properties" />
 	<property environment="env" />
-	<property name="file.JarFile1" 	value="Atomic_Science_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
-	<property name="file.JarFile2" 	value="Atomic_Science_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
-	<property name="file.JarFile3" 	value="Atomic_Science_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
-	<property name="file.APIFile" 	value="Atomic_Science_API_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.zip" />
+	<property name="file.JarFile1" 	value="ICBM_Explosion_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+	<property name="file.JarFile2" 	value="ICBM_Contraption_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+	<property name="file.JarFile3" 	value="ICBM_Sentry_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+	<property name="file.APIFile" 	value="ICBM_API_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.zip" />
 
 	<target name="build">
-
-		<delete dir="DevContents" />
-		<delete dir="UeContents" />
-		<delete dir="BcContents" />
-		<delete dir="output" />
-		<delete dir="${dir.development}/forge" />
-		
 		<copy todir="${dir.development}">
 			<fileset dir="../Minecraft Forge/" />
 		</copy>
@@ -30,9 +23,10 @@
 			
 		</copy>
 		
-		<mkdir dir="DevContents" />
-		<mkdir dir="UeContents" />
-		<mkdir dir="BcContents" />
+		<mkdir dir="JarFile1" />
+		<mkdir dir="JarFile2" />
+		<mkdir dir="JarFile3" />
+		<mkdir dir="APIFile" />
 		<mkdir dir="output" />
 		
 		<replace dir="${dir.mcp}/src/minecraft" token="@MAJOR@" value="${version.mod.major}" />
@@ -54,30 +48,69 @@
 			<arg line="reobfuscate_srg.sh" />
 		</exec>
 		
-		<copy todir="JarContents">
-			<fileset dir="${dir.mcp}/reobf/minecraft" excludes=".git/**" />
+		<!-- ICBM common resources -->
+		<fileset id="icbmResources" dir="${dir.development}resources">
+			<exclude name=".git/**"/>
+			<exclude name="**/*.java"/>
+			<exclude name="**/*.xml"/>
+		</fileset>
 		
-			<fileset dir="${dir.development}resources">
-				<exclude name=".git/**"/>
-				<exclude name="**/*.java"/>
-				<exclude name="**/*.xml"/>
-			</fileset>
+		<!-- ICBM common source code -->
+		<fileset id="commonSource" dir="${dir.mcp}/reobf/minecraft/">
+			<exclude name="**/**"/>
+			<include name="**/icbm/core"/>
+			<include name="**/universalelectricity/"/>
+			<include name="**/atomicscience/"/>
+			<include name="**/org/"/>
+			<include name="**/ic2/"/>
+			<include name="**/dan200/"/>
+			<include name="**/mffs/"/>
+		</fileset>
+		
+		<!-- ICBM Explosion -->
+		<copy todir="JarFile1">
+			<fileset refid="icbmResources"/>
+			<fileset refid="commonSource"/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/icbm/zhapin/" excludes=".git/**" />
+		</copy>
+	
+		<!-- ICBM Contraption -->
+		<copy todir="JarFile2">
+			<fileset refid="icbmResources"/>
+			<fileset refid="commonSource"/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/icbm/wanyi/" excludes=".git/**" />
 		</copy>
 		
+		<!-- ICBM Sentry -->
+		<copy todir="JarFile3">
+			<fileset refid="icbmResources"/>
+			<fileset refid="commonSource"/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/icbm/gangshao/" excludes=".git/**" />
+		</copy>
+		
+		<!-- ICBM API -->
 		<copy todir="APIContents">
-			<fileset dir="${dir.development}src/atomicscience/api" excludes=".git/**" />	
+			<fileset dir="${dir.development}src/icbm/api" excludes=".git/**" />	
 		</copy>
 		
-		<jar destfile="output/${file.JarFile}">
-			<fileset dir="JarContents" />
+		<!-- OUTPUT JAR AND ZIP FILES -->
+		<jar destfile="output/${file.JarFile1}">
+			<fileset dir="JarFile1" />
+		</jar>
+		<jar destfile="output/${file.JarFile2}">
+			<fileset dir="JarFile2" />
+		</jar>
+		<jar destfile="output/${file.JarFile3}">
+			<fileset dir="JarFile3" />
 		</jar>
 
 		<zip destfile="output/${file.APIFile}">
 			<fileset dir="APIContents" />
 		</zip>
 
-		<echo file="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/info.txt" append="true" >
+		<!--<echo file="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/info.txt" append="true" >
 		@ ${env.BUILD_NUMBER} ${version.minecraft} ${file.JarFile1} ${file.JarFile2} ${file.JarFile3} ${file.APIFile}</echo>
+		-->
 		
 		<copy todir="output" file="build.properties" />
 	</target>
