@@ -71,25 +71,26 @@
 		<copy todir="JarFile1">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes="**" includes="icbm/zhapin/" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/">
+				<exclude name="**/**"/>
+				<include name="**/icbm/zhapin"/>
+			</fileset>
 		</copy>
 	
 		<!-- ICBM Contraption -->
 		<copy todir="JarFile2">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes="**" includes="icbm/wanyi/" />
 		</copy>
 		
 		<!-- ICBM Sentry -->
 		<copy todir="JarFile3">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" excludes="**" includes="icbm/gangshao/" />
 		</copy>
 		
 		<!-- ICBM API -->
-		<copy todir="APIContents">
+		<copy todir="APIFile">
 			<fileset dir="${dir.development}src/" excludes="**" includes="icbm/api/"/>	
 		</copy>
 		
@@ -105,7 +106,7 @@
 		</jar>
 
 		<zip destfile="output/${file.APIFile}">
-			<fileset dir="APIContents" />
+			<fileset dir="APIFile" />
 		</zip>
 
 		<!--<echo file="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/info.txt" append="true" >
