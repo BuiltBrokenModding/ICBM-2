@@ -70,14 +70,14 @@
 		<copy todir="JarFile1">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/zhapin/**/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/zhapin/**" />
 		</copy>
 	
 		<!-- ICBM Contraption -->
 		<copy todir="JarFile2">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/gangshao/**/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/gangshao/**" />
 		</copy>
 		
 		<!-- ICBM Sentry -->
