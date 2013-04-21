@@ -342,13 +342,13 @@ public class ZhuYaoZhaPin
 		}
 
 		// Homing
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 4), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), 'C', EquivalentRecipes.DIAN_LU_1, 'B', EquivalentRecipes.TIE_2 }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 1), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), 'C', EquivalentRecipes.DIAN_LU_1, 'B', EquivalentRecipes.TIE_2 }));
 		// Anti-ballistic
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 1), new Object[] { "!", "?", "@", '@', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, 0), '!', EquivalentRecipes.DIAN_LU_1 }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 2), new Object[] { "!", "?", "@", '@', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, 0), '!', EquivalentRecipes.DIAN_LU_1 }));
 		// Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 2), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.qunDan.getID()].getItemStack(), '!', new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 3), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.qunDan.getID()].getItemStack(), '!', new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, 0) }));
 		// Nuclear Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 3), new Object[] { " N ", "NCN", 'C', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 2), 'N', ZhaPin.yuanZi.getItemStack() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 4), new Object[] { " N ", "NCN", 'C', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 3), 'N', ZhaPin.yuanZi.getItemStack() }));
 
 		/**
 		 * Add all explosive recipes.
