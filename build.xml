@@ -84,7 +84,7 @@
 		<copy todir="JarFile3">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/wanyi/**/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/wanyi/**" />
 		</copy>
 		
 		<!-- ICBM API -->
