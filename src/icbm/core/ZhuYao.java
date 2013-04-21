@@ -36,8 +36,8 @@ import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.Mod.ServerStarting;
+import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 

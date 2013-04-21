@@ -10,7 +10,6 @@ import net.minecraft.potion.Potion;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 import atomicscience.api.poison.Poison;
-import atomicscience.api.poison.Poison.ArmorType;
 
 public class Du extends Poison
 {

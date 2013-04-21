@@ -86,7 +86,7 @@ public class ZhuYaoZhaPin
 
 	@Instance(NAME)
 	public static ZhuYaoZhaPin instance;
-	
+
 	@Metadata(NAME)
 	public static ModMetadata metadata;
 
@@ -257,7 +257,7 @@ public class ZhuYaoZhaPin
 	public void load(FMLInitializationEvent evt)
 	{
 		ZhuYao.setModMetadata(NAME, metadata);
-		
+
 		for (int i = 0; i < ZhaPin.list.length; i++)
 		{
 			if (ZhaPin.list[i] != null)
