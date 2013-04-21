@@ -39,8 +39,10 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
+import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -50,7 +52,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents")
+@Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents", useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class ZhuYaoGangShao
 {
@@ -60,8 +62,11 @@ public class ZhuYaoGangShao
 	@SidedProxy(clientSide = "icbm.gangshao.ClientProxy", serverSide = "icbm.gangshao.CommonProxy")
 	public static CommonProxy proxy;
 
-	@Instance(ZhuYaoGangShao.NAME)
+	@Instance(NAME)
 	public static ZhuYaoGangShao instance;
+
+	@Metadata(NAME)
+	public static ModMetadata metadata;
 
 	public static final int BLOCK_ID_PREFIX = 3517;
 	public static final int ITEM_ID_PREFIX = 20948;
@@ -121,6 +126,8 @@ public class ZhuYaoGangShao
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
+		ZhuYao.setModMetadata(NAME, metadata);
+
 		// Shell
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));
 		// Bullets

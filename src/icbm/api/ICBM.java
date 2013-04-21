@@ -23,7 +23,11 @@ public class ICBM
 	/**
 	 * The version of ICBM.
 	 */
-	public static final String VERSION = "1.1.1";
+	public static final String MAJOR_VERSION = "@MAJOR@";
+	public static final String MINOR_VERSION = "@MINOR@";
+	public static final String REVISION_VERSION = "@REVIS@";
+	public static final String BUILD_VERSION = "@BUILD@";
+	public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION;
 
 	/**
 	 * The block ID in which ICBM starts with. ICBM Explosion will count up, ICBM Contraption will

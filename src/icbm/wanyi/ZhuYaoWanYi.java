@@ -23,8 +23,10 @@ import universalelectricity.core.item.ItemElectric;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
+import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -33,15 +35,18 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience")
+@Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ZhuYaoWanYi.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = WanYiPacketGuanLi.class)
 public class ZhuYaoWanYi
 {
 	public static final String NAME = ICBM.NAME + "|Contraption";
 	public static final String CHANNEL = ICBM.NAME + "|C";
 
-	@Instance(ZhuYaoWanYi.NAME)
+	@Instance(NAME)
 	public static ZhuYaoWanYi instance;
+
+	@Metadata(NAME)
+	public static ModMetadata metadata;
 
 	@SidedProxy(clientSide = "icbm.wanyi.ClientProxy", serverSide = "icbm.wanyi.CommonProxy")
 	public static CommonProxy proxy;
@@ -95,6 +100,8 @@ public class ZhuYaoWanYi
 	@Init
 	public void load(FMLInitializationEvent evt)
 	{
+		ZhuYao.setModMetadata(NAME, metadata);
+
 		/**
 		 * Add all Recipes
 		 */
