@@ -70,26 +70,26 @@
 		<copy todir="JarFile1">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/">
-				<include name="**/icbm/zhapin/**"/>
-			</fileset>
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/zhapin/**/>
 		</copy>
 	
 		<!-- ICBM Contraption -->
 		<copy todir="JarFile2">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/gangshao/**/>
 		</copy>
 		
 		<!-- ICBM Sentry -->
 		<copy todir="JarFile3">
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/wanyi/**/>
 		</copy>
 		
 		<!-- ICBM API -->
 		<copy todir="APIFile">
-			<fileset dir="${dir.development}src/" excludes="**" includes="icbm/api/"/>	
+			<fileset dir="${dir.development}src/" includes="**/icbm/api/**"/>	
 		</copy>
 		
 		<!-- OUTPUT JAR AND ZIP FILES -->
