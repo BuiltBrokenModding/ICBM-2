@@ -58,13 +58,13 @@
 		<!-- ICBM common source code -->
 		<fileset id="commonSource" dir="${dir.mcp}/reobf/minecraft/">
 			<exclude name="**/**"/>
-			<include name="**/icbm/core"/>
-			<include name="**/universalelectricity/"/>
-			<include name="**/atomicscience/"/>
-			<include name="**/org/"/>
-			<include name="**/ic2/"/>
-			<include name="**/dan200/"/>
-			<include name="**/mffs/"/>
+			<include name="**/icbm/core/**"/>
+			<include name="**/universalelectricity/**"/>
+			<include name="**/atomicscience/**"/>
+			<include name="**/org/**"/>
+			<include name="**/ic2/**"/>
+			<include name="**/dan200/**"/>
+			<include name="**/mffs/**"/>
 		</fileset>
 		
 		<!-- ICBM Explosion -->
@@ -73,7 +73,7 @@
 			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/">
 				<exclude name="**/**"/>
-				<include name="**/icbm/zhapin"/>
+				<include name="**/icbm/zhapin/**"/>
 			</fileset>
 		</copy>
 	
