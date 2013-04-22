@@ -14,7 +14,12 @@ public interface IProjectorMode
 	 * @param forceField - The blocks actually making up the force field. This array of blocks are
 	 * NOT affected by rotation or translation.
 	 */
-	public void calculateField(IProjector projector, Set<Vector3> forceField);
+	public Set<Vector3> getExteriorPoints(IProjector projector);
+
+	/**
+	 * @return All interior points
+	 */
+	public Set<Vector3> getInteriorPoints(IProjector projector);
 
 	/**
 	 * @return Is this specific position inside of this force field?

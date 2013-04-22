@@ -59,23 +59,27 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	 */
 	private static byte determineOrientation(World world, int x, int y, int z, EntityLiving entityLiving)
 	{
-		if (MathHelper.abs((float) entityLiving.posX - x) < 2.0F && MathHelper.abs((float) entityLiving.posZ - z) < 2.0F)
+		if (entityLiving != null)
 		{
-			double var5 = entityLiving.posY + 1.82D - entityLiving.yOffset;
-
-			if (var5 - y > 2.0D)
+			if (MathHelper.abs((float) entityLiving.posX - x) < 2.0F && MathHelper.abs((float) entityLiving.posZ - z) < 2.0F)
 			{
-				return 1;
+				double var5 = entityLiving.posY + 1.82D - entityLiving.yOffset;
+
+				if (var5 - y > 2.0D)
+				{
+					return 1;
+				}
+
+				if (y - var5 > 0.0D)
+				{
+					return 0;
+				}
 			}
 
-			if (y - var5 > 0.0D)
-			{
-				return 0;
-			}
+			int rotation = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			return (byte) (rotation == 0 ? 2 : (rotation == 1 ? 5 : (rotation == 2 ? 3 : (rotation == 3 ? 4 : 0))));
 		}
-
-		int rotation = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		return (byte) (rotation == 0 ? 2 : (rotation == 1 ? 5 : (rotation == 2 ? 3 : (rotation == 3 ? 4 : 0))));
+		return 0;
 	}
 
 	@Override
@@ -167,7 +171,10 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 			}
 		}
 
-		FMLLog.fine(entityLiving.getEntityName() + " placed " + ZhaPin.list[explosiveID].getExplosiveName() + " in: " + x + ", " + y + ", " + z + ".");
+		if (entityLiving != null)
+		{
+			FMLLog.fine(entityLiving.getEntityName() + " placed " + ZhaPin.list[explosiveID].getExplosiveName() + " in: " + x + ", " + y + ", " + z + ".");
+		}
 	}
 
 	/**

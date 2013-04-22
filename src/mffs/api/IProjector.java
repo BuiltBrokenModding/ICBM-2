@@ -90,4 +90,16 @@ public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotat
 	 */
 	public IBiometricIdentifier getBiometricIdentifier();
 
+	/**
+	 * Gets the interior points of the projector. This might cause lag so call sparingly.
+	 * 
+	 * @return
+	 */
+	public Set<Vector3> getInteriorPoints();
+
+	/**
+	 * * @return The amount of ticks this projector has existed in the world.
+	 */
+	public long getTicks();
+
 }
