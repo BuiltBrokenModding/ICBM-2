@@ -2,13 +2,14 @@ package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYao;
 import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.ex.ThrSheXian.IThreadCallBack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class ExFuLan extends ZhaPin
+public class ExFuLan extends ZhaPin implements IThreadCallBack
 {
 	public ExFuLan(String name, int ID, int tier)
 	{
@@ -18,64 +19,81 @@ public class ExFuLan extends ZhaPin
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
 	{
+		super.doBaoZha(worldObj, position, explosionSource);
+
 		if (!worldObj.isRemote)
 		{
-			for (int x = -radius; x < radius; x++)
+			new ThrSheXian(worldObj, position, radius, 200, this, explosionSource).run();
+		}
+
+		/*
+		 * if (!worldObj.isRemote) { for (int x = -radius; x < radius; x++) { for (int y = -radius;
+		 * y < radius; y++) { for (int z = -radius; z < radius; z++) { double dist =
+		 * MathHelper.sqrt_double((x * x + y * y + z * z));
+		 * 
+		 * if (dist > radius) continue;
+		 * 
+		 * } } } }
+		 */
+
+		return false;
+	}
+
+	@Override
+	public void onThreadComplete(ThrSheXian thread)
+	{
+		World worldObj = thread.world;
+		Vector3 position = thread.position;
+
+		if (!worldObj.isRemote)
+		{
+			for (Vector3 targetPosition : thread.destroyed)
 			{
-				for (int y = -radius; y < radius; y++)
+				/**
+				 * Decay the blocks.
+				 */
+				int blockID = targetPosition.getBlockID(worldObj);
+
+				if (blockID > 0)
 				{
-					for (int z = -radius; z < radius; z++)
+					if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
 					{
-						double dist = MathHelper.sqrt_double((x * x + y * y + z * z));
-
-						if (dist > radius)
-							continue;
-
-						Vector3 blockPosition = new Vector3(x, y, z);
-						blockPosition.add(position);
-
-						/**
-						 * Decay the blocks.
-						 */
-						int blockID = worldObj.getBlockId((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z);
-
-						if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
+						if (worldObj.rand.nextFloat() > 0.96)
 						{
-							if (worldObj.rand.nextFloat() > 0.96)
-							{
-								worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
-							}
+							targetPosition.setBlock(worldObj, ZhuYao.bFuShe.blockID);
 						}
+					}
 
-						if (blockID == Block.stone.blockID)
+					if (blockID == Block.stone.blockID)
+					{
+						if (worldObj.rand.nextFloat() > 0.99)
 						{
-							if (worldObj.rand.nextFloat() > 0.98)
-							{
-								worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
-							}
+							targetPosition.setBlock(worldObj, ZhuYao.bFuShe.blockID);
 						}
+					}
 
-						else if (blockID == Block.leaves.blockID)
+					else if (blockID == Block.leaves.blockID)
+					{
+						targetPosition.setBlock(worldObj, 0);
+					}
+					else if (blockID == Block.tallGrass.blockID)
+					{
+						if (Math.random() * 100 > 50)
 						{
-							worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0, 0, 2);
+							targetPosition.setBlock(worldObj, Block.cobblestone.blockID);
 						}
-						else if (blockID == Block.tallGrass.blockID)
+						else
 						{
-							if (Math.random() * 100 > 50)
-								worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, Block.cobblestone.blockID, 0, 2);
-							else
-								worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, 0, 0, 2);
+							targetPosition.setBlock(worldObj, 0);
 						}
-						else if (blockID == Block.tilledField.blockID)
-						{
-							worldObj.setBlock((int) blockPosition.x, (int) blockPosition.y, (int) blockPosition.z, ZhuYao.bFuShe.blockID, 0, 2);
-						}
+					}
+					else if (blockID == Block.tilledField.blockID)
+					{
+						targetPosition.setBlock(worldObj, ZhuYao.bFuShe.blockID);
 					}
 				}
 			}
 		}
-
-		return false;
 	}
 
 	@Override
@@ -89,4 +107,5 @@ public class ExFuLan extends ZhaPin
 	{
 		return 0;
 	}
+
 }

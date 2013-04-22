@@ -15,9 +15,8 @@ import universalelectricity.prefab.RecipeHelper;
 
 public class ExYuanZi extends ZhaPin implements IThreadCallBack
 {
-	public static final int BAN_JING = 35;
+	public static final int BAN_JING = 45;
 	public static final int NENG_LIANG = 200;
-	public static final int CALC_SPEED = 500;
 
 	public ExYuanZi(String name, int ID, int tier)
 	{
@@ -83,18 +82,17 @@ public class ExYuanZi extends ZhaPin implements IThreadCallBack
 		World worldObj = thread.world;
 		Vector3 position = thread.position;
 
-		if (!thread.world.isRemote)
+		if (!worldObj.isRemote)
 		{
-			for (Object obj : thread.destroyed)
+			for (Vector3 targetPosition : thread.destroyed)
 			{
-				Vector3 targetPosition = (Vector3) obj;
-				int blockID = thread.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
 				if (blockID > 0)
 				{
 					try
 					{
-						thread.world.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 3);
+						targetPosition.setBlock(worldObj, 0);
 						Block.blocksList[blockID].onBlockDestroyedByExplosion(thread.world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), null);
 					}
 					catch (Exception e)
@@ -112,7 +110,6 @@ public class ExYuanZi extends ZhaPin implements IThreadCallBack
 
 		ZhaPin.fuLan.doBaoZha(worldObj, position, null, BAN_JING + 15, -1);
 		ZhaPin.bianZhong.doBaoZha(worldObj, position, null, BAN_JING + 20, -1);
-
 	}
 
 	/**
