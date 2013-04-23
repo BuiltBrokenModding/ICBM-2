@@ -2,7 +2,6 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
 import icbm.core.ZhuYao;
-import icbm.core.di.TIC2Storable;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
@@ -21,13 +20,14 @@ import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.TileEntityUniversalStorable;
 
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TDianCiQi extends TIC2Storable implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
+public class TDianCiQi extends TileEntityUniversalStorable implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
 	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 150;

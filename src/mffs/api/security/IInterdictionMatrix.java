@@ -2,30 +2,32 @@ package mffs.api.security;
 
 import java.util.Set;
 
+import mffs.api.IActivatable;
+import mffs.api.IBiometricIdentifierLink;
 import mffs.api.fortron.IFortronFrequency;
 import mffs.api.modules.IModuleAcceptor;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-public interface IDefenseStation extends IInventory, IFortronFrequency, IModuleAcceptor
+public interface IInterdictionMatrix extends IInventory, IFortronFrequency, IModuleAcceptor, IBiometricIdentifierLink, IActivatable
 {
 
 	/**
-	 * The range in which the defense station starts warning the player.
+	 * The range in which the Interdiction Matrix starts warning the player.
 	 * 
 	 * @return
 	 */
 	public int getWarningRange();
 
 	/**
-	 * The range in which the defense station has an effect on.
+	 * The range in which the Interdiction Matrix has an effect on.
 	 * 
 	 * @return
 	 */
 	public int getActionRange();
 
 	/**
-	 * Merges an item into the defense station's safe keeping inventory.
+	 * Merges an item into the Interdiction Matrix's safe keeping inventory.
 	 * 
 	 * @param itemStack
 	 * @return True if kept, false if dropped.
@@ -41,11 +43,4 @@ public interface IDefenseStation extends IInventory, IFortronFrequency, IModuleA
 	public boolean getFilterMode();
 
 	public int getFortronCost();
-
-	public IBiometricIdentifier getSecurityCenter();
-
-	/**
-	 * @return Is the defense station currently active?
-	 */
-	public boolean isActive();
 }

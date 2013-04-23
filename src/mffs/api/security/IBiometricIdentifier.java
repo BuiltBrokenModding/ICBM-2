@@ -14,7 +14,7 @@ public interface IBiometricIdentifier
 	 * @param permission - The permission.
 	 * @return
 	 */
-	public boolean isAccessGranted(String username, SecurityPermission permission);
+	public boolean isAccessGranted(String username, Permission permission);
 
 	/**
 	 * Gets the owner of the security center.

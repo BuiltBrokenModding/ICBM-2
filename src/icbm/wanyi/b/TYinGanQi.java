@@ -1,6 +1,5 @@
 package icbm.wanyi.b;
 
-import icbm.core.di.TIC2Runnable;
 import icbm.wanyi.ItHuoLuanQi;
 import icbm.zhapin.ZhuYaoZhaPin;
 
@@ -22,13 +21,14 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneProvider;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.TileEntityUniversalRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TYinGanQi extends TIC2Runnable implements IRedstoneProvider, IPacketReceiver
+public class TYinGanQi extends TileEntityUniversalRunnable implements IRedstoneProvider, IPacketReceiver
 {
 	private static final int MAX_DISTANCE = 30;
 

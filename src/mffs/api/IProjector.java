@@ -5,7 +5,6 @@ import java.util.Set;
 import mffs.api.modules.IModule;
 import mffs.api.modules.IModuleAcceptor;
 import mffs.api.modules.IProjectorMode;
-import mffs.api.security.IBiometricIdentifier;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
@@ -17,7 +16,7 @@ import universalelectricity.prefab.implement.IRotatable;
  * @author Calclavia
  * 
  */
-public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotatable
+public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotatable, IBiometricIdentifierLink
 {
 
 	/**
@@ -84,11 +83,6 @@ public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotat
 	 * @return The speed in which a force field is constructed.
 	 */
 	public int getProjectionSpeed();
-
-	/**
-	 * @return Gets the linked biometric identifier.
-	 */
-	public IBiometricIdentifier getBiometricIdentifier();
 
 	/**
 	 * Gets the interior points of the projector. This might cause lag so call sparingly.

@@ -1,6 +1,5 @@
 package icbm.zhapin.jiqi;
 
-import icbm.core.di.TIC2Runnable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -10,10 +9,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.network.IPacketReceiver;
+import calclavia.lib.TileEntityUniversalRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinDaoQi extends TIC2Runnable implements IPacketReceiver, IRotatable
+public class TYinDaoQi extends TileEntityUniversalRunnable implements IPacketReceiver, IRotatable
 {
 	private byte fangXiang = 3;
 

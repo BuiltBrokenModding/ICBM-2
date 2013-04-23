@@ -571,4 +571,16 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		return INFINITE_EXTENT_AABB;
 	}
 
+	@Override
+	public void openChest()
+	{
+
+	}
+
+	@Override
+	public void closeChest()
+	{
+
+	}
+
 }

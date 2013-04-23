@@ -1,6 +1,5 @@
 package icbm.gangshao.terminal;
 
-import icbm.core.di.TIC2Runnable;
 import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.ITerminal;
 import icbm.gangshao.ZhuYaoGangShao;
@@ -18,13 +17,14 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.TileEntityUniversalRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public abstract class TileEntityTerminal extends TIC2Runnable implements ISpecialAccess, IPacketReceiver, ITerminal
+public abstract class TileEntityTerminal extends TileEntityUniversalRunnable implements ISpecialAccess, IPacketReceiver, ITerminal
 {
 	public enum PacketType
 	{

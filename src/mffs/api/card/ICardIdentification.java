@@ -1,6 +1,6 @@
 package mffs.api.card;
 
-import mffs.api.security.SecurityPermission;
+import mffs.api.security.Permission;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
  */
 public interface ICardIdentification extends ICard
 {
-	public boolean hasPermission(ItemStack itemStack, SecurityPermission permission);
+	public boolean hasPermission(ItemStack itemStack, Permission permission);
 
-	public boolean addPermission(ItemStack itemStack, SecurityPermission permission);
+	public boolean addPermission(ItemStack itemStack, Permission permission);
 
-	public boolean removePermission(ItemStack itemStack, SecurityPermission permission);
+	public boolean removePermission(ItemStack itemStack, Permission permission);
 
 	public String getUsername(ItemStack itemStack);
 
