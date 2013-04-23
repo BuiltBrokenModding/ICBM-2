@@ -2,7 +2,6 @@ package icbm.gangshao.gui;
 
 import icbm.core.ZhuYao;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.terminal.TileEntityTerminal;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.library.terminal.TileEntityTerminal;
 
 /**
  * The console GUI used by turrets.

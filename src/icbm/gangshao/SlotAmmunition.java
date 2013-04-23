@@ -1,9 +1,10 @@
 package icbm.gangshao;
 
-import icbm.gangshao.terminal.AccessLevel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import universalelectricity.prefab.SlotSpecific;
+import dark.library.access.AccessLevel;
+import dark.library.access.interfaces.ITerminal;
 
 public class SlotAmmunition extends SlotSpecific
 {

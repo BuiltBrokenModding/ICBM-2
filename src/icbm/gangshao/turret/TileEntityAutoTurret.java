@@ -1,6 +1,6 @@
 package icbm.gangshao.turret;
 
-import icbm.gangshao.IAutoSentry;
+import icbm.api.IAutoSentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionIdle;
 import icbm.gangshao.actions.ActionKillTarget;
@@ -8,12 +8,12 @@ import icbm.gangshao.actions.ActionManager;
 import icbm.gangshao.actions.ActionRepeat;
 import icbm.gangshao.actions.ActionRotateTo;
 import icbm.gangshao.actions.ActionSearchTarget;
-import icbm.gangshao.terminal.AccessLevel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import dark.library.access.AccessLevel;
 
 /**
  * Extend this class for all turrets that are automatic.

@@ -4,7 +4,6 @@ import icbm.core.ZhuYao;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.terminal.TileEntityTerminal.PacketType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +16,7 @@ import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.library.terminal.TileEntityTerminal.PacketType;
 
 /**
  * A base class for all ICBM Sentry GUIs.

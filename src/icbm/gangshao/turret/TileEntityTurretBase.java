@@ -1,6 +1,6 @@
 package icbm.gangshao.turret;
 
-import icbm.gangshao.ITurret;
+import icbm.api.ITurret;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionManager;
 import icbm.gangshao.actions.LookHelper;

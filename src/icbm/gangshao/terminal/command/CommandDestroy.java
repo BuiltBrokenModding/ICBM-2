@@ -1,15 +1,15 @@
 package icbm.gangshao.terminal.command;
 
-import icbm.gangshao.ISpecialAccess;
-import icbm.gangshao.ITerminal;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.terminal.AccessLevel;
-import icbm.gangshao.terminal.TerminalCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import dark.library.access.AccessLevel;
+import dark.library.access.interfaces.ISpecialAccess;
+import dark.library.access.interfaces.ITerminal;
+import dark.library.terminal.commands.TerminalCommand;
 
 public class CommandDestroy extends TerminalCommand
 {

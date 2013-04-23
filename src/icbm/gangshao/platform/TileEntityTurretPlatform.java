@@ -1,7 +1,6 @@
 package icbm.gangshao.platform;
 
 import icbm.api.IAmmunition;
-import icbm.gangshao.terminal.TileEntityTerminal;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,6 +12,7 @@ import net.minecraftforge.common.ISidedInventory;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.modifier.IModifier;
+import dark.library.terminal.TileEntityTerminal;
 
 public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, ISidedInventory
 {
@@ -377,5 +377,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
 	{
 		return true;
+	}
+
+	@Override
+	public String getChannel()
+	{
+		return null;
 	}
 }

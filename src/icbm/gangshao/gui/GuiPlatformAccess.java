@@ -1,11 +1,7 @@
 package icbm.gangshao.gui;
 
 import icbm.core.ZhuYao;
-import icbm.gangshao.IScroll;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.terminal.AccessLevel;
-import icbm.gangshao.terminal.TileEntityTerminal;
-import icbm.gangshao.terminal.UserAccess;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,6 +20,10 @@ import universalelectricity.core.vector.Vector2;
 import universalelectricity.prefab.vector.Region2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.library.access.AccessLevel;
+import dark.library.access.UserAccess;
+import dark.library.access.interfaces.IScroll;
+import dark.library.terminal.TileEntityTerminal;
 
 /**
  * The GUI for user permissions and access.

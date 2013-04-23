@@ -2,7 +2,6 @@ package icbm.gangshao.container;
 
 import icbm.gangshao.SlotAmmunition;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.terminal.AccessLevel;
 import icbm.gangshao.turret.ItemAmmo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,6 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import universalelectricity.prefab.modifier.IModifier;
+import dark.library.access.AccessLevel;
 
 public class ContainerTurretPlatform extends Container
 {

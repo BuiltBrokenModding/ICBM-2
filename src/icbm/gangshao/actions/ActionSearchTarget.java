@@ -1,13 +1,13 @@
 package icbm.gangshao.actions;
 
-import icbm.gangshao.IAutoSentry;
-import icbm.gangshao.terminal.AccessLevel;
+import icbm.api.IAutoSentry;
 
 import java.util.List;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import dark.library.access.AccessLevel;
 
 public class ActionSearchTarget extends Action
 {

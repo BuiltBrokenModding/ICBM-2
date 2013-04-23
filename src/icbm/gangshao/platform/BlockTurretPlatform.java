@@ -3,9 +3,7 @@ package icbm.gangshao.platform;
 import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import icbm.gangshao.CommonProxy;
-import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.terminal.AccessLevel;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,6 +11,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
+import dark.library.access.AccessLevel;
+import dark.library.access.interfaces.ISpecialAccess;
 
 public class BlockTurretPlatform extends BICBM
 {

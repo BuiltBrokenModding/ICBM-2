@@ -1,4 +1,4 @@
-package icbm.gangshao;
+package icbm.api;
 
 import icbm.gangshao.platform.TileEntityTurretPlatform;
 import universalelectricity.core.vector.Vector3;

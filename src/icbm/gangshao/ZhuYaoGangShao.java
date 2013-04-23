@@ -5,12 +5,9 @@ import icbm.api.ICBMFlags;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import icbm.gangshao.platform.BlockTurretPlatform;
-import icbm.gangshao.terminal.CommandRegistry;
 import icbm.gangshao.terminal.command.CommandAccess;
 import icbm.gangshao.terminal.command.CommandDestroy;
 import icbm.gangshao.terminal.command.CommandGet;
-import icbm.gangshao.terminal.command.CommandHelp;
-import icbm.gangshao.terminal.command.CommandUser;
 import icbm.gangshao.turret.BlockTurret;
 import icbm.gangshao.turret.EntityFakeMountable;
 import icbm.gangshao.turret.ItemAmmo;
@@ -34,7 +31,6 @@ import universalelectricity.prefab.flag.ModFlag;
 import universalelectricity.prefab.flag.NBTFileLoader;
 import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -51,6 +47,9 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import dark.library.terminal.commands.CommandHelp;
+import dark.library.terminal.commands.CommandRegistry;
+import dark.library.terminal.commands.CommandUser;
 
 @Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents", useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)

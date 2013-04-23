@@ -2,7 +2,6 @@ package icbm.gangshao.render;
 
 import icbm.core.ZhuYao;
 import icbm.gangshao.model.ModelSentryCannon;
-import icbm.gangshao.terminal.AccessLevel;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -11,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.library.access.AccessLevel;
 
 @SideOnly(Side.CLIENT)
 public class RenderGunTurret extends RenderTaggedTile
