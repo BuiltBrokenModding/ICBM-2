@@ -61,7 +61,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 
 	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
-	public boolean emitAll = false;
+	public boolean emitAll = true;
 
 	private Ticket ticket;
 
