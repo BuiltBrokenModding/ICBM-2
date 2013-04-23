@@ -34,6 +34,7 @@ import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
+import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod.ServerStarting;
@@ -151,7 +152,7 @@ public class ZhuYao
 			/**
 			 * LOAD.
 			 */
-			EquivalentRecipes.initiate();
+			UniversalRecipes.init();
 
 			// Sulfur
 			GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4), 0.8f);

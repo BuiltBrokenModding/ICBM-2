@@ -1,6 +1,5 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.EquivalentRecipes;
 import icbm.core.ZhuYao;
 import icbm.zhapin.EFeiBlock;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -22,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import calclavia.lib.UniversalRecipes;
 
 public class ExShengBuo extends ZhaPin
 {
@@ -214,7 +214,7 @@ public class ExShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', EquivalentRecipes.TIE_PIAN_2 }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', UniversalRecipes.SECONDARY_PLATE }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
 	}
 
 	@Override

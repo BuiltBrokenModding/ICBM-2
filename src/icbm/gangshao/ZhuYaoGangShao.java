@@ -2,7 +2,6 @@ package icbm.gangshao;
 
 import icbm.api.ICBM;
 import icbm.api.ICBMFlags;
-import icbm.core.EquivalentRecipes;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYao;
 import icbm.gangshao.platform.BlockTurretPlatform;
@@ -35,6 +34,7 @@ import universalelectricity.prefab.flag.ModFlag;
 import universalelectricity.prefab.flag.NBTFileLoader;
 import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -138,13 +138,13 @@ public class ZhuYaoGangShao
 		if (OreDictionary.getOres("battery").size() > 0)
 		{
 			// Turret Platform
-			GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', ElectricItemHelper.getUncharged(OreDictionary.getOres("battery").get(0)), 'S', EquivalentRecipes.TIE_PIAN_1, 'C', Block.chest, 'B', EquivalentRecipes.DIAN_LU_1 }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', ElectricItemHelper.getUncharged(OreDictionary.getOres("battery").get(0)), 'S', UniversalRecipes.PRIMARY_PLATE, 'C', Block.chest, 'B', UniversalRecipes.CIRCUIT_T1 }));
 		}
 
 		// Gun Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', EquivalentRecipes.DIAN_LU_1, 'S', EquivalentRecipes.TIE_1 }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', UniversalRecipes.CIRCUIT_T1, 'S', UniversalRecipes.PRIMARY_METAL }));
 		// Railgun
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', EquivalentRecipes.TIE_PIAN_1, 'C', "eliteCircuit", 'G', new ItemStack(blockTurret, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', "eliteCircuit", 'G', new ItemStack(blockTurret, 1, 0) }));
 
 		CommandRegistry.register(new CommandAccess());
 		CommandRegistry.register(new CommandUser());

@@ -1,6 +1,5 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.EquivalentRecipes;
 import icbm.core.ZhuYao;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.Entity;
@@ -11,6 +10,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import calclavia.lib.UniversalRecipes;
 
 public class ExDianCi extends ZhaPin
 {
@@ -38,9 +38,9 @@ public class ExDianCi extends ZhaPin
 	@Override
 	public void init()
 	{
-		if (OreDictionary.getOres(EquivalentRecipes.DIAN_CHI).size() > 0)
+		if (OreDictionary.getOres(UniversalRecipes.BATTERY).size() > 0)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Item.redstone, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres(EquivalentRecipes.DIAN_CHI).get(0)) }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Item.redstone, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres(UniversalRecipes.BATTERY).get(0)) }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
 		}
 	}
 
