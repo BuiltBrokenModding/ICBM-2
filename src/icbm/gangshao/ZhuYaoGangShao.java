@@ -145,9 +145,9 @@ public class ZhuYaoGangShao
 		// Railgun
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', "eliteCircuit", 'G', new ItemStack(blockTurret, 1, 0) }));
 
-		CommandRegistry.register(new CommandAccess());
-		CommandRegistry.register(new CommandUser());
+		CommandRegistry.register(new CommandAccess());		
 		CommandRegistry.register(new CommandDestroy());
+		CommandRegistry.register(new CommandUser());
 		CommandRegistry.register(new CommandHelp());
 		CommandRegistry.register(new CommandGet());
 		proxy.init();
