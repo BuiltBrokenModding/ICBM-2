@@ -1,3 +1,6 @@
 [submodule "Modding-Library"]
 	path = Modding-Library
 	url = git@github.com:calclavia/Modding-Library.git
+[submodule "Dark-Library"]
+	path = Dark-Library
+	url = git@github.com:DarkGuardsman/Dark-Library.git
