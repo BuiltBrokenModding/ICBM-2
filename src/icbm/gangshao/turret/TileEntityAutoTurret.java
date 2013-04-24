@@ -1,5 +1,8 @@
 package icbm.gangshao.turret;
 
+import java.awt.Color;
+
+import universalelectricity.core.vector.Vector3;
 import icbm.api.IAutoSentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionIdle;
@@ -13,6 +16,7 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import dark.library.DarkMain;
 import dark.library.access.AccessLevel;
 
 /**
@@ -47,7 +51,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		super.onUpdate();
 
 		this.AIManager.onUpdate();
-
+		if(this.target != null && this.worldObj.isRemote)
+		{
+			DarkMain.renderBeam(worldObj, this.getMuzzle(), new Vector3(this.target), Color.pink, 1);
+		}
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.
 		 */

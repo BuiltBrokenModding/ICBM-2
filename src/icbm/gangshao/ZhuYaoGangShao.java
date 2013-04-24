@@ -31,6 +31,7 @@ import universalelectricity.prefab.flag.ModFlag;
 import universalelectricity.prefab.flag.NBTFileLoader;
 import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
