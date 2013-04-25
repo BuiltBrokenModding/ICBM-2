@@ -49,12 +49,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	public void onUpdate()
 	{
 		super.onUpdate();
-
-		this.AIManager.onUpdate();
-		if(this.target != null && this.worldObj.isRemote)
-		{
-			DarkMain.renderBeam(worldObj, this.getMuzzle(), new Vector3(this.target), Color.pink, 1);
-		}
+		this.AIManager.onUpdate();		
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.
 		 */

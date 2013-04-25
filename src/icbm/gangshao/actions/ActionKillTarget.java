@@ -1,5 +1,9 @@
 package icbm.gangshao.actions;
 
+import java.awt.Color;
+
+import universalelectricity.core.vector.Vector3;
+import dark.library.DarkMain;
 import icbm.api.IAutoSentry;
 
 public class ActionKillTarget extends ActionSearchTarget
@@ -28,7 +32,7 @@ public class ActionKillTarget extends ActionSearchTarget
 				}
 			}
 			else if (turret.canActivateWeapon())
-			{
+			{				
 				turret.onWeaponActivated();
 			}
 		}
