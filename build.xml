@@ -23,7 +23,7 @@
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-			<fileset dir="${dir.development}Dark-Library/src/">
+			<fileset dir="${dir.development}Dark-Library/src/minecraft/">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
