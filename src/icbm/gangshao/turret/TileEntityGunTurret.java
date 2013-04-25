@@ -1,8 +1,5 @@
 package icbm.gangshao.turret;
 
-import java.awt.Color;
-
-import dark.library.DarkMain;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.LookHelper;
 import net.minecraft.entity.EntityLiving;
@@ -16,7 +13,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	public void onWeaponActivated()
 	{
 		if (this.getPlatform() != null)
-		{			
+		{
 			if (this.target instanceof EntityLiving && this.getPlatform().useAmmunition(ZhuYaoGangShao.conventionalBullet))
 			{
 				if (this.worldObj.rand.nextFloat() > 0.1)

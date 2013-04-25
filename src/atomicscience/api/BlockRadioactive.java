@@ -90,9 +90,9 @@ public class BlockRadioactive extends Block
 					int newX = x + rand.nextInt(3) - 1;
 					int newY = y + rand.nextInt(5) - 3;
 					int newZ = z + rand.nextInt(3) - 1;
-					int var10 = world.getBlockId(newX, newY + 1, newZ);
+					int blockID = world.getBlockId(newX, newY, newZ);
 
-					if (rand.nextFloat() > 0.4 && (world.getBlockId(newX, newY, newZ) == Block.tilledField.blockID || world.getBlockId(newX, newY, newZ) == Block.grass.blockID))
+					if (rand.nextFloat() > 0.4 && (blockID == Block.tilledField.blockID || blockID == Block.grass.blockID))
 					{
 						world.setBlockMetadataWithNotify(newX, newY, newZ, this.blockID, 2);
 					}
@@ -130,7 +130,7 @@ public class BlockRadioactive extends Block
 	{
 		if (Minecraft.getMinecraft().gameSettings.particleSetting == 0)
 		{
-			int radius = 10;
+			int radius = 3;
 
 			for (int i = 0; i < 2; i++)
 			{
