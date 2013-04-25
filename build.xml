@@ -65,8 +65,11 @@
 		<fileset id="commonSource" dir="${dir.mcp}/reobf/minecraft/">
 			<include name="**/icbm/api/**"/>
 			<include name="**/icbm/core/**"/>
+			<include name="**/dark/**"/>
+			<include name="**/calclavia/**"/>
 			<include name="**/universalelectricity/**"/>
 			<include name="**/atomicscience/**"/>
+			<include name="**/buildcraft/**"/>
 			<include name="**/org/**"/>
 			<include name="**/ic2/**"/>
 			<include name="**/dan200/**"/>
