@@ -1,8 +1,10 @@
 package icbm.gangshao.platform;
 
 import icbm.api.IAmmunition;
+import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -14,7 +16,7 @@ import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.prefab.modifier.IModifier;
 import dark.library.terminal.TileEntityTerminal;
 
-public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, ISidedInventory
+public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, IInventory
 {
 	/**
 	 * The turret linked to this platform.
@@ -136,18 +138,6 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		}
 
 		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
-	}
-
-	@Override
-	public int getStartInventorySide(ForgeDirection side)
-	{
-		return 0;
-	}
-
-	@Override
-	public int getSizeInventorySide(ForgeDirection side)
-	{
-		return UPGRADE_START_INDEX;
 	}
 
 	@Override
@@ -382,6 +372,6 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public String getChannel()
 	{
-		return null;
+		return ZhuYaoGangShao.CHANNEL;
 	}
 }
