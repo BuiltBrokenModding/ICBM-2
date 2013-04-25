@@ -120,7 +120,7 @@ public class ZhuYao
 			// -- Registering Blocks
 			GameRegistry.registerBlock(bLiu, "bLiu");
 
-			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 25, 15).enable(ZhuYao.CONFIGURATION);
+			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(ZhuYao.CONFIGURATION);
 
 			/**
 			 * Check for existence of radioactive block. If it does not exist, then create it.
