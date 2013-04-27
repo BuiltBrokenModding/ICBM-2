@@ -1,7 +1,7 @@
 package icbm.zhapin.render;
 
 import icbm.core.ZhuYao;
-import icbm.core.muoxing.ICBMModelBase;
+import icbm.core.di.MICBM;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
@@ -179,7 +179,7 @@ public class RZhaPin extends Render
 				GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
 				GL11.glRotatef(eZhaPin.rotationPitch, 0.0F, 0.0F, 1.0F);
 				this.loadTexture((String) data[1]);
-				((ICBMModelBase) data[0]).render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
+				((MICBM) data[0]).render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
 				GL11.glPopMatrix();
 			}
 		}

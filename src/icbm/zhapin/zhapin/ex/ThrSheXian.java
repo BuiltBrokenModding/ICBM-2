@@ -10,31 +10,23 @@ import universalelectricity.core.vector.Vector3;
 
 public class ThrSheXian extends Thread
 {
-	public interface IThreadCallBack
-	{
-		/**
-		 * Called when the thread finishes the calculation.
-		 */
-		public void onThreadComplete(ThrSheXian thread);
-	}
-
-	private IThreadCallBack callBack;
 	public World world;
 	public Vector3 position;
 	public int banJing;
 	public int nengLiang;
 	public Entity source;
 
+	public boolean isComplete = false;
+
 	public final HashSet<Vector3> deltaSet = new HashSet<Vector3>();
 	public final HashSet<Vector3> destroyed = new HashSet<Vector3>();
 
-	public ThrSheXian(World world, Vector3 position, int banJing, int nengLiang, IThreadCallBack callBack, Entity source)
+	public ThrSheXian(World world, Vector3 position, int banJing, int nengLiang, Entity source)
 	{
 		this.world = world;
 		this.position = position;
 		this.banJing = banJing;
 		this.nengLiang = nengLiang;
-		this.callBack = callBack;
 		this.source = source;
 
 		this.setPriority(Thread.NORM_PRIORITY - 1);
@@ -99,6 +91,6 @@ public class ThrSheXian extends Thread
 			}
 		}
 
-		this.callBack.onThreadComplete(this);
+		this.isComplete = true;
 	}
 }

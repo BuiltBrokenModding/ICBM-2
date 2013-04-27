@@ -2,8 +2,8 @@ package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYao;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
-import icbm.zhapin.zhapin.ex.ThrSheXian.IThreadCallBack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -13,7 +13,17 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExYuanZi extends ZhaPin implements IThreadCallBack
+/**
+ * Nuclear Explosive
+ * 
+ * DATA LIST 1:
+ * 
+ * 0 -- THREAD
+ * 
+ * @author Calclavia
+ * 
+ */
+public class ExYuanZi extends ExThr
 {
 	public static final int BAN_JING = 45;
 	public static final int NENG_LIANG = 200;
@@ -25,13 +35,15 @@ public class ExYuanZi extends ZhaPin implements IThreadCallBack
 	}
 
 	@Override
-	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		super.doBaoZha(worldObj, position, explosionSource);
+		super.baoZhaQian(worldObj, position, explosionSource);
 
 		if (!worldObj.isRemote)
 		{
-			new ThrSheXian(worldObj, position, BAN_JING, NENG_LIANG, this, explosionSource).run();
+			ThrSheXian thread = new ThrSheXian(worldObj, position, BAN_JING, NENG_LIANG, explosionSource);
+			thread.run();
+			((EZhaPin) explosionSource).dataList1.add(thread);
 		}
 		else if (ZhuYaoZhaPin.proxy.isGaoQing())
 		{
@@ -71,19 +83,19 @@ public class ExYuanZi extends ZhaPin implements IThreadCallBack
 		this.doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG * 1000);
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 7.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-
-		return false;
-
 	}
 
 	@Override
-	public void onThreadComplete(ThrSheXian thread)
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		World worldObj = thread.world;
-		Vector3 position = thread.position;
+		super.baoZhaHou(worldObj, position, explosionSource);
 
-		if (!worldObj.isRemote)
+		EZhaPin source = (EZhaPin) explosionSource;
+
+		if (!worldObj.isRemote && source.dataList1.size() > 0 && source.dataList1.get(0) instanceof ThrSheXian)
 		{
+			ThrSheXian thread = (ThrSheXian) source.dataList1.get(0);
+
 			for (Vector3 targetPosition : thread.destroyed)
 			{
 				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
@@ -108,8 +120,13 @@ public class ExYuanZi extends ZhaPin implements IThreadCallBack
 
 		worldObj.playSoundEffect(position.x, position.y, position.z, "icbm.explosion", 10.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
-		ZhaPin.fuLan.doBaoZha(worldObj, position, null, BAN_JING + 15, -1);
+		ZhaPin.createBaoZha(worldObj, position, explosionSource, ZhaPin.fuLan.getID());
 		ZhaPin.bianZhong.doBaoZha(worldObj, position, null, BAN_JING + 20, -1);
+
+		if (worldObj.rand.nextInt(3) == 0)
+		{
+			worldObj.toggleRain();
+		}
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package icbm.zhapin.render;
 
 import icbm.core.ZhuYao;
-import icbm.core.muoxing.ICBMModelBase;
+import icbm.core.di.MICBM;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.daodan.EDaoDan.XingShi;
@@ -42,7 +42,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RDaoDan extends Render
 {
-	public static final ICBMModelBase[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMYaSuo(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
+	public static final MICBM[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMYaSuo(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
 
 	, new MMQunDan(), new MMGanRanDu(), new MMShengBuo(), new MMTuPuo(), new MMHuanYuan(), new MMLiZi(),
 
@@ -50,7 +50,7 @@ public class RDaoDan extends Render
 
 	new MMFanWuSu(), new MMHongSu() };
 
-	public static ICBMModelBase[] SPECIAL_MODELS = { new MMYaSuo(), new MMZhuiZhong(), new MMFanDan(), new MMFenZiDan(), new MMFenZiDan() };
+	public static MICBM[] SPECIAL_MODELS = { new MMYaSuo(), new MMZhuiZhong(), new MMFanDan(), new MMFenZiDan(), new MMFenZiDan() };
 
 	public RDaoDan(float f)
 	{

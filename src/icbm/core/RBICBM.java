@@ -11,8 +11,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RBICBM extends RenderBlocks
 {
-	private boolean didSetBrightness = false;
-
 	public RBICBM(IBlockAccess iBlockAccess)
 	{
 		super(iBlockAccess);

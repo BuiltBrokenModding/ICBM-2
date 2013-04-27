@@ -1,14 +1,14 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYao;
+import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
-import icbm.zhapin.zhapin.ex.ThrSheXian.IThreadCallBack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class ExFuLan extends ZhaPin implements IThreadCallBack
+public class ExFuLan extends ExThr
 {
 	public ExFuLan(String name, int ID, int tier)
 	{
@@ -16,36 +16,29 @@ public class ExFuLan extends ZhaPin implements IThreadCallBack
 	}
 
 	@Override
-	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int radius, int callCount)
+	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		super.doBaoZha(worldObj, position, explosionSource);
+		super.baoZhaQian(worldObj, position, explosionSource);
 
 		if (!worldObj.isRemote)
 		{
-			new ThrSheXian(worldObj, position, radius, 200, this, explosionSource).run();
+			ThrSheXian thread = new ThrSheXian(worldObj, position, (int) ZhaPin.yuanZi.getRadius(), 200, explosionSource);
+			thread.run();
+			((EZhaPin) explosionSource).dataList1.add(thread);
 		}
-
-		/*
-		 * if (!worldObj.isRemote) { for (int x = -radius; x < radius; x++) { for (int y = -radius;
-		 * y < radius; y++) { for (int z = -radius; z < radius; z++) { double dist =
-		 * MathHelper.sqrt_double((x * x + y * y + z * z));
-		 * 
-		 * if (dist > radius) continue;
-		 * 
-		 * } } } }
-		 */
-
-		return false;
 	}
 
 	@Override
-	public void onThreadComplete(ThrSheXian thread)
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		World worldObj = thread.world;
-		Vector3 position = thread.position;
+		super.baoZhaHou(worldObj, position, explosionSource);
 
-		if (!worldObj.isRemote)
+		EZhaPin source = (EZhaPin) explosionSource;
+
+		if (!worldObj.isRemote && source.dataList1.size() > 0 && source.dataList1.get(0) instanceof ThrSheXian)
 		{
+			ThrSheXian thread = (ThrSheXian) source.dataList1.get(0);
+
 			for (Vector3 targetPosition : thread.destroyed)
 			{
 				/**
@@ -106,5 +99,4 @@ public class ExFuLan extends ZhaPin implements IThreadCallBack
 	{
 		return 0;
 	}
-
 }

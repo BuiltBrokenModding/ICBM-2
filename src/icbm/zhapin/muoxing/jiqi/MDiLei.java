@@ -1,13 +1,13 @@
 package icbm.zhapin.muoxing.jiqi;
 
-import icbm.core.muoxing.ICBMModelBase;
+import icbm.core.di.MICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MDiLei extends ICBMModelBase
+public class MDiLei extends MICBM
 {
 	public static final MDiLei INSTANCE = new MDiLei();
 
