@@ -1,7 +1,7 @@
-package icbm.core;
+package icbm.wanyi;
 
+import icbm.api.ITracker;
 import icbm.core.di.ItElectricICBM;
-import icbm.wanyi.TextureGenZhongQi;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItGenZongQi extends ItElectricICBM
+public class ItGenZongQi extends ItElectricICBM implements ITracker
 {
 	private static final float YONG_DIAN_LIANG = 0.1f;
 
@@ -51,7 +51,8 @@ public class ItGenZongQi extends ItElectricICBM
 		}
 	}
 
-	public static void setTrackingEntity(ItemStack itemStack, Entity entity)
+	@Override
+	public void setTrackingEntity(ItemStack itemStack, Entity entity)
 	{
 		if (itemStack.stackTagCompound == null)
 		{
@@ -64,7 +65,8 @@ public class ItGenZongQi extends ItElectricICBM
 		}
 	}
 
-	public static Entity getTrackingEntity(World worldObj, ItemStack itemStack)
+	@Override
+	public Entity getTrackingEntity(World worldObj, ItemStack itemStack)
 	{
 		if (worldObj != null)
 		{
@@ -97,7 +99,7 @@ public class ItGenZongQi extends ItElectricICBM
 			{
 				if (player.inventory.getCurrentItem().itemID == this.itemID)
 				{
-					Entity trackingEntity = ItGenZongQi.getTrackingEntity(par2World, itemStack);
+					Entity trackingEntity = this.getTrackingEntity(par2World, itemStack);
 
 					if (trackingEntity != null)
 					{
@@ -105,7 +107,7 @@ public class ItGenZongQi extends ItElectricICBM
 
 						if (this.getJoules(itemStack) < YONG_DIAN_LIANG)
 						{
-							ItGenZongQi.setTrackingEntity(itemStack, null);
+							this.setTrackingEntity(itemStack, null);
 						}
 					}
 				}

@@ -1,6 +1,6 @@
 package icbm.gangshao.actions;
 
-import icbm.api.IAutoSentry;
+import icbm.api.sentry.IAutoSentry;
 
 public class ActionKillTarget extends ActionSearchTarget
 {

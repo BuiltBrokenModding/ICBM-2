@@ -1,4 +1,4 @@
-package icbm.api;
+package icbm.api.sentry;
 
 import net.minecraft.item.ItemStack;
 

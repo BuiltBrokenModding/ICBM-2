@@ -1,6 +1,6 @@
 package icbm.gangshao.platform;
 
-import icbm.api.IAmmunition;
+import icbm.api.sentry.IAmmunition;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;

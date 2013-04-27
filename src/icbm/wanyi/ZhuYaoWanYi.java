@@ -2,7 +2,6 @@ package icbm.wanyi;
 
 import icbm.api.ICBM;
 import icbm.core.ICBMTab;
-import icbm.core.ItGenZongQi;
 import icbm.core.ZhuYao;
 import icbm.wanyi.b.BBuoLi;
 import icbm.wanyi.b.BBuoLiPan;
