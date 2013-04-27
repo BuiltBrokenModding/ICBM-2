@@ -1,6 +1,5 @@
 package icbm.gangshao;
 
-import icbm.gangshao.fx.FXLaser;
 import icbm.gangshao.gui.GuiPlatformAccess;
 import icbm.gangshao.gui.GuiPlatformSlots;
 import icbm.gangshao.gui.GuiPlatformTerminal;
@@ -15,8 +14,6 @@ import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -62,10 +59,5 @@ public class ClientProxy extends CommonProxy
 		}
 
 		return null;
-	}
-
-	public void shootLaser(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
-	{
-		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXLaser(world, position, target, red, green, blue, age));
 	}
 }
