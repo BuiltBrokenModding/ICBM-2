@@ -1,7 +1,7 @@
 package icbm.wanyi.b;
 
 import icbm.wanyi.ItHuoLuanQi;
-import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.wanyi.ZhuYaoWanYi;
 
 import java.util.HashSet;
 import java.util.List;
@@ -145,7 +145,7 @@ public class TYinGanQi extends TileEntityUniversalRunnable implements IRedstoneP
 			sendDian = this.getRequest().getWatts();
 		}
 
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+		return PacketManager.getPacket(ZhuYaoWanYi.CHANNEL, this, 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
 	}
 
 	@Override
