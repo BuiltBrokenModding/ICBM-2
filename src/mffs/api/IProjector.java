@@ -6,6 +6,7 @@ import mffs.api.modules.IModule;
 import mffs.api.modules.IModuleAcceptor;
 import mffs.api.modules.IProjectorMode;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRotatable;
@@ -28,6 +29,8 @@ public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotat
 	 * Gets the mode of the projector, mainly the shape and size of it.
 	 */
 	public IProjectorMode getMode();
+
+	public ItemStack getModeStack();
 
 	/**
 	 * Transformation information functions. Returns CACHED information unless the cache is cleared.
