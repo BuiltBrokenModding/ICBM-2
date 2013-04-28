@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import ic2.api.IEnergyStorage;
+import ic2.api.tile.IEnergyStorage;
 import icbm.api.explosion.IEMPBlock;
 import icbm.zhapin.zhapin.ZhaPin;
 import mffs.api.IForceFieldBlock;

@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import ic2.api.ICustomElectricItem;
+import ic2.api.item.ICustomElectricItem;
 import icbm.api.IMissile;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IEMPItem;
@@ -70,7 +70,7 @@ public class ExDianCiSignal extends ZhaPin
 						}
 						else if (itemStack.getItem() instanceof ICustomElectricItem)
 						{
-							((ICustomElectricItem) itemStack.getItem()).discharge(itemStack, ((ICustomElectricItem) itemStack.getItem()).getMaxCharge(), 0, true, false);
+							((ICustomElectricItem) itemStack.getItem()).discharge(itemStack, ((ICustomElectricItem) itemStack.getItem()).getMaxCharge(itemStack), 0, true, false);
 						}
 					}
 				}

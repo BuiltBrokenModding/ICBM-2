@@ -1,10 +1,10 @@
 package icbm.zhapin.zhapin.ex;
 
+import icbm.zhapin.zhapin.EZhaPin;
+import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import icbm.zhapin.zhapin.EZhaPin;
-import icbm.zhapin.zhapin.ZhaPin;
 
 public abstract class ExThr extends ZhaPin
 {
