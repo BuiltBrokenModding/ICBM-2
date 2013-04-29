@@ -202,7 +202,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 			{
 				if (itemStack.getItem() instanceof IModifier)
 				{
-					if (name.equalsIgnoreCase(((IModifier) itemStack.getItem()).getName(itemStack)))
+					if (name.equalsIgnoreCase(((IModifier) itemStack.getItem()).getType(itemStack)))
 					{
 						count++;
 					}
