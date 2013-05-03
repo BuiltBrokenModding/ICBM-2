@@ -48,6 +48,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 			}
 			else if (this.target instanceof IMissile)
 			{
+				System.out.println("Shooting Missile");
 				if (this.worldObj.rand.nextFloat() > 0.6)
 				{
 					((IMissile) this.target).normalExplode();

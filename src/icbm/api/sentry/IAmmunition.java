@@ -16,7 +16,7 @@ public interface IAmmunition
 	 * @param itemStack
 	 * @return
 	 */
-	public boolean hasAmmunition(ItemStack ammunitionStack);
+	public AmmoPair<IAmmo, ItemStack> hasAmmunition(ProjectileTypes ammunitionStack);
 
 	/**
 	 * Uses a specific type ammunition from the ammunition pool.

@@ -1,6 +1,9 @@
 package icbm.gangshao.turret;
 
 import icbm.api.explosion.IExplosive;
+import icbm.api.sentry.AmmoPair;
+import icbm.api.sentry.IAmmo;
+import icbm.api.sentry.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.LookHelper;
 
@@ -10,6 +13,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
@@ -373,14 +377,17 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 		this.isAntimatter = false;
 
 		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
-
-		if (this.getPlatform().useAmmunition(ZhuYaoGangShao.antimatterBullet))
+		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
+		if (ammo != null)
 		{
-			this.isAntimatter = true;
-		}
-		else
-		{
-			this.getPlatform().useAmmunition(ZhuYaoGangShao.railgunBullet);
+			if (ammo.getStack().equals(ZhuYaoGangShao.antimatterBullet) && this.getPlatform().useAmmunition(ZhuYaoGangShao.antimatterBullet))
+			{
+				this.isAntimatter = true;
+			}
+			else
+			{
+				this.getPlatform().useAmmunition(ammo.getStack());
+			}
 		}
 
 		this.getPlatform().wattsReceived = 0;
@@ -400,7 +407,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	{
 		if (this.getPlatform() != null)
 		{
-			if (this.getPlatform().hasAmmunition(ZhuYaoGangShao.railgunBullet) || this.getPlatform().hasAmmunition(ZhuYaoGangShao.antimatterBullet))
+			if (this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN) != null)
 			{
 				if (this.getPlatform().wattsReceived >= this.getRequest())
 				{

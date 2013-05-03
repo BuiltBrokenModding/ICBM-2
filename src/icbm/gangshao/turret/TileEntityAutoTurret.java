@@ -3,6 +3,7 @@ package icbm.gangshao.turret;
 import icbm.api.IMissile;
 import icbm.api.sentry.IAATarget;
 import icbm.api.sentry.IAutoSentry;
+import icbm.api.sentry.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionIdle;
 import icbm.gangshao.actions.ActionKillTarget;
@@ -152,7 +153,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					else if (entity instanceof IMissile && this.targetMissiles)
 					{
 						IMissile missile = (IMissile) entity;
-						if(missile.getLauncher() != null)
+						if(missile.getLauncher() != null && missile.getLauncher().getContainingMissile() == missile)
 						{
 							return false;
 						}
@@ -197,7 +198,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			}
 			else
 			{
-				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest()) && this.getPlatform().hasAmmunition(ZhuYaoGangShao.conventionalBullet);
+				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest()) && this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL) != null;
 			}
 		}
 

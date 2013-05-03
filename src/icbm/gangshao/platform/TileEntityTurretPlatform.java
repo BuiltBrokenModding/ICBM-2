@@ -1,11 +1,15 @@
 package icbm.gangshao.platform;
 
+import icbm.api.sentry.AmmoPair;
+import icbm.api.sentry.IAmmo;
 import icbm.api.sentry.IAmmunition;
 import icbm.api.sentry.ISentryUpgrade;
+import icbm.api.sentry.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -148,10 +152,10 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	public boolean isRunning()
 	{
 		return !this.isDisabled();
-	}
+	}	
 
 	@Override
-	public boolean hasAmmunition(ItemStack ammunitionStack)
+	public AmmoPair<IAmmo, ItemStack> hasAmmunition(ProjectileTypes ammunitionStack)
 	{
 		for (int i = 0; i < TileEntityTurretPlatform.UPGRADE_START_INDEX; i++)
 		{
@@ -159,13 +163,14 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 			if (itemStack != null)
 			{
-				if (itemStack.isItemEqual(ammunitionStack))
+				Item item = Item.itemsList[itemStack.itemID];
+				if (item instanceof IAmmo && ((IAmmo) item).getType().ordinal() == ammunitionStack.ordinal())
 				{
-					return true;
+					return new AmmoPair<IAmmo, ItemStack>(((IAmmo) item), itemStack);
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 	@Override
