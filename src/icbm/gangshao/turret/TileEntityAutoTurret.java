@@ -1,5 +1,7 @@
 package icbm.gangshao.turret;
 
+import icbm.api.IMissile;
+import icbm.api.sentry.IAATarget;
 import icbm.api.sentry.IAutoSentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionIdle;
@@ -10,7 +12,10 @@ import icbm.gangshao.actions.ActionRotateTo;
 import icbm.gangshao.actions.ActionSearchTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.IMerchant;
+import net.minecraft.entity.INpc;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
@@ -26,9 +31,9 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 {
 	/** The target this turret is hitting. */
 	public Entity target;
-	
+
 	boolean targetPlayers = true;
-	boolean targetMonsters = true;
+	boolean targetLiving = true;
 	boolean targetCrafts = false;
 	boolean targetMissiles = false;
 
@@ -111,9 +116,9 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public boolean isValidTarget(Entity entity)
 	{
-		if (entity != null && entity instanceof EntityLiving)
+		if (entity != null)
 		{
-			if (!entity.isDead && !entity.isEntityInvulnerable() && (!(entity instanceof IAnimals) || entity instanceof IMob))
+			if (!entity.isDead && !entity.isEntityInvulnerable())
 			{
 				if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) < this.getDetectRange())
 				{
@@ -121,21 +126,57 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					{
 						return false;
 					}
-					if (entity instanceof EntityPlayer)
+
+					if ((entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer) && this.targetPlayers)
 					{
-						EntityPlayer player = ((EntityPlayer) entity);
+						EntityPlayer player;
+						if (entity.riddenByEntity instanceof EntityPlayer)
+						{
+							player = (EntityPlayer) entity.riddenByEntity;
+						}
+						else
+						{
+							player = ((EntityPlayer) entity);
+						}
 
 						if (player.capabilities.isCreativeMode)
 						{
 							return false;
 						}
 
-						if (this.getPlatform() != null && this.getPlatform().getUserAccess(player.username).ordinal() >= AccessLevel.USER.ordinal())
+						if (this.getPlatform() != null && this.getPlatform().canUserAccess(player.username))
 						{
 							return false;
 						}
 					}
-
+					else if (entity instanceof IMissile && this.targetMissiles)
+					{
+						IMissile missile = (IMissile) entity;
+						if(missile.getLauncher() != null)
+						{
+							return false;
+						}
+						return true;
+					}
+					else if (entity instanceof IAATarget && this.targetCrafts)
+					{
+						return true;
+					}
+					else if (entity instanceof EntityLiving && this.targetLiving)
+					{
+						if(entity instanceof IMob)
+						{
+							return true;
+						}
+						if (entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant)
+						{
+							return false;
+						}
+					}
+					else
+					{
+						return false;
+					}
 					return true;
 				}
 			}

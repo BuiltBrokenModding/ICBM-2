@@ -6,6 +6,7 @@ import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.LookHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 
@@ -18,9 +19,17 @@ import universalelectricity.core.vector.Vector3;
 public class TileEntityAATurret extends TileEntityAutoTurret
 {
 	@Override
+	public void initiate()
+	{
+		super.initiate();
+		this.targetMissiles = true;
+		this.targetCrafts = true;
+	}
+
+	@Override
 	public void onWeaponActivated()
 	{
-		if (this.getPlatform() != null && this.isValidTarget(this.target) && this.getPlatform().useAmmunition(ZhuYaoGangShao.conventionalBullet))
+		if (this.getPlatform() != null && this.getPlatform().useAmmunition(ZhuYaoGangShao.conventionalBullet))
 		{
 			boolean fired = false;
 			if (this.target instanceof EntityLiving)
@@ -39,9 +48,10 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 			}
 			else if (this.target instanceof IMissile)
 			{
-				if (this.worldObj.rand.nextFloat() > 0.7)
+				if (this.worldObj.rand.nextFloat() > 0.6)
 				{
 					((IMissile) this.target).normalExplode();
+					System.out.println("Missile Killed");
 				}
 				fired = true;
 			}
@@ -100,7 +110,11 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 
 		return baseRange;
 	}
-
+	@Override
+	public AxisAlignedBB getTargetingBox()
+	{
+		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), yCoord - this.getDetectRange(), zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + this.getDetectRange(), zCoord + this.getDetectRange());
+	}
 	@Override
 	public double getVoltage()
 	{
