@@ -9,6 +9,7 @@ import icbm.gangshao.actions.ActionRepeat;
 import icbm.gangshao.actions.ActionRotateTo;
 import icbm.gangshao.actions.ActionSearchTarget;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
@@ -107,7 +108,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public boolean isValidTarget(Entity entity)
 	{
-		if (entity != null)
+		if (entity != null && entity instanceof EntityLiving)
 		{
 			if (!entity.isDead && !entity.isEntityInvulnerable() && (!(entity instanceof IAnimals) || entity instanceof IMob))
 			{

@@ -4,6 +4,7 @@ import icbm.api.sentry.IAutoSentry;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,14 +25,14 @@ public class ActionSearchTarget extends Action
 			{
 				AxisAlignedBB bounds = sentry.getTargetingBox();
 
-				List<EntityLiving> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
-				EntityLiving currentTarget = null;
+				List<Entity> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+				Entity currentTarget = null;
 
 				/**
 				 * Try to look for the owner within range and attack the entity attacking the owner
 				 * if possible.
 				 */
-				for (EntityLiving entity : entities)
+				for (Entity entity : entities)
 				{
 					if (entity instanceof EntityPlayer)
 					{
@@ -60,7 +61,7 @@ public class ActionSearchTarget extends Action
 				{
 					double smallestDis = sentry.getDetectRange();
 
-					for (EntityLiving entity : entities)
+					for (Entity entity : entities)
 					{
 						double distance = entity.getDistance(this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
 

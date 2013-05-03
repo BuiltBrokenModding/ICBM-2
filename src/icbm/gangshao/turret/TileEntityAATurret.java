@@ -7,7 +7,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 
-public class TileEntityGunTurret extends TileEntityAutoTurret
+public class TileEntityAATurret extends TileEntityAutoTurret
 {
 	@Override
 	public void onWeaponActivated()
@@ -18,7 +18,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 			{
 				if (this.worldObj.rand.nextFloat() > 0.1)
 				{
-					((EntityLiving) this.target).attackEntityFrom(DamageSource.setExplosionSource(null), 6);
+					((EntityLiving) this.target).attackEntityFrom(DamageSource.setExplosionSource(null), 10);
 				}
 
 				Vector3 look = LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
@@ -55,7 +55,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public double getDetectRange()
 	{
-		int baseRange = 15;
+		int baseRange = 50;
 
 		if (this.getPlatform() != null)
 		{
@@ -74,13 +74,13 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public int getCooldown()
 	{
-		return 5;
+		return 1;
 	}
 
 	@Override
 	public double getRequest()
 	{
-		return 10;
+		return 27;
 	}
 
 }
