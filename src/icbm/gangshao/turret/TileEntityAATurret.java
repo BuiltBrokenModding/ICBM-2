@@ -1,5 +1,7 @@
 package icbm.gangshao.turret;
 
+import icbm.api.IMissile;
+import icbm.api.sentry.IAATarget;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.LookHelper;
 import net.minecraft.entity.EntityLiving;
@@ -18,9 +20,10 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public void onWeaponActivated()
 	{
-		if (this.getPlatform() != null)
+		if (this.getPlatform() != null && this.isValidTarget(this.target) && this.getPlatform().useAmmunition(ZhuYaoGangShao.conventionalBullet))
 		{
-			if (this.target instanceof EntityLiving && this.getPlatform().useAmmunition(ZhuYaoGangShao.conventionalBullet))
+			boolean fired = false;
+			if (this.target instanceof EntityLiving)
 			{
 				if (this.worldObj.rand.nextFloat() > 0.1)
 				{
@@ -28,10 +31,38 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 				}
 
 				Vector3 look = LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
-				look.multiply(-3);
+				look.multiply(-1);
 				((EntityLiving) this.target).knockBack(null, 0, look.intX(), look.intZ());
 				this.getPlatform().wattsReceived -= this.getRequest();
+				fired = true;
 
+			}
+			else if (this.target instanceof IMissile)
+			{
+				if (this.worldObj.rand.nextFloat() > 0.7)
+				{
+					((IMissile) this.target).normalExplode();
+				}
+				fired = true;
+			}
+			else if (this.target instanceof IAATarget)
+			{
+				if (this.worldObj.rand.nextFloat() > 0.3)
+				{
+					int damage = ((IAATarget) this.target).doDamage(10);
+					if (damage == -1 && this.worldObj.rand.nextFloat() > 0.7)
+					{
+						((IAATarget) this.target).explode();
+					}
+					else if (damage < 0)
+					{
+						((IAATarget) this.target).explode();
+					}
+				}
+				fired = true;
+			}
+			if (fired)
+			{
 				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() > 0.8)
 				{
 					Vector3 spawnPos = this.getMuzzle();
@@ -41,7 +72,6 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 				}
 
 				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
-
 			}
 		}
 	}
