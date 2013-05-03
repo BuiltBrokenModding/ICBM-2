@@ -17,7 +17,7 @@ public interface IProjectorMode
 	public Set<Vector3> getExteriorPoints(IProjector projector);
 
 	/**
-	 * @return All interior points
+	 * @return Gets all interior points. Not translated or rotated.
 	 */
 	public Set<Vector3> getInteriorPoints(IProjector projector);
 
