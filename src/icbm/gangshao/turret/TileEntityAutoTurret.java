@@ -24,10 +24,13 @@ import dark.library.access.AccessLevel;
  */
 public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
 {
-	/**
-	 * The target this turret is hitting.
-	 */
+	/** The target this turret is hitting. */
 	public Entity target;
+	
+	boolean targetPlayers = true;
+	boolean targetMonsters = true;
+	boolean targetCrafts = false;
+	boolean targetMissiles = false;
 
 	public final ActionManager AIManager = new ActionManager();
 

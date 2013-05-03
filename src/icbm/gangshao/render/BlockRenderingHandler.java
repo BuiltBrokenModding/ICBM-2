@@ -41,6 +41,15 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + RenderGunTurret.TEXTURE_FILE));
 				RenderGunTurret.render(0, 0);
 			}
+			else if (metadata == TurretType.AA.ordinal())
+			{
+				/**
+				 * Render the gun turret.
+				 */
+				GL11.glTranslatef(0.1f, 1f, 0f);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + RenderAATurret.TEXTURE_FILE));
+				RenderAATurret.render(0, 0);
+			}
 			else if (metadata == TurretType.RAILGUN.ordinal())
 			{
 				/**
