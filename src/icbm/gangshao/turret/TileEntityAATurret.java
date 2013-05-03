@@ -7,6 +7,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 
+/**
+ * AA Turret, shoots down missiles and planes.
+ * 
+ * @author DarkGaurdsman
+ * 
+ */
 public class TileEntityAATurret extends TileEntityAutoTurret
 {
 	@Override
