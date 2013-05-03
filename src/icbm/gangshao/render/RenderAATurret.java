@@ -29,8 +29,8 @@ public class RenderAATurret extends RenderTaggedTile
 		{
 			TileEntityTurretBase tileEntity = (TileEntityTurretBase) t;
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
-
+			GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
+			GL11.glScalef(0.7f, 0.7f, 0.7f);
 			this.setTextureBaseOnState(tileEntity);
 			render(tileEntity.rotationYaw, tileEntity.rotationPitch);
 
@@ -40,7 +40,6 @@ public class RenderAATurret extends RenderTaggedTile
 
 	public static void render(float renderYaw, float renderPitch)
 	{
-		GL11.glScalef(0.5f, 0.5f, 0.5f);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
 		// Render base yaw rotation
