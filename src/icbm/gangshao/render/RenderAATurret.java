@@ -1,7 +1,6 @@
 package icbm.gangshao.render;
 
 import icbm.core.ZhuYao;
-import icbm.gangshao.model.ModelSentryCannon;
 import icbm.gangshao.model.ModelWirlWindAA;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +32,7 @@ public class RenderAATurret extends RenderTaggedTile
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
 
 			this.setTextureBaseOnState(tileEntity);
-			RenderAATurret.render(tileEntity.rotationYaw, tileEntity.rotationPitch);
+			render(tileEntity.rotationYaw, tileEntity.rotationPitch);
 
 			GL11.glPopMatrix();
 		}
@@ -41,6 +40,7 @@ public class RenderAATurret extends RenderTaggedTile
 
 	public static void render(float renderYaw, float renderPitch)
 	{
+		GL11.glScalef(0.5f, 0.5f, 0.5f);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
 		// Render base yaw rotation

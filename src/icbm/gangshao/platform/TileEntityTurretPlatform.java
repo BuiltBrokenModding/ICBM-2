@@ -1,6 +1,7 @@
 package icbm.gangshao.platform;
 
 import icbm.api.sentry.IAmmunition;
+import icbm.api.sentry.ISentryUpgrade;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +13,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.prefab.modifier.IModifier;
 import dark.library.terminal.TileEntityTerminal;
 
 public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, IInventory
@@ -200,9 +200,9 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 			if (itemStack != null)
 			{
-				if (itemStack.getItem() instanceof IModifier)
+				if (itemStack.getItem() instanceof ISentryUpgrade)
 				{
-					if (name.equalsIgnoreCase(((IModifier) itemStack.getItem()).getType(itemStack)))
+					if (name.equalsIgnoreCase(((ISentryUpgrade) itemStack.getItem()).getType(itemStack)))
 					{
 						count++;
 					}
