@@ -8,6 +8,7 @@ package icbm.api.sentry;
  */
 public enum ProjectileTypes
 {
+	NEUTRIAL(), /* NOT A PROJECTILE */
 	CONVENTIONAL(), /*Classic bullets that do impact damage */
 	CRYSTAL(), /* Used by laser based weapons to focus the beam */
 	RAILGUN(),/* Ammo that can only be used by railguns */

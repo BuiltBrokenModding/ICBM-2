@@ -1,7 +1,10 @@
 package icbm.gangshao.turret;
 
+import universalelectricity.core.vector.Vector3;
 import icbm.api.IMissile;
+import icbm.api.sentry.AmmoPair;
 import icbm.api.sentry.IAATarget;
+import icbm.api.sentry.IAmmo;
 import icbm.api.sentry.IAutoSentry;
 import icbm.api.sentry.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
@@ -15,10 +18,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.INpc;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import dark.library.access.AccessLevel;
 
@@ -153,7 +158,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					else if (entity instanceof IMissile && this.targetMissiles)
 					{
 						IMissile missile = (IMissile) entity;
-						if(missile.getLauncher() != null && missile.getLauncher().getContainingMissile() == missile)
+						if (missile.getLauncher() != null && missile.getLauncher().getContainingMissile() == missile)
 						{
 							return false;
 						}
@@ -165,7 +170,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					}
 					else if (entity instanceof EntityLiving && this.targetLiving)
 					{
-						if(entity instanceof IMob)
+						if (entity instanceof IMob)
 						{
 							return true;
 						}
@@ -203,5 +208,63 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		}
 
 		return false;
+	}
+
+	@Override
+	public void onWeaponActivated()
+	{
+		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL);
+		if (this.getPlatform() != null && ammo != null)
+		{
+			boolean fired = false;
+			if (this.target instanceof EntityLiving)
+			{
+				this.getPlatform().wattsReceived -= this.getRequest();
+				ammo.getAmmo().attackTargetLiving(ammo.getStack().getItemDamage(), this, this.target, true);
+				fired = true;
+
+			}
+			else if (this.target instanceof IMissile)
+			{
+				System.out.println("Shooting Missile");
+				if (this.worldObj.rand.nextFloat() > 0.6)
+				{
+					((IMissile) this.target).normalExplode();
+					System.out.println("Missile Killed");
+				}
+				fired = true;
+			}
+			else if (this.target instanceof IAATarget)
+			{
+				if (this.worldObj.rand.nextFloat() > 0.3)
+				{
+					int damage = ((IAATarget) this.target).doDamage(10);
+					if (damage == -1 && this.worldObj.rand.nextFloat() > 0.7)
+					{
+						((IAATarget) this.target).explode();
+					}
+					else if (damage < 0)
+					{
+						((IAATarget) this.target).explode();
+					}
+				}
+				fired = true;
+			}
+			if (fired)
+			{
+				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() > 0.8)
+				{
+					Vector3 spawnPos = this.getMuzzle();
+					EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
+					entityShell.delayBeforeCanPickup = 20;
+					this.worldObj.spawnEntityInWorld(entityShell);
+				}
+				if (ammo.getAmmo().consumeItem(ammo.getStack().getItemDamage()))
+				{
+					this.getPlatform().useAmmunition(ammo.getStack());
+				}
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
+			}
+		}
 	}
 }

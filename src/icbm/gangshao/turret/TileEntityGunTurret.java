@@ -13,40 +13,6 @@ import universalelectricity.core.vector.Vector3;
 
 public class TileEntityGunTurret extends TileEntityAutoTurret
 {
-	@Override
-	public void onWeaponActivated()
-	{
-		if (this.getPlatform() != null)
-		{
-			AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL);
-			if (ammo != null)
-			{
-				if (this.target instanceof EntityLiving && this.getPlatform().useAmmunition(ammo.getStack()))
-				{
-					if (this.worldObj.rand.nextFloat() > 0.1)
-					{
-						((EntityLiving) this.target).attackEntityFrom(DamageSource.setExplosionSource(null), 6);
-					}
-
-					Vector3 look = LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
-					look.multiply(-3);
-					((EntityLiving) this.target).knockBack(null, 0, look.intX(), look.intZ());
-					this.getPlatform().wattsReceived -= this.getRequest();
-
-					if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() > 0.8)
-					{
-						Vector3 spawnPos = this.getMuzzle();
-						EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
-						entityShell.delayBeforeCanPickup = 20;
-						this.worldObj.spawnEntityInWorld(entityShell);
-					}
-
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
-
-				}
-			}
-		}
-	}
 
 	@Override
 	public boolean isRunning()

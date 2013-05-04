@@ -164,7 +164,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 			if (itemStack != null)
 			{
 				Item item = Item.itemsList[itemStack.itemID];
-				if (item instanceof IAmmo && ((IAmmo) item).getType().ordinal() == ammunitionStack.ordinal())
+				if (item instanceof IAmmo && ((IAmmo) item).getType(itemStack.getItemDamage()).ordinal() == ammunitionStack.ordinal())
 				{
 					return new AmmoPair<IAmmo, ItemStack>(((IAmmo) item), itemStack);
 				}
