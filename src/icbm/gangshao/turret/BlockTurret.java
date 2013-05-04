@@ -45,9 +45,9 @@ public class BlockTurret extends BICBM
 	{
 		GUN(TileEntityGunTurret.class), RAILGUN(TCiGuiPao.class), AA(TileEntityAATurret.class);
 
-		public Class tileEntity;
+		public Class<? extends TileEntity> tileEntity;
 
-		private TurretType(Class tile)
+		private TurretType(Class<? extends TileEntity> tile)
 		{
 			this.tileEntity = tile;
 		}
@@ -195,7 +195,7 @@ public class BlockTurret extends BICBM
 		{
 			try
 			{
-				return (TileEntity) TurretType.values()[meta].tileEntity.newInstance();
+				return TurretType.values()[meta].tileEntity.newInstance();
 			}
 			catch (Exception e)
 			{

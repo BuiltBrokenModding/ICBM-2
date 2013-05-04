@@ -9,10 +9,10 @@ package icbm.api.sentry;
 public enum ProjectileTypes
 {
 	NEUTRIAL(), /* NOT A PROJECTILE */
-	CONVENTIONAL(), /*Classic bullets that do impact damage */
+	CONVENTIONAL(), /* Classic bullets that do impact damage */
 	CRYSTAL(), /* Used by laser based weapons to focus the beam */
-	RAILGUN(),/* Ammo that can only be used by railguns */
-	MISSILE(),/* Ammo used by SAM sites or missile based sentries */
+	RAILGUN(), /* Ammo that can only be used by railguns */
+	MISSILE(), /* Ammo used by SAM sites or missile based sentries */
 	EXPLOSIVE()/* Ammo that a mortar or grenade launcher uses */;
 	private ProjectileTypes()
 	{

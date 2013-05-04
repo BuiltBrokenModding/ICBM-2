@@ -8,7 +8,6 @@ package icbm.gangshao.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class ModelWirlWindAA extends ModelBase
 {
@@ -316,7 +315,7 @@ public class ModelWirlWindAA extends ModelBase
 
 	public void renderRadar(float f5)
 	{
-		radarNeck.render(f5);		
+		radarNeck.render(f5);
 		radarBack.render(f5);
 		radarRight.render(f5);
 		radarLeft.render(f5);

@@ -152,7 +152,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	public boolean isRunning()
 	{
 		return !this.isDisabled();
-	}	
+	}
 
 	@Override
 	public AmmoPair<IAmmo, ItemStack> hasAmmunition(ProjectileTypes ammunitionStack)

@@ -89,20 +89,20 @@ public class ItemAmmo extends ItICBM implements IAmmo
 			return;
 		}
 		if (meta == types.BULLET.ordinal())
-		{			
-			//Apply Knock Back
+		{
+			// Apply Knock Back
 			if (target instanceof EntityLiving)
 			{
 				if (turret.worldObj.rand.nextFloat() > 0.1)
 				{
-					((EntityLiving)target).attackEntityFrom(DamageSource.setExplosionSource(null), 5);
+					((EntityLiving) target).attackEntityFrom(DamageSource.setExplosionSource(null), 5);
 				}
 				Vector3 look = LookHelper.getDeltaPositionFromRotation(turret.targetRotationYaw, turret.targetRotationPitch);
 				look.multiply(-1);
-				((EntityLiving)target).knockBack(null, 0, look.intX(), look.intZ());
-				
+				((EntityLiving) target).knockBack(null, 0, look.intX(), look.intZ());
+
 			}
-			//Spawn Shell
+			// Spawn Shell
 			if (!turret.worldObj.isRemote && turret.worldObj.rand.nextFloat() > 0.8)
 			{
 				Vector3 spawnPos = turret.getMuzzle();
@@ -119,17 +119,21 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	@Override
 	public ProjectileTypes getType(int meta)
 	{
-		if(meta >= types.values().length)
+		if (meta >= types.values().length)
 		{
 			return null;
 		}
 		types typ = types.values()[meta];
-		switch(typ)
+		switch (typ)
 		{
-			case SHELL: return ProjectileTypes.NEUTRIAL;
-			case BULLET: return ProjectileTypes.CONVENTIONAL;
-			case BULLETRAIL: return ProjectileTypes.RAILGUN;
-			case BULLETANTI: return ProjectileTypes.RAILGUN;
+			case SHELL:
+				return ProjectileTypes.NEUTRIAL;
+			case BULLET:
+				return ProjectileTypes.CONVENTIONAL;
+			case BULLETRAIL:
+				return ProjectileTypes.RAILGUN;
+			case BULLETANTI:
+				return ProjectileTypes.RAILGUN;
 		}
 		return null;
 	}

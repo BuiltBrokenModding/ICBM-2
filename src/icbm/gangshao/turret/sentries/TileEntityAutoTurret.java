@@ -218,6 +218,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	protected boolean onFire()
 	{
 		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL);
+
 		if (this.getPlatform() != null && ammo != null)
 		{
 			boolean fired = false;
