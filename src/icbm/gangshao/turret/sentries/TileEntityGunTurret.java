@@ -37,7 +37,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public int getCooldown()
 	{
-		return 5;
+		return 10;
 	}
 
 	@Override

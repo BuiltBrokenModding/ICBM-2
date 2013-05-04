@@ -86,13 +86,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public AxisAlignedBB getTargetingBox()
 	{
-		/*
-		 * TODO use meta data to find facing direction and restrict the grid to in front of the
-		 * sentry
-		 */
-		int blockID = this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord);
-		int meta = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord - 1, this.zCoord);
-
 		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), yCoord - 5, zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + 5, zCoord + this.getDetectRange());
 	}
 
@@ -231,11 +224,9 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			}
 			else if (this.target instanceof IMissile)
 			{
-				System.out.println("Shooting Missile");
-				if (this.worldObj.rand.nextFloat() > 0.6)
+				if (this.worldObj.rand.nextFloat() > 0.5)
 				{
 					((IMissile) this.target).normalExplode();
-					System.out.println("Missile Killed");
 				}
 
 				fired = true;
@@ -259,7 +250,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 
 			if (fired)
 			{
-				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() > 0.8)
+				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() < 0.9)
 				{
 					Vector3 spawnPos = this.getMuzzle();
 					EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
