@@ -212,16 +212,21 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public void onWeaponActivated()
 	{
+		onFire();
+	}
+
+	protected boolean onFire()
+	{
 		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL);
 		if (this.getPlatform() != null && ammo != null)
 		{
 			boolean fired = false;
+
 			if (this.target instanceof EntityLiving)
 			{
 				this.getPlatform().wattsReceived -= this.getRequest();
 				ammo.getAmmo().attackTargetLiving(ammo.getStack().getItemDamage(), this, this.target, true);
 				fired = true;
-
 			}
 			else if (this.target instanceof IMissile)
 			{
@@ -231,6 +236,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					((IMissile) this.target).normalExplode();
 					System.out.println("Missile Killed");
 				}
+
 				fired = true;
 			}
 			else if (this.target instanceof IAATarget)
@@ -249,6 +255,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 				}
 				fired = true;
 			}
+
 			if (fired)
 			{
 				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() > 0.8)
@@ -262,8 +269,11 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 				{
 					this.getPlatform().useAmmunition(ammo.getStack());
 				}
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
 			}
+
+			return fired;
 		}
+
+		return false;
 	}
 }

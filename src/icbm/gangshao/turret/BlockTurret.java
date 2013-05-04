@@ -43,7 +43,7 @@ public class BlockTurret extends BICBM
 {
 	public enum TurretType
 	{
-		GUN(TileEntityGunTurret.class), RAILGUN(TCiGuiPao.class), AA(TileEntityAATurret.class);
+		GUN(TileEntityGunTurret.class), RAILGUN(TCiGuiPao.class);
 
 		public Class tileEntity;
 

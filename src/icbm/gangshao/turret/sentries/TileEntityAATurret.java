@@ -1,18 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
-import icbm.api.IMissile;
-import icbm.api.sentry.AmmoPair;
-import icbm.api.sentry.IAATarget;
-import icbm.api.sentry.IAmmo;
-import icbm.api.sentry.ProjectileTypes;
-import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.actions.LookHelper;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import universalelectricity.core.vector.Vector3;
 
 /**
  * AA Turret, shoots down missiles and planes.
@@ -29,8 +17,6 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 		this.targetMissiles = true;
 		this.targetCrafts = true;
 	}
-
-	
 
 	@Override
 	public boolean isRunning()
@@ -79,6 +65,16 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	public double getRequest()
 	{
 		return 27;
+	}
+
+	@Override
+	public void onWeaponActivated()
+	{
+		if (this.onFire())
+		{
+			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
+		}
+
 	}
 
 }
