@@ -157,7 +157,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					else if (this.targetMissiles && entity instanceof IMissile)
 					{
 						IMissile missile = (IMissile) entity;
-						if (missile.getTicksInAir() > 10)
+						if (missile.getTicksInAir() > 0)
 						{
 							return true;
 						}
