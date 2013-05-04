@@ -1,6 +1,5 @@
 package icbm.gangshao.turret.sentries;
 
-import universalelectricity.core.vector.Vector3;
 import icbm.api.IMissile;
 import icbm.api.sentry.AmmoPair;
 import icbm.api.sentry.IAATarget;
@@ -21,12 +20,11 @@ import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import dark.library.access.AccessLevel;
+import universalelectricity.core.vector.Vector3;
 
 /**
  * Extend this class for all turrets that are automatic.
@@ -134,7 +132,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 						return false;
 					}
 
-					if ((entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer) && this.targetPlayers)
+					if (this.targetPlayers && (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer))
 					{
 						EntityPlayer player;
 						if (entity.riddenByEntity instanceof EntityPlayer)
@@ -156,20 +154,20 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 							return false;
 						}
 					}
-					else if (entity instanceof IMissile && this.targetMissiles)
+					else if (this.targetMissiles && entity instanceof IMissile)
 					{
 						IMissile missile = (IMissile) entity;
-						if (missile.getLauncher() != null && missile.getLauncher().getContainingMissile() == missile)
+						if (missile.getTicksInAir() > 10)
 						{
-							return false;
+							return true;
 						}
-						return true;
+						return false;
 					}
-					else if (entity instanceof IAATarget && this.targetCrafts)
+					else if (this.targetCrafts && entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))
 					{
 						return true;
 					}
-					else if (entity instanceof EntityLiving && this.targetLiving)
+					else if (this.targetLiving && entity instanceof EntityLiving)
 					{
 						if (entity instanceof IMob)
 						{
@@ -242,11 +240,11 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					int damage = ((IAATarget) this.target).doDamage(10);
 					if (damage == -1 && this.worldObj.rand.nextFloat() > 0.7)
 					{
-						((IAATarget) this.target).explode();
+						((IAATarget) this.target).destroyCraft();
 					}
 					else if (damage < 0)
 					{
-						((IAATarget) this.target).explode();
+						((IAATarget) this.target).destroyCraft();
 					}
 				}
 				fired = true;
