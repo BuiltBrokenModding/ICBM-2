@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -108,11 +108,11 @@ public class ExDuQi extends ZhaPin
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYao.itDu, '?', qi.getItemStack() }), "Chemical", ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYaoBase.itDu, '?', qi.getItemStack() }), "Chemical", ZhuYaoBase.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ZhuYaoBase.CONFIGURATION, true);
 		}
 	}
 

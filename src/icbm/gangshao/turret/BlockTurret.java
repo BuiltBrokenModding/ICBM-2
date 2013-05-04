@@ -1,7 +1,7 @@
 package icbm.gangshao.turret;
 
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.render.BlockRenderingHandler;
@@ -65,7 +65,7 @@ public class BlockTurret extends BICBM
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		this.blockIcon = iconRegister.registerIcon(ZhuYao.PREFIX + "machine");
+		this.blockIcon = iconRegister.registerIcon(ZhuYaoBase.PREFIX + "machine");
 	}
 
 	@Override

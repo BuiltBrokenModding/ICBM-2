@@ -1,7 +1,7 @@
 package icbm.zhapin;
 
 import icbm.core.ShengYin;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.fx.FXFanWuSu;
@@ -107,19 +107,19 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == ZhuYao.GUI_SHENG_BUO)
+		if (tileEntity != null || ID == ZhuYaoBase.GUI_SHENG_BUO)
 		{
 			switch (ID)
 			{
-				case ZhuYao.GUI_XIA_FA_SHE_QI:
+				case ZhuYaoBase.GUI_XIA_FA_SHE_QI:
 					return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi) tileEntity);
-				case ZhuYao.GUI_FA_SHE_SHI_MUO:
+				case ZhuYaoBase.GUI_FA_SHE_SHI_MUO:
 					return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
-				case ZhuYao.GUI_LEI_DA_TAI:
+				case ZhuYaoBase.GUI_LEI_DA_TAI:
 					return new GLeiDaTai(((TLeiDaTai) tileEntity));
-				case ZhuYao.GUI_DIAN_CI_QI:
+				case ZhuYaoBase.GUI_DIAN_CI_QI:
 					return new GDianCiQi((TDianCiQi) tileEntity);
-				case ZhuYao.GUI_FA_SHE_DI:
+				case ZhuYaoBase.GUI_FA_SHE_DI:
 					return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
 			}
 		}

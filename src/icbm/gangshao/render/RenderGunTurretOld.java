@@ -1,6 +1,6 @@
 package icbm.gangshao.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.gangshao.model.ModelGunTurret;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -62,17 +62,17 @@ public class RenderGunTurretOld extends RenderTaggedTile
 
 			if (level == AccessLevel.ADMIN)
 			{
-				this.bindTextureByName(ZhuYao.TEXTURE_PATH + TEXTURE_FILE);
+				this.bindTextureByName(ZhuYaoBase.TEXTURE_PATH + TEXTURE_FILE);
 				return;
 			}
 			else if (level.ordinal() >= AccessLevel.USER.ordinal())
 			{
-				this.bindTextureByName(ZhuYao.TEXTURE_PATH + TEXTURE_FILE_FRIENDLY);
+				this.bindTextureByName(ZhuYaoBase.TEXTURE_PATH + TEXTURE_FILE_FRIENDLY);
 				return;
 			}
 		}
 
-		this.bindTextureByName(ZhuYao.TEXTURE_PATH + TEXTURE_FILE_HOSTILE);
+		this.bindTextureByName(ZhuYaoBase.TEXTURE_PATH + TEXTURE_FILE_HOSTILE);
 
 	}
 }

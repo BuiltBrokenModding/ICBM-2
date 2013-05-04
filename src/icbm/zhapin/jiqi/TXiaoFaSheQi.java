@@ -4,7 +4,7 @@ import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.LauncherType;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
@@ -498,7 +498,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			return true;
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYao.GUI_XIA_FA_SHE_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_XIA_FA_SHE_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}

@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -52,7 +52,7 @@ public class ExFuLan extends ExThr
 					{
 						if (worldObj.rand.nextFloat() > 0.96)
 						{
-							targetPosition.setBlock(worldObj, ZhuYao.bFuShe.blockID);
+							targetPosition.setBlock(worldObj, ZhuYaoBase.bFuShe.blockID);
 						}
 					}
 
@@ -60,7 +60,7 @@ public class ExFuLan extends ExThr
 					{
 						if (worldObj.rand.nextFloat() > 0.99)
 						{
-							targetPosition.setBlock(worldObj, ZhuYao.bFuShe.blockID);
+							targetPosition.setBlock(worldObj, ZhuYaoBase.bFuShe.blockID);
 						}
 					}
 
@@ -81,7 +81,7 @@ public class ExFuLan extends ExThr
 					}
 					else if (blockID == Block.tilledField.blockID)
 					{
-						targetPosition.setBlock(worldObj, ZhuYao.bFuShe.blockID);
+						targetPosition.setBlock(worldObj, ZhuYaoBase.bFuShe.blockID);
 					}
 				}
 			}

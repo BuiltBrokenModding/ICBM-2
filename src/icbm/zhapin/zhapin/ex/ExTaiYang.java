@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.EFeiBlock;
 import icbm.zhapin.EGuang;
 import icbm.zhapin.zhapin.EZhaPin;
@@ -224,7 +224,7 @@ public class ExTaiYang extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package icbm.core.di;
 
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
@@ -20,8 +20,8 @@ public class BICBM extends BlockAdvanced
 
 	public BICBM(int id, String name, Material material)
 	{
-		super(ZhuYao.CONFIGURATION.getBlock(name, id).getInt(), material);
-		this.setUnlocalizedName(ZhuYao.PREFIX + name);
+		super(ZhuYaoBase.CONFIGURATION.getBlock(name, id).getInt(), material);
+		this.setUnlocalizedName(ZhuYaoBase.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 

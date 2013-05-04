@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.MICBM;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -86,7 +86,7 @@ public class RZhaPin extends Render
 			float renderY = (float) y;
 			float renderZ = (float) z;
 
-			GL11.glBindTexture(3553, ModLoader.getMinecraftInstance().renderEngine.getTexture(ZhuYao.TEXTURE_PATH + "blackhole.png"));
+			GL11.glBindTexture(3553, ModLoader.getMinecraftInstance().renderEngine.getTexture(ZhuYaoBase.TEXTURE_PATH + "blackhole.png"));
 			tessellator.startDrawingQuads();
 			tessellator.setBrightness(240);
 			tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);

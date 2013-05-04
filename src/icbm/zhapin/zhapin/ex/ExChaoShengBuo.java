@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.EFeiBlock;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
@@ -236,7 +236,7 @@ public class ExChaoShengBuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "S S", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "S S", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 	}
 
 	@Override

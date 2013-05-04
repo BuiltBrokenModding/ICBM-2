@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -95,7 +95,7 @@ public class ExWenYa extends ExThr
 					}
 					catch (Exception e)
 					{
-						ZhuYao.LOGGER.severe("Detonation Failed!");
+						ZhuYaoBase.LOGGER.severe("Detonation Failed!");
 						e.printStackTrace();
 					}
 				}
@@ -121,7 +121,7 @@ public class ExWenYa extends ExThr
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 	}
 
 	@Override

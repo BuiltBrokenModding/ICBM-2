@@ -37,8 +37,12 @@ import atomicscience.api.BlockRadioactive;
 import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Mod.PostInit;
+import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -49,9 +53,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * 
  */
 @ModstatInfo(prefix = "icbm", name = ICBM.NAME, version = ICBM.VERSION)
-public class ZhuYao
+public class ZhuYaoBase
 {
-	public static final ZhuYao INSTANCE = new ZhuYao();
+	public static final ZhuYaoBase INSTANCE = new ZhuYaoBase();
 
 	public static boolean ZAI_KUAI;
 
@@ -89,7 +93,8 @@ public class ZhuYao
 	public static final int GUI_DIAN_CI_QI = 6;
 	public static final int GUI_FA_SHE_DI = 7;
 
-	private boolean isInitialized;
+	private static boolean isPreInit;
+	private static boolean isPostInit;
 
 	/**
 	 * Configuration file for ICBM.
@@ -98,18 +103,19 @@ public class ZhuYao
 
 	public static final Logger LOGGER = Logger.getLogger(ICBM.NAME);
 
-	public void init()
+	@PreInit
+	public void preInit(FMLPreInitializationEvent event)
 	{
-		if (!isInitialized)
+		if (!isPreInit)
 		{
-			Modstats.instance().getReporter().registerMod(this);
-			MinecraftForge.EVENT_BUS.register(this);
+			Modstats.instance().getReporter().registerMod(INSTANCE);
+			MinecraftForge.EVENT_BUS.register(INSTANCE);
 
 			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
 
-			ZhuYao.CONFIGURATION.load();
-			ZAI_KUAI = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
-			DAO_DAN_ZUI_YUAN = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
+			ZhuYaoBase.CONFIGURATION.load();
+			ZAI_KUAI = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
+			DAO_DAN_ZUI_YUAN = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
 
 			// BLOCKS
 			bLiu = new BLiu(ICBM.BLOCK_ID_PREFIX + 0);
@@ -120,7 +126,7 @@ public class ZhuYao
 			// -- Registering Blocks
 			GameRegistry.registerBlock(bLiu, "bLiu");
 
-			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(ZhuYao.CONFIGURATION);
+			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(ZhuYaoBase.CONFIGURATION);
 
 			/**
 			 * Check for existence of radioactive block. If it does not exist, then create it.
@@ -132,7 +138,7 @@ public class ZhuYao
 			}
 			else
 			{
-				bFuShe = new BlockRadioactive(ZhuYao.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive");
+				bFuShe = new BlockRadioactive(ZhuYaoBase.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive");
 				GameRegistry.registerBlock(bFuShe, "Radioactive");
 				OreDictionary.registerOre("blockRadioactive", bFuShe);
 				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
@@ -141,14 +147,25 @@ public class ZhuYao
 			/**
 			 * Decrease Obsidian Resistance
 			 */
-			Block.obsidian.setResistance(ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+			Block.obsidian.setResistance(ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
 			LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-			ZhuYao.CONFIGURATION.save();
+			ZhuYaoBase.CONFIGURATION.save();
 
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);
 
+			GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
+
+			isPreInit = true;
+		}
+	}
+
+	@PostInit
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		if (!isPostInit)
+		{
 			/**
 			 * LOAD.
 			 */
@@ -164,8 +181,7 @@ public class ZhuYao
 			// Poison Powder
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itDu, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
 
-			GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
-			this.isInitialized = true;
+			isPostInit = true;
 		}
 	}
 

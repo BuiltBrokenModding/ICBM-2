@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.ItDaoDan;
@@ -66,13 +66,13 @@ public class RItDaoDan implements IItemRenderer
 			{
 				if (item.getItemDamage() < RDaoDan.SPECIAL_MODELS.length)
 				{
-					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "missile_" + DaoDan.list[item.getItemDamage() + 100].getUnlocalizedName() + ".png"));
+					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + "missile_" + DaoDan.list[item.getItemDamage() + 100].getUnlocalizedName() + ".png"));
 					RDaoDan.SPECIAL_MODELS[item.getItemDamage()].render(0.0625F);
 				}
 			}
 			else
 			{
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "missile_" + ZhaPin.list[item.getItemDamage()].getUnlocalizedName() + ".png"));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + "missile_" + ZhaPin.list[item.getItemDamage()].getUnlocalizedName() + ".png"));
 				RDaoDan.MODELS[item.getItemDamage()].render(0.0625F);
 			}
 		}

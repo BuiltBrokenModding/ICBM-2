@@ -1,6 +1,6 @@
 package icbm.zhapin.gui;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.jiqi.BJiQi;
@@ -178,7 +178,7 @@ public class GLeiDaTai extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "gui_radar.png");
+		this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "gui_radar.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.containerPosX = (this.width - this.xSize) / 2;
@@ -203,17 +203,17 @@ public class GLeiDaTai extends GuiBase
 				{
 					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
 					{
-						this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "reddot.png");
+						this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "reddot.png");
 					}
 					else
 					{
-						this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "yellowdot.png");
+						this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "yellowdot.png");
 
 					}
 				}
 				else
 				{
-					this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "yellowdot.png");
+					this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "yellowdot.png");
 				}
 
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
@@ -249,7 +249,7 @@ public class GLeiDaTai extends GuiBase
 			{
 				Vector2 position = new Vector2(this.radarCenter.x + (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
 
-				this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "whitedot.png");
+				this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "whitedot.png");
 
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
 

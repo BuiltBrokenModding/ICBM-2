@@ -1,6 +1,6 @@
 package icbm.zhapin.daodan;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class ItTeBieDaoDan extends ItDaoDan
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		this.itemIcon = iconRegister.registerIcon(ZhuYao.PREFIX + "missileModule");
+		this.itemIcon = iconRegister.registerIcon(ZhuYaoBase.PREFIX + "missileModule");
 	}
 
 	@Override

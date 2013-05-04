@@ -2,7 +2,7 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.IItemFrequency;
 import icbm.api.RadarRegistry;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.EDaoDan;
 
@@ -423,7 +423,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYao.GUI_LEI_DA_TAI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_LEI_DA_TAI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

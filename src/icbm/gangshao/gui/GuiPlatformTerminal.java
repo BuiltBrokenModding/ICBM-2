@@ -1,6 +1,6 @@
 package icbm.gangshao.gui;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -174,7 +174,7 @@ public class GuiPlatformTerminal extends GuiPlatformBase
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
 		super.drawBackgroundLayer(x, y, var1);
-		this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "gui_platform_terminal.png");
+		this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "gui_platform_terminal.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int var5 = (this.width - this.xSize) / 2;

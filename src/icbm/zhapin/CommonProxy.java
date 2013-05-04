@@ -1,6 +1,6 @@
 package icbm.zhapin;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.jiqi.TFaSheDi;
 import icbm.zhapin.jiqi.TFaSheJia;
@@ -57,9 +57,9 @@ public class CommonProxy implements IGuiHandler
 		{
 			switch (ID)
 			{
-				case ZhuYao.GUI_XIA_FA_SHE_QI:
+				case ZhuYaoBase.GUI_XIA_FA_SHE_QI:
 					return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
-				case ZhuYao.GUI_FA_SHE_DI:
+				case ZhuYaoBase.GUI_FA_SHE_DI:
 					return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
 		}

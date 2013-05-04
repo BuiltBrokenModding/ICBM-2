@@ -1,6 +1,6 @@
 package icbm.gangshao.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.gangshao.turret.BlockTurret.TurretType;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -38,7 +38,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				 * Render the gun turret.
 				 */
 				GL11.glTranslatef(0.1f, 1f, 0f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + RenderGunTurret.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderGunTurret.TEXTURE_FILE));
 				RenderGunTurret.render(0, 0);
 			}
 			else if (metadata == TurretType.AA.ordinal())
@@ -48,7 +48,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				 */
 				GL11.glTranslatef(0.2f, 0.3f, 0);
 				GL11.glScalef(0.45f, 0.45f, 0.45f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + RenderAATurret.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderAATurret.TEXTURE_FILE));
 				RenderAATurret.render(0, 0);
 			}
 			else if (metadata == TurretType.RAILGUN.ordinal())
@@ -59,7 +59,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				GL11.glTranslatef(0f, 0.9f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + RenderRailgun.TEXTURE_FILE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderRailgun.TEXTURE_FILE));
 				RenderRailgun.MODEL.render(90, 0, 0.0625F);
 			}
 

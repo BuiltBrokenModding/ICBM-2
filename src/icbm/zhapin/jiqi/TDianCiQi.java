@@ -1,7 +1,7 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
@@ -204,7 +204,7 @@ public class TDianCiQi extends TileEntityUniversalStorable implements IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYao.GUI_DIAN_CI_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_DIAN_CI_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

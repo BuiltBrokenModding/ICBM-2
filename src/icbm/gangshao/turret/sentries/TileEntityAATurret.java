@@ -16,6 +16,8 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 		super.initiate();
 		this.targetMissiles = true;
 		this.targetCrafts = true;
+		this.targetPlayers = false;
+		this.targetLiving = false;
 	}
 
 	@Override

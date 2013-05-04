@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.MICBM;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
@@ -74,12 +74,12 @@ public class RDaoDan extends Render
 
 		if (entityMissile.haoMa >= 100)
 		{
-			this.loadTexture(ZhuYao.MODEL_PATH + "missile_" + DaoDan.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
+			this.loadTexture(ZhuYaoBase.MODEL_PATH + "missile_" + DaoDan.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
 			RDaoDan.SPECIAL_MODELS[entityMissile.haoMa - 100].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{
-			this.loadTexture(ZhuYao.MODEL_PATH + "missile_" + ZhaPin.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
+			this.loadTexture(ZhuYaoBase.MODEL_PATH + "missile_" + ZhaPin.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
 			RDaoDan.MODELS[entityMissile.haoMa].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 

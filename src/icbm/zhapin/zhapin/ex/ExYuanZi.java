@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -109,7 +109,7 @@ public class ExYuanZi extends ExThr
 					}
 					catch (Exception e)
 					{
-						ZhuYao.LOGGER.severe("Detonation Failed!");
+						ZhuYaoBase.LOGGER.severe("Detonation Failed!");
 						e.printStackTrace();
 					}
 				}
@@ -151,11 +151,11 @@ public class ExYuanZi extends ExThr
 	{
 		if (OreDictionary.getOres("ingotUranium").size() > 0)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 		}
 		else
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack() }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 
 		}
 	}

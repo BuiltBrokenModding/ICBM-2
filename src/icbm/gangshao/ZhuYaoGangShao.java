@@ -3,7 +3,7 @@ package icbm.gangshao;
 import icbm.api.ICBM;
 import icbm.api.ICBMFlags;
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.gangshao.platform.BlockTurretPlatform;
 import icbm.gangshao.terminal.command.CommandAccess;
 import icbm.gangshao.terminal.command.CommandDestroy;
@@ -37,11 +37,13 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
@@ -54,7 +56,7 @@ import dark.library.terminal.commands.CommandUser;
 
 @Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents", useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
-public class ZhuYaoGangShao
+public class ZhuYaoGangShao extends ZhuYaoBase
 {
 	public static final String NAME = ICBM.NAME + "|Sentry";
 	public static final String CHANNEL = ICBM.NAME;
@@ -89,22 +91,23 @@ public class ZhuYaoGangShao
 
 	public static final String FLAG_RAILGUN = FlagRegistry.registerFlag("ban_railgun");
 
+	@Override
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		ZhuYao.INSTANCE.init();
+		super.preInit(event);
 
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoGangShao.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 
-		ZhuYao.CONFIGURATION.load();
+		ZhuYaoBase.CONFIGURATION.load();
 
 		blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
-		blockFake = new BlockMulti(ZhuYao.CONFIGURATION.getBlock("Sentry Multiblock", BLOCK_ID_PREFIX + 2).getInt());
+		blockFake = new BlockMulti(ZhuYaoBase.CONFIGURATION.getBlock("Sentry Multiblock", BLOCK_ID_PREFIX + 2).getInt());
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
-		ZhuYao.CONFIGURATION.save();
+		ZhuYaoBase.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
 		conventionalBullet = new ItemStack(itemAmmo, 1, 1);
@@ -126,7 +129,14 @@ public class ZhuYaoGangShao
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
-		ZhuYao.setModMetadata(NAME, metadata);
+		ZhuYaoBase.setModMetadata(NAME, metadata);
+	}
+
+	@Override
+	@PostInit
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		super.postInit(event);
 
 		// Shell
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));

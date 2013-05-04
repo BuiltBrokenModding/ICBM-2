@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -19,9 +19,9 @@ public class ExFanWuSu extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(300);
-		ZhuYao.CONFIGURATION.load();
-		this.destroyBedrock = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Antimatter Destroy Bedrock", this.destroyBedrock).getBoolean(this.destroyBedrock);
-		ZhuYao.CONFIGURATION.save();
+		ZhuYaoBase.CONFIGURATION.load();
+		this.destroyBedrock = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Antimatter Destroy Bedrock", this.destroyBedrock).getBoolean(this.destroyBedrock);
+		ZhuYaoBase.CONFIGURATION.save();
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class ExFanWuSu extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package icbm.gangshao.gui;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
@@ -28,7 +28,7 @@ public class GuiButtonImage extends GuiButton
 	{
 		if (this.drawButton)
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1Minecraft.renderEngine.getTexture(ZhuYao.GUI_PATH + "gui@.png"));
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1Minecraft.renderEngine.getTexture(ZhuYaoBase.GUI_PATH + "gui@.png"));
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean var4 = width >= this.xPosition && hight >= this.yPosition && width < this.xPosition + this.width && hight < this.yPosition + this.height;
 			int var5 = 106;

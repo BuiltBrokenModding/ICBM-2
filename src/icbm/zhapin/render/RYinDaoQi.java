@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.jiqi.TYinDaoQi;
 import icbm.zhapin.muoxing.jiqi.MYinDaoQi;
 
@@ -29,11 +29,11 @@ public class RYinDaoQi extends TileEntitySpecialRenderer
 
 		if (players.size() > 0)
 		{
-			this.bindTextureByName(ZhuYao.MODEL_PATH + TEXTURE_FILE_2);
+			this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE_2);
 		}
 		else
 		{
-			this.bindTextureByName(ZhuYao.MODEL_PATH + TEXTURE_FILE);
+			this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE);
 		}
 
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
 import icbm.zhapin.zhapin.TZhaDan;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -32,7 +32,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, 1.5F, 0.0F);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.SMINE_TEXTURE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.SMINE_TEXTURE));
 				MDiLei.INSTANCE.render(0.0625F);
 				GL11.glPopMatrix();
 			}
@@ -45,7 +45,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 				}
 				catch (Exception e)
 				{
-					ZhuYao.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
+					ZhuYaoBase.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
 					e.printStackTrace();
 				}
 			}
