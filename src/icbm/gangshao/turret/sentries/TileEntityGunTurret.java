@@ -1,8 +1,6 @@
-package icbm.gangshao.turret;
+package icbm.gangshao.turret.sentries;
 
-import icbm.api.IMissile;
 import icbm.api.sentry.AmmoPair;
-import icbm.api.sentry.IAATarget;
 import icbm.api.sentry.IAmmo;
 import icbm.api.sentry.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
@@ -10,27 +8,11 @@ import icbm.gangshao.actions.LookHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 
-/**
- * AA Turret, shoots down missiles and planes.
- * 
- * @author DarkGaurdsman
- * 
- */
-public class TileEntityAATurret extends TileEntityAutoTurret
+public class TileEntityGunTurret extends TileEntityAutoTurret
 {
-	@Override
-	public void initiate()
-	{
-		super.initiate();
-		this.targetMissiles = true;
-		this.targetCrafts = true;
-	}
-
-	
 
 	@Override
 	public boolean isRunning()
@@ -47,7 +29,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public double getDetectRange()
 	{
-		int baseRange = 50;
+		int baseRange = 15;
 
 		if (this.getPlatform() != null)
 		{
@@ -55,12 +37,6 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 		}
 
 		return baseRange;
-	}
-
-	@Override
-	public AxisAlignedBB getTargetingBox()
-	{
-		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), yCoord - this.getDetectRange(), zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + this.getDetectRange(), zCoord + this.getDetectRange());
 	}
 
 	@Override
@@ -72,13 +48,13 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public int getCooldown()
 	{
-		return 1;
+		return 5;
 	}
 
 	@Override
 	public double getRequest()
 	{
-		return 27;
+		return 10;
 	}
 
 }

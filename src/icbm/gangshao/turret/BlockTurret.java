@@ -5,6 +5,8 @@ import icbm.core.ZhuYao;
 import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.render.BlockRenderingHandler;
+import icbm.gangshao.turret.sentries.TileEntityAATurret;
+import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 
 import java.util.List;
 

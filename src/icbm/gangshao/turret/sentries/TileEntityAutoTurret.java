@@ -1,4 +1,4 @@
-package icbm.gangshao.turret;
+package icbm.gangshao.turret.sentries;
 
 import universalelectricity.core.vector.Vector3;
 import icbm.api.IMissile;
@@ -14,6 +14,7 @@ import icbm.gangshao.actions.ActionManager;
 import icbm.gangshao.actions.ActionRepeat;
 import icbm.gangshao.actions.ActionRotateTo;
 import icbm.gangshao.actions.ActionSearchTarget;
+import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
@@ -38,10 +39,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	/** The target this turret is hitting. */
 	public Entity target;
 
-	boolean targetPlayers = true;
-	boolean targetLiving = true;
-	boolean targetCrafts = false;
-	boolean targetMissiles = false;
+	protected boolean targetPlayers = true;
+	protected boolean targetLiving = true;
+	protected boolean targetCrafts = false;
+	protected boolean targetMissiles = false;
 
 	public final ActionManager AIManager = new ActionManager();
 
