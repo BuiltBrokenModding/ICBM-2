@@ -19,6 +19,7 @@ import icbm.zhapin.muoxing.daodan.MMHuo;
 import icbm.zhapin.muoxing.daodan.MMLa;
 import icbm.zhapin.muoxing.daodan.MMLiZi;
 import icbm.zhapin.muoxing.daodan.MMPiaoFu;
+import icbm.zhapin.muoxing.daodan.MMQi;
 import icbm.zhapin.muoxing.daodan.MMQunDan;
 import icbm.zhapin.muoxing.daodan.MMShengBuo;
 import icbm.zhapin.muoxing.daodan.MMTaiYang;
@@ -42,7 +43,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RDaoDan extends Render
 {
-	public static final MICBM[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMYaSuo(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
+	public static final MICBM[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMQi(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
 
 	, new MMQunDan(), new MMGanRanDu(), new MMShengBuo(), new MMTuPuo(), new MMHuanYuan(), new MMLiZi(),
 
