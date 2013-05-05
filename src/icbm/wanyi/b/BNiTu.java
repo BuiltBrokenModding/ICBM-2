@@ -21,7 +21,7 @@ public class BNiTu extends BICBM
 	public BNiTu(int id)
 	{
 		super(id, "concrete", Material.rock);
-		this.setHardness(1.8f);
+		this.setHardness(3.8f);
 		this.setResistance(50);
 		this.setStepSound(soundMetalFootstep);
 	}
