@@ -47,7 +47,14 @@ public class RenderAATurret extends RenderTaggedTile
 		MODEL.renderBody(0.0625F);
 		MODEL.renderRadar(0.0625F);
 		// Render gun pitch rotation
-		MODEL.renderCannon(0.0625F, renderPitch - 0.6108652F);
+		
+		if(renderPitch <= 0.6F && (renderPitch- 0.6F) >= -1.2F)
+		{
+			MODEL.renderCannon(0.0625F, renderPitch - 0.6F);
+		}else
+		{
+			MODEL.renderCannon(0.0625F, -0.6F);
+		}
 	}
 
 	public void setTextureBaseOnState(TileEntityTurretBase tileEntity)

@@ -121,18 +121,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			float speedYaw;
 			if (this.rotationYaw > this.targetRotationYaw)
 			{
-				/*
-				 * if (Math.abs(this.rotationYaw - this.targetRotationYaw) >= 180) speedYaw =
-				 * this.rotationSpeed; else
-				 */
 				speedYaw = -this.rotationSpeed;
 			}
 			else
 			{
-				/*
-				 * if (Math.abs(this.rotationYaw - this.targetRotationYaw) >= 180) speedYaw =
-				 * -this.rotationSpeed; else
-				 */
 				speedYaw = this.rotationSpeed;
 			}
 
