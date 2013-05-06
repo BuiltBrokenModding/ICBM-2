@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -30,6 +31,7 @@ import universalelectricity.prefab.tile.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.FMLLog;
+import dark.library.DarkMain;
 
 /**
  * Class that handles all the basic movement, and block based updates of a turret.
@@ -176,7 +178,12 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, nbt);
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 1, nbt);
+	}
+
+	public void sendShotToClient(Vector3 tar)
+	{
+		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 2, tar.x, tar.y, tar.z), this.worldObj, new Vector3(this), 50);
 	}
 
 	/**
@@ -189,15 +196,22 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		{
 			try
 			{
-				ByteArrayInputStream bis = new ByteArrayInputStream(packet.data);
-				DataInputStream dis = new DataInputStream(bis);
-				int id, x, y, z;
-				id = dis.readInt();
-				x = dis.readInt();
-				y = dis.readInt();
-				z = dis.readInt();
-				NBTTagCompound tag = Packet.readNBTTagCompound(dis);
-				readFromNBT(tag);
+				int pd = dataStream.readInt();
+				if (pd == 1)
+				{					
+					short size = dataStream.readShort();
+
+					if (size > 0)
+					{
+						byte[] byteCode = new byte[size];
+						dataStream.readFully(byteCode);
+						this.readFromNBT(CompressedStreamTools.decompress(byteCode));
+					}
+				}
+				else if (pd == 2)
+				{
+					DarkMain.renderTracer(this.worldObj, new Vector3(this), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
+				}
 			}
 			catch (IOException e)
 			{

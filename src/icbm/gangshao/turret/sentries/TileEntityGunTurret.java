@@ -1,5 +1,8 @@
 package icbm.gangshao.turret.sentries;
 
+import universalelectricity.core.vector.Vector3;
+import dark.library.DarkMain;
+
 public class TileEntityGunTurret extends TileEntityAutoTurret
 {
 
@@ -37,7 +40,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public int getCooldown()
 	{
-		return 20;
+		return 10;
 	}
 
 	@Override
@@ -52,6 +55,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 		if (this.onFire())
 		{
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
+			this.sendShotToClient(new Vector3(this.target));
 		}
 	}
 
