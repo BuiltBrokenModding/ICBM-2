@@ -126,6 +126,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		proxy.preInit();
 	}
 
+	@Override
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
@@ -156,6 +157,8 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', UniversalRecipes.CIRCUIT_T1, 'S', UniversalRecipes.PRIMARY_METAL }));
 		// Railgun
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T3, 'G', new ItemStack(blockTurret, 1, 0) }));
+		// AA Turret
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 2), new Object[] { "DDD", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'G', new ItemStack(blockTurret, 1, 0) }));
 
 		CommandRegistry.register(new CommandAccess());
 		CommandRegistry.register(new CommandDestroy());
@@ -179,6 +182,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, banFlag, "true", diDian);
 	}
 
+	@Override
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
@@ -189,6 +193,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME)));
 	}
 
+	@Override
 	@ForgeSubscribe
 	public void worldSave(Save evt)
 	{

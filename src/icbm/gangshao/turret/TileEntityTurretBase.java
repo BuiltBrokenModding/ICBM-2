@@ -10,7 +10,6 @@ import icbm.gangshao.render.ITagRender;
 import java.io.IOException;
 import java.util.HashMap;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -48,7 +47,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	public final ActionManager actionManager = new ActionManager();
 	public LookHelper lookHelper;
-	
+
 	protected boolean speedUp = false;
 
 	/**
@@ -312,7 +311,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		this.wantedRotationPitch = pitch;
 		if (!this.worldObj.isRemote)
 		{
-			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0,this.wantedRotationPitch, this.wantedRotationYaw,this.speedUp), this.worldObj, new Vector3(this), 50);
+			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.wantedRotationPitch, this.wantedRotationYaw, this.speedUp), this.worldObj, new Vector3(this), 50);
 		}
 	}
 

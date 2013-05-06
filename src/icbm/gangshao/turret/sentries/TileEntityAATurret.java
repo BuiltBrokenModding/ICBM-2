@@ -1,8 +1,8 @@
 package icbm.gangshao.turret.sentries;
 
 import icbm.gangshao.actions.LookHelper;
-import universalelectricity.core.vector.Vector3;
 import net.minecraft.util.AxisAlignedBB;
+import universalelectricity.core.vector.Vector3;
 
 /**
  * AA Turret, shoots down missiles and planes.
@@ -112,7 +112,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public float getRotationSpeed()
 	{
-		if(this.speedUp)
+		if (this.speedUp)
 		{
 			return 10f;
 		}

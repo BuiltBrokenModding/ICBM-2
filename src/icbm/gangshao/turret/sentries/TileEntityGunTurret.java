@@ -1,7 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
 import universalelectricity.core.vector.Vector3;
-import dark.library.DarkMain;
 
 public class TileEntityGunTurret extends TileEntityAutoTurret
 {
@@ -62,7 +61,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public float getRotationSpeed()
 	{
-		if(this.target != null || this.worldObj.isRemote)
+		if (this.target != null || this.worldObj.isRemote)
 		{
 			return 4f;
 		}

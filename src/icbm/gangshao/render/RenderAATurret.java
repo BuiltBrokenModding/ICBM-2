@@ -1,7 +1,7 @@
 package icbm.gangshao.render;
 
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.model.ModelWirlWindAA;
+import icbm.gangshao.model.ModelAATurret;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +18,7 @@ public class RenderAATurret extends RenderTaggedTile
 	public static final String TEXTURE_FILE = "aa_turret_neutral.png";
 	public static final String TEXTURE_FILE_FRIENDLY = "aa_turret_friendly.png";
 	public static final String TEXTURE_FILE_HOSTILE = "aa_turret_hostile.png";
-	public static final ModelWirlWindAA MODEL = new ModelWirlWindAA();
+	public static final ModelAATurret MODEL = new ModelAATurret();
 
 	@Override
 	public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)

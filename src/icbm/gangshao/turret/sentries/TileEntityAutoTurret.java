@@ -25,7 +25,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -35,7 +34,7 @@ import universalelectricity.core.vector.Vector3;
  * 
  */
 public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
-{	
+{
 	/** The target this turret is hitting. */
 	public Entity target;
 
@@ -43,8 +42,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	public boolean targetLiving = true;
 	public boolean targetCrafts = false;
 	public boolean targetMissiles = false;
-
-	
 
 	public final ActionManager AIManager = new ActionManager();
 
@@ -62,7 +59,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public void onUpdate()
 	{
-		if(!this.worldObj.isRemote)
+		if (!this.worldObj.isRemote)
 		{
 			this.speedUp = this.target != null;
 		}

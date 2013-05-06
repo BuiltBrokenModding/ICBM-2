@@ -453,6 +453,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		return false;
 	}
 
+	@Override
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
