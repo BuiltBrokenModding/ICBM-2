@@ -41,10 +41,14 @@ public class ActionRotateTo extends Action
 		while (this.targetRotationYaw > 360)
 			this.targetRotationYaw -= 360;
 
-		while (this.targetRotationPitch < -TileEntityTurretBase.MAX_PITCH)
-			this.targetRotationPitch += TileEntityTurretBase.MAX_PITCH;
+		while (this.targetRotationPitch < TileEntityTurretBase.MIN_PITCH)
+		{
+			this.targetRotationPitch += TileEntityTurretBase.MIN_PITCH;
+		}
 		while (this.targetRotationPitch > TileEntityTurretBase.MAX_PITCH)
+		{
 			this.targetRotationPitch -= TileEntityTurretBase.MAX_PITCH;
+		}
 	}
 
 	@Override

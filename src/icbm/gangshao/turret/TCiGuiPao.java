@@ -431,4 +431,10 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	{
 		return INFINITE_EXTENT_AABB;
 	}
+
+	@Override
+	public float getRotationSpeed()
+	{
+		return 1f;
+	}
 }

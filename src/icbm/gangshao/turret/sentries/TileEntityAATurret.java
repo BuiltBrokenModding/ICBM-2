@@ -17,8 +17,8 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 		this.targetMissiles = true;
 		this.targetCrafts = true;
 		//TODO re-add ground target firing at a reduced efficiency 
-		this.targetPlayers = false;
-		this.targetLiving = false;
+		//this.targetPlayers = false;
+		//this.targetLiving = false;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public double getDetectRange()
 	{
-		int baseRange = 50;
+		int baseRange = 70;
 
 		if (this.getPlatform() != null)
 		{
@@ -61,13 +61,13 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public int getCooldown()
 	{
-		return 5;
+		return 2;
 	}
 
 	@Override
 	public double getRequest()
 	{
-		return 27;
+		return 30;
 	}
 
 	@Override
@@ -78,6 +78,12 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
 		}
 
+	}
+
+	@Override
+	public float getRotationSpeed()
+	{
+		return 8f;
 	}
 
 }

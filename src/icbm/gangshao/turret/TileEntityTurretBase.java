@@ -39,10 +39,10 @@ import cpw.mods.fml.common.FMLLog;
  */
 public abstract class TileEntityTurretBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry
 {
-	/**
-	 * The maximum amount of pitch allowed. From -30 to 30.
-	 */
-	public static final float MAX_PITCH = 30;
+
+	public static final float MAX_PITCH = 30f;
+
+	public static final float MIN_PITCH = -30f;
 
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
 
@@ -54,7 +54,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	 */
 	public float targetRotationYaw, targetRotationPitch = 0;
 	public float rotationYaw, rotationPitch = 0;
-	public final float rotationSpeed = 4f;
+
+	public abstract float getRotationSpeed();
 
 	private int health = 100;
 
@@ -71,6 +72,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		if (this.isRunning())
 		{
 			this.onUpdate();
+			this.updateRotation();
 		}
 
 		// Check to make sure this thing still has hp
@@ -80,17 +82,14 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 
 		// Do packet update
-		if (!this.worldObj.isRemote && this.ticks % 10 == 0)
+		if (!this.worldObj.isRemote && this.ticks % 5 == 0)
 		{
 			PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 50);
 		}
 
 	}
 
-	protected void onUpdate()
-	{
-		this.updateRotation();
-	}
+	protected abstract void onUpdate();
 
 	/**
 	 * get the turrets control platform
@@ -121,16 +120,16 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			float speedYaw;
 			if (this.rotationYaw > this.targetRotationYaw)
 			{
-				speedYaw = -this.rotationSpeed;
+				speedYaw = -this.getRotationSpeed();
 			}
 			else
 			{
-				speedYaw = this.rotationSpeed;
+				speedYaw = this.getRotationSpeed();
 			}
 
 			this.rotationYaw += speedYaw;
 
-			if (Math.abs(this.rotationYaw - this.targetRotationYaw) < this.rotationSpeed + 0.1f)
+			if (Math.abs(this.rotationYaw - this.targetRotationYaw) < this.getRotationSpeed() + 0.1f)
 			{
 				this.rotationYaw = this.targetRotationYaw;
 			}
@@ -141,16 +140,16 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			float speedPitch;
 			if (this.rotationPitch > this.targetRotationPitch)
 			{
-				speedPitch = -this.rotationSpeed;
+				speedPitch = -this.getRotationSpeed();
 			}
 			else
 			{
-				speedPitch = this.rotationSpeed;
+				speedPitch = this.getRotationSpeed();
 			}
 
 			this.rotationPitch += speedPitch;
 
-			if (Math.abs(this.rotationPitch - this.targetRotationPitch) < this.rotationSpeed + 0.1f)
+			if (Math.abs(this.rotationPitch - this.targetRotationPitch) < this.getRotationSpeed() + 0.1f)
 			{
 				this.rotationPitch = this.targetRotationPitch;
 			}

@@ -50,8 +50,8 @@ public class ActionRotateBy extends Action
 		while (this.targetRotationPitch > 60)
 			this.targetRotationPitch -= 60;
 
-		float totalTicksYaw = Math.abs(this.targetRotationYaw - this.tileEntity.targetRotationYaw) / this.tileEntity.rotationSpeed;
-		float totalTicksPitch = Math.abs(this.targetRotationPitch - this.tileEntity.targetRotationPitch) / this.tileEntity.rotationSpeed;
+		float totalTicksYaw = Math.abs(this.targetRotationYaw - this.tileEntity.targetRotationYaw) / this.tileEntity.getRotationSpeed();
+		float totalTicksPitch = Math.abs(this.targetRotationPitch - this.tileEntity.targetRotationPitch) / this.tileEntity.getRotationSpeed();
 		this.totalTicks = Math.max(totalTicksYaw, totalTicksPitch);
 	}
 

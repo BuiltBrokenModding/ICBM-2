@@ -58,7 +58,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public void onUpdate()
 	{
-		super.onUpdate();
 		this.AIManager.onUpdate();
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.
@@ -224,7 +223,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			}
 			else if (this.target instanceof IMissile)
 			{
-				if (this.worldObj.rand.nextFloat() > 0.5)
+				if (this.worldObj.rand.nextFloat() > 0.3)
 				{
 					((IMissile) this.target).normalExplode();
 				}
@@ -233,7 +232,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			}
 			else if (this.target instanceof IAATarget)
 			{
-				if (this.worldObj.rand.nextFloat() > 0.3)
+				if (this.worldObj.rand.nextFloat() > 0.1)
 				{
 					int damage = ((IAATarget) this.target).doDamage(10);
 					if (damage == -1 && this.worldObj.rand.nextFloat() > 0.7)

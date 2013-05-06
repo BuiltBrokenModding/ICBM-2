@@ -37,7 +37,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public int getCooldown()
 	{
-		return 10;
+		return 20;
 	}
 
 	@Override
@@ -53,6 +53,12 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 		{
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
 		}
+	}
+
+	@Override
+	public float getRotationSpeed()
+	{
+		return 3f;
 	}
 
 }
