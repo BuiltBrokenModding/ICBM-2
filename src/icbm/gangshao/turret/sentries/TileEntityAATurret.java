@@ -112,7 +112,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public float getRotationSpeed()
 	{
-		if(this.target != null || this.worldObj.isRemote)
+		if(this.speedUp)
 		{
 			return 10f;
 		}

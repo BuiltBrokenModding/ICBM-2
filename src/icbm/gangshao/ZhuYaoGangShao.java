@@ -8,6 +8,7 @@ import icbm.gangshao.platform.BlockTurretPlatform;
 import icbm.gangshao.terminal.command.CommandAccess;
 import icbm.gangshao.terminal.command.CommandDestroy;
 import icbm.gangshao.terminal.command.CommandGet;
+import icbm.gangshao.terminal.command.CommandTarget;
 import icbm.gangshao.turret.BlockTurret;
 import icbm.gangshao.turret.EntityFakeMountable;
 import icbm.gangshao.turret.ItemAmmo;
@@ -161,6 +162,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		CommandRegistry.register(new CommandUser());
 		CommandRegistry.register(new CommandHelp());
 		CommandRegistry.register(new CommandGet());
+		CommandRegistry.register(new CommandTarget());
 		proxy.init();
 	}
 

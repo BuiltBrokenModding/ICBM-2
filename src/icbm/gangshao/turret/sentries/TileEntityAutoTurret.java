@@ -39,10 +39,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	/** The target this turret is hitting. */
 	public Entity target;
 
-	protected boolean targetPlayers = true;
-	protected boolean targetLiving = true;
-	protected boolean targetCrafts = false;
-	protected boolean targetMissiles = false;
+	public boolean targetPlayers = true;
+	public boolean targetLiving = true;
+	public boolean targetCrafts = false;
+	public boolean targetMissiles = false;
 
 	
 
@@ -62,6 +62,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public void onUpdate()
 	{
+		if(!this.worldObj.isRemote)
+		{
+			this.speedUp = this.target != null;
+		}
 		this.AIManager.onUpdate();
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.

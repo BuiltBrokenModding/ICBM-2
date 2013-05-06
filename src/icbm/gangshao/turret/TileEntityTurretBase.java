@@ -48,6 +48,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	public final ActionManager actionManager = new ActionManager();
 	public LookHelper lookHelper;
+	
+	protected boolean speedUp = false;
 
 	/**
 	 * The rotation of the arms. In Degrees.
@@ -74,7 +76,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		if (this.isRunning())
 		{
 			this.onUpdate();
-			
+			this.updateRotation();
 		}
 
 		// Check to make sure this thing still has hp
@@ -84,16 +86,6 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 
 		// Do packet update
-		if (!this.worldObj.isRemote)
-		{
-			this.updateRotation();
-			
-			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.currentRotationPitch, this.currentRotationYaw), this.worldObj, new Vector3(this), 50);
-			if (this.ticks % 20 == 0)
-			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 50);
-			}
-		}
 
 	}
 
@@ -166,9 +158,9 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		/**
 		 * Wraps all the angels and cleans them up.
 		 */
-		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.currentRotationPitch, 60), -60));
+		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
 		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
-		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.wantedRotationPitch, 60), -60));
+		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
 	}
 
 	/**
@@ -212,8 +204,9 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				int pd = dataStream.readInt();
 				if (pd == 0)
 				{
-					this.currentRotationPitch = dataStream.readFloat();
-					this.currentRotationYaw = dataStream.readFloat();
+					this.wantedRotationPitch = dataStream.readFloat();
+					this.wantedRotationYaw = dataStream.readFloat();
+					this.speedUp = dataStream.readBoolean();
 				}
 				else if (pd == 1)
 				{
@@ -317,6 +310,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	{
 		this.wantedRotationYaw = yaw;
 		this.wantedRotationPitch = pitch;
+		if (!this.worldObj.isRemote)
+		{
+			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0,this.wantedRotationPitch, this.wantedRotationYaw,this.speedUp), this.worldObj, new Vector3(this), 50);
+		}
 	}
 
 	@Override
