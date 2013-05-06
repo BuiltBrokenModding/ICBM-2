@@ -23,7 +23,9 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -33,7 +35,7 @@ import universalelectricity.core.vector.Vector3;
  * 
  */
 public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
-{
+{	
 	/** The target this turret is hitting. */
 	public Entity target;
 
@@ -41,6 +43,8 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	protected boolean targetLiving = true;
 	protected boolean targetCrafts = false;
 	protected boolean targetMissiles = false;
+
+	
 
 	public final ActionManager AIManager = new ActionManager();
 
@@ -266,5 +270,42 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		}
 
 		return false;
+	}
+
+	/**
+	 * Writes a tile entity to NBT.
+	 */
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+
+		nbt.setBoolean("shootPlayers", this.targetPlayers);
+		nbt.setBoolean("shootCraft", this.targetCrafts);
+		nbt.setBoolean("shootLiving", this.targetLiving);
+		nbt.setBoolean("shootAir", this.targetMissiles);
+
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		if (nbt.hasKey("shootPlayers"))
+		{
+			this.targetPlayers = nbt.getBoolean("shootPlayers");
+		}
+		if (nbt.hasKey("shootCraft"))
+		{
+			this.targetCrafts = nbt.getBoolean("shootCraft");
+		}
+		if (nbt.hasKey("shootLiving"))
+		{
+			this.targetLiving = nbt.getBoolean("shootLiving");
+		}
+		if (nbt.hasKey("shootAir"))
+		{
+			this.targetMissiles = nbt.getBoolean("shootAir");
+		}
 	}
 }

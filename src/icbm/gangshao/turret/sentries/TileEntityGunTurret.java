@@ -21,7 +21,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public double getDetectRange()
 	{
-		int baseRange = 15;
+		int baseRange = 20;
 
 		if (this.getPlatform() != null)
 		{
@@ -62,7 +62,11 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public float getRotationSpeed()
 	{
-		return 4f;
+		if(this.target != null || this.worldObj.isRemote)
+		{
+			return 4f;
+		}
+		return 2f;
 	}
 
 }

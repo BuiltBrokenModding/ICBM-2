@@ -10,6 +10,7 @@ import icbm.gangshao.render.ITagRender;
 import java.io.IOException;
 import java.util.HashMap;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -39,7 +40,6 @@ import dark.library.DarkMain;
  */
 public abstract class TileEntityTurretBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry
 {
-
 	public static final float MAX_PITCH = 30f;
 
 	public static final float MIN_PITCH = -30f;
@@ -74,7 +74,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		if (this.isRunning())
 		{
 			this.onUpdate();
-			this.updateRotation();
+			
 		}
 
 		// Check to make sure this thing still has hp
@@ -84,9 +84,15 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 
 		// Do packet update
-		if (!this.worldObj.isRemote && this.ticks % 5 == 0)
+		if (!this.worldObj.isRemote)
 		{
-			PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 50);
+			this.updateRotation();
+			
+			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.currentRotationPitch, this.currentRotationYaw), this.worldObj, new Vector3(this), 50);
+			if (this.ticks % 20 == 0)
+			{
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 50);
+			}
 		}
 
 	}
@@ -204,7 +210,12 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			try
 			{
 				int pd = dataStream.readInt();
-				if (pd == 1)
+				if (pd == 0)
+				{
+					this.currentRotationPitch = dataStream.readFloat();
+					this.currentRotationYaw = dataStream.readFloat();
+				}
+				else if (pd == 1)
 				{
 					short size = dataStream.readShort();
 
