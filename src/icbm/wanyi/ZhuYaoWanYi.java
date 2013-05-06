@@ -100,6 +100,7 @@ public class ZhuYaoWanYi extends ZhuYaoBase
 	@Init
 	public void load(FMLInitializationEvent evt)
 	{
+		super.init(evt);
 		ZhuYaoBase.setModMetadata(NAME, metadata);
 	}
 
@@ -151,5 +152,11 @@ public class ZhuYaoWanYi extends ZhuYaoBase
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
 		ZhuYaoWanYi.proxy.init();
+	}
+
+	@Override
+	protected String getChannel()
+	{
+		return CHANNEL;
 	}
 }

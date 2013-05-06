@@ -24,7 +24,6 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.WorldEvent.Save;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.flag.CommandFlag;
 import universalelectricity.prefab.flag.FlagRegistry;
@@ -130,6 +129,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 	@Init
 	public void init(FMLInitializationEvent event)
 	{
+		super.init(event);
 		ZhuYaoBase.setModMetadata(NAME, metadata);
 	}
 
@@ -149,13 +149,13 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		if (OreDictionary.getOres("battery").size() > 0)
 		{
 			// Turret Platform
-			GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', ElectricItemHelper.getUncharged(OreDictionary.getOres("battery").get(0)), 'S', UniversalRecipes.PRIMARY_PLATE, 'C', Block.chest, 'B', UniversalRecipes.CIRCUIT_T1 }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', UniversalRecipes.BATTERY, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', Block.chest, 'B', UniversalRecipes.CIRCUIT_T1 }));
 		}
 
 		// Gun Turret
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', UniversalRecipes.CIRCUIT_T1, 'S', UniversalRecipes.PRIMARY_METAL }));
 		// Railgun
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', "eliteCircuit", 'G', new ItemStack(blockTurret, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T3, 'G', new ItemStack(blockTurret, 1, 0) }));
 
 		CommandRegistry.register(new CommandAccess());
 		CommandRegistry.register(new CommandDestroy());
@@ -196,5 +196,11 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		{
 			NBTFileLoader.saveData(FlagRegistry.DEFAULT_NAME, FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getNBT());
 		}
+	}
+
+	@Override
+	protected String getChannel()
+	{
+		return CHANNEL;
 	}
 }

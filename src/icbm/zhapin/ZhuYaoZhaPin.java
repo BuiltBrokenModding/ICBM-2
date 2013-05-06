@@ -259,6 +259,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 	@Init
 	public void load(FMLInitializationEvent evt)
 	{
+		super.init(evt);
 		ZhuYaoBase.setModMetadata(NAME, metadata);
 	}
 
@@ -306,7 +307,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		// Radar Station
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang), '!', UniversalRecipes.PRIMARY_PLATE, '#', UniversalRecipes.CIRCUIT_T1, '?', Item.ingotGold }));
 		// EMP Tower
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', "motor", 'W', UniversalRecipes.WIRE }), "EMP Tower", ZhuYaoBase.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', UniversalRecipes.MOTOR, 'W', UniversalRecipes.WIRE }), "EMP Tower", ZhuYaoBase.CONFIGURATION, true);
 
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipes.PRIMARY_PLATE, '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
@@ -459,5 +460,11 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new MingLing());
+	}
+
+	@Override
+	protected String getChannel()
+	{
+		return CHANNEL;
 	}
 }

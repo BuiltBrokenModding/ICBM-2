@@ -65,6 +65,12 @@
 			<exclude name="**/*.xml"/>
 		</fileset>
 		
+		<fileset id="bcResources" dir="${dir.development}Basic-Components/resources/">
+				<exclude name=".git/**"/>
+				<exclude name="**/*.java"/>
+				<exclude name="**/*.xml"/>
+		</fileset>
+			
 		<!-- ICBM common source code -->
 		<fileset id="commonSource" dir="${dir.mcp}/reobf/minecraft/">
 			<include name="**/icbm/api/**"/>
@@ -82,6 +88,7 @@
 		
 		<!-- ICBM Explosion -->
 		<copy todir="JarFile1">
+			<fileset refid="bcResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/zhapin/**" />
@@ -89,6 +96,7 @@
 	
 		<!-- ICBM Contraption -->
 		<copy todir="JarFile2">
+			<fileset refid="bcResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/wanyi/**" />
@@ -96,6 +104,7 @@
 		
 		<!-- ICBM Sentry -->
 		<copy todir="JarFile3">
+			<fileset refid="bcResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/gangshao/**" />

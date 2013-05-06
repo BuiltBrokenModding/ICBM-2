@@ -15,9 +15,9 @@ import dark.library.access.AccessLevel;
 @SideOnly(Side.CLIENT)
 public class RenderAATurret extends RenderTaggedTile
 {
-	public static final String TEXTURE_FILE = "";
-	public static final String TEXTURE_FILE_FRIENDLY = "";
-	public static final String TEXTURE_FILE_HOSTILE = "";
+	public static final String TEXTURE_FILE = "aa_turret_neutral.png";
+	public static final String TEXTURE_FILE_FRIENDLY = "aa_turret_friendly.png";
+	public static final String TEXTURE_FILE_HOSTILE = "aa_turret_hostile.png";
 	public static final ModelWirlWindAA MODEL = new ModelWirlWindAA();
 
 	@Override
@@ -47,11 +47,12 @@ public class RenderAATurret extends RenderTaggedTile
 		MODEL.renderBody(0.0625F);
 		MODEL.renderRadar(0.0625F);
 		// Render gun pitch rotation
-		
-		if(renderPitch <= 0.6F && (renderPitch- 0.6F) >= -1.2F)
+
+		if (renderPitch <= 0.6F && (renderPitch - 0.6F) >= -1.2F)
 		{
 			MODEL.renderCannon(0.0625F, renderPitch - 0.6F);
-		}else
+		}
+		else
 		{
 			MODEL.renderCannon(0.0625F, -0.6F);
 		}
