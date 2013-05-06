@@ -1,6 +1,6 @@
 package icbm.zhapin.daodan;
 
-import icbm.core.ItGenZongQi;
+import icbm.api.ITracker;
 import icbm.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,9 +82,9 @@ public class DZhuiZhong extends DaoDan
 		{
 			if (entityPlayer.getCurrentEquippedItem() != null)
 			{
-				if (entityPlayer.getCurrentEquippedItem().getItem() instanceof ItGenZongQi)
+				if (entityPlayer.getCurrentEquippedItem().getItem() instanceof ITracker)
 				{
-					Entity trackingEntity = ItGenZongQi.getTrackingEntity(missileObj.worldObj, entityPlayer.getCurrentEquippedItem());
+					Entity trackingEntity = ((ITracker) entityPlayer.getCurrentEquippedItem().getItem()).getTrackingEntity(missileObj.worldObj, entityPlayer.getCurrentEquippedItem());
 
 					if (trackingEntity != null)
 					{

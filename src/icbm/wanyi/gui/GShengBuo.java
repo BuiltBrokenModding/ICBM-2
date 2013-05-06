@@ -1,7 +1,7 @@
 package icbm.wanyi.gui;
 
 import icbm.api.IItemFrequency;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.wanyi.WanYiPacketGuanLi.WanYiPacketType;
 import icbm.wanyi.ZhuYaoWanYi;
 import net.minecraft.client.gui.GuiTextField;
@@ -91,7 +91,7 @@ public class GShengBuo extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYao.GUI_PATH + "gui_empty.png");
+		this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "gui_empty.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.containerWidth = (this.width - this.xSize) / 2;

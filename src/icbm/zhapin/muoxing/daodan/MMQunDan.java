@@ -1,13 +1,13 @@
 package icbm.zhapin.muoxing.daodan;
 
-import icbm.core.muoxing.ICBMModelBase;
+import icbm.core.di.MICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMQunDan extends ICBMModelBase
+public class MMQunDan extends MICBM
 {
 	// fields
 	ModelRenderer Shape1;

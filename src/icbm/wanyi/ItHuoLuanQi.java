@@ -1,7 +1,7 @@
 package icbm.wanyi;
 
 import icbm.api.IItemFrequency;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.ItElectricICBM;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class ItHuoLuanQi extends ItElectricICBM implements IItemFrequency
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		par3EntityPlayer.openGui(ZhuYaoWanYi.instance, ZhuYao.GUI_SHENG_BUO, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+		par3EntityPlayer.openGui(ZhuYaoWanYi.instance, ZhuYaoBase.GUI_SHENG_BUO, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
 		return par1ItemStack;
 	}
 

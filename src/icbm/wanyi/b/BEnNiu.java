@@ -1,7 +1,7 @@
 package icbm.wanyi.b;
 
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 
 import java.util.Random;
 
@@ -16,7 +16,7 @@ public class BEnNiu extends BlockButton
 	{
 		super(id, true);
 		this.setTickRandomly(true);
-		this.setUnlocalizedName(ZhuYao.PREFIX + "glassButton");
+		this.setUnlocalizedName(ZhuYaoBase.PREFIX + "glassButton");
 		this.setStepSound(soundGlassFootstep);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}

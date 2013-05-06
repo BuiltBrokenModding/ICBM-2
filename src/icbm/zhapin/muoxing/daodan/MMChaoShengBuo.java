@@ -1,10 +1,10 @@
 package icbm.zhapin.muoxing.daodan;
 
-import icbm.core.muoxing.ICBMModelBase;
+import icbm.core.di.MICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class MMChaoShengBuo extends ICBMModelBase
+public class MMChaoShengBuo extends MICBM
 {
 	// fields
 	ModelRenderer MAIN_MODULE;

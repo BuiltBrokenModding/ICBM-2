@@ -2,7 +2,7 @@ package icbm.zhapin.zhapin;
 
 import icbm.api.ICamouflageMaterial;
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.RHZhaPin;
@@ -221,11 +221,11 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	{
 		ITexturePack itexturepack = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
 		String iconName = "explosive_" + ZhaPin.list[i].getUnlocalizedName() + suffix;
-		String path = "/mods/" + ZhuYao.PREFIX.replace(":", "") + "/textures/blocks/" + iconName + ".png";
+		String path = "/mods/" + ZhuYaoBase.PREFIX.replace(":", "") + "/textures/blocks/" + iconName + ".png";
 		try
 		{
 			BufferedImage bufferedimage = ImageIO.read(itexturepack.getResourceAsStream(path));
-			return iconRegister.registerIcon(ZhuYao.PREFIX + iconName);
+			return iconRegister.registerIcon(ZhuYaoBase.PREFIX + iconName);
 		}
 		catch (Exception e)
 		{
@@ -233,10 +233,10 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 
 		if (suffix.equals("_bottom"))
 		{
-			return iconRegister.registerIcon(ZhuYao.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
+			return iconRegister.registerIcon(ZhuYaoBase.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
 		}
 
-		return iconRegister.registerIcon(ZhuYao.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
+		return iconRegister.registerIcon(ZhuYaoBase.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
 	}
 
 	/**

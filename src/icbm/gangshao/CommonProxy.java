@@ -3,7 +3,8 @@ package icbm.gangshao;
 import icbm.gangshao.container.ContainerTurretPlatform;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
 import icbm.gangshao.turret.TCiGuiPao;
-import icbm.gangshao.turret.TileEntityGunTurret;
+import icbm.gangshao.turret.sentries.TileEntityAATurret;
+import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -23,6 +24,7 @@ public class CommonProxy implements IGuiHandler
 	public void init()
 	{
 		GameRegistry.registerTileEntity(TileEntityGunTurret.class, "ICBMGunTurret");
+		GameRegistry.registerTileEntity(TileEntityAATurret.class, "ICBMAATurret");
 		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
 		GameRegistry.registerTileEntity(TileEntityTurretPlatform.class, "ICBMPlatform");
 		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMultiblock");

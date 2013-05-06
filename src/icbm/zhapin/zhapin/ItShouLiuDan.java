@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.ItICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
@@ -121,7 +121,7 @@ public class ItShouLiuDan extends ItICBM
 	{
 		for (int i = 0; i < ZhaPin.E_YI_ID; i++)
 		{
-			ICONS[i] = iconRegister.registerIcon(ZhuYao.PREFIX + "grenade_" + ZhaPin.list[i].getUnlocalizedName());
+			ICONS[i] = iconRegister.registerIcon(ZhuYaoBase.PREFIX + "grenade_" + ZhaPin.list[i].getUnlocalizedName());
 		}
 	}
 

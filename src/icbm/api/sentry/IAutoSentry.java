@@ -1,4 +1,4 @@
-package icbm.api;
+package icbm.api.sentry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
@@ -9,7 +9,7 @@ import net.minecraft.util.AxisAlignedBB;
  * @author Calclavia
  * 
  */
-public interface IAutoSentry extends ITurret
+public interface IAutoSentry extends ISentry
 {
 	/**
 	 * Gets the bounding box by which the sentry focuses its weapon on

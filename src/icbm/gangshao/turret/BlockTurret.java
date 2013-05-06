@@ -1,10 +1,12 @@
 package icbm.gangshao.turret;
 
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.render.BlockRenderingHandler;
+import icbm.gangshao.turret.sentries.TileEntityAATurret;
+import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 
 import java.util.List;
 
@@ -41,11 +43,11 @@ public class BlockTurret extends BICBM
 {
 	public enum TurretType
 	{
-		GUN(TileEntityGunTurret.class), RAILGUN(TCiGuiPao.class);
+		GUN(TileEntityGunTurret.class), RAILGUN(TCiGuiPao.class), AA(TileEntityAATurret.class);
 
-		public Class tileEntity;
+		public Class<? extends TileEntity> tileEntity;
 
-		private TurretType(Class tile)
+		private TurretType(Class<? extends TileEntity> tile)
 		{
 			this.tileEntity = tile;
 		}
@@ -63,7 +65,7 @@ public class BlockTurret extends BICBM
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		this.blockIcon = iconRegister.registerIcon(ZhuYao.PREFIX + "machine");
+		this.blockIcon = iconRegister.registerIcon(ZhuYaoBase.PREFIX + "machine");
 	}
 
 	@Override
@@ -193,7 +195,7 @@ public class BlockTurret extends BICBM
 		{
 			try
 			{
-				return (TileEntity) TurretType.values()[meta].tileEntity.newInstance();
+				return TurretType.values()[meta].tileEntity.newInstance();
 			}
 			catch (Exception e)
 			{

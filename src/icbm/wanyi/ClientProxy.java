@@ -1,7 +1,7 @@
 package icbm.wanyi;
 
 import icbm.core.ShengYin;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.wanyi.b.TYinGanQi;
 import icbm.wanyi.gui.GShengBuo;
 import icbm.wanyi.gui.GYinGanQi;
@@ -27,13 +27,13 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == ZhuYao.GUI_SHENG_BUO)
+		if (tileEntity != null || ID == ZhuYaoBase.GUI_SHENG_BUO)
 		{
 			switch (ID)
 			{
-				case ZhuYao.GUI_YIN_GAN_QI:
+				case ZhuYaoBase.GUI_YIN_GAN_QI:
 					return new GYinGanQi((TYinGanQi) tileEntity);
-				case ZhuYao.GUI_SHENG_BUO:
+				case ZhuYaoBase.GUI_SHENG_BUO:
 					return new GShengBuo(entityPlayer.inventory.getCurrentItem());
 			}
 		}

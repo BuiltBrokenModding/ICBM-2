@@ -1,16 +1,16 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
 import icbm.zhapin.zhapin.TZhaDan;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
+import calclavia.lib.CalclaviaRenderHelper;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -32,7 +32,7 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, 1.5F, 0.0F);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.SMINE_TEXTURE));
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.SMINE_TEXTURE));
 				MDiLei.INSTANCE.render(0.0625F);
 				GL11.glPopMatrix();
 			}
@@ -40,42 +40,12 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 			{
 				try
 				{
-					Tessellator var4 = Tessellator.instance;
-					block.setBlockBoundsForItemRender();
-					renderer.setRenderBoundsFromBlock(block);
-					GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-					GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-					var4.startDrawingQuads();
-					var4.setNormal(0.0F, -1.0F, 0.0F);
-					renderer.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(0, metadata));
-					var4.draw();
 
-					var4.startDrawingQuads();
-					var4.setNormal(0.0F, 1.0F, 0.0F);
-					renderer.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(1, metadata));
-					var4.draw();
-
-					var4.startDrawingQuads();
-					var4.setNormal(0.0F, 0.0F, -1.0F);
-					renderer.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(2, metadata));
-					var4.draw();
-					var4.startDrawingQuads();
-					var4.setNormal(0.0F, 0.0F, 1.0F);
-					renderer.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(3, metadata));
-					var4.draw();
-					var4.startDrawingQuads();
-					var4.setNormal(-1.0F, 0.0F, 0.0F);
-					renderer.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(4, metadata));
-					var4.draw();
-					var4.startDrawingQuads();
-					var4.setNormal(1.0F, 0.0F, 0.0F);
-					renderer.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(5, metadata));
-					var4.draw();
-					GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+					CalclaviaRenderHelper.renderNormalBlockAsItem(block, metadata, renderer);
 				}
 				catch (Exception e)
 				{
-					ZhuYao.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
+					ZhuYaoBase.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
 					e.printStackTrace();
 				}
 			}

@@ -1,7 +1,7 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
-import icbm.core.muoxing.ICBMModelBase;
+import icbm.core.ZhuYaoBase;
+import icbm.core.di.MICBM;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.daodan.EDaoDan.XingShi;
@@ -19,6 +19,7 @@ import icbm.zhapin.muoxing.daodan.MMHuo;
 import icbm.zhapin.muoxing.daodan.MMLa;
 import icbm.zhapin.muoxing.daodan.MMLiZi;
 import icbm.zhapin.muoxing.daodan.MMPiaoFu;
+import icbm.zhapin.muoxing.daodan.MMQi;
 import icbm.zhapin.muoxing.daodan.MMQunDan;
 import icbm.zhapin.muoxing.daodan.MMShengBuo;
 import icbm.zhapin.muoxing.daodan.MMTaiYang;
@@ -42,7 +43,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RDaoDan extends Render
 {
-	public static final ICBMModelBase[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMYaSuo(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
+	public static final MICBM[] MODELS = { new MMYaSuo(), new MMXiaoQunDan(), new MMHuo(), new MMQi(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
 
 	, new MMQunDan(), new MMGanRanDu(), new MMShengBuo(), new MMTuPuo(), new MMHuanYuan(), new MMLiZi(),
 
@@ -50,7 +51,7 @@ public class RDaoDan extends Render
 
 	new MMFanWuSu(), new MMHongSu() };
 
-	public static ICBMModelBase[] SPECIAL_MODELS = { new MMYaSuo(), new MMZhuiZhong(), new MMFanDan(), new MMFenZiDan(), new MMFenZiDan() };
+	public static MICBM[] SPECIAL_MODELS = { new MMYaSuo(), new MMZhuiZhong(), new MMFanDan(), new MMFenZiDan(), new MMFenZiDan() };
 
 	public RDaoDan(float f)
 	{
@@ -74,12 +75,12 @@ public class RDaoDan extends Render
 
 		if (entityMissile.haoMa >= 100)
 		{
-			this.loadTexture(ZhuYao.MODEL_PATH + "missile_" + DaoDan.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
+			this.loadTexture(ZhuYaoBase.MODEL_PATH + "missile_" + DaoDan.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
 			RDaoDan.SPECIAL_MODELS[entityMissile.haoMa - 100].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 		else
 		{
-			this.loadTexture(ZhuYao.MODEL_PATH + "missile_" + ZhaPin.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
+			this.loadTexture(ZhuYaoBase.MODEL_PATH + "missile_" + ZhaPin.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
 			RDaoDan.MODELS[entityMissile.haoMa].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 		}
 

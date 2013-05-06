@@ -60,7 +60,7 @@ public class GenLiu extends OreGenReplace
 		{
 			Block block = Block.blocksList[world.getBlockId(x, y, z)];
 
-			if (block != null && block.isGenMineableReplaceable(world, x, y, z, block.blockID))
+			if (block != null && block.isGenMineableReplaceable(world, x, y, z, Block.stone.blockID))
 			{
 				world.setBlock(x, y, z, this.oreID, this.oreMeta, 2);
 			}

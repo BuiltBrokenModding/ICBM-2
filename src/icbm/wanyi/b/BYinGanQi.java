@@ -1,6 +1,6 @@
 package icbm.wanyi.b;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.core.di.BICBM;
 import icbm.wanyi.ZhuYaoWanYi;
 
@@ -33,7 +33,7 @@ public class BYinGanQi extends BICBM
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		par5EntityPlayer.openGui(ZhuYaoWanYi.instance, ZhuYao.GUI_YIN_GAN_QI, par1World, x, y, z);
+		par5EntityPlayer.openGui(ZhuYaoWanYi.instance, ZhuYaoBase.GUI_YIN_GAN_QI, par1World, x, y, z);
 		return true;
 	}
 

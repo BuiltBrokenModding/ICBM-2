@@ -1,6 +1,6 @@
 package icbm.wanyi;
 
-import icbm.core.ItGenZongQi;
+import icbm.api.ITracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureStitched;
@@ -37,13 +37,13 @@ public class TextureGenZhongQi extends TextureStitched
 			double xDifference = 0;
 			double zDifference = 0;
 
-			if (player.getCurrentEquippedItem() != null)
-			{
-				if (player.getCurrentEquippedItem().itemID == ZhuYaoWanYi.itGenZongQi.itemID)
-				{
-					ItemStack itemStack = player.getCurrentEquippedItem();
+			ItemStack itemStack = player.getCurrentEquippedItem();
 
-					Entity trackingEntity = ItGenZongQi.getTrackingEntity(FMLClientHandler.instance().getClient().theWorld, itemStack);
+			if (itemStack != null)
+			{
+				if (itemStack.getItem() instanceof ITracker)
+				{
+					Entity trackingEntity = ((ITracker) itemStack.getItem()).getTrackingEntity(FMLClientHandler.instance().getClient().theWorld, itemStack);
 
 					if (trackingEntity != null)
 					{

@@ -1,6 +1,6 @@
-package icbm.api;
+package icbm.api.sentry;
 
-import icbm.gangshao.platform.TileEntityTurretPlatform;
+import net.minecraft.tileentity.TileEntity;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -9,7 +9,7 @@ import universalelectricity.core.vector.Vector3;
  * @author Calclavia
  * 
  */
-public interface ITurret
+public interface ISentry
 {
 	/**
 	 * Set the sentry guns new rotation. This will be updated over time.
@@ -34,7 +34,7 @@ public interface ITurret
 	/**
 	 * Gets the turret platform.
 	 */
-	public TileEntityTurretPlatform getPlatform();
+	public TileEntity getPlatform();
 
 	/**
 	 * The amount of time it takes to cool down per fire.

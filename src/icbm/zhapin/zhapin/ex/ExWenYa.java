@@ -1,9 +1,9 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
-import icbm.zhapin.zhapin.ex.ThrSheXian.IThreadCallBack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -12,7 +12,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExWenYa extends ZhaPin implements IThreadCallBack
+public class ExWenYa extends ExThr
 {
 	public static final int BAN_JING = 20;
 	public static final int NENG_LIANG = 150;
@@ -31,7 +31,9 @@ public class ExWenYa extends ZhaPin implements IThreadCallBack
 
 		if (!worldObj.isRemote)
 		{
-			new ThrSheXian(worldObj, position, BAN_JING, NENG_LIANG, this, explosionSource).run();
+			ThrSheXian thread = new ThrSheXian(worldObj, position, BAN_JING, NENG_LIANG, explosionSource);
+			thread.run();
+			((EZhaPin) explosionSource).dataList1.add(thread);
 		}
 
 		this.doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG * 1000);
@@ -42,8 +44,6 @@ public class ExWenYa extends ZhaPin implements IThreadCallBack
 	@Override
 	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int callCount)
 	{
-		super.doBaoZha(worldObj, position, explosionSource);
-
 		int r = callCount;
 
 		if (worldObj.isRemote && ZhuYaoZhaPin.proxy.isGaoQing())
@@ -62,43 +62,40 @@ public class ExWenYa extends ZhaPin implements IThreadCallBack
 						{
 							ZhuYaoZhaPin.proxy.spawnParticle("smoke", worldObj, targetPosition, 5F, 1F);
 						}
-
 					}
 				}
 			}
 		}
 
-		if (r > BAN_JING)
-		{
-			return false;
-		}
-
-		return true;
+		return super.doBaoZha(worldObj, position, explosionSource, callCount);
 	}
 
 	@Override
-	public void onThreadComplete(ThrSheXian thread)
+	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
 	{
-		World worldObj = thread.world;
-		Vector3 position = thread.position;
+		super.baoZhaHou(worldObj, position, explosionSource);
 
-		if (!thread.world.isRemote)
+		EZhaPin source = (EZhaPin) explosionSource;
+
+		if (!worldObj.isRemote && source.dataList1.size() > 0 && source.dataList1.get(0) instanceof ThrSheXian)
 		{
+			ThrSheXian thread = (ThrSheXian) source.dataList1.get(0);
+
 			for (Object obj : thread.destroyed)
 			{
 				Vector3 targetPosition = (Vector3) obj;
-				int blockID = thread.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
 				if (blockID > 0)
 				{
 					try
 					{
-						thread.world.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 3);
-						Block.blocksList[blockID].onBlockDestroyedByExplosion(thread.world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), null);
+						worldObj.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 3);
+						Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), null);
 					}
 					catch (Exception e)
 					{
-						ZhuYao.LOGGER.severe("Detonation Failed!");
+						ZhuYaoBase.LOGGER.severe("Detonation Failed!");
 						e.printStackTrace();
 					}
 				}
@@ -124,7 +121,7 @@ public class ExWenYa extends ZhaPin implements IThreadCallBack
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 	}
 
 	@Override

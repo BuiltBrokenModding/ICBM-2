@@ -6,7 +6,7 @@ import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -197,7 +197,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.jiSuan();
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
-		ZhuYao.LOGGER.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+		ZhuYaoBase.LOGGER.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
 	@Override
@@ -254,7 +254,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
-		if (!this.worldObj.isRemote && ZhuYao.ZAI_KUAI && this.chunkTicket != null)
+		if (!this.worldObj.isRemote && ZhuYaoBase.ZAI_KUAI && this.chunkTicket != null)
 		{
 			for (int x = -2; x <= 2; x++)
 			{
@@ -617,7 +617,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 				this.zhengZaiBaoZha = true;
 
-				ZhuYao.LOGGER.fine(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+				ZhuYaoBase.LOGGER.fine(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
 
 			this.setDead();
@@ -625,7 +625,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		}
 		catch (Exception e)
 		{
-			ZhuYao.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
+			ZhuYaoBase.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
 			e.printStackTrace();
 		}
 	}

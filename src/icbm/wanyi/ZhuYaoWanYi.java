@@ -2,8 +2,7 @@ package icbm.wanyi;
 
 import icbm.api.ICBM;
 import icbm.core.ICBMTab;
-import icbm.core.ItGenZongQi;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.wanyi.b.BBuoLi;
 import icbm.wanyi.b.BBuoLiPan;
 import icbm.wanyi.b.BEnNiu;
@@ -24,20 +23,20 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
-import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents;after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ZhuYaoWanYi.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = WanYiPacketGuanLi.class)
-public class ZhuYaoWanYi
+public class ZhuYaoWanYi extends ZhuYaoBase
 {
 	public static final String NAME = ICBM.NAME + "|Contraption";
 	public static final String CHANNEL = ICBM.NAME + "|C";
@@ -59,17 +58,18 @@ public class ZhuYaoWanYi
 	public static ItemElectric itHuoLaunQi;
 	public static ItemElectric itGenZongQi;
 
+	@Override
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		ZhuYao.INSTANCE.init();
+		super.preInit(event);
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoWanYi.proxy);
 
-		ZhuYao.CONFIGURATION.load();
+		ZhuYaoBase.CONFIGURATION.load();
 
 		// Blocks
-		bBuoLiPan = new BBuoLiPan(ZhuYao.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(ZhuYao.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
+		bBuoLiPan = new BBuoLiPan(ZhuYaoBase.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
+		bBuoLiEnNiu = new BEnNiu(ZhuYaoBase.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
 		bYinGanQi = new BYinGanQi(ICBM.BLOCK_ID_PREFIX - 3);
 		bZha = new BZha(ICBM.BLOCK_ID_PREFIX - 4);
 		bYinXing = new BYinXing(ICBM.BLOCK_ID_PREFIX - 5);
@@ -77,11 +77,11 @@ public class ZhuYaoWanYi
 		bBuoLi = new BBuoLi(ICBM.BLOCK_ID_PREFIX - 7);
 
 		// ITEMS
-		itYao = new ItYao(ZhuYao.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
-		itHuoLaunQi = new ItHuoLuanQi(ZhuYao.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
-		itGenZongQi = new ItGenZongQi(ZhuYao.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
+		itYao = new ItYao(ZhuYaoBase.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
+		itHuoLaunQi = new ItHuoLuanQi(ZhuYaoBase.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
+		itGenZongQi = new ItGenZongQi(ZhuYaoBase.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
-		ZhuYao.CONFIGURATION.save();
+		ZhuYaoBase.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(bYinGanQi);
 
@@ -100,7 +100,14 @@ public class ZhuYaoWanYi
 	@Init
 	public void load(FMLInitializationEvent evt)
 	{
-		ZhuYao.setModMetadata(NAME, metadata);
+		ZhuYaoBase.setModMetadata(NAME, metadata);
+	}
+
+	@Override
+	@PostInit
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		super.postInit(event);
 
 		/**
 		 * Add all Recipes
@@ -108,11 +115,11 @@ public class ZhuYaoWanYi
 		// Spikes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', UniversalRecipes.SECONDARY_METAL }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
-		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ZhuYao.itDu, 'S', bZha });
+		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ZhuYaoBase.itDu, 'S', bZha });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', bZha }));
 
 		// Camouflage
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', UniversalRecipes.CIRCUIT_T1, 'G', Block.glass, 'W', Block.cloth }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', UniversalRecipes.CIRCUIT_T1, 'G', Block.glass, 'W', new ItemStack(Block.cloth, 1, OreDictionary.WILDCARD_VALUE) }));
 
 		if (OreDictionary.getOres(UniversalRecipes.BATTERY).size() > 0)
 		{
@@ -136,7 +143,7 @@ public class ZhuYaoWanYi
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
 
 		// Concrete
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sandStone, 'W', Item.bucketWater }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 0), 'O', Block.obsidian }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', UniversalRecipes.PRIMARY_METAL }));
 
@@ -144,11 +151,5 @@ public class ZhuYaoWanYi
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
 		ZhuYaoWanYi.proxy.init();
-	}
-
-	@ServerStarting
-	public void serverStarting(FMLServerStartingEvent event)
-	{
-		ZhuYao.INSTANCE.serverStarting(event);
 	}
 }

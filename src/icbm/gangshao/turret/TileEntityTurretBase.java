@@ -1,6 +1,6 @@
 package icbm.gangshao.turret;
 
-import icbm.api.ITurret;
+import icbm.api.sentry.ISentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionManager;
 import icbm.gangshao.actions.LookHelper;
@@ -37,7 +37,7 @@ import cpw.mods.fml.common.FMLLog;
  * @author Rseifert
  * 
  */
-public abstract class TileEntityTurretBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ITurret
+public abstract class TileEntityTurretBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry
 {
 	/**
 	 * The maximum amount of pitch allowed. From -30 to 30.
@@ -121,18 +121,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			float speedYaw;
 			if (this.rotationYaw > this.targetRotationYaw)
 			{
-				/*
-				 * if (Math.abs(this.rotationYaw - this.targetRotationYaw) >= 180) speedYaw =
-				 * this.rotationSpeed; else
-				 */
 				speedYaw = -this.rotationSpeed;
 			}
 			else
 			{
-				/*
-				 * if (Math.abs(this.rotationYaw - this.targetRotationYaw) >= 180) speedYaw =
-				 * -this.rotationSpeed; else
-				 */
 				speedYaw = this.rotationSpeed;
 			}
 

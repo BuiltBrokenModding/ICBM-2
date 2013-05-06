@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.muoxing.ICBMModelBase;
+import icbm.core.di.MICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EZhaDan;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -37,7 +37,7 @@ public class REZhaDan extends Render
 			GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
 			this.loadTexture((String) data[1]);
 			GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-			((ICBMModelBase) data[0]).render(entityExplosive, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
+			((MICBM) data[0]).render(entityExplosive, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
 			GL11.glPopMatrix();
 		}
 		else

@@ -1,6 +1,6 @@
 package icbm.zhapin.render;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.muoxing.jiqi.MShouFaSheQi;
 import net.minecraft.client.Minecraft;
@@ -35,7 +35,7 @@ public class RItFaSheQi implements IItemRenderer
 	{
 		GL11.glPushMatrix();
 
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYao.MODEL_PATH + "rocket_launcher.png"));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + "rocket_launcher.png"));
 
 		if (type == ItemRenderType.INVENTORY)
 		{
@@ -51,7 +51,7 @@ public class RItFaSheQi implements IItemRenderer
 			 * Check to see if we should do a first person render or not.
 			 */
 			boolean isThisEntity = false;
-			boolean isFirstPerson = (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0);
+			boolean isFirstPerson = Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
 
 			if (data != null)
 			{
@@ -69,8 +69,11 @@ public class RItFaSheQi implements IItemRenderer
 			}
 			else
 			{
-				GL11.glTranslatef(0f, -0.2f, 1f);
-				GL11.glRotatef(-120, 0, 1, 0);
+				float scale = 2f;
+				GL11.glScalef(scale, scale, scale);
+				GL11.glRotatef(-105, 0, 0, 1);
+				GL11.glRotatef(-75, 0, 1, 0);
+				GL11.glTranslatef(0.1f, -0.9f, 0.6f);
 			}
 		}
 

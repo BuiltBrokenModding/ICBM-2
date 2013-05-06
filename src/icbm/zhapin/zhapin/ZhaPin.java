@@ -4,7 +4,7 @@ import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosive;
 import icbm.core.HaoMa;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.daodan.DaoDan;
 import icbm.zhapin.daodan.EDaoDan;
@@ -147,9 +147,9 @@ public abstract class ZhaPin implements ITier, IExplosive
 		this.daoDan = new DaoDan(mingZi, ID, tier);
 		this.qiZi = FlagRegistry.registerFlag("ban_" + this.mingZi);
 
-		ZhuYao.CONFIGURATION.load();
-		this.isDisabled = ZhuYao.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);
-		ZhuYao.CONFIGURATION.save();
+		ZhuYaoBase.CONFIGURATION.load();
+		this.isDisabled = ZhuYaoBase.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);
+		ZhuYaoBase.CONFIGURATION.save();
 	}
 
 	@Override

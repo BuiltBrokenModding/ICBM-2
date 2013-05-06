@@ -11,8 +11,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RBICBM extends RenderBlocks
 {
-	private boolean didSetBrightness = false;
-
 	public RBICBM(IBlockAccess iBlockAccess)
 	{
 		super(iBlockAccess);
@@ -24,28 +22,28 @@ public class RBICBM extends RenderBlocks
 		float var7 = 1.0F;
 		float var8 = 0.8F;
 		float var9 = 0.6F;
-		Tessellator var10 = Tessellator.instance;
-		var10.startDrawingQuads();
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
 
 		float var12 = 1.0F;
 
-		var10.setColorOpaque_F(var6 * var12, var6 * var12, var6 * var12);
-		this.renderBottomFace(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(0, metadata));
+		tess.setColorOpaque_F(var6 * var12, var6 * var12, var6 * var12);
+		this.renderFaceYNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(0, metadata));
 
-		var10.setColorOpaque_F(var7 * var12, var7 * var12, var7 * var12);
-		this.renderTopFace(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(1, metadata));
+		tess.setColorOpaque_F(var7 * var12, var7 * var12, var7 * var12);
+		this.renderFaceYPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(1, metadata));
 
-		var10.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
-		this.renderEastFace(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(2, metadata));
+		tess.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
+		this.renderFaceZNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(2, metadata));
 
-		var10.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
-		this.renderWestFace(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(3, metadata));
+		tess.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
+		this.renderFaceZPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(3, metadata));
 
-		var10.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
-		this.renderNorthFace(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(4, metadata));
+		tess.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
+		this.renderFaceXNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(4, metadata));
 
-		var10.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
-		this.renderSouthFace(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(5, metadata));
-		var10.draw();
+		tess.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
+		this.renderFaceXPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(5, metadata));
+		tess.draw();
 	}
 }

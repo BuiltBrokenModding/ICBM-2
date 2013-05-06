@@ -3,7 +3,7 @@ package icbm.zhapin;
 import icbm.api.ICBM;
 import icbm.api.ICBMFlags;
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.cart.ItChe;
 import icbm.zhapin.daodan.DaoDan;
@@ -65,11 +65,13 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
@@ -79,7 +81,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:ICBM|Sentry;after:BasicComponents;after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ZhuYaoZhaPin.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ZhaPinPacketGuanLi.class)
-public class ZhuYaoZhaPin
+public class ZhuYaoZhaPin extends ZhuYaoBase
 {
 	public static final String NAME = ICBM.NAME + "|Explosion";
 	public static final String CHANNEL = ICBM.NAME + "|E";
@@ -119,16 +121,17 @@ public class ZhuYaoZhaPin
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
 
+	@Override
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		ZhuYao.INSTANCE.init();
+		super.preInit(event);
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoZhaPin.proxy);
 
-		ZhuYao.CONFIGURATION.load();
+		ZhuYaoBase.CONFIGURATION.load();
 		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
 		bJiQi = new BJiQi(ICBM.BLOCK_ID_PREFIX + 4);
-		bJia = new BlockMulti(ICBM.BLOCK_ID_PREFIX + 6).setTextureName(ZhuYao.PREFIX + "machine");
+		bJia = new BlockMulti(ICBM.BLOCK_ID_PREFIX + 6).setTextureName(ZhuYaoBase.PREFIX + "machine");
 
 		// ITEMS
 		itDaoDan = new ItDaoDan(ICBM.ITEM_ID_PREFIX + 3, "missile");
@@ -150,7 +153,7 @@ public class ZhuYaoZhaPin
 		PChuanRanDu.INSTANCE = new PChuanRanDu(22, false, 5149489, "virus");
 		PDongShang.INSTANCE = new PDongShang(23, false, 5149489, "frostBite");
 
-		ZhuYao.CONFIGURATION.save();
+		ZhuYaoBase.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(ZhuYaoZhaPin.bZhaDan);
 
@@ -256,7 +259,18 @@ public class ZhuYaoZhaPin
 	@Init
 	public void load(FMLInitializationEvent evt)
 	{
-		ZhuYao.setModMetadata(NAME, metadata);
+		ZhuYaoBase.setModMetadata(NAME, metadata);
+	}
+
+	@Override
+	@PostInit
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		super.postInit(event);
+
+		/**
+		 * Add all Recipes
+		 */
 
 		for (int i = 0; i < ZhaPin.list.length; i++)
 		{
@@ -266,9 +280,6 @@ public class ZhuYaoZhaPin
 			}
 		}
 
-		/**
-		 * Add all Recipes
-		 */
 		// Rocket Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipes.PRIMARY_METAL }));
 
@@ -295,7 +306,7 @@ public class ZhuYaoZhaPin
 		// Radar Station
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang), '!', UniversalRecipes.PRIMARY_PLATE, '#', UniversalRecipes.CIRCUIT_T1, '?', Item.ingotGold }));
 		// EMP Tower
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', "motor", 'W', UniversalRecipes.WIRE }), "EMP Tower", ZhuYao.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', "motor", 'W', UniversalRecipes.WIRE }), "EMP Tower", ZhuYaoBase.CONFIGURATION, true);
 
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipes.PRIMARY_PLATE, '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
@@ -356,18 +367,18 @@ public class ZhuYaoZhaPin
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i) }), ZhaPin.list[i].getUnlocalizedName() + " Missile", ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i) }), ZhaPin.list[i].getUnlocalizedName() + " Missile", ZhuYaoBase.CONFIGURATION, true);
 
 			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getUnlocalizedName() + " Grenade", ZhuYao.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getUnlocalizedName() + " Grenade", ZhuYaoBase.CONFIGURATION, true);
 			}
 
 			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getUnlocalizedName() + " Minecart", ZhuYao.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getUnlocalizedName() + " Minecart", ZhuYaoBase.CONFIGURATION, true);
 			}
 		}
 
@@ -444,7 +455,7 @@ public class ZhuYaoZhaPin
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event)
 	{
-		ZhuYao.INSTANCE.serverStarting(event);
+		super.serverStarting(event);
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new MingLing());

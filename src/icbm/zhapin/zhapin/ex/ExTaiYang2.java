@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
@@ -19,9 +19,9 @@ public class ExTaiYang2 extends ZhaPin
 	{
 		super(name, ID, tier);
 		this.setYinXin(1);
-		ZhuYao.CONFIGURATION.load();
-		this.createNetherrack = ZhuYao.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Create Netherrack", createNetherrack).getBoolean(createNetherrack);
-		ZhuYao.CONFIGURATION.save();
+		ZhuYaoBase.CONFIGURATION.load();
+		this.createNetherrack = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Create Netherrack", createNetherrack).getBoolean(createNetherrack);
+		ZhuYaoBase.CONFIGURATION.save();
 	}
 
 	@Override

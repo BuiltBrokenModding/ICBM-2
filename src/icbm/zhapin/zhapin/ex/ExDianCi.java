@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYao;
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -40,7 +40,7 @@ public class ExDianCi extends ZhaPin
 	{
 		if (OreDictionary.getOres(UniversalRecipes.BATTERY).size() > 0)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Item.redstone, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres(UniversalRecipes.BATTERY).get(0)) }), this.getUnlocalizedName(), ZhuYao.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Item.redstone, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres(UniversalRecipes.BATTERY).get(0)) }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
 		}
 	}
 
