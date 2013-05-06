@@ -12,7 +12,7 @@ import net.minecraft.util.AxisAlignedBB;
  */
 public class TileEntityAATurret extends TileEntityAutoTurret
 {
-	int gunBarrel = 0;
+
 	@Override
 	public void initiate()
 	{
@@ -76,7 +76,26 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return new Vector3(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5);
+		double x = 0.5;
+		double y = 0.5;
+		double z = 0.5;
+		if (this.worldObj.isRemote)
+		{
+			if (this.gunBarrel == 1 || this.gunBarrel == 2)
+			{
+				y += 0.2;
+			}
+			if (this.gunBarrel == 1 || this.gunBarrel == 3)
+			{
+				z = -0.2;
+			}
+			else
+			{
+				z = 1.2;
+			}
+		}
+		Vector3 position = new Vector3(this.xCoord + x, this.yCoord + y, this.zCoord + z);
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch - 10), 2));
 	}
 
 	@Override
@@ -84,14 +103,8 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	{
 		if (this.onFire())
 		{
-			this.gunBarrel++;
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
-			//this.sendShotToClient(new Vector3(this.target));
-			
-			if(this.gunBarrel>= 3)
-			{
-				this.gunBarrel = 0;
-			}
+			this.sendShotToClient(new Vector3(this.target));
 		}
 
 	}

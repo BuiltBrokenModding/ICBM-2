@@ -25,8 +25,8 @@ public class LookHelper
 	 */
 	public void lookAt(Vector3 target)
 	{
-		sentry.targetRotationYaw = getYaw(sentry.getMuzzle(), target);
-		sentry.targetRotationPitch = getPitch(sentry.getMuzzle(), target);
+		sentry.wantedRotationYaw = getYaw(sentry.getMuzzle(), target);
+		sentry.wantedRotationPitch = getPitch(sentry.getMuzzle(), target);
 	}
 
 	/**
@@ -49,9 +49,9 @@ public class LookHelper
 		float pitch = getPitch(sentry.getMuzzle(), target);
 		float yaw = getYaw(sentry.getMuzzle(), target);
 
-		if (getAngleDif(sentry.rotationYaw, yaw) <= allowedError)
+		if (getAngleDif(sentry.currentRotationYaw, yaw) <= allowedError)
 		{
-			if (getAngleDif(sentry.rotationPitch, pitch) <= allowedError)
+			if (getAngleDif(sentry.currentRotationPitch, pitch) <= allowedError)
 			{
 				return true;
 			}
@@ -120,7 +120,7 @@ public class LookHelper
 	 */
 	public boolean canEntityBeSeen(Vector3 target)
 	{
-		Vector3 barrel = Vector3.add(this.sentry.getMuzzle(), new Vector3(Math.sin(sentry.targetRotationYaw) * 1, 0, Math.cos(sentry.targetRotationYaw) * 1));
+		Vector3 barrel = Vector3.add(this.sentry.getMuzzle(), new Vector3(Math.sin(sentry.wantedRotationYaw) * 1, 0, Math.cos(sentry.wantedRotationYaw) * 1));
 		return this.sentry.worldObj.rayTraceBlocks(barrel.toVec3(), target.toVec3()) == null;
 	}
 

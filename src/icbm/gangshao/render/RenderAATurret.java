@@ -32,7 +32,7 @@ public class RenderAATurret extends RenderTaggedTile
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
 			this.setTextureBaseOnState(tileEntity);
-			render(tileEntity.rotationYaw, tileEntity.rotationPitch);
+			render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch);
 
 			GL11.glPopMatrix();
 		}

@@ -7,8 +7,6 @@ import icbm.gangshao.actions.LookHelper;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
 import icbm.gangshao.render.ITagRender;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -54,12 +52,14 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	/**
 	 * The rotation of the arms. In Degrees.
 	 */
-	public float targetRotationYaw, targetRotationPitch = 0;
-	public float rotationYaw, rotationPitch = 0;
+	public float wantedRotationYaw, wantedRotationPitch = 0;
+	public float currentRotationYaw, currentRotationPitch = 0;
 
 	public abstract float getRotationSpeed();
 
 	private int health = 100;
+
+	protected int gunBarrel = 0;
 
 	public TileEntityTurretBase()
 	{
@@ -117,10 +117,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	 */
 	public void updateRotation()
 	{
-		if (Math.abs(this.rotationYaw - this.targetRotationYaw) > 0.001f)
+		if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) > 0.001f)
 		{
 			float speedYaw;
-			if (this.rotationYaw > this.targetRotationYaw)
+			if (this.currentRotationYaw > this.wantedRotationYaw)
 			{
 				speedYaw = -this.getRotationSpeed();
 			}
@@ -129,18 +129,18 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				speedYaw = this.getRotationSpeed();
 			}
 
-			this.rotationYaw += speedYaw;
+			this.currentRotationYaw += speedYaw;
 
-			if (Math.abs(this.rotationYaw - this.targetRotationYaw) < this.getRotationSpeed() + 0.1f)
+			if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) < this.getRotationSpeed() + 0.1f)
 			{
-				this.rotationYaw = this.targetRotationYaw;
+				this.currentRotationYaw = this.wantedRotationYaw;
 			}
 		}
 
-		if (Math.abs(this.rotationPitch - this.targetRotationPitch) > 0.001f)
+		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) > 0.001f)
 		{
 			float speedPitch;
-			if (this.rotationPitch > this.targetRotationPitch)
+			if (this.currentRotationPitch > this.wantedRotationPitch)
 			{
 				speedPitch = -this.getRotationSpeed();
 			}
@@ -149,20 +149,20 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				speedPitch = this.getRotationSpeed();
 			}
 
-			this.rotationPitch += speedPitch;
+			this.currentRotationPitch += speedPitch;
 
-			if (Math.abs(this.rotationPitch - this.targetRotationPitch) < this.getRotationSpeed() + 0.1f)
+			if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) < this.getRotationSpeed() + 0.1f)
 			{
-				this.rotationPitch = this.targetRotationPitch;
+				this.currentRotationPitch = this.wantedRotationPitch;
 			}
 		}
 
 		/**
 		 * Wraps all the angels and cleans them up.
 		 */
-		this.rotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.rotationPitch, 60), -60));
-		this.targetRotationYaw = MathHelper.wrapAngleTo180_float(this.targetRotationYaw);
-		this.targetRotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.targetRotationPitch, 60), -60));
+		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.currentRotationPitch, 60), -60));
+		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
+		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(Math.max(Math.min(this.wantedRotationPitch, 60), -60));
 	}
 
 	/**
@@ -183,8 +183,14 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	public void sendShotToClient(Vector3 tar)
 	{
+		this.gunBarrel++;
+
 		Vector3 vec = this.getMuzzle().clone();
-		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 2, tar.x, tar.y, tar.z), this.worldObj, new Vector3(this), 50);
+		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 2, tar.x, tar.y, tar.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
+		if (this.gunBarrel >= (this.getBarrels() - 1))
+		{
+			this.gunBarrel = 0;
+		}
 	}
 
 	/**
@@ -199,7 +205,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			{
 				int pd = dataStream.readInt();
 				if (pd == 1)
-				{					
+				{
 					short size = dataStream.readShort();
 
 					if (size > 0)
@@ -212,6 +218,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				else if (pd == 2)
 				{
 					DarkMain.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
+					this.gunBarrel = dataStream.readInt();
 				}
 			}
 			catch (IOException e)
@@ -222,6 +229,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 	}
 
+	public int getBarrels()
+	{
+		return 1;
+	}
+
 	/**
 	 * Writes a tile entity to NBT.
 	 */
@@ -229,8 +241,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setFloat("yaw", this.targetRotationYaw);
-		nbt.setFloat("pitch", this.targetRotationPitch);
+		nbt.setFloat("yaw", this.wantedRotationYaw);
+		nbt.setFloat("pitch", this.wantedRotationPitch);
 		nbt.setInteger("hp", this.health);
 		nbt.setInteger("dir", this.platformDirection.ordinal());
 	}
@@ -239,8 +251,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.targetRotationYaw = nbt.getFloat("yaw");
-		this.targetRotationPitch = nbt.getFloat("pitch");
+		this.wantedRotationYaw = nbt.getFloat("yaw");
+		this.wantedRotationPitch = nbt.getFloat("pitch");
 		this.health = nbt.getInteger("hp");
 		this.platformDirection = ForgeDirection.getOrientation(nbt.getInteger("dir"));
 	}
@@ -292,14 +304,14 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	@Override
 	public void setRotation(float yaw, float pitch)
 	{
-		this.targetRotationYaw = yaw;
-		this.targetRotationPitch = pitch;
+		this.wantedRotationYaw = yaw;
+		this.wantedRotationPitch = pitch;
 	}
 
 	@Override
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.rotationYaw, this.rotationPitch - 10), 0.5));
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch - 10), 0.5));
 	}
 }

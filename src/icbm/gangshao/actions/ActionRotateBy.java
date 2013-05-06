@@ -23,22 +23,22 @@ public class ActionRotateBy extends Action
 
 		if (this.getArg(0) != null)
 		{
-			this.targetRotationYaw = this.tileEntity.targetRotationYaw + this.getFloatArg(0);
+			this.targetRotationYaw = this.tileEntity.wantedRotationYaw + this.getFloatArg(0);
 			this.deltaYaw = this.getFloatArg(0);
 		}
 		else
 		{
-			this.targetRotationYaw = this.tileEntity.targetRotationYaw + 90;
+			this.targetRotationYaw = this.tileEntity.wantedRotationYaw + 90;
 		}
 
 		if (this.getArg(1) != null)
 		{
-			this.targetRotationPitch = this.tileEntity.targetRotationPitch + this.getFloatArg(1);
+			this.targetRotationPitch = this.tileEntity.wantedRotationPitch + this.getFloatArg(1);
 			this.deltaPitch = this.getFloatArg(1);
 		}
 		else
 		{
-			this.targetRotationPitch = this.tileEntity.targetRotationPitch;
+			this.targetRotationPitch = this.tileEntity.wantedRotationPitch;
 		}
 
 		while (this.targetRotationYaw < 0)
@@ -50,8 +50,8 @@ public class ActionRotateBy extends Action
 		while (this.targetRotationPitch > 60)
 			this.targetRotationPitch -= 60;
 
-		float totalTicksYaw = Math.abs(this.targetRotationYaw - this.tileEntity.targetRotationYaw) / this.tileEntity.getRotationSpeed();
-		float totalTicksPitch = Math.abs(this.targetRotationPitch - this.tileEntity.targetRotationPitch) / this.tileEntity.getRotationSpeed();
+		float totalTicksYaw = Math.abs(this.targetRotationYaw - this.tileEntity.wantedRotationYaw) / this.tileEntity.getRotationSpeed();
+		float totalTicksPitch = Math.abs(this.targetRotationPitch - this.tileEntity.wantedRotationPitch) / this.tileEntity.getRotationSpeed();
 		this.totalTicks = Math.max(totalTicksYaw, totalTicksPitch);
 	}
 
@@ -71,17 +71,17 @@ public class ActionRotateBy extends Action
 		// set the rotation to the target immediately and let the client handle animating it
 		// wait for the client to catch up
 
-		if (Math.abs(this.tileEntity.targetRotationYaw - this.targetRotationYaw) > 0.001f)
-			this.tileEntity.targetRotationYaw = this.targetRotationYaw;
-		if (Math.abs(this.tileEntity.targetRotationPitch - this.targetRotationPitch) > 0.001f)
-			this.tileEntity.targetRotationPitch = this.targetRotationPitch;
+		if (Math.abs(this.tileEntity.wantedRotationYaw - this.targetRotationYaw) > 0.001f)
+			this.tileEntity.wantedRotationYaw = this.targetRotationYaw;
+		if (Math.abs(this.tileEntity.wantedRotationPitch - this.targetRotationPitch) > 0.001f)
+			this.tileEntity.wantedRotationPitch = this.targetRotationPitch;
 
 		// if (this.ticks < this.totalTicks) { return true; }
-		if (Math.abs(this.tileEntity.rotationYaw - this.tileEntity.targetRotationPitch) > 0.001f)
+		if (Math.abs(this.tileEntity.currentRotationYaw - this.tileEntity.wantedRotationPitch) > 0.001f)
 		{
 			return true;
 		}
-		if (Math.abs(this.tileEntity.rotationPitch - this.tileEntity.targetRotationYaw) > 0.001f)
+		if (Math.abs(this.tileEntity.currentRotationPitch - this.tileEntity.wantedRotationYaw) > 0.001f)
 		{
 			return true;
 		}

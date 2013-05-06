@@ -56,14 +56,14 @@ public class ActionRotateTo extends Action
 	{
 		super.onUpdateTask();
 
-		this.tileEntity.targetRotationYaw = this.targetRotationYaw;
-		this.tileEntity.targetRotationPitch = this.targetRotationPitch;
+		this.tileEntity.wantedRotationYaw = this.targetRotationYaw;
+		this.tileEntity.wantedRotationPitch = this.targetRotationPitch;
 
-		if (Math.abs(this.tileEntity.rotationPitch - this.tileEntity.targetRotationPitch) > 0.001f)
+		if (Math.abs(this.tileEntity.currentRotationPitch - this.tileEntity.wantedRotationPitch) > 0.001f)
 		{
 			return true;
 		}
-		if (Math.abs(this.tileEntity.rotationYaw - this.tileEntity.targetRotationYaw) > 0.001f)
+		if (Math.abs(this.tileEntity.currentRotationYaw - this.tileEntity.wantedRotationYaw) > 0.001f)
 		{
 			return true;
 		}

@@ -71,11 +71,11 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 			if (this.mountedPlayer.rotationPitch < -45)
 				this.mountedPlayer.rotationPitch = -45;
 
-			this.targetRotationPitch = this.mountedPlayer.rotationPitch;
-			this.targetRotationYaw = this.mountedPlayer.rotationYaw;
+			this.wantedRotationPitch = this.mountedPlayer.rotationPitch;
+			this.wantedRotationYaw = this.mountedPlayer.rotationYaw;
 
-			this.rotationPitch = this.targetRotationPitch * 0.0175f;
-			this.rotationYaw = this.targetRotationYaw * 0.0175f;
+			this.currentRotationPitch = this.wantedRotationPitch * 0.0175f;
+			this.currentRotationYaw = this.wantedRotationYaw * 0.0175f;
 		}
 		else if (this.entityFake != null)
 		{
@@ -172,7 +172,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 		if (this.worldObj.isRemote)
 		{
 			Vector3 startPosition = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
-			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.rotationYaw - 15, this.rotationPitch);
+			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 15, this.currentRotationPitch);
 			double scale = 1.0;
 			double xoffset = 1.3f;
 			double yoffset = -.2;
@@ -207,8 +207,8 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 
 			if (ID == 1)
 			{
-				this.rotationYaw = dataStream.readFloat();
-				this.rotationPitch = dataStream.readFloat();
+				this.currentRotationYaw = dataStream.readFloat();
+				this.currentRotationPitch = dataStream.readFloat();
 			}
 			else if (ID == 2)
 			{
@@ -235,7 +235,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 1, this.rotationYaw, this.rotationPitch);
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 1, this.currentRotationYaw, this.currentRotationPitch);
 	}
 
 	@Override
@@ -305,7 +305,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	public MovingObjectPosition rayTrace(double distance)
 	{
 		Vector3 muzzlePosition = this.getMuzzle();
-		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch);
+		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw, this.wantedRotationPitch);
 		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
 		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
 	}
@@ -314,7 +314,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw - 10, this.targetRotationPitch), 1.5));
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw - 10, this.wantedRotationPitch), 1.5));
 	}
 
 	@Override
@@ -322,11 +322,11 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	{
 		super.readFromNBT(par1NBTTagCompound);
 
-		this.targetRotationYaw = par1NBTTagCompound.getFloat("rotationYaw");
-		this.targetRotationPitch = par1NBTTagCompound.getFloat("rotationPitch");
+		this.wantedRotationYaw = par1NBTTagCompound.getFloat("rotationYaw");
+		this.wantedRotationPitch = par1NBTTagCompound.getFloat("rotationPitch");
 
-		this.rotationPitch = this.targetRotationPitch * 0.0175f;
-		this.rotationYaw = this.targetRotationYaw * 0.0175f;
+		this.currentRotationPitch = this.wantedRotationPitch * 0.0175f;
+		this.currentRotationYaw = this.wantedRotationYaw * 0.0175f;
 	}
 
 	/**
@@ -337,8 +337,8 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	{
 		super.writeToNBT(par1NBTTagCompound);
 
-		par1NBTTagCompound.setFloat("rotationYaw", this.targetRotationYaw);
-		par1NBTTagCompound.setFloat("rotationPitch", this.targetRotationPitch);
+		par1NBTTagCompound.setFloat("rotationYaw", this.wantedRotationYaw);
+		par1NBTTagCompound.setFloat("rotationPitch", this.wantedRotationPitch);
 
 		NBTTagList var2 = new NBTTagList();
 

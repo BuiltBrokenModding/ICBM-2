@@ -31,7 +31,7 @@ public class RenderRailgun extends RenderTaggedTile
 			this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE);
 			GL11.glRotatef(180F, 0F, 0F, 1F);
 			GL11.glRotatef(180F, 0F, 1F, 0F);
-			MODEL.render(tileEntity.rotationYaw, tileEntity.rotationPitch, 0.0625F);
+			MODEL.render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch, 0.0625F);
 			GL11.glPopMatrix();
 		}
 	}

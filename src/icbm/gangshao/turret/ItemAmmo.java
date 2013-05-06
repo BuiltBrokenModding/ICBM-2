@@ -97,8 +97,8 @@ public class ItemAmmo extends ItICBM implements IAmmo
 				{
 					((EntityLiving) target).attackEntityFrom(DamageSource.setExplosionSource(null), 5);
 				}
-				Vector3 look = LookHelper.getDeltaPositionFromRotation(turret.targetRotationYaw, turret.targetRotationPitch);
-				look.multiply(-1);
+				Vector3 look = LookHelper.getDeltaPositionFromRotation(turret.wantedRotationYaw, turret.wantedRotationPitch);
+				look.multiply(0.3);
 				((EntityLiving) target).knockBack(null, 0, look.intX(), look.intZ());
 
 			}
@@ -110,8 +110,6 @@ public class ItemAmmo extends ItICBM implements IAmmo
 				entityShell.delayBeforeCanPickup = 20;
 				turret.worldObj.spawnEntityInWorld(entityShell);
 			}
-
-			turret.worldObj.playSoundEffect(turret.xCoord, turret.yCoord, turret.zCoord, "icbm.machinegun", 5F, 1F);
 		}
 
 	}
