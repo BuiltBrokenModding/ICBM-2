@@ -183,6 +183,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	public void sendShotToClient(Vector3 tar)
 	{
+		Vector3 vec = this.getMuzzle().clone();
 		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 2, tar.x, tar.y, tar.z), this.worldObj, new Vector3(this), 50);
 	}
 
@@ -210,7 +211,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				}
 				else if (pd == 2)
 				{
-					DarkMain.renderTracer(this.worldObj, new Vector3(this), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
+					DarkMain.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
 				}
 			}
 			catch (IOException e)
@@ -299,6 +300,6 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.targetRotationYaw, this.targetRotationPitch - 10), 0.5));
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.rotationYaw, this.rotationPitch - 10), 0.5));
 	}
 }
