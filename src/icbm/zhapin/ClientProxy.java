@@ -7,6 +7,7 @@ import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.fx.FXFanWuSu;
 import icbm.zhapin.fx.FXWan;
 import icbm.zhapin.fx.FXYan;
+import icbm.zhapin.fx.FXZhenBuo;
 import icbm.zhapin.gui.GDianCiQi;
 import icbm.zhapin.gui.GFaSheDi;
 import icbm.zhapin.gui.GFaSheShiMuo;
@@ -160,6 +161,10 @@ public class ClientProxy extends CommonProxy
 		{
 			fx = new EntityDiggingFX(world, position.x, position.y, position.z, motionX, motionY, motionZ, Block.blocksList[(int) red], 0, (int) green, Minecraft.getMinecraft().renderEngine);
 			fx.multipleParticleScaleBy(blue);
+		}
+		else if (name == "shockwave")
+		{
+			fx = new FXZhenBuo(world, position, red, green, blue, scale, distance);
 		}
 
 		if (fx != null)

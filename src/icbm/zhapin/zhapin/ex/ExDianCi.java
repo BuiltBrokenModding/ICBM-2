@@ -1,6 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYaoBase;
+import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -32,6 +33,9 @@ public class ExDianCi extends ZhaPin
 
 		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, null, radius, callCount);
 		ZhaPin.dianCiWave.doBaoZha(worldObj, position, null, radius, callCount);
+
+		ZhuYaoZhaPin.proxy.spawnParticle("shockwave", worldObj, position, 0, 0, 0, 0, 0, 255, 10, 3);
+
 		return false;
 	}
 

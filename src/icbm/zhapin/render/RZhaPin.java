@@ -8,7 +8,6 @@ import icbm.zhapin.zhapin.ZhaPin;
 import java.util.Random;
 
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -18,6 +17,7 @@ import net.minecraft.src.ModLoader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
+import calclavia.lib.CalclaviaRenderHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,24 +41,30 @@ public class RZhaPin extends Render
 			 */
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x, (float) y, (float) z);
+
+			CalclaviaRenderHelper.enableBlending();
+			CalclaviaRenderHelper.disableLighting();
+
+			GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.9f);
+
 			Sphere sphere = new Sphere();
-			GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.5f);
 			sphere.draw(5, 32, 32);
+
+			// Enable Lighting/Glow Off
+			CalclaviaRenderHelper.enableLighting();
+
+			// Disable Blending
+			CalclaviaRenderHelper.disableBlending();
 			GL11.glPopMatrix();
 
+			/**
+			 * Draw Vortex
+			 */
 			GL11.glPushMatrix();
 			GL11.glDepthMask(false);
-			/**
-			 * Enable Blending
-			 */
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-			/**
-			 * Disable Lighting
-			 */
-			RenderHelper.disableStandardItemLighting();
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
+			CalclaviaRenderHelper.enableBlending();
+			CalclaviaRenderHelper.disableLighting();
 
 			GL11.glTranslated(x, y, z);
 			GL11.glRotatef(entity.ticksExisted, 0, 1, 0);
@@ -96,12 +102,11 @@ public class RZhaPin extends Render
 			tessellator.addVertexWithUV(+size, 0, -size, x0, x3);
 			tessellator.draw();
 
-			/**
-			 * Disable Blending
-			 */
-			GL11.glDisable(GL11.GL_LINE_SMOOTH);
-			GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
-			GL11.glDisable(GL11.GL_BLEND);
+			// Enable Lighting/Glow Off
+			CalclaviaRenderHelper.enableLighting();
+
+			// Disable Blending
+			CalclaviaRenderHelper.disableBlending();
 
 			GL11.glDepthMask(true);
 			GL11.glPopMatrix();
