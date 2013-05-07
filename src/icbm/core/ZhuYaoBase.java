@@ -171,7 +171,6 @@ public class ZhuYaoBase
 			/**
 			 * Load Basic Components
 			 */
-			BasicComponents.register(this, this.getChannel());
 
 			BasicComponents.requestItem("ingotCopper", 0);
 			BasicComponents.requestItem("ingotTin", 0);
@@ -194,6 +193,10 @@ public class ZhuYaoBase
 			BasicComponents.requestItem("circuitElite", 0);
 
 			BasicComponents.requestItem("motor", 0);
+			
+			BasicComponents.requestItem("wrench", 0);
+			
+			BasicComponents.register(this, this.getChannel());
 
 			isInit = true;
 		}
