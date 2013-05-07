@@ -76,8 +76,15 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		{
 			this.onUpdate();
 			this.updateRotation();
+			if (!this.worldObj.isRemote)
+			{
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.wantedRotationPitch, this.wantedRotationYaw, this.speedUp), this.worldObj, new Vector3(this), 50);
+			}
+			
 		}
-
+		
+		
+		
 		// Check to make sure this thing still has hp
 		if (this.health <= 0)
 		{
