@@ -149,9 +149,9 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		/**
 		 * Potion Effects
 		 */
-		PDaDu.INSTANCE = new PDaDu(21, true, 5149489, "toxin");
-		PChuanRanDu.INSTANCE = new PChuanRanDu(22, false, 5149489, "virus");
-		PDongShang.INSTANCE = new PDongShang(23, false, 5149489, "frostBite");
+		PDaDu.INSTANCE = new PDaDu(22, true, 5149489, "toxin");
+		PChuanRanDu.INSTANCE = new PChuanRanDu(23, false, 5149489, "virus");
+		PDongShang.INSTANCE = new PDongShang(24, false, 5149489, "frostBite");
 
 		ZhuYaoBase.CONFIGURATION.save();
 

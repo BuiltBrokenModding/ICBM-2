@@ -26,6 +26,7 @@ public class BlockRadioactive extends Block
 	public float radius = 5;
 	public int amplifier = 2;
 	public boolean canWalkPoison = true;
+	public boolean isRandomlyRadioactive = true;
 
 	private Icon iconTop;
 	private Icon iconBottom;
@@ -75,12 +76,15 @@ public class BlockRadioactive extends Block
 	{
 		if (!world.isRemote)
 		{
-			AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - this.radius, y - this.radius, z - this.radius, x + this.radius, y + this.radius, z + this.radius);
-			List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
-
-			for (EntityLiving entity : entitiesNearby)
+			if (this.isRandomlyRadioactive)
 			{
-				PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), entity, amplifier);
+				AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - this.radius, y - this.radius, z - this.radius, x + this.radius, y + this.radius, z + this.radius);
+				List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
+
+				for (EntityLiving entity : entitiesNearby)
+				{
+					PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), entity, amplifier);
+				}
 			}
 
 			if (this.canSpread)

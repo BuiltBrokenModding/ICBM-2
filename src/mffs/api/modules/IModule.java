@@ -16,10 +16,10 @@ public interface IModule
 	 * 
 	 * @return
 	 */
-	public float getFortronCost(int amplifier);
+	public float getFortronCost(float amplifier);
 
 	/**
-	 * Called when the projector is projecting a field.
+	 * Called before the projector projects a field.
 	 * 
 	 * @param projector
 	 * @return True to stop projecting.
@@ -31,10 +31,10 @@ public interface IModule
 	 * 
 	 * @param projector
 	 * @param position
-	 * @return True to cancel projection action.
+	 * @return 0 - Do nothing; 1 - Skip this block and continue; 2 - Cancel rest of projection;
 	 */
 
-	public boolean onProject(IProjector projector, Vector3 position);
+	public int onProject(IProjector projector, Vector3 position);
 
 	/**
 	 * Called when an entity collides with a force field block.

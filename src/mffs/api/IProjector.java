@@ -73,11 +73,6 @@ public abstract interface IProjector extends IInventory, IModuleAcceptor, IRotat
 	public int[] getSlotsBasedOnDirection(ForgeDirection direction);
 
 	/**
-	 * @return The amount of Fortron energy being used every tick.
-	 */
-	public int getFortronCost();
-
-	/**
 	 * * @return Gets all the blocks that are occupying the force field.
 	 */
 	public Set<Vector3> getCalculatedField();

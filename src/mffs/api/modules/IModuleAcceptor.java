@@ -13,4 +13,6 @@ public interface IModuleAcceptor
 	public Set<ItemStack> getModuleStacks(int... slots);
 
 	public Set<IModule> getModules(int... slots);
+
+	public int getFortronCost();
 }

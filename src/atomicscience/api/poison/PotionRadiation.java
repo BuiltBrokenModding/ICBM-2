@@ -12,7 +12,7 @@ public class PotionRadiation extends CustomPotion
 	static
 	{
 		AtomicScience.CONFIGURATION.load();
-		INSTANCE = new PotionRadiation(20, true, 5149489, "radiation");
+		INSTANCE = new PotionRadiation(21, true, 5149489, "radiation");
 		AtomicScience.CONFIGURATION.save();
 	}
 
