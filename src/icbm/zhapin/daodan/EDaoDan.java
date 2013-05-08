@@ -197,7 +197,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.jiSuan();
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
-		ZhuYaoBase.LOGGER.fine("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+		ZhuYaoBase.LOGGER.info("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
 	@Override
@@ -234,6 +234,9 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	public void entityInit()
 	{
 		this.dataWatcher.addObject(16, -1);
+		this.dataWatcher.addObject(17, (int) this.posX);
+		this.dataWatcher.addObject(18, (int) this.posY);
+		this.dataWatcher.addObject(19, (int) this.posZ);
 		this.daoDanInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.ENTITY));
 	}
 
@@ -317,10 +320,18 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			if (this.worldObj.isRemote)
 			{
 				this.feiXingTick = this.dataWatcher.getWatchableObjectInt(16);
+				this.muBiao = new Vector3(this.dataWatcher.getWatchableObjectInt(17), this.dataWatcher.getWatchableObjectInt(18), this.dataWatcher.getWatchableObjectInt(19));
 			}
 			else
 			{
 				this.dataWatcher.updateObject(16, this.feiXingTick);
+
+				if (this.muBiao != null)
+				{
+					this.dataWatcher.updateObject(17, this.muBiao.intX());
+					this.dataWatcher.updateObject(18, this.muBiao.intY());
+					this.dataWatcher.updateObject(19, this.muBiao.intZ());
+				}
 			}
 		}
 		catch (Exception e)
@@ -338,7 +349,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			{
 				if (this.xingShi == XingShi.XIAO_DAN || this.xingShi == XingShi.HUO_JIAN)
 				{
-					if (this.feiXingTick == 0)
+					if (this.feiXingTick == 0 && this.xiaoDanMotion != null)
 					{
 						this.xiaoDanMotion = new Vector3(this.xXiangCha / (feiXingShiJian * 0.3), this.yXiangCha / (feiXingShiJian * 0.3), this.zXiangCha / (feiXingShiJian * 0.3));
 					}
@@ -384,9 +395,6 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 					}
 					else
 					{
-						Vector3 currentPosition = new Vector3(this);
-						double currentDistance = Vector2.distance(currentPosition.toVector2(), this.muBiao.toVector2());
-
 						this.motionY -= this.jiaSu;
 
 						this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
@@ -405,14 +413,14 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 						}
 
 						// If the missile is commanded to explode before impact
-						if (baoZhaGaoDu > 0 && this.motionY < 0)
+						if (this.baoZhaGaoDu > 0 && this.motionY < 0)
 						{
 							// Check the block below it.
 							int blockBelowID = this.worldObj.getBlockId((int) this.posX, (int) this.posY - baoZhaGaoDu, (int) this.posZ);
 
 							if (blockBelowID > 0)
 							{
-								baoZhaGaoDu = 0;
+								this.baoZhaGaoDu = 0;
 								this.explode();
 							}
 						}
@@ -486,14 +494,38 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	}
 
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer)
+	public boolean interact(EntityPlayer entityPlayer)
 	{
 		if (DaoDan.list[this.haoMa] != null)
 		{
-			return DaoDan.list[this.haoMa].onInteract(this, par1EntityPlayer);
+			if (DaoDan.list[this.haoMa].onInteract(this, entityPlayer))
+			{
+				return true;
+			}
+		}
+
+		if (!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == entityPlayer))
+		{
+			entityPlayer.mountEntity(this);
+			return true;
 		}
 
 		return false;
+	}
+
+	@Override
+	public double getMountedYOffset()
+	{
+		if (this.feiXingShiJian <= 0 && this.xingShi == XingShi.DAO_DAN)
+		{
+			return this.height;
+		}
+		else if(this.xingShi == XingShi.XIAO_DAN)
+		{
+			return this.height * 0.1;
+		}
+
+		return this.height / 2 + this.motionY;
 	}
 
 	private void spawnMissileSmoke()
@@ -524,14 +556,14 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	 */
 
 	@Override
-	public AxisAlignedBB getCollisionBox(Entity par1Entity)
+	public AxisAlignedBB getCollisionBox(Entity entity)
 	{
 		// Make sure the entity is not an item
-		if (!(par1Entity instanceof EntityItem) && this.baoHuShiJian <= 0)
+		if (!(entity instanceof EntityItem) && entity != this.riddenByEntity && this.baoHuShiJian <= 0)
 		{
-			if (par1Entity instanceof EDaoDan)
+			if (entity instanceof EDaoDan)
 			{
-				((EDaoDan) par1Entity).setNormalExplode();
+				((EDaoDan) entity).setNormalExplode();
 			}
 
 			this.setExplode();
@@ -617,7 +649,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 				this.zhengZaiBaoZha = true;
 
-				ZhuYaoBase.LOGGER.fine(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+				ZhuYaoBase.LOGGER.info(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
 
 			this.setDead();

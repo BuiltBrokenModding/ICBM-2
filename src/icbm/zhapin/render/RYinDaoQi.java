@@ -1,6 +1,7 @@
 package icbm.zhapin.render;
 
 import icbm.core.ZhuYaoBase;
+
 import icbm.zhapin.jiqi.TYinDaoQi;
 import icbm.zhapin.muoxing.jiqi.MYinDaoQi;
 
@@ -13,6 +14,10 @@ import net.minecraft.util.AxisAlignedBB;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public class RYinDaoQi extends TileEntitySpecialRenderer
 {
 	public static final String TEXTURE_FILE = "missile_coordinator_off.png";

@@ -457,12 +457,9 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		{
 			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
 			{
-				if (!(entityPlayer.inventory.getCurrentItem().getItem() instanceof ItTeBieDaoDan && entityPlayer.inventory.getCurrentItem().getItemDamage() == 0))
-				{
-					this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
-					entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
-					return true;
-				}
+				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
+				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+				return true;
 			}
 		}
 

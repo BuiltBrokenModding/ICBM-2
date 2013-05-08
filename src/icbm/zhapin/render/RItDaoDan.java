@@ -11,7 +11,10 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RItDaoDan implements IItemRenderer
 {
 
@@ -32,32 +35,44 @@ public class RItDaoDan implements IItemRenderer
 	{
 		if (this.shouldUseRenderHelper(type, item, null))
 		{
-			float scale = 0.4f;
-			float right = 0.15f;
-
-			if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYaoZhaPin.itTeBieDaoDan.itemID)
-			{
-				scale = 0.3f;
-			}
-			else if (ZhaPin.list[item.getItemDamage()].getTier() == 3)
-			{
-				scale = 0.25f;
-				right = 0.4f;
-			}
+			float scale = 0.7f;
+			float right = 0f;
 
 			if (type == ItemRenderType.INVENTORY)
 			{
+				scale = 0.5f;
+
+				if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYaoZhaPin.itTeBieDaoDan.itemID)
+				{
+					scale = scale / 1.5f;
+				}
+				else if (ZhaPin.list[item.getItemDamage()].getTier() == 3)
+				{
+					scale = scale / 1.7f;
+					right = 0.5f;
+				}
+				else if (ZhaPin.list[item.getItemDamage()].getTier() == 4)
+				{
+					scale = scale / 1.4f;
+					right = 0.1f;
+				}
+
 				GL11.glTranslatef(right, 0f, 0f);
 			}
 
 			if (type == ItemRenderType.EQUIPPED)
 			{
-				GL11.glTranslatef(-0.15f, 1.2f, 0.5f);
+				GL11.glTranslatef(1.15f, 1f, 0.5f);
 				GL11.glRotatef(180, 0, 0, 1f);
 			}
 			else
 			{
 				GL11.glRotatef(-90, 0, 0, 1f);
+			}
+
+			if (type == ItemRenderType.ENTITY)
+			{
+				scale = scale / 1.5f;
 			}
 
 			GL11.glScalef(scale, scale, scale);

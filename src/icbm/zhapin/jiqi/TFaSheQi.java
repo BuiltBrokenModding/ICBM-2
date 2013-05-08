@@ -3,6 +3,7 @@ package icbm.zhapin.jiqi;
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import calclavia.lib.TileEntityUniversalStorable;
 import dan200.computer.api.IComputerAccess;
@@ -18,6 +19,12 @@ public abstract class TFaSheQi extends TileEntityUniversalStorable implements IL
 	{
 		super();
 		FaSheQiGuanLi.jiaFaSheQi(this);
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection direction)
+	{
+		return true;
 	}
 
 	@Override
