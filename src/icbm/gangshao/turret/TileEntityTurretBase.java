@@ -29,7 +29,6 @@ import universalelectricity.prefab.tile.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.FMLLog;
-import dark.library.DarkMain;
 
 /**
  * Class that handles all the basic movement, and block based updates of a turret.
@@ -227,7 +226,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				}
 				else if (pd == 2)
 				{
-					DarkMain.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
+					ZhuYaoGangShao.proxy.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
 					this.gunBarrel = dataStream.readInt();
 				}
 			}

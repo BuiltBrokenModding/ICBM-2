@@ -8,6 +8,7 @@ import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -56,5 +57,12 @@ public class CommonProxy implements IGuiHandler
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		return null;
+	}
+	/**
+	 * Renders a bullet tracer from one spot to another will later be replaced with start and degree
+	 */
+	public void renderTracer(World world, Vector3 position, Vector3 target)
+	{
+	
 	}
 }

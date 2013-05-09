@@ -13,11 +13,18 @@ import icbm.gangshao.turret.EntityFakeMountable;
 import icbm.gangshao.turret.TCiGuiPao;
 import icbm.gangshao.turret.sentries.TileEntityAATurret;
 import icbm.gangshao.turret.sentries.TileEntityGunTurret;
+
+import java.awt.Color;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import dark.library.DarkMain;
+import dark.library.effects.FXBeam;
 
 public class ClientProxy extends CommonProxy
 {
@@ -62,5 +69,11 @@ public class ClientProxy extends CommonProxy
 		}
 
 		return null;
+	}
+	
+	@Override
+	public void renderTracer(World world, Vector3 position, Vector3 target)
+	{
+		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, Color.DARK_GRAY, DarkMain.TEXTURE_DIRECTORY + "traceStream.png", 5, true));
 	}
 }
