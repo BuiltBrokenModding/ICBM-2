@@ -20,8 +20,8 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 		this.targetMissiles = true;
 		this.targetCrafts = true;
 		// TODO re-add ground target firing at a reduced efficiency
-		// this.targetPlayers = false;
-		// this.targetLiving = false;
+		this.targetPlayers = false;
+		this.targetLiving = false;
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public float getRotationSpeed()
 	{
-		if (this.speedUp)
+		if (this.speedUpRotation)
 		{
 			return 10f;
 		}

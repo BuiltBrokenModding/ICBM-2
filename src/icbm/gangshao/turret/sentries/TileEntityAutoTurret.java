@@ -15,11 +15,14 @@ import icbm.gangshao.actions.ActionRotateTo;
 import icbm.gangshao.actions.ActionSearchTarget;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.INpc;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -61,7 +64,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	{
 		if (!this.worldObj.isRemote)
 		{
-			this.speedUp = this.target != null;
+			this.speedUpRotation = this.target != null;
 		}
 		this.AIManager.onUpdate();
 		/**
@@ -164,15 +167,29 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					{
 						return true;
 					}
-					else if (this.targetLiving && entity instanceof EntityLiving)
+					else if (entity instanceof EntityLiving && !(entity instanceof EntityAmbientCreature))
 					{
-						if (entity instanceof IMob)
+						if (this.targetCrafts && entity instanceof EntityFlying)
 						{
-							return true;
+							if (entity instanceof IMob)
+							{
+								return true;
+							}
+							if(entity instanceof IBossDisplayData)
+							{
+								return true;
+							}
 						}
-						if (entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant)
+						if (this.targetLiving)
 						{
-							return false;
+							if (entity instanceof IMob)
+							{
+								return true;
+							}
+							if (entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant)
+							{
+								return false;
+							}
 						}
 					}
 					else

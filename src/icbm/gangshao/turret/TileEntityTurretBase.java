@@ -47,7 +47,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	public final ActionManager actionManager = new ActionManager();
 	public LookHelper lookHelper;
 
-	protected boolean speedUp = false;
+	protected boolean speedUpRotation = false;
 
 	/**
 	 * The rotation of the arms. In Degrees.
@@ -77,13 +77,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			this.updateRotation();
 			if (!this.worldObj.isRemote)
 			{
-				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.wantedRotationPitch, this.wantedRotationYaw, this.speedUp), this.worldObj, new Vector3(this), 50);
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
 			}
-			
+
 		}
-		
-		
-		
+
 		// Check to make sure this thing still has hp
 		if (this.health <= 0)
 		{
@@ -211,7 +209,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				{
 					this.wantedRotationPitch = dataStream.readFloat();
 					this.wantedRotationYaw = dataStream.readFloat();
-					this.speedUp = dataStream.readBoolean();
+					this.speedUpRotation = dataStream.readBoolean();
 				}
 				else if (pd == 1)
 				{
@@ -317,7 +315,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		this.wantedRotationPitch = pitch;
 		if (!this.worldObj.isRemote)
 		{
-			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.wantedRotationPitch, this.wantedRotationYaw, this.speedUp), this.worldObj, new Vector3(this), 50);
+			PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
 		}
 	}
 
