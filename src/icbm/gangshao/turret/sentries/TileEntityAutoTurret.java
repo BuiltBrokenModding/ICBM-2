@@ -134,7 +134,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 
 					if (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer)
 					{
-						if(this.targetPlayers)
+						if(!this.targetPlayers)
 						{
 							return false;
 						}
@@ -160,7 +160,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					}
 					else if (entity instanceof IMissile)
 					{
-						if(this.targetMissiles)
+						if(!this.targetMissiles)
 						{
 							return false;
 						}
@@ -173,7 +173,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					}
 					else if (entity instanceof IAATarget)
 					{
-						if(this.targetCrafts || !((IAATarget) entity).canBeTargeted(this))
+						if(!this.targetCrafts || !((IAATarget) entity).canBeTargeted(this))
 						{
 							return false;
 						}
