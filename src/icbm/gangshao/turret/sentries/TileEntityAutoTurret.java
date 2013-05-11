@@ -132,31 +132,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					{
 						return false;
 					}
-
-					if (this.targetPlayers && (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer))
-					{
-						EntityPlayer player;
-
-						if (entity.riddenByEntity instanceof EntityPlayer)
-						{
-							player = (EntityPlayer) entity.riddenByEntity;
-						}
-						else
-						{
-							player = ((EntityPlayer) entity);
-						}
-
-						if (player.capabilities.isCreativeMode)
-						{
-							return false;
-						}
-
-						if (this.getPlatform() != null && this.getPlatform().canUserAccess(player.username))
-						{
-							return false;
-						}
-					}
-					else if (this.targetMissiles && entity instanceof IMissile)
+					if (this.targetMissiles && entity instanceof IMissile)
 					{
 						IMissile missile = (IMissile) entity;
 						if (missile.getTicksInAir() > 0)
@@ -171,18 +147,41 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					}
 					else if (entity instanceof EntityLiving && !(entity instanceof EntityAmbientCreature))
 					{
-						if (this.targetCrafts && entity instanceof EntityFlying)
+						if ((entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer))
+						{
+							if(!this.targetPlayers)
+							{
+								return false;
+							}
+							EntityPlayer player;
+
+							if (entity.riddenByEntity instanceof EntityPlayer)
+							{
+								player = (EntityPlayer) entity.riddenByEntity;
+							}
+							else
+							{
+								player = ((EntityPlayer) entity);
+							}
+
+							if (player.capabilities.isCreativeMode)
+							{
+								return false;
+							}
+
+							if (this.getPlatform() != null && this.getPlatform().canUserAccess(player.username))
+							{
+								return false;
+							}
+						}
+						else if (this.targetCrafts && entity instanceof EntityFlying)
 						{
 							if (entity instanceof IMob)
 							{
 								return true;
 							}
-							if (entity instanceof IBossDisplayData)
-							{
-								return true;
-							}
 						}
-						if (this.targetLiving)
+						else if (this.targetLiving)
 						{
 							if (entity instanceof IMob)
 							{
