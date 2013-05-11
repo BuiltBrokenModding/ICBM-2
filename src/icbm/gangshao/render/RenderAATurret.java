@@ -47,10 +47,10 @@ public class RenderAATurret extends RenderTaggedTile
 		MODEL.renderBody(0.0625F);
 		MODEL.renderRadar(0.0625F);
 		// Render gun pitch rotation
-
-		if (renderPitch <= 0.6F && (renderPitch - 0.6F) >= -1.2F)
+		renderPitch = (float) Math.toRadians(renderPitch);
+		if (renderPitch <= 0.8F && renderPitch >= -1.5F && renderPitch != 0)
 		{
-			MODEL.renderCannon(0.0625F, renderPitch - 0.6F);
+			MODEL.renderCannon(0.0625F, renderPitch);
 		}
 		else
 		{
