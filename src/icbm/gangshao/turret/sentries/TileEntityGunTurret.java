@@ -54,7 +54,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 		if (this.onFire())
 		{
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
-			this.sendShotToClient(new Vector3(this.target));
+			this.sendShotToClient(new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0)));
 		}
 	}
 

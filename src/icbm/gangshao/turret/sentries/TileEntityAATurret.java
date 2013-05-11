@@ -13,10 +13,8 @@ import universalelectricity.core.vector.Vector3;
 public class TileEntityAATurret extends TileEntityAutoTurret
 {
 
-	@Override
-	public void initiate()
+	public TileEntityAATurret()
 	{
-		super.initiate();
 		this.targetMissiles = true;
 		this.targetCrafts = true;
 		// TODO re-add ground target firing at a reduced efficiency
@@ -104,7 +102,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 		if (this.onFire())
 		{
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
-			this.sendShotToClient(new Vector3(this.target));
+			this.sendShotToClient(new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0)));
 		}
 
 	}

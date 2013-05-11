@@ -66,6 +66,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		{
 			this.speedUpRotation = this.target != null;
 		}
+
 		this.AIManager.onUpdate();
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.
@@ -187,7 +188,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 							{
 								return true;
 							}
-							if(entity instanceof IBossDisplayData)
+							if (entity instanceof IBossDisplayData)
 							{
 								return true;
 							}
@@ -314,13 +315,13 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		nbt.setBoolean("shootCraft", this.targetCrafts);
 		nbt.setBoolean("shootLiving", this.targetLiving);
 		nbt.setBoolean("shootAir", this.targetMissiles);
-
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
+
 		if (nbt.hasKey("shootPlayers"))
 		{
 			this.targetPlayers = nbt.getBoolean("shootPlayers");

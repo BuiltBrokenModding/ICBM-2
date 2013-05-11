@@ -182,13 +182,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 1, nbt);
 	}
 
-	public void sendShotToClient(Vector3 tar)
+	public void sendShotToClient(Vector3 target)
 	{
 		this.gunBarrel++;
+		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 2, target.x, target.y, target.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
 
-		Vector3 vec = this.getMuzzle().clone();
-		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 2, tar.x, tar.y, tar.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
-		
 		if (this.gunBarrel >= (this.getBarrels() - 1))
 		{
 			this.gunBarrel = 0;
@@ -205,15 +203,15 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		{
 			try
 			{
-				int pd = dataStream.readInt();
+				int id = dataStream.readInt();
 
-				if (pd == 0)
+				if (id == 0)
 				{
 					this.wantedRotationPitch = dataStream.readFloat();
 					this.wantedRotationYaw = dataStream.readFloat();
 					this.speedUpRotation = dataStream.readBoolean();
 				}
-				else if (pd == 1)
+				else if (id == 1)
 				{
 					short size = dataStream.readShort();
 
@@ -224,7 +222,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 						this.readFromNBT(CompressedStreamTools.decompress(byteCode));
 					}
 				}
-				else if (pd == 2)
+				else if (id == 2)
 				{
 					ZhuYaoGangShao.proxy.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
 					this.gunBarrel = dataStream.readInt();
