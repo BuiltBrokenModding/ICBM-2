@@ -10,15 +10,16 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import dark.library.access.AccessLevel;
+import dark.library.terminal.ContainerTerminal;
 
-public class ContainerTurretPlatform extends Container
+public class ContainerTurretPlatform extends ContainerTerminal
 {
 	private TileEntityTurretPlatform tileEntity;
 
 	public ContainerTurretPlatform(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
 	{
+		super(inventoryPlayer, tileEntity);
 		this.tileEntity = tileEntity;
-
 		int row;
 
 		// Turret Ammunition Slots
@@ -48,15 +49,6 @@ public class ContainerTurretPlatform extends Container
 		{
 			this.addSlotToContainer(new Slot(inventoryPlayer, row, 8 + row * 18, 155));
 		}
-
-		this.tileEntity.playersUsing.add(inventoryPlayer.player);
-	}
-
-	@Override
-	public void onCraftGuiClosed(EntityPlayer par1EntityPlayer)
-	{
-		this.tileEntity.playersUsing.remove(par1EntityPlayer);
-		super.onCraftGuiClosed(par1EntityPlayer);
 	}
 
 	/**
@@ -127,11 +119,5 @@ public class ContainerTurretPlatform extends Container
 		}
 
 		return var2;
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer par1EntityPlayer)
-	{
-		return this.tileEntity.isUseableByPlayer(par1EntityPlayer);
 	}
 }
