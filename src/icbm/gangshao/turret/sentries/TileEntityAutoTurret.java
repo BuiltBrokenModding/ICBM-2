@@ -133,13 +133,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 						return false;
 					}
 
-					if (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer)
+					if (this.targetPlayers && (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer))
 					{
-						if(!this.targetPlayers)
-						{
-							return false;
-						}
 						EntityPlayer player;
+
 						if (entity.riddenByEntity instanceof EntityPlayer)
 						{
 							player = (EntityPlayer) entity.riddenByEntity;
@@ -159,12 +156,8 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 							return false;
 						}
 					}
-					else if (entity instanceof IMissile)
+					else if (this.targetMissiles && entity instanceof IMissile)
 					{
-						if(!this.targetMissiles)
-						{
-							return false;
-						}
 						IMissile missile = (IMissile) entity;
 						if (missile.getTicksInAir() > 0)
 						{
@@ -172,12 +165,8 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 						}
 						return false;
 					}
-					else if (entity instanceof IAATarget)
+					else if (this.targetCrafts && entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))
 					{
-						if(!this.targetCrafts || !((IAATarget) entity).canBeTargeted(this))
-						{
-							return false;
-						}
 						return true;
 					}
 					else if (entity instanceof EntityLiving && !(entity instanceof EntityAmbientCreature))
