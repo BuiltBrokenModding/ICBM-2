@@ -535,8 +535,14 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			delta.x = Math.sin(Math.toRadians(this.rotationYaw)) * dH;
 			delta.z = Math.cos(Math.toRadians(this.rotationYaw)) * dH;
 			position.add(delta);
-			ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj, position, 1.5f, 4);
 			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			position.multiply(1 - 0.001 * Math.random());
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			position.multiply(1 - 0.001 * Math.random());
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			position.multiply(1 - 0.001 * Math.random());
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
 		}
 	}
 

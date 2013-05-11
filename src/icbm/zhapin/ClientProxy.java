@@ -149,6 +149,10 @@ public class ClientProxy extends CommonProxy
 		{
 			fx = new FXYan(world, position, red, green, blue, scale, distance);
 		}
+		else if (name == "missile_smoke")
+		{
+			fx = (new FXYan(world, position, red, green, blue, scale, distance)).setAge(100);
+		}
 		else if (name == "portal")
 		{
 			fx = new FXWan(world, position, red, green, blue, scale, distance);
