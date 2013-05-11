@@ -95,8 +95,9 @@ public class ItemAmmo extends ItICBM implements IAmmo
 			{
 				if (turret.worldObj.rand.nextFloat() > 0.1)
 				{
-					((EntityLiving) target).attackEntityFrom(DamageSource.setExplosionSource(null), 5);
+					((EntityLiving) target).attackEntityFrom(DamageSource.setExplosionSource(null), 4);
 				}
+
 				Vector3 look = LookHelper.getDeltaPositionFromRotation(turret.wantedRotationYaw, turret.wantedRotationPitch);
 				look.multiply(0.3);
 				((EntityLiving) target).knockBack(null, 0, look.intX(), look.intZ());

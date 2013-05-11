@@ -34,6 +34,7 @@ import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
+import atomicscience.api.poison.PotionRadiation;
 import basiccomponents.common.BasicComponents;
 import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -116,6 +117,9 @@ public class ZhuYaoBase
 			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
 
 			ZhuYaoBase.CONFIGURATION.load();
+			//Calling this once to prevent the static class from not initiating.
+			PotionRadiation.INSTANCE.getId();
+			
 			ZAI_KUAI = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
 			DAO_DAN_ZUI_YUAN = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
 

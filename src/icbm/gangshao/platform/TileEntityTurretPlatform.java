@@ -346,13 +346,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public void openChest()
 	{
-		this.playersUsing++;
 	}
 
 	@Override
 	public void closeChest()
 	{
-		this.playersUsing--;
 	}
 
 	@Override

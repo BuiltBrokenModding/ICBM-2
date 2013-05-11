@@ -15,7 +15,7 @@ public class ContainerTurretPlatform extends Container
 {
 	private TileEntityTurretPlatform tileEntity;
 
-	public ContainerTurretPlatform(InventoryPlayer player, TileEntityTurretPlatform tileEntity)
+	public ContainerTurretPlatform(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
 	{
 		this.tileEntity = tileEntity;
 
@@ -41,21 +41,21 @@ public class ContainerTurretPlatform extends Container
 		{
 			for (int slot = 0; slot < 9; ++slot)
 			{
-				this.addSlotToContainer(new Slot(player, slot + row * 9 + 9, 8 + slot * 18, 97 + row * 18));
+				this.addSlotToContainer(new Slot(inventoryPlayer, slot + row * 9 + 9, 8 + slot * 18, 97 + row * 18));
 			}
 		}
 		for (row = 0; row < 9; ++row)
 		{
-			this.addSlotToContainer(new Slot(player, row, 8 + row * 18, 155));
+			this.addSlotToContainer(new Slot(inventoryPlayer, row, 8 + row * 18, 155));
 		}
 
-		this.tileEntity.openChest();
+		this.tileEntity.playersUsing.add(inventoryPlayer.player);
 	}
 
 	@Override
 	public void onCraftGuiClosed(EntityPlayer par1EntityPlayer)
 	{
-		this.tileEntity.closeChest();
+		this.tileEntity.playersUsing.remove(par1EntityPlayer);
 		super.onCraftGuiClosed(par1EntityPlayer);
 	}
 

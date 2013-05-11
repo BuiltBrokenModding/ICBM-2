@@ -188,6 +188,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 		Vector3 vec = this.getMuzzle().clone();
 		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 2, tar.x, tar.y, tar.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
+		
 		if (this.gunBarrel >= (this.getBarrels() - 1))
 		{
 			this.gunBarrel = 0;
@@ -205,6 +206,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			try
 			{
 				int pd = dataStream.readInt();
+
 				if (pd == 0)
 				{
 					this.wantedRotationPitch = dataStream.readFloat();
