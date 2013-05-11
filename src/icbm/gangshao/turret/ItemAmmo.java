@@ -23,13 +23,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemAmmo extends ItICBM implements IAmmo
 {
-	public static final String[] TYPES = { "bulletShell", "bullet", "bulletRailgun", "bulletAntimatter" };
-	public static final Icon[] ICONS = new Icon[TYPES.length];
 
 	enum types
 	{
-		SHELL(), BULLET(), BULLETRAIL(), BULLETANTI();
+		SHELL("bulletShell", ProjectileTypes.NEUTRIAL, true), BULLET("bullet", ProjectileTypes.CONVENTIONAL, true), BULLETRAIL("bulletRailgun", ProjectileTypes.RAILGUN, true), BULLETANTI("bulletAntimatter", ProjectileTypes.RAILGUN, true), BULLETINF("bulletInfinite", ProjectileTypes.CONVENTIONAL, false);
+
+		public String iconName;
+		public ProjectileTypes type;
+		public boolean consume;
+
+		private types(String iconName, ProjectileTypes type, boolean consume)
+		{
+			this.iconName = iconName;
+			this.type = type;
+			this.consume = consume;
+		}
 	}
+
+	public static final Icon[] ICONS = new Icon[types.values().length];
 
 	public ItemAmmo(int id)
 	{
@@ -47,7 +58,7 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return "item." + ZhuYaoBase.PREFIX + TYPES[itemStack.getItemDamage()];
+		return "item." + ZhuYaoBase.PREFIX + types.values()[itemStack.getItemDamage()].iconName;
 	}
 
 	@Override
@@ -60,16 +71,16 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		for (int i = 0; i < TYPES.length; i++)
+		for (int i = 0; i < types.values().length; i++)
 		{
-			ICONS[i] = iconRegister.registerIcon(ZhuYaoBase.PREFIX + TYPES[i]);
+			ICONS[i] = iconRegister.registerIcon(ZhuYaoBase.PREFIX + types.values()[i].iconName);
 		}
 	}
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < TYPES.length; i++)
+		for (int i = 0; i < types.values().length; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
@@ -88,7 +99,7 @@ public class ItemAmmo extends ItICBM implements IAmmo
 		{
 			return;
 		}
-		if (meta == types.BULLET.ordinal())
+		if (meta == types.BULLET.ordinal() || meta == types.BULLETINF.ordinal())
 		{
 			// Apply Knock Back
 			if (target instanceof EntityLiving)
@@ -104,7 +115,7 @@ public class ItemAmmo extends ItICBM implements IAmmo
 
 			}
 			// Spawn Shell
-			if (!turret.worldObj.isRemote && turret.worldObj.rand.nextFloat() > 0.8)
+			if (meta != types.BULLETINF.ordinal() && !turret.worldObj.isRemote && turret.worldObj.rand.nextFloat() > 0.8)
 			{
 				Vector3 spawnPos = turret.getMuzzle();
 				EntityItem entityShell = new EntityItem(turret.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
@@ -118,21 +129,9 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	@Override
 	public ProjectileTypes getType(int meta)
 	{
-		if (meta >= types.values().length)
+		if (meta < types.values().length)
 		{
-			return null;
-		}
-		types typ = types.values()[meta];
-		switch (typ)
-		{
-			case SHELL:
-				return ProjectileTypes.NEUTRIAL;
-			case BULLET:
-				return ProjectileTypes.CONVENTIONAL;
-			case BULLETRAIL:
-				return ProjectileTypes.RAILGUN;
-			case BULLETANTI:
-				return ProjectileTypes.RAILGUN;
+			return types.values()[meta].type;
 		}
 		return null;
 	}
@@ -140,6 +139,10 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	@Override
 	public boolean consumeItem(int meta)
 	{
+		if (meta < types.values().length)
+		{
+			return types.values()[meta].consume;
+		}
 		return true;
 	}
 }
