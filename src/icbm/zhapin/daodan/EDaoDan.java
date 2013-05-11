@@ -234,9 +234,6 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	public void entityInit()
 	{
 		this.dataWatcher.addObject(16, -1);
-		this.dataWatcher.addObject(17, (int) this.posX);
-		this.dataWatcher.addObject(18, (int) this.posY);
-		this.dataWatcher.addObject(19, (int) this.posZ);
 		this.daoDanInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.ENTITY));
 	}
 
@@ -320,18 +317,10 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			if (this.worldObj.isRemote)
 			{
 				this.feiXingTick = this.dataWatcher.getWatchableObjectInt(16);
-				this.muBiao = new Vector3(this.dataWatcher.getWatchableObjectInt(17), this.dataWatcher.getWatchableObjectInt(18), this.dataWatcher.getWatchableObjectInt(19));
 			}
 			else
 			{
 				this.dataWatcher.updateObject(16, this.feiXingTick);
-
-				if (this.muBiao != null)
-				{
-					this.dataWatcher.updateObject(17, this.muBiao.intX());
-					this.dataWatcher.updateObject(18, this.muBiao.intY());
-					this.dataWatcher.updateObject(19, this.muBiao.intZ());
-				}
 			}
 		}
 		catch (Exception e)
@@ -520,7 +509,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		{
 			return this.height;
 		}
-		else if(this.xingShi == XingShi.XIAO_DAN)
+		else if (this.xingShi == XingShi.XIAO_DAN)
 		{
 			return this.height * 0.1;
 		}
