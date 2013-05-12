@@ -31,8 +31,8 @@ public class ExDianCi extends ZhaPin
 			radius = (int) this.getRadius();
 		}
 
-		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, null, radius, callCount);
-		ZhaPin.dianCiWave.doBaoZha(worldObj, position, null, radius, callCount);
+		ZhaPin.dianCiSignal.doBaoZha(worldObj, position, explosionSource, radius, callCount);
+		ZhaPin.dianCiWave.doBaoZha(worldObj, position, explosionSource, radius, callCount);
 
 		ZhuYaoZhaPin.proxy.spawnParticle("shockwave", worldObj, position, 0, 0, 0, 0, 0, 255, 10, 3);
 

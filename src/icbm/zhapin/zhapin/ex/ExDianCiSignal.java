@@ -36,7 +36,7 @@ public class ExDianCiSignal extends ZhaPin
 
 		for (Entity entity : entitiesNearby)
 		{
-			if (entity instanceof IMissile)
+			if (entity instanceof IMissile && !entity.isEntityEqual(explosionSource))
 			{
 				if (((IMissile) entity).getTicksInAir() > -1)
 				{
