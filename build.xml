@@ -78,6 +78,7 @@
 			<include name="**/dark/**"/>
 			<include name="**/calclavia/**"/>
 			<include name="**/universalelectricity/**"/>
+			<include name="**/basiccomponents/**"/>
 			<include name="**/atomicscience/**"/>
 			<include name="**/buildcraft/**"/>
 			<include name="**/org/**"/>
