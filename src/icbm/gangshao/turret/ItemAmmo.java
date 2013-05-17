@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Icon;
 import universalelectricity.core.vector.Vector3;
@@ -93,12 +94,13 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	}
 
 	@Override
-	public void attackTargetLiving(int meta, TileEntityTurretBase turret, Entity target, boolean hit)
+	public void attackTargetLiving(int meta, TileEntity tur, Entity target, boolean hit)
 	{
-		if (turret == null || turret.getPlatform() == null)
+		if (tur == null || tur instanceof TileEntityTurretBase && ((TileEntityTurretBase) tur).getPlatform() == null)
 		{
 			return;
 		}
+		TileEntityTurretBase turret = (TileEntityTurretBase) tur;
 		if (meta == types.BULLET.ordinal() || meta == types.BULLETINF.ordinal())
 		{
 			// Apply Knock Back

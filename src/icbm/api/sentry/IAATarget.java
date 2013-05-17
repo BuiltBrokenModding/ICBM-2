@@ -1,6 +1,6 @@
 package icbm.api.sentry;
 
-import icbm.gangshao.turret.sentries.TileEntityAutoTurret;
+import net.minecraft.tileentity.TileEntity;
 
 /**
  * Apply this to an entity if it is meant to be targeted by the AA Turret.
@@ -32,5 +32,5 @@ public interface IAATarget
 	 * @param turret - turret targeting this
 	 * @return true if it can
 	 */
-	public boolean canBeTargeted(TileEntityAutoTurret turret);
+	public boolean canBeTargeted(TileEntity turret);
 }
