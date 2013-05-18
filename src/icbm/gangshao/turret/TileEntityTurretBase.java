@@ -5,7 +5,6 @@ import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.ActionManager;
 import icbm.gangshao.actions.LookHelper;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.render.ITagRender;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +24,8 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
+
+import calclavia.lib.render.ITagRender;
 
 import com.google.common.io.ByteArrayDataInput;
 

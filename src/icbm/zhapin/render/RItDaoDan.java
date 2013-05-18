@@ -40,7 +40,8 @@ public class RItDaoDan implements IItemRenderer
 
 			if (type == ItemRenderType.INVENTORY)
 			{
-				scale = 0.5f;
+				scale = 0.4f;
+				right = 0.15f;
 
 				if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYaoZhaPin.itTeBieDaoDan.itemID)
 				{
@@ -54,7 +55,7 @@ public class RItDaoDan implements IItemRenderer
 				else if (ZhaPin.list[item.getItemDamage()].getTier() == 4)
 				{
 					scale = scale / 1.4f;
-					right = 0.1f;
+					right = 0.2f;
 				}
 
 				GL11.glTranslatef(right, 0f, 0f);
