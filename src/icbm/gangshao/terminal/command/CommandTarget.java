@@ -29,6 +29,7 @@ public class CommandTarget extends TerminalCommand
 			if (turret.getTurret() instanceof TileEntityAutoTurret)
 			{
 				TileEntityAutoTurret sentry = ((TileEntityAutoTurret) turret.getTurret());
+
 				if (args.length > 1)
 				{
 					String obj = args[1];
@@ -51,39 +52,39 @@ public class CommandTarget extends TerminalCommand
 						}
 						return true;
 					}
-					else if (obj.equalsIgnoreCase("mobs"))
+					else if (obj.equalsIgnoreCase("hostile"))
 					{
 						if (!bool.isEmpty())
 						{
-							sentry.targetLiving = change;
+							sentry.targetHostile = change;
 						}
 						else
 						{
-							sentry.targetLiving = !sentry.targetLiving;
+							sentry.targetHostile = !sentry.targetHostile;
 						}
 						return true;
 					}
-					else if (obj.equalsIgnoreCase("missiles"))
+					else if (obj.equalsIgnoreCase("friendly"))
 					{
 						if (!bool.isEmpty())
 						{
-							sentry.targetMissiles = change;
+							sentry.targetFriendly = change;
 						}
 						else
 						{
-							sentry.targetMissiles = !sentry.targetMissiles;
+							sentry.targetFriendly = !sentry.targetFriendly;
 						}
 						return true;
 					}
-					else if (obj.equalsIgnoreCase("crafts"))
+					else if (obj.equalsIgnoreCase("air"))
 					{
 						if (!bool.isEmpty())
 						{
-							sentry.targetCrafts = change;
+							sentry.targetAir = change;
 						}
 						else
 						{
-							sentry.targetCrafts = !sentry.targetCrafts;
+							sentry.targetAir = !sentry.targetAir;
 						}
 						return true;
 					}

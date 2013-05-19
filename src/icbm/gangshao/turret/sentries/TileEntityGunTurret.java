@@ -4,6 +4,11 @@ import universalelectricity.core.vector.Vector3;
 
 public class TileEntityGunTurret extends TileEntityAutoTurret
 {
+	public TileEntityGunTurret()
+	{
+		this.targetPlayers = true;
+		this.targetHostile = true;
+	}
 
 	@Override
 	public boolean isRunning()

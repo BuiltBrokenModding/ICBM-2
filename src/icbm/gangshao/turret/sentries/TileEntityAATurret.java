@@ -12,14 +12,9 @@ import universalelectricity.core.vector.Vector3;
  */
 public class TileEntityAATurret extends TileEntityAutoTurret
 {
-
 	public TileEntityAATurret()
 	{
-		this.targetMissiles = true;
-		this.targetCrafts = true;
-		// TODO re-add ground target firing at a reduced efficiency
-		this.targetPlayers = false;
-		this.targetLiving = false;
+		this.targetAir = true;
 	}
 
 	@Override

@@ -19,10 +19,8 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.INpc;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -41,10 +39,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	/** The target this turret is hitting. */
 	public Entity target;
 
-	public boolean targetPlayers = true;
-	public boolean targetLiving = true;
-	public boolean targetCrafts = false;
-	public boolean targetMissiles = false;
+	public boolean targetPlayers = false;
+	public boolean targetAir = false;
+	public boolean targetHostile = false;
+	public boolean targetFriendly = false;
 
 	public final ActionManager AIManager = new ActionManager();
 
@@ -116,6 +114,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			this.target = target;
 			return true;
 		}
+
 		return false;
 	}
 
@@ -128,76 +127,62 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			{
 				if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) < this.getDetectRange())
 				{
-					if (!this.lookHelper.canEntityBeSeen(entity))
+					if (this.lookHelper.canEntityBeSeen(entity))
 					{
-						return false;
-					}
-					if (this.targetMissiles && entity instanceof IMissile)
-					{
-						IMissile missile = (IMissile) entity;
-						if (missile.getTicksInAir() > 0)
+						if (this.targetAir)
 						{
-							return true;
-						}
-						return false;
-					}
-					else if (this.targetCrafts && entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))
-					{
-						return true;
-					}
-					else if (entity instanceof EntityLiving && !(entity instanceof EntityAmbientCreature))
-					{
-						if ((entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer))
-						{
-							if(!this.targetPlayers)
+							if (entity instanceof IMob && entity instanceof EntityFlying)
 							{
-								return false;
-							}
-							EntityPlayer player;
-
-							if (entity.riddenByEntity instanceof EntityPlayer)
-							{
-								player = (EntityPlayer) entity.riddenByEntity;
-							}
-							else
-							{
-								player = ((EntityPlayer) entity);
+								return true;
 							}
 
-							if (player.capabilities.isCreativeMode)
+							if (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))
 							{
-								return false;
-							}
-
-							if (this.getPlatform() != null && this.getPlatform().canUserAccess(player.username))
-							{
-								return false;
+								return true;
 							}
 						}
-						else if (this.targetCrafts && entity instanceof EntityFlying)
+
+						if (this.targetPlayers)
+						{
+							if (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer)
+							{
+								EntityPlayer player;
+
+								if (entity.riddenByEntity instanceof EntityPlayer)
+								{
+									player = (EntityPlayer) entity.riddenByEntity;
+								}
+								else
+								{
+									player = ((EntityPlayer) entity);
+								}
+
+								if (!player.capabilities.isCreativeMode)
+								{
+									if (this.getPlatform() != null && !this.getPlatform().canUserAccess(player.username))
+									{
+										return true;
+									}
+								}
+							}
+						}
+
+						if (this.targetHostile)
 						{
 							if (entity instanceof IMob)
 							{
 								return true;
 							}
 						}
-						else if (this.targetLiving)
+
+						if (this.targetFriendly)
 						{
-							if (entity instanceof IMob)
-							{
-								return true;
-							}
 							if (entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant)
 							{
 								return false;
 							}
 						}
 					}
-					else
-					{
-						return false;
-					}
-					return true;
 				}
 			}
 		}
@@ -299,10 +284,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	{
 		super.writeToNBT(nbt);
 
-		nbt.setBoolean("shootPlayers", this.targetPlayers);
-		nbt.setBoolean("shootCraft", this.targetCrafts);
-		nbt.setBoolean("shootLiving", this.targetLiving);
-		nbt.setBoolean("shootAir", this.targetMissiles);
+		nbt.setBoolean("targetPlayers", this.targetPlayers);
+		nbt.setBoolean("targetAir", this.targetAir);
+		nbt.setBoolean("targetHostile", this.targetHostile);
+		nbt.setBoolean("targetFriendly", this.targetFriendly);
 	}
 
 	@Override
@@ -310,21 +295,21 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	{
 		super.readFromNBT(nbt);
 
-		if (nbt.hasKey("shootPlayers"))
+		if (nbt.hasKey("targetPlayers"))
 		{
-			this.targetPlayers = nbt.getBoolean("shootPlayers");
+			this.targetPlayers = nbt.getBoolean("targetPlayers");
 		}
-		if (nbt.hasKey("shootCraft"))
+		if (nbt.hasKey("targetAir"))
 		{
-			this.targetCrafts = nbt.getBoolean("shootCraft");
+			this.targetAir = nbt.getBoolean("targetAir");
 		}
-		if (nbt.hasKey("shootLiving"))
+		if (nbt.hasKey("targetHostile"))
 		{
-			this.targetLiving = nbt.getBoolean("shootLiving");
+			this.targetHostile = nbt.getBoolean("targetHostile");
 		}
-		if (nbt.hasKey("shootAir"))
+		if (nbt.hasKey("targetFriendly"))
 		{
-			this.targetMissiles = nbt.getBoolean("shootAir");
+			this.targetFriendly = nbt.getBoolean("targetFriendly");
 		}
 	}
 }
