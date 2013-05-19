@@ -24,10 +24,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemAmmo extends ItICBM implements IAmmo
 {
-
 	enum types
 	{
-		SHELL("bulletShell", ProjectileTypes.NEUTRIAL, true), BULLET("bullet", ProjectileTypes.CONVENTIONAL, true), BULLETRAIL("bulletRailgun", ProjectileTypes.RAILGUN, true), BULLETANTI("bulletAntimatter", ProjectileTypes.RAILGUN, true), BULLETINF("bulletInfinite", ProjectileTypes.CONVENTIONAL, false);
+		SHELL("bulletShell", ProjectileTypes.NEUTRIAL, true),
+		BULLET("bullet", ProjectileTypes.CONVENTIONAL, true),
+		BULLETRAIL("bulletRailgun", ProjectileTypes.RAILGUN, true),
+		BULLETANTI("bulletAntimatter", ProjectileTypes.RAILGUN, true),
+		BULLETINF("bulletInfinite", ProjectileTypes.CONVENTIONAL, false);
 
 		public String iconName;
 		public ProjectileTypes type;
