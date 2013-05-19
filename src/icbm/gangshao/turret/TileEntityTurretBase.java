@@ -46,7 +46,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
 
 	public final ActionManager actionManager = new ActionManager();
-	public LookHelper lookHelper;
+	public LookHelper lookHelper = new LookHelper(this);
 
 	protected boolean speedUpRotation = false;
 
@@ -62,11 +62,6 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	protected int gunBarrel = 0;
 
-	public TileEntityTurretBase()
-	{
-		lookHelper = new LookHelper(this);
-	}
-
 	@Override
 	public void updateEntity()
 	{
@@ -76,11 +71,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		{
 			this.onUpdate();
 			this.updateRotation();
+
 			if (!this.worldObj.isRemote)
 			{
 				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
 			}
-
 		}
 
 		// Check to make sure this thing still has hp

@@ -67,7 +67,13 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 			}
 		}
 
+		this.prevWatts = this.wattsReceived;
 		this.wattsReceived = Math.min(this.wattsReceived + electricityPack.getWatts(), this.getWattBuffer());
+
+		if ((this.prevWatts <= this.getRequest().getWatts() && this.wattsReceived >= this.getRequest().getWatts()) && !(this.prevWatts == this.wattsReceived))
+		{
+			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+		}
 	}
 
 	@Override
@@ -368,7 +374,18 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
 	{
-		return true;
+		if (slotID < UPGRADE_START_INDEX && itemStack.getItem() instanceof IAmmunition)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public void onInventoryChanged()
+	{
+		super.onInventoryChanged();
 	}
 
 	@Override

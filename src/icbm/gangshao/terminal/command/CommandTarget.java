@@ -26,6 +26,7 @@ public class CommandTarget extends TerminalCommand
 		if (terminal instanceof TileEntityTurretPlatform)
 		{
 			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
+
 			if (turret.getTurret() instanceof TileEntityAutoTurret)
 			{
 				TileEntityAutoTurret sentry = ((TileEntityAutoTurret) turret.getTurret());
@@ -35,12 +36,14 @@ public class CommandTarget extends TerminalCommand
 					String obj = args[1];
 					String bool = "";
 					boolean change = false;
+
 					if (args.length > 2)
 					{
 						bool = args[2];
 						change = Boolean.getBoolean(bool);
 					}
-					if (obj.equalsIgnoreCase("players"))
+
+					if (obj.equalsIgnoreCase("player"))
 					{
 						if (!bool.isEmpty())
 						{
@@ -50,6 +53,7 @@ public class CommandTarget extends TerminalCommand
 						{
 							sentry.targetPlayers = !sentry.targetPlayers;
 						}
+
 						return true;
 					}
 					else if (obj.equalsIgnoreCase("hostile"))
@@ -62,6 +66,7 @@ public class CommandTarget extends TerminalCommand
 						{
 							sentry.targetHostile = !sentry.targetHostile;
 						}
+
 						return true;
 					}
 					else if (obj.equalsIgnoreCase("friendly"))
@@ -74,6 +79,7 @@ public class CommandTarget extends TerminalCommand
 						{
 							sentry.targetFriendly = !sentry.targetFriendly;
 						}
+
 						return true;
 					}
 					else if (obj.equalsIgnoreCase("air"))
@@ -86,11 +92,16 @@ public class CommandTarget extends TerminalCommand
 						{
 							sentry.targetAir = !sentry.targetAir;
 						}
+
 						return true;
 					}
 				}
+
+				terminal.addToConsole("[player|hostile|friendly|air] [true|false]");
+				return false;
 			}
 		}
+
 		return false;
 	}
 
