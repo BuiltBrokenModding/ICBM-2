@@ -211,7 +211,7 @@ public class TDianCiQi extends TileEntityUniversalStorable implements IPacketRec
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
+		ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
 	}
 
 	@Override

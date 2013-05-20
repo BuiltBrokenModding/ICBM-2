@@ -20,7 +20,7 @@ public class BICBM extends BlockAdvanced
 
 	public BICBM(int id, String name, Material material)
 	{
-		super(ZhuYaoBase.CONFIGURATION.getBlock(name, id).getInt(), material);
+		super(ZhuYaoBase.CONFIGURATION.getBlock(name, id).getInt(id), material);
 		this.setUnlocalizedName(ZhuYaoBase.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}

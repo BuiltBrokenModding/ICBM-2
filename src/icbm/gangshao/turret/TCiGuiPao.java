@@ -4,6 +4,7 @@ import icbm.api.explosion.IExplosive;
 import icbm.api.sentry.AmmoPair;
 import icbm.api.sentry.IAmmo;
 import icbm.api.sentry.ProjectileTypes;
+import icbm.core.ZhuYaoBase;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.LookHelper;
 
@@ -54,8 +55,6 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 
 	private int explosionDepth;
 
-	private boolean packetGengXin = true;
-
 	/**
 	 * A counter used client side for the smoke and streaming effects of the Railgun after a shot.
 	 */
@@ -76,6 +75,8 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 
 			this.currentRotationPitch = this.wantedRotationPitch * 0.0175f;
 			this.currentRotationYaw = this.wantedRotationYaw * 0.0175f;
+
+			System.out.println("TEST: " + this.worldObj.isRemote);
 		}
 		else if (this.entityFake != null)
 		{
@@ -294,7 +295,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoGangShao.blockFake.blockID, 0, 2);
+		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoBase.bJia.blockID, 0, 2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 

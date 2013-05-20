@@ -148,7 +148,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 		this.qiZi = FlagRegistry.registerFlag("ban_" + this.mingZi);
 
 		ZhuYaoBase.CONFIGURATION.load();
-		this.isDisabled = ZhuYaoBase.CONFIGURATION.get("Disable Explosive", "Disable " + this.mingZi, false).getBoolean(false);
+		this.isDisabled = ZhuYaoBase.CONFIGURATION.get("Disable Explosives", "Disable " + this.mingZi, false).getBoolean(false);
 		ZhuYaoBase.CONFIGURATION.save();
 	}
 

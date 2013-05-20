@@ -473,23 +473,23 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		if (this.orientation == 3 || this.orientation == 2)
 		{
 			// Left
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 0, 0)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 1, 0)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 2, 0)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 0, 0)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 1, 0)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 2, 0)), new Vector3(this));
 
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 0, 0)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 1, 0)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 2, 0)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 0, 0)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 1, 0)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 2, 0)), new Vector3(this));
 		}
 		else
 		{
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, 1)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 1)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, 1)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, 1)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 1)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, 1)), new Vector3(this));
 
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, -1)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, -1)), new Vector3(this));
-			ZhuYaoZhaPin.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, -1)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, -1)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, -1)), new Vector3(this));
+			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, -1)), new Vector3(this));
 		}
 	}
 

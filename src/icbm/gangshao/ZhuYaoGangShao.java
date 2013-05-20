@@ -29,7 +29,6 @@ import universalelectricity.prefab.flag.CommandFlag;
 import universalelectricity.prefab.flag.FlagRegistry;
 import universalelectricity.prefab.flag.ModFlag;
 import universalelectricity.prefab.flag.NBTFileLoader;
-import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -54,7 +53,7 @@ import dark.library.terminal.commands.CommandHelp;
 import dark.library.terminal.commands.CommandRegistry;
 import dark.library.terminal.commands.CommandUser;
 
-@Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, dependencies = "after:BasicComponents", useMetadata = true)
+@Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
 public class ZhuYaoGangShao extends ZhuYaoBase
 {
@@ -75,11 +74,6 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 
 	public static final int ENTITY_ID_PREFIX = 50;
 
-	/**
-	 * 
-	 * Multiblock.
-	 */
-	public static BlockMulti blockFake;
 	public static Block blockTurret, blockPlatform;
 
 	public static Item itemAmmo;
@@ -104,7 +98,6 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 
 		blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
-		blockFake = new BlockMulti(ZhuYaoBase.CONFIGURATION.getBlock("Sentry Multiblock", BLOCK_ID_PREFIX + 2).getInt());
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
 		ZhuYaoBase.CONFIGURATION.save();
@@ -116,7 +109,6 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 
 		GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class, "ICBMTurret");
 		GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
-		GameRegistry.registerBlock(blockFake, "ICBMFake");
 
 		EntityRegistry.registerGlobalEntityID(EntityFakeMountable.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityFakeMountable.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);

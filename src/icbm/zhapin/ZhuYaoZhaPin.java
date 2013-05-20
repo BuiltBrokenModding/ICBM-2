@@ -79,7 +79,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:ICBM|Sentry;after:BasicComponents;after:AtomicScience", useMetadata = true)
+@Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:ICBM|Sentry;after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ZhuYaoZhaPin.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ZhaPinPacketGuanLi.class)
 public class ZhuYaoZhaPin extends ZhuYaoBase
 {
@@ -103,8 +103,6 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 	// Blocks
 	public static Block bZhaDan;
 	public static Block bJiQi;
-	public static BlockMulti bJia;
-
 	// Items
 	public static Item itDaoDan;
 	public static Item itTeBieDaoDan;
@@ -131,7 +129,6 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		ZhuYaoBase.CONFIGURATION.load();
 		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
 		bJiQi = new BJiQi(ICBM.BLOCK_ID_PREFIX + 4);
-		bJia = new BlockMulti(ICBM.BLOCK_ID_PREFIX + 6).setTextureName(ZhuYaoBase.PREFIX + "machine");
 
 		// ITEMS
 		itDaoDan = new ItDaoDan(ICBM.ITEM_ID_PREFIX + 3, "missile");
@@ -234,7 +231,6 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		// -- Registering Blocks
 		GameRegistry.registerBlock(bZhaDan, IBZhaDan.class, "bZhaDan");
 		GameRegistry.registerBlock(bJiQi, IBJiQi.class, "bJiQi");
-		GameRegistry.registerBlock(bJia, "bJia");
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback()
 		{

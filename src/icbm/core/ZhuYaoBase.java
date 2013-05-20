@@ -30,6 +30,7 @@ import universalelectricity.prefab.flag.CommandFlag;
 import universalelectricity.prefab.flag.FlagRegistry;
 import universalelectricity.prefab.flag.ModFlag;
 import universalelectricity.prefab.flag.NBTFileLoader;
+import universalelectricity.prefab.multiblock.BlockMulti;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
@@ -64,6 +65,8 @@ public class ZhuYaoBase
 	public static boolean ZAI_KUAI;
 
 	public static Block bLiu, bFuShe;
+
+	public static BlockMulti bJia;
 
 	public static Item itLiu, itDu;
 
@@ -102,7 +105,7 @@ public class ZhuYaoBase
 	/**
 	 * Configuration file for ICBM.
 	 */
-	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "UniversalElectricity/ICBM.cfg"));
+	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "ICBM.cfg"));
 
 	public static final Logger LOGGER = Logger.getLogger(ICBM.NAME);
 
@@ -117,20 +120,24 @@ public class ZhuYaoBase
 			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
 
 			ZhuYaoBase.CONFIGURATION.load();
-			//Calling this once to prevent the static class from not initiating.
+
+			// Calling this once to prevent the static class from not initiating.
 			PotionRadiation.INSTANCE.getId();
-			
+
 			ZAI_KUAI = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
 			DAO_DAN_ZUI_YUAN = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
 
 			// BLOCKS
 			bLiu = new BLiu(ICBM.BLOCK_ID_PREFIX + 0);
+			bJia = new BlockMulti(ZhuYaoBase.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ZhuYaoBase.PREFIX + "machine").setChannel(this.getChannel());
 
+			// Items
 			itDu = new ItICBM(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
 			itLiu = new ItICBM(ICBM.ITEM_ID_PREFIX + 1, "sulfur");
 
 			// -- Registering Blocks
 			GameRegistry.registerBlock(bLiu, "bLiu");
+			GameRegistry.registerBlock(bJia, "bJia");
 
 			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(ZhuYaoBase.CONFIGURATION);
 
@@ -156,7 +163,7 @@ public class ZhuYaoBase
 			Block.obsidian.setResistance(ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
 			LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-			ZhuYaoBase.CONFIGURATION.save();
+			CONFIGURATION.save();
 
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);
@@ -197,9 +204,10 @@ public class ZhuYaoBase
 			BasicComponents.requestItem("circuitElite", 0);
 
 			BasicComponents.requestItem("motor", 0);
-			
 			BasicComponents.requestItem("wrench", 0);
-			
+
+			BasicComponents.requestItem("infiniteBattery", 0);
+
 			BasicComponents.register(this, this.getChannel());
 
 			isInit = true;

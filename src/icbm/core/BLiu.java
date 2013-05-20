@@ -32,4 +32,10 @@ public class BLiu extends BICBM
 	{
 		return this.quantityDropped(par2Random) + par2Random.nextInt(par1 + 1);
 	}
+
+	@Override
+	public boolean hasTileEntity(int metadata)
+	{
+		return false;
+	}
 }

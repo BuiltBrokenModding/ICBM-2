@@ -1,5 +1,6 @@
 package icbm.zhapin.jiqi;
 
+import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -131,9 +132,9 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, IT
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
+		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoBase.bJia.blockID, 0, 2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlock(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoZhaPin.bJia.blockID, 0, 2);
+		this.worldObj.setBlock(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoBase.bJia.blockID, 0, 2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
 	}
 
