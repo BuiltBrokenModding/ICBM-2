@@ -78,14 +78,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			}
 		}
 
-		// Check to make sure this thing still has hp
+		// Check to make sure this thing still has health
 		if (this.health <= 0)
 		{
 			this.destroy(true);
 		}
-
-		// Do packet update
-
 	}
 
 	protected abstract void onUpdate();

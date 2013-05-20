@@ -23,6 +23,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
@@ -41,6 +42,8 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
+	private final float rotationTranslation = 0.0175f;
+
 	protected EntityPlayer mountedPlayer = null;
 
 	private EntityFakeMountable entityFake = null;
@@ -70,13 +73,8 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 			if (this.mountedPlayer.rotationPitch < -45)
 				this.mountedPlayer.rotationPitch = -45;
 
-			this.wantedRotationPitch = this.mountedPlayer.rotationPitch;
-			this.wantedRotationYaw = this.mountedPlayer.rotationYaw;
-
-			this.currentRotationPitch = this.wantedRotationPitch * 0.0175f;
-			this.currentRotationYaw = this.wantedRotationYaw * 0.0175f;
-
-			System.out.println("TEST: " + this.worldObj.isRemote);
+			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * rotationTranslation;
+			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * rotationTranslation;
 		}
 		else if (this.entityFake != null)
 		{
@@ -174,7 +172,6 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 		{
 			Vector3 startPosition = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
 			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 15, this.currentRotationPitch);
-			double scale = 1.0;
 			double xoffset = 1.3f;
 			double yoffset = -.2;
 			double zoffset = 0.3f;
@@ -306,7 +303,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	public MovingObjectPosition rayTrace(double distance)
 	{
 		Vector3 muzzlePosition = this.getMuzzle();
-		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw, this.wantedRotationPitch);
+		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw / this.rotationTranslation, this.wantedRotationPitch / this.rotationTranslation);
 		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
 		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
 	}
