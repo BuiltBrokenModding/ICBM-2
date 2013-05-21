@@ -19,8 +19,8 @@ public class BlockTurretPlatform extends BICBM
 	public BlockTurretPlatform(int id)
 	{
 		super(id, "turretPlatform", UniversalElectricity.machine);
-		this.setHardness(50f);
-		this.setResistance(100f);
+		this.setHardness(100f);
+		this.setResistance(50f);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.requireSidedTextures = true;
 	}

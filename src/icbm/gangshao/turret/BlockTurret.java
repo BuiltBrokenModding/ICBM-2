@@ -57,8 +57,8 @@ public class BlockTurret extends BICBM
 	{
 		super(par1, "turret", UniversalElectricity.machine);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.setHardness(50f);
-		this.setResistance(100f);
+		this.setHardness(100f);
+		this.setResistance(50f);
 	}
 
 	@SideOnly(Side.CLIENT)
