@@ -58,7 +58,7 @@ public class RFeiBlock extends Render
 		GL11.glPopMatrix();
 	}
 
-	public void renderBlockGravity(Block par1Block, int metadata, RenderBlocks renderer)
+	public void renderBlockGravity(Block block, int metadata, RenderBlocks renderer)
 	{
 		float var6 = 0.5F;
 		float var7 = 1.0F;
@@ -70,22 +70,22 @@ public class RFeiBlock extends Render
 		float var12 = 1.0F;
 
 		tess.setColorOpaque_F(var6 * var12, var6 * var12, var6 * var12);
-		renderer.renderFaceYNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(0, metadata));
+		renderer.renderFaceYNeg(block, -0.5D, -0.5D, -0.5D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
 
 		tess.setColorOpaque_F(var7 * var12, var7 * var12, var7 * var12);
-		renderer.renderFaceYPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(1, metadata));
+		renderer.renderFaceYPos(block, -0.5D, -0.5D, -0.5D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
 
 		tess.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
-		renderer.renderFaceZNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(2, metadata));
+		renderer.renderFaceZNeg(block, -0.5D, -0.5D, -0.5D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
 
 		tess.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
-		renderer.renderFaceZPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(3, metadata));
+		renderer.renderFaceZPos(block, -0.5D, -0.5D, -0.5D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
 
 		tess.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
-		renderer.renderFaceXNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(4, metadata));
+		renderer.renderFaceXNeg(block, -0.5D, -0.5D, -0.5D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
 
 		tess.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
-		renderer.renderFaceXPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(5, metadata));
+		renderer.renderFaceXPos(block, -0.5D, -0.5D, -0.5D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
 		tess.draw();
 	}
 
