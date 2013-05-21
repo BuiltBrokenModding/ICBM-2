@@ -92,28 +92,28 @@ public class ExYuanZi extends ExThr
 
 		EZhaPin source = (EZhaPin) explosionSource;
 
-		if (!worldObj.isRemote && source.dataList1.size() > 0 && source.dataList1.get(0) instanceof ThrSheXian)
+		try
 		{
-			ThrSheXian thread = (ThrSheXian) source.dataList1.get(0);
-
-			for (Vector3 targetPosition : thread.destroyed)
+			if (!worldObj.isRemote && source.dataList1.size() > 0 && source.dataList1.get(0) instanceof ThrSheXian)
 			{
-				int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+				ThrSheXian thread = (ThrSheXian) source.dataList1.get(0);
 
-				if (blockID > 0)
+				for (Vector3 targetPosition : thread.destroyed)
 				{
-					try
+					int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+
+					if (blockID > 0)
 					{
 						targetPosition.setBlock(worldObj, 0);
 						Block.blocksList[blockID].onBlockDestroyedByExplosion(thread.world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), null);
 					}
-					catch (Exception e)
-					{
-						ZhuYaoBase.LOGGER.severe("Detonation Failed!");
-						e.printStackTrace();
-					}
 				}
 			}
+		}
+		catch (Exception e)
+		{
+			ZhuYaoBase.LOGGER.severe("Detonation Failed!");
+			e.printStackTrace();
 		}
 
 		this.doDamageEntities(worldObj, position, BAN_JING, NENG_LIANG * 1000);

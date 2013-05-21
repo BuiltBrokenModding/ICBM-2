@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.liquids.ILiquid;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
@@ -95,7 +96,7 @@ public class ExHongSu extends ZhaPin
 
 								worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, notify);
 
-								if (block instanceof BlockFluid)
+								if (block instanceof BlockFluid || block instanceof ILiquid)
 									continue;
 
 								currentPos.add(0.5D);

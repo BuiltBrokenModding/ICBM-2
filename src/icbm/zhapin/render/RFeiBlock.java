@@ -1,8 +1,8 @@
 package icbm.zhapin.render;
 
-import icbm.core.RBICBM;
 import icbm.zhapin.EFeiBlock;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -17,8 +17,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RFeiBlock extends Render
 {
-	private RBICBM icbmRenderBlocks;
-
 	public RFeiBlock()
 	{
 		this.shadowSize = 0.5F;
@@ -29,11 +27,6 @@ public class RFeiBlock extends Render
 	 */
 	public void doRenderGravityBlock(EFeiBlock entity, double x, double y, double z, float par8, float par9)
 	{
-		if (this.icbmRenderBlocks == null)
-		{
-			this.icbmRenderBlocks = new RBICBM(this.renderBlocks.blockAccess);
-		}
-
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
 		this.loadTexture("/terrain.png");
@@ -45,23 +38,55 @@ public class RFeiBlock extends Render
 		GL11.glRotatef(entity.rotationPitch, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(entity.rotationYaw, 0.0F, 1.0F, 0.0F);
 
+		this.renderBlocks.blockAccess = world;
+
 		if (block == Block.dragonEgg || block == Block.grass || block == Block.fence || block == Block.crops || block == Block.leaves || block == Block.torchRedstoneActive || block == Block.torchWood || block == Block.torchRedstoneIdle || block == Block.tallGrass || block == Block.vine || block == Block.wood || block == Block.bookShelf || block == Block.pumpkin)
 		{
-			this.icbmRenderBlocks.blockAccess = world;
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
 			tessellator.setTranslation((-MathHelper.floor_double(entity.posX)) - 0.5F, (-MathHelper.floor_double(entity.posY)) - 0.5F, (-MathHelper.floor_double(entity.posZ)) - 0.5F);
-			this.icbmRenderBlocks.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
+			this.renderBlocks.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
 			tessellator.setTranslation(0.0D, 0.0D, 0.0D);
 			tessellator.draw();
 		}
 		else
 		{
-			this.icbmRenderBlocks.renderBlockGravity(block, world, (int) entity.posX, (int) entity.posY, (int) entity.posZ, entity.metadata);
+			this.renderBlockGravity(block, entity.metadata, this.renderBlocks);
 		}
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
+	}
+
+	public void renderBlockGravity(Block par1Block, int metadata, RenderBlocks renderer)
+	{
+		float var6 = 0.5F;
+		float var7 = 1.0F;
+		float var8 = 0.8F;
+		float var9 = 0.6F;
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+
+		float var12 = 1.0F;
+
+		tess.setColorOpaque_F(var6 * var12, var6 * var12, var6 * var12);
+		renderer.renderFaceYNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(0, metadata));
+
+		tess.setColorOpaque_F(var7 * var12, var7 * var12, var7 * var12);
+		renderer.renderFaceYPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(1, metadata));
+
+		tess.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
+		renderer.renderFaceZNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(2, metadata));
+
+		tess.setColorOpaque_F(var8 * var12, var8 * var12, var8 * var12);
+		renderer.renderFaceZPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(3, metadata));
+
+		tess.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
+		renderer.renderFaceXNeg(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(4, metadata));
+
+		tess.setColorOpaque_F(var9 * var12, var9 * var12, var9 * var12);
+		renderer.renderFaceXPos(par1Block, -0.5D, -0.5D, -0.5D, par1Block.getIcon(5, metadata));
+		tess.draw();
 	}
 
 	/**
