@@ -1,6 +1,5 @@
 package icbm.api.sentry;
 
-import net.minecraft.tileentity.TileEntity;
 
 /**
  * Apply this to an entity if it is meant to be targeted by the AA Turret.
@@ -26,11 +25,11 @@ public interface IAATarget
 	public int doDamage(int damage);
 
 	/**
-	 * Can this auto turret target this craft. Turret will automaticly sort out players, sight line,
-	 * and most of its normal data. Use this to create target jamming, cloaking, and other modules.
+	 * Can this be targeted by automated targeting systems or AIs. Used to implement radar jammers,
+	 * cloaking devices, and other addons for the Entity being targeted
 	 * 
-	 * @param turret - turret targeting this
+	 * @param entity - entity that is targeting this, can be an Entity, EntityLiving, or TileEntity
 	 * @return true if it can
 	 */
-	public boolean canBeTargeted(TileEntity turret);
+	public boolean canBeTargeted(Object entity);
 }

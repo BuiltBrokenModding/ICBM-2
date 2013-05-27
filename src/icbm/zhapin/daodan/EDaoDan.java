@@ -788,7 +788,7 @@ public class EDaoDan extends Entity implements IAATarget, IMissileLockable, IExp
 	}
 
 	@Override
-	public boolean canBeTargeted(TileEntity turret)
+	public boolean canBeTargeted(Object turret)
 	{
 		return this.getTicksInAir() > 0;
 	}
