@@ -86,7 +86,7 @@ public class ZhuYaoBase
 
 	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
 
-	public static int DAO_DAN_ZUI_YUAN;
+	public static int DAO_DAN_ZUI_YUAN = 10000;
 
 	/**
 	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
@@ -125,7 +125,7 @@ public class ZhuYaoBase
 			PotionRadiation.INSTANCE.getId();
 
 			ZAI_KUAI = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
-			DAO_DAN_ZUI_YUAN = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", 10000).getInt(10000);
+			DAO_DAN_ZUI_YUAN = ZhuYaoBase.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", DAO_DAN_ZUI_YUAN).getInt(DAO_DAN_ZUI_YUAN);
 
 			// BLOCKS
 			bLiu = new BLiu(ICBM.BLOCK_ID_PREFIX + 0);
