@@ -122,7 +122,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 	private int ID;
 	private int tier;
 	private int yinXin;
-	private DaoDan daoDan;
+	public DaoDan daoDan;
 	public final String qiZi;
 	protected boolean isDisabled;
 	protected boolean isMobile = false;
@@ -148,7 +148,7 @@ public abstract class ZhaPin implements ITier, IExplosive
 		this.qiZi = FlagRegistry.registerFlag("ban_" + this.mingZi);
 
 		ZhuYaoBase.CONFIGURATION.load();
-		this.isDisabled = ZhuYaoBase.CONFIGURATION.get("Disable Explosives", "Disable " + this.mingZi, false).getBoolean(false);
+		this.isDisabled = ZhuYaoBase.CONFIGURATION.get("Disable_Explosives", "Disable " + this.mingZi, false).getBoolean(false);
 		ZhuYaoBase.CONFIGURATION.save();
 	}
 
@@ -430,12 +430,12 @@ public abstract class ZhaPin implements ITier, IExplosive
 		minCoord.add(-radius - 1);
 		Vector3 maxCoord = position.clone();
 		maxCoord.add(radius + 1);
-		List allEntities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.intX(), minCoord.intY(), minCoord.intZ(), maxCoord.intX(), maxCoord.intY(), maxCoord.intZ()));
+		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.intX(), minCoord.intY(), minCoord.intZ(), maxCoord.intX(), maxCoord.intY(), maxCoord.intZ()));
 		Vec3 var31 = Vec3.createVectorHelper(position.x, position.y, position.z);
 
 		for (int i = 0; i < allEntities.size(); ++i)
 		{
-			Entity entity = (Entity) allEntities.get(i);
+			Entity entity = allEntities.get(i);
 
 			if (this.onDamageEntity(entity))
 			{

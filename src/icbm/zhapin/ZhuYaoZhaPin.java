@@ -57,7 +57,6 @@ import universalelectricity.core.item.ItemElectric;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.flag.FlagRegistry;
-import universalelectricity.prefab.multiblock.BlockMulti;
 import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
