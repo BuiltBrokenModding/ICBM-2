@@ -1,4 +1,4 @@
-package icbm.gangshao.turret;
+package icbm.gangshao.turret.mount;
 
 import icbm.api.explosion.IExplosive;
 import icbm.api.sentry.AmmoPair;
@@ -7,6 +7,7 @@ import icbm.api.sentry.ProjectileTypes;
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.LookHelper;
+import icbm.gangshao.turret.TileEntityTurretBase;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TileEntityRailTurret extends TileEntityTurretBase implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	private final float rotationTranslation = 0.0175f;
 
@@ -440,5 +441,17 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	public double getRunningRequest()
 	{
 		return 10;
+	}
+
+	@Override
+	public int getMaxHealth()
+	{
+		return 450;
+	}
+
+	@Override
+	public double getSafeHeatLvL()
+	{
+		return 1000;
 	}
 }

@@ -1,5 +1,7 @@
 package icbm.gangshao.turret.sentries;
 
+import dark.hydraulic.api.IHeatObject;
+import dark.library.damage.EntityTileDamage;
 import dark.library.damage.IHpTile;
 import dark.library.helpers.Pair;
 import icbm.api.IMissile;
@@ -30,6 +32,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -38,7 +41,7 @@ import universalelectricity.core.vector.Vector3;
  * @author Rseifert
  * 
  */
-public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry, IHpTile
+public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
 {
 	/** The target this turret is hitting. */
 	public Entity target;
@@ -49,9 +52,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	public boolean targetFriendly = false;
 
 	public final ActionManager AIManager = new ActionManager();
-
-	public int hp = this.getMaxHealth();
-	public double heat = 0;
 
 	@Override
 	public void initiate()
@@ -70,15 +70,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		if (!this.worldObj.isRemote)
 		{
 			this.speedUpRotation = this.target != null;
-			this.heat -= this.getCoolingRate();
-
-			if (this.heat > this.getSafeHeatLvL() && this.ticks % 5 == 0)
-			{
-				this.hp -= 1;
-			}
-
 		}
-
 		this.AIManager.onUpdate();
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.
@@ -321,7 +313,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		nbt.setBoolean("targetAir", this.targetAir);
 		nbt.setBoolean("targetHostile", this.targetHostile);
 		nbt.setBoolean("targetFriendly", this.targetFriendly);
-		nbt.setInteger("health", this.hp);
+		
 	}
 
 	@Override
@@ -345,47 +337,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		{
 			this.targetFriendly = nbt.getBoolean("targetFriendly");
 		}
-		if (nbt.hasKey("health"))
-		{
-			this.hp = nbt.getInteger("health");
-		}
 
 	}
-
-	@Override
-	public boolean onDamageTaken(DamageSource source, int ammount)
-	{
-		if (this.isInvul())
-		{
-			return false;
-		}
-		else if (source != null && source.equals(DamageSource.onFire))
-		{
-			this.heat += 10;
-			return false;
-		}
-		else
-		{
-			this.hp -= ammount;
-			return false;
-		}
-	}
-
-	public boolean isInvul()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isAlive()
-	{
-		return this.hp > 0;
-	}
-
-	public abstract double getSafeHeatLvL();
-
-	public abstract double getCoolingRate();
-
-	public abstract int getMaxHealth();
 
 }

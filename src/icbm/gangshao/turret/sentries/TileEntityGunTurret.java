@@ -86,12 +86,6 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	}
 
 	@Override
-	public double getCoolingRate()
-	{
-		return 0;
-	}
-
-	@Override
 	public double getRunningRequest()
 	{		
 		return 5;

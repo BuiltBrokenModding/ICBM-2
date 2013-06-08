@@ -2,6 +2,7 @@ package icbm.gangshao.turret.sentries;
 
 import icbm.gangshao.actions.LookHelper;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -125,15 +126,11 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	}
 
 	@Override
-	public double getCoolingRate()
-	{
-		return 15;
-	}
-
-	@Override
 	public int getMaxHealth()
 	{
 		return 150;
 	}
+
+	
 
 }

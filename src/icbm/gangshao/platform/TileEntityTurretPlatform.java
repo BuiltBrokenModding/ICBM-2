@@ -7,16 +7,30 @@ import icbm.api.sentry.ISentryUpgrade;
 import icbm.api.sentry.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
+
+import java.io.IOException;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.prefab.CustomDamageSource;
+import universalelectricity.prefab.network.PacketManager;
+
+import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.FMLLog;
+import dark.library.damage.IHpTile;
 import dark.library.terminal.TileEntityTerminal;
 
 public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, IInventory
@@ -42,9 +56,50 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	{
 		super.updateEntity();
 
-		if (this.isRunning())
+		if (!this.isDisabled())
 		{
-			this.getTurret();
+			TileEntityTurretBase turret = this.getTurret();
+			if (this.isRunning())
+			{
+				this.wattsReceived -= turret.getRunningRequest();
+			}
+		}
+	}
+
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, nbt);
+	}
+
+	@Override
+	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	{
+		if (this.worldObj.isRemote)
+		{
+			try
+			{
+				int id = dataStream.readInt();
+
+				if (id == 0)
+				{
+					short size = dataStream.readShort();
+
+					if (size > 0)
+					{
+						byte[] byteCode = new byte[size];
+						dataStream.readFully(byteCode);
+						this.readFromNBT(CompressedStreamTools.decompress(byteCode));
+					}
+				}
+			}
+			catch (IOException e)
+			{
+				FMLLog.severe("ICBM>>>SENTRIES>>>PLATFORM>>>PACKET>>>READ ERROR");
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -58,11 +113,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		{
 			if (electricityPack.voltage > this.getVoltage())
 			{
-				/**
-				 * Since this block is indestructable, we have to delete it.
-				 */
-				this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
-				this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 1.5f, true);
+				TileEntityTurretBase turret = this.getTurret();
+				if (turret != null && turret instanceof IHpTile)
+				{
+					((IHpTile) this.turret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
+				}
 				return;
 			}
 		}
@@ -83,7 +138,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		{
 			if (this.wattsReceived < this.getTurret().getFiringRequest())
 			{
-				return new ElectricityPack(this.getTurret().getFiringRequest() / this.getTurret().getVoltage(), this.getTurret().getVoltage());
+				return new ElectricityPack(Math.max((this.getWattBuffer() - this.wattsReceived) / this.getTurret().getVoltage(), 0), this.getTurret().getVoltage());
 			}
 		}
 
@@ -95,7 +150,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	{
 		if (this.getTurret() != null)
 		{
-			return this.getTurret().getFiringRequest();
+			return this.getTurret().getFiringRequest() * 4 + this.getTurret().getRunningRequest();
 		}
 		return 0;
 	}
@@ -157,7 +212,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 	public boolean isRunning()
 	{
-		return !this.isDisabled();
+		return !this.isDisabled() && this.getTurret() != null && this.getTurret().getRunningRequest() <= this.wattsReceived;
 	}
 
 	@Override

@@ -11,7 +11,6 @@ public class ActionManager
 {
 	private final List<Action> tasks = new ArrayList<Action>();
 
-	private int ticks = 0;
 	private int currentTask = 0;
 	private int lastTask = -1;
 
@@ -69,8 +68,6 @@ public class ActionManager
 			FMLLog.severe("Failed to execute task in Assembly Line.");
 			e.printStackTrace();
 		}
-
-		this.ticks++;
 	}
 
 	public Action getNewCommand(TileEntityTurretBase tileEntity, Class<? extends Action> commandClass, String[] parameters)
@@ -136,7 +133,6 @@ public class ActionManager
 		this.tasks.clear();
 		this.currentTask = 0;
 		this.lastTask = -1;
-		this.ticks = 0;
 	}
 
 	public void setCurrentTask(int i)
