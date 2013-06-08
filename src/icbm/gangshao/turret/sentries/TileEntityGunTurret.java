@@ -42,13 +42,13 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	}
 
 	@Override
-	public int getCooldown()
+	public int getFiringDelay()
 	{
 		return 10;
 	}
 
 	@Override
-	public double getRequest()
+	public double getFiringRequest()
 	{
 		return 10;
 	}
@@ -71,6 +71,30 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 			return 4f;
 		}
 		return 2f;
+	}
+
+	@Override
+	public int getMaxHealth()
+	{
+		return 120;
+	}
+
+	@Override
+	public double getSafeHeatLvL()
+	{		
+		return 500;
+	}
+
+	@Override
+	public double getCoolingRate()
+	{
+		return 0;
+	}
+
+	@Override
+	public double getRunningRequest()
+	{		
+		return 5;
 	}
 
 }

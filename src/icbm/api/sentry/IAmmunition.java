@@ -3,10 +3,7 @@ package icbm.api.sentry;
 import net.minecraft.item.ItemStack;
 
 /**
- * Applied to all TileEntities that can hold ammunition.
- * 
- * @author Calclavia
- * 
+ * Applied to all TileEntities that can hold ammunition. * 
  */
 public interface IAmmunition
 {
@@ -24,6 +21,6 @@ public interface IAmmunition
 	 * @param ammunitionStack - The type of ammunition to use.
 	 * @return True if used successfully.
 	 */
-	public boolean useAmmunition(ItemStack ammunitionStack);
+	public boolean useAmmunition(AmmoPair<IAmmo, ItemStack> ammo);
 
 }

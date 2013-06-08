@@ -5,9 +5,6 @@ import universalelectricity.core.vector.Vector3;
 
 /**
  * Applied to all turret TileEntities.
- * 
- * @author Calclavia
- * 
  */
 public interface ISentry
 {
@@ -17,7 +14,8 @@ public interface ISentry
 	public void setRotation(float yaw, float pitch);
 
 	/**
-	 * Gets the offset of the barrel from its actual location
+	 * Gets the offset of the barrel from its actual location. Needs to be based off or current
+	 * rotation of barrel for best results
 	 */
 	public Vector3 getMuzzle();
 
@@ -41,14 +39,17 @@ public interface ISentry
 	 * 
 	 * @return
 	 */
-	public int getCooldown();
+	public int getFiringDelay();
 
 	/**
-	 * The amount of joules required for the turret to run.
-	 * 
-	 * @return
+	 * The amount of joules required for the turret to fire its weapon
 	 */
-	public double getRequest();
+	public double getFiringRequest();
+
+	/**
+	 * The amount of joules require for the turret to function
+	 */
+	public double getRunningRequest();
 
 	/**
 	 * 

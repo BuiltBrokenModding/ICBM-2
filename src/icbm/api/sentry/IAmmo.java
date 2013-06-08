@@ -1,20 +1,46 @@
 package icbm.api.sentry;
 
+import universalelectricity.core.vector.Vector3;
+import dark.library.helpers.Pair;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 
 public interface IAmmo
 {
 	/**
-	 * Gets the damage this ammo does to the target.
+	 * Gets the damage this ammo does to the target. Only used if applyDirectDamage returns true
 	 */
-	public int getDamage(int meta, Entity entity);
+	public Pair<DamageSource, Integer> getDamage(Entity entity, int meta);
 
 	/**
-	 * does damage to the target or creates a projectile if target is null this means the round was
-	 * fire at a location or impacted the location
+	 * Should the damage be done directly instead of creating a projectile or calling fire classes
+	 * 
+	 * @return
 	 */
-	public void attackTargetLiving(int meta, TileEntity turret, Entity target, boolean hit);
+	public boolean applyDirectDamage(int meta);
+
+	/**
+	 * Fires the ammo at a target same as location but this can be used to get the center mass of a
+	 * target for moving projectiles. As well to auto tracking projectiles
+	 * 
+	 * @param target - instanceof Entity
+	 * @param meta- meta of the ammo item
+	 * @return
+	 */
+	public boolean fireAmmoLiving(Entity target, int meta);
+
+	/**
+	 * Fires the ammo at a location useful for dummy fire weapons
+	 * 
+	 * @param world
+	 * @param target
+	 * @param meta - meta of the ammo item
+	 * @return true if was fired
+	 */
+	public boolean fireAmmoLoc(World world, Vector3 target, int meta);
 
 	/**
 	 * Type of projectile this is... Used to prevent some sentries from using it
@@ -22,8 +48,8 @@ public interface IAmmo
 	public ProjectileTypes getType(int meta);
 
 	/**
-	 * is the item consumed when shot
+	 * Used to either consume the item or damage the item after its been fired
 	 */
-	public boolean consumeItem(int meta);
+	public ItemStack consumeItem(ItemStack itemStack);
 
 }

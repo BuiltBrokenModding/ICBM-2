@@ -81,9 +81,9 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	{
 		if (this.getTurret() != null)
 		{
-			if (this.wattsReceived < this.getTurret().getRequest())
+			if (this.wattsReceived < this.getTurret().getFiringRequest())
 			{
-				return new ElectricityPack(this.getTurret().getRequest() / this.getTurret().getVoltage(), this.getTurret().getVoltage());
+				return new ElectricityPack(this.getTurret().getFiringRequest() / this.getTurret().getVoltage(), this.getTurret().getVoltage());
 			}
 		}
 
@@ -95,7 +95,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	{
 		if (this.getTurret() != null)
 		{
-			return this.getTurret().getRequest();
+			return this.getTurret().getFiringRequest();
 		}
 		return 0;
 	}
@@ -180,18 +180,22 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	}
 
 	@Override
-	public boolean useAmmunition(ItemStack ammunitionStack)
+	public boolean useAmmunition(AmmoPair<IAmmo, ItemStack> ammo)
 	{
-		for (int i = 0; i < TileEntityTurretPlatform.UPGRADE_START_INDEX; i++)
+		if (ammo != null && ammo.getStack() != null)
 		{
-			ItemStack itemStack = this.containingItems[i];
-
-			if (itemStack != null)
+			ItemStack ammoStack = ammo.getStack().copy();
+			for (int i = 0; i < TileEntityTurretPlatform.UPGRADE_START_INDEX; i++)
 			{
-				if (itemStack.isItemEqual(ammunitionStack))
+				ItemStack itemStack = this.containingItems[i];
+
+				if (itemStack != null)
 				{
-					this.decrStackSize(i, 1);
-					return true;
+					if (itemStack.isItemEqual(ammoStack))
+					{
+						this.containingItems[i] = ammo.getAmmo().consumeItem(itemStack);
+						return true;
+					}
 				}
 			}
 		}

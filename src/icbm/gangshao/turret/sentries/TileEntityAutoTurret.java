@@ -1,5 +1,7 @@
 package icbm.gangshao.turret.sentries;
 
+import dark.library.damage.IHpTile;
+import dark.library.helpers.Pair;
 import icbm.api.IMissile;
 import icbm.api.sentry.AmmoPair;
 import icbm.api.sentry.IAATarget;
@@ -14,6 +16,7 @@ import icbm.gangshao.actions.ActionRepeat;
 import icbm.gangshao.actions.ActionRotateTo;
 import icbm.gangshao.actions.ActionSearchTarget;
 import icbm.gangshao.turret.TileEntityTurretBase;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLiving;
@@ -26,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -34,7 +38,7 @@ import universalelectricity.core.vector.Vector3;
  * @author Rseifert
  * 
  */
-public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
+public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry, IHpTile
 {
 	/** The target this turret is hitting. */
 	public Entity target;
@@ -45,6 +49,9 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	public boolean targetFriendly = false;
 
 	public final ActionManager AIManager = new ActionManager();
+
+	public int hp = this.getMaxHealth();
+	public double heat = 0;
 
 	@Override
 	public void initiate()
@@ -63,6 +70,13 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		if (!this.worldObj.isRemote)
 		{
 			this.speedUpRotation = this.target != null;
+			this.heat -= this.getCoolingRate();
+
+			if (this.heat > this.getSafeHeatLvL() && this.ticks % 5 == 0)
+			{
+				this.hp -= 1;
+			}
+
 		}
 
 		this.AIManager.onUpdate();
@@ -202,7 +216,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			}
 			else
 			{
-				return this.ticks % this.getCooldown() == 0 && (this.getPlatform().wattsReceived >= this.getRequest()) && this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL) != null;
+				return this.ticks % this.getFiringDelay() == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL) != null;
 			}
 		}
 
@@ -222,16 +236,38 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		if (this.getPlatform() != null && ammo != null)
 		{
 			boolean fired = false;
-
+			IAmmo bullet = ammo.getAmmo();
+			int meta = ammo.getStack().getItemDamage();
 			if (this.target instanceof EntityLiving)
 			{
-				this.getPlatform().wattsReceived -= this.getRequest();
-				ammo.getAmmo().attackTargetLiving(ammo.getStack().getItemDamage(), this, this.target, true);
-				fired = true;
+				this.getPlatform().wattsReceived -= this.getFiringRequest();
+
+				if (bullet.applyDirectDamage(meta))
+				{
+					Pair<DamageSource, Integer> damage = bullet.getDamage(this.target, meta);
+					if (damage != null && damage.getKey() != null && damage.getValue() > 0)
+					{
+						this.target.attackEntityFrom(damage.getKey(), damage.getValue());
+						fired = true;
+					}
+
+				}
+				else
+				{
+					if (!bullet.fireAmmoLiving(target, meta))
+					{
+						fired = bullet.fireAmmoLoc(this.worldObj, new Vector3(target), meta);
+					}
+					else
+					{
+						fired = true;
+					}
+				}
+
 			}
 			else if (this.target instanceof IMissile)
 			{
-				if (this.worldObj.rand.nextFloat() > 0.3)
+				if (this.worldObj.rand.nextFloat() > 0.21)
 				{
 					((IMissile) this.target).normalExplode();
 				}
@@ -257,17 +293,14 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 
 			if (fired)
 			{
-				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() < 0.9)
+				if (!this.worldObj.isRemote && this.worldObj.rand.nextFloat() < 0.95)
 				{
 					Vector3 spawnPos = this.getMuzzle();
 					EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
 					entityShell.delayBeforeCanPickup = 20;
 					this.worldObj.spawnEntityInWorld(entityShell);
 				}
-				if (ammo.getAmmo().consumeItem(ammo.getStack().getItemDamage()))
-				{
-					this.getPlatform().useAmmunition(ammo.getStack());
-				}
+				this.getPlatform().useAmmunition(ammo);
 			}
 
 			return fired;
@@ -288,6 +321,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		nbt.setBoolean("targetAir", this.targetAir);
 		nbt.setBoolean("targetHostile", this.targetHostile);
 		nbt.setBoolean("targetFriendly", this.targetFriendly);
+		nbt.setInteger("health", this.hp);
 	}
 
 	@Override
@@ -311,5 +345,47 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		{
 			this.targetFriendly = nbt.getBoolean("targetFriendly");
 		}
+		if (nbt.hasKey("health"))
+		{
+			this.hp = nbt.getInteger("health");
+		}
+
 	}
+
+	@Override
+	public boolean onDamageTaken(DamageSource source, int ammount)
+	{
+		if (this.isInvul())
+		{
+			return false;
+		}
+		else if (source != null && source.equals(DamageSource.onFire))
+		{
+			this.heat += 10;
+			return false;
+		}
+		else
+		{
+			this.hp -= ammount;
+			return false;
+		}
+	}
+
+	public boolean isInvul()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isAlive()
+	{
+		return this.hp > 0;
+	}
+
+	public abstract double getSafeHeatLvL();
+
+	public abstract double getCoolingRate();
+
+	public abstract int getMaxHealth();
+
 }

@@ -356,13 +356,13 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	}
 
 	@Override
-	public int getCooldown()
+	public int getFiringDelay()
 	{
 		return 70;
 	}
 
 	@Override
-	public double getRequest()
+	public double getFiringRequest()
 	{
 		return 3000000;
 	}
@@ -378,13 +378,13 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
 		if (ammo != null)
 		{
-			if (ammo.getStack().equals(ZhuYaoGangShao.antimatterBullet) && this.getPlatform().useAmmunition(ZhuYaoGangShao.antimatterBullet))
+			if (ammo.getStack().equals(ZhuYaoGangShao.antimatterBullet) && this.getPlatform().useAmmunition(ammo))
 			{
 				this.isAntimatter = true;
 			}
 			else
 			{
-				this.getPlatform().useAmmunition(ammo.getStack());
+				this.getPlatform().useAmmunition(ammo);
 			}
 		}
 
@@ -407,7 +407,7 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 		{
 			if (this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN) != null)
 			{
-				if (this.getPlatform().wattsReceived >= this.getRequest())
+				if (this.getPlatform().wattsReceived >= this.getFiringRequest())
 				{
 					return true;
 				}
@@ -434,5 +434,11 @@ public class TCiGuiPao extends TileEntityTurretBase implements IPacketReceiver, 
 	public float getRotationSpeed()
 	{
 		return 1f;
+	}
+
+	@Override
+	public double getRunningRequest()
+	{
+		return 10;
 	}
 }
