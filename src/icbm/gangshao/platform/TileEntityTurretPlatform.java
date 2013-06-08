@@ -24,6 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
 import universalelectricity.prefab.network.PacketManager;
 
@@ -58,7 +59,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 		if (!this.isDisabled())
 		{
-			TileEntityTurretBase turret = this.getTurret();
+			TileEntityTurretBase turret = this.getTurret(false);
 			if (this.isRunning())
 			{
 				this.wattsReceived -= turret.getRunningRequest();
@@ -113,7 +114,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		{
 			if (electricityPack.voltage > this.getVoltage())
 			{
-				TileEntityTurretBase turret = this.getTurret();
+				TileEntityTurretBase turret = this.getTurret(false);
 				if (turret != null && turret instanceof IHpTile)
 				{
 					((IHpTile) this.turret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
@@ -134,11 +135,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public ElectricityPack getRequest()
 	{
-		if (this.getTurret() != null)
+		if (this.getTurret(false) != null)
 		{
-			if (this.wattsReceived < this.getTurret().getFiringRequest())
+			if (this.wattsReceived < this.getTurret(false).getFiringRequest())
 			{
-				return new ElectricityPack(Math.max((this.getWattBuffer() - this.wattsReceived) / this.getTurret().getVoltage(), 0), this.getTurret().getVoltage());
+				return new ElectricityPack(Math.max((this.getWattBuffer() - this.wattsReceived) / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage());
 			}
 		}
 
@@ -148,24 +149,30 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public double getWattBuffer()
 	{
-		if (this.getTurret() != null)
+		if (this.getTurret(false) != null)
 		{
-			return this.getTurret().getFiringRequest() * 4 + this.getTurret().getRunningRequest();
+			return this.getTurret(false).getFiringRequest() * 4 + this.getTurret(false).getRunningRequest();
 		}
 		return 0;
 	}
 
-	public TileEntityTurretBase getTurret()
+	/**
+	 * Gets the turret instance linked to this platform
+	 */
+	public TileEntityTurretBase getTurret(boolean getNew)
 	{
-		TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.xCoord + this.deployDirection.offsetX, this.yCoord + this.deployDirection.offsetY, this.zCoord + this.deployDirection.offsetZ);
-
-		if (tileEntity instanceof TileEntityTurretBase)
+		Vector3 vec = new Vector3(this);
+		if (getNew || this.turret == null || this.turret.isInvalid() || !(new Vector3(this.turret).equals(vec.modifyPositionFromSide(this.deployDirection))))
 		{
-			this.turret = (TileEntityTurretBase) tileEntity;
-		}
-		else
-		{
-			this.turret = null;
+			TileEntity tileEntity = vec.modifyPositionFromSide(this.deployDirection).getTileEntity(this.worldObj);
+			if (tileEntity instanceof TileEntityTurretBase)
+			{
+				this.turret = (TileEntityTurretBase) tileEntity;
+			}
+			else
+			{
+				this.turret = null;
+			}
 		}
 
 		return this.turret;
@@ -212,7 +219,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 	public boolean isRunning()
 	{
-		return !this.isDisabled() && this.getTurret() != null && this.getTurret().getRunningRequest() <= this.wattsReceived;
+		return !this.isDisabled() && this.getTurret(false) != null && this.getTurret(false).getRunningRequest() <= this.wattsReceived;
 	}
 
 	@Override

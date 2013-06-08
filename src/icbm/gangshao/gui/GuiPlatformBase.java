@@ -60,7 +60,7 @@ public abstract class GuiPlatformBase extends GuiBase
 	{
 		super.updateScreen();
 
-		if (this.tileEntity.getTurret() == null)
+		if (this.tileEntity.getTurret(false) == null)
 		{
 			this.mc.thePlayer.closeScreen();
 		}
@@ -69,7 +69,7 @@ public abstract class GuiPlatformBase extends GuiBase
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if (tileEntity.getTurret() != null)
+		if (tileEntity.getTurret(false) != null)
 		{
 
 			switch (button.id)

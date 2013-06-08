@@ -63,7 +63,7 @@ public class BlockTurretPlatform extends BICBM
 				}
 			}
 
-			if (((TileEntityTurretPlatform) tileEntity).getTurret() != null)
+			if (((TileEntityTurretPlatform) tileEntity).getTurret(false) != null)
 			{
 				if (!world.isRemote)
 				{

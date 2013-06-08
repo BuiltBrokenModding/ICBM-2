@@ -27,9 +27,9 @@ public class CommandTarget extends TerminalCommand
 		{
 			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
 
-			if (turret.getTurret() instanceof TileEntityAutoTurret)
+			if (turret.getTurret(false) instanceof TileEntityAutoTurret)
 			{
-				TileEntityAutoTurret sentry = ((TileEntityAutoTurret) turret.getTurret());
+				TileEntityAutoTurret sentry = ((TileEntityAutoTurret) turret.getTurret(false));
 
 				if (args.length > 1)
 				{
@@ -130,7 +130,7 @@ public class CommandTarget extends TerminalCommand
 	{
 		if (mm instanceof TileEntityTurretPlatform)
 		{
-			return ((TileEntityTurretPlatform) mm).getTurret() instanceof TileEntityAutoTurret;
+			return ((TileEntityTurretPlatform) mm).getTurret(false) instanceof TileEntityAutoTurret;
 		}
 		return false;
 	}
