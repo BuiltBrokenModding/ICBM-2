@@ -2,6 +2,7 @@ package icbm.gangshao.gui;
 
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.platform.TileEntityTurretPlatform;
+import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.InventoryPlayer;
 
 import org.lwjgl.opengl.GL11;
@@ -34,9 +35,12 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 		{
 			color = "\u00a7a";
 		}
-
-		this.fontRenderer.drawString("Energy Per Shot", 85, 43, 4210752);
-		this.fontRenderer.drawString(color + ElectricityDisplay.getDisplayShort(this.tileEntity.wattsReceived, ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getWattBuffer(), ElectricUnit.JOULES), 87, 53, 4210752);
+		TileEntityTurretBase turret = this.tileEntity.getTurret();
+		if (turret != null && turret.getFiringRequest() > 0)
+		{
+			this.fontRenderer.drawString("Energy Per Shot", 85, 43, 4210752);
+			this.fontRenderer.drawString(color + ElectricityDisplay.getDisplayShort(Math.min(this.tileEntity.wattsReceived, turret.getFiringRequest()), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getTurret().getFiringRequest(), ElectricUnit.JOULES), 87, 53, 4210752);
+		}
 		this.fontRenderer.drawString("Upgrades", 87, 66, 4210752);
 		super.drawGuiContainerForegroundLayer(x, y);
 	}
