@@ -135,7 +135,7 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	@Override
 	public ItemStack consumeItem(ItemStack itemStack)
 	{
-		if (itemStack != null)
+		if (itemStack != null && itemStack.getItemDamage() != types.BULLETINF.ordinal())
 		{
 			return AutoCraftingManager.decrStackSize(itemStack, 1);
 		}
