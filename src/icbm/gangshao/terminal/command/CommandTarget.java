@@ -108,7 +108,7 @@ public class CommandTarget extends TerminalCommand
 	@Override
 	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
 	{
-		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.ADMIN.ordinal();
+		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.ADMIN.ordinal() || var1.capabilities.isCreativeMode;
 	}
 
 	@Override
