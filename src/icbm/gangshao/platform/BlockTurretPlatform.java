@@ -62,11 +62,15 @@ public class BlockTurretPlatform extends BICBM
 
 		if (tileEntity instanceof TileEntityTurretPlatform)
 		{
-			if (player.getCurrentEquippedItem() != null && side == ((TileEntityTurretPlatform) tileEntity).deployDirection.ordinal())
+			if (player.getCurrentEquippedItem() != null)
 			{
-				if (player.getCurrentEquippedItem().itemID == ZhuYaoGangShao.blockTurret.blockID)
+				if (side == ((TileEntityTurretPlatform) tileEntity).deployDirection.ordinal() && player.getCurrentEquippedItem().itemID == ZhuYaoGangShao.blockTurret.blockID)
 				{
 					return false;
+				}
+				if (player.capabilities.isCreativeMode)
+				{
+					((TileEntityTurretPlatform) tileEntity).toggleInfPower(player.getCurrentEquippedItem());
 				}
 			}
 

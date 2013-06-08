@@ -151,7 +151,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	{
 		if (this.getTurret(false) != null)
 		{
-			return this.getTurret(false).getFiringRequest() * 4 + this.getTurret(false).getRunningRequest();
+			return (this.getTurret(false).getFiringRequest() * 4) + (this.getTurret(false).getRunningRequest() * 2);
 		}
 		return 0;
 	}

@@ -64,7 +64,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public double getFiringRequest()
 	{
-		return 30;
+		return 2;
 	}
 
 	@Override
