@@ -62,44 +62,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 			TileEntityTurretBase turret = this.getTurret(false);
 			if (this.isRunning())
 			{
-				this.wattsReceived -= turret.getRunningRequest();
-			}
-		}
-	}
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 0, nbt);
-	}
-
-	@Override
-	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
-	{
-		if (this.worldObj.isRemote)
-		{
-			try
-			{
-				int id = dataStream.readInt();
-
-				if (id == 0)
-				{
-					short size = dataStream.readShort();
-
-					if (size > 0)
-					{
-						byte[] byteCode = new byte[size];
-						dataStream.readFully(byteCode);
-						this.readFromNBT(CompressedStreamTools.decompress(byteCode));
-					}
-				}
-			}
-			catch (IOException e)
-			{
-				FMLLog.severe("ICBM>>>SENTRIES>>>PLATFORM>>>PACKET>>>READ ERROR");
-				e.printStackTrace();
+				this.wattsReceived -= turret.getRunningRequest();				
 			}
 		}
 	}
@@ -153,7 +116,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		{
 			return (this.getTurret(false).getFiringRequest() * 4) + (this.getTurret(false).getRunningRequest() * 2);
 		}
-		return 0;
+		return 10;
 	}
 
 	/**
@@ -219,7 +182,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 	public boolean isRunning()
 	{
-		return !this.isDisabled() && this.getTurret(false) != null && this.getTurret(false).getRunningRequest() <= this.wattsReceived;
+		return !this.isDisabled() && (this.getTurret(false) != null && this.getTurret(false).getRunningRequest() <= this.wattsReceived|| this.runPowerless);
 	}
 
 	@Override
