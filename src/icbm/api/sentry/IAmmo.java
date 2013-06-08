@@ -1,12 +1,11 @@
 package icbm.api.sentry;
 
-import universalelectricity.core.vector.Vector3;
-import dark.library.helpers.Pair;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
+import dark.library.helpers.Pair;
 
 public interface IAmmo
 {
@@ -51,5 +50,19 @@ public interface IAmmo
 	 * Used to either consume the item or damage the item after its been fired
 	 */
 	public ItemStack consumeItem(ItemStack itemStack);
+
+	/**
+	 * Called when an ammo container goes to drop this item into the world. Useful to prevent inf
+	 * ammo from being dropped
+	 */
+	public boolean canDrop(int meta);
+
+	/**
+	 * Called when the item is added to the world when a ammo container is forcefully broken. Useful
+	 * it the ammo should detonate or cause extra havoc
+	 * 
+	 * @return what is left of the stack after action. Return intire stack if nothing happens
+	 */
+	public ItemStack onDroppedIntoWorld(ItemStack stack);
 
 }

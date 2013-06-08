@@ -141,4 +141,30 @@ public class ItemAmmo extends ItICBM implements IAmmo
 		}
 		return itemStack;
 	}
+
+	@Override
+	public boolean canDrop(int meta)
+	{
+		if (meta == types.BULLETINF.ordinal())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public ItemStack onDroppedIntoWorld(ItemStack stack)
+	{
+		return stack;
+	}
+
+	@Override
+	public int getEntityLifespan(ItemStack itemStack, World world)
+	{
+		if (itemStack != null && itemStack.getItemDamage() == types.BULLETINF.ordinal())
+		{
+			return 40;
+		}
+		return 6000;
+	}
 }
