@@ -2,7 +2,6 @@ package icbm.gangshao.turret.sentries;
 
 import icbm.gangshao.actions.LookHelper;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -21,7 +20,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public boolean isRunning()
 	{
-		return super.isRunning() && this.getPlatform().wattsReceived > 0 && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
+		return super.isRunning() && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	@Override
 	public double getDetectRange()
 	{
-		int baseRange = 70;
+		int baseRange = 50;
 
 		if (this.getPlatform() != null)
 		{
@@ -130,7 +129,5 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	{
 		return 150;
 	}
-
-	
 
 }

@@ -53,7 +53,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	protected boolean speedUpRotation = false;
 
-	public int hp = this.getMaxHealth();
+	public int health = -1;
 	public double heat = 0;
 
 	public EntityTileDamage damageEntity;
@@ -78,9 +78,6 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		float prePitch = this.wantedRotationPitch;
 		float preYaw = this.wantedRotationYaw;
 
-		int preHp = this.hp;
-		double preHeat = this.heat;
-
 		if (this.isRunning())
 		{
 			this.onUpdate();
@@ -89,21 +86,25 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 		if (!this.worldObj.isRemote)
 		{
+			int preHp = this.hp();
+			double preHeat = this.heat;
+
 			if ((this.heat -= this.getCoolingRate(ForgeDirection.UNKNOWN)) > this.getSafeHeatLvL() && this.ticks % 5 == 0)
 			{
-				this.hp -= 1;
+				this.health -= 1;
 			}
-			if (!this.isInvul() && this.damageEntity == null && this.hp > 0)
+			if (!this.isInvul() && this.damageEntity == null && this.hp() > 0)
 			{
 				this.damageEntity = new EntityTileDamage(this);
+				this.worldObj.spawnEntityInWorld(this.damageEntity);
 			}
 			if (this.wantedRotationPitch != prePitch || this.wantedRotationYaw != preYaw)
 			{
 				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
 			}
-			if (this.getHeat(ForgeDirection.UNKNOWN) != preHeat || this.hp != preHp)
+			if (this.getHeat(ForgeDirection.UNKNOWN) != preHeat || this.hp() != preHp)
 			{
-				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.STATS.ordinal(), this.heat, this.hp), this.worldObj, new Vector3(this), 50);
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.STATS.ordinal(), this.heat, this.hp()), this.worldObj, new Vector3(this), 50);
 			}
 		}
 
@@ -191,7 +192,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	 */
 	public boolean isRunning()
 	{
-		return this.getPlatform() != null && this.getPlatform().isRunning() && this.hp > 0;
+		return this.getPlatform() != null && this.getPlatform().isRunning() && this.hp() > 0;
 	}
 
 	@Override
@@ -253,7 +254,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				else if (id == turretPacket.STATS.ordinal())
 				{
 					this.setHeat(dataStream.readDouble(), false);
-					this.hp = dataStream.readInt();
+					this.health = dataStream.readInt();
 				}
 			}
 			catch (IOException e)
@@ -279,7 +280,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		nbt.setFloat("yaw", this.wantedRotationYaw);
 		nbt.setFloat("pitch", this.wantedRotationPitch);
 		nbt.setInteger("dir", this.platformDirection.ordinal());
-		nbt.setInteger("health", this.hp);
+		nbt.setInteger("health", this.hp());
 	}
 
 	@Override
@@ -291,7 +292,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		this.platformDirection = ForgeDirection.getOrientation(nbt.getInteger("dir"));
 		if (nbt.hasKey("health"))
 		{
-			this.hp = nbt.getInteger("health");
+			this.health = nbt.getInteger("health");
 		}
 	}
 
@@ -316,7 +317,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	}
 
 	/**
-	 * sets the direction by which the turret will deploy too Causes the model to rotate to match
+	 * sets the direction by which the turret will deploy too. Causes the model to rotate to match
 	 * the direction
 	 * 
 	 * @param side
@@ -336,7 +337,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	@Override
 	public String getName()
 	{
-		return new ItemStack(this.getBlockType(), 1, this.getBlockMetadata()).getDisplayName();
+		return new ItemStack(this.getBlockType(), 1, this.getBlockMetadata()).getDisplayName() + " " + this.hp() + "/" + this.getMaxHealth();
 	}
 
 	@Override
@@ -363,12 +364,16 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		else if (source != null && source.equals(DamageSource.onFire))
 		{
 			this.heat += 10;
-			return false;
+			return true;
 		}
 		else
 		{
-			this.hp -= ammount;
-			return false;
+			this.health -= ammount;
+			if (!this.worldObj.isRemote)
+			{
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.STATS.ordinal(), this.heat, this.hp()), this.worldObj, new Vector3(this), 50);
+			}
+			return true;
 		}
 	}
 
@@ -387,6 +392,15 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	 */
 	public abstract int getMaxHealth();
 
+	public int hp()
+	{
+		if (this.health == -1)
+		{
+			this.health = this.getMaxHealth();
+		}
+		return this.health;
+	}
+
 	/**
 	 * Max point before the turret starts taking heat damage
 	 */
@@ -395,7 +409,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	@Override
 	public boolean isAlive()
 	{
-		return this.hp > 0;
+		return this.hp() > 0;
 	}
 
 	@Override

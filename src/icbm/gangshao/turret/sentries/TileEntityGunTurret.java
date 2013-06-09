@@ -13,7 +13,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public boolean isRunning()
 	{
-		return super.isRunning() && this.getPlatform().wattsReceived > 0 && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
+		return super.isRunning() && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
 	}
 
 	@Override
@@ -48,12 +48,6 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	}
 
 	@Override
-	public double getFiringRequest()
-	{
-		return 1;
-	}
-
-	@Override
 	public void onWeaponActivated()
 	{
 		if (this.onFire())
@@ -66,7 +60,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	@Override
 	public float getRotationSpeed()
 	{
-		if (this.target != null || this.worldObj.isRemote)
+		if (this.speedUpRotation)
 		{
 			return 4f;
 		}
@@ -81,13 +75,19 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 
 	@Override
 	public double getSafeHeatLvL()
-	{		
+	{
 		return 500;
 	}
 
 	@Override
+	public double getFiringRequest()
+	{
+		return 1;
+	}
+
+	@Override
 	public double getRunningRequest()
-	{		
+	{
 		return 5;
 	}
 

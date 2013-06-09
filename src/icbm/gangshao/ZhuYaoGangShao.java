@@ -49,6 +49,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import dark.library.damage.EntityTileDamage;
 import dark.library.terminal.commands.CommandHelp;
 import dark.library.terminal.commands.CommandRegistry;
 import dark.library.terminal.commands.CommandUser;
@@ -112,6 +113,8 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 
 		EntityRegistry.registerGlobalEntityID(EntityFakeMountable.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityFakeMountable.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityTileDamage.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityTileDamage.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
 
 		ICBMTab.itemStack = new ItemStack(blockTurret);
 

@@ -60,6 +60,7 @@ public class BlockTurret extends BICBM
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setHardness(100f);
 		this.setResistance(50f);
+		this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
 	}
 
 	@SideOnly(Side.CLIENT)

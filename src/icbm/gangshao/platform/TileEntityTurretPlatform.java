@@ -60,7 +60,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		if (!this.isDisabled())
 		{
 			TileEntityTurretBase turret = this.getTurret(false);
-			if (this.isRunning())
+			if (this.isRunning() && turret != null)
 			{
 				this.wattsReceived -= turret.getRunningRequest();				
 			}
@@ -125,9 +125,9 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	public TileEntityTurretBase getTurret(boolean getNew)
 	{
 		Vector3 vec = new Vector3(this);
-		if (getNew || this.turret == null || this.turret.isInvalid() || !(new Vector3(this.turret).equals(vec.modifyPositionFromSide(this.deployDirection))))
+		if (getNew || this.turret == null || this.turret.isInvalid() || !(new Vector3(this.turret).equals(vec.clone().modifyPositionFromSide(this.deployDirection))))
 		{
-			TileEntity tileEntity = vec.modifyPositionFromSide(this.deployDirection).getTileEntity(this.worldObj);
+			TileEntity tileEntity = vec.clone().modifyPositionFromSide(this.deployDirection).getTileEntity(this.worldObj);
 			if (tileEntity instanceof TileEntityTurretBase)
 			{
 				this.turret = (TileEntityTurretBase) tileEntity;
@@ -137,7 +137,6 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 				this.turret = null;
 			}
 		}
-
 		return this.turret;
 	}
 
