@@ -56,7 +56,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	public int health = -1;
 	public double heat = 0;
 
-	public EntityTileDamage damageEntity;
+	private EntityTileDamage damageEntity;
 	/**
 	 * The rotation of the arms. In Degrees.
 	 */
@@ -93,10 +93,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			{
 				this.health -= 1;
 			}
-			if (!this.isInvul() && this.damageEntity == null && this.hp() > 0)
+			if (!this.isInvul() && this.getDamageEntity() == null && this.hp() > 0)
 			{
-				this.damageEntity = new EntityTileDamage(this);
-				this.worldObj.spawnEntityInWorld(this.damageEntity);
+				this.setDamageEntity(new EntityTileDamage(this));
+				this.worldObj.spawnEntityInWorld(this.getDamageEntity());
 			}
 			if (this.wantedRotationPitch != prePitch || this.wantedRotationYaw != preYaw)
 			{
@@ -444,5 +444,15 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	public double getCoolingRate(ForgeDirection side)
 	{
 		return 20;
+	}
+
+	public EntityTileDamage getDamageEntity()
+	{
+		return damageEntity;
+	}
+
+	public void setDamageEntity(EntityTileDamage damageEntity)
+	{
+		this.damageEntity = damageEntity;
 	}
 }

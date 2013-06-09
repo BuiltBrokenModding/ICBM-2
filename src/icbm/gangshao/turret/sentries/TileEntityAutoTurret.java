@@ -1,9 +1,5 @@
 package icbm.gangshao.turret.sentries;
 
-import dark.hydraulic.api.IHeatObject;
-import dark.library.damage.EntityTileDamage;
-import dark.library.damage.IHpTile;
-import dark.library.helpers.Pair;
 import icbm.api.IMissile;
 import icbm.api.sentry.AmmoPair;
 import icbm.api.sentry.IAATarget;
@@ -18,7 +14,6 @@ import icbm.gangshao.actions.ActionRepeat;
 import icbm.gangshao.actions.ActionRotateTo;
 import icbm.gangshao.actions.ActionSearchTarget;
 import icbm.gangshao.turret.TileEntityTurretBase;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLiving;
@@ -32,8 +27,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
+import dark.library.helpers.Pair;
 
 /**
  * Extend this class for all turrets that are automatic.
@@ -236,7 +231,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 
 				if (bullet.applyDirectDamage(meta))
 				{
-					Pair<DamageSource, Integer> damage = bullet.getDamage(this.target, meta);
+					Pair<DamageSource, Integer> damage = bullet.getDamage(this.target, this.getDamageEntity(), meta);
 					if (damage != null && damage.getKey() != null && damage.getValue() > 0)
 					{
 						this.target.attackEntityFrom(damage.getKey(), damage.getValue());
@@ -313,7 +308,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		nbt.setBoolean("targetAir", this.targetAir);
 		nbt.setBoolean("targetHostile", this.targetHostile);
 		nbt.setBoolean("targetFriendly", this.targetFriendly);
-		
+
 	}
 
 	@Override

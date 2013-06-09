@@ -4,18 +4,13 @@ import icbm.api.sentry.IAmmo;
 import icbm.api.sentry.ProjectileTypes;
 import icbm.core.ZhuYaoBase;
 import icbm.core.di.ItICBM;
-import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.actions.LookHelper;
 
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -101,11 +96,11 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	}
 
 	@Override
-	public Pair<DamageSource, Integer> getDamage(Entity entity, int meta)
+	public Pair<DamageSource, Integer> getDamage(Entity entity, Object shooter, int meta)
 	{
 		if (meta == types.BULLET.ordinal() || meta == types.BULLETINF.ordinal())
 		{
-			return new Pair<DamageSource, Integer>(TileDamageSource.bullets, 8);
+			return new Pair<DamageSource, Integer>(TileDamageSource.doBulletDamage(shooter), 8);
 		}
 		return null;
 	}

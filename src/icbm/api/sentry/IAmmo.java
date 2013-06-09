@@ -12,7 +12,7 @@ public interface IAmmo
 	/**
 	 * Gets the damage this ammo does to the target. Only used if applyDirectDamage returns true
 	 */
-	public Pair<DamageSource, Integer> getDamage(Entity entity, int meta);
+	public Pair<DamageSource, Integer> getDamage(Entity entity, Object shooter, int meta);
 
 	/**
 	 * Should the damage be done directly instead of creating a projectile or calling fire classes
