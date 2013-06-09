@@ -22,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
@@ -33,6 +34,7 @@ import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.library.damage.EntityTileDamage;
 
 /**
  * Block turret is a class used by all turrets. Each type of turret will have a different tile
@@ -61,7 +63,25 @@ public class BlockTurret extends BICBM
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setHardness(100f);
 		this.setResistance(50f);
-		this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
+
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
+	{
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
+		if (ent instanceof TileEntityTurretBase)
+		{
+			EntityTileDamage dEnt = ((TileEntityTurretBase) ent).getDamageEntity();
+			if (dEnt != null)
+			{
+				this.setBlockBounds(.2f, 0, .2f, .8f, .5f, .8f);
+			}
+			else
+			{
+				this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
+			}
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -119,7 +139,7 @@ public class BlockTurret extends BICBM
 
 	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		TileEntity ent = world.getBlockTileEntity(x, y, z);		
+		TileEntity ent = world.getBlockTileEntity(x, y, z);
 		if (ent instanceof TileEntityTurretBase)
 		{
 			Random random = new Random();
