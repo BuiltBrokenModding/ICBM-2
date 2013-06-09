@@ -48,6 +48,12 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 
 	public final ActionManager AIManager = new ActionManager();
 
+	public int baseTargetRange = 20;
+	public int maxTargetRange = 90;
+
+	public float idleRtSpeed = 2f;
+	public float targetRtSpeed = 6f;
+
 	@Override
 	public void initiate()
 	{
@@ -213,8 +219,17 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public void onWeaponActivated()
 	{
-		onFire();
+		if (this.onFire())
+		{
+			this.playFiringSound();
+			this.sendShotToClient(new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0)));
+		}
 	}
+
+	/**
+	 * Sound this turrets plays each time its fires
+	 */
+	public abstract void playFiringSound();
 
 	protected boolean onFire()
 	{
@@ -287,6 +302,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 					entityShell.delayBeforeCanPickup = 20;
 					this.worldObj.spawnEntityInWorld(entityShell);
 				}
+				this.setHeat(this.getHeatPerShot(), true);
 				this.getPlatform().useAmmunition(ammo);
 			}
 
@@ -295,6 +311,8 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 
 		return false;
 	}
+
+	public abstract double getHeatPerShot();
 
 	/**
 	 * Writes a tile entity to NBT.
@@ -335,4 +353,23 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 
 	}
 
+	@Override
+	public double getDetectRange()
+	{
+		if (this.getPlatform() != null)
+		{
+			return this.baseTargetRange + Math.max(this.baseTargetRange * this.getPlatform().getUpgradePercent("TargetRange"), this.maxTargetRange);
+		}
+		return this.baseTargetRange;
+	}
+
+	@Override
+	public float getRotationSpeed()
+	{
+		if (this.speedUpRotation)
+		{
+			return Math.max(this.targetRtSpeed + (this.targetRtSpeed * this.getPlatform().getUpgradePercent("TargetSpeed")), 30f);
+		}
+		return this.idleRtSpeed;
+	}
 }

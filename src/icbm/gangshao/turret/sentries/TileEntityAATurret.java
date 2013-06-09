@@ -15,31 +15,11 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	public TileEntityAATurret()
 	{
 		this.targetAir = true;
-	}
-
-	@Override
-	public boolean isRunning()
-	{
-		return super.isRunning() && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
-	}
-
-	@Override
-	public boolean canActivateWeapon()
-	{
-		return super.canActivateWeapon() && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
-	}
-
-	@Override
-	public double getDetectRange()
-	{
-		int baseRange = 50;
-
-		if (this.getPlatform() != null)
-		{
-			return baseRange + 10 * this.getPlatform().getUpgrades("Capacity");
-		}
-
-		return baseRange;
+		this.baseTargetRange = 60;
+		this.maxTargetRange = 200;
+		this.idleRtSpeed = 4f;
+		this.targetRtSpeed = 10f;
+		this.maxHeat = 600;
 	}
 
 	@Override
@@ -92,42 +72,28 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	}
 
 	@Override
-	public void onWeaponActivated()
-	{
-		if (this.onFire())
-		{
-			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
-			this.sendShotToClient(new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0)));
-		}
-
-	}
-
-	@Override
-	public float getRotationSpeed()
-	{
-		if (this.speedUpRotation)
-		{
-			return 10f;
-		}
-		return 4f;
-	}
-
-	@Override
 	public double getRunningRequest()
 	{
 		return 25;
 	}
 
 	@Override
-	public double getSafeHeatLvL()
-	{
-		return 600;
-	}
-
-	@Override
 	public int getMaxHealth()
 	{
 		return 150;
+	}
+
+	@Override
+	public double getHeatPerShot()
+	{
+		return 15;
+	}
+
+	@Override
+	public void playFiringSound()
+	{
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
+
 	}
 
 }

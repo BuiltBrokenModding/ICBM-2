@@ -1,6 +1,5 @@
 package icbm.gangshao.turret.sentries;
 
-import universalelectricity.core.vector.Vector3;
 
 public class TileEntityGunTurret extends TileEntityAutoTurret
 {
@@ -8,37 +7,18 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	{
 		this.targetPlayers = true;
 		this.targetHostile = true;
-	}
 
-	@Override
-	public boolean isRunning()
-	{
-		return super.isRunning() && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
-	}
-
-	@Override
-	public boolean canActivateWeapon()
-	{
-		return super.canActivateWeapon() && !this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord);
-	}
-
-	@Override
-	public double getDetectRange()
-	{
-		int baseRange = 20;
-
-		if (this.getPlatform() != null)
-		{
-			return baseRange + 10 * this.getPlatform().getUpgrades("Capacity");
-		}
-
-		return baseRange;
+		this.baseTargetRange = 20;
+		this.maxTargetRange = 90;
+		this.idleRtSpeed = 2f;
+		this.targetRtSpeed = 4f;
+		this.maxHeat = 400;
 	}
 
 	@Override
 	public double getVoltage()
 	{
-		return 120;
+		return 240;
 	}
 
 	@Override
@@ -48,35 +28,9 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	}
 
 	@Override
-	public void onWeaponActivated()
-	{
-		if (this.onFire())
-		{
-			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
-			this.sendShotToClient(new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0)));
-		}
-	}
-
-	@Override
-	public float getRotationSpeed()
-	{
-		if (this.speedUpRotation)
-		{
-			return 4f;
-		}
-		return 2f;
-	}
-
-	@Override
 	public int getMaxHealth()
 	{
 		return 120;
-	}
-
-	@Override
-	public double getSafeHeatLvL()
-	{
-		return 500;
 	}
 
 	@Override
@@ -89,6 +43,18 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	public double getRunningRequest()
 	{
 		return 5;
+	}
+
+	@Override
+	public double getHeatPerShot()
+	{
+		return 11;
+	}
+
+	@Override
+	public void playFiringSound()
+	{
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
 	}
 
 }

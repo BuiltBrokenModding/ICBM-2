@@ -55,6 +55,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	public int health = -1;
 	public double heat = 0;
+	public double maxHeat = 500;
 
 	private EntityTileDamage damageEntity;
 	/**
@@ -410,10 +411,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		this.health = Math.min(Math.max(i, 0), this.getMaxHealth());
 	}
 
-	/**
-	 * Max point before the turret starts taking heat damage
-	 */
-	public abstract double getSafeHeatLvL();
+	public double getSafeHeatLvL()
+	{
+		return this.maxHeat + Math.max(this.maxHeat * this.getPlatform().getUpgradePercent("HeatSink"), 10000);
+	}
 
 	@Override
 	public boolean isAlive()

@@ -9,6 +9,9 @@ import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -41,7 +44,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	 */
 	private TileEntityTurretBase turret = null;
 	public ForgeDirection deployDirection = ForgeDirection.UP;
-
+	public HashMap<String, Float> upgrades = new HashMap<String, Float>();
 	/**
 	 * The start index of the upgrade slots for the turret.
 	 */
@@ -62,9 +65,10 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 			TileEntityTurretBase turret = this.getTurret(false);
 			if (this.isRunning() && turret != null)
 			{
-				this.wattsReceived -= turret.getRunningRequest();				
+				this.wattsReceived -= turret.getRunningRequest();
 			}
 		}
+
 	}
 
 	@Override
@@ -181,7 +185,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 	public boolean isRunning()
 	{
-		return !this.isDisabled() && (this.getTurret(false) != null && this.getTurret(false).getRunningRequest() <= this.wattsReceived|| this.runPowerless);
+		return !this.isDisabled() && (this.getTurret(false) != null && this.getTurret(false).getRunningRequest() <= this.wattsReceived || this.runPowerless);
 	}
 
 	@Override
@@ -229,27 +233,63 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	/**
 	 * Gets the amount of upgrades.
 	 */
-	public int getUpgrades(String name)
+	public void processUpgrades()
 	{
-		int count = 0;
-
-		for (int i = UPGRADE_START_INDEX; i < 4; i++)
+		List<ItemStack> used = new ArrayList<ItemStack>();
+		for (int slot = UPGRADE_START_INDEX; slot < UPGRADE_START_INDEX + 4; slot++)
 		{
-			ItemStack itemStack = this.getStackInSlot(i);
+			ItemStack itemStack = this.getStackInSlot(slot);
 
 			if (itemStack != null)
 			{
 				if (itemStack.getItem() instanceof ISentryUpgrade)
 				{
-					if (name.equalsIgnoreCase(((ISentryUpgrade) itemStack.getItem()).getType(itemStack)))
+					List<String> names = ((ISentryUpgrade) itemStack.getItem()).getTypes(itemStack);
+					for (String name : names)
 					{
-						count++;
+						float increase = 0;
+
+						for (int s = 0; s < itemStack.stackSize; s++)
+						{
+							float up = ((ISentryUpgrade) itemStack.getItem()).getEffectiveness(itemStack);
+							int count = 0;
+
+							for (ItemStack stack : used)
+							{
+								if (stack.isItemEqual(itemStack))
+								{
+									count++;
+								}
+							}
+							for (int i = 0; i < count; i++)
+							{
+								up *= .1;
+							}
+							used.add(new ItemStack(itemStack.itemID, 0, itemStack.getItemDamage()));
+							increase += up;
+						}
+						if (this.upgrades.containsKey(name))
+						{
+							increase += this.upgrades.get(name);
+						}
+						this.upgrades.put(name, increase);
+
 					}
 				}
 			}
 		}
+	}
 
-		return count;
+	/**
+	 * Gets the change for the upgrade type 100% = 1.0
+	 */
+	public float getUpgradePercent(String name)
+	{
+		if (this.upgrades.containsKey(name))
+		{
+			return this.upgrades.get(name);
+		}
+		return 0;
 	}
 
 	@Override
@@ -414,6 +454,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	public void onInventoryChanged()
 	{
 		super.onInventoryChanged();
+		this.processUpgrades();
 	}
 
 	@Override
