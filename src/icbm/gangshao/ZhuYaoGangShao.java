@@ -13,6 +13,7 @@ import icbm.gangshao.turret.BlockTurret;
 import icbm.gangshao.turret.ItemAmmo;
 import icbm.gangshao.turret.ItemBlockTurret;
 import icbm.gangshao.turret.mount.EntityFakeMountable;
+import icbm.gangshao.turret.upgrades.ItemTurretUpgrades;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -78,6 +79,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 	public static Block blockTurret, blockPlatform;
 
 	public static Item itemAmmo;
+	public static Item itemUpgrades;
 
 	/**
 	 * ItemStack helpers. Do not modify theses.
@@ -101,6 +103,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
+		itemUpgrades = new ItemTurretUpgrades(ITEM_ID_PREFIX + 2);
 		ZhuYaoBase.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
