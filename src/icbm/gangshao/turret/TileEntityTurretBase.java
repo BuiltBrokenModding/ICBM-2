@@ -401,6 +401,15 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		return this.health;
 	}
 
+	public void setHp(int i, boolean increase)
+	{
+		if (increase)
+		{
+			i += this.health;
+		}
+		this.health = Math.min(Math.max(i, 0), this.getMaxHealth());
+	}
+
 	/**
 	 * Max point before the turret starts taking heat damage
 	 */

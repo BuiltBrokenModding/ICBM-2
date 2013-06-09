@@ -10,6 +10,7 @@ import icbm.gangshao.turret.sentries.TileEntityAATurret;
 import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -114,6 +115,18 @@ public class BlockTurret extends BICBM
 		{
 			((IMultiBlock) tileEntity).onCreate(new Vector3(x, y, z));
 		}
+	}
+
+	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+	{
+		TileEntity ent = world.getBlockTileEntity(x, y, z);		
+		if (ent instanceof TileEntityTurretBase)
+		{
+			Random random = new Random();
+			((TileEntityTurretBase) ent).setHp(5 + random.nextInt(7), true);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
