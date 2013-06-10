@@ -54,8 +54,13 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	protected boolean speedUpRotation = false;
 
 	public int health = -1;
+
 	public double heat = 0;
 	public double maxHeat = 500;
+
+	public int baseFiringDelay = 10;
+	public int tickSinceFired = 0;
+	public int minFiringDelay = 5;
 
 	private EntityTileDamage damageEntity;
 	/**
@@ -78,6 +83,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 		float prePitch = this.wantedRotationPitch;
 		float preYaw = this.wantedRotationYaw;
+
+		if (tickSinceFired > 0)
+		{
+			--tickSinceFired;
+		}
 
 		if (this.isRunning())
 		{
@@ -115,6 +125,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	 * Called by updateEntity after checks are made to see if turret can function
 	 */
 	protected abstract void onUpdate();
+
+	public abstract double getFiringRequest();
+
+	public abstract double getRunningRequest();
 
 	/**
 	 * get the turrets control platform
@@ -378,6 +392,13 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 	}
 
+	@Override
+	public void onWeaponActivated()
+	{
+		this.tickSinceFired += this.baseFiringDelay;
+		this.heat += this.getHeatPerShot();
+	}
+
 	/**
 	 * Is this tile immune to attacks
 	 */
@@ -387,6 +408,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	}
 
 	public abstract float getRotationSpeed();
+
+	/**
+	 * Heat generated each time the turret fires
+	 */
+	public abstract double getHeatPerShot();
 
 	/**
 	 * Max Health this tile has to be damaged

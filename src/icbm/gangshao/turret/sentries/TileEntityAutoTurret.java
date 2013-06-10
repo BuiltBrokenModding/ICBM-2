@@ -25,6 +25,7 @@ import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
@@ -52,7 +53,9 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	public int maxTargetRange = 90;
 
 	public float idleRtSpeed = 2f;
-	public float targetRtSpeed = 6f;
+	public float targetRtSpeed = 6f;	
+	
+	public ProjectileTypes baseAmmoType = ProjectileTypes.CONVENTIONAL;
 
 	@Override
 	public void initiate()
@@ -71,7 +74,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		if (!this.worldObj.isRemote)
 		{
 			this.speedUpRotation = this.target != null;
-		}
+		}	
 		this.AIManager.onUpdate();
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.
@@ -209,16 +212,17 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			}
 			else
 			{
-				return this.ticks % this.getFiringDelay() == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL) != null;
+				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && this.getPlatform().hasAmmunition(this.baseAmmoType) != null;
 			}
 		}
 
 		return false;
-	}
+	}	
 
 	@Override
 	public void onWeaponActivated()
 	{
+		super.onWeaponActivated();
 		if (this.onFire())
 		{
 			this.playFiringSound();
@@ -310,9 +314,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		}
 
 		return false;
-	}
-
-	public abstract double getHeatPerShot();
+	}	
 
 	/**
 	 * Writes a tile entity to NBT.
@@ -371,5 +373,12 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			return Math.max(this.targetRtSpeed + (this.targetRtSpeed * this.getPlatform().getUpgradePercent("TargetSpeed")), 30f);
 		}
 		return this.idleRtSpeed;
+	}
+
+	@Override
+	public boolean canApplyPotion(PotionEffect par1PotionEffect)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

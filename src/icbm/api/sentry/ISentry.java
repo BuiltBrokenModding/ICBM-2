@@ -35,23 +35,6 @@ public interface ISentry
 	public TileEntity getPlatform();
 
 	/**
-	 * The amount of time it takes to cool down per fire.
-	 * 
-	 * @return
-	 */
-	public int getFiringDelay();
-
-	/**
-	 * The amount of joules required for the turret to fire its weapon
-	 */
-	public double getFiringRequest();
-
-	/**
-	 * The amount of joules require for the turret to function
-	 */
-	public double getRunningRequest();
-
-	/**
 	 * 
 	 * @return The name of the turret.
 	 */

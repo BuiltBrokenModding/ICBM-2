@@ -10,21 +10,20 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 
 		this.baseTargetRange = 20;
 		this.maxTargetRange = 90;
+		
 		this.idleRtSpeed = 2f;
 		this.targetRtSpeed = 4f;
+		
 		this.maxHeat = 400;
+		
+		this.baseFiringDelay = 10;
+		this.minFiringDelay = 5;
 	}
 
 	@Override
 	public double getVoltage()
 	{
 		return 240;
-	}
-
-	@Override
-	public int getFiringDelay()
-	{
-		return 10;
 	}
 
 	@Override

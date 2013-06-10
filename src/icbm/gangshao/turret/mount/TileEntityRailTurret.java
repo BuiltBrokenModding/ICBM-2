@@ -41,7 +41,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TileEntityRailTurret extends TileEntityTurretBase implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TileEntityRailTurret extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	private final float rotationTranslation = 0.0175f;
 
@@ -63,6 +63,13 @@ public class TileEntityRailTurret extends TileEntityTurretBase implements IPacke
 	 * A counter used client side for the smoke and streaming effects of the Railgun after a shot.
 	 */
 	private int endTicks = 0;
+
+	public TileEntityRailTurret()
+	{
+		this.baseFiringDelay = 70;
+		this.minFiringDelay = 30;
+		this.maxHeat = 1000;
+	}
 
 	@Override
 	public void onUpdate()
@@ -357,12 +364,6 @@ public class TileEntityRailTurret extends TileEntityTurretBase implements IPacke
 	}
 
 	@Override
-	public int getFiringDelay()
-	{
-		return 70;
-	}
-
-	@Override
 	public double getFiringRequest()
 	{
 		return 3000000;
@@ -371,10 +372,10 @@ public class TileEntityRailTurret extends TileEntityTurretBase implements IPacke
 	@Override
 	public void onWeaponActivated()
 	{
+		super.onWeaponActivated();
 		this.gunChargingTicks = 1;
 		this.redstonePowerOn = false;
 		this.isAntimatter = false;
-
 		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
 		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
 		if (ammo != null)
@@ -450,8 +451,8 @@ public class TileEntityRailTurret extends TileEntityTurretBase implements IPacke
 	}
 
 	@Override
-	public double getSafeHeatLvL()
+	public double getHeatPerShot()
 	{
-		return 1000;
+		return 220;
 	}
 }

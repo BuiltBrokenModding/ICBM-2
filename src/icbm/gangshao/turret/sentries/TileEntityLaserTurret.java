@@ -6,17 +6,17 @@ public class TileEntityLaserTurret extends TileEntityAutoTurret
 	{
 		this.targetPlayers = true;
 		this.targetHostile = true;
+
 		this.baseTargetRange = 30;
 		this.maxTargetRange = 90;
+
 		this.idleRtSpeed = 3f;
 		this.targetRtSpeed = 6f;
-		this.maxHeat = 1000;
-	}
 
-	@Override
-	public int getFiringDelay()
-	{
-		return 20;
+		this.maxHeat = 1000;
+
+		this.baseFiringDelay = 20;
+		this.minFiringDelay = 10;
 	}
 
 	@Override
