@@ -30,7 +30,7 @@ import calclavia.lib.render.ITagRender;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.FMLLog;
-import dark.hydraulic.api.IHeatObject;
+import dark.core.api.thermal.IHeatObject;
 import dark.library.damage.EntityTileDamage;
 import dark.library.damage.IHpTile;
 
@@ -417,8 +417,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	/**
 	 * Max Health this tile has to be damaged
 	 */
+	@Override
 	public abstract int getMaxHealth();
 
+	@Override
 	public int hp()
 	{
 		if (this.health == -1)
@@ -428,6 +430,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		return this.health;
 	}
 
+	@Override
 	public void setHp(int i, boolean increase)
 	{
 		if (increase)

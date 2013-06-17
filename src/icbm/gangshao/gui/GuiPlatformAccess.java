@@ -20,10 +20,10 @@ import universalelectricity.core.vector.Vector2;
 import universalelectricity.prefab.vector.Region2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.core.api.terminal.IScroll;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
-import dark.library.access.interfaces.IScroll;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 /**
  * The GUI for user permissions and access.

@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 /**
  * The console GUI used by turrets.

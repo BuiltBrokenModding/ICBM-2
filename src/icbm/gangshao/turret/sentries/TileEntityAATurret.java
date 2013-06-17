@@ -1,7 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
 import icbm.gangshao.actions.LookHelper;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 
@@ -16,15 +15,15 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	public TileEntityAATurret()
 	{
 		this.targetAir = true;
-		
+
 		this.baseTargetRange = 60;
 		this.maxTargetRange = 200;
-		
+
 		this.idleRtSpeed = 4f;
 		this.targetRtSpeed = 10f;
-		
+
 		this.maxHeat = 600;
-		
+
 		this.minFiringDelay = 1;
 		this.baseFiringDelay = 3;
 	}
@@ -95,6 +94,6 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	{
 		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
 
-	}	
+	}
 
 }

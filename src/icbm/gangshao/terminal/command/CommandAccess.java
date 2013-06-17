@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import dark.core.api.terminal.ISpecialAccess;
+import dark.core.api.terminal.ITerminal;
 import dark.library.access.AccessLevel;
-import dark.library.access.interfaces.ISpecialAccess;
-import dark.library.access.interfaces.ITerminal;
-import dark.library.terminal.commands.TerminalCommand;
+import dark.library.machine.terminal.commands.TerminalCommand;
 
 /**
  * Manipulates the access level of the turret platform.

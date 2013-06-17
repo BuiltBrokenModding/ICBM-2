@@ -8,7 +8,6 @@ import icbm.api.sentry.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,25 +16,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
-import universalelectricity.prefab.network.PacketManager;
-
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.FMLLog;
 import dark.library.damage.IHpTile;
-import dark.library.terminal.TileEntityTerminal;
+import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, IInventory
 {

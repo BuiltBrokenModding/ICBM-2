@@ -3,7 +3,7 @@ package icbm.api.sentry;
 import net.minecraft.item.ItemStack;
 
 /**
- * Applied to all TileEntities that can hold ammunition. * 
+ * Applied to all TileEntities that can hold ammunition. *
  */
 public interface IAmmunition
 {

@@ -7,7 +7,6 @@ import icbm.api.sentry.ProjectileTypes;
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.actions.LookHelper;
-import icbm.gangshao.turret.TileEntityTurretBase;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,6 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;

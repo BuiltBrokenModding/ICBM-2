@@ -16,7 +16,7 @@ import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.library.terminal.TileEntityTerminal.PacketType;
+import dark.library.machine.terminal.TileEntityTerminal.PacketType;
 
 /**
  * A base class for all ICBM Sentry GUIs.

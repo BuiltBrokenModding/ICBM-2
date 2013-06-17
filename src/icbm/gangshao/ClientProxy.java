@@ -23,7 +23,7 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import dark.library.DarkMain;
+import dark.core.DarkMain;
 import dark.library.effects.FXBeam;
 
 public class ClientProxy extends CommonProxy
@@ -70,7 +70,7 @@ public class ClientProxy extends CommonProxy
 
 		return null;
 	}
-	
+
 	@Override
 	public void renderTracer(World world, Vector3 position, Vector3 target)
 	{

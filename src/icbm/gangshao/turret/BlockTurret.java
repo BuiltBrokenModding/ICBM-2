@@ -48,7 +48,8 @@ public class BlockTurret extends BICBM
 {
 	public enum TurretType
 	{
-		GUN(TileEntityGunTurret.class), RAILGUN(TileEntityRailTurret.class), AA(TileEntityAATurret.class), LASER(TileEntityLaserTurret.class);
+		GUN(TileEntityGunTurret.class), RAILGUN(TileEntityRailTurret.class),
+		AA(TileEntityAATurret.class), LASER(TileEntityLaserTurret.class);
 
 		public Class<? extends TileEntity> tileEntity;
 
@@ -138,6 +139,7 @@ public class BlockTurret extends BICBM
 		}
 	}
 
+	@Override
 	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);

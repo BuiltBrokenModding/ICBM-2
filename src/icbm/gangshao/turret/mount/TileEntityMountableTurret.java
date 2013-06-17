@@ -1,7 +1,7 @@
 package icbm.gangshao.turret.mount;
 
-import net.minecraft.potion.PotionEffect;
 import icbm.gangshao.turret.TileEntityTurretBase;
+import net.minecraft.potion.PotionEffect;
 
 public abstract class TileEntityMountableTurret extends TileEntityTurretBase
 {

@@ -6,11 +6,10 @@ import icbm.gangshao.platform.TileEntityTurretPlatform;
 import icbm.gangshao.turret.ItemAmmo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import dark.library.access.AccessLevel;
-import dark.library.terminal.ContainerTerminal;
+import dark.library.machine.terminal.ContainerTerminal;
 
 public class ContainerTurretPlatform extends ContainerTerminal
 {

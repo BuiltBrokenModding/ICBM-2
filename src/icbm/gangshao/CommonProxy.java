@@ -58,11 +58,12 @@ public class CommonProxy implements IGuiHandler
 	{
 		return null;
 	}
+
 	/**
 	 * Renders a bullet tracer from one spot to another will later be replaced with start and degree
 	 */
 	public void renderTracer(World world, Vector3 position, Vector3 target)
 	{
-	
+
 	}
 }

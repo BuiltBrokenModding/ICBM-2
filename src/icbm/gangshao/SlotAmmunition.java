@@ -3,8 +3,8 @@ package icbm.gangshao;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import universalelectricity.prefab.SlotSpecific;
+import dark.core.api.terminal.ITerminal;
 import dark.library.access.AccessLevel;
-import dark.library.access.interfaces.ITerminal;
 
 public class SlotAmmunition extends SlotSpecific
 {

@@ -29,7 +29,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
-import dark.library.helpers.Pair;
+import dark.helpers.Pair;
 
 /**
  * Extend this class for all turrets that are automatic.
@@ -53,8 +53,8 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	public int maxTargetRange = 90;
 
 	public float idleRtSpeed = 2f;
-	public float targetRtSpeed = 6f;	
-	
+	public float targetRtSpeed = 6f;
+
 	public ProjectileTypes baseAmmoType = ProjectileTypes.CONVENTIONAL;
 
 	@Override
@@ -74,7 +74,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		if (!this.worldObj.isRemote)
 		{
 			this.speedUpRotation = this.target != null;
-		}	
+		}
 		this.AIManager.onUpdate();
 		/**
 		 * Only update the action manager for idle movements if the target is invalid.
@@ -217,7 +217,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		}
 
 		return false;
-	}	
+	}
 
 	@Override
 	public void onWeaponActivated()
@@ -314,7 +314,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		}
 
 		return false;
-	}	
+	}
 
 	/**
 	 * Writes a tile entity to NBT.

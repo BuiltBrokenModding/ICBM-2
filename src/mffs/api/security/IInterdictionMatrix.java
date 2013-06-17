@@ -42,5 +42,6 @@ public interface IInterdictionMatrix extends IInventory, IFortronFrequency, IMod
 	 */
 	public boolean getFilterMode();
 
+	@Override
 	public int getFortronCost();
 }

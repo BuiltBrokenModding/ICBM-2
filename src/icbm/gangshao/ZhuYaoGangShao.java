@@ -51,9 +51,9 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dark.library.damage.EntityTileDamage;
-import dark.library.terminal.commands.CommandHelp;
-import dark.library.terminal.commands.CommandRegistry;
-import dark.library.terminal.commands.CommandUser;
+import dark.library.machine.terminal.commands.CommandHelp;
+import dark.library.machine.terminal.commands.CommandRegistry;
+import dark.library.machine.terminal.commands.CommandUser;
 
 @Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)

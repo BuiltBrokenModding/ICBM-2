@@ -10,15 +10,14 @@ import net.minecraft.item.ItemStack;
 public interface ISentryUpgrade
 {
 	/**
-	 * Gets the type of the object using a string name 	 * 
+	 * Gets the type of the object using a string name *
 	 * 
-	 * Suggested types that will be implemented by most sentries
-	 * HeatSink - increases the turrets max heat storage
-	 * TargetRange - increases the turrets max targeting range
-	 * TargetSpeed - increase the turrets max rotation speed when it has a target
-	 * FiringRate - increase the turrets max firing rate	
+	 * Suggested types that will be implemented by most sentries HeatSink - increases the turrets
+	 * max heat storage TargetRange - increases the turrets max targeting range TargetSpeed -
+	 * increase the turrets max rotation speed when it has a target FiringRate - increase the
+	 * turrets max firing rate
 	 * 
-	 *  @return Empty list or list containing string types
+	 * @return Empty list or list containing string types
 	 */
 	public List<String> getTypes(ItemStack itemstack);
 

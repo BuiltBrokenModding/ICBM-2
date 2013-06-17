@@ -1,6 +1,5 @@
 package icbm.api.sentry;
 
-
 /**
  * Apply this to an entity if it is meant to be targeted by the AA Turret.
  * 

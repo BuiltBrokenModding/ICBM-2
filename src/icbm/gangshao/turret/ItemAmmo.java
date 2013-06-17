@@ -17,15 +17,19 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.helpers.Pair;
 import dark.library.damage.TileDamageSource;
-import dark.library.helpers.Pair;
 import dark.library.machine.crafting.AutoCraftingManager;
 
 public class ItemAmmo extends ItICBM implements IAmmo
 {
 	enum types
 	{
-		SHELL("bulletShell", ProjectileTypes.NEUTRIAL, true), BULLET("bullet", ProjectileTypes.CONVENTIONAL, true), BULLETRAIL("bulletRailgun", ProjectileTypes.RAILGUN, true), BULLETANTI("bulletAntimatter", ProjectileTypes.RAILGUN, true), BULLETINF("bulletInfinite", ProjectileTypes.CONVENTIONAL, false);
+		SHELL("bulletShell", ProjectileTypes.NEUTRIAL, true),
+		BULLET("bullet", ProjectileTypes.CONVENTIONAL, true),
+		BULLETRAIL("bulletRailgun", ProjectileTypes.RAILGUN, true),
+		BULLETANTI("bulletAntimatter", ProjectileTypes.RAILGUN, true),
+		BULLETINF("bulletInfinite", ProjectileTypes.CONVENTIONAL, false);
 
 		public String iconName;
 		public ProjectileTypes type;

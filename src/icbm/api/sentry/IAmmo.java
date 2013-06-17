@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import dark.library.helpers.Pair;
+import dark.helpers.Pair;
 
 public interface IAmmo
 {
