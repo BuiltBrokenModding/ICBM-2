@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import dark.core.api.terminal.ISpecialAccess;
-import dark.core.api.terminal.ITerminal;
+import dark.core.api.ISpecialAccess;
+import dark.core.api.ITerminal;
 import dark.library.access.AccessLevel;
-import dark.library.machine.terminal.commands.TerminalCommand;
+import dark.library.machine.terminal.TerminalCommand;
 
 public class CommandTarget extends TerminalCommand
 {
