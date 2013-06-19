@@ -39,22 +39,31 @@ import dark.helpers.Pair;
  */
 public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
 {
-	/** The target this turret is hitting. */
+	/* CURRENT TARGET TO ATTACK */
 	public Entity target;
 
+	/* TARGETING CONFIGS */
 	public boolean targetPlayers = false;
 	public boolean targetAir = false;
 	public boolean targetHostile = false;
 	public boolean targetFriendly = false;
 
+	/* ACTION / AI MANAGER */
 	public final ActionManager AIManager = new ActionManager();
 
+	/* DEFAULT TARGETING RANGE */
 	public int baseTargetRange = 20;
+	
+	/* MAX TARGETING RANGE */
 	public int maxTargetRange = 90;
-
+	
+	/* IDLE ROTATION SPEED */
 	public float idleRtSpeed = 2f;
+	
+	/* ATTACKING ROTAION SPEED */
 	public float targetRtSpeed = 6f;
-
+	
+	/* MAIN AMMO TYPE */
 	public ProjectileTypes baseAmmoType = ProjectileTypes.CONVENTIONAL;
 
 	@Override
