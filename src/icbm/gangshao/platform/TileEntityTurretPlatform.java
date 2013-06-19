@@ -53,6 +53,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		if (!this.isDisabled())
 		{
 			TileEntityTurretBase turret = this.getTurret(false);
+			
 			if (this.isRunning() && turret != null)
 			{
 				this.wattsReceived -= turret.getRunningRequest();
@@ -96,7 +97,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		{
 			if (this.wattsReceived < this.getTurret(false).getFiringRequest())
 			{
-				return new ElectricityPack(Math.max((this.getWattBuffer() - this.wattsReceived) / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage());
+				return new ElectricityPack(Math.max(turret.getRunningRequest() / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage());
 			}
 		}
 

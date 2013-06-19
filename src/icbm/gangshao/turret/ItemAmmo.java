@@ -164,6 +164,6 @@ public class ItemAmmo extends ItICBM implements IAmmo
 		{
 			return 40;
 		}
-		return 6000;
+		return super.getEntityLifespan(itemStack, world);
 	}
 }
