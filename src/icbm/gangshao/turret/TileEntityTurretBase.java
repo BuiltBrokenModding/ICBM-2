@@ -30,7 +30,7 @@ import calclavia.lib.render.ITagRender;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.FMLLog;
-import dark.core.api.thermal.IHeatObject;
+import dark.core.api.IHeatObject;
 import dark.library.damage.EntityTileDamage;
 import dark.library.damage.IHpTile;
 

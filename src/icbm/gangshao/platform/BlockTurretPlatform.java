@@ -19,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
-import dark.core.api.terminal.ISpecialAccess;
+import dark.core.api.ISpecialAccess;
 import dark.library.access.AccessLevel;
 
 public class BlockTurretPlatform extends BICBM

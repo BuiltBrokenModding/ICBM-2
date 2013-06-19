@@ -20,7 +20,7 @@ import universalelectricity.core.vector.Vector2;
 import universalelectricity.prefab.vector.Region2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.core.api.terminal.IScroll;
+import dark.core.api.IScroll;
 import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
 import dark.library.machine.terminal.TileEntityTerminal;

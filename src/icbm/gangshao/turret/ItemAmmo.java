@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.helpers.Pair;
 import dark.library.damage.TileDamageSource;
-import dark.library.machine.crafting.AutoCraftingManager;
+import dark.library.machine.AutoCraftingManager;
 
 public class ItemAmmo extends ItICBM implements IAmmo
 {
