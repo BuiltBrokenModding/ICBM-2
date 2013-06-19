@@ -47,22 +47,25 @@ public class PoisonRadiation extends Poison
 
 		int count = 0;
 
-		while (targetPosition.distanceTo(endingPosition) <= totalDistance)
+		if (totalDistance > 1)
 		{
-			int blockID = targetPosition.getBlockID(world);
-
-			if (blockID > 0)
+			while (targetPosition.distanceTo(endingPosition) <= totalDistance)
 			{
-				if (Block.blocksList[blockID] instanceof IAntiPoisonBlock)
+				int blockID = targetPosition.getBlockID(world);
+
+				if (blockID > 0)
 				{
-					if (((IAntiPoisonBlock) Block.blocksList[blockID]).isPoisonPrevention(world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), this))
+					if (Block.blocksList[blockID] instanceof IAntiPoisonBlock)
 					{
-						count++;
+						if (((IAntiPoisonBlock) Block.blocksList[blockID]).isPoisonPrevention(world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), this))
+						{
+							count++;
+						}
 					}
 				}
-			}
 
-			targetPosition.add(delta);
+				targetPosition.add(delta);
+			}
 		}
 
 		return count;
