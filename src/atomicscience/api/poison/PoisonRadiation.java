@@ -65,8 +65,6 @@ public class PoisonRadiation extends Poison
 			targetPosition.add(delta);
 		}
 
-		System.out.println(count);
-
 		return count;
 	}
 }
