@@ -29,20 +29,16 @@ import dark.library.machine.terminal.TileEntityTerminal;
 
 public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmmunition, IInventory
 {
-	/**
-	 * The turret linked to this platform.
-	 */
+	/** The turret linked to this platform. */
 	private TileEntityTurretBase turret = null;
+	/** Deploy direction of the sentry */
 	public ForgeDirection deployDirection = ForgeDirection.UP;
+	/** CURRENT MAP OF UPGRADES STATS */
 	public HashMap<String, Float> upgrades = new HashMap<String, Float>();
-	/**
-	 * The start index of the upgrade slots for the turret.
-	 */
+	/** The start index of the upgrade slots for the turret. */
 	public static final int UPGRADE_START_INDEX = 12;
 
-	/**
-	 * The first 12 slots are for ammunition. The last 4 slots are for upgrades.
-	 */
+	/** The first 12 slots are for ammunition. The last 4 slots are for upgrades. */
 	public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
 
 	@Override
@@ -53,7 +49,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		if (!this.isDisabled())
 		{
 			TileEntityTurretBase turret = this.getTurret(false);
-			
+
 			if (this.isRunning() && turret != null)
 			{
 				this.wattsReceived -= turret.getRunningRequest();
@@ -65,9 +61,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	@Override
 	public void onReceive(ElectricityPack electricityPack)
 	{
-		/**
-		 * Creates an explosion if the voltage is too high.
-		 */
+		/** Creates an explosion if the voltage is too high. */
 		if (UniversalElectricity.isVoltageSensitive)
 		{
 			if (electricityPack.voltage > this.getVoltage())
@@ -114,9 +108,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		return 10;
 	}
 
-	/**
-	 * Gets the turret instance linked to this platform
-	 */
+	/** Gets the turret instance linked to this platform */
 	public TileEntityTurretBase getTurret(boolean getNew)
 	{
 		Vector3 vec = new Vector3(this);
@@ -135,11 +127,9 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		return this.turret;
 	}
 
-	/**
-	 * if a sentry is spawned above the stand it is removed
+	/** if a sentry is spawned above the stand it is removed
 	 * 
-	 * @return
-	 */
+	 * @return */
 	public boolean destroyTurret()
 	{
 		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + deployDirection.offsetX, this.yCoord + deployDirection.offsetY, this.zCoord + deployDirection.offsetZ);
@@ -221,12 +211,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		return false;
 	}
 
-	/**
-	 * Gets the amount of upgrades.
-	 */
+	/** updates the hash map with the current upgrades to be applied to the sentry */
 	public void processUpgrades()
 	{
 		List<ItemStack> used = new ArrayList<ItemStack>();
+		this.upgrades.clear();
 		for (int slot = UPGRADE_START_INDEX; slot < UPGRADE_START_INDEX + 4; slot++)
 		{
 			ItemStack itemStack = this.getStackInSlot(slot);
@@ -271,9 +260,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		}
 	}
 
-	/**
-	 * Gets the change for the upgrade type 100% = 1.0
-	 */
+	/** Gets the change for the upgrade type 100% = 1.0 */
 	public float getUpgradePercent(String name)
 	{
 		if (this.upgrades.containsKey(name))
@@ -330,9 +317,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		return this.containingItems.length;
 	}
 
-	/**
-	 * Returns the stack in slot i
-	 */
+	/** Returns the stack in slot i */
 	@Override
 	public ItemStack getStackInSlot(int par1)
 	{
