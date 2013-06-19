@@ -31,30 +31,39 @@ import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 import dark.helpers.Pair;
 
-/**
- * Extend this class for all turrets that are automatic.
+/** Extend this class for all turrets that are automatic.
  * 
- * @author Rseifert
- * 
- */
+ * @author Rseifert */
 public abstract class TileEntityAutoTurret extends TileEntityTurretBase implements IAutoSentry
 {
-	/** The target this turret is hitting. */
+	/** CURRENT TARGET TO ATTACK */
 	public Entity target;
 
+	/** SHOULD TARGET PLAYERS */
 	public boolean targetPlayers = false;
+	/** SHOULD TARGET FLYING OBJECTS -> MISSILES, PLANES */
 	public boolean targetAir = false;
+	/** SHOULD TARGET MONSTERS */
 	public boolean targetHostile = false;
+	/** SHOULD TARGET ANIMALS, NPCS, SHEEP :( */
 	public boolean targetFriendly = false;
 
+	/** ACTION / AI MANAGER */
 	public final ActionManager AIManager = new ActionManager();
 
+	/** DEFAULT TARGETING RANGE */
 	public int baseTargetRange = 20;
+
+	/** MAX TARGETING RANGE */
 	public int maxTargetRange = 90;
 
+	/** IDLE ROTATION SPEED */
 	public float idleRtSpeed = 2f;
+
+	/** ATTACKING ROTAION SPEED */
 	public float targetRtSpeed = 6f;
 
+	/** MAIN AMMO TYPE */
 	public ProjectileTypes baseAmmoType = ProjectileTypes.CONVENTIONAL;
 
 	@Override
@@ -76,9 +85,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 			this.speedUpRotation = this.target != null;
 		}
 		this.AIManager.onUpdate();
-		/**
-		 * Only update the action manager for idle movements if the target is invalid.
-		 */
+		/** Only update the action manager for idle movements if the target is invalid. */
 		if (this.target == null && !this.worldObj.isRemote)
 		{
 			this.actionManager.onUpdate();
@@ -114,12 +121,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	@Override
 	public boolean setTarget(Entity target, boolean override)
 	{
-		if (this.target == null)
-		{
-			this.target = target;
-			return true;
-		}
-		else if (override)
+		if (!this.isValidTarget(this.target) || override)
 		{
 			this.target = target;
 			return true;
@@ -230,11 +232,10 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		}
 	}
 
-	/**
-	 * Sound this turrets plays each time its fires
-	 */
+	/** Sound this turrets plays each time its fires */
 	public abstract void playFiringSound();
 
+	/** Does the actual firing process for the sentry */
 	protected boolean onFire()
 	{
 		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL);
@@ -316,9 +317,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		return false;
 	}
 
-	/**
-	 * Writes a tile entity to NBT.
-	 */
+	/** Writes a tile entity to NBT. */
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{

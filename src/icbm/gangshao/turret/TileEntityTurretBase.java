@@ -34,46 +34,51 @@ import dark.core.api.IHeatObject;
 import dark.library.damage.EntityTileDamage;
 import dark.library.damage.IHpTile;
 
-/**
- * Class that handles all the basic movement, and block based updates of a turret.
+/** Class that handles all the basic movement, and block based updates of a turret.
  * 
- * @author Rseifert
- * 
- */
+ * @author Rseifert */
 public abstract class TileEntityTurretBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry, IHpTile, IHeatObject
 {
+	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
 	public static final float MAX_PITCH = 30f;
-
+	/** MAX DOWNWARD PITCH ANGLE OF THE SENTRY BARREL */
 	public static final float MIN_PITCH = -30f;
-
+	/** SPAWN DIRECTION OF SENTRY */
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
-
+	/** AI HELPERS */
 	public final ActionManager actionManager = new ActionManager();
+	/** TURRET AIM & ROTATION HELPER */
 	public LookHelper lookHelper = new LookHelper(this);
-
+	/** SHOULD SPEED UP ROATION */
 	protected boolean speedUpRotation = false;
-
+	/** CURRENT HP OF THE SENTRY */
 	public int health = -1;
-
+	/** CURRENT STORED HEAT LEVEL OF SENTRY */
 	public double heat = 0;
+	/** BASE MAX LIMIT OF HEAT THIS SENTRY CAN HANDLE */
 	public double maxHeat = 500;
-
+	/** DEFUALT FIRING DELAY OF SENTRY */
 	public int baseFiringDelay = 10;
+	/** TICKS SINCE LAST GUN ACTIVATION */
 	public int tickSinceFired = 0;
+	/** LOWEST FIRING DELAY */
 	public int minFiringDelay = 5;
-
+	/** ENTITY THAT TAKES DAMAGE FOR THE SENTRY */
 	private EntityTileDamage damageEntity;
-	/**
-	 * The rotation of the arms. In Degrees.
-	 */
+	/** TARGET ROATION ANGLES */
 	public float wantedRotationYaw, wantedRotationPitch = 0;
+	/** CURRENT ROATION ANGLES */
 	public float currentRotationYaw, currentRotationPitch = 0;
-
+	/** CURRENT BARREL IN USE... USED TO SIMULATE MULTI BARREL SENTRIES */
 	protected int gunBarrel = 0;
 
-	public enum turretPacket
+	/** PACKET TYPES THIS TILE RECEIVES */
+	public static enum turretPacket
 	{
-		ROTATION(), NBT(), SHOT(), STATS();
+		ROTATION(),
+		NBT(),
+		SHOT(),
+		STATS();
 	}
 
 	@Override
@@ -100,19 +105,26 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			int preHp = this.hp();
 			double preHeat = this.heat;
 
+			/* CREATE HEAT DAMAGE IF HEAT LEVEL IS TOO HIGH */
 			if ((this.heat -= this.getCoolingRate(ForgeDirection.UNKNOWN)) > this.getSafeHeatLvL() && this.ticks % 5 == 0)
 			{
 				this.health -= 1;
 			}
+
+			/* SPAWN DAMAGE ENTITY IF ALIVE AND ABLE */
 			if (!this.isInvul() && this.getDamageEntity() == null && this.hp() > 0)
 			{
 				this.setDamageEntity(new EntityTileDamage(this));
 				this.worldObj.spawnEntityInWorld(this.getDamageEntity());
 			}
+
+			/* ROTATION PACKET */
 			if (this.wantedRotationPitch != prePitch || this.wantedRotationYaw != preYaw)
 			{
 				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
 			}
+
+			/* STATS PACKET */
 			if (this.getHeat(ForgeDirection.UNKNOWN) != preHeat || this.hp() != preHp)
 			{
 				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.STATS.ordinal(), this.heat, this.hp()), this.worldObj, new Vector3(this), 50);
@@ -121,18 +133,22 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	}
 
-	/**
-	 * Called by updateEntity after checks are made to see if turret can function
-	 */
-	protected abstract void onUpdate();
+	/** Called by updateEntity after checks are made to see if turret can function */
+	public abstract void onUpdate();
 
+	/** Energy consumed each time the weapon activates */
 	public abstract double getFiringRequest();
 
+	/** Energy consumed per tick to keep the sentry running */
 	public abstract double getRunningRequest();
 
-	/**
-	 * get the turrets control platform
-	 */
+	/** is this sentry currently operating */
+	public boolean isRunning()
+	{
+		return this.getPlatform() != null && this.getPlatform().isRunning() && this.hp() > 0;
+	}
+
+	/** get the turrets control platform */
 	@Override
 	public TileEntityTurretPlatform getPlatform()
 	{
@@ -149,92 +165,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 	}
 
-	/**
-	 * Adjusts the turret's rotation to its target rotation over time.
+	/*
+	 * ----------------------- PACKET DATA AND SAVING --------------------------------------
 	 */
-	public void updateRotation()
-	{
-		if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) > 0.001f)
-		{
-			float speedYaw;
-			if (this.currentRotationYaw > this.wantedRotationYaw)
-			{
-				speedYaw = -this.getRotationSpeed();
-			}
-			else
-			{
-				speedYaw = this.getRotationSpeed();
-			}
-
-			this.currentRotationYaw += speedYaw;
-
-			if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) < this.getRotationSpeed() + 0.1f)
-			{
-				this.currentRotationYaw = this.wantedRotationYaw;
-			}
-		}
-
-		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) > 0.001f)
-		{
-			float speedPitch;
-			if (this.currentRotationPitch > this.wantedRotationPitch)
-			{
-				speedPitch = -this.getRotationSpeed();
-			}
-			else
-			{
-				speedPitch = this.getRotationSpeed();
-			}
-
-			this.currentRotationPitch += speedPitch;
-
-			if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) < this.getRotationSpeed() + 0.1f)
-			{
-				this.currentRotationPitch = this.wantedRotationPitch;
-			}
-		}
-
-		/**
-		 * Wraps all the angels and cleans them up.
-		 */
-		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
-		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
-		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
-	}
-
-	/**
-	 * is this sentry currently operating
-	 */
-	public boolean isRunning()
-	{
-		return this.getPlatform() != null && this.getPlatform().isRunning() && this.hp() > 0;
-	}
-
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.NBT.ordinal(), nbt);
-	}
-
-	/**
-	 * Sends the firing info to the client to render tracer effects
-	 */
-	public void sendShotToClient(Vector3 target)
-	{
-		this.gunBarrel++;
-		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.SHOT.ordinal(), target.x, target.y, target.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
-
-		if (this.gunBarrel >= (this.getBarrels() - 1))
-		{
-			this.gunBarrel = 0;
-		}
-	}
-
-	/**
-	 * Data
-	 */
+	/** Data */
 	@Override
 	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
@@ -280,14 +214,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 	}
 
-	public int getBarrels()
-	{
-		return 1;
-	}
-
-	/**
-	 * Writes a tile entity to NBT.
-	 */
+	/** Writes a tile entity to NBT. */
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
@@ -311,11 +238,33 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 	}
 
-	/**
-	 * removes the turret from existence optional create an explosion in the process
-	 * 
-	 * @param doExplosion - True if the turret is to explode.
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.NBT.ordinal(), nbt);
+	}
+
+	/** Sends the firing info to the client to render tracer effects */
+	public void sendShotToClient(Vector3 target)
+	{
+		this.gunBarrel++;
+		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.SHOT.ordinal(), target.x, target.y, target.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
+
+		if (this.gunBarrel >= (this.getBarrels() - 1))
+		{
+			this.gunBarrel = 0;
+		}
+	}
+
+	/*
+	 * -------------------------- GENERIC SENTRY CODE --------------------------------------
 	 */
+
+	/** Removes the sentry when called and optional creates a small local explosion
+	 * 
+	 * @param doExplosion - True too create a small local explosion */
 	public boolean destroy(boolean doExplosion)
 	{
 		if (doExplosion)
@@ -331,12 +280,13 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 	}
 
-	/**
-	 * sets the direction by which the turret will deploy too. Causes the model to rotate to match
-	 * the direction
-	 * 
-	 * @param side
-	 */
+	/** Gets the number of barrels this sentry has */
+	public int getBarrels()
+	{
+		return 1;
+	}
+
+	/** Sets the deploy or connection direction of the sentry */
 	public void setDeploySide(ForgeDirection side)
 	{
 		this.platformDirection = side.getOpposite();
@@ -356,17 +306,56 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	}
 
 	@Override
-	public void setRotation(float yaw, float pitch)
-	{
-		this.wantedRotationYaw = yaw;
-		this.wantedRotationPitch = pitch;
-	}
-
-	@Override
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5);
 		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch - 10), 0.5));
+	}
+
+	@Override
+	public void onWeaponActivated()
+	{
+		this.tickSinceFired += this.baseFiringDelay;
+		this.heat += this.getHeatPerShot();
+	}
+
+	/*
+	 * ------------------------------- HEALTH & DAMAGE CODE--------------------------------------
+	 */
+	/** Max Health this sentry has */
+	@Override
+	public abstract int getMaxHealth();
+
+	/** Is the sentry immune to being attacked */
+	public boolean isInvul()
+	{
+		return false;
+	}
+
+	@Override
+	public int hp()
+	{
+		if (this.health == -1)
+		{
+			this.health = this.getMaxHealth();
+		}
+		return this.health;
+	}
+
+	@Override
+	public void setHp(int i, boolean increase)
+	{
+		if (increase)
+		{
+			i += this.health;
+		}
+		this.health = Math.min(Math.max(i, 0), this.getMaxHealth());
+	}
+
+	@Override
+	public boolean isAlive()
+	{
+		return this.hp() > 0;
 	}
 
 	@Override
@@ -392,63 +381,28 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 	}
 
-	@Override
-	public void onWeaponActivated()
+	/** Entity that takes damage for the sentry */
+	public EntityTileDamage getDamageEntity()
 	{
-		this.tickSinceFired += this.baseFiringDelay;
-		this.heat += this.getHeatPerShot();
+		return damageEntity;
 	}
 
-	/**
-	 * Is this tile immune to attacks
-	 */
-	public boolean isInvul()
+	/** Sets the entity that takes damage for this sentry */
+	public void setDamageEntity(EntityTileDamage damageEntity)
 	{
-		return false;
+		this.damageEntity = damageEntity;
 	}
 
-	public abstract float getRotationSpeed();
-
-	/**
-	 * Heat generated each time the turret fires
+	/*
+	 * ------------------------------------- HEAT CODE--------------------------------------
 	 */
+	/** Heat generated each time the turret fires */
 	public abstract double getHeatPerShot();
 
-	/**
-	 * Max Health this tile has to be damaged
-	 */
-	@Override
-	public abstract int getMaxHealth();
-
-	@Override
-	public int hp()
-	{
-		if (this.health == -1)
-		{
-			this.health = this.getMaxHealth();
-		}
-		return this.health;
-	}
-
-	@Override
-	public void setHp(int i, boolean increase)
-	{
-		if (increase)
-		{
-			i += this.health;
-		}
-		this.health = Math.min(Math.max(i, 0), this.getMaxHealth());
-	}
-
+	/** Max level this sentry can take in heat before taking damage */
 	public double getSafeHeatLvL()
 	{
 		return this.maxHeat + Math.max(this.maxHeat * this.getPlatform().getUpgradePercent("HeatSink"), 10000);
-	}
-
-	@Override
-	public boolean isAlive()
-	{
-		return this.hp() > 0;
 	}
 
 	@Override
@@ -462,12 +416,9 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	{
 		if (increase)
 		{
-			this.heat += amount;
+			amount += this.health;
 		}
-		else
-		{
-			this.heat = amount;
-		}
+		this.heat = Math.min(Math.max(amount, 0), 100000);
 	}
 
 	@Override
@@ -476,13 +427,66 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		return 20;
 	}
 
-	public EntityTileDamage getDamageEntity()
+	/*
+	 * ----------------------------- ROTATION CODE --------------------------------------
+	 */
+	@Override
+	public void setRotation(float yaw, float pitch)
 	{
-		return damageEntity;
+		this.wantedRotationYaw = yaw;
+		this.wantedRotationPitch = pitch;
 	}
 
-	public void setDamageEntity(EntityTileDamage damageEntity)
+	/** Speed of rotation at the current moment */
+	public abstract float getRotationSpeed();
+
+	/** Adjusts the turret's rotation to its target rotation over time. */
+	public void updateRotation()
 	{
-		this.damageEntity = damageEntity;
+		if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) > 0.001f)
+		{
+			float speedYaw;
+			if (this.currentRotationYaw > this.wantedRotationYaw)
+			{
+				speedYaw = -this.getRotationSpeed();
+			}
+			else
+			{
+				speedYaw = this.getRotationSpeed();
+			}
+
+			this.currentRotationYaw += speedYaw;
+
+			if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) < this.getRotationSpeed() + 0.1f)
+			{
+				this.currentRotationYaw = this.wantedRotationYaw;
+			}
+		}
+
+		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) > 0.001f)
+		{
+			float speedPitch;
+			if (this.currentRotationPitch > this.wantedRotationPitch)
+			{
+				speedPitch = -this.getRotationSpeed();
+			}
+			else
+			{
+				speedPitch = this.getRotationSpeed();
+			}
+
+			this.currentRotationPitch += speedPitch;
+
+			if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) < this.getRotationSpeed() + 0.1f)
+			{
+				this.currentRotationPitch = this.wantedRotationPitch;
+			}
+		}
+
+		/** Wraps all the angels and cleans them up. */
+		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
+		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
+		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
 	}
+
 }
