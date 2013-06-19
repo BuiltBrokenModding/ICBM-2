@@ -11,10 +11,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import atomicscience.api.IAntiPoisonBlock;
+import atomicscience.api.poison.Poison;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BNiTu extends BICBM
+public class BNiTu extends BICBM implements IAntiPoisonBlock
 {
 	private Icon iconCompact, iconReinforced;
 
@@ -74,5 +76,11 @@ public class BNiTu extends BICBM
 		{
 			par3List.add(new ItemStack(par1, 1, i));
 		}
+	}
+
+	@Override
+	public boolean isPoisonPrevention(World par1World, int x, int y, int z, Poison type)
+	{
+		return true;
 	}
 }

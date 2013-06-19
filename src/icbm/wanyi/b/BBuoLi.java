@@ -1,13 +1,16 @@
 package icbm.wanyi.b;
 
+import atomicscience.api.IAntiPoisonBlock;
+import atomicscience.api.poison.Poison;
 import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BBuoLi extends BICBM
+public class BBuoLi extends BICBM implements IAntiPoisonBlock
 {
 	public BBuoLi(int id)
 	{
@@ -61,6 +64,12 @@ public class BBuoLi extends BICBM
 	 */
 	@Override
 	protected boolean canSilkHarvest()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isPoisonPrevention(World par1World, int x, int y, int z, Poison type)
 	{
 		return true;
 	}
