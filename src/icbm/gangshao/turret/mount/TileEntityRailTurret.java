@@ -33,12 +33,13 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import dark.library.math.Quaternion;
+
 /** Railgun
  * 
  * @author Calclavia */
 public class TileEntityRailTurret extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
-	private final float rotationTranslation = 0.0175f;
 	/** Current player on the sentry */
 	protected EntityPlayer mountedPlayer = null;
 	/** Fake entity this sentry uses for mounting the player in position */
@@ -47,7 +48,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	private int gunChargingTicks = 0;
 
 	private boolean redstonePowerOn = false;
-
+	/** Is current ammo antimatter */
 	private boolean isAntimatter;
 
 	private float explosionSize;
@@ -204,8 +205,8 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 
 			if (ID == 1)
 			{
-				this.currentRotationYaw = dataStream.readFloat();
-				this.currentRotationPitch = dataStream.readFloat();
+				this.currentRotationYaw = this.wantedRotationYaw = dataStream.readFloat();
+				this.currentRotationPitch = this.wantedRotationPitch = dataStream.readFloat();
 			}
 			else if (ID == 2)
 			{
@@ -293,21 +294,14 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 
-	/** Performs a ray trace for the distance specified and using the partial tick time. Args:
-	 * distance, partialTickTime */
-	public MovingObjectPosition rayTrace(double distance)
-	{
-		Vector3 muzzlePosition = this.getMuzzle();
-		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw / this.rotationTranslation, this.wantedRotationPitch / this.rotationTranslation);
-		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
-		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
-	}
-
 	@Override
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw - 10, this.wantedRotationPitch), 1.5));
+		Quaternion yawRot = new Quaternion();
+		yawRot.FromEuler(this.wantedRotationPitch, this.wantedRotationYaw, 0);
+		position.add(yawRot.multi(new Vector3(2, 0, 0)));
+		return position;
 	}
 
 	@Override
@@ -315,25 +309,8 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	{
 		super.readFromNBT(par1NBTTagCompound);
 
-		this.wantedRotationYaw = par1NBTTagCompound.getFloat("rotationYaw");
-		this.wantedRotationPitch = par1NBTTagCompound.getFloat("rotationPitch");
-
 		this.currentRotationPitch = this.wantedRotationPitch * 0.0175f;
 		this.currentRotationYaw = this.wantedRotationYaw * 0.0175f;
-	}
-
-	/** Writes a tile entity to NBT. */
-	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
-	{
-		super.writeToNBT(par1NBTTagCompound);
-
-		par1NBTTagCompound.setFloat("rotationYaw", this.wantedRotationYaw);
-		par1NBTTagCompound.setFloat("rotationPitch", this.wantedRotationPitch);
-
-		NBTTagList var2 = new NBTTagList();
-
-		par1NBTTagCompound.setTag("Items", var2);
 	}
 
 	@Override
@@ -351,7 +328,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	@Override
 	public double getFiringRequest()
 	{
-		return 3000000;
+		return 300000;
 	}
 
 	@Override
