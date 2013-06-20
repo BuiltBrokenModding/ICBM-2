@@ -20,9 +20,7 @@ public class GuiButtonImage extends GuiButton
 		this.type = type;
 	}
 
-	/**
-	 * Draws this button to the screen.
-	 */
+	/** Draws this button to the screen. */
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int width, int hight)
 	{
@@ -56,9 +54,7 @@ public class GuiButtonImage extends GuiButton
 		}
 	}
 
-	/**
-	 * Checks to see if the x and y coords are intersecting with the button.
-	 */
+	/** Checks to see if the x and y coords are intersecting with the button. */
 	public boolean isIntersect(int x, int y)
 	{
 		return x >= this.xPosition && y >= this.yPosition && x < this.xPosition + this.width && y < this.yPosition + this.height;

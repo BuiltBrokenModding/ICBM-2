@@ -18,12 +18,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.machine.terminal.TileEntityTerminal.PacketType;
 
-/**
- * A base class for all ICBM Sentry GUIs.
+/** A base class for all ICBM Sentry GUIs.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 @SideOnly(Side.CLIENT)
 public abstract class GuiPlatformBase extends GuiBase
 {
@@ -105,16 +102,12 @@ public abstract class GuiPlatformBase extends GuiBase
 		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this.tileEntity, PacketType.GUI_EVENT.ordinal(), false));
 	}
 
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
-	 */
+	/** Draw the foreground layer for the GuiContainer (everything in front of the items) */
 	@Override
 	protected void drawForegroundLayer(int x, int y, float var1)
 	{
 
-		/**
-		 * Render Tool Tips
-		 */
+		/** Render Tool Tips */
 		if (((GuiButtonImage) this.buttonList.get(0)).isIntersect(x, y))
 		{
 			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Terminal");
@@ -127,14 +120,12 @@ public abstract class GuiPlatformBase extends GuiBase
 		{
 			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
 		}/*
-		 * else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y)) {
-		 * this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection"); }
-		 */
+			* else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y)) {
+			* this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection"); }
+			*/
 	}
 
-	/**
-	 * Draw the background layer for the GuiContainer (everything behind the items)
-	 */
+	/** Draw the background layer for the GuiContainer (everything behind the items) */
 	@Override
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{

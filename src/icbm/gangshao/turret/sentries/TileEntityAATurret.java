@@ -4,12 +4,9 @@ import icbm.gangshao.actions.LookHelper;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 
-/**
- * AA Turret, shoots down missiles and planes.
+/** AA Turret, shoots down missiles and planes.
  * 
- * @author DarkGaurdsman
- * 
- */
+ * @author DarkGaurdsman */
 public class TileEntityAATurret extends TileEntityAutoTurret
 {
 	public TileEntityAATurret()

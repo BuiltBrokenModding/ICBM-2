@@ -50,9 +50,7 @@ public class ContainerTurretPlatform extends ContainerTerminal
 		}
 	}
 
-	/**
-	 * Called to transfer a stack from one inventory to the other eg. when shift clicking.
-	 */
+	/** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotID)
 	{

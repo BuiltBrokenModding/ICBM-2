@@ -39,9 +39,7 @@ public class ClientProxy extends CommonProxy
 	{
 		super.init();
 
-		/**
-		 * TileEntities
-		 */
+		/** TileEntities */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAATurret.class, new RenderAATurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailTurret.class, new RenderRailgun());

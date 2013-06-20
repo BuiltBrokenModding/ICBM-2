@@ -20,9 +20,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 		super(inventoryPlayer, tileEntity);
 	}
 
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
-	 */
+	/** Draw the foreground layer for the GuiContainer (everything in front of the items) */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y)
 	{
@@ -45,9 +43,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 		super.drawGuiContainerForegroundLayer(x, y);
 	}
 
-	/**
-	 * Draw the background layer for the GuiContainer (everything behind the items)
-	 */
+	/** Draw the background layer for the GuiContainer (everything behind the items) */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
 	{

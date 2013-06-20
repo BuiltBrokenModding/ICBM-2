@@ -181,9 +181,7 @@ public class ModelSentryCannon extends ModelBase
 		setRotation(BarrelCap, 0F, 0F, 0F);
 	}
 
-	/**
-	 * Renders the yaw only rotation part
-	 */
+	/** Renders the yaw only rotation part */
 	public void renderYaw(float f5)
 	{
 		BaseYawR.render(f5);
@@ -201,11 +199,9 @@ public class ModelSentryCannon extends ModelBase
 
 	}
 
-	/**
-	 * Renders the yaw and pitch rotation part
+	/** Renders the yaw and pitch rotation part
 	 * 
-	 * @param f5
-	 */
+	 * @param f5 */
 	public void renderYawPitch(float f5)
 	{
 		rod.render(f5);

@@ -2,17 +2,12 @@ package icbm.gangshao.actions;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * This task resets all previous tasks and does them again in a loop.
+/** This task resets all previous tasks and does them again in a loop.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 public class ActionRepeat extends Action
 {
-	/**
-	 * The amount of tasks above this task to repeat.
-	 */
+	/** The amount of tasks above this task to repeat. */
 	private int tasksToRepeat;
 	private int numReps;
 	private int curReps;

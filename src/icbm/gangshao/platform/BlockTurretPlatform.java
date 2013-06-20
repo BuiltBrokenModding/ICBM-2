@@ -56,9 +56,7 @@ public class BlockTurretPlatform extends BICBM
 	@Override
 	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		/**
-		 * Only allow the platform to be open if there is a turret installed with it.
-		 */
+		/** Only allow the platform to be open if there is a turret installed with it. */
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity instanceof TileEntityTurretPlatform)

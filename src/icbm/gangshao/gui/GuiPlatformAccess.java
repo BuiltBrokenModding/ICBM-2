@@ -25,12 +25,9 @@ import dark.library.access.AccessLevel;
 import dark.library.access.UserAccess;
 import dark.library.machine.terminal.TileEntityTerminal;
 
-/**
- * The GUI for user permissions and access.
+/** The GUI for user permissions and access.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 @SideOnly(Side.CLIENT)
 public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 {
@@ -79,9 +76,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	{
 		super.handleMouseInput();
 
-		/**
-		 * Scroll based on mouse wheel.
-		 */
+		/** Scroll based on mouse wheel. */
 		int wheel = Mouse.getEventDWheel();
 		if (wheel > 0)
 		{

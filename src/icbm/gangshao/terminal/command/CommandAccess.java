@@ -11,11 +11,9 @@ import dark.core.api.ITerminal;
 import dark.library.access.AccessLevel;
 import dark.library.machine.terminal.TerminalCommand;
 
-/**
- * Manipulates the access level of the turret platform.
+/** Manipulates the access level of the turret platform.
  * 
- * @author Darkguardsman, Calclavia
- */
+ * @author Darkguardsman, Calclavia */
 public class CommandAccess extends TerminalCommand
 {
 

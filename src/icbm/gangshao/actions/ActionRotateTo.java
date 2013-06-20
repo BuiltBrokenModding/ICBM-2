@@ -3,11 +3,9 @@ package icbm.gangshao.actions;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Rotates the armbot to a specific direction. If not specified, it will turn right.
+/** Rotates the armbot to a specific direction. If not specified, it will turn right.
  * 
- * @author Calclavia
- */
+ * @author Calclavia */
 public class ActionRotateTo extends Action
 {
 	float targetRotationYaw = 0;

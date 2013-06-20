@@ -8,7 +8,6 @@ import icbm.gangshao.render.BlockRenderingHandler;
 import icbm.gangshao.turret.mount.TileEntityRailTurret;
 import icbm.gangshao.turret.sentries.TileEntityAATurret;
 import icbm.gangshao.turret.sentries.TileEntityGunTurret;
-import icbm.gangshao.turret.sentries.TileEntityLaserTurret;
 
 import java.util.List;
 import java.util.Random;
@@ -37,13 +36,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.damage.EntityTileDamage;
 
-/**
- * Block turret is a class used by all turrets. Each type of turret will have a different tile
+/** Block turret is a class used by all turrets. Each type of turret will have a different tile
  * entity.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 public class BlockTurret extends BICBM
 {
 	public enum TurretType
@@ -104,9 +100,7 @@ public class BlockTurret extends BICBM
 		}
 	}
 
-	/**
-	 * Called when the block is placed in the world.
-	 */
+	/** Called when the block is placed in the world. */
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving par5EntityLiving, ItemStack itemStack)
 	{
@@ -157,10 +151,8 @@ public class BlockTurret extends BICBM
 	@Override
 	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		/**
-		 * Checks the TileEntity if it can activate. If not, then try to activate the turret
-		 * platform below it.
-		 */
+		/** Checks the TileEntity if it can activate. If not, then try to activate the turret
+		 * platform below it. */
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity instanceof IBlockActivate)

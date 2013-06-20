@@ -33,18 +33,15 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
-/**
- * Railgun
+/** Railgun
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 public class TileEntityRailTurret extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	private final float rotationTranslation = 0.0175f;
-
+	/** Current player on the sentry */
 	protected EntityPlayer mountedPlayer = null;
-
+	/** Fake entity this sentry uses for mounting the player in position */
 	private EntityFakeMountable entityFake = null;
 
 	private int gunChargingTicks = 0;
@@ -57,9 +54,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 
 	private int explosionDepth;
 
-	/**
-	 * A counter used client side for the smoke and streaming effects of the Railgun after a shot.
-	 */
+	/** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
 	private int endTicks = 0;
 
 	public TileEntityRailTurret()
@@ -111,9 +106,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 							{
 								if (this.isAntimatter)
 								{
-									/**
-									 * Remove Redmatter Explosions.
-									 */
+									/** Remove Redmatter Explosions. */
 									int radius = 50;
 									AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
 									List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
@@ -220,9 +213,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 			}
 			else if (ID == 3)
 			{
-				/**
-				 * This packet is sent when a shot is fired by the Railgun, resulting in smoke.
-				 */
+				/** This packet is sent when a shot is fired by the Railgun, resulting in smoke. */
 				if (this.worldObj.isRemote)
 				{
 					this.endTicks = 20 * 3;
@@ -302,10 +293,8 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 
-	/**
-	 * Performs a ray trace for the distance specified and using the partial tick time. Args:
-	 * distance, partialTickTime
-	 */
+	/** Performs a ray trace for the distance specified and using the partial tick time. Args:
+	 * distance, partialTickTime */
 	public MovingObjectPosition rayTrace(double distance)
 	{
 		Vector3 muzzlePosition = this.getMuzzle();
@@ -333,9 +322,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 		this.currentRotationYaw = this.wantedRotationYaw * 0.0175f;
 	}
 
-	/**
-	 * Writes a tile entity to NBT.
-	 */
+	/** Writes a tile entity to NBT. */
 	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{

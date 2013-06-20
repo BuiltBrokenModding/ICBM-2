@@ -14,12 +14,9 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * Renders a block as an item.
+/** Renders a block as an item.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 @SideOnly(Side.CLIENT)
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 {
@@ -34,18 +31,14 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 
 			if (metadata == TurretType.GUN.ordinal())
 			{
-				/**
-				 * Render the gun turret.
-				 */
+				/** Render the gun turret. */
 				GL11.glTranslatef(0.1f, 1f, 0f);
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderGunTurret.TEXTURE_FILE));
 				RenderGunTurret.render(0, 0);
 			}
 			else if (metadata == TurretType.AA.ordinal())
 			{
-				/**
-				 * Render the gun turret.
-				 */
+				/** Render the gun turret. */
 				GL11.glTranslatef(0.2f, 0.3f, 0);
 				GL11.glScalef(0.45f, 0.45f, 0.45f);
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderAATurret.TEXTURE_FILE));
@@ -53,9 +46,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 			}
 			else if (metadata == TurretType.RAILGUN.ordinal())
 			{
-				/**
-				 * Renders the railgun.
-				 */
+				/** Renders the railgun. */
 				GL11.glTranslatef(0f, 0.9f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 

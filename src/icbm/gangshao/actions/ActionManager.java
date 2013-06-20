@@ -14,14 +14,10 @@ public class ActionManager
 	private int currentTask = 0;
 	private int lastTask = -1;
 
-	/**
-	 * Must be called every tick by a tileEntity.
-	 */
+	/** Must be called every tick by a tileEntity. */
 	public void onUpdate()
 	{
-		/**
-		 * Loop through each task and does them.
-		 */
+		/** Loop through each task and does them. */
 		try
 		{
 			if (this.tasks.size() > 0)
@@ -90,13 +86,11 @@ public class ActionManager
 		return null;
 	}
 
-	/**
-	 * Used to register Tasks for a TileEntity, executes onTaskStart for the Task after registering
+	/** Used to register Tasks for a TileEntity, executes onTaskStart for the Task after registering
 	 * it
 	 * 
 	 * @param tileEntity TE instance to register the task for
-	 * @param newCommand Task instance to register
-	 */
+	 * @param newCommand Task instance to register */
 	public void addCommand(TileEntityTurretBase tileEntity, Class<? extends Action> commandClass, String[] parameters)
 	{
 		Action newCommand = this.getNewCommand(tileEntity, commandClass, parameters);
@@ -112,9 +106,7 @@ public class ActionManager
 		this.addCommand(tileEntity, task, new String[0]);
 	}
 
-	/**
-	 * @return true when there are tasks registered, false otherwise
-	 */
+	/** @return true when there are tasks registered, false otherwise */
 	public boolean hasTasks()
 	{
 		return tasks.size() > 0;
@@ -125,9 +117,7 @@ public class ActionManager
 		return tasks;
 	}
 
-	/**
-	 * Resets the command manager.
-	 */
+	/** Resets the command manager. */
 	public void clear()
 	{
 		this.tasks.clear();

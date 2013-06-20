@@ -20,9 +20,7 @@ public class GuiButtonArrow extends GuiButton
 		isLeft = left;
 	}
 
-	/**
-	 * Draws this button to the screen.
-	 */
+	/** Draws this button to the screen. */
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int width, int hight)
 	{

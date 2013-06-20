@@ -4,35 +4,26 @@ import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-/**
- * An AI Commands that is used by TileEntities with AI.
+/** An AI Commands that is used by TileEntities with AI.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 public abstract class Action
 {
-	/**
-	 * The amount of ticks this command has been running for.
-	 */
+	/** The amount of ticks this command has been running for. */
 	protected int ticks = 0;
 
 	public World world;
 	public TileEntityTurretBase tileEntity;
 	public ActionManager commandManager;
 
-	/**
-	 * The parameters this command has, or the properties. Entered by the player in the disk.
-	 * Parameters are entered like a Java function. idle(20) = Idles for 20 seconds.
-	 */
+	/** The parameters this command has, or the properties. Entered by the player in the disk.
+	 * Parameters are entered like a Java function. idle(20) = Idles for 20 seconds. */
 	private String[] parameters;
 
-	/**
-	 * Called by the TaskManager to propagate tick updates
+	/** Called by the TaskManager to propagate tick updates
 	 * 
 	 * @param ticks The amount of ticks this task has been running
-	 * @return false if the task is finished, true otherwise
-	 */
+	 * @return false if the task is finished, true otherwise */
 	protected boolean onUpdateTask()
 	{
 		this.ticks++;
@@ -62,9 +53,7 @@ public abstract class Action
 		return this.parameters;
 	}
 
-	/**
-	 * Some functions to help get parameter arguments.
-	 */
+	/** Some functions to help get parameter arguments. */
 	protected String getArg(int i)
 	{
 		if (i >= 0 && i < this.parameters.length)
@@ -126,9 +115,7 @@ public abstract class Action
 		return 0.0f;
 	}
 
-	/**
-	 * @return The tick interval of this task. 0 means it will receive no update ticks.
-	 */
+	/** @return The tick interval of this task. 0 means it will receive no update ticks. */
 	public int getTickInterval()
 	{
 		return 1;

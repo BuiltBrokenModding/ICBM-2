@@ -287,19 +287,15 @@ public class ModelGunTurret extends ModelBase
 		setRotation(AmmoCaseT, -0.1745329F, 0F, 0F);
 	}
 
-	/**
-	 * renders the stationary parts of the model
-	 */
+	/** renders the stationary parts of the model */
 	public void render(float f5)
 	{
 		BasePlate.render(f5);
 	}
 
-	/**
-	 * renders the motion body of the model
+	/** renders the motion body of the model
 	 * 
-	 * @param f5
-	 */
+	 * @param f5 */
 	public void renderBody(float f5)
 	{
 		neck.render(f5);
@@ -314,11 +310,9 @@ public class ModelGunTurret extends ModelBase
 		AmmoCase.render(f5);
 	}
 
-	/**
-	 * renders the cannon part of the model as well as other parts that move with it
+	/** renders the cannon part of the model as well as other parts that move with it
 	 * 
-	 * @param f5
-	 */
+	 * @param f5 */
 	public void renderCannon(float f5)
 	{
 		CannonBackStoper.render(f5);

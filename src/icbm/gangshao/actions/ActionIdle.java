@@ -4,9 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ActionIdle extends Action
 {
-	/**
-	 * The amount of time in which the machine will idle.
-	 */
+	/** The amount of time in which the machine will idle. */
 	public int idleTime = 20;
 	private int totalIdleTime = 20;
 

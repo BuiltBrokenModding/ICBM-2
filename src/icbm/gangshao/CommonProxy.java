@@ -15,9 +15,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy implements IGuiHandler
 {
-	/**
-	 * GUI IDs
-	 */
+	/** GUI IDs */
 	public static final int GUI_PLATFORM_ID = 0;
 	public static final int GUI_PLATFORM_TERMINAL_ID = 1;
 	public static final int GUI_PLATFORM_ACCESS_ID = 2;
@@ -59,9 +57,7 @@ public class CommonProxy implements IGuiHandler
 		return null;
 	}
 
-	/**
-	 * Renders a bullet tracer from one spot to another will later be replaced with start and degree
-	 */
+	/** Renders a bullet tracer from one spot to another will later be replaced with start and degree */
 	public void renderTracer(World world, Vector3 position, Vector3 target)
 	{
 

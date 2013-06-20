@@ -81,9 +81,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 	public static Item itemAmmo;
 	public static Item itemUpgrades;
 
-	/**
-	 * ItemStack helpers. Do not modify theses.
-	 */
+	/** ItemStack helpers. Do not modify theses. */
 	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
 
 	public static final String FLAG_RAILGUN = FlagRegistry.registerFlag("ban_railgun");
@@ -167,9 +165,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		proxy.init();
 	}
 
-	/**
-	 * Is a specific position being protected from a specific type of danger?
-	 */
+	/** Is a specific position being protected from a specific type of danger? */
 	public static boolean isProtected(World world, Vector3 diDian, String banFlag)
 	{
 		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))

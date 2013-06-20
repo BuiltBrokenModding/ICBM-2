@@ -15,12 +15,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import dark.library.machine.terminal.TileEntityTerminal;
 
-/**
- * The console GUI used by turrets.
+/** The console GUI used by turrets.
  * 
- * @author Darkguardsman, Edited by Calclavia
- * 
- */
+ * @author Darkguardsman, Edited by Calclavia */
 @SideOnly(Side.CLIENT)
 public class GuiPlatformTerminal extends GuiPlatformBase
 {

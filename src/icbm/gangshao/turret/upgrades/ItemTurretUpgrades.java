@@ -18,7 +18,8 @@ public class ItemTurretUpgrades extends ItICBM implements ISentryUpgrade
 {
 	enum upgrades
 	{
-		RANGE("TargetCard", "TargetRange"), COLLECTOR("ShellCollector", "ShellBag");
+		RANGE("TargetCard", "TargetRange"),
+		COLLECTOR("ShellCollector", "ShellBag");
 
 		String iconName;
 		String[] upgrades;

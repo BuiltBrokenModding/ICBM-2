@@ -17,12 +17,9 @@ import org.lwjgl.opengl.GL12;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * A base class for all ICBM Sentry GUIs with containers.
+/** A base class for all ICBM Sentry GUIs with containers.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 @SideOnly(Side.CLIENT)
 public abstract class GuiPlatformContainer extends GuiContainer
 {
@@ -97,9 +94,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 		}
 	}
 
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
-	 */
+	/** Draw the foreground layer for the GuiContainer (everything in front of the items) */
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y)
 	{
@@ -108,9 +103,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 			String title = this.tileEntity.getTurret(false).getName();
 			this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
 
-			/**
-			 * Render Tool Tips
-			 */
+			/** Render Tool Tips */
 			if (((GuiButtonImage) this.buttonList.get(0)).isIntersect(x, y))
 			{
 				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Terminal");
@@ -123,15 +116,13 @@ public abstract class GuiPlatformContainer extends GuiContainer
 			{
 				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
 			}/*
-			 * else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y)) {
-			 * this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection"); }
-			 */
+				* else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y)) {
+				* this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection"); }
+				*/
 		}
 	}
 
-	/**
-	 * Draw the background layer for the GuiContainer (everything behind the items)
-	 */
+	/** Draw the background layer for the GuiContainer (everything behind the items) */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
 	{

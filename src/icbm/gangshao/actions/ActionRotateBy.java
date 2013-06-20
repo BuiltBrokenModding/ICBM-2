@@ -2,11 +2,9 @@ package icbm.gangshao.actions;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Rotates the armbot to a specific direction. If not specified, it will turn right.
+/** Rotates the armbot to a specific direction. If not specified, it will turn right.
  * 
- * @author Calclavia
- */
+ * @author Calclavia */
 public class ActionRotateBy extends Action
 {
 	float targetRotationYaw = 0;
