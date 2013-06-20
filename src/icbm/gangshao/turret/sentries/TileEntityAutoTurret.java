@@ -227,13 +227,15 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		super.onWeaponActivated();
 		if (this.onFire())
 		{
-			this.playFiringSound();
 			this.sendShotToClient(new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0)));
 		}
 	}
 
-	/** Sound this turrets plays each time its fires */
-	public abstract void playFiringSound();
+	@Override
+	public void renderShot(Vector3 target)
+	{
+		ZhuYaoGangShao.proxy.renderTracer(this.worldObj, this.getMuzzle(), target);
+	}
 
 	/** Does the actual firing process for the sentry */
 	protected boolean onFire()

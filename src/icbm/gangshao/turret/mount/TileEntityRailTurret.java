@@ -40,10 +40,6 @@ import dark.library.math.Quaternion;
  * @author Calclavia */
 public class TileEntityRailTurret extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
-	/** Current player on the sentry */
-	protected EntityPlayer mountedPlayer = null;
-	/** Fake entity this sentry uses for mounting the player in position */
-	private EntityFakeMountable entityFake = null;
 
 	private int gunChargingTicks = 0;
 
@@ -68,22 +64,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	@Override
 	public void onUpdate()
 	{
-		if (this.mountedPlayer != null)
-		{
-			if (this.mountedPlayer.rotationPitch > 30)
-				this.mountedPlayer.rotationPitch = 30;
-			if (this.mountedPlayer.rotationPitch < -45)
-				this.mountedPlayer.rotationPitch = -45;
-
-			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * rotationTranslation;
-			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * rotationTranslation;
-		}
-		else if (this.entityFake != null)
-		{
-			this.entityFake.setDead();
-			this.entityFake = null;
-		}
-
+		super.onUpdate();
 		if (this.getPlatform() != null)
 		{
 			if (this.redstonePowerOn && this.canActivateWeapon() && this.gunChargingTicks == 0)
@@ -120,8 +101,10 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 										}
 									}
 								}
-
-								if (this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) != Block.bedrock.blockID)
+								int blockID = this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+								Block block = Block.blocksList[blockID];
+								/* Any hardness under zero is unbreakable  */
+								if (block != null && block.getBlockHardness(this.worldObj, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) > 0)
 								{
 									this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
 								}
@@ -135,7 +118,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 
 					if (!this.worldObj.isRemote)
 					{
-						PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 3), this.worldObj, new Vector3(this), 50);
+						PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.MOUNT.ordinal()), this.worldObj, new Vector3(this), 50);
 					}
 
 					this.gunChargingTicks = 0;
@@ -149,7 +132,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 					this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 				}
 			}
-			else if (this.endTicks > 0)
+			else if (--this.endTicks > 0)
 			{
 				Vector3 muzzilePosition = this.getMuzzle();
 				this.worldObj.spawnParticle("smoke", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
@@ -161,7 +144,6 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 				{
 					this.drawParticleStreamTo(Vector3.add(new Vector3(objectMouseOver), 0.5));
 				}
-				this.endTicks--;
 			}
 		}
 	}
@@ -170,7 +152,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	{
 		if (this.worldObj.isRemote)
 		{
-			Vector3 startPosition = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
+			Vector3 startPosition = this.getMuzzle();
 			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 15, this.currentRotationPitch);
 			double xoffset = 1.3f;
 			double yoffset = -.2;
@@ -197,41 +179,15 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	}
 
 	@Override
-	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	public void renderShot(Vector3 target)
 	{
-		try
-		{
-			int ID = dataStream.readInt();
-
-			if (ID == 1)
-			{
-				this.currentRotationYaw = this.wantedRotationYaw = dataStream.readFloat();
-				this.currentRotationPitch = this.wantedRotationPitch = dataStream.readFloat();
-			}
-			else if (ID == 2)
-			{
-				this.mount(player);
-			}
-			else if (ID == 3)
-			{
-				/** This packet is sent when a shot is fired by the Railgun, resulting in smoke. */
-				if (this.worldObj.isRemote)
-				{
-					this.endTicks = 20 * 3;
-				}
-
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		this.endTicks = 20;
 	}
 
 	@Override
-	public Packet getDescriptionPacket()
+	public void playFiringSound()
 	{
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, 1, this.currentRotationYaw, this.currentRotationPitch);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
 	}
 
 	@Override
@@ -245,46 +201,6 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	{
 		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0);
-	}
-
-	@Override
-	public boolean onActivated(EntityPlayer entityPlayer)
-	{
-		if (this.mountedPlayer != null && entityPlayer == this.mountedPlayer)
-		{
-			this.mountedPlayer = null;
-			entityPlayer.unmountEntity(this.entityFake);
-
-			if (this.entityFake != null)
-			{
-				this.entityFake.setDead();
-				this.entityFake = null;
-			}
-		}
-		else
-		{
-			this.mount(entityPlayer);
-		}
-
-		return true;
-	}
-
-	public void mount(EntityPlayer entityPlayer)
-	{
-		// Creates a fake entity to be mounted on
-		if (this.mountedPlayer == null)
-		{
-			if (!this.worldObj.isRemote)
-			{
-				this.entityFake = new EntityFakeMountable(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, false);
-				this.worldObj.spawnEntityInWorld(entityFake);
-				entityPlayer.mountEntity(this.entityFake);
-			}
-
-			this.mountedPlayer = entityPlayer;
-			entityPlayer.rotationYaw = 0;
-			entityPlayer.rotationPitch = 0;
-		}
 	}
 
 	@Override
@@ -338,7 +254,6 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 		this.gunChargingTicks = 1;
 		this.redstonePowerOn = false;
 		this.isAntimatter = false;
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
 		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
 		if (ammo != null)
 		{
@@ -386,12 +301,6 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	{
 		super.addInformation(map, player);
 		return 2;
-	}
-
-	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
-		return INFINITE_EXTENT_AABB;
 	}
 
 	@Override
