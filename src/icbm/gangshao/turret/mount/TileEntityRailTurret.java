@@ -16,10 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumMovingObjectType;
@@ -30,9 +26,6 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-
-import com.google.common.io.ByteArrayDataInput;
-
 import dark.library.math.Quaternion;
 
 /** Railgun
@@ -65,8 +58,15 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	public void onUpdate()
 	{
 		super.onUpdate();
+
 		if (this.getPlatform() != null)
 		{
+			if (this.ticks % 5 == 0)
+			{
+				Vector3 muzzilePosition = this.getMuzzle();
+				ZhuYaoGangShao.proxy.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(this));
+			}
+
 			if (this.redstonePowerOn && this.canActivateWeapon() && this.gunChargingTicks == 0)
 			{
 				this.onWeaponActivated();
@@ -76,68 +76,16 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 			{
 				this.gunChargingTicks++;
 
-				if (this.gunChargingTicks >= 70)
+				if (this.gunChargingTicks >= 30)
 				{
-					while (this.explosionDepth > 0)
-					{
-						MovingObjectPosition objectMouseOver = this.rayTrace(2000);
-
-						if (objectMouseOver != null)
-						{
-							if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN) && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
-							{
-								if (this.isAntimatter)
-								{
-									/** Remove Redmatter Explosions. */
-									int radius = 50;
-									AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
-									List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
-
-									for (Entity entity : missilesNearby)
-									{
-										if (entity instanceof IExplosive)
-										{
-											entity.setDead();
-										}
-									}
-								}
-								int blockID = this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-								Block block = Block.blocksList[blockID];
-								/* Any hardness under zero is unbreakable  */
-								if (block != null && block.getBlockHardness(this.worldObj, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) > 0)
-								{
-									this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
-								}
-
-								this.worldObj.newExplosion(this.mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true, true);
-							}
-						}
-
-						this.explosionDepth--;
-					}
-
-					if (!this.worldObj.isRemote)
-					{
-						PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.MOUNT.ordinal()), this.worldObj, new Vector3(this), 50);
-					}
-
+					this.onFire();
+					this.sendShotToClient(null);
 					this.gunChargingTicks = 0;
 				}
 			}
-
-			if (!this.worldObj.isRemote)
+			
+			if (this.worldObj.isRemote && --this.endTicks > 0)
 			{
-				if (this.ticks % 600 == 0)
-				{
-					this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-				}
-			}
-			else if (--this.endTicks > 0)
-			{
-				Vector3 muzzilePosition = this.getMuzzle();
-				this.worldObj.spawnParticle("smoke", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
-				this.worldObj.spawnParticle("flame", muzzilePosition.x, muzzilePosition.y, muzzilePosition.z, 0, 0, 0);
-
 				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
 
 				if (objectMouseOver != null)
@@ -145,6 +93,47 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 					this.drawParticleStreamTo(Vector3.add(new Vector3(objectMouseOver), 0.5));
 				}
 			}
+		}
+	}
+
+	public void onFire()
+	{
+		while (this.explosionDepth > 0)
+		{
+			MovingObjectPosition objectMouseOver = this.rayTrace(2000);
+
+			if (objectMouseOver != null)
+			{
+				if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN) && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+				{
+					if (this.isAntimatter)
+					{
+						/** Remove Redmatter Explosions. */
+						int radius = 50;
+						AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
+						List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+
+						for (Entity entity : missilesNearby)
+						{
+							if (entity instanceof IExplosive)
+							{
+								entity.setDead();
+							}
+						}
+					}
+					int blockID = this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+					Block block = Block.blocksList[blockID];
+					/* Any hardness under zero is unbreakable  */
+					if (block != null && block.getBlockHardness(this.worldObj, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) > 0)
+					{
+						this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
+					}
+
+					this.worldObj.newExplosion(this.mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true, true);
+				}
+			}
+
+			this.explosionDepth--;
 		}
 	}
 
@@ -216,8 +205,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
 		Quaternion yawRot = new Quaternion();
 		yawRot.FromEuler(this.wantedRotationPitch, this.wantedRotationYaw, 0);
-		position.add(yawRot.multi(new Vector3(2, 0, 0)));
-		return position;
+		return position.add(yawRot.multi(new Vector3(0, 0, 1)));
 	}
 
 	@Override

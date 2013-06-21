@@ -1,10 +1,12 @@
 package icbm.gangshao.turret.mount;
 
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.multiblock.IMultiBlock;
+import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.network.PacketManager;
 
 public abstract class TileEntityMountableTurret extends TileEntityTurretBase implements IMultiBlock
 {
@@ -17,8 +19,10 @@ public abstract class TileEntityMountableTurret extends TileEntityTurretBase imp
 	@Override
 	public void onUpdate()
 	{
-		
+
 	}
+
+	@Override
 	public void updateRotation()
 	{
 		if (this.mountedPlayer != null)
@@ -34,6 +38,10 @@ public abstract class TileEntityMountableTurret extends TileEntityTurretBase imp
 
 			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * rotationTranslation;
 			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * rotationTranslation;
+			if (this.worldObj.isRemote)
+			{
+				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
+			}
 		}
 		else if (this.entityFake != null)
 		{

@@ -101,8 +101,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 		if (this.isRunning())
 		{
-			this.onUpdate();
 			this.updateRotation();
+			this.onUpdate();			
 		}
 
 		if (!this.worldObj.isRemote)
@@ -263,6 +263,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	/** Sends the firing info to the client to render tracer effects */
 	public void sendShotToClient(Vector3 target)
 	{
+		if(target == null)
+		{
+			target = new Vector3();
+		}
 		this.gunBarrel++;
 		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.SHOT.ordinal(), target.x, target.y, target.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
 
