@@ -26,12 +26,13 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
 
-/** Railgun
+/**
+ * Railgun
  * 
- * @author Calclavia */
-public class TileEntityRailTurret extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+ * @author Calclavia
+ */
+public class TileEntityRailgun extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
-
 	private int gunChargingTicks = 0;
 
 	private boolean redstonePowerOn = false;
@@ -45,7 +46,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	/** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
 	private int endTicks = 0;
 
-	public TileEntityRailTurret()
+	public TileEntityRailgun()
 	{
 		this.baseFiringDelay = 70;
 		this.minFiringDelay = 30;
@@ -115,7 +116,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 					}
 					int blockID = this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 					Block block = Block.blocksList[blockID];
-					/* Any hardness under zero is unbreakable  */
+					/* Any hardness under zero is unbreakable */
 					if (block != null && block.getBlockHardness(this.worldObj, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) > 0)
 					{
 						this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
@@ -197,7 +198,8 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
 		float yaw = (float) Math.toDegrees(this.wantedRotationYaw);
 		float pitch = (float) Math.toDegrees(this.wantedRotationPitch);
-		//System.out.println("World:" + (this.worldObj.isRemote ? "Client" : "Server") + " Y:" + yaw + " P:" + pitch);
+		// System.out.println("World:" + (this.worldObj.isRemote ? "Client" : "Server") + " Y:" +
+		// yaw + " P:" + pitch);
 		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));
 
 	}

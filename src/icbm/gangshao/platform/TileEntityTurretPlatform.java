@@ -45,7 +45,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 	public void updateEntity()
 	{
 		super.updateEntity();
-
+/*
 		if (!this.isDisabled())
 		{
 			TileEntityTurretBase turret = this.getTurret(false);
@@ -54,7 +54,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 			{
 				this.wattsReceived -= turret.getRunningRequest();
 			}
-		}
+		}*/
 
 	}
 
@@ -91,21 +91,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		{
 			if (this.wattsReceived < this.getTurret(false).getFiringRequest())
 			{
-				return new ElectricityPack(Math.max(turret.getRunningRequest() / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage());
+				return new ElectricityPack(Math.max(turret.getFiringRequest() / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage());
 			}
 		}
 
 		return new ElectricityPack();
-	}
-
-	@Override
-	public double getWattBuffer()
-	{
-		if (this.getTurret(false) != null)
-		{
-			return (this.getTurret(false).getFiringRequest() * 4) + (this.getTurret(false).getRunningRequest() * 2);
-		}
-		return 10;
 	}
 
 	/** Gets the turret instance linked to this platform */
@@ -127,9 +117,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 		return this.turret;
 	}
 
-	/** if a sentry is spawned above the stand it is removed
+	/**
+	 * if a sentry is spawned above the stand it is removed
 	 * 
-	 * @return */
+	 * @return
+	 */
 	public boolean destroyTurret()
 	{
 		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + deployDirection.offsetX, this.yCoord + deployDirection.offsetY, this.zCoord + deployDirection.offsetZ);
@@ -166,7 +158,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IAmm
 
 	public boolean isRunning()
 	{
-		return !this.isDisabled() && (this.getTurret(false) != null && this.getTurret(false).getRunningRequest() <= this.wattsReceived || this.runPowerless);
+		return !this.isDisabled() && (this.getTurret(false) != null && this.wattsReceived >= this.getTurret(false).getFiringRequest() || this.runPowerless);
 	}
 
 	@Override

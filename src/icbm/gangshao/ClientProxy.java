@@ -10,7 +10,7 @@ import icbm.gangshao.render.RenderFakeMountable;
 import icbm.gangshao.render.RenderGunTurret;
 import icbm.gangshao.render.RenderRailgun;
 import icbm.gangshao.turret.mount.EntityFakeMountable;
-import icbm.gangshao.turret.mount.TileEntityRailTurret;
+import icbm.gangshao.turret.mount.TileEntityRailgun;
 import icbm.gangshao.turret.sentries.TileEntityAATurret;
 import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 
@@ -42,7 +42,7 @@ public class ClientProxy extends CommonProxy
 		/** TileEntities */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAATurret.class, new RenderAATurret());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailTurret.class, new RenderRailgun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailgun.class, new RenderRailgun());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFakeMountable.class, new RenderFakeMountable());
 		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());

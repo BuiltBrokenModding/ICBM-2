@@ -26,19 +26,22 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 	{
 		this.fontRenderer.drawString("Ammunition", 8, 30, 4210752);
 
-		// Shows the status of the EMP Tower
-		String color = "\u00a74";
-
-		if (!this.tileEntity.isDisabled() && this.tileEntity.wattsReceived >= this.tileEntity.getWattBuffer())
-		{
-			color = "\u00a7a";
-		}
 		TileEntityTurretBase turret = this.tileEntity.getTurret(false);
+
+		// Render the turret energy
 		if (turret != null && turret.getFiringRequest() > 0)
 		{
+			String color = "\u00a74";
+
+			if (!this.tileEntity.isDisabled() && this.tileEntity.wattsReceived >= turret.getFiringRequest())
+			{
+				color = "\u00a7a";
+			}
+
 			this.fontRenderer.drawString("Energy Per Shot", 85, 43, 4210752);
 			this.fontRenderer.drawString(color + ElectricityDisplay.getDisplayShort(Math.min(this.tileEntity.wattsReceived, turret.getFiringRequest()), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getTurret(false).getFiringRequest(), ElectricUnit.JOULES), 87, 53, 4210752);
 		}
+
 		this.fontRenderer.drawString("Upgrades", 87, 66, 4210752);
 		super.drawGuiContainerForegroundLayer(x, y);
 	}

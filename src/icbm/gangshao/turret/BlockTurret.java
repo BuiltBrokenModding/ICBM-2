@@ -5,7 +5,7 @@ import icbm.core.ZhuYaoBase;
 import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.render.BlockRenderingHandler;
-import icbm.gangshao.turret.mount.TileEntityRailTurret;
+import icbm.gangshao.turret.mount.TileEntityRailgun;
 import icbm.gangshao.turret.sentries.TileEntityAATurret;
 import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 
@@ -45,7 +45,7 @@ public class BlockTurret extends BICBM
 	public enum TurretType
 	{
 		GUN(TileEntityGunTurret.class),
-		RAILGUN(TileEntityRailTurret.class),
+		RAILGUN(TileEntityRailgun.class),
 		AA(TileEntityAATurret.class),
 		/*LASER(TileEntityLaserTurret.class)*/;
 
