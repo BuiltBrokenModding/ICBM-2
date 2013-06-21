@@ -4,6 +4,7 @@ import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TileEntityTurretBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.PacketManager;
@@ -36,8 +37,8 @@ public abstract class TileEntityMountableTurret extends TileEntityTurretBase imp
 				this.mountedPlayer.rotationPitch = -45;
 			}
 
-			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * rotationTranslation;
-			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * rotationTranslation;
+			this.currentRotationPitch = this.wantedRotationPitch = (float) MathHelper.wrapAngleTo180_double(this.mountedPlayer.rotationPitch * rotationTranslation);
+			this.currentRotationYaw = this.wantedRotationYaw = (float) MathHelper.wrapAngleTo180_double(this.mountedPlayer.rotationYaw * rotationTranslation);
 			if (this.worldObj.isRemote)
 			{
 				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);

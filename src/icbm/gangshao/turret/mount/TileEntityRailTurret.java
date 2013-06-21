@@ -202,10 +202,12 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	@Override
 	public Vector3 getMuzzle()
 	{
-		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
-		Quaternion yawRot = new Quaternion();
-		yawRot.FromEuler(this.wantedRotationPitch, this.wantedRotationYaw, 0);
-		return position.add(yawRot.multi(new Vector3(0, 0, 1)));
+		 Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
+		 float yaw = (float) Math.toDegrees(this.wantedRotationYaw);
+		 float pitch =(float) Math.toDegrees(this.wantedRotationPitch);
+		 System.out.println("World:"+(this.worldObj.isRemote ? "Client": "Server")+" Y:"+yaw+" P:"+pitch);
+         return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));
+ 
 	}
 
 	@Override
