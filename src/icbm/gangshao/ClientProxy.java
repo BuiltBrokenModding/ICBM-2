@@ -72,6 +72,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void renderTracer(World world, Vector3 position, Vector3 target)
 	{
-		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, Color.DARK_GRAY, DarkMain.TEXTURE_DIRECTORY + "traceStream.png", 5, true));
+		if (target != null && position != null)
+			FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, Color.DARK_GRAY, DarkMain.TEXTURE_DIRECTORY + "traceStream.png", 5, true));
 	}
 }

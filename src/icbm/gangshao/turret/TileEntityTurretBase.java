@@ -17,8 +17,10 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.block.IVoltage;
 import universalelectricity.core.vector.Vector3;
@@ -39,6 +41,8 @@ import dark.library.damage.IHpTile;
  * @author Rseifert */
 public abstract class TileEntityTurretBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry, IHpTile, IHeatObject
 {
+	/** OFFSET OF BARREL ROTATION */
+	public final float rotationTranslation = 0.0175f;
 	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
 	public static final float MAX_PITCH = 30f;
 	/** MAX DOWNWARD PITCH ANGLE OF THE SENTRY BARREL */
@@ -78,7 +82,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		ROTATION(),
 		NBT(),
 		SHOT(),
-		STATS();
+		STATS(),
+		MOUNT();
 	}
 
 	@Override
@@ -96,8 +101,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 
 		if (this.isRunning())
 		{
-			this.onUpdate();
 			this.updateRotation();
+			this.onUpdate();
 		}
 
 		if (!this.worldObj.isRemote)
@@ -145,7 +150,7 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	/** is this sentry currently operating */
 	public boolean isRunning()
 	{
-		return this.getPlatform() != null && this.getPlatform().isRunning() && this.hp() > 0;
+		return this.getPlatform() != null && this.getPlatform().isRunning() && this.isAlive();
 	}
 
 	/** get the turrets control platform */
@@ -197,13 +202,18 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 				}
 				else if (id == turretPacket.SHOT.ordinal())
 				{
-					ZhuYaoGangShao.proxy.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
 					this.gunBarrel = dataStream.readInt();
+					this.renderShot(new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
+					this.playFiringSound();
 				}
 				else if (id == turretPacket.STATS.ordinal())
 				{
 					this.setHeat(dataStream.readDouble(), false);
 					this.health = dataStream.readInt();
+				}
+				else if (id == turretPacket.MOUNT.ordinal())
+				{
+					this.mount(player);
 				}
 			}
 			catch (IOException e)
@@ -221,6 +231,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		super.writeToNBT(nbt);
 		nbt.setFloat("yaw", this.wantedRotationYaw);
 		nbt.setFloat("pitch", this.wantedRotationPitch);
+		nbt.setFloat("cYaw", this.currentRotationYaw);
+		nbt.setFloat("cPitch", this.currentRotationPitch);
 		nbt.setInteger("dir", this.platformDirection.ordinal());
 		nbt.setInteger("health", this.hp());
 	}
@@ -231,6 +243,8 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		super.readFromNBT(nbt);
 		this.wantedRotationYaw = nbt.getFloat("yaw");
 		this.wantedRotationPitch = nbt.getFloat("pitch");
+		this.currentRotationYaw = nbt.getFloat("cYaw");
+		this.currentRotationPitch = nbt.getFloat("cPitch");
 		this.platformDirection = ForgeDirection.getOrientation(nbt.getInteger("dir"));
 		if (nbt.hasKey("health"))
 		{
@@ -249,6 +263,10 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	/** Sends the firing info to the client to render tracer effects */
 	public void sendShotToClient(Vector3 target)
 	{
+		if (target == null)
+		{
+			target = this.getMuzzle();
+		}
 		this.gunBarrel++;
 		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.SHOT.ordinal(), target.x, target.y, target.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
 
@@ -257,6 +275,12 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 			this.gunBarrel = 0;
 		}
 	}
+
+	/** creates client side effects when the sentry fires its weapon */
+	public abstract void renderShot(Vector3 target);
+
+	/** Sound this turrets plays each time its fires */
+	public abstract void playFiringSound();
 
 	/*
 	 * -------------------------- GENERIC SENTRY CODE --------------------------------------
@@ -305,6 +329,16 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		return new ItemStack(this.getBlockType(), 1, this.getBlockMetadata()).getDisplayName() + " " + this.hp() + "/" + this.getMaxHealth();
 	}
 
+	/** Performs a ray trace for the distance specified and using the partial tick time. Args:
+	 * distance, partialTickTime */
+	public MovingObjectPosition rayTrace(double distance)
+	{
+		Vector3 muzzlePosition = this.getMuzzle();
+		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw / this.rotationTranslation, this.wantedRotationPitch / this.rotationTranslation);
+		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
+		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
+	}
+
 	@Override
 	public Vector3 getMuzzle()
 	{
@@ -317,6 +351,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	{
 		this.tickSinceFired += this.baseFiringDelay;
 		this.heat += this.getHeatPerShot();
+	}
+
+	public void mount(EntityPlayer entityPlayer)
+	{
+
 	}
 
 	/*
@@ -355,11 +394,11 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 	@Override
 	public boolean isAlive()
 	{
-		return this.hp() > 0;
+		return this.hp() > 0 || this.isInvul();
 	}
 
 	@Override
-	public boolean onDamageTaken(DamageSource source, int ammount)
+	public boolean onDamageTaken(DamageSource source, int amount)
 	{
 		if (this.isInvul())
 		{
@@ -367,12 +406,12 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		}
 		else if (source != null && source.equals(DamageSource.onFire))
 		{
-			this.heat += 10;
+			this.heat += amount * 2;
 			return true;
 		}
 		else
 		{
-			this.health -= ammount;
+			this.health -= amount;
 			if (!this.worldObj.isRemote)
 			{
 				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, turretPacket.STATS.ordinal(), this.heat, this.hp()), this.worldObj, new Vector3(this), 50);
@@ -487,6 +526,12 @@ public abstract class TileEntityTurretBase extends TileEntityAdvanced implements
 		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
 		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
 		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return INFINITE_EXTENT_AABB;
 	}
 
 }

@@ -227,13 +227,24 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 		super.onWeaponActivated();
 		if (this.onFire())
 		{
-			this.playFiringSound();
-			this.sendShotToClient(new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0)));
+			Vector3 target = new Vector3(this.target).add(new Vector3(0, this.target.getEyeHeight(), 0));
+			if (!this.worldObj.isRemote)
+			{
+				this.sendShotToClient(target);
+			}
+			else
+			{
+				this.renderShot(target);
+				this.playFiringSound();
+			}
 		}
 	}
 
-	/** Sound this turrets plays each time its fires */
-	public abstract void playFiringSound();
+	@Override
+	public void renderShot(Vector3 target)
+	{
+		ZhuYaoGangShao.proxy.renderTracer(this.worldObj, this.getMuzzle(), target);
+	}
 
 	/** Does the actual firing process for the sentry */
 	protected boolean onFire()
@@ -359,7 +370,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	{
 		if (this.getPlatform() != null)
 		{
-			return this.baseTargetRange + Math.max(this.baseTargetRange * this.getPlatform().getUpgradePercent("TargetRange"), this.maxTargetRange);
+			return this.baseTargetRange + Math.min(this.baseTargetRange * this.getPlatform().getUpgradePercent("TargetRange"), this.maxTargetRange);
 		}
 		return this.baseTargetRange;
 	}
@@ -369,7 +380,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurretBase implemen
 	{
 		if (this.speedUpRotation)
 		{
-			return Math.max(this.targetRtSpeed + (this.targetRtSpeed * this.getPlatform().getUpgradePercent("TargetSpeed")), 30f);
+			return Math.min(this.targetRtSpeed + (this.targetRtSpeed * this.getPlatform().getUpgradePercent("TargetSpeed")), 30f);
 		}
 		return this.idleRtSpeed;
 	}
