@@ -25,8 +25,6 @@ import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import dark.library.math.Quaternion;
 
 /** Railgun
  * 
@@ -61,12 +59,6 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 
 		if (this.getPlatform() != null)
 		{
-			if (this.ticks % 5 == 0)
-			{
-				Vector3 muzzilePosition = this.getMuzzle();
-				ZhuYaoGangShao.proxy.renderTracer(this.worldObj, this.getMuzzle(), new Vector3(this));
-			}
-
 			if (this.redstonePowerOn && this.canActivateWeapon() && this.gunChargingTicks == 0)
 			{
 				this.onWeaponActivated();
@@ -83,7 +75,7 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 					this.gunChargingTicks = 0;
 				}
 			}
-			
+
 			if (this.worldObj.isRemote && --this.endTicks > 0)
 			{
 				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
@@ -202,12 +194,12 @@ public class TileEntityRailTurret extends TileEntityMountableTurret implements I
 	@Override
 	public Vector3 getMuzzle()
 	{
-		 Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
-		 float yaw = (float) Math.toDegrees(this.wantedRotationYaw);
-		 float pitch =(float) Math.toDegrees(this.wantedRotationPitch);
-		 System.out.println("World:"+(this.worldObj.isRemote ? "Client": "Server")+" Y:"+yaw+" P:"+pitch);
-         return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));
- 
+		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
+		float yaw = (float) Math.toDegrees(this.wantedRotationYaw);
+		float pitch = (float) Math.toDegrees(this.wantedRotationPitch);
+		//System.out.println("World:" + (this.worldObj.isRemote ? "Client" : "Server") + " Y:" + yaw + " P:" + pitch);
+		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));
+
 	}
 
 	@Override
