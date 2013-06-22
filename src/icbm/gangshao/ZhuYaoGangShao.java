@@ -4,16 +4,20 @@ import icbm.api.ICBM;
 import icbm.api.ICBMFlags;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoBase;
+import icbm.gangshao.damage.EntityTileDamage;
 import icbm.gangshao.platform.BlockTurretPlatform;
 import icbm.gangshao.terminal.command.CommandAccess;
 import icbm.gangshao.terminal.command.CommandDestroy;
 import icbm.gangshao.terminal.command.CommandGet;
+import icbm.gangshao.terminal.command.CommandHelp;
+import icbm.gangshao.terminal.command.CommandRegistry;
 import icbm.gangshao.terminal.command.CommandTarget;
+import icbm.gangshao.terminal.command.CommandUser;
 import icbm.gangshao.turret.BlockTurret;
 import icbm.gangshao.turret.ItemAmmo;
 import icbm.gangshao.turret.ItemBlockTurret;
 import icbm.gangshao.turret.mount.EntityFakeMountable;
-import icbm.gangshao.turret.upgrades.ItemTurretUpgrades;
+import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -50,10 +54,6 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import dark.library.damage.EntityTileDamage;
-import dark.library.machine.terminal.CommandHelp;
-import dark.library.machine.terminal.CommandRegistry;
-import dark.library.machine.terminal.CommandUser;
 
 @Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
@@ -101,7 +101,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
-		itemUpgrades = new ItemTurretUpgrades(ITEM_ID_PREFIX + 2);
+		itemUpgrades = new ItPaoTaiUpgrades(ITEM_ID_PREFIX + 2);
 		ZhuYaoBase.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);

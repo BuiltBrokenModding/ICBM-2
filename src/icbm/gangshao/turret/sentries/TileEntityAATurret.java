@@ -1,13 +1,15 @@
 package icbm.gangshao.turret.sentries;
 
-import icbm.gangshao.actions.LookHelper;
+import icbm.gangshao.action.LookHelper;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 
-/** AA Turret, shoots down missiles and planes.
+/**
+ * AA Turret, shoots down missiles and planes.
  * 
- * @author DarkGaurdsman */
-public class TileEntityAATurret extends TileEntityAutoTurret
+ * @author DarkGaurdsman
+ */
+public class TileEntityAATurret extends TPaoTaiZiDong
 {
 	public TileEntityAATurret()
 	{
@@ -78,12 +80,6 @@ public class TileEntityAATurret extends TileEntityAutoTurret
 	public int getMaxHealth()
 	{
 		return 150;
-	}
-
-	@Override
-	public double getHeatPerShot()
-	{
-		return 15;
 	}
 
 	@Override

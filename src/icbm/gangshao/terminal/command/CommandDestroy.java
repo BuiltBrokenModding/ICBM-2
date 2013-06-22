@@ -1,15 +1,15 @@
 package icbm.gangshao.terminal.command;
 
-import icbm.gangshao.platform.TileEntityTurretPlatform;
+import icbm.api.sentry.ISpecialAccess;
+import icbm.gangshao.access.AccessLevel;
+import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.terminal.ITerminal;
+import icbm.gangshao.terminal.TerminalCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import dark.core.api.ISpecialAccess;
-import dark.core.api.ITerminal;
-import dark.library.access.AccessLevel;
-import dark.library.machine.terminal.TerminalCommand;
 
 public class CommandDestroy extends TerminalCommand
 {
@@ -22,9 +22,9 @@ public class CommandDestroy extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
 	{
-		if (terminal instanceof TileEntityTurretPlatform)
+		if (terminal instanceof TPaoDaiZhan)
 		{
-			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
+			TPaoDaiZhan turret = (TPaoDaiZhan) terminal;
 
 			if (args.length > 1)
 			{
@@ -65,7 +65,7 @@ public class CommandDestroy extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess mm)
 	{
-		return mm instanceof TileEntityTurretPlatform;
+		return mm instanceof TPaoDaiZhan;
 	}
 
 }

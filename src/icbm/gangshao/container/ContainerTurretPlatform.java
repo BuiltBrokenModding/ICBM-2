@@ -1,21 +1,20 @@
 package icbm.gangshao.container;
 
-import icbm.api.sentry.ISentryUpgrade;
+import icbm.gangshao.ITurretUpgrade;
 import icbm.gangshao.SlotAmmunition;
-import icbm.gangshao.platform.TileEntityTurretPlatform;
+import icbm.gangshao.access.AccessLevel;
+import icbm.gangshao.platform.TPaoDaiZhan;
 import icbm.gangshao.turret.ItemAmmo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import dark.library.access.AccessLevel;
-import dark.library.machine.terminal.ContainerTerminal;
 
 public class ContainerTurretPlatform extends ContainerTerminal
 {
-	private TileEntityTurretPlatform tileEntity;
+	private TPaoDaiZhan tileEntity;
 
-	public ContainerTurretPlatform(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
+	public ContainerTurretPlatform(InventoryPlayer inventoryPlayer, TPaoDaiZhan tileEntity)
 	{
 		super(inventoryPlayer, tileEntity);
 		this.tileEntity = tileEntity;
@@ -33,7 +32,7 @@ public class ContainerTurretPlatform extends ContainerTerminal
 		// Turret Upgrade Slots
 		for (int i = 0; i < 4; i++)
 		{
-			this.addSlotToContainer(new Slot(tileEntity, i + TileEntityTurretPlatform.UPGRADE_START_INDEX, 89 + i * 18, 77));
+			this.addSlotToContainer(new Slot(tileEntity, i + TPaoDaiZhan.UPGRADE_START_INDEX, 89 + i * 18, 77));
 		}
 
 		// Player Inventory
@@ -68,14 +67,14 @@ public class ContainerTurretPlatform extends ContainerTerminal
 				{
 					if (itemStack.getItem() instanceof ItemAmmo)
 					{
-						if (!this.mergeItemStack(itemStack, 0, TileEntityTurretPlatform.UPGRADE_START_INDEX, false))
+						if (!this.mergeItemStack(itemStack, 0, TPaoDaiZhan.UPGRADE_START_INDEX, false))
 						{
 							return null;
 						}
 					}
-					else if (itemStack.getItem() instanceof ISentryUpgrade)
+					else if (itemStack.getItem() instanceof ITurretUpgrade)
 					{
-						if (!this.mergeItemStack(itemStack, TileEntityTurretPlatform.UPGRADE_START_INDEX, this.tileEntity.containingItems.length, false))
+						if (!this.mergeItemStack(itemStack, TPaoDaiZhan.UPGRADE_START_INDEX, this.tileEntity.containingItems.length, false))
 						{
 							return null;
 						}

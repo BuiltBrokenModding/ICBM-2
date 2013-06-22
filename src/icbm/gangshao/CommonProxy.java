@@ -1,7 +1,7 @@
 package icbm.gangshao;
 
 import icbm.gangshao.container.ContainerTurretPlatform;
-import icbm.gangshao.platform.TileEntityTurretPlatform;
+import icbm.gangshao.platform.TPaoDaiZhan;
 import icbm.gangshao.turret.mount.TileEntityRailgun;
 import icbm.gangshao.turret.sentries.TileEntityAATurret;
 import icbm.gangshao.turret.sentries.TileEntityGunTurret;
@@ -25,7 +25,7 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerTileEntity(TileEntityGunTurret.class, "ICBMGunTurret");
 		GameRegistry.registerTileEntity(TileEntityAATurret.class, "ICBMAATurret");
 		GameRegistry.registerTileEntity(TileEntityRailgun.class, "ICBMRailgun");
-		GameRegistry.registerTileEntity(TileEntityTurretPlatform.class, "ICBMPlatform");
+		GameRegistry.registerTileEntity(TPaoDaiZhan.class, "ICBMPlatform");
 		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMultiblock");
 	}
 
@@ -44,7 +44,7 @@ public class CommonProxy implements IGuiHandler
 			switch (ID)
 			{
 				case GUI_PLATFORM_ID:
-					return new ContainerTurretPlatform(player.inventory, ((TileEntityTurretPlatform) tileEntity));
+					return new ContainerTurretPlatform(player.inventory, ((TPaoDaiZhan) tileEntity));
 			}
 		}
 
@@ -57,7 +57,9 @@ public class CommonProxy implements IGuiHandler
 		return null;
 	}
 
-	/** Renders a bullet tracer from one spot to another will later be replaced with start and degree */
+	/**
+	 * Renders a bullet tracer from one spot to another will later be replaced with start and degree
+	 */
 	public void renderTracer(World world, Vector3 position, Vector3 target)
 	{
 

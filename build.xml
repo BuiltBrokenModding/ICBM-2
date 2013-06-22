@@ -23,10 +23,6 @@
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-			<fileset dir="${dir.development}Dark-Library/src/minecraft/">
-				<exclude name=".git/**"/>
-				<exclude name="**/*.xml"/>
-			</fileset>
 			<fileset dir="${dir.development}Basic-Components/src/">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
@@ -81,7 +77,6 @@
 		<fileset id="commonSource" dir="${dir.mcp}/reobf/minecraft/">
 			<include name="**/icbm/api/**"/>
 			<include name="**/icbm/core/**"/>
-			<include name="**/dark/**"/>
 			<include name="**/calclavia/**"/>
 			<include name="**/universalelectricity/**"/>
 			<include name="**/basiccomponents/**"/>

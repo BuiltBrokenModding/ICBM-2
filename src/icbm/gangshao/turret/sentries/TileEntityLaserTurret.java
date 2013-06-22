@@ -1,6 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
-public class TileEntityLaserTurret extends TileEntityAutoTurret
+public class TileEntityLaserTurret extends TPaoTaiZiDong
 {
 	public TileEntityLaserTurret()
 	{
@@ -35,12 +35,6 @@ public class TileEntityLaserTurret extends TileEntityAutoTurret
 	public double getVoltage()
 	{
 		return 480;
-	}
-
-	@Override
-	public double getHeatPerShot()
-	{
-		return 100;
 	}
 
 	@Override

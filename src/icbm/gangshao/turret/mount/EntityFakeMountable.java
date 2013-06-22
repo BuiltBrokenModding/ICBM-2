@@ -11,10 +11,12 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-/** A fake/invisible entity used for the player to mount on to create an illusion that the player is
+/**
+ * A fake/invisible entity used for the player to mount on to create an illusion that the player is
  * mounting a TileEntity.
  * 
- * @author Calclavia */
+ * @author Calclavia
+ */
 public class EntityFakeMountable extends Entity implements IEntityAdditionalSpawnData
 {
 	private TileEntity controller;
@@ -85,8 +87,10 @@ public class EntityFakeMountable extends Entity implements IEntityAdditionalSpaw
 		return -0.5;
 	}
 
-	/** returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for
-	 * spiders and wolves to prevent them from trampling crops */
+	/**
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for
+	 * spiders and wolves to prevent them from trampling crops
+	 */
 	@Override
 	protected boolean canTriggerWalking()
 	{

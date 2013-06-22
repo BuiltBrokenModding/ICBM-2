@@ -1,16 +1,16 @@
 package icbm.gangshao.terminal.command;
 
-import icbm.gangshao.platform.TileEntityTurretPlatform;
-import icbm.gangshao.turret.sentries.TileEntityAutoTurret;
+import icbm.api.sentry.ISpecialAccess;
+import icbm.gangshao.access.AccessLevel;
+import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.terminal.ITerminal;
+import icbm.gangshao.terminal.TerminalCommand;
+import icbm.gangshao.turret.sentries.TPaoTaiZiDong;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import dark.core.api.ISpecialAccess;
-import dark.core.api.ITerminal;
-import dark.library.access.AccessLevel;
-import dark.library.machine.terminal.TerminalCommand;
 
 public class CommandTarget extends TerminalCommand
 {
@@ -23,13 +23,13 @@ public class CommandTarget extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
 	{
-		if (terminal instanceof TileEntityTurretPlatform)
+		if (terminal instanceof TPaoDaiZhan)
 		{
-			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
+			TPaoDaiZhan turret = (TPaoDaiZhan) terminal;
 
-			if (turret.getTurret(false) instanceof TileEntityAutoTurret)
+			if (turret.getTurret(false) instanceof TPaoTaiZiDong)
 			{
-				TileEntityAutoTurret sentry = ((TileEntityAutoTurret) turret.getTurret(false));
+				TPaoTaiZiDong sentry = ((TPaoTaiZiDong) turret.getTurret(false));
 
 				if (args.length > 1)
 				{
@@ -128,9 +128,9 @@ public class CommandTarget extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess mm)
 	{
-		if (mm instanceof TileEntityTurretPlatform)
+		if (mm instanceof TPaoDaiZhan)
 		{
-			return ((TileEntityTurretPlatform) mm).getTurret(false) instanceof TileEntityAutoTurret;
+			return ((TPaoDaiZhan) mm).getTurret(false) instanceof TPaoTaiZiDong;
 		}
 		return false;
 	}

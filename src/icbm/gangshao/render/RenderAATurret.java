@@ -1,8 +1,9 @@
 package icbm.gangshao.render;
 
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.model.ModelAATurret;
-import icbm.gangshao.turret.TileEntityTurretBase;
+import icbm.gangshao.access.AccessLevel;
+import icbm.gangshao.muoxing.ModelAATurret;
+import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -11,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 import calclavia.lib.render.RenderTaggedTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.library.access.AccessLevel;
 
 @SideOnly(Side.CLIENT)
 public class RenderAATurret extends RenderTaggedTile
@@ -26,9 +26,9 @@ public class RenderAATurret extends RenderTaggedTile
 	{
 		super.renderTileEntityAt(t, x, y, z, f);
 
-		if (t instanceof TileEntityTurretBase)
+		if (t instanceof TPaoDaiBase)
 		{
-			TileEntityTurretBase tileEntity = (TileEntityTurretBase) t;
+			TPaoDaiBase tileEntity = (TPaoDaiBase) t;
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
@@ -59,7 +59,7 @@ public class RenderAATurret extends RenderTaggedTile
 		}
 	}
 
-	public void setTextureBaseOnState(TileEntityTurretBase tileEntity)
+	public void setTextureBaseOnState(TPaoDaiBase tileEntity)
 	{
 		EntityPlayer player = this.getPlayer();
 

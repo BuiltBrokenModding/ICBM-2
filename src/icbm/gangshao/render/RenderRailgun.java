@@ -1,7 +1,7 @@
 package icbm.gangshao.render;
 
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.model.ModelRailgun;
+import icbm.gangshao.muoxing.ModelRailgun;
 import icbm.gangshao.turret.mount.TileEntityRailgun;
 import net.minecraft.tileentity.TileEntity;
 

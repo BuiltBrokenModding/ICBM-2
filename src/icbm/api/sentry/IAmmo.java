@@ -1,11 +1,11 @@
 package icbm.api.sentry;
 
+import icbm.core.Pair;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import dark.helpers.Pair;
 
 public interface IAmmo
 {
@@ -19,7 +19,7 @@ public interface IAmmo
 	 * 
 	 * @return
 	 */
-	public boolean applyDirectDamage(int meta);
+	public boolean isDirectDamage(ItemStack itemStack);
 
 	/**
 	 * Fires the ammo at a target same as location but this can be used to get the center mass of a

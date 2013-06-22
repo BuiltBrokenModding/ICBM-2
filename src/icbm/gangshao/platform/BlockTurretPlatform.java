@@ -1,10 +1,12 @@
 package icbm.gangshao.platform;
 
 import icbm.api.sentry.IAmmo;
+import icbm.api.sentry.ISpecialAccess;
 import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ZhuYaoGangShao;
+import icbm.gangshao.access.AccessLevel;
 
 import java.util.Random;
 
@@ -19,8 +21,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
-import dark.core.api.ISpecialAccess;
-import dark.library.access.AccessLevel;
 
 public class BlockTurretPlatform extends BICBM
 {
@@ -59,21 +59,17 @@ public class BlockTurretPlatform extends BICBM
 		/** Only allow the platform to be open if there is a turret installed with it. */
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TileEntityTurretPlatform)
+		if (tileEntity instanceof TPaoDaiZhan)
 		{
 			if (player.getCurrentEquippedItem() != null)
 			{
-				if (side == ((TileEntityTurretPlatform) tileEntity).deployDirection.ordinal() && player.getCurrentEquippedItem().itemID == ZhuYaoGangShao.blockTurret.blockID)
+				if (side == ((TPaoDaiZhan) tileEntity).deployDirection.ordinal() && player.getCurrentEquippedItem().itemID == ZhuYaoGangShao.blockTurret.blockID)
 				{
 					return false;
 				}
-				if (player.capabilities.isCreativeMode)
-				{
-					((TileEntityTurretPlatform) tileEntity).toggleInfPower(player.getCurrentEquippedItem());
-				}
 			}
 
-			if (((TileEntityTurretPlatform) tileEntity).getTurret(false) != null)
+			if (((TPaoDaiZhan) tileEntity).getTurret(false) != null)
 			{
 				if (!world.isRemote)
 				{
@@ -90,7 +86,7 @@ public class BlockTurretPlatform extends BICBM
 	@Override
 	public TileEntity createNewTileEntity(World var1)
 	{
-		return new TileEntityTurretPlatform();
+		return new TPaoDaiZhan();
 	}
 
 	@Override

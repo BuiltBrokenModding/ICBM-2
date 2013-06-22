@@ -3,9 +3,11 @@ package icbm.gangshao.render;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 
-/** Renders nothing for the fake entity.
+/**
+ * Renders nothing for the fake entity.
  * 
- * @author Calclavia */
+ * @author Calclavia
+ */
 public class RenderFakeMountable extends Render
 {
 

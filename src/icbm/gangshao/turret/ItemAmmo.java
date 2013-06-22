@@ -2,8 +2,10 @@ package icbm.gangshao.turret;
 
 import icbm.api.sentry.IAmmo;
 import icbm.api.sentry.ProjectileTypes;
+import icbm.core.Pair;
 import icbm.core.ZhuYaoBase;
 import icbm.core.di.ItICBM;
+import icbm.gangshao.damage.TileDamageSource;
 
 import java.util.List;
 
@@ -17,9 +19,6 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.helpers.Pair;
-import dark.library.damage.TileDamageSource;
-import dark.library.machine.AutoCraftingManager;
 
 public class ItemAmmo extends ItICBM implements IAmmo
 {
@@ -110,13 +109,9 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	}
 
 	@Override
-	public boolean applyDirectDamage(int meta)
+	public boolean isDirectDamage(ItemStack itemStack)
 	{
-		if (meta == types.BULLET.ordinal() || meta == types.BULLETINF.ordinal())
-		{
-			return true;
-		}
-		return false;
+		return itemStack.getItemDamage() == types.BULLET.ordinal() || itemStack.getItemDamage() == types.BULLETINF.ordinal();
 	}
 
 	@Override
@@ -136,7 +131,8 @@ public class ItemAmmo extends ItICBM implements IAmmo
 	{
 		if (itemStack != null && itemStack.getItemDamage() != types.BULLETINF.ordinal())
 		{
-			return AutoCraftingManager.decrStackSize(itemStack, 1);
+			// TODO: Check if this works.
+			return itemStack.splitStack(1);
 		}
 		return itemStack;
 	}

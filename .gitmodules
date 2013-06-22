@@ -1,6 +1,3 @@
-[submodule "Dark-Library"]
-	path = Dark-Library
-url=https://github.com/DarkGuardsman/Dark-Library
 [submodule "Modding-Library"]
 	path = Modding-Library
 url=git@bitbucket.org:calclavia/modding-library.git

@@ -1,16 +1,16 @@
 package icbm.gangshao.terminal.command;
 
-import icbm.gangshao.platform.TileEntityTurretPlatform;
+import icbm.api.sentry.ISpecialAccess;
+import icbm.gangshao.access.AccessLevel;
+import icbm.gangshao.access.UserAccess;
+import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.terminal.ITerminal;
+import icbm.gangshao.terminal.TerminalCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import dark.core.api.ISpecialAccess;
-import dark.core.api.ITerminal;
-import dark.library.access.AccessLevel;
-import dark.library.access.UserAccess;
-import dark.library.machine.terminal.TerminalCommand;
 
 public class CommandGet extends TerminalCommand
 {
@@ -23,9 +23,9 @@ public class CommandGet extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
 	{
-		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
+		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TPaoDaiZhan)
 		{
-			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) TE;
+			TPaoDaiZhan turret = (TPaoDaiZhan) TE;
 			if (args[1].equalsIgnoreCase("owner"))
 			{
 				List<UserAccess> userList = turret.getUsersWithAcess(AccessLevel.OWNER);
@@ -87,7 +87,7 @@ public class CommandGet extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess mm)
 	{
-		return mm instanceof TileEntityTurretPlatform;
+		return mm instanceof TPaoDaiZhan;
 	}
 
 }

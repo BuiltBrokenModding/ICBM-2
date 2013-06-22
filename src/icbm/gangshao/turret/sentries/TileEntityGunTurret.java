@@ -1,6 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
-public class TileEntityGunTurret extends TileEntityAutoTurret
+public class TileEntityGunTurret extends TPaoTaiZiDong
 {
 	public TileEntityGunTurret()
 	{
@@ -41,12 +41,6 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 	public double getRunningRequest()
 	{
 		return 5;
-	}
-
-	@Override
-	public double getHeatPerShot()
-	{
-		return 11;
 	}
 
 	@Override

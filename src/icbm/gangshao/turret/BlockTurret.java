@@ -4,6 +4,7 @@ import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoBase;
 import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
+import icbm.gangshao.damage.EntityTileDamage;
 import icbm.gangshao.render.BlockRenderingHandler;
 import icbm.gangshao.turret.mount.TileEntityRailgun;
 import icbm.gangshao.turret.sentries.TileEntityAATurret;
@@ -34,20 +35,20 @@ import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.library.damage.EntityTileDamage;
 
-/** Block turret is a class used by all turrets. Each type of turret will have a different tile
+/**
+ * Block turret is a class used by all turrets. Each type of turret will have a different tile
  * entity.
  * 
- * @author Calclavia */
+ * @author Calclavia
+ */
 public class BlockTurret extends BICBM
 {
 	public enum TurretType
 	{
-		GUN(TileEntityGunTurret.class),
-		RAILGUN(TileEntityRailgun.class),
+		GUN(TileEntityGunTurret.class), RAILGUN(TileEntityRailgun.class),
 		AA(TileEntityAATurret.class),
-		/*LASER(TileEntityLaserTurret.class)*/;
+		/* LASER(TileEntityLaserTurret.class) */;
 
 		public Class<? extends TileEntity> tileEntity;
 
@@ -70,9 +71,9 @@ public class BlockTurret extends BICBM
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (ent instanceof TileEntityTurretBase)
+		if (ent instanceof TPaoDaiBase)
 		{
-			EntityTileDamage dEnt = ((TileEntityTurretBase) ent).getDamageEntity();
+			EntityTileDamage dEnt = ((TPaoDaiBase) ent).getDamageEntity();
 			if (dEnt != null)
 			{
 				this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
@@ -139,10 +140,10 @@ public class BlockTurret extends BICBM
 	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (ent instanceof TileEntityTurretBase)
+		if (ent instanceof TPaoDaiBase)
 		{
 			Random random = new Random();
-			((TileEntityTurretBase) ent).setHp(5 + random.nextInt(7), true);
+			((TPaoDaiBase) ent).setHealth(5 + random.nextInt(7), true);
 			return true;
 		}
 		return false;
@@ -151,8 +152,10 @@ public class BlockTurret extends BICBM
 	@Override
 	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		/** Checks the TileEntity if it can activate. If not, then try to activate the turret
-		 * platform below it. */
+		/**
+		 * Checks the TileEntity if it can activate. If not, then try to activate the turret
+		 * platform below it.
+		 */
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity instanceof IBlockActivate)
@@ -176,7 +179,7 @@ public class BlockTurret extends BICBM
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TileEntityTurretBase)
+		if (tileEntity instanceof TPaoDaiBase)
 		{
 			if (this.canBlockStay(world, x, y, z))
 			{
@@ -201,7 +204,7 @@ public class BlockTurret extends BICBM
 
 				if (tileEntity != null)
 				{
-					((TileEntityTurretBase) tileEntity).destroy(false);
+					((TPaoDaiBase) tileEntity).destroy(false);
 				}
 			}
 		}

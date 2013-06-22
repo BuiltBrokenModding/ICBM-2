@@ -14,9 +14,11 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/** Renders a block as an item.
+/**
+ * Renders a block as an item.
  * 
- * @author Calclavia */
+ * @author Calclavia
+ */
 @SideOnly(Side.CLIENT)
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 {
