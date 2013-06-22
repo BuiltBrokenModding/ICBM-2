@@ -13,8 +13,6 @@ public class TileEntityLaserTurret extends TPaoTaiZiDong
 		this.idleRtSpeed = 3f;
 		this.targetRtSpeed = 6f;
 
-		this.maxHeat = 1000;
-
 		this.baseFiringDelay = 20;
 		this.minFiringDelay = 10;
 	}
@@ -23,12 +21,6 @@ public class TileEntityLaserTurret extends TPaoTaiZiDong
 	public double getFiringRequest()
 	{
 		return 1000;
-	}
-
-	@Override
-	public double getRunningRequest()
-	{
-		return 10;
 	}
 
 	@Override
@@ -47,7 +39,6 @@ public class TileEntityLaserTurret extends TPaoTaiZiDong
 	public void playFiringSound()
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 }

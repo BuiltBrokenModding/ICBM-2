@@ -33,7 +33,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 		{
 			String color = "\u00a74";
 
-			if (!this.tileEntity.isDisabled() && this.tileEntity.wattsReceived >= turret.getFiringRequest())
+			if (this.tileEntity.isRunning())
 			{
 				color = "\u00a7a";
 			}

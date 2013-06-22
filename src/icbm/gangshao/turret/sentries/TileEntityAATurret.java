@@ -21,8 +21,6 @@ public class TileEntityAATurret extends TPaoTaiZiDong
 		this.idleRtSpeed = 4f;
 		this.targetRtSpeed = 10f;
 
-		this.maxHeat = 600;
-
 		this.minFiringDelay = 1;
 		this.baseFiringDelay = 3;
 	}
@@ -68,12 +66,6 @@ public class TileEntityAATurret extends TPaoTaiZiDong
 		}
 		Vector3 position = new Vector3(this.xCoord + x, this.yCoord + y, this.zCoord + z);
 		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch - 10), 2));
-	}
-
-	@Override
-	public double getRunningRequest()
-	{
-		return 25;
 	}
 
 	@Override

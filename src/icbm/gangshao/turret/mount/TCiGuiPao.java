@@ -31,7 +31,7 @@ import universalelectricity.prefab.network.IPacketReceiver;
  * 
  * @author Calclavia
  */
-public class TileEntityRailgun extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TCiGuiPao extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	private int gunChargingTicks = 0;
 
@@ -46,11 +46,10 @@ public class TileEntityRailgun extends TileEntityMountableTurret implements IPac
 	/** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
 	private int endTicks = 0;
 
-	public TileEntityRailgun()
+	public TCiGuiPao()
 	{
 		this.baseFiringDelay = 70;
 		this.minFiringDelay = 30;
-		this.maxHeat = 1000;
 	}
 
 	@Override
@@ -261,12 +260,6 @@ public class TileEntityRailgun extends TileEntityMountableTurret implements IPac
 	public float getRotationSpeed()
 	{
 		return 1f;
-	}
-
-	@Override
-	public double getRunningRequest()
-	{
-		return 10;
 	}
 
 	@Override

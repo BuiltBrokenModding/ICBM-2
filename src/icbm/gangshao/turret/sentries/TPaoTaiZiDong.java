@@ -258,6 +258,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 			boolean fired = false;
 			IAmmo bullet = ammo.getAmmo();
 			int meta = ammo.getStack().getItemDamage();
+			
 			if (this.target instanceof EntityLiving)
 			{
 				this.getPlatform().wattsReceived -= this.getFiringRequest();

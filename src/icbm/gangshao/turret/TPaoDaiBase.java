@@ -58,8 +58,6 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	protected boolean speedUpRotation = false;
 	/** CURRENT HP OF THE SENTRY */
 	public int health = -1;
-	/** BASE MAX LIMIT OF HEAT THIS SENTRY CAN HANDLE */
-	public double maxHeat = 500;
 	/** DEFUALT FIRING DELAY OF SENTRY */
 	public int baseFiringDelay = 10;
 	/** TICKS SINCE LAST GUN ACTIVATION */
@@ -123,9 +121,6 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 
 	/** Energy consumed each time the weapon activates */
 	public abstract double getFiringRequest();
-
-	/** Energy consumed per tick to keep the sentry running */
-	public abstract double getRunningRequest();
 
 	/** is this sentry currently operating */
 	public boolean isRunning()

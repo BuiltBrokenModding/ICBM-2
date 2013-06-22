@@ -55,7 +55,6 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 			}
 		}
 
-		this.prevWatts = this.wattsReceived;
 		this.wattsReceived = Math.min(this.wattsReceived + electricityPack.getWatts(), this.getWattBuffer());
 
 		if ((this.prevWatts <= this.getRequest().getWatts() && this.wattsReceived >= this.getRequest().getWatts()) && !(this.prevWatts == this.wattsReceived))
@@ -77,6 +76,17 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 
 		return new ElectricityPack();
 	}
+
+	@Override
+	public double getWattBuffer()
+	{
+		if (this.getTurret(false) != null)
+		{
+			return new ElectricityPack(Math.max(turret.getFiringRequest() / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage()).getWatts() * 2;
+		}
+
+		return 0;
+	};
 
 	/** Gets the turret instance linked to this platform */
 	public TPaoDaiBase getTurret(boolean getNew)
@@ -197,7 +207,7 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-
+		this.wattsReceived = nbt.getDouble("wattsReceived");
 		// Inventory
 		NBTTagList var2 = nbt.getTagList("Items");
 		this.containingItems = new ItemStack[this.getSizeInventory()];
@@ -218,6 +228,8 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
+		nbt.setDouble("wattsReceived", this.wattsReceived);
+
 		// Inventory
 		NBTTagList itemTag = new NBTTagList();
 		for (int slots = 0; slots < this.containingItems.length; ++slots)

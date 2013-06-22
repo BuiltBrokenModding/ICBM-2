@@ -13,8 +13,6 @@ public class TileEntityGunTurret extends TPaoTaiZiDong
 		this.idleRtSpeed = 2f;
 		this.targetRtSpeed = 4f;
 
-		this.maxHeat = 400;
-
 		this.baseFiringDelay = 10;
 		this.minFiringDelay = 5;
 	}
@@ -34,13 +32,7 @@ public class TileEntityGunTurret extends TPaoTaiZiDong
 	@Override
 	public double getFiringRequest()
 	{
-		return 1;
-	}
-
-	@Override
-	public double getRunningRequest()
-	{
-		return 5;
+		return 25;
 	}
 
 	@Override

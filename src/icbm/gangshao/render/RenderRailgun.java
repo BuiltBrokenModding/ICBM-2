@@ -2,7 +2,7 @@ package icbm.gangshao.render;
 
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.muoxing.ModelRailgun;
-import icbm.gangshao.turret.mount.TileEntityRailgun;
+import icbm.gangshao.turret.mount.TCiGuiPao;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -22,9 +22,9 @@ public class RenderRailgun extends RenderTaggedTile
 	{
 		super.renderTileEntityAt(t, x, y, z, f);
 
-		if (t instanceof TileEntityRailgun)
+		if (t instanceof TCiGuiPao)
 		{
-			TileEntityRailgun tileEntity = (TileEntityRailgun) t;
+			TCiGuiPao tileEntity = (TCiGuiPao) t;
 
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5F, (float) y + 2.2F, (float) z + 0.5F);

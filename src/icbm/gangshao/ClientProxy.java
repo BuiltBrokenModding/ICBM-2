@@ -10,7 +10,7 @@ import icbm.gangshao.shimian.GuiPlatformAccess;
 import icbm.gangshao.shimian.GuiPlatformSlots;
 import icbm.gangshao.shimian.GuiPlatformTerminal;
 import icbm.gangshao.turret.mount.EntityFakeMountable;
-import icbm.gangshao.turret.mount.TileEntityRailgun;
+import icbm.gangshao.turret.mount.TCiGuiPao;
 import icbm.gangshao.turret.sentries.TileEntityAATurret;
 import icbm.gangshao.turret.sentries.TileEntityGunTurret;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +35,7 @@ public class ClientProxy extends CommonProxy
 		/** TileEntities */
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAATurret.class, new RenderAATurret());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailgun.class, new RenderRailgun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RenderRailgun());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFakeMountable.class, new RenderFakeMountable());
 		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
