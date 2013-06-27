@@ -255,23 +255,27 @@ public class BJiQi extends BICBM
 
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
-		// Drops the machine
-		int itemMetadata = 0;
-
-		if (tileEntity instanceof ITier)
+		if (tileEntity != null)
 		{
-			itemMetadata = ((ITier) tileEntity).getTier() + metadata * 3;
-		}
-		else
-		{
-			itemMetadata = 9 + metadata - 3;
-		}
 
-		this.dropBlockAsItem_do(par1World, x, y, z, new ItemStack(ZhuYaoZhaPin.bJiQi, 1, itemMetadata));
+			// Drops the machine
+			int itemMetadata = 0;
 
-		if (tileEntity instanceof IMultiBlock)
-		{
-			((IMultiBlock) tileEntity).onDestroy(tileEntity);
+			if (tileEntity instanceof ITier)
+			{
+				itemMetadata = ((ITier) tileEntity).getTier() + metadata * 3;
+			}
+			else
+			{
+				itemMetadata = 9 + metadata - 3;
+			}
+
+			this.dropBlockAsItem_do(par1World, x, y, z, new ItemStack(ZhuYaoZhaPin.bJiQi, 1, itemMetadata));
+
+			if (tileEntity instanceof IMultiBlock)
+			{
+				((IMultiBlock) tileEntity).onDestroy(tileEntity);
+			}
 		}
 
 		super.breakBlock(par1World, x, y, z, par5, par6);
