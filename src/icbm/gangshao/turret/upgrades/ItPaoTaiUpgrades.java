@@ -17,11 +17,11 @@ public class ItPaoTaiUpgrades extends ItICBM implements ITurretUpgrade
 {
 	public enum TurretUpgradeType
 	{
-		RANGE("TargetCard"), COLLECTOR("ShellCollector");
+		RANGE("targetCard"), COLLECTOR("shellCollector");
 
 		String iconName;
 
-		private TurretUpgradeType(String name, String... upgrades)
+		private TurretUpgradeType(String name)
 		{
 			this.iconName = name;
 		}

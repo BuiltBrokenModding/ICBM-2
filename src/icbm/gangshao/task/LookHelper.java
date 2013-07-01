@@ -1,4 +1,4 @@
-package icbm.gangshao.action;
+package icbm.gangshao.task;
 
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.Entity;
@@ -19,8 +19,7 @@ public class LookHelper
 	/** Adjusts the turret target to look at a specific location. */
 	public void lookAt(Vector3 target)
 	{
-		sentry.wantedRotationYaw = getYaw(sentry.getMuzzle(), target);
-		sentry.wantedRotationPitch = getPitch(sentry.getMuzzle(), target);
+		this.sentry.rotateTo(getYaw(sentry.getMuzzle(), target), getPitch(sentry.getMuzzle(), target));
 	}
 
 	/** Tells the turret to look at a location using an entity */

@@ -10,17 +10,10 @@ import universalelectricity.prefab.network.PacketManager;
 
 public abstract class TileEntityMountableTurret extends TPaoDaiBase implements IMultiBlock
 {
-
 	/** Current player on the sentry */
 	protected EntityPlayer mountedPlayer = null;
 	/** Fake entity this sentry uses for mounting the player in position */
 	private EntityFakeMountable entityFake = null;
-
-	@Override
-	public void onUpdate()
-	{
-
-	}
 
 	@Override
 	public void updateRotation()

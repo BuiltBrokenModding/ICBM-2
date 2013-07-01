@@ -8,12 +8,8 @@ import icbm.api.sentry.IAutoSentry;
 import icbm.api.sentry.ProjectileTypes;
 import icbm.core.Pair;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.action.ActionIdle;
-import icbm.gangshao.action.ActionKillTarget;
-import icbm.gangshao.action.ActionManager;
-import icbm.gangshao.action.ActionRepeat;
-import icbm.gangshao.action.ActionRotateTo;
-import icbm.gangshao.action.ActionSearchTarget;
+import icbm.gangshao.task.TaskSearchTarget;
+import icbm.gangshao.task.TaskManager;
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
@@ -50,8 +46,8 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	/** SHOULD TARGET ANIMALS, NPCS, SHEEP :( */
 	public boolean targetFriendly = false;
 
-	/** ACTION / AI MANAGER */
-	public final ActionManager AIManager = new ActionManager();
+	/** AI MANAGER */
+	public final TaskManager taskManager = new TaskManager(this);
 
 	/** DEFAULT TARGETING RANGE */
 	public int baseTargetRange = 20;
@@ -69,43 +65,21 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	public ProjectileTypes baseAmmoType = ProjectileTypes.CONVENTIONAL;
 
 	@Override
-	public void initiate()
+	public void updateEntity()
 	{
-		if (!this.worldObj.isRemote)
+		super.updateEntity();
+
+		this.taskManager.onUpdate();
+
+		if (!this.taskManager.hasTasks())
 		{
-			this.AIManager.addCommand(this, ActionSearchTarget.class);
-			this.AIManager.addCommand(this, ActionKillTarget.class);
-			this.AIManager.addCommand(this, ActionRepeat.class);
-		}
-	}
-
-	@Override
-	public void onUpdate()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			this.speedUpRotation = this.target != null;
-		}
-		this.AIManager.onUpdate();
-		/** Only update the action manager for idle movements if the target is invalid. */
-		if (this.target == null && !this.worldObj.isRemote)
-		{
-			this.actionManager.onUpdate();
-
-			if (!this.actionManager.hasTasks())
-			{
-				this.actionManager.clear();
-				this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "" + (this.worldObj.rand.nextInt(60) + 30), "0" });
-				this.actionManager.addCommand(this, ActionIdle.class, new String[] { "" + (this.worldObj.rand.nextInt(50) + 10) });
-
-				this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "" + (-this.worldObj.rand.nextInt(60) - 30), "0" });
-				this.actionManager.addCommand(this, ActionIdle.class, new String[] { "" + (this.worldObj.rand.nextInt(50) + 10) });
-
-				this.actionManager.addCommand(this, ActionRotateTo.class, new String[] { "" + (this.worldObj.rand.nextInt(60) + 30), "0" });
-				this.actionManager.addCommand(this, ActionIdle.class, new String[] { "" + (this.worldObj.rand.nextInt(50) + 10) });
-			}
+			this.taskManager.addTask(new TaskSearchTarget());
 		}
 
+		if (this.isRunning())
+		{
+			this.updateRotation();
+		}
 	}
 
 	@Override
@@ -209,12 +183,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		if (this.isValidTarget(this.target) && this.getPlatform() != null)
 		{
-			if (!this.lookHelper.isLookingAt(this.target, 10f))
-			{
-				this.lookHelper.lookAtEntity(this.target);
-				return false;
-			}
-			else
+			if (this.lookHelper.isLookingAt(this.target, 10f))
 			{
 				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && this.getPlatform().hasAmmunition(this.baseAmmoType) != null;
 			}
@@ -258,7 +227,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 			boolean fired = false;
 			IAmmo bullet = ammo.getAmmo();
 			int meta = ammo.getStack().getItemDamage();
-			
+
 			if (this.target instanceof EntityLiving)
 			{
 				this.getPlatform().wattsReceived -= this.getFiringRequest();

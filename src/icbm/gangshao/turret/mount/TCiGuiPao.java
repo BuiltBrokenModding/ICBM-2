@@ -6,7 +6,7 @@ import icbm.api.sentry.IAmmo;
 import icbm.api.sentry.ProjectileTypes;
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.action.LookHelper;
+import icbm.gangshao.task.LookHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +53,9 @@ public class TCiGuiPao extends TileEntityMountableTurret implements IPacketRecei
 	}
 
 	@Override
-	public void onUpdate()
+	public void updateEntity()
 	{
-		super.onUpdate();
+		super.updateEntity();
 
 		if (this.getPlatform() != null)
 		{

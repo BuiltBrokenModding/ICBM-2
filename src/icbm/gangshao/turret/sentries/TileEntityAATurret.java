@@ -1,6 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
-import icbm.gangshao.action.LookHelper;
+import icbm.gangshao.task.LookHelper;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 

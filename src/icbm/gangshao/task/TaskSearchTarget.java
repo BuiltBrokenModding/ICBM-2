@@ -1,4 +1,4 @@
-package icbm.gangshao.action;
+package icbm.gangshao.task;
 
 import icbm.api.sentry.IAutoSentry;
 import icbm.gangshao.access.AccessLevel;
@@ -9,8 +9,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
-public class ActionSearchTarget extends Action
+public class TaskSearchTarget extends Task
 {
+	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean onUpdateTask()
 	{
@@ -22,6 +23,7 @@ public class ActionSearchTarget extends Action
 
 			if (sentry.getTarget() == null || !sentry.isValidTarget(sentry.getTarget()))
 			{
+				System.out.println("SEARCHING");
 				AxisAlignedBB bounds = sentry.getTargetingBox();
 
 				List<Entity> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
@@ -72,7 +74,18 @@ public class ActionSearchTarget extends Action
 					}
 				}
 
-				sentry.setTarget(currentTarget, true);
+				if (currentTarget != null)
+				{
+					this.taskManager.addTask(new TaskKillTarget());
+					sentry.setTarget(currentTarget, true);
+					return false;
+				}
+
+				return true;
+			}
+			else
+			{
+				this.taskManager.addTask(new TaskKillTarget());
 			}
 		}
 

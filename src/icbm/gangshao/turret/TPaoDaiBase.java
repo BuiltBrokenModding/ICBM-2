@@ -2,11 +2,11 @@ package icbm.gangshao.turret;
 
 import icbm.api.sentry.ISentry;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.action.ActionManager;
-import icbm.gangshao.action.LookHelper;
 import icbm.gangshao.damage.EntityTileDamage;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.task.LookHelper;
+import icbm.gangshao.task.TaskManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -50,8 +50,6 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	public static final float MIN_PITCH = -30f;
 	/** SPAWN DIRECTION OF SENTRY */
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
-	/** AI HELPERS */
-	public final ActionManager actionManager = new ActionManager();
 	/** TURRET AIM & ROTATION HELPER */
 	public LookHelper lookHelper = new LookHelper(this);
 	/** SHOULD SPEED UP ROATION */
@@ -70,13 +68,14 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	public float wantedRotationYaw, wantedRotationPitch = 0;
 	/** CURRENT ROATION ANGLES */
 	public float currentRotationYaw, currentRotationPitch = 0;
+	protected boolean isRotating = false;
 	/** CURRENT BARREL IN USE... USED TO SIMULATE MULTI BARREL SENTRIES */
 	protected int gunBarrel = 0;
 
 	/** PACKET TYPES THIS TILE RECEIVES */
 	public static enum TurretPacketType
 	{
-		ROTATION(), NBT(), SHOT(), STATS(), MOUNT();
+		ROTATION, NBT, SHOT, STATS, MOUNT;
 	}
 
 	@Override
@@ -84,40 +83,26 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	{
 		super.updateEntity();
 
-		float prePitch = this.wantedRotationPitch;
-		float preYaw = this.wantedRotationYaw;
-
-		if (tickSinceFired > 0)
+		if (this.tickSinceFired > 0)
 		{
-			--tickSinceFired;
-		}
-
-		if (this.isRunning())
-		{
-			this.updateRotation();
-			this.onUpdate();
+			this.tickSinceFired--;
 		}
 
 		if (!this.worldObj.isRemote)
 		{
-			/* SPAWN DAMAGE ENTITY IF ALIVE AND ABLE */
+			// SPAWN DAMAGE ENTITY IF ALIVE
 			if (!this.isInvul() && this.getDamageEntity() == null && this.getHealth() > 0)
 			{
 				this.setDamageEntity(new EntityTileDamage(this));
 				this.worldObj.spawnEntityInWorld(this.getDamageEntity());
 			}
-
-			/* ROTATION PACKET */
-			if (this.wantedRotationPitch != prePitch || this.wantedRotationYaw != preYaw)
-			{
-				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
-			}
 		}
-
 	}
 
-	/** Called by updateEntity after checks are made to see if turret can function */
-	public abstract void onUpdate();
+	public Packet getRotationPacket()
+	{
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw);
+	}
 
 	/** Energy consumed each time the weapon activates */
 	public abstract double getFiringRequest();
@@ -162,7 +147,6 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 				{
 					this.wantedRotationPitch = dataStream.readFloat();
 					this.wantedRotationYaw = dataStream.readFloat();
-					this.speedUpRotation = dataStream.readBoolean();
 				}
 				else if (id == TurretPacketType.NBT.ordinal())
 				{
@@ -415,6 +399,17 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		this.wantedRotationPitch = pitch;
 	}
 
+	public void rotateTo(float wantedRotationYaw, float wantedRotationPitch)
+	{
+		if (!this.isRotating && this.wantedRotationPitch != wantedRotationYaw && this.wantedRotationPitch != wantedRotationPitch)
+		{
+			this.wantedRotationYaw = wantedRotationYaw;
+			this.wantedRotationPitch = wantedRotationPitch;
+			this.isRotating = true;
+			PacketManager.sendPacketToClients(this.getRotationPacket(), this.worldObj, new Vector3(this), 50);
+		}
+	}
+
 	/** Speed of rotation at the current moment */
 	public abstract float getRotationSpeed();
 
@@ -459,6 +454,11 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 			{
 				this.currentRotationPitch = this.wantedRotationPitch;
 			}
+		}
+
+		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) <= 0.001f && Math.abs(this.currentRotationYaw - this.wantedRotationYaw) < 0.001f)
+		{
+			this.isRotating = false;
 		}
 
 		/** Wraps all the angels and cleans them up. */

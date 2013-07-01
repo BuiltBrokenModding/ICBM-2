@@ -47,10 +47,12 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 			if (electricityPack.voltage > this.getVoltage())
 			{
 				TPaoDaiBase turret = this.getTurret(false);
+
 				if (turret != null && turret instanceof IHealthTile)
 				{
 					((IHealthTile) this.turret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
 				}
+
 				return;
 			}
 		}

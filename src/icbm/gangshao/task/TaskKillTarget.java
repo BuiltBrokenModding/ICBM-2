@@ -1,8 +1,9 @@
-package icbm.gangshao.action;
+package icbm.gangshao.task;
 
 import icbm.api.sentry.IAutoSentry;
+import universalelectricity.core.vector.Vector3;
 
-public class ActionKillTarget extends ActionSearchTarget
+public class TaskKillTarget extends TaskSearchTarget
 {
 	int ticksTarget = 0;/* ticks since target has been seen */
 
@@ -14,24 +15,23 @@ public class ActionKillTarget extends ActionSearchTarget
 		if (this.tileEntity instanceof IAutoSentry)
 		{
 			IAutoSentry turret = (IAutoSentry) this.tileEntity;
+			System.out.println("KILLING");
 
 			if (!turret.isValidTarget(turret.getTarget()))
 			{
-				if (this.ticksTarget++ < 10)
-				{
-					return true;
-				}
-				else
-				{
-					turret.setTarget(null, true);
-					return false;
-				}
+				turret.setTarget(null, true);
+				return false;
 			}
 			else if (turret.canActivateWeapon())
 			{
 				turret.onWeaponActivated();
 			}
+			else
+			{
+				this.tileEntity.lookHelper.lookAt(new Vector3(((IAutoSentry) this.tileEntity).getTarget()));
+			}
 		}
-		return false;
+
+		return true;
 	}
 }

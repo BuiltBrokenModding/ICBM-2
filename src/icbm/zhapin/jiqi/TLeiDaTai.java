@@ -461,7 +461,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 	@Override
 	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
 	{
-		if (this.prevWatts < this.getRequest().getWatts())
+		if (this.prevWatts < this.getRequest().getWatts() && this.wattsReceived < this.getRequest().getWatts())
 		{
 			throw new Exception("Radar has insufficient electricity!");
 		}
