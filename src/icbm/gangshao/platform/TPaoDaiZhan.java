@@ -24,6 +24,12 @@ import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
 
+/**
+ * Turret Platform
+ * 
+ * @author Calclavia
+ * 
+ */
 public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInventory
 {
 	/** The turret linked to this platform. */
@@ -93,10 +99,12 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 	/** Gets the turret instance linked to this platform */
 	public TPaoDaiBase getTurret(boolean getNew)
 	{
-		Vector3 vec = new Vector3(this);
-		if (getNew || this.turret == null || this.turret.isInvalid() || !(new Vector3(this.turret).equals(vec.clone().modifyPositionFromSide(this.deployDirection))))
+		Vector3 position = new Vector3(this);
+		
+		if (getNew || this.turret == null || this.turret.isInvalid() || !(new Vector3(this.turret).equals(position.clone().modifyPositionFromSide(this.deployDirection))))
 		{
-			TileEntity tileEntity = vec.clone().modifyPositionFromSide(this.deployDirection).getTileEntity(this.worldObj);
+			TileEntity tileEntity = position.clone().modifyPositionFromSide(this.deployDirection).getTileEntity(this.worldObj);
+
 			if (tileEntity instanceof TPaoDaiBase)
 			{
 				this.turret = (TPaoDaiBase) tileEntity;

@@ -1,14 +1,18 @@
 package icbm.gangshao.turret.mount;
 
-import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IMultiBlock;
-import universalelectricity.prefab.network.PacketManager;
 
-public abstract class TileEntityMountableTurret extends TPaoDaiBase implements IMultiBlock
+/**
+ * Mountable Turret
+ * 
+ * @author Calclavia
+ * 
+ */
+public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 {
 	/** Current player on the sentry */
 	protected EntityPlayer mountedPlayer = null;
@@ -16,6 +20,12 @@ public abstract class TileEntityMountableTurret extends TPaoDaiBase implements I
 	private EntityFakeMountable entityFake = null;
 
 	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+		this.updateRotation();
+	}
+
 	public void updateRotation()
 	{
 		if (this.mountedPlayer != null)
@@ -31,10 +41,6 @@ public abstract class TileEntityMountableTurret extends TPaoDaiBase implements I
 
 			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * rotationTranslation;
 			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * rotationTranslation;
-			if (this.worldObj.isRemote)
-			{
-				PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw, this.speedUpRotation), this.worldObj, new Vector3(this), 50);
-			}
 		}
 		else if (this.entityFake != null)
 		{

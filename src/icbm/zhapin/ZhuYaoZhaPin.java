@@ -44,6 +44,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -117,6 +118,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
+	public static boolean USE_FUEL = true;
 
 	@Override
 	@PreInit
@@ -126,6 +128,8 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoZhaPin.proxy);
 
 		ZhuYaoBase.CONFIGURATION.load();
+		USE_FUEL = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Use Fuel", USE_FUEL).getBoolean(USE_FUEL);
+
 		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
 		bJiQi = new BJiQi(ICBM.BLOCK_ID_PREFIX + 4);
 
@@ -311,7 +315,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		// Find and try to add a recipe with fuel, then oil then coal.
 		try
 		{
-			if (LiquidDictionary.getLiquid("Fuel", 1) != null)
+			if (LiquidDictionary.getLiquid("Fuel", 1) != null && USE_FUEL)
 			{
 				for (LiquidContainerData data : LiquidContainerRegistry.getRegisteredLiquidContainerData())
 				{
@@ -324,7 +328,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 					}
 				}
 			}
-			else if (LiquidDictionary.getLiquid("Oil", 1) != null)
+			else if (LiquidDictionary.getLiquid("Oil", 1) != null && USE_FUEL)
 			{
 				for (LiquidContainerData data : LiquidContainerRegistry.getRegisteredLiquidContainerData())
 				{

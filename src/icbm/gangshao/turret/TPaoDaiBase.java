@@ -410,63 +410,6 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		}
 	}
 
-	/** Speed of rotation at the current moment */
-	public abstract float getRotationSpeed();
-
-	/** Adjusts the turret's rotation to its target rotation over time. */
-	public void updateRotation()
-	{
-		if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) > 0.001f)
-		{
-			float speedYaw;
-			if (this.currentRotationYaw > this.wantedRotationYaw)
-			{
-				speedYaw = -this.getRotationSpeed();
-			}
-			else
-			{
-				speedYaw = this.getRotationSpeed();
-			}
-
-			this.currentRotationYaw += speedYaw;
-
-			if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) < this.getRotationSpeed() + 0.1f)
-			{
-				this.currentRotationYaw = this.wantedRotationYaw;
-			}
-		}
-
-		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) > 0.001f)
-		{
-			float speedPitch;
-			if (this.currentRotationPitch > this.wantedRotationPitch)
-			{
-				speedPitch = -this.getRotationSpeed();
-			}
-			else
-			{
-				speedPitch = this.getRotationSpeed();
-			}
-
-			this.currentRotationPitch += speedPitch;
-
-			if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) < this.getRotationSpeed() + 0.1f)
-			{
-				this.currentRotationPitch = this.wantedRotationPitch;
-			}
-		}
-
-		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) <= 0.001f && Math.abs(this.currentRotationYaw - this.wantedRotationYaw) < 0.001f)
-		{
-			this.isRotating = false;
-		}
-
-		/** Wraps all the angels and cleans them up. */
-		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
-		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
-		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
-	}
-
 	/*
 	 * ----------------------------- RENDER CODE --------------------------------------
 	 */

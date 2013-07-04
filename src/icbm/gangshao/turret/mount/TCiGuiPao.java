@@ -31,7 +31,7 @@ import universalelectricity.prefab.network.IPacketReceiver;
  * 
  * @author Calclavia
  */
-public class TCiGuiPao extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	private int gunChargingTicks = 0;
 
@@ -208,6 +208,7 @@ public class TCiGuiPao extends TileEntityMountableTurret implements IPacketRecei
 		this.redstonePowerOn = false;
 		this.isAntimatter = false;
 		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
+
 		if (ammo != null)
 		{
 			if (ammo.getStack().equals(ZhuYaoGangShao.antimatterBullet) && this.getPlatform().useAmmunition(ammo))
@@ -225,11 +226,14 @@ public class TCiGuiPao extends TileEntityMountableTurret implements IPacketRecei
 		this.explosionSize = 5f;
 		this.explosionDepth = 5;
 
-		if (isAntimatter)
+		if (this.isAntimatter)
 		{
 			this.explosionSize = 8f;
 			this.explosionDepth = 10;
 		}
+
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
+
 	}
 
 	@Override
@@ -254,12 +258,6 @@ public class TCiGuiPao extends TileEntityMountableTurret implements IPacketRecei
 	{
 		super.addInformation(map, player);
 		return 2;
-	}
-
-	@Override
-	public float getRotationSpeed()
-	{
-		return 1f;
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class TaskSearchTarget extends Task
 
 			if (sentry.getTarget() == null || !sentry.isValidTarget(sentry.getTarget()))
 			{
-				System.out.println("SEARCHING");
+				System.out.println("SEARCHING"+this.tileEntity.worldObj.isRemote);
 				AxisAlignedBB bounds = sentry.getTargetingBox();
 
 				List<Entity> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
