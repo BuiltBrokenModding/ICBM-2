@@ -1,9 +1,10 @@
 package icbm.gangshao;
 
 import icbm.gangshao.container.ContainerTurretPlatform;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.turret.mount.TCiGuiPao;
 import icbm.gangshao.turret.sentries.TFanKong;
+import icbm.gangshao.turret.sentries.TLeiShe;
 import icbm.gangshao.turret.sentries.TQiang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -25,7 +26,8 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerTileEntity(TQiang.class, "ICBMGunTurret");
 		GameRegistry.registerTileEntity(TFanKong.class, "ICBMAATurret");
 		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
-		GameRegistry.registerTileEntity(TPaoDaiZhan.class, "ICBMPlatform");
+		GameRegistry.registerTileEntity(TLeiShe.class, "ICBMLeiSheF");
+		GameRegistry.registerTileEntity(TPaoTaiZhan.class, "ICBMPlatform");
 		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMultiblock");
 	}
 
@@ -44,7 +46,7 @@ public class CommonProxy implements IGuiHandler
 			switch (ID)
 			{
 				case GUI_PLATFORM_ID:
-					return new ContainerTurretPlatform(player.inventory, ((TPaoDaiZhan) tileEntity));
+					return new ContainerTurretPlatform(player.inventory, ((TPaoTaiZhan) tileEntity));
 			}
 		}
 

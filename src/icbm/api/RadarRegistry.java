@@ -129,7 +129,7 @@ public class RadarRegistry
 
 			while (it2.hasNext())
 			{
-				Entity entity = (Entity) it2.next();
+				Entity entity = it2.next();
 
 				if (entity == null)
 				{

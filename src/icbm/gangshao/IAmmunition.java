@@ -30,6 +30,6 @@ public interface IAmmunition
 	 */
 	public ItemStack onDroppedIntoWorld(ItemStack stack);
 
-	public ProjectileTypes getType(int meta);
+	public ProjectileType getType(int meta);
 
 }

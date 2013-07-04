@@ -6,7 +6,7 @@ package icbm.gangshao;
  * @author DarkGuardsman
  * 
  */
-public enum ProjectileTypes
+public enum ProjectileType
 {
 	UNKNOWN, /* NOT A PROJECTILE */
 	CONVENTIONAL, /* Classic bullets that do impact damage */

@@ -2,7 +2,7 @@ package icbm.gangshao.render;
 
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.access.AccessLevel;
-import icbm.gangshao.muoxing.ModelSentryCannon;
+import icbm.gangshao.muoxing.ModelAATurret;
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -14,12 +14,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderGunTurret extends RenderTaggedTile
+public class RFanKong extends RenderTaggedTile
 {
-	public static final String TEXTURE_FILE = "gun_turret_neutral.png";
-	public static final String TEXTURE_FILE_FRIENDLY = "gun_turret_friendly.png";
-	public static final String TEXTURE_FILE_HOSTILE = "gun_turret_hostile.png";
-	public static final ModelSentryCannon MODEL = new ModelSentryCannon();
+	public static final String TEXTURE_FILE = "aa_turret_neutral.png";
+	public static final String TEXTURE_FILE_FRIENDLY = "aa_turret_friendly.png";
+	public static final String TEXTURE_FILE_HOSTILE = "aa_turret_hostile.png";
+	public static final ModelAATurret MODEL = new ModelAATurret();
 
 	@Override
 	public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
@@ -30,8 +30,8 @@ public class RenderGunTurret extends RenderTaggedTile
 		{
 			TPaoDaiBase tileEntity = (TPaoDaiBase) t;
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
-
+			GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
+			GL11.glScalef(0.7f, 0.7f, 0.7f);
 			this.setTextureBaseOnState(tileEntity);
 			render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch);
 
@@ -45,10 +45,10 @@ public class RenderGunTurret extends RenderTaggedTile
 		GL11.glRotatef(180F, 0F, 1F, 0F);
 		// Render base yaw rotation
 		GL11.glRotatef(renderYaw, 0F, 1F, 0F);
-		MODEL.renderYaw(0.0625F);
+		MODEL.renderBody(0.0625F);
+		MODEL.renderRadar(0.0625F);
 		// Render gun pitch rotation
-		GL11.glRotatef(renderPitch, 1F, 0F, 0F);
-		MODEL.renderYawPitch(0.0625F);
+		MODEL.renderCannon(0.0625F, (float) Math.toRadians(renderPitch));
 	}
 
 	public void setTextureBaseOnState(TPaoDaiBase tileEntity)

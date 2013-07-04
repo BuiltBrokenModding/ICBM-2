@@ -3,7 +3,7 @@ package icbm.gangshao.shimian;
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.terminal.TileEntityTerminal.TerminalPacketType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
@@ -27,10 +27,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class GuiPlatformBase extends GuiBase
 {
 	protected static final int MAX_BUTTON_ID = 3;
-	protected TPaoDaiZhan tileEntity;
+	protected TPaoTaiZhan tileEntity;
 	protected EntityPlayer entityPlayer;
 
-	public GuiPlatformBase(EntityPlayer player, TPaoDaiZhan tileEntity)
+	public GuiPlatformBase(EntityPlayer player, TPaoTaiZhan tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		this.entityPlayer = player;

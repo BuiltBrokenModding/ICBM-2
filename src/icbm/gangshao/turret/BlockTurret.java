@@ -8,6 +8,7 @@ import icbm.gangshao.damage.EntityTileDamage;
 import icbm.gangshao.render.BlockRenderingHandler;
 import icbm.gangshao.turret.mount.TCiGuiPao;
 import icbm.gangshao.turret.sentries.TFanKong;
+import icbm.gangshao.turret.sentries.TLeiShe;
 import icbm.gangshao.turret.sentries.TQiang;
 
 import java.util.List;
@@ -46,9 +47,7 @@ public class BlockTurret extends BICBM
 {
 	public enum TurretType
 	{
-		GUN(TQiang.class), RAILGUN(TCiGuiPao.class),
-		AA(TFanKong.class),
-		/* LASER(TileEntityLaserTurret.class) */;
+		GUN(TQiang.class), RAILGUN(TCiGuiPao.class), AA(TFanKong.class), LASER(TLeiShe.class);
 
 		public Class<? extends TileEntity> tileEntity;
 

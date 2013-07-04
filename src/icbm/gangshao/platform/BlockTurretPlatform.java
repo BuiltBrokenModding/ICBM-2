@@ -59,17 +59,17 @@ public class BlockTurretPlatform extends BICBM
 		/** Only allow the platform to be open if there is a turret installed with it. */
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TPaoDaiZhan)
+		if (tileEntity instanceof TPaoTaiZhan)
 		{
 			if (player.getCurrentEquippedItem() != null)
 			{
-				if (side == ((TPaoDaiZhan) tileEntity).deployDirection.ordinal() && player.getCurrentEquippedItem().itemID == ZhuYaoGangShao.blockTurret.blockID)
+				if (side == ((TPaoTaiZhan) tileEntity).deployDirection.ordinal() && player.getCurrentEquippedItem().itemID == ZhuYaoGangShao.blockTurret.blockID)
 				{
 					return false;
 				}
 			}
 
-			if (((TPaoDaiZhan) tileEntity).getTurret(false) != null)
+			if (((TPaoTaiZhan) tileEntity).getTurret(false) != null)
 			{
 				if (!world.isRemote)
 				{
@@ -86,7 +86,7 @@ public class BlockTurretPlatform extends BICBM
 	@Override
 	public TileEntity createNewTileEntity(World var1)
 	{
-		return new TPaoDaiZhan();
+		return new TPaoTaiZhan();
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class BlockTurretPlatform extends BICBM
 					{
 						boolean flag = true;
 						Item item = itemStack.getItem();
-						
+
 						if (item instanceof IAmmunition)
 						{
 							if (((IAmmunition) item).canDrop(itemStack.getItemDamage()))
@@ -121,7 +121,7 @@ public class BlockTurretPlatform extends BICBM
 								flag = false;
 							}
 						}
-						
+
 						if (flag)
 						{
 							Random random = new Random();

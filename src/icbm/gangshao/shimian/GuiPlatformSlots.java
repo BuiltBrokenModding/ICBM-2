@@ -1,7 +1,7 @@
 package icbm.gangshao.shimian;
 
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiPlatformSlots extends GuiPlatformContainer
 {
-	public GuiPlatformSlots(InventoryPlayer inventoryPlayer, TPaoDaiZhan tileEntity)
+	public GuiPlatformSlots(InventoryPlayer inventoryPlayer, TPaoTaiZhan tileEntity)
 	{
 		super(inventoryPlayer, tileEntity);
 	}

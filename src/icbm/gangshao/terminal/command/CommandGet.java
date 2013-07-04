@@ -3,7 +3,7 @@ package icbm.gangshao.terminal.command;
 import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.access.UserAccess;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.terminal.ITerminal;
 import icbm.gangshao.terminal.TerminalCommand;
 
@@ -23,9 +23,9 @@ public class CommandGet extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
 	{
-		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TPaoDaiZhan)
+		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TPaoTaiZhan)
 		{
-			TPaoDaiZhan turret = (TPaoDaiZhan) TE;
+			TPaoTaiZhan turret = (TPaoTaiZhan) TE;
 			if (args[1].equalsIgnoreCase("owner"))
 			{
 				List<UserAccess> userList = turret.getUsersWithAcess(AccessLevel.OWNER);
@@ -87,7 +87,7 @@ public class CommandGet extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess mm)
 	{
-		return mm instanceof TPaoDaiZhan;
+		return mm instanceof TPaoTaiZhan;
 	}
 
 }

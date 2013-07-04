@@ -1,18 +1,20 @@
 package icbm.gangshao;
 
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.render.BlockRenderingHandler;
 import icbm.gangshao.render.FXBeam;
 import icbm.gangshao.render.RCiGuiPao;
 import icbm.gangshao.render.REJia;
-import icbm.gangshao.render.RenderAATurret;
-import icbm.gangshao.render.RenderGunTurret;
+import icbm.gangshao.render.RFanKong;
+import icbm.gangshao.render.RLeiShe;
+import icbm.gangshao.render.RQiang;
 import icbm.gangshao.shimian.GuiPlatformAccess;
 import icbm.gangshao.shimian.GuiPlatformSlots;
 import icbm.gangshao.shimian.GuiPlatformTerminal;
 import icbm.gangshao.turret.mount.EJia;
 import icbm.gangshao.turret.mount.TCiGuiPao;
 import icbm.gangshao.turret.sentries.TFanKong;
+import icbm.gangshao.turret.sentries.TLeiShe;
 import icbm.gangshao.turret.sentries.TQiang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -36,9 +38,10 @@ public class ClientProxy extends CommonProxy
 		super.init();
 
 		/** TileEntities */
-		ClientRegistry.bindTileEntitySpecialRenderer(TQiang.class, new RenderGunTurret());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFanKong.class, new RenderAATurret());
+		ClientRegistry.bindTileEntitySpecialRenderer(TQiang.class, new RQiang());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFanKong.class, new RFanKong());
 		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
+		ClientRegistry.bindTileEntitySpecialRenderer(TLeiShe.class, new RLeiShe());
 
 		RenderingRegistry.registerEntityRenderingHandler(EJia.class, new REJia());
 		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
@@ -54,11 +57,11 @@ public class ClientProxy extends CommonProxy
 			switch (ID)
 			{
 				case GUI_PLATFORM_ID:
-					return new GuiPlatformSlots(player.inventory, ((TPaoDaiZhan) tileEntity));
+					return new GuiPlatformSlots(player.inventory, ((TPaoTaiZhan) tileEntity));
 				case GUI_PLATFORM_TERMINAL_ID:
-					return new GuiPlatformTerminal(player, ((TPaoDaiZhan) tileEntity));
+					return new GuiPlatformTerminal(player, ((TPaoTaiZhan) tileEntity));
 				case GUI_PLATFORM_ACCESS_ID:
-					return new GuiPlatformAccess(player, ((TPaoDaiZhan) tileEntity));
+					return new GuiPlatformAccess(player, ((TPaoTaiZhan) tileEntity));
 			}
 		}
 

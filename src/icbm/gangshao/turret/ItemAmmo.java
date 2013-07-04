@@ -3,7 +3,7 @@ package icbm.gangshao.turret;
 import icbm.core.ZhuYaoBase;
 import icbm.core.di.ItICBM;
 import icbm.gangshao.IAmmunition;
-import icbm.gangshao.ProjectileTypes;
+import icbm.gangshao.ProjectileType;
 import icbm.gangshao.damage.GangShaoDamageSource;
 
 import java.util.List;
@@ -21,17 +21,17 @@ public class ItemAmmo extends ItICBM implements IAmmunition
 {
 	public static enum AmmoType
 	{
-		SHELL("bulletShell", ProjectileTypes.UNKNOWN, true),
-		BULLET("bullet", ProjectileTypes.CONVENTIONAL, true),
-		BULLETRAIL("bulletRailgun", ProjectileTypes.RAILGUN, true),
-		BULLETANTI("bulletAntimatter", ProjectileTypes.RAILGUN, true),
-		BULLETINF("bulletInfinite", ProjectileTypes.CONVENTIONAL, false);
+		SHELL("bulletShell", ProjectileType.UNKNOWN, true),
+		BULLET("bullet", ProjectileType.CONVENTIONAL, true),
+		BULLETRAIL("bulletRailgun", ProjectileType.RAILGUN, true),
+		BULLETANTI("bulletAntimatter", ProjectileType.RAILGUN, true),
+		BULLETINF("bulletInfinite", ProjectileType.CONVENTIONAL, false);
 
 		public String iconName;
-		public ProjectileTypes type;
+		public ProjectileType type;
 		public boolean consume;
 
-		private AmmoType(String iconName, ProjectileTypes type, boolean consume)
+		private AmmoType(String iconName, ProjectileType type, boolean consume)
 		{
 			this.iconName = iconName;
 			this.type = type;
@@ -77,7 +77,7 @@ public class ItemAmmo extends ItICBM implements IAmmunition
 	}
 
 	@Override
-	public ProjectileTypes getType(int meta)
+	public ProjectileType getType(int meta)
 	{
 		if (meta < AmmoType.values().length)
 		{

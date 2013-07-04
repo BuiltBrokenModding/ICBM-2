@@ -2,7 +2,7 @@ package icbm.gangshao.terminal.command;
 
 import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.access.AccessLevel;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.terminal.ITerminal;
 import icbm.gangshao.terminal.TerminalCommand;
 import icbm.gangshao.turret.sentries.TPaoTaiZiDong;
@@ -23,9 +23,9 @@ public class CommandTarget extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
 	{
-		if (terminal instanceof TPaoDaiZhan)
+		if (terminal instanceof TPaoTaiZhan)
 		{
-			TPaoDaiZhan turret = (TPaoDaiZhan) terminal;
+			TPaoTaiZhan turret = (TPaoTaiZhan) terminal;
 
 			if (turret.getTurret(false) instanceof TPaoTaiZiDong)
 			{
@@ -128,9 +128,9 @@ public class CommandTarget extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess mm)
 	{
-		if (mm instanceof TPaoDaiZhan)
+		if (mm instanceof TPaoTaiZhan)
 		{
-			return ((TPaoDaiZhan) mm).getTurret(false) instanceof TPaoTaiZiDong;
+			return ((TPaoTaiZhan) mm).getTurret(false) instanceof TPaoTaiZiDong;
 		}
 		return false;
 	}

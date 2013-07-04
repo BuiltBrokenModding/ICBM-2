@@ -1,7 +1,7 @@
 package icbm.gangshao.shimian;
 
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.terminal.TileEntityTerminal;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -26,7 +26,7 @@ public class GuiPlatformTerminal extends GuiPlatformBase
 	private TileEntityTerminal tileEntity;
 	private GuiTextField commandLine;
 
-	public GuiPlatformTerminal(EntityPlayer entityPlayer, TPaoDaiZhan tileEntity)
+	public GuiPlatformTerminal(EntityPlayer entityPlayer, TPaoTaiZhan tileEntity)
 	{
 		super(entityPlayer, tileEntity);
 		this.tileEntity = tileEntity;

@@ -4,7 +4,7 @@ import icbm.core.ZhuYaoBase;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.container.ContainerTurretPlatform;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -26,10 +26,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class GuiPlatformContainer extends GuiContainer
 {
 	protected static final int MAX_BUTTON_ID = 3;
-	protected TPaoDaiZhan tileEntity;
+	protected TPaoTaiZhan tileEntity;
 	protected EntityPlayer entityPlayer;
 
-	public GuiPlatformContainer(InventoryPlayer inventoryPlayer, TPaoDaiZhan tileEntity)
+	public GuiPlatformContainer(InventoryPlayer inventoryPlayer, TPaoTaiZhan tileEntity)
 	{
 		super(new ContainerTurretPlatform(inventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;

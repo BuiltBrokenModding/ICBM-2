@@ -6,6 +6,7 @@ import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
+import icbm.api.sentry.IAATarget;
 import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
@@ -38,7 +39,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EDaoDan extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile
+public class EDaoDan extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
 {
 	public enum XingShi
 	{
@@ -544,7 +545,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			// The delta X and Z.
 			delta.x = Math.sin(Math.toRadians(this.rotationYaw)) * dH;
 			delta.z = Math.cos(Math.toRadians(this.rotationYaw)) * dH;
-			
+
 			position.add(delta);
 			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
 			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);

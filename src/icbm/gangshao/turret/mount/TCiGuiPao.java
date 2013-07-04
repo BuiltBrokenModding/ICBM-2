@@ -2,7 +2,7 @@ package icbm.gangshao.turret.mount;
 
 import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.ProjectileTypes;
+import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.task.LookHelper;
 
@@ -204,7 +204,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		this.gunChargingTicks = 1;
 		this.redstonePowerOn = false;
 		this.isAntimatter = false;
-		ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
+		ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileType.RAILGUN);
 
 		if (ammoStack != null)
 		{
@@ -238,7 +238,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	{
 		if (this.getPlatform() != null)
 		{
-			if (this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN) != null)
+			if (this.getPlatform().hasAmmunition(ProjectileType.RAILGUN) != null)
 			{
 				if (this.getPlatform().wattsReceived >= this.getFiringRequest())
 				{

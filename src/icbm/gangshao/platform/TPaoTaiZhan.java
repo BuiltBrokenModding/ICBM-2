@@ -1,7 +1,7 @@
 package icbm.gangshao.platform;
 
 import icbm.gangshao.IAmmunition;
-import icbm.gangshao.ProjectileTypes;
+import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.terminal.TileEntityTerminal;
@@ -29,7 +29,7 @@ import universalelectricity.prefab.CustomDamageSource;
  * @author Calclavia
  * 
  */
-public class TPaoDaiZhan extends TileEntityTerminal implements IInventory
+public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 {
 	/** The turret linked to this platform. */
 	private TPaoDaiBase turret = null;
@@ -42,6 +42,17 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IInventory
 
 	/** The first 12 slots are for ammunition. The last 4 slots are for upgrades. */
 	public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
+
+	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+
+		if (this.prevWatts != this.wattsReceived)
+		{
+			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+		}
+	}
 
 	@Override
 	public void onReceive(ElectricityPack electricityPack)
@@ -160,9 +171,9 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IInventory
 		return !this.isDisabled() && (this.getTurret(false) != null && this.wattsReceived >= this.getTurret(false).getFiringRequest());
 	}
 
-	public ItemStack hasAmmunition(ProjectileTypes ammunitionStack)
+	public ItemStack hasAmmunition(ProjectileType projectileType)
 	{
-		for (int i = 0; i < TPaoDaiZhan.UPGRADE_START_INDEX; i++)
+		for (int i = 0; i < TPaoTaiZhan.UPGRADE_START_INDEX; i++)
 		{
 			ItemStack itemStack = this.containingItems[i];
 
@@ -170,7 +181,7 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IInventory
 			{
 				Item item = Item.itemsList[itemStack.itemID];
 
-				if (item instanceof IAmmunition && ((IAmmunition) item).getType(itemStack.getItemDamage()).ordinal() == ammunitionStack.ordinal())
+				if (item instanceof IAmmunition && ((IAmmunition) item).getType(itemStack.getItemDamage()).ordinal() == projectileType.ordinal())
 				{
 					return itemStack;
 				}
@@ -189,7 +200,7 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IInventory
 				return true;
 			}
 
-			for (int i = 0; i < TPaoDaiZhan.UPGRADE_START_INDEX; i++)
+			for (int i = 0; i < TPaoTaiZhan.UPGRADE_START_INDEX; i++)
 			{
 				ItemStack itemStack = this.containingItems[i];
 

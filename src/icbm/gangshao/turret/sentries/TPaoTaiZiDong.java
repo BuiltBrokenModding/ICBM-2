@@ -1,9 +1,9 @@
 package icbm.gangshao.turret.sentries;
 
-import icbm.gangshao.IAATarget;
+import icbm.api.sentry.IAATarget;
 import icbm.gangshao.IAmmunition;
 import icbm.gangshao.IAutoSentry;
-import icbm.gangshao.ProjectileTypes;
+import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.task.TaskManager;
 import icbm.gangshao.task.TaskSearchTarget;
@@ -64,7 +64,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	public float rotationSpeed = 3;
 
 	/** MAIN AMMO TYPE */
-	public ProjectileTypes baseAmmoType = ProjectileTypes.CONVENTIONAL;
+	public ProjectileType baseAmmoType = ProjectileType.CONVENTIONAL;
 
 	@Override
 	public void onReceivePacket(int packetID, EntityPlayer player, ByteArrayDataInput dataStream) throws IOException
@@ -251,7 +251,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		{
 			if (this.lookHelper.isLookingAt(this.target, 10f))
 			{
-				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && this.getPlatform().hasAmmunition(this.baseAmmoType) != null;
+				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.baseAmmoType) != null || this.baseAmmoType == ProjectileType.UNKNOWN);
 			}
 		}
 
@@ -280,6 +280,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 			{
 				this.sendShotToClient(this.getTargetPosition());
 				this.playFiringSound();
+				this.getPlatform().wattsReceived = Math.max(this.getPlatform().wattsReceived - this.getFiringRequest(), 0);
 			}
 		}
 	}
@@ -295,7 +296,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		if (!this.worldObj.isRemote)
 		{
-			ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileTypes.CONVENTIONAL);
+			ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileType.CONVENTIONAL);
 
 			if (this.getPlatform() != null && ammoStack != null)
 			{
@@ -391,6 +392,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		{
 			return this.baseTargetRange + Math.min(this.baseTargetRange * this.getPlatform().getUpgradePercent("TargetRange"), this.maxTargetRange);
 		}
+
 		return this.baseTargetRange;
 	}
 

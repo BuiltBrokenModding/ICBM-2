@@ -19,7 +19,7 @@ public class TaskSearchTarget extends Task
 
 		if (this.tileEntity instanceof IAutoSentry)
 		{
-			IAutoSentry sentry = (IAutoSentry) this.tileEntity;
+			IAutoSentry sentry = this.tileEntity;
 
 			if (sentry.getTarget() == null || !sentry.isValidTarget(sentry.getTarget()))
 			{

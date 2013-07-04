@@ -35,16 +35,23 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 			{
 				/** Render the gun turret. */
 				GL11.glTranslatef(0.1f, 1f, 0f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderGunTurret.TEXTURE_FILE));
-				RenderGunTurret.render(0, 0);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RQiang.TEXTURE_FILE));
+				RQiang.render(0, 0);
+			}
+			if (metadata == TurretType.LASER.ordinal())
+			{
+				/** Render the gun turret. */
+				GL11.glTranslatef(0.4f, 1.4f, 0f);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RLeiShe.TEXTURE_FILE));
+				RLeiShe.render(0, 0);
 			}
 			else if (metadata == TurretType.AA.ordinal())
 			{
 				/** Render the gun turret. */
 				GL11.glTranslatef(0.2f, 0.3f, 0);
 				GL11.glScalef(0.45f, 0.45f, 0.45f);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderAATurret.TEXTURE_FILE));
-				RenderAATurret.render(0, 0);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RFanKong.TEXTURE_FILE));
+				RFanKong.render(0, 0);
 			}
 			else if (metadata == TurretType.RAILGUN.ordinal())
 			{

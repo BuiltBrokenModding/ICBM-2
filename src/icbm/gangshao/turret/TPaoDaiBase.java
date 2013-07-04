@@ -5,7 +5,7 @@ import icbm.gangshao.ISentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.EntityTileDamage;
 import icbm.gangshao.damage.IHealthTile;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.task.LookHelper;
 
 import java.io.IOException;
@@ -204,13 +204,13 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 
 	/** get the turrets control platform */
 	@Override
-	public TPaoDaiZhan getPlatform()
+	public TPaoTaiZhan getPlatform()
 	{
 		TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.xCoord + this.platformDirection.offsetX, this.yCoord + this.platformDirection.offsetY, this.zCoord + this.platformDirection.offsetZ);
 
-		if (tileEntity instanceof TPaoDaiZhan)
+		if (tileEntity instanceof TPaoTaiZhan)
 		{
-			return (TPaoDaiZhan) tileEntity;
+			return (TPaoTaiZhan) tileEntity;
 		}
 		else
 		{

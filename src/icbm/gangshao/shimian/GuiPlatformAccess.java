@@ -3,7 +3,7 @@ package icbm.gangshao.shimian;
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.access.UserAccess;
-import icbm.gangshao.platform.TPaoDaiZhan;
+import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.terminal.TileEntityTerminal;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	private static final int SPACING = 10;
 	private final HashMap<UserAccess, Vector2> outputMap = new HashMap<UserAccess, Vector2>();
 
-	public GuiPlatformAccess(EntityPlayer entityPlayer, TPaoDaiZhan tileEntity)
+	public GuiPlatformAccess(EntityPlayer entityPlayer, TPaoTaiZhan tileEntity)
 	{
 		super(entityPlayer, tileEntity);
 	}
