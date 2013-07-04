@@ -1,8 +1,11 @@
 package icbm.gangshao.turret.sentries;
 
-public class TileEntityGunTurret extends TPaoTaiZiDong
+import icbm.gangshao.task.LookHelper;
+import universalelectricity.core.vector.Vector3;
+
+public class TQiang extends TPaoTaiZiDong
 {
-	public TileEntityGunTurret()
+	public TQiang()
 	{
 		this.targetPlayers = true;
 		this.targetHostile = true;
@@ -38,6 +41,12 @@ public class TileEntityGunTurret extends TPaoTaiZiDong
 	public void playFiringSound()
 	{
 		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
+	}
+
+	@Override
+	public Vector3 getMuzzle()
+	{
+		return new Vector3(this).add(new Vector3(0.5, 0.65, 0.5)).add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
 }

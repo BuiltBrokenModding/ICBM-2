@@ -2,20 +2,23 @@ package icbm.gangshao;
 
 import icbm.gangshao.platform.TPaoDaiZhan;
 import icbm.gangshao.render.BlockRenderingHandler;
+import icbm.gangshao.render.FXBeam;
+import icbm.gangshao.render.RCiGuiPao;
+import icbm.gangshao.render.REJia;
 import icbm.gangshao.render.RenderAATurret;
-import icbm.gangshao.render.RenderFakeMountable;
 import icbm.gangshao.render.RenderGunTurret;
-import icbm.gangshao.render.RenderRailgun;
 import icbm.gangshao.shimian.GuiPlatformAccess;
 import icbm.gangshao.shimian.GuiPlatformSlots;
 import icbm.gangshao.shimian.GuiPlatformTerminal;
-import icbm.gangshao.turret.mount.EntityFakeMountable;
+import icbm.gangshao.turret.mount.EJia;
 import icbm.gangshao.turret.mount.TCiGuiPao;
-import icbm.gangshao.turret.sentries.TileEntityAATurret;
-import icbm.gangshao.turret.sentries.TileEntityGunTurret;
+import icbm.gangshao.turret.sentries.TFanKong;
+import icbm.gangshao.turret.sentries.TQiang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -33,11 +36,11 @@ public class ClientProxy extends CommonProxy
 		super.init();
 
 		/** TileEntities */
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAATurret.class, new RenderAATurret());
-		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RenderRailgun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TQiang.class, new RenderGunTurret());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFanKong.class, new RenderAATurret());
+		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityFakeMountable.class, new RenderFakeMountable());
+		RenderingRegistry.registerEntityRenderingHandler(EJia.class, new REJia());
 		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 	}
 
@@ -60,5 +63,11 @@ public class ClientProxy extends CommonProxy
 		}
 
 		return null;
+	}
+
+	@Override
+	public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+	{
+		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, red, green, blue, age));
 	}
 }

@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderRailgun extends RenderTaggedTile
+public class RCiGuiPao extends RenderTaggedTile
 {
 	public static final String TEXTURE_FILE = "railgun.png";
 	public static final ModelRailgun MODEL = new ModelRailgun();

@@ -279,8 +279,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	@Override
 	public Vector3 getMuzzle()
 	{
-		Vector3 position = new Vector3(this).add(0.5);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch - 10), 0.5));
+		return new Vector3(this).add(0.5).add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
 	@Override
@@ -404,10 +403,10 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		if (this.worldObj.isRemote)
 		{
 			Vector3 startPosition = this.getMuzzle();
-			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 15, this.currentRotationPitch);
-			double xoffset = 1.3f;
-			double yoffset = -.2;
-			double zoffset = 0.3f;
+			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch);
+			double xoffset = 0;
+			double yoffset = 0;
+			double zoffset = 0;
 			Vector3 horzdir = direction.normalize();
 			horzdir.y = 0;
 			horzdir = horzdir.normalize();

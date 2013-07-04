@@ -5,6 +5,7 @@ import icbm.gangshao.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.terminal.TileEntityTerminal;
+import icbm.gangshao.turret.ItemAmmo.AmmoType;
 import icbm.gangshao.turret.TPaoDaiBase;
 
 import java.util.HashMap;
@@ -183,6 +184,11 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IInventory
 	{
 		if (ammoStack != null)
 		{
+			if (ammoStack.getItemDamage() == AmmoType.BULLETINF.ordinal())
+			{
+				return true;
+			}
+
 			for (int i = 0; i < TPaoDaiZhan.UPGRADE_START_INDEX; i++)
 			{
 				ItemStack itemStack = this.containingItems[i];

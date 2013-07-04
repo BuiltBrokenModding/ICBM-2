@@ -1,5 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
+import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.task.LookHelper;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
@@ -9,16 +10,17 @@ import universalelectricity.core.vector.Vector3;
  * 
  * @author DarkGaurdsman
  */
-public class TileEntityAATurret extends TPaoTaiZiDong
+public class TFanKong extends TPaoTaiZiDong
 {
-	public TileEntityAATurret()
+	public TFanKong()
 	{
 		this.targetAir = true;
+		this.canTargetAir = true;
 
 		this.baseTargetRange = 60;
 		this.maxTargetRange = 200;
 
-		this.rotationSpeed = 4f;
+		this.rotationSpeed = 6f;
 
 		this.minFiringDelay = 1;
 		this.baseFiringDelay = 3;
@@ -52,7 +54,20 @@ public class TileEntityAATurret extends TPaoTaiZiDong
 	public void playFiringSound()
 	{
 		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
+	}
 
+	@Override
+	public void renderShot(Vector3 target)
+	{
+		Vector3 muzzle = this.getMuzzle();
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(muzzle, LookHelper.getDeltaPositionFromRotation(30, 0)), target, 1, 1, 1, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(muzzle, LookHelper.getDeltaPositionFromRotation(30, 0)), target, 1, 1, 1, 5);
+	}
+
+	@Override
+	public Vector3 getMuzzle()
+	{
+		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.25));
 	}
 
 }

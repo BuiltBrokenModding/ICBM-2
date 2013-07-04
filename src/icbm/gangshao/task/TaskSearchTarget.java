@@ -82,7 +82,7 @@ public class TaskSearchTarget extends Task
 				}
 				else if (this.tileEntity.lastRotateTick > this.world.rand.nextInt(30) + 10)
 				{
-					this.tileEntity.rotateTo(this.world.rand.nextInt(360) - 180, 0);
+					this.tileEntity.rotateTo(this.world.rand.nextInt(360) - 180, this.world.rand.nextInt(40) - 20);
 				}
 
 				return true;

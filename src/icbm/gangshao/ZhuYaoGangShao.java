@@ -16,7 +16,7 @@ import icbm.gangshao.terminal.command.CommandUser;
 import icbm.gangshao.turret.BlockTurret;
 import icbm.gangshao.turret.ItemAmmo;
 import icbm.gangshao.turret.ItemBlockTurret;
-import icbm.gangshao.turret.mount.EntityFakeMountable;
+import icbm.gangshao.turret.mount.EJia;
 import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -112,8 +112,8 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class, "ICBMTurret");
 		GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
 
-		EntityRegistry.registerGlobalEntityID(EntityFakeMountable.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityFakeMountable.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EJia.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EJia.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
 		EntityRegistry.registerGlobalEntityID(EntityTileDamage.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityTileDamage.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
 

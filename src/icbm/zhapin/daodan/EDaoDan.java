@@ -102,7 +102,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.renderDistanceWeight = 3;
 		this.isImmuneToFire = true;
 		this.ignoreFrustumCheck = true;
-		this.shengYin = ZhuYaoZhaPin.proxy.getDaoDanShengYin(this);
+		this.shengYin = this.worldObj != null ? ZhuYaoZhaPin.proxy.getDaoDanShengYin(this) : null;
 	}
 
 	/**
@@ -544,6 +544,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			// The delta X and Z.
 			delta.x = Math.sin(Math.toRadians(this.rotationYaw)) * dH;
 			delta.z = Math.cos(Math.toRadians(this.rotationYaw)) * dH;
+			
 			position.add(delta);
 			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
 			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);

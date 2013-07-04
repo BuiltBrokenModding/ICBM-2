@@ -8,9 +8,9 @@ package icbm.gangshao;
  */
 public enum ProjectileTypes
 {
-	NEUTRIAL, /* NOT A PROJECTILE */
+	UNKNOWN, /* NOT A PROJECTILE */
 	CONVENTIONAL, /* Classic bullets that do impact damage */
-	RAILGUN(), /* Ammo that can only be used by railguns */
-	MISSILE(), /* Ammo used by SAM sites or missile based sentries */
-	EXPLOSIVE()/* Ammo that a mortar or grenade launcher uses */;
+	RAILGUN, /* Ammo that can only be used by railguns */
+	MISSILE, /* Ammo used by SAM sites or missile based sentries */
+	EXPLOSIVE/* Ammo that a mortar or grenade launcher uses */;
 }

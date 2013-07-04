@@ -48,15 +48,7 @@ public class RenderAATurret extends RenderTaggedTile
 		MODEL.renderBody(0.0625F);
 		MODEL.renderRadar(0.0625F);
 		// Render gun pitch rotation
-		renderPitch = (float) Math.toRadians(renderPitch);
-		if (renderPitch <= 0.8F && renderPitch >= -1.5F && renderPitch != 0)
-		{
-			MODEL.renderCannon(0.0625F, renderPitch);
-		}
-		else
-		{
-			MODEL.renderCannon(0.0625F, -0.6F);
-		}
+		MODEL.renderCannon(0.0625F, (float) Math.toRadians(renderPitch));
 	}
 
 	public void setTextureBaseOnState(TPaoDaiBase tileEntity)

@@ -49,6 +49,8 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	/** SHOULD TARGET ANIMALS, NPCS, SHEEP :( */
 	public boolean targetFriendly = false;
 
+	public boolean canTargetAir = false;
+
 	/** AI MANAGER */
 	public final TaskManager taskManager = new TaskManager(this);
 
@@ -186,14 +188,9 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 				{
 					if (this.lookHelper.canEntityBeSeen(entity))
 					{
-						if (this.targetAir)
+						if (this.targetAir && this.canTargetAir)
 						{
-							if (entity instanceof IMob && entity instanceof EntityFlying)
-							{
-								return true;
-							}
-
-							if (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))
+							if ((entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this)))
 							{
 								return true;
 							}
@@ -226,7 +223,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 
 						if (this.targetHostile)
 						{
-							if (entity instanceof IMob)
+							if (entity instanceof IMob && !((entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))))
 							{
 								return true;
 							}
@@ -234,9 +231,9 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 
 						if (this.targetFriendly)
 						{
-							if (entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant)
+							if ((entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant) && !((entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))))
 							{
-								return false;
+								return true;
 							}
 						}
 					}

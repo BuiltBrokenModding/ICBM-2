@@ -17,7 +17,7 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 	/** Current player on the sentry */
 	protected EntityPlayer mountedPlayer = null;
 	/** Fake entity this sentry uses for mounting the player in position */
-	private EntityFakeMountable entityFake = null;
+	private EJia entityFake = null;
 
 	@Override
 	public void updateEntity()
@@ -79,7 +79,7 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 		{
 			if (!this.worldObj.isRemote)
 			{
-				this.entityFake = new EntityFakeMountable(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, false);
+				this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, false);
 				this.worldObj.spawnEntityInWorld(entityFake);
 				entityPlayer.mountEntity(this.entityFake);
 			}

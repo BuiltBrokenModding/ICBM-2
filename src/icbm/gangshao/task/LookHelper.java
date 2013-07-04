@@ -88,18 +88,17 @@ public class LookHelper
 	}
 
 	/**
-	 * Gets the delta look position based on the rotation yaw and pitch.
+	 * Gets the delta look position based on the rotation yaw and pitch. Minecraft coordinates are
+	 * messed up. Y and Z are flipped. Yaw is displaced by 90 degrees. Pitch is inversed.
 	 * 
 	 * @param rotationYaw
 	 * @param rotationPitch
 	 */
 	public static Vector3 getDeltaPositionFromRotation(float rotationYaw, float rotationPitch)
 	{
-		float z = MathHelper.cos(-rotationYaw * 0.017453292F - (float) Math.PI);
-		float x = MathHelper.sin(-rotationYaw * 0.017453292F - (float) Math.PI);
-		float var4 = -MathHelper.cos(-rotationPitch * 0.017453292F);
-		float y = MathHelper.sin(-rotationPitch * 0.017453292F);
-		return new Vector3(x * var4, y, z * var4);
+		rotationYaw = rotationYaw + 90;
+		rotationPitch = -rotationPitch;
+		return new Vector3(Math.cos(Math.toRadians(rotationYaw)), Math.sin(Math.toRadians(rotationPitch)), Math.sin(Math.toRadians(rotationYaw)));
 	}
 
 	/** gets the difference in degrees between the two angles */

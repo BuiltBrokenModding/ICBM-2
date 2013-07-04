@@ -52,8 +52,8 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				GL11.glTranslatef(0f, 0.9f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RenderRailgun.TEXTURE_FILE));
-				RenderRailgun.MODEL.render(90, 0, 0.0625F);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoBase.MODEL_PATH + RCiGuiPao.TEXTURE_FILE));
+				RCiGuiPao.MODEL.render(90, 0, 0.0625F);
 			}
 
 			GL11.glPopMatrix();

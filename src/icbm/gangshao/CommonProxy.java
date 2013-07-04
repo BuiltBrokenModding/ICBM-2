@@ -3,8 +3,8 @@ package icbm.gangshao;
 import icbm.gangshao.container.ContainerTurretPlatform;
 import icbm.gangshao.platform.TPaoDaiZhan;
 import icbm.gangshao.turret.mount.TCiGuiPao;
-import icbm.gangshao.turret.sentries.TileEntityAATurret;
-import icbm.gangshao.turret.sentries.TileEntityGunTurret;
+import icbm.gangshao.turret.sentries.TFanKong;
+import icbm.gangshao.turret.sentries.TQiang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -22,8 +22,8 @@ public class CommonProxy implements IGuiHandler
 
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TileEntityGunTurret.class, "ICBMGunTurret");
-		GameRegistry.registerTileEntity(TileEntityAATurret.class, "ICBMAATurret");
+		GameRegistry.registerTileEntity(TQiang.class, "ICBMGunTurret");
+		GameRegistry.registerTileEntity(TFanKong.class, "ICBMAATurret");
 		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
 		GameRegistry.registerTileEntity(TPaoDaiZhan.class, "ICBMPlatform");
 		GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMultiblock");
@@ -61,6 +61,11 @@ public class CommonProxy implements IGuiHandler
 	 * Renders a bullet tracer from one spot to another will later be replaced with start and degree
 	 */
 	public void renderTracer(World world, Vector3 position, Vector3 target)
+	{
+
+	}
+
+	public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
 	{
 
 	}

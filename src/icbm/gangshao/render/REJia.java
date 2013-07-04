@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
  * 
  * @author Calclavia
  */
-public class RenderFakeMountable extends Render
+public class REJia extends Render
 {
 
 	@Override

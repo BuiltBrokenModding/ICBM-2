@@ -1,8 +1,8 @@
 package icbm.gangshao.turret.sentries;
 
-public class TileEntityLaserTurret extends TPaoTaiZiDong
+public class TLeiShe extends TPaoTaiZiDong
 {
-	public TileEntityLaserTurret()
+	public TLeiShe()
 	{
 		this.targetPlayers = true;
 		this.targetHostile = true;
