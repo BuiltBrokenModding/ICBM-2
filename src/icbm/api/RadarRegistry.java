@@ -105,11 +105,11 @@ public class RadarRegistry
 	{
 		try
 		{
-			Iterator it = detectableTileEntities.iterator();
+			Iterator<TileEntity> it = detectableTileEntities.iterator();
 
 			while (it.hasNext())
 			{
-				TileEntity tileEntity = (TileEntity) it.next();
+				TileEntity tileEntity = it.next();
 
 				if (tileEntity == null)
 				{
@@ -125,7 +125,7 @@ public class RadarRegistry
 				}
 			}
 
-			Iterator it2 = detectableEntities.iterator();
+			Iterator<Entity> it2 = detectableEntities.iterator();
 
 			while (it2.hasNext())
 			{

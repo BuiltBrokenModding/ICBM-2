@@ -459,7 +459,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 			throw new Exception("Radar has insufficient electricity!");
 		}
 
-		HashMap<String, Double> returnArray = new HashMap();
+		HashMap<String, Double> returnArray = new HashMap<String, Double>();
 		int count = 0;
 
 		switch (method)
@@ -472,6 +472,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 					returnArray.put("x_" + count, entity.posX);
 					returnArray.put("y_" + count, entity.posY);
 					returnArray.put("z_" + count, entity.posZ);
+					count++;
 				}
 
 				return new Object[] { returnArray };
@@ -481,6 +482,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 					returnArray.put("x_" + count, (double) jiQi.xCoord);
 					returnArray.put("y_" + count, (double) jiQi.yCoord);
 					returnArray.put("z_" + count, (double) jiQi.zCoord);
+					count++;
 				}
 				return new Object[] { returnArray };
 		}
@@ -491,7 +493,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 	@Override
 	public void invalidate()
 	{
-		ForgeChunkManager.releaseTicket(ticket);
+		ForgeChunkManager.releaseTicket(this.ticket);
 		RadarRegistry.unregister(this);
 		super.invalidate();
 	}
