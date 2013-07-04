@@ -1,10 +1,10 @@
 package icbm.gangshao.platform;
 
-import icbm.api.sentry.IAmmo;
-import icbm.api.sentry.ISpecialAccess;
 import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import icbm.gangshao.CommonProxy;
+import icbm.gangshao.IAmmunition;
+import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.access.AccessLevel;
 
@@ -108,18 +108,20 @@ public class BlockTurretPlatform extends BICBM
 					{
 						boolean flag = true;
 						Item item = itemStack.getItem();
-						if (item instanceof IAmmo)
+						
+						if (item instanceof IAmmunition)
 						{
-							if (((IAmmo) item).canDrop(itemStack.getItemDamage()))
+							if (((IAmmunition) item).canDrop(itemStack.getItemDamage()))
 							{
 								flag = true;
-								itemStack = ((IAmmo) item).onDroppedIntoWorld(itemStack.copy());
+								itemStack = ((IAmmunition) item).onDroppedIntoWorld(itemStack.copy());
 							}
 							else
 							{
 								flag = false;
 							}
 						}
+						
 						if (flag)
 						{
 							Random random = new Random();

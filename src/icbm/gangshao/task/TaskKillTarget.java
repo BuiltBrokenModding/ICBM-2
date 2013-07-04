@@ -1,7 +1,6 @@
 package icbm.gangshao.task;
 
-import icbm.api.sentry.IAutoSentry;
-import universalelectricity.core.vector.Vector3;
+import icbm.gangshao.IAutoSentry;
 
 public class TaskKillTarget extends TaskSearchTarget
 {
@@ -14,21 +13,20 @@ public class TaskKillTarget extends TaskSearchTarget
 
 		if (this.tileEntity instanceof IAutoSentry)
 		{
-			IAutoSentry turret = (IAutoSentry) this.tileEntity;
-			System.out.println("KILLING");
-
-			if (!turret.isValidTarget(turret.getTarget()))
+			if (!this.tileEntity.isValidTarget(this.tileEntity.getTarget()))
 			{
-				turret.setTarget(null, true);
+				this.tileEntity.setTarget(null, true);
+				this.tileEntity.cancelRotation();
 				return false;
 			}
-			else if (turret.canActivateWeapon())
+			else if (this.tileEntity.canActivateWeapon())
 			{
-				turret.onWeaponActivated();
+				this.tileEntity.onWeaponActivated();
 			}
 			else
 			{
-				this.tileEntity.lookHelper.lookAt(new Vector3(((IAutoSentry) this.tileEntity).getTarget()));
+				float[] rotations = this.tileEntity.lookHelper.getDeltaRotations(this.tileEntity.getTargetPosition());
+				this.tileEntity.rotateTo(rotations[0], rotations[1]);
 			}
 		}
 

@@ -1,10 +1,8 @@
 package icbm.gangshao.turret.mount;
 
 import icbm.api.explosion.IExplosive;
-import icbm.api.sentry.AmmoPair;
-import icbm.api.sentry.IAmmo;
-import icbm.api.sentry.ProjectileTypes;
 import icbm.core.ZhuYaoBase;
+import icbm.gangshao.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.task.LookHelper;
 
@@ -71,7 +69,6 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 				if (this.gunChargingTicks >= 30)
 				{
 					this.onFire();
-					this.sendShotToClient(null);
 					this.gunChargingTicks = 0;
 				}
 			}
@@ -207,17 +204,17 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		this.gunChargingTicks = 1;
 		this.redstonePowerOn = false;
 		this.isAntimatter = false;
-		AmmoPair<IAmmo, ItemStack> ammo = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
+		ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileTypes.RAILGUN);
 
-		if (ammo != null)
+		if (ammoStack != null)
 		{
-			if (ammo.getStack().equals(ZhuYaoGangShao.antimatterBullet) && this.getPlatform().useAmmunition(ammo))
+			if (ammoStack.equals(ZhuYaoGangShao.antimatterBullet) && this.getPlatform().useAmmunition(ammoStack))
 			{
 				this.isAntimatter = true;
 			}
 			else
 			{
-				this.getPlatform().useAmmunition(ammo);
+				this.getPlatform().useAmmunition(ammoStack);
 			}
 		}
 

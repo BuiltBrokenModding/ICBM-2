@@ -6,7 +6,6 @@ import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.api.sentry.IAATarget;
 import icbm.core.ZhuYaoBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
@@ -38,7 +37,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EDaoDan extends Entity implements IAATarget, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile
+public class EDaoDan extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile
 {
 	public enum XingShi
 	{
@@ -784,7 +783,7 @@ public class EDaoDan extends Entity implements IAATarget, IMissileLockable, IExp
 	@Override
 	public int doDamage(int damage)
 	{
-		return 0;
+		return -1;
 	}
 
 	@Override

@@ -18,8 +18,7 @@ public class TileEntityAATurret extends TPaoTaiZiDong
 		this.baseTargetRange = 60;
 		this.maxTargetRange = 200;
 
-		this.idleRtSpeed = 4f;
-		this.targetRtSpeed = 10f;
+		this.rotationSpeed = 4f;
 
 		this.minFiringDelay = 1;
 		this.baseFiringDelay = 3;
@@ -41,31 +40,6 @@ public class TileEntityAATurret extends TPaoTaiZiDong
 	public double getFiringRequest()
 	{
 		return 2;
-	}
-
-	@Override
-	public Vector3 getMuzzle()
-	{
-		double x = 0.5;
-		double y = 0.5;
-		double z = 0.5;
-		if (this.worldObj.isRemote)
-		{
-			if (this.gunBarrel == 1 || this.gunBarrel == 2)
-			{
-				y += 0.2;
-			}
-			if (this.gunBarrel == 1 || this.gunBarrel == 3)
-			{
-				z = -0.2;
-			}
-			else
-			{
-				z = 1.2;
-			}
-		}
-		Vector3 position = new Vector3(this.xCoord + x, this.yCoord + y, this.zCoord + z);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch - 10), 2));
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package icbm.gangshao.terminal.command;
 
-import icbm.api.sentry.ISpecialAccess;
+import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.access.UserAccess;
 import icbm.gangshao.platform.TPaoDaiZhan;

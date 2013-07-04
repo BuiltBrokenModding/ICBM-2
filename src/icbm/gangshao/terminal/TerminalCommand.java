@@ -1,6 +1,6 @@
 package icbm.gangshao.terminal;
 
-import icbm.api.sentry.ISpecialAccess;
+import icbm.gangshao.ISpecialAccess;
 
 import java.util.List;
 

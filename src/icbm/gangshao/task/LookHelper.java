@@ -5,7 +5,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
 
-/** @author Darkguardsman */
+/**
+ * Rotation always in degrees.
+ * 
+ * @author Calclavia, DarkGuardsman
+ */
 public class LookHelper
 {
 	public static final int PITCH_DISPLACEMENT = 0;
@@ -20,6 +24,11 @@ public class LookHelper
 	public void lookAt(Vector3 target)
 	{
 		this.sentry.rotateTo(getYaw(sentry.getMuzzle(), target), getPitch(sentry.getMuzzle(), target));
+	}
+
+	public float[] getDeltaRotations(Vector3 target)
+	{
+		return new float[] { getYaw(sentry.getMuzzle(), target), getPitch(sentry.getMuzzle(), target) };
 	}
 
 	/** Tells the turret to look at a location using an entity */

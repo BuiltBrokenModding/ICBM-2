@@ -1,9 +1,7 @@
 package icbm.gangshao.platform;
 
-import icbm.api.sentry.AmmoPair;
-import icbm.api.sentry.IAmmo;
-import icbm.api.sentry.IAmmunition;
-import icbm.api.sentry.ProjectileTypes;
+import icbm.gangshao.IAmmunition;
+import icbm.gangshao.ProjectileTypes;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.terminal.TileEntityTerminal;
@@ -30,7 +28,7 @@ import universalelectricity.prefab.CustomDamageSource;
  * @author Calclavia
  * 
  */
-public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInventory
+public class TPaoDaiZhan extends TileEntityTerminal implements IInventory
 {
 	/** The turret linked to this platform. */
 	private TPaoDaiBase turret = null;
@@ -100,7 +98,7 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 	public TPaoDaiBase getTurret(boolean getNew)
 	{
 		Vector3 position = new Vector3(this);
-		
+
 		if (getNew || this.turret == null || this.turret.isInvalid() || !(new Vector3(this.turret).equals(position.clone().modifyPositionFromSide(this.deployDirection))))
 		{
 			TileEntity tileEntity = position.clone().modifyPositionFromSide(this.deployDirection).getTileEntity(this.worldObj);
@@ -161,8 +159,7 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 		return !this.isDisabled() && (this.getTurret(false) != null && this.wattsReceived >= this.getTurret(false).getFiringRequest());
 	}
 
-	@Override
-	public AmmoPair<IAmmo, ItemStack> hasAmmunition(ProjectileTypes ammunitionStack)
+	public ItemStack hasAmmunition(ProjectileTypes ammunitionStack)
 	{
 		for (int i = 0; i < TPaoDaiZhan.UPGRADE_START_INDEX; i++)
 		{
@@ -171,21 +168,21 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 			if (itemStack != null)
 			{
 				Item item = Item.itemsList[itemStack.itemID];
-				if (item instanceof IAmmo && ((IAmmo) item).getType(itemStack.getItemDamage()).ordinal() == ammunitionStack.ordinal())
+
+				if (item instanceof IAmmunition && ((IAmmunition) item).getType(itemStack.getItemDamage()).ordinal() == ammunitionStack.ordinal())
 				{
-					return new AmmoPair<IAmmo, ItemStack>(((IAmmo) item), itemStack);
+					return itemStack;
 				}
 			}
 		}
+
 		return null;
 	}
 
-	@Override
-	public boolean useAmmunition(AmmoPair<IAmmo, ItemStack> ammo)
+	public boolean useAmmunition(ItemStack ammoStack)
 	{
-		if (ammo != null && ammo.getStack() != null)
+		if (ammoStack != null)
 		{
-			ItemStack ammoStack = ammo.getStack().copy();
 			for (int i = 0; i < TPaoDaiZhan.UPGRADE_START_INDEX; i++)
 			{
 				ItemStack itemStack = this.containingItems[i];
@@ -194,7 +191,14 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 				{
 					if (itemStack.isItemEqual(ammoStack))
 					{
-						this.containingItems[i] = ammo.getAmmo().consumeItem(itemStack);
+						itemStack.stackSize--;
+
+						if (itemStack.stackSize <= 0)
+						{
+							itemStack = null;
+						}
+
+						this.setInventorySlotContents(i, itemStack);
 						return true;
 					}
 				}
@@ -210,6 +214,7 @@ public class TPaoDaiZhan extends TileEntityTerminal implements IAmmunition, IInv
 		{
 			return this.upgrades.get(name);
 		}
+
 		return 0;
 	}
 

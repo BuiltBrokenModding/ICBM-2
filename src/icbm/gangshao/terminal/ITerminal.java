@@ -1,6 +1,6 @@
 package icbm.gangshao.terminal;
 
-import icbm.api.sentry.ISpecialAccess;
+import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.shimian.IScroll;
 
 import java.util.List;

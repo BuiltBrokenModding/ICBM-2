@@ -1,4 +1,4 @@
-package icbm.api.sentry;
+package icbm.gangshao;
 
 import net.minecraft.tileentity.TileEntity;
 import universalelectricity.core.vector.Vector3;

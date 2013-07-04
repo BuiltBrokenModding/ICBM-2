@@ -1,6 +1,6 @@
 package icbm.gangshao.task;
 
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.sentries.TPaoTaiZiDong;
 import net.minecraft.world.World;
 
 /**
@@ -14,7 +14,7 @@ public abstract class Task
 	protected int ticks = 0;
 
 	public World world;
-	public TPaoDaiBase tileEntity;
+	public TPaoTaiZiDong tileEntity;
 	public TaskManager taskManager;
 
 	/**

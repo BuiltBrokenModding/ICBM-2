@@ -33,7 +33,7 @@ public class RenderGunTurret extends RenderTaggedTile
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
 
 			this.setTextureBaseOnState(tileEntity);
-			RenderGunTurret.render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch);
+			render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch);
 
 			GL11.glPopMatrix();
 		}

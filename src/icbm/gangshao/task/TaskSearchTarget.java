@@ -1,6 +1,6 @@
 package icbm.gangshao.task;
 
-import icbm.api.sentry.IAutoSentry;
+import icbm.gangshao.IAutoSentry;
 import icbm.gangshao.access.AccessLevel;
 
 import java.util.List;
@@ -23,7 +23,6 @@ public class TaskSearchTarget extends Task
 
 			if (sentry.getTarget() == null || !sentry.isValidTarget(sentry.getTarget()))
 			{
-				System.out.println("SEARCHING"+this.tileEntity.worldObj.isRemote);
 				AxisAlignedBB bounds = sentry.getTargetingBox();
 
 				List<Entity> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
@@ -76,9 +75,14 @@ public class TaskSearchTarget extends Task
 
 				if (currentTarget != null)
 				{
+					this.tileEntity.cancelRotation();
 					this.taskManager.addTask(new TaskKillTarget());
 					sentry.setTarget(currentTarget, true);
 					return false;
+				}
+				else if (this.tileEntity.lastRotateTick > this.world.rand.nextInt(30) + 10)
+				{
+					this.tileEntity.rotateTo(this.world.rand.nextInt(360) - 180, 0);
 				}
 
 				return true;

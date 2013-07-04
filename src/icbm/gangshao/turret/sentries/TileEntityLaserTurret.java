@@ -10,8 +10,7 @@ public class TileEntityLaserTurret extends TPaoTaiZiDong
 		this.baseTargetRange = 30;
 		this.maxTargetRange = 90;
 
-		this.idleRtSpeed = 3f;
-		this.targetRtSpeed = 6f;
+		this.rotationSpeed = 3f;
 
 		this.baseFiringDelay = 20;
 		this.minFiringDelay = 10;
@@ -38,7 +37,7 @@ public class TileEntityLaserTurret extends TPaoTaiZiDong
 	@Override
 	public void playFiringSound()
 	{
-		// TODO Auto-generated method stub
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.lasershot", 5F, 1F - (this.worldObj.rand.nextFloat() * 0.2f));
 	}
 
 }

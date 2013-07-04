@@ -10,8 +10,7 @@ public class TileEntityGunTurret extends TPaoTaiZiDong
 		this.baseTargetRange = 20;
 		this.maxTargetRange = 90;
 
-		this.idleRtSpeed = 2f;
-		this.targetRtSpeed = 4f;
+		this.rotationSpeed = 2f;
 
 		this.baseFiringDelay = 10;
 		this.minFiringDelay = 5;

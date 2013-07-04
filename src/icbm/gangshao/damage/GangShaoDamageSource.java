@@ -5,11 +5,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import universalelectricity.prefab.CustomDamageSource;
 
-public class TileDamageSource extends CustomDamageSource
+public class GangShaoDamageSource extends CustomDamageSource
 {
 	protected Object damageSource;
 
-	public TileDamageSource(String damageName, Object attacker)
+	public GangShaoDamageSource(String damageName, Object attacker)
 	{
 		super(damageName);
 		this.damageSource = attacker;
@@ -27,13 +27,13 @@ public class TileDamageSource extends CustomDamageSource
 		return this.damageSource != null && this.damageSource instanceof EntityLiving && !(this.damageSource instanceof EntityPlayer);
 	}
 
-	public static TileDamageSource doBulletDamage(Object object)
+	public static GangShaoDamageSource doBulletDamage(Object object)
 	{
-		return (TileDamageSource) ((CustomDamageSource) new TileDamageSource("Bullets", object).setProjectile()).setDeathMessage("%1$s was filled with holes!");
+		return (GangShaoDamageSource) ((CustomDamageSource) new GangShaoDamageSource("Bullets", object).setProjectile()).setDeathMessage("%1$s was filled with holes!");
 	}
 
-	public static TileDamageSource doLaserDamage(Object object)
+	public static GangShaoDamageSource doLaserDamage(Object object)
 	{
-		return (TileDamageSource) ((CustomDamageSource) new TileDamageSource("Laser", object).setProjectile()).setDeathMessage("%1$s was vaporized!");
+		return (GangShaoDamageSource) ((CustomDamageSource) new GangShaoDamageSource("Laser", object).setProjectile()).setDeathMessage("%1$s was vaporized!");
 	}
 }

@@ -1,4 +1,4 @@
-package icbm.api.sentry;
+package icbm.gangshao;
 
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.access.UserAccess;

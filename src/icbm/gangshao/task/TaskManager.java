@@ -1,7 +1,7 @@
 package icbm.gangshao.task;
 
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.sentries.TPaoTaiZiDong;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ public class TaskManager
 {
 	private final List<Task> tasks = new ArrayList<Task>();
 
-	public TPaoDaiBase tileEntity;
+	public TPaoTaiZiDong tileEntity;
 
-	public TaskManager(TPaoDaiBase tileEntity)
+	public TaskManager(TPaoTaiZiDong tileEntity)
 	{
 		this.tileEntity = tileEntity;
 	}
@@ -30,7 +30,7 @@ public class TaskManager
 				Task currentTask = this.tasks.get(taskIndex);
 
 				if (currentTask != null)
-				{System.out.println(currentTask);
+				{
 					if (!currentTask.onUpdateTask())
 					{
 						currentTask.onTaskEnd();

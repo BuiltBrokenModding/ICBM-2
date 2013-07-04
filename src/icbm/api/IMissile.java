@@ -1,6 +1,7 @@
 package icbm.api;
 
 import icbm.api.explosion.IExplosiveContainer;
+import icbm.gangshao.IAATarget;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -9,7 +10,7 @@ import universalelectricity.core.vector.Vector3;
  * 
  * @author Calclavia
  */
-public interface IMissile extends IExplosiveContainer
+public interface IMissile extends IExplosiveContainer, IAATarget
 {
 	/**
 	 * Blows up this missile. It will detonate the missile with the appropriate explosion.

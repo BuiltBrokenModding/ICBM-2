@@ -1,14 +1,15 @@
 package icbm.gangshao.turret;
 
-import icbm.api.sentry.ISentry;
+import icbm.core.ZhuYaoBase;
+import icbm.gangshao.ISentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.EntityTileDamage;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.platform.TPaoDaiZhan;
 import icbm.gangshao.task.LookHelper;
-import icbm.gangshao.task.TaskManager;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,8 +33,6 @@ import universalelectricity.prefab.tile.TileEntityAdvanced;
 import calclavia.lib.render.ITagRender;
 
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.FMLLog;
 
 /**
  * Turret Base Class Class that handles all the basic movement, and block based updates of a turret.
@@ -68,9 +67,10 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	public float wantedRotationYaw, wantedRotationPitch = 0;
 	/** CURRENT ROATION ANGLES */
 	public float currentRotationYaw, currentRotationPitch = 0;
-	protected boolean isRotating = false;
-	/** CURRENT BARREL IN USE... USED TO SIMULATE MULTI BARREL SENTRIES */
-	protected int gunBarrel = 0;
+	/**
+	 * Amount of time since the last rotational movement.
+	 */
+	public int lastRotateTick = 0;
 
 	/** PACKET TYPES THIS TILE RECEIVES */
 	public static enum TurretPacketType
@@ -99,87 +99,66 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		}
 	}
 
-	public Packet getRotationPacket()
-	{
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.ROTATION.ordinal(), this.wantedRotationPitch, this.wantedRotationYaw);
-	}
-
-	/** Energy consumed each time the weapon activates */
-	public abstract double getFiringRequest();
-
-	/** is this sentry currently operating */
-	public boolean isRunning()
-	{
-		return this.getPlatform() != null && this.getPlatform().isRunning() && this.isAlive();
-	}
-
-	/** get the turrets control platform */
-	@Override
-	public TPaoDaiZhan getPlatform()
-	{
-		TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.xCoord + this.platformDirection.offsetX, this.yCoord + this.platformDirection.offsetY, this.zCoord + this.platformDirection.offsetZ);
-
-		if (tileEntity instanceof TPaoDaiZhan)
-		{
-			return (TPaoDaiZhan) tileEntity;
-		}
-		else
-		{
-			return null;
-		}
-
-	}
-
 	/*
 	 * ----------------------- PACKET DATA AND SAVING --------------------------------------
 	 */
-	/** Data */
 	@Override
 	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
 	{
-		if (this.worldObj.isRemote)
+		try
 		{
-			try
-			{
-				int id = dataStream.readInt();
+			this.onReceivePacket(dataStream.readInt(), player, dataStream);
+		}
+		catch (Exception e)
+		{
+			ZhuYaoBase.LOGGER.severe(MessageFormat.format("Packet receiving failed: {0}", this.getClass().getSimpleName()));
+			e.printStackTrace();
+		}
+	}
 
-				if (id == TurretPacketType.ROTATION.ordinal())
-				{
-					this.wantedRotationPitch = dataStream.readFloat();
-					this.wantedRotationYaw = dataStream.readFloat();
-				}
-				else if (id == TurretPacketType.NBT.ordinal())
-				{
-					short size = dataStream.readShort();
+	/**
+	 * Inherit this function to receive packets. Make sure this function is supered.
+	 * 
+	 * @throws IOException
+	 */
+	public void onReceivePacket(int packetID, EntityPlayer player, ByteArrayDataInput dataStream) throws IOException
+	{
+		if (packetID == TurretPacketType.ROTATION.ordinal())
+		{
+			this.setRotation(dataStream.readFloat(), dataStream.readFloat());
+		}
+		else if (packetID == TurretPacketType.NBT.ordinal())
+		{
+			short size = dataStream.readShort();
 
-					if (size > 0)
-					{
-						byte[] byteCode = new byte[size];
-						dataStream.readFully(byteCode);
-						this.readFromNBT(CompressedStreamTools.decompress(byteCode));
-					}
-				}
-				else if (id == TurretPacketType.SHOT.ordinal())
-				{
-					this.gunBarrel = dataStream.readInt();
-					this.renderShot(new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
-					this.playFiringSound();
-				}
-				else if (id == TurretPacketType.STATS.ordinal())
-				{
-					this.health = dataStream.readInt();
-				}
-				else if (id == TurretPacketType.MOUNT.ordinal())
-				{
-					this.mount(player);
-				}
-			}
-			catch (IOException e)
+			if (size > 0)
 			{
-				FMLLog.severe("Failed to receive packet for Sentry");
-				e.printStackTrace();
+				byte[] byteCode = new byte[size];
+				dataStream.readFully(byteCode);
+				this.readFromNBT(CompressedStreamTools.decompress(byteCode));
 			}
 		}
+		else if (packetID == TurretPacketType.STATS.ordinal())
+		{
+			this.health = dataStream.readInt();
+		}
+		else if (packetID == TurretPacketType.MOUNT.ordinal())
+		{
+			this.mount(player);
+		}
+	}
+
+	public Packet getRotationPacket()
+	{
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.ROTATION.ordinal(), this.wantedRotationYaw, this.wantedRotationPitch);
+	}
+
+	@Override
+	public Packet getDescriptionPacket()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.NBT.ordinal(), nbt);
 	}
 
 	/** Writes a tile entity to NBT. */
@@ -210,39 +189,35 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		}
 	}
 
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.NBT.ordinal(), nbt);
-	}
-
-	/** Sends the firing info to the client to render tracer effects */
-	public void sendShotToClient(Vector3 target)
-	{
-		if (target == null)
-		{
-			target = this.getMuzzle();
-		}
-		this.gunBarrel++;
-		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.SHOT.ordinal(), target.x, target.y, target.z, this.gunBarrel), this.worldObj, new Vector3(this), 50);
-
-		if (this.gunBarrel >= (this.getBarrels() - 1))
-		{
-			this.gunBarrel = 0;
-		}
-	}
-
-	/** creates client side effects when the sentry fires its weapon */
-	public abstract void renderShot(Vector3 target);
-
-	/** Sound this turrets plays each time its fires */
-	public abstract void playFiringSound();
-
 	/*
 	 * -------------------------- GENERIC SENTRY CODE --------------------------------------
 	 */
+
+	/** Energy consumed each time the weapon activates */
+	public abstract double getFiringRequest();
+
+	/** is this sentry currently operating */
+	public boolean isRunning()
+	{
+		return this.getPlatform() != null && this.getPlatform().isRunning() && this.isAlive();
+	}
+
+	/** get the turrets control platform */
+	@Override
+	public TPaoDaiZhan getPlatform()
+	{
+		TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.xCoord + this.platformDirection.offsetX, this.yCoord + this.platformDirection.offsetY, this.zCoord + this.platformDirection.offsetZ);
+
+		if (tileEntity instanceof TPaoDaiZhan)
+		{
+			return (TPaoDaiZhan) tileEntity;
+		}
+		else
+		{
+			return null;
+		}
+
+	}
 
 	/**
 	 * Removes the sentry when called and optional creates a small local explosion
@@ -304,7 +279,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	@Override
 	public Vector3 getMuzzle()
 	{
-		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5);
+		Vector3 position = new Vector3(this).add(0.5);
 		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch - 10), 0.5));
 	}
 
@@ -395,23 +370,34 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	@Override
 	public void setRotation(float yaw, float pitch)
 	{
-		this.wantedRotationYaw = yaw;
-		this.wantedRotationPitch = pitch;
+		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(yaw);
+		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(pitch);
 	}
 
 	public void rotateTo(float wantedRotationYaw, float wantedRotationPitch)
 	{
-		if (!this.isRotating && this.wantedRotationPitch != wantedRotationYaw && this.wantedRotationPitch != wantedRotationPitch)
+		if (!this.worldObj.isRemote)
 		{
-			this.wantedRotationYaw = wantedRotationYaw;
-			this.wantedRotationPitch = wantedRotationPitch;
-			this.isRotating = true;
-			PacketManager.sendPacketToClients(this.getRotationPacket(), this.worldObj, new Vector3(this), 50);
+			if (this.lastRotateTick > 0 && (this.wantedRotationYaw != wantedRotationYaw || this.wantedRotationPitch != wantedRotationPitch))
+			{
+				this.setRotation(wantedRotationYaw, wantedRotationPitch);
+				this.lastRotateTick = 0;
+
+				if (!this.worldObj.isRemote)
+				{
+					PacketManager.sendPacketToClients(this.getRotationPacket(), this.worldObj, new Vector3(this), 50);
+				}
+			}
 		}
 	}
 
+	public void cancelRotation()
+	{
+		this.setRotation(this.currentRotationYaw, this.currentRotationPitch);
+	}
+
 	/*
-	 * ----------------------------- RENDER CODE --------------------------------------
+	 * ----------------------------- CLIENT SIDE --------------------------------------
 	 */
 	public void drawParticleStreamTo(Vector3 endPosition)
 	{
@@ -442,6 +428,12 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 			}
 		}
 	}
+
+	/** creates client side effects when the sentry fires its weapon */
+	public abstract void renderShot(Vector3 target);
+
+	/** Sound this turrets plays each time its fires */
+	public abstract void playFiringSound();
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox()
