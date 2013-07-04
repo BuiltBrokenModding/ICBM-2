@@ -125,7 +125,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 
 					if (!this.worldObj.isRemote)
 					{
-						this.wattsReceived -= this.getRequest().getWatts();
+						this.wattsReceived = Math.max(this.wattsReceived - this.getRequest().getWatts(), 0);
 					}
 
 					int prevShuMu = this.xunZhaoEntity.size();
@@ -260,14 +260,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		double sendDian = this.wattsReceived;
-
-		if (sendDian > 0)
-		{
-			sendDian = this.getRequest().getWatts();
-		}
-
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 4, sendDian, this.disabledTicks);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 4, this.wattsReceived, this.disabledTicks);
 	}
 
 	@Override
@@ -461,7 +454,7 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 	@Override
 	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
 	{
-		if (this.prevWatts < this.getRequest().getWatts() && this.wattsReceived < this.getRequest().getWatts())
+		if (this.wattsReceived < this.getRequest().getWatts())
 		{
 			throw new Exception("Radar has insufficient electricity!");
 		}
