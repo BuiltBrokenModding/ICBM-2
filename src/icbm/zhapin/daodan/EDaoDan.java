@@ -21,6 +21,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -91,6 +92,9 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	private double qiFeiGaoDu = 3;
 
+	// Client side
+	protected final IUpdatePlayerListBox shengYin;
+
 	public EDaoDan(World par1World)
 	{
 		super(par1World);
@@ -98,6 +102,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.renderDistanceWeight = 3;
 		this.isImmuneToFire = true;
 		this.ignoreFrustumCheck = true;
+		this.shengYin = ZhuYaoZhaPin.proxy.getDaoDanShengYin(this);
 	}
 
 	/**
@@ -286,6 +291,11 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public void onUpdate()
 	{
+		if (this.shengYin != null)
+		{
+			this.shengYin.update();
+		}
+
 		if (!this.worldObj.isRemote)
 		{
 			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, this.haoMa))
@@ -620,6 +630,11 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		}
 
 		super.setDead();
+
+		if (this.shengYin != null)
+		{
+			this.shengYin.update();
+		}
 	}
 
 	@Override

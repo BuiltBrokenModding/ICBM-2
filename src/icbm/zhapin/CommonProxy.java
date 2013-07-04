@@ -1,6 +1,7 @@
 package icbm.zhapin;
 
 import icbm.core.ZhuYaoBase;
+import icbm.zhapin.daodan.EDaoDan;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.jiqi.TFaSheDi;
 import icbm.zhapin.jiqi.TFaSheJia;
@@ -12,6 +13,7 @@ import icbm.zhapin.rongqi.CFaShiDi;
 import icbm.zhapin.rongqi.CXiaoFaSheQi;
 import icbm.zhapin.zhapin.TZhaDan;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
@@ -85,6 +87,11 @@ public class CommonProxy implements IGuiHandler
 	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float red, float green, float blue, float scale, double distance)
 	{
 
+	}
+
+	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan)
+	{
+		return null;
 	}
 
 	public int getParticleSetting()

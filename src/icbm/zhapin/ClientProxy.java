@@ -4,6 +4,7 @@ import icbm.core.ShengYin;
 import icbm.core.ZhuYaoBase;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.daodan.EDaoDan;
+import icbm.zhapin.daodan.ShengYinDaoDan;
 import icbm.zhapin.fx.FXFanWuSu;
 import icbm.zhapin.fx.FXWan;
 import icbm.zhapin.fx.FXYan;
@@ -49,6 +50,7 @@ import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -178,5 +180,11 @@ public class ClientProxy extends CommonProxy
 			fx.motionZ = motionZ;
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
 		}
+	}
+
+	@Override
+	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan)
+	{
+		return new ShengYinDaoDan(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
 	}
 }
