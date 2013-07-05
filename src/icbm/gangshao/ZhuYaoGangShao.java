@@ -18,6 +18,7 @@ import icbm.gangshao.turret.ItemAmmo;
 import icbm.gangshao.turret.ItemBlockTurret;
 import icbm.gangshao.turret.mount.EJia;
 import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades;
+import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -79,7 +80,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 	public static Block blockTurret, blockPlatform;
 
 	public static Item itemAmmo;
-	public static Item itemUpgrades;
+	public static Item itemUpgrade;
 
 	/** ItemStack helpers. Do not modify theses. */
 	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
@@ -101,7 +102,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
-		itemUpgrades = new ItPaoTaiUpgrades(ITEM_ID_PREFIX + 2);
+		itemUpgrade = new ItPaoTaiUpgrades(ITEM_ID_PREFIX + 2);
 		ZhuYaoBase.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
@@ -143,12 +144,8 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B", 'D', Item.diamond, 'B', conventionalBullet }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
 
-		if (OreDictionary.getOres("battery").size() > 0)
-		{
-			// Turret Platform
-			GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', UniversalRecipes.BATTERY, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', Block.chest, 'B', UniversalRecipes.CIRCUIT_T1 }));
-		}
-
+		// Turret Platform
+		GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', UniversalRecipes.BATTERY, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', Block.chest, 'B', UniversalRecipes.CIRCUIT_T1 }));
 		// Gun Turret
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', UniversalRecipes.CIRCUIT_T1, 'S', UniversalRecipes.PRIMARY_METAL }));
 		// Railgun
@@ -156,7 +153,10 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		// AA Turret
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 2), new Object[] { "DDD", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'G', new ItemStack(blockTurret, 1, 0) }));
 		// Laser Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 3), new Object[] { "DDD", "CS ", "DS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'D', Item.diamond }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 3), new Object[] { "DDD", "CS ", "DS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'D', Block.glass }));
+
+		// Upgrades
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 2, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.ingotIron }));
 
 		CommandRegistry.register(new CommandAccess());
 		CommandRegistry.register(new CommandDestroy());

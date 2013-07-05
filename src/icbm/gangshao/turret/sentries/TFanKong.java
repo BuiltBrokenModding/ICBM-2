@@ -17,13 +17,13 @@ public class TFanKong extends TPaoTaiZiDong
 		this.targetAir = true;
 		this.canTargetAir = true;
 
-		this.baseTargetRange = 70;
-		this.maxTargetRange = 200;
+		this.baseTargetRange = 50;
+		this.maxTargetRange = 100;
 
 		this.rotationSpeed = 5;
 
-		this.minFiringDelay = 2;
-		this.baseFiringDelay = 7;
+		this.minFiringDelay = 8;
+		this.baseFiringDelay = 15;
 	}
 
 	@Override

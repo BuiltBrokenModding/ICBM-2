@@ -11,7 +11,7 @@ public class TQiang extends TPaoTaiZiDong
 		this.targetHostile = true;
 
 		this.baseTargetRange = 15;
-		this.maxTargetRange = 40;
+		this.maxTargetRange = 30;
 
 		this.rotationSpeed = 1.3f;
 

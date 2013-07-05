@@ -18,5 +18,5 @@ public interface ITurretUpgrade
 	 * 
 	 * @return Empty list or list containing string types
 	 */
-	public TurretUpgradeType getType(ItemStack itemstack);
+	public TurretUpgradeType getType(ItemStack itemStack);
 }

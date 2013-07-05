@@ -1,15 +1,14 @@
 package icbm.gangshao.platform;
 
 import icbm.gangshao.IAmmunition;
+import icbm.gangshao.ITurretUpgrade;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.terminal.TileEntityTerminal;
 import icbm.gangshao.turret.ItemAmmo.AmmoType;
 import icbm.gangshao.turret.TPaoDaiBase;
-
-import java.util.HashMap;
-
+import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -36,10 +35,9 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	private TPaoDaiBase turret = null;
 	/** Deploy direction of the sentry */
 	public ForgeDirection deployDirection = ForgeDirection.UP;
-	/** CURRENT MAP OF UPGRADES STATS */
-	public HashMap<String, Float> upgrades = new HashMap<String, Float>();
 	/** The start index of the upgrade slots for the turret. */
 	public static final int UPGRADE_START_INDEX = 12;
+	private static final int TURRET_UPGADE_SLOTS = 3;
 
 	/** The first 12 slots are for ammunition. The last 4 slots are for upgrades. */
 	public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
@@ -240,14 +238,24 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	}
 
 	/** Gets the change for the upgrade type 100% = 1.0 */
-	public float getUpgradePercent(String name)
+	public int getUpgradeCount(TurretUpgradeType type)
 	{
-		if (this.upgrades.containsKey(name))
+		int count = 0;
+		for (int i = UPGRADE_START_INDEX; i < TURRET_UPGADE_SLOTS; i++)
 		{
-			return this.upgrades.get(name);
+			if (this.getStackInSlot(i) != null)
+			{
+				if (this.getStackInSlot(i).getItem() instanceof ITurretUpgrade)
+				{
+					if (((ITurretUpgrade) this.getStackInSlot(i).getItem()).getType(this.getStackInSlot(i)) == type)
+					{
+						count++;
+					}
+				}
+			}
 		}
 
-		return 0;
+		return count;
 	}
 
 	@Override

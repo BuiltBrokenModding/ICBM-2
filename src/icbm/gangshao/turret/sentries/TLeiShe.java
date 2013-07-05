@@ -23,7 +23,7 @@ public class TLeiShe extends TPaoTaiZiDong
 		this.targetHostile = true;
 
 		this.baseTargetRange = 10;
-		this.maxTargetRange = 30;
+		this.maxTargetRange = 25;
 
 		this.rotationSpeed = 2f;
 

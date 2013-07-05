@@ -9,6 +9,7 @@ import icbm.gangshao.damage.TileDamageSource;
 import icbm.gangshao.task.TaskManager;
 import icbm.gangshao.task.TaskSearchTarget;
 import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
 
 import java.io.IOException;
 
@@ -403,7 +404,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		if (this.getPlatform() != null)
 		{
-			return this.baseTargetRange + Math.min(this.baseTargetRange * this.getPlatform().getUpgradePercent("TargetRange"), this.maxTargetRange);
+			return Math.min((float) (this.baseTargetRange + (this.maxTargetRange - this.baseTargetRange) * (float) ((float) this.getPlatform().getUpgradeCount(TurretUpgradeType.RANGE) / 64f)), this.maxTargetRange);
 		}
 
 		return this.baseTargetRange;
