@@ -22,12 +22,12 @@ public class TLeiShe extends TPaoTaiZiDong
 		this.targetPlayers = true;
 		this.targetHostile = true;
 
-		this.baseTargetRange = 15;
-		this.maxTargetRange = 70;
+		this.baseTargetRange = 10;
+		this.maxTargetRange = 30;
 
-		this.rotationSpeed = 3f;
+		this.rotationSpeed = 2f;
 
-		this.baseFiringDelay = 10;
+		this.baseFiringDelay = 12;
 		this.minFiringDelay = 5;
 
 		this.projectileType = ProjectileType.UNKNOWN;
@@ -89,7 +89,7 @@ public class TLeiShe extends TPaoTaiZiDong
 				{
 					this.getPlatform().wattsReceived -= this.getFiringRequest();
 					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 1);
-					this.target.setFire(120);
+					this.target.setFire(60);
 					return true;
 				}
 				else if (this.target instanceof IAATarget)

@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StringTranslate;
@@ -127,10 +129,35 @@ public class ExYaSuo extends ZhaPin
 
 				if (blockID > 0)
 				{
+					try
+					{
+						Block block = Block.blocksList[blockID];
 
-					Block.blocksList[blockID].onBlockDestroyedByExplosion(worldObj, var5, var6, var7, null);
-					Block.blocksList[blockID].dropBlockAsItemWithChance(worldObj, var5, var6, var7, worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
-					worldObj.setBlock(var5, var6, var7, 0, 0, 2);
+						if (block.canDropFromExplosion(null))
+						{
+							block.dropBlockAsItemWithChance(worldObj, var5, var6, var7, worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
+						}
+
+						if (block instanceof BlockTNT)
+						{
+							worldObj.setBlockToAir(var5, var6, var7);
+
+							if (!worldObj.isRemote)
+							{
+								EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(worldObj, var5 + 0.5, var6 + 0.5, var7 + 0.5, null);
+								entitytntprimed.fuse = worldObj.rand.nextInt(entitytntprimed.fuse / 4) + entitytntprimed.fuse / 8;
+								worldObj.spawnEntityInWorld(entitytntprimed);
+							}
+						}
+						else
+						{
+							block.onBlockExploded(worldObj, var5, var6, var7, null);
+						}
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		}

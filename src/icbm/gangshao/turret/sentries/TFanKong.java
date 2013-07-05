@@ -20,7 +20,7 @@ public class TFanKong extends TPaoTaiZiDong
 		this.baseTargetRange = 70;
 		this.maxTargetRange = 200;
 
-		this.rotationSpeed = 7;
+		this.rotationSpeed = 5;
 
 		this.minFiringDelay = 2;
 		this.baseFiringDelay = 7;

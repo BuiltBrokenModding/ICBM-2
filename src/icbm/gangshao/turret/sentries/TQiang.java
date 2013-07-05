@@ -10,13 +10,13 @@ public class TQiang extends TPaoTaiZiDong
 		this.targetPlayers = true;
 		this.targetHostile = true;
 
-		this.baseTargetRange = 30;
-		this.maxTargetRange = 100;
+		this.baseTargetRange = 15;
+		this.maxTargetRange = 40;
 
-		this.rotationSpeed = 2f;
+		this.rotationSpeed = 1.3f;
 
-		this.baseFiringDelay = 10;
-		this.minFiringDelay = 5;
+		this.baseFiringDelay = 20;
+		this.minFiringDelay = 10;
 	}
 
 	@Override
