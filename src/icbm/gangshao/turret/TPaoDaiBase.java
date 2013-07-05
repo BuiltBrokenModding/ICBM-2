@@ -30,6 +30,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
+import calclavia.lib.CalculationHelper;
 import calclavia.lib.render.ITagRender;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -75,7 +76,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	/** PACKET TYPES THIS TILE RECEIVES */
 	public static enum TurretPacketType
 	{
-		ROTATION, NBT, SHOT, STATS, MOUNT;
+		ROTATION, DESCRIPTION, SHOT, STATS, MOUNT;
 	}
 
 	@Override
@@ -127,7 +128,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		{
 			this.setRotation(dataStream.readFloat(), dataStream.readFloat());
 		}
-		else if (packetID == TurretPacketType.NBT.ordinal())
+		else if (packetID == TurretPacketType.DESCRIPTION.ordinal())
 		{
 			short size = dataStream.readShort();
 
@@ -158,7 +159,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
-		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.NBT.ordinal(), nbt);
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.DESCRIPTION.ordinal(), nbt);
 	}
 
 	/** Writes a tile entity to NBT. */
@@ -183,6 +184,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		this.currentRotationYaw = nbt.getFloat("cYaw");
 		this.currentRotationPitch = nbt.getFloat("cPitch");
 		this.platformDirection = ForgeDirection.getOrientation(nbt.getInteger("dir"));
+		
 		if (nbt.hasKey("health"))
 		{
 			this.health = nbt.getInteger("health");
@@ -270,10 +272,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	 */
 	public MovingObjectPosition rayTrace(double distance)
 	{
-		Vector3 muzzlePosition = this.getMuzzle();
-		Vector3 lookDistance = LookHelper.getDeltaPositionFromRotation(this.wantedRotationYaw / this.rotationTranslation, this.wantedRotationPitch / this.rotationTranslation);
-		Vector3 var6 = Vector3.add(muzzlePosition, Vector3.multiply(lookDistance, distance));
-		return this.worldObj.rayTraceBlocks(muzzlePosition.toVec3(), var6.toVec3());
+		return CalculationHelper.doCustomRayTrace(this.worldObj, this.getMuzzle(), this.wantedRotationYaw / this.rotationTranslation, this.wantedRotationPitch / this.rotationTranslation, true, distance);
 	}
 
 	@Override

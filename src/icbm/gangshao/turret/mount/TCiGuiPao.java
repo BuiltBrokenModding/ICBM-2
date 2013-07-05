@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.implement.IRedstoneReceptor;
@@ -93,7 +92,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 
 			if (objectMouseOver != null)
 			{
-				if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN) && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+				if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN))
 				{
 					if (this.isAntimatter)
 					{
@@ -110,15 +109,25 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 							}
 						}
 					}
-					int blockID = this.worldObj.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+					System.out.println(objectMouseOver.typeOfHit);
+
+					Vector3 blockPosition = new Vector3(objectMouseOver.hitVec);
+					System.out.println(blockPosition);
+					/*
+					 * if (objectMouseOver.typeOfHit == EnumMovingObjectType.TILE) { blockPosition =
+					 * new Vector3(objectMouseOver); } else { blockPosition = new
+					 * Vector3(objectMouseOver.entityHit); }
+					 */
+
+					int blockID = blockPosition.getBlockID(this.worldObj);
 					Block block = Block.blocksList[blockID];
 					/* Any hardness under zero is unbreakable */
-					if (block != null && block.getBlockHardness(this.worldObj, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ) > 0)
+					if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) > 0)
 					{
 						this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
 					}
 
-					this.worldObj.newExplosion(this.mountedPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, explosionSize, true, true);
+					this.worldObj.newExplosion(this.mountedPlayer, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
 				}
 			}
 
@@ -168,15 +177,6 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		// yaw + " P:" + pitch);
 		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));
 
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
-		super.readFromNBT(par1NBTTagCompound);
-
-		this.currentRotationPitch = this.wantedRotationPitch * 0.0175f;
-		this.currentRotationYaw = this.wantedRotationYaw * 0.0175f;
 	}
 
 	@Override
@@ -230,7 +230,6 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		}
 
 		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
-
 	}
 
 	@Override
