@@ -73,8 +73,6 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	 */
 	public int lastRotateTick = 0;
 
-	public EntityTileDamagable entityDamagable;
-
 	/** PACKET TYPES THIS TILE RECEIVES */
 	public static enum TurretPacketType
 	{

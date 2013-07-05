@@ -4,8 +4,6 @@ import icbm.gangshao.IAutoSentry;
 
 public class TaskKillTarget extends TaskSearchTarget
 {
-	int ticksTarget = 0;/* ticks since target has been seen */
-
 	@Override
 	protected boolean onUpdateTask()
 	{

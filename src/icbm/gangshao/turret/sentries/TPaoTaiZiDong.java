@@ -257,7 +257,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		if (this.isValidTarget(this.target) && this.getPlatform() != null)
 		{
-			if (this.lookHelper.isLookingAt(this.target, 10f))
+			if (this.lookHelper.isLookingAt(this.target, 5f))
 			{
 				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
 			}
@@ -414,7 +414,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		if (this.worldObj.isRemote)
 		{
 			// Speed up client side due to slight packet delay.
-			return this.rotationSpeed * 1.3f;
+			return this.rotationSpeed * 1.5f;
 		}
 
 		return this.rotationSpeed;

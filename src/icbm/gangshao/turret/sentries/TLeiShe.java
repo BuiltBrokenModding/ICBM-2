@@ -6,17 +6,24 @@ import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.TileDamageSource;
 import icbm.gangshao.task.LookHelper;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
 
 public class TLeiShe extends TPaoTaiZiDong
 {
+	/**
+	 * Laser turret spins its barrels every shot.
+	 */
+	public float barrelRotation;
+	public float barrelRotationVelocity;
+
 	public TLeiShe()
 	{
 		this.targetPlayers = true;
 		this.targetHostile = true;
 
-		this.baseTargetRange = 20;
-		this.maxTargetRange = 80;
+		this.baseTargetRange = 15;
+		this.maxTargetRange = 70;
 
 		this.rotationSpeed = 3f;
 
@@ -24,6 +31,18 @@ public class TLeiShe extends TPaoTaiZiDong
 		this.minFiringDelay = 5;
 
 		this.projectileType = ProjectileType.UNKNOWN;
+	}
+
+	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+
+		if (this.worldObj.isRemote)
+		{
+			this.barrelRotation = MathHelper.wrapAngleTo180_float(this.barrelRotation + this.barrelRotationVelocity);
+			this.barrelRotationVelocity = Math.max(this.barrelRotationVelocity - 0.1f, 0);
+		}
 	}
 
 	@Override
@@ -56,6 +75,7 @@ public class TLeiShe extends TPaoTaiZiDong
 		Vector3 center = new Vector3(this).add(new Vector3(0.5, 0.45, 0.5));
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
+		this.barrelRotationVelocity += 1;
 	}
 
 	@Override
@@ -69,7 +89,7 @@ public class TLeiShe extends TPaoTaiZiDong
 				{
 					this.getPlatform().wattsReceived -= this.getFiringRequest();
 					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 1);
-					this.target.setFire(80);
+					this.target.setFire(120);
 					return true;
 				}
 				else if (this.target instanceof IAATarget)

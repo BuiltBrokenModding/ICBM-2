@@ -8,11 +8,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -31,7 +31,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityTileDamagable extends EntityLiving implements IEntityAdditionalSpawnData
 {
 	private TPaoDaiBase host;
-	public int hp = 100;
 
 	public EntityTileDamagable(World par1World)
 	{
@@ -45,7 +44,6 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 		this(host.worldObj);
 		this.setPosition(host.xCoord + 0.5, host.yCoord, host.zCoord + 0.5);
 		this.host = host;
-		this.host.entityDamagable = this;
 	}
 
 	@Override
@@ -55,29 +53,9 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 		{
 			return ((IHealthTile) this.host).onDamageTaken(source, amount);
 		}
-		else
-		{
-			if ((this.hp -= amount) <= 0)
-			{
-				if (this.host != null)
-				{
-					Vector3 vec = new Vector3(this.host.xCoord, this.host.yCoord, this.host.zCoord);
-					int id = vec.getBlockID(this.worldObj);
-					int meta = vec.getBlockID(this.worldObj);
-					Block block = Block.blocksList[id];
 
-					if (block != null)
-					{
-						block.breakBlock(this.worldObj, this.host.xCoord, this.host.yCoord, this.host.zCoord, id, meta);
-					}
+		return true;
 
-					vec.setBlock(this.worldObj, 0);
-				}
-				this.setDead();
-
-			}
-			return true;
-		}
 	}
 
 	@Override
@@ -90,6 +68,7 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void addPotionEffect(PotionEffect par1PotionEffect)
 	{
@@ -130,9 +109,10 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 	{
 		try
 		{
-			if (this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt()) instanceof TPaoDaiBase)
+			TileEntity tileEntity = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
+			if (tileEntity instanceof TPaoDaiBase)
 			{
-				this.host = (TPaoDaiBase) this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
+				this.host = (TPaoDaiBase) tileEntity;
 			}
 		}
 		catch (Exception e)

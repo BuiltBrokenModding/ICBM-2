@@ -4,6 +4,7 @@ import icbm.core.ZhuYaoBase;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.muoxing.MLeiShe;
 import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.sentries.TLeiShe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -26,20 +27,25 @@ public class RLeiShe extends RenderTaggedTile
 	{
 		super.renderTileEntityAt(t, x, y, z, f);
 
-		if (t instanceof TPaoDaiBase)
+		if (t instanceof TLeiShe)
 		{
-			TPaoDaiBase tileEntity = (TPaoDaiBase) t;
+			TLeiShe tileEntity = (TLeiShe) t;
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
 
 			this.setTextureBaseOnState(tileEntity);
-			render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch);
+			render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch, tileEntity.barrelRotation);
 
 			GL11.glPopMatrix();
 		}
 	}
 
 	public static void render(float renderYaw, float renderPitch)
+	{
+		render(renderYaw, renderPitch, 0);
+	}
+
+	public static void render(float renderYaw, float renderPitch, float barrelRotation)
 	{
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
@@ -48,7 +54,7 @@ public class RLeiShe extends RenderTaggedTile
 		MODEL.renderYaw(0.0625F);
 		// Render gun pitch rotation
 		GL11.glRotatef(renderPitch, 1F, 0F, 0F);
-		MODEL.renderYawPitch(0.0625F);
+		MODEL.renderYawPitch(0.0625F, barrelRotation);
 	}
 
 	public void setTextureBaseOnState(TPaoDaiBase tileEntity)

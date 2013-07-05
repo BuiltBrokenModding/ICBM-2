@@ -7,7 +7,7 @@ public class TileDamageSource extends EntityDamageSource
 {
 	public TileDamageSource(String damageName, TPaoDaiBase tileEntity)
 	{
-		super(damageName, tileEntity.entityDamagable);
+		super(damageName, tileEntity.getDamageEntity());
 	}
 
 	public static TileDamageSource doBulletDamage(TPaoDaiBase tileEntity)

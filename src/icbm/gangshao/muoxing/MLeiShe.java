@@ -27,8 +27,22 @@ public class MLeiShe extends ModelBase
 	ModelRenderer r5;
 	ModelRenderer lCap;
 	ModelRenderer rCap;
-	ModelRenderer lEar;
-	ModelRenderer rEar;
+	ModelRenderer Hat;
+	ModelRenderer LowerHat;
+	ModelRenderer BatteryPack;
+	ModelRenderer MiddleWire;
+	ModelRenderer BatWire;
+	ModelRenderer HatWire;
+	ModelRenderer Details;
+	ModelRenderer RightFootStrength;
+	ModelRenderer LeftFootStrength;
+	ModelRenderer FrontDetail;
+	ModelRenderer LeftFootBase;
+	ModelRenderer RightFootBase;
+	ModelRenderer lEar1;
+	ModelRenderer lEar2;
+	ModelRenderer rEar1;
+	ModelRenderer rEar2;
 
 	public MLeiShe()
 	{
@@ -96,26 +110,26 @@ public class MLeiShe extends ModelBase
 		l1.mirror = true;
 		setRotation(l1, 0F, 0F, 0F);
 		l2 = new ModelRenderer(this, 9, 28);
-		l2.addBox(1F, -2F, -8F, 3, 3, 1);
-		l2.setRotationPoint(0F, 17F, 0F);
+		l2.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
+		l2.setRotationPoint(2.5F, 16.5F, -8F);
 		l2.setTextureSize(128, 128);
 		l2.mirror = true;
 		setRotation(l2, 0F, 0F, 0F);
 		l3 = new ModelRenderer(this, 9, 28);
-		l3.addBox(1F, -2F, -10F, 3, 3, 1);
-		l3.setRotationPoint(0F, 17F, 0F);
+		l3.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
+		l3.setRotationPoint(2.5F, 16.5F, -10F);
 		l3.setTextureSize(128, 128);
 		l3.mirror = true;
 		setRotation(l3, 0F, 0F, 0F);
 		l4 = new ModelRenderer(this, 9, 28);
-		l4.addBox(1F, -2F, -12F, 3, 3, 1);
-		l4.setRotationPoint(0F, 17F, 0F);
+		l4.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
+		l4.setRotationPoint(2.5F, 16.5F, -12F);
 		l4.setTextureSize(128, 128);
 		l4.mirror = true;
 		setRotation(l4, 0F, 0F, 0F);
 		l5 = new ModelRenderer(this, 9, 28);
-		l5.addBox(1F, -2F, -14F, 3, 3, 1);
-		l5.setRotationPoint(0F, 17F, 0F);
+		l5.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
+		l5.setRotationPoint(2.5F, 16.5F, -14F);
 		l5.setTextureSize(128, 128);
 		l5.mirror = true;
 		setRotation(l5, 0F, 0F, 0F);
@@ -126,26 +140,26 @@ public class MLeiShe extends ModelBase
 		r1.mirror = true;
 		setRotation(r1, 0F, 0F, 0F);
 		r2 = new ModelRenderer(this, 9, 28);
-		r2.addBox(-4F, -2F, -8F, 3, 3, 1);
-		r2.setRotationPoint(0F, 17F, 0F);
+		r2.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
+		r2.setRotationPoint(-2.5F, 16.5F, -8F);
 		r2.setTextureSize(128, 128);
 		r2.mirror = true;
 		setRotation(r2, 0F, 0F, 0F);
 		r3 = new ModelRenderer(this, 9, 28);
-		r3.addBox(-4F, -2F, -10F, 3, 3, 1);
-		r3.setRotationPoint(0F, 17F, 0F);
+		r3.addBox(-1.5F, -1.5F, -2F, 3, 3, 1);
+		r3.setRotationPoint(-2.5F, 16.5F, -8F);
 		r3.setTextureSize(128, 128);
 		r3.mirror = true;
 		setRotation(r3, 0F, 0F, 0F);
 		r4 = new ModelRenderer(this, 9, 28);
-		r4.addBox(-4F, -2F, -12F, 3, 3, 1);
-		r4.setRotationPoint(0F, 17F, 0F);
+		r4.addBox(-1.5F, -1.5F, -4F, 3, 3, 1);
+		r4.setRotationPoint(-2.5F, 16.5F, -8F);
 		r4.setTextureSize(128, 128);
 		r4.mirror = true;
 		setRotation(r4, 0F, 0F, 0F);
 		r5 = new ModelRenderer(this, 9, 28);
-		r5.addBox(-4F, -2F, -14F, 3, 3, 1);
-		r5.setRotationPoint(0F, 17F, 0F);
+		r5.addBox(-1.5F, -1.5F, -6F, 3, 3, 1);
+		r5.setRotationPoint(-2.5F, 16.5F, -8F);
 		r5.setTextureSize(128, 128);
 		r5.mirror = true;
 		setRotation(r5, 0F, 0F, 0F);
@@ -161,18 +175,102 @@ public class MLeiShe extends ModelBase
 		rCap.setTextureSize(128, 128);
 		rCap.mirror = true;
 		setRotation(rCap, 0F, 0F, 0F);
-		lEar = new ModelRenderer(this, 28, 56);
-		lEar.addBox(2F, -5F, -4F, 1, 5, 1);
-		lEar.setRotationPoint(0F, 17F, 0F);
-		lEar.setTextureSize(128, 128);
-		lEar.mirror = true;
-		setRotation(lEar, -0.6632251F, 0F, 0F);
-		rEar = new ModelRenderer(this, 23, 56);
-		rEar.addBox(-3F, -5F, -4F, 1, 5, 1);
-		rEar.setRotationPoint(0F, 17F, 0F);
-		rEar.setTextureSize(128, 128);
-		rEar.mirror = true;
-		setRotation(rEar, -0.6632251F, 0F, 0F);
+		Hat = new ModelRenderer(this, 28, 0);
+		Hat.addBox(0F, 0F, 0F, 3, 1, 7);
+		Hat.setRotationPoint(-1.5F, 12F, -2F);
+		Hat.setTextureSize(128, 128);
+		Hat.mirror = true;
+		setRotation(Hat, 0F, 0F, 0F);
+		LowerHat = new ModelRenderer(this, 50, 0);
+		LowerHat.addBox(0F, 0F, 0F, 3, 1, 1);
+		LowerHat.setRotationPoint(-1.5F, 13F, 4F);
+		LowerHat.setTextureSize(128, 128);
+		LowerHat.mirror = true;
+		setRotation(LowerHat, 0F, 0F, 0F);
+		BatteryPack = new ModelRenderer(this, 50, 3);
+		BatteryPack.addBox(0F, 0F, 0F, 4, 4, 1);
+		BatteryPack.setRotationPoint(-2F, 15F, 5F);
+		BatteryPack.setTextureSize(128, 128);
+		BatteryPack.mirror = true;
+		setRotation(BatteryPack, 0F, 0F, 0F);
+		MiddleWire = new ModelRenderer(this, 64, 0);
+		MiddleWire.addBox(0F, 0F, 0F, 1, 4, 1);
+		MiddleWire.setRotationPoint(-0.5F, 13F, 7F);
+		MiddleWire.setTextureSize(128, 128);
+		MiddleWire.mirror = true;
+		setRotation(MiddleWire, 0F, 0F, 0F);
+		BatWire = new ModelRenderer(this, 64, 6);
+		BatWire.addBox(0F, 0F, 0F, 1, 1, 1);
+		BatWire.setRotationPoint(-0.5F, 16F, 6F);
+		BatWire.setTextureSize(128, 128);
+		BatWire.mirror = true;
+		setRotation(BatWire, 0F, 0F, 0F);
+		HatWire = new ModelRenderer(this, 69, 0);
+		HatWire.addBox(0F, 0F, 0F, 1, 1, 2);
+		HatWire.setRotationPoint(-0.5F, 13F, 5F);
+		HatWire.setTextureSize(128, 128);
+		HatWire.mirror = true;
+		setRotation(HatWire, 0F, 0F, 0F);
+		Details = new ModelRenderer(this, 28, 10);
+		Details.addBox(0F, 0F, 0F, 3, 1, 1);
+		Details.setRotationPoint(-1.5F, 22F, -5.5F);
+		Details.setTextureSize(128, 128);
+		Details.mirror = true;
+		setRotation(Details, 0F, 0F, 0F);
+		RightFootStrength = new ModelRenderer(this, 28, 14);
+		RightFootStrength.addBox(0F, 0F, 0F, 1, 2, 4);
+		RightFootStrength.setRotationPoint(3F, 20F, -2F);
+		RightFootStrength.setTextureSize(128, 128);
+		RightFootStrength.mirror = true;
+		setRotation(RightFootStrength, 0F, 0F, 0F);
+		LeftFootStrength = new ModelRenderer(this, 28, 14);
+		LeftFootStrength.addBox(0F, 0F, 0F, 1, 2, 4);
+		LeftFootStrength.setRotationPoint(-4F, 20F, -2F);
+		LeftFootStrength.setTextureSize(128, 128);
+		LeftFootStrength.mirror = true;
+		setRotation(LeftFootStrength, 0F, 0F, 0F);
+		FrontDetail = new ModelRenderer(this, 40, 10);
+		FrontDetail.addBox(0F, 0F, 0F, 3, 3, 1);
+		FrontDetail.setRotationPoint(-1.5F, 21F, -6.5F);
+		FrontDetail.setTextureSize(128, 128);
+		FrontDetail.mirror = true;
+		setRotation(FrontDetail, 0F, 0F, 0F);
+		LeftFootBase = new ModelRenderer(this, 0, 0);
+		LeftFootBase.addBox(0F, 0F, 0F, 3, 1, 6);
+		LeftFootBase.setRotationPoint(-5.5F, 22F, -3F);
+		LeftFootBase.setTextureSize(128, 128);
+		LeftFootBase.mirror = true;
+		setRotation(LeftFootBase, 0F, 0F, 0F);
+		RightFootBase = new ModelRenderer(this, 0, 0);
+		RightFootBase.addBox(0F, 0F, 0F, 3, 1, 6);
+		RightFootBase.setRotationPoint(2.5F, 22F, -3F);
+		RightFootBase.setTextureSize(128, 128);
+		RightFootBase.mirror = true;
+		setRotation(RightFootBase, 0F, 0F, 0F);
+		lEar1 = new ModelRenderer(this, 28, 56);
+		lEar1.addBox(2F, -5F, -4F, 1, 5, 1);
+		lEar1.setRotationPoint(0F, 17F, 5F);
+		lEar1.setTextureSize(128, 128);
+		lEar1.mirror = true;
+		setRotation(lEar1, -0.6632251F, 0F, 0F);
+		lEar2 = new ModelRenderer(this, 28, 56);
+		lEar2.addBox(2F, -5F, -4F, 1, 5, 1);
+		lEar2.setRotationPoint(0F, 17F, 0F);
+		lEar2.setTextureSize(128, 128);
+		lEar2.mirror = true;
+		setRotation(lEar2, -0.6632251F, 0F, 0F);
+		rEar1 = new ModelRenderer(this, 23, 56);
+		rEar1.addBox(-3F, -5F, -4F, 1, 5, 1);
+		rEar1.setRotationPoint(0F, 17F, 5F);
+		rEar1.setTextureSize(128, 128);
+		rEar1.mirror = true;
+		setRotation(rEar1, -0.6632251F, 0F, 0F);
+		rEar2 = new ModelRenderer(this, 23, 56);
+		rEar2.addBox(-3F, -5F, -4F, 1, 5, 1);
+		rEar2.setRotationPoint(0F, 17F, 0F);
+		rEar2.setTextureSize(128, 128);
+		rEar2.mirror = true;
+		setRotation(rEar2, -0.6632251F, 0F, 0F);
 	}
 
 	public void renderYaw(float f5)
@@ -182,7 +280,7 @@ public class MLeiShe extends ModelBase
 		rightMount.render(f5);
 	}
 
-	public void renderYawPitch(float f5)
+	public void renderYawPitch(float f5, float rotation)
 	{
 		body.render(f5);
 		bodyTop.render(f5);
@@ -190,20 +288,49 @@ public class MLeiShe extends ModelBase
 		bodyLeft.render(f5);
 		leftBarrel.render(f5);
 		rightBarrel.render(f5);
+
 		l1.render(f5);
-		l2.render(f5);
-		l3.render(f5);
-		l4.render(f5);
-		l5.render(f5);
 		r1.render(f5);
+
+		/**
+		 * Rotatable laser barrels
+		 */
+		l2.rotateAngleZ = -rotation;
+		l2.render(f5);
+		l3.rotateAngleZ = -rotation;
+		l3.render(f5);
+		l4.rotateAngleZ = -rotation;
+		l4.render(f5);
+		l5.rotateAngleZ = -rotation;
+		l5.render(f5);
+
+		r2.rotateAngleZ = rotation;
 		r2.render(f5);
+		r3.rotateAngleZ = rotation;
 		r3.render(f5);
+		r4.rotateAngleZ = rotation;
 		r4.render(f5);
+		r5.rotateAngleZ = rotation;
 		r5.render(f5);
+
 		lCap.render(f5);
 		rCap.render(f5);
-		lEar.render(f5);
-		rEar.render(f5);
+		Hat.render(f5);
+		LowerHat.render(f5);
+		BatteryPack.render(f5);
+		MiddleWire.render(f5);
+		BatWire.render(f5);
+		HatWire.render(f5);
+		Details.render(f5);
+		RightFootStrength.render(f5);
+		LeftFootStrength.render(f5);
+		FrontDetail.render(f5);
+		LeftFootBase.render(f5);
+		RightFootBase.render(f5);
+		lEar1.render(f5);
+		lEar2.render(f5);
+		rEar1.render(f5);
+		rEar2.render(f5);
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z)
