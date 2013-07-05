@@ -4,7 +4,7 @@ import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoBase;
 import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.damage.EntityTileDamage;
+import icbm.gangshao.damage.EntityTileDamagable;
 import icbm.gangshao.render.BlockRenderingHandler;
 import icbm.gangshao.turret.mount.TCiGuiPao;
 import icbm.gangshao.turret.sentries.TFanKong;
@@ -17,13 +17,10 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -64,7 +61,6 @@ public class BlockTurret extends BICBM
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setHardness(100f);
 		this.setResistance(50f);
-
 	}
 
 	@Override
@@ -73,7 +69,7 @@ public class BlockTurret extends BICBM
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
 		if (ent instanceof TPaoDaiBase)
 		{
-			EntityTileDamage dEnt = ((TPaoDaiBase) ent).getDamageEntity();
+			EntityTileDamagable dEnt = ((TPaoDaiBase) ent).getDamageEntity();
 			if (dEnt != null)
 			{
 				this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
@@ -90,19 +86,6 @@ public class BlockTurret extends BICBM
 	public void registerIcons(IconRegister iconRegister)
 	{
 		this.blockIcon = iconRegister.registerIcon(ZhuYaoBase.PREFIX + "machine");
-	}
-
-	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity ent)
-	{
-		if (ent instanceof IProjectile)
-		{
-			TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-			if (tileEntity instanceof TPaoDaiBase)
-			{
-				((TPaoDaiBase) tileEntity).onDamageTaken(DamageSource.magic, 1);
-			}
-		}
 	}
 
 	/** Called when the block is placed in the world. */

@@ -41,7 +41,7 @@ public class TLeiShe extends TPaoTaiZiDong
 	@Override
 	public int getMaxHealth()
 	{
-		return 120;
+		return 130;
 	}
 
 	@Override

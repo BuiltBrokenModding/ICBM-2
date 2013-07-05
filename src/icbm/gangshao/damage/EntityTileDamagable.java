@@ -28,36 +28,35 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author DarkGuardsman
  * 
  */
-public class EntityTileDamage extends EntityLiving implements IEntityAdditionalSpawnData
+public class EntityTileDamagable extends EntityLiving implements IEntityAdditionalSpawnData
 {
-
 	private TileEntity host;
-	int hp = 100;
+	public int hp = 100;
 
-	public EntityTileDamage(World par1World)
+	public EntityTileDamagable(World par1World)
 	{
 		super(par1World);
 		this.isImmuneToFire = true;
 		this.setSize(1.1F, 1.1F);
 	}
 
-	public EntityTileDamage(TileEntity c)
+	public EntityTileDamagable(TileEntity host)
 	{
-		this(c.worldObj);
-		this.setPosition(c.xCoord + 0.5, c.yCoord, c.zCoord + 0.5);
-		this.host = c;
+		this(host.worldObj);
+		this.setPosition(host.xCoord + 0.5, host.yCoord, host.zCoord + 0.5);
+		this.host = host;
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, int ammount)
+	public boolean attackEntityFrom(DamageSource source, int amount)
 	{
 		if (this.host instanceof IHealthTile)
 		{
-			return ((IHealthTile) this.host).onDamageTaken(source, ammount);
+			return ((IHealthTile) this.host).onDamageTaken(source, amount);
 		}
 		else
 		{
-			if ((hp -= ammount) <= 0)
+			if ((this.hp -= amount) <= 0)
 			{
 				if (this.host != null)
 				{
@@ -65,10 +64,12 @@ public class EntityTileDamage extends EntityLiving implements IEntityAdditionalS
 					int id = vec.getBlockID(this.worldObj);
 					int meta = vec.getBlockID(this.worldObj);
 					Block block = Block.blocksList[id];
+
 					if (block != null)
 					{
 						block.breakBlock(this.worldObj, this.host.xCoord, this.host.yCoord, this.host.zCoord, id, meta);
 					}
+
 					vec.setBlock(this.worldObj, 0);
 				}
 				this.setDead();
@@ -160,7 +161,6 @@ public class EntityTileDamage extends EntityLiving implements IEntityAdditionalS
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbttagcompound)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
@@ -173,7 +173,6 @@ public class EntityTileDamage extends EntityLiving implements IEntityAdditionalS
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
@@ -187,7 +186,6 @@ public class EntityTileDamage extends EntityLiving implements IEntityAdditionalS
 	public AxisAlignedBB getCollisionBox(Entity par1Entity)
 	{
 		return AxisAlignedBB.getBoundingBox(this.posX - .6, this.posY - .6, this.posZ - .6, this.posX + .6, this.posY + .6, this.posZ + .6);
-
 	}
 
 	@Override

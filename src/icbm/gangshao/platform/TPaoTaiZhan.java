@@ -153,7 +153,8 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 		if (ent instanceof TPaoDaiBase)
 		{
 			this.turret = null;
-			return ((TPaoDaiBase) ent).destroy(false);
+			((TPaoDaiBase) ent).destroy(false);
+			return true;
 		}
 
 		return false;

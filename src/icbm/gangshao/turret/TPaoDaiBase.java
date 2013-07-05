@@ -3,7 +3,7 @@ package icbm.gangshao.turret;
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.ISentry;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.damage.EntityTileDamage;
+import icbm.gangshao.damage.EntityTileDamagable;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.task.LookHelper;
@@ -63,7 +63,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	/** LOWEST FIRING DELAY */
 	public int minFiringDelay = 5;
 	/** ENTITY THAT TAKES DAMAGE FOR THE SENTRY */
-	private EntityTileDamage damageEntity;
+	private EntityTileDamagable damageEntity;
 	/** TARGET ROATION ANGLES */
 	public float wantedRotationYaw, wantedRotationPitch = 0;
 	/** CURRENT ROATION ANGLES */
@@ -94,7 +94,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 			// SPAWN DAMAGE ENTITY IF ALIVE
 			if (!this.isInvul() && this.getDamageEntity() == null && this.getHealth() > 0)
 			{
-				this.setDamageEntity(new EntityTileDamage(this));
+				this.setDamageEntity(new EntityTileDamagable(this));
 				this.worldObj.spawnEntityInWorld(this.getDamageEntity());
 			}
 		}
@@ -147,6 +147,11 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		{
 			this.mount(player);
 		}
+	}
+
+	public Packet getStatsPacket()
+	{
+		return PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.STATS.ordinal(), this.health);
 	}
 
 	public Packet getRotationPacket()
@@ -226,19 +231,22 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	 * 
 	 * @param doExplosion - True too create a small local explosion
 	 */
-	public boolean destroy(boolean doExplosion)
+	public void destroy(boolean doExplosion)
 	{
 		if (doExplosion)
 		{
-			this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
-		}
+			this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 
-		if (!this.worldObj.isRemote)
+			if (this.isAlive())
+			{
+				this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
+			}
+		}
+		else if (!this.worldObj.isRemote)
 		{
 			this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
+			this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 		}
-
-		return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 	}
 
 	/** Gets the number of barrels this sentry has */
@@ -322,6 +330,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		{
 			i += this.health;
 		}
+
 		this.health = Math.min(Math.max(i, 0), this.getMaxHealth());
 	}
 
@@ -346,18 +355,27 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		{
 			this.health -= amount;
 
+			if (this.health <= 0)
+			{
+				this.destroy(true);
+			}
+			else
+			{
+				PacketManager.sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
+			}
+
 			return true;
 		}
 	}
 
 	/** Entity that takes damage for the sentry */
-	public EntityTileDamage getDamageEntity()
+	public EntityTileDamagable getDamageEntity()
 	{
 		return damageEntity;
 	}
 
 	/** Sets the entity that takes damage for this sentry */
-	public void setDamageEntity(EntityTileDamage damageEntity)
+	public void setDamageEntity(EntityTileDamagable damageEntity)
 	{
 		this.damageEntity = damageEntity;
 	}

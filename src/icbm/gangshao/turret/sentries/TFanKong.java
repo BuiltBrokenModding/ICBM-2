@@ -47,7 +47,7 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public int getMaxHealth()
 	{
-		return 150;
+		return 160;
 	}
 
 	@Override

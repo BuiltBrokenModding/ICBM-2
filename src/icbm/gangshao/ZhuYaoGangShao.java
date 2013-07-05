@@ -4,7 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.ICBMFlags;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoBase;
-import icbm.gangshao.damage.EntityTileDamage;
+import icbm.gangshao.damage.EntityTileDamagable;
 import icbm.gangshao.platform.BlockTurretPlatform;
 import icbm.gangshao.terminal.command.CommandAccess;
 import icbm.gangshao.terminal.command.CommandDestroy;
@@ -114,8 +114,8 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 
 		EntityRegistry.registerGlobalEntityID(EJia.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EJia.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
-		EntityRegistry.registerGlobalEntityID(EntityTileDamage.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityTileDamage.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityTileDamagable.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityTileDamagable.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
 
 		ICBMTab.itemStack = new ItemStack(blockTurret);
 
