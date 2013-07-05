@@ -2,6 +2,10 @@ package icbm.gangshao.access;
 
 public enum AccessLevel
 {
+	/**
+	 * >= Owners can do anything
+	 * >= Admins can set rank
+	 */
 	NONE("None"), BASIC("Basic"), USER("Standard"), ADMIN("Admin"), OWNER("Owner");
 
 	public String displayName;

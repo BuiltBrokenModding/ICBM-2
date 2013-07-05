@@ -90,6 +90,10 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 	@Override
 	public String getEntityName()
 	{
+		if (this.host != null)
+		{
+			return this.host.getName();
+		}
 		return "EntityTileTarget";
 	}
 

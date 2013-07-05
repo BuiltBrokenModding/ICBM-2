@@ -235,11 +235,14 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	{
 		if (doExplosion)
 		{
-			this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
-
-			if (this.isAlive())
+			if (!this.isInvalid())
 			{
-				this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
+				this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
+				this.worldObj.createExplosion(this.getDamageEntity(), this.xCoord, this.yCoord, this.zCoord, 2f, true);
+			}
+			else
+			{
+				this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 			}
 		}
 		else if (!this.worldObj.isRemote)

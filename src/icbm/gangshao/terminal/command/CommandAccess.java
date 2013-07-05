@@ -30,19 +30,21 @@ public class CommandAccess extends TerminalCommand
 	{
 		if (args[0].equalsIgnoreCase("access") && args.length > 1 && args[1] != null && terminal instanceof TPaoTaiZhan)
 		{
-			TPaoTaiZhan turret = (TPaoTaiZhan) terminal;
+			TPaoTaiZhan platform = (TPaoTaiZhan) terminal;
 			AccessLevel userAccess = terminal.getUserAccess(player.username);
 
 			if (args[1].equalsIgnoreCase("?"))
 			{
-				terminal.addToConsole("Access Level: " + turret.getUserAccess(player.username).displayName);
+				terminal.addToConsole("Access Level: " + platform.getUserAccess(player.username).displayName);
 				return true;
 			}
 			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.ADMIN.ordinal())
 			{
 				String username = args[2];
-				AccessLevel playerAccess = terminal.getUserAccess(player.username);
 				AccessLevel currentAccess = terminal.getUserAccess(username);
+
+				// Only Admins can set ranks
+				AccessLevel playerAccess = terminal.getUserAccess(player.username);
 
 				if (playerAccess.ordinal() >= AccessLevel.ADMIN.ordinal())
 				{
@@ -50,11 +52,12 @@ public class CommandAccess extends TerminalCommand
 					{
 						AccessLevel newAccess = AccessLevel.get(args[3]);
 
-						if (currentAccess != AccessLevel.OWNER || turret.getUsersWithAcess(AccessLevel.OWNER).size() > 1)
+						if (currentAccess != AccessLevel.OWNER || platform.getUsersWithAcess(AccessLevel.OWNER).size() > 1)
 						{
 							if (newAccess != AccessLevel.NONE && terminal.addUserAccess(username, newAccess, true))
 							{
 								terminal.addToConsole(username + " set to " + newAccess.displayName);
+								platform.worldObj.markBlockForUpdate(platform.xCoord, platform.yCoord, platform.zCoord);
 								return true;
 							}
 						}
