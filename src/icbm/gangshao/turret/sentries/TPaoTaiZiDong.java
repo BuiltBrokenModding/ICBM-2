@@ -16,6 +16,8 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.INpc;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
@@ -190,7 +192,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 					{
 						if (this.targetAir && this.canTargetAir)
 						{
-							if ((entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this)))
+							if (this.isAir(entity))
 							{
 								return true;
 							}
@@ -223,7 +225,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 
 						if (this.targetHostile)
 						{
-							if (entity instanceof IMob && !((entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))))
+							if (entity instanceof IMob && !this.isAir(entity))
 							{
 								return true;
 							}
@@ -231,7 +233,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 
 						if (this.targetFriendly)
 						{
-							if ((entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant) && !((entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this))))
+							if ((entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant) && !this.isAir(entity))
 							{
 								return true;
 							}
@@ -242,6 +244,11 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		}
 
 		return false;
+	}
+
+	protected boolean isAir(Entity entity)
+	{
+		return (entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this)) || entity instanceof EntityWither || entity instanceof EntityDragon;
 	}
 
 	@Override

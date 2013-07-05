@@ -1,5 +1,6 @@
 package icbm.gangshao.terminal;
 
+import icbm.core.ZhuYaoBase;
 import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.access.UserAccess;
@@ -23,7 +24,6 @@ import calclavia.lib.TileEntityUniversalRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
@@ -186,7 +186,7 @@ public abstract class TileEntityTerminal extends TileEntityUniversalRunnable imp
 		}
 		catch (Exception e)
 		{
-			FMLLog.severe("DarkLib>>>TerminalInstance>>>PacketReadError>>>ForTile>>>" + this.toString());
+			ZhuYaoBase.LOGGER.severe("Terminal error: " + this.toString());
 			e.printStackTrace();
 		}
 	}

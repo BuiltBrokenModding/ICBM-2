@@ -41,24 +41,29 @@ public class CommandAccess extends TerminalCommand
 			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.ADMIN.ordinal())
 			{
 				String username = args[2];
+				AccessLevel playerAccess = terminal.getUserAccess(player.username);
 				AccessLevel currentAccess = terminal.getUserAccess(username);
 
-				if (username.equalsIgnoreCase("~root"))
+				if (playerAccess.ordinal() >= AccessLevel.ADMIN.ordinal())
 				{
-					terminal.addToConsole("WIP");
-				}
-				else if (currentAccess != AccessLevel.NONE)
-				{
-					AccessLevel newAccess = AccessLevel.get(args[3]);
-
-					if (currentAccess != AccessLevel.OWNER || turret.getUsersWithAcess(AccessLevel.OWNER).size() > 1)
+					if (currentAccess != AccessLevel.NONE)
 					{
-						if (newAccess != AccessLevel.NONE && terminal.addUserAccess(username, newAccess, true))
+						AccessLevel newAccess = AccessLevel.get(args[3]);
+
+						if (currentAccess != AccessLevel.OWNER || turret.getUsersWithAcess(AccessLevel.OWNER).size() > 1)
 						{
-							terminal.addToConsole(username + " set to " + newAccess.displayName);
-							return true;
+							if (newAccess != AccessLevel.NONE && terminal.addUserAccess(username, newAccess, true))
+							{
+								terminal.addToConsole(username + " set to " + newAccess.displayName);
+								return true;
+							}
 						}
 					}
+				}
+				else
+				{
+					terminal.addToConsole("Access denied!");
+					return true;
 				}
 			}
 		}
@@ -81,7 +86,6 @@ public class CommandAccess extends TerminalCommand
 	public List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm)
 	{
 		List<String> cmds = new ArrayList<String>();
-		cmds.add("access set ~root [pass]");
 		cmds.add("access set username level");
 		cmds.add("access ?");
 		return cmds;
