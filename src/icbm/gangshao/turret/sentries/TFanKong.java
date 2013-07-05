@@ -41,7 +41,7 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public double getFiringRequest()
 	{
-		return 1000;
+		return 8000;
 	}
 
 	@Override

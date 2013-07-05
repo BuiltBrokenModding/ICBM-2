@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import universalelectricity.core.item.IItemElectric;
 
 public class ContainerTurretPlatform extends ContainerTerminal
 {
@@ -65,7 +66,7 @@ public class ContainerTurretPlatform extends ContainerTerminal
 			{
 				if (this.tileEntity.getUserAccess(entityPlayer.username).ordinal() > AccessLevel.NONE.ordinal())
 				{
-					if (itemStack.getItem() instanceof ItemAmmo)
+					if (itemStack.getItem() instanceof ItemAmmo || itemStack.getItem() instanceof IItemElectric)
 					{
 						if (!this.mergeItemStack(itemStack, 0, TPaoTaiZhan.UPGRADE_START_INDEX, false))
 						{

@@ -13,7 +13,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
@@ -109,15 +108,8 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 							}
 						}
 					}
-					System.out.println(objectMouseOver.typeOfHit);
 
 					Vector3 blockPosition = new Vector3(objectMouseOver.hitVec);
-					System.out.println(blockPosition);
-					/*
-					 * if (objectMouseOver.typeOfHit == EnumMovingObjectType.TILE) { blockPosition =
-					 * new Vector3(objectMouseOver); } else { blockPosition = new
-					 * Vector3(objectMouseOver.entityHit); }
-					 */
 
 					int blockID = blockPosition.getBlockID(this.worldObj);
 					Block block = Block.blocksList[blockID];
@@ -173,8 +165,6 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
 		float yaw = (float) Math.toDegrees(this.wantedRotationYaw);
 		float pitch = (float) Math.toDegrees(this.wantedRotationPitch);
-		// System.out.println("World:" + (this.worldObj.isRemote ? "Client" : "Server") + " Y:" +
-		// yaw + " P:" + pitch);
 		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));
 
 	}
@@ -194,7 +184,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	@Override
 	public double getFiringRequest()
 	{
-		return 300000;
+		return 800000;
 	}
 
 	@Override

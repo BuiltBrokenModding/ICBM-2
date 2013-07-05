@@ -23,6 +23,7 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -96,7 +97,11 @@ public class BlockTurret extends BICBM
 	{
 		if (ent instanceof IProjectile)
 		{
-			// TODO pass event to tileEntity to apply damage
+			TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+			if (tileEntity instanceof TPaoDaiBase)
+			{
+				((TPaoDaiBase) tileEntity).onDamageTaken(DamageSource.magic, 1);
+			}
 		}
 	}
 
@@ -196,11 +201,6 @@ public class BlockTurret extends BICBM
 			}
 			else
 			{
-				/*
-				 * if (tileEntity instanceof IMultiBlock) { ((IMultiBlock)
-				 * tileEntity).onDestroy(tileEntity); }
-				 */
-
 				if (tileEntity != null)
 				{
 					((TPaoDaiBase) tileEntity).destroy(false);

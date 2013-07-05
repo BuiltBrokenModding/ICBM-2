@@ -184,7 +184,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		this.currentRotationYaw = nbt.getFloat("cYaw");
 		this.currentRotationPitch = nbt.getFloat("cPitch");
 		this.platformDirection = ForgeDirection.getOrientation(nbt.getInteger("dir"));
-		
+
 		if (nbt.hasKey("health"))
 		{
 			this.health = nbt.getInteger("health");

@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
 
@@ -51,6 +52,19 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 		if (this.prevWatts != this.wattsReceived)
 		{
 			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+		}
+
+		if (!this.worldObj.isRemote)
+		{
+			for (int i = 0; i < UPGRADE_START_INDEX; i++)
+			{
+				if (this.wattsReceived >= this.getRequest().getWatts())
+				{
+					break;
+				}
+
+				this.wattsReceived += ElectricItemHelper.dechargeItem(this.getStackInSlot(i), this.getRequest().getWatts(), this.getVoltage());
+			}
 		}
 	}
 

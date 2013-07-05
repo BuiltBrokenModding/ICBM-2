@@ -15,8 +15,8 @@ public class TLeiShe extends TPaoTaiZiDong
 		this.targetPlayers = true;
 		this.targetHostile = true;
 
-		this.baseTargetRange = 30;
-		this.maxTargetRange = 90;
+		this.baseTargetRange = 20;
+		this.maxTargetRange = 80;
 
 		this.rotationSpeed = 3f;
 
@@ -29,7 +29,7 @@ public class TLeiShe extends TPaoTaiZiDong
 	@Override
 	public double getFiringRequest()
 	{
-		return 3000;
+		return 20000;
 	}
 
 	@Override

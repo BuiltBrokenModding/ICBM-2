@@ -10,8 +10,8 @@ public class TQiang extends TPaoTaiZiDong
 		this.targetPlayers = true;
 		this.targetHostile = true;
 
-		this.baseTargetRange = 20;
-		this.maxTargetRange = 90;
+		this.baseTargetRange = 30;
+		this.maxTargetRange = 100;
 
 		this.rotationSpeed = 2f;
 
@@ -34,7 +34,7 @@ public class TQiang extends TPaoTaiZiDong
 	@Override
 	public double getFiringRequest()
 	{
-		return 100;
+		return 1000;
 	}
 
 	@Override
