@@ -196,7 +196,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 			{
 				Item item = Item.itemsList[itemStack.itemID];
 
-				if (item instanceof IAmmunition && ((IAmmunition) item).getType(itemStack.getItemDamage()).ordinal() == projectileType.ordinal())
+				if (item instanceof IAmmunition && ((IAmmunition) item).getType(itemStack) == projectileType)
 				{
 					return itemStack;
 				}

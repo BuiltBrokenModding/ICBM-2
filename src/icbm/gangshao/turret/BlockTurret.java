@@ -127,12 +127,14 @@ public class BlockTurret extends BICBM
 	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
+
 		if (ent instanceof TPaoDaiBase)
 		{
 			Random random = new Random();
 			((TPaoDaiBase) ent).setHealth(5 + random.nextInt(7), true);
 			return true;
 		}
+
 		return false;
 	}
 

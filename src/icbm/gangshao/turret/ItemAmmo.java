@@ -4,13 +4,11 @@ import icbm.core.ZhuYaoBase;
 import icbm.core.di.ItICBM;
 import icbm.gangshao.IAmmunition;
 import icbm.gangshao.ProjectileType;
-import icbm.gangshao.damage.GangShaoDamageSource;
 
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -77,23 +75,14 @@ public class ItemAmmo extends ItICBM implements IAmmunition
 	}
 
 	@Override
-	public ProjectileType getType(int meta)
+	public ProjectileType getType(ItemStack itemStack)
 	{
-		if (meta < AmmoType.values().length)
+		if (itemStack.getItemDamage() < AmmoType.values().length)
 		{
-			return AmmoType.values()[meta].type;
+			return AmmoType.values()[itemStack.getItemDamage()].type;
 		}
 
 		return null;
-	}
-
-	@Override
-	public void onFire(Entity target, ItemStack itemStack)
-	{
-		if (itemStack.getItemDamage() == AmmoType.BULLET.ordinal() || itemStack.getItemDamage() == AmmoType.BULLETINF.ordinal())
-		{
-			target.attackEntityFrom(GangShaoDamageSource.doBulletDamage(target), 8);
-		}
 	}
 
 	@Override
@@ -130,5 +119,11 @@ public class ItemAmmo extends ItICBM implements IAmmunition
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
+	}
+
+	@Override
+	public int getDamage()
+	{
+		return 8;
 	}
 }

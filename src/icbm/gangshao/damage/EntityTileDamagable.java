@@ -1,5 +1,6 @@
 package icbm.gangshao.damage;
 
+import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -7,7 +8,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
@@ -30,7 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class EntityTileDamagable extends EntityLiving implements IEntityAdditionalSpawnData
 {
-	private TileEntity host;
+	private TPaoDaiBase host;
 	public int hp = 100;
 
 	public EntityTileDamagable(World par1World)
@@ -40,11 +40,12 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 		this.setSize(1.1F, 1.1F);
 	}
 
-	public EntityTileDamagable(TileEntity host)
+	public EntityTileDamagable(TPaoDaiBase host)
 	{
 		this(host.worldObj);
 		this.setPosition(host.xCoord + 0.5, host.yCoord, host.zCoord + 0.5);
 		this.host = host;
+		this.host.entityDamagable = this;
 	}
 
 	@Override
@@ -129,7 +130,10 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 	{
 		try
 		{
-			this.host = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
+			if (this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt()) instanceof TPaoDaiBase)
+			{
+				this.host = (TPaoDaiBase) this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
+			}
 		}
 		catch (Exception e)
 		{

@@ -3,9 +3,9 @@ package icbm.gangshao.turret.sentries;
 import icbm.api.sentry.IAATarget;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
+import icbm.gangshao.damage.TileDamageSource;
 import icbm.gangshao.task.LookHelper;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 
 public class TLeiShe extends TPaoTaiZiDong
@@ -23,7 +23,7 @@ public class TLeiShe extends TPaoTaiZiDong
 		this.baseFiringDelay = 10;
 		this.minFiringDelay = 5;
 
-		this.baseAmmoType = ProjectileType.UNKNOWN;
+		this.projectileType = ProjectileType.UNKNOWN;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class TLeiShe extends TPaoTaiZiDong
 				if (this.target instanceof EntityLiving)
 				{
 					this.getPlatform().wattsReceived -= this.getFiringRequest();
-					this.target.attackEntityFrom(DamageSource.inFire, 1);
+					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 1);
 					this.target.setFire(80);
 					return true;
 				}

@@ -73,6 +73,8 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	 */
 	public int lastRotateTick = 0;
 
+	public EntityTileDamagable entityDamagable;
+
 	/** PACKET TYPES THIS TILE RECEIVES */
 	public static enum TurretPacketType
 	{
@@ -332,6 +334,11 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		}
 
 		this.health = Math.min(Math.max(i, 0), this.getMaxHealth());
+
+		if (!this.worldObj.isRemote)
+		{
+			PacketManager.sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
+		}
 	}
 
 	@Override

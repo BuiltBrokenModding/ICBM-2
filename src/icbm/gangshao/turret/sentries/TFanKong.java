@@ -22,8 +22,8 @@ public class TFanKong extends TPaoTaiZiDong
 
 		this.rotationSpeed = 8f;
 
-		this.minFiringDelay = 1;
-		this.baseFiringDelay = 3;
+		this.minFiringDelay = 2;
+		this.baseFiringDelay = 8;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public int getMaxHealth()
 	{
-		return 160;
+		return 180;
 	}
 
 	@Override

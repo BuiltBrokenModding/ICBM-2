@@ -28,7 +28,7 @@ public class TQiang extends TPaoTaiZiDong
 	@Override
 	public int getMaxHealth()
 	{
-		return 170;
+		return 200;
 	}
 
 	@Override

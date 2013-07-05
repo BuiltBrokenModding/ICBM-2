@@ -5,6 +5,7 @@ import icbm.gangshao.IAmmunition;
 import icbm.gangshao.IAutoSentry;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
+import icbm.gangshao.damage.TileDamageSource;
 import icbm.gangshao.task.TaskManager;
 import icbm.gangshao.task.TaskSearchTarget;
 import icbm.gangshao.turret.TPaoDaiBase;
@@ -66,7 +67,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	public float rotationSpeed = 3;
 
 	/** MAIN AMMO TYPE */
-	public ProjectileType baseAmmoType = ProjectileType.CONVENTIONAL;
+	public ProjectileType projectileType = ProjectileType.CONVENTIONAL;
 
 	@Override
 	public void onReceivePacket(int packetID, EntityPlayer player, ByteArrayDataInput dataStream) throws IOException
@@ -258,7 +259,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		{
 			if (this.lookHelper.isLookingAt(this.target, 10f))
 			{
-				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.baseAmmoType) != null || this.baseAmmoType == ProjectileType.UNKNOWN);
+				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
 			}
 		}
 
@@ -303,7 +304,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		if (!this.worldObj.isRemote)
 		{
-			ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileType.CONVENTIONAL);
+			ItemStack ammoStack = this.getPlatform().hasAmmunition(this.projectileType);
 
 			if (this.getPlatform() != null && ammoStack != null)
 			{
@@ -313,7 +314,12 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 				if (this.target instanceof EntityLiving)
 				{
 					this.getPlatform().wattsReceived -= this.getFiringRequest();
-					bullet.onFire(this.target, ammoStack);
+
+					if (bullet.getType(ammoStack) == ProjectileType.CONVENTIONAL)
+					{
+						this.target.attackEntityFrom(TileDamageSource.doBulletDamage(this), bullet.getDamage());
+					}
+
 					fired = true;
 				}
 				else if (this.target instanceof IAATarget)
@@ -335,7 +341,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 					fired = true;
 				}
 
-				if (fired)
+				if (fired && this.projectileType != ProjectileType.UNKNOWN)
 				{
 					if (this.worldObj.rand.nextFloat() < 0.95)
 					{
