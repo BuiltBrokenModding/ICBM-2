@@ -1,7 +1,8 @@
 package icbm.gangshao.container;
 
+import icbm.gangshao.IAmmunition;
 import icbm.gangshao.ITurretUpgrade;
-import icbm.gangshao.SlotAmmunition;
+import icbm.gangshao.SlotTurret;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.turret.ItemAmmo;
@@ -26,14 +27,14 @@ public class ContainerTurretPlatform extends ContainerTerminal
 		{
 			for (int column = 0; column < 4; column++)
 			{
-				this.addSlotToContainer(new SlotAmmunition(tileEntity, column + row * 4, 8 + column * 18, 40 + row * 18));
+				this.addSlotToContainer(new SlotTurret(tileEntity, column + row * 4, 8 + column * 18, 40 + row * 18, IAmmunition.class, IItemElectric.class));
 			}
 		}
 
 		// Turret Upgrade Slots
 		for (int i = 0; i < 4; i++)
 		{
-			this.addSlotToContainer(new Slot(tileEntity, i + TPaoTaiZhan.UPGRADE_START_INDEX, 89 + i * 18, 77));
+			this.addSlotToContainer(new SlotTurret(tileEntity, i + TPaoTaiZhan.UPGRADE_START_INDEX, 89 + i * 18, 77, ITurretUpgrade.class));
 		}
 
 		// Player Inventory

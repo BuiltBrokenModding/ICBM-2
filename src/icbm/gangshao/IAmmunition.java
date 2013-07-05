@@ -1,6 +1,5 @@
 package icbm.gangshao;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 
 public interface IAmmunition

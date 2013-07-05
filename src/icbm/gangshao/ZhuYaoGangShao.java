@@ -155,6 +155,8 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T3, 'G', new ItemStack(blockTurret, 1, 0) }));
 		// AA Turret
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 2), new Object[] { "DDD", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'G', new ItemStack(blockTurret, 1, 0) }));
+		// Laser Turret
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 3), new Object[] { "DDD", "CS ", "DS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'D', Item.diamond }));
 
 		CommandRegistry.register(new CommandAccess());
 		CommandRegistry.register(new CommandDestroy());
