@@ -96,47 +96,50 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 
 	public void onFire()
 	{
-		while (this.explosionDepth > 0)
+		if (!this.worldObj.isRemote)
 		{
-			MovingObjectPosition objectMouseOver = this.rayTrace(2000);
-
-			if (objectMouseOver != null)
+			while (this.explosionDepth > 0)
 			{
-				if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN))
-				{
-					if (this.isAntimatter)
-					{
-						/** Remove Redmatter Explosions. */
-						int radius = 50;
-						AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
-						List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
 
-						for (Entity entity : missilesNearby)
+				if (objectMouseOver != null)
+				{
+					if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN))
+					{
+						if (this.isAntimatter)
 						{
-							if (entity instanceof IExplosive)
+							/** Remove Redmatter Explosions. */
+							int radius = 50;
+							AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
+							List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+
+							for (Entity entity : missilesNearby)
 							{
-								entity.setDead();
+								if (entity instanceof IExplosive)
+								{
+									entity.setDead();
+								}
 							}
 						}
+
+						Vector3 blockPosition = new Vector3(objectMouseOver.hitVec);
+
+						int blockID = blockPosition.getBlockID(this.worldObj);
+						Block block = Block.blocksList[blockID];
+
+						// Any hardness under zero is unbreakable
+						if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) != -1)
+						{
+							this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
+						}
+
+						Entity responsibleEntity = this.entityFake != null ? this.entityFake.riddenByEntity : null;
+						this.worldObj.newExplosion(responsibleEntity, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
 					}
-
-					Vector3 blockPosition = new Vector3(objectMouseOver.hitVec);
-
-					int blockID = blockPosition.getBlockID(this.worldObj);
-					Block block = Block.blocksList[blockID];
-
-					// Any hardness under zero is unbreakable
-					if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) != -1)
-					{
-						this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
-					}
-
-					Entity responsibleEntity = this.entityFake != null ? this.entityFake.riddenByEntity : null;
-					this.worldObj.newExplosion(responsibleEntity, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
 				}
-			}
 
-			this.explosionDepth--;
+				this.explosionDepth--;
+			}
 		}
 	}
 

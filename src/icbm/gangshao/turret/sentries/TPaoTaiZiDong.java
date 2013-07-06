@@ -69,7 +69,6 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	/** MAIN AMMO TYPE */
 	public ProjectileType projectileType = ProjectileType.CONVENTIONAL;
 
-
 	@Override
 	public void onReceivePacket(int packetID, EntityPlayer player, ByteArrayDataInput dataStream) throws IOException
 	{
@@ -89,7 +88,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		super.updateEntity();
 
-		if (!this.worldObj.isRemote)
+		if (!this.worldObj.isRemote && this.isRunning())
 		{
 			this.taskManager.onUpdate();
 
@@ -132,7 +131,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 			{
 				if (this.getCenter().distanceTo(new Vector3(entity)) <= this.getDetectRange())
 				{
-					float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity));
+					float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).add(new Vector3(0, entity.getEyeHeight(), 0)));
 
 					if ((rotations[1] <= this.maxPitch && rotations[1] >= this.minPitch) || this.allowFreePitch)
 					{

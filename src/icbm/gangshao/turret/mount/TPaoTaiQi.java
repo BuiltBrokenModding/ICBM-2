@@ -44,9 +44,7 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 				}
 				this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch * barrelOffset;
 				this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw * barrelOffset;
-			}/*
-			 * else { this.entityFake.setDead(); this.entityFake = null; }
-			 */
+			}
 		}
 	}
 

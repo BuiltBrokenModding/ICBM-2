@@ -97,7 +97,7 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 			((TPaoTaiQi) this.controller).entityFake = this;
 		}
 
-		if (this.worldObj.isRemote)
+		if (this.worldObj.isRemote && this.riddenByEntity != null)
 		{
 			this.riddenByEntity.updateRiderPosition();
 		}
