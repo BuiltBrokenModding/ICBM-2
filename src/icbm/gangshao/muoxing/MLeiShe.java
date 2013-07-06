@@ -280,7 +280,7 @@ public class MLeiShe extends ModelBase
 		rightMount.render(f5);
 		Details.render(f5);
 		FrontDetail.render(f5);
-		
+
 		RightFootStrength.render(f5);
 		LeftFootStrength.render(f5);
 		LeftFootBase.render(f5);

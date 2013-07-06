@@ -169,6 +169,11 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 	/** Is a specific position being protected from a specific type of danger? */
 	public static boolean isProtected(World world, Vector3 diDian, String banFlag)
 	{
+		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) == null)
+		{
+			return false;
+		}
+
 		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))
 		{
 			return true;

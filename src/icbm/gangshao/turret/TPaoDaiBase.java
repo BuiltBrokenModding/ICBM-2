@@ -42,9 +42,9 @@ import com.google.common.io.ByteArrayDataInput;
 public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry, IHealthTile
 {
 	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
-	public float maxPitch = 30;
+	public float maxPitch = 35;
 	/** MAX DOWNWARD PITCH ANGLE OF THE SENTRY BARREL */
-	public float minPitch = -30;
+	public float minPitch = -35;
 
 	protected boolean allowFreePitch = false;;
 
@@ -448,7 +448,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 
 		if (!this.allowFreePitch)
 		{
-			this.wantedRotationPitch = Math.max(Math.min(MathHelper.wrapAngleTo180_float(pitch), this.maxPitch),this. minPitch);
+			this.wantedRotationPitch = Math.max(Math.min(MathHelper.wrapAngleTo180_float(pitch), this.maxPitch), this.minPitch);
 		}
 		else
 		{
