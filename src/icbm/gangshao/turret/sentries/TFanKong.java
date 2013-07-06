@@ -59,9 +59,14 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public void renderShot(Vector3 target)
 	{
-		Vector3 center = new Vector3(this).add(new Vector3(0.5, 0.75, 0.5));
+		Vector3 center = this.getCenter();
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
+	}
+
+	public Vector3 getCenter()
+	{
+		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5));
 	}
 
 	@Override

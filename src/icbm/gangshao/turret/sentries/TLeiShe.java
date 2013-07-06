@@ -72,7 +72,7 @@ public class TLeiShe extends TPaoTaiZiDong
 	@Override
 	public void renderShot(Vector3 target)
 	{
-		Vector3 center = new Vector3(this).add(new Vector3(0.5, 0.45, 0.5));
+		Vector3 center = this.getCenter();
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
 		this.barrelRotationVelocity += 1;

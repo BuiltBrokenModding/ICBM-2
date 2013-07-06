@@ -23,14 +23,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.block.IVoltage;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
-import calclavia.lib.CalculationHelper;
 import calclavia.lib.render.ITagRender;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -42,8 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry, IHealthTile
 {
-	/** OFFSET OF BARREL ROTATION */
-	public final float rotationTranslation = 0.0175f;
+
 	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
 	public static final float MAX_PITCH = 30f;
 	/** MAX DOWNWARD PITCH ANGLE OF THE SENTRY BARREL */
@@ -98,6 +95,8 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 				this.worldObj.spawnEntityInWorld(this.getDamageEntity());
 			}
 		}
+
+		this.updateRotation();
 	}
 
 	/*
@@ -277,19 +276,10 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		return new ItemStack(this.getBlockType(), 1, this.getBlockMetadata()).getDisplayName() + " " + this.getHealth() + "/" + this.getMaxHealth();
 	}
 
-	/**
-	 * Performs a ray trace for the distance specified and using the partial tick time. Args:
-	 * distance, partialTickTime
-	 */
-	public MovingObjectPosition rayTrace(double distance)
-	{
-		return CalculationHelper.doCustomRayTrace(this.worldObj, this.getMuzzle(), this.wantedRotationYaw / this.rotationTranslation, this.wantedRotationPitch / this.rotationTranslation, true, distance);
-	}
-
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return new Vector3(this).add(0.5).add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
+		return this.getCenter().add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
 	@Override
@@ -391,6 +381,67 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	/*
 	 * ----------------------------- ROTATION CODE --------------------------------------
 	 */
+
+	public void updateRotation()
+	{
+		final float yawDifference = Math.abs(LookHelper.getAngleDif(this.currentRotationYaw, this.wantedRotationYaw));
+
+		if (yawDifference > 0.001f)
+		{
+			float speedYaw = Math.min(this.getRotationSpeed(), yawDifference);
+
+			if (this.currentRotationYaw > this.wantedRotationYaw)
+			{
+				this.currentRotationYaw -= speedYaw;
+			}
+			else
+			{
+				this.currentRotationYaw += speedYaw;
+			}
+
+			if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) <= speedYaw + 0.1)
+			{
+				this.currentRotationYaw = this.wantedRotationYaw;
+			}
+		}
+
+		final float pitchDifference = Math.abs(LookHelper.getAngleDif(this.currentRotationPitch, this.wantedRotationPitch));
+
+		if (pitchDifference > 0.001f)
+		{
+			float speedPitch = Math.min(this.getRotationSpeed(), pitchDifference);
+
+			if (this.currentRotationPitch > this.wantedRotationPitch)
+			{
+				this.currentRotationPitch -= speedPitch;
+			}
+			else
+			{
+				this.currentRotationPitch += speedPitch;
+			}
+
+			if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) <= speedPitch + 0.1)
+			{
+				this.currentRotationPitch = this.wantedRotationPitch;
+			}
+		}
+
+		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) <= 0.001f && Math.abs(this.currentRotationYaw - this.wantedRotationYaw) <= 0.001f)
+		{
+			this.lastRotateTick++;
+		}
+
+		/** Wraps all the angels and cleans them up. */
+		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
+		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
+		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
+	}
+
+	public float getRotationSpeed()
+	{
+		return Float.MAX_VALUE;
+	}
+
 	@Override
 	public void setRotation(float yaw, float pitch)
 	{
@@ -463,6 +514,11 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	public AxisAlignedBB getRenderBoundingBox()
 	{
 		return INFINITE_EXTENT_AABB;
+	}
+
+	public Vector3 getCenter()
+	{
+		return new Vector3(this).add(0.5);
 	}
 
 }

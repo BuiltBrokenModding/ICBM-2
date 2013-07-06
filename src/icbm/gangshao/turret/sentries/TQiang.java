@@ -46,7 +46,11 @@ public class TQiang extends TPaoTaiZiDong
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return new Vector3(this).add(new Vector3(0.5, 0.65, 0.5)).add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
+		return this.getCenter().add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
+	public Vector3 getCenter()
+	{
+		return new Vector3(this).add(new Vector3(0.5, 0.65, 0.5));
+	}
 }

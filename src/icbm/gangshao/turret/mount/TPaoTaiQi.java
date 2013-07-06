@@ -1,8 +1,10 @@
 package icbm.gangshao.turret.mount;
 
+import calclavia.lib.CalculationHelper;
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 
@@ -14,6 +16,8 @@ import universalelectricity.prefab.multiblock.IMultiBlock;
  */
 public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 {
+	/** OFFSET OF BARREL ROTATION */
+	public final float barrelOffset = 0.0175f;
 	/** Current player on the sentry */
 	protected EntityPlayer mountedPlayer = null;
 	/** Fake entity this sentry uses for mounting the player in position */
@@ -23,11 +27,7 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 	public void updateEntity()
 	{
 		super.updateEntity();
-		this.updateRotation();
-	}
 
-	public void updateRotation()
-	{
 		if (this.mountedPlayer != null)
 		{
 			if (this.mountedPlayer.rotationPitch > 30)
@@ -39,8 +39,9 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 				this.mountedPlayer.rotationPitch = -45;
 			}
 
-			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * rotationTranslation;
-			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * rotationTranslation;
+			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * barrelOffset;
+			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * barrelOffset;
+			this.rotateTo(this.wantedRotationYaw, this.wantedRotationPitch);
 		}
 		else if (this.entityFake != null)
 		{
@@ -49,19 +50,35 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 		}
 	}
 
+	/**
+	 * Performs a ray trace for the distance specified and using the partial tick time. Args:
+	 * distance, partialTickTime
+	 */
+	public MovingObjectPosition rayTrace(double distance)
+	{
+		return CalculationHelper.doCustomRayTrace(this.worldObj, this.getMuzzle(), this.wantedRotationYaw / this.barrelOffset, this.wantedRotationPitch / this.barrelOffset, true, distance);
+	}
+
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		if (this.mountedPlayer != null && entityPlayer == this.mountedPlayer)
+		if (this.mountedPlayer != null)
 		{
-			this.mountedPlayer = null;
-			entityPlayer.unmountEntity(this.entityFake);
-
-			if (this.entityFake != null)
+			if (entityPlayer == this.mountedPlayer)
 			{
-				this.entityFake.setDead();
-				this.entityFake = null;
+				this.mountedPlayer = null;
+				entityPlayer.unmountEntity(this.entityFake);
+
+				if (this.entityFake != null)
+				{
+					this.entityFake.setDead();
+					this.entityFake = null;
+				}
+
+				return true;
 			}
+
+			return false;
 		}
 		else
 		{

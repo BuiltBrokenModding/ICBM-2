@@ -159,10 +159,15 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 
+	public Vector3 getCenter()
+	{
+		return new Vector3(this).add(new Vector3(0.5, 1.5, 0.5));
+	}
+
 	@Override
 	public Vector3 getMuzzle()
 	{
-		Vector3 position = new Vector3(this.xCoord + 0.5, this.yCoord + 1.5, this.zCoord + 0.5);
+		Vector3 position = this.getCenter();
 		float yaw = (float) Math.toDegrees(this.wantedRotationYaw);
 		float pitch = (float) Math.toDegrees(this.wantedRotationPitch);
 		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));

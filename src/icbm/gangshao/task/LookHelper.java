@@ -46,8 +46,8 @@ public class LookHelper
 	 */
 	public boolean isLookingAt(Vector3 target, float allowedError)
 	{
-		float pitch = getPitch(sentry.getMuzzle(), target);
-		float yaw = getYaw(sentry.getMuzzle(), target);
+		float pitch = getPitch(sentry.getCenter(), target);
+		float yaw = getYaw(sentry.getCenter(), target);
 
 		if (getAngleDif(sentry.currentRotationYaw, yaw) <= allowedError)
 		{

@@ -28,7 +28,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 
@@ -96,65 +95,11 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 				this.taskManager.addTask(new TaskSearchTarget());
 			}
 		}
-
-		if (this.isRunning())
-		{
-			this.updateRotation();
-		}
 	}
 
-	/** Adjusts the turret's rotation to its target rotation over time. */
-	public void updateRotation()
+	public float getRotationSpeed()
 	{
-		if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) > 0.001f)
-		{
-			float speedYaw;
-			if (this.currentRotationYaw > this.wantedRotationYaw)
-			{
-				speedYaw = -this.getRotationSpeed();
-			}
-			else
-			{
-				speedYaw = this.getRotationSpeed();
-			}
-
-			this.currentRotationYaw += speedYaw;
-
-			if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) < this.getRotationSpeed() + 0.1f)
-			{
-				this.currentRotationYaw = this.wantedRotationYaw;
-			}
-		}
-
-		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) > 0.001f)
-		{
-			float speedPitch;
-			if (this.currentRotationPitch > this.wantedRotationPitch)
-			{
-				speedPitch = -this.getRotationSpeed();
-			}
-			else
-			{
-				speedPitch = this.getRotationSpeed();
-			}
-
-			this.currentRotationPitch += speedPitch;
-
-			if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) < this.getRotationSpeed() + 0.1f)
-			{
-				this.currentRotationPitch = this.wantedRotationPitch;
-			}
-		}
-
-		if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) <= 0.001f && Math.abs(this.currentRotationYaw - this.wantedRotationYaw) <= 0.001f)
-		{
-			this.lastRotateTick++;
-		}
-
-		/** Wraps all the angels and cleans them up. */
-		this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
-		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
-		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
+		return this.rotationSpeed;
 	}
 
 	@Override
@@ -408,17 +353,6 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		}
 
 		return this.baseTargetRange;
-	}
-
-	public float getRotationSpeed()
-	{
-		if (this.worldObj.isRemote)
-		{
-			// Speed up client side due to slight packet delay.
-			return this.rotationSpeed * 1.5f;
-		}
-
-		return this.rotationSpeed;
 	}
 
 	@Override
