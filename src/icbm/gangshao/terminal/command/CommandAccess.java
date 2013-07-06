@@ -46,7 +46,7 @@ public class CommandAccess extends TerminalCommand
 				// Only Admins can set ranks
 				AccessLevel playerAccess = terminal.getUserAccess(player.username);
 
-				if (playerAccess.ordinal() >= AccessLevel.ADMIN.ordinal())
+				if (playerAccess.ordinal() >= AccessLevel.ADMIN.ordinal() && playerAccess.ordinal() >= currentAccess.ordinal() && (!player.username.equalsIgnoreCase(username) || playerAccess == AccessLevel.OWNER))
 				{
 					if (currentAccess != AccessLevel.NONE)
 					{
@@ -76,7 +76,7 @@ public class CommandAccess extends TerminalCommand
 	@Override
 	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
 	{
-		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.BASIC.ordinal() || var1.capabilities.isCreativeMode;
+		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.USER.ordinal() || var1.capabilities.isCreativeMode;
 	}
 
 	@Override

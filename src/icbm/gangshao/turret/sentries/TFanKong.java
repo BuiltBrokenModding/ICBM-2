@@ -1,9 +1,9 @@
 package icbm.gangshao.turret.sentries;
 
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.task.LookHelper;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.CalculationHelper;
 
 /**
  * AA Turret, shoots down missiles and planes.
@@ -17,13 +17,18 @@ public class TFanKong extends TPaoTaiZiDong
 		this.targetAir = true;
 		this.canTargetAir = true;
 
-		this.baseTargetRange = 50;
-		this.maxTargetRange = 100;
+		this.baseTargetRange = 80;
+		this.maxTargetRange = 120;
 
-		this.rotationSpeed = 5;
+		this.rotationSpeed = 9;
 
 		this.minFiringDelay = 8;
 		this.baseFiringDelay = 15;
+
+		this.minPitch = 40;
+		this.maxPitch = 90;
+
+		this.allowFreePitch = true;
 	}
 
 	@Override
@@ -60,8 +65,8 @@ public class TFanKong extends TPaoTaiZiDong
 	public void renderShot(Vector3 target)
 	{
 		Vector3 center = this.getCenter();
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
 	}
 
 	public Vector3 getCenter()
@@ -72,7 +77,7 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch).multiply(1));
+		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch).multiply(1));
 	}
 
 }

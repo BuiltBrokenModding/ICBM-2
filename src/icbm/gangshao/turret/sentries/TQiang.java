@@ -1,7 +1,7 @@
 package icbm.gangshao.turret.sentries;
 
-import icbm.gangshao.task.LookHelper;
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.CalculationHelper;
 
 public class TQiang extends TPaoTaiZiDong
 {
@@ -13,7 +13,7 @@ public class TQiang extends TPaoTaiZiDong
 		this.baseTargetRange = 15;
 		this.maxTargetRange = 30;
 
-		this.rotationSpeed = 1.3f;
+		this.rotationSpeed = 1.8f;
 
 		this.baseFiringDelay = 20;
 		this.minFiringDelay = 10;
@@ -46,7 +46,7 @@ public class TQiang extends TPaoTaiZiDong
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return this.getCenter().add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
+		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
 	public Vector3 getCenter()

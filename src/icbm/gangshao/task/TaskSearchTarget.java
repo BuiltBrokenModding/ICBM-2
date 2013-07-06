@@ -8,6 +8,7 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import universalelectricity.core.vector.Vector3;
 
 public class TaskSearchTarget extends Task
 {
@@ -63,9 +64,9 @@ public class TaskSearchTarget extends Task
 
 					for (Entity entity : entities)
 					{
-						double distance = entity.getDistance(this.tileEntity.xCoord, this.tileEntity.yCoord, this.tileEntity.zCoord);
+						final double distance = this.tileEntity.getCenter().distanceTo(new Vector3(entity));
 
-						if (sentry.isValidTarget(entity) && distance < smallestDis)
+						if (sentry.isValidTarget(entity) && distance <= smallestDis)
 						{
 							currentTarget = entity;
 							smallestDis = distance;
@@ -77,7 +78,7 @@ public class TaskSearchTarget extends Task
 				{
 					this.tileEntity.cancelRotation();
 					this.taskManager.addTask(new TaskKillTarget());
-					sentry.setTarget(currentTarget, true);
+					sentry.setTarget(currentTarget);
 					return false;
 				}
 				else if (this.tileEntity.lastRotateTick > this.world.rand.nextInt(30) + 10)

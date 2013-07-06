@@ -1,12 +1,13 @@
 package icbm.gangshao.turret.mount;
 
-import calclavia.lib.CalculationHelper;
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.CalculationHelper;
 
 /**
  * Mountable Turret
@@ -18,35 +19,34 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 {
 	/** OFFSET OF BARREL ROTATION */
 	public final float barrelOffset = 0.0175f;
-	/** Current player on the sentry */
-	protected EntityPlayer mountedPlayer = null;
+
 	/** Fake entity this sentry uses for mounting the player in position */
-	private EJia entityFake = null;
+	protected EJia entityFake = null;
 
 	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 
-		if (this.mountedPlayer != null)
+		if (this.entityFake != null)
 		{
-			if (this.mountedPlayer.rotationPitch > 30)
+			if (this.entityFake.riddenByEntity instanceof EntityPlayer)
 			{
-				this.mountedPlayer.rotationPitch = 30;
-			}
-			if (this.mountedPlayer.rotationPitch < -45)
-			{
-				this.mountedPlayer.rotationPitch = -45;
-			}
+				EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
 
-			this.currentRotationPitch = this.wantedRotationPitch = this.mountedPlayer.rotationPitch * barrelOffset;
-			this.currentRotationYaw = this.wantedRotationYaw = this.mountedPlayer.rotationYaw * barrelOffset;
-			this.rotateTo(this.wantedRotationYaw, this.wantedRotationPitch);
-		}
-		else if (this.entityFake != null)
-		{
-			this.entityFake.setDead();
-			this.entityFake = null;
+				if (mountedPlayer.rotationPitch > this.maxPitch)
+				{
+					mountedPlayer.rotationPitch = this.maxPitch;
+				}
+				if (mountedPlayer.rotationPitch < this.minPitch)
+				{
+					mountedPlayer.rotationPitch = this.minPitch;
+				}
+				this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch * barrelOffset;
+				this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw * barrelOffset;
+			}/*
+			 * else { this.entityFake.setDead(); this.entityFake = null; }
+			 */
 		}
 	}
 
@@ -62,48 +62,68 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		if (this.mountedPlayer != null)
+		if (entityPlayer.isSneaking())
 		{
-			if (entityPlayer == this.mountedPlayer)
-			{
-				this.mountedPlayer = null;
-				entityPlayer.unmountEntity(this.entityFake);
-
-				if (this.entityFake != null)
-				{
-					this.entityFake.setDead();
-					this.entityFake = null;
-				}
-
-				return true;
-			}
-
-			return false;
+			this.tryActivateWeapon();
 		}
 		else
 		{
-			this.mount(entityPlayer);
+			if (this.entityFake != null)
+			{
+				if (this.entityFake.riddenByEntity instanceof EntityPlayer)
+				{
+					// Unmount
+					EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
+
+					if (entityPlayer == mountedPlayer)
+					{
+						entityPlayer.unmountEntity(this.entityFake);
+						this.entityFake.setDead();
+						this.entityFake = null;
+
+						if (!this.worldObj.isRemote)
+						{
+							PacketManager.sendPacketToClients(this.getRotationPacket());
+						}
+
+						return true;
+					}
+				}
+
+				return false;
+			}
+			else
+			{
+				this.mount(entityPlayer);
+			}
 		}
 
 		return true;
 	}
 
-	@Override
 	public void mount(EntityPlayer entityPlayer)
 	{
-		// Creates a fake entity to be mounted on
-		if (this.mountedPlayer == null)
+		if (!this.worldObj.isRemote)
 		{
-			if (!this.worldObj.isRemote)
+			// Creates a fake entity to be mounted on
+			if (this.entityFake == null)
 			{
-				this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, false);
+				this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
 				this.worldObj.spawnEntityInWorld(entityFake);
-				entityPlayer.mountEntity(this.entityFake);
 			}
 
-			this.mountedPlayer = entityPlayer;
-			entityPlayer.rotationYaw = 0;
-			entityPlayer.rotationPitch = 0;
+			entityPlayer.rotationYaw = this.currentRotationYaw / this.barrelOffset;
+			entityPlayer.rotationPitch = this.currentRotationPitch / this.barrelOffset;
+
+			entityPlayer.mountEntity(this.entityFake);
+		}
+	}
+
+	public void tryActivateWeapon()
+	{
+		if (this.canActivateWeapon())
+		{
+			this.onWeaponActivated();
 		}
 	}
 

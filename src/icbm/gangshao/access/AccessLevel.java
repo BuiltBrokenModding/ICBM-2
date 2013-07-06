@@ -3,10 +3,25 @@ package icbm.gangshao.access;
 public enum AccessLevel
 {
 	/**
-	 * >= Owners can do anything
-	 * >= Admins can set rank
+	 * No access granted.
 	 */
-	NONE("None"), BASIC("Basic"), USER("Standard"), ADMIN("Admin"), OWNER("Owner");
+	NONE("None"),
+	/**
+	 * >= Owners can do anything
+	 * 
+	 */
+	USER("User"),
+	/**
+	 * >= Admins can set rank
+	 * 
+	 */
+	ADMIN("Admin"),
+
+	/**
+	 * Standards won't get shot
+	 */
+
+	OWNER("Owner");
 
 	public String displayName;
 
@@ -34,7 +49,7 @@ public enum AccessLevel
 		}
 		if (ob instanceof Integer)
 		{
-			int i = (Integer) ob;
+			int i = ((Integer) ob) % AccessLevel.values().length;
 
 			if (i >= 0 && i < AccessLevel.values().length)
 			{

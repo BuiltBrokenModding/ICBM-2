@@ -13,7 +13,7 @@ public class TaskKillTarget extends TaskSearchTarget
 		{
 			if (!this.tileEntity.isValidTarget(this.tileEntity.getTarget()))
 			{
-				this.tileEntity.setTarget(null, true);
+				this.tileEntity.setTarget(null);
 				this.tileEntity.cancelRotation();
 				return false;
 			}

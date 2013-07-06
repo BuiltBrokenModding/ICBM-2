@@ -29,6 +29,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
+import calclavia.lib.CalculationHelper;
 import calclavia.lib.render.ITagRender;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -40,11 +41,13 @@ import com.google.common.io.ByteArrayDataInput;
  */
 public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry, IHealthTile
 {
-
 	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
-	public static final float MAX_PITCH = 30f;
+	public float maxPitch = 30;
 	/** MAX DOWNWARD PITCH ANGLE OF THE SENTRY BARREL */
-	public static final float MIN_PITCH = -30f;
+	public float minPitch = -30;
+
+	protected boolean allowFreePitch = false;;
+
 	/** SPAWN DIRECTION OF SENTRY */
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
 	/** TURRET AIM & ROTATION HELPER */
@@ -73,7 +76,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	/** PACKET TYPES THIS TILE RECEIVES */
 	public static enum TurretPacketType
 	{
-		ROTATION, DESCRIPTION, SHOT, STATS, MOUNT;
+		ROTATION, DESCRIPTION, SHOT, STATS;
 	}
 
 	@Override
@@ -141,10 +144,6 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		else if (packetID == TurretPacketType.STATS.ordinal())
 		{
 			this.health = dataStream.readInt();
-		}
-		else if (packetID == TurretPacketType.MOUNT.ordinal())
-		{
-			this.mount(player);
 		}
 	}
 
@@ -279,18 +278,18 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return this.getCenter().add(Vector3.multiply(LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
+		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
 	@Override
 	public void onWeaponActivated()
 	{
-		this.tickSinceFired += this.baseFiringDelay;
+		this.tickSinceFired += this.getFireDelay();
 	}
 
-	public void mount(EntityPlayer entityPlayer)
+	public int getFireDelay()
 	{
-
+		return this.baseFiringDelay;
 	}
 
 	/*
@@ -446,7 +445,15 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	public void setRotation(float yaw, float pitch)
 	{
 		this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(yaw);
-		this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(pitch);
+
+		if (!this.allowFreePitch)
+		{
+			this.wantedRotationPitch = Math.max(Math.min(MathHelper.wrapAngleTo180_float(pitch), this.maxPitch),this. minPitch);
+		}
+		else
+		{
+			this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(pitch);
+		}
 	}
 
 	public void rotateTo(float wantedRotationYaw, float wantedRotationPitch)
@@ -479,7 +486,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		if (this.worldObj.isRemote)
 		{
 			Vector3 startPosition = this.getMuzzle();
-			Vector3 direction = LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch);
+			Vector3 direction = CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch);
 			double xoffset = 0;
 			double yoffset = 0;
 			double zoffset = 0;

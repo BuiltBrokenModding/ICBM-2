@@ -278,6 +278,13 @@ public class MLeiShe extends ModelBase
 		basePlate.render(f5);
 		leftMount.render(f5);
 		rightMount.render(f5);
+		Details.render(f5);
+		FrontDetail.render(f5);
+		
+		RightFootStrength.render(f5);
+		LeftFootStrength.render(f5);
+		LeftFootBase.render(f5);
+		RightFootBase.render(f5);
 	}
 
 	public void renderYawPitch(float f5, float rotation)
@@ -321,12 +328,7 @@ public class MLeiShe extends ModelBase
 		MiddleWire.render(f5);
 		BatWire.render(f5);
 		HatWire.render(f5);
-		Details.render(f5);
-		RightFootStrength.render(f5);
-		LeftFootStrength.render(f5);
-		FrontDetail.render(f5);
-		LeftFootBase.render(f5);
-		RightFootBase.render(f5);
+
 		lEar1.render(f5);
 		lEar2.render(f5);
 		rEar1.render(f5);

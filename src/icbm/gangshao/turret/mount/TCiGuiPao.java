@@ -4,7 +4,6 @@ import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYaoBase;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.task.LookHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +20,7 @@ import universalelectricity.prefab.implement.IRedstoneReceptor;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
+import calclavia.lib.CalculationHelper;
 
 /**
  * Railgun
@@ -44,8 +44,11 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 
 	public TCiGuiPao()
 	{
-		this.baseFiringDelay = 70;
-		this.minFiringDelay = 30;
+		this.baseFiringDelay = 80;
+		this.minFiringDelay = 50;
+
+		this.maxPitch = 60;
+		this.minPitch = -60;
 	}
 
 	@Override
@@ -55,31 +58,39 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 
 		if (this.getPlatform() != null)
 		{
-			if (this.redstonePowerOn && this.canActivateWeapon() && this.gunChargingTicks == 0)
+			if (this.redstonePowerOn)
 			{
-				this.onWeaponActivated();
+				this.tryActivateWeapon();
 			}
 
 			if (this.gunChargingTicks > 0)
 			{
 				this.gunChargingTicks++;
 
-				if (this.gunChargingTicks >= 30)
+				if (this.gunChargingTicks >= this.getFireDelay())
 				{
 					this.onFire();
 					this.gunChargingTicks = 0;
 				}
 			}
 
-			if (this.worldObj.isRemote && --this.endTicks > 0)
+			if (this.worldObj.isRemote && this.endTicks-- > 0)
 			{
 				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
 
-				if (objectMouseOver != null)
+				if (objectMouseOver != null && objectMouseOver.hitVec != null)
 				{
-					this.drawParticleStreamTo(Vector3.add(new Vector3(objectMouseOver), 0.5));
+					this.drawParticleStreamTo(new Vector3(objectMouseOver.hitVec));
 				}
 			}
+		}
+	}
+
+	public void tryActivateWeapon()
+	{
+		if (this.canActivateWeapon() && this.gunChargingTicks == 0)
+		{
+			this.onWeaponActivated();
 		}
 	}
 
@@ -113,13 +124,15 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 
 					int blockID = blockPosition.getBlockID(this.worldObj);
 					Block block = Block.blocksList[blockID];
-					/* Any hardness under zero is unbreakable */
-					if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) > 0)
+
+					// Any hardness under zero is unbreakable
+					if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) != -1)
 					{
 						this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
 					}
 
-					this.worldObj.newExplosion(this.mountedPlayer, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
+					Entity responsibleEntity = this.entityFake != null ? this.entityFake.riddenByEntity : null;
+					this.worldObj.newExplosion(responsibleEntity, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
 				}
 			}
 
@@ -168,10 +181,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	public Vector3 getMuzzle()
 	{
 		Vector3 position = this.getCenter();
-		float yaw = (float) Math.toDegrees(this.wantedRotationYaw);
-		float pitch = (float) Math.toDegrees(this.wantedRotationPitch);
-		return Vector3.add(position, Vector3.multiply(LookHelper.getDeltaPositionFromRotation(yaw - 10, pitch), 1.5));
-
+		return Vector3.add(position, Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.wantedRotationYaw, this.wantedRotationPitch), 1.5));
 	}
 
 	@Override

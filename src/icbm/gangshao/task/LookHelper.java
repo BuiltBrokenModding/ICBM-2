@@ -46,12 +46,12 @@ public class LookHelper
 	 */
 	public boolean isLookingAt(Vector3 target, float allowedError)
 	{
-		float pitch = getPitch(sentry.getCenter(), target);
 		float yaw = getYaw(sentry.getCenter(), target);
+		float pitch = getPitch(sentry.getCenter(), target);
 
-		if (getAngleDif(sentry.currentRotationYaw, yaw) <= allowedError)
+		if (Math.abs(getAngleDif(sentry.currentRotationYaw, yaw)) <= allowedError)
 		{
-			if (getAngleDif(sentry.currentRotationPitch, pitch) <= allowedError)
+			if (Math.abs(getAngleDif(sentry.currentRotationPitch, pitch)) <= allowedError)
 			{
 				return true;
 			}
@@ -87,20 +87,6 @@ public class LookHelper
 		return MathHelper.wrapAngleTo180_float((float) (Math.atan2(difference.z, difference.x) * 180.0D / Math.PI) - 90.0F);
 	}
 
-	/**
-	 * Gets the delta look position based on the rotation yaw and pitch. Minecraft coordinates are
-	 * messed up. Y and Z are flipped. Yaw is displaced by 90 degrees. Pitch is inversed.
-	 * 
-	 * @param rotationYaw
-	 * @param rotationPitch
-	 */
-	public static Vector3 getDeltaPositionFromRotation(float rotationYaw, float rotationPitch)
-	{
-		rotationYaw = rotationYaw + 90;
-		rotationPitch = -rotationPitch;
-		return new Vector3(Math.cos(Math.toRadians(rotationYaw)), Math.sin(Math.toRadians(rotationPitch)), Math.sin(Math.toRadians(rotationYaw)));
-	}
-
 	/** gets the difference in degrees between the two angles */
 	public static float getAngleDif(float angleOne, float angleTwo)
 	{
@@ -109,14 +95,34 @@ public class LookHelper
 	}
 
 	/** does a ray trace to the Entity to see if the turret can see it */
-	public boolean canEntityBeSeen(Vector3 target)
-	{
-		Vector3 barrel = Vector3.add(this.sentry.getMuzzle(), new Vector3(Math.sin(sentry.wantedRotationYaw) * 1, 0, Math.cos(sentry.wantedRotationYaw) * 1));
-		return this.sentry.worldObj.rayTraceBlocks(barrel.toVec3(), target.toVec3()) == null;
+	public boolean canPositionBeSeen(Vector3 target)
+	{/*
+	 * float rotationYaw = getYaw(this.sentry.getCenter(), target); float rotationPitch =
+	 * getPitch(this.sentry.getCenter(), target); MovingObjectPosition mop =
+	 * CalculationHelper.doCustomRayTrace(this.sentry.worldObj, this.sentry.getMuzzle(),
+	 * rotationYaw, rotationPitch, true, this.sentry.getCenter().distanceTo(target));
+	 * 
+	 * if (mop != null) { if (mop.hitVec != null) { return new
+	 * Vector3(mop.hitVec).round().equals(target.round()); } } else {System.out.println("TRUE");
+	 * return true; }
+	 * 
+	 * return false;
+	 */
+		return this.sentry.worldObj.rayTraceBlocks(this.sentry.getMuzzle().toVec3(), target.toVec3()) == null;
 	}
 
 	public boolean canEntityBeSeen(Entity entity)
 	{
-		return this.canEntityBeSeen(Vector3.add(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0)));
+		Vector3 target = Vector3.add(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0));
+		/*
+		 * float rotationYaw = getYaw(this.sentry.getCenter(), target); float rotationPitch =
+		 * getPitch(this.sentry.getCenter(), target); MovingObjectPosition mop =
+		 * CalculationHelper.doCustomRayTrace(this.sentry.worldObj, this.sentry.getCenter(),
+		 * rotationYaw, rotationPitch, true, this.sentry.getCenter().distanceTo(target));
+		 * 
+		 * if (mop != null ) {System.out.println(mop.hitVec); return entity.equals(mop.entityHit); }
+		 * return false;
+		 */
+		return this.canPositionBeSeen(target);
 	}
 }

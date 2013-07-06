@@ -1,5 +1,6 @@
 package icbm.gangshao.turret.mount;
 
+import icbm.core.ZhuYaoBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -26,6 +27,7 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 	{
 		super(par1World);
 		this.setSize(1F, 1F);
+		this.noClip = true;
 	}
 
 	public EJia(World par1World, Vector3 position, TileEntity controller, boolean sit)
@@ -51,6 +53,10 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 			data.writeInt(this.controller.xCoord);
 			data.writeInt(this.controller.yCoord);
 			data.writeInt(this.controller.zCoord);
+		}
+		else
+		{
+			ZhuYaoBase.LOGGER.severe("Failed to send ridable turret packet!");
 		}
 
 		data.writeBoolean(this.shouldSit);
@@ -86,6 +92,16 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 			return;
 		}
 
+		if (this.controller instanceof TPaoTaiQi)
+		{
+			((TPaoTaiQi) this.controller).entityFake = this;
+		}
+
+		if (this.worldObj.isRemote)
+		{
+			this.riddenByEntity.updateRiderPosition();
+		}
+
 		this.posY = this.controller.yCoord + 1.2;
 	}
 
@@ -118,14 +134,14 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound var1)
+	protected void readEntityFromNBT(NBTTagCompound nbt)
 	{
-
+		this.shouldSit = nbt.getBoolean("shouldSit");
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound var1)
+	protected void writeEntityToNBT(NBTTagCompound nbt)
 	{
-
+		nbt.setBoolean("shouldSit", this.shouldSit);
 	}
 }

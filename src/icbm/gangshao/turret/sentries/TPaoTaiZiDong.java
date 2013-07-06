@@ -69,6 +69,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	/** MAIN AMMO TYPE */
 	public ProjectileType projectileType = ProjectileType.CONVENTIONAL;
 
+
 	@Override
 	public void onReceivePacket(int packetID, EntityPlayer player, ByteArrayDataInput dataStream) throws IOException
 	{
@@ -77,6 +78,8 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		if (packetID == TurretPacketType.SHOT.ordinal())
 		{
 			this.renderShot(new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
+			this.currentRotationPitch = dataStream.readFloat();
+			this.currentRotationYaw = dataStream.readFloat();
 			this.playFiringSound();
 		}
 	}
@@ -105,7 +108,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	@Override
 	public AxisAlignedBB getTargetingBox()
 	{
-		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), yCoord - 5, zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + 5, zCoord + this.getDetectRange());
+		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), this.yCoord - 5, zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + 5, zCoord + this.getDetectRange());
 	}
 
 	@Override
@@ -115,15 +118,9 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	}
 
 	@Override
-	public boolean setTarget(Entity target, boolean override)
+	public void setTarget(Entity target)
 	{
-		if (!this.isValidTarget(this.target) || override)
-		{
-			this.target = target;
-			return true;
-		}
-
-		return false;
+		this.target = target;
 	}
 
 	@Override
@@ -133,56 +130,61 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		{
 			if (!entity.isDead && !entity.isEntityInvulnerable())
 			{
-				if (entity.getDistance(this.xCoord, this.yCoord, this.zCoord) < this.getDetectRange())
+				if (this.getCenter().distanceTo(new Vector3(entity)) <= this.getDetectRange())
 				{
-					if (this.lookHelper.canEntityBeSeen(entity))
+					float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity));
+
+					if ((rotations[1] <= this.maxPitch && rotations[1] >= this.minPitch) || this.allowFreePitch)
 					{
-						if (this.targetAir && this.canTargetAir)
+						if (this.lookHelper.canEntityBeSeen(entity))
 						{
-							if (this.isAir(entity))
+							if (this.targetAir && this.canTargetAir)
 							{
-								return true;
+								if (this.isAir(entity))
+								{
+									return true;
+								}
 							}
-						}
 
-						if (this.targetPlayers)
-						{
-							if (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer)
+							if (this.targetPlayers)
 							{
-								EntityPlayer player;
+								if (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer)
+								{
+									EntityPlayer player;
 
-								if (entity.riddenByEntity instanceof EntityPlayer)
-								{
-									player = (EntityPlayer) entity.riddenByEntity;
-								}
-								else
-								{
-									player = ((EntityPlayer) entity);
-								}
-
-								if (!player.capabilities.isCreativeMode)
-								{
-									if (this.getPlatform() != null && !this.getPlatform().canUserAccess(player.username))
+									if (entity.riddenByEntity instanceof EntityPlayer)
 									{
-										return true;
+										player = (EntityPlayer) entity.riddenByEntity;
+									}
+									else
+									{
+										player = ((EntityPlayer) entity);
+									}
+
+									if (!player.capabilities.isCreativeMode)
+									{
+										if (this.getPlatform() != null && !this.getPlatform().canUserAccess(player.username))
+										{
+											return true;
+										}
 									}
 								}
 							}
-						}
 
-						if (this.targetHostile)
-						{
-							if (entity instanceof IMob && !this.isAir(entity))
+							if (this.targetHostile)
 							{
-								return true;
+								if (entity instanceof IMob && !this.isAir(entity))
+								{
+									return true;
+								}
 							}
-						}
 
-						if (this.targetFriendly)
-						{
-							if ((entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant) && !this.isAir(entity))
+							if (this.targetFriendly)
 							{
-								return true;
+								if ((entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant) && !this.isAir(entity))
+								{
+									return true;
+								}
 							}
 						}
 					}
@@ -203,7 +205,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		if (this.isValidTarget(this.target) && this.getPlatform() != null)
 		{
-			if (this.lookHelper.isLookingAt(this.target, 5f))
+			if (this.lookHelper.isLookingAt(this.target, 5))
 			{
 				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
 			}
@@ -217,7 +219,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	 */
 	public void sendShotToClient(Vector3 position)
 	{
-		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.SHOT.ordinal(), position.x, position.y, position.z), this.worldObj, new Vector3(this), 40);
+		PacketManager.sendPacketToClients(PacketManager.getPacket(ZhuYaoGangShao.CHANNEL, this, TurretPacketType.SHOT.ordinal(), position.x, position.y, position.z, this.currentRotationPitch, this.currentRotationYaw), this.worldObj, new Vector3(this), 40);
 	}
 
 	/**
@@ -272,7 +274,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 				{
 					if (this.worldObj.rand.nextFloat() > 0.2)
 					{
-						int damage = ((IAATarget) this.target).doDamage(10);
+						int damage = ((IAATarget) this.target).doDamage(8);
 
 						if (damage == -1 && this.worldObj.rand.nextFloat() > 0.7)
 						{

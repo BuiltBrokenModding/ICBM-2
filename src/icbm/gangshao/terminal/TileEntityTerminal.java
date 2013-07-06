@@ -206,7 +206,7 @@ public abstract class TileEntityTerminal extends TileEntityUniversalRunnable imp
 
 	public boolean canUserAccess(String username)
 	{
-		return (this.getUserAccess(username).ordinal() > AccessLevel.BASIC.ordinal());
+		return (this.getUserAccess(username).ordinal() >= AccessLevel.USER.ordinal());
 	}
 
 	@Override

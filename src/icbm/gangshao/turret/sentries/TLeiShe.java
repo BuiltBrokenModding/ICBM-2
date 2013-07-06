@@ -4,10 +4,10 @@ import icbm.api.sentry.IAATarget;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.TileDamageSource;
-import icbm.gangshao.task.LookHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.CalculationHelper;
 
 public class TLeiShe extends TPaoTaiZiDong
 {
@@ -25,9 +25,9 @@ public class TLeiShe extends TPaoTaiZiDong
 		this.baseTargetRange = 10;
 		this.maxTargetRange = 25;
 
-		this.rotationSpeed = 2f;
+		this.rotationSpeed = 2.5f;
 
-		this.baseFiringDelay = 12;
+		this.baseFiringDelay = 11;
 		this.minFiringDelay = 5;
 
 		this.projectileType = ProjectileType.UNKNOWN;
@@ -73,8 +73,8 @@ public class TLeiShe extends TPaoTaiZiDong
 	public void renderShot(Vector3 target)
 	{
 		Vector3 center = this.getCenter();
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, LookHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
 		this.barrelRotationVelocity += 1;
 	}
 
@@ -89,7 +89,7 @@ public class TLeiShe extends TPaoTaiZiDong
 				{
 					this.getPlatform().wattsReceived -= this.getFiringRequest();
 					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 2);
-					this.target.setFire(2);
+					this.target.setFire(3);
 					return true;
 				}
 				else if (this.target instanceof IAATarget)

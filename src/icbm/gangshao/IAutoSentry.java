@@ -24,7 +24,7 @@ public interface IAutoSentry extends ISentry
 	/**
 	 * Sets the target of the sentry if it doesn't have one or was overridden
 	 */
-	public boolean setTarget(Entity target, boolean override);
+	public void setTarget(Entity target);
 
 	/**
 	 * Used by the AI Action classes to check if the target its trying to find is valid for it to
