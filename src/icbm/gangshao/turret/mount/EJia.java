@@ -59,8 +59,16 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
-		this.controller = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
-		this.shouldSit = data.readBoolean();
+		try
+		{
+			this.controller = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
+			this.shouldSit = data.readBoolean();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 
 	/** Called to update the entity's position/logic. */

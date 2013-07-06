@@ -88,8 +88,8 @@ public class TLeiShe extends TPaoTaiZiDong
 				if (this.target instanceof EntityLiving)
 				{
 					this.getPlatform().wattsReceived -= this.getFiringRequest();
-					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 1);
-					this.target.setFire(60);
+					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 2);
+					this.target.setFire(2);
 					return true;
 				}
 				else if (this.target instanceof IAATarget)
