@@ -221,14 +221,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 				{
 					if (itemStack.isItemEqual(ammoStack))
 					{
-						itemStack.stackSize--;
-
-						if (itemStack.stackSize <= 0)
-						{
-							itemStack = null;
-						}
-
-						this.setInventorySlotContents(i, itemStack);
+						this.decrStackSize(i, 1);
 						return true;
 					}
 				}
@@ -241,13 +234,16 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	public int getUpgradeCount(TurretUpgradeType type)
 	{
 		int count = 0;
-		for (int i = UPGRADE_START_INDEX; i < TURRET_UPGADE_SLOTS; i++)
+
+		for (int i = UPGRADE_START_INDEX; i < UPGRADE_START_INDEX + TURRET_UPGADE_SLOTS; i++)
 		{
-			if (this.getStackInSlot(i) != null)
+			ItemStack itemStack = this.getStackInSlot(i);
+
+			if (itemStack != null)
 			{
-				if (this.getStackInSlot(i).getItem() instanceof ITurretUpgrade)
+				if (itemStack.getItem() instanceof ITurretUpgrade)
 				{
-					if (((ITurretUpgrade) this.getStackInSlot(i).getItem()).getType(this.getStackInSlot(i)) == type)
+					if (((ITurretUpgrade) itemStack.getItem()).getType(itemStack) == type)
 					{
 						count++;
 					}
@@ -420,12 +416,42 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	public void onInventoryChanged()
 	{
 		super.onInventoryChanged();
-		// this.processUpgrades();
 	}
 
 	@Override
 	public String getChannel()
 	{
 		return ZhuYaoGangShao.CHANNEL;
+	}
+
+	/**
+	 * @return True on successful drop.
+	 */
+	public boolean addStackToInventory(ItemStack itemStack)
+	{
+		for (int i = 0; i < UPGRADE_START_INDEX; i++)
+		{
+			ItemStack checkStack = this.getStackInSlot(i);
+
+			if (itemStack.stackSize <= 0)
+			{
+				return true;
+			}
+
+			if (checkStack == null)
+			{
+				this.setInventorySlotContents(i, itemStack);
+				return true;
+			}
+			else if (checkStack.isItemEqual(itemStack))
+			{
+				int inputStack = Math.min(checkStack.stackSize + itemStack.stackSize, checkStack.getMaxStackSize()) - checkStack.stackSize;
+				itemStack.stackSize -= inputStack;
+				checkStack.stackSize += inputStack;
+				this.setInventorySlotContents(i, checkStack);
+			}
+		}
+
+		return false;
 	}
 }

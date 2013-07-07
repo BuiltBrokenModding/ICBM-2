@@ -51,7 +51,6 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	public boolean targetHostile = false;
 	/** SHOULD TARGET ANIMALS, NPCS, SHEEP :( */
 	public boolean targetFriendly = false;
-
 	public boolean canTargetAir = false;
 
 	/** AI MANAGER */
@@ -99,6 +98,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		}
 	}
 
+	@Override
 	public float getRotationSpeed()
 	{
 		return this.rotationSpeed;
@@ -290,15 +290,27 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 
 				if (fired && this.projectileType != ProjectileType.UNKNOWN)
 				{
-					if (this.worldObj.rand.nextFloat() < 0.95)
+					if (this.getPlatform().useAmmunition(ammoStack))
 					{
-						Vector3 spawnPos = this.getMuzzle();
-						EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
-						entityShell.delayBeforeCanPickup = 20;
-						this.worldObj.spawnEntityInWorld(entityShell);
+						boolean drop = true;
+
+						if (this.getPlatform().getUpgradeCount(TurretUpgradeType.COLLECTOR) > 0)
+						{
+							if (this.getPlatform().addStackToInventory(ZhuYaoGangShao.bulletShell.copy()))
+							{
+								drop = false;
+							}
+						}
+
+						if (drop && this.worldObj.rand.nextFloat() < 0.9)
+						{
+							Vector3 spawnPos = this.getMuzzle();
+							EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ZhuYaoGangShao.bulletShell.copy());
+							entityShell.delayBeforeCanPickup = 20;
+							this.worldObj.spawnEntityInWorld(entityShell);
+						}
 					}
 
-					this.getPlatform().useAmmunition(ammoStack);
 				}
 
 				return fired;
@@ -350,7 +362,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 	{
 		if (this.getPlatform() != null)
 		{
-			return Math.min((float) (this.baseTargetRange + (this.maxTargetRange - this.baseTargetRange) * (float) ((float) this.getPlatform().getUpgradeCount(TurretUpgradeType.RANGE) / 64f)), this.maxTargetRange);
+			return Math.min(this.baseTargetRange + (this.maxTargetRange - this.baseTargetRange) * (this.getPlatform().getUpgradeCount(TurretUpgradeType.RANGE) / 64f), this.maxTargetRange);
 		}
 
 		return this.baseTargetRange;

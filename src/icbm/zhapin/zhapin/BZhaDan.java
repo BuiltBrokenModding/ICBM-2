@@ -35,7 +35,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.implement.IToolConfigurator;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -324,7 +323,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
 				return true;
 			}
-			else if (par5EntityPlayer.getCurrentEquippedItem().getItem() instanceof IToolConfigurator)
+			else if (this.isUsableWrench(par5EntityPlayer, par5EntityPlayer.getCurrentEquippedItem(), x, y, z))
 			{
 				byte change = 3;
 

@@ -86,6 +86,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		}
 	}
 
+	@Override
 	public void tryActivateWeapon()
 	{
 		if (this.canActivateWeapon() && this.gunChargingTicks == 0)
@@ -94,6 +95,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void onFire()
 	{
 		if (!this.worldObj.isRemote)
@@ -175,6 +177,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 
+	@Override
 	public Vector3 getCenter()
 	{
 		return new Vector3(this).add(new Vector3(0.5, 1.5, 0.5));
@@ -183,8 +186,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	@Override
 	public Vector3 getMuzzle()
 	{
-		Vector3 position = this.getCenter();
-		return Vector3.add(position, Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.wantedRotationYaw, this.wantedRotationPitch), 1.5));
+		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.6));
 	}
 
 	@Override
@@ -202,7 +204,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	@Override
 	public double getFiringRequest()
 	{
-		return 800000;
+		return 1000000;
 	}
 
 	@Override

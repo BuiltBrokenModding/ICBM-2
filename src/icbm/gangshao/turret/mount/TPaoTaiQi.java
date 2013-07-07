@@ -17,9 +17,6 @@ import calclavia.lib.CalculationHelper;
  */
 public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 {
-	/** OFFSET OF BARREL ROTATION */
-	public final float barrelOffset = 0.0175f;
-
 	/** Fake entity this sentry uses for mounting the player in position */
 	protected EJia entityFake = null;
 
@@ -42,8 +39,8 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 				{
 					mountedPlayer.rotationPitch = this.minPitch;
 				}
-				this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch * barrelOffset;
-				this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw * barrelOffset;
+				this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch;
+				this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw;
 			}
 		}
 	}
@@ -54,7 +51,7 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 	 */
 	public MovingObjectPosition rayTrace(double distance)
 	{
-		return CalculationHelper.doCustomRayTrace(this.worldObj, this.getMuzzle(), this.wantedRotationYaw / this.barrelOffset, this.wantedRotationPitch / this.barrelOffset, true, distance);
+		return CalculationHelper.doCustomRayTrace(this.worldObj, this.getMuzzle(), this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
 	}
 
 	@Override
@@ -110,8 +107,8 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 				this.worldObj.spawnEntityInWorld(entityFake);
 			}
 
-			entityPlayer.rotationYaw = this.currentRotationYaw / this.barrelOffset;
-			entityPlayer.rotationPitch = this.currentRotationPitch / this.barrelOffset;
+			entityPlayer.rotationYaw = this.currentRotationYaw;
+			entityPlayer.rotationPitch = this.currentRotationPitch;
 
 			entityPlayer.mountEntity(this.entityFake);
 		}

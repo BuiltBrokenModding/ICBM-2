@@ -150,12 +150,13 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		// Railgun
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T3, 'G', new ItemStack(blockTurret, 1, 0) }));
 		// AA Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 2), new Object[] { "DDD", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'G', new ItemStack(blockTurret, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 2), new Object[] { "DDS", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'G', new ItemStack(blockTurret, 1, 0) }));
 		// Laser Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 3), new Object[] { "DDD", "CS ", "DS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'D', Block.glass }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 3), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T1, 'D', Block.glass, 'G', Block.glass }));
 
 		// Upgrades
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 2, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.ingotIron }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 3, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.ingotIron }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.COLLECTOR.ordinal()), new Object[] { "BBB", " I ", "BBB", 'B', Item.bucketEmpty, 'I', Item.bowlEmpty }));
 
 		CommandRegistry.register(new CommandAccess());
 		CommandRegistry.register(new CommandDestroy());

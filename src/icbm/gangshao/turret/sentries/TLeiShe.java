@@ -22,12 +22,12 @@ public class TLeiShe extends TPaoTaiZiDong
 		this.targetPlayers = true;
 		this.targetHostile = true;
 
-		this.baseTargetRange = 10;
-		this.maxTargetRange = 25;
+		this.baseTargetRange = 20;
+		this.maxTargetRange = 35;
 
-		this.rotationSpeed = 2.5f;
+		this.rotationSpeed = 3;
 
-		this.baseFiringDelay = 11;
+		this.baseFiringDelay = 12;
 		this.minFiringDelay = 5;
 
 		this.projectileType = ProjectileType.UNKNOWN;

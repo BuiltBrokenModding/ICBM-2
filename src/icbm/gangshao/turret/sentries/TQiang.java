@@ -10,12 +10,12 @@ public class TQiang extends TPaoTaiZiDong
 		this.targetPlayers = true;
 		this.targetHostile = true;
 
-		this.baseTargetRange = 15;
-		this.maxTargetRange = 30;
+		this.baseTargetRange = 13;
+		this.maxTargetRange = 25;
 
-		this.rotationSpeed = 1.8f;
+		this.rotationSpeed = 2;
 
-		this.baseFiringDelay = 20;
+		this.baseFiringDelay = 18;
 		this.minFiringDelay = 10;
 	}
 
@@ -49,6 +49,7 @@ public class TQiang extends TPaoTaiZiDong
 		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
+	@Override
 	public Vector3 getCenter()
 	{
 		return new Vector3(this).add(new Vector3(0.5, 0.65, 0.5));

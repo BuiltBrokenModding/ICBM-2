@@ -29,8 +29,8 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.implement.IRedstoneProvider;
-import universalelectricity.prefab.implement.IToolConfigurator;
 import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
@@ -405,13 +405,14 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 	{
 		if (entityPlayer.inventory.getCurrentItem() != null)
 		{
-			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof IToolConfigurator)
+			if (((BlockAdvanced) this.getBlockType()).isUsableWrench(entityPlayer, entityPlayer.inventory.getCurrentItem(), this.xCoord, this.yCoord, this.zCoord))
 			{
 				if (!this.worldObj.isRemote)
 				{
 					this.emitAll = !this.emitAll;
 					entityPlayer.addChatMessage("Radar redstone all side emission: " + this.emitAll);
 				}
+
 				return true;
 			}
 		}

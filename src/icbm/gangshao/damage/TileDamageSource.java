@@ -21,6 +21,7 @@ public class TileDamageSource extends EntityDamageSource
 		return (TileDamageSource) (new TileDamageSource("laser", tileEntity).setDamageBypassesArmor().setProjectile());
 	}
 
+	@Override
 	public DamageSource setDamageBypassesArmor()
 	{
 		return super.setDamageBypassesArmor();
