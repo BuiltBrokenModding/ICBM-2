@@ -61,7 +61,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 					break;
 				}
 
-				this.wattsReceived += ElectricItemHelper.dechargeItem(this.getStackInSlot(i), this.getRequest().getWatts(), this.getVoltage());
+				this.wattsReceived += ElectricItemHelper.dechargeItem(this.getStackInSlot(i), Math.ceil(this.getRequest().getWatts()), this.getVoltage());
 			}
 		}
 	}
@@ -100,7 +100,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 		{
 			if (this.wattsReceived < this.getTurret(false).getFiringRequest())
 			{
-				return new ElectricityPack(Math.max(turret.getFiringRequest() / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage());
+				return ElectricityPack.getFromWatts(Math.max(turret.getFiringRequest(), 0), this.getTurret(false).getVoltage());
 			}
 		}
 

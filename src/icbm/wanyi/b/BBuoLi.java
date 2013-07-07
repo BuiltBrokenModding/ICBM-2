@@ -73,4 +73,10 @@ public class BBuoLi extends BICBM implements IAntiPoisonBlock
 	{
 		return true;
 	}
+
+	@Override
+	public boolean hasTileEntity(int metadata)
+	{
+		return false;
+	}
 }

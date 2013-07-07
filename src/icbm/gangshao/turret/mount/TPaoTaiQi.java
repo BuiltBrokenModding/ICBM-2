@@ -72,14 +72,14 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 
 					if (entityPlayer == mountedPlayer)
 					{
-						entityPlayer.unmountEntity(this.entityFake);
-						this.entityFake.setDead();
-						this.entityFake = null;
-
 						if (!this.worldObj.isRemote)
 						{
 							PacketManager.sendPacketToClients(this.getRotationPacket());
 						}
+
+						entityPlayer.unmountEntity(this.entityFake);
+						this.entityFake.setDead();
+						this.entityFake = null;
 
 						return true;
 					}
@@ -104,7 +104,7 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 			if (this.entityFake == null)
 			{
 				this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
-				this.worldObj.spawnEntityInWorld(entityFake);
+				this.worldObj.spawnEntityInWorld(this.entityFake);
 			}
 
 			entityPlayer.rotationYaw = this.currentRotationYaw;
