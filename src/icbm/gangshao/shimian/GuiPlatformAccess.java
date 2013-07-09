@@ -1,6 +1,6 @@
 package icbm.gangshao.shimian;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.access.UserAccess;
 import icbm.gangshao.platform.TPaoTaiZhan;
@@ -229,7 +229,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
 		super.drawBackgroundLayer(x, y, var1);
-		this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "gui_platform_terminal.png");
+		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_platform_terminal.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int var5 = (this.width - this.xSize) / 2;

@@ -1,15 +1,12 @@
 package icbm.zhapin;
 
 import icbm.api.ICBM;
-import icbm.api.ICBMFlags;
+import icbm.core.ICBMFlags;
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
+import icbm.zhapin.baozha.EBaoZha;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.cart.ItChe;
-import icbm.zhapin.daodan.DaoDan;
-import icbm.zhapin.daodan.EDaoDan;
-import icbm.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.daodan.ItTeBieDaoDan;
 import icbm.zhapin.dianqi.ItFaSheQi;
 import icbm.zhapin.dianqi.ItJieJa;
 import icbm.zhapin.dianqi.ItLeiDaQiang;
@@ -24,11 +21,14 @@ import icbm.zhapin.po.PDongShang;
 import icbm.zhapin.zhapin.BZhaDan;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
-import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.IBZhaDan;
 import icbm.zhapin.zhapin.ItShouLiuDan;
 import icbm.zhapin.zhapin.ZhaPin;
-import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+import icbm.zhapin.zhapin.ZhaPinType;
+import icbm.zhapin.zhapin.daodan.DaoDan;
+import icbm.zhapin.zhapin.daodan.EDaoDan;
+import icbm.zhapin.zhapin.daodan.ItDaoDan;
+import icbm.zhapin.zhapin.daodan.ItTeBieDaoDan;
 
 import java.util.List;
 
@@ -48,17 +48,14 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.liquids.LiquidContainerData;
-import net.minecraftforge.liquids.LiquidContainerRegistry;
-import net.minecraftforge.liquids.LiquidDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.item.ItemElectric;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import universalelectricity.prefab.flag.FlagRegistry;
 import calclavia.lib.UniversalRecipes;
+import calclavia.lib.flag.FlagRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
@@ -81,7 +78,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ZhuYaoZhaPin.NAME, name = ZhuYaoZhaPin.NAME, version = ICBM.VERSION, dependencies = "after:ICBM|Sentry;after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ZhuYaoZhaPin.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ZhaPinPacketGuanLi.class)
-public class ZhuYaoZhaPin extends ZhuYaoBase
+public class ZhuYaoZhaPin extends ZhuYaoICBM
 {
 	public static final String NAME = ICBM.NAME + "|Explosion";
 	public static final String CHANNEL = ICBM.NAME + "|E";
@@ -127,7 +124,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		super.preInit(event);
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoZhaPin.proxy);
 
-		ZhuYaoBase.CONFIGURATION.load();
+		ZhuYaoICBM.CONFIGURATION.load();
 		USE_FUEL = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Use Fuel", USE_FUEL).getBoolean(USE_FUEL);
 
 		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
@@ -153,7 +150,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		PChuanRanDu.INSTANCE = new PChuanRanDu(23, false, 5149489, "virus");
 		PDongShang.INSTANCE = new PDongShang(24, false, 5149489, "frostBite");
 
-		ZhuYaoBase.CONFIGURATION.save();
+		ZhuYaoICBM.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(ZhuYaoZhaPin.bZhaDan);
 
@@ -259,7 +256,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 	public void load(FMLInitializationEvent evt)
 	{
 		super.init(evt);
-		ZhuYaoBase.setModMetadata(NAME, metadata);
+		ZhuYaoICBM.setModMetadata(NAME, metadata);
 	}
 
 	@Override
@@ -306,7 +303,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		// Radar Station
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang), '!', UniversalRecipes.PRIMARY_PLATE, '#', UniversalRecipes.CIRCUIT_T1, '?', Item.ingotGold }));
 		// EMP Tower
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', UniversalRecipes.MOTOR, 'W', UniversalRecipes.WIRE }), "EMP Tower", ZhuYaoBase.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', UniversalRecipes.MOTOR, 'W', UniversalRecipes.WIRE }), "EMP Tower", ZhuYaoICBM.CONFIGURATION, true);
 
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipes.PRIMARY_PLATE, '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
@@ -367,24 +364,24 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
 		{
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i) }), ZhaPin.list[i].getUnlocalizedName() + " Missile", ZhuYaoBase.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i) }), ZhaPin.list[i].getUnlocalizedName() + " Missile", ZhuYaoICBM.CONFIGURATION, true);
 
 			if (i < ZhaPin.E_YI_ID)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getUnlocalizedName() + " Grenade", ZhuYaoBase.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getUnlocalizedName() + " Grenade", ZhuYaoICBM.CONFIGURATION, true);
 			}
 
 			if (i < ZhaPin.E_ER_ID)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getUnlocalizedName() + " Minecart", ZhuYaoBase.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getUnlocalizedName() + " Minecart", ZhuYaoICBM.CONFIGURATION, true);
 			}
 		}
 
 		EntityRegistry.registerGlobalEntityID(EZhaDan.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EDaoDan.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerGlobalEntityID(EZhaPin.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EBaoZha.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EFeiBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(EGuang.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerGlobalEntityID(ESuiPian.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
@@ -393,7 +390,7 @@ public class ZhuYaoZhaPin extends ZhuYaoBase
 
 		EntityRegistry.registerModEntity(EZhaDan.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EDaoDan.class, "ICBMMissile", ENTITY_ID_PREFIX + 1, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EZhaPin.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
+		EntityRegistry.registerModEntity(EBaoZha.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
 		EntityRegistry.registerModEntity(EFeiBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX + 3, this, 50, 15, true);
 		EntityRegistry.registerModEntity(EGuang.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);
 		EntityRegistry.registerModEntity(ESuiPian.class, "ICBMFragment", ENTITY_ID_PREFIX + 5, this, 40, 8, true);

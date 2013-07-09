@@ -1,6 +1,6 @@
 package icbm.gangshao.shimian;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.container.ContainerTurretPlatform;
@@ -128,7 +128,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "gui_base.png");
+		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_base.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int containerWidth = (this.width - this.xSize) / 2;

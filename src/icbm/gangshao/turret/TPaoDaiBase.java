@@ -1,6 +1,6 @@
 package icbm.gangshao.turret;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.ISentry;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.EntityTileDamagable;
@@ -24,7 +24,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.block.IVoltage;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
@@ -39,7 +38,7 @@ import com.google.common.io.ByteArrayDataInput;
  * 
  * @author Calclavia, Rseifert
  */
-public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, IVoltage, ISentry, IHealthTile
+public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, ISentry, IHealthTile
 {
 	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
 	public float maxPitch = 35;
@@ -114,7 +113,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		}
 		catch (Exception e)
 		{
-			ZhuYaoBase.LOGGER.severe(MessageFormat.format("Packet receiving failed: {0}", this.getClass().getSimpleName()));
+			ZhuYaoICBM.LOGGER.severe(MessageFormat.format("Packet receiving failed: {0}", this.getClass().getSimpleName()));
 			e.printStackTrace();
 		}
 	}
@@ -199,7 +198,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	 */
 
 	/** Energy consumed each time the weapon activates */
-	public abstract double getFiringRequest();
+	public abstract float getFiringRequest();
 
 	/** is this sentry currently operating */
 	public boolean isRunning()
@@ -338,7 +337,7 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 	}
 
 	@Override
-	public boolean onDamageTaken(DamageSource source, int amount)
+	public boolean onDamageTaken(DamageSource source, float amount)
 	{
 		if (this.isInvul())
 		{

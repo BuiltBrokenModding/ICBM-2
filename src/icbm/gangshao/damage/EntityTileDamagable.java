@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -47,7 +48,7 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, int amount)
+	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		if (this.host instanceof IHealthTile)
 		{
@@ -66,25 +67,6 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 			return ((IHealthTile) this.host).canApplyPotion(par1PotionEffect);
 		}
 		return false;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void addPotionEffect(PotionEffect par1PotionEffect)
-	{
-		if (this.isPotionApplicable(par1PotionEffect))
-		{
-			if (this.activePotionsMap.containsKey(Integer.valueOf(par1PotionEffect.getPotionID())))
-			{
-				((PotionEffect) this.activePotionsMap.get(Integer.valueOf(par1PotionEffect.getPotionID()))).combine(par1PotionEffect);
-				this.onChangedPotionEffect((PotionEffect) this.activePotionsMap.get(Integer.valueOf(par1PotionEffect.getPotionID())));
-			}
-			else
-			{
-				this.activePotionsMap.put(Integer.valueOf(par1PotionEffect.getPotionID()), par1PotionEffect);
-				this.onNewPotionEffect(par1PotionEffect);
-			}
-		}
 	}
 
 	@Override
@@ -227,9 +209,16 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 		return false;
 	}
 
-	@Override
-	public int getMaxHealth()
+	public float getMaxHealth()
 	{
 		return this.host != null && host instanceof IHealthTile ? ((IHealthTile) host).getMaxHealth() : 100;
 	}
+
+	@Override
+	protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(this.getMaxHealth());
+	}
+
 }

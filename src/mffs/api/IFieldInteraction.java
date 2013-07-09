@@ -8,7 +8,7 @@ import mffs.api.modules.IProjectorMode;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IRotatable;
+import universalelectricity.prefab.tile.IRotatable;
 
 public interface IFieldInteraction extends IModuleAcceptor, IRotatable, IActivatable
 {

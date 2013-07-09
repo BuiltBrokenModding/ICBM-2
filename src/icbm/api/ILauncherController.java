@@ -1,16 +1,15 @@
 package icbm.api;
 
 import net.minecraft.item.ItemStack;
-import universalelectricity.core.block.IElectricityStorage;
+import universalelectricity.core.block.IElectricalStorage;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IRedstoneReceptor;
 
 /**
  * Applied to all launcher TileEntitiies that operates the launching of missiles.
  * 
  * @author Calclavia
  */
-public interface ILauncherController extends IElectricityStorage, IRedstoneReceptor, IBlockFrequency
+public interface ILauncherController extends IElectricalStorage, IBlockFrequency
 {
 	/**
 	 * What type of launcher is this?

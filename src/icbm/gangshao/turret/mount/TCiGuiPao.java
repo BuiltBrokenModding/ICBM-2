@@ -1,7 +1,7 @@
 package icbm.gangshao.turret.mount;
 
 import icbm.api.explosion.IExplosive;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 
@@ -16,11 +16,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IRedstoneReceptor;
-import universalelectricity.prefab.multiblock.IMultiBlock;
-import universalelectricity.prefab.multiblock.TileEntityMulti;
 import universalelectricity.prefab.network.IPacketReceiver;
 import calclavia.lib.CalculationHelper;
+import calclavia.lib.multiblock.IMultiBlock;
+import calclavia.lib.multiblock.TileEntityMulti;
 
 /**
  * Railgun
@@ -173,7 +172,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoBase.bJia.blockID, 0, 2);
+		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
 		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 

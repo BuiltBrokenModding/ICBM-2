@@ -1,7 +1,6 @@
 package icbm.zhapin;
 
-import icbm.core.ZhuYaoBase;
-import icbm.zhapin.daodan.EDaoDan;
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.jiqi.TFaSheDi;
 import icbm.zhapin.jiqi.TFaSheJia;
@@ -12,6 +11,7 @@ import icbm.zhapin.jiqi.TYinDaoQi;
 import icbm.zhapin.rongqi.CFaShiDi;
 import icbm.zhapin.rongqi.CXiaoFaSheQi;
 import icbm.zhapin.zhapin.TZhaDan;
+import icbm.zhapin.zhapin.daodan.EDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
@@ -59,9 +59,9 @@ public class CommonProxy implements IGuiHandler
 		{
 			switch (ID)
 			{
-				case ZhuYaoBase.GUI_XIA_FA_SHE_QI:
+				case ZhuYaoICBM.GUI_XIA_FA_SHE_QI:
 					return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
-				case ZhuYaoBase.GUI_FA_SHE_DI:
+				case ZhuYaoICBM.GUI_FA_SHE_DI:
 					return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
 		}

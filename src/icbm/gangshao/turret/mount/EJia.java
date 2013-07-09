@@ -1,6 +1,6 @@
 package icbm.gangshao.turret.mount;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -56,7 +56,7 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 		}
 		else
 		{
-			ZhuYaoBase.LOGGER.severe("Failed to send ridable turret packet!");
+			ZhuYaoICBM.LOGGER.severe("Failed to send ridable turret packet!");
 		}
 
 		data.writeBoolean(this.shouldSit);

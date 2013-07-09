@@ -12,7 +12,7 @@ public interface IHealthTile
 	 * @param ammount - amount of damage
 	 * @return
 	 */
-	public boolean onDamageTaken(DamageSource source, int ammount);
+	public boolean onDamageTaken(DamageSource source, float ammount);
 
 	/**
 	 * Is this tile considered too still be alive. Allows for the tile to remain while being

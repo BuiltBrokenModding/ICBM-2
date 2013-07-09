@@ -2,7 +2,7 @@ package icbm.wanyi;
 
 import icbm.api.ICBM;
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.wanyi.b.BBuoLi;
 import icbm.wanyi.b.BBuoLiPan;
 import icbm.wanyi.b.BEnNiu;
@@ -36,7 +36,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ZhuYaoWanYi.NAME, name = ZhuYaoWanYi.NAME, version = ICBM.VERSION, dependencies = "after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ZhuYaoWanYi.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = WanYiPacketGuanLi.class)
-public class ZhuYaoWanYi extends ZhuYaoBase
+public class ZhuYaoWanYi extends ZhuYaoICBM
 {
 	public static final String NAME = ICBM.NAME + "|Contraption";
 	public static final String CHANNEL = ICBM.NAME + "|C";
@@ -65,11 +65,11 @@ public class ZhuYaoWanYi extends ZhuYaoBase
 		super.preInit(event);
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoWanYi.proxy);
 
-		ZhuYaoBase.CONFIGURATION.load();
+		ZhuYaoICBM.CONFIGURATION.load();
 
 		// Blocks
-		bBuoLiPan = new BBuoLiPan(ZhuYaoBase.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(ZhuYaoBase.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
+		bBuoLiPan = new BBuoLiPan(ZhuYaoICBM.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
+		bBuoLiEnNiu = new BEnNiu(ZhuYaoICBM.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
 		bYinGanQi = new BYinGanQi(ICBM.BLOCK_ID_PREFIX - 3);
 		bZha = new BZha(ICBM.BLOCK_ID_PREFIX - 4);
 		bYinXing = new BYinXing(ICBM.BLOCK_ID_PREFIX - 5);
@@ -77,11 +77,11 @@ public class ZhuYaoWanYi extends ZhuYaoBase
 		bBuoLi = new BBuoLi(ICBM.BLOCK_ID_PREFIX - 7);
 
 		// ITEMS
-		itYao = new ItYao(ZhuYaoBase.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
-		itHuoLaunQi = new ItHuoLuanQi(ZhuYaoBase.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
-		itGenZongQi = new ItGenZongQi(ZhuYaoBase.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
+		itYao = new ItYao(ZhuYaoICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
+		itHuoLaunQi = new ItHuoLuanQi(ZhuYaoICBM.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
+		itGenZongQi = new ItGenZongQi(ZhuYaoICBM.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
-		ZhuYaoBase.CONFIGURATION.save();
+		ZhuYaoICBM.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(bYinGanQi);
 
@@ -101,7 +101,7 @@ public class ZhuYaoWanYi extends ZhuYaoBase
 	public void load(FMLInitializationEvent evt)
 	{
 		super.init(evt);
-		ZhuYaoBase.setModMetadata(NAME, metadata);
+		ZhuYaoICBM.setModMetadata(NAME, metadata);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class ZhuYaoWanYi extends ZhuYaoBase
 		// Spikes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', UniversalRecipes.SECONDARY_METAL }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
-		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ZhuYaoBase.itDu, 'S', bZha });
+		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ZhuYaoICBM.itDu, 'S', bZha });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', bZha }));
 
 		// Camouflage

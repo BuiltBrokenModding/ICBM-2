@@ -2,9 +2,9 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.IItemFrequency;
 import icbm.api.RadarRegistry;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.daodan.EDaoDan;
+import icbm.zhapin.zhapin.daodan.EDaoDan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,11 +30,9 @@ import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
-import universalelectricity.prefab.implement.IRedstoneProvider;
-import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.TileEntityUniversalRunnable;
+import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -417,26 +415,26 @@ public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketRec
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_LEI_DA_TAI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_LEI_DA_TAI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), new Vector3(this));
 
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), new Vector3(this));
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), new Vector3(this));
 
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), new Vector3(this));
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), new Vector3(this));
 
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), new Vector3(this));
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), new Vector3(this));
 
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), new Vector3(this));
-		ZhuYaoBase.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), new Vector3(this));
 
 	}
 

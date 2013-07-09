@@ -4,13 +4,13 @@ import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.LauncherType;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.daodan.DaoDan;
-import icbm.zhapin.daodan.EDaoDan;
-import icbm.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.daodan.ItTeBieDaoDan;
-import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+import icbm.zhapin.zhapin.ZhaPinType;
+import icbm.zhapin.zhapin.daodan.DaoDan;
+import icbm.zhapin.zhapin.daodan.EDaoDan;
+import icbm.zhapin.zhapin.daodan.ItDaoDan;
+import icbm.zhapin.zhapin.daodan.ItTeBieDaoDan;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,9 +29,9 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.multiblock.IBlockActivate;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -160,11 +160,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.isDisabled())
-		{
-			status = "Disabled";
-		}
-		else if (this.getJoules() < this.getMaxJoules())
+		if (this.getJoules() < this.getMaxJoules())
 		{
 			status = "No Power!";
 		}
@@ -498,7 +494,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			return true;
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_XIA_FA_SHE_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_XIA_FA_SHE_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}

@@ -18,7 +18,7 @@ public class BLiu extends BICBM
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
 	{
-		return ZhuYaoBase.itLiu.itemID;
+		return ZhuYaoICBM.itLiu.itemID;
 	}
 
 	@Override

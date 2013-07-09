@@ -1,8 +1,9 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.IMissile;
+import icbm.api.ITier;
 import icbm.api.LauncherType;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 
 import java.util.HashSet;
@@ -19,11 +20,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IRotatable;
-import universalelectricity.prefab.implement.ITier;
-import universalelectricity.prefab.multiblock.IBlockActivate;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.IRotatable;
+import calclavia.lib.multiblock.IBlockActivate;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -385,7 +385,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_FA_SHE_SHI_MUO, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_FA_SHE_SHI_MUO, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 

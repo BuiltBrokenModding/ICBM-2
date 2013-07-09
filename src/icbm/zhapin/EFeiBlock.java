@@ -1,6 +1,6 @@
 package icbm.zhapin;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
@@ -93,7 +93,7 @@ public class EFeiBlock extends Entity implements IEntityAdditionalSpawnData
 			return;
 		}
 
-		if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ZhuYaoBase.bJia.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+		if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ZhuYaoICBM.bJia.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
 		{
 			this.setDead();
 			return;

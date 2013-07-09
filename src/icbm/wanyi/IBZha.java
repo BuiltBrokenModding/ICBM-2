@@ -1,6 +1,6 @@
 package icbm.wanyi;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -28,6 +28,6 @@ public class IBZha extends ItemBlock
 	@Override
 	public String getUnlocalizedName()
 	{
-		return "tile." + ZhuYaoBase.PREFIX + "spikes";
+		return "tile." + ZhuYaoICBM.PREFIX + "spikes";
 	}
 }

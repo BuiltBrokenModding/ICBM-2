@@ -1,9 +1,9 @@
 package icbm.gangshao;
 
 import icbm.api.ICBM;
-import icbm.api.ICBMFlags;
+import icbm.core.ICBMFlags;
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.damage.EntityTileDamagable;
 import icbm.gangshao.platform.BlockTurretPlatform;
 import icbm.gangshao.terminal.command.CommandAccess;
@@ -30,12 +30,12 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.WorldEvent.Save;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.flag.CommandFlag;
-import universalelectricity.prefab.flag.FlagRegistry;
-import universalelectricity.prefab.flag.ModFlag;
-import universalelectricity.prefab.flag.NBTFileLoader;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.NBTFileLoader;
 import calclavia.lib.UniversalRecipes;
+import calclavia.lib.flag.CommandFlag;
+import calclavia.lib.flag.FlagRegistry;
+import calclavia.lib.flag.ModFlag;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -57,7 +57,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
-public class ZhuYaoGangShao extends ZhuYaoBase
+public class ZhuYaoGangShao extends ZhuYaoICBM
 {
 	public static final String NAME = ICBM.NAME + "|Sentry";
 	public static final String CHANNEL = ICBM.NAME;
@@ -95,14 +95,14 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoGangShao.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 
-		ZhuYaoBase.CONFIGURATION.load();
+		ZhuYaoICBM.CONFIGURATION.load();
 
 		blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
 		itemUpgrade = new ItPaoTaiUpgrades(ITEM_ID_PREFIX + 2);
-		ZhuYaoBase.CONFIGURATION.save();
+		ZhuYaoICBM.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
 		conventionalBullet = new ItemStack(itemAmmo, 1, 1);
@@ -127,7 +127,7 @@ public class ZhuYaoGangShao extends ZhuYaoBase
 	public void init(FMLInitializationEvent event)
 	{
 		super.init(event);
-		ZhuYaoBase.setModMetadata(NAME, metadata);
+		ZhuYaoICBM.setModMetadata(NAME, metadata);
 	}
 
 	@Override

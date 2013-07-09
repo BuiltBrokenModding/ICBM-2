@@ -1,7 +1,7 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
@@ -16,11 +16,9 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IRedstoneReceptor;
-import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.TileEntityUniversalStorable;
+import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -204,14 +202,14 @@ public class TDianCiQi extends TileEntityUniversalStorable implements IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_DIAN_CI_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_DIAN_CI_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
 	public void onCreate(Vector3 position)
 	{
-		ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
+		ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
 	}
 
 	@Override

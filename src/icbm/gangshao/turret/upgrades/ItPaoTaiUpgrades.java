@@ -1,6 +1,6 @@
 package icbm.gangshao.turret.upgrades;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.core.di.ItICBM;
 import icbm.gangshao.ITurretUpgrade;
 
@@ -45,7 +45,7 @@ public class ItPaoTaiUpgrades extends ItICBM implements ITurretUpgrade
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return "item." + ZhuYaoBase.PREFIX + TurretUpgradeType.values()[itemStack.getItemDamage()].iconName;
+		return "item." + ZhuYaoICBM.PREFIX + TurretUpgradeType.values()[itemStack.getItemDamage()].iconName;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class ItPaoTaiUpgrades extends ItICBM implements ITurretUpgrade
 	{
 		for (int i = 0; i < TurretUpgradeType.values().length; i++)
 		{
-			ICONS[i] = iconRegister.registerIcon(ZhuYaoBase.PREFIX + TurretUpgradeType.values()[i].iconName);
+			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + TurretUpgradeType.values()[i].iconName);
 		}
 	}
 

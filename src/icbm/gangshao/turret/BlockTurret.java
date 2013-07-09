@@ -1,7 +1,7 @@
 package icbm.gangshao.turret;
 
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.core.di.BICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.EntityTileDamagable;
@@ -28,10 +28,9 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
-import universalelectricity.prefab.implement.IRedstoneReceptor;
-import universalelectricity.prefab.implement.IRotatable;
-import universalelectricity.prefab.multiblock.IBlockActivate;
-import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.tile.IRotatable;
+import calclavia.lib.multiblock.IBlockActivate;
+import calclavia.lib.multiblock.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -85,7 +84,7 @@ public class BlockTurret extends BICBM
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		this.blockIcon = iconRegister.registerIcon(ZhuYaoBase.PREFIX + "machine");
+		this.blockIcon = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "machine");
 	}
 
 	/** Called when the block is placed in the world. */

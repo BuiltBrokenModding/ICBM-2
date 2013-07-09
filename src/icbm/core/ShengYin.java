@@ -1,7 +1,5 @@
 package icbm.core;
 
-import java.net.URL;
-
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 
@@ -16,14 +14,7 @@ public class ShengYin
 	{
 		for (int i = 0; i < SOUND_FILES.length; i++)
 		{
-			URL url = this.getClass().getResource("/icbm/" + SOUND_FILES[i]);
-
-			event.manager.soundPoolSounds.addSound("icbm/" + SOUND_FILES[i], url);
-
-			if (url == null)
-			{
-				System.out.println("Invalid sound file: " + SOUND_FILES[i]);
-			}
+			event.manager.soundPoolSounds.addSound(ZhuYaoICBM.PREFIX + SOUND_FILES[i]);
 		}
 	}
 }

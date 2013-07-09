@@ -2,11 +2,10 @@ package icbm.zhapin.zhapin;
 
 import icbm.api.ICamouflageMaterial;
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.render.RHZhaPin;
-import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+import icbm.zhapin.render.tile.RHZhaPin;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -18,9 +17,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.client.texturepacks.ITexturePack;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -56,7 +54,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	/**
 	 * gets the way this piston should face for that entity that placed it.
 	 */
-	private static byte determineOrientation(World world, int x, int y, int z, EntityLiving entityLiving)
+	private static byte determineOrientation(World world, int x, int y, int z, EntityLivingBase entityLiving)
 	{
 		if (entityLiving != null)
 		{
@@ -134,7 +132,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack itemStack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
 	{
 		int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
 
@@ -220,11 +218,12 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	{
 		ITexturePack itexturepack = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
 		String iconName = "explosive_" + ZhaPin.list[i].getUnlocalizedName() + suffix;
-		String path = "/mods/" + ZhuYaoBase.PREFIX.replace(":", "") + "/textures/blocks/" + iconName + ".png";
+		String path = "/mods/" + ZhuYaoICBM.PREFIX.replace(":", "") + "/textures/blocks/" + iconName + ".png";
+		
 		try
 		{
 			BufferedImage bufferedimage = ImageIO.read(itexturepack.getResourceAsStream(path));
-			return iconRegister.registerIcon(ZhuYaoBase.PREFIX + iconName);
+			return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + iconName);
 		}
 		catch (Exception e)
 		{
@@ -232,10 +231,10 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 
 		if (suffix.equals("_bottom"))
 		{
-			return iconRegister.registerIcon(ZhuYaoBase.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
+			return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
 		}
 
-		return iconRegister.registerIcon(ZhuYaoBase.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
+		return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
 	}
 
 	/**

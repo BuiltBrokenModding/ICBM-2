@@ -2,7 +2,7 @@ package icbm.zhapin.po;
 
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
-import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+import icbm.zhapin.zhapin.ZhaPinType;
 
 import java.util.List;
 

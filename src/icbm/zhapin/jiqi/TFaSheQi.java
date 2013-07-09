@@ -1,15 +1,15 @@
 package icbm.zhapin.jiqi;
 
+import calclavia.lib.TileEntityUniversalElectrical;
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import calclavia.lib.TileEntityUniversalStorable;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TFaSheQi extends TileEntityUniversalStorable implements ILauncherController, IPeripheral
+public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral
 {
 	protected Vector3 muBiao = null;
 

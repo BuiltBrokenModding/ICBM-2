@@ -1,12 +1,12 @@
 package icbm.zhapin.jiqi;
 
+import icbm.api.ITier;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import universalelectricity.prefab.implement.ITier;
 
 public class IBJiQi extends ItemBlock
 {

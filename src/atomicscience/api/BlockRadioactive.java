@@ -27,6 +27,7 @@ public class BlockRadioactive extends Block
 	public int amplifier = 2;
 	public boolean canWalkPoison = true;
 	public boolean isRandomlyRadioactive = true;
+	public boolean spawnParticle = true;
 
 	private Icon iconTop;
 	private Icon iconBottom;
@@ -47,7 +48,7 @@ public class BlockRadioactive extends Block
 	@Override
 	public Icon getIcon(int side, int metadata)
 	{
-		return side == 1 ? this.iconTop : (side == 0 ? iconBottom : this.blockIcon);
+		return side == 1 ? this.iconTop : (side == 0 ? this.iconBottom : this.blockIcon);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -55,8 +56,8 @@ public class BlockRadioactive extends Block
 	public void registerIcons(IconRegister iconRegister)
 	{
 		super.registerIcons(iconRegister);
-		this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName2() + "_top");
-		this.iconBottom = iconRegister.registerIcon(this.getUnlocalizedName2() + "_bottom");
+		this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_top");
+		this.iconBottom = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_bottom");
 	}
 
 	@Override
@@ -132,21 +133,24 @@ public class BlockRadioactive extends Block
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random par5Random)
 	{
-		if (Minecraft.getMinecraft().gameSettings.particleSetting == 0)
+		if (this.spawnParticle)
 		{
-			int radius = 3;
-
-			for (int i = 0; i < 2; i++)
+			if (Minecraft.getMinecraft().gameSettings.particleSetting == 0)
 			{
-				Vector3 diDian = new Vector3(x, y, z);
+				int radius = 3;
 
-				diDian.x += Math.random() * radius - radius / 2;
-				diDian.y += Math.random() * radius - radius / 2;
-				diDian.z += Math.random() * radius - radius / 2;
+				for (int i = 0; i < 2; i++)
+				{
+					Vector3 diDian = new Vector3(x, y, z);
 
-				EntitySmokeFX fx = new EntitySmokeFX(world, diDian.x, diDian.y, diDian.z, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2);
-				fx.setRBGColorF(0.2f, 0.8f, 0);
-				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					diDian.x += Math.random() * radius - radius / 2;
+					diDian.y += Math.random() * radius - radius / 2;
+					diDian.z += Math.random() * radius - radius / 2;
+
+					EntitySmokeFX fx = new EntitySmokeFX(world, diDian.x, diDian.y, diDian.z, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2);
+					fx.setRBGColorF(0.2f, 0.8f, 0);
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
 			}
 		}
 	}

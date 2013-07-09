@@ -1,9 +1,10 @@
 package icbm.gangshao.render;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.muoxing.ModelAATurret;
 import icbm.gangshao.turret.TPaoDaiBase;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -16,9 +17,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RFanKong extends RenderTaggedTile
 {
-	public static final String TEXTURE_FILE = "aa_turret_neutral.png";
-	public static final String TEXTURE_FILE_FRIENDLY = "aa_turret_friendly.png";
-	public static final String TEXTURE_FILE_HOSTILE = "aa_turret_hostile.png";
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "aa_turret_neutral.png");
+	public static final ResourceLocation TEXTURE_FILE_FRIENDLY = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "aa_turret_friendly.png");
+	public static final ResourceLocation TEXTURE_FILE_HOSTILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "aa_turret_hostile.png");
 	public static final ModelAATurret MODEL = new ModelAATurret();
 
 	@Override
@@ -61,17 +62,17 @@ public class RFanKong extends RenderTaggedTile
 
 			if (level == AccessLevel.ADMIN)
 			{
-				this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE);
+				this.func_110628_a(TEXTURE_FILE);
 				return;
 			}
 			else if (level.ordinal() >= AccessLevel.USER.ordinal())
 			{
-				this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE_FRIENDLY);
+				this.func_110628_a(TEXTURE_FILE_FRIENDLY);
 				return;
 			}
 		}
 
-		this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE_HOSTILE);
+		this.func_110628_a(TEXTURE_FILE_HOSTILE);
 
 	}
 }

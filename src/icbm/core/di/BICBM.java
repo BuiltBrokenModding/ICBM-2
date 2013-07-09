@@ -1,27 +1,26 @@
 package icbm.core.di;
 
 import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.prefab.block.BlockAdvanced;
-import universalelectricity.prefab.implement.IRedstoneProvider;
+import universalelectricity.prefab.block.BlockTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BICBM extends BlockAdvanced
+public class BICBM extends BlockTile
 {
 	protected Icon iconTop, iconSide, iconBottom;
 	protected boolean requireSidedTextures = false;
 
 	public BICBM(int id, String name, Material material)
 	{
-		super(ZhuYaoBase.CONFIGURATION.getBlock(name, id).getInt(id), material);
-		this.setUnlocalizedName(ZhuYaoBase.PREFIX + name);
+		super(ZhuYaoICBM.CONFIGURATION.getBlock(name, id).getInt(id), material);
+		this.setUnlocalizedName(ZhuYaoICBM.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 	}
 
@@ -39,9 +38,9 @@ public class BICBM extends BlockAdvanced
 
 		if (this.requireSidedTextures)
 		{
-			this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName2() + "_top");
-			this.iconSide = iconRegister.registerIcon(this.getUnlocalizedName2() + "_side");
-			this.iconBottom = iconRegister.registerIcon(this.getUnlocalizedName2() + "_bottom");
+			this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_top");
+			this.iconSide = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_side");
+			this.iconBottom = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_bottom");
 		}
 	}
 

@@ -11,13 +11,10 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.prefab.implement.IRotatable;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -72,7 +69,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
 					BZhaDan.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
-					((ItYaoKong) ZhuYaoZhaPin.itYaoKong).onProvide(ElectricityPack.getFromWatts(ItYaoKong.YONG_DIAN_LIANG, ZhuYaoZhaPin.itYaoKong.getVoltage(itemStack)), itemStack);
+					((ItYaoKong) ZhuYaoZhaPin.itYaoKong).discharge(itemStack, ItYaoKong.YONG_DIAN_LIANG, true);
 				}
 			}
 		}
@@ -89,13 +86,13 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	}
 
 	@Override
-	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
+	public ForgeDirection getDirection()
 	{
 		return ForgeDirection.getOrientation(this.getBlockMetadata());
 	}
 
 	@Override
-	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
+	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, facingDirection.ordinal(), 2);
 	}

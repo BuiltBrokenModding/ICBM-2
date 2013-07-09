@@ -1,8 +1,9 @@
 package icbm.gangshao.render;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.muoxing.ModelRailgun;
 import icbm.gangshao.turret.mount.TCiGuiPao;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -14,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RCiGuiPao extends RenderTaggedTile
 {
-	public static final String TEXTURE_FILE = "railgun.png";
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "railgun.png");
 	public static final ModelRailgun MODEL = new ModelRailgun();
 
 	@Override
@@ -29,7 +30,7 @@ public class RCiGuiPao extends RenderTaggedTile
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5F, (float) y + 2.2F, (float) z + 0.5F);
 			GL11.glScalef(1.5f, 1.5f, 1.5f);
-			this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE);
+			this.func_110628_a(TEXTURE);
 			GL11.glRotatef(180F, 0F, 0F, 1F);
 			GL11.glRotatef(180F, 0F, 1F, 0F);
 			MODEL.render((float) Math.toRadians(tileEntity.currentRotationYaw), (float) Math.toRadians(tileEntity.currentRotationPitch), 0.0625F);

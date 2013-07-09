@@ -1,6 +1,6 @@
 package icbm.gangshao.shimian;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.turret.TPaoDaiBase;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -52,7 +52,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 	protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
 	{
 		super.drawGuiContainerBackgroundLayer(par1, x, y);
-		this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "gui_platform_slot.png");
+		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_platform_slot.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int containerWidth = (this.width - this.xSize) / 2;

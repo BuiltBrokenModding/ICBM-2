@@ -1,16 +1,19 @@
 package icbm.gangshao.render;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.client.resources.ResourceLocation;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.render.CalclaviaRenderHelper;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -23,6 +26,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class FXBeam extends EntityFX
 {
+	private static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "noise.png");
+
 	double movX = 0.0D;
 	double movY = 0.0D;
 	double movZ = 0.0D;
@@ -66,7 +71,8 @@ public class FXBeam extends EntityFX
 		/**
 		 * Sets the particle age based on distance.
 		 */
-		EntityLiving renderentity = Minecraft.getMinecraft().renderViewEntity;
+		EntityLivingBase renderentity = Minecraft.getMinecraft().renderViewEntity;
+
 		int visibleDistance = 50;
 
 		if (!Minecraft.getMinecraft().gameSettings.fancyGraphics)
@@ -136,7 +142,7 @@ public class FXBeam extends EntityFX
 			op = 0.5F - (4 - (this.particleMaxAge - this.particleAge)) * 0.1F;
 		}
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(ZhuYaoBase.TEXTURE_PATH + "noise.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
 
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
 		GL11.glTexParameterf(3553, 10243, 10497.0F);
@@ -198,6 +204,6 @@ public class FXBeam extends EntityFX
 		tessellator.startDrawingQuads();
 		this.prevSize = size;
 
-		Minecraft.getMinecraft().renderEngine.bindTexture("/particles.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(CalclaviaRenderHelper.PARTICLE_RESOURCE);
 	}
 }

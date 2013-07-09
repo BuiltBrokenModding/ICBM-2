@@ -1,6 +1,6 @@
 package icbm.gangshao.terminal;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.ISpecialAccess;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.access.UserAccess;
@@ -20,7 +20,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.TileEntityUniversalRunnable;
+import calclavia.lib.TileEntityUniversalElectrical;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -32,7 +32,7 @@ import cpw.mods.fml.common.network.Player;
  * @author Calclavia, DarkGuardsman
  * 
  */
-public abstract class TileEntityTerminal extends TileEntityUniversalRunnable implements ISpecialAccess, IPacketReceiver, ITerminal
+public abstract class TileEntityTerminal extends TileEntityUniversalElectrical implements ISpecialAccess, IPacketReceiver, ITerminal
 {
 	public enum TerminalPacketType
 	{
@@ -186,7 +186,7 @@ public abstract class TileEntityTerminal extends TileEntityUniversalRunnable imp
 		}
 		catch (Exception e)
 		{
-			ZhuYaoBase.LOGGER.severe("Terminal error: " + this.toString());
+			ZhuYaoICBM.LOGGER.severe("Terminal error: " + this.toString());
 			e.printStackTrace();
 		}
 	}

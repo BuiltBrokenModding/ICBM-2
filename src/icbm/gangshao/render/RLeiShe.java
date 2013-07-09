@@ -1,10 +1,11 @@
 package icbm.gangshao.render;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.muoxing.MLeiShe;
 import icbm.gangshao.turret.TPaoDaiBase;
 import icbm.gangshao.turret.sentries.TLeiShe;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -17,9 +18,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RLeiShe extends RenderTaggedTile
 {
-	public static final String TEXTURE_FILE = "laser_turret_neutral.png";
-	public static final String TEXTURE_FILE_FRIENDLY = "laser_turret_friendly.png";
-	public static final String TEXTURE_FILE_HOSTILE = "laser_turret_hostile.png";
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "laser_turret_neutral.png");
+	public static final ResourceLocation TEXTURE_FILE_FRIENDLY = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "laser_turret_friendly.png");
+	public static final ResourceLocation TEXTURE_FILE_HOSTILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "laser_turret_hostile.png");
 	public static final MLeiShe MODEL = new MLeiShe();
 
 	@Override
@@ -67,17 +68,17 @@ public class RLeiShe extends RenderTaggedTile
 
 			if (level == AccessLevel.ADMIN)
 			{
-				this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE);
+				this.func_110628_a(TEXTURE_FILE);
 				return;
 			}
 			else if (level.ordinal() >= AccessLevel.USER.ordinal())
 			{
-				this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE_FRIENDLY);
+				this.func_110628_a(TEXTURE_FILE_FRIENDLY);
 				return;
 			}
 		}
 
-		this.bindTextureByName(ZhuYaoBase.MODEL_PATH + TEXTURE_FILE_HOSTILE);
+		this.func_110628_a(TEXTURE_FILE_HOSTILE);
 
 	}
 }

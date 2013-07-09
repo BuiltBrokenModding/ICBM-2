@@ -1,12 +1,16 @@
 package icbm.api.explosion;
 
+import icbm.api.ITier;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+
 /**
  * An interface used to find various types of explosive's information.
  * 
  * @author Calclavia
  * 
  */
-public interface IExplosive
+public interface IExplosive extends ITier
 {
 	/**
 	 * @return Gets the explosive's ID.
@@ -14,25 +18,21 @@ public interface IExplosive
 	public int getID();
 
 	/**
-	 * @return The name key in the ICBM language file.
+	 * @return The unique name key in the ICBM language file.
 	 */
 	public String getUnlocalizedName();
 
-	/**
-	 * @return Gets the specific translated name of the following versions of the explosive.
-	 */
+	/** @return Gets the specific translated name of the block versions of the explosive. */
 	public String getExplosiveName();
 
+	/** @return Gets the specific translated name of the grenade versions of the explosive. */
 	public String getGrenadeName();
 
+	/** @return Gets the specific translated name of the missile versions of the explosive. */
 	public String getMissileName();
 
+	/** @return Gets the specific translated name of the minecart versions of the explosive. */
 	public String getMinecartName();
-
-	/**
-	 * @return The radius of effect of the explosion.
-	 */
-	public float getRadius();
 
 	/**
 	 * @return The tier of the explosive.
@@ -40,7 +40,13 @@ public interface IExplosive
 	public int getTier();
 
 	/**
-	 * @return The energy emitted by this explosive. In Joules.
+	 * Creates a new explosion at a given location.
+	 * 
+	 * @param world The world in which the explosion takes place.
+	 * @param x The X-Coord
+	 * @param y The Y-Coord
+	 * @param z The Z-Coord
+	 * @param entity Entity that caused the explosion.
 	 */
-	public double getEnergy();
+	public void createExplosion(World world, double x, double y, double z, Entity entity);
 }

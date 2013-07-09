@@ -1,84 +1,27 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYaoBase;
-import icbm.zhapin.ESuiPian;
-import icbm.zhapin.zhapin.EShouLiuDan;
+import icbm.core.ZhuYaoICBM;
+import icbm.core.di.MICBM;
+import icbm.zhapin.baozha.ex.BzQunDan;
+import icbm.zhapin.muoxing.daodan.MMQunDan;
+import icbm.zhapin.muoxing.daodan.MMXiaoQunDan;
+import icbm.zhapin.muoxing.daodan.MMZhen;
 import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExQunDan extends ZhaPin
+public class ExQunDan extends DaoDan
 {
-	public ExQunDan(String name, int ID, int tier)
+	public ExQunDan(String mingZi, int tier)
 	{
-		super(name, ID, tier);
-	}
-
-	@Override
-	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int metadata, int callCount)
-	{
-		if (!worldObj.isRemote)
-		{
-			int amount = 30;
-
-			if (this.getTier() == 2)
-			{
-				amount = 15;
-			}
-			else if (this.getID() == ZhaPin.zhen.getID())
-			{
-				amount = 25;
-			}
-
-			if (explosionSource instanceof EShouLiuDan)
-			{
-				amount /= 2;
-				position.y += 0.5D;
-			}
-
-			float amountToRotate = 360 / amount;
-
-			for (int i = 0; i < amount; i++)
-			{
-				// Try to do a 360 explosion on
-				// all 6
-				// faces of the cube.
-				float rotationYaw = 0.0F + amountToRotate * i;
-
-				for (int ii = 0; ii < amount; ii++)
-				{
-					ESuiPian arrow = new ESuiPian(worldObj, position.x, position.y, position.z, this.getTier() == 2, this.getID() == ZhaPin.zhen.getID());
-
-					if (this.getID() != ZhaPin.zhen.getID())
-					{
-						arrow.arrowCritical = true;
-						arrow.setFire(100);
-					}
-
-					float rotationPitch = 0.0F + amountToRotate * ii;
-					arrow.setLocationAndAngles(position.x, position.y, position.z, rotationYaw, rotationPitch);
-					arrow.posX -= (MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
-					arrow.posY -= 0.10000000149011612D;
-					arrow.posZ -= (MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
-					arrow.setPosition(arrow.posX, arrow.posY, arrow.posZ);
-					arrow.yOffset = 0.0F;
-					arrow.motionX = (-MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI));
-					arrow.motionZ = (MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI));
-					arrow.motionY = (-MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI));
-					arrow.setArrowHeading(arrow.motionX * worldObj.rand.nextFloat(), arrow.motionY * worldObj.rand.nextFloat(), arrow.motionZ * worldObj.rand.nextFloat(), 0.5f + (0.7f * worldObj.rand.nextFloat()), 1.0F);
-					worldObj.spawnEntityInWorld(arrow);
-
-				}
-			}
-		}
-
-		return false;
+		super(mingZi, tier);
 	}
 
 	@Override
@@ -86,27 +29,51 @@ public class ExQunDan extends ZhaPin
 	{
 		if (this.getID() == ZhaPin.xiaoQunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', tui.getItemStack(), '?', Item.arrow }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', tui.getItemStack(), '?', Item.arrow }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.zhen.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
 		}
 		else if (this.getID() == ZhaPin.qunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), ZhuYaoBase.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
 		}
 	}
 
 	@Override
-	public float getRadius()
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		return 20;
+		if (this.getTier() == 2)
+		{
+			new BzQunDan(world, entity, x, y, z, 15, true, true, false).explode();
+		}
+		else if (this.getID() == ZhaPin.zhen.getID())
+		{
+			new BzQunDan(world, entity, x, y, z, 25, false, false, true).explode();
+		}
+		else
+		{
+			new BzQunDan(world, entity, x, y, z, 30, true, false, false).explode();
+		}
 	}
 
-	@Override
-	public double getEnergy()
+	@SideOnly(Side.CLIENT)
+	public MICBM getMuoXing()
 	{
-		return 0;
+		if (this.getID() == ZhaPin.xiaoQunDan.getID())
+		{
+			return new MMXiaoQunDan();
+		}
+		else if (this.getID() == ZhaPin.zhen.getID())
+		{
+			return new MMZhen();
+		}
+		else if (this.getID() == ZhaPin.qunDan.getID())
+		{
+			return new MMQunDan();
+		}
+
+		return null;
 	}
 }

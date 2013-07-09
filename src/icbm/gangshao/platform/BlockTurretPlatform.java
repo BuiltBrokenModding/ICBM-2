@@ -10,7 +10,7 @@ import icbm.gangshao.access.AccessLevel;
 
 import java.util.Random;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -40,7 +40,7 @@ public class BlockTurretPlatform extends BICBM
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entity, ItemStack itemStack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack)
 	{
 		if (entity instanceof EntityPlayer && !world.isRemote)
 		{

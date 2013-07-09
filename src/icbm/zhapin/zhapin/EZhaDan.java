@@ -1,14 +1,13 @@
 package icbm.zhapin.zhapin;
 
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.implement.IRotatable;
+import universalelectricity.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

@@ -3,12 +3,13 @@ package icbm.zhapin.jiqi;
 import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
-import icbm.core.ZhuYaoBase;
+import icbm.api.ITier;
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.daodan.EDaoDan;
-import icbm.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.daodan.ItTeBieDaoDan;
-import icbm.zhapin.zhapin.ZhaPin.ZhaPinType;
+import icbm.zhapin.zhapin.ZhaPinType;
+import icbm.zhapin.zhapin.daodan.EDaoDan;
+import icbm.zhapin.zhapin.daodan.ItDaoDan;
+import icbm.zhapin.zhapin.daodan.ItTeBieDaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -25,12 +26,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.implement.IRotatable;
-import universalelectricity.prefab.implement.ITier;
-import universalelectricity.prefab.multiblock.IMultiBlock;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.IRotatable;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
+import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -332,21 +332,21 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		// Checks if it is greater than the maximum range for the launcher base
 		if (this.tier == 0)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoBase.DAO_DAN_ZUI_YUAN / 10)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoICBM.DAO_DAN_ZUI_YUAN / 10)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 1)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoBase.DAO_DAN_ZUI_YUAN / 5)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoICBM.DAO_DAN_ZUI_YUAN / 5)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 2)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoBase.DAO_DAN_ZUI_YUAN)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoICBM.DAO_DAN_ZUI_YUAN)
 			{
 				return false;
 			}
@@ -463,7 +463,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoBase.GUI_FA_SHE_DI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_FA_SHE_DI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
@@ -473,23 +473,23 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		if (this.orientation == 3 || this.orientation == 2)
 		{
 			// Left
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 0, 0)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 1, 0)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 2, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 0, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 1, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 2, 0)), new Vector3(this));
 
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 0, 0)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 1, 0)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 2, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 0, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 1, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 2, 0)), new Vector3(this));
 		}
 		else
 		{
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, 1)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 1)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, 1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, 1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, 1)), new Vector3(this));
 
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, -1)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, -1)), new Vector3(this));
-			ZhuYaoBase.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, -1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, -1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, -1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, -1)), new Vector3(this));
 		}
 	}
 

@@ -1,6 +1,6 @@
 package icbm.gangshao.task;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.turret.sentries.TPaoTaiZiDong;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class TaskManager
 		}
 		catch (Exception e)
 		{
-			ZhuYaoBase.LOGGER.severe("Failed to execute AI tasks!");
+			ZhuYaoICBM.LOGGER.severe("Failed to execute AI tasks!");
 			e.printStackTrace();
 		}
 	}

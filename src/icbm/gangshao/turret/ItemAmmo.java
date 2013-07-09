@@ -1,6 +1,6 @@
 package icbm.gangshao.turret;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.core.di.ItICBM;
 import icbm.gangshao.IAmmunition;
 import icbm.gangshao.ProjectileType;
@@ -55,7 +55,7 @@ public class ItemAmmo extends ItICBM implements IAmmunition
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return "item." + ZhuYaoBase.PREFIX + AmmoType.values()[itemStack.getItemDamage()].iconName;
+		return "item." + ZhuYaoICBM.PREFIX + AmmoType.values()[itemStack.getItemDamage()].iconName;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ItemAmmo extends ItICBM implements IAmmunition
 	{
 		for (int i = 0; i < AmmoType.values().length; i++)
 		{
-			ICONS[i] = iconRegister.registerIcon(ZhuYaoBase.PREFIX + AmmoType.values()[i].iconName);
+			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + AmmoType.values()[i].iconName);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package icbm.gangshao.shimian;
 
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.platform.TPaoTaiZhan;
@@ -12,8 +12,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import universalelectricity.prefab.GuiBase;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -131,7 +131,7 @@ public abstract class GuiPlatformBase extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoBase.GUI_PATH + "gui_base.png");
+		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_base.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int containerWidth = (this.width - this.xSize) / 2;

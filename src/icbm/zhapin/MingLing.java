@@ -1,6 +1,6 @@
 package icbm.zhapin;
 
-import icbm.zhapin.zhapin.EZhaPin;
+import icbm.zhapin.baozha.EBaoZha;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class MingLing extends CommandBase
 						{
 							((EFeiBlock) entity).setBlock();
 						}
-						else if (entity instanceof EZhaPin)
+						else if (entity instanceof EBaoZha)
 						{
 							entity.setDead();
 						}

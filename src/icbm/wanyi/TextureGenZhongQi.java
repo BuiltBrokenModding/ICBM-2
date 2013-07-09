@@ -2,8 +2,6 @@ package icbm.wanyi;
 
 import icbm.api.ITracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.Texture;
-import net.minecraft.client.renderer.texture.TextureStitched;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -93,7 +91,7 @@ public class TextureGenZhongQi extends TextureStitched
 		if (i != this.frameCounter)
 		{
 			this.frameCounter = i;
-			this.textureSheet.copyFrom(this.originX, this.originY, (Texture) this.textureList.get(this.frameCounter), this.rotated);
+			this.textureSheet.copyFrom(this.originX, this.originY, (Texture) this.textureList.getZhaPin(this.frameCounter), this.rotated);
 		}
 	}
 }

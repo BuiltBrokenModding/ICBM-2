@@ -18,5 +18,5 @@ public interface IEMPBlock
 	 * @param position - The position.
 	 * @param empExplosive - The explosion
 	 */
-	public void onEMP(World world, Vector3 position, IExplosive empExplosive);
+	public void onEMP(World world, Vector3 position, IExplosion empExplosive);
 }

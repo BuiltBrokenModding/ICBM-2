@@ -1,8 +1,9 @@
 package icbm.zhapin.jiqi;
 
+import icbm.api.ITier;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.render.RHJiQi;
+import icbm.zhapin.render.tile.RHJiQi;
 
 import java.util.List;
 import java.util.Random;
@@ -19,11 +20,9 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
-import universalelectricity.prefab.implement.IRedstoneReceptor;
-import universalelectricity.prefab.implement.IRotatable;
-import universalelectricity.prefab.implement.ITier;
-import universalelectricity.prefab.multiblock.IBlockActivate;
-import universalelectricity.prefab.multiblock.IMultiBlock;
+import universalelectricity.prefab.tile.IRotatable;
+import calclavia.lib.multiblock.IBlockActivate;
+import calclavia.lib.multiblock.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

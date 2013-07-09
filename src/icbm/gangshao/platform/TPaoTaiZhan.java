@@ -22,6 +22,7 @@ import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
+import universalelectricity.prefab.tile.ElectricityHandler;
 
 /**
  * Turret Platform
@@ -42,12 +43,28 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	/** The first 12 slots are for ammunition. The last 4 slots are for upgrades. */
 	public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
 
+	public TPaoTaiZhan()
+	{
+		this.electricityHandler = new ElectricityHandler(this);
+	}
+
+	private float prevWatts;
+
 	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 
-		if (this.prevWatts != this.wattsReceived)
+		if (this.getTurret(false) != null)
+		{
+			this.electricityHandler.setMaxEnergyStored(Math.max(turret.getFiringRequest(), 0) * 2);
+		}
+		else
+		{
+			this.electricityHandler.setMaxEnergyStored(0);
+		}
+
+		if (this.prevWatts != this.getEnergyStored())
 		{
 			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 		}
@@ -56,67 +73,64 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 		{
 			for (int i = 0; i < UPGRADE_START_INDEX; i++)
 			{
-				if (this.wattsReceived >= this.getRequest().getWatts())
+				if (this.getEnergyStored() >= this.getRequest(null))
 				{
 					break;
 				}
 
-				this.wattsReceived += ElectricItemHelper.dechargeItem(this.getStackInSlot(i), Math.ceil(this.getRequest().getWatts()), this.getVoltage());
+				this.electricityHandler.receiveElectricity(ElectricItemHelper.dischargeItem(this.getStackInSlot(i), this.getRequest(null)), true);
 			}
 		}
 	}
 
 	@Override
-	public void onReceive(ElectricityPack electricityPack)
+	public float receiveElectricity(ForgeDirection from, ElectricityPack receive, boolean doReceive)
 	{
-		/** Creates an explosion if the voltage is too high. */
-		if (UniversalElectricity.isVoltageSensitive)
+		this.prevWatts = this.getEnergyStored();
+
+		if (doReceive)
 		{
-			if (electricityPack.voltage > this.getVoltage())
+			/** Creates an explosion if the voltage is too high. */
+			if (UniversalElectricity.isVoltageSensitive)
 			{
-				TPaoDaiBase turret = this.getTurret(false);
-
-				if (turret != null && turret instanceof IHealthTile)
+				if (receive.voltage > this.getVoltage())
 				{
-					((IHealthTile) this.turret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
-				}
+					TPaoDaiBase turret = this.getTurret(false);
 
-				return;
+					if (turret != null && turret instanceof IHealthTile)
+					{
+						((IHealthTile) this.turret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
+					}
+
+					return 0;
+				}
 			}
+
 		}
 
-		this.wattsReceived = Math.min(this.wattsReceived + electricityPack.getWatts(), this.getWattBuffer());
+		float returnValue = super.receiveElectricity(from, receive, doReceive);
 
-		if ((this.prevWatts <= this.getRequest().getWatts() && this.wattsReceived >= this.getRequest().getWatts()) && !(this.prevWatts == this.wattsReceived))
+		if ((this.prevWatts <= this.getRequest(null) && this.getEnergyStored() >= this.getRequest(null)) && !(this.prevWatts == this.getEnergyStored()))
 		{
 			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 		}
+
+		return returnValue;
 	}
 
 	@Override
-	public ElectricityPack getRequest()
+	public float getRequest(ForgeDirection direction)
 	{
 		if (this.getTurret(false) != null)
 		{
-			if (this.wattsReceived < this.getTurret(false).getFiringRequest())
+			if (this.getEnergyStored() < this.getTurret(false).getFiringRequest())
 			{
-				return ElectricityPack.getFromWatts(Math.max(turret.getFiringRequest(), 0), this.getTurret(false).getVoltage());
+				Math.max(turret.getFiringRequest(), 0);
 			}
 		}
 
-		return new ElectricityPack();
-	}
-
-	@Override
-	public double getWattBuffer()
-	{
-		if (this.getTurret(false) != null)
-		{
-			return new ElectricityPack(Math.max(turret.getFiringRequest() / this.getTurret(false).getVoltage(), 0), this.getTurret(false).getVoltage()).getWatts() * 2;
-		}
-
 		return 0;
-	};
+	}
 
 	/** Gets the turret instance linked to this platform */
 	public TPaoDaiBase getTurret(boolean getNew)
@@ -181,7 +195,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 
 	public boolean isRunning()
 	{
-		return !this.isDisabled() && (this.getTurret(false) != null && this.wattsReceived >= this.getTurret(false).getFiringRequest());
+		return (this.getTurret(false) != null && this.getEnergyStored() >= this.getTurret(false).getFiringRequest());
 	}
 
 	public ItemStack hasAmmunition(ProjectileType projectileType)
@@ -258,7 +272,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.wattsReceived = nbt.getDouble("wattsReceived");
+
 		// Inventory
 		NBTTagList var2 = nbt.getTagList("Items");
 		this.containingItems = new ItemStack[this.getSizeInventory()];
@@ -279,7 +293,6 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setDouble("wattsReceived", this.wattsReceived);
 
 		// Inventory
 		NBTTagList itemTag = new NBTTagList();
@@ -402,7 +415,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
+	public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
 	{
 		if (slotID < UPGRADE_START_INDEX && itemStack.getItem() instanceof IAmmunition)
 		{

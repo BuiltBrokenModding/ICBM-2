@@ -1,10 +1,9 @@
 package icbm.zhapin;
 
 import icbm.core.ShengYin;
-import icbm.core.ZhuYaoBase;
+import icbm.core.ZhuYaoICBM;
+import icbm.zhapin.baozha.EBaoZha;
 import icbm.zhapin.cart.EChe;
-import icbm.zhapin.daodan.EDaoDan;
-import icbm.zhapin.daodan.ShengYinDaoDan;
 import icbm.zhapin.fx.FXFanWuSu;
 import icbm.zhapin.fx.FXWan;
 import icbm.zhapin.fx.FXYan;
@@ -21,29 +20,29 @@ import icbm.zhapin.jiqi.TFaSheShiMuo;
 import icbm.zhapin.jiqi.TLeiDaTai;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.jiqi.TYinDaoQi;
-import icbm.zhapin.render.RDaoDan;
-import icbm.zhapin.render.RDianCiQi;
-import icbm.zhapin.render.REZhaDan;
-import icbm.zhapin.render.RFaSheDi;
-import icbm.zhapin.render.RFaSheJia;
-import icbm.zhapin.render.RFaSheShiMuo;
-import icbm.zhapin.render.RFeiBlock;
-import icbm.zhapin.render.RGuangBang;
-import icbm.zhapin.render.RHJiQi;
-import icbm.zhapin.render.RHZhaPin;
-import icbm.zhapin.render.RItDaoDan;
-import icbm.zhapin.render.RItFaSheQi;
-import icbm.zhapin.render.RLeiDaTai;
-import icbm.zhapin.render.RShouLiuDan;
-import icbm.zhapin.render.RSuiPian;
-import icbm.zhapin.render.RXiaoFaSheQi;
-import icbm.zhapin.render.RYinDaoQi;
-import icbm.zhapin.render.RZhaDan;
-import icbm.zhapin.render.RZhaPin;
+import icbm.zhapin.render.entity.RBaoZha;
+import icbm.zhapin.render.entity.RDaoDan;
+import icbm.zhapin.render.entity.REZhaDan;
+import icbm.zhapin.render.entity.RFeiBlock;
+import icbm.zhapin.render.entity.RGuangBang;
+import icbm.zhapin.render.entity.RShouLiuDan;
+import icbm.zhapin.render.entity.RSuiPian;
+import icbm.zhapin.render.item.RItDaoDan;
+import icbm.zhapin.render.item.RItFaSheQi;
+import icbm.zhapin.render.tile.RDianCiQi;
+import icbm.zhapin.render.tile.RFaSheDi;
+import icbm.zhapin.render.tile.RFaSheJia;
+import icbm.zhapin.render.tile.RFaSheShiMuo;
+import icbm.zhapin.render.tile.RHJiQi;
+import icbm.zhapin.render.tile.RHZhaPin;
+import icbm.zhapin.render.tile.RLeiDaTai;
+import icbm.zhapin.render.tile.RXiaoFaSheQi;
+import icbm.zhapin.render.tile.RYinDaoQi;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
-import icbm.zhapin.zhapin.EZhaPin;
 import icbm.zhapin.zhapin.TZhaDan;
+import icbm.zhapin.zhapin.daodan.EDaoDan;
+import icbm.zhapin.zhapin.daodan.ShengYinDaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityDiggingFX;
@@ -87,7 +86,7 @@ public class ClientProxy extends CommonProxy
 
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
 		RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EZhaPin.class, new RZhaPin());
+		RenderingRegistry.registerEntityRenderingHandler(EBaoZha.class, new RBaoZha());
 		RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RFeiBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
 		RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RSuiPian());
@@ -110,19 +109,19 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == ZhuYaoBase.GUI_SHENG_BUO)
+		if (tileEntity != null || ID == ZhuYaoICBM.GUI_SHENG_BUO)
 		{
 			switch (ID)
 			{
-				case ZhuYaoBase.GUI_XIA_FA_SHE_QI:
+				case ZhuYaoICBM.GUI_XIA_FA_SHE_QI:
 					return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi) tileEntity);
-				case ZhuYaoBase.GUI_FA_SHE_SHI_MUO:
+				case ZhuYaoICBM.GUI_FA_SHE_SHI_MUO:
 					return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
-				case ZhuYaoBase.GUI_LEI_DA_TAI:
+				case ZhuYaoICBM.GUI_LEI_DA_TAI:
 					return new GLeiDaTai(((TLeiDaTai) tileEntity));
-				case ZhuYaoBase.GUI_DIAN_CI_QI:
+				case ZhuYaoICBM.GUI_DIAN_CI_QI:
 					return new GDianCiQi((TDianCiQi) tileEntity);
-				case ZhuYaoBase.GUI_FA_SHE_DI:
+				case ZhuYaoICBM.GUI_FA_SHE_DI:
 					return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
 			}
 		}

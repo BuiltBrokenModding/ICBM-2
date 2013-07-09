@@ -19,5 +19,5 @@ public interface IEMPItem extends IItemElectric
 	 * @param entity - The entity holding the item
 	 * @param empExplosives - The IExplosive object
 	 */
-	public void onEMP(ItemStack itemStack, Entity entity, IExplosive empExplosive);
+	public void onEMP(ItemStack itemStack, Entity entity, IExplosion empExplosive);
 }
