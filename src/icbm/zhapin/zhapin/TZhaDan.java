@@ -3,6 +3,7 @@ package icbm.zhapin.zhapin;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.baozha.ex.ZhaPinRegistry;
 import icbm.zhapin.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -22,6 +23,7 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 {
 	public boolean exploding = false;
 	public int haoMa = 0;
+	public NBTTagCompound nbtData = new NBTTagCompound();
 
 	@Override
 	public boolean canUpdate()
@@ -36,8 +38,8 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.readFromNBT(par1NBTTagCompound);
-
 		this.haoMa = par1NBTTagCompound.getInteger("explosiveID");
+		this.nbtData = par1NBTTagCompound.getCompoundTag("data");
 	}
 
 	/**
@@ -47,8 +49,8 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.writeToNBT(par1NBTTagCompound);
-
 		par1NBTTagCompound.setInteger("explosiveID", this.haoMa);
+		par1NBTTagCompound.setTag("data", this.nbtData);
 	}
 
 	@Override
@@ -100,6 +102,6 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	@Override
 	public IExplosive getExplosiveType()
 	{
-		return ZhaPin.list[this.haoMa];
+		return ZhaPinRegistry.getZhaPin(this.haoMa);
 	}
 }

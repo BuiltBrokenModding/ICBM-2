@@ -9,6 +9,7 @@ import icbm.zhapin.jiqi.TXiaoFaSheQi;
 
 import java.util.List;
 
+import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -19,7 +20,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiDaQiang extends ItElectricICBM
+public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 {
 	public static final int YONG_DIAN_LIANG = 1000;
 	public static final int JU_LI = 1000;

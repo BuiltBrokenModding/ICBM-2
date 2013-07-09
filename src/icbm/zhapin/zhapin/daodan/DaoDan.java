@@ -34,7 +34,7 @@ public abstract class DaoDan extends ZhaPin
 	{
 	}
 
-	public boolean onInteract(EDaoDan missileObj, EntityPlayer par1EntityPlayer)
+	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
 	{
 		return false;
 	}

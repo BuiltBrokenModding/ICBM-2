@@ -1,5 +1,6 @@
 package icbm.zhapin.baozha.ex;
 
+import icbm.api.explosion.IExplosive;
 import icbm.zhapin.baozha.BaoZha;
 import icbm.zhapin.zhapin.ZhaPin;
 
@@ -59,6 +60,16 @@ public class ZhaPinRegistry
 	public static Collection<ZhaPin> getRegisteredZhaPin()
 	{
 		return zhaPinMap.values();
+	}
+
+	public static IExplosive getZhaPin(int haoMa)
+	{
+		return zhaPinMap.get(getZhaPinName(haoMa));
+	}
+
+	public static String getZhaPinName(int haoMa)
+	{
+		return zhaPinIDs.inverse().get(haoMa);
 	}
 
 }

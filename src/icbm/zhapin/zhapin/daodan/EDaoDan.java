@@ -9,8 +9,8 @@ import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.sentry.IAATarget;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.baozha.ex.ZhaPinRegistry;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
-import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPinType;
 
 import java.util.Random;
@@ -32,7 +32,6 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.TranslationHelper;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -96,6 +95,8 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	// Client side
 	protected final IUpdatePlayerListBox shengYin;
 
+	public NBTTagCompound nbtData = new NBTTagCompound();
+
 	public EDaoDan(World par1World)
 	{
 		super(par1World);
@@ -146,12 +147,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public String getEntityName()
 	{
-		if (this.haoMa >= 100)
-		{
-			return TranslationHelper.getLocal("icbm.missile." + DaoDan.list[this.haoMa].getUnlocalizedName() + ".name");
-		}
-
-		return TranslationHelper.getLocal("icbm.missile." + ZhaPin.list[this.haoMa].getUnlocalizedName() + ".name");
+		return ZhaPinRegistry.getZhaPin(this.haoMa).getMinecartName();
 	}
 
 	@Override
@@ -198,7 +194,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.kaiShi = new Vector3(this);
 		this.muBiao = target;
 		this.baoZhaGaoDu = this.muBiao.intY();
-		DaoDan.list[this.haoMa].launch(this);
+		((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).launch(this);
 		this.feiXingTick = 0;
 		this.jiSuan();
 		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -363,7 +359,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 					// Look at the next point
 					this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-					DaoDan.list[this.haoMa].update(this);
+					((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).update(this);
 
 					Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
 
@@ -402,7 +398,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 						// Look at the next point
 						this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-						DaoDan.list[this.haoMa].update(this);
+						((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).update(this);
 
 						this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -493,12 +489,11 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		return null;
 	}
 
-	@Override
 	public boolean interact(EntityPlayer entityPlayer)
 	{
-		if (DaoDan.list[this.haoMa] != null)
+		if (((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)) != null)
 		{
-			if (DaoDan.list[this.haoMa].onInteract(this, entityPlayer))
+			if (((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).onInteract(this, entityPlayer))
 			{
 				return true;
 			}
@@ -656,7 +651,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 				}
 				else
 				{
-					DaoDan.list[this.haoMa].onExplode(this);
+					((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).onExplode(this);
 				}
 
 				this.zhengZaiBaoZha = true;
@@ -733,6 +728,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.feiXingTick = nbt.getInteger("feiXingTick");
 		this.qiFeiGaoDu = nbt.getDouble("qiFeiGaoDu");
 		this.xingShi = XingShi.values()[nbt.getInteger("xingShi")];
+		this.nbtData = nbt.getCompoundTag("data");
 	}
 
 	/**
@@ -759,7 +755,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		nbt.setInteger("feiXingTick", this.feiXingTick);
 		nbt.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);
 		nbt.setInteger("xingShi", this.xingShi.ordinal());
-
+		nbt.setTag("data", this.nbtData);
 	}
 
 	@Override
@@ -777,12 +773,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public IExplosive getExplosiveType()
 	{
-		if (this.haoMa > ZhaPin.list.length)
-		{
-			return DaoDan.list[this.haoMa];
-		}
-
-		return ZhaPin.list[this.haoMa];
+		return ZhaPinRegistry.getZhaPin(this.haoMa);
 	}
 
 	@Override

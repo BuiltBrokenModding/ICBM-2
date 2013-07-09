@@ -31,7 +31,9 @@ import icbm.zhapin.zhapin.ex.ExQunDan;
 import icbm.zhapin.zhapin.ex.ExYaSuo;
 import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -315,5 +317,10 @@ public abstract class ZhaPin implements IExplosive
 	public ItemStack getItemStack(int amount)
 	{
 		return new ItemStack(ZhuYaoZhaPin.bZhaDan, amount, this.getID());
+	}
+
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
+	{
+		return false;
 	}
 }

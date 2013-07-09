@@ -1,170 +1,72 @@
 package icbm.zhapin.baozha.ex;
 
 import icbm.core.ZhuYaoICBM;
-import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.core.di.MICBM;
+import icbm.zhapin.muoxing.daodan.MMWan;
+import icbm.zhapin.zhapin.TZhaDan;
 import icbm.zhapin.zhapin.ZhaPin;
-
-import java.util.List;
-
+import icbm.zhapin.zhapin.daodan.DaoDan;
+import icbm.zhapin.zhapin.daodan.EDaoDan;
+import mffs.api.card.ICoordLink;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
-import cpw.mods.fml.common.FMLLog;
 
-public class ExWan extends ZhaPin
+public class ExWan extends DaoDan
 {
-	public static final int SHI_JIAN = 20 * 8;
-
-	public ExWan(String name, int ID, int tier)
+	public ExWan(String mingZi, int tier)
 	{
-		super(name, ID, tier);
-		this.isMobile = true;
+		super(mingZi, tier);
 	}
 
 	@Override
-	public void baoZhaQian(World worldObj, Vector3 position, Entity explosionSource)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if (!worldObj.isRemote)
+		if (entityPlayer.inventory.getCurrentItem() != null)
 		{
-			worldObj.createExplosion(explosionSource, position.x, position.y, position.z, 5.0F, true);
-		}
-	}
-
-	@Override
-	public boolean doBaoZha(World worldObj, Vector3 position, Entity explosionSource, int explosionMetadata, int callCount)
-	{
-		if (worldObj.isRemote)
-		{
-			int r = (int) (this.getRadius() - ((double) callCount / (double) SHI_JIAN) * this.getRadius());
-
-			for (int x = -r; x < r; x++)
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ICoordLink)
 			{
-				for (int z = -r; z < r; z++)
+				Vector3 link = ((ICoordLink) entityPlayer.inventory.getCurrentItem().getItem()).getLink(entityPlayer.inventory.getCurrentItem());
+
+				if (link != null)
 				{
-					for (int y = -r; y < r; y++)
+					TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+					if (tileEntity instanceof TZhaDan)
 					{
-						Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
-
-						double distance = targetPosition.distanceTo(position);
-
-						if (distance < r && distance > r - 1)
-						{
-							if (targetPosition.getBlockID(worldObj) != 0)
-								continue;
-
-							if (worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.01))
-							{
-								float velX = (float) ((targetPosition.x - position.x) * 0.5);
-								float velY = (float) ((targetPosition.y - position.y) * 0.5);
-								float velZ = (float) ((targetPosition.z - position.z) * 0.5);
-
-								ZhuYaoZhaPin.proxy.spawnParticle("portal", worldObj, targetPosition, velX, velY, velZ, 5f, 1);
-							}
-						}
+						link.writeToNBT(((TZhaDan) tileEntity).nbtData);
+						return true;
 					}
 				}
 			}
 		}
 
-		// Make the blocks controlled by this red
-		// matter orbit around it
-		int radius = (int) this.getRadius();
-		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-		List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
-		boolean explosionCreated = false;
+		return false;
+	}
 
-		for (Entity entity : allEntities)
+	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
+	{
+		if (entityPlayer.inventory.getCurrentItem() != null)
 		{
-			if (entity == explosionSource)
-				continue;
-
-			double xDifference = entity.posX - position.x;
-			double yDifference = entity.posY - position.y;
-			double zDifference = entity.posZ - position.z;
-
-			int r = (int) this.getRadius();
-			if (xDifference < 0)
-				r = (int) -this.getRadius();
-
-			entity.motionX -= (r - xDifference) * Math.abs(xDifference) * 0.0006;
-
-			r = (int) this.getRadius();
-			if (entity.posY > position.y)
-				r = (int) -this.getRadius();
-			entity.motionY += (r - yDifference) * Math.abs(yDifference) * 0.0011;
-
-			r = (int) this.getRadius();
-			if (zDifference < 0)
-				r = (int) -this.getRadius();
-
-			entity.motionZ -= (r - zDifference) * Math.abs(zDifference) * 0.0006;
-
-			if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ICoordLink)
 			{
-				if (!explosionCreated && callCount % 5 == 0)
-				{
-					worldObj.spawnParticle("hugeexplosion", entity.posX, entity.posY, entity.posZ, 0.0D, 0.0D, 0.0D);
-					explosionCreated = true;
-				}
+				Vector3 link = ((ICoordLink) entityPlayer.inventory.getCurrentItem().getItem()).getLink(entityPlayer.inventory.getCurrentItem());
 
-				try
+				if (link != null)
 				{
-					if (entity.worldObj.provider.dimensionId == 1)
-					{
-						entity.travelToDimension(0);
-					}
-					else
-					{
-						entity.travelToDimension(1);
-					}
-				}
-				catch (Exception e)
-				{
-					FMLLog.severe("Failed to teleport entity to the End.");
+					link.writeToNBT(missileObj.nbtData);
+					return true;
 				}
 			}
 		}
 
-		worldObj.playSound(position.x, position.y, position.z, "portal.portal", 2F, worldObj.rand.nextFloat() * 0.4F + 0.8F, false);
-
-		if (callCount > SHI_JIAN)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public void baoZhaHou(World worldObj, Vector3 position, Entity explosionSource)
-	{
-		super.postExplode(worldObj, position, explosionSource);
-		if (!explosionSource.worldObj.isRemote)
-		{
-			for (int i = 0; i < 20; i++)
-			{
-				EntityEnderman enderman = new EntityEnderman(worldObj);
-				enderman.setPosition(position.x, position.y, position.z);
-				explosionSource.worldObj.spawnEntityInWorld(enderman);
-			}
-		}
-	}
-
-	/**
-	 * The interval in ticks before the next procedural call of this explosive
-	 * 
-	 * @return - Return -1 if this explosive does not need proceudral calls
-	 */
-	@Override
-	public int proceduralInterval()
-	{
-		return 1;
+		return false;
 	}
 
 	@Override
@@ -174,14 +76,22 @@ public class ExWan extends ZhaPin
 	}
 
 	@Override
-	public float getRadius()
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		return 20;
+		Vector3 teleportTarget = null;
+
+		if (entity instanceof EDaoDan)
+		{
+			teleportTarget = Vector3.readFromNBT(((EDaoDan) entity).nbtData);
+		}
+
+		new BzWan(world, entity, x, y, z, 30, teleportTarget).explode();
 	}
 
 	@Override
-	public double getEnergy()
+	public MICBM getMuoXing()
 	{
-		return 0;
+		return new MMWan();
 	}
+
 }
