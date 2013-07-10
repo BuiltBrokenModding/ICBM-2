@@ -15,7 +15,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -60,11 +59,10 @@ public class ItYaoKong extends ItElectricICBM
 			if (this.nengZha(tileEntity))
 			{
 				// Check for electricity
-				if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+				if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
 				{
-
 					this.setSavedCoords(itemStack, new Vector3(x, y, z));
-					this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
+					this.discharge(itemStack, YONG_DIAN_LIANG, true);
 					if (world.isRemote)
 					{
 						entityPlayer.addChatMessage("Remote Locked to: X:" + x + ", Y:" + y + ", Z:" + z);
@@ -113,7 +111,7 @@ public class ItYaoKong extends ItElectricICBM
 							else if (this.nengZha(tileEntity))
 							{
 								// Check for electricity
-								if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+								if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
 								{
 									PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, tileEntity, (byte) 2));
 									return itemStack;
@@ -129,7 +127,7 @@ public class ItYaoKong extends ItElectricICBM
 			}
 			else
 			{
-				if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+				if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
 				{
 					TileEntity tileEntity = this.getSavedCoord(itemStack).getTileEntity(world);
 
@@ -187,13 +185,13 @@ public class ItYaoKong extends ItElectricICBM
 	}
 
 	@Override
-	public double getVoltage(ItemStack itemStack)
+	public float getVoltage(ItemStack itemStack)
 	{
 		return 20;
 	}
 
 	@Override
-	public double getMaxJoules(ItemStack itemStack)
+	public float getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 50000;
 	}

@@ -8,5 +8,5 @@ package icbm.api.explosion;
  */
 public interface IExplosiveIgnore
 {
-	public boolean canIgnore(ExplosionEvent explosiveEvent);
+	public boolean canIgnore(IExplosion explosion);
 }

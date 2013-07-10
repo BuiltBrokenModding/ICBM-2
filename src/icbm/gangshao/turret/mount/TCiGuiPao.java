@@ -2,6 +2,7 @@ package icbm.gangshao.turret.mount;
 
 import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.IRedstoneReceptor;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 
@@ -15,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import calclavia.lib.CalculationHelper;
@@ -153,11 +156,11 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	@Override
 	public void playFiringSound()
 	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "railgun", 5F, 1F);
 	}
 
 	@Override
-	public double getVoltage()
+	public float getVoltage()
 	{
 		return 220;
 	}
@@ -201,7 +204,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	}
 
 	@Override
-	public double getFiringRequest()
+	public float getFiringRequest()
 	{
 		return 1000000;
 	}
@@ -227,7 +230,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 			}
 		}
 
-		this.getPlatform().wattsReceived = 0;
+		this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
 
 		this.explosionSize = 5f;
 		this.explosionDepth = 5;
@@ -238,7 +241,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 			this.explosionDepth = 10;
 		}
 
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.railgun", 5F, 1F);
+		this.playFiringSound();
 	}
 
 	@Override
@@ -248,7 +251,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		{
 			if (this.getPlatform().hasAmmunition(ProjectileType.RAILGUN) != null)
 			{
-				if (this.getPlatform().wattsReceived >= this.getFiringRequest())
+				if (this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), false).getWatts() >= this.getFiringRequest())
 				{
 					return true;
 				}

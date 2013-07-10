@@ -77,7 +77,7 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
 							PacketManager.sendPacketToClients(this.getRotationPacket());
 						}
 
-						entityPlayer.unmountEntity(this.entityFake);
+						entityPlayer.mountEntity(null);
 						this.entityFake.setDead();
 						this.entityFake = null;
 

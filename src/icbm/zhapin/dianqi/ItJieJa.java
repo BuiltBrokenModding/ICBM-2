@@ -38,7 +38,7 @@ public class ItJieJa extends ItElectricICBM
 	@Override
 	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
 	{
-		if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+		if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
 		{
 			if (entity instanceof EZhaDan)
 			{
@@ -74,7 +74,7 @@ public class ItJieJa extends ItElectricICBM
 				((EChe) entity).killMinecart(DamageSource.generic);
 			}
 
-			this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
+			this.discharge(itemStack, YONG_DIAN_LIANG, true);
 			return true;
 		}
 		else
@@ -86,13 +86,13 @@ public class ItJieJa extends ItElectricICBM
 	}
 
 	@Override
-	public double getVoltage(ItemStack itemStack)
+	public float getVoltage(ItemStack itemStack)
 	{
 		return 20;
 	}
 
 	@Override
-	public double getMaxJoules(ItemStack itemStack)
+	public float getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 80000;
 	}

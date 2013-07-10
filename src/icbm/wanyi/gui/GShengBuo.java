@@ -2,19 +2,24 @@ package icbm.wanyi.gui;
 
 import icbm.api.IItemFrequency;
 import icbm.core.ZhuYaoICBM;
+import icbm.gangshao.shimian.GuiButtonImage;
 import icbm.wanyi.WanYiPacketGuanLi.WanYiPacketType;
 import icbm.wanyi.ZhuYaoWanYi;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.gui.GuiBase;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GShengBuo extends GuiBase
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+
 	private ItemStack itemStack;
 
 	private GuiTextField textFieldFrequency;
@@ -91,7 +96,8 @@ public class GShengBuo extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.containerWidth = (this.width - this.xSize) / 2;

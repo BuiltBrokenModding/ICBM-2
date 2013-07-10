@@ -2,7 +2,7 @@ package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.MICBM;
-import icbm.zhapin.baozha.ex.BzYaSuo;
+import icbm.zhapin.baozha.bz.BzYaSuo;
 import icbm.zhapin.muoxing.daodan.MMYaSuo;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
@@ -34,6 +34,7 @@ public class ExYaSuo extends DaoDan
 		new BzYaSuo(world, entity, x, y, z, 2.5f).explode();
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public MICBM getMuoXing()
 	{

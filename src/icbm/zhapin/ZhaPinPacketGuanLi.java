@@ -1,14 +1,13 @@
 package icbm.zhapin;
 
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.dianqi.ItLeiDaQiang;
 import icbm.zhapin.dianqi.ItLeiSheZhiBiao;
 import icbm.zhapin.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 
@@ -53,16 +52,8 @@ public class ZhaPinPacketGuanLi extends PacketManager
 				if (player.inventory.getCurrentItem().getItem() instanceof ItLeiDaQiang)
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
-					// Saves the frequency in the itemstack
-					if (itemStack.stackTagCompound == null)
-					{
-						itemStack.setTagCompound(new NBTTagCompound());
-					}
-
-					itemStack.stackTagCompound.setInteger("x", dataStream.readInt());
-					itemStack.stackTagCompound.setInteger("y", dataStream.readInt());
-					itemStack.stackTagCompound.setInteger("z", dataStream.readInt());
-					ZhuYaoZhaPin.itLeiDaQiang.onProvide(ElectricityPack.getFromWatts(ItLeiDaQiang.YONG_DIAN_LIANG, ZhuYaoZhaPin.itLeiDaQiang.getVoltage(itemStack)), itemStack);
+					((ItLeiDaQiang) player.inventory.getCurrentItem().getItem()).setLink(itemStack, new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt()));
+					ZhuYaoZhaPin.itLeiDaQiang.discharge(itemStack, ItLeiDaQiang.YONG_DIAN_LIANG, true);
 				}
 			}
 			else if (icbmPacketType == ZhaPinPacketType.LASER_DESIGNATOR)
@@ -74,21 +65,22 @@ public class ZhaPinPacketGuanLi extends PacketManager
 
 					((ItLeiSheZhiBiao) ZhuYaoZhaPin.itLeiSheZhiBiao).setLauncherCountDown(itemStack, 119);
 
-					player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), "icbm.airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+					player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), ZhuYaoICBM.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
 					player.worldObj.spawnEntityInWorld(new EGuang(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
 
-					ZhuYaoZhaPin.itLeiDaQiang.onProvide(ElectricityPack.getFromWatts(ItLeiSheZhiBiao.YONG_DIAN_LIANG, ZhuYaoZhaPin.itLeiDaQiang.getVoltage(itemStack)), itemStack);
+					ZhuYaoZhaPin.itLeiDaQiang.discharge(itemStack, ItLeiSheZhiBiao.YONG_DIAN_LIANG, true);
 				}
 			}
 			else if (icbmPacketType == ZhaPinPacketType.REMOTE)
 			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
-				ZhuYaoZhaPin.itYaoKong.onProvide(ElectricityPack.getFromWatts(ItYaoKong.YONG_DIAN_LIANG, ZhuYaoZhaPin.itYaoKong.getVoltage(itemStack)), itemStack);
+				ZhuYaoZhaPin.itYaoKong.discharge(itemStack, ItYaoKong.YONG_DIAN_LIANG, true);
 			}
 		}
 		catch (Exception e)
 		{
+			ZhuYaoICBM.LOGGER.severe("ICBM item packet receive failed!");
 			e.printStackTrace();
 		}
 	}

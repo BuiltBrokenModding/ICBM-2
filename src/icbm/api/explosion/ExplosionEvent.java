@@ -1,6 +1,8 @@
 package icbm.api.explosion;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.World;
 import net.minecraftforge.event.Cancelable;
 import net.minecraftforge.event.Event;
 
@@ -26,8 +28,41 @@ public class ExplosionEvent extends Event
 	}
 
 	/**
-	 * Called when an explosion is constructed. You may cancel and explosion here if needed. After
-	 * this it will be a bit too late to prevent destruction.
+	 * Called before an explosive is detonated to check if detonation is possible. You may cancel
+	 * and explosion here if needed. After this it will be a bit too late to prevent destruction
+	 * without any losses.
+	 * 
+	 * @author Calclavia
+	 * 
+	 */
+	@Cancelable
+	public static class ExplosivePreDetonationEvent extends Event
+	{
+		public World world;
+		public Entity entity;
+		public double x, y, z;
+
+		public IExplosive explosion;
+		public ExplosiveType type;
+
+		public ExplosivePreDetonationEvent(World world, double x, double y, double z, ExplosiveType type, IExplosive explosion)
+		{
+			this.world = world;
+			this.type = type;
+			this.explosion = explosion;
+		}
+
+		public ExplosivePreDetonationEvent(World world, Entity entity, ExplosiveType type, IExplosive explosion)
+		{
+			this.world = world;
+			this.entity = entity;
+			this.type = type;
+			this.explosion = explosion;
+		}
+	}
+
+	/**
+	 * Called when an explosion is constructed.
 	 * 
 	 * @author Calclavia
 	 * 

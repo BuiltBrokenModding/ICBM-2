@@ -1,5 +1,6 @@
 package icbm.wanyi.b;
 
+import icbm.core.di.IRedstoneProvider;
 import icbm.wanyi.ItHuoLuanQi;
 import icbm.wanyi.ZhuYaoWanYi;
 
@@ -7,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,17 +17,17 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.TileEntityUniversalElectrical;
 
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TYinGanQi extends TileEntityUniversalRunnable implements IRedstoneProvider, IPacketReceiver
+public class TYinGanQi extends TileEntityUniversalElectrical implements IRedstoneProvider, IPacketReceiver
 {
 	private static final int MAX_DISTANCE = 30;
 
@@ -64,71 +65,69 @@ public class TYinGanQi extends TileEntityUniversalRunnable implements IRedstoneP
 					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
 				}
 
-				if (!this.isDisabled())
+				boolean isDetectThisCheck = false;
+
+				if (this.electricityHandler.provideElectricity(this.getRequest(null), false).getWatts() >= this.getRequest(null))
 				{
-					boolean isDetectThisCheck = false;
+					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
+					List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
-					if (this.wattsReceived >= this.getRequest().getWatts())
+					for (EntityLivingBase entity : entitiesNearby)
 					{
-						AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
-						List<EntityLiving> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
-
-						for (EntityLiving entity : entitiesNearby)
+						if (entity instanceof EntityPlayer && (this.mode == 0 || this.mode == 1))
 						{
-							if (entity instanceof EntityPlayer && (this.mode == 0 || this.mode == 1))
-							{
-								boolean gotDisrupter = false;
+							boolean gotDisrupter = false;
 
-								for (ItemStack inventory : ((EntityPlayer) entity).inventory.mainInventory)
+							for (ItemStack inventory : ((EntityPlayer) entity).inventory.mainInventory)
+							{
+								if (inventory != null)
 								{
-									if (inventory != null)
+									if (inventory.getItem() instanceof ItHuoLuanQi)
 									{
-										if (inventory.getItem() instanceof ItHuoLuanQi)
+										if (((ItHuoLuanQi) inventory.getItem()).getFrequency(inventory) == this.frequency)
 										{
-											if (((ItHuoLuanQi) inventory.getItem()).getFrequency(inventory) == this.frequency)
-											{
-												gotDisrupter = true;
-												break;
-											}
+											gotDisrupter = true;
+											break;
 										}
 									}
 								}
+							}
 
-								if (gotDisrupter)
-								{
-									if (this.isInverted)
-									{
-										isDetectThisCheck = true;
-										break;
-									}
-
-									continue;
-								}
-
-								if (!this.isInverted)
+							if (gotDisrupter)
+							{
+								if (this.isInverted)
 								{
 									isDetectThisCheck = true;
+									break;
 								}
+
+								continue;
 							}
-							else if (!this.isInverted && !(entity instanceof EntityPlayer) && (this.mode == 0 || this.mode == 2))
+
+							if (!this.isInverted)
 							{
 								isDetectThisCheck = true;
-								break;
 							}
 						}
-
-						if (!this.worldObj.isRemote)
+						else if (!this.isInverted && !(entity instanceof EntityPlayer) && (this.mode == 0 || this.mode == 2))
 						{
-							this.wattsReceived = 0;
+							isDetectThisCheck = true;
+							break;
 						}
 					}
 
-					if (isDetectThisCheck != this.isDetect)
+					if (!this.worldObj.isRemote)
 					{
-						this.isDetect = isDetectThisCheck;
-						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+						this.electricityHandler.provideElectricity(this.getRequest(null), true);
 					}
 				}
+
+				if (isDetectThisCheck != this.isDetect)
+				{
+					this.isDetect = isDetectThisCheck;
+					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+				}
+
 			}
 		}
 	}
@@ -136,14 +135,7 @@ public class TYinGanQi extends TileEntityUniversalRunnable implements IRedstoneP
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		double sendDian = this.wattsReceived;
-
-		if (sendDian > 0)
-		{
-			sendDian = this.getRequest().getWatts();
-		}
-
-		return PacketManager.getPacket(ZhuYaoWanYi.CHANNEL, this, 1, sendDian, this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+		return PacketManager.getPacket(ZhuYaoWanYi.CHANNEL, this, 1, this.getEnergyStored(), this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
 	}
 
 	@Override
@@ -167,7 +159,7 @@ public class TYinGanQi extends TileEntityUniversalRunnable implements IRedstoneP
 			}
 			else if (ID == 1)
 			{
-				this.wattsReceived = dataStream.readDouble();
+				this.setEnergyStored(dataStream.readFloat());
 				this.frequency = dataStream.readShort();
 				this.mode = dataStream.readByte();
 				this.isInverted = dataStream.readBoolean();
@@ -242,8 +234,8 @@ public class TYinGanQi extends TileEntityUniversalRunnable implements IRedstoneP
 	}
 
 	@Override
-	public ElectricityPack getRequest()
+	public float getRequest(ForgeDirection direction)
 	{
-		return new ElectricityPack(8 / this.getVoltage(), this.getVoltage());
+		return 100;
 	}
 }

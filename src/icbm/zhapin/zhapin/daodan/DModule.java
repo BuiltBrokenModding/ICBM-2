@@ -1,15 +1,26 @@
 package icbm.zhapin.zhapin.daodan;
 
+import icbm.core.di.MICBM;
+import icbm.zhapin.muoxing.daodan.MMYaSuo;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+
 public class DModule extends DaoDan
 {
-	public DModule(String name, int ID, int tier)
+	public DModule(String mingZi, int tier)
 	{
-		super(name, ID, tier);
+		super(mingZi, tier);
+		this.hasBlock = false;	}
+
+	@Override
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	{
+
 	}
 
 	@Override
-	public void onExplode(EDaoDan missileObj)
+	public MICBM getMuoXing()
 	{
-		missileObj.dropMissileAsItem();
+		return MMYaSuo.INSTANCE;
 	}
 }

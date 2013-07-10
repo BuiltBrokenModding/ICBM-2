@@ -1,12 +1,10 @@
 package icbm.gangshao.shimian;
 
-import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.terminal.TileEntityTerminal;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -36,7 +34,6 @@ public class GuiPlatformTerminal extends GuiPlatformBase
 	public void initGui()
 	{
 		super.initGui();
-		StringTranslate var1 = StringTranslate.getInstance();
 		int width = (this.width - this.xSize) / 2;
 		int height = (this.height - this.ySize) / 2;
 
@@ -173,12 +170,6 @@ public class GuiPlatformTerminal extends GuiPlatformBase
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
 		super.drawBackgroundLayer(x, y, var1);
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_platform_terminal.png");
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		int var5 = (this.width - this.xSize) / 2;
-		int var6 = (this.height - this.ySize) / 2;
-		this.drawTexturedModalRect(var5, var6, 0, 0, this.xSize, this.ySize);
 		this.commandLine.drawTextBox();
 	}
 }

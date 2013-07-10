@@ -1,12 +1,11 @@
 package icbm.zhapin.dianqi;
 
+import icbm.api.explosion.ExplosiveType;
 import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.zhapin.ZhaPinType;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.zhapin.daodan.ItTeBieDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -42,7 +41,7 @@ public class ItFaSheQi extends ItElectricICBM
 		if (!world.isRemote)
 		{
 
-			if (this.getJoules(itemStack) >= YONG_DIAN_LIANG)
+			if (this.getElectricityStored(itemStack) >= YONG_DIAN_LIANG)
 			{
 				// Check the player's inventory and look for missiles.
 				for (int i = 0; i < player.inventory.getSizeInventory(); i++)
@@ -62,7 +61,7 @@ public class ItFaSheQi extends ItElectricICBM
 
 							DaoDan daoDan = DaoDan.list[haoMa];
 
-							if (daoDan != null && !ZhuYaoZhaPin.shiBaoHu(world, new Vector3(player), ZhaPinType.DAO_DAN, haoMa))
+							if (daoDan != null && !ZhuYaoZhaPin.shiBaoHu(world, new Vector3(player), ExplosiveType.AIR, haoMa))
 							{
 								// Limit the missile to tier two.
 								if (daoDan.getTier() <= 2 && daoDan.isCruise())
@@ -82,7 +81,7 @@ public class ItFaSheQi extends ItElectricICBM
 										player.inventory.setInventorySlotContents(i, null);
 									}
 
-									this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
+									this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getElectricityStored(itemStack)), itemStack);
 
 									return itemStack;
 								}
@@ -102,13 +101,13 @@ public class ItFaSheQi extends ItElectricICBM
 	}
 
 	@Override
-	public double getVoltage(ItemStack itemStack)
+	public float getVoltage(ItemStack itemStack)
 	{
 		return 25;
 	}
 
 	@Override
-	public double getMaxJoules(ItemStack itemStack)
+	public double getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 100000;
 	}

@@ -1,11 +1,14 @@
 package icbm.gangshao.turret.sentries;
 
 import icbm.api.sentry.IAATarget;
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.TileDamageSource;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import calclavia.lib.CalculationHelper;
 
@@ -46,13 +49,13 @@ public class TLeiShe extends TPaoTaiZiDong
 	}
 
 	@Override
-	public double getFiringRequest()
+	public float getFiringRequest()
 	{
 		return 20000;
 	}
 
 	@Override
-	public double getVoltage()
+	public float getVoltage()
 	{
 		return 480;
 	}
@@ -66,7 +69,7 @@ public class TLeiShe extends TPaoTaiZiDong
 	@Override
 	public void playFiringSound()
 	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.lasershot", 5F, 1F - (this.worldObj.rand.nextFloat() * 0.2f));
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "lasershot", 5F, 1F - (this.worldObj.rand.nextFloat() * 0.2f));
 	}
 
 	@Override
@@ -87,7 +90,7 @@ public class TLeiShe extends TPaoTaiZiDong
 			{
 				if (this.target instanceof EntityLiving)
 				{
-					this.getPlatform().wattsReceived -= this.getFiringRequest();
+					this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
 					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 2);
 					this.target.setFire(3);
 					return true;

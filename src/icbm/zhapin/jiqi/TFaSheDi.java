@@ -4,12 +4,11 @@ import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.ITier;
+import icbm.api.explosion.ExplosiveType;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.zhapin.ZhaPinType;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.zhapin.daodan.ItTeBieDaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -237,7 +236,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 				{
 					int haoMa = this.containingItems[0].getItemDamage();
 
-					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
+					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
 					{
 						if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan)
 						{

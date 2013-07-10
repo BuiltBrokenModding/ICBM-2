@@ -1,17 +1,18 @@
 package icbm.gangshao.shimian;
 
-import icbm.core.ZhuYaoICBM;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonArrow extends GuiButton
 {
+
 	boolean isLeft = false;
 
 	public GuiButtonArrow(int par1, int par2, int par3, boolean left)
@@ -26,7 +27,7 @@ public class GuiButtonArrow extends GuiButton
 	{
 		if (this.drawButton)
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1Minecraft.renderEngine.getTexture(ZhuYaoICBM.GUI_PATH + "gui@.png"));
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(GuiButtonImage.TEXTURE);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean var4 = width >= this.xPosition && hight >= this.yPosition && width < this.xPosition + this.width && hight < this.yPosition + this.height;
 			int var5 = 126;

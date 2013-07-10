@@ -2,6 +2,7 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 
@@ -18,6 +19,7 @@ import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.TileEntityUniversalElectrical;
 import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -25,7 +27,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TDianCiQi extends TileEntityUniversalStorable implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
+public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
 {
 	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 150;
@@ -63,7 +65,7 @@ public class TDianCiQi extends TileEntityUniversalStorable implements IPacketRec
 		{
 			if (this.ticks % 20 == 0 && this.getJoules() > 0)
 			{
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinehum", 0.5F, (float) (0.85F * this.getJoules() / this.getMaxJoules()));
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "machinehum", 0.5F, (float) (0.85F * this.getJoules() / this.getMaxJoules()));
 			}
 
 			this.xuanZhuanLu = (float) (Math.pow(this.getJoules() / this.getMaxJoules(), 2) * 0.5);

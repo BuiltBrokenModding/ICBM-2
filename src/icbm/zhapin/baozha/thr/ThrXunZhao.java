@@ -1,11 +1,8 @@
 package icbm.zhapin.baozha.thr;
 
-import icbm.zhapin.baozha.EBaoZha;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 
 public class ThrXunZhao extends ThrEx

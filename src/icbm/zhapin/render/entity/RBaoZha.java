@@ -1,9 +1,8 @@
 package icbm.zhapin.render.entity;
 
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.EBaoZha;
-import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.baozha.bz.BzHongSu;
 
 import java.util.Random;
 
@@ -11,8 +10,8 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
-import net.minecraft.src.ModLoader;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
@@ -24,6 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RBaoZha extends Render
 {
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.TEXTURE_PATH + "blackhole.png");
+
 	public Random random = new Random();
 
 	@Override
@@ -32,7 +33,7 @@ public class RBaoZha extends Render
 		EBaoZha eZhaPin = (EBaoZha) entity;
 
 		// RedM atter Render
-		if (eZhaPin.haoMa == ZhaPin.hongSu.getID())
+		if (eZhaPin.baoZha instanceof BzHongSu)
 		{
 			Tessellator tessellator = Tessellator.instance;
 
@@ -92,7 +93,7 @@ public class RBaoZha extends Render
 			float renderY = (float) y;
 			float renderZ = (float) z;
 
-			GL11.glBindTexture(3553, ModLoader.getMinecraftInstance().renderEngine.getTexture(ZhuYaoICBM.TEXTURE_PATH + "blackhole.png"));
+			this.func_110776_a(TEXTURE_FILE);
 			tessellator.startDrawingQuads();
 			tessellator.setBrightness(240);
 			tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);
@@ -176,15 +177,14 @@ public class RBaoZha extends Render
 		}
 		else
 		{
-			Object[] data = ZhaPin.list[eZhaPin.haoMa].getRenderData();
 
-			if (data != null)
+			if (eZhaPin.baoZha.getRenderModel() != null && eZhaPin.baoZha.getRenderResource() != null)
 			{
 				GL11.glPushMatrix();
 				GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
 				GL11.glRotatef(eZhaPin.rotationPitch, 0.0F, 0.0F, 1.0F);
-				this.loadTexture((String) data[1]);
-				((MICBM) data[0]).render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
+				this.func_110776_a(eZhaPin.baoZha.getRenderResource());
+				eZhaPin.baoZha.getRenderModel().render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
 				GL11.glPopMatrix();
 			}
 		}
@@ -206,6 +206,12 @@ public class RBaoZha extends Render
 
 		GL11.glVertex2d(x + radius, y);
 		GL11.glEnd();
+	}
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity)
+	{
+		return null;
 	}
 
 }

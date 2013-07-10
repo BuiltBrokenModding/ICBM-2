@@ -1,11 +1,8 @@
 package icbm.zhapin.render.item;
 
-import icbm.core.ZhuYaoBase;
-import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.daodan.DaoDan;
-import icbm.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.render.entity.RDaoDan;
-import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
+import icbm.zhapin.zhapin.daodan.DaoDan;
+import icbm.zhapin.zhapin.daodan.ItDaoDan;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -36,6 +33,8 @@ public class RItDaoDan implements IItemRenderer
 	{
 		if (this.shouldUseRenderHelper(type, item, null))
 		{
+			DaoDan daoDan = (DaoDan) ZhaPinRegistry.get(item.getItemDamage());
+
 			float scale = 0.7f;
 			float right = 0f;
 
@@ -44,16 +43,16 @@ public class RItDaoDan implements IItemRenderer
 				scale = 0.4f;
 				right = 0.15f;
 
-				if (ZhaPin.list[item.getItemDamage()].getTier() == 2 || item.itemID == ZhuYaoZhaPin.itTeBieDaoDan.itemID)
+				if (daoDan.getTier() == 2 || !daoDan.hasBlockForm())
 				{
 					scale = scale / 1.5f;
 				}
-				else if (ZhaPin.list[item.getItemDamage()].getTier() == 3)
+				else if (daoDan.getTier() == 3)
 				{
 					scale = scale / 1.7f;
 					right = 0.5f;
 				}
-				else if (ZhaPin.list[item.getItemDamage()].getTier() == 4)
+				else if (daoDan.getTier() == 4)
 				{
 					scale = scale / 1.4f;
 					right = 0.2f;
@@ -79,19 +78,8 @@ public class RItDaoDan implements IItemRenderer
 
 			GL11.glScalef(scale, scale, scale);
 
-			if (item.itemID == ZhuYaoZhaPin.itTeBieDaoDan.itemID)
-			{
-				if (item.getItemDamage() < RDaoDan.SPECIAL_MODELS.length)
-				{
-					FMLClientHandler.instance().getClient().renderEngine.func_110577_a( "missile_" + DaoDan.list[item.getItemDamage() + 100].getUnlocalizedName() + ".png"));
-					RDaoDan.SPECIAL_MODELS[item.getItemDamage()].render(0.0625F);
-				}
-			}
-			else
-			{
-				FMLClientHandler.instance().getClient().renderEngine.func_110577_a( "missile_" + ZhaPin.list[item.getItemDamage()].getUnlocalizedName() + ".png"));
-				RDaoDan.MODELS[item.getItemDamage()].render(0.0625F);
-			}
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(daoDan.getMissileResource());
+			daoDan.getMuoXing().render(0.0625F);
 		}
 	}
 }

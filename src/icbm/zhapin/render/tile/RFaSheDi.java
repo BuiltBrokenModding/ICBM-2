@@ -9,6 +9,7 @@ import icbm.zhapin.muoxing.jiqi.MFaSheDiRail0;
 import icbm.zhapin.muoxing.jiqi.MFaSheDiRail1;
 import icbm.zhapin.muoxing.jiqi.MFaSheDiRail2;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -20,6 +21,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RFaSheDi extends TileEntitySpecialRenderer
 {
+	public static final ResourceLocation TEXTURE_FILE_0 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_0.png");
+	public static final ResourceLocation TEXTURE_FILE_1 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_1.png");
+	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_2.png");
+
 	public static final MFaSheDi0 modelBase0 = new MFaSheDi0();
 	public static final MFaSheDiRail0 modelRail0 = new MFaSheDiRail0();
 
@@ -37,9 +42,6 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
-		String textureFile = ZhuYaoICBM.MODEL_PATH + "launcher_" + tileEntity.getTier() + ".png";
-
-		this.func_110628_a(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
 		if (tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.NORTH && tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.SOUTH)
@@ -50,11 +52,13 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 		// The missile launcher screen
 		if (tileEntity.getTier() == 0)
 		{
+			this.func_110628_a(TEXTURE_FILE_0);
 			modelBase0.render(0.0625F);
 			modelRail0.render(0.0625F);
 		}
 		else if (tileEntity.getTier() == 1)
 		{
+			this.func_110628_a(TEXTURE_FILE_1);
 			modelBase1.render(0.0625F);
 			modelRail1.render(0.0625F);
 			GL11.glRotatef(180F, 0F, 180F, 1.0F);
@@ -62,6 +66,7 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 		}
 		else if (tileEntity.getTier() == 2)
 		{
+			this.func_110628_a(TEXTURE_FILE_2);
 			modelBase2.render(0.0625F);
 			modelRail2.render(0.0625F);
 			GL11.glRotatef(180F, 0F, 180F, 1.0F);

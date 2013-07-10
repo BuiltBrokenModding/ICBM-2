@@ -1,8 +1,9 @@
 package icbm.zhapin.zhapin;
 
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import icbm.api.explosion.ExplosiveType;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.ItICBM;
-import icbm.zhapin.ZhuYaoZhaPin;
 
 import java.util.List;
 
@@ -11,9 +12,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -52,15 +54,17 @@ public class ItShouLiuDan extends ItICBM
 	{
 		if (itemStack != null)
 		{
-			int haoMa = ZhaPin.list[itemStack.getItemDamage()].getID();
+			ZhaPin zhaPin = ZhaPinRegistry.get(itemStack.getItemDamage());
+			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, entityPlayer, ExplosiveType.ITEM, zhaPin);
+			MinecraftForge.EVENT_BUS.post(evt);
 
-			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN, haoMa))
+			if (!evt.isCanceled())
 			{
 				entityPlayer.setItemInUse(itemStack, this.getMaxItemUseDuration(itemStack));
 			}
 			else
 			{
-				entityPlayer.sendChatToPlayer("Grenades are banned in this region.");
+				entityPlayer.sendChatToPlayer(ChatMessageComponent.func_111066_d("Grenades are banned in this region."));
 			}
 		}
 
@@ -72,9 +76,11 @@ public class ItShouLiuDan extends ItICBM
 	{
 		if (!world.isRemote)
 		{
-			int haoMa = ZhaPin.list[itemStack.getItemDamage()].getID();
+			ZhaPin zhaPin = ZhaPinRegistry.get(itemStack.getItemDamage());
+			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, entityPlayer, ExplosiveType.ITEM, zhaPin);
+			MinecraftForge.EVENT_BUS.post(evt);
 
-			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(entityPlayer), ZhaPinType.SHOU_LIU_DAN, haoMa))
+			if (!evt.isCanceled())
 			{
 				if (!entityPlayer.capabilities.isCreativeMode)
 				{
@@ -87,11 +93,11 @@ public class ItShouLiuDan extends ItICBM
 				}
 
 				world.playSoundAtEntity(entityPlayer, "random.fuse", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, haoMa, (float) (this.getMaxItemUseDuration(itemStack) - nengLiang) / (float) this.getMaxItemUseDuration(itemStack)));
+				world.spawnEntityInWorld(new EShouLiuDan(world, entityPlayer, zhaPin.getID(), (float) (this.getMaxItemUseDuration(itemStack) - nengLiang) / (float) this.getMaxItemUseDuration(itemStack)));
 			}
 			else
 			{
-				entityPlayer.sendChatToPlayer("Grenades are banned in this region.");
+				entityPlayer.sendChatToPlayer(ChatMessageComponent.func_111066_d("Grenades are banned in this region."));
 			}
 		}
 	}
@@ -105,7 +111,7 @@ public class ItShouLiuDan extends ItICBM
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return this.getUnlocalizedName() + "." + ZhaPin.list[itemstack.getItemDamage()].getUnlocalizedName();
+		return ZhaPinRegistry.get(itemstack.getItemDamage()).getUnlocalizedName();
 	}
 
 	@Override
@@ -118,9 +124,9 @@ public class ItShouLiuDan extends ItICBM
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		for (int i = 0; i < ZhaPin.E_YI_ID; i++)
+		for (int i = 0; i < ZhaPinRegistry.getAllZhaPin().size(); i++)
 		{
-			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "grenade_" + ZhaPin.list[i].getUnlocalizedName());
+			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "grenade_" + ZhaPinRegistry.get(i).getUnlocalizedName());
 		}
 	}
 
@@ -133,9 +139,12 @@ public class ItShouLiuDan extends ItICBM
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < ZhaPin.E_YI_ID; i++)
+		for (int i = 0; i < ZhaPinRegistry.getAllZhaPin().size(); i++)
 		{
-			par3List.add(new ItemStack(this, 1, i));
+			if (ZhaPinRegistry.get(i).getTier() == 1)
+			{
+				par3List.add(new ItemStack(this, 1, i));
+			}
 		}
 	}
 }

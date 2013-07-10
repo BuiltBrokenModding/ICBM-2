@@ -39,16 +39,7 @@ public abstract class DaoDan extends ZhaPin
 		return false;
 	}
 
-	/**
-	 * Called when the missile blows up
-	 * 
-	 * @param missileObj
-	 */
-	public void onExplode(EDaoDan missileObj)
-	{
-		this.createExplosion(missileObj.worldObj, missileObj.posX, missileObj.posY, missileObj.posZ, missileObj);
-	}
-
+	@Override
 	public ItemStack getItemStack()
 	{
 		return new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.getID());
@@ -68,7 +59,7 @@ public abstract class DaoDan extends ZhaPin
 	public abstract MICBM getMuoXing();
 
 	@SideOnly(Side.CLIENT)
-	public ResourceLocation getResource()
+	public ResourceLocation getMissileResource()
 	{
 		if (this.resourceLocation == null)
 		{

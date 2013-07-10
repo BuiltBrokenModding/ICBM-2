@@ -4,13 +4,15 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import calclavia.lib.render.CalclaviaRenderHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,7 +31,7 @@ public class RShouLiuDan extends Render
 		GL11.glTranslatef((float) x, (float) y + 0.4f, (float) z);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(0.6F, 0.6F, 0.6F);
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a("/gui/items.png");
+		CalclaviaRenderHelper.setSpriteTexture(new ItemStack(ZhuYaoZhaPin.itShouLiuDan));
 		Tessellator tessellator = Tessellator.instance;
 		this.renderIcon(tessellator, icon);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -54,5 +56,11 @@ public class RShouLiuDan extends Render
 		par1Tessellator.addVertexWithUV(f4 - f5, f4 - f6, 0.0D, f1, f2);
 		par1Tessellator.addVertexWithUV(0.0F - f5, f4 - f6, 0.0D, f, f2);
 		par1Tessellator.draw();
+	}
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity)
+	{
+		return null;
 	}
 }

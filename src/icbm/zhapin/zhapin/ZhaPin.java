@@ -4,36 +4,34 @@ import icbm.api.explosion.IExplosive;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.MICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.baozha.ex.ExBingDan;
-import icbm.zhapin.baozha.ex.ExDiLei;
-import icbm.zhapin.baozha.ex.ExDianCi;
-import icbm.zhapin.baozha.ex.ExDuQi;
-import icbm.zhapin.baozha.ex.ExFanWuSu;
-import icbm.zhapin.baozha.ex.ExHongSu;
-import icbm.zhapin.baozha.ex.ExHuanYuan;
-import icbm.zhapin.baozha.ex.ExHuo;
-import icbm.zhapin.baozha.ex.ExPiaoFu;
-import icbm.zhapin.baozha.ex.ExShengBuo;
-import icbm.zhapin.baozha.ex.ExTaiYang;
-import icbm.zhapin.baozha.ex.ExTuPuo;
-import icbm.zhapin.baozha.ex.ExTuiLa;
-import icbm.zhapin.baozha.ex.ExWan;
-import icbm.zhapin.baozha.ex.ExWuQi;
-import icbm.zhapin.baozha.ex.ExYuanZi;
-import icbm.zhapin.baozha.ex.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DFanDan;
 import icbm.zhapin.zhapin.daodan.DFenZhiDan;
 import icbm.zhapin.zhapin.daodan.DModule;
 import icbm.zhapin.zhapin.daodan.DYuanZiFenZhiDan;
 import icbm.zhapin.zhapin.daodan.DZhuiZhong;
 import icbm.zhapin.zhapin.daodan.DaoDan;
+import icbm.zhapin.zhapin.ex.ExBingDan;
+import icbm.zhapin.zhapin.ex.ExDiLei;
+import icbm.zhapin.zhapin.ex.ExDianCi;
+import icbm.zhapin.zhapin.ex.ExDuQi;
+import icbm.zhapin.zhapin.ex.ExFanWuSu;
+import icbm.zhapin.zhapin.ex.ExHongSu;
+import icbm.zhapin.zhapin.ex.ExHuanYuan;
+import icbm.zhapin.zhapin.ex.ExHuo;
+import icbm.zhapin.zhapin.ex.ExPiaoFu;
 import icbm.zhapin.zhapin.ex.ExQunDan;
+import icbm.zhapin.zhapin.ex.ExShengBuo;
+import icbm.zhapin.zhapin.ex.ExTaiYang;
+import icbm.zhapin.zhapin.ex.ExTuPuo;
+import icbm.zhapin.zhapin.ex.ExTuiLa;
+import icbm.zhapin.zhapin.ex.ExWan;
+import icbm.zhapin.zhapin.ex.ExWuQi;
 import icbm.zhapin.zhapin.ex.ExYaSuo;
+import icbm.zhapin.zhapin.ex.ExYuanZi;
 import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -158,7 +156,7 @@ public abstract class ZhaPin implements IExplosive
 	@Override
 	public final int getID()
 	{
-		return ZhaPinRegistry.getZhaPinID(this.getUnlocalizedName());
+		return ZhaPinRegistry.getID(this.getUnlocalizedName());
 	}
 
 	@Override
@@ -266,6 +264,11 @@ public abstract class ZhaPin implements IExplosive
 	public Icon getIcon()
 	{
 		return null;
+	}
+
+	public boolean hasBlockForm()
+	{
+		return this.hasBlock;
 	}
 
 	/**

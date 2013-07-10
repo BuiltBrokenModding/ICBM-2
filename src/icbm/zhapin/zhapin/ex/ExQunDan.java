@@ -2,7 +2,7 @@ package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.MICBM;
-import icbm.zhapin.baozha.ex.BzQunDan;
+import icbm.zhapin.baozha.bz.BzQunDan;
 import icbm.zhapin.muoxing.daodan.MMQunDan;
 import icbm.zhapin.muoxing.daodan.MMXiaoQunDan;
 import icbm.zhapin.muoxing.daodan.MMZhen;
@@ -58,6 +58,7 @@ public class ExQunDan extends DaoDan
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public MICBM getMuoXing()
 	{

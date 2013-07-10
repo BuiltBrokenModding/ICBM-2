@@ -13,7 +13,7 @@ import universalelectricity.core.vector.Vector3;
 public class LookHelper
 {
 	public static final int PITCH_DISPLACEMENT = 0;
-	TPaoDaiBase sentry;
+	private TPaoDaiBase sentry;
 
 	public LookHelper(TPaoDaiBase turret)
 	{
@@ -108,7 +108,7 @@ public class LookHelper
 	 * 
 	 * return false;
 	 */
-		return this.sentry.worldObj.rayTraceBlocks(this.sentry.getMuzzle().toVec3(), target.toVec3()) == null;
+		return this.sentry.worldObj.clip(this.sentry.getMuzzle().toVec3(), target.toVec3()) == null;
 	}
 
 	public boolean canEntityBeSeen(Entity entity)

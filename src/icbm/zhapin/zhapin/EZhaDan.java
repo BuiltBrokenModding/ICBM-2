@@ -1,9 +1,11 @@
 package icbm.zhapin.zhapin;
 
+import icbm.api.explosion.ExplosiveType;
+import icbm.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosiveContainer;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
@@ -14,7 +16,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpawnData
+public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpawnData, IExplosiveContainer
 {
 	// How long the fuse is (in ticks)
 	public int fuse = 90;
@@ -47,10 +49,10 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		this.prevPosY = position.y;
 		this.prevPosZ = position.z;
 		this.haoMa = explosiveID;
-		this.fuse = ZhaPin.list[explosiveID].getYinXin();
+		this.fuse = ZhaPinRegistry.get(explosiveID).getYinXin();
 		this.orientation = orientation;
 
-		ZhaPin.list[explosiveID].yinZhaQian(par1World, this);
+		ZhaPinRegistry.get(explosiveID).yinZhaQian(par1World, this);
 	}
 
 	public EZhaDan(World par1World, Vector3 position, int explosiveID, byte orientation, int metadata)
@@ -73,7 +75,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.ZHA_DAN, this.haoMa))
+			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.BLOCK, this.haoMa))
 			{
 				ZhuYaoZhaPin.bZhaDan.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.haoMa, 0);
 				this.setDead();
@@ -97,7 +99,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		}
 		else
 		{
-			ZhaPin.list[haoMa].onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.fuse);
+			ZhaPinRegistry.get(this.haoMa).onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.fuse);
 		}
 
 		this.fuse--;
@@ -108,13 +110,13 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	public void explode()
 	{
 		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-		ZhaPin.createBaoZha(this.worldObj, new Vector3(this), this, this.haoMa);
+		this.getExplosiveType().createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
 		this.setDead();
 	}
 
 	public void destroyedByExplosion()
 	{
-		this.fuse = ZhaPin.list[haoMa].onBeiZha();
+		this.fuse = ZhaPinRegistry.get(this.haoMa).onBeiZha();
 	}
 
 	/**
@@ -179,13 +181,13 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	}
 
 	@Override
-	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
+	public ForgeDirection getDirection()
 	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
+	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
 	}
@@ -206,5 +208,11 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		this.fuse = data.readInt();
 		this.orientation = data.readByte();
 		this.metadata = data.readInt();
+	}
+
+	@Override
+	public IExplosive getExplosiveType()
+	{
+		return ZhaPinRegistry.get(this.haoMa);
 	}
 }

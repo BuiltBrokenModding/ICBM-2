@@ -1,10 +1,13 @@
 package icbm.zhapin.zhapin.daodan;
 
 import icbm.api.IMissileLockable;
-import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
+import icbm.core.ZhuYaoICBM;
+import icbm.core.di.MICBM;
+import icbm.zhapin.baozha.bz.BzYaSuo;
+import icbm.zhapin.muoxing.daodan.MMFanDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
 /**
@@ -17,9 +20,10 @@ public class DFanDan extends DaoDan
 {
 	public static final int ABMRange = 30;
 
-	protected DFanDan(String name, int ID, int tier)
+	public DFanDan(String mingZi, int tier)
 	{
-		super(name, ID, tier);
+		super(mingZi, tier);
+		this.hasBlock = false;
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class DFanDan extends DaoDan
 				// Lock target onto missileObj missile
 				missileObj.lockedTarget = nearestEntity;
 				missileObj.didTargetLockBefore = true;
-				missileObj.worldObj.playSoundAtEntity(missileObj, "icbm.targetlocked", 5F, 0.9F);
+				missileObj.worldObj.playSoundAtEntity(missileObj, ZhuYaoICBM.PREFIX + "targetlocked", 5F, 0.9F);
 			}
 		}
 		else
@@ -74,27 +78,20 @@ public class DFanDan extends DaoDan
 	}
 
 	@Override
-	public void onExplode(EDaoDan missileObj)
-	{
-		missileObj.worldObj.createExplosion(missileObj, missileObj.posX, missileObj.posY, missileObj.posZ, 6F, true);
-		MinecraftForge.EVENT_BUS.post(new PostExplosionEvent(missileObj.worldObj, missileObj.posX, missileObj.posY, missileObj.posZ, this));
-	}
-
-	@Override
-	public float getRadius()
-	{
-		return 6;
-	}
-
-	@Override
-	public double getEnergy()
-	{
-		return 100;
-	}
-
-	@Override
 	public boolean isCruise()
 	{
 		return true;
+	}
+
+	@Override
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		new BzYaSuo(world, entity, x, y, z, 6).setDestroyItems().explode();
+	}
+
+	@Override
+	public MICBM getMuoXing()
+	{
+		return new MMFanDan();
 	}
 }

@@ -3,15 +3,19 @@ package icbm.gangshao.shimian;
 import icbm.core.ZhuYaoICBM;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonImage extends GuiButton
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_button.png");
+
 	private int type = 0;
 
 	public GuiButtonImage(int par1, int par2, int par3, int type)
@@ -26,7 +30,7 @@ public class GuiButtonImage extends GuiButton
 	{
 		if (this.drawButton)
 		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, par1Minecraft.renderEngine.getTexture(ZhuYaoICBM.GUI_PATH + "gui@.png"));
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean var4 = width >= this.xPosition && hight >= this.yPosition && width < this.xPosition + this.width && hight < this.yPosition + this.height;
 			int var5 = 106;

@@ -4,14 +4,14 @@ import icbm.api.ILauncherContainer;
 import icbm.api.IMissile;
 import icbm.api.IMissileLockable;
 import icbm.api.RadarRegistry;
+import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.sentry.IAATarget;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.baozha.ex.ZhaPinRegistry;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
-import icbm.zhapin.zhapin.ZhaPinType;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
 
 import java.util.Random;
 
@@ -147,7 +147,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public String getEntityName()
 	{
-		return ZhaPinRegistry.getZhaPin(this.haoMa).getMinecartName();
+		return ZhaPinRegistry.get(this.haoMa).getMinecartName();
 	}
 
 	@Override
@@ -194,10 +194,10 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.kaiShi = new Vector3(this);
 		this.muBiao = target;
 		this.baoZhaGaoDu = this.muBiao.intY();
-		((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).launch(this);
+		((DaoDan) ZhaPinRegistry.get(this.haoMa)).launch(this);
 		this.feiXingTick = 0;
 		this.jiSuan();
-		this.worldObj.playSoundAtEntity(this, "icbm.missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		this.worldObj.playSoundAtEntity(this, ZhuYaoICBM.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
 		ZhuYaoICBM.LOGGER.info("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
@@ -295,7 +295,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, this.haoMa))
+			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, this.haoMa))
 			{
 				if (this.feiXingTick >= 0)
 				{
@@ -359,7 +359,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 					// Look at the next point
 					this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-					((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).update(this);
+					((DaoDan) ZhaPinRegistry.get(this.haoMa)).update(this);
 
 					Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
 
@@ -398,7 +398,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 						// Look at the next point
 						this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-						((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).update(this);
+						((DaoDan) ZhaPinRegistry.get(this.haoMa)).update(this);
 
 						this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -491,9 +491,9 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public boolean interact(EntityPlayer entityPlayer)
 	{
-		if (((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)) != null)
+		if (((DaoDan) ZhaPinRegistry.get(this.haoMa)) != null)
 		{
-			if (((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).onInteract(this, entityPlayer))
+			if (((DaoDan) ZhaPinRegistry.get(this.haoMa)).onInteract(this, entityPlayer))
 			{
 				return true;
 			}
@@ -651,7 +651,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 				}
 				else
 				{
-					((DaoDan) ZhaPinRegistry.getZhaPin(this.haoMa)).onExplode(this);
+					((DaoDan) ZhaPinRegistry.get(this.haoMa)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
 				}
 
 				this.zhengZaiBaoZha = true;
@@ -773,7 +773,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public IExplosive getExplosiveType()
 	{
-		return ZhaPinRegistry.getZhaPin(this.haoMa);
+		return ZhaPinRegistry.get(this.haoMa);
 	}
 
 	@Override

@@ -1,11 +1,12 @@
 package icbm.zhapin.zhapin;
 
+import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +24,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	/**
 	 * Is the entity that throws this 'thing' (snowball, ender pearl, eye of ender or potion)
 	 */
-	protected EntityLiving thrower;
+	protected EntityLivingBase thrower;
 
 	public int haoMa;
 
@@ -41,7 +42,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 		this.haoMa = explosiveID;
 	}
 
-	public EShouLiuDan(World par1World, EntityLiving par2EntityLiving, int explosiveID, float nengLiang)
+	public EShouLiuDan(World par1World, EntityLivingBase par2EntityLiving, int explosiveID, float nengLiang)
 	{
 		this(par1World);
 		this.thrower = par2EntityLiving;
@@ -142,7 +143,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.SHOU_LIU_DAN, this.haoMa))
+			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.ITEM, this.haoMa))
 			{
 				float var6 = 0.7F;
 				double var7 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
@@ -217,19 +218,17 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 			this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
 		}
 
-		if (this.ticksExisted > Math.max(60, ZhaPin.list[haoMa].getYinXin()))
+		if (this.ticksExisted > Math.max(60, ((ZhaPin) this.getExplosiveType()).getYinXin()))
 		{
 			this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-
-			ZhaPin.createBaoZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this, this.haoMa);
-
+			((ZhaPin) this.getExplosiveType()).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
 			this.setDead();
+			return;
 		}
 		else
 		{
-			ZhaPin.list[haoMa].onYinZha(this.worldObj, new Vector3(this.posX, this.posY + 0.5, this.posZ), this.ticksExisted);
+			((ZhaPin) this.getExplosiveType()).onYinZha(this.worldObj, new Vector3(this.posX, this.posY + 0.5, this.posZ), this.ticksExisted);
 		}
-
 	}
 
 	/**
@@ -274,7 +273,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	@Override
 	public IExplosive getExplosiveType()
 	{
-		return ZhaPin.list[this.haoMa];
+		return ZhaPinRegistry.get(this.haoMa);
 	}
 
 }

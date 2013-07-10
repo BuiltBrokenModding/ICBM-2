@@ -1,38 +1,10 @@
 package icbm.zhapin.render.entity;
 
-import icbm.core.ZhuYaoBase;
-import icbm.core.di.MICBM;
-import icbm.zhapin.muoxing.daodan.MMBingDan;
-import icbm.zhapin.muoxing.daodan.MMChaoShengBuo;
-import icbm.zhapin.muoxing.daodan.MMDianCi;
-import icbm.zhapin.muoxing.daodan.MMDuQi;
-import icbm.zhapin.muoxing.daodan.MMFanDan;
-import icbm.zhapin.muoxing.daodan.MMFanWuSu;
-import icbm.zhapin.muoxing.daodan.MMFenZiDan;
-import icbm.zhapin.muoxing.daodan.MMGanRanDu;
-import icbm.zhapin.muoxing.daodan.MMHongSu;
-import icbm.zhapin.muoxing.daodan.MMHuanYuan;
-import icbm.zhapin.muoxing.daodan.MMHuo;
-import icbm.zhapin.muoxing.daodan.MMLa;
-import icbm.zhapin.muoxing.daodan.MMLiZi;
-import icbm.zhapin.muoxing.daodan.MMPiaoFu;
-import icbm.zhapin.muoxing.daodan.MMQi;
-import icbm.zhapin.muoxing.daodan.MMQunDan;
-import icbm.zhapin.muoxing.daodan.MMShengBuo;
-import icbm.zhapin.muoxing.daodan.MMTaiYang;
-import icbm.zhapin.muoxing.daodan.MMTuPuo;
-import icbm.zhapin.muoxing.daodan.MMTui;
-import icbm.zhapin.muoxing.daodan.MMWan;
-import icbm.zhapin.muoxing.daodan.MMXiaoQunDan;
-import icbm.zhapin.muoxing.daodan.MMYaSuo;
-import icbm.zhapin.muoxing.daodan.MMYuanZi;
-import icbm.zhapin.muoxing.daodan.MMZhen;
-import icbm.zhapin.muoxing.daodan.MMZhuiZhong;
-import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
 
 import org.lwjgl.opengl.GL11;
@@ -44,16 +16,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RDaoDan extends Render
 {
-	public static final MICBM[] MODELS = { , , new MMHuo(), new MMQi(), new MMDuQi(), new MMZhen(), new MMTui(), new MMLa()
-
-	, new MMQunDan(), new MMGanRanDu(), new MMShengBuo(), new MMTuPuo(), new MMHuanYuan(), new MMLiZi(),
-
-	new MMYuanZi(), new MMDianCi(), new MMTaiYang(), new MMBingDan(), new MMPiaoFu(), new MMWan(), new MMChaoShengBuo(),
-
-	new MMFanWuSu(), new MMHongSu() };
-
-	public static MICBM[] SPECIAL_MODELS = { new MMYaSuo(), new MMZhuiZhong(), new MMFanDan(), new MMFenZiDan(), new MMFenZiDan() };
-
 	public RDaoDan(float f)
 	{
 		this.shadowSize = f;
@@ -64,27 +26,30 @@ public class RDaoDan extends Render
 	{
 		EDaoDan entityMissile = (EDaoDan) entity;
 
-		GL11.glPushMatrix();
-		GL11.glTranslated(x, y, z);
-		GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 + 90.0F, 0.0F, 0.0F, 1.0F);
-
-		if (entityMissile.xingShi == XingShi.XIAO_DAN)
+		if (entityMissile.getExplosiveType() instanceof DaoDan)
 		{
-			GL11.glScalef(0.5f, 0.5f, 0.5f);
-		}
+			DaoDan daoDan = (DaoDan) entityMissile.getExplosiveType();
 
-		if (entityMissile.haoMa >= 100)
-		{
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(ZhuYaoBase.MODEL_PATH + "missile_" + DaoDan.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
-			RDaoDan.SPECIAL_MODELS[entityMissile.haoMa - 100].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
-		}
-		else
-		{
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(ZhuYaoBase.MODEL_PATH + "missile_" + ZhaPin.list[entityMissile.haoMa].getUnlocalizedName() + ".png");
-			RDaoDan.MODELS[entityMissile.haoMa].render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
-		}
+			GL11.glPushMatrix();
+			GL11.glTranslated(x, y, z);
+			GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 + 90.0F, 0.0F, 0.0F, 1.0F);
 
-		GL11.glPopMatrix();
+			if (entityMissile.xingShi == XingShi.XIAO_DAN)
+			{
+				GL11.glScalef(0.5f, 0.5f, 0.5f);
+			}
+
+			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(daoDan.getMissileResource());
+			daoDan.getMuoXing().render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+
+			GL11.glPopMatrix();
+		}
+	}
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity)
+	{
+		return null;
 	}
 }

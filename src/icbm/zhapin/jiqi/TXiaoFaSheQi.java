@@ -4,13 +4,12 @@ import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.LauncherType;
+import icbm.api.explosion.ExplosiveType;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.zhapin.ZhaPinType;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.zhapin.daodan.ItTeBieDaoDan;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -260,7 +259,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 					haoMa += 100;
 				}
 
-				if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ZhaPinType.DAO_DAN, haoMa))
+				if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
 				{
 					if (this.daoDan == null)
 					{

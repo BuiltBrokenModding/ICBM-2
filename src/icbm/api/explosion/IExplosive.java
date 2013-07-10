@@ -37,6 +37,7 @@ public interface IExplosive extends ITier
 	/**
 	 * @return The tier of the explosive.
 	 */
+	@Override
 	public int getTier();
 
 	/**

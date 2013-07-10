@@ -1,16 +1,22 @@
 package icbm.zhapin.zhapin.daodan;
 
+import icbm.core.di.MICBM;
+import icbm.zhapin.baozha.bz.BzYaSuo;
+import icbm.zhapin.muoxing.daodan.MMFenZiDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan.XingShi;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
 public class DFenZhiDan extends DaoDan
 {
-	public static final int MAX_CLUSTER = 12;
-
-	protected DFenZhiDan(String name, int ID, int tier)
+	public DFenZhiDan(String mingZi, int tier)
 	{
-		super(name, ID, tier);
+		super(mingZi, tier);
+		this.hasBlock = false;
 	}
+
+	public static final int MAX_CLUSTER = 12;
 
 	@Override
 	public void update(EDaoDan missileObj)
@@ -39,14 +45,20 @@ public class DFenZhiDan extends DaoDan
 	}
 
 	@Override
-	public void onExplode(EDaoDan missileObj)
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		missileObj.worldObj.createExplosion(missileObj, missileObj.posX, missileObj.posY, missileObj.posZ, 6F, true);
+		new BzYaSuo(world, entity, x, y, z, 6).setDestroyItems().explode();
 	}
 
 	@Override
 	public boolean isCruise()
 	{
 		return false;
+	}
+
+	@Override
+	public MICBM getMuoXing()
+	{
+		return new MMFenZiDan();
 	}
 }

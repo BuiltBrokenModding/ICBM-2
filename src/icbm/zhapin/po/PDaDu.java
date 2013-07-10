@@ -1,6 +1,6 @@
 package icbm.zhapin.po;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.DamageSource;
@@ -16,7 +16,7 @@ public class PDaDu extends PICBM
 	}
 
 	@Override
-	public void performEffect(EntityLiving par1EntityLiving, int amplifier)
+	public void performEffect(EntityLivingBase par1EntityLiving, int amplifier)
 	{
 		if (!(par1EntityLiving instanceof EntityZombie) && !(par1EntityLiving instanceof EntityPigZombie))
 		{

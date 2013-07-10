@@ -1,9 +1,7 @@
 package icbm.zhapin.render.entity;
 
-import icbm.core.di.MICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.EZhaDan;
-import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
@@ -13,7 +11,6 @@ import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 
 import calclavia.lib.render.CalclaviaRenderHelper;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,10 +28,9 @@ public class REZhaDan extends Render
 	public void doRender(Entity par1Entity, double x, double y, double z, float par8, float par9)
 	{
 		EZhaDan entityExplosive = (EZhaDan) par1Entity;
+		/*ZhaPin zhaPin = ZhaPinRegistry.get(entityExplosive.haoMa);
 
-		Object[] data = ZhaPin.list[entityExplosive.haoMa].getRenderData();
-
-		if (data != null)
+		if (zhaPin.getBlockModel() != null)
 		{
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
@@ -43,7 +39,7 @@ public class REZhaDan extends Render
 			((MICBM) data[0]).render(entityExplosive, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
 			GL11.glPopMatrix();
 		}
-		else
+		else*/
 		{
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x, (float) y, (float) z);

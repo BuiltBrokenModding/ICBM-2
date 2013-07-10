@@ -28,6 +28,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 
@@ -206,7 +208,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		{
 			if (this.lookHelper.isLookingAt(this.target, 5))
 			{
-				return this.tickSinceFired == 0 && (this.getPlatform().wattsReceived >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
+				return this.tickSinceFired == 0 && (this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), false).getWatts() >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
 			}
 		}
 
@@ -235,7 +237,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 			{
 				this.sendShotToClient(this.getTargetPosition());
 				this.playFiringSound();
-				this.getPlatform().wattsReceived = Math.max(this.getPlatform().wattsReceived - this.getFiringRequest(), 0);
+				this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
 			}
 		}
 	}
@@ -260,7 +262,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 
 				if (this.target instanceof EntityLiving)
 				{
-					this.getPlatform().wattsReceived -= this.getFiringRequest();
+					this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
 
 					if (bullet.getType(ammoStack) == ProjectileType.CONVENTIONAL)
 					{

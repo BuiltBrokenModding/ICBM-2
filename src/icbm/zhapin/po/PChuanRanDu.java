@@ -1,12 +1,13 @@
 package icbm.zhapin.po;
 
+import icbm.api.explosion.ExplosiveType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
-import icbm.zhapin.zhapin.ZhaPinType;
 
 import java.util.List;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityPig;
@@ -26,7 +27,7 @@ public class PChuanRanDu extends PICBM
 	}
 
 	@Override
-	public void performEffect(EntityLiving entityLiving, int amplifier)
+	public void performEffect(EntityLivingBase entityLiving, int amplifier)
 	{
 		if (!(entityLiving instanceof EntityZombie) && !(entityLiving instanceof EntityPigZombie))
 		{
@@ -34,7 +35,7 @@ public class PChuanRanDu extends PICBM
 		}
 
 		// Poison things around it
-		if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ZhaPinType.QUAN_BU, ZhaPin.duQi))
+		if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ExplosiveType.ALL, ZhaPin.duQi))
 		{
 			int r = 13;
 			AxisAlignedBB entitySurroundings = AxisAlignedBB.getBoundingBox(entityLiving.posX - r, entityLiving.posY - r, entityLiving.posZ - r, entityLiving.posX + r, entityLiving.posY + r, entityLiving.posZ + r);

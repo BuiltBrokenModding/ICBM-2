@@ -2,6 +2,8 @@ package icbm.wanyi;
 
 import icbm.api.ITracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TextureGenZhongQi extends TextureStitched
+public class TextureGenZhongQi extends TextureAtlasSprite
 {
 	public double currentAngle;
 	public double angleDelta;
@@ -83,15 +85,15 @@ public class TextureGenZhongQi extends TextureStitched
 
 		int i;
 
-		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * this.textureList.size()) % this.textureList.size(); i < 0; i = (i + this.textureList.size()) % this.textureList.size())
+		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * (double) this.field_110976_a.size()) % this.field_110976_a.size(); i < 0; i = (i + this.field_110976_a.size()) % this.field_110976_a.size())
 		{
 			;
 		}
 
-		if (i != this.frameCounter)
+		if (i != this.field_110973_g)
 		{
-			this.frameCounter = i;
-			this.textureSheet.copyFrom(this.originX, this.originY, (Texture) this.textureList.getZhaPin(this.frameCounter), this.rotated);
+			this.field_110973_g = i;
+			TextureUtil.func_110998_a((int[]) this.field_110976_a.get(this.field_110973_g), this.field_130223_c, this.field_130224_d, this.field_110975_c, this.field_110974_d, false, false);
 		}
 	}
 }

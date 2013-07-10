@@ -9,6 +9,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class MMYaSuo extends MICBM
 {
+	public static final MMYaSuo INSTANCE = new MMYaSuo();
+
 	// fields
 	ModelRenderer MAIN_MISSILE_MODULE;
 	ModelRenderer PROPULSOR_MODULE;

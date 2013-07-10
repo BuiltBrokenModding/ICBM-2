@@ -10,6 +10,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatMessageComponent;
 
 public class MingLing extends CommandBase
 {
@@ -31,7 +32,7 @@ public class MingLing extends CommandBase
 		try
 		{
 			EntityPlayer entityPlayer = (EntityPlayer) sender;
-			int dimension = entityPlayer.worldObj.getWorldInfo().getDimension();
+			int dimension = entityPlayer.worldObj.provider.dimensionId;
 
 			if (args[0].equalsIgnoreCase("lag"))
 			{
@@ -56,7 +57,7 @@ public class MingLing extends CommandBase
 						}
 					}
 
-					sender.sendChatToPlayer("Removed all ICBM lag sources within " + radius + " radius.");
+					sender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Removed all ICBM lag sources within " + radius + " radius."));
 					return;
 				}
 				else

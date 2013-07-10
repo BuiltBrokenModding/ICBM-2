@@ -1,8 +1,10 @@
 package icbm.zhapin.render.tile;
 
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.muoxing.jiqi.MDianCiQi;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -13,8 +15,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RDianCiQi extends TileEntitySpecialRenderer
 {
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "emp_tower.png");
+
 	public static final MDianCiQi MODEL = new MDianCiQi();
-	public static final String TEXTURE_FILE = "emp_tower.png";
 
 	@Override
 	public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)

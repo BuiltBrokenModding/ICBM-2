@@ -1,5 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
+import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
@@ -38,13 +39,13 @@ public class TFanKong extends TPaoTaiZiDong
 	}
 
 	@Override
-	public double getVoltage()
+	public float getVoltage()
 	{
 		return 240;
 	}
 
 	@Override
-	public double getFiringRequest()
+	public float getFiringRequest()
 	{
 		return 8000;
 	}
@@ -58,7 +59,7 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public void playFiringSound()
 	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.aagun", 5F, 1F);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "aagun", 5F, 1F);
 	}
 
 	@Override

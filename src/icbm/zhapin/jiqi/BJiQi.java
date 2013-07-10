@@ -2,6 +2,7 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.ITier;
 import icbm.core.di.BICBM;
+import icbm.core.di.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.tile.RHJiQi;
 

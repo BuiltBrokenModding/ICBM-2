@@ -1,18 +1,23 @@
 package icbm.zhapin.zhapin.daodan;
 
 import icbm.api.ITracker;
+import icbm.core.di.MICBM;
+import icbm.zhapin.baozha.bz.BzYaSuo;
+import icbm.zhapin.muoxing.daodan.MMZhuiZhong;
 import icbm.zhapin.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 
 public class DZhuiZhong extends DaoDan
 {
-	protected DZhuiZhong(String name, int ID, int tier)
+	public DZhuiZhong(String mingZi, int tier)
 	{
-		super(name, ID, tier);
+		super(mingZi, tier);
+		this.hasBlock = false;
 	}
 
 	@Override
@@ -111,14 +116,20 @@ public class DZhuiZhong extends DaoDan
 	}
 
 	@Override
-	public void onExplode(EDaoDan missileObj)
-	{
-		missileObj.worldObj.createExplosion(missileObj, missileObj.posX, missileObj.posY, missileObj.posZ, 6F, true);
-	}
-
-	@Override
 	public boolean isCruise()
 	{
 		return false;
+	}
+
+	@Override
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		new BzYaSuo(world, entity, x, y, z, 4).setDestroyItems().explode();
+	}
+
+	@Override
+	public MICBM getMuoXing()
+	{
+		return new MMZhuiZhong();
 	}
 }

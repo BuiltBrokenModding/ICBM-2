@@ -1,17 +1,21 @@
 package icbm.zhapin.zhapin.daodan;
 
+import icbm.zhapin.baozha.bz.BzYuanZi;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.daodan.EDaoDan.XingShi;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
 public class DYuanZiFenZhiDan extends DFenZhiDan
 {
-	public static final int MAX_CLUSTER = 4;
-
-	protected DYuanZiFenZhiDan(String name, int ID, int tier)
+	public DYuanZiFenZhiDan(String mingZi, int tier)
 	{
-		super(name, ID, tier);
+		super(mingZi, tier);
+		this.hasBlock = false;
 	}
+
+	public static final int MAX_CLUSTER = 4;
 
 	@Override
 	public void update(EDaoDan missileObj)
@@ -41,9 +45,9 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 	}
 
 	@Override
-	public void onExplode(EDaoDan missileObj)
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		ZhaPin.createBaoZha(missileObj.worldObj, new Vector3(missileObj), missileObj, ZhaPin.yuanZi.getID());
+		new BzYuanZi(world, entity, x, y, z, 30, 50).setNuclear().explode();
 	}
 
 	@Override

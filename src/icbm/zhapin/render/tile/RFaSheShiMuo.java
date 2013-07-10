@@ -6,6 +6,7 @@ import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo0;
 import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo1;
 import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo2;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -16,6 +17,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RFaSheShiMuo extends TileEntitySpecialRenderer
 {
+	public static final ResourceLocation TEXTURE_FILE_0 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_0.png");
+	public static final ResourceLocation TEXTURE_FILE_1 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_1.png");
+	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_2.png");
+
 	public static final MFaSheShiMuo0 model0 = new MFaSheShiMuo0();
 	public static final MFaSheShiMuo1 model1 = new MFaSheShiMuo1();
 	public static final MFaSheShiMuo2 model2 = new MFaSheShiMuo2();
@@ -28,9 +33,6 @@ public class RFaSheShiMuo extends TileEntitySpecialRenderer
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
-		String textureFile = ZhuYaoICBM.MODEL_PATH + "launcher_" + tileEntity.getTier() + ".png";
-
-		this.bindTextureByName(textureFile);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
 		switch (tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z).ordinal())
@@ -49,12 +51,15 @@ public class RFaSheShiMuo extends TileEntitySpecialRenderer
 		switch (tileEntity.getTier())
 		{
 			case 0:
+				this.func_110628_a(TEXTURE_FILE_0);
 				model0.render(0.0625F);
 				break;
 			case 1:
+				this.func_110628_a(TEXTURE_FILE_1);
 				model1.render(0.0625F);
 				break;
 			case 2:
+				this.func_110628_a(TEXTURE_FILE_2);
 				model2.render(0.0625F);
 				break;
 		}

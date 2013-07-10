@@ -58,9 +58,9 @@ public class ItHuoLuanQi extends ItElectricICBM implements IItemFrequency
 		{
 			super.onUpdate(itemStack, par2World, par3Entity, par4, par5);
 
-			if (this.getJoules(itemStack) > 1)
+			if (this.getElectricityStored(itemStack) > 1)
 			{
-				this.onProvide(ElectricityPack.getFromWatts(1, this.getJoules(itemStack)), itemStack);
+				this.discharge(itemStack, 1, true);
 			}
 		}
 	}
@@ -73,13 +73,13 @@ public class ItHuoLuanQi extends ItElectricICBM implements IItemFrequency
 	}
 
 	@Override
-	public double getVoltage(ItemStack itemStack)
+	public float getVoltage(ItemStack itemStack)
 	{
 		return 25;
 	}
 
 	@Override
-	public double getMaxJoules(ItemStack itemStack)
+	public float getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 80000;
 	}

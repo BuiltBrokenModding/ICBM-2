@@ -1,7 +1,7 @@
 package icbm.zhapin.po;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -17,7 +17,7 @@ public class PDongShang extends PICBM
 	}
 
 	@Override
-	public void performEffect(EntityLiving par1EntityLiving, int amplifier)
+	public void performEffect(EntityLivingBase par1EntityLiving, int amplifier)
 	{
 		if (par1EntityLiving instanceof EntityPlayer)
 		{

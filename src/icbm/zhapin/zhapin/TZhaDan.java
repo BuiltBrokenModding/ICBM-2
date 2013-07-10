@@ -3,7 +3,6 @@ package icbm.zhapin.zhapin;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.baozha.ex.ZhaPinRegistry;
 import icbm.zhapin.dianqi.ItYaoKong;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -102,6 +101,6 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	@Override
 	public IExplosive getExplosiveType()
 	{
-		return ZhaPinRegistry.getZhaPin(this.haoMa);
+		return ZhaPinRegistry.get(this.haoMa);
 	}
 }

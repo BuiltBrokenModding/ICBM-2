@@ -40,7 +40,6 @@ import icbm.zhapin.render.tile.RXiaoFaSheQi;
 import icbm.zhapin.render.tile.RYinDaoQi;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
-import icbm.zhapin.zhapin.TZhaDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ShengYinDaoDan;
 import net.minecraft.block.Block;
@@ -79,7 +78,6 @@ public class ClientProxy extends CommonProxy
 
 		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itFaSheQi.itemID, new RItFaSheQi());
 		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itDaoDan.itemID, new RItDaoDan());
-		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itTeBieDaoDan.itemID, new RItDaoDan());
 
 		RenderingRegistry.registerBlockHandler(new RHZhaPin());
 		RenderingRegistry.registerBlockHandler(new RHJiQi());
@@ -99,7 +97,6 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class, new RFaSheJia());
 		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RLeiDaTai());
 		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RZhaDan());
 		ClientRegistry.bindTileEntitySpecialRenderer(TYinDaoQi.class, new RYinDaoQi());
 
 	}
@@ -164,7 +161,7 @@ public class ClientProxy extends CommonProxy
 		}
 		else if (name == "digging")
 		{
-			fx = new EntityDiggingFX(world, position.x, position.y, position.z, motionX, motionY, motionZ, Block.blocksList[(int) red], 0, (int) green, Minecraft.getMinecraft().renderEngine);
+			fx = new EntityDiggingFX(world, position.x, position.y, position.z, motionX, motionY, motionZ, Block.blocksList[(int) red], 0, (int) green);
 			fx.multipleParticleScaleBy(blue);
 		}
 		else if (name == "shockwave")

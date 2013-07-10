@@ -1,12 +1,10 @@
 package icbm.gangshao.task;
 
 import icbm.gangshao.IAutoSentry;
-import icbm.gangshao.access.AccessLevel;
 
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 
@@ -32,7 +30,7 @@ public class TaskSearchTarget extends Task
 				/**
 				 * Try to look for the owner within range and attack the entity attacking the owner
 				 * if possible.
-				 */
+				 
 				for (Entity entity : entities)
 				{
 					if (entity instanceof EntityPlayer)
@@ -43,10 +41,10 @@ public class TaskSearchTarget extends Task
 						/**
 						 * Checks to see if this player is friendly. If so, attempt to protect the
 						 * player.
-						 */
+						 *
 						if (level.ordinal() >= AccessLevel.USER.ordinal())
 						{
-							if (player.getLastAttackingEntity() != null)
+							if (player.get != null)
 							{
 								if (sentry.isValidTarget(player.getLastAttackingEntity()) && !player.getLastAttackingEntity().isDead)
 								{
@@ -56,7 +54,7 @@ public class TaskSearchTarget extends Task
 							}
 						}
 					}
-				}
+				}*/
 
 				if (currentTarget == null)
 				{

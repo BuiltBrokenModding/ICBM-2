@@ -1,5 +1,6 @@
 package icbm.gangshao.turret.sentries;
 
+import icbm.core.ZhuYaoICBM;
 import universalelectricity.core.vector.Vector3;
 import calclavia.lib.CalculationHelper;
 
@@ -20,7 +21,7 @@ public class TQiang extends TPaoTaiZiDong
 	}
 
 	@Override
-	public double getVoltage()
+	public float getVoltage()
 	{
 		return 240;
 	}
@@ -32,7 +33,7 @@ public class TQiang extends TPaoTaiZiDong
 	}
 
 	@Override
-	public double getFiringRequest()
+	public float getFiringRequest()
 	{
 		return 1000;
 	}
@@ -40,7 +41,7 @@ public class TQiang extends TPaoTaiZiDong
 	@Override
 	public void playFiringSound()
 	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "icbm.machinegun", 5F, 1F);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "machinegun", 5F, 1F);
 	}
 
 	@Override

@@ -5,10 +5,12 @@ import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
 import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosion;
+import icbm.core.di.MICBM;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 
 import java.util.List;
 
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,6 +22,8 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class BaoZha extends Explosion implements IExplosion
 {
@@ -109,6 +113,7 @@ public abstract class BaoZha extends Explosion implements IExplosion
 	/**
 	 * All outside classes should call this.
 	 */
+	@Override
 	public void explode()
 	{
 		ExplosionConstructionEvent evt = new ExplosionConstructionEvent(this);
@@ -244,4 +249,17 @@ public abstract class BaoZha extends Explosion implements IExplosion
 	{
 		return false;
 	}
+
+	@SideOnly(Side.CLIENT)
+	public MICBM getRenderModel()
+	{
+		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public ResourceLocation getRenderResource()
+	{
+		return null;
+	}
+
 }

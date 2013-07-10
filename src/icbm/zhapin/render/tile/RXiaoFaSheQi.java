@@ -1,9 +1,11 @@
 package icbm.zhapin.render.tile;
 
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.muoxing.jiqi.MXiaoFaSheQi;
 import icbm.zhapin.muoxing.jiqi.MXiaoFaSheQiJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
@@ -14,7 +16,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RXiaoFaSheQi extends TileEntitySpecialRenderer
 {
-	public static final String TEXTURE_FILE = "cruise_launcher.png";
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "cruise_launcher.png");
+
 	public static final MXiaoFaSheQi MODEL0 = new MXiaoFaSheQi();
 	public static final MXiaoFaSheQiJia MODEL1 = new MXiaoFaSheQiJia();
 

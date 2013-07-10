@@ -276,7 +276,7 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 					// one.
 					if (airStrikeFreq > 0)
 					{
-						if (this.getJoules(par1ItemStack) > YONG_DIAN_LIANG)
+						if (this.getElectricityStored(par1ItemStack) > YONG_DIAN_LIANG)
 						{
 							Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
 							List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - ItLeiSheZhiBiao.BAN_JING, position.z - ItLeiSheZhiBiao.BAN_JING), new Vector2(position.x + ItLeiSheZhiBiao.BAN_JING, position.z + ItLeiSheZhiBiao.BAN_JING));
@@ -342,13 +342,13 @@ public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 	}
 
 	@Override
-	public double getVoltage(ItemStack itemStack)
+	public float getVoltage(ItemStack itemStack)
 	{
 		return 30;
 	}
 
 	@Override
-	public double getMaxJoules(ItemStack itemStack)
+	public float getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 80000;
 	}

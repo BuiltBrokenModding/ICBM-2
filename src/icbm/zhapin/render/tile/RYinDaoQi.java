@@ -1,11 +1,13 @@
 package icbm.zhapin.render.tile;
 
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.jiqi.TYinDaoQi;
 import icbm.zhapin.muoxing.jiqi.MYinDaoQi;
 
 import java.util.List;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -18,8 +20,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RYinDaoQi extends TileEntitySpecialRenderer
 {
-	public static final String TEXTURE_FILE = "missile_coordinator_off.png";
-	public static final String TEXTURE_FILE_2 = "missile_coordinator_on.png";
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_coordinator_off.png");
+	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_coordinator_on.png");
 	public static final MYinDaoQi MODEL = new MYinDaoQi();
 
 	public void renderModelAt(TYinDaoQi tileEntity, double x, double y, double z, float f)

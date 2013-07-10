@@ -76,7 +76,6 @@ public class ZhuYaoICBM
 	public static final String TEXTURE_PATH = "textures/";
 	public static final String GUI_PATH = TEXTURE_PATH + "gui/";
 	public static final String MODEL_PATH = TEXTURE_PATH + "models/";
-	public static final String SMINE_TEXTURE = MODEL_PATH + "s-mine.png";
 	public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
 	public static final String ITEM_PATH = TEXTURE_PATH + "items/";
 

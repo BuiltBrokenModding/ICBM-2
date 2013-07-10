@@ -1,5 +1,6 @@
 package icbm.zhapin.zhapin.daodan;
 
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
@@ -76,7 +77,7 @@ public class ShengYinDaoDan implements IUpdatePlayerListBox
 
 		if (this.theSoundManager != null && this.entity != null && this.minecartMoveSoundVolume > 0)
 		{
-			this.theSoundManager.playEntitySound("icbm.missileinair", this.entity, 7.0F, this.minecartSoundPitch, true);
+			this.theSoundManager.playEntitySound(ZhuYaoICBM.PREFIX + "missileinair", this.entity, 7.0F, this.minecartSoundPitch, true);
 			this.silent = false;
 			var1 = true;
 		}

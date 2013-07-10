@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.input.Keyboard;
@@ -20,6 +21,7 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.prefab.vector.Region2;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,6 +33,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_platform_terminal.png");
+
 	private GuiTextField commandLine;
 	private int scroll = 0;
 	private static final int SPACING = 10;
@@ -229,7 +233,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
 		super.drawBackgroundLayer(x, y, var1);
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_platform_terminal.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int var5 = (this.width - this.xSize) / 2;

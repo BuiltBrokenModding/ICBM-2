@@ -527,4 +527,9 @@ public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketR
 		return new Vector3(this).add(0.5);
 	}
 
+	public float getVoltage()
+	{
+		return 120;
+	}
+
 }

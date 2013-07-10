@@ -1,6 +1,7 @@
 package icbm.zhapin.zhapin;
 
 import icbm.api.ICamouflageMaterial;
+import icbm.api.explosion.ExplosiveType;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.BICBM;
@@ -134,11 +135,12 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
 	{
+		((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa = itemStack.getItemDamage();
 		int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
 
 		if (!world.isRemote)
 		{
-			if (ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN, explosiveID))
+			if (ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ExplosiveType.BLOCK, explosiveID))
 			{
 				this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
 				world.setBlock(x, y, z, 0, 0, 2);
@@ -170,7 +172,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 
 		if (entityLiving != null)
 		{
-			FMLLog.fine(entityLiving.getEntityName() + " placed " + ZhaPin.list[explosiveID].getExplosiveName() + " in: " + x + ", " + y + ", " + z + ".");
+			FMLLog.fine(entityLiving.getEntityName() + " placed " + ZhaPinRegistry.get(explosiveID).getExplosiveName() + " in: " + x + ", " + y + ", " + z + ".");
 		}
 	}
 
@@ -219,7 +221,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		ITexturePack itexturepack = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
 		String iconName = "explosive_" + ZhaPin.list[i].getUnlocalizedName() + suffix;
 		String path = "/mods/" + ZhuYaoICBM.PREFIX.replace(":", "") + "/textures/blocks/" + iconName + ".png";
-		
+
 		try
 		{
 			BufferedImage bufferedimage = ImageIO.read(itexturepack.getResourceAsStream(path));
@@ -231,10 +233,10 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 
 		if (suffix.equals("_bottom"))
 		{
-			return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_bottom_" + ZhaPin.list[i].getTier());
+			return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_bottom_" + ZhaPinRegistry.get(i).getTier());
 		}
 
-		return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_base_" + ZhaPin.list[i].getTier());
+		return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_base_" + ZhaPinRegistry.get(i).getTier());
 	}
 
 	/**
@@ -276,7 +278,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	{
 		if (!world.isRemote)
 		{
-			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ZhaPinType.ZHA_DAN, explosiveID))
+			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ExplosiveType.BLOCK, explosiveID))
 			{
 				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 				if (tileEntity != null)
@@ -284,7 +286,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 					if (tileEntity instanceof TZhaDan)
 					{
 						((TZhaDan) tileEntity).exploding = true;
-						ZhaPin.list[explosiveID].spawnZhaDan(world, new Vector3(x, y, z), ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
+						ZhaPinRegistry.get(explosiveID).spawnZhaDan(world, new Vector3(x, y, z), ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
 						world.setBlock(x, y, z, 0, 0, 2);
 					}
 				}

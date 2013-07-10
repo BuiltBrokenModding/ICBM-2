@@ -5,6 +5,7 @@ import icbm.zhapin.ESuiPian;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -12,20 +13,22 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import calclavia.lib.render.CalclaviaRenderHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RSuiPian extends Render
 {
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "fragment.png");
+
 	public void renderArrow(ESuiPian suiPian, double par2, double par4, double par6, float par8, float par9)
 	{
 		if (suiPian.isAnvil)
 		{
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a("/terrain.png");
+			CalclaviaRenderHelper.setTerrainTexture();
 			Block block = Block.anvil;
 			World world = suiPian.worldObj;
 			GL11.glDisable(GL11.GL_LIGHTING);
@@ -43,7 +46,7 @@ public class RSuiPian extends Render
 		}
 		else
 		{
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(ZhuYaoICBM.MODEL_PATH + "fragment.png");
+			this.func_110776_a(TEXTURE_FILE);
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 			GL11.glRotatef(suiPian.prevRotationYaw + (suiPian.rotationYaw - suiPian.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);
@@ -114,5 +117,11 @@ public class RSuiPian extends Render
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		this.renderArrow((ESuiPian) par1Entity, par2, par4, par6, par8, par9);
+	}
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity)
+	{
+		return null;
 	}
 }

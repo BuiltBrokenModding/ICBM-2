@@ -12,10 +12,10 @@ import java.util.List;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -34,12 +34,16 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 	 * Allows items to add custom lines of information to the mouseover description
 	 */
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List par3List, boolean par4)
 	{
-		super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
-		Vector3 coord = getSavedCoord(itemStack);
+		super.addInformation(itemStack, entityPlayer, par3List, par4);
+		Vector3 coord = getLink(itemStack);
 		par3List.add("\uaa74Saved Coordinates:");
 		par3List.add("X: " + (int) coord.x + ", Y: " + (int) coord.y + ", Z: " + (int) coord.z);
+		par3List.add(new Vector3(entityPlayer).distanceTo(coord) + " Meters");
+		par3List.add("X-Distance:" + (new Vector3(entityPlayer).x - coord.x));
+		par3List.add("Y-Distance:" + (new Vector3(entityPlayer).y - coord.y));
+		par3List.add("Z-Distance:" + (new Vector3(entityPlayer).z - coord.z));
 	}
 
 	/**
@@ -47,11 +51,11 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 	 * world, entityPlayer
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onItemRightClick(ItemStack itemStack, World par2World, EntityPlayer entityPlayer)
 	{
 		if (par2World.isRemote)
 		{
-			MovingObjectPosition objectMouseOver = par3EntityPlayer.rayTrace(JU_LI, 1);
+			MovingObjectPosition objectMouseOver = entityPlayer.rayTrace(JU_LI, 1);
 
 			if (objectMouseOver != null)
 			{
@@ -62,15 +66,15 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 				if (!(tileEntity instanceof TFaSheQi))
 				{
 					// Check for electricity
-					if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+					if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
 					{
 						PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ZhuYaoZhaPin.CHANNEL, ZhaPinPacketType.RADAR_GUN.ordinal(), objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
-						this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getJoules(itemStack)), itemStack);
-						par3EntityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ);
+						this.discharge(itemStack, YONG_DIAN_LIANG, true);
+						entityPlayer.addChatMessage("Scanned Coordinates: X:" + objectMouseOver.blockX + ", Y:" + objectMouseOver.blockY + ", Z:" + objectMouseOver.blockZ + " - Distance: " + (int) Math.round(new Vector3(entityPlayer).distanceTo(new Vector3(objectMouseOver))));
 					}
 					else
 					{
-						par3EntityPlayer.addChatMessage("Radar gun out of electricity!");
+						entityPlayer.addChatMessage("Radar gun out of electricity!");
 					}
 				}
 			}
@@ -100,7 +104,7 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 				{
 					TFaSheShiMuo missileLauncher = (TFaSheShiMuo) tileEntity;
 
-					Vector3 savedCords = this.getSavedCoord(par1ItemStack);
+					Vector3 savedCords = this.getLink(par1ItemStack);
 
 					// If the vector is NOT 0
 					if (!savedCords.equals(new Vector3()))
@@ -129,7 +133,7 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 				{
 					TXiaoFaSheQi missileLauncher = (TXiaoFaSheQi) tileEntity;
 
-					Vector3 savedCords = this.getSavedCoord(par1ItemStack);
+					Vector3 savedCords = this.getLink(par1ItemStack);
 
 					if (!savedCords.equals(new Vector3()))
 					{
@@ -149,7 +153,9 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 					else
 					{
 						if (par3World.isRemote)
+						{
 							par2EntityPlayer.addChatMessage("You must scan a coordinate!");
+						}
 					}
 				}
 			}
@@ -158,25 +164,39 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 		return false;
 	}
 
-	public Vector3 getSavedCoord(ItemStack par1ItemStack)
+	@Override
+	public void setLink(ItemStack itemStack, Vector3 position)
 	{
-		if (par1ItemStack.stackTagCompound == null)
+		// Saves the frequency in the ItemStack
+		if (itemStack.getTagCompound() == null)
 		{
-			return new Vector3();
+			itemStack.setTagCompound(new NBTTagCompound());
 		}
 
-		return new Vector3(par1ItemStack.stackTagCompound.getInteger("x"), par1ItemStack.stackTagCompound.getInteger("y"), par1ItemStack.stackTagCompound.getInteger("z"));
+		position.writeToNBT(itemStack.getTagCompound());
 	}
 
 	@Override
-	public double getVoltage(ItemStack itemStack)
+	public Vector3 getLink(ItemStack itemStack)
+	{
+		if (itemStack.getTagCompound() == null)
+		{
+			itemStack.setTagCompound(new NBTTagCompound());
+		}
+
+		return Vector3.readFromNBT(itemStack.getTagCompound());
+	}
+
+	@Override
+	public float getVoltage(ItemStack itemStack)
 	{
 		return 20;
 	}
 
 	@Override
-	public double getMaxJoules(ItemStack itemStack)
+	public float getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 80000;
 	}
+
 }

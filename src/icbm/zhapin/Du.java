@@ -5,7 +5,7 @@ import icbm.zhapin.po.PDaDu;
 
 import java.util.EnumSet;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotionEffect;
@@ -22,7 +22,7 @@ public class Du extends Poison
 	}
 
 	@Override
-	protected void doPoisonEntity(Vector3 emitPosition, EntityLiving entity, EnumSet<ArmorType> armorWorn, int amplifier)
+	protected void doPoisonEntity(Vector3 emitPosition, EntityLivingBase entity, EnumSet<ArmorType> armorWorn, int amplifier)
 	{
 		if (this.isContagious)
 		{

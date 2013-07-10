@@ -5,6 +5,7 @@ import icbm.wanyi.ZhuYaoWanYi;
 import icbm.wanyi.b.TYinGanQi;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -13,10 +14,13 @@ import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.gui.GuiBase;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GYinGanQi extends GuiBase
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+
 	private TYinGanQi tileEntity;
 
 	private int containerWidth;
@@ -231,11 +235,7 @@ public class GYinGanQi extends GuiBase
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.tileEntity.isDisabled())
-		{
-			status = "Disabled";
-		}
-		else if (this.tileEntity.prevWatts < this.tileEntity.getRequest().getWatts())
+		if (this.tileEntity.getEnergyStored() < this.tileEntity.getRequest(null))
 		{
 			status = "Insufficient electricity!";
 		}
@@ -246,7 +246,7 @@ public class GYinGanQi extends GuiBase
 		}
 
 		this.fontRenderer.drawString(color + "Status: " + status, 12, 138, 4210752);
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT) + " " + ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 12, 150, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest(null) * 20, ElectricUnit.WATT) + " " + ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 12, 150, 4210752);
 	}
 
 	/**
@@ -255,7 +255,7 @@ public class GYinGanQi extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		containerWidth = (this.width - this.xSize) / 2;

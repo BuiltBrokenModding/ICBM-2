@@ -9,10 +9,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.tile.IRotatable;
+import calclavia.lib.TileEntityUniversalElectrical;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinDaoQi extends TileEntityUniversalRunnable implements IPacketReceiver, IRotatable
+public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketReceiver, IRotatable
 {
 	private byte fangXiang = 3;
 

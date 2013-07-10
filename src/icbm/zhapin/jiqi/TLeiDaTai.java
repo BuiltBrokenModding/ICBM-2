@@ -3,6 +3,7 @@ package icbm.zhapin.jiqi;
 import icbm.api.IItemFrequency;
 import icbm.api.RadarRegistry;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.IRedstoneProvider;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 
@@ -32,6 +33,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.TileEntityUniversalElectrical;
 import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -41,7 +43,7 @@ import cpw.mods.fml.common.network.Player;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public class TLeiDaTai extends TileEntityUniversalRunnable implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
+public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
 {
 	public final static int MAX_BIAN_JING = 500;
 

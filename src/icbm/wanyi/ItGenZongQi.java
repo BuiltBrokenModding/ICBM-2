@@ -103,9 +103,7 @@ public class ItGenZongQi extends ItElectricICBM implements ITracker
 
 					if (trackingEntity != null)
 					{
-						this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getVoltage(itemStack)), itemStack);
-
-						if (this.getJoules(itemStack) < YONG_DIAN_LIANG)
+						if (this.discharge(itemStack, YONG_DIAN_LIANG, true) < YONG_DIAN_LIANG)
 						{
 							this.setTrackingEntity(itemStack, null);
 						}
@@ -129,7 +127,7 @@ public class ItGenZongQi extends ItElectricICBM implements ITracker
 	{
 		if (!player.worldObj.isRemote)
 		{
-			if (this.getJoules(itemStack) > YONG_DIAN_LIANG)
+			if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
 			{
 				setTrackingEntity(itemStack, entity);
 				player.addChatMessage("Now tracking: " + entity.getEntityName());
@@ -145,13 +143,13 @@ public class ItGenZongQi extends ItElectricICBM implements ITracker
 	}
 
 	@Override
-	public double getVoltage(ItemStack itemStack)
+	public float getVoltage(ItemStack itemStack)
 	{
 		return 20;
 	}
 
 	@Override
-	public double getMaxJoules(ItemStack itemStack)
+	public float getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 100000;
 	}

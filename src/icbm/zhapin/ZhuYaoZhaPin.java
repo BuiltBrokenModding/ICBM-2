@@ -1,6 +1,7 @@
 package icbm.zhapin;
 
 import icbm.api.ICBM;
+import icbm.api.explosion.ExplosiveType;
 import icbm.core.ICBMFlags;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoICBM;
@@ -24,11 +25,9 @@ import icbm.zhapin.zhapin.EZhaDan;
 import icbm.zhapin.zhapin.IBZhaDan;
 import icbm.zhapin.zhapin.ItShouLiuDan;
 import icbm.zhapin.zhapin.ZhaPin;
-import icbm.zhapin.zhapin.ZhaPinType;
-import icbm.zhapin.zhapin.daodan.DaoDan;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ItDaoDan;
-import icbm.zhapin.zhapin.daodan.ItTeBieDaoDan;
 
 import java.util.List;
 
@@ -48,6 +47,9 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.core.item.ElectricItemHelper;
@@ -59,12 +61,9 @@ import calclavia.lib.flag.FlagRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
-import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -102,7 +101,6 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 	public static Block bJiQi;
 	// Items
 	public static Item itDaoDan;
-	public static Item itTeBieDaoDan;
 
 	public static ItemElectric itJieJa;
 	public static ItemElectric itLeiDaQiang;
@@ -118,7 +116,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 	public static boolean USE_FUEL = true;
 
 	@Override
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		super.preInit(event);
@@ -132,7 +130,6 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 
 		// ITEMS
 		itDaoDan = new ItDaoDan(ICBM.ITEM_ID_PREFIX + 3, "missile");
-		itTeBieDaoDan = new ItTeBieDaoDan(ICBM.ITEM_ID_PREFIX + 4);
 
 		itJieJa = new ItJieJa(ICBM.ITEM_ID_PREFIX + 5);
 		itLeiDaQiang = new ItLeiDaQiang(ICBM.ITEM_ID_PREFIX + 6);
@@ -252,7 +249,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		ZhuYaoZhaPin.proxy.preInit();
 	}
 
-	@Init
+	@EventHandler
 	public void load(FMLInitializationEvent evt)
 	{
 		super.init(evt);
@@ -260,7 +257,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 	}
 
 	@Override
-	@PostInit
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		super.postInit(event);
@@ -268,15 +265,6 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		/**
 		 * Add all Recipes
 		 */
-
-		for (int i = 0; i < ZhaPin.list.length; i++)
-		{
-			if (ZhaPin.list[i] != null)
-			{
-				ZhaPin.list[i].init();
-			}
-		}
-
 		// Rocket Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(itFaSheQi, new Object[] { "SCR", "SB ", 'R', itLeiDaQiang, 'C', new ItemStack(bJiQi, 1, JiQi.XiaoFaSheQi.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipes.PRIMARY_METAL }));
 
@@ -312,35 +300,35 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		// Find and try to add a recipe with fuel, then oil then coal.
 		try
 		{
-			if (LiquidDictionary.getLiquid("Fuel", 1) != null && USE_FUEL)
+			if (FluidRegistry.getFluid("fuel") != null && USE_FUEL)
 			{
-				for (LiquidContainerData data : LiquidContainerRegistry.getRegisteredLiquidContainerData())
+				for (FluidContainerData data : FluidContainerRegistry.getRegisteredFluidContainerData())
 				{
-					if (data.stillLiquid != null)
+					if (data.fluid != null)
 					{
-						if (data.stillLiquid.isLiquidEqual(LiquidDictionary.getLiquid("Fuel", 1)))
+						if (data.fluid.getFluid() == FluidRegistry.getFluid("fuel"))
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipes.PRIMARY_METAL, '?', data.filled, '#', UniversalRecipes.CIRCUIT_T1 }));
+							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipes.PRIMARY_METAL, '?', data.filledContainer, '#', UniversalRecipes.CIRCUIT_T1 }));
 						}
 					}
 				}
 			}
-			else if (LiquidDictionary.getLiquid("Oil", 1) != null && USE_FUEL)
+			else if (FluidRegistry.getFluid("oil") != null && USE_FUEL)
 			{
-				for (LiquidContainerData data : LiquidContainerRegistry.getRegisteredLiquidContainerData())
+				for (FluidContainerData data : FluidContainerRegistry.getRegisteredFluidContainerData())
 				{
-					if (data.stillLiquid != null)
+					if (data.fluid != null)
 					{
-						if (data.stillLiquid.isLiquidEqual(LiquidDictionary.getLiquid("Oil", 1)))
+						if (data.fluid.getFluid() == FluidRegistry.getFluid("oil"))
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipes.PRIMARY_METAL, '?', data.filled, '#', UniversalRecipes.CIRCUIT_T1 }));
+							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipes.PRIMARY_METAL, '?', data.filledContainer, '#', UniversalRecipes.CIRCUIT_T1 }));
 						}
 					}
 				}
 			}
 			else
 			{
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipes.PRIMARY_METAL, '?', Item.coal, '#', UniversalRecipes.CIRCUIT_T1 }));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipes.PRIMARY_METAL, '?', Item.coal, '#', UniversalRecipes.CIRCUIT_T1 }));
 			}
 		}
 		catch (Exception e)
@@ -350,32 +338,34 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		}
 
 		// Homing
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 1), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), 'C', UniversalRecipes.CIRCUIT_T1, 'B', UniversalRecipes.SECONDARY_METAL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itDaoDan, 1, ZhaPin.zhuiZhong.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), 'C', UniversalRecipes.CIRCUIT_T1, 'B', UniversalRecipes.SECONDARY_METAL }));
 		// Anti-ballistic
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 2), new Object[] { "!", "?", "@", '@', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, 0), '!', UniversalRecipes.CIRCUIT_T1 }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itDaoDan, 1, ZhaPin.fanDan.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, 0), '!', UniversalRecipes.CIRCUIT_T1 }));
 		// Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 3), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), '?', DaoDan.list[ZhaPin.qunDan.getID()].getItemStack(), '!', new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itDaoDan, 1, ZhaPin.fenZhiDan.getID()), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), '?', ZhaPin.qunDan.getItemStack(), '!', new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, 0) }));
 		// Nuclear Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 4), new Object[] { " N ", "NCN", 'C', new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 3), 'N', ZhaPin.yuanZi.getItemStack() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itDaoDan, 1, ZhaPin.yuanZiFenZhiDan.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itDaoDan, 1, ZhaPin.fenZhiDan.getID()), 'N', ZhaPin.yuanZi.getItemStack() }));
 
 		/**
 		 * Add all explosive recipes.
 		 */
-		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
+		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, i), new Object[] { new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan, 1, 0), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i) }), ZhaPin.list[i].getUnlocalizedName() + " Missile", ZhuYaoICBM.CONFIGURATION, true);
+			zhaPin.init();
 
-			if (i < ZhaPin.E_YI_ID)
+			// Missile
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, zhaPin.getID()), new Object[] { new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", ZhuYaoICBM.CONFIGURATION, true);
+
+			if (zhaPin.getTier() < 2)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, i), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '?', Item.silk }), ZhaPin.list[i].getUnlocalizedName() + " Grenade", ZhuYaoICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", ZhuYaoICBM.CONFIGURATION, true);
 			}
 
-			if (i < ZhaPin.E_ER_ID)
+			if (zhaPin.getTier() < 3)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, i), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, i), '@', Item.minecartEmpty }), ZhaPin.list[i].getUnlocalizedName() + " Minecart", ZhuYaoICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", ZhuYaoICBM.CONFIGURATION, true);
 			}
 		}
 
@@ -403,54 +393,52 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 	/**
 	 * Is a specific position being protected from a specific type of danger?
 	 */
-	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, ZhaPin zhaPin)
+	public static boolean shiBaoHu(World world, Vector3 diDian, ExplosiveType type, ZhaPin zhaPin)
 	{
-		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) != null)
+		if (zhaPin != null)
 		{
-			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))
+			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) != null)
 			{
-				return true;
+				if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))
+				{
+					return true;
+				}
+
+				boolean baoHu = false;
+
+				switch (type)
+				{
+					case ALL:
+						baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
+						break;
+					case VEHICLE:
+						baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian);
+						break;
+					case AIR:
+						baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian);
+						break;
+					case ITEM:
+						baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian);
+						break;
+					case BLOCK:
+						baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
+						break;
+				}
+
+				return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
 			}
-
-			boolean baoHu = false;
-
-			switch (type)
-			{
-				case QUAN_BU:
-					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
-					break;
-				case CHE:
-					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian);
-					break;
-				case DAO_DAN:
-					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian);
-					break;
-				case SHOU_LIU_DAN:
-					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian);
-					break;
-				case ZHA_DAN:
-					baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
-					break;
-			}
-
-			return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
 		}
 
 		return false;
 	}
 
-	public static boolean shiBaoHu(World world, Vector3 diDian, ZhaPinType type, int zhaPinID)
+	public static boolean shiBaoHu(World world, Vector3 diDian, ExplosiveType type, int haoMa)
 	{
-		if (zhaPinID < ZhaPin.list.length && zhaPinID >= 0)
-		{
-			return shiBaoHu(world, diDian, type, ZhaPin.list[zhaPinID]);
-		}
-
-		return false;
+		return shiBaoHu(world, diDian, type, ZhaPinRegistry.get(haoMa));
 	}
 
 	@Override
-	@ServerStarting
+	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event)
 	{
 		super.serverStarting(event);
