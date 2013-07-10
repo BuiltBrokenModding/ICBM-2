@@ -5,7 +5,7 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TDianCiQi;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

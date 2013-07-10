@@ -102,7 +102,7 @@ public class BzYaSuo extends BaoZha
 				this.doDamageEntities(this.getRadius(), nengLiang, this.destroyItem);
 				break;
 			default:
-				this.pushEntities(this.getRadius(), this.pushType);
+				this.pushEntities(8, this.getRadius() * 4, this.pushType);
 				break;
 		}
 
@@ -165,7 +165,7 @@ public class BzYaSuo extends BaoZha
 		}
 	}
 
-	public void pushEntities(float radius, int type)
+	public void pushEntities(float radius, float force, int type)
 	{
 		// Step 2: Damage all entities
 		Vector3 minCoord = position.clone();
@@ -174,7 +174,7 @@ public class BzYaSuo extends BaoZha
 		maxCoord.add(radius + 1);
 
 		Region3 region = new Region3(minCoord, maxCoord);
-		List<Entity> entities = region.getEntities(worldObj, Entity.class);
+		List<Entity> entities = region.getEntities(this.worldObj, Entity.class);
 
 		for (Entity entity : entities)
 		{
@@ -185,28 +185,20 @@ public class BzYaSuo extends BaoZha
 				double xDifference = entity.posX - position.x;
 				double yDifference = entity.posY - position.y;
 				double zDifference = entity.posZ - position.z;
-				double var35 = MathHelper.sqrt_double(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
-				xDifference /= var35;
-				yDifference /= var35;
-				zDifference /= var35;
+				double distance = MathHelper.sqrt_double(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
+				xDifference /= distance;
+				yDifference /= distance;
+				zDifference /= distance;
 
 				if (type == 1)
 				{
-					double modifier = var13 * 4;
-
-					entity.motionX -= xDifference * modifier;
-					entity.motionY -= yDifference * modifier;
-					entity.motionZ -= zDifference * modifier;
-					entity.isAirBorne = true;
+					double modifier = var13 * force;
+					entity.addVelocity(-xDifference * modifier, -yDifference * modifier, -zDifference * modifier);
 				}
 				else if (type == 2)
 				{
-					double modifier = (1.0D - var13) * 3;
-
-					entity.motionX += xDifference * modifier;
-					entity.motionY += yDifference * modifier;
-					entity.motionZ += zDifference * modifier;
-					entity.isAirBorne = true;
+					double modifier = (1.0D - var13) * force;
+					entity.addVelocity(xDifference * modifier, yDifference * modifier, zDifference * modifier);
 				}
 			}
 		}
@@ -232,6 +224,5 @@ public class BzYaSuo extends BaoZha
 		super.writeToNBT(nbt);
 		nbt.setInteger("pushType", this.pushType);
 		nbt.setBoolean("destroyItem", this.destroyItem);
-
 	}
 }

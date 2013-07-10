@@ -2,12 +2,11 @@ package icbm.wanyi.gui;
 
 import icbm.api.IItemFrequency;
 import icbm.core.ZhuYaoICBM;
-import icbm.gangshao.shimian.GuiButtonImage;
 import icbm.wanyi.WanYiPacketGuanLi.WanYiPacketType;
 import icbm.wanyi.ZhuYaoWanYi;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

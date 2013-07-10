@@ -6,7 +6,6 @@ import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.List;
 
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
@@ -34,33 +33,44 @@ public class PChuanRanDu extends PICBM
 			entityLiving.attackEntityFrom(DamageSource.magic, 1);
 		}
 
-		// Poison things around it
-		if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ExplosiveType.ALL, ZhaPin.duQi))
+		if (entityLiving.worldObj.rand.nextFloat() > 0.8)
 		{
-			int r = 13;
-			AxisAlignedBB entitySurroundings = AxisAlignedBB.getBoundingBox(entityLiving.posX - r, entityLiving.posY - r, entityLiving.posZ - r, entityLiving.posX + r, entityLiving.posY + r, entityLiving.posZ + r);
-			List<EntityLiving> entities = entityLiving.worldObj.getEntitiesWithinAABB(EntityLiving.class, entitySurroundings);
-
-			for (EntityLiving entity : entities)
+			// Poison things around it
+			if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ExplosiveType.ALL, ZhaPin.duQi))
 			{
-				if (entity != null)
-				{
-					if (entity instanceof EntityPig)
-					{
-						EntityPigZombie var2 = new EntityPigZombie(entity.worldObj);
-						var2.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-						entity.worldObj.spawnEntityInWorld(var2);
-						entity.setDead();
-					}
-					else if (entity instanceof EntityVillager)
-					{
-						EntityZombie var2 = new EntityZombie(entity.worldObj);
-						var2.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-						entity.worldObj.spawnEntityInWorld(var2);
-						entity.setDead();
-					}
+				int r = 13;
+				AxisAlignedBB entitySurroundings = AxisAlignedBB.getBoundingBox(entityLiving.posX - r, entityLiving.posY - r, entityLiving.posZ - r, entityLiving.posX + r, entityLiving.posY + r, entityLiving.posZ + r);
+				List<EntityLivingBase> entities = entityLiving.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, entitySurroundings);
 
-					ZhuYaoZhaPin.DU_CHUAN_RAN.poisonEntity(new Vector3(entityLiving), entity);
+				for (EntityLivingBase entity : entities)
+				{
+					if (entity != null && entity != entityLiving)
+					{
+						if (entity instanceof EntityPig)
+						{
+							EntityPigZombie newEntity = new EntityPigZombie(entity.worldObj);
+							newEntity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+
+							if (!entity.worldObj.isRemote)
+							{
+								entity.worldObj.spawnEntityInWorld(newEntity);
+							}
+							entity.setDead();
+						}
+						else if (entity instanceof EntityVillager)
+						{
+							EntityZombie newEntity = new EntityZombie(entity.worldObj);
+							newEntity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+							newEntity.setVillager(true);
+							if (!entity.worldObj.isRemote)
+							{
+								entity.worldObj.spawnEntityInWorld(newEntity);
+							}
+							entity.setDead();
+						}
+
+						ZhuYaoZhaPin.DU_CHUAN_RAN.poisonEntity(new Vector3(entity), entity);
+					}
 				}
 			}
 		}

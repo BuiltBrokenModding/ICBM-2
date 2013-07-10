@@ -1,8 +1,8 @@
 package icbm.core;
 
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Renders nothing for the fake entity.

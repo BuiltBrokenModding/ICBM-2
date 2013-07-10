@@ -10,7 +10,13 @@ import universalelectricity.prefab.tile.IRotatable;
 
 public class BzTuPuo extends BzYaSuo
 {
-	private int depth = 8;
+	private int depth;
+
+	public BzTuPuo(World world, Entity entity, double x, double y, double z, float size, int depth)
+	{
+		this(world, entity, x, y, z, size);
+		this.depth = depth;
+	}
 
 	public BzTuPuo(World world, Entity entity, double x, double y, double z, float size)
 	{
@@ -22,7 +28,7 @@ public class BzTuPuo extends BzYaSuo
 	{
 		if (!this.worldObj.isRemote)
 		{
-			Vector3 difference = new Vector3();
+			final Vector3 difference = new Vector3();
 
 			if (this.exploder instanceof IRotatable)
 			{

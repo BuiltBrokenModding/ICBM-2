@@ -4,8 +4,8 @@ import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.jiqi.TLeiDaTai;
 import icbm.zhapin.muoxing.jiqi.MLeiDa;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

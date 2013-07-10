@@ -99,18 +99,24 @@ public class BzShengBuo extends BaoZha
 			this.thread.run();
 		}
 
-		this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "sonicwave", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-
+		if (this.hasShockWave)
+		{
+			this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "hypersonic", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		}
+		else
+		{
+			this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "sonicwave", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		}
 	}
 
 	@Override
 	public void doExplode()
 	{
-		if (this.thread.isComplete)
-		{
-			int r = this.callCount;
+		int r = this.callCount;
 
-			if (!this.worldObj.isRemote)
+		if (!this.worldObj.isRemote)
+		{
+			if (this.thread.isComplete)
 			{
 				Iterator<Vector3> it = this.thread.results.iterator();
 
@@ -157,48 +163,49 @@ public class BzShengBuo extends BaoZha
 					}
 				}
 			}
+		}
 
-			int radius = 2 * callCount;
-			AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-			List<Entity> allEntities = this.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+		int radius = 2 * this.callCount;
+		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
+		List<Entity> allEntities = this.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
-			synchronized (allEntities)
+		synchronized (allEntities)
+		{
+			for (Iterator it = allEntities.iterator(); it.hasNext();)
 			{
-				for (Iterator it = allEntities.iterator(); it.hasNext();)
+				Entity entity = (Entity) it.next();
+
+				if (entity instanceof EDaoDan)
 				{
-					Entity entity = (Entity) it.next();
+					((EDaoDan) entity).setExplode();
+					break;
+				}
+				else
+				{
+					double xDifference = entity.posX - position.x;
+					double zDifference = entity.posZ - position.z;
 
-					if (entity instanceof EDaoDan)
-					{
-						((EDaoDan) entity).setExplode();
-						break;
-					}
-					else
-					{
-						double xDifference = entity.posX - position.x;
-						double zDifference = entity.posZ - position.z;
+					r = (int) this.getRadius();
+					if (xDifference < 0)
+						r = (int) -this.getRadius();
 
-						r = (int) this.getRadius();
-						if (xDifference < 0)
-							r = (int) -this.getRadius();
+					entity.motionX += (r - xDifference) * 0.02 * this.worldObj.rand.nextFloat();
+					entity.motionY += 3 * this.worldObj.rand.nextFloat();
 
-						entity.motionX += (r - xDifference) * 0.02 * this.worldObj.rand.nextFloat();
-						entity.motionY += 3 * this.worldObj.rand.nextFloat();
+					r = (int) this.getRadius();
+					if (zDifference < 0)
+						r = (int) -this.getRadius();
 
-						r = (int) this.getRadius();
-						if (zDifference < 0)
-							r = (int) -this.getRadius();
-
-						entity.motionZ += (r - zDifference) * 0.02 * this.worldObj.rand.nextFloat();
-					}
+					entity.motionZ += (r - zDifference) * 0.02 * this.worldObj.rand.nextFloat();
 				}
 			}
-
-			if (this.callCount > this.getRadius())
-			{
-				this.controller.endExplosion();
-			}
 		}
+
+		if (this.callCount > this.getRadius())
+		{
+			this.controller.endExplosion();
+		}
+
 	}
 
 	/**

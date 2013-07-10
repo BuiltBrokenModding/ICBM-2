@@ -5,9 +5,9 @@ import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.muoxing.MLeiShe;
 import icbm.gangshao.turret.TPaoDaiBase;
 import icbm.gangshao.turret.sentries.TLeiShe;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

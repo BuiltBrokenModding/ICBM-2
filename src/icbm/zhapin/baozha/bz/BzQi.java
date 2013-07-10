@@ -7,7 +7,7 @@ import icbm.zhapin.baozha.BaoZha;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
@@ -99,9 +99,9 @@ public class BzQi extends BaoZha
 		}
 
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-		List<EntityLiving> allEntities = worldObj.getEntitiesWithinAABB(EntityLiving.class, bounds);
+		List<EntityLivingBase> allEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
-		for (EntityLiving entity : allEntities)
+		for (EntityLivingBase entity : allEntities)
 		{
 			if (this.isContagious)
 			{

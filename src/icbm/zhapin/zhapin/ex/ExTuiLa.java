@@ -38,11 +38,11 @@ public class ExTuiLa extends DaoDan
 	{
 		if (this.getID() == ZhaPin.la.getID())
 		{
-			new BzYaSuo(world, entity, x, y, z, 2f).setPushType(1).explode();
+			new BzYaSuo(world, entity, x, y, z, 2f).setDestroyItems().setPushType(1).explode();
 		}
 		else
 		{
-			new BzYaSuo(world, entity, x, y, z, 2f).setPushType(2).explode();
+			new BzYaSuo(world, entity, x, y, z, 2f).setDestroyItems().setPushType(2).explode();
 
 		}
 	}

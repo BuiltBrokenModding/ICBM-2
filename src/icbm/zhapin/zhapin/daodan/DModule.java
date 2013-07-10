@@ -10,7 +10,8 @@ public class DModule extends DaoDanTeBie
 	public DModule(String mingZi, int tier)
 	{
 		super(mingZi, tier);
-		this.hasBlock = false;	}
+		this.hasBlock = false;
+	}
 
 	@Override
 	public void createExplosion(World world, double x, double y, double z, Entity entity)

@@ -14,7 +14,6 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import universalelectricity.core.electricity.ElectricityPack;
 
 //Explosive Defuser
 public class ItJieJa extends ItElectricICBM

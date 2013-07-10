@@ -85,7 +85,7 @@ public class TextureGenZhongQi extends TextureAtlasSprite
 
 		int i;
 
-		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * (double) this.field_110976_a.size()) % this.field_110976_a.size(); i < 0; i = (i + this.field_110976_a.size()) % this.field_110976_a.size())
+		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * this.field_110976_a.size()) % this.field_110976_a.size(); i < 0; i = (i + this.field_110976_a.size()) % this.field_110976_a.size())
 		{
 			;
 		}

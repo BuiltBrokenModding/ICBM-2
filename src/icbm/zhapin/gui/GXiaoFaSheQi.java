@@ -6,8 +6,8 @@ import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.rongqi.CXiaoFaSheQi;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;

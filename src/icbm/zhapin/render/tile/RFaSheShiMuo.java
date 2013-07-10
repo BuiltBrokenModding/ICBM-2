@@ -6,8 +6,8 @@ import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo0;
 import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo1;
 import icbm.zhapin.muoxing.jiqi.MFaSheShiMuo2;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

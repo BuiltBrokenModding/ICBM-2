@@ -5,8 +5,8 @@ import icbm.zhapin.zhapin.EZhaDan;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -28,18 +28,15 @@ public class REZhaDan extends Render
 	public void doRender(Entity par1Entity, double x, double y, double z, float par8, float par9)
 	{
 		EZhaDan entityExplosive = (EZhaDan) par1Entity;
-		/*ZhaPin zhaPin = ZhaPinRegistry.get(entityExplosive.haoMa);
-
-		if (zhaPin.getBlockModel() != null)
-		{
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a((String) data[1]);
-			GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-			((MICBM) data[0]).render(entityExplosive, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
-			GL11.glPopMatrix();
-		}
-		else*/
+		/*
+		 * ZhaPin zhaPin = ZhaPinRegistry.get(entityExplosive.haoMa);
+		 * 
+		 * if (zhaPin.getBlockModel() != null) { GL11.glPushMatrix(); GL11.glTranslatef((float) x,
+		 * (float) y + 1F, (float) z);
+		 * FMLClientHandler.instance().getClient().renderEngine.func_110577_a((String) data[1]);
+		 * GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F); ((MICBM) data[0]).render(entityExplosive, (float)
+		 * x, (float) y, (float) z, par8, par9, 0.0625F); GL11.glPopMatrix(); } else
+		 */
 		{
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x, (float) y, (float) z);

@@ -10,6 +10,7 @@ import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
@@ -80,9 +81,9 @@ public class BlockRadioactive extends Block
 			if (this.isRandomlyRadioactive)
 			{
 				AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - this.radius, y - this.radius, z - this.radius, x + this.radius, y + this.radius, z + this.radius);
-				List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
+				List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
-				for (EntityLiving entity : entitiesNearby)
+				for (EntityLivingBase entity : entitiesNearby)
 				{
 					PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), entity, amplifier);
 				}

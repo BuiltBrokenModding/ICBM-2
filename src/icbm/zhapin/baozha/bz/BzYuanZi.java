@@ -6,12 +6,23 @@ import icbm.zhapin.baozha.BaoZha;
 import icbm.zhapin.baozha.thr.ThrSheXian;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import universalelectricity.core.vector.Vector3;
 
 public class BzYuanZi extends BaoZha
 {
+	public static boolean POLLUTIVE_NUCLEAR = true;
+
+	static
+	{
+		ZhuYaoICBM.CONFIGURATION.load();
+		POLLUTIVE_NUCLEAR = ZhuYaoICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Pollutive Nuclear", POLLUTIVE_NUCLEAR).getBoolean(POLLUTIVE_NUCLEAR);
+		ZhuYaoICBM.CONFIGURATION.save();
+	}
+
 	private ThrSheXian thread;
 	private float nengLiang;
 	private boolean spawnMoreParticles = false;
@@ -70,7 +81,6 @@ public class BzYuanZi extends BaoZha
 							Vector3 spawnPosition = Vector3.add(position, new Vector3(x * 2, (y - 2) * 2, z * 2));
 							float xDiff = (float) (spawnPosition.x - position.x);
 							float zDiff = (float) (spawnPosition.z - position.z);
-
 							ZhuYaoZhaPin.proxy.spawnParticle("smoke", worldObj, spawnPosition, xDiff * 0.3 * worldObj.rand.nextFloat(), -worldObj.rand.nextFloat(), zDiff * 0.3 * worldObj.rand.nextFloat(), (float) (distance / this.getRadius()) * worldObj.rand.nextFloat(), 0, 0, 8F, 1.2F);
 						}
 					}
@@ -114,12 +124,6 @@ public class BzYuanZi extends BaoZha
 		}
 		else
 		{
-			if (this.thread == null)
-			{
-				this.thread = new ThrSheXian(this.worldObj, this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
-				this.thread.run();
-			}
-
 			if (this.thread.isComplete)
 			{
 				this.controller.endExplosion();
@@ -184,5 +188,20 @@ public class BzYuanZi extends BaoZha
 	public float getEnergy()
 	{
 		return 4184000 * this.nengLiang;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		this.spawnMoreParticles = nbt.getBoolean("spawnMoreParticles");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		nbt.setBoolean("spawnMoreParticles", this.spawnMoreParticles);
+
 	}
 }

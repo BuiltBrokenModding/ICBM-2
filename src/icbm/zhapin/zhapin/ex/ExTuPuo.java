@@ -16,6 +16,7 @@ public class ExTuPuo extends DaoDan
 	public ExTuPuo(String mingZi, int tier)
 	{
 		super(mingZi, tier);
+		this.setYinXin(40);
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class ExTuPuo extends DaoDan
 	@Override
 	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		new BzTuPuo(world, entity, x, y, z, 6).explode();
+		new BzTuPuo(world, entity, x, y, z, 2.5f, 7).explode();
 	}
 
 	@Override

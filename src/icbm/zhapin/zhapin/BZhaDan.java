@@ -19,7 +19,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,6 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -315,13 +315,15 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	 * Called upon the block being destroyed by an explosion
 	 */
 	@Override
-	public void onBlockDestroyedByExplosion(World par1World, int x, int y, int z, Explosion explosion)
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion)
 	{
-		if (par1World.getBlockTileEntity(x, y, z) != null)
+		if (world.getBlockTileEntity(x, y, z) != null)
 		{
-			int explosiveID = ((TZhaDan) par1World.getBlockTileEntity(x, y, z)).haoMa;
-			BZhaDan.yinZha(par1World, x, y, z, explosiveID, 1);
+			int explosiveID = ((TZhaDan) world.getBlockTileEntity(x, y, z)).haoMa;
+			BZhaDan.yinZha(world, x, y, z, explosiveID, 1);
 		}
+
+		super.onBlockExploded(world, x, y, z, explosion);
 	}
 
 	/**

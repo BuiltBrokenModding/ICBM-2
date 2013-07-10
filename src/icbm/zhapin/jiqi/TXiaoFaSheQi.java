@@ -6,7 +6,6 @@ import icbm.api.IMissile;
 import icbm.api.LauncherType;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;

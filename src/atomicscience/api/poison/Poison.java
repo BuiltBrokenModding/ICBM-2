@@ -2,7 +2,6 @@ package atomicscience.api.poison;
 
 import java.util.EnumSet;
 
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import universalelectricity.core.vector.Vector3;
@@ -79,7 +78,7 @@ public abstract class Poison
 		}
 	}
 
-	public void poisonEntity(Vector3 emitPosition, EntityLiving entity)
+	public void poisonEntity(Vector3 emitPosition, EntityLivingBase entity)
 	{
 		this.poisonEntity(emitPosition, entity, 0);
 	}

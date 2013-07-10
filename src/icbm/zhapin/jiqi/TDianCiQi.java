@@ -5,7 +5,6 @@ import icbm.core.ZhuYaoICBM;
 import icbm.core.di.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.baozha.bz.BzDianCi;
-import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -64,11 +63,11 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	{
 		super.updateEntity();
 
-		this.electricityHandler.setMaxEnergyStored((float) Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000));
+		this.electricityHandler.setMaxEnergyStored(Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000));
 
 		if (this.ticks % 20 == 0 && this.getEnergyStored() > 0)
 		{
-			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "machinehum", 0.5F, (float) (0.85F * this.getEnergyStored() / this.getMaxEnergyStored()));
+			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "machinehum", 0.5F, 0.85F * this.getEnergyStored() / this.getMaxEnergyStored());
 		}
 
 		this.xuanZhuanLu = (float) (Math.pow(this.getEnergyStored() / this.getMaxEnergyStored(), 2) * 0.5);

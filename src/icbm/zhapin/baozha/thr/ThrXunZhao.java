@@ -10,7 +10,6 @@ public class ThrXunZhao extends ThrEx
 	public ThrXunZhao(World world, Vector3 position, int banJing, Entity source)
 	{
 		super(world, position, banJing, 0, source);
-		this.setPriority(Thread.MIN_PRIORITY);
 	}
 
 	@Override

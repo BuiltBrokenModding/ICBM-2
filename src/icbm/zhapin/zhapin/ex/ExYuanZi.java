@@ -72,7 +72,7 @@ public class ExYuanZi extends DaoDan
 		}
 		else
 		{
-			new BzYuanZi(world, entity, x, y, z, 20, 38).explode();
+			new BzYuanZi(world, entity, x, y, z, 20, 45).explode();
 		}
 	}
 

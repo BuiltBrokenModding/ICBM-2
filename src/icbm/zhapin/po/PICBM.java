@@ -1,7 +1,7 @@
 package icbm.zhapin.po;
 
 import icbm.core.ZhuYaoICBM;
-import universalelectricity.prefab.potion.CustomPotion;
+import calclavia.lib.CustomPotion;
 
 public abstract class PICBM extends CustomPotion
 {

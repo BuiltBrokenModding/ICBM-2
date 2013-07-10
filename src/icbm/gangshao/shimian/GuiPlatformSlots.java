@@ -3,8 +3,8 @@ package icbm.gangshao.shimian;
 import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.turret.TPaoDaiBase;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

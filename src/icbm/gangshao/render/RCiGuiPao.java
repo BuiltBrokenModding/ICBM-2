@@ -3,8 +3,8 @@ package icbm.gangshao.render;
 import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.muoxing.ModelRailgun;
 import icbm.gangshao.turret.mount.TCiGuiPao;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import universalelectricity.core.electricity.ElectricityPack;
 
 public class ItHuoLuanQi extends ItElectricICBM implements IItemFrequency
 {

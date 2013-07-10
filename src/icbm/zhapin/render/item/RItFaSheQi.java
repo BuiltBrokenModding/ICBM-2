@@ -4,8 +4,8 @@ import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.muoxing.jiqi.MShouFaSheQi;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;

@@ -39,11 +39,11 @@ public class ExShengBuo extends DaoDan
 	{
 		if (this.getTier() == 3)
 		{
-			new BzShengBuo(world, entity, x, y, z, 14, 20).setShockWave().explode();
+			new BzShengBuo(world, entity, x, y, z, 15, 30).setShockWave().explode();
 		}
 		else
 		{
-			new BzShengBuo(world, entity, x, y, z, 9, 10).explode();
+			new BzShengBuo(world, entity, x, y, z, 10, 25).explode();
 		}
 	}
 

@@ -2,8 +2,8 @@ package atomicscience.api.poison;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import universalelectricity.prefab.potion.CustomPotion;
 import atomicscience.api.AtomicScience;
+import calclavia.lib.CustomPotion;
 
 public class PotionRadiation extends CustomPotion
 {

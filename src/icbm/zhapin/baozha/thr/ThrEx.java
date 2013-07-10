@@ -26,7 +26,7 @@ public abstract class ThrEx extends Thread
 		this.banJing = banJing;
 		this.nengLiang = nengLiang;
 		this.source = source;
-		this.setPriority(Thread.NORM_PRIORITY - 1);
+		this.setPriority(Thread.MIN_PRIORITY);
 	}
 
 	@Override
