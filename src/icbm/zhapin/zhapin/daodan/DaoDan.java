@@ -63,7 +63,7 @@ public abstract class DaoDan extends ZhaPin
 	{
 		if (this.resourceLocation == null)
 		{
-			this.resourceLocation = new ResourceLocation(ZhuYaoICBM.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
+			this.resourceLocation = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
 		}
 
 		return this.resourceLocation;

@@ -223,7 +223,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 			this.yXiangCha = this.muBiao.y - this.kaiShi.y;
 			this.zXiangCha = this.muBiao.z - this.kaiShi.z;
 
-			// TODO: Calcualte parabola and relative out the height.
+			// TODO: Calculate parabola and relative out the height.
 			// Calculate the power required to reach the target co-ordinates
 			this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), this.muBiao.toVector2());
 			this.tianGao = 160 + (int) (this.diShangJuLi * 3);

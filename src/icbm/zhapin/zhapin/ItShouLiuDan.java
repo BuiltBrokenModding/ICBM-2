@@ -141,7 +141,7 @@ public class ItShouLiuDan extends ItICBM
 	{
 		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			if (zhaPin.getTier() <= 1)
+			if (zhaPin.hasGrenadeForm())
 			{
 				par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
 

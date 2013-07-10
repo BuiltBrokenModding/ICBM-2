@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class DFenZhiDan extends DaoDan
+public class DFenZhiDan extends DaoDanTeBie
 {
 	public DFenZhiDan(String mingZi, int tier)
 	{

@@ -5,7 +5,7 @@ import icbm.zhapin.muoxing.daodan.MMYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class DModule extends DaoDan
+public class DModule extends DaoDanTeBie
 {
 	public DModule(String mingZi, int tier)
 	{

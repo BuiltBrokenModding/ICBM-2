@@ -12,7 +12,7 @@ import net.minecraft.world.WorldServer;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 
-public class DZhuiZhong extends DaoDan
+public class DZhuiZhong extends DaoDanTeBie
 {
 	public DZhuiZhong(String mingZi, int tier)
 	{

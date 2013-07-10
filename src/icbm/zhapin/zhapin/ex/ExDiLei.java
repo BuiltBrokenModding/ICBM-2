@@ -23,6 +23,9 @@ public class ExDiLei extends ZhaPin
 	{
 		super(mingZi, tier);
 		this.setYinXin(20);
+		this.hasGrenade = false;
+		this.hasMinecart = false;
+		this.hasMissile = false;
 	}
 
 	@Override

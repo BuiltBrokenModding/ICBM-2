@@ -61,7 +61,7 @@ public class ItChe extends ItICBM
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		this.itemIcon = iconRegister.registerIcon("minecartTnt");
+		this.itemIcon = iconRegister.registerIcon("minecart_tnt");
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class ItChe extends ItICBM
 	{
 		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			if (zhaPin.getTier() <= 2)
+			if (zhaPin.hasMinecartForm())
 			{
 				par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
 

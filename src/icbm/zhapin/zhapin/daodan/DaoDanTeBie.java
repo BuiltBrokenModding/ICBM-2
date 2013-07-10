@@ -6,5 +6,7 @@ public abstract class DaoDanTeBie extends DaoDan
 	{
 		super(mingZi, tier);
 		this.hasBlock = false;
+		this.hasGrenade = false;
+		this.hasMinecart = false;
 	}
 }

@@ -8,13 +8,18 @@ import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.tile.RHZhaPin;
 
-import java.net.URL;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,9 +42,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BZhaDan extends BICBM implements ICamouflageMaterial
 {
-	public static final Icon[] ICON_TOP = new Icon[ZhaPinRegistry.getAll().size()];
-	public static final Icon[] ICON_SIDE = new Icon[ZhaPinRegistry.getAll().size()];
-	public static final Icon[] ICON_BOTTOM = new Icon[ZhaPinRegistry.getAll().size()];
+	public final Icon[] ICON_TOP = new Icon[100];
+	public final Icon[] ICON_SIDE = new Icon[100];
+	public final Icon[] ICON_BOTTOM = new Icon[100];
 
 	public BZhaDan(int id)
 	{
@@ -207,22 +212,24 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		 */
 		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			BZhaDan.ICON_TOP[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_top");
-			BZhaDan.ICON_SIDE[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_side");
-			BZhaDan.ICON_BOTTOM[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_bottom");
+			ICON_TOP[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_top");
+			ICON_SIDE[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_side");
+			ICON_BOTTOM[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_bottom");
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	public Icon getIcon(IconRegister iconRegister, ZhaPin zhaPin, String suffix)
 	{
 		String iconName = "explosive_" + zhaPin.getUnlocalizedName() + suffix;
-		String path = ZhuYaoICBM.ASSETS_PATH + ZhuYaoICBM.BLOCK_PATH + iconName + ".png";
 
 		try
 		{
-			URL url = ClassLoader.getSystemResource(path);
+			ResourceLocation resourcelocation = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.BLOCK_PATH + iconName + ".png");
+			InputStream inputstream = Minecraft.getMinecraft().func_110442_L().func_110536_a(resourcelocation).func_110527_b();
+			BufferedImage bufferedimage = ImageIO.read(inputstream);
 
-			if (url != null)
+			if (bufferedimage != null)
 			{
 				return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + iconName);
 			}

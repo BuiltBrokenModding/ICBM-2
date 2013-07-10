@@ -16,7 +16,7 @@ import universalelectricity.core.vector.Vector3;
  * @author Calclavia
  * 
  */
-public class DFanDan extends DaoDan
+public class DFanDan extends DaoDanTeBie
 {
 	public static final int ABMRange = 30;
 

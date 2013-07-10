@@ -141,13 +141,22 @@ public abstract class ZhaPin implements IExplosive
 	/** Is this explosive able to be pushed by other explosions? */
 	protected boolean isMobile = false;
 
-	protected boolean hasBlock = true;
+	protected boolean hasBlock;
+	protected boolean hasGrenade;
+	protected boolean hasMinecart;
+	protected boolean hasMissile;
 
 	protected ZhaPin(String mingZi, int tier)
 	{
 		this.mingZi = mingZi;
 		this.tier = tier;
 		this.yinXin = 100;
+
+		this.hasBlock = true;
+		this.hasMissile = true;
+		this.hasGrenade = this.tier <= 1;
+		this.hasMinecart = this.tier <= 2;
+
 		this.qiZi = FlagRegistry.registerFlag("ban_" + this.mingZi);
 		this.isDisabled = ZhuYaoICBM.CONFIGURATION.get("Disable_Explosives", "Disable " + this.mingZi, false).getBoolean(false);
 
@@ -264,6 +273,21 @@ public abstract class ZhaPin implements IExplosive
 	public Icon getIcon()
 	{
 		return null;
+	}
+
+	public boolean hasGrenadeForm()
+	{
+		return this.hasGrenade;
+	}
+
+	public boolean hasMissileForm()
+	{
+		return this.hasMissile;
+	}
+
+	public boolean hasMinecartForm()
+	{
+		return this.hasMinecart;
 	}
 
 	public boolean hasBlockForm()

@@ -42,7 +42,10 @@ public class ItDaoDan extends ItICBM
 	{
 		for (ZhaPin zhaPin : ZhaPinRegistry.getAllDaoDan())
 		{
-			par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+			if (zhaPin.hasMissileForm())
+			{
+				par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+			}
 		}
 	}
 }
