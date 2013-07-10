@@ -27,6 +27,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	protected EntityLivingBase thrower;
 
 	public int haoMa;
+	public NBTTagCompound nbtData = new NBTTagCompound();
 
 	public EShouLiuDan(World par1World)
 	{
@@ -259,21 +260,31 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	protected void readEntityFromNBT(NBTTagCompound nbt)
 	{
-		this.haoMa = par1NBTTagCompound.getInteger("haoMa");
+		this.haoMa = nbt.getInteger("haoMa");
+		this.nbtData = nbt.getCompoundTag("data");
+
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	protected void writeEntityToNBT(NBTTagCompound nbt)
 	{
-		par1NBTTagCompound.setInteger("haoMa", this.haoMa);
+		nbt.setInteger("haoMa", this.haoMa);
+		nbt.setTag("data", this.nbtData);
+
 	}
 
 	@Override
 	public IExplosive getExplosiveType()
 	{
 		return ZhaPinRegistry.get(this.haoMa);
+	}
+
+	@Override
+	public NBTTagCompound getTagCompound()
+	{
+		return this.nbtData;
 	}
 
 }

@@ -12,9 +12,14 @@ public class BzFanWuSu extends BaoZha
 {
 	private boolean destroyBedrock;
 
-	public BzFanWuSu(World world, Entity entity, double x, double y, double z, float size, boolean destroyBedrock)
+	public BzFanWuSu(World world, Entity entity, double x, double y, double z, float size)
 	{
 		super(world, entity, x, y, z, size);
+	}
+
+	public BzFanWuSu(World world, Entity entity, double x, double y, double z, float size, boolean destroyBedrock)
+	{
+		this(world, entity, x, y, z, size);
 		this.destroyBedrock = destroyBedrock;
 	}
 
@@ -77,7 +82,7 @@ public class BzFanWuSu extends BaoZha
 	}
 
 	@Override
-	public void postExplode()
+	public void doPostExplode()
 	{
 		this.doDamageEntities(this.getRadius() * 2, Integer.MAX_VALUE);
 	}

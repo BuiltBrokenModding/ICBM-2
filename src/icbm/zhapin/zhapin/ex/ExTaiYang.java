@@ -1,8 +1,11 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzTaiYang;
+import icbm.zhapin.muoxing.daodan.MMTaiYang;
 import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -11,7 +14,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExTaiYang extends ZhaPin
+public class ExTaiYang extends DaoDan
 {
 	public boolean createNetherrack = true;
 
@@ -38,5 +41,11 @@ public class ExTaiYang extends ZhaPin
 	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzTaiYang(world, entity, x, y, z, 50).explode();
+	}
+
+	@Override
+	public MICBM getMuoXing()
+	{
+		return new MMTaiYang();
 	}
 }

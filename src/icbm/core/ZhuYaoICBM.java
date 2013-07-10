@@ -148,7 +148,7 @@ public class ZhuYaoICBM
 			}
 			else
 			{
-				bFuShe = new BlockRadioactive(ZhuYaoICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive");
+				bFuShe = new BlockRadioactive(ZhuYaoICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive").func_111022_d(PREFIX + "radioactive");
 				GameRegistry.registerBlock(bFuShe, "Radioactive");
 				OreDictionary.registerOre("blockRadioactive", bFuShe);
 				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");

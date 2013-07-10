@@ -489,7 +489,8 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		return null;
 	}
 
-	public boolean interact(EntityPlayer entityPlayer)
+	@Override
+	public boolean func_130002_c(EntityPlayer entityPlayer)
 	{
 		if (((DaoDan) ZhaPinRegistry.get(this.haoMa)) != null)
 		{
@@ -788,5 +789,11 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	public boolean canBeTargeted(Object turret)
 	{
 		return this.getTicksInAir() > 0;
+	}
+
+	@Override
+	public NBTTagCompound getTagCompound()
+	{
+		return this.nbtData;
 	}
 }

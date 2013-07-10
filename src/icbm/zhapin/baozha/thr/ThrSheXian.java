@@ -19,6 +19,7 @@ public class ThrSheXian extends ThrEx
 	public ThrSheXian(World world, Vector3 position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
 	{
 		super(world, position, banJing, nengLiang, source);
+		this.callBack = callBack;
 	}
 
 	public ThrSheXian(World world, Vector3 position, int banJing, float nengLiang, Entity source)
@@ -83,10 +84,7 @@ public class ThrSheXian extends ThrEx
 
 						if (power > 0f)
 						{
-							if (!this.results.contains(targetPosition))
-							{
-								this.results.add(targetPosition.clone());
-							}
+							this.results.add(targetPosition.clone());
 						}
 					}
 

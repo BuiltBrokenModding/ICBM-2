@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -24,14 +25,19 @@ public class BzQi extends BaoZha
 	private boolean playShortSoundFX;
 	private boolean isContagious, isPoisonous, isConfuse, isMutate;
 
-	public BzQi(World world, Entity entity, double x, double y, double z, float size, int duration, boolean playShortSoundFX)
+	public BzQi(World world, Entity entity, double x, double y, double z, float size)
 	{
 		super(world, entity, x, y, z, size);
+	}
+
+	public BzQi(World world, Entity entity, double x, double y, double z, float size, int duration, boolean playShortSoundFX)
+	{
+		this(world, entity, x, y, z, size);
 		this.duration = duration / this.proceduralInterval();
 		this.playShortSoundFX = playShortSoundFX;
 	}
 
-	public BzQi setRGB(float r, float b, float g)
+	public BzQi setRGB(float r, float g, float b)
 	{
 		this.red = r;
 		this.green = g;
@@ -125,7 +131,7 @@ public class BzQi extends BaoZha
 			worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, ZhuYaoICBM.PREFIX + "gasleak", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
 		}
 
-		if (callCount > duration)
+		if (this.callCount > this.duration)
 		{
 			this.controller.endExplosion();
 		}
@@ -147,4 +153,36 @@ public class BzQi extends BaoZha
 	{
 		return 5;
 	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		this.duration = nbt.getInteger("duration");
+		this.isContagious = nbt.getBoolean("isContagious");
+		this.isPoisonous = nbt.getBoolean("isPoisonous");
+		this.isConfuse = nbt.getBoolean("isConfuse");
+		this.isMutate = nbt.getBoolean("isMutate");
+		this.red = nbt.getFloat("red");
+		this.green = nbt.getFloat("green");
+		this.blue = nbt.getFloat("blue");
+		this.playShortSoundFX = nbt.getBoolean("playShortSoundFX");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		nbt.setInteger("duration", this.duration);
+		nbt.setBoolean("isContagious", this.isContagious);
+		nbt.setBoolean("isPoisonous", this.isPoisonous);
+		nbt.setBoolean("isConfuse", this.isConfuse);
+		nbt.setBoolean("isMutate", this.isMutate);
+		nbt.setFloat("red", this.red);
+		nbt.setFloat("green", this.green);
+		nbt.setFloat("blue", this.blue);
+		nbt.setBoolean("playShortSoundFX", this.playShortSoundFX);
+
+	}
+
 }

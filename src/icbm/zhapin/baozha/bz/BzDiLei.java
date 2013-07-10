@@ -39,7 +39,7 @@ public class BzDiLei extends BaoZha
 
 			if (this.callCount >= 20 * 2 && this.callCount % 2 == 0)
 			{
-				new BzQunDan(this.worldObj, this.exploder, this.position.x, this.position.y, this.position.z, this.getRadius()).doExplode();
+				new BzQunDan(this.worldObj, this.exploder, this.position.x, this.position.y, this.position.z, this.getRadius(), true, true, false).doExplode();
 			}
 
 			if (this.callCount >= 20 * 2 + 20)

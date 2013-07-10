@@ -23,19 +23,4 @@ public interface IExplosion
 	 * life equivalent.
 	 */
 	public float getEnergy();
-
-	/**
-	 * Called before an explosion happens.
-	 */
-	public void preExplode();
-
-	/**
-	 * Called every tick when this explosive is being progressed.
-	 */
-	public void onExplode();
-
-	/**
-	 * Called after the explosion is completed.
-	 */
-	public void postExplode();
 }

@@ -17,6 +17,11 @@ public class BzWan extends BaoZha
 	public int duration = 20 * 8;
 	private Vector3 teleportTarget;
 
+	public BzWan(World world, Entity entity, double x, double y, double z, float size)
+	{
+		super(world, entity, x, y, z, size);
+	}
+
 	public BzWan(World world, Entity entity, double x, double y, double z, float size, Vector3 teleportTarget)
 	{
 		super(world, entity, x, y, z, size);
@@ -135,7 +140,7 @@ public class BzWan extends BaoZha
 	}
 
 	@Override
-	public void postExplode()
+	public void doPostExplode()
 	{
 		super.postExplode();
 

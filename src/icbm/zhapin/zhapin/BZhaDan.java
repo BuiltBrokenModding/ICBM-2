@@ -288,13 +288,23 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ExplosiveType.BLOCK, explosiveID))
 			{
 				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
 				if (tileEntity != null)
 				{
 					if (tileEntity instanceof TZhaDan)
 					{
 						((TZhaDan) tileEntity).exploding = true;
-						ZhaPinRegistry.get(explosiveID).spawnZhaDan(world, new Vector3(x, y, z), ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)), (byte) causeOfExplosion);
-						world.setBlock(x, y, z, 0, 0, 2);
+						EZhaDan eZhaDan = new EZhaDan(world, new Vector3(x, y, z).add(0.5), ((TZhaDan) tileEntity).haoMa, (byte) world.getBlockMetadata(x, y, z), ((TZhaDan) tileEntity).nbtData);
+
+						switch (causeOfExplosion)
+						{
+							case 2:
+								eZhaDan.setFire(100);
+								break;
+						}
+
+						world.spawnEntityInWorld(eZhaDan);
+						world.setBlockToAir(x, y, z);
 					}
 				}
 			}
@@ -319,24 +329,24 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	 * represent x,y,z of the block.
 	 */
 	@Override
-	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
 	{
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (par5EntityPlayer.getCurrentEquippedItem() != null)
+		if (entityPlayer.getCurrentEquippedItem() != null)
 		{
-			if (par5EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
+			if (entityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
 			{
 				int explosiveID = ((TZhaDan) tileEntity).haoMa;
-				BZhaDan.yinZha(par1World, x, y, z, explosiveID, 0);
+				BZhaDan.yinZha(world, x, y, z, explosiveID, 0);
 				return true;
 			}
-			else if (this.isUsableWrench(par5EntityPlayer, par5EntityPlayer.getCurrentEquippedItem(), x, y, z))
+			else if (this.isUsableWrench(entityPlayer, entityPlayer.getCurrentEquippedItem(), x, y, z))
 			{
 				byte change = 3;
 
 				// Reorient the block
-				switch (par1World.getBlockMetadata(x, y, z))
+				switch (world.getBlockMetadata(x, y, z))
 				{
 					case 0:
 						change = 2;
@@ -358,12 +368,17 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 						break;
 				}
 
-				par1World.setBlockMetadataWithNotify(x, y, z, ForgeDirection.getOrientation(change).ordinal(), 3);
+				world.setBlockMetadataWithNotify(x, y, z, ForgeDirection.getOrientation(change).ordinal(), 3);
 
-				par1World.notifyBlockChange(x, y, z, this.blockID);
+				world.notifyBlockChange(x, y, z, this.blockID);
 				return true;
 			}
 
+		}
+
+		if (tileEntity instanceof TZhaDan)
+		{
+			return ZhaPinRegistry.get(((TZhaDan) tileEntity).haoMa).onBlockActivated(world, x, y, z, entityPlayer, par6, par7, par8, par9);
 		}
 
 		return false;

@@ -40,10 +40,7 @@ public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
 		Vector3 coord = getLink(itemStack);
 		par3List.add("\uaa74Saved Coordinates:");
 		par3List.add("X: " + (int) coord.x + ", Y: " + (int) coord.y + ", Z: " + (int) coord.z);
-		par3List.add(new Vector3(entityPlayer).distanceTo(coord) + " Meters");
-		par3List.add("X-Distance:" + (new Vector3(entityPlayer).x - coord.x));
-		par3List.add("Y-Distance:" + (new Vector3(entityPlayer).y - coord.y));
-		par3List.add("Z-Distance:" + (new Vector3(entityPlayer).z - coord.z));
+		par3List.add((int) new Vector3(entityPlayer).distanceTo(coord) + " Meters (" + (int) (new Vector3(entityPlayer).x - coord.x) + ", " + (int) (new Vector3(entityPlayer).y - coord.y) + ", " + (int) (new Vector3(entityPlayer).z - coord.z) + ")");
 	}
 
 	/**

@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
@@ -215,5 +216,22 @@ public class BzYaSuo extends BaoZha
 	public float getEnergy()
 	{
 		return 418000;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		this.pushType = nbt.getInteger("pushType");
+		this.destroyItem = nbt.getBoolean("destroyItem");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		nbt.setInteger("pushType", this.pushType);
+		nbt.setBoolean("destroyItem", this.destroyItem);
+
 	}
 }

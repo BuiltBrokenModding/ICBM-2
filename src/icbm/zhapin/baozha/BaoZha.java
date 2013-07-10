@@ -48,10 +48,9 @@ public abstract class BaoZha extends Explosion implements IExplosion
 	/**
 	 * Called before an explosion happens.
 	 */
-	@Override
-	public void preExplode()
+	public final void preExplode()
 	{
-		PreExplosionEvent evt = new PreExplosionEvent(this);
+		PreExplosionEvent evt = new PreExplosionEvent(this.worldObj, this);
 		MinecraftForge.EVENT_BUS.post(evt);
 
 		if (!evt.isCanceled())
@@ -65,10 +64,9 @@ public abstract class BaoZha extends Explosion implements IExplosion
 	 */
 	protected abstract void doExplode();
 
-	@Override
-	public void onExplode()
+	public final void onExplode()
 	{
-		DoExplosionEvent evt = new DoExplosionEvent(this);
+		DoExplosionEvent evt = new DoExplosionEvent(this.worldObj, this);
 		MinecraftForge.EVENT_BUS.post(evt);
 
 		if (!evt.isCanceled())
@@ -85,10 +83,9 @@ public abstract class BaoZha extends Explosion implements IExplosion
 	/**
 	 * Called after the explosion is completed.
 	 */
-	@Override
-	public void postExplode()
+	public final void postExplode()
 	{
-		PostExplosionEvent evt = new PostExplosionEvent(this);
+		PostExplosionEvent evt = new PostExplosionEvent(this.worldObj, this);
 		MinecraftForge.EVENT_BUS.post(evt);
 
 		if (!evt.isCanceled())
@@ -116,7 +113,7 @@ public abstract class BaoZha extends Explosion implements IExplosion
 	@Override
 	public void explode()
 	{
-		ExplosionConstructionEvent evt = new ExplosionConstructionEvent(this);
+		ExplosionConstructionEvent evt = new ExplosionConstructionEvent(this.worldObj, this);
 		MinecraftForge.EVENT_BUS.post(evt);
 
 		if (!evt.isCanceled())
@@ -235,14 +232,16 @@ public abstract class BaoZha extends Explosion implements IExplosion
 		return false;
 	}
 
-	public void readEntityFromNBT(NBTTagCompound nbt)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
 		this.callCount = nbt.getInteger("callCount");
+		this.explosionSize = nbt.getFloat("explosionSize");
 	}
 
-	public void writeEntityToNBT(NBTTagCompound nbt)
+	public void writeToNBT(NBTTagCompound nbt)
 	{
 		nbt.setInteger("callCount", this.callCount);
+		nbt.setFloat("explosionSize", this.explosionSize);
 	}
 
 	public boolean isMovable()

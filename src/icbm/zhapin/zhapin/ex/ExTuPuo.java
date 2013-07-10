@@ -1,15 +1,17 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzTuPuo;
-import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.muoxing.daodan.MMTuPuo;
+import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExTuPuo extends ZhaPin
+public class ExTuPuo extends DaoDan
 {
 	public ExTuPuo(String mingZi, int tier)
 	{
@@ -26,5 +28,11 @@ public class ExTuPuo extends ZhaPin
 	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzTuPuo(world, entity, x, y, z, 6).explode();
+	}
+
+	@Override
+	public MICBM getMuoXing()
+	{
+		return new MMTuPuo();
 	}
 }

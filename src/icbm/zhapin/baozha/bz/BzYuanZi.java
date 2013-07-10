@@ -17,9 +17,14 @@ public class BzYuanZi extends BaoZha
 	private boolean spawnMoreParticles = false;
 	private boolean isRadioactive = false;
 
-	public BzYuanZi(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+	public BzYuanZi(World world, Entity entity, double x, double y, double z, float size)
 	{
 		super(world, entity, x, y, z, size);
+	}
+
+	public BzYuanZi(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+	{
+		this(world, entity, x, y, z, size);
 		this.nengLiang = nengLiang;
 	}
 
@@ -81,32 +86,44 @@ public class BzYuanZi extends BaoZha
 	@Override
 	public void doExplode()
 	{
-		int r = callCount;
+		int r = this.callCount;
 
-		if (this.worldObj.isRemote && ZhuYaoZhaPin.proxy.isGaoQing())
+		if (this.worldObj.isRemote)
 		{
-			for (int x = -r; x < r; x++)
+			if (ZhuYaoZhaPin.proxy.isGaoQing())
 			{
-				for (int z = -r; z < r; z++)
+				for (int x = -r; x < r; x++)
 				{
-					double distance = MathHelper.sqrt_double(x * x + z * z);
-
-					if (distance < r && distance > r - 1)
+					for (int z = -r; z < r; z++)
 					{
-						Vector3 targetPosition = Vector3.add(this.position, new Vector3(x, 0, z));
+						double distance = MathHelper.sqrt_double(x * x + z * z);
 
-						if (this.worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.05))
+						if (distance < r && distance > r - 1)
 						{
-							ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj, targetPosition, 5F, 1F);
+							Vector3 targetPosition = Vector3.add(this.position, new Vector3(x, 0, z));
+
+							if (this.worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.05))
+							{
+								ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj, targetPosition, 5F, 1F);
+							}
 						}
 					}
 				}
 			}
-		}
 
-		if (this.thread.isComplete)
+		}
+		else
 		{
-			this.controller.endExplosion();
+			if (this.thread == null)
+			{
+				this.thread = new ThrSheXian(this.worldObj, this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
+				this.thread.run();
+			}
+
+			if (this.thread.isComplete)
+			{
+				this.controller.endExplosion();
+			}
 		}
 	}
 

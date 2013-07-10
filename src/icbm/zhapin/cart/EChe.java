@@ -3,7 +3,6 @@ package icbm.zhapin.cart;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityMinecartTNT;
@@ -13,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -23,6 +21,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 public class EChe extends EntityMinecartTNT implements IExplosiveContainer, IEntityAdditionalSpawnData
 {
 	public int haoMa = 0;
+	public NBTTagCompound nbtData = new NBTTagCompound();
 
 	public EChe(World par1World)
 	{
@@ -101,17 +100,21 @@ public class EChe extends EntityMinecartTNT implements IExplosiveContainer, IEnt
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	protected void writeEntityToNBT(NBTTagCompound nbt)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("haoMa", this.haoMa);
+		super.writeEntityToNBT(nbt);
+		nbt.setInteger("haoMa", this.haoMa);
+		this.nbtData = nbt.getCompoundTag("data");
+
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	protected void readEntityFromNBT(NBTTagCompound nbt)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		this.haoMa = par1NBTTagCompound.getInteger("haoMa");
+		super.readEntityFromNBT(nbt);
+		this.haoMa = nbt.getInteger("haoMa");
+		nbt.setTag("data", this.nbtData);
+
 	}
 
 	@Override
@@ -130,6 +133,12 @@ public class EChe extends EntityMinecartTNT implements IExplosiveContainer, IEnt
 	public int getDefaultDisplayTileData()
 	{
 		return this.haoMa;
+	}
+
+	@Override
+	public NBTTagCompound getTagCompound()
+	{
+		return this.nbtData;
 	}
 
 }

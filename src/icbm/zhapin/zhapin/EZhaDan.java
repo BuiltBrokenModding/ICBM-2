@@ -24,9 +24,9 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	// The ID of the explosive
 	public int haoMa = 0;
 
-	private int metadata = -1;
-
 	private byte orientation = 3;
+
+	public NBTTagCompound nbtData = new NBTTagCompound();
 
 	public EZhaDan(World par1World)
 	{
@@ -55,10 +55,10 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		ZhaPinRegistry.get(explosiveID).yinZhaQian(par1World, this);
 	}
 
-	public EZhaDan(World par1World, Vector3 position, int explosiveID, byte orientation, int metadata)
+	public EZhaDan(World par1World, Vector3 position, int explosiveID, byte orientation, NBTTagCompound nbtData)
 	{
 		this(par1World, position, orientation, explosiveID);
-		this.metadata = metadata;
+		this.nbtData = nbtData;
 	}
 
 	@Override
@@ -114,31 +114,26 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		this.setDead();
 	}
 
-	public void destroyedByExplosion()
-	{
-		this.fuse = ZhaPinRegistry.get(this.haoMa).onBeiZha();
-	}
-
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	protected void readEntityFromNBT(NBTTagCompound nbt)
 	{
-		this.fuse = par1NBTTagCompound.getByte("Fuse");
-		this.metadata = par1NBTTagCompound.getInteger("metadata");
-		this.haoMa = par1NBTTagCompound.getInteger("explosiveID");
+		this.fuse = nbt.getByte("Fuse");
+		this.haoMa = nbt.getInteger("explosiveID");
+		this.nbtData = nbt.getCompoundTag("data");
 	}
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	protected void writeEntityToNBT(NBTTagCompound nbt)
 	{
-		par1NBTTagCompound.setByte("Fuse", (byte) this.fuse);
-		par1NBTTagCompound.setInteger("metadata", this.metadata);
-		par1NBTTagCompound.setInteger("explosiveID", this.haoMa);
+		nbt.setByte("Fuse", (byte) this.fuse);
+		nbt.setInteger("explosiveID", this.haoMa);
+		nbt.setTag("data", this.nbtData);
 	}
 
 	@Override
@@ -198,7 +193,6 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		data.writeInt(this.haoMa);
 		data.writeInt(this.fuse);
 		data.writeByte(this.orientation);
-		data.writeInt(this.metadata);
 	}
 
 	@Override
@@ -207,12 +201,17 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		this.haoMa = data.readInt();
 		this.fuse = data.readInt();
 		this.orientation = data.readByte();
-		this.metadata = data.readInt();
 	}
 
 	@Override
 	public IExplosive getExplosiveType()
 	{
 		return ZhaPinRegistry.get(this.haoMa);
+	}
+
+	@Override
+	public NBTTagCompound getTagCompound()
+	{
+		return this.nbtData;
 	}
 }

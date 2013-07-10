@@ -1,14 +1,16 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzHongSu;
-import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.muoxing.daodan.MMHongSu;
+import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExHongSu extends ZhaPin
+public class ExHongSu extends DaoDan
 {
 	public ExHongSu(String mingZi, int tier)
 	{
@@ -25,6 +27,12 @@ public class ExHongSu extends ZhaPin
 	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzHongSu(world, entity, x, y, z, 35).explode();
+	}
+
+	@Override
+	public MICBM getMuoXing()
+	{
+		return new MMHongSu();
 	}
 
 }

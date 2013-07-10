@@ -65,13 +65,20 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 
 			if (tileEntity instanceof TZhaDan)
 			{
+				// TODO: Fix this.
 				ZhaPin zhaPin = ZhaPinRegistry.get(((TZhaDan) tileEntity).haoMa);
 
 				if (zhaPin.getBlockModel() != null && zhaPin.getBlockResource() != null)
 				{
+					GL11.glPushMatrix();
+					GL11.glTranslatef(x, y, z);
+					GL11.glTranslatef(0.0F, 1.5F, 0.0F);
+					GL11.glRotatef(180f, 0f, 0f, 1f);
 					FMLClientHandler.instance().getClient().renderEngine.func_110577_a(zhaPin.getBlockResource());
 					zhaPin.getBlockModel().render(0.0625f);
-					return false;
+					CalclaviaRenderHelper.setTerrainTexture();
+					GL11.glPopMatrix();
+					return true;
 				}
 				else
 				{

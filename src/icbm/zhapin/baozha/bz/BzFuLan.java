@@ -13,9 +13,14 @@ public class BzFuLan extends BaoZha
 	private ThrSheXian thread;
 	private float nengLiang;
 
-	public BzFuLan(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+	public BzFuLan(World world, Entity entity, double x, double y, double z, float size)
 	{
 		super(world, entity, x, y, z, size);
+	}
+
+	public BzFuLan(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+	{
+		this(world, entity, x, y, z, size);
 		this.nengLiang = nengLiang;
 	}
 

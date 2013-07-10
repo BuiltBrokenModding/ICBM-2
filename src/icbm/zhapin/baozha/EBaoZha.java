@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -26,8 +27,6 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 
 	private boolean endExplosion = false;
 
-	private boolean isMobile = false;
-
 	public EBaoZha(World par1World)
 	{
 		super(par1World);
@@ -36,13 +35,13 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 		this.yOffset = this.height / 2.0F;
 		this.renderDistanceWeight = 2f;
 		this.ignoreFrustumCheck = true;
+		this.ticksExisted = 0;
 	}
 
 	public EBaoZha(BaoZha baoZha)
 	{
 		this(baoZha.worldObj);
 		this.baoZha = baoZha;
-		this.isMobile = baoZha.isMovable();
 		this.setPosition(baoZha.position.x, baoZha.position.y, baoZha.position.z);
 	}
 
@@ -55,13 +54,29 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data)
 	{
-		data.writeBoolean(this.isMobile);
+		try
+		{
+			NBTTagCompound nbt = new NBTTagCompound();
+			this.writeEntityToNBT(nbt);
+			PacketManager.writeNBTTagCompound(nbt, data);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
-		this.isMobile = data.readBoolean();
+		try
+		{
+			this.readEntityFromNBT(PacketManager.readNBTTagCompound(data));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -94,37 +109,37 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
-		/*
-		 * if (!this.worldObj.isRemote) { if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new
-		 * Vector3(this), ZhaPinType.ZHA_DAN, 0)) { this.setDead(); return; } }
-		 */
+		if (this.baoZha == null)
+		{
+			this.setDead();
+			ZhuYaoICBM.LOGGER.severe("Procedural explosion ended due to null! This is a bug!");
+			return;
+		}
 
-		if (this.isMobile && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))
+		this.baoZha.controller = this;
+		this.baoZha.position = new Vector3(this);
+
+		if (this.baoZha.isMovable() && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))
 		{
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 		}
 
-		this.baoZha.position = new Vector3(this);
-
 		if (this.ticksExisted == 1)
 		{
-			this.baoZha.doPreExplode();
+			this.baoZha.preExplode();
 		}
-
-		if (this.ticksExisted % this.baoZha.proceduralInterval() == 0)
+		else if (this.ticksExisted % this.baoZha.proceduralInterval() == 0)
 		{
 			if (!this.endExplosion)
 			{
-				this.baoZha.explode();
+				this.baoZha.onExplode();
 			}
 			else
 			{
-				this.baoZha.doPostExplode();
+				this.baoZha.postExplode();
 				this.setDead();
 			}
 		}
-
-		this.ticksExisted++;
 	}
 
 	public void endExplosion()
@@ -145,11 +160,11 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 			if (this.baoZha == null)
 			{
 				Class clazz = Class.forName(baoZhaNBT.getString("class"));
-				Constructor constructor = clazz.getConstructor(World.class, Entity.class, Double.class, Double.class, Double.class, Float.class);
-				this.baoZha = (BaoZha) constructor.newInstance(this.worldObj, null, this.posX, this.posY, this.posZ);
+				Constructor constructor = clazz.getConstructor(World.class, Entity.class, double.class, double.class, double.class, float.class);
+				this.baoZha = (BaoZha) constructor.newInstance(this.worldObj, null, this.posX, this.posY, this.posZ, 0);
 			}
 
-			this.baoZha.readEntityFromNBT(baoZhaNBT);
+			this.baoZha.readFromNBT(baoZhaNBT);
 		}
 		catch (Exception e)
 		{
@@ -157,8 +172,7 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 			e.printStackTrace();
 		}
 
-		this.isMobile = nbt.getBoolean("isMobile");
-		this.ticksExisted = nbt.getInteger("ticksExisted");
+		// this.ticksExisted = nbt.getInteger("ticksExisted");
 	}
 
 	/**
@@ -169,10 +183,10 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 	{
 		NBTTagCompound baoZhaNBT = new NBTTagCompound();
 		baoZhaNBT.setString("class", this.baoZha.getClass().getCanonicalName());
-		this.baoZha.writeEntityToNBT(baoZhaNBT);
+		this.baoZha.writeToNBT(baoZhaNBT);
+		nbt.setCompoundTag("baoZha", baoZhaNBT);
 
-		nbt.setBoolean("isMobile", this.isMobile);
-		nbt.setInteger("ticksExisted", this.ticksExisted);
+		// nbt.setInteger("ticksExisted", this.ticksExisted);
 	}
 
 	@Override

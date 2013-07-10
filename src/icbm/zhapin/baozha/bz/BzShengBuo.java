@@ -29,9 +29,14 @@ public class BzShengBuo extends BaoZha
 	private ThrSheXian thread;
 	private boolean hasShockWave = false;;
 
-	public BzShengBuo(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+	public BzShengBuo(World world, Entity entity, double x, double y, double z, float size)
 	{
 		super(world, entity, x, y, z, size);
+	}
+
+	public BzShengBuo(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+	{
+		this(world, entity, x, y, z, size);
 		this.nengLiang = nengLiang;
 	}
 

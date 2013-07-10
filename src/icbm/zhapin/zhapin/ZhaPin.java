@@ -296,39 +296,6 @@ public abstract class ZhaPin implements IExplosive
 	}
 
 	/**
-	 * Spawns an explosive (TNT form) in the world
-	 * 
-	 * @param worldObj
-	 * @param position
-	 * @param cause - 0: N/A, 1: Destruction, 2: Fire
-	 */
-	public void spawnZhaDan(World worldObj, Vector3 position, ForgeDirection orientation, byte cause)
-	{
-		if (!this.isDisabled)
-		{
-			position.add(0.5D);
-			EZhaDan eZhaDan = new EZhaDan(worldObj, position, (byte) orientation.ordinal(), this.getID());
-
-			switch (cause)
-			{
-				case 1:
-					eZhaDan.destroyedByExplosion();
-					break;
-				case 2:
-					eZhaDan.setFire(10);
-					break;
-			}
-
-			worldObj.spawnEntityInWorld(eZhaDan);
-		}
-	}
-
-	public void spawnZhaDan(World worldObj, Vector3 position, byte orientation)
-	{
-		this.spawnZhaDan(worldObj, position, ForgeDirection.getOrientation(orientation), (byte) 0);
-	}
-
-	/**
 	 * Called to add the recipe for this explosive
 	 */
 	public void init()

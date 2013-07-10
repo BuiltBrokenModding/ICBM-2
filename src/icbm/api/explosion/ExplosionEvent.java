@@ -20,11 +20,22 @@ public class ExplosionEvent extends Event
 	 * The explosion object. Can be cast into {@link Explosion}. This event can be canceled to
 	 * prevent a specific part of an explosion from being executed.
 	 */
-	public IExplosion explosion;
+	public World world;
+	public double x, y, z;
+	public IExplosion iExplosion;
 
-	public ExplosionEvent(IExplosion explosion)
+	/**
+	 * Pre-cast explosion class.
+	 */
+	public Explosion explosion;
+
+	public ExplosionEvent(World world, IExplosion iExplosion)
 	{
-		this.explosion = explosion;
+		this.world = world;
+		this.iExplosion = iExplosion;
+		this.x = ((Explosion) iExplosion).explosionX;
+		this.y = ((Explosion) iExplosion).explosionY;
+		this.z = ((Explosion) iExplosion).explosionZ;
 	}
 
 	/**
@@ -69,9 +80,9 @@ public class ExplosionEvent extends Event
 	 */
 	public static class ExplosionConstructionEvent extends ExplosionEvent
 	{
-		public ExplosionConstructionEvent(IExplosion explosion)
+		public ExplosionConstructionEvent(World world, IExplosion explosion)
 		{
-			super(explosion);
+			super(world, explosion);
 		}
 	}
 
@@ -83,9 +94,9 @@ public class ExplosionEvent extends Event
 	 */
 	public static class PreExplosionEvent extends ExplosionEvent
 	{
-		public PreExplosionEvent(IExplosion explosion)
+		public PreExplosionEvent(World world, IExplosion explosion)
 		{
-			super(explosion);
+			super(world, explosion);
 		}
 	}
 
@@ -98,9 +109,9 @@ public class ExplosionEvent extends Event
 	 */
 	public static class DoExplosionEvent extends ExplosionEvent
 	{
-		public DoExplosionEvent(IExplosion explosion)
+		public DoExplosionEvent(World world, IExplosion explosion)
 		{
-			super(explosion);
+			super(world, explosion);
 		}
 	}
 
@@ -112,9 +123,9 @@ public class ExplosionEvent extends Event
 	 */
 	public static class PostExplosionEvent extends ExplosionEvent
 	{
-		public PostExplosionEvent(IExplosion explosion)
+		public PostExplosionEvent(World world, IExplosion explosion)
 		{
-			super(explosion);
+			super(world, explosion);
 		}
 	}
 }

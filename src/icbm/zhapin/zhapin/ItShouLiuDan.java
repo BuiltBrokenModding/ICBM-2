@@ -111,7 +111,7 @@ public class ItShouLiuDan extends ItICBM
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return ZhaPinRegistry.get(itemstack.getItemDamage()).getUnlocalizedName();
+		return this.getUnlocalizedName() + "." + ZhaPinRegistry.get(itemstack.getItemDamage()).getUnlocalizedName();
 	}
 
 	@Override

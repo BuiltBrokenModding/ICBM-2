@@ -103,4 +103,10 @@ public class TZhaDan extends TileEntity implements IExplosiveContainer, IPacketR
 	{
 		return ZhaPinRegistry.get(this.haoMa);
 	}
+
+	@Override
+	public NBTTagCompound getTagCompound()
+	{
+		return this.nbtData;
+	}
 }

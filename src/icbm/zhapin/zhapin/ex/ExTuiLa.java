@@ -1,14 +1,18 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzYaSuo;
+import icbm.zhapin.muoxing.daodan.MMLa;
+import icbm.zhapin.muoxing.daodan.MMTui;
 import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExTuiLa extends ZhaPin
+public class ExTuiLa extends DaoDan
 {
 	public ExTuiLa(String mingZi, int tier)
 	{
@@ -40,6 +44,19 @@ public class ExTuiLa extends ZhaPin
 		{
 			new BzYaSuo(world, entity, x, y, z, 2f).setPushType(2).explode();
 
+		}
+	}
+
+	@Override
+	public MICBM getMuoXing()
+	{
+		if (this.getID() == ZhaPin.la.getID())
+		{
+			return new MMLa();
+		}
+		else
+		{
+			return new MMTui();
 		}
 	}
 }

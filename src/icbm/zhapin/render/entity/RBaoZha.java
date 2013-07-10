@@ -32,160 +32,162 @@ public class RBaoZha extends Render
 	{
 		EBaoZha eZhaPin = (EBaoZha) entity;
 
-		// RedM atter Render
-		if (eZhaPin.baoZha instanceof BzHongSu)
+		if (eZhaPin.baoZha != null)
 		{
-			Tessellator tessellator = Tessellator.instance;
-
-			/**
-			 * Draw Sphere
-			 */
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x, (float) y, (float) z);
-
-			CalclaviaRenderHelper.enableBlending();
-			CalclaviaRenderHelper.disableLighting();
-
-			GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.9f);
-
-			Sphere sphere = new Sphere();
-			sphere.draw(5, 32, 32);
-
-			// Enable Lighting/Glow Off
-			CalclaviaRenderHelper.enableLighting();
-
-			// Disable Blending
-			CalclaviaRenderHelper.disableBlending();
-			GL11.glPopMatrix();
-
-			/**
-			 * Draw Vortex
-			 */
-			GL11.glPushMatrix();
-			GL11.glDepthMask(false);
-
-			CalclaviaRenderHelper.enableBlending();
-			CalclaviaRenderHelper.disableLighting();
-
-			GL11.glTranslated(x, y, z);
-			GL11.glRotatef(entity.ticksExisted, 0, 1, 0);
-
-			float size = 10;
-
-			float f1 = ActiveRenderInfo.rotationX;
-			float f2 = ActiveRenderInfo.rotationXZ;
-			float f3 = ActiveRenderInfo.rotationZ;
-			float f4 = ActiveRenderInfo.rotationYZ;
-			float f5 = ActiveRenderInfo.rotationXY;
-
-			float f10 = 1.0F;
-
-			int textureSize = 50;
-			float size4 = size * 5;
-			float float_sizeMinus0_01 = textureSize - 0.01F;
-
-			float x0 = (textureSize + 0.0F) / size4;
-			float x1 = (textureSize + float_sizeMinus0_01) / size4;
-			float x2 = (textureSize + 0.0F) / size4;
-			float x3 = (textureSize + float_sizeMinus0_01) / size4;
-
-			float renderX = (float) x;
-			float renderY = (float) y;
-			float renderZ = (float) z;
-
-			this.func_110776_a(TEXTURE_FILE);
-			tessellator.startDrawingQuads();
-			tessellator.setBrightness(240);
-			tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);
-			tessellator.addVertexWithUV(-size, 0, -size, x1, x3);
-			tessellator.addVertexWithUV(-size, 0, +size, x1, x2);
-			tessellator.addVertexWithUV(+size, 0, +size, x0, x2);
-			tessellator.addVertexWithUV(+size, 0, -size, x0, x3);
-			tessellator.draw();
-
-			// Enable Lighting/Glow Off
-			CalclaviaRenderHelper.enableLighting();
-
-			// Disable Blending
-			CalclaviaRenderHelper.disableBlending();
-
-			GL11.glDepthMask(true);
-			GL11.glPopMatrix();
-
-			/**
-			 * Enderdragon Light
-			 */
-			float par2 = (entity.ticksExisted);
-
-			while (par2 > 200)
-				par2 -= 100;
-
-			RenderHelper.disableStandardItemLighting();
-			float var41 = (5 + par2) / 200.0F;
-			float var51 = 0.0F;
-
-			if (var41 > 0.8F)
+			// RedM atter Render
+			if (eZhaPin.baoZha instanceof BzHongSu)
 			{
-				var51 = (var41 - 0.8F) / 0.2F;
-			}
+				Tessellator tessellator = Tessellator.instance;
 
-			Random rand = new Random(432L);
-
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x, (float) y, (float) z);
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			GL11.glEnable(GL11.GL_CULL_FACE);
-			GL11.glDepthMask(false);
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0.0F, -1.0F, -2.0F);
-
-			for (int i1 = 0; i1 < (var41 + var41 * var41) / 2.0F * 60.0F; ++i1)
-			{
-				GL11.glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-				GL11.glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-				GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(rand.nextFloat() * 360.0F + var41 * 90.0F, 0.0F, 0.0F, 1.0F);
-				tessellator.startDrawing(6);
-				float var81 = rand.nextFloat() * 20.0F + 5.0F + var51 * 10.0F;
-				float var91 = rand.nextFloat() * 2.0F + 1.0F + var51 * 2.0F;
-				tessellator.setColorRGBA_I(16777215, (int) (255.0F * (1.0F - var51)));
-				tessellator.addVertex(0.0D, 0.0D, 0.0D);
-				tessellator.setColorRGBA_I(0, 0);
-				tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
-				tessellator.addVertex(0.866D * var91, var81, -0.5F * var91);
-				tessellator.addVertex(0.0D, var81, 1.0F * var91);
-				tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
-				tessellator.draw();
-			}
-
-			GL11.glPopMatrix();
-			GL11.glDepthMask(true);
-			GL11.glDisable(GL11.GL_CULL_FACE);
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glShadeModel(GL11.GL_FLAT);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_ALPHA_TEST);
-			RenderHelper.enableStandardItemLighting();
-			GL11.glPopMatrix();
-		}
-		else
-		{
-
-			if (eZhaPin.baoZha.getRenderModel() != null && eZhaPin.baoZha.getRenderResource() != null)
-			{
+				/**
+				 * Draw Sphere
+				 */
 				GL11.glPushMatrix();
-				GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
-				GL11.glRotatef(eZhaPin.rotationPitch, 0.0F, 0.0F, 1.0F);
-				this.func_110776_a(eZhaPin.baoZha.getRenderResource());
-				eZhaPin.baoZha.getRenderModel().render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
+				GL11.glTranslatef((float) x, (float) y, (float) z);
+
+				CalclaviaRenderHelper.enableBlending();
+				CalclaviaRenderHelper.disableLighting();
+
+				GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.9f);
+
+				Sphere sphere = new Sphere();
+				sphere.draw(5, 32, 32);
+
+				// Enable Lighting/Glow Off
+				CalclaviaRenderHelper.enableLighting();
+
+				// Disable Blending
+				CalclaviaRenderHelper.disableBlending();
 				GL11.glPopMatrix();
+
+				/**
+				 * Draw Vortex
+				 */
+				GL11.glPushMatrix();
+				GL11.glDepthMask(false);
+
+				CalclaviaRenderHelper.enableBlending();
+				CalclaviaRenderHelper.disableLighting();
+
+				GL11.glTranslated(x, y, z);
+				GL11.glRotatef(entity.ticksExisted, 0, 1, 0);
+
+				float size = 10;
+
+				float f1 = ActiveRenderInfo.rotationX;
+				float f2 = ActiveRenderInfo.rotationXZ;
+				float f3 = ActiveRenderInfo.rotationZ;
+				float f4 = ActiveRenderInfo.rotationYZ;
+				float f5 = ActiveRenderInfo.rotationXY;
+
+				float f10 = 1.0F;
+
+				int textureSize = 50;
+				float size4 = size * 5;
+				float float_sizeMinus0_01 = textureSize - 0.01F;
+
+				float x0 = (textureSize + 0.0F) / size4;
+				float x1 = (textureSize + float_sizeMinus0_01) / size4;
+				float x2 = (textureSize + 0.0F) / size4;
+				float x3 = (textureSize + float_sizeMinus0_01) / size4;
+
+				float renderX = (float) x;
+				float renderY = (float) y;
+				float renderZ = (float) z;
+
+				this.func_110776_a(TEXTURE_FILE);
+				tessellator.startDrawingQuads();
+				tessellator.setBrightness(240);
+				tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);
+				tessellator.addVertexWithUV(-size, 0, -size, x1, x3);
+				tessellator.addVertexWithUV(-size, 0, +size, x1, x2);
+				tessellator.addVertexWithUV(+size, 0, +size, x0, x2);
+				tessellator.addVertexWithUV(+size, 0, -size, x0, x3);
+				tessellator.draw();
+
+				// Enable Lighting/Glow Off
+				CalclaviaRenderHelper.enableLighting();
+
+				// Disable Blending
+				CalclaviaRenderHelper.disableBlending();
+
+				GL11.glDepthMask(true);
+				GL11.glPopMatrix();
+
+				/**
+				 * Enderdragon Light
+				 */
+				float par2 = (entity.ticksExisted);
+
+				while (par2 > 200)
+					par2 -= 100;
+
+				RenderHelper.disableStandardItemLighting();
+				float var41 = (5 + par2) / 200.0F;
+				float var51 = 0.0F;
+
+				if (var41 > 0.8F)
+				{
+					var51 = (var41 - 0.8F) / 0.2F;
+				}
+
+				Random rand = new Random(432L);
+
+				GL11.glPushMatrix();
+				GL11.glTranslatef((float) x, (float) y, (float) z);
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+				GL11.glDisable(GL11.GL_ALPHA_TEST);
+				GL11.glEnable(GL11.GL_CULL_FACE);
+				GL11.glDepthMask(false);
+				GL11.glPushMatrix();
+				GL11.glTranslatef(0.0F, -1.0F, -2.0F);
+
+				for (int i1 = 0; i1 < (var41 + var41 * var41) / 2.0F * 60.0F; ++i1)
+				{
+					GL11.glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+					GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+					GL11.glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+					GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(rand.nextFloat() * 360.0F + var41 * 90.0F, 0.0F, 0.0F, 1.0F);
+					tessellator.startDrawing(6);
+					float var81 = rand.nextFloat() * 20.0F + 5.0F + var51 * 10.0F;
+					float var91 = rand.nextFloat() * 2.0F + 1.0F + var51 * 2.0F;
+					tessellator.setColorRGBA_I(16777215, (int) (255.0F * (1.0F - var51)));
+					tessellator.addVertex(0.0D, 0.0D, 0.0D);
+					tessellator.setColorRGBA_I(0, 0);
+					tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
+					tessellator.addVertex(0.866D * var91, var81, -0.5F * var91);
+					tessellator.addVertex(0.0D, var81, 1.0F * var91);
+					tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
+					tessellator.draw();
+				}
+
+				GL11.glPopMatrix();
+				GL11.glDepthMask(true);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glDisable(GL11.GL_BLEND);
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				GL11.glEnable(GL11.GL_ALPHA_TEST);
+				RenderHelper.enableStandardItemLighting();
+				GL11.glPopMatrix();
+			}
+			else
+			{
+				if (eZhaPin.baoZha.getRenderModel() != null && eZhaPin.baoZha.getRenderResource() != null)
+				{
+					GL11.glPushMatrix();
+					GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
+					GL11.glRotatef(eZhaPin.rotationPitch, 0.0F, 0.0F, 1.0F);
+					this.func_110776_a(eZhaPin.baoZha.getRenderResource());
+					eZhaPin.baoZha.getRenderModel().render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
+					GL11.glPopMatrix();
+				}
 			}
 		}
 	}
