@@ -2,6 +2,7 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
+import icbm.core.di.IRedstoneReceptor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
@@ -9,7 +10,7 @@ import calclavia.lib.TileEntityUniversalElectrical;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral
+public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral, IRedstoneReceptor
 {
 	protected Vector3 muBiao = null;
 

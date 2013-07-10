@@ -4,10 +4,12 @@ import icbm.core.ZhuYaoICBM;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import calclavia.lib.render.CalclaviaRenderHelper;
 import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -16,6 +18,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class FXFanWuSu extends EntityFX
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.TEXTURE_PATH + "antimatter.png");
+
 	float antimatterParticleScale;
 
 	public FXFanWuSu(World par1World, Vector3 position, double par8, double par10, double par12, double distance)
@@ -59,7 +63,7 @@ public class FXFanWuSu extends EntityFX
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 1);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(ZhuYaoICBM.TEXTURE_PATH + "antimatter.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 
@@ -84,7 +88,7 @@ public class FXFanWuSu extends EntityFX
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
-		GL11.glBindTexture(3553, FMLClientHandler.instance().getClient().renderEngine.getTexture(ZhuYaoICBM.TEXTURE_PATH + "antimatter.png"));
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(CalclaviaRenderHelper.PARTICLE_RESOURCE);
 
 		tessellator.startDrawingQuads();
 	}

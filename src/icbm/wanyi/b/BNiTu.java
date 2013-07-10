@@ -48,8 +48,8 @@ public class BNiTu extends BICBM implements IAntiPoisonBlock
 	{
 		super.registerIcons(iconRegister);
 
-		this.iconCompact = iconRegister.registerIcon(this.getUnlocalizedName2() + "Compact");
-		this.iconReinforced = iconRegister.registerIcon(this.getUnlocalizedName2() + "Reinforced");
+		this.iconCompact = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Compact");
+		this.iconReinforced = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Reinforced");
 
 	}
 

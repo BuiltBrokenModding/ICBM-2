@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -78,7 +78,7 @@ public class BJiQi extends BICBM
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving par5EntityLiving, ItemStack itemStack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase par5EntityLiving, ItemStack itemStack)
 	{
 		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
@@ -91,16 +91,16 @@ public class BJiQi extends BICBM
 			switch (angle)
 			{
 				case 0:
-					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(3));
+					rotatableEntity.setDirection(ForgeDirection.getOrientation(3));
 					break;
 				case 1:
-					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(4));
+					rotatableEntity.setDirection(ForgeDirection.getOrientation(4));
 					break;
 				case 2:
-					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(2));
+					rotatableEntity.setDirection(ForgeDirection.getOrientation(2));
 					break;
 				case 3:
-					rotatableEntity.setDirection(world, x, y, z, ForgeDirection.getOrientation(5));
+					rotatableEntity.setDirection(ForgeDirection.getOrientation(5));
 					break;
 			}
 		}
@@ -165,7 +165,7 @@ public class BJiQi extends BICBM
 
 		if (tileEntity instanceof IRotatable)
 		{
-			direction = ((IRotatable) tileEntity).getDirection(world, x, y, z).ordinal();
+			direction = ((IRotatable) tileEntity).getDirection().ordinal();
 		}
 
 		return canBePlacedAt(world, x, y, z, world.getBlockMetadata(x, y, z), direction);

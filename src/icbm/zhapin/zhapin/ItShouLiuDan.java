@@ -139,11 +139,12 @@ public class ItShouLiuDan extends ItICBM
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < ZhaPinRegistry.getAllZhaPin().size(); i++)
+		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			if (ZhaPinRegistry.get(i).getTier() == 1)
+			if (zhaPin.getTier() <= 1)
 			{
-				par3List.add(new ItemStack(this, 1, i));
+				par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+
 			}
 		}
 	}

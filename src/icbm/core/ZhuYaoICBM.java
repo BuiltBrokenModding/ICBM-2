@@ -72,14 +72,14 @@ public class ZhuYaoICBM
 	public static final String DOMAIN = "icbm";
 	public static final String PREFIX = DOMAIN + ":";
 
-	public static final String RESOURCE_PATH = "/assets/icbm/";
+	public static final String ASSETS_PATH = "/assets/icbm/";
 	public static final String TEXTURE_PATH = "textures/";
 	public static final String GUI_PATH = TEXTURE_PATH + "gui/";
 	public static final String MODEL_PATH = TEXTURE_PATH + "models/";
 	public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
 	public static final String ITEM_PATH = TEXTURE_PATH + "items/";
 
-	public static final String YU_YAN_PATH = RESOURCE_PATH + "yuyan/";
+	public static final String YU_YAN_PATH = ASSETS_PATH + "yuyan/";
 
 	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
 

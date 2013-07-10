@@ -25,7 +25,7 @@ public class BEnNiu extends BlockButton
 	@Override
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.blockIcon = par1IconRegister.registerIcon(this.getUnlocalizedName2());
+		this.blockIcon = par1IconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", ""));
 	}
 
 	@Override

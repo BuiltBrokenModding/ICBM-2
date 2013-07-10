@@ -7,6 +7,8 @@ import icbm.api.ITier;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
+import icbm.zhapin.zhapin.daodan.DaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ItDaoDan;
 import net.minecraft.entity.Entity;
@@ -178,7 +180,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 				if (tileEntity instanceof TFaSheJia)
 				{
 					this.jiaZi = (TFaSheJia) tileEntity;
-					this.jiaZi.setDirection(this.worldObj, this.xCoord, this.yCoord, this.zCoord, VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
+					this.jiaZi.setDirection(VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
 				}
 			}
 		}
@@ -226,7 +228,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		}
 	}
 
-	private void setMissile()
+	public void setMissile()
 	{
 		if (!this.worldObj.isRemote)
 		{
@@ -238,19 +240,20 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 
 					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
 					{
-						if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan)
-						{
-							haoMa += 100;
-						}
-
 						if (this.daoDan == null)
 						{
-							Vector3 position = new Vector3((this.xCoord + 0.5F), (this.yCoord + 2), (this.zCoord + 0.5F));
-							this.daoDan = new EDaoDan(this.worldObj, position, new Vector3(this), haoMa);
-							this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
-							return;
+							DaoDan missile = (DaoDan) ZhaPinRegistry.get(haoMa);
+
+							if (missile.isCruise() && missile.getTier() <= 3)
+							{
+								Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
+								this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
+								this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
+								return;
+							}
 						}
-						else if (this.daoDan.getExplosiveType() != null)
+
+						if (this.daoDan != null)
 						{
 							if (this.daoDan.getExplosiveType().getID() == haoMa)
 							{
@@ -525,13 +528,13 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	}
 
 	@Override
-	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
+	public ForgeDirection getDirection()
 	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
+	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.orientation = (byte) facingDirection.ordinal();
 	}
@@ -549,7 +552,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
+	public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
 	{
 		return itemStack.getItem() instanceof ItDaoDan;
 	}

@@ -8,15 +8,12 @@ import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.tile.RHZhaPin;
 
-import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -40,9 +37,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BZhaDan extends BICBM implements ICamouflageMaterial
 {
-	public static final Icon[] ICON_TOP = new Icon[ZhaPin.list.length];
-	public static final Icon[] ICON_SIDE = new Icon[ZhaPin.list.length];
-	public static final Icon[] ICON_BOTTOM = new Icon[ZhaPin.list.length];
+	public static final Icon[] ICON_TOP = new Icon[ZhaPinRegistry.getAll().size()];
+	public static final Icon[] ICON_SIDE = new Icon[ZhaPinRegistry.getAll().size()];
+	public static final Icon[] ICON_BOTTOM = new Icon[ZhaPinRegistry.getAll().size()];
 
 	public BZhaDan(int id)
 	{
@@ -208,24 +205,27 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		/**
 		 * Register every single texture for all explosives.
 		 */
-		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
+		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			BZhaDan.ICON_TOP[i] = this.getIcon(iconRegister, i, "_top");
-			BZhaDan.ICON_SIDE[i] = this.getIcon(iconRegister, i, "_side");
-			BZhaDan.ICON_BOTTOM[i] = this.getIcon(iconRegister, i, "_bottom");
+			BZhaDan.ICON_TOP[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_top");
+			BZhaDan.ICON_SIDE[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_side");
+			BZhaDan.ICON_BOTTOM[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_bottom");
 		}
 	}
 
-	public Icon getIcon(IconRegister iconRegister, int i, String suffix)
+	public Icon getIcon(IconRegister iconRegister, ZhaPin zhaPin, String suffix)
 	{
-		ITexturePack itexturepack = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
-		String iconName = "explosive_" + ZhaPin.list[i].getUnlocalizedName() + suffix;
-		String path = "/mods/" + ZhuYaoICBM.PREFIX.replace(":", "") + "/textures/blocks/" + iconName + ".png";
+		String iconName = "explosive_" + zhaPin.getUnlocalizedName() + suffix;
+		String path = ZhuYaoICBM.ASSETS_PATH + ZhuYaoICBM.BLOCK_PATH + iconName + ".png";
 
 		try
 		{
-			BufferedImage bufferedimage = ImageIO.read(itexturepack.getResourceAsStream(path));
-			return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + iconName);
+			URL url = ClassLoader.getSystemResource(path);
+
+			if (url != null)
+			{
+				return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + iconName);
+			}
 		}
 		catch (Exception e)
 		{
@@ -233,10 +233,10 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 
 		if (suffix.equals("_bottom"))
 		{
-			return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_bottom_" + ZhaPinRegistry.get(i).getTier());
+			return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_bottom_" + zhaPin.getTier());
 		}
 
-		return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_base_" + ZhaPinRegistry.get(i).getTier());
+		return iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "explosive_base_" + zhaPin.getTier());
 	}
 
 	/**
@@ -413,12 +413,13 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	@Override
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < ZhaPin.E_SI_ID; i++)
+		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			par3List.add(new ItemStack(this, 1, i));
+			if (zhaPin.hasBlockForm())
+			{
+				par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+			}
 		}
-
-		par3List.add(new ItemStack(this, 1, ZhaPin.diLei.getID()));
 	}
 
 	@Override

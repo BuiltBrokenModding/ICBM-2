@@ -4,10 +4,7 @@ import icbm.core.di.ItICBM;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -43,13 +40,9 @@ public class ItDaoDan extends ItICBM
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		HashMap<String, ZhaPin> zhaPinMap = ZhaPinRegistry.getAll();
-		Iterator<Entry<String, ZhaPin>> it = zhaPinMap.entrySet().iterator();
-
-		while (it.hasNext())
+		for (ZhaPin zhaPin : ZhaPinRegistry.getAllDaoDan())
 		{
-			Entry<String, ZhaPin> entry = it.next();
-			par3List.add(new ItemStack(this, 1, ZhaPinRegistry.getID(entry.getKey())));
+			par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
 		}
 	}
 }

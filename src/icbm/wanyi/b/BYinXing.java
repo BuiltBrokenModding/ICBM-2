@@ -2,7 +2,7 @@ package icbm.wanyi.b;
 
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.IEMPBlock;
-import icbm.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosion;
 import icbm.core.ICBMTab;
 import icbm.core.di.BICBM;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ public class BYinXing extends BICBM implements IEMPBlock
 	}
 
 	@Override
-	public void onEMP(World world, Vector3 position, IExplosive empExplosive)
+	public void onEMP(World world, Vector3 position, IExplosion empExplosive)
 	{
 		TileEntity tileEntity = position.getTileEntity(world);
 

@@ -38,8 +38,8 @@ public class BZha extends BICBM
 	public void registerIcons(IconRegister iconRegister)
 	{
 		super.registerIcons(iconRegister);
-		this.iconPoison = iconRegister.registerIcon(this.getUnlocalizedName2() + "Poison");
-		this.iconFlammable = iconRegister.registerIcon(this.getUnlocalizedName2() + "Flammable");
+		this.iconPoison = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Poison");
+		this.iconFlammable = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Flammable");
 	}
 
 	/**

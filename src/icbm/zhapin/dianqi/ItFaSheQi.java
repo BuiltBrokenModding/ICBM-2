@@ -3,12 +3,14 @@ package icbm.zhapin.dianqi;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ItDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
@@ -40,7 +42,6 @@ public class ItFaSheQi extends ItElectricICBM
 	{
 		if (!world.isRemote)
 		{
-
 			if (this.getElectricityStored(itemStack) >= YONG_DIAN_LIANG)
 			{
 				// Check the player's inventory and look for missiles.
@@ -54,41 +55,39 @@ public class ItFaSheQi extends ItElectricICBM
 						{
 							int haoMa = inventoryStack.getItemDamage();
 
-							if (inventoryStack.getItem() instanceof ItTeBieDaoDan)
+							if (ZhaPinRegistry.get(haoMa) instanceof DaoDan)
 							{
-								haoMa += 100;
-							}
+								DaoDan daoDan = (DaoDan) ZhaPinRegistry.get(haoMa);
 
-							DaoDan daoDan = DaoDan.list[haoMa];
-
-							if (daoDan != null && !ZhuYaoZhaPin.shiBaoHu(world, new Vector3(player), ExplosiveType.AIR, haoMa))
-							{
-								// Limit the missile to tier two.
-								if (daoDan.getTier() <= 2 && daoDan.isCruise())
+								if (daoDan != null && !ZhuYaoZhaPin.shiBaoHu(world, new Vector3(player), ExplosiveType.AIR, haoMa))
 								{
-									double dist = 5000;
-									Vector3 diDian = Vector3.add(new Vector3(player), new Vector3(0, 0.5, 0));
-									Vector3 kan = new Vector3(player.getLook(1));
-									Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 1.1));
-									Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
-
-									EDaoDan eDaoDan = new EDaoDan(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
-									world.spawnEntityInWorld(eDaoDan);
-									eDaoDan.launch(muBiao);
-
-									if (!player.capabilities.isCreativeMode)
+									// Limit the missile to tier two.
+									if (daoDan.getTier() <= 2 && daoDan.isCruise())
 									{
-										player.inventory.setInventorySlotContents(i, null);
+										double dist = 5000;
+										Vector3 diDian = Vector3.add(new Vector3(player), new Vector3(0, 0.5, 0));
+										Vector3 kan = new Vector3(player.getLook(1));
+										Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 1.1));
+										Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
+
+										EDaoDan eDaoDan = new EDaoDan(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
+										world.spawnEntityInWorld(eDaoDan);
+										eDaoDan.launch(muBiao);
+
+										if (!player.capabilities.isCreativeMode)
+										{
+											player.inventory.setInventorySlotContents(i, null);
+										}
+
+										this.discharge(itemStack, YONG_DIAN_LIANG, true);
+
+										return itemStack;
 									}
-
-									this.onProvide(ElectricityPack.getFromWatts(YONG_DIAN_LIANG, this.getElectricityStored(itemStack)), itemStack);
-
-									return itemStack;
 								}
-							}
-							else
-							{
-								player.sendChatToPlayer("Region being is protected.");
+								else
+								{
+									player.sendChatToPlayer(ChatMessageComponent.func_111066_d("Region being is protected."));
+								}
 							}
 
 						}
@@ -107,7 +106,7 @@ public class ItFaSheQi extends ItElectricICBM
 	}
 
 	@Override
-	public double getMaxElectricityStored(ItemStack itemStack)
+	public float getMaxElectricityStored(ItemStack itemStack)
 	{
 		return 100000;
 	}

@@ -33,6 +33,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.ElectricityHandler;
 import calclavia.lib.TileEntityUniversalElectrical;
 import calclavia.lib.multiblock.IMultiBlock;
 
@@ -68,6 +69,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 	public TLeiDaTai()
 	{
 		super();
+		this.electricityHandler = new ElectricityHandler(this, this.getRequest(null) * 2);
 		RadarRegistry.register(this);
 	}
 
@@ -114,40 +116,37 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 				}
 			}
 
-			if (!this.isDisabled())
+			if (this.electricityHandler.provideElectricity(this.getRequest(null), true).getWatts() >= this.getRequest(null))
 			{
-				if (this.wattsReceived >= this.getRequest().getWatts())
+				this.xuanZhuan += 0.05F;
+
+				if (this.xuanZhuan > 360)
+					this.xuanZhuan = 0;
+
+				if (!this.worldObj.isRemote)
 				{
-					this.xuanZhuan += 0.05F;
-
-					if (this.xuanZhuan > 360)
-						this.xuanZhuan = 0;
-
-					if (!this.worldObj.isRemote)
-					{
-						this.wattsReceived = Math.max(this.wattsReceived - this.getRequest().getWatts(), 0);
-					}
-
-					int prevShuMu = this.xunZhaoEntity.size();
-
-					// Do a radar scan
-					this.doScan();
-
-					if (prevShuMu != this.xunZhaoEntity.size())
-					{
-						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-					}
+					this.electricityHandler.provideElectricity(this.getRequest(null), true);
 				}
-				else
+
+				int prevShuMu = this.xunZhaoEntity.size();
+
+				// Do a radar scan
+				this.doScan();
+
+				if (prevShuMu != this.xunZhaoEntity.size())
 				{
-					if (this.xunZhaoEntity.size() > 0)
-					{
-						this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-					}
-
-					this.xunZhaoEntity.clear();
-					this.xunZhaoJiQi.clear();
+					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 				}
+			}
+			else
+			{
+				if (this.xunZhaoEntity.size() > 0)
+				{
+					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+				}
+
+				this.xunZhaoEntity.clear();
+				this.xunZhaoJiQi.clear();
 			}
 
 			if (this.ticks % 40 == 0)
@@ -226,7 +225,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 		{
 			if (jiQi instanceof TLeiDaTai)
 			{
-				if (!((TLeiDaTai) jiQi).isDisabled() && ((TLeiDaTai) jiQi).prevWatts > 0)
+				if (((TLeiDaTai) jiQi).getEnergyStored() > 0)
 				{
 					this.xunZhaoJiQi.add(jiQi);
 				}
@@ -260,7 +259,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 4, this.wattsReceived, this.disabledTicks);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 4, this.getEnergyStored());
 	}
 
 	@Override
@@ -291,8 +290,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 				}
 				else if (ID == 4)
 				{
-					this.wattsReceived = dataStream.readDouble();
-					this.disabledTicks = dataStream.readInt();
+					this.setEnergyStored(dataStream.readFloat());
 				}
 			}
 			else if (!this.worldObj.isRemote)
@@ -316,7 +314,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public boolean isPoweringTo(ForgeDirection side)
 	{
-		if (this.prevWatts > 0 || this.wattsReceived > 0)
+		if (this.getEnergyStored() > 0)
 		{
 			if (this.weiXianDaoDan.size() > 0)
 			{
@@ -455,7 +453,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
 	{
-		if (this.wattsReceived < this.getRequest().getWatts())
+		if (this.getEnergyStored() < this.getRequest(null))
 		{
 			throw new Exception("Radar has insufficient electricity!");
 		}
@@ -518,9 +516,9 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public ElectricityPack getRequest()
+	public float getRequest(ForgeDirection direction)
 	{
-		return new ElectricityPack(15 / this.getVoltage(), this.getVoltage());
+		return 200;
 	}
 
 	@Override

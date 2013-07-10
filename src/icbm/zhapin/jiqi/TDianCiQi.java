@@ -4,6 +4,7 @@ import icbm.api.RadarRegistry;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.baozha.bz.BzDianCi;
 import icbm.zhapin.zhapin.ZhaPin;
 
 import java.util.HashSet;
@@ -19,6 +20,7 @@ import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.ElectricityHandler;
 import calclavia.lib.TileEntityUniversalElectrical;
 import calclavia.lib.multiblock.IMultiBlock;
 
@@ -46,6 +48,7 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	public TDianCiQi()
 	{
 		super();
+		this.electricityHandler = new ElectricityHandler(this);
 		RadarRegistry.register(this);
 	}
 
@@ -61,18 +64,17 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	{
 		super.updateEntity();
 
-		if (!this.isDisabled())
-		{
-			if (this.ticks % 20 == 0 && this.getJoules() > 0)
-			{
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "machinehum", 0.5F, (float) (0.85F * this.getJoules() / this.getMaxJoules()));
-			}
+		this.electricityHandler.setMaxEnergyStored((float) Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000));
 
-			this.xuanZhuanLu = (float) (Math.pow(this.getJoules() / this.getMaxJoules(), 2) * 0.5);
-			this.xuanZhuan += xuanZhuanLu;
-			if (this.xuanZhuan > 360)
-				this.xuanZhuan = 0;
+		if (this.ticks % 20 == 0 && this.getEnergyStored() > 0)
+		{
+			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "machinehum", 0.5F, (float) (0.85F * this.getEnergyStored() / this.getMaxEnergyStored()));
 		}
+
+		this.xuanZhuanLu = (float) (Math.pow(this.getEnergyStored() / this.getMaxEnergyStored(), 2) * 0.5);
+		this.xuanZhuan += xuanZhuanLu;
+		if (this.xuanZhuan > 360)
+			this.xuanZhuan = 0;
 
 		if (!this.worldObj.isRemote)
 		{
@@ -114,8 +116,7 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 			}
 			else if (ID == 1)
 			{
-				this.setJoules(dataStream.readDouble());
-				this.disabledTicks = dataStream.readInt();
+				this.setEnergyStored(dataStream.readFloat());
 				this.banJing = dataStream.readInt();
 				this.muoShi = dataStream.readByte();
 			}
@@ -137,11 +138,11 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, this.getJoules(), this.disabledTicks, this.banJing, this.muoShi);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, this.getEnergyStored(), this.banJing, this.muoShi);
 	}
 
 	@Override
-	public double getVoltage()
+	public float getVoltage()
 	{
 		return 240;
 	}
@@ -173,19 +174,22 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public void onPowerOn()
 	{
-		if (this.getJoules() >= this.getMaxJoules())
+		if (this.getEnergyStored() >= this.getMaxEnergyStored())
 		{
-			if (this.muoShi == 0 || this.muoShi == 1)
+			switch (this.muoShi)
 			{
-				ZhaPin.dianCiSignal.doBaoZha(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.banJing, -1);
+				default:
+					new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.banJing).setEffectBlocks().setEffectEntities().explode();
+					break;
+				case 1:
+					new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.banJing).setEffectEntities().explode();
+					break;
+				case 2:
+					new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.banJing).setEffectBlocks().explode();
+					break;
 			}
 
-			if (this.muoShi == 0 || this.muoShi == 2)
-			{
-				ZhaPin.dianCiWave.doBaoZha(worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), null, this.banJing, -1);
-			}
-
-			this.setJoules(0);
+			this.setEnergyStored(0);
 		}
 	}
 
@@ -212,12 +216,6 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	public void onCreate(Vector3 position)
 	{
 		ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
-	}
-
-	@Override
-	public double getMaxJoules()
-	{
-		return Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000);
 	}
 
 	@Override

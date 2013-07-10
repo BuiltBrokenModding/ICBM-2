@@ -16,7 +16,7 @@ public class CFaShiDi extends Container
 	public CFaShiDi(InventoryPlayer par1InventoryPlayer, TFaSheDi tileEntity)
 	{
 		this.missileLauncher = tileEntity;
-		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ZhuYaoZhaPin.itDaoDan), new ItemStack(ZhuYaoZhaPin.itTeBieDaoDan)));
+		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ZhuYaoZhaPin.itDaoDan)));
 		int var3;
 
 		for (var3 = 0; var3 < 3; ++var3)

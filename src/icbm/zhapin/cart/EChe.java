@@ -4,6 +4,7 @@ import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityMinecartTNT;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,11 +51,10 @@ public class EChe extends EntityMinecartTNT implements IExplosiveContainer, IEnt
 	protected void explodeCart(double par1)
 	{
 		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-		ZhaPin.createBaoZha(this.worldObj, new Vector3(this), this, this.haoMa);
+		this.getExplosiveType().createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
 		this.setDead();
 	}
 
-	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer)
 	{
 		if (par1EntityPlayer.getCurrentEquippedItem() != null)
@@ -117,7 +117,7 @@ public class EChe extends EntityMinecartTNT implements IExplosiveContainer, IEnt
 	@Override
 	public IExplosive getExplosiveType()
 	{
-		return ZhaPin.list[this.haoMa];
+		return ZhaPinRegistry.get(this.haoMa);
 	}
 
 	@Override

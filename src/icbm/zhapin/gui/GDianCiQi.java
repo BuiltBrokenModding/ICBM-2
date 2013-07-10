@@ -5,6 +5,7 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TDianCiQi;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -12,10 +13,13 @@ import universalelectricity.core.electricity.ElectricityDisplay;
 import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.gui.GuiBase;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GDianCiQi extends GuiBase
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+
 	private TDianCiQi tileEntity;
 	private GuiTextField textFieldBanJing;
 
@@ -138,11 +142,7 @@ public class GDianCiQi extends GuiBase
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.tileEntity.isDisabled())
-		{
-			status = "Disabled";
-		}
-		else if (this.tileEntity.getJoules() < this.tileEntity.getMaxJoules())
+		if (this.tileEntity.getEnergyStored() < this.tileEntity.getMaxEnergyStored())
 		{
 			status = "Insufficient electricity!";
 		}
@@ -154,7 +154,7 @@ public class GDianCiQi extends GuiBase
 
 		this.fontRenderer.drawString(color + "Status: " + status, 12, 120, 4210752);
 		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 12, 135, 4210752);
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 12, 150, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), ElectricUnit.JOULES), 12, 150, 4210752);
 	}
 
 	/**
@@ -163,7 +163,8 @@ public class GDianCiQi extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		containerWidth = (this.width - this.xSize) / 2;

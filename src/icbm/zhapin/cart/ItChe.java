@@ -2,6 +2,7 @@ package icbm.zhapin.cart;
 
 import icbm.core.di.ItICBM;
 import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
 
 import java.util.List;
 
@@ -66,15 +67,19 @@ public class ItChe extends ItICBM
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return "icbm.minecart." + ZhaPin.list[itemstack.getItemDamage()].getUnlocalizedName();
+		return "icbm.minecart." + ZhaPinRegistry.get(itemstack.getItemDamage()).getUnlocalizedName();
 	}
 
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int metadata = 0; metadata < ZhaPin.E_ER_ID; metadata++)
+		for (ZhaPin zhaPin : ZhaPinRegistry.getAllZhaPin())
 		{
-			par3List.add(new ItemStack(par1, 1, metadata));
+			if (zhaPin.getTier() <= 2)
+			{
+				par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+
+			}
 		}
 	}
 }

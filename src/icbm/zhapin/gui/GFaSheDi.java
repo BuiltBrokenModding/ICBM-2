@@ -4,13 +4,18 @@ import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.jiqi.TFaSheDi;
 import icbm.zhapin.rongqi.CFaShiDi;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 public class GFaSheDi extends GuiContainer
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_launcher.png");
+
 	private TFaSheDi tileEntity;
 
 	private int containerWidth;
@@ -39,7 +44,8 @@ public class GFaSheDi extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_launcher.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		containerWidth = (this.width - this.xSize) / 2;

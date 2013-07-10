@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -24,10 +25,15 @@ import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.vector.Region2;
 import calclavia.lib.gui.GuiBase;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GLeiDaTai extends GuiBase
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_radar.png");
+	public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "reddot.png");
+	public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "yellowdot.png");
+	public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "whitedot.png");
 	private TLeiDaTai tileEntity;
 
 	private int containerPosX;
@@ -147,7 +153,7 @@ public class GLeiDaTai extends GuiBase
 		this.textFieldAlarmRange.drawTextBox();
 		this.fontRenderer.drawString("Blocks", 190, 112, 4210752);
 
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest().getWatts() * 20, ElectricUnit.WATT), 155, 128, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest(null) * 20, ElectricUnit.WATT), 155, 128, 4210752);
 
 		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
 
@@ -155,11 +161,7 @@ public class GLeiDaTai extends GuiBase
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.tileEntity.isDisabled())
-		{
-			status = "Disabled!";
-		}
-		else if (this.tileEntity.prevWatts >= this.tileEntity.getRequest().getWatts())
+		if (this.tileEntity.getEnergyStored() >= this.tileEntity.getRequest(null))
 		{
 			color = "\u00a72";
 			status = "Radar On!";
@@ -178,7 +180,8 @@ public class GLeiDaTai extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_radar.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.containerPosX = (this.width - this.xSize) / 2;
@@ -191,7 +194,7 @@ public class GLeiDaTai extends GuiBase
 		this.info = "";
 		this.info2 = "";
 
-		if (this.tileEntity.prevWatts >= this.tileEntity.getRequest().getWatts())
+		if (this.tileEntity.getEnergyStored() >= this.tileEntity.getRequest(null))
 		{
 			int range = 4;
 
@@ -203,17 +206,16 @@ public class GLeiDaTai extends GuiBase
 				{
 					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
 					{
-						this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "reddot.png");
+						FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_RED_DOT);
 					}
 					else
 					{
-						this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "yellowdot.png");
-
+						FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_YELLOW_DOT);
 					}
 				}
 				else
 				{
-					this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "yellowdot.png");
+					FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_YELLOW_DOT);
 				}
 
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
@@ -248,8 +250,7 @@ public class GLeiDaTai extends GuiBase
 			for (TileEntity jiQi : this.tileEntity.xunZhaoJiQi)
 			{
 				Vector2 position = new Vector2(this.radarCenter.x + (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
-
-				this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "whitedot.png");
+				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_WHITE_DOT);
 
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
 

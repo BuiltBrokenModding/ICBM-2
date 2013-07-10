@@ -6,7 +6,9 @@ import icbm.api.IMissile;
 import icbm.api.LauncherType;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.di.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
+import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ItDaoDan;
@@ -159,7 +161,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.getJoules() < this.getMaxJoules())
+		if (this.getEnergyStored() < this.getMaxEnergyStored())
 		{
 			status = "No Power!";
 		}
@@ -194,42 +196,39 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		super.updateEntity();
 
-		if (!this.isDisabled())
+		this.receiveElectricity(null, ElectricityPack.getFromWatts(ElectricItemHelper.dischargeItem(this.containingItems[1], this.getRequest(null)), this.getVoltage()), true);
+
+		// Rotate the yaw
+		if (this.getYawFromTarget() - this.rotationYaw != 0)
 		{
-			this.onReceive(ElectricityPack.getFromWatts(ElectricItemHelper.dechargeItem(this.containingItems[1], this.getRequest().getWatts(), this.getVoltage()), this.getVoltage()));
+			this.rotationYaw += (this.getYawFromTarget() - this.rotationYaw) * 0.1;
+		}
+		if (this.getPitchFromTarget() - this.rotationPitch != 0)
+		{
+			this.rotationPitch += (this.getPitchFromTarget() - this.rotationPitch) * 0.1;
+		}
 
-			// Rotate the yaw
-			if (this.getYawFromTarget() - this.rotationYaw != 0)
+		if (!this.worldObj.isRemote)
+		{
+			this.setMissile();
+
+			if (this.isPowered)
 			{
-				this.rotationYaw += (this.getYawFromTarget() - this.rotationYaw) * 0.1;
+				this.launch();
+				this.isPowered = false;
 			}
-			if (this.getPitchFromTarget() - this.rotationPitch != 0)
+		}
+
+		if (!this.worldObj.isRemote && this.ticks % 3 == 0)
+		{
+			if (this.muBiao == null)
 			{
-				this.rotationPitch += (this.getPitchFromTarget() - this.rotationPitch) * 0.1;
+				this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
 			}
 
-			if (!this.worldObj.isRemote)
+			for (EntityPlayer wanJia : this.yongZhe)
 			{
-				this.setMissile();
-
-				if (this.isPowered)
-				{
-					this.launch();
-					this.isPowered = false;
-				}
-			}
-
-			if (!this.worldObj.isRemote && this.ticks % 3 == 0)
-			{
-				if (this.muBiao == null)
-				{
-					this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				}
-
-				for (EntityPlayer wanJia : this.yongZhe)
-				{
-					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
-				}
+				PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
 			}
 		}
 	}
@@ -237,7 +236,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.getJoules(), this.shengBuo, this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.getEnergyStored(), this.shengBuo, this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
@@ -248,47 +247,47 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public void setMissile()
 	{
-		if (this.containingItems[0] != null)
+		if (!this.worldObj.isRemote)
 		{
-			if (this.containingItems[0].getItem() instanceof ItDaoDan)
+			if (this.containingItems[0] != null)
 			{
-				int haoMa = this.containingItems[0].getItemDamage();
-
-				if (this.containingItems[0].getItem() instanceof ItTeBieDaoDan)
+				if (this.containingItems[0].getItem() instanceof ItDaoDan)
 				{
-					haoMa += 100;
-				}
+					int haoMa = this.containingItems[0].getItemDamage();
 
-				if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
-				{
-					if (this.daoDan == null)
+					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
 					{
-						if (DaoDan.list[haoMa].isCruise() && DaoDan.list[haoMa].getTier() <= 3)
+						if (this.daoDan == null)
 						{
-							Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-							this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
-							this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
-							return;
+							DaoDan missile = (DaoDan) ZhaPinRegistry.get(haoMa);
+
+							if (missile.isCruise() && missile.getTier() <= 3)
+							{
+								Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
+								this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
+								this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
+								return;
+							}
 						}
-					}
 
-					if (this.daoDan != null)
-					{
-						if (this.daoDan.getExplosiveType().getID() == haoMa)
+						if (this.daoDan != null)
 						{
-							return;
+							if (this.daoDan.getExplosiveType().getID() == haoMa)
+							{
+								return;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		if (this.daoDan != null)
-		{
-			((Entity) this.daoDan).setDead();
-		}
+			if (this.daoDan != null)
+			{
+				((Entity) this.daoDan).setDead();
+			}
 
-		this.daoDan = null;
+			this.daoDan = null;
+		}
 	}
 
 	@Override
@@ -300,9 +299,8 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 			if (ID == 0)
 			{
-				this.setJoules(dataStream.readDouble());
+				this.setEnergyStored(dataStream.readFloat());
 				this.setFrequency(dataStream.readInt());
-				this.disabledTicks = dataStream.readInt();
 				this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 			}
 			else if (ID == 1)
@@ -344,18 +342,11 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (this.daoDan != null && this.containingItems[0] != null)
 		{
-			DaoDan missile = DaoDan.list[this.containingItems[0].getItemDamage()];
+			DaoDan missile = (DaoDan) ZhaPinRegistry.get(this.containingItems[0].getItemDamage());
 
-			int haoMa = this.daoDan.getExplosiveType().getID();
-
-			if (this.daoDan.getExplosiveType().getID() >= 100)
+			if (missile != null && missile.getID() == daoDan.getExplosiveType().getID() && missile.isCruise() && missile.getTier() <= 3)
 			{
-				haoMa -= 100;
-			}
-
-			if (missile != null && missile.getID() == haoMa && missile.isCruise() && missile.getTier() <= 3)
-			{
-				if (this.getJoules() >= this.getMaxJoules())
+				if (this.getEnergyStored() >= this.getMaxEnergyStored())
 				{
 					if (!this.isTooClose(this.muBiao))
 					{
@@ -379,7 +370,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 		if (this.canLaunch())
 		{
 			this.decrStackSize(0, 1);
-			this.setJoules(0);
+			this.setEnergyStored(0);
 			this.daoDan.launch(this.muBiao);
 			this.daoDan = null;
 		}
@@ -478,7 +469,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public double getMaxJoules()
+	public float getMaxEnergyStored()
 	{
 		return 800000;
 	}
@@ -486,7 +477,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		if (this.isStackValidForSlot(0, entityPlayer.inventory.getCurrentItem()))
+		if (this.isItemValidForSlot(0, entityPlayer.inventory.getCurrentItem()))
 		{
 			this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
 			entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
@@ -517,15 +508,17 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
+	public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
 	{
 		if (itemStack != null)
 		{
 			if (itemStack.getItem() instanceof ItDaoDan && this.getStackInSlot(slotID) == null)
 			{
-				if (DaoDan.list[itemStack.getItemDamage()] != null)
+				if (ZhaPinRegistry.get(itemStack.getItemDamage()) instanceof DaoDan)
 				{
-					if (DaoDan.list[itemStack.getItemDamage()].isCruise() && DaoDan.list[itemStack.getItemDamage()].getTier() <= 3)
+					DaoDan missile = (DaoDan) ZhaPinRegistry.get(itemStack.getItemDamage());
+
+					if (missile.isCruise() && missile.getTier() <= 3)
 					{
 						return true;
 					}

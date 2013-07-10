@@ -46,13 +46,13 @@ public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
+	public ForgeDirection getDirection()
 	{
 		return ForgeDirection.getOrientation(this.fangXiang);
 	}
 
 	@Override
-	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
+	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.fangXiang = (byte) facingDirection.ordinal();
 	}

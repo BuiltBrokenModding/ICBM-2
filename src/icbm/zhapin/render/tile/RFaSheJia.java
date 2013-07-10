@@ -33,7 +33,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
 			this.func_110628_a(TEXTURE_FILE);
 			GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
-			if (tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.NORTH && tileEntity.getDirection(tileEntity.worldObj, (int) x, (int) y, (int) z) != ForgeDirection.SOUTH)
+			if (tileEntity.getDirection() != ForgeDirection.NORTH && tileEntity.getDirection() != ForgeDirection.SOUTH)
 			{
 				GL11.glRotatef(90F, 0.0F, 180F, 1.0F);
 			}

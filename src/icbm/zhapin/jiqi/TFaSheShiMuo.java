@@ -65,40 +65,37 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		super.updateEntity();
 
-		if (!this.isDisabled())
+		if (this.faSheDi == null)
 		{
-			if (this.faSheDi == null)
+			for (byte i = 2; i < 6; i++)
 			{
-				for (byte i = 2; i < 6; i++)
+				Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+				position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+
+				TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
+
+				if (tileEntity != null)
 				{
-					Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-					position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
-
-					TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
-
-					if (tileEntity != null)
+					if (tileEntity instanceof TFaSheDi)
 					{
-						if (tileEntity instanceof TFaSheDi)
-						{
-							this.faSheDi = (TFaSheDi) tileEntity;
-							this.fangXiang = i;
-						}
+						this.faSheDi = (TFaSheDi) tileEntity;
+						this.fangXiang = i;
 					}
 				}
 			}
-			else
+		}
+		else
+		{
+			if (this.faSheDi.isInvalid())
 			{
-				if (this.faSheDi.isInvalid())
-				{
-					this.faSheDi = null;
-				}
+				this.faSheDi = null;
 			}
+		}
 
-			if (isPowered)
-			{
-				isPowered = false;
-				this.launch();
-			}
+		if (isPowered)
+		{
+			isPowered = false;
+			this.launch();
 		}
 
 		if (!this.worldObj.isRemote)
@@ -131,7 +128,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public Packet getDescriptionPacket2()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 3, this.getJoules(), this.disabledTicks, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 3, this.getEnergyStored(), this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
@@ -196,8 +193,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 			{
 				if (this.worldObj.isRemote)
 				{
-					this.setJoules(dataStream.readDouble());
-					this.disabledTicks = dataStream.readInt();
+					this.setEnergyStored(dataStream.readFloat());
 					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 				}
 			}
@@ -213,11 +209,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean canLaunch()
 	{
-		if (this.faSheDi != null && !this.isDisabled())
+		if (this.faSheDi != null)
 		{
 			if (this.faSheDi.daoDan != null)
 			{
-				if (this.getJoules() >= this.getMaxJoules())
+				if (this.getEnergyStored() >= this.getMaxEnergyStored())
 				{
 					if (this.faSheDi.isInRange(this.muBiao))
 					{
@@ -239,7 +235,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		if (this.canLaunch())
 		{
-			this.setJoules(0);
+			this.setEnergyStored(0);
 			this.faSheDi.launchMissile(this.muBiao.clone(), this.gaoDu);
 		}
 	}
@@ -255,15 +251,11 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.isDisabled())
-		{
-			status = "Disabled";
-		}
-		else if (this.faSheDi == null)
+		if (this.faSheDi == null)
 		{
 			status = "Not connected!";
 		}
-		else if (this.getJoules() < this.getMaxJoules())
+		else if (this.getEnergyStored() < this.getMaxEnergyStored())
 		{
 			status = "Insufficient electricity!";
 		}
@@ -319,7 +311,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public double getVoltage()
+	public float getVoltage()
 	{
 		switch (this.getTier())
 		{
@@ -357,19 +349,19 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z)
+	public ForgeDirection getDirection()
 	{
 		return ForgeDirection.getOrientation(this.fangXiang);
 	}
 
 	@Override
-	public void setDirection(World world, int x, int y, int z, ForgeDirection facingDirection)
+	public void setDirection(ForgeDirection facingDirection)
 	{
 		this.fangXiang = (byte) facingDirection.ordinal();
 	}
 
 	@Override
-	public double getMaxJoules()
+	public float getMaxEnergyStored()
 	{
 		switch (this.getTier())
 		{

@@ -6,6 +6,7 @@ import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.rongqi.CXiaoFaSheQi;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.ResourceLocation;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
@@ -15,10 +16,13 @@ import universalelectricity.core.electricity.ElectricityDisplay;
 import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GXiaoFaSheQi extends GuiContainer
 {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_cruise_launcher.png");
+
 	private TXiaoFaSheQi tileEntity;
 	private GuiTextField textFieldX;
 	private GuiTextField textFieldZ;
@@ -127,7 +131,7 @@ public class GXiaoFaSheQi extends GuiContainer
 
 		this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50, 4210752);
 		this.fontRenderer.drawString(this.tileEntity.getVoltage() + "v", 70, 60, 4210752);
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getJoules(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxJoules(), ElectricUnit.JOULES), 70, 70, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), ElectricUnit.JOULES), 70, 70, 4210752);
 
 		this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
@@ -138,7 +142,8 @@ public class GXiaoFaSheQi extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		this.mc.renderEngine.bindTexture(ZhuYaoICBM.GUI_PATH + "gui_cruise_launcher.png");
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		containerWidth = (this.width - this.xSize) / 2;
