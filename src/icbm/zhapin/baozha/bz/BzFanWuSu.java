@@ -29,7 +29,7 @@ public class BzFanWuSu extends BaoZha
 	@Override
 	public void doPreExplode()
 	{
-		super.preExplode();
+		super.doPreExplode();
 		this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, ZhuYaoICBM.PREFIX + "antimatter", 7F, (float) (this.worldObj.rand.nextFloat() * 0.1 + 0.9F));
 		this.doDamageEntities(this.getRadius() * 2, Integer.MAX_VALUE);
 	}
@@ -68,6 +68,8 @@ public class BzFanWuSu extends BaoZha
 				}
 			}
 		}
+		
+		//TODO: Render shockwave
 		/*
 		 * else if (ZhuYao.proxy.isGaoQing()) { for (int x = -this.getRadius(); x <
 		 * this.getRadius(); x++) { for (int y = -this.getRadius(); y < this.getRadius(); y++) { for

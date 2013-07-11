@@ -36,7 +36,7 @@ public class BzBingDan extends BzGuang
 	@Override
 	public void doPostExplode()
 	{
-		super.postExplode();
+		super.doPostExplode();
 
 		if (!this.worldObj.isRemote)
 		{
@@ -64,7 +64,7 @@ public class BzBingDan extends BzGuang
 
 					double distanceFromCenter = position.distanceTo(targetPosition);
 
-					if (distanceFromCenter > this.getRadius() || distanceFromCenter < this.getRadius() - 2)
+					if (distanceFromCenter > this.getRadius())
 						continue;
 
 					/*
@@ -93,7 +93,7 @@ public class BzBingDan extends BzGuang
 				this.worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, ZhuYaoICBM.PREFIX + "redmatter", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
 			}
 
-			this.worldObj.setWorldTime(18000);
+			this.worldObj.setWorldTime(1200);
 		}
 	}
 

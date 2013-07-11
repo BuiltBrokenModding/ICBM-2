@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.CalculationHelper;
 
 /**
  * Used by Exothermic and Endothermic explosions.
@@ -42,13 +43,13 @@ public abstract class BzGuang extends BaoZha
 	{
 		if (!this.worldObj.isRemote)
 		{
+			this.worldObj.createExplosion(this.exploder, position.x, position.y, position.z, 4F, true);
+
 			this.thread = new ThrXunZhao(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
 			this.thread.run();
 
 			this.lightBeam = new EGuang(this.worldObj, position, 20 * 20, this.red, this.green, this.blue);
 			this.worldObj.spawnEntityInWorld(this.lightBeam);
-			this.worldObj.createExplosion(null, position.x, position.y, position.z, 4F, true);
-
 		}
 	}
 
@@ -57,7 +58,7 @@ public abstract class BzGuang extends BaoZha
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (this.callCount > 35 && this.thread.isComplete)
+			if (this.callCount > 100 / this.proceduralInterval() && this.thread.isComplete)
 			{
 				this.controller.endExplosion();
 			}
@@ -89,7 +90,7 @@ public abstract class BzGuang extends BaoZha
 
 							metadata = this.worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 
-							if (this.worldObj.rand.nextInt(3) > 0)
+							if (this.worldObj.rand.nextInt(2) > 0)
 							{
 								this.worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, 2);
 
@@ -110,40 +111,14 @@ public abstract class BzGuang extends BaoZha
 
 			for (EFeiBlock entity : this.feiBlocks)
 			{
-				double xDifference = entity.posX - position.x;
-				double zDifference = entity.posZ - position.z;
-
-				int r = radius;
-				if (xDifference < 0)
-					r = -radius;
-
-				if (xDifference > 4)
-				{
-					entity.motionX += (r - xDifference) * -0.02 * this.worldObj.rand.nextFloat();
-				}
-
-				if (entity.posY < position.y + 15)
-				{
-					entity.motionY += 0.5 + 0.6 * this.worldObj.rand.nextFloat();
-
-					if (entity.posY < position.y + 3)
-					{
-						entity.motionY += 1.5;
-					}
-				}
-
-				r = radius;
-
-				if (zDifference < 0)
-				{
-					r = -radius;
-				}
-
-				if (zDifference > 4)
-				{
-					entity.motionZ += (r - zDifference) * -0.02 * this.worldObj.rand.nextFloat();
-				}
-
+				Vector3 entityPosition = new Vector3(entity);
+				Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
+				CalculationHelper.rotateByAngle(centeredPosition, 2);
+				Vector3 newPosition = Vector3.add(this.position, centeredPosition);
+				entity.motionX /= 3;
+				entity.motionY /= 3;
+				entity.motionZ /= 3;
+				entity.addVelocity((newPosition.x - entityPosition.x) * 0.5 * this.proceduralInterval(), 0.09 * this.proceduralInterval(), (newPosition.z - entityPosition.z) * 0.5 * this.proceduralInterval());
 				entity.yawChange += 3 * this.worldObj.rand.nextFloat();
 			}
 		}
@@ -158,32 +133,6 @@ public abstract class BzGuang extends BaoZha
 			{
 				this.lightBeam.setDead();
 				this.lightBeam = null;
-			}
-
-			/**
-			 * Scatter all flying blocks away.
-			 */
-			if (this.canFocusBeam(this.worldObj, position))
-			{
-				for (EFeiBlock entity : this.feiBlocks)
-				{
-					double xDifference = entity.posX - position.x;
-					double zDifference = entity.posZ - position.z;
-
-					int m = 1;
-
-					if (xDifference < 0)
-						m = -1;
-
-					entity.motionX += m * 5 * this.worldObj.rand.nextFloat();
-
-					m = 1;
-
-					if (zDifference < 0)
-						m = -1;
-
-					entity.motionZ += m * 5 * this.worldObj.rand.nextFloat();
-				}
 			}
 		}
 	}
@@ -209,4 +158,5 @@ public abstract class BzGuang extends BaoZha
 	{
 		return 10000;
 	}
+
 }

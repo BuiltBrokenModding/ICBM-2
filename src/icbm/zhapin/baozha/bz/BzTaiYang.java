@@ -28,7 +28,7 @@ public class BzTaiYang extends BzGuang
 	@Override
 	public void doPostExplode()
 	{
-		super.postExplode();
+		super.doPostExplode();
 
 		if (!this.worldObj.isRemote)
 		{
@@ -42,7 +42,7 @@ public class BzTaiYang extends BzGuang
 
 					double distanceFromCenter = position.distanceTo(targetPosition);
 
-					if (distanceFromCenter > this.getRadius() || distanceFromCenter < this.getRadius() - 2)
+					if (distanceFromCenter > this.getRadius())
 						continue;
 
 					/*

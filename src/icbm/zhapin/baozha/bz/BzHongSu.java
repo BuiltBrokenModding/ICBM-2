@@ -21,6 +21,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.CalculationHelper;
 
 public class BzHongSu extends BaoZha
 {
@@ -119,107 +120,142 @@ public class BzHongSu extends BaoZha
 		float radius = this.getRadius() + this.getRadius() / 2;
 		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
 		List<Entity> allEntities = this.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
-		boolean explosionCreated = false;
+		boolean doExplosion = true;
 
 		for (Entity entity : allEntities)
 		{
-			if (entity == this.controller)
-				continue;
+			doExplosion = !this.affectEntity(radius, entity, doExplosion);
+		}
+		/*
+		 * if (this.worldObj.isRemote) { for (int i = 0; i < 10 * (2 -
+		 * ZhuYaoZhaPin.proxy.getParticleSetting()); i++) { Vector3 randomVector = new
+		 * Vector3(this.worldObj.rand.nextInt((int) this.getRadius()) - this.getRadius(),
+		 * this.worldObj.rand.nextInt((int) this.getRadius()) - this.getRadius(),
+		 * this.worldObj.rand.nextInt((int) this.getRadius()) - this.getRadius());
+		 * ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj, Vector3.add(this.position,
+		 * randomVector), 0, 0, 0, 1, 1, 1, 7.0F, 8); }
+		 * 
+		 * List<Entity> list = ZhuYaoZhaPin.proxy.getEntityFXs();
+		 * 
+		 * if (list != null) { for (Entity entity : list) { if (this.position.distanceTo(new
+		 * Vector3(entity)) <= radius) { this.affectEntity(radius, entity, false); } } } }
+		 */
 
-			if (entity instanceof IExplosiveIgnore)
+		if (this.worldObj.rand.nextInt(8) == 0)
+		{
+			this.worldObj.playSoundEffect(position.x + (Math.random() - 0.5) * radius, position.y + (Math.random() - 0.5) * radius, position.z + (Math.random() - 0.5) * radius, ZhuYaoICBM.PREFIX + "collapse", 6.0F - this.worldObj.rand.nextFloat(), 1.0F - this.worldObj.rand.nextFloat() * 0.4F);
+		}
+
+		this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "redmatter", 3.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 1F);
+	}
+
+	/**
+	 * Makes an entity get affected by Red Matter.
+	 * 
+	 * @Return True if explosion happened
+	 */
+	public boolean affectEntity(float radius, Entity entity, boolean doExplosion)
+	{
+		boolean explosionCreated = false;
+
+		if (entity == this.controller)
+		{
+			return false;
+		}
+
+		if (entity instanceof IExplosiveIgnore)
+		{
+			if (((IExplosiveIgnore) entity).canIgnore(this))
 			{
-				if (((IExplosiveIgnore) entity).canIgnore(this))
-					continue;
+				return false;
 			}
+		}
 
-			if (entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayer)
+		{
+			if (((EntityPlayer) entity).capabilities.isCreativeMode)
 			{
-				if (((EntityPlayer) entity).capabilities.isCreativeMode)
-					continue;
+				return false;
 			}
+		}
 
-			double xDifference = entity.posX - position.x;
-			double yDifference = entity.posY - position.y;
-			double zDifference = entity.posZ - position.z;
+		double xDifference = entity.posX - position.x;
+		double yDifference = entity.posY - position.y;
+		double zDifference = entity.posZ - position.z;
 
-			float r = radius;
+		/**
+		 * The percentage of the closeness of the entity.
+		 */
+		double xPercentage = 1 - (xDifference / radius);
+		double yPercentage = 1 - (yDifference / radius);
+		double zPercentage = 1 - (zDifference / radius);
+		double distancePercentage = 2 - (this.position.distanceTo(new Vector3(entity)) / radius);
 
-			if (xDifference < 0)
-				r = (int) -radius;
+		Vector3 entityPosition = new Vector3(entity);
+		Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
+		CalculationHelper.rotateByAngle(centeredPosition, 6 * distancePercentage * Math.random(), 6 * distancePercentage * Math.random(), 6 * distancePercentage * Math.random());
+		Vector3 newPosition = Vector3.add(this.position, centeredPosition);
+		entity.motionX /= 2;
+		entity.motionY /= 2;
+		entity.motionZ /= 2;
+		// Orbit Velocity
+		entity.addVelocity(newPosition.x - entityPosition.x, 0, newPosition.z - entityPosition.z);
+		// Gravity Velocity
+		entity.addVelocity(-xDifference * 0.04 * xPercentage, -yDifference * 0.04 * yPercentage, -zDifference * 0.04 * zPercentage);
 
-			entity.motionX -= (r - xDifference) * 0.002;
-
-			r = radius;
-
-			if (yDifference < 0)
-				r = (int) -radius;
-
-			entity.motionY -= (r - yDifference) * 0.005;
-
-			r = radius;
-
-			if (zDifference < 0)
-				r = -radius;
-
-			entity.motionZ -= (r - zDifference) * 0.002;
-
+		if (this.worldObj.isRemote)
+		{
 			if (entity instanceof EFeiBlock)
 			{
-				if (this.worldObj.isRemote)
+				if (ZhuYaoZhaPin.proxy.getParticleSetting() == 0)
 				{
-					if (ZhuYaoZhaPin.proxy.getParticleSetting() == 0)
+					if (this.worldObj.rand.nextInt(5) == 0)
 					{
-						if (this.worldObj.rand.nextInt(5) == 0)
-						{
-							ZhuYaoZhaPin.proxy.spawnParticle("digging", this.worldObj, new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, ((EFeiBlock) entity).blockID, 0, ((EFeiBlock) entity).metadata, 2, 1);
-						}
-					}
-				}
-			}
+						ZhuYaoZhaPin.proxy.spawnParticle("digging", this.worldObj, new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, ((EFeiBlock) entity).blockID, 0, ((EFeiBlock) entity).metadata, 2, 1);
 
-			if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
-			{
-				if (!explosionCreated && callCount % 5 == 0)
-				{
-					this.worldObj.createExplosion(this.exploder, entity.posX, entity.posY, entity.posZ, 3.0F, true);
-					explosionCreated = true;
-				}
-
-				if (entity instanceof EntityLiving)
-				{
-					entity.fallDistance = 0;
-				}
-				else
-				{
-					if (entity instanceof EBaoZha)
-					{
-						if (((EBaoZha) entity).baoZha instanceof BzFanWuSu || ((EBaoZha) entity).baoZha instanceof BzHongSu)
-						{
-							this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-
-							if (this.worldObj.rand.nextFloat() > 0.85 && !this.worldObj.isRemote)
-							{
-								entity.setDead();
-								return;
-							}
-						}
-					}
-					else if (entity instanceof EZhaDan)
-					{
-						((EZhaDan) entity).explode();
-					}
-					else
-					{
-						entity.setDead();
 					}
 				}
 			}
 		}
 
-		if (this.worldObj.rand.nextInt(10) == 0)
-			this.worldObj.playSoundEffect(position.x + (Math.random() - 0.5) * radius, position.y + (Math.random() - 0.5) * radius, position.z + (Math.random() - 0.5) * radius, ZhuYaoICBM.PREFIX + "collapse", 6.0F - this.worldObj.rand.nextFloat(), 1.0F - this.worldObj.rand.nextFloat() * 0.4F);
+		if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
+		{
+			if (doExplosion && !explosionCreated && callCount % 5 == 0)
+			{
+				this.worldObj.createExplosion(this.exploder, entity.posX, entity.posY, entity.posZ, 3.0F, true);
+				explosionCreated = true;
+			}
 
-		this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "redmatter", 3.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 1F);
+			if (entity instanceof EntityLiving)
+			{
+				entity.fallDistance = 0;
+			}
+			else
+			{
+				if (entity instanceof EBaoZha)
+				{
+					if (((EBaoZha) entity).baoZha instanceof BzFanWuSu || ((EBaoZha) entity).baoZha instanceof BzHongSu)
+					{
+						this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+
+						if (this.worldObj.rand.nextFloat() > 0.85 && !this.worldObj.isRemote)
+						{
+							entity.setDead();
+							return explosionCreated;
+						}
+					}
+				}
+				else if (entity instanceof EZhaDan)
+				{
+					((EZhaDan) entity).explode();
+				}
+				else
+				{
+					entity.setDead();
+				}
+			}
+		}
+		return explosionCreated;
 	}
 
 	/**
@@ -241,7 +277,10 @@ public class BzHongSu extends BaoZha
 
 	@Override
 	public boolean isMovable()
-	{
-		return true;
+	{/*
+	 * if (this.callCount > 0) { return true; }
+	 */
+
+		return false;
 	}
 }

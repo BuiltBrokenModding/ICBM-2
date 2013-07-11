@@ -31,6 +31,7 @@ import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.ElectricityHandler;
 import calclavia.lib.multiblock.IBlockActivate;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -59,6 +60,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public TXiaoFaSheQi()
 	{
 		super();
+		this.electricityHandler = new ElectricityHandler(this, this.getMaxEnergyStored());
 		this.muBiao = new Vector3();
 	}
 
@@ -230,6 +232,12 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 				PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
 			}
 		}
+	}
+
+	@Override
+	public float getRequest(ForgeDirection direction)
+	{
+		return this.getMaxEnergyStored() - this.getEnergyStored();
 	}
 
 	@Override

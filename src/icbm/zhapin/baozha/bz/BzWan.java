@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
@@ -50,11 +51,11 @@ public class BzWan extends BaoZha
 							if (targetPosition.getBlockID(worldObj) != 0)
 								continue;
 
-							if (worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.01))
+							if (this.worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.01))
 							{
-								float velX = (float) ((targetPosition.x - position.x) * 0.5);
-								float velY = (float) ((targetPosition.y - position.y) * 0.5);
-								float velZ = (float) ((targetPosition.z - position.z) * 0.5);
+								float velX = (float) ((targetPosition.x - position.x) * 0.6);
+								float velY = (float) ((targetPosition.y - position.y) * 0.6);
+								float velZ = (float) ((targetPosition.z - position.z) * 0.6);
 
 								ZhuYaoZhaPin.proxy.spawnParticle("portal", worldObj, targetPosition, velX, velY, velZ, 5f, 1);
 							}
@@ -107,13 +108,16 @@ public class BzWan extends BaoZha
 					{
 						if (this.teleportTarget != null)
 						{
-							entity.posX = this.teleportTarget.x;
-							entity.posY = this.teleportTarget.y;
-							entity.posZ = this.teleportTarget.z;
+							worldObj.playSoundAtEntity((EntityPlayerMP) entity, "mob.endermen.portal", 1.0F, 1.0F);
+
+							if (!this.worldObj.isRemote)
+							{
+								((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(this.teleportTarget.x + 0.5, this.teleportTarget.y + 0.5, this.teleportTarget.z + 0.5, entity.rotationYaw, entity.rotationPitch);
+							}
 						}
 						else
 						{
-							if (entity.worldObj.provider.dimensionId == 1)
+							if (entity.worldObj.provider.dimensionId != 0)
 							{
 								entity.travelToDimension(0);
 							}
@@ -126,6 +130,7 @@ public class BzWan extends BaoZha
 					catch (Exception e)
 					{
 						ZhuYaoICBM.LOGGER.severe("Failed to teleport entity to the End.");
+						e.printStackTrace();
 					}
 				}
 			}
@@ -142,7 +147,7 @@ public class BzWan extends BaoZha
 	@Override
 	public void doPostExplode()
 	{
-		super.postExplode();
+		super.doPostExplode();
 
 		if (!this.worldObj.isRemote)
 		{

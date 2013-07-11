@@ -62,7 +62,7 @@ public class RBaoZha extends Render
 
 				/**
 				 * Draw Vortex
-				 */
+				 
 				GL11.glPushMatrix();
 				GL11.glDepthMask(false);
 
@@ -70,16 +70,9 @@ public class RBaoZha extends Render
 				CalclaviaRenderHelper.disableLighting();
 
 				GL11.glTranslated(x, y, z);
-				GL11.glRotatef(entity.ticksExisted, 0, 1, 0);
+				GL11.glRotatef(-entity.ticksExisted, 0, 1, 0);
 
 				float size = 10;
-
-				float f1 = ActiveRenderInfo.rotationX;
-				float f2 = ActiveRenderInfo.rotationXZ;
-				float f3 = ActiveRenderInfo.rotationZ;
-				float f4 = ActiveRenderInfo.rotationYZ;
-				float f5 = ActiveRenderInfo.rotationXY;
-
 				float f10 = 1.0F;
 
 				int textureSize = 50;
@@ -112,7 +105,7 @@ public class RBaoZha extends Render
 				CalclaviaRenderHelper.disableBlending();
 
 				GL11.glDepthMask(true);
-				GL11.glPopMatrix();
+				GL11.glPopMatrix();*/
 
 				/**
 				 * Enderdragon Light

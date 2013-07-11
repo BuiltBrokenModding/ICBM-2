@@ -12,6 +12,10 @@ import icbm.zhapin.rongqi.CFaShiDi;
 import icbm.zhapin.rongqi.CXiaoFaSheQi;
 import icbm.zhapin.zhapin.TZhaDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
+
+import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
@@ -97,6 +101,11 @@ public class CommonProxy implements IGuiHandler
 	public int getParticleSetting()
 	{
 		return -1;
+	}
+
+	public List<Entity> getEntityFXs()
+	{
+		return null;
 	}
 
 }

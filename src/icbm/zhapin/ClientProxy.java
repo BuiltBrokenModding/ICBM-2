@@ -1,5 +1,7 @@
 package icbm.zhapin;
 
+import java.util.List;
+
 import icbm.core.ShengYin;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.baozha.EBaoZha;
@@ -44,9 +46,11 @@ import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ShengYinDaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.entity.RenderMinecart;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
@@ -58,12 +62,15 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {
+	private boolean disableReflectionFX = false;
+
 	@Override
 	public void preInit()
 	{
@@ -182,5 +189,26 @@ public class ClientProxy extends CommonProxy
 	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan)
 	{
 		return new ShengYinDaoDan(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
+	}
+
+	public List<Entity> getEntityFXs()
+	{
+		if (!this.disableReflectionFX)
+		{
+			try
+			{
+				EffectRenderer renderer = Minecraft.getMinecraft().effectRenderer;
+				List[] fxLayers = (List[]) ReflectionHelper.getPrivateValue((Class) renderer.getClass(), renderer, 2);
+
+				return fxLayers[0];
+			}
+			catch (Exception e)
+			{
+				ZhuYaoICBM.LOGGER.severe("Failed to use relfection on entity effects.");
+				e.printStackTrace();
+				this.disableReflectionFX = true;
+			}
+		}
+		return null;
 	}
 }
