@@ -1,5 +1,6 @@
 package icbm.zhapin.zhapin.daodan;
 
+import icbm.api.IMissile;
 import icbm.core.di.MICBM;
 import icbm.zhapin.muoxing.daodan.MMYaSuo;
 import net.minecraft.entity.Entity;
@@ -16,7 +17,10 @@ public class DModule extends DaoDanTeBie
 	@Override
 	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
-
+		if (entity instanceof IMissile)
+		{
+			((IMissile) entity).dropMissileAsItem();
+		}
 	}
 
 	@Override

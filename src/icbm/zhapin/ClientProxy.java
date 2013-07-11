@@ -223,7 +223,8 @@ public class ClientProxy extends CommonProxy
 		return null;
 	}
 
-	@ForgeSubscribe
+	// TODO: Work on this!
+	//@ForgeSubscribe
 	public void renderingLivingEvent(Pre evt)
 	{
 		if (evt.entity instanceof EntityLivingBase)
@@ -245,7 +246,6 @@ public class ClientProxy extends CommonProxy
 							GL11.glDepthMask(true);
 						}
 
-						// TODO: FIX THIS
 						float f1 = (float) evt.entity.ticksExisted;
 						// this.func_110776_a(evt.renderer.func_110829_a);
 						CalclaviaRenderHelper.setTerrainTexture();
