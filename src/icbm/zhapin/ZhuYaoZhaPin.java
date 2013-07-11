@@ -45,6 +45,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -120,7 +121,8 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		super.preInit(event);
-		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoZhaPin.proxy);
+		NetworkRegistry.instance().registerGuiHandler(this, proxy);
+		MinecraftForge.EVENT_BUS.register(proxy);
 
 		ZhuYaoICBM.CONFIGURATION.load();
 		USE_FUEL = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Use Fuel", USE_FUEL).getBoolean(USE_FUEL);

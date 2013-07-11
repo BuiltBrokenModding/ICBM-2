@@ -38,7 +38,7 @@ public class MingLing extends CommandBase
 			{
 				int radius = parseInt(sender, args[1]);
 
-				if (radius > 0 && radius < Integer.MAX_VALUE)
+				if (radius > 0)
 				{
 					EntityPlayer player = (EntityPlayer) sender;
 

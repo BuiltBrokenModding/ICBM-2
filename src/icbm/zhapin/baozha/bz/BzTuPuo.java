@@ -21,6 +21,7 @@ public class BzTuPuo extends BzYaSuo
 	public BzTuPuo(World world, Entity entity, double x, double y, double z, float size)
 	{
 		super(world, entity, x, y, z, size);
+		this.nengLiang = 13;
 	}
 
 	@Override

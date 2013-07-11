@@ -37,7 +37,7 @@ import calclavia.lib.flag.CommandFlag;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.flag.ModFlag;
 import calclavia.lib.multiblock.BlockMulti;
-import calclavia.lib.multiblock.TileEntityMulti;
+import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -165,7 +165,7 @@ public class ZhuYaoICBM
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);
 
-			GameRegistry.registerTileEntity(TileEntityMulti.class, "ICBMMulti");
+			GameRegistry.registerTileEntity(TileEntityMultiBlockPart.class, "TileEntityMultiBlockPart");
 
 			isPreInit = true;
 		}

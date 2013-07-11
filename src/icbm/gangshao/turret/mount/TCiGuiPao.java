@@ -22,7 +22,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import calclavia.lib.CalculationHelper;
 import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.multiblock.TileEntityMulti;
+import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 
 /**
  * Railgun
@@ -176,7 +176,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	public void onCreate(Vector3 position)
 	{
 		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
+		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 	}
 
 	@Override

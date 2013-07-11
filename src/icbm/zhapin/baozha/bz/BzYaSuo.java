@@ -16,7 +16,7 @@ import universalelectricity.prefab.vector.Region3;
 public class BzYaSuo extends BaoZha
 {
 	private int checkBanJing = 16;
-	private float nengLiang = 10F;
+	protected float nengLiang = 10F;
 
 	private List<Vector3> blownBlocks = new ArrayList<Vector3>();
 

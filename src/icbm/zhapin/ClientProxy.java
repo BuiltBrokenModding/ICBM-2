@@ -1,7 +1,5 @@
 package icbm.zhapin;
 
-import java.util.List;
-
 import icbm.core.ShengYin;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.baozha.EBaoZha;
@@ -22,6 +20,7 @@ import icbm.zhapin.jiqi.TFaSheShiMuo;
 import icbm.zhapin.jiqi.TLeiDaTai;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.jiqi.TYinDaoQi;
+import icbm.zhapin.po.PDongShang;
 import icbm.zhapin.render.entity.RBaoZha;
 import icbm.zhapin.render.entity.RDaoDan;
 import icbm.zhapin.render.entity.REZhaDan;
@@ -44,20 +43,32 @@ import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ShengYinDaoDan;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.entity.RenderMinecart;
+import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+
+import org.lwjgl.opengl.GL11;
+
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.render.CalclaviaRenderHelper;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -198,7 +209,7 @@ public class ClientProxy extends CommonProxy
 			try
 			{
 				EffectRenderer renderer = Minecraft.getMinecraft().effectRenderer;
-				List[] fxLayers = (List[]) ReflectionHelper.getPrivateValue((Class) renderer.getClass(), renderer, 2);
+				List[] fxLayers = (List[]) ReflectionHelper.getPrivateValue(EffectRenderer.class, renderer, 2);
 
 				return fxLayers[0];
 			}
@@ -210,5 +221,61 @@ public class ClientProxy extends CommonProxy
 			}
 		}
 		return null;
+	}
+
+	@ForgeSubscribe
+	public void renderingLivingEvent(Pre evt)
+	{
+		if (evt.entity instanceof EntityLivingBase)
+		{
+			if (((EntityLivingBase) evt.entity).getActivePotionEffect(PDongShang.INSTANCE) != null)
+			{
+				try
+				{
+					ModelBase modelBase = (ModelBase) ReflectionHelper.getPrivateValue(RendererLivingEntity.class, evt.renderer, 2);
+
+					if (modelBase != null)
+					{
+						if (evt.entity.isInvisible())
+						{
+							GL11.glDepthMask(false);
+						}
+						else
+						{
+							GL11.glDepthMask(true);
+						}
+
+						// TODO: FIX THIS
+						float f1 = (float) evt.entity.ticksExisted;
+						// this.func_110776_a(evt.renderer.func_110829_a);
+						CalclaviaRenderHelper.setTerrainTexture();
+						GL11.glMatrixMode(GL11.GL_TEXTURE);
+						GL11.glLoadIdentity();
+						float f2 = f1 * 0.01F;
+						float f3 = f1 * 0.01F;
+						GL11.glTranslatef(f2, f3, 0.0F);
+						GL11.glScalef(2, 2, 2);
+						evt.renderer.setRenderPassModel(modelBase);
+						GL11.glMatrixMode(GL11.GL_MODELVIEW);
+						GL11.glEnable(GL11.GL_BLEND);
+						float f4 = 0.5F;
+						GL11.glColor4f(f4, f4, f4, 1.0F);
+						GL11.glDisable(GL11.GL_LIGHTING);
+						GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+						modelBase.render(evt.entity, (float) evt.entity.posX, (float) evt.entity.posY, (float) evt.entity.posZ, evt.entity.rotationPitch, evt.entity.rotationYaw, 0.0625F);
+						GL11.glMatrixMode(GL11.GL_TEXTURE);
+						GL11.glLoadIdentity();
+						GL11.glMatrixMode(GL11.GL_MODELVIEW);
+						GL11.glEnable(GL11.GL_LIGHTING);
+						GL11.glDisable(GL11.GL_BLEND);
+					}
+				}
+				catch (Exception e)
+				{
+					ZhuYaoICBM.LOGGER.severe("Failed to render entity layer object");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }

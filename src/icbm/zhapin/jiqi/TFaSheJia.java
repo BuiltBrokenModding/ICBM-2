@@ -17,7 +17,7 @@ import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.IRotatable;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
 import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.multiblock.TileEntityMulti;
+import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -131,9 +131,9 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, IT
 	public void onCreate(Vector3 position)
 	{
 		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
+		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
 		this.worldObj.setBlock(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMulti) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
+		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
 	}
 
 	@Override
