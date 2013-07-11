@@ -277,10 +277,7 @@ public class BzHongSu extends BaoZha
 
 	@Override
 	public boolean isMovable()
-	{/*
-	 * if (this.callCount > 0) { return true; }
-	 */
-
-		return false;
+	{
+		return true;
 	}
 }

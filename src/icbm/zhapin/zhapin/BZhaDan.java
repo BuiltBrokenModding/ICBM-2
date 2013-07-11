@@ -6,7 +6,7 @@ import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
-import icbm.zhapin.render.tile.RHZhaPin;
+import icbm.zhapin.render.tile.RZhaDan;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
@@ -390,7 +390,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	@Override
 	public int getRenderType()
 	{
-		return RHZhaPin.ID;
+		return RZhaDan.ID;
 	}
 
 	@Override

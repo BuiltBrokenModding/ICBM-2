@@ -7,6 +7,7 @@ import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
@@ -21,7 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RHZhaPin implements ISimpleBlockRenderingHandler
+public class RZhaDan extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler
 {
 	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "s-mine.png");
 	public static final int ID = RenderingRegistry.getNextAvailableRenderId();
@@ -65,22 +66,9 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 
 			if (tileEntity instanceof TZhaDan)
 			{
-				// TODO: Fix this.
 				ZhaPin zhaPin = ZhaPinRegistry.get(((TZhaDan) tileEntity).haoMa);
 
-				if (zhaPin.getBlockModel() != null && zhaPin.getBlockResource() != null)
-				{
-					GL11.glPushMatrix();
-					GL11.glTranslatef(x, y, z);
-					GL11.glTranslatef(0.0F, 1.5F, 0.0F);
-					GL11.glRotatef(180f, 0f, 0f, 1f);
-					FMLClientHandler.instance().getClient().renderEngine.func_110577_a(zhaPin.getBlockResource());
-					zhaPin.getBlockModel().render(0.0625f);
-					CalclaviaRenderHelper.setTerrainTexture();
-					GL11.glPopMatrix();
-					return true;
-				}
-				else
+				if (!(zhaPin.getBlockModel() != null && zhaPin.getBlockResource() != null))
 				{
 					renderer.renderStandardBlock(block, x, y, z);
 					return true;
@@ -89,6 +77,26 @@ public class RHZhaPin implements ISimpleBlockRenderingHandler
 		}
 
 		return false;
+	}
+
+	@Override
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
+	{
+		if (tileEntity instanceof TZhaDan)
+		{
+			ZhaPin zhaPin = ZhaPinRegistry.get(((TZhaDan) tileEntity).haoMa);
+
+			if (zhaPin != null && zhaPin.getBlockModel() != null && zhaPin.getBlockResource() != null)
+			{
+				GL11.glPushMatrix();
+				GL11.glTranslated(x + 0.5f, y + 1.5f, z + 0.5f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(zhaPin.getBlockResource());
+				zhaPin.getBlockModel().render(0.0625f);
+				CalclaviaRenderHelper.setTerrainTexture();
+				GL11.glPopMatrix();
+			}
+		}
 	}
 
 	@Override

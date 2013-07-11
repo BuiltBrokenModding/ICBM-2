@@ -6,7 +6,6 @@ import icbm.zhapin.baozha.bz.BzHongSu;
 
 import java.util.Random;
 
-import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -62,50 +61,37 @@ public class RBaoZha extends Render
 
 				/**
 				 * Draw Vortex
-				 
-				GL11.glPushMatrix();
-				GL11.glDepthMask(false);
-
-				CalclaviaRenderHelper.enableBlending();
-				CalclaviaRenderHelper.disableLighting();
-
-				GL11.glTranslated(x, y, z);
-				GL11.glRotatef(-entity.ticksExisted, 0, 1, 0);
-
-				float size = 10;
-				float f10 = 1.0F;
-
-				int textureSize = 50;
-				float size4 = size * 5;
-				float float_sizeMinus0_01 = textureSize - 0.01F;
-
-				float x0 = (textureSize + 0.0F) / size4;
-				float x1 = (textureSize + float_sizeMinus0_01) / size4;
-				float x2 = (textureSize + 0.0F) / size4;
-				float x3 = (textureSize + float_sizeMinus0_01) / size4;
-
-				float renderX = (float) x;
-				float renderY = (float) y;
-				float renderZ = (float) z;
-
-				this.func_110776_a(TEXTURE_FILE);
-				tessellator.startDrawingQuads();
-				tessellator.setBrightness(240);
-				tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);
-				tessellator.addVertexWithUV(-size, 0, -size, x1, x3);
-				tessellator.addVertexWithUV(-size, 0, +size, x1, x2);
-				tessellator.addVertexWithUV(+size, 0, +size, x0, x2);
-				tessellator.addVertexWithUV(+size, 0, -size, x0, x3);
-				tessellator.draw();
-
-				// Enable Lighting/Glow Off
-				CalclaviaRenderHelper.enableLighting();
-
-				// Disable Blending
-				CalclaviaRenderHelper.disableBlending();
-
-				GL11.glDepthMask(true);
-				GL11.glPopMatrix();*/
+				 * 
+				 * GL11.glPushMatrix(); GL11.glDepthMask(false);
+				 * 
+				 * CalclaviaRenderHelper.enableBlending(); CalclaviaRenderHelper.disableLighting();
+				 * 
+				 * GL11.glTranslated(x, y, z); GL11.glRotatef(-entity.ticksExisted, 0, 1, 0);
+				 * 
+				 * float size = 10; float f10 = 1.0F;
+				 * 
+				 * int textureSize = 50; float size4 = size * 5; float float_sizeMinus0_01 =
+				 * textureSize - 0.01F;
+				 * 
+				 * float x0 = (textureSize + 0.0F) / size4; float x1 = (textureSize +
+				 * float_sizeMinus0_01) / size4; float x2 = (textureSize + 0.0F) / size4; float x3 =
+				 * (textureSize + float_sizeMinus0_01) / size4;
+				 * 
+				 * float renderX = (float) x; float renderY = (float) y; float renderZ = (float) z;
+				 * 
+				 * this.func_110776_a(TEXTURE_FILE); tessellator.startDrawingQuads();
+				 * tessellator.setBrightness(240); tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);
+				 * tessellator.addVertexWithUV(-size, 0, -size, x1, x3);
+				 * tessellator.addVertexWithUV(-size, 0, +size, x1, x2);
+				 * tessellator.addVertexWithUV(+size, 0, +size, x0, x2);
+				 * tessellator.addVertexWithUV(+size, 0, -size, x0, x3); tessellator.draw();
+				 * 
+				 * // Enable Lighting/Glow Off CalclaviaRenderHelper.enableLighting();
+				 * 
+				 * // Disable Blending CalclaviaRenderHelper.disableBlending();
+				 * 
+				 * GL11.glDepthMask(true); GL11.glPopMatrix();
+				 */
 
 				/**
 				 * Enderdragon Light

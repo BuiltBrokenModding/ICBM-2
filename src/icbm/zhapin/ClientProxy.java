@@ -35,12 +35,13 @@ import icbm.zhapin.render.tile.RFaSheDi;
 import icbm.zhapin.render.tile.RFaSheJia;
 import icbm.zhapin.render.tile.RFaSheShiMuo;
 import icbm.zhapin.render.tile.RHJiQi;
-import icbm.zhapin.render.tile.RHZhaPin;
 import icbm.zhapin.render.tile.RLeiDaTai;
 import icbm.zhapin.render.tile.RXiaoFaSheQi;
 import icbm.zhapin.render.tile.RYinDaoQi;
+import icbm.zhapin.render.tile.RZhaDan;
 import icbm.zhapin.zhapin.EShouLiuDan;
 import icbm.zhapin.zhapin.EZhaDan;
+import icbm.zhapin.zhapin.TZhaDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import icbm.zhapin.zhapin.daodan.ShengYinDaoDan;
 
@@ -63,7 +64,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
 
 import org.lwjgl.opengl.GL11;
 
@@ -97,7 +97,7 @@ public class ClientProxy extends CommonProxy
 		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itFaSheQi.itemID, new RItFaSheQi());
 		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itDaoDan.itemID, new RItDaoDan());
 
-		RenderingRegistry.registerBlockHandler(new RHZhaPin());
+		RenderingRegistry.registerBlockHandler(new RZhaDan());
 		RenderingRegistry.registerBlockHandler(new RHJiQi());
 
 		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
@@ -116,7 +116,7 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RLeiDaTai());
 		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
 		ClientRegistry.bindTileEntitySpecialRenderer(TYinDaoQi.class, new RYinDaoQi());
-
+		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RZhaDan());
 	}
 
 	@Override
@@ -224,7 +224,7 @@ public class ClientProxy extends CommonProxy
 	}
 
 	// TODO: Work on this!
-	//@ForgeSubscribe
+	// @ForgeSubscribe
 	public void renderingLivingEvent(Pre evt)
 	{
 		if (evt.entity instanceof EntityLivingBase)

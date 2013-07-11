@@ -147,7 +147,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	@Override
 	public String getEntityName()
 	{
-		return ZhaPinRegistry.get(this.haoMa).getMinecartName();
+		return ZhaPinRegistry.get(this.haoMa).getMissileName();
 	}
 
 	@Override

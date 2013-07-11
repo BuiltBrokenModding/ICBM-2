@@ -1,8 +1,14 @@
 package icbm.zhapin.baozha.bz;
 
+import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.BaoZha;
+import icbm.zhapin.muoxing.jiqi.MDiLei;
+import icbm.zhapin.zhapin.ex.ExDiLei;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BzDiLei extends BaoZha
 {
@@ -20,14 +26,14 @@ public class BzDiLei extends BaoZha
 		}
 
 		this.controller.motionX = -0.125 + 0.25 * this.worldObj.rand.nextFloat();
-		this.controller.motionY = 0.6 + 0.3 * this.worldObj.rand.nextFloat();
+		this.controller.motionY = 0.7 + 0.4 * this.worldObj.rand.nextFloat();
 		this.controller.motionZ = -0.125 + 0.25 * this.worldObj.rand.nextFloat();
 	}
 
 	@Override
 	public void doExplode()
 	{
-		this.controller.motionY -= 0.04;
+		this.controller.motionY -= 0.045;
 		this.controller.rotationPitch += 1.5 * this.worldObj.rand.nextFloat();
 
 		if (!this.worldObj.isRemote)
@@ -66,4 +72,19 @@ public class BzDiLei extends BaoZha
 	{
 		return 8000;
 	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public MICBM getRenderModel()
+	{
+		return MDiLei.INSTANCE;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public ResourceLocation getRenderResource()
+	{
+		return ExDiLei.TEXTURE;
+	}
+
 }
