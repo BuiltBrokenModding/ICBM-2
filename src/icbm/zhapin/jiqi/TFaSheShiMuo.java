@@ -20,6 +20,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.ElectricityHandler;
 import universalelectricity.prefab.tile.IRotatable;
 import calclavia.lib.multiblock.IBlockActivate;
 
@@ -56,6 +57,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	public TFaSheShiMuo()
 	{
 		super();
+		this.electricityHandler = new ElectricityHandler(this, this.getMaxEnergyStored());
 	}
 
 	@Override
@@ -184,7 +186,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 				}
 				else if (ID == 3)
 				{
-					this.gaoDu = (short) Math.max(Math.min(dataStream.readShort(), 99), 3);
+					this.gaoDu = (short) Math.max(Math.min(dataStream.readShort(), Short.MAX_VALUE), 3);
 				}
 			}
 			else if (ID == 3)

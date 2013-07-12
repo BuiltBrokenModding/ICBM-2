@@ -51,8 +51,8 @@ public class GFaSheShiMuo extends GuiBase
 		this.tFFreq.setMaxStringLength(4);
 		this.tFX.setMaxStringLength(6);
 		this.tFZ.setMaxStringLength(6);
-		this.tFY.setMaxStringLength(2);
-		this.tFGaoDu.setMaxStringLength(2);
+		this.tFY.setMaxStringLength(3);
+		this.tFGaoDu.setMaxStringLength(3);
 
 		this.tFFreq.setText(this.tileEntity.getFrequency() + "");
 		this.tFGaoDu.setText(this.tileEntity.gaoDu + "");
@@ -127,7 +127,7 @@ public class GFaSheShiMuo extends GuiBase
 
 		try
 		{
-			short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.tFGaoDu.getText()), 99), 3);
+			short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.tFGaoDu.getText()), Short.MAX_VALUE), 3);
 
 			this.tileEntity.gaoDu = newGaoDu;
 			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3, this.tileEntity.gaoDu));
