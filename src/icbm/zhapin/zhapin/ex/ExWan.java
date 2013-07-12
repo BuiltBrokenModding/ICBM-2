@@ -88,7 +88,7 @@ public class ExWan extends DaoDan
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		Vector3 teleportTarget = null;
 

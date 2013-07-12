@@ -35,7 +35,7 @@ public class ExHuo extends ZhaPin
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzHuo(world, entity, x, y, z, 14).explode();
 	}

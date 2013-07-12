@@ -24,7 +24,7 @@ public class ExHongSu extends DaoDan
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzHongSu(world, entity, x, y, z, 35).explode();
 	}

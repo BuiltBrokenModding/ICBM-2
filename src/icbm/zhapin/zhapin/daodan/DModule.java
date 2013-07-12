@@ -15,7 +15,7 @@ public class DModule extends DaoDanTeBie
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		if (entity instanceof IMissile)
 		{

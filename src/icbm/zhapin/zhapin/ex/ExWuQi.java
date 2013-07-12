@@ -28,7 +28,7 @@ public class ExWuQi extends DaoDan
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzQi(world, entity, x, y, z, 20, 20 * 30, false).setConfuse().explode();
 	}

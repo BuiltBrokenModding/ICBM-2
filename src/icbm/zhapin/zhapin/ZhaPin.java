@@ -311,4 +311,14 @@ public abstract class ZhaPin implements IExplosive
 	{
 		return false;
 	}
+
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		if (!this.isDisabled)
+		{
+			this.doCreateExplosion(world, x, y, z, entity);
+		}
+	}
+
+	public abstract void doCreateExplosion(World world, double x, double y, double z, Entity entity);
 }

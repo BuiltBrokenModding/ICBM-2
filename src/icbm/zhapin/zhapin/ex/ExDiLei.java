@@ -56,7 +56,7 @@ public class ExDiLei extends ZhaPin
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzDiLei(world, entity, x, y, z, 5).explode();
 	}

@@ -9,20 +9,16 @@ import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
 public class ExFanWuSu extends DaoDan
 {
-	public boolean destroyBedrock = true;
-
 	public ExFanWuSu(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.setYinXin(300);
-		this.destroyBedrock = SheDing.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Antimatter Destroy Bedrock", this.destroyBedrock).getBoolean(this.destroyBedrock);
 	}
 
 	/**
@@ -49,9 +45,9 @@ public class ExFanWuSu extends DaoDan
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		new BzFanWuSu(world, entity, x, y, z, 60, this.destroyBedrock).explode();
+		new BzFanWuSu(world, entity, x, y, z, SheDing.ANTIMATTER_SIZE, SheDing.DESTROY_BEDROCK).explode();
 	}
 
 	@Override

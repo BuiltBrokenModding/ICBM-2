@@ -122,7 +122,7 @@ public class DZhuiZhong extends DaoDanTeBie
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzYaSuo(world, entity, x, y, z, 4).setDestroyItems().explode();
 	}

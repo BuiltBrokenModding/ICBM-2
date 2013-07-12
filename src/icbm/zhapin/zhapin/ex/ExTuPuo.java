@@ -26,7 +26,7 @@ public class ExTuPuo extends DaoDan
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
 		new BzTuPuo(world, entity, x, y, z, 2.5f, 7).explode();
 	}
