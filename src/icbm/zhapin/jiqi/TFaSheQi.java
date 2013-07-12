@@ -8,6 +8,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import calclavia.lib.TileEntityUniversalElectrical;
 import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
 public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral, IRedstoneReceptor
@@ -77,7 +78,7 @@ public abstract class TFaSheQi extends TileEntityUniversalElectrical implements 
 	}
 
 	@Override
-	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
+    public Object[] callMethod( IComputerAccess computer, ILuaContext context, int method, Object[] arguments ) throws Exception
 	{
 		switch (method)
 		{

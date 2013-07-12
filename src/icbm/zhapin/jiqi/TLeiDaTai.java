@@ -41,6 +41,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
 public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
@@ -450,7 +451,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public Object[] callMethod(IComputerAccess computer, int method, Object[] arguments) throws Exception
+	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
 	{
 		if (this.getEnergyStored() < this.getRequest(null))
 		{
