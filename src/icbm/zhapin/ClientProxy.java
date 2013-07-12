@@ -202,6 +202,7 @@ public class ClientProxy extends CommonProxy
 		return new ShengYinDaoDan(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
 	}
 
+	@Override
 	public List<Entity> getEntityFXs()
 	{
 		if (!this.disableReflectionFX)
@@ -229,7 +230,7 @@ public class ClientProxy extends CommonProxy
 	{
 		if (evt.entity instanceof EntityLivingBase)
 		{
-			if (((EntityLivingBase) evt.entity).getActivePotionEffect(PDongShang.INSTANCE) != null)
+			if (evt.entity.getActivePotionEffect(PDongShang.INSTANCE) != null)
 			{
 				try
 				{
@@ -246,7 +247,7 @@ public class ClientProxy extends CommonProxy
 							GL11.glDepthMask(true);
 						}
 
-						float f1 = (float) evt.entity.ticksExisted;
+						float f1 = evt.entity.ticksExisted;
 						// this.func_110776_a(evt.renderer.func_110829_a);
 						CalclaviaRenderHelper.setTerrainTexture();
 						GL11.glMatrixMode(GL11.GL_TEXTURE);

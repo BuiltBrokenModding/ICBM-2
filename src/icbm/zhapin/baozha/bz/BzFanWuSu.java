@@ -68,8 +68,8 @@ public class BzFanWuSu extends BaoZha
 				}
 			}
 		}
-		
-		//TODO: Render shockwave
+
+		// TODO: Render shockwave
 		/*
 		 * else if (ZhuYao.proxy.isGaoQing()) { for (int x = -this.getRadius(); x <
 		 * this.getRadius(); x++) { for (int y = -this.getRadius(); y < this.getRadius(); y++) { for

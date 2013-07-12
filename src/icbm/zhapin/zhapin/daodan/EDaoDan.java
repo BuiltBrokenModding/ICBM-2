@@ -8,6 +8,7 @@ import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.sentry.IAATarget;
+import icbm.core.IChunkLoadHandler;
 import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -39,7 +40,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EDaoDan extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
+public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
 {
 	public enum XingShi
 	{
@@ -237,21 +238,25 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	public void entityInit()
 	{
 		this.dataWatcher.addObject(16, -1);
-		this.daoDanInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.ENTITY));
+		this.chunkLoaderInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.ENTITY));
 	}
 
-	public void daoDanInit(Ticket ticket)
+	@Override
+	public void chunkLoaderInit(Ticket ticket)
 	{
-		if (ticket != null)
+		if (!this.worldObj.isRemote)
 		{
-			if (this.chunkTicket == null)
+			if (ticket != null)
 			{
-				this.chunkTicket = ticket;
-				this.chunkTicket.bindEntity(this);
-				this.chunkTicket.getModData();
-			}
+				if (this.chunkTicket == null)
+				{
+					this.chunkTicket = ticket;
+					this.chunkTicket.bindEntity(this);
+					this.chunkTicket.getModData();
+				}
 
-			ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+				ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+			}
 		}
 	}
 
@@ -259,21 +264,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 	{
 		if (!this.worldObj.isRemote && SheDing.ZAI_KUAI && this.chunkTicket != null)
 		{
-			for (int x = -2; x <= 2; x++)
-			{
-				for (int z = -2; z <= 2; z++)
-				{
-					this.worldObj.getChunkFromChunkCoords(newChunkX + x, newChunkZ + z);
-				}
-			}
-
-			for (int x = -1; x <= 1; x++)
-			{
-				for (int z = -1; z <= 1; z++)
-				{
-					ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX + x, newChunkZ + z));
-				}
-			}
+			ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
 		}
 	}
 
@@ -335,8 +326,6 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		{
 			e.printStackTrace();
 		}
-
-		this.updateLoadChunk(this.chunkCoordX, this.chunkCoordZ);
 
 		if (this.feiXingTick >= 0)
 		{

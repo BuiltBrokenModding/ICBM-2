@@ -2,6 +2,7 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.IItemFrequency;
 import icbm.api.RadarRegistry;
+import icbm.core.IChunkLoadHandler;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.IRedstoneProvider;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -44,7 +45,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
+public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
 {
 	public final static int MAX_BIAN_JING = 500;
 
@@ -76,22 +77,22 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public void initiate()
 	{
-		if (this.worldObj != null)
-		{
-			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
-		}
+		this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+		this.chunkLoaderInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.NORMAL));
+	}
 
-		if (this.ticket == null)
+	@Override
+	public void chunkLoaderInit(Ticket ticket)
+	{
+		if (!this.worldObj.isRemote)
 		{
-			this.ticket = ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.NORMAL);
-
-			if (this.ticket != null)
+			if (this.ticket == null && ticket != null)
 			{
-				this.ticket.getModData();
+				this.ticket = ticket;
+				new Vector3(this).writeToNBT(this.ticket.getModData());
+				ForgeChunkManager.forceChunk(this.ticket, new ChunkCoordIntPair(this.xCoord >> 4, this.zCoord >> 4));
 			}
 		}
-
-		ForgeChunkManager.forceChunk(this.ticket, new ChunkCoordIntPair(this.xCoord >> 4, this.zCoord >> 4));
 	}
 
 	@Override

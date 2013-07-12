@@ -4,6 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.ICBMFlags;
 import icbm.core.ICBMTab;
+import icbm.core.IChunkLoadHandler;
 import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.baozha.EBaoZha;
@@ -42,12 +43,15 @@ import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -121,6 +125,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 	{
 		super.preInit(event);
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
+		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(proxy);
 
 		SheDing.CONFIGURATION.load();
@@ -237,14 +242,28 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 			{
 				for (Ticket ticket : tickets)
 				{
-					if (ticket.getEntity() != null)
+					if (ticket.getEntity() instanceof IChunkLoadHandler)
 					{
-						((EDaoDan) ticket.getEntity()).daoDanInit(ticket);
-						System.out.println("WORK");
+						((IChunkLoadHandler) ticket.getEntity()).chunkLoaderInit(ticket);
+					}
+					else
+					{
+						if (ticket.getModData() != null)
+						{
+							Vector3 position = Vector3.readFromNBT(ticket.getModData());
+
+							TileEntity tileEntity = position.getTileEntity(ticket.world);
+
+							if (tileEntity instanceof IChunkLoadHandler)
+							{
+								((IChunkLoadHandler) tileEntity).chunkLoaderInit(ticket);
+							}
+						}
 					}
 				}
 			}
 		});
+
 		// -- Registering Blocks
 		GameRegistry.registerBlock(bZhaDan, IBZhaDan.class, "bZhaDan");
 		GameRegistry.registerBlock(bJiQi, IBJiQi.class, "bJiQi");
@@ -393,6 +412,15 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		EntityRegistry.registerModEntity(EChe.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
 
 		ZhuYaoZhaPin.proxy.init();
+	}
+
+	@ForgeSubscribe
+	public void enteringChunk(EnteringChunk evt)
+	{
+		if (evt.entity instanceof EDaoDan)
+		{
+			((EDaoDan) evt.entity).updateLoadChunk(evt.newChunkX, evt.newChunkZ);
+		}
 	}
 
 	/**

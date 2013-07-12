@@ -108,7 +108,7 @@ public class BzWan extends BaoZha
 					{
 						if (this.teleportTarget != null)
 						{
-							worldObj.playSoundAtEntity((EntityPlayerMP) entity, "mob.endermen.portal", 1.0F, 1.0F);
+							worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0F, 1.0F);
 
 							if (!this.worldObj.isRemote)
 							{
