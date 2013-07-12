@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.SheDing;
 import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzYaSuo;
 import icbm.zhapin.muoxing.daodan.MMYaSuo;
@@ -25,7 +25,7 @@ public class ExYaSuo extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override

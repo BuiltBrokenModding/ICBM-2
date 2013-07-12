@@ -1,5 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzQi;
@@ -26,11 +27,11 @@ public class ExDuQi extends DaoDan
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYaoICBM.itDu, '?', wuQi.getItemStack() }), "Chemical", ZhuYaoICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYaoICBM.itDu, '?', wuQi.getItemStack() }), "Chemical", SheDing.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ZhuYaoICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", SheDing.CONFIGURATION, true);
 		}
 	}
 

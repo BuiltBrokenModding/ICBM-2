@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.SheDing;
 import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzQi;
 import icbm.zhapin.muoxing.daodan.MMWuQi;
@@ -24,7 +24,7 @@ public class ExWuQi extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS", "WRW", "SSS", 'R', ZhaPin.tui.getItemStack(), 'W', Item.bucketWater, 'S', "dustSulfur" }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS", "WRW", "SSS", 'R', ZhaPin.tui.getItemStack(), 'W', Item.bucketWater, 'S', "dustSulfur" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override

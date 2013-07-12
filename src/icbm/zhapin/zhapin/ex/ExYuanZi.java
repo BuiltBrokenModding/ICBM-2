@@ -1,5 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzYuanZi;
@@ -28,17 +29,17 @@ public class ExYuanZi extends DaoDan
 		{
 			if (OreDictionary.getOres("ingotUranium").size() > 0)
 			{
-				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 			}
 			else
 			{
-				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack() }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 
 			}
 		}
 		else
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 
 		}
 	}
@@ -68,11 +69,11 @@ public class ExYuanZi extends DaoDan
 	{
 		if (this.getTier() == 3)
 		{
-			new BzYuanZi(world, entity, x, y, z, 45, 60).setNuclear().explode();
+			new BzYuanZi(world, entity, x, y, z, 50, 80).setNuclear().explode();
 		}
 		else
 		{
-			new BzYuanZi(world, entity, x, y, z, 20, 45).explode();
+			new BzYuanZi(world, entity, x, y, z, 30, 45).explode();
 		}
 	}
 

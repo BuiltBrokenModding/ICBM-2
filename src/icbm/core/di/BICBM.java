@@ -1,6 +1,7 @@
 package icbm.core.di;
 
 import icbm.core.ICBMTab;
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -19,7 +20,7 @@ public class BICBM extends BlockTile
 
 	public BICBM(int id, String name, Material material)
 	{
-		super(ZhuYaoICBM.CONFIGURATION.getBlock(name, id).getInt(id), material);
+		super(SheDing.CONFIGURATION.getBlock(name, id).getInt(id), material);
 		this.setUnlocalizedName(ZhuYaoICBM.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.func_111022_d(ZhuYaoICBM.PREFIX + name);

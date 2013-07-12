@@ -4,6 +4,7 @@ import icbm.api.ICBM;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.ICBMFlags;
 import icbm.core.ICBMTab;
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.baozha.EBaoZha;
 import icbm.zhapin.cart.EChe;
@@ -43,11 +44,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -114,7 +114,6 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 
 	public static final Du DU_DU = new Du("Chemical", 1, false);
 	public static final Du DU_CHUAN_RAN = new Du("Contagious", 1, true);
-	public static boolean USE_FUEL = true;
 
 	@Override
 	@EventHandler
@@ -124,9 +123,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 		MinecraftForge.EVENT_BUS.register(proxy);
 
-		ZhuYaoICBM.CONFIGURATION.load();
-		USE_FUEL = CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Use Fuel", USE_FUEL).getBoolean(USE_FUEL);
-
+		SheDing.CONFIGURATION.load();
 		bZhaDan = new BZhaDan(ICBM.BLOCK_ID_PREFIX + 3);
 		bJiQi = new BJiQi(ICBM.BLOCK_ID_PREFIX + 4);
 
@@ -149,10 +146,13 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		PChuanRanDu.INSTANCE = new PChuanRanDu(23, false, 5149489, "virus");
 		PDongShang.INSTANCE = new PDongShang(24, false, 5149489, "frostBite");
 
-		ZhuYaoICBM.CONFIGURATION.save();
+		SheDing.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(ZhuYaoZhaPin.bZhaDan);
 
+		/**
+		 * Dispenser Handler
+		 */
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ZhuYaoZhaPin.itShouLiuDan, new IBehaviorDispenseItem()
 		{
 			@Override
@@ -227,10 +227,9 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 			}
 		});
 
-		// -- Registering Blocks
-		GameRegistry.registerBlock(bZhaDan, IBZhaDan.class, "bZhaDan");
-		GameRegistry.registerBlock(bJiQi, IBJiQi.class, "bJiQi");
-
+		/**
+		 * Chunk loading handler.
+		 */
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback()
 		{
 			@Override
@@ -241,12 +240,16 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 					if (ticket.getEntity() != null)
 					{
 						((EDaoDan) ticket.getEntity()).daoDanInit(ticket);
+						System.out.println("WORK");
 					}
 				}
 			}
 		});
+		// -- Registering Blocks
+		GameRegistry.registerBlock(bZhaDan, IBZhaDan.class, "bZhaDan");
+		GameRegistry.registerBlock(bJiQi, IBJiQi.class, "bJiQi");
 
-		ICBM.explosionManager = ZhaPin.class;
+		ICBM.explosionManager = ZhaPinRegistry.class;
 
 		ZhuYaoZhaPin.proxy.preInit();
 	}
@@ -293,7 +296,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		// Radar Station
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang), '!', UniversalRecipes.PRIMARY_PLATE, '#', UniversalRecipes.CIRCUIT_T1, '?', Item.ingotGold }));
 		// EMP Tower
-		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', UniversalRecipes.MOTOR, 'W', UniversalRecipes.WIRE }), "EMP Tower", ZhuYaoICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', UniversalRecipes.MOTOR, 'W', UniversalRecipes.WIRE }), "EMP Tower", SheDing.CONFIGURATION, true);
 
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipes.PRIMARY_PLATE, '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
@@ -302,7 +305,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		// Find and try to add a recipe with fuel, then oil then coal.
 		try
 		{
-			if (FluidRegistry.getFluid("fuel") != null && USE_FUEL)
+			if (FluidRegistry.getFluid("fuel") != null && SheDing.USE_FUEL)
 			{
 				for (FluidContainerData data : FluidContainerRegistry.getRegisteredFluidContainerData())
 				{
@@ -315,7 +318,7 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 					}
 				}
 			}
-			else if (FluidRegistry.getFluid("oil") != null && USE_FUEL)
+			else if (FluidRegistry.getFluid("oil") != null && SheDing.USE_FUEL)
 			{
 				for (FluidContainerData data : FluidContainerRegistry.getRegisteredFluidContainerData())
 				{
@@ -356,18 +359,18 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 			zhaPin.init();
 
 			// Missile
-			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, zhaPin.getID()), new Object[] { new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", ZhuYaoICBM.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, zhaPin.getID()), new Object[] { new ItemStack(itDaoDan, 1, ZhaPin.missileModule.getID()), new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", SheDing.CONFIGURATION, true);
 
 			if (zhaPin.getTier() < 2)
 			{
 				// Grenade
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", ZhuYaoICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itShouLiuDan, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", SheDing.CONFIGURATION, true);
 			}
 
 			if (zhaPin.getTier() < 3)
 			{
 				// Minecart
-				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", ZhuYaoICBM.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.itChe, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", SheDing.CONFIGURATION, true);
 			}
 		}
 

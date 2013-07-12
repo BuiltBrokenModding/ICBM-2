@@ -3,6 +3,7 @@ package icbm.gangshao;
 import icbm.api.ICBM;
 import icbm.core.ICBMFlags;
 import icbm.core.ICBMTab;
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.damage.EntityTileDamagable;
 import icbm.gangshao.platform.BlockTurretPlatform;
@@ -95,14 +96,14 @@ public class ZhuYaoGangShao extends ZhuYaoICBM
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoGangShao.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 
-		ZhuYaoICBM.CONFIGURATION.load();
+		SheDing.CONFIGURATION.load();
 
 		blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
 		itemUpgrade = new ItPaoTaiUpgrades(ITEM_ID_PREFIX + 2);
-		ZhuYaoICBM.CONFIGURATION.save();
+		SheDing.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
 		conventionalBullet = new ItemStack(itemAmmo, 1, 1);

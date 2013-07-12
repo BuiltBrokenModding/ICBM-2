@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin;
 
 import icbm.api.explosion.IExplosive;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.SheDing;
 import icbm.core.di.MICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.daodan.DFanDan;
@@ -45,6 +45,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public abstract class ZhaPin implements IExplosive
 {
+	/** Explosives */
 	public static final ZhaPin yaSuo;
 	public static final ZhaPin xiaoQunDan;
 	public static final ZhaPin huo;
@@ -73,12 +74,6 @@ public abstract class ZhaPin implements IExplosive
 	public static final ZhaPin fanWuSu;
 	public static final ZhaPin hongSu;
 
-	/**
-	 * Hidden Explosives public static final ZhaPin dianCiWave; public static final ZhaPin
-	 * dianCiSignal; public static final ZhaPin taiYang2; public static final ZhaPin fuLan; public
-	 * static final ZhaPin bianZhong; public static final ZhaPin bingDan2;
-	 */
-
 	/** Missiles */
 	public static final DaoDan missileModule;
 	public static final DaoDan zhuiZhong;
@@ -88,7 +83,7 @@ public abstract class ZhaPin implements IExplosive
 
 	static
 	{
-		ZhuYaoICBM.CONFIGURATION.load();
+		SheDing.CONFIGURATION.load();
 		yaSuo = ZhaPinRegistry.register(new ExYaSuo("condensed", 1));
 		xiaoQunDan = ZhaPinRegistry.register(new ExQunDan("shrapnel", 1));
 		huo = ZhaPinRegistry.register(new ExHuo("incendiary", 1));
@@ -124,7 +119,7 @@ public abstract class ZhaPin implements IExplosive
 		fenZhiDan = (DaoDan) ZhaPinRegistry.register(new DFenZhiDan("cluster", 2));
 		yuanZiFenZhiDan = (DaoDan) ZhaPinRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
 
-		ZhuYaoICBM.CONFIGURATION.save();
+		SheDing.CONFIGURATION.save();
 	}
 
 	/** The unique identification name for this explosive. */
@@ -157,7 +152,7 @@ public abstract class ZhaPin implements IExplosive
 		this.hasMinecart = this.tier <= 2;
 
 		this.qiZi = FlagRegistry.registerFlag("ban_" + this.mingZi);
-		this.isDisabled = ZhuYaoICBM.CONFIGURATION.get("Disable_Explosives", "Disable " + this.mingZi, false).getBoolean(false);
+		this.isDisabled = SheDing.CONFIGURATION.get("Disable_Explosives", "Disable " + this.mingZi, false).getBoolean(false);
 
 	}
 

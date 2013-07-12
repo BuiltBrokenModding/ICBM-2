@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.SheDing;
 import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzHuo;
 import icbm.zhapin.muoxing.daodan.MMHuo;
@@ -24,7 +24,7 @@ public class ExHuo extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', "dustSulfur", '?', tui.getItemStack(), '!', Item.bucketLava }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', "dustSulfur", '?', tui.getItemStack(), '!', Item.bucketLava }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override

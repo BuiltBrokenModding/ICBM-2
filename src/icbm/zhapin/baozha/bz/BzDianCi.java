@@ -2,7 +2,6 @@ package icbm.zhapin.baozha.bz;
 
 import ic2.api.item.ISpecialElectricItem;
 import ic2.api.tile.IEnergyStorage;
-import icbm.api.IDisableable;
 import icbm.api.IMissile;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IEMPBlock;
@@ -92,11 +91,6 @@ public class BzDianCi extends BaoZha
 								if (tileEntity instanceof IElectricalStorage)
 								{
 									((IElectricalStorage) tileEntity).setEnergyStored(0);
-								}
-
-								if (tileEntity instanceof IDisableable)
-								{
-									((IDisableable) tileEntity).onDisable(400);
 								}
 
 								if (tileEntity instanceof IFortronStorage)

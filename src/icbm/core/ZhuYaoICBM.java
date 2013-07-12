@@ -3,7 +3,6 @@ package icbm.core;
 import icbm.api.ICBM;
 import icbm.core.di.ItICBM;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -39,7 +38,6 @@ import calclavia.lib.flag.ModFlag;
 import calclavia.lib.multiblock.BlockMulti;
 import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -58,8 +56,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ZhuYaoICBM
 {
 	public static final ZhuYaoICBM INSTANCE = new ZhuYaoICBM();
-
-	public static boolean ZAI_KUAI;
 
 	public static Block bLiu, bFuShe;
 
@@ -83,8 +79,6 @@ public class ZhuYaoICBM
 
 	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
 
-	public static int DAO_DAN_ZUI_YUAN = 10000;
-
 	/**
 	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
 	 * TODO: USE TILES INSTEAD OF IDS.
@@ -99,11 +93,6 @@ public class ZhuYaoICBM
 
 	private static boolean isPreInit, isInit, isPostInit;
 
-	/**
-	 * Configuration file for ICBM.
-	 */
-	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "ICBM.cfg"));
-
 	public static final Logger LOGGER = Logger.getLogger(ICBM.NAME);
 
 	@EventHandler
@@ -116,17 +105,15 @@ public class ZhuYaoICBM
 
 			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
 
-			ZhuYaoICBM.CONFIGURATION.load();
+			SheDing.initiate();
+			SheDing.CONFIGURATION.load();
 
 			// Calling this once to prevent the static class from not initiating.
 			PotionRadiation.INSTANCE.getId();
 
-			ZAI_KUAI = ZhuYaoICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow Chunk Loading", true).getBoolean(true);
-			DAO_DAN_ZUI_YUAN = ZhuYaoICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Max Missile Distance", DAO_DAN_ZUI_YUAN).getInt(DAO_DAN_ZUI_YUAN);
-
 			// BLOCKS
 			bLiu = new BLiu(ICBM.BLOCK_ID_PREFIX + 0);
-			bJia = new BlockMulti(ZhuYaoICBM.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ZhuYaoICBM.PREFIX + "machine").setChannel(this.getChannel());
+			bJia = new BlockMulti(SheDing.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ZhuYaoICBM.PREFIX + "machine").setChannel(this.getChannel());
 
 			// Items
 			itDu = new ItICBM(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
@@ -136,7 +123,7 @@ public class ZhuYaoICBM
 			GameRegistry.registerBlock(bLiu, "bLiu");
 			GameRegistry.registerBlock(bJia, "bJia");
 
-			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(ZhuYaoICBM.CONFIGURATION);
+			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(SheDing.CONFIGURATION);
 
 			/**
 			 * Check for existence of radioactive block. If it does not exist, then create it.
@@ -148,7 +135,7 @@ public class ZhuYaoICBM
 			}
 			else
 			{
-				bFuShe = new BlockRadioactive(ZhuYaoICBM.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive").func_111022_d(PREFIX + "radioactive");
+				bFuShe = new BlockRadioactive(SheDing.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive").func_111022_d(PREFIX + "radioactive");
 				GameRegistry.registerBlock(bFuShe, "Radioactive");
 				OreDictionary.registerOre("blockRadioactive", bFuShe);
 				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
@@ -157,10 +144,10 @@ public class ZhuYaoICBM
 			/**
 			 * Decrease Obsidian Resistance
 			 */
-			Block.obsidian.setResistance(ZhuYaoICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+			Block.obsidian.setResistance(SheDing.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
 			LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-			CONFIGURATION.save();
+			SheDing.CONFIGURATION.save();
 
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);

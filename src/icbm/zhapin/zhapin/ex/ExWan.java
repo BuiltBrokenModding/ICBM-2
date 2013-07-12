@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.SheDing;
 import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzWan;
 import icbm.zhapin.muoxing.daodan.MMWan;
@@ -84,7 +84,7 @@ public class ExWan extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override

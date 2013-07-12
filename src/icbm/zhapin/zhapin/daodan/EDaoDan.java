@@ -8,6 +8,7 @@ import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.sentry.IAATarget;
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
@@ -199,7 +200,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 		this.jiSuan();
 		this.worldObj.playSoundAtEntity(this, ZhuYaoICBM.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
-		ZhuYaoICBM.LOGGER.info("Launching " + this.getEntityName() + " from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+		ZhuYaoICBM.LOGGER.info("Launching " + this.getEntityName() + " (" + this.entityId + ") from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
 	@Override
@@ -256,7 +257,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
-		if (!this.worldObj.isRemote && ZhuYaoICBM.ZAI_KUAI && this.chunkTicket != null)
+		if (!this.worldObj.isRemote && SheDing.ZAI_KUAI && this.chunkTicket != null)
 		{
 			for (int x = -2; x <= 2; x++)
 			{
@@ -657,7 +658,7 @@ public class EDaoDan extends Entity implements IMissileLockable, IExplosiveConta
 
 				this.zhengZaiBaoZha = true;
 
-				ZhuYaoICBM.LOGGER.info(this.getEntityName() + " exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+				ZhuYaoICBM.LOGGER.info(this.getEntityName() + " (" + this.entityId + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
 
 			this.setDead();

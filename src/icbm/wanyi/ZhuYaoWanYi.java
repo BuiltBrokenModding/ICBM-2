@@ -2,6 +2,7 @@ package icbm.wanyi;
 
 import icbm.api.ICBM;
 import icbm.core.ICBMTab;
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.wanyi.b.BBuoLi;
 import icbm.wanyi.b.BBuoLiPan;
@@ -65,11 +66,11 @@ public class ZhuYaoWanYi extends ZhuYaoICBM
 		super.preInit(event);
 		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoWanYi.proxy);
 
-		ZhuYaoICBM.CONFIGURATION.load();
+		SheDing.CONFIGURATION.load();
 
 		// Blocks
-		bBuoLiPan = new BBuoLiPan(ZhuYaoICBM.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(ZhuYaoICBM.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
+		bBuoLiPan = new BBuoLiPan(SheDing.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
+		bBuoLiEnNiu = new BEnNiu(SheDing.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
 		bYinGanQi = new BYinGanQi(ICBM.BLOCK_ID_PREFIX - 3);
 		bZha = new BZha(ICBM.BLOCK_ID_PREFIX - 4);
 		bYinXing = new BYinXing(ICBM.BLOCK_ID_PREFIX - 5);
@@ -77,11 +78,11 @@ public class ZhuYaoWanYi extends ZhuYaoICBM
 		bBuoLi = new BBuoLi(ICBM.BLOCK_ID_PREFIX - 7);
 
 		// ITEMS
-		itYao = new ItYao(ZhuYaoICBM.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
-		itHuoLaunQi = new ItHuoLuanQi(ZhuYaoICBM.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
-		itGenZongQi = new ItGenZongQi(ZhuYaoICBM.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
+		itYao = new ItYao(SheDing.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
+		itHuoLaunQi = new ItHuoLuanQi(SheDing.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
+		itGenZongQi = new ItGenZongQi(SheDing.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
-		ZhuYaoICBM.CONFIGURATION.save();
+		SheDing.CONFIGURATION.save();
 
 		ICBMTab.itemStack = new ItemStack(bYinGanQi);
 

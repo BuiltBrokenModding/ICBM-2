@@ -5,6 +5,7 @@ import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.ITier;
 import icbm.api.explosion.ExplosiveType;
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
@@ -332,21 +333,21 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		// Checks if it is greater than the maximum range for the launcher base
 		if (this.tier == 0)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoICBM.DAO_DAN_ZUI_YUAN / 10)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN / 10)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 1)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoICBM.DAO_DAN_ZUI_YUAN / 5)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN / 5)
 			{
 				return false;
 			}
 		}
 		else if (this.tier == 2)
 		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < ZhuYaoICBM.DAO_DAN_ZUI_YUAN)
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN)
 			{
 				return false;
 			}

@@ -1,5 +1,6 @@
 package icbm.zhapin.baozha.bz;
 
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.baozha.BaoZha;
@@ -18,9 +19,9 @@ public class BzYuanZi extends BaoZha
 
 	static
 	{
-		ZhuYaoICBM.CONFIGURATION.load();
-		POLLUTIVE_NUCLEAR = ZhuYaoICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Pollutive Nuclear", POLLUTIVE_NUCLEAR).getBoolean(POLLUTIVE_NUCLEAR);
-		ZhuYaoICBM.CONFIGURATION.save();
+		SheDing.CONFIGURATION.load();
+		POLLUTIVE_NUCLEAR = SheDing.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Pollutive Nuclear", POLLUTIVE_NUCLEAR).getBoolean(POLLUTIVE_NUCLEAR);
+		SheDing.CONFIGURATION.save();
 	}
 
 	private ThrSheXian thread;

@@ -1,5 +1,6 @@
 package icbm.zhapin.zhapin.ex;
 
+import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzFanWuSu;
@@ -21,7 +22,7 @@ public class ExFanWuSu extends DaoDan
 	{
 		super(mingZi, tier);
 		this.setYinXin(300);
-		this.destroyBedrock = ZhuYaoICBM.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Antimatter Destroy Bedrock", this.destroyBedrock).getBoolean(this.destroyBedrock);
+		this.destroyBedrock = SheDing.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Antimatter Destroy Bedrock", this.destroyBedrock).getBoolean(this.destroyBedrock);
 	}
 
 	/**
@@ -44,13 +45,13 @@ public class ExFanWuSu extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), ZhuYaoICBM.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override
 	public void createExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		new BzFanWuSu(world, entity, x, y, z, 40, this.destroyBedrock).explode();
+		new BzFanWuSu(world, entity, x, y, z, 60, this.destroyBedrock).explode();
 	}
 
 	@Override

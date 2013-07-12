@@ -1,7 +1,7 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.IItemFrequency;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.SheDing;
 import icbm.core.di.ItElectricICBM;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -27,7 +27,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
 {
-	public static final int BAN_JING = ZhuYaoICBM.DAO_DAN_ZUI_YUAN;
+	public static final int BAN_JING = SheDing.DAO_DAN_ZUI_YUAN;
 	public static final int YONG_DIAN_LIANG = 6000;
 
 	public ItLeiSheZhiBiao(int id)
