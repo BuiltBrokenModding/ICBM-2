@@ -11,10 +11,8 @@ import calclavia.lib.CalculationHelper;
  * 
  * @author DarkGaurdsman
  */
-public class TFanKong extends TPaoTaiZiDong
-{
-	public TFanKong()
-	{
+public class TFanKong extends TPaoTaiZiDong {
+	public TFanKong() {
 		this.targetAir = true;
 		this.canTargetAir = true;
 
@@ -33,53 +31,62 @@ public class TFanKong extends TPaoTaiZiDong
 	}
 
 	@Override
-	public AxisAlignedBB getTargetingBox()
-	{
-		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), yCoord - this.getDetectRange(), zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + this.getDetectRange(), zCoord + this.getDetectRange());
+	public AxisAlignedBB getTargetingBox() {
+		return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(),
+				yCoord - this.getDetectRange(), zCoord - this.getDetectRange(),
+				xCoord + this.getDetectRange(), yCoord + this.getDetectRange(),
+				zCoord + this.getDetectRange());
 	}
 
 	@Override
-	public float getVoltage()
-	{
+	public float getVoltage() {
 		return 240;
 	}
 
 	@Override
-	public float getFiringRequest()
-	{
+	public float getFiringRequest() {
 		return 8000;
 	}
 
 	@Override
-	public int getMaxHealth()
-	{
+	public int getMaxHealth() {
 		return 180;
 	}
 
 	@Override
-	public void playFiringSound()
-	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "aagun", 5F, 1F);
+	public void playFiringSound() {
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord,
+				ZhuYaoICBM.PREFIX + "aagun", 5F, 1F);
 	}
 
 	@Override
-	public void renderShot(Vector3 target)
-	{
+	public void renderShot(Vector3 target) {
 		Vector3 center = this.getCenter();
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(
+				center,
+				CalculationHelper.getDeltaPositionFromRotation(
+						this.currentRotationYaw - 25,
+						this.currentRotationPitch * 1.4f).multiply(1.15)),
+				target, 1, 1, 1, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(
+				center,
+				CalculationHelper.getDeltaPositionFromRotation(
+						this.currentRotationYaw + 25,
+						this.currentRotationPitch * 1.4f).multiply(1.15)),
+				target, 1, 1, 1, 5);
 	}
 
 	@Override
-	public Vector3 getCenter()
-	{
+	public Vector3 getCenter() {
 		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5));
 	}
 
 	@Override
-	public Vector3 getMuzzle()
-	{
-		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch).multiply(1));
+	public Vector3 getMuzzle() {
+		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(
+				CalculationHelper.getDeltaPositionFromRotation(
+						this.currentRotationYaw, this.currentRotationPitch)
+						.multiply(1));
 	}
 
 }

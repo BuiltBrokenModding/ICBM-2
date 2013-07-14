@@ -1,6 +1,5 @@
 package atomicscience.api;
 
-public interface IHeatSource extends ITemperature
-{
+public interface IHeatSource extends ITemperature {
 
 }

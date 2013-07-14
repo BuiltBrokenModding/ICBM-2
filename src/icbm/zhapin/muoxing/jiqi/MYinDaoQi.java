@@ -3,8 +3,7 @@ package icbm.zhapin.muoxing.jiqi;
 import icbm.core.di.MICBM;
 import net.minecraft.client.model.ModelRenderer;
 
-public class MYinDaoQi extends MICBM
-{
+public class MYinDaoQi extends MICBM {
 	// fields
 	ModelRenderer Stand2;
 	ModelRenderer Stand1;
@@ -42,8 +41,7 @@ public class MYinDaoQi extends MICBM
 	ModelRenderer Console2;
 	ModelRenderer Radio_Cable;
 
-	public MYinDaoQi()
-	{
+	public MYinDaoQi() {
 		textureWidth = 64;
 		textureHeight = 32;
 
@@ -259,8 +257,7 @@ public class MYinDaoQi extends MICBM
 		setRotation(Radio_Cable, -1.570796F, 0.7853982F, 3.141593F);
 	}
 
-	public void render(float rotation, float f5)
-	{
+	public void render(float rotation, float f5) {
 		Stand2.render(f5);
 		Stand1.render(f5);
 		Console6.render(f5);
@@ -298,8 +295,7 @@ public class MYinDaoQi extends MICBM
 		Radio_Cable.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

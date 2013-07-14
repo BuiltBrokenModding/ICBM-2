@@ -12,77 +12,67 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatMessageComponent;
 
-public class MingLing extends CommandBase
-{
+public class MingLing extends CommandBase {
 	@Override
-	public String getCommandName()
-	{
+	public String getCommandName() {
 		return "icbm";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender par1ICommandSender)
-	{
+	public String getCommandUsage(ICommandSender par1ICommandSender) {
 		return "/icbm lag <radius>";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args)
-	{
-		try
-		{
+	public void processCommand(ICommandSender sender, String[] args) {
+		try {
 			EntityPlayer entityPlayer = (EntityPlayer) sender;
 			int dimension = entityPlayer.worldObj.provider.dimensionId;
 
-			if (args[0].equalsIgnoreCase("lag"))
-			{
+			if (args[0].equalsIgnoreCase("lag")) {
 				int radius = parseInt(sender, args[1]);
 
-				if (radius > 0)
-				{
+				if (radius > 0) {
 					EntityPlayer player = (EntityPlayer) sender;
 
-					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(player.posX - radius, player.posY - radius, player.posZ - radius, player.posX + radius, player.posY + radius, player.posZ + radius);
-					List<Entity> entitiesNearby = player.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(
+							player.posX - radius, player.posY - radius,
+							player.posZ - radius, player.posX + radius,
+							player.posY + radius, player.posZ + radius);
+					List<Entity> entitiesNearby = player.worldObj
+							.getEntitiesWithinAABB(Entity.class, bounds);
 
-					for (Entity entity : entitiesNearby)
-					{
-						if (entity instanceof EFeiBlock)
-						{
+					for (Entity entity : entitiesNearby) {
+						if (entity instanceof EFeiBlock) {
 							((EFeiBlock) entity).setBlock();
-						}
-						else if (entity instanceof EBaoZha)
-						{
+						} else if (entity instanceof EBaoZha) {
 							entity.setDead();
 						}
 					}
 
-					sender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Removed all ICBM lag sources within " + radius + " radius."));
+					sender.sendChatToPlayer(ChatMessageComponent
+							.func_111066_d("Removed all ICBM lag sources within "
+									+ radius + " radius."));
 					return;
-				}
-				else
-				{
+				} else {
 					throw new WrongUsageException("Radius not within range.");
 				}
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
 
 		throw new WrongUsageException(this.getCommandUsage(sender));
 	}
 
 	@Override
-	public int getRequiredPermissionLevel()
-	{
+	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender sender, String[] args)
-	{
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] { "lag" }) : null;
+	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
+		return args.length == 1 ? getListOfStringsMatchingLastWord(args,
+				new String[] { "lag" }) : null;
 	}
 
 }

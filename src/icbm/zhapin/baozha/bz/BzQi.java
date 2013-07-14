@@ -15,8 +15,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 
-public class BzQi extends BaoZha
-{
+public class BzQi extends BaoZha {
 	private static final int CHECK_BAN_JING = 16;
 	private static final float NENG_LIANG = 10F;
 	private int duration;
@@ -25,64 +24,58 @@ public class BzQi extends BaoZha
 	private boolean playShortSoundFX;
 	private boolean isContagious, isPoisonous, isConfuse, isMutate;
 
-	public BzQi(World world, Entity entity, double x, double y, double z, float size)
-	{
+	public BzQi(World world, Entity entity, double x, double y, double z,
+			float size) {
 		super(world, entity, x, y, z, size);
 	}
 
-	public BzQi(World world, Entity entity, double x, double y, double z, float size, int duration, boolean playShortSoundFX)
-	{
+	public BzQi(World world, Entity entity, double x, double y, double z,
+			float size, int duration, boolean playShortSoundFX) {
 		this(world, entity, x, y, z, size);
 		this.duration = duration / this.proceduralInterval();
 		this.playShortSoundFX = playShortSoundFX;
 	}
 
-	public BzQi setRGB(float r, float g, float b)
-	{
+	public BzQi setRGB(float r, float g, float b) {
 		this.red = r;
 		this.green = g;
 		this.blue = b;
 		return this;
 	}
 
-	public BzQi setConfuse()
-	{
+	public BzQi setConfuse() {
 		this.isConfuse = true;
 		return this;
 	}
 
-	public BzQi setPoison()
-	{
+	public BzQi setPoison() {
 		this.isPoisonous = true;
 		return this;
 	}
 
-	public BzQi setContagious()
-	{
+	public BzQi setContagious() {
 		this.isContagious = true;
 		this.isMutate = true;
 		return this;
 	}
 
 	@Override
-	public void doPreExplode()
-	{
+	public void doPreExplode() {
 		super.doPreExplode();
-		if (!this.playShortSoundFX)
-		{
-			this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, ZhuYaoICBM.PREFIX + "debilitation", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		if (!this.playShortSoundFX) {
+			this.worldObj.playSoundEffect(this.position.x, this.position.y,
+					this.position.z, ZhuYaoICBM.PREFIX + "debilitation", 4.0F,
+					(1.0F + (worldObj.rand.nextFloat() - worldObj.rand
+							.nextFloat()) * 0.2F) * 0.7F);
 		}
 	}
 
 	@Override
-	public void doExplode()
-	{
+	public void doExplode() {
 		float radius = this.getRadius();
 
-		if (this.worldObj.isRemote)
-		{
-			for (int i = 0; i < 200; i++)
-			{
+		if (this.worldObj.isRemote) {
+			for (int i = 0; i < 200; i++) {
 				Vector3 diDian = new Vector3();
 
 				diDian.x = Math.random() * radius / 2 - radius / 4;
@@ -90,56 +83,61 @@ public class BzQi extends BaoZha
 				diDian.z = Math.random() * radius / 2 - radius / 4;
 				diDian.multiply(Math.min(radius, callCount) / 10);
 
-				if (diDian.getMagnitude() <= radius)
-				{
+				if (diDian.getMagnitude() <= radius) {
 					diDian.add(this.position);
-					ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj, diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, this.red, this.green, this.blue, 7.0F, 8);
+					ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj,
+							diDian, (Math.random() - 0.5) / 2,
+							(Math.random() - 0.5) / 2,
+							(Math.random() - 0.5) / 2, this.red, this.green,
+							this.blue, 7.0F, 8);
 				}
 			}
 		}
 
-		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-		List<EntityLivingBase> allEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
+		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(
+				position.x - radius, position.y - radius, position.z - radius,
+				position.x + radius, position.y + radius, position.z + radius);
+		List<EntityLivingBase> allEntities = worldObj.getEntitiesWithinAABB(
+				EntityLivingBase.class, bounds);
 
-		for (EntityLivingBase entity : allEntities)
-		{
-			if (this.isContagious)
-			{
+		for (EntityLivingBase entity : allEntities) {
+			if (this.isContagious) {
 				ZhuYaoZhaPin.DU_CHUAN_RAN.poisonEntity(position, entity);
 			}
 
-			if (this.isPoisonous)
-			{
+			if (this.isPoisonous) {
 				ZhuYaoZhaPin.DU_DU.poisonEntity(position, entity);
 			}
 
-			if (this.isConfuse)
-			{
-				entity.addPotionEffect(new CustomPotionEffect(Potion.confusion.id, 18 * 20, 0));
-				entity.addPotionEffect(new CustomPotionEffect(Potion.digSlowdown.id, 20 * 60, 0));
-				entity.addPotionEffect(new CustomPotionEffect(Potion.moveSlowdown.id, 20 * 60, 2));
+			if (this.isConfuse) {
+				entity.addPotionEffect(new CustomPotionEffect(
+						Potion.confusion.id, 18 * 20, 0));
+				entity.addPotionEffect(new CustomPotionEffect(
+						Potion.digSlowdown.id, 20 * 60, 0));
+				entity.addPotionEffect(new CustomPotionEffect(
+						Potion.moveSlowdown.id, 20 * 60, 2));
 			}
 		}
 
-		if (this.isMutate)
-		{
-			new BzBianZhong(worldObj, this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
+		if (this.isMutate) {
+			new BzBianZhong(worldObj, this.exploder, position.x, position.y,
+					position.z, this.getRadius()).explode();
 		}
 
-		if (this.playShortSoundFX)
-		{
-			worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, ZhuYaoICBM.PREFIX + "gasleak", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+		if (this.playShortSoundFX) {
+			worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D,
+					position.z + 0.5D, ZhuYaoICBM.PREFIX + "gasleak", 4.0F,
+					(1.0F + (worldObj.rand.nextFloat() - worldObj.rand
+							.nextFloat()) * 0.2F) * 1F);
 		}
 
-		if (this.callCount > this.duration)
-		{
+		if (this.callCount > this.duration) {
 			this.controller.endExplosion();
 		}
 	}
 
 	@Override
-	public float getEnergy()
-	{
+	public float getEnergy() {
 		return 20;
 	}
 
@@ -149,14 +147,12 @@ public class BzQi extends BaoZha
 	 * @return - Return -1 if this explosive does not need proceudral calls
 	 */
 	@Override
-	public int proceduralInterval()
-	{
+	public int proceduralInterval() {
 		return 5;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
+	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.duration = nbt.getInteger("duration");
 		this.isContagious = nbt.getBoolean("isContagious");
@@ -170,8 +166,7 @@ public class BzQi extends BaoZha
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
+	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("duration", this.duration);
 		nbt.setBoolean("isContagious", this.isContagious);

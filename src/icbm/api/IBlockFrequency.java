@@ -6,10 +6,10 @@ package icbm.api;
  * @author Calclavia
  */
 
-public interface IBlockFrequency
-{
+public interface IBlockFrequency {
 	/**
-	 * @param data - Pass an ItemStack if dealing with items with frequencies.
+	 * @param data
+	 *            - Pass an ItemStack if dealing with items with frequencies.
 	 * @return The frequency of this object.
 	 */
 	public int getFrequency();
@@ -17,8 +17,10 @@ public interface IBlockFrequency
 	/**
 	 * Sets the frequency
 	 * 
-	 * @param frequency - The frequency of this object.
-	 * @param data - Pass an ItemStack if dealing with items with frequencies.
+	 * @param frequency
+	 *            - The frequency of this object.
+	 * @param data
+	 *            - Pass an ItemStack if dealing with items with frequencies.
 	 */
 	public void setFrequency(int frequency);
 }

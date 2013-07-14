@@ -16,8 +16,8 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpawnData, IExplosiveContainer
-{
+public class EZhaDan extends Entity implements IRotatable,
+		IEntityAdditionalSpawnData, IExplosiveContainer {
 	// How long the fuse is (in ticks)
 	public int fuse = 90;
 
@@ -28,8 +28,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 
 	public NBTTagCompound nbtData = new NBTTagCompound();
 
-	public EZhaDan(World par1World)
-	{
+	public EZhaDan(World par1World) {
 		super(par1World);
 		this.fuse = 0;
 		this.preventEntitySpawning = true;
@@ -37,8 +36,8 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		this.yOffset = this.height / 2.0F;
 	}
 
-	public EZhaDan(World par1World, Vector3 position, byte orientation, int explosiveID)
-	{
+	public EZhaDan(World par1World, Vector3 position, byte orientation,
+			int explosiveID) {
 		this(par1World);
 		this.setPosition(position.x, position.y, position.z);
 		float var8 = (float) (Math.random() * Math.PI * 2.0D);
@@ -55,15 +54,14 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		ZhaPinRegistry.get(explosiveID).yinZhaQian(par1World, this);
 	}
 
-	public EZhaDan(World par1World, Vector3 position, int explosiveID, byte orientation, NBTTagCompound nbtData)
-	{
+	public EZhaDan(World par1World, Vector3 position, int explosiveID,
+			byte orientation, NBTTagCompound nbtData) {
 		this(par1World, position, orientation, explosiveID);
 		this.nbtData = nbtData;
 	}
 
 	@Override
-	public String getEntityName()
-	{
+	public String getEntityName() {
 		return "Explosives";
 	}
 
@@ -71,13 +69,13 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	 * Called to update the entity's position/logic.
 	 */
 	@Override
-	public void onUpdate()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.BLOCK, this.haoMa))
-			{
-				ZhuYaoZhaPin.bZhaDan.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.haoMa, 0);
+	public void onUpdate() {
+		if (!this.worldObj.isRemote) {
+			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this),
+					ExplosiveType.BLOCK, this.haoMa)) {
+				ZhuYaoZhaPin.bZhaDan.dropBlockAsItem(this.worldObj,
+						(int) this.posX, (int) this.posY, (int) this.posZ,
+						this.haoMa, 0);
 				this.setDead();
 				return;
 			}
@@ -93,13 +91,11 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-		if (this.fuse < 1)
-		{
+		if (this.fuse < 1) {
 			this.explode();
-		}
-		else
-		{
-			ZhaPinRegistry.get(this.haoMa).onYinZha(this.worldObj, new Vector3(this.posX, this.posY, this.posZ), this.fuse);
+		} else {
+			ZhaPinRegistry.get(this.haoMa).onYinZha(this.worldObj,
+					new Vector3(this.posX, this.posY, this.posZ), this.fuse);
 		}
 
 		this.fuse--;
@@ -107,10 +103,11 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 		super.onUpdate();
 	}
 
-	public void explode()
-	{
-		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-		this.getExplosiveType().createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
+	public void explode() {
+		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY,
+				this.posZ, 0.0D, 0.0D, 0.0D);
+		this.getExplosiveType().createExplosion(this.worldObj, this.posX,
+				this.posY, this.posZ, this);
 		this.setDead();
 	}
 
@@ -118,8 +115,7 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbt)
-	{
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.fuse = nbt.getByte("Fuse");
 		this.haoMa = nbt.getInteger("explosiveID");
 		this.nbtData = nbt.getCompoundTag("data");
@@ -129,89 +125,79 @@ public class EZhaDan extends Entity implements IRotatable, IEntityAdditionalSpaw
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbt)
-	{
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setByte("Fuse", (byte) this.fuse);
 		nbt.setInteger("explosiveID", this.haoMa);
 		nbt.setTag("data", this.nbtData);
 	}
 
 	@Override
-	public float getShadowSize()
-	{
+	public float getShadowSize() {
 		return 0.5F;
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 	}
 
 	/**
-	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for
-	 * spiders and wolves to prevent them from trampling crops
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they
+	 * walk on. used for spiders and wolves to prevent them from trampling crops
 	 */
 	@Override
-	protected boolean canTriggerWalking()
-	{
+	protected boolean canTriggerWalking() {
 		return true;
 	}
 
 	/**
-	 * Returns true if other Entities should be prevented from moving through this Entity.
+	 * Returns true if other Entities should be prevented from moving through
+	 * this Entity.
 	 */
 	@Override
-	public boolean canBeCollidedWith()
-	{
+	public boolean canBeCollidedWith() {
 		return true;
 	}
 
 	/**
-	 * Returns true if this entity should push and be pushed by other entities when colliding.
+	 * Returns true if this entity should push and be pushed by other entities
+	 * when colliding.
 	 */
 	@Override
-	public boolean canBePushed()
-	{
+	public boolean canBePushed() {
 		return true;
 	}
 
 	@Override
-	public ForgeDirection getDirection()
-	{
+	public ForgeDirection getDirection() {
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection)
-	{
+	public void setDirection(ForgeDirection facingDirection) {
 		this.orientation = (byte) facingDirection.ordinal();
 	}
 
 	@Override
-	public void writeSpawnData(ByteArrayDataOutput data)
-	{
+	public void writeSpawnData(ByteArrayDataOutput data) {
 		data.writeInt(this.haoMa);
 		data.writeInt(this.fuse);
 		data.writeByte(this.orientation);
 	}
 
 	@Override
-	public void readSpawnData(ByteArrayDataInput data)
-	{
+	public void readSpawnData(ByteArrayDataInput data) {
 		this.haoMa = data.readInt();
 		this.fuse = data.readInt();
 		this.orientation = data.readByte();
 	}
 
 	@Override
-	public IExplosive getExplosiveType()
-	{
+	public IExplosive getExplosiveType() {
 		return ZhaPinRegistry.get(this.haoMa);
 	}
 
 	@Override
-	public NBTTagCompound getTagCompound()
-	{
+	public NBTTagCompound getTagCompound() {
 		return this.nbtData;
 	}
 }

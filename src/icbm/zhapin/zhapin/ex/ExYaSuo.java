@@ -14,30 +14,28 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExYaSuo extends DaoDan
-{
-	public ExYaSuo(String mingZi, int tier)
-	{
+public class ExYaSuo extends DaoDan {
+	public ExYaSuo(String mingZi, int tier) {
 		super(mingZi, tier);
 		this.setYinXin(1);
 	}
 
 	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+	public void init() {
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3),
+				new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }),
+				this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
+	public void doCreateExplosion(World world, double x, double y, double z,
+			Entity entity) {
 		new BzYaSuo(world, entity, x, y, z, 2.5f).explode();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMuoXing()
-	{
+	public MICBM getMuoXing() {
 		return new MMYaSuo();
 	}
 }

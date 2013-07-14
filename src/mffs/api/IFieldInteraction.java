@@ -10,8 +10,8 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.tile.IRotatable;
 
-public interface IFieldInteraction extends IModuleAcceptor, IRotatable, IActivatable
-{
+public interface IFieldInteraction extends IModuleAcceptor, IRotatable,
+		IActivatable {
 	/**
 	 * Gets the mode of the projector, mainly the shape and size of it.
 	 */
@@ -25,19 +25,23 @@ public interface IFieldInteraction extends IModuleAcceptor, IRotatable, IActivat
 	public int[] getSlotsBasedOnDirection(ForgeDirection direction);
 
 	/**
-	 * Gets the unspecified, direction-unspecific module slots on the left side of the GUI.
+	 * Gets the unspecified, direction-unspecific module slots on the left side
+	 * of the GUI.
 	 */
 	public int[] getModuleSlots();
 
 	/**
-	 * @param module - The module instance.
-	 * @param direction - The direction facing.
+	 * @param module
+	 *            - The module instance.
+	 * @param direction
+	 *            - The direction facing.
 	 * @return Gets the amount of modules based on the side.
 	 */
 	public int getSidedModuleCount(IModule module, ForgeDirection... direction);
 
 	/**
-	 * Transformation information functions. Returns CACHED information unless the cache is cleared.
+	 * Transformation information functions. Returns CACHED information unless
+	 * the cache is cleared.
 	 */
 	public Vector3 getTranslation();
 
@@ -55,7 +59,8 @@ public interface IFieldInteraction extends IModuleAcceptor, IRotatable, IActivat
 	public Set<Vector3> getCalculatedField();
 
 	/**
-	 * Gets the interior points of the projector. This might cause lag so call sparingly.
+	 * Gets the interior points of the projector. This might cause lag so call
+	 * sparingly.
 	 * 
 	 * @return
 	 */

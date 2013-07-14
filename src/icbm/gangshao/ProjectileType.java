@@ -6,8 +6,7 @@ package icbm.gangshao;
  * @author DarkGuardsman
  * 
  */
-public enum ProjectileType
-{
+public enum ProjectileType {
 	UNKNOWN, /* NOT A PROJECTILE */
 	CONVENTIONAL, /* Classic bullets that do impact damage */
 	RAILGUN, /* Ammo that can only be used by railguns */

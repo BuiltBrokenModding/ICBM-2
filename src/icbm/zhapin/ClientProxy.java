@@ -78,66 +78,81 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
 	private boolean disableReflectionFX = false;
 
 	@Override
-	public void preInit()
-	{
+	public void preInit() {
 		TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
 		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
 	}
 
 	@Override
-	public void init()
-	{
+	public void init() {
 		super.init();
 
-		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itFaSheQi.itemID, new RItFaSheQi());
-		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itDaoDan.itemID, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(
+				ZhuYaoZhaPin.itFaSheQi.itemID, new RItFaSheQi());
+		MinecraftForgeClient.registerItemRenderer(ZhuYaoZhaPin.itDaoDan.itemID,
+				new RItDaoDan());
 
 		RenderingRegistry.registerBlockHandler(new RZhaDan());
 		RenderingRegistry.registerBlockHandler(new RHJiQi());
 
-		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class, new REZhaDan());
-		RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EBaoZha.class, new RBaoZha());
-		RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class, new RFeiBlock());
-		RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
-		RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RSuiPian());
-		RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class, new RShouLiuDan());
-		RenderingRegistry.registerEntityRenderingHandler(EChe.class, new RenderMinecart());
+		RenderingRegistry.registerEntityRenderingHandler(EZhaDan.class,
+				new REZhaDan());
+		RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class,
+				new RDaoDan(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EBaoZha.class,
+				new RBaoZha());
+		RenderingRegistry.registerEntityRenderingHandler(EFeiBlock.class,
+				new RFeiBlock());
+		RenderingRegistry.registerEntityRenderingHandler(EGuang.class,
+				new RGuangBang());
+		RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class,
+				new RSuiPian());
+		RenderingRegistry.registerEntityRenderingHandler(EShouLiuDan.class,
+				new RShouLiuDan());
+		RenderingRegistry.registerEntityRenderingHandler(EChe.class,
+				new RenderMinecart());
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class, new RXiaoFaSheQi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class, new RFaSheDi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class, new RFaSheShiMuo());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class, new RFaSheJia());
-		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class, new RLeiDaTai());
-		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class, new RDianCiQi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TYinDaoQi.class, new RYinDaoQi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class, new RZhaDan());
+		ClientRegistry.bindTileEntitySpecialRenderer(TXiaoFaSheQi.class,
+				new RXiaoFaSheQi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class,
+				new RFaSheDi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class,
+				new RFaSheShiMuo());
+		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class,
+				new RFaSheJia());
+		ClientRegistry.bindTileEntitySpecialRenderer(TLeiDaTai.class,
+				new RLeiDaTai());
+		ClientRegistry.bindTileEntitySpecialRenderer(TDianCiQi.class,
+				new RDianCiQi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TYinDaoQi.class,
+				new RYinDaoQi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TZhaDan.class,
+				new RZhaDan());
 	}
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer entityPlayer, World world, int x, int y, int z)
-	{
+	public Object getClientGuiElement(int ID, EntityPlayer entityPlayer,
+			World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == ZhuYaoICBM.GUI_SHENG_BUO)
-		{
-			switch (ID)
-			{
-				case ZhuYaoICBM.GUI_XIA_FA_SHE_QI:
-					return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi) tileEntity);
-				case ZhuYaoICBM.GUI_FA_SHE_SHI_MUO:
-					return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
-				case ZhuYaoICBM.GUI_LEI_DA_TAI:
-					return new GLeiDaTai(((TLeiDaTai) tileEntity));
-				case ZhuYaoICBM.GUI_DIAN_CI_QI:
-					return new GDianCiQi((TDianCiQi) tileEntity);
-				case ZhuYaoICBM.GUI_FA_SHE_DI:
-					return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
+		if (tileEntity != null || ID == ZhuYaoICBM.GUI_SHENG_BUO) {
+			switch (ID) {
+			case ZhuYaoICBM.GUI_XIA_FA_SHE_QI:
+				return new GXiaoFaSheQi(entityPlayer.inventory,
+						(TXiaoFaSheQi) tileEntity);
+			case ZhuYaoICBM.GUI_FA_SHE_SHI_MUO:
+				return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
+			case ZhuYaoICBM.GUI_LEI_DA_TAI:
+				return new GLeiDaTai(((TLeiDaTai) tileEntity));
+			case ZhuYaoICBM.GUI_DIAN_CI_QI:
+				return new GDianCiQi((TDianCiQi) tileEntity);
+			case ZhuYaoICBM.GUI_FA_SHE_DI:
+				return new GFaSheDi(entityPlayer.inventory,
+						(TFaSheDi) tileEntity);
 			}
 		}
 
@@ -145,78 +160,68 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@Override
-	public boolean isGaoQing()
-	{
+	public boolean isGaoQing() {
 		return Minecraft.getMinecraft().gameSettings.fancyGraphics;
 	}
 
 	@Override
-	public int getParticleSetting()
-	{
+	public int getParticleSetting() {
 		return Minecraft.getMinecraft().gameSettings.particleSetting;
 	}
 
 	@Override
-	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float red, float green, float blue, float scale, double distance)
-	{
+	public void spawnParticle(String name, World world, Vector3 position,
+			double motionX, double motionY, double motionZ, float red,
+			float green, float blue, float scale, double distance) {
 		EntityFX fx = null;
 
-		if (name == "smoke")
-		{
+		if (name == "smoke") {
 			fx = new FXYan(world, position, red, green, blue, scale, distance);
-		}
-		else if (name == "missile_smoke")
-		{
-			fx = (new FXYan(world, position, red, green, blue, scale, distance)).setAge(100);
-		}
-		else if (name == "portal")
-		{
+		} else if (name == "missile_smoke") {
+			fx = (new FXYan(world, position, red, green, blue, scale, distance))
+					.setAge(100);
+		} else if (name == "portal") {
 			fx = new FXWan(world, position, red, green, blue, scale, distance);
-		}
-		else if (name == "antimatter")
-		{
-			fx = new FXFanWuSu(world, position, red, green, blue, scale, distance);
-		}
-		else if (name == "digging")
-		{
-			fx = new EntityDiggingFX(world, position.x, position.y, position.z, motionX, motionY, motionZ, Block.blocksList[(int) red], 0, (int) green);
+		} else if (name == "antimatter") {
+			fx = new FXFanWuSu(world, position, red, green, blue, scale,
+					distance);
+		} else if (name == "digging") {
+			fx = new EntityDiggingFX(world, position.x, position.y, position.z,
+					motionX, motionY, motionZ, Block.blocksList[(int) red], 0,
+					(int) green);
 			fx.multipleParticleScaleBy(blue);
-		}
-		else if (name == "shockwave")
-		{
-			fx = new FXZhenBuo(world, position, red, green, blue, scale, distance);
+		} else if (name == "shockwave") {
+			fx = new FXZhenBuo(world, position, red, green, blue, scale,
+					distance);
 		}
 
-		if (fx != null)
-		{
+		if (fx != null) {
 			fx.motionX = motionX;
 			fx.motionY = motionY;
 			fx.motionZ = motionZ;
-			FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
+			FMLClientHandler.instance().getClient().effectRenderer
+					.addEffect(fx);
 		}
 	}
 
 	@Override
-	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan)
-	{
-		return new ShengYinDaoDan(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
+	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan) {
+		return new ShengYinDaoDan(Minecraft.getMinecraft().sndManager, eDaoDan,
+				Minecraft.getMinecraft().thePlayer);
 	}
 
 	@Override
-	public List<Entity> getEntityFXs()
-	{
-		if (!this.disableReflectionFX)
-		{
-			try
-			{
+	public List<Entity> getEntityFXs() {
+		if (!this.disableReflectionFX) {
+			try {
 				EffectRenderer renderer = Minecraft.getMinecraft().effectRenderer;
-				List[] fxLayers = (List[]) ReflectionHelper.getPrivateValue(EffectRenderer.class, renderer, 2);
+				List[] fxLayers = (List[]) ReflectionHelper.getPrivateValue(
+						EffectRenderer.class, renderer, 2);
 
 				return fxLayers[0];
-			}
-			catch (Exception e)
-			{
-				ZhuYaoICBM.LOGGER.severe("Failed to use relfection on entity effects.");
+			} catch (Exception e) {
+				ZhuYaoICBM.LOGGER
+						.severe("Failed to use relfection on entity effects.");
 				e.printStackTrace();
 				this.disableReflectionFX = true;
 			}
@@ -226,24 +231,18 @@ public class ClientProxy extends CommonProxy
 
 	// TODO: Work on this!
 	// @ForgeSubscribe
-	public void renderingLivingEvent(Pre evt)
-	{
-		if (evt.entity instanceof EntityLivingBase)
-		{
-			if (evt.entity.getActivePotionEffect(PDongShang.INSTANCE) != null)
-			{
-				try
-				{
-					ModelBase modelBase = (ModelBase) ReflectionHelper.getPrivateValue(RendererLivingEntity.class, evt.renderer, 2);
+	public void renderingLivingEvent(Pre evt) {
+		if (evt.entity instanceof EntityLivingBase) {
+			if (evt.entity.getActivePotionEffect(PDongShang.INSTANCE) != null) {
+				try {
+					ModelBase modelBase = (ModelBase) ReflectionHelper
+							.getPrivateValue(RendererLivingEntity.class,
+									evt.renderer, 2);
 
-					if (modelBase != null)
-					{
-						if (evt.entity.isInvisible())
-						{
+					if (modelBase != null) {
+						if (evt.entity.isInvisible()) {
 							GL11.glDepthMask(false);
-						}
-						else
-						{
+						} else {
 							GL11.glDepthMask(true);
 						}
 
@@ -263,17 +262,20 @@ public class ClientProxy extends CommonProxy
 						GL11.glColor4f(f4, f4, f4, 1.0F);
 						GL11.glDisable(GL11.GL_LIGHTING);
 						GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
-						modelBase.render(evt.entity, (float) evt.entity.posX, (float) evt.entity.posY, (float) evt.entity.posZ, evt.entity.rotationPitch, evt.entity.rotationYaw, 0.0625F);
+						modelBase.render(evt.entity, (float) evt.entity.posX,
+								(float) evt.entity.posY,
+								(float) evt.entity.posZ,
+								evt.entity.rotationPitch,
+								evt.entity.rotationYaw, 0.0625F);
 						GL11.glMatrixMode(GL11.GL_TEXTURE);
 						GL11.glLoadIdentity();
 						GL11.glMatrixMode(GL11.GL_MODELVIEW);
 						GL11.glEnable(GL11.GL_LIGHTING);
 						GL11.glDisable(GL11.GL_BLEND);
 					}
-				}
-				catch (Exception e)
-				{
-					ZhuYaoICBM.LOGGER.severe("Failed to render entity layer object");
+				} catch (Exception e) {
+					ZhuYaoICBM.LOGGER
+							.severe("Failed to render entity layer object");
 					e.printStackTrace();
 				}
 			}

@@ -28,12 +28,15 @@ import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GLeiDaTai extends GuiBase
-{
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_radar.png");
-	public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "reddot.png");
-	public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "yellowdot.png");
-	public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "whitedot.png");
+public class GLeiDaTai extends GuiBase {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_radar.png");
+	public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "reddot.png");
+	public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "yellowdot.png");
+	public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "whitedot.png");
 	private TLeiDaTai tileEntity;
 
 	private int containerPosX;
@@ -56,66 +59,68 @@ public class GLeiDaTai extends GuiBase
 
 	private String info2;
 
-	public GLeiDaTai(TLeiDaTai tileEntity)
-	{
+	public GLeiDaTai(TLeiDaTai tileEntity) {
 		this.tileEntity = tileEntity;
-		mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
+		mouseOverCoords = new Vector2(this.tileEntity.xCoord,
+				this.tileEntity.zCoord);
 		this.xSize = 256;
-		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 14, this.containerPosY + this.ySize / 2 + 4);
+		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 14,
+				this.containerPosY + this.ySize / 2 + 4);
 		radarMapRadius = TLeiDaTai.MAX_BIAN_JING / 63.8F;
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui() {
 		super.initGui();
 
-		this.textFieldSafetyZone = new GuiTextField(fontRenderer, 155, 83, 30, 12);
+		this.textFieldSafetyZone = new GuiTextField(fontRenderer, 155, 83, 30,
+				12);
 		this.textFieldSafetyZone.setMaxStringLength(3);
 		this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
 
-		this.textFieldAlarmRange = new GuiTextField(fontRenderer, 155, 110, 30, 12);
+		this.textFieldAlarmRange = new GuiTextField(fontRenderer, 155, 110, 30,
+				12);
 		this.textFieldAlarmRange.setMaxStringLength(3);
 		this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
 
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, -1, true));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM",
+				this.tileEntity, -1, true));
 	}
 
 	@Override
-	public void onGuiClosed()
-	{
+	public void onGuiClosed() {
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, -1, false));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM",
+				this.tileEntity, -1, false));
 	}
 
 	/**
 	 * Call this method from you GuiScreen to process the keys into textbox.
 	 */
 	@Override
-	public void keyTyped(char par1, int par2)
-	{
+	public void keyTyped(char par1, int par2) {
 		super.keyTyped(par1, par2);
 		this.textFieldSafetyZone.textboxKeyTyped(par1, par2);
 		this.textFieldAlarmRange.textboxKeyTyped(par1, par2);
 
-		try
-		{
-			int newSafetyRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
+		try {
+			int newSafetyRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0,
+					Integer.parseInt(this.textFieldSafetyZone.getText())));
 			this.tileEntity.safetyBanJing = newSafetyRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.safetyBanJing));
-		}
-		catch (NumberFormatException e)
-		{
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(
+					ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2,
+					this.tileEntity.safetyBanJing));
+		} catch (NumberFormatException e) {
 		}
 
-		try
-		{
-			int newAlarmRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
+		try {
+			int newAlarmRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0,
+					Integer.parseInt(this.textFieldAlarmRange.getText())));
 			this.tileEntity.alarmBanJing = newAlarmRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3, this.tileEntity.alarmBanJing));
-		}
-		catch (NumberFormatException e)
-		{
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(
+					ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3,
+					this.tileEntity.alarmBanJing));
+		} catch (NumberFormatException e) {
 		}
 
 	}
@@ -124,23 +129,29 @@ public class GLeiDaTai extends GuiBase
 	 * Args: x, y, buttonClicked
 	 */
 	@Override
-	public void mouseClicked(int par1, int par2, int par3)
-	{
+	public void mouseClicked(int par1, int par2, int par3) {
 		super.mouseClicked(par1, par2, par3);
-		this.textFieldAlarmRange.mouseClicked(par1 - containerPosX, par2 - containerPosY, par3);
-		this.textFieldSafetyZone.mouseClicked(par1 - containerPosX, par2 - containerPosY, par3);
+		this.textFieldAlarmRange.mouseClicked(par1 - containerPosX, par2
+				- containerPosY, par3);
+		this.textFieldSafetyZone.mouseClicked(par1 - containerPosX, par2
+				- containerPosY, par3);
 	}
 
 	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
+	 * Draw the foreground layer for the GuiContainer (everything in front of
+	 * the items)
 	 */
 	@Override
-	protected void drawForegroundLayer(int var2, int var3, float var1)
-	{
-		this.fontRenderer.drawString("\u00a77" + TranslationHelper.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
+	protected void drawForegroundLayer(int var2, int var3, float var1) {
+		this.fontRenderer.drawString(
+				"\u00a77" + TranslationHelper.getLocal("icbm.machine.9.name"),
+				this.xSize / 2 - 30, 6, 4210752);
 
 		this.fontRenderer.drawString("Coordinates:", 155, 18, 4210752);
-		this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
+		this.fontRenderer
+				.drawString("X: " + (int) Math.round(mouseOverCoords.x)
+						+ " Z: " + (int) Math.round(mouseOverCoords.y), 155,
+						30, 4210752);
 
 		this.fontRenderer.drawString("\u00a76" + this.info, 155, 42, 4210752);
 		this.fontRenderer.drawString("\u00a74" + this.info2, 155, 54, 4210752);
@@ -153,21 +164,23 @@ public class GLeiDaTai extends GuiBase
 		this.textFieldAlarmRange.drawTextBox();
 		this.fontRenderer.drawString("Blocks", 190, 112, 4210752);
 
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest(null) * 20, ElectricUnit.WATT), 155, 128, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(
+				this.tileEntity.getRequest(null) * 20, ElectricUnit.WATT), 155,
+				128, 4210752);
 
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(
+				this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138,
+				4210752);
 
 		// Shows the status of the radar
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.tileEntity.getEnergyStored() >= this.tileEntity.getRequest(null))
-		{
+		if (this.tileEntity.getEnergyStored() >= this.tileEntity
+				.getRequest(null)) {
 			color = "\u00a72";
 			status = "Radar On!";
-		}
-		else
-		{
+		} else {
 			status = "No Electricity!";
 		}
 
@@ -175,50 +188,55 @@ public class GLeiDaTai extends GuiBase
 	}
 
 	/**
-	 * Draw the background layer for the GuiContainer (everything behind the items)
+	 * Draw the background layer for the GuiContainer (everything behind the
+	 * items)
 	 */
 	@Override
-	protected void drawBackgroundLayer(int var2, int var3, float var1)
-	{
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+	protected void drawBackgroundLayer(int var2, int var3, float var1) {
+		FMLClientHandler.instance().getClient().renderEngine
+				.func_110577_a(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.containerPosX = (this.width - this.xSize) / 2;
 		this.containerPosY = (this.height - this.ySize) / 2;
-		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
+		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0,
+				this.xSize, this.ySize);
 
-		this.radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
+		this.radarCenter = new Vector2(
+				this.containerPosX + this.xSize / 3 - 10, this.containerPosY
+						+ this.ySize / 2 + 4);
 		this.radarMapRadius = TLeiDaTai.MAX_BIAN_JING / 71f;
 
 		this.info = "";
 		this.info2 = "";
 
-		if (this.tileEntity.getEnergyStored() >= this.tileEntity.getRequest(null))
-		{
+		if (this.tileEntity.getEnergyStored() >= this.tileEntity
+				.getRequest(null)) {
 			int range = 4;
 
-			for (Entity entity : this.tileEntity.xunZhaoEntity)
-			{
-				Vector2 position = new Vector2(radarCenter.x + (entity.posX - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (entity.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
+			for (Entity entity : this.tileEntity.xunZhaoEntity) {
+				Vector2 position = new Vector2(radarCenter.x
+						+ (entity.posX - this.tileEntity.xCoord)
+						/ this.radarMapRadius, radarCenter.y
+						- (entity.posZ - this.tileEntity.zCoord)
+						/ this.radarMapRadius);
 
-				if (entity instanceof EDaoDan)
-				{
-					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
-					{
-						FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_RED_DOT);
+				if (entity instanceof EDaoDan) {
+					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity)) {
+						FMLClientHandler.instance().getClient().renderEngine
+								.func_110577_a(TEXTURE_RED_DOT);
+					} else {
+						FMLClientHandler.instance().getClient().renderEngine
+								.func_110577_a(TEXTURE_YELLOW_DOT);
 					}
-					else
-					{
-						FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_YELLOW_DOT);
-					}
-				}
-				else
-				{
-					FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_YELLOW_DOT);
+				} else {
+					FMLClientHandler.instance().getClient().renderEngine
+							.func_110577_a(TEXTURE_YELLOW_DOT);
 				}
 
-				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
+				this.drawTexturedModalRect(position.intX(), position.intY(), 0,
+						0, 2, 2);
 
 				// Hover Detection
 				Vector2 minPosition = position.clone();
@@ -226,20 +244,19 @@ public class GLeiDaTai extends GuiBase
 				Vector2 maxPosition = position.clone();
 				maxPosition.add(range);
 
-				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
-				{
+				if (new Region2(minPosition, maxPosition)
+						.isIn(this.mousePosition)) {
 					this.info = entity.getEntityName();
 
-					if (entity instanceof EntityPlayer)
-					{
+					if (entity instanceof EntityPlayer) {
 						this.info = "\u00a71" + this.info;
 					}
 
-					if (entity instanceof EDaoDan)
-					{
-						if (((EDaoDan) entity).muBiao != null)
-						{
-							this.info2 = "(" + ((EDaoDan) entity).muBiao.intX() + ", " + ((EDaoDan) entity).muBiao.intZ() + ")";
+					if (entity instanceof EDaoDan) {
+						if (((EDaoDan) entity).muBiao != null) {
+							this.info2 = "(" + ((EDaoDan) entity).muBiao.intX()
+									+ ", " + ((EDaoDan) entity).muBiao.intZ()
+									+ ")";
 						}
 					}
 				}
@@ -247,28 +264,29 @@ public class GLeiDaTai extends GuiBase
 
 			range = 2;
 
-			for (TileEntity jiQi : this.tileEntity.xunZhaoJiQi)
-			{
-				Vector2 position = new Vector2(this.radarCenter.x + (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
-				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_WHITE_DOT);
+			for (TileEntity jiQi : this.tileEntity.xunZhaoJiQi) {
+				Vector2 position = new Vector2(this.radarCenter.x
+						+ (jiQi.xCoord - this.tileEntity.xCoord)
+						/ this.radarMapRadius, this.radarCenter.y
+						- (jiQi.zCoord - this.tileEntity.zCoord)
+						/ this.radarMapRadius);
+				FMLClientHandler.instance().getClient().renderEngine
+						.func_110577_a(TEXTURE_WHITE_DOT);
 
-				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
+				this.drawTexturedModalRect(position.intX(), position.intY(), 0,
+						0, 2, 2);
 
 				Vector2 minPosition = position.clone();
 				minPosition.add(-range);
 				Vector2 maxPosition = position.clone();
 				maxPosition.add(range);
 
-				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
-				{
-					if (jiQi.getBlockType() != null)
-					{
-						if (jiQi.getBlockType() instanceof BJiQi)
-						{
+				if (new Region2(minPosition, maxPosition)
+						.isIn(this.mousePosition)) {
+					if (jiQi.getBlockType() != null) {
+						if (jiQi.getBlockType() instanceof BJiQi) {
 							this.info = BJiQi.getJiQiMing(jiQi);
-						}
-						else
-						{
+						} else {
 							this.info = jiQi.getBlockType().getLocalizedName();
 						}
 					}
@@ -278,33 +296,42 @@ public class GLeiDaTai extends GuiBase
 	}
 
 	@Override
-	public void updateScreen()
-	{
+	public void updateScreen() {
 		super.updateScreen();
 
-		if (Mouse.isInsideWindow())
-		{
-			if (Mouse.getEventButton() == -1)
-			{
-				this.mousePosition = new Vector2(Mouse.getEventX() * this.width / this.mc.displayWidth, this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1);
+		if (Mouse.isInsideWindow()) {
+			if (Mouse.getEventButton() == -1) {
+				this.mousePosition = new Vector2(Mouse.getEventX() * this.width
+						/ this.mc.displayWidth, this.height - Mouse.getEventY()
+						* this.height / this.mc.displayHeight - 1);
 
-				float difference = TLeiDaTai.MAX_BIAN_JING / this.radarMapRadius;
+				float difference = TLeiDaTai.MAX_BIAN_JING
+						/ this.radarMapRadius;
 
-				if (this.mousePosition.x > this.radarCenter.x - difference && this.mousePosition.x < this.radarCenter.x + difference && this.mousePosition.y > this.radarCenter.y - difference && this.mousePosition.y < this.radarCenter.y + difference)
-				{
-					// Calculate from the mouse position the relative position on the grid
+				if (this.mousePosition.x > this.radarCenter.x - difference
+						&& this.mousePosition.x < this.radarCenter.x
+								+ difference
+						&& this.mousePosition.y > this.radarCenter.y
+								- difference
+						&& this.mousePosition.y < this.radarCenter.y
+								+ difference) {
+					// Calculate from the mouse position the relative position
+					// on the grid
 					int xDifference = (int) (this.mousePosition.x - this.radarCenter.x);
 					int yDifference = (int) (this.mousePosition.y - this.radarCenter.y);
 					int xBlockDistance = (int) (xDifference * this.radarMapRadius);
 					int yBlockDistance = (int) (yDifference * this.radarMapRadius);
 
-					this.mouseOverCoords = new Vector2(this.tileEntity.xCoord + xBlockDistance, this.tileEntity.zCoord - yBlockDistance);
+					this.mouseOverCoords = new Vector2(this.tileEntity.xCoord
+							+ xBlockDistance, this.tileEntity.zCoord
+							- yBlockDistance);
 				}
 			}
 		}
 
 		if (!this.textFieldSafetyZone.isFocused())
-			this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
+			this.textFieldSafetyZone
+					.setText(this.tileEntity.safetyBanJing + "");
 		if (!this.textFieldAlarmRange.isFocused())
 			this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
 	}

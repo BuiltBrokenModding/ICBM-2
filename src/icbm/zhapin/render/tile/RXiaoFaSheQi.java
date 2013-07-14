@@ -14,17 +14,18 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RXiaoFaSheQi extends TileEntitySpecialRenderer
-{
-	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "cruise_launcher.png");
+public class RXiaoFaSheQi extends TileEntitySpecialRenderer {
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "cruise_launcher.png");
 
 	public static final MXiaoFaSheQi MODEL0 = new MXiaoFaSheQi();
 	public static final MXiaoFaSheQiJia MODEL1 = new MXiaoFaSheQiJia();
 
-	public void renderModelAt(TXiaoFaSheQi tileEntity, double d, double d1, double d2, float f)
-	{
+	public void renderModelAt(TXiaoFaSheQi tileEntity, double d, double d1,
+			double d2, float f) {
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
+		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F,
+				(float) d2 + 0.5F);
 		this.func_110628_a(TEXTURE_FILE);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		MODEL0.render(0.0625F);
@@ -35,8 +36,8 @@ public class RXiaoFaSheQi extends TileEntitySpecialRenderer
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
-	{
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1,
+			double d2, float f) {
 		renderModelAt((TXiaoFaSheQi) tileentity, d, d1, d2, f);
 	}
 }

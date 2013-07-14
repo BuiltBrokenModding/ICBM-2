@@ -19,11 +19,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RFaSheDi extends TileEntitySpecialRenderer
-{
-	public static final ResourceLocation TEXTURE_FILE_0 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_0.png");
-	public static final ResourceLocation TEXTURE_FILE_1 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_1.png");
-	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_2.png");
+public class RFaSheDi extends TileEntitySpecialRenderer {
+	public static final ResourceLocation TEXTURE_FILE_0 = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_0.png");
+	public static final ResourceLocation TEXTURE_FILE_1 = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_1.png");
+	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_2.png");
 
 	public static final MFaSheDi0 modelBase0 = new MFaSheDi0();
 	public static final MFaSheDiRail0 modelRail0 = new MFaSheDiRail0();
@@ -35,8 +37,8 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 	public static final MFaSheDiRail2 modelRail2 = new MFaSheDiRail2();
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
-	{
+	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
+			double z, float f) {
 		TFaSheDi tileEntity = (TFaSheDi) tileentity;
 
 		GL11.glPushMatrix();
@@ -44,28 +46,23 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 
-		if (tileEntity.getDirection() != ForgeDirection.NORTH && tileEntity.getDirection() != ForgeDirection.SOUTH)
-		{
+		if (tileEntity.getDirection() != ForgeDirection.NORTH
+				&& tileEntity.getDirection() != ForgeDirection.SOUTH) {
 			GL11.glRotatef(90F, 0F, 180F, 1.0F);
 		}
 
 		// The missile launcher screen
-		if (tileEntity.getTier() == 0)
-		{
+		if (tileEntity.getTier() == 0) {
 			this.func_110628_a(TEXTURE_FILE_0);
 			modelBase0.render(0.0625F);
 			modelRail0.render(0.0625F);
-		}
-		else if (tileEntity.getTier() == 1)
-		{
+		} else if (tileEntity.getTier() == 1) {
 			this.func_110628_a(TEXTURE_FILE_1);
 			modelBase1.render(0.0625F);
 			modelRail1.render(0.0625F);
 			GL11.glRotatef(180F, 0F, 180F, 1.0F);
 			modelRail1.render(0.0625F);
-		}
-		else if (tileEntity.getTier() == 2)
-		{
+		} else if (tileEntity.getTier() == 2) {
 			this.func_110628_a(TEXTURE_FILE_2);
 			modelBase2.render(0.0625F);
 			modelRail2.render(0.0625F);

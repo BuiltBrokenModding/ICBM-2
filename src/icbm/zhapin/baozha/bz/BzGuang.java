@@ -21,8 +21,7 @@ import calclavia.lib.CalculationHelper;
  * @author Calclavia
  * 
  */
-public abstract class BzGuang extends BaoZha
-{
+public abstract class BzGuang extends BaoZha {
 	protected ThrXunZhao thread;
 	protected Set<EFeiBlock> feiBlocks = new HashSet<EFeiBlock>();
 	protected EGuang lightBeam;
@@ -30,8 +29,8 @@ public abstract class BzGuang extends BaoZha
 	/** Radius in which the uplighting of blocks takes place */
 	protected int radius = 5;
 
-	public BzGuang(World world, Entity entity, double x, double y, double z, float size)
-	{
+	public BzGuang(World world, Entity entity, double x, double y, double z,
+			float size) {
 		super(world, entity, x, y, z, size);
 	}
 
@@ -39,32 +38,30 @@ public abstract class BzGuang extends BaoZha
 	 * Called before an explosion happens
 	 */
 	@Override
-	public void doPreExplode()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			this.worldObj.createExplosion(this.exploder, position.x, position.y, position.z, 4F, true);
+	public void doPreExplode() {
+		if (!this.worldObj.isRemote) {
+			this.worldObj.createExplosion(this.exploder, position.x,
+					position.y, position.z, 4F, true);
 
-			this.thread = new ThrXunZhao(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
+			this.thread = new ThrXunZhao(this.worldObj, this.position,
+					(int) this.getRadius(), this.exploder);
 			this.thread.run();
 
-			this.lightBeam = new EGuang(this.worldObj, position, 20 * 20, this.red, this.green, this.blue);
+			this.lightBeam = new EGuang(this.worldObj, position, 20 * 20,
+					this.red, this.green, this.blue);
 			this.worldObj.spawnEntityInWorld(this.lightBeam);
 		}
 	}
 
 	@Override
-	public void doExplode()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			if (this.callCount > 100 / this.proceduralInterval() && this.thread.isComplete)
-			{
+	public void doExplode() {
+		if (!this.worldObj.isRemote) {
+			if (this.callCount > 100 / this.proceduralInterval()
+					&& this.thread.isComplete) {
 				this.controller.endExplosion();
 			}
 
-			if (this.canFocusBeam(this.worldObj, position))
-			{
+			if (this.canFocusBeam(this.worldObj, position)) {
 				Vector3 currentPos;
 				int blockID;
 				int metadata;
@@ -72,90 +69,98 @@ public abstract class BzGuang extends BaoZha
 
 				int r = radius;
 
-				for (int x = -r; x < r; x++)
-				{
-					for (int y = -r; y < r; y++)
-					{
-						for (int z = -r; z < r; z++)
-						{
-							dist = MathHelper.sqrt_double((x * x + y * y + z * z));
+				for (int x = -r; x < r; x++) {
+					for (int y = -r; y < r; y++) {
+						for (int z = -r; z < r; z++) {
+							dist = MathHelper.sqrt_double((x * x + y * y + z
+									* z));
 
 							if (dist > r || dist < r - 3)
 								continue;
-							currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
-							blockID = this.worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+							currentPos = new Vector3(position.x + x, position.y
+									+ y, position.z + z);
+							blockID = this.worldObj.getBlockId(
+									currentPos.intX(), currentPos.intY(),
+									currentPos.intZ());
 
-							if (blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID)
+							if (blockID == 0
+									|| blockID == Block.bedrock.blockID
+									|| blockID == Block.obsidian.blockID)
 								continue;
 
-							metadata = this.worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+							metadata = this.worldObj.getBlockMetadata(
+									currentPos.intX(), currentPos.intY(),
+									currentPos.intZ());
 
-							if (this.worldObj.rand.nextInt(2) > 0)
-							{
-								this.worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, 2);
+							if (this.worldObj.rand.nextInt(2) > 0) {
+								this.worldObj.setBlock(currentPos.intX(),
+										currentPos.intY(), currentPos.intZ(),
+										0, 0, 2);
 
 								currentPos.add(0.5D);
-								EFeiBlock entity = new EFeiBlock(this.worldObj, currentPos, blockID, metadata);
+								EFeiBlock entity = new EFeiBlock(this.worldObj,
+										currentPos, blockID, metadata);
 								this.worldObj.spawnEntityInWorld(entity);
 								this.feiBlocks.add(entity);
-								entity.pitchChange = 50 * this.worldObj.rand.nextFloat();
+								entity.pitchChange = 50 * this.worldObj.rand
+										.nextFloat();
 							}
 						}
 					}
 				}
-			}
-			else
-			{
+			} else {
 				this.controller.endExplosion();
 			}
 
-			for (EFeiBlock entity : this.feiBlocks)
-			{
+			for (EFeiBlock entity : this.feiBlocks) {
 				Vector3 entityPosition = new Vector3(entity);
-				Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
+				Vector3 centeredPosition = entityPosition.clone().subtract(
+						this.position);
 				CalculationHelper.rotateByAngle(centeredPosition, 2);
-				Vector3 newPosition = Vector3.add(this.position, centeredPosition);
+				Vector3 newPosition = Vector3.add(this.position,
+						centeredPosition);
 				entity.motionX /= 3;
 				entity.motionY /= 3;
 				entity.motionZ /= 3;
-				entity.addVelocity((newPosition.x - entityPosition.x) * 0.5 * this.proceduralInterval(), 0.09 * this.proceduralInterval(), (newPosition.z - entityPosition.z) * 0.5 * this.proceduralInterval());
+				entity.addVelocity(
+						(newPosition.x - entityPosition.x) * 0.5
+								* this.proceduralInterval(),
+						0.09 * this.proceduralInterval(),
+						(newPosition.z - entityPosition.z) * 0.5
+								* this.proceduralInterval());
 				entity.yawChange += 3 * this.worldObj.rand.nextFloat();
 			}
 		}
 	}
 
 	@Override
-	public void doPostExplode()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			if (this.lightBeam != null)
-			{
+	public void doPostExplode() {
+		if (!this.worldObj.isRemote) {
+			if (this.lightBeam != null) {
 				this.lightBeam.setDead();
 				this.lightBeam = null;
 			}
 		}
 	}
 
-	public boolean canFocusBeam(World worldObj, Vector3 position)
-	{
-		return worldObj.canBlockSeeTheSky(position.intX(), position.intY() + 1, position.intZ());
+	public boolean canFocusBeam(World worldObj, Vector3 position) {
+		return worldObj.canBlockSeeTheSky(position.intX(), position.intY() + 1,
+				position.intZ());
 	}
 
 	/**
 	 * The interval in ticks before the next procedural call of this explosive
 	 * 
-	 * @param return - Return -1 if this explosive does not need proceudral calls
+	 * @param return - Return -1 if this explosive does not need proceudral
+	 *        calls
 	 */
 	@Override
-	public int proceduralInterval()
-	{
+	public int proceduralInterval() {
 		return 4;
 	}
 
 	@Override
-	public float getEnergy()
-	{
+	public float getEnergy() {
 		return 10000;
 	}
 

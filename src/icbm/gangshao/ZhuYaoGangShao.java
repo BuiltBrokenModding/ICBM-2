@@ -58,8 +58,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ZhuYaoGangShao.NAME, name = ZhuYaoGangShao.NAME, version = ICBM.VERSION, useMetadata = true)
 @NetworkMod(channels = { ZhuYaoGangShao.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
-public class ZhuYaoGangShao extends ZhuYaoICBM
-{
+public class ZhuYaoGangShao extends ZhuYaoICBM {
 	public static final String NAME = ICBM.NAME + "|Sentry";
 	public static final String CHANNEL = ICBM.NAME;
 
@@ -83,17 +82,19 @@ public class ZhuYaoGangShao extends ZhuYaoICBM
 	public static Item itemUpgrade;
 
 	/** ItemStack helpers. Do not modify theses. */
-	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
+	public static ItemStack conventionalBullet, railgunBullet,
+			antimatterBullet, bulletShell;
 
-	public static final String FLAG_RAILGUN = FlagRegistry.registerFlag("ban_railgun");
+	public static final String FLAG_RAILGUN = FlagRegistry
+			.registerFlag("ban_railgun");
 
 	@Override
 	@PreInit
-	public void preInit(FMLPreInitializationEvent event)
-	{
+	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
-		NetworkRegistry.instance().registerGuiHandler(this, ZhuYaoGangShao.proxy);
+		NetworkRegistry.instance().registerGuiHandler(this,
+				ZhuYaoGangShao.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 
 		SheDing.CONFIGURATION.load();
@@ -110,13 +111,18 @@ public class ZhuYaoGangShao extends ZhuYaoICBM
 		railgunBullet = new ItemStack(itemAmmo, 1, 2);
 		antimatterBullet = new ItemStack(itemAmmo, 1, 3);
 
-		GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class, "ICBMTurret");
+		GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class,
+				"ICBMTurret");
 		GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
 
-		EntityRegistry.registerGlobalEntityID(EJia.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EJia.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
-		EntityRegistry.registerGlobalEntityID(EntityTileDamagable.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityTileDamagable.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EJia.class, "ICBMFake",
+				EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EJia.class, "ICBMFake",
+				ENTITY_ID_PREFIX + 7, this, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityTileDamagable.class,
+				"ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityTileDamagable.class,
+				"ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
 
 		ICBMTab.itemStack = new ItemStack(blockTurret);
 
@@ -125,39 +131,70 @@ public class ZhuYaoGangShao extends ZhuYaoICBM
 
 	@Override
 	@Init
-	public void init(FMLInitializationEvent event)
-	{
+	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		ZhuYaoICBM.setModMetadata(NAME, metadata);
 	}
 
 	@Override
 	@PostInit
-	public void postInit(FMLPostInitializationEvent event)
-	{
+	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
 
 		// Shell
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16,
+				0), new Object[] { "T", "T", 'T', "ingotTin" }));
 		// Bullets
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 1), new Object[] { "SBS", "SGS", "SSS", 'B', Item.ingotIron, 'G', Item.gunpowder, 'S', bulletShell.copy() }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B", 'D', Item.diamond, 'B', conventionalBullet }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16,
+				1), new Object[] { "SBS", "SGS", "SSS", 'B', Item.ingotIron,
+				'G', Item.gunpowder, 'S', bulletShell.copy() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(
+				new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B",
+						'D', Item.diamond, 'B', conventionalBullet }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet,
+				new Object[] { "A", "B", 'A', "antimatterGram", 'B',
+						railgunBullet }));
 
 		// Turret Platform
-		GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', UniversalRecipes.BATTERY, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', Block.chest, 'B', UniversalRecipes.CIRCUIT_T1 }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] {
+				"SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A',
+				UniversalRecipes.BATTERY, 'S', UniversalRecipes.PRIMARY_PLATE,
+				'C', Block.chest, 'B', UniversalRecipes.CIRCUIT_T1 }));
 		// Gun Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 0), new Object[] { "SSS", "CS ", 'C', UniversalRecipes.CIRCUIT_T1, 'S', UniversalRecipes.PRIMARY_METAL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret,
+				1, 0), new Object[] { "SSS", "CS ", 'C',
+				UniversalRecipes.CIRCUIT_T1, 'S',
+				UniversalRecipes.PRIMARY_METAL }));
 		// Railgun
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T3, 'G', new ItemStack(blockTurret, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret,
+				1, 1), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond,
+				'S', UniversalRecipes.PRIMARY_PLATE, 'C',
+				UniversalRecipes.CIRCUIT_T3, 'G',
+				new ItemStack(blockTurret, 1, 0) }));
 		// AA Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 2), new Object[] { "DDS", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T2, 'G', new ItemStack(blockTurret, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret,
+				1, 2), new Object[] { "DDS", "CS ", "GS ", 'D',
+				UniversalRecipes.SECONDARY_PLATE, 'S',
+				UniversalRecipes.PRIMARY_PLATE, 'C',
+				UniversalRecipes.CIRCUIT_T2, 'G',
+				new ItemStack(blockTurret, 1, 0) }));
 		// Laser Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret, 1, 3), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipes.SECONDARY_PLATE, 'S', UniversalRecipes.PRIMARY_PLATE, 'C', UniversalRecipes.CIRCUIT_T1, 'D', Block.glass, 'G', Block.glass }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockTurret,
+				1, 3),
+				new Object[] { "DDG", "CS ", "GS ", 'D',
+						UniversalRecipes.SECONDARY_PLATE, 'S',
+						UniversalRecipes.PRIMARY_PLATE, 'C',
+						UniversalRecipes.CIRCUIT_T1, 'D', Block.glass, 'G',
+						Block.glass }));
 
 		// Upgrades
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 3, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.ingotIron }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.COLLECTOR.ordinal()), new Object[] { "BBB", " I ", "BBB", 'B', Item.bucketEmpty, 'I', Item.bowlEmpty }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade,
+				3, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I",
+				'B', Item.bow, 'I', Item.ingotIron }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade,
+				1, TurretUpgradeType.COLLECTOR.ordinal()),
+				new Object[] { "BBB", " I ", "BBB", 'B', Item.bucketEmpty, 'I',
+						Item.bowlEmpty }));
 
 		CommandRegistry.register(new CommandAccess());
 		CommandRegistry.register(new CommandDestroy());
@@ -169,45 +206,45 @@ public class ZhuYaoGangShao extends ZhuYaoICBM
 	}
 
 	/** Is a specific position being protected from a specific type of danger? */
-	public static boolean isProtected(World world, Vector3 diDian, String banFlag)
-	{
-		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) == null)
-		{
+	public static boolean isProtected(World world, Vector3 diDian,
+			String banFlag) {
+		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) == null) {
 			return false;
 		}
 
-		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))
-		{
+		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(
+				world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian)) {
 			return true;
 		}
 
-		return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, banFlag, "true", diDian);
+		return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME)
+				.containsValue(world, banFlag, "true", diDian);
 	}
 
 	@Override
 	@ServerStarting
-	public void serverStarting(FMLServerStartingEvent event)
-	{
-		FlagRegistry.registerModFlag(FlagRegistry.DEFAULT_NAME, new ModFlag(NBTFileLoader.loadData(FlagRegistry.DEFAULT_NAME)));
+	public void serverStarting(FMLServerStartingEvent event) {
+		FlagRegistry.registerModFlag(FlagRegistry.DEFAULT_NAME, new ModFlag(
+				NBTFileLoader.loadData(FlagRegistry.DEFAULT_NAME)));
 
-		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
+		ICommandManager commandManager = FMLCommonHandler.instance()
+				.getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME)));
+		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry
+				.getModFlag(FlagRegistry.DEFAULT_NAME)));
 	}
 
 	@Override
 	@ForgeSubscribe
-	public void worldSave(Save evt)
-	{
-		if (!evt.world.isRemote)
-		{
-			NBTFileLoader.saveData(FlagRegistry.DEFAULT_NAME, FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getNBT());
+	public void worldSave(Save evt) {
+		if (!evt.world.isRemote) {
+			NBTFileLoader.saveData(FlagRegistry.DEFAULT_NAME, FlagRegistry
+					.getModFlag(FlagRegistry.DEFAULT_NAME).getNBT());
 		}
 	}
 
 	@Override
-	protected String getChannel()
-	{
+	protected String getChannel() {
 		return CHANNEL;
 	}
 }

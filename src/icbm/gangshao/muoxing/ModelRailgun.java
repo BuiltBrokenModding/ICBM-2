@@ -6,8 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelRailgun extends ModelBase
-{
+public class ModelRailgun extends ModelBase {
 	// fields
 	ModelRenderer BASE;
 	ModelRenderer NECK;
@@ -20,8 +19,7 @@ public class ModelRailgun extends ModelBase
 	ModelRenderer SUPPORT_2_ROTATES;
 	ModelRenderer SUPPORT_PLATFORM_ROTATES;
 
-	public ModelRailgun()
-	{
+	public ModelRailgun() {
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -81,8 +79,7 @@ public class ModelRailgun extends ModelBase
 		setRotation(SUPPORT_PLATFORM_ROTATES, 0F, 0F, 0F);
 	}
 
-	public void render(float rotationYaw, float rotationPitch, float f5)
-	{
+	public void render(float rotationYaw, float rotationPitch, float f5) {
 		BASE.render(f5);
 		NECK.render(f5);
 
@@ -108,8 +105,7 @@ public class ModelRailgun extends ModelBase
 		NOZZLE_ROTATES.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

@@ -6,14 +6,15 @@ import mffs.api.IFieldInteraction;
 import mffs.api.IProjector;
 import universalelectricity.core.vector.Vector3;
 
-public interface IProjectorMode
-{
+public interface IProjectorMode {
 	/**
 	 * Called when the force field projector calculates the shape of the module.
 	 * 
-	 * @param projector - The Projector Object. Can cast to TileEntity.
-	 * @param forceField - The blocks actually making up the force field. This array of blocks are
-	 * NOT affected by rotation or translation.
+	 * @param projector
+	 *            - The Projector Object. Can cast to TileEntity.
+	 * @param forceField
+	 *            - The blocks actually making up the force field. This array of
+	 *            blocks are NOT affected by rotation or translation.
 	 */
 	public Set<Vector3> getExteriorPoints(IFieldInteraction projector);
 
@@ -30,5 +31,6 @@ public interface IProjectorMode
 	/**
 	 * Called to render an object in front of the projection.
 	 */
-	public void render(IProjector projector, double x, double y, double z, float f, long ticks);
+	public void render(IProjector projector, double x, double y, double z,
+			float f, long ticks);
 }

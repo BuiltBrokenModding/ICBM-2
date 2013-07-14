@@ -10,38 +10,32 @@ import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class DaoDan extends ZhaPin
-{
+public abstract class DaoDan extends ZhaPin {
 	@SideOnly(Side.CLIENT)
 	private ResourceLocation resourceLocation;
 
-	public DaoDan(String mingZi, int tier)
-	{
+	public DaoDan(String mingZi, int tier) {
 		super(mingZi, tier);
 	}
 
 	/**
 	 * Called when launched.
 	 */
-	public void launch(EDaoDan missileObj)
-	{
+	public void launch(EDaoDan missileObj) {
 	}
 
 	/**
 	 * Called every tick while flying.
 	 */
-	public void update(EDaoDan missileObj)
-	{
+	public void update(EDaoDan missileObj) {
 	}
 
-	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
-	{
+	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer) {
 		return false;
 	}
 
 	@Override
-	public ItemStack getItemStack()
-	{
+	public ItemStack getItemStack() {
 		return new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.getID());
 	}
 
@@ -50,8 +44,7 @@ public abstract class DaoDan extends ZhaPin
 	 * 
 	 * @return
 	 */
-	public boolean isCruise()
-	{
+	public boolean isCruise() {
 		return true;
 	}
 
@@ -59,11 +52,11 @@ public abstract class DaoDan extends ZhaPin
 	public abstract MICBM getMuoXing();
 
 	@SideOnly(Side.CLIENT)
-	public ResourceLocation getMissileResource()
-	{
-		if (this.resourceLocation == null)
-		{
-			this.resourceLocation = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
+	public ResourceLocation getMissileResource() {
+		if (this.resourceLocation == null) {
+			this.resourceLocation = new ResourceLocation(ZhuYaoICBM.DOMAIN,
+					ZhuYaoICBM.MODEL_PATH + "missile_"
+							+ this.getUnlocalizedName() + ".png");
 		}
 
 		return this.resourceLocation;

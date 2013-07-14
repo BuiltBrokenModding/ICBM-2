@@ -8,8 +8,8 @@ import net.minecraft.inventory.IInventory;
  * @author Calclavia
  * 
  */
-public abstract interface IProjector extends IInventory, IBiometricIdentifierLink, IFieldInteraction
-{
+public abstract interface IProjector extends IInventory,
+		IBiometricIdentifierLink, IFieldInteraction {
 	/**
 	 * Projects a force field.
 	 */

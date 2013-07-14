@@ -7,8 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MLeiShePao2 extends ModelBase
-{
+public class MLeiShePao2 extends ModelBase {
 	// fields
 	ModelRenderer Main_Turret_MOVES;
 	ModelRenderer Back_Armor_MOVES;
@@ -22,8 +21,7 @@ public class MLeiShePao2 extends ModelBase
 	ModelRenderer Front_Armor_2_MOVES;
 	ModelRenderer Cannon_MOVES;
 
-	public MLeiShePao2()
-	{
+	public MLeiShePao2() {
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -96,8 +94,8 @@ public class MLeiShePao2 extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3,
+			float f4, float f5) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		Main_Turret_MOVES.render(f5);
@@ -113,8 +111,7 @@ public class MLeiShePao2 extends ModelBase
 		Cannon_MOVES.render(f5);
 	}
 
-	public void render(float f5)
-	{
+	public void render(float f5) {
 		Main_Turret_MOVES.render(f5);
 		Back_Armor_MOVES.render(f5);
 		Armor_1_MOVES.render(f5);
@@ -128,8 +125,7 @@ public class MLeiShePao2 extends ModelBase
 		Cannon_MOVES.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

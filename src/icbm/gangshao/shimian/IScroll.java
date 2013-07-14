@@ -1,10 +1,9 @@
 package icbm.gangshao.shimian;
 
-public interface IScroll
-{
+public interface IScroll {
 	/**
-	 * Scrolls the text field up or down. Client side only. Positive value will scroll the text down
-	 * while a negative value will scroll it up.
+	 * Scrolls the text field up or down. Client side only. Positive value will
+	 * scroll the text down while a negative value will scroll it up.
 	 */
 	public void scroll(int amount);
 

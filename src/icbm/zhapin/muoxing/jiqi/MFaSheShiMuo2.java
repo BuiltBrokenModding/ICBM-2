@@ -6,16 +6,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MFaSheShiMuo2 extends ModelBase
-{
+public class MFaSheShiMuo2 extends ModelBase {
 	// fields
 	ModelRenderer Shape27;
 	ModelRenderer Shape29;
 	ModelRenderer Shape30;
 	ModelRenderer Shape31;
 
-	public MFaSheShiMuo2()
-	{
+	public MFaSheShiMuo2() {
 		textureWidth = 256;
 		textureHeight = 256;
 
@@ -45,16 +43,14 @@ public class MFaSheShiMuo2 extends ModelBase
 		setRotation(Shape31, -0.4363323F, 0F, 0F);
 	}
 
-	public void render(float f5)
-	{
+	public void render(float f5) {
 		Shape27.render(f5);
 		Shape29.render(f5);
 		Shape30.render(f5);
 		Shape31.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

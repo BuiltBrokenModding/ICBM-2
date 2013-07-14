@@ -40,10 +40,10 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
-{
-	public enum XingShi
-	{
+public class EDaoDan extends Entity implements IChunkLoadHandler,
+		IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData,
+		IMissile, IAATarget {
+	public enum XingShi {
 		DAO_DAN, XIAO_DAN, HUO_JIAN
 	}
 
@@ -99,25 +99,28 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 
 	public NBTTagCompound nbtData = new NBTTagCompound();
 
-	public EDaoDan(World par1World)
-	{
+	public EDaoDan(World par1World) {
 		super(par1World);
 		this.setSize(1F, 1F);
 		this.renderDistanceWeight = 3;
 		this.isImmuneToFire = true;
 		this.ignoreFrustumCheck = true;
-		this.shengYin = this.worldObj != null ? ZhuYaoZhaPin.proxy.getDaoDanShengYin(this) : null;
+		this.shengYin = this.worldObj != null ? ZhuYaoZhaPin.proxy
+				.getDaoDanShengYin(this) : null;
 	}
 
 	/**
 	 * Spawns a traditional missile and cruise missiles
 	 * 
-	 * @param haoMa - Explosive ID
-	 * @param diDian - Starting Position
-	 * @param faSheQiDiDian - Missile Launcher Position
+	 * @param haoMa
+	 *            - Explosive ID
+	 * @param diDian
+	 *            - Starting Position
+	 * @param faSheQiDiDian
+	 *            - Missile Launcher Position
 	 */
-	public EDaoDan(World par1World, Vector3 diDian, Vector3 faSheQiDiDian, int haoMa)
-	{
+	public EDaoDan(World par1World, Vector3 diDian, Vector3 faSheQiDiDian,
+			int haoMa) {
 		this(par1World);
 		this.haoMa = haoMa;
 		this.kaiShi = diDian;
@@ -130,12 +133,15 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	/**
 	 * For rocket launchers
 	 * 
-	 * @param haoMa - Explosive ID
-	 * @param diDian - Starting Position
-	 * @param muBiao - Target Position
+	 * @param haoMa
+	 *            - Explosive ID
+	 * @param diDian
+	 *            - Starting Position
+	 * @param muBiao
+	 *            - Target Position
 	 */
-	public EDaoDan(World par1World, Vector3 diDian, int haoMa, float yaw, float pitch)
-	{
+	public EDaoDan(World par1World, Vector3 diDian, int haoMa, float yaw,
+			float pitch) {
 		this(par1World);
 		this.haoMa = haoMa;
 		this.faSheQi = this.kaiShi = diDian;
@@ -147,16 +153,13 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public String getEntityName()
-	{
+	public String getEntityName() {
 		return ZhaPinRegistry.get(this.haoMa).getMissileName();
 	}
 
 	@Override
-	public void writeSpawnData(ByteArrayDataOutput data)
-	{
-		try
-		{
+	public void writeSpawnData(ByteArrayDataOutput data) {
+		try {
 			data.writeInt(this.haoMa);
 			data.writeInt(this.xingShi.ordinal());
 
@@ -167,46 +170,46 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 			data.writeInt(this.faSheQi.intX());
 			data.writeInt(this.faSheQi.intY());
 			data.writeInt(this.faSheQi.intZ());
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void readSpawnData(ByteArrayDataInput data)
-	{
-		try
-		{
+	public void readSpawnData(ByteArrayDataInput data) {
+		try {
 			this.haoMa = data.readInt();
 			this.xingShi = XingShi.values()[data.readInt()];
-			this.kaiShi = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
-			this.faSheQi = new Vector3(data.readInt(), data.readInt(), data.readInt());
-		}
-		catch (Exception e)
-		{
+			this.kaiShi = new Vector3(data.readDouble(), data.readDouble(),
+					data.readDouble());
+			this.faSheQi = new Vector3(data.readInt(), data.readInt(),
+					data.readInt());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void launch(Vector3 target)
-	{
+	public void launch(Vector3 target) {
 		this.kaiShi = new Vector3(this);
 		this.muBiao = target;
 		this.baoZhaGaoDu = this.muBiao.intY();
 		((DaoDan) ZhaPinRegistry.get(this.haoMa)).launch(this);
 		this.feiXingTick = 0;
 		this.jiSuan();
-		this.worldObj.playSoundAtEntity(this, ZhuYaoICBM.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		this.worldObj.playSoundAtEntity(this, ZhuYaoICBM.PREFIX
+				+ "missilelaunch", 4F,
+				(1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand
+						.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
-		ZhuYaoICBM.LOGGER.info("Launching " + this.getEntityName() + " (" + this.entityId + ") from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+		ZhuYaoICBM.LOGGER.info("Launching " + this.getEntityName() + " ("
+				+ this.entityId + ") from " + kaiShi.intX() + ", "
+				+ kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX()
+				+ ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
 	@Override
-	public void launch(Vector3 target, int height)
-	{
+	public void launch(Vector3 target, int height) {
 		this.qiFeiGaoDu = height;
 		this.launch(target);
 	}
@@ -216,10 +219,8 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	 * 
 	 * @param target
 	 */
-	public void jiSuan()
-	{
-		if (this.muBiao != null)
-		{
+	public void jiSuan() {
+		if (this.muBiao != null) {
 			// Calculate the distance difference of the missile
 			this.xXiangCha = this.muBiao.x - this.kaiShi.x;
 			this.yXiangCha = this.muBiao.y - this.kaiShi.y;
@@ -227,50 +228,50 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 
 			// TODO: Calculate parabola and relative out the height.
 			// Calculate the power required to reach the target co-ordinates
-			this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), this.muBiao.toVector2());
+			this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(),
+					this.muBiao.toVector2());
 			this.tianGao = 160 + (int) (this.diShangJuLi * 3);
-			this.feiXingShiJian = (float) Math.max(100, 2 * this.diShangJuLi) - this.feiXingTick;
-			this.jiaSu = (float) this.tianGao * 2 / (this.feiXingShiJian * this.feiXingShiJian);
+			this.feiXingShiJian = (float) Math.max(100, 2 * this.diShangJuLi)
+					- this.feiXingTick;
+			this.jiaSu = (float) this.tianGao * 2
+					/ (this.feiXingShiJian * this.feiXingShiJian);
 		}
 	}
 
 	@Override
-	public void entityInit()
-	{
+	public void entityInit() {
 		this.dataWatcher.addObject(16, -1);
-		this.chunkLoaderInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.ENTITY));
+		this.chunkLoaderInit(ForgeChunkManager.requestTicket(
+				ZhuYaoZhaPin.instance, this.worldObj, Type.ENTITY));
 	}
 
 	@Override
-	public void chunkLoaderInit(Ticket ticket)
-	{
-		if (!this.worldObj.isRemote)
-		{
-			if (ticket != null)
-			{
-				if (this.chunkTicket == null)
-				{
+	public void chunkLoaderInit(Ticket ticket) {
+		if (!this.worldObj.isRemote) {
+			if (ticket != null) {
+				if (this.chunkTicket == null) {
 					this.chunkTicket = ticket;
 					this.chunkTicket.bindEntity(this);
 					this.chunkTicket.getModData();
 				}
 
-				ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(this.chunkCoordX, this.chunkCoordZ));
+				ForgeChunkManager.forceChunk(this.chunkTicket,
+						new ChunkCoordIntPair(this.chunkCoordX,
+								this.chunkCoordZ));
 			}
 		}
 	}
 
-	public void updateLoadChunk(int newChunkX, int newChunkZ)
-	{
-		if (!this.worldObj.isRemote && SheDing.ZAI_KUAI && this.chunkTicket != null)
-		{
-			ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
+	public void updateLoadChunk(int newChunkX, int newChunkZ) {
+		if (!this.worldObj.isRemote && SheDing.ZAI_KUAI
+				&& this.chunkTicket != null) {
+			ForgeChunkManager.forceChunk(this.chunkTicket,
+					new ChunkCoordIntPair(newChunkX, newChunkZ));
 		}
 	}
 
 	@Override
-	public boolean canBeCollidedWith()
-	{
+	public boolean canBeCollidedWith() {
 		return true;
 	}
 
@@ -278,19 +279,15 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	 * Called to update the entity's position/logic.
 	 */
 	@Override
-	public void onUpdate()
-	{
-		if (this.shengYin != null)
-		{
+	public void onUpdate() {
+		if (this.shengYin != null) {
 			this.shengYin.update();
 		}
 
-		if (!this.worldObj.isRemote)
-		{
-			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, this.haoMa))
-			{
-				if (this.feiXingTick >= 0)
-				{
+		if (!this.worldObj.isRemote) {
+			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this),
+					ExplosiveType.AIR, this.haoMa)) {
+				if (this.feiXingTick >= 0) {
 					this.dropMissileAsItem();
 				}
 
@@ -299,125 +296,126 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 			}
 		}
 
-		if (this.setNormalExplode)
-		{
+		if (this.setNormalExplode) {
 			this.normalExplode();
 			return;
 		}
 
-		if (this.setExplode)
-		{
+		if (this.setExplode) {
 			this.explode();
 			return;
 		}
 
-		try
-		{
-			if (this.worldObj.isRemote)
-			{
+		try {
+			if (this.worldObj.isRemote) {
 				this.feiXingTick = this.dataWatcher.getWatchableObjectInt(16);
-			}
-			else
-			{
+			} else {
 				this.dataWatcher.updateObject(16, this.feiXingTick);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		if (this.feiXingTick >= 0)
-		{
+		if (this.feiXingTick >= 0) {
 			RadarRegistry.register(this);
 
-			if (!this.worldObj.isRemote)
-			{
-				if (this.xingShi == XingShi.XIAO_DAN || this.xingShi == XingShi.HUO_JIAN)
-				{
-					if (this.feiXingTick == 0 && this.xiaoDanMotion != null)
-					{
-						this.xiaoDanMotion = new Vector3(this.xXiangCha / (feiXingShiJian * 0.3), this.yXiangCha / (feiXingShiJian * 0.3), this.zXiangCha / (feiXingShiJian * 0.3));
+			if (!this.worldObj.isRemote) {
+				if (this.xingShi == XingShi.XIAO_DAN
+						|| this.xingShi == XingShi.HUO_JIAN) {
+					if (this.feiXingTick == 0 && this.xiaoDanMotion != null) {
+						this.xiaoDanMotion = new Vector3(this.xXiangCha
+								/ (feiXingShiJian * 0.3), this.yXiangCha
+								/ (feiXingShiJian * 0.3), this.zXiangCha
+								/ (feiXingShiJian * 0.3));
 					}
 
 					this.motionX = this.xiaoDanMotion.x;
 					this.motionY = this.xiaoDanMotion.y;
 					this.motionZ = this.xiaoDanMotion.z;
 
-					this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
+					this.rotationPitch = (float) (Math.atan(this.motionY
+							/ (Math.sqrt(this.motionX * this.motionX
+									+ this.motionZ * this.motionZ))) * 180 / Math.PI);
 
 					// Look at the next point
-					this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+					this.rotationYaw = (float) (Math.atan2(this.motionX,
+							this.motionZ) * 180 / Math.PI);
 
 					((DaoDan) ZhaPinRegistry.get(this.haoMa)).update(this);
 
-					Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
+					Block block = Block.blocksList[this.worldObj.getBlockId(
+							(int) this.posX, (int) this.posY, (int) this.posZ)];
 
-					if (this.baoHuShiJian <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
-					{
+					if (this.baoHuShiJian <= 0
+							&& ((block != null && !(block instanceof BlockFluid))
+									|| this.posY > 1000
+									|| this.isCollided
+									|| this.feiXingTick > 20 * 1000 || (this.motionX == 0
+									&& this.motionY == 0 && this.motionZ == 0))) {
 						this.explode();
 						return;
 					}
 
 					this.moveEntity(this.motionX, this.motionY, this.motionZ);
-				}
-				else
-				{
+				} else {
 					// Start the launch
-					if (this.qiFeiGaoDu > 0)
-					{
-						this.motionY = EDaoDan.JIA_KUAI_SU_DU * this.feiXingTick * (this.feiXingTick / 2);
+					if (this.qiFeiGaoDu > 0) {
+						this.motionY = EDaoDan.JIA_KUAI_SU_DU
+								* this.feiXingTick * (this.feiXingTick / 2);
 						this.motionX = 0;
 						this.motionZ = 0;
 						this.qiFeiGaoDu -= this.motionY;
-						this.moveEntity(this.motionX, this.motionY, this.motionZ);
+						this.moveEntity(this.motionX, this.motionY,
+								this.motionZ);
 
-						if (this.qiFeiGaoDu <= 0)
-						{
-							this.motionY = this.jiaSu * (this.feiXingShiJian / 2);
+						if (this.qiFeiGaoDu <= 0) {
+							this.motionY = this.jiaSu
+									* (this.feiXingShiJian / 2);
 							this.motionX = this.xXiangCha / feiXingShiJian;
 							this.motionZ = this.zXiangCha / feiXingShiJian;
 						}
-					}
-					else
-					{
+					} else {
 						this.motionY -= this.jiaSu;
 
-						this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
+						this.rotationPitch = (float) (Math.atan(this.motionY
+								/ (Math.sqrt(this.motionX * this.motionX
+										+ this.motionZ * this.motionZ))) * 180 / Math.PI);
 
 						// Look at the next point
-						this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+						this.rotationYaw = (float) (Math.atan2(this.motionX,
+								this.motionZ) * 180 / Math.PI);
 
 						((DaoDan) ZhaPinRegistry.get(this.haoMa)).update(this);
 
-						this.moveEntity(this.motionX, this.motionY, this.motionZ);
+						this.moveEntity(this.motionX, this.motionY,
+								this.motionZ);
 
 						// If the missile contacts anything, it will explode.
-						if (this.isCollided)
-						{
+						if (this.isCollided) {
 							this.explode();
 						}
 
 						// If the missile is commanded to explode before impact
-						if (this.baoZhaGaoDu > 0 && this.motionY < 0)
-						{
+						if (this.baoZhaGaoDu > 0 && this.motionY < 0) {
 							// Check the block below it.
-							int blockBelowID = this.worldObj.getBlockId((int) this.posX, (int) this.posY - baoZhaGaoDu, (int) this.posZ);
+							int blockBelowID = this.worldObj.getBlockId(
+									(int) this.posX, (int) this.posY
+											- baoZhaGaoDu, (int) this.posZ);
 
-							if (blockBelowID > 0)
-							{
+							if (blockBelowID > 0) {
 								this.baoZhaGaoDu = 0;
 								this.explode();
 							}
 						}
 					} // end else
 				}
-			}
-			else
-			{
-				this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
+			} else {
+				this.rotationPitch = (float) (Math.atan(this.motionY
+						/ (Math.sqrt(this.motionX * this.motionX + this.motionZ
+								* this.motionZ))) * 180 / Math.PI);
 				// Look at the next point
-				this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+				this.rotationYaw = (float) (Math.atan2(this.motionX,
+						this.motionZ) * 180 / Math.PI);
 			}
 
 			this.lastTickPosX = this.posX;
@@ -427,32 +425,25 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 			this.spawnMissileSmoke();
 			this.baoHuShiJian--;
 			this.feiXingTick++;
-		}
-		else if (this.xingShi != XingShi.HUO_JIAN)
-		{
+		} else if (this.xingShi != XingShi.HUO_JIAN) {
 			// Check to find the launcher in which this missile belongs in.
 			ILauncherContainer launcher = this.getLauncher();
 
-			if (launcher != null)
-			{
+			if (launcher != null) {
 				launcher.setContainingMissile(this);
 
-				if (launcher instanceof TXiaoFaSheQi)
-				{
+				if (launcher instanceof TXiaoFaSheQi) {
 					this.xingShi = XingShi.XIAO_DAN;
 					this.noClip = true;
 
-					if (this.worldObj.isRemote)
-					{
+					if (this.worldObj.isRemote) {
 						this.rotationYaw = -((TXiaoFaSheQi) launcher).rotationYaw + 90;
 						this.rotationPitch = ((TXiaoFaSheQi) launcher).rotationPitch;
 					}
 
 					this.posY = ((TXiaoFaSheQi) launcher).yCoord + 1;
 				}
-			}
-			else
-			{
+			} else {
 				this.setDead();
 			}
 		}
@@ -461,16 +452,12 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public ILauncherContainer getLauncher()
-	{
-		if (this.faSheQi != null)
-		{
+	public ILauncherContainer getLauncher() {
+		if (this.faSheQi != null) {
 			TileEntity tileEntity = this.faSheQi.getTileEntity(this.worldObj);
 
-			if (tileEntity != null && tileEntity instanceof ILauncherContainer)
-			{
-				if (!tileEntity.isInvalid())
-				{
+			if (tileEntity != null && tileEntity instanceof ILauncherContainer) {
+				if (!tileEntity.isInvalid()) {
 					return (ILauncherContainer) tileEntity;
 				}
 			}
@@ -480,18 +467,16 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public boolean func_130002_c(EntityPlayer entityPlayer)
-	{
-		if (((DaoDan) ZhaPinRegistry.get(this.haoMa)) != null)
-		{
-			if (((DaoDan) ZhaPinRegistry.get(this.haoMa)).onInteract(this, entityPlayer))
-			{
+	public boolean func_130002_c(EntityPlayer entityPlayer) {
+		if (((DaoDan) ZhaPinRegistry.get(this.haoMa)) != null) {
+			if (((DaoDan) ZhaPinRegistry.get(this.haoMa)).onInteract(this,
+					entityPlayer)) {
 				return true;
 			}
 		}
 
-		if (!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == entityPlayer))
-		{
+		if (!this.worldObj.isRemote
+				&& (this.riddenByEntity == null || this.riddenByEntity == entityPlayer)) {
 			entityPlayer.mountEntity(this);
 			return true;
 		}
@@ -500,24 +485,18 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public double getMountedYOffset()
-	{
-		if (this.feiXingShiJian <= 0 && this.xingShi == XingShi.DAO_DAN)
-		{
+	public double getMountedYOffset() {
+		if (this.feiXingShiJian <= 0 && this.xingShi == XingShi.DAO_DAN) {
 			return this.height;
-		}
-		else if (this.xingShi == XingShi.XIAO_DAN)
-		{
+		} else if (this.xingShi == XingShi.XIAO_DAN) {
 			return this.height * 0.1;
 		}
 
 		return this.height / 2 + this.motionY;
 	}
 
-	private void spawnMissileSmoke()
-	{
-		if (this.worldObj.isRemote)
-		{
+	private void spawnMissileSmoke() {
+		if (this.worldObj.isRemote) {
 			Vector3 position = new Vector3(this);
 			// The distance of the smoke relative
 			// to the missile.
@@ -533,14 +512,19 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 			delta.z = Math.cos(Math.toRadians(this.rotationYaw)) * dH;
 
 			position.add(delta);
-			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			this.worldObj.spawnParticle("flame", position.x, position.y,
+					position.z, 0, 0, 0);
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj,
+					position, 4, 2);
 			position.multiply(1 - 0.001 * Math.random());
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj,
+					position, 4, 2);
 			position.multiply(1 - 0.001 * Math.random());
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj,
+					position, 4, 2);
 			position.multiply(1 - 0.001 * Math.random());
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj,
+					position, 4, 2);
 		}
 	}
 
@@ -549,13 +533,11 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	 */
 
 	@Override
-	public AxisAlignedBB getCollisionBox(Entity entity)
-	{
+	public AxisAlignedBB getCollisionBox(Entity entity) {
 		// Make sure the entity is not an item
-		if (!(entity instanceof EntityItem) && entity != this.riddenByEntity && this.baoHuShiJian <= 0)
-		{
-			if (entity instanceof EDaoDan)
-			{
+		if (!(entity instanceof EntityItem) && entity != this.riddenByEntity
+				&& this.baoHuShiJian <= 0) {
+			if (entity instanceof EDaoDan) {
 				((EDaoDan) entity).setNormalExplode();
 			}
 
@@ -566,23 +548,18 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public Vector3 getPredictedPosition(int t)
-	{
+	public Vector3 getPredictedPosition(int t) {
 		Vector3 guJiDiDian = new Vector3(this);
 		double tempMotionY = this.motionY;
 
-		if (this.feiXingTick > 20)
-		{
-			for (int i = 0; i < t; i++)
-			{
-				if (this.xingShi == XingShi.XIAO_DAN || this.xingShi == XingShi.HUO_JIAN)
-				{
+		if (this.feiXingTick > 20) {
+			for (int i = 0; i < t; i++) {
+				if (this.xingShi == XingShi.XIAO_DAN
+						|| this.xingShi == XingShi.HUO_JIAN) {
 					guJiDiDian.x += this.xiaoDanMotion.x;
 					guJiDiDian.y += this.xiaoDanMotion.y;
 					guJiDiDian.z += this.xiaoDanMotion.z;
-				}
-				else
-				{
+				} else {
 					guJiDiDian.x += this.motionX;
 					guJiDiDian.y += tempMotionY;
 					guJiDiDian.z += this.motionZ;
@@ -596,80 +573,70 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public void setNormalExplode()
-	{
+	public void setNormalExplode() {
 		this.setNormalExplode = true;
 	}
 
 	@Override
-	public void setExplode()
-	{
+	public void setExplode() {
 		this.setExplode = true;
 	}
 
 	@Override
-	public void setDead()
-	{
+	public void setDead() {
 		RadarRegistry.unregister(this);
 
-		if (this.chunkTicket != null)
-		{
+		if (this.chunkTicket != null) {
 			ForgeChunkManager.releaseTicket(this.chunkTicket);
 		}
 
 		super.setDead();
 
-		if (this.shengYin != null)
-		{
+		if (this.shengYin != null) {
 			this.shengYin.update();
 		}
 	}
 
 	@Override
-	public void explode()
-	{
-		try
-		{
+	public void explode() {
+		try {
 			// Make sure the missile is not already exploding
-			if (!this.zhengZaiBaoZha)
-			{
-				if (this.haoMa == 0)
-				{
-					if (!this.worldObj.isRemote)
-					{
-						this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
+			if (!this.zhengZaiBaoZha) {
+				if (this.haoMa == 0) {
+					if (!this.worldObj.isRemote) {
+						this.worldObj.createExplosion(this, this.posX,
+								this.posY, this.posZ, 5F, true);
 					}
-				}
-				else
-				{
-					((DaoDan) ZhaPinRegistry.get(this.haoMa)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
+				} else {
+					((DaoDan) ZhaPinRegistry.get(this.haoMa)).createExplosion(
+							this.worldObj, this.posX, this.posY, this.posZ,
+							this);
 				}
 
 				this.zhengZaiBaoZha = true;
 
-				ZhuYaoICBM.LOGGER.info(this.getEntityName() + " (" + this.entityId + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+				ZhuYaoICBM.LOGGER.info(this.getEntityName() + " ("
+						+ this.entityId + ") exploded in " + (int) this.posX
+						+ ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
 
 			this.setDead();
 
-		}
-		catch (Exception e)
-		{
-			ZhuYaoICBM.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
+		} catch (Exception e) {
+			ZhuYaoICBM.LOGGER
+					.severe("Missile failed to explode properly. Report this to the developers.");
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void normalExplode()
-	{
-		if (!this.zhengZaiBaoZha)
-		{
+	public void normalExplode() {
+		if (!this.zhengZaiBaoZha) {
 			this.zhengZaiBaoZha = true;
 
-			if (!this.worldObj.isRemote)
-			{
-				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
+			if (!this.worldObj.isRemote) {
+				this.worldObj.createExplosion(this, this.posX, this.posY,
+						this.posZ, 5F, true);
 			}
 
 			this.setDead();
@@ -677,11 +644,11 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public void dropMissileAsItem()
-	{
-		if (!this.zhengZaiBaoZha && !this.worldObj.isRemote)
-		{
-			EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.haoMa));
+	public void dropMissileAsItem() {
+		if (!this.zhengZaiBaoZha && !this.worldObj.isRemote) {
+			EntityItem entityItem = new EntityItem(this.worldObj, this.posX,
+					this.posY, this.posZ, new ItemStack(ZhuYaoZhaPin.itDaoDan,
+							1, this.haoMa));
 
 			float var13 = 0.05F;
 			Random random = new Random();
@@ -698,8 +665,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbt)
-	{
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.kaiShi = Vector3.readFromNBT(nbt.getCompoundTag("kaiShi"));
 		this.muBiao = Vector3.readFromNBT(nbt.getCompoundTag("muBiao"));
 		this.faSheQi = Vector3.readFromNBT(nbt.getCompoundTag("faSheQi"));
@@ -716,18 +682,18 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbt)
-	{
-		nbt.setCompoundTag("kaiShi", this.kaiShi.writeToNBT(new NBTTagCompound()));
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setCompoundTag("kaiShi",
+				this.kaiShi.writeToNBT(new NBTTagCompound()));
 
-		if (this.muBiao != null)
-		{
-			nbt.setCompoundTag("muBiao", this.muBiao.writeToNBT(new NBTTagCompound()));
+		if (this.muBiao != null) {
+			nbt.setCompoundTag("muBiao",
+					this.muBiao.writeToNBT(new NBTTagCompound()));
 		}
 
-		if (this.faSheQi != null)
-		{
-			nbt.setCompoundTag("faSheQi", this.faSheQi.writeToNBT(new NBTTagCompound()));
+		if (this.faSheQi != null) {
+			nbt.setCompoundTag("faSheQi",
+					this.faSheQi.writeToNBT(new NBTTagCompound()));
 		}
 
 		nbt.setFloat("jiaSu", this.jiaSu);
@@ -740,50 +706,42 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public float getShadowSize()
-	{
+	public float getShadowSize() {
 		return 1.0F;
 	}
 
 	@Override
-	public int getTicksInAir()
-	{
+	public int getTicksInAir() {
 		return this.feiXingTick;
 	}
 
 	@Override
-	public IExplosive getExplosiveType()
-	{
+	public IExplosive getExplosiveType() {
 		return ZhaPinRegistry.get(this.haoMa);
 	}
 
 	@Override
-	public boolean canLock(IMissile missile)
-	{
+	public boolean canLock(IMissile missile) {
 		return this.feiXingTick > 0;
 	}
 
 	@Override
-	public void destroyCraft()
-	{
+	public void destroyCraft() {
 		this.normalExplode();
 	}
 
 	@Override
-	public int doDamage(int damage)
-	{
+	public int doDamage(int damage) {
 		return -1;
 	}
 
 	@Override
-	public boolean canBeTargeted(Object turret)
-	{
+	public boolean canBeTargeted(Object turret) {
 		return this.getTicksInAir() > 0;
 	}
 
 	@Override
-	public NBTTagCompound getTagCompound()
-	{
+	public NBTTagCompound getTagCompound() {
 		return this.nbtData;
 	}
 }

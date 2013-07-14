@@ -36,27 +36,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * Block turret is a class used by all turrets. Each type of turret will have a different tile
- * entity.
+ * Block turret is a class used by all turrets. Each type of turret will have a
+ * different tile entity.
  * 
  * @author Calclavia
  */
-public class BlockTurret extends BICBM
-{
-	public enum TurretType
-	{
-		GUN(TQiang.class), RAILGUN(TCiGuiPao.class), AA(TFanKong.class), LASER(TLeiShe.class);
+public class BlockTurret extends BICBM {
+	public enum TurretType {
+		GUN(TQiang.class), RAILGUN(TCiGuiPao.class), AA(TFanKong.class), LASER(
+				TLeiShe.class);
 
 		public Class<? extends TileEntity> tileEntity;
 
-		private TurretType(Class<? extends TileEntity> tile)
-		{
+		private TurretType(Class<? extends TileEntity> tile) {
 			this.tileEntity = tile;
 		}
 	}
 
-	public BlockTurret(int par1)
-	{
+	public BlockTurret(int par1) {
 		super(par1, "turret", UniversalElectricity.machine);
 		this.setCreativeTab(ICBMTab.INSTANCE);
 		this.setHardness(100f);
@@ -64,18 +61,14 @@ public class BlockTurret extends BICBM
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-	{
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y,
+			int z) {
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (ent instanceof TPaoDaiBase)
-		{
+		if (ent instanceof TPaoDaiBase) {
 			EntityTileDamagable dEnt = ((TPaoDaiBase) ent).getDamageEntity();
-			if (dEnt != null)
-			{
+			if (dEnt != null) {
 				this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
-			}
-			else
-			{
+			} else {
 				this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
 			}
 		}
@@ -83,53 +76,51 @@ public class BlockTurret extends BICBM
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IconRegister iconRegister)
-	{
-		this.blockIcon = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "machine");
+	public void registerIcons(IconRegister iconRegister) {
+		this.blockIcon = iconRegister.registerIcon(ZhuYaoICBM.PREFIX
+				+ "machine");
 	}
 
 	/** Called when the block is placed in the world. */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase par5EntityLiving, ItemStack itemStack)
-	{
-		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+	public void onBlockPlacedBy(World world, int x, int y, int z,
+			EntityLivingBase par5EntityLiving, ItemStack itemStack) {
+		int angle = MathHelper
+				.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IRotatable)
-		{
+		if (tileEntity instanceof IRotatable) {
 			IRotatable rotatableEntity = ((IRotatable) tileEntity);
 
-			switch (angle)
-			{
-				case 0:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(3));
-					break;
-				case 1:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(4));
-					break;
-				case 2:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(2));
-					break;
-				case 3:
-					rotatableEntity.setDirection(ForgeDirection.getOrientation(5));
-					break;
+			switch (angle) {
+			case 0:
+				rotatableEntity.setDirection(ForgeDirection.getOrientation(3));
+				break;
+			case 1:
+				rotatableEntity.setDirection(ForgeDirection.getOrientation(4));
+				break;
+			case 2:
+				rotatableEntity.setDirection(ForgeDirection.getOrientation(2));
+				break;
+			case 3:
+				rotatableEntity.setDirection(ForgeDirection.getOrientation(5));
+				break;
 			}
 		}
 
-		if (tileEntity instanceof IMultiBlock)
-		{
+		if (tileEntity instanceof IMultiBlock) {
 			((IMultiBlock) tileEntity).onCreate(new Vector3(x, y, z));
 		}
 	}
 
 	@Override
-	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
-	{
+	public boolean onUseWrench(World world, int x, int y, int z,
+			EntityPlayer entityPlayer, int side, float hitX, float hitY,
+			float hitZ) {
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
 
-		if (ent instanceof TPaoDaiBase)
-		{
+		if (ent instanceof TPaoDaiBase) {
 			Random random = new Random();
 			((TPaoDaiBase) ent).setHealth(5 + random.nextInt(7), true);
 			return true;
@@ -139,55 +130,45 @@ public class BlockTurret extends BICBM
 	}
 
 	@Override
-	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
-	{
+	public boolean onMachineActivated(World world, int x, int y, int z,
+			EntityPlayer entityPlayer, int side, float hitX, float hitY,
+			float hitZ) {
 		/**
-		 * Checks the TileEntity if it can activate. If not, then try to activate the turret
-		 * platform below it.
+		 * Checks the TileEntity if it can activate. If not, then try to
+		 * activate the turret platform below it.
 		 */
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IBlockActivate)
-		{
+		if (tileEntity instanceof IBlockActivate) {
 			return ((IBlockActivate) tileEntity).onActivated(entityPlayer);
 		}
 
 		int id = world.getBlockId(x, y - 1, z);
 		Block block = Block.blocksList[id];
 
-		if (block instanceof BlockAdvanced)
-		{
-			return ((BlockAdvanced) block).onMachineActivated(world, x, y - 1, z, entityPlayer, side, hitX, hitY, hitZ);
+		if (block instanceof BlockAdvanced) {
+			return ((BlockAdvanced) block).onMachineActivated(world, x, y - 1,
+					z, entityPlayer, side, hitX, hitY, hitZ);
 		}
 
 		return false;
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, int side)
-	{
+	public void onNeighborBlockChange(World world, int x, int y, int z, int side) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TPaoDaiBase)
-		{
-			if (this.canBlockStay(world, x, y, z))
-			{
-				if (tileEntity instanceof IRedstoneReceptor)
-				{
-					if (world.isBlockIndirectlyGettingPowered(x, y, z))
-					{
+		if (tileEntity instanceof TPaoDaiBase) {
+			if (this.canBlockStay(world, x, y, z)) {
+				if (tileEntity instanceof IRedstoneReceptor) {
+					if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
 						((IRedstoneReceptor) tileEntity).onPowerOn();
-					}
-					else
-					{
+					} else {
 						((IRedstoneReceptor) tileEntity).onPowerOff();
 					}
 				}
-			}
-			else
-			{
-				if (tileEntity != null)
-				{
+			} else {
+				if (tileEntity != null) {
 					((TPaoDaiBase) tileEntity).destroy(false);
 				}
 			}
@@ -195,12 +176,11 @@ public class BlockTurret extends BICBM
 	}
 
 	@Override
-	public void breakBlock(World par1World, int x, int y, int z, int par5, int par6)
-	{
+	public void breakBlock(World par1World, int x, int y, int z, int par5,
+			int par6) {
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IMultiBlock)
-		{
+		if (tileEntity instanceof IMultiBlock) {
 			((IMultiBlock) tileEntity).onDestroy(tileEntity);
 		}
 
@@ -208,16 +188,11 @@ public class BlockTurret extends BICBM
 	}
 
 	@Override
-	public TileEntity createTileEntity(World world, int meta)
-	{
-		if (meta < TurretType.values().length)
-		{
-			try
-			{
+	public TileEntity createTileEntity(World world, int meta) {
+		if (meta < TurretType.values().length) {
+			try {
 				return TurretType.values()[meta].tileEntity.newInstance();
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -226,48 +201,41 @@ public class BlockTurret extends BICBM
 	}
 
 	@Override
-	public boolean isOpaqueCube()
-	{
+	public boolean isOpaqueCube() {
 		return false;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock()
-	{
+	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
 	@Override
-	public int damageDropped(int metadata)
-	{
+	public int damageDropped(int metadata) {
 		return metadata;
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z)
-	{
-		return super.canPlaceBlockAt(world, x, y, z) && this.canBlockStay(world, x, y, z);
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+		return super.canPlaceBlockAt(world, x, y, z)
+				&& this.canBlockStay(world, x, y, z);
 	}
 
 	@Override
-	public boolean canBlockStay(World world, int x, int y, int z)
-	{
+	public boolean canBlockStay(World world, int x, int y, int z) {
 		return world.getBlockId(x, y - 1, z) == ZhuYaoGangShao.blockPlatform.blockID;
 	}
 
 	@Override
-	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List list)
-	{
-		for (int i = 0; i < TurretType.values().length; i++)
-		{
+	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List list) {
+		for (int i = 0; i < TurretType.values().length; i++) {
 			list.add(new ItemStack(par1, 1, i));
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public int getRenderType()
-	{
+	public int getRenderType() {
 		return BlockRenderingHandler.ID;
 	}
 }

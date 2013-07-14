@@ -28,8 +28,8 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
-{
+public class TDianCiQi extends TileEntityUniversalElectrical implements
+		IPacketReceiver, IMultiBlock, IRedstoneReceptor {
 	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 150;
 
@@ -44,50 +44,51 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 
 	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
-	public TDianCiQi()
-	{
+	public TDianCiQi() {
 		super();
 		this.electricityHandler = new ElectricityHandler(this);
 		RadarRegistry.register(this);
 	}
 
 	@Override
-	public void invalidate()
-	{
+	public void invalidate() {
 		RadarRegistry.unregister(this);
 		super.invalidate();
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity() {
 		super.updateEntity();
 
-		this.electricityHandler.setMaxEnergyStored(Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000));
+		this.electricityHandler
+				.setMaxEnergyStored(Math.max(
+						2000000 * ((float) this.banJing / (float) MAX_RADIUS),
+						1000000));
 
-		if (this.ticks % 20 == 0 && this.getEnergyStored() > 0)
-		{
-			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "machinehum", 0.5F, 0.85F * this.getEnergyStored() / this.getMaxEnergyStored());
+		if (this.ticks % 20 == 0 && this.getEnergyStored() > 0) {
+			this.worldObj.playSoundEffect(this.xCoord, this.yCoord,
+					this.zCoord, ZhuYaoICBM.PREFIX + "machinehum", 0.5F,
+					0.85F * this.getEnergyStored() / this.getMaxEnergyStored());
 		}
 
-		this.xuanZhuanLu = (float) (Math.pow(this.getEnergyStored() / this.getMaxEnergyStored(), 2) * 0.5);
+		this.xuanZhuanLu = (float) (Math.pow(
+				this.getEnergyStored() / this.getMaxEnergyStored(), 2) * 0.5);
 		this.xuanZhuan += xuanZhuanLu;
 		if (this.xuanZhuan > 360)
 			this.xuanZhuan = 0;
 
-		if (!this.worldObj.isRemote)
-		{
-			if (this.ticks % 3 == 0)
-			{
-				for (EntityPlayer wanJia : this.yongZhe)
-				{
-					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
+		if (!this.worldObj.isRemote) {
+			if (this.ticks % 3 == 0) {
+				for (EntityPlayer wanJia : this.yongZhe) {
+					PacketDispatcher.sendPacketToPlayer(
+							this.getDescriptionPacket(), (Player) wanJia);
 				}
 			}
 
-			if (this.ticks % 60 == 0 && this.prevXuanZhuanLu != this.xuanZhuanLu)
-			{
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
+			if (this.ticks % 60 == 0
+					&& this.prevXuanZhuanLu != this.xuanZhuanLu) {
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(),
+						this.worldObj, new Vector3(this), 35);
 			}
 		}
 
@@ -95,54 +96,43 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
-	{
-		try
-		{
+	public void handlePacketData(INetworkManager network, int packetType,
+			Packet250CustomPayload packet, EntityPlayer player,
+			ByteArrayDataInput dataStream) {
+		try {
 			final int ID = dataStream.readInt();
 
-			if (ID == -1)
-			{
-				if (dataStream.readBoolean())
-				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
+			if (ID == -1) {
+				if (dataStream.readBoolean()) {
+					PacketManager.sendPacketToClients(
+							this.getDescriptionPacket(), this.worldObj,
+							new Vector3(this), 15);
 					this.yongZhe.add(player);
-				}
-				else
-				{
+				} else {
 					this.yongZhe.remove(player);
 				}
-			}
-			else if (ID == 1)
-			{
+			} else if (ID == 1) {
 				this.setEnergyStored(dataStream.readFloat());
 				this.banJing = dataStream.readInt();
 				this.muoShi = dataStream.readByte();
-			}
-			else if (ID == 2)
-			{
+			} else if (ID == 2) {
 				this.banJing = dataStream.readInt();
-			}
-			else if (ID == 3)
-			{
+			} else if (ID == 3) {
 				this.muoShi = dataStream.readByte();
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public Packet getDescriptionPacket()
-	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, this.getEnergyStored(), this.banJing, this.muoShi);
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1,
+				this.getEnergyStored(), this.banJing, this.muoShi);
 	}
 
 	@Override
-	public float getVoltage()
-	{
+	public float getVoltage() {
 		return 240;
 	}
 
@@ -150,8 +140,7 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 
 		this.banJing = par1NBTTagCompound.getInteger("banJing");
@@ -162,8 +151,7 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 
 		par1NBTTagCompound.setInteger("banJing", this.banJing);
@@ -171,21 +159,23 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public void onPowerOn()
-	{
-		if (this.getEnergyStored() >= this.getMaxEnergyStored())
-		{
-			switch (this.muoShi)
-			{
-				default:
-					new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.banJing).setEffectBlocks().setEffectEntities().explode();
-					break;
-				case 1:
-					new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.banJing).setEffectEntities().explode();
-					break;
-				case 2:
-					new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.banJing).setEffectBlocks().explode();
-					break;
+	public void onPowerOn() {
+		if (this.getEnergyStored() >= this.getMaxEnergyStored()) {
+			switch (this.muoShi) {
+			default:
+				new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord,
+						this.zCoord, this.banJing).setEffectBlocks()
+						.setEffectEntities().explode();
+				break;
+			case 1:
+				new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord,
+						this.zCoord, this.banJing).setEffectEntities()
+						.explode();
+				break;
+			case 2:
+				new BzDianCi(this.worldObj, null, this.xCoord, this.yCoord,
+						this.zCoord, this.banJing).setEffectBlocks().explode();
+				break;
 			}
 
 			this.setEnergyStored(0);
@@ -193,33 +183,31 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public void onPowerOff()
-	{
+	public void onPowerOff() {
 	}
 
 	@Override
-	public void onDestroy(TileEntity callingBlock)
-	{
+	public void onDestroy(TileEntity callingBlock) {
 		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0,
+				2);
 	}
 
 	@Override
-	public boolean onActivated(EntityPlayer entityPlayer)
-	{
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_DIAN_CI_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+	public boolean onActivated(EntityPlayer entityPlayer) {
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_DIAN_CI_QI,
+				this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
-	public void onCreate(Vector3 position)
-	{
-		ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
+	public void onCreate(Vector3 position) {
+		ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj,
+				Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
 	}
 
 	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
+	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
 	}
 }

@@ -27,8 +27,8 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TYinGanQi extends TileEntityUniversalElectrical implements IRedstoneProvider, IPacketReceiver
-{
+public class TYinGanQi extends TileEntityUniversalElectrical implements
+		IRedstoneProvider, IPacketReceiver {
 	private static final int MAX_DISTANCE = 30;
 
 	public short frequency = 0;
@@ -45,47 +45,47 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 	public boolean isInverted = false;
 
 	@Override
-	public void initiate()
-	{
+	public void initiate() {
 		super.initiate();
-		this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+		this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord,
+				this.zCoord, this.getBlockType().blockID);
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity() {
 		super.updateEntity();
 
-		if (!this.worldObj.isRemote)
-		{
-			if (this.ticks % 20 == 0)
-			{
-				for (EntityPlayer wanJia : this.yongZhe)
-				{
-					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
+		if (!this.worldObj.isRemote) {
+			if (this.ticks % 20 == 0) {
+				for (EntityPlayer wanJia : this.yongZhe) {
+					PacketDispatcher.sendPacketToPlayer(
+							this.getDescriptionPacket(), (Player) wanJia);
 				}
 
 				boolean isDetectThisCheck = false;
 
-				if (this.electricityHandler.provideElectricity(this.getRequest(null), false).getWatts() >= this.getRequest(null))
-				{
-					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
-					List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
+				if (this.electricityHandler.provideElectricity(
+						this.getRequest(null), false).getWatts() >= this
+						.getRequest(null)) {
+					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(
+							this.xCoord - minCoord.x, this.yCoord - minCoord.y,
+							this.zCoord - minCoord.z, this.xCoord + maxCoord.x
+									+ 1D, this.yCoord + maxCoord.y + 1D,
+							this.zCoord + maxCoord.z + 1D);
+					List<EntityLivingBase> entitiesNearby = worldObj
+							.getEntitiesWithinAABB(EntityLivingBase.class,
+									bounds);
 
-					for (EntityLivingBase entity : entitiesNearby)
-					{
-						if (entity instanceof EntityPlayer && (this.mode == 0 || this.mode == 1))
-						{
+					for (EntityLivingBase entity : entitiesNearby) {
+						if (entity instanceof EntityPlayer
+								&& (this.mode == 0 || this.mode == 1)) {
 							boolean gotDisrupter = false;
 
-							for (ItemStack inventory : ((EntityPlayer) entity).inventory.mainInventory)
-							{
-								if (inventory != null)
-								{
-									if (inventory.getItem() instanceof ItHuoLuanQi)
-									{
-										if (((ItHuoLuanQi) inventory.getItem()).getFrequency(inventory) == this.frequency)
-										{
+							for (ItemStack inventory : ((EntityPlayer) entity).inventory.mainInventory) {
+								if (inventory != null) {
+									if (inventory.getItem() instanceof ItHuoLuanQi) {
+										if (((ItHuoLuanQi) inventory.getItem())
+												.getFrequency(inventory) == this.frequency) {
 											gotDisrupter = true;
 											break;
 										}
@@ -93,10 +93,8 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 								}
 							}
 
-							if (gotDisrupter)
-							{
-								if (this.isInverted)
-								{
+							if (gotDisrupter) {
+								if (this.isInverted) {
 									isDetectThisCheck = true;
 									break;
 								}
@@ -104,28 +102,28 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 								continue;
 							}
 
-							if (!this.isInverted)
-							{
+							if (!this.isInverted) {
 								isDetectThisCheck = true;
 							}
-						}
-						else if (!this.isInverted && !(entity instanceof EntityPlayer) && (this.mode == 0 || this.mode == 2))
-						{
+						} else if (!this.isInverted
+								&& !(entity instanceof EntityPlayer)
+								&& (this.mode == 0 || this.mode == 2)) {
 							isDetectThisCheck = true;
 							break;
 						}
 					}
 
-					if (!this.worldObj.isRemote)
-					{
-						this.electricityHandler.provideElectricity(this.getRequest(null), true);
+					if (!this.worldObj.isRemote) {
+						this.electricityHandler.provideElectricity(
+								this.getRequest(null), true);
 					}
 				}
 
-				if (isDetectThisCheck != this.isDetect)
-				{
+				if (isDetectThisCheck != this.isDetect) {
 					this.isDetect = isDetectThisCheck;
-					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord,
+							this.yCoord, this.zCoord,
+							this.getBlockType().blockID);
 				}
 
 			}
@@ -133,58 +131,66 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 	}
 
 	@Override
-	public Packet getDescriptionPacket()
-	{
-		return PacketManager.getPacket(ZhuYaoWanYi.CHANNEL, this, 1, this.getEnergyStored(), this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket(ZhuYaoWanYi.CHANNEL, this, 1,
+				this.getEnergyStored(), this.frequency, this.mode,
+				this.isInverted, this.minCoord.intX(), this.minCoord.intY(),
+				this.minCoord.intZ(), this.maxCoord.intX(),
+				this.maxCoord.intY(), this.maxCoord.intZ());
 	}
 
 	@Override
-	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
-	{
-		try
-		{
+	public void handlePacketData(INetworkManager network, int packetType,
+			Packet250CustomPayload packet, EntityPlayer player,
+			ByteArrayDataInput dataStream) {
+		try {
 			final int ID = dataStream.readInt();
 
-			if (ID == -1)
-			{
-				if (dataStream.readBoolean())
-				{
+			if (ID == -1) {
+				if (dataStream.readBoolean()) {
 					this.yongZhe.add(player);
-					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) player);
-				}
-				else
-				{
+					PacketDispatcher.sendPacketToPlayer(
+							this.getDescriptionPacket(), (Player) player);
+				} else {
 					this.yongZhe.remove(player);
 				}
-			}
-			else if (ID == 1)
-			{
+			} else if (ID == 1) {
 				this.setEnergyStored(dataStream.readFloat());
 				this.frequency = dataStream.readShort();
 				this.mode = dataStream.readByte();
 				this.isInverted = dataStream.readBoolean();
-				this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
-				this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
-			}
-			else if (ID == 2)
-			{
+				this.minCoord = new Vector3(Math.max(0,
+						Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())));
+				this.maxCoord = new Vector3(Math.max(0,
+						Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())));
+			} else if (ID == 2) {
 				this.mode = dataStream.readByte();
-			}
-			else if (ID == 3)
-			{
+			} else if (ID == 3) {
 				this.frequency = dataStream.readShort();
+			} else if (ID == 4) {
+				this.minCoord = new Vector3(Math.max(0,
+						Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())));
+			} else if (ID == 5) {
+				this.maxCoord = new Vector3(Math.max(0,
+						Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())),
+						Math.max(0,
+								Math.min(MAX_DISTANCE, dataStream.readInt())));
 			}
-			else if (ID == 4)
-			{
-				this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
-			}
-			else if (ID == 5)
-			{
-				this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
-			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -193,8 +199,7 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
+	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		this.mode = nbt.getByte("mode");
@@ -209,33 +214,31 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
+	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
 		nbt.setShort("frequency", this.frequency);
 		nbt.setByte("mode", this.mode);
 		nbt.setBoolean("isInverted", this.isInverted);
 
-		nbt.setCompoundTag("minCoord", this.minCoord.writeToNBT(new NBTTagCompound()));
-		nbt.setCompoundTag("maxCoord", this.maxCoord.writeToNBT(new NBTTagCompound()));
+		nbt.setCompoundTag("minCoord",
+				this.minCoord.writeToNBT(new NBTTagCompound()));
+		nbt.setCompoundTag("maxCoord",
+				this.maxCoord.writeToNBT(new NBTTagCompound()));
 	}
 
 	@Override
-	public boolean isPoweringTo(ForgeDirection side)
-	{
+	public boolean isPoweringTo(ForgeDirection side) {
 		return this.isDetect;
 	}
 
 	@Override
-	public boolean isIndirectlyPoweringTo(ForgeDirection side)
-	{
+	public boolean isIndirectlyPoweringTo(ForgeDirection side) {
 		return this.isDetect;
 	}
 
 	@Override
-	public float getRequest(ForgeDirection direction)
-	{
+	public float getRequest(ForgeDirection direction) {
 		return 100;
 	}
 }

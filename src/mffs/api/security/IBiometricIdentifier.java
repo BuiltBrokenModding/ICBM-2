@@ -5,13 +5,14 @@ import net.minecraft.item.ItemStack;
 /**
  * Applied to Biometric Identifiers (extends TileEntity).
  */
-public interface IBiometricIdentifier
-{
+public interface IBiometricIdentifier {
 	/**
 	 * Is access granted to this specific user?
 	 * 
-	 * @param username - Minecraft username.
-	 * @param permission - The permission.
+	 * @param username
+	 *            - Minecraft username.
+	 * @param permission
+	 *            - The permission.
 	 * @return
 	 */
 	public boolean isAccessGranted(String username, Permission permission);

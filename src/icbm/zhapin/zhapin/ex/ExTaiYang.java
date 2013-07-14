@@ -14,38 +14,39 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExTaiYang extends DaoDan
-{
+public class ExTaiYang extends DaoDan {
 	public boolean createNetherrack = true;
 
-	public ExTaiYang(String mingZi, int tier)
-	{
+	public ExTaiYang(String mingZi, int tier) {
 		super(mingZi, tier);
-		this.createNetherrack = SheDing.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
+		this.createNetherrack = SheDing.CONFIGURATION.get(
+				Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack",
+				createNetherrack).getBoolean(createNetherrack);
 	}
 
 	@Override
-	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
-	{
+	public void onYinZha(World worldObj, Vector3 position, int fuseTicks) {
 		super.onYinZha(worldObj, position, fuseTicks);
-		worldObj.spawnParticle("lava", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
+		worldObj.spawnParticle("lava", position.x, position.y + 0.5D,
+				position.z, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+	public void init() {
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(),
+				new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!',
+						ZhaPin.huo.getItemStack() }),
+				this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
+	public void doCreateExplosion(World world, double x, double y, double z,
+			Entity entity) {
 		new BzTaiYang(world, entity, x, y, z, 50).explode();
 	}
 
 	@Override
-	public MICBM getMuoXing()
-	{
+	public MICBM getMuoXing() {
 		return new MMTaiYang();
 	}
 }

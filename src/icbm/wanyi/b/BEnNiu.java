@@ -10,10 +10,8 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BEnNiu extends BlockButton
-{
-	public BEnNiu(int id)
-	{
+public class BEnNiu extends BlockButton {
+	public BEnNiu(int id) {
 		super(id, true);
 		this.setTickRandomly(true);
 		this.setUnlocalizedName(ZhuYaoICBM.PREFIX + "glassButton");
@@ -23,20 +21,18 @@ public class BEnNiu extends BlockButton
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IconRegister par1IconRegister)
-	{
-		this.blockIcon = par1IconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", ""));
+	public void registerIcons(IconRegister par1IconRegister) {
+		this.blockIcon = par1IconRegister.registerIcon(this
+				.getUnlocalizedName().replace("tile.", ""));
 	}
 
 	@Override
-	public int quantityDropped(Random par1Random)
-	{
+	public int quantityDropped(Random par1Random) {
 		return 0;
 	}
 
 	@Override
-	public boolean isOpaqueCube()
-	{
+	public boolean isOpaqueCube() {
 		return false;
 	}
 }

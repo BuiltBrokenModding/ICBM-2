@@ -4,8 +4,7 @@ import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 
-public interface IModuleAcceptor
-{
+public interface IModuleAcceptor {
 	public ItemStack getModule(IModule module);
 
 	public int getModuleCount(IModule module, int... slots);

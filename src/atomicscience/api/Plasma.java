@@ -2,18 +2,16 @@ package atomicscience.api;
 
 import net.minecraft.world.World;
 
-public class Plasma
-{
+public class Plasma {
 	/**
 	 * Can be cast to block.
 	 */
 	public static IPlasma blockPlasma;
 
-	public interface IPlasma
-	{
+	public interface IPlasma {
 		/**
-		 * Spawns a plasma block at a specific location. Spawn strength is maxed out at 16, the
-		 * metadata.
+		 * Spawns a plasma block at a specific location. Spawn strength is maxed
+		 * out at 16, the metadata.
 		 */
 		public void spawn(World world, int x, int y, int z, byte strength);
 

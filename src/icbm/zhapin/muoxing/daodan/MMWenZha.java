@@ -7,8 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMWenZha extends MICBM
-{
+public class MMWenZha extends MICBM {
 	// fields
 	ModelRenderer A;
 	ModelRenderer B;
@@ -48,8 +47,7 @@ public class MMWenZha extends MICBM
 	ModelRenderer AJ;
 	ModelRenderer AK;
 
-	public MMWenZha()
-	{
+	public MMWenZha() {
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -278,8 +276,8 @@ public class MMWenZha extends MICBM
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3,
+			float f4, float f5) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
@@ -287,8 +285,7 @@ public class MMWenZha extends MICBM
 	}
 
 	@Override
-	public void render(float f5)
-	{
+	public void render(float f5) {
 		A.render(f5);
 		B.render(f5);
 		C.render(f5);
@@ -328,8 +325,7 @@ public class MMWenZha extends MICBM
 		AK.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

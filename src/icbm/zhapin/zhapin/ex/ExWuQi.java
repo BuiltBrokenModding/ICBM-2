@@ -14,29 +14,30 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExWuQi extends DaoDan
-{
-	public ExWuQi(String mingZi, int tier)
-	{
+public class ExWuQi extends DaoDan {
+	public ExWuQi(String mingZi, int tier) {
 		super(mingZi, tier);
 	}
 
 	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS", "WRW", "SSS", 'R', ZhaPin.tui.getItemStack(), 'W', Item.bucketWater, 'S', "dustSulfur" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+	public void init() {
+		RecipeHelper.addRecipe(
+				new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS",
+						"WRW", "SSS", 'R', ZhaPin.tui.getItemStack(), 'W',
+						Item.bucketWater, 'S', "dustSulfur" }),
+				this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		new BzQi(world, entity, x, y, z, 20, 20 * 30, false).setConfuse().explode();
+	public void doCreateExplosion(World world, double x, double y, double z,
+			Entity entity) {
+		new BzQi(world, entity, x, y, z, 20, 20 * 30, false).setConfuse()
+				.explode();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMuoXing()
-	{
+	public MICBM getMuoXing() {
 		return new MMWuQi();
 	}
 }

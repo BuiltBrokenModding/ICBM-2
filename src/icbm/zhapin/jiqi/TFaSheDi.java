@@ -40,8 +40,8 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory
-{
+public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver,
+		ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory {
 	// The missile that this launcher is holding
 	public IMissile daoDan = null;
 
@@ -57,8 +57,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 
 	private boolean packetGengXin = true;
 
-	public TFaSheDi()
-	{
+	public TFaSheDi() {
 		super();
 	}
 
@@ -66,8 +65,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * Returns the number of slots in the inventory.
 	 */
 	@Override
-	public int getSizeInventory()
-	{
+	public int getSizeInventory() {
 		return this.containingItems.length;
 	}
 
@@ -75,76 +73,63 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * Returns the stack in slot i
 	 */
 	@Override
-	public ItemStack getStackInSlot(int par1)
-	{
+	public ItemStack getStackInSlot(int par1) {
 		return this.containingItems[par1];
 	}
 
 	/**
-	 * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg.
-	 * Returns the new stack.
+	 * Decrease the size of the stack in slot (first int arg) by the amount of
+	 * the second int arg. Returns the new stack.
 	 */
 	@Override
-	public ItemStack decrStackSize(int par1, int par2)
-	{
-		if (this.containingItems[par1] != null)
-		{
+	public ItemStack decrStackSize(int par1, int par2) {
+		if (this.containingItems[par1] != null) {
 			ItemStack var3;
 
-			if (this.containingItems[par1].stackSize <= par2)
-			{
+			if (this.containingItems[par1].stackSize <= par2) {
 				var3 = this.containingItems[par1];
 				this.containingItems[par1] = null;
 				return var3;
-			}
-			else
-			{
+			} else {
 				var3 = this.containingItems[par1].splitStack(par2);
 
-				if (this.containingItems[par1].stackSize == 0)
-				{
+				if (this.containingItems[par1].stackSize == 0) {
 					this.containingItems[par1] = null;
 				}
 
 				return var3;
 			}
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
 
 	/**
-	 * When some containers are closed they call this on each slot, then drop whatever it returns as
-	 * an EntityItem - like when you close a workbench GUI.
+	 * When some containers are closed they call this on each slot, then drop
+	 * whatever it returns as an EntityItem - like when you close a workbench
+	 * GUI.
 	 */
 	@Override
-	public ItemStack getStackInSlotOnClosing(int par1)
-	{
-		if (this.containingItems[par1] != null)
-		{
+	public ItemStack getStackInSlotOnClosing(int par1) {
+		if (this.containingItems[par1] != null) {
 			ItemStack var2 = this.containingItems[par1];
 			this.containingItems[par1] = null;
 			return var2;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
 
 	/**
-	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor
-	 * sections).
+	 * Sets the given item stack to the specified slot in the inventory (can be
+	 * crafting or armor sections).
 	 */
 	@Override
-	public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
-	{
+	public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
 		this.containingItems[par1] = par2ItemStack;
 
-		if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
-		{
+		if (par2ItemStack != null
+				&& par2ItemStack.stackSize > this.getInventoryStackLimit()) {
 			par2ItemStack.stackSize = this.getInventoryStackLimit();
 		}
 	}
@@ -153,54 +138,51 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * Returns the name of the inventory.
 	 */
 	@Override
-	public String getInvName()
-	{
+	public String getInvName() {
 		return "Launcher Platform";
 	}
 
 	/**
-	 * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
-	 * uses this to count ticks and creates a new spawn inside its implementation.
+	 * Allows the entity to update its state. Overridden in most subclasses,
+	 * e.g. the mob spawner uses this to count ticks and creates a new spawn
+	 * inside its implementation.
 	 */
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity() {
 		super.updateEntity();
 
-		if (this.jiaZi == null)
-		{
-			for (byte i = 2; i < 6; i++)
-			{
-				Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+		if (this.jiaZi == null) {
+			for (byte i = 2; i < 6; i++) {
+				Vector3 position = new Vector3(this.xCoord, this.yCoord,
+						this.zCoord);
+				position.modifyPositionFromSide(ForgeDirection
+						.getOrientation(i));
 
-				TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
+				TileEntity tileEntity = this.worldObj.getBlockTileEntity(
+						position.intX(), position.intY(), position.intZ());
 
-				if (tileEntity instanceof TFaSheJia)
-				{
+				if (tileEntity instanceof TFaSheJia) {
 					this.jiaZi = (TFaSheJia) tileEntity;
-					this.jiaZi.setDirection(VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
+					this.jiaZi.setDirection(VectorHelper
+							.getOrientationFromSide(
+									ForgeDirection.getOrientation(i),
+									ForgeDirection.NORTH));
 				}
 			}
-		}
-		else
-		{
-			if (this.jiaZi.isInvalid())
-			{
+		} else {
+			if (this.jiaZi.isInvalid()) {
 				this.jiaZi = null;
-			}
-			else if (this.packetGengXin || this.ticks % (20 * 30) == 0 && this.jiaZi != null && !this.worldObj.isRemote)
-			{
-				PacketManager.sendPacketToClients(this.jiaZi.getDescriptionPacket());
+			} else if (this.packetGengXin || this.ticks % (20 * 30) == 0
+					&& this.jiaZi != null && !this.worldObj.isRemote) {
+				PacketManager.sendPacketToClients(this.jiaZi
+						.getDescriptionPacket());
 			}
 		}
 
-		if (!this.worldObj.isRemote)
-		{
+		if (!this.worldObj.isRemote) {
 			this.setMissile();
 
-			if (this.packetGengXin || this.ticks % (20 * 30) == 0)
-			{
+			if (this.packetGengXin || this.ticks % (20 * 30) == 0) {
 				PacketManager.sendPacketToClients(this.getDescriptionPacket());
 				this.packetGengXin = false;
 			}
@@ -208,54 +190,50 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	}
 
 	@Override
-	public Packet getDescriptionPacket()
-	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, this.orientation, this.tier);
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this,
+				this.orientation, this.tier);
 	}
 
 	@Override
-	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
-	{
-		try
-		{
+	public void handlePacketData(INetworkManager network, int packetType,
+			Packet250CustomPayload packet, EntityPlayer player,
+			ByteArrayDataInput dataStream) {
+		try {
 			this.orientation = dataStream.readByte();
 			this.tier = dataStream.readInt();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void setMissile()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			if (this.containingItems[0] != null)
-			{
-				if (this.containingItems[0].getItem() instanceof ItDaoDan)
-				{
+	public void setMissile() {
+		if (!this.worldObj.isRemote) {
+			if (this.containingItems[0] != null) {
+				if (this.containingItems[0].getItem() instanceof ItDaoDan) {
 					int haoMa = this.containingItems[0].getItemDamage();
 
-					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
-					{
-						if (this.daoDan == null)
-						{
+					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj,
+							new Vector3(this), ExplosiveType.AIR, haoMa)) {
+						if (this.daoDan == null) {
 							DaoDan missile = (DaoDan) ZhaPinRegistry.get(haoMa);
 
-							if (missile.isCruise() && missile.getTier() <= 3)
-							{
-								Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-								this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
-								this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
+							if (missile.isCruise() && missile.getTier() <= 3) {
+								Vector3 startingPosition = new Vector3(
+										(this.xCoord + 0.5f),
+										(this.yCoord + 0.2f),
+										(this.zCoord + 0.5f));
+								this.daoDan = new EDaoDan(this.worldObj,
+										startingPosition, new Vector3(this),
+										haoMa);
+								this.worldObj
+										.spawnEntityInWorld((Entity) this.daoDan);
 								return;
 							}
 						}
 
-						if (this.daoDan != null)
-						{
-							if (this.daoDan.getExplosiveType().getID() == haoMa)
-							{
+						if (this.daoDan != null) {
+							if (this.daoDan.getExplosiveType().getID() == haoMa) {
 								return;
 							}
 						}
@@ -263,8 +241,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 				}
 			}
 
-			if (this.daoDan != null)
-			{
+			if (this.daoDan != null) {
 				((Entity) this.daoDan).setDead();
 			}
 
@@ -275,19 +252,16 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	/**
 	 * Launches the missile
 	 * 
-	 * @param target - The target in which the missile will land in
+	 * @param target
+	 *            - The target in which the missile will land in
 	 */
-	public void launchMissile(Vector3 target, int gaoDu)
-	{
+	public void launchMissile(Vector3 target, int gaoDu) {
 		// Apply inaccuracy
 		float inaccuracy;
 
-		if (this.jiaZi != null)
-		{
+		if (this.jiaZi != null) {
 			inaccuracy = this.jiaZi.getInaccuracy();
-		}
-		else
-		{
+		} else {
 			inaccuracy = 30f;
 		}
 
@@ -302,8 +276,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	}
 
 	// Checks if the missile target is in range
-	public boolean isInRange(Vector3 target)
-	{
+	public boolean isInRange(Vector3 target) {
 		if (target != null)
 			return !shiTaiYuan(target) && !shiTaiJin(target);
 
@@ -316,11 +289,10 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * @param target
 	 * @return
 	 */
-	public boolean shiTaiJin(Vector3 target)
-	{
+	public boolean shiTaiJin(Vector3 target) {
 		// Check if it is greater than the minimum range
-		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 10)
-		{
+		if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord),
+				new Vector3(target.x, 0, target.z)) < 10) {
 			return true;
 		}
 
@@ -328,27 +300,21 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	}
 
 	// Is the target too far?
-	public boolean shiTaiYuan(Vector3 target)
-	{
+	public boolean shiTaiYuan(Vector3 target) {
 		// Checks if it is greater than the maximum range for the launcher base
-		if (this.tier == 0)
-		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN / 10)
-			{
+		if (this.tier == 0) {
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord),
+					new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN / 10) {
 				return false;
 			}
-		}
-		else if (this.tier == 1)
-		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN / 5)
-			{
+		} else if (this.tier == 1) {
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord),
+					new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN / 5) {
 				return false;
 			}
-		}
-		else if (this.tier == 2)
-		{
-			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN)
-			{
+		} else if (this.tier == 2) {
+			if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord),
+					new Vector3(target.x, 0, target.z)) < SheDing.DAO_DAN_ZUI_YUAN) {
 				return false;
 			}
 		}
@@ -360,8 +326,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
 
 		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
@@ -371,14 +336,13 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 
 		this.containingItems = new ItemStack[this.getSizeInventory()];
 
-		for (int var3 = 0; var3 < var2.tagCount(); ++var3)
-		{
+		for (int var3 = 0; var3 < var2.tagCount(); ++var3) {
 			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
 			byte var5 = var4.getByte("Slot");
 
-			if (var5 >= 0 && var5 < this.containingItems.length)
-			{
-				this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
+			if (var5 >= 0 && var5 < this.containingItems.length) {
+				this.containingItems[var5] = ItemStack
+						.loadItemStackFromNBT(var4);
 			}
 		}
 	}
@@ -387,8 +351,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
 
 		par1NBTTagCompound.setInteger("tier", this.tier);
@@ -396,10 +359,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 
 		NBTTagList var2 = new NBTTagList();
 
-		for (int var3 = 0; var3 < this.containingItems.length; ++var3)
-		{
-			if (this.containingItems[var3] != null)
-			{
+		for (int var3 = 0; var3 < this.containingItems.length; ++var3) {
+			if (this.containingItems[var3] != null) {
 				NBTTagCompound var4 = new NBTTagCompound();
 				var4.setByte("Slot", (byte) var3);
 				this.containingItems[var3].writeToNBT(var4);
@@ -411,174 +372,181 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	}
 
 	/**
-	 * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
-	 * extended. *Isn't this more of a set than a get?*
+	 * Returns the maximum stack size for a inventory slot. Seems to always be
+	 * 64, possibly will be extended. *Isn't this more of a set than a get?*
 	 */
 	@Override
-	public int getInventoryStackLimit()
-	{
+	public int getInventoryStackLimit() {
 		return 1;
 	}
 
 	/**
-	 * Do not make give this method the name canInteractWith because it clashes with Container
+	 * Do not make give this method the name canInteractWith because it clashes
+	 * with Container
 	 */
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
-	{
-		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
+		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
+				this.zCoord) != this ? false
+				: par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D,
+						this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
 	}
 
 	@Override
-	public void openChest()
-	{
+	public void openChest() {
 	}
 
 	@Override
-	public void closeChest()
-	{
+	public void closeChest() {
 	}
 
 	@Override
-	public int getTier()
-	{
+	public int getTier() {
 		return this.tier;
 	}
 
 	@Override
-	public void setTier(int tier)
-	{
+	public void setTier(int tier) {
 		this.tier = tier;
 	}
 
 	@Override
-	public boolean onActivated(EntityPlayer entityPlayer)
-	{
-		if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
-		{
-			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
-			{
-				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
-				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+	public boolean onActivated(EntityPlayer entityPlayer) {
+		if (entityPlayer.inventory.getCurrentItem() != null
+				&& this.getStackInSlot(0) == null) {
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan) {
+				this.setInventorySlotContents(0,
+						entityPlayer.inventory.getCurrentItem());
+				entityPlayer.inventory.setInventorySlotContents(
+						entityPlayer.inventory.currentItem, null);
 				return true;
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_FA_SHE_DI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_FA_SHE_DI,
+				this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
-	public void onCreate(Vector3 position)
-	{
-		if (this.orientation == 3 || this.orientation == 2)
-		{
+	public void onCreate(Vector3 position) {
+		if (this.orientation == 3 || this.orientation == 2) {
 			// Left
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 0, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 1, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 2, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(1, 0, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(1, 1, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(1, 2, 0)), new Vector3(this));
 
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 0, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 1, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 2, 0)), new Vector3(this));
-		}
-		else
-		{
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, 1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, 1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(-1, 0, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(-1, 1, 0)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(-1, 2, 0)), new Vector3(this));
+		} else {
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(0, 0, 1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(0, 1, 1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(0, 2, 1)), new Vector3(this));
 
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, -1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, -1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, -1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(0, 0, -1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(0, 1, -1)), new Vector3(this));
+			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position,
+					new Vector3(0, 2, -1)), new Vector3(this));
 		}
 	}
 
 	@Override
-	public void onDestroy(TileEntity callingBlock)
-	{
+	public void onDestroy(TileEntity callingBlock) {
 		Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
 
-		if (this.orientation == 3 || this.orientation == 2)
-		{
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x + 1, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x - 1, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
-		}
-		else
-		{
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 1, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 2, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z - 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 1, (int) position.z - 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 2, (int) position.z - 1, 0, 0, 2);
+		if (this.orientation == 3 || this.orientation == 2) {
+			this.worldObj.setBlock((int) position.x, (int) position.y,
+					(int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x + 1, (int) position.y,
+					(int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 1,
+					(int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 2,
+					(int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x - 1, (int) position.y,
+					(int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 1,
+					(int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 2,
+					(int) position.z, 0, 0, 2);
+		} else {
+			this.worldObj.setBlock((int) position.x, (int) position.y,
+					(int) position.z, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y,
+					(int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 1,
+					(int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 2,
+					(int) position.z + 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y,
+					(int) position.z - 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 1,
+					(int) position.z - 1, 0, 0, 2);
+			this.worldObj.setBlock((int) position.x, (int) position.y + 2,
+					(int) position.z - 1, 0, 0, 2);
 		}
 
-		if (this.daoDan != null)
-		{
+		if (this.daoDan != null) {
 			((Entity) this.daoDan).setDead();
 		}
 	}
 
 	@Override
-	public ForgeDirection getDirection()
-	{
+	public ForgeDirection getDirection() {
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection)
-	{
+	public void setDirection(ForgeDirection facingDirection) {
 		this.orientation = (byte) facingDirection.ordinal();
 	}
 
 	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
+	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
 	}
 
 	@Override
-	public boolean isInvNameLocalized()
-	{
+	public boolean isInvNameLocalized() {
 		return true;
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
-	{
+	public boolean isItemValidForSlot(int slotID, ItemStack itemStack) {
 		return itemStack.getItem() instanceof ItDaoDan;
 	}
 
 	@Override
-	public IMissile getContainingMissile()
-	{
+	public IMissile getContainingMissile() {
 		return this.daoDan;
 	}
 
 	@Override
-	public void setContainingMissile(IMissile missile)
-	{
+	public void setContainingMissile(IMissile missile) {
 		this.daoDan = missile;
 	}
 
 	@Override
-	public ILauncherController getController()
-	{
-		for (byte i = 2; i < 6; i++)
-		{
-			Vector3 position = new Vector3(this).modifyPositionFromSide(ForgeDirection.getOrientation(i));
+	public ILauncherController getController() {
+		for (byte i = 2; i < 6; i++) {
+			Vector3 position = new Vector3(this)
+					.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 
 			TileEntity tileEntity = position.getTileEntity(this.worldObj);
 
-			if (tileEntity instanceof ILauncherController)
-			{
+			if (tileEntity instanceof ILauncherController) {
 				return (ILauncherController) tileEntity;
 			}
 		}

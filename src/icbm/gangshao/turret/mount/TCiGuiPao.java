@@ -29,8 +29,8 @@ import calclavia.lib.multiblock.TileEntityMultiBlockPart;
  * 
  * @author Calclavia
  */
-public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
-{
+public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver,
+		IRedstoneReceptor, IMultiBlock {
 	private int gunChargingTicks = 0;
 
 	private boolean redstonePowerOn = false;
@@ -41,11 +41,13 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 
 	private int explosionDepth;
 
-	/** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
+	/**
+	 * A counter used client side for the smoke and streaming effects of the
+	 * Railgun after a shot.
+	 */
 	private int endTicks = 0;
 
-	public TCiGuiPao()
-	{
+	public TCiGuiPao() {
 		this.baseFiringDelay = 80;
 		this.minFiringDelay = 50;
 
@@ -54,91 +56,93 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity() {
 		super.updateEntity();
 
-		if (this.getPlatform() != null)
-		{
-			if (this.redstonePowerOn)
-			{
+		if (this.getPlatform() != null) {
+			if (this.redstonePowerOn) {
 				this.tryActivateWeapon();
 			}
 
-			if (this.gunChargingTicks > 0)
-			{
+			if (this.gunChargingTicks > 0) {
 				this.gunChargingTicks++;
 
-				if (this.gunChargingTicks >= this.getFireDelay())
-				{
+				if (this.gunChargingTicks >= this.getFireDelay()) {
 					this.onFire();
 					this.gunChargingTicks = 0;
 				}
 			}
 
-			if (this.worldObj.isRemote && this.endTicks-- > 0)
-			{
+			if (this.worldObj.isRemote && this.endTicks-- > 0) {
 				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
 
-				if (objectMouseOver != null && objectMouseOver.hitVec != null)
-				{
-					this.drawParticleStreamTo(new Vector3(objectMouseOver.hitVec));
+				if (objectMouseOver != null && objectMouseOver.hitVec != null) {
+					this.drawParticleStreamTo(new Vector3(
+							objectMouseOver.hitVec));
 				}
 			}
 		}
 	}
 
 	@Override
-	public void tryActivateWeapon()
-	{
-		if (this.canActivateWeapon() && this.gunChargingTicks == 0)
-		{
+	public void tryActivateWeapon() {
+		if (this.canActivateWeapon() && this.gunChargingTicks == 0) {
 			this.onWeaponActivated();
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public void onFire()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			while (this.explosionDepth > 0)
-			{
+	public void onFire() {
+		if (!this.worldObj.isRemote) {
+			while (this.explosionDepth > 0) {
 				MovingObjectPosition objectMouseOver = this.rayTrace(2000);
 
-				if (objectMouseOver != null)
-				{
-					if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN))
-					{
-						if (this.isAntimatter)
-						{
+				if (objectMouseOver != null) {
+					if (!ZhuYaoGangShao.isProtected(this.worldObj, new Vector3(
+							objectMouseOver), ZhuYaoGangShao.FLAG_RAILGUN)) {
+						if (this.isAntimatter) {
 							/** Remove Redmatter Explosions. */
 							int radius = 50;
-							AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
-							List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+							AxisAlignedBB bounds = AxisAlignedBB
+									.getBoundingBox(objectMouseOver.blockX
+											- radius, objectMouseOver.blockY
+											- radius, objectMouseOver.blockZ
+											- radius, objectMouseOver.blockX
+											+ radius, objectMouseOver.blockY
+											+ radius, objectMouseOver.blockZ
+											+ radius);
+							List<Entity> missilesNearby = worldObj
+									.getEntitiesWithinAABB(Entity.class, bounds);
 
-							for (Entity entity : missilesNearby)
-							{
-								if (entity instanceof IExplosive)
-								{
+							for (Entity entity : missilesNearby) {
+								if (entity instanceof IExplosive) {
 									entity.setDead();
 								}
 							}
 						}
 
-						Vector3 blockPosition = new Vector3(objectMouseOver.hitVec);
+						Vector3 blockPosition = new Vector3(
+								objectMouseOver.hitVec);
 
 						int blockID = blockPosition.getBlockID(this.worldObj);
 						Block block = Block.blocksList[blockID];
 
 						// Any hardness under zero is unbreakable
-						if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) != -1)
-						{
-							this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
+						if (block != null
+								&& block.getBlockHardness(this.worldObj,
+										blockPosition.intX(),
+										blockPosition.intY(),
+										blockPosition.intZ()) != -1) {
+							this.worldObj.setBlock(objectMouseOver.blockX,
+									objectMouseOver.blockY,
+									objectMouseOver.blockZ, 0, 0, 2);
 						}
 
-						Entity responsibleEntity = this.entityFake != null ? this.entityFake.riddenByEntity : null;
-						this.worldObj.newExplosion(responsibleEntity, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
+						Entity responsibleEntity = this.entityFake != null ? this.entityFake.riddenByEntity
+								: null;
+						this.worldObj.newExplosion(responsibleEntity,
+								blockPosition.x, blockPosition.y,
+								blockPosition.z, explosionSize, true, true);
 					}
 				}
 
@@ -148,95 +152,91 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	}
 
 	@Override
-	public void renderShot(Vector3 target)
-	{
+	public void renderShot(Vector3 target) {
 		this.endTicks = 20;
 	}
 
 	@Override
-	public void playFiringSound()
-	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "railgun", 5F, 1F);
+	public void playFiringSound() {
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord,
+				ZhuYaoICBM.PREFIX + "railgun", 5F, 1F);
 	}
 
 	@Override
-	public float getVoltage()
-	{
+	public float getVoltage() {
 		return 220;
 	}
 
 	@Override
-	public void onDestroy(TileEntity callingBlock)
-	{
+	public void onDestroy(TileEntity callingBlock) {
 		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
 		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0);
 	}
 
 	@Override
-	public void onCreate(Vector3 position)
-	{
-		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
+	public void onCreate(Vector3 position) {
+		this.worldObj.setBlock(position.intX(), position.intY() + 1,
+				position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
+		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(
+				position.intX(), position.intY() + 1, position.intZ()))
+				.setMainBlock(position);
 	}
 
 	@Override
-	public Vector3 getCenter()
-	{
+	public Vector3 getCenter() {
 		return new Vector3(this).add(new Vector3(0.5, 1.5, 0.5));
 	}
 
 	@Override
-	public Vector3 getMuzzle()
-	{
-		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.6));
+	public Vector3 getMuzzle() {
+		return this.getCenter().add(
+				Vector3.multiply(CalculationHelper
+						.getDeltaPositionFromRotation(this.currentRotationYaw,
+								this.currentRotationPitch), 1.6));
 	}
 
 	@Override
-	public void onPowerOn()
-	{
+	public void onPowerOn() {
 		this.redstonePowerOn = true;
 	}
 
 	@Override
-	public void onPowerOff()
-	{
+	public void onPowerOff() {
 		this.redstonePowerOn = false;
 	}
 
 	@Override
-	public float getFiringRequest()
-	{
+	public float getFiringRequest() {
 		return 1000000;
 	}
 
 	@Override
-	public void onWeaponActivated()
-	{
+	public void onWeaponActivated() {
 		super.onWeaponActivated();
 		this.gunChargingTicks = 1;
 		this.redstonePowerOn = false;
 		this.isAntimatter = false;
-		ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileType.RAILGUN);
+		ItemStack ammoStack = this.getPlatform().hasAmmunition(
+				ProjectileType.RAILGUN);
 
-		if (ammoStack != null)
-		{
-			if (ammoStack.equals(ZhuYaoGangShao.antimatterBullet) && this.getPlatform().useAmmunition(ammoStack))
-			{
+		if (ammoStack != null) {
+			if (ammoStack.equals(ZhuYaoGangShao.antimatterBullet)
+					&& this.getPlatform().useAmmunition(ammoStack)) {
 				this.isAntimatter = true;
-			}
-			else
-			{
+			} else {
 				this.getPlatform().useAmmunition(ammoStack);
 			}
 		}
 
-		this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
+		this.getPlatform().provideElectricity(
+				ForgeDirection.UP,
+				ElectricityPack.getFromWatts(this.getFiringRequest(),
+						this.getVoltage()), true);
 
 		this.explosionSize = 5f;
 		this.explosionDepth = 5;
 
-		if (this.isAntimatter)
-		{
+		if (this.isAntimatter) {
 			this.explosionSize = 8f;
 			this.explosionDepth = 10;
 		}
@@ -245,14 +245,16 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	}
 
 	@Override
-	public boolean canActivateWeapon()
-	{
-		if (this.getPlatform() != null)
-		{
-			if (this.getPlatform().hasAmmunition(ProjectileType.RAILGUN) != null)
-			{
-				if (this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), false).getWatts() >= this.getFiringRequest())
-				{
+	public boolean canActivateWeapon() {
+		if (this.getPlatform() != null) {
+			if (this.getPlatform().hasAmmunition(ProjectileType.RAILGUN) != null) {
+				if (this.getPlatform()
+						.provideElectricity(
+								ForgeDirection.UP,
+								ElectricityPack.getFromWatts(
+										this.getFiringRequest(),
+										this.getVoltage()), false).getWatts() >= this
+						.getFiringRequest()) {
 					return true;
 				}
 			}
@@ -262,15 +264,14 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	}
 
 	@Override
-	public float addInformation(HashMap<String, Integer> map, EntityPlayer player)
-	{
+	public float addInformation(HashMap<String, Integer> map,
+			EntityPlayer player) {
 		super.addInformation(map, player);
 		return 2;
 	}
 
 	@Override
-	public int getMaxHealth()
-	{
+	public int getMaxHealth() {
 		return 450;
 	}
 }

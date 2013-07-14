@@ -6,16 +6,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MFaSheDi0 extends ModelBase
-{
+public class MFaSheDi0 extends ModelBase {
 	// fields
 	ModelRenderer Shape1;
 	ModelRenderer Shape6;
 	ModelRenderer Shape8;
 	ModelRenderer Shape13;
 
-	public MFaSheDi0()
-	{
+	public MFaSheDi0() {
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -45,16 +43,14 @@ public class MFaSheDi0 extends ModelBase
 		setRotation(Shape13, 0F, 0F, 0F);
 	}
 
-	public void render(float f5)
-	{
+	public void render(float f5) {
 		Shape1.render(f5);
 		Shape6.render(f5);
 		Shape8.render(f5);
 		Shape13.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

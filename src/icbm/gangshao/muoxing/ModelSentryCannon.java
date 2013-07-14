@@ -9,8 +9,7 @@ package icbm.gangshao.muoxing;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class ModelSentryCannon extends ModelBase
-{
+public class ModelSentryCannon extends ModelBase {
 	// fields
 	ModelRenderer BaseYawR;
 	ModelRenderer BaseYawRPlate;
@@ -36,8 +35,7 @@ public class ModelSentryCannon extends ModelBase
 	ModelRenderer Barrel;
 	ModelRenderer BarrelCap;
 
-	public ModelSentryCannon()
-	{
+	public ModelSentryCannon() {
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -182,8 +180,7 @@ public class ModelSentryCannon extends ModelBase
 	}
 
 	/** Renders the yaw only rotation part */
-	public void renderYaw(float f5)
-	{
+	public void renderYaw(float f5) {
 		BaseYawR.render(f5);
 		BaseYawRPlate.render(f5);
 		RightBrace.render(f5);
@@ -204,8 +201,7 @@ public class ModelSentryCannon extends ModelBase
 	 * 
 	 * @param f5
 	 */
-	public void renderYawPitch(float f5)
-	{
+	public void renderYawPitch(float f5) {
 		rod.render(f5);
 		radioIntena.render(f5);
 		Camera.render(f5);
@@ -219,8 +215,7 @@ public class ModelSentryCannon extends ModelBase
 		BarrelCap.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

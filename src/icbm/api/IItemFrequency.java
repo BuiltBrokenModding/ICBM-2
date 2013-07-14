@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
  * @author Calclavia
  */
 
-public interface IItemFrequency
-{
+public interface IItemFrequency {
 	/**
-	 * @param data - Pass an ItemStack if dealing with items with frequencies.
+	 * @param data
+	 *            - Pass an ItemStack if dealing with items with frequencies.
 	 * @return The frequency of this object.
 	 */
 	public int getFrequency(ItemStack itemStack);
@@ -19,8 +19,10 @@ public interface IItemFrequency
 	/**
 	 * Sets the frequency
 	 * 
-	 * @param frequency - The frequency of this object.
-	 * @param data - Pass an ItemStack if dealing with items with frequencies.
+	 * @param frequency
+	 *            - The frequency of this object.
+	 * @param data
+	 *            - Pass an ItemStack if dealing with items with frequencies.
 	 */
 	public void setFrequency(int frequency, ItemStack itemStack);
 }

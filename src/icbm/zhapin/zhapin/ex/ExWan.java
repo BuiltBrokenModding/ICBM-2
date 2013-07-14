@@ -20,33 +20,31 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.RecipeHelper;
 
-public class ExWan extends DaoDan
-{
-	public ExWan(String mingZi, int tier)
-	{
+public class ExWan extends DaoDan {
+	public ExWan(String mingZi, int tier) {
 		super(mingZi, tier);
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
-	{
+	public boolean onBlockActivated(World world, int x, int y, int z,
+			EntityPlayer entityPlayer, int par6, float par7, float par8,
+			float par9) {
 
-		if (entityPlayer.inventory.getCurrentItem() != null)
-		{
-			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ICoordLink)
-			{
-				Vector3 link = ((ICoordLink) entityPlayer.inventory.getCurrentItem().getItem()).getLink(entityPlayer.inventory.getCurrentItem());
+		if (entityPlayer.inventory.getCurrentItem() != null) {
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ICoordLink) {
+				Vector3 link = ((ICoordLink) entityPlayer.inventory
+						.getCurrentItem().getItem())
+						.getLink(entityPlayer.inventory.getCurrentItem());
 
-				if (link != null)
-				{
+				if (link != null) {
 					TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-					if (tileEntity instanceof TZhaDan)
-					{
+					if (tileEntity instanceof TZhaDan) {
 						link.writeToNBT(((TZhaDan) tileEntity).nbtData);
-						if (!world.isRemote)
-						{
-							entityPlayer.addChatMessage("Synced coordinate with " + this.getExplosiveName());
+						if (!world.isRemote) {
+							entityPlayer
+									.addChatMessage("Synced coordinate with "
+											+ this.getExplosiveName());
 						}
 						return true;
 					}
@@ -58,20 +56,18 @@ public class ExWan extends DaoDan
 	}
 
 	@Override
-	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
-	{
-		if (entityPlayer.inventory.getCurrentItem() != null)
-		{
-			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ICoordLink)
-			{
-				Vector3 link = ((ICoordLink) entityPlayer.inventory.getCurrentItem().getItem()).getLink(entityPlayer.inventory.getCurrentItem());
+	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer) {
+		if (entityPlayer.inventory.getCurrentItem() != null) {
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ICoordLink) {
+				Vector3 link = ((ICoordLink) entityPlayer.inventory
+						.getCurrentItem().getItem())
+						.getLink(entityPlayer.inventory.getCurrentItem());
 
-				if (link != null)
-				{
+				if (link != null) {
 					link.writeToNBT(missileObj.nbtData);
-					if (!missileObj.worldObj.isRemote)
-					{
-						entityPlayer.addChatMessage("Synced coordinate with " + this.getMissileName());
+					if (!missileObj.worldObj.isRemote) {
+						entityPlayer.addChatMessage("Synced coordinate with "
+								+ this.getMissileName());
 					}
 					return true;
 				}
@@ -82,21 +78,27 @@ public class ExWan extends DaoDan
 	}
 
 	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+	public void init() {
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(),
+				new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E',
+						Block.whiteStone, 'T', ZhaPin.la.getItemStack() }),
+				this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
+	public void doCreateExplosion(World world, double x, double y, double z,
+			Entity entity) {
 		Vector3 teleportTarget = null;
 
-		if (entity instanceof IExplosiveContainer)
-		{
-			if (((IExplosiveContainer) entity).getTagCompound().hasKey("x") && ((IExplosiveContainer) entity).getTagCompound().hasKey("y") && ((IExplosiveContainer) entity).getTagCompound().hasKey("z"))
-			{
-				teleportTarget = Vector3.readFromNBT(((IExplosiveContainer) entity).getTagCompound());
+		if (entity instanceof IExplosiveContainer) {
+			if (((IExplosiveContainer) entity).getTagCompound().hasKey("x")
+					&& ((IExplosiveContainer) entity).getTagCompound().hasKey(
+							"y")
+					&& ((IExplosiveContainer) entity).getTagCompound().hasKey(
+							"z")) {
+				teleportTarget = Vector3
+						.readFromNBT(((IExplosiveContainer) entity)
+								.getTagCompound());
 			}
 		}
 
@@ -104,8 +106,7 @@ public class ExWan extends DaoDan
 	}
 
 	@Override
-	public MICBM getMuoXing()
-	{
+	public MICBM getMuoXing() {
 		return new MMWan();
 	}
 

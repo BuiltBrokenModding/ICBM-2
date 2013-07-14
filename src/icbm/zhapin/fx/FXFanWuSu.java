@@ -15,19 +15,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class FXFanWuSu extends EntityFX
-{
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.TEXTURE_PATH + "antimatter.png");
+public class FXFanWuSu extends EntityFX {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(
+			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.TEXTURE_PATH + "antimatter.png");
 
 	float antimatterParticleScale;
 
-	public FXFanWuSu(World par1World, Vector3 position, double par8, double par10, double par12, double distance)
-	{
+	public FXFanWuSu(World par1World, Vector3 position, double par8,
+			double par10, double par12, double distance) {
 		this(par1World, position, par8, par10, par12, 1.0F, distance);
 	}
 
-	public FXFanWuSu(World par1World, Vector3 position, double par8, double par10, double par12, float par14, double distance)
-	{
+	public FXFanWuSu(World par1World, Vector3 position, double par8,
+			double par10, double par12, float par14, double distance) {
 		super(par1World, position.x, position.y, position.z, 0.0D, 0.0D, 0.0D);
 		this.motionX *= 0.10000000149011612D;
 		this.motionY *= 0.10000000149011612D;
@@ -35,7 +35,8 @@ public class FXFanWuSu extends EntityFX
 		this.motionX += par8;
 		this.motionY += par10;
 		this.motionZ += par12;
-		this.particleRed = this.particleGreen = this.particleBlue = (float) (Math.random() * 0.30000001192092896D);
+		this.particleRed = this.particleGreen = this.particleBlue = (float) (Math
+				.random() * 0.30000001192092896D);
 		this.particleScale *= 0.75F;
 		this.particleScale *= par14;
 		this.antimatterParticleScale = this.particleScale;
@@ -46,8 +47,8 @@ public class FXFanWuSu extends EntityFX
 	}
 
 	@Override
-	public void renderParticle(Tessellator tessellator, float par2, float par3, float par4, float par5, float par6, float par7)
-	{
+	public void renderParticle(Tessellator tessellator, float par2, float par3,
+			float par4, float par5, float par6, float par7) {
 		float agescale = 0.0F;
 		agescale = this.particleAge / (this.particleMaxAge / 2);
 		if (agescale > 1.0F)
@@ -62,7 +63,8 @@ public class FXFanWuSu extends EntityFX
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 1);
 
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine
+				.func_110577_a(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 
@@ -75,11 +77,16 @@ public class FXFanWuSu extends EntityFX
 
 		tessellator.setBrightness(240);
 
-		tessellator.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, 0.5F);
-		tessellator.addVertexWithUV(f11 - par3 * f10 - par5 * f10, f12 - par4 * f10, f13 - par5 * f10 - par7 * f10, 0.0D, 1.0D);
-		tessellator.addVertexWithUV(f11 - par3 * f10 + par5 * f10, f12 + par4 * f10, f13 - par5 * f10 + par7 * f10, 1.0D, 1.0D);
-		tessellator.addVertexWithUV(f11 + par3 * f10 + par5 * f10, f12 + par4 * f10, f13 + par5 * f10 + par7 * f10, 1.0D, 0.0D);
-		tessellator.addVertexWithUV(f11 + par3 * f10 - par5 * f10, f12 - par4 * f10, f13 + par5 * f10 - par7 * f10, 0.0D, 0.0D);
+		tessellator.setColorRGBA_F(this.particleRed, this.particleGreen,
+				this.particleBlue, 0.5F);
+		tessellator.addVertexWithUV(f11 - par3 * f10 - par5 * f10, f12 - par4
+				* f10, f13 - par5 * f10 - par7 * f10, 0.0D, 1.0D);
+		tessellator.addVertexWithUV(f11 - par3 * f10 + par5 * f10, f12 + par4
+				* f10, f13 - par5 * f10 + par7 * f10, 1.0D, 1.0D);
+		tessellator.addVertexWithUV(f11 + par3 * f10 + par5 * f10, f12 + par4
+				* f10, f13 + par5 * f10 + par7 * f10, 1.0D, 0.0D);
+		tessellator.addVertexWithUV(f11 + par3 * f10 - par5 * f10, f12 - par4
+				* f10, f13 + par5 * f10 - par7 * f10, 0.0D, 0.0D);
 
 		tessellator.draw();
 
@@ -87,7 +94,8 @@ public class FXFanWuSu extends EntityFX
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(CalclaviaRenderHelper.PARTICLE_RESOURCE);
+		FMLClientHandler.instance().getClient().renderEngine
+				.func_110577_a(CalclaviaRenderHelper.PARTICLE_RESOURCE);
 
 		tessellator.startDrawingQuads();
 	}
@@ -96,14 +104,12 @@ public class FXFanWuSu extends EntityFX
 	 * Called to update the entity's position/logic.
 	 */
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 
-		if (this.particleAge++ >= this.particleMaxAge)
-		{
+		if (this.particleAge++ >= this.particleMaxAge) {
 			this.setDead();
 			return;
 		}

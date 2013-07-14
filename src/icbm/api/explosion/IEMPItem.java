@@ -10,14 +10,17 @@ import universalelectricity.core.item.IItemElectric;
  * @author Calclavia
  * 
  */
-public interface IEMPItem extends IItemElectric
-{
+public interface IEMPItem extends IItemElectric {
 	/**
 	 * Called when this item is being EMPed
 	 * 
-	 * @param itemStack - The itemstack attacked by EMP
-	 * @param entity - The entity holding the item
-	 * @param empExplosives - The IExplosive object
+	 * @param itemStack
+	 *            - The itemstack attacked by EMP
+	 * @param entity
+	 *            - The entity holding the item
+	 * @param empExplosives
+	 *            - The IExplosive object
 	 */
-	public void onEMP(ItemStack itemStack, Entity entity, IExplosion empExplosive);
+	public void onEMP(ItemStack itemStack, Entity entity,
+			IExplosion empExplosive);
 }

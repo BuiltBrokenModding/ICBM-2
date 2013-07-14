@@ -13,40 +13,35 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TextureGenZhongQi extends TextureAtlasSprite
-{
+public class TextureGenZhongQi extends TextureAtlasSprite {
 	public double currentAngle;
 	public double angleDelta;
 
-	public TextureGenZhongQi()
-	{
+	public TextureGenZhongQi() {
 		super(ZhuYaoWanYi.itGenZongQi.getUnlocalizedName().replace("item.", ""));
 	}
 
 	@Override
-	public void updateAnimation()
-	{
+	public void updateAnimation() {
 		Minecraft minecraft = Minecraft.getMinecraft();
 		World world = minecraft.theWorld;
 		EntityPlayer player = minecraft.thePlayer;
 
 		double angel = 0;
 
-		if (world != null)
-		{
+		if (world != null) {
 			double xDifference = 0;
 			double zDifference = 0;
 
 			ItemStack itemStack = player.getCurrentEquippedItem();
 
-			if (itemStack != null)
-			{
-				if (itemStack.getItem() instanceof ITracker)
-				{
-					Entity trackingEntity = ((ITracker) itemStack.getItem()).getTrackingEntity(FMLClientHandler.instance().getClient().theWorld, itemStack);
+			if (itemStack != null) {
+				if (itemStack.getItem() instanceof ITracker) {
+					Entity trackingEntity = ((ITracker) itemStack.getItem())
+							.getTrackingEntity(FMLClientHandler.instance()
+									.getClient().theWorld, itemStack);
 
-					if (trackingEntity != null)
-					{
+					if (trackingEntity != null) {
 						xDifference = trackingEntity.posX - player.posX;
 						zDifference = trackingEntity.posZ - player.posZ;
 					}
@@ -54,28 +49,25 @@ public class TextureGenZhongQi extends TextureAtlasSprite
 			}
 
 			player.rotationYaw %= 360.0D;
-			angel = -((player.rotationYaw - 90.0D) * Math.PI / 180.0D - Math.atan2(zDifference, xDifference));
+			angel = -((player.rotationYaw - 90.0D) * Math.PI / 180.0D - Math
+					.atan2(zDifference, xDifference));
 		}
 
 		double d6;
 
-		for (d6 = angel - this.currentAngle; d6 < -Math.PI; d6 += (Math.PI * 2D))
-		{
+		for (d6 = angel - this.currentAngle; d6 < -Math.PI; d6 += (Math.PI * 2D)) {
 			;
 		}
 
-		while (d6 >= Math.PI)
-		{
+		while (d6 >= Math.PI) {
 			d6 -= (Math.PI * 2D);
 		}
 
-		if (d6 < -1.0D)
-		{
+		if (d6 < -1.0D) {
 			d6 = -1.0D;
 		}
 
-		if (d6 > 1.0D)
-		{
+		if (d6 > 1.0D) {
 			d6 = 1.0D;
 		}
 
@@ -85,15 +77,18 @@ public class TextureGenZhongQi extends TextureAtlasSprite
 
 		int i;
 
-		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * this.field_110976_a.size()) % this.field_110976_a.size(); i < 0; i = (i + this.field_110976_a.size()) % this.field_110976_a.size())
-		{
+		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * this.field_110976_a
+				.size()) % this.field_110976_a.size(); i < 0; i = (i + this.field_110976_a
+				.size()) % this.field_110976_a.size()) {
 			;
 		}
 
-		if (i != this.field_110973_g)
-		{
+		if (i != this.field_110973_g) {
 			this.field_110973_g = i;
-			TextureUtil.func_110998_a((int[]) this.field_110976_a.get(this.field_110973_g), this.field_130223_c, this.field_130224_d, this.field_110975_c, this.field_110974_d, false, false);
+			TextureUtil.func_110998_a(
+					(int[]) this.field_110976_a.get(this.field_110973_g),
+					this.field_130223_c, this.field_130224_d,
+					this.field_110975_c, this.field_110974_d, false, false);
 		}
 	}
 }

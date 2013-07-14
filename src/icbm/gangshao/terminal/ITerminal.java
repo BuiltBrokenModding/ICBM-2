@@ -5,8 +5,7 @@ import icbm.gangshao.shimian.IScroll;
 
 import java.util.List;
 
-public interface ITerminal extends ISpecialAccess, IScroll
-{
+public interface ITerminal extends ISpecialAccess, IScroll {
 	/**
 	 * Gets an output of the string stored in the console.
 	 */

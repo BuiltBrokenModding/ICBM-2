@@ -6,8 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MLeiDa extends ModelBase
-{
+public class MLeiDa extends ModelBase {
 	// fields
 	ModelRenderer Main_Base;
 	ModelRenderer Main_Base_Outer_Layer;
@@ -24,8 +23,7 @@ public class MLeiDa extends ModelBase
 	ModelRenderer Secondary_Dish_Piece_1;
 	ModelRenderer Secondary_Dish_Piece_2;
 
-	public MLeiDa()
-	{
+	public MLeiDa() {
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -115,8 +113,7 @@ public class MLeiDa extends ModelBase
 		setRotation(Secondary_Dish_Piece_2, 0F, 0.6108652F, 0F);
 	}
 
-	public void render(float rotation, float f5)
-	{
+	public void render(float rotation, float f5) {
 		Main_Base.render(f5);
 		Main_Base_Outer_Layer.render(f5);
 		Pivot_Support_1.render(f5);
@@ -146,8 +143,7 @@ public class MLeiDa extends ModelBase
 		Secondary_Dish_Piece_2.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

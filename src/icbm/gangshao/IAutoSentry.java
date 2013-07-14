@@ -9,8 +9,7 @@ import net.minecraft.util.AxisAlignedBB;
  * @author Calclavia
  * 
  */
-public interface IAutoSentry extends ISentry
-{
+public interface IAutoSentry extends ISentry {
 	/**
 	 * Gets the bounding box by which the sentry focuses its weapon on
 	 */
@@ -27,8 +26,8 @@ public interface IAutoSentry extends ISentry
 	public void setTarget(Entity target);
 
 	/**
-	 * Used by the AI Action classes to check if the target its trying to find is valid for it to
-	 * track
+	 * Used by the AI Action classes to check if the target its trying to find
+	 * is valid for it to track
 	 */
 	public boolean isValidTarget(Entity entity);
 

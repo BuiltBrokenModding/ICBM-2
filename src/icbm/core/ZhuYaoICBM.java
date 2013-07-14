@@ -47,14 +47,14 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
- * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
+ * Main class for ICBM core to run on. The core will need to be initialized by
+ * each ICBM module.
  * 
  * @author Calclavia
  * 
  */
 @ModstatInfo(prefix = "icbm", name = ICBM.NAME, version = ICBM.VERSION)
-public class ZhuYaoICBM
-{
+public class ZhuYaoICBM {
 	public static final ZhuYaoICBM INSTANCE = new ZhuYaoICBM();
 
 	public static Block bLiu, bFuShe;
@@ -77,11 +77,12 @@ public class ZhuYaoICBM
 
 	public static final String YU_YAN_PATH = ASSETS_PATH + "yuyan/";
 
-	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
+	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN",
+			"es_ES" };
 
 	/**
-	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
-	 * TODO: USE TILES INSTEAD OF IDS.
+	 * GUI ID Numbers: These numbers are used to identify the ID of the specific
+	 * GUIs used by ICBM. TODO: USE TILES INSTEAD OF IDS.
 	 */
 	public static final int GUI_XIA_FA_SHE_QI = 1;
 	public static final int GUI_FA_SHE_SHI_MUO = 2;
@@ -96,24 +97,28 @@ public class ZhuYaoICBM
 	public static final Logger LOGGER = Logger.getLogger(ICBM.NAME);
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event)
-	{
-		if (!isPreInit)
-		{
+	public void preInit(FMLPreInitializationEvent event) {
+		if (!isPreInit) {
 			Modstats.instance().getReporter().registerMod(INSTANCE);
 			MinecraftForge.EVENT_BUS.register(INSTANCE);
 
-			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
+			LOGGER.fine("Loaded "
+					+ TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN)
+					+ " languages.");
 
 			SheDing.initiate();
 			SheDing.CONFIGURATION.load();
 
-			// Calling this once to prevent the static class from not initiating.
+			// Calling this once to prevent the static class from not
+			// initiating.
 			PotionRadiation.INSTANCE.getId();
 
 			// BLOCKS
 			bLiu = new BLiu(ICBM.BLOCK_ID_PREFIX + 0);
-			bJia = new BlockMulti(SheDing.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ZhuYaoICBM.PREFIX + "machine").setChannel(this.getChannel());
+			bJia = new BlockMulti(SheDing.CONFIGURATION.getBlock("Multiblock",
+					ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(
+					ZhuYaoICBM.PREFIX + "machine")
+					.setChannel(this.getChannel());
 
 			// Items
 			itDu = new ItICBM(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
@@ -123,19 +128,22 @@ public class ZhuYaoICBM
 			GameRegistry.registerBlock(bLiu, "bLiu");
 			GameRegistry.registerBlock(bJia, "bJia");
 
-			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(SheDing.CONFIGURATION);
+			liuGenData = new GenLiu("Sulfur Ore", "oreSulfur", new ItemStack(
+					bLiu), 0, 40, 20, 4).enable(SheDing.CONFIGURATION);
 
 			/**
-			 * Check for existence of radioactive block. If it does not exist, then create it.
+			 * Check for existence of radioactive block. If it does not exist,
+			 * then create it.
 			 */
-			if (OreDictionary.getOres("blockRadioactive").size() > 0)
-			{
-				bFuShe = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
+			if (OreDictionary.getOres("blockRadioactive").size() > 0) {
+				bFuShe = Block.blocksList[OreDictionary.getOres(
+						"blockRadioactive").get(0).itemID];
 				LOGGER.fine("Detected radioative block from another mod, utilizing it.");
-			}
-			else
-			{
-				bFuShe = new BlockRadioactive(SheDing.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive").func_111022_d(PREFIX + "radioactive");
+			} else {
+				bFuShe = new BlockRadioactive(SheDing.CONFIGURATION.getBlock(
+						"Radioactive Block", BlockRadioactive.RECOMMENDED_ID)
+						.getInt()).setUnlocalizedName(PREFIX + "radioactive")
+						.func_111022_d(PREFIX + "radioactive");
 				GameRegistry.registerBlock(bFuShe, "Radioactive");
 				OreDictionary.registerOre("blockRadioactive", bFuShe);
 				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
@@ -144,25 +152,27 @@ public class ZhuYaoICBM
 			/**
 			 * Decrease Obsidian Resistance
 			 */
-			Block.obsidian.setResistance(SheDing.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
-			LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
+			Block.obsidian.setResistance(SheDing.CONFIGURATION.get(
+					Configuration.CATEGORY_GENERAL,
+					"Reduce Obsidian Resistance", 45).getInt(45));
+			LOGGER.fine("Changed obsidian explosive resistance to: "
+					+ Block.obsidian.getExplosionResistance(null));
 
 			SheDing.CONFIGURATION.save();
 
 			OreDictionary.registerOre("dustSulfur", itLiu);
 			OreGenerator.addOre(liuGenData);
 
-			GameRegistry.registerTileEntity(TileEntityMultiBlockPart.class, "TileEntityMultiBlockPart");
+			GameRegistry.registerTileEntity(TileEntityMultiBlockPart.class,
+					"TileEntityMultiBlockPart");
 
 			isPreInit = true;
 		}
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event)
-	{
-		if (!isInit)
-		{
+	public void init(FMLInitializationEvent event) {
+		if (!isInit) {
 			/**
 			 * Load Basic Components
 			 */
@@ -199,50 +209,57 @@ public class ZhuYaoICBM
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-		if (!isPostInit)
-		{
+	public void postInit(FMLPostInitializationEvent event) {
+		if (!isPostInit) {
 			/**
 			 * LOAD.
 			 */
 			UniversalRecipes.init();
 
 			// Sulfur
-			GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4), 0.8f);
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
+			GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4),
+					0.8f);
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
+					Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@",
+					'@', "dustSulfur", '?', Item.coal }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
+					Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@",
+					'@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
 
-			GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] {
+					"@@@", "@R@", "@@@", '@', Item.gunpowder, 'R',
+					Item.redstone }));
 
 			// Poison Powder
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itDu, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+					new ItemStack(itDu, 3), new Object[] { Item.spiderEye,
+							Item.rottenFlesh }));
 
 			isPostInit = true;
 		}
 	}
 
 	@EventHandler
-	public void serverStarting(FMLServerStartingEvent event)
-	{
-		FlagRegistry.registerModFlag(FlagRegistry.DEFAULT_NAME, new ModFlag(NBTFileLoader.loadData(FlagRegistry.DEFAULT_NAME)));
+	public void serverStarting(FMLServerStartingEvent event) {
+		FlagRegistry.registerModFlag(FlagRegistry.DEFAULT_NAME, new ModFlag(
+				NBTFileLoader.loadData(FlagRegistry.DEFAULT_NAME)));
 
-		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
+		ICommandManager commandManager = FMLCommonHandler.instance()
+				.getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME)));
+		serverCommandManager.registerCommand(new CommandFlag(FlagRegistry
+				.getModFlag(FlagRegistry.DEFAULT_NAME)));
 	}
 
 	@ForgeSubscribe
-	public void worldSave(Save evt)
-	{
-		if (!evt.world.isRemote)
-		{
-			NBTFileLoader.saveData(FlagRegistry.DEFAULT_NAME, FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getNBT());
+	public void worldSave(Save evt) {
+		if (!evt.world.isRemote) {
+			NBTFileLoader.saveData(FlagRegistry.DEFAULT_NAME, FlagRegistry
+					.getModFlag(FlagRegistry.DEFAULT_NAME).getNBT());
 		}
 	}
 
-	public static Vector3 getLook(float rotationYaw, float rotationPitch)
-	{
+	public static Vector3 getLook(float rotationYaw, float rotationPitch) {
 		float var2;
 		float var3;
 		float var4;
@@ -255,8 +272,7 @@ public class ZhuYaoICBM
 		return new Vector3(var3 * var4, var5, var2 * var4);
 	}
 
-	public static void setModMetadata(String id, ModMetadata metadata)
-	{
+	public static void setModMetadata(String id, ModMetadata metadata) {
 		metadata.modId = id;
 		metadata.name = ICBM.NAME;
 		metadata.description = "ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!";
@@ -270,8 +286,7 @@ public class ZhuYaoICBM
 		metadata.autogenerated = false;
 	}
 
-	protected String getChannel()
-	{
+	protected String getChannel() {
 		return null;
 	}
 }

@@ -6,8 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MFaSheDiRail0 extends ModelBase
-{
+public class MFaSheDiRail0 extends ModelBase {
 	// fields
 	ModelRenderer Shape7;
 	ModelRenderer Shape8;
@@ -21,8 +20,7 @@ public class MFaSheDiRail0 extends ModelBase
 	ModelRenderer Shape16;
 	ModelRenderer Shape17;
 
-	public MFaSheDiRail0()
-	{
+	public MFaSheDiRail0() {
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -94,8 +92,7 @@ public class MFaSheDiRail0 extends ModelBase
 		setRotation(Shape17, 0F, 0F, 0F);
 	}
 
-	public void render(float f5)
-	{
+	public void render(float f5) {
 		Shape7.render(f5);
 		Shape8.render(f5);
 		Shape9.render(f5);
@@ -109,8 +106,7 @@ public class MFaSheDiRail0 extends ModelBase
 		Shape17.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

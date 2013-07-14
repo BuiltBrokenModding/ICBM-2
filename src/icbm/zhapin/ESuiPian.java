@@ -21,8 +21,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
-{
+public class ESuiPian extends Entity implements IEntityAdditionalSpawnData {
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
@@ -51,62 +50,56 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	public boolean arrowCritical = false;
 	public float explosionSize = 1.5F;
 
-	public ESuiPian(World par1World)
-	{
+	public ESuiPian(World par1World) {
 		super(par1World);
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public ESuiPian(World par1World, double x, double y, double z, boolean isExplosive, boolean isAnvil)
-	{
+	public ESuiPian(World par1World, double x, double y, double z,
+			boolean isExplosive, boolean isAnvil) {
 		super(par1World);
 		this.setPosition(x, y, z);
 		this.yOffset = 0.0F;
 		this.isExplosive = isExplosive;
 		this.isAnvil = isAnvil;
 
-		if (this.isAnvil)
-		{
+		if (this.isAnvil) {
 			this.setSize(1, 1);
-		}
-		else
-		{
+		} else {
 			this.setSize(0.5f, 0.5f);
 		}
 	}
 
 	@Override
-	public void writeSpawnData(ByteArrayDataOutput data)
-	{
+	public void writeSpawnData(ByteArrayDataOutput data) {
 		data.writeBoolean(this.isExplosive);
 		data.writeBoolean(this.isAnvil);
 	}
 
 	@Override
-	public void readSpawnData(ByteArrayDataInput data)
-	{
+	public void readSpawnData(ByteArrayDataInput data) {
 		this.isExplosive = data.readBoolean();
 		this.isAnvil = data.readBoolean();
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 	}
 
 	@Override
-	public String getEntityName()
-	{
+	public String getEntityName() {
 		return "Fragments";
 	}
 
 	/**
-	 * Uses the provided coordinates as a heading and determines the velocity from it with the set
-	 * force and random variance. Args: x, y, z, force, forceVariation
+	 * Uses the provided coordinates as a heading and determines the velocity
+	 * from it with the set force and random variance. Args: x, y, z, force,
+	 * forceVariation
 	 */
-	public void setArrowHeading(double par1, double par3, double par5, float par7, float par8)
-	{
-		float var9 = MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5);
+	public void setArrowHeading(double par1, double par3, double par5,
+			float par7, float par8) {
+		float var9 = MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5
+				* par5);
 		par1 /= var9;
 		par3 /= var9;
 		par5 /= var9;
@@ -120,8 +113,10 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 		this.motionY = par3;
 		this.motionZ = par5;
 		float var10 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
-		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
-		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(par3, var10) * 180.0D / Math.PI);
+		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(par1,
+				par5) * 180.0D / Math.PI);
+		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(par3,
+				var10) * 180.0D / Math.PI);
 		this.ticksInGround = 0;
 	}
 
@@ -129,30 +124,30 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	 * Sets the velocity to the args. Args: x, y, z
 	 */
 	@Override
-	public void setVelocity(double par1, double par3, double par5)
-	{
+	public void setVelocity(double par1, double par3, double par5) {
 		this.motionX = par1;
 		this.motionY = par3;
 		this.motionZ = par5;
 
-		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
-		{
+		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float var7 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
-			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(par3, var7) * 180.0D / Math.PI);
+			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(par1,
+					par5) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(
+					par3, var7) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch;
 			this.prevRotationYaw = this.rotationYaw;
-			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+			this.setLocationAndAngles(this.posX, this.posY, this.posZ,
+					this.rotationYaw, this.rotationPitch);
 			this.ticksInGround = 0;
 		}
 	}
 
-	private void explode()
-	{
-		if (!this.isExploding && !this.worldObj.isRemote)
-		{
+	private void explode() {
+		if (!this.isExploding && !this.worldObj.isRemote) {
 			this.isExploding = true;
-			this.worldObj.createExplosion(this, this.xTile, this.yTile, this.zTile, this.explosionSize, true);
+			this.worldObj.createExplosion(this, this.xTile, this.yTile,
+					this.zTile, this.explosionSize, true);
 			this.setDead();
 		}
 	}
@@ -161,71 +156,70 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	 * Called to update the entity's position/logic.
 	 */
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		super.onUpdate();
 
-		if (this.isAnvil)
-		{
-			ArrayList entities = new ArrayList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox));
+		if (this.isAnvil) {
+			ArrayList entities = new ArrayList(
+					this.worldObj.getEntitiesWithinAABBExcludingEntity(this,
+							this.boundingBox));
 
 			Iterator var5 = entities.iterator();
 
-			while (var5.hasNext())
-			{
+			while (var5.hasNext()) {
 				Entity entity = (Entity) var5.next();
 				entity.attackEntityFrom(DamageSource.anvil, 15);
 			}
 		}
 
-		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
-		{
-			float var1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, var1) * 180.0D / Math.PI);
+		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
+			float var1 = MathHelper.sqrt_double(this.motionX * this.motionX
+					+ this.motionZ * this.motionZ);
+			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(
+					this.motionX, this.motionZ) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(
+					this.motionY, var1) * 180.0D / Math.PI);
 		}
 
-		int var15 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+		int var15 = this.worldObj
+				.getBlockId(this.xTile, this.yTile, this.zTile);
 
-		if (var15 > 0)
-		{
-			Block.blocksList[var15].setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
-			AxisAlignedBB var2 = Block.blocksList[var15].getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
+		if (var15 > 0) {
+			Block.blocksList[var15].setBlockBoundsBasedOnState(this.worldObj,
+					this.xTile, this.yTile, this.zTile);
+			AxisAlignedBB var2 = Block.blocksList[var15]
+					.getCollisionBoundingBoxFromPool(this.worldObj, this.xTile,
+							this.yTile, this.zTile);
 
-			if (var2 != null && var2.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ)))
-			{
+			if (var2 != null
+					&& var2.isVecInside(Vec3.createVectorHelper(this.posX,
+							this.posY, this.posZ))) {
 				this.inGround = true;
 			}
 		}
 
-		if (this.arrowShake > 0)
-		{
+		if (this.arrowShake > 0) {
 			--this.arrowShake;
 		}
 
-		if (this.inGround)
-		{
-			var15 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
-			int var18 = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
+		if (this.inGround) {
+			var15 = this.worldObj
+					.getBlockId(this.xTile, this.yTile, this.zTile);
+			int var18 = this.worldObj.getBlockMetadata(this.xTile, this.yTile,
+					this.zTile);
 
-			if (var15 == this.inTile && var18 == this.inData)
-			{
-				if (this.isExplosive)
-				{
+			if (var15 == this.inTile && var18 == this.inData) {
+				if (this.isExplosive) {
 					explode();
-				}
-				else
-				{
-					if (this.isAnvil && this.worldObj.rand.nextFloat() > 0.5f)
-					{
-						this.worldObj.playAuxSFX(1022, (int) this.posX, (int) this.posY, (int) this.posZ, 0);
+				} else {
+					if (this.isAnvil && this.worldObj.rand.nextFloat() > 0.5f) {
+						this.worldObj.playAuxSFX(1022, (int) this.posX,
+								(int) this.posY, (int) this.posZ, 0);
 					}
 
 					this.setDead();
 				}
-			}
-			else
-			{
+			} else {
 				this.inGround = false;
 				this.motionX *= (this.rand.nextFloat() * 0.2F);
 				this.motionY *= (this.rand.nextFloat() * 0.2F);
@@ -233,43 +227,46 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 				this.ticksInGround = 0;
 				this.ticksInAir = 0;
 			}
-		}
-		else
-		{
+		} else {
 			++this.ticksInAir;
-			Vec3 var16 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-			Vec3 var17 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition movingObjPos = this.worldObj.rayTraceBlocks_do_do(var16, var17, false, true);
+			Vec3 var16 = Vec3.createVectorHelper(this.posX, this.posY,
+					this.posZ);
+			Vec3 var17 = Vec3.createVectorHelper(this.posX + this.motionX,
+					this.posY + this.motionY, this.posZ + this.motionZ);
+			MovingObjectPosition movingObjPos = this.worldObj
+					.rayTraceBlocks_do_do(var16, var17, false, true);
 			var16 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-			var17 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			var17 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY
+					+ this.motionY, this.posZ + this.motionZ);
 
-			if (movingObjPos != null)
-			{
-				var17 = Vec3.createVectorHelper(movingObjPos.hitVec.xCoord, movingObjPos.hitVec.yCoord, movingObjPos.hitVec.zCoord);
+			if (movingObjPos != null) {
+				var17 = Vec3.createVectorHelper(movingObjPos.hitVec.xCoord,
+						movingObjPos.hitVec.yCoord, movingObjPos.hitVec.zCoord);
 			}
 
 			Entity var4 = null;
-			List var5 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+			List var5 = this.worldObj.getEntitiesWithinAABBExcludingEntity(
+					this,
+					this.boundingBox.addCoord(this.motionX, this.motionY,
+							this.motionZ).expand(1.0D, 1.0D, 1.0D));
 			double var6 = 0.0D;
 			int var8;
 			float var10;
 
-			for (var8 = 0; var8 < var5.size(); ++var8)
-			{
+			for (var8 = 0; var8 < var5.size(); ++var8) {
 				Entity var9 = (Entity) var5.get(var8);
 
-				if (var9.canBeCollidedWith() && (this.ticksInAir >= 5))
-				{
+				if (var9.canBeCollidedWith() && (this.ticksInAir >= 5)) {
 					var10 = 0.3F;
-					AxisAlignedBB var11 = var9.boundingBox.expand(var10, var10, var10);
-					MovingObjectPosition var12 = var11.calculateIntercept(var16, var17);
+					AxisAlignedBB var11 = var9.boundingBox.expand(var10, var10,
+							var10);
+					MovingObjectPosition var12 = var11.calculateIntercept(
+							var16, var17);
 
-					if (var12 != null)
-					{
+					if (var12 != null) {
 						double var13 = var16.distanceTo(var12.hitVec);
 
-						if (var13 < var6 || var6 == 0.0D)
-						{
+						if (var13 < var6 || var6 == 0.0D) {
 							var4 = var9;
 							var6 = var13;
 						}
@@ -277,59 +274,64 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 				}
 			}
 
-			if (var4 != null)
-			{
+			if (var4 != null) {
 				movingObjPos = new MovingObjectPosition(var4);
 			}
 
 			float speed;
 
-			if (movingObjPos != null)
-			{
-				if (movingObjPos.entityHit != null)
-				{
-					speed = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+			if (movingObjPos != null) {
+				if (movingObjPos.entityHit != null) {
+					speed = MathHelper.sqrt_double(this.motionX * this.motionX
+							+ this.motionY * this.motionY + this.motionZ
+							* this.motionZ);
 					int damage = (int) Math.ceil(speed * this.damage);
 
-					if (this.arrowCritical)
-					{
+					if (this.arrowCritical) {
 						damage += this.rand.nextInt(damage / 2 + 2);
 					}
 
-					DamageSource damageSource = (new EntityDamageSourceIndirect("arrow", this, this)).setProjectile();
+					DamageSource damageSource = (new EntityDamageSourceIndirect(
+							"arrow", this, this)).setProjectile();
 
-					if (this.isBurning())
-					{
+					if (this.isBurning()) {
 						movingObjPos.entityHit.setFire(5);
 					}
 
-					if (movingObjPos.entityHit.attackEntityFrom(damageSource, damage))
-					{
-						if (movingObjPos.entityHit instanceof EntityLiving)
-						{
+					if (movingObjPos.entityHit.attackEntityFrom(damageSource,
+							damage)) {
+						if (movingObjPos.entityHit instanceof EntityLiving) {
 							EntityLiving var24 = (EntityLiving) movingObjPos.entityHit;
 
-							if (!this.worldObj.isRemote)
-							{
-								var24.setArrowCountInEntity(var24.getArrowCountInEntity() + 1);
+							if (!this.worldObj.isRemote) {
+								var24.setArrowCountInEntity(var24
+										.getArrowCountInEntity() + 1);
 							}
 
-							if (this.knowBackStrength > 0)
-							{
-								float var21 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+							if (this.knowBackStrength > 0) {
+								float var21 = MathHelper
+										.sqrt_double(this.motionX
+												* this.motionX + this.motionZ
+												* this.motionZ);
 
-								if (var21 > 0.0F)
-								{
-									movingObjPos.entityHit.addVelocity(this.motionX * this.knowBackStrength * 0.6000000238418579D / var21, 0.1D, this.motionZ * this.knowBackStrength * 0.6000000238418579D / var21);
+								if (var21 > 0.0F) {
+									movingObjPos.entityHit.addVelocity(
+											this.motionX
+													* this.knowBackStrength
+													* 0.6000000238418579D
+													/ var21, 0.1D, this.motionZ
+													* this.knowBackStrength
+													* 0.6000000238418579D
+													/ var21);
 								}
 							}
 						}
 
-						this.worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+						this.worldObj.playSoundAtEntity(this, "random.bowhit",
+								1.0F,
+								1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 						this.setDead();
-					}
-					else
-					{
+					} else {
 						this.motionX *= -0.10000000149011612D;
 						this.motionY *= -0.10000000149011612D;
 						this.motionZ *= -0.10000000149011612D;
@@ -337,73 +339,79 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 						this.prevRotationYaw += 180.0F;
 						this.ticksInAir = 0;
 					}
-				}
-				else
-				{
+				} else {
 					this.xTile = movingObjPos.blockX;
 					this.yTile = movingObjPos.blockY;
 					this.zTile = movingObjPos.blockZ;
-					this.inTile = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
-					this.inData = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
+					this.inTile = this.worldObj.getBlockId(this.xTile,
+							this.yTile, this.zTile);
+					this.inData = this.worldObj.getBlockMetadata(this.xTile,
+							this.yTile, this.zTile);
 					this.motionX = ((float) (movingObjPos.hitVec.xCoord - this.posX));
 					this.motionY = ((float) (movingObjPos.hitVec.yCoord - this.posY));
 					this.motionZ = ((float) (movingObjPos.hitVec.zCoord - this.posZ));
-					speed = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+					speed = MathHelper.sqrt_double(this.motionX * this.motionX
+							+ this.motionY * this.motionY + this.motionZ
+							* this.motionZ);
 					this.posX -= this.motionX / speed * 0.05000000074505806D;
 					this.posY -= this.motionY / speed * 0.05000000074505806D;
 					this.posZ -= this.motionZ / speed * 0.05000000074505806D;
-					this.worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+					this.worldObj.playSoundAtEntity(this, "random.bowhit",
+							1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 					this.inGround = true;
 					this.arrowShake = 7;
 					this.arrowCritical = false;
 				}
 			}
 
-			if (this.arrowCritical)
-			{
-				for (var8 = 0; var8 < 4; ++var8)
-				{
-					this.worldObj.spawnParticle("crit", this.posX + this.motionX * var8 / 4.0D, this.posY + this.motionY * var8 / 4.0D, this.posZ + this.motionZ * var8 / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ);
+			if (this.arrowCritical) {
+				for (var8 = 0; var8 < 4; ++var8) {
+					this.worldObj.spawnParticle("crit", this.posX
+							+ this.motionX * var8 / 4.0D, this.posY
+							+ this.motionY * var8 / 4.0D, this.posZ
+							+ this.motionZ * var8 / 4.0D, -this.motionX,
+							-this.motionY + 0.2D, -this.motionZ);
 				}
 			}
 
 			this.posX += this.motionX;
 			this.posY += this.motionY;
 			this.posZ += this.motionZ;
-			speed = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			speed = MathHelper.sqrt_double(this.motionX * this.motionX
+					+ this.motionZ * this.motionZ);
 			this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-			for (this.rotationPitch = (float) (Math.atan2(this.motionY, speed) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-			{
+			for (this.rotationPitch = (float) (Math.atan2(this.motionY, speed) * 180.0D / Math.PI); this.rotationPitch
+					- this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
 				;
 			}
 
-			while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-			{
+			while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
 				this.prevRotationPitch += 360.0F;
 			}
 
-			while (this.rotationYaw - this.prevRotationYaw < -180.0F)
-			{
+			while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
 				this.prevRotationYaw -= 360.0F;
 			}
 
-			while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
-			{
+			while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
 				this.prevRotationYaw += 360.0F;
 			}
 
-			this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-			this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
+			this.rotationPitch = this.prevRotationPitch
+					+ (this.rotationPitch - this.prevRotationPitch) * 0.2F;
+			this.rotationYaw = this.prevRotationYaw
+					+ (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 			float var23 = 0.99F;
 			var10 = 0.05F;
 
-			if (this.isInWater())
-			{
-				for (int var25 = 0; var25 < 4; ++var25)
-				{
+			if (this.isInWater()) {
+				for (int var25 = 0; var25 < 4; ++var25) {
 					float var24 = 0.25F;
-					this.worldObj.spawnParticle("bubble", this.posX - this.motionX * var24, this.posY - this.motionY * var24, this.posZ - this.motionZ * var24, this.motionX, this.motionY, this.motionZ);
+					this.worldObj.spawnParticle("bubble", this.posX
+							- this.motionX * var24, this.posY - this.motionY
+							* var24, this.posZ - this.motionZ * var24,
+							this.motionX, this.motionY, this.motionZ);
 				}
 
 				var23 = 0.8F;
@@ -421,8 +429,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
 		par1NBTTagCompound.setShort("xTile", (short) this.xTile);
 		par1NBTTagCompound.setShort("yTile", (short) this.yTile);
 		par1NBTTagCompound.setShort("zTile", (short) this.zTile);
@@ -438,8 +445,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
 		this.xTile = par1NBTTagCompound.getShort("xTile");
 		this.yTile = par1NBTTagCompound.getShort("yTile");
 		this.zTile = par1NBTTagCompound.getShort("zTile");
@@ -455,19 +461,16 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	 * Called by a player entity when they collide with an entity
 	 */
 	@Override
-	public void applyEntityCollision(Entity par1Entity)
-	{
+	public void applyEntityCollision(Entity par1Entity) {
 		super.applyEntityCollision(par1Entity);
 
-		if (this.isExplosive && this.ticksExisted < 20 * 2)
-		{
+		if (this.isExplosive && this.ticksExisted < 20 * 2) {
 			this.explode();
 		}
 	}
 
 	@Override
-	public float getShadowSize()
-	{
+	public float getShadowSize() {
 		return 0.0F;
 	}
 
@@ -475,8 +478,7 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	 * If returns false, the item will not inflict any damage against entities.
 	 */
 	@Override
-	public boolean canAttackWithItem()
-	{
+	public boolean canAttackWithItem() {
 		return false;
 	}
 }

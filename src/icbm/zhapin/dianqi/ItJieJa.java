@@ -16,35 +16,37 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
 //Explosive Defuser
-public class ItJieJa extends ItElectricICBM
-{
+public class ItJieJa extends ItElectricICBM {
 	private static final int YONG_DIAN_LIANG = 2000;
 
-	public ItJieJa(int id)
-	{
+	public ItJieJa(int id) {
 		super(id, "defuser");
 	}
 
 	/**
-	 * Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if
-	 * return value is true further processing is canceled and the entity is not attacked.
+	 * Called when the player Left Clicks (attacks) an entity. Processed before
+	 * damage is done, if return value is true further processing is canceled
+	 * and the entity is not attacked.
 	 * 
-	 * @param itemStack The Item being used
-	 * @param player The player that is attacking
-	 * @param entity The entity being attacked
+	 * @param itemStack
+	 *            The Item being used
+	 * @param player
+	 *            The player that is attacking
+	 * @param entity
+	 *            The entity being attacked
 	 * @return True to cancel the rest of the interaction.
 	 */
 	@Override
-	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
-	{
-		if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
-		{
-			if (entity instanceof EZhaDan)
-			{
-				if (!entity.worldObj.isRemote)
-				{
+	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player,
+			Entity entity) {
+		if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG) {
+			if (entity instanceof EZhaDan) {
+				if (!entity.worldObj.isRemote) {
 					EZhaDan entityTNT = (EZhaDan) entity;
-					EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, entityTNT.haoMa));
+					EntityItem entityItem = new EntityItem(entity.worldObj,
+							entity.posX, entity.posY, entity.posZ,
+							new ItemStack(ZhuYaoZhaPin.bZhaDan, 1,
+									entityTNT.haoMa));
 					float var13 = 0.05F;
 					Random random = new Random();
 					entityItem.motionX = ((float) random.nextGaussian() * var13);
@@ -53,12 +55,11 @@ public class ItJieJa extends ItElectricICBM
 					entity.worldObj.spawnEntityInWorld(entityItem);
 				}
 				entity.setDead();
-			}
-			else if (entity instanceof EntityTNTPrimed)
-			{
-				if (!entity.worldObj.isRemote)
-				{
-					EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Block.tnt));
+			} else if (entity instanceof EntityTNTPrimed) {
+				if (!entity.worldObj.isRemote) {
+					EntityItem entityItem = new EntityItem(entity.worldObj,
+							entity.posX, entity.posY, entity.posZ,
+							new ItemStack(Block.tnt));
 					float var13 = 0.05F;
 					Random random = new Random();
 					entityItem.motionX = ((float) random.nextGaussian() * var13);
@@ -67,17 +68,13 @@ public class ItJieJa extends ItElectricICBM
 					entity.worldObj.spawnEntityInWorld(entityItem);
 				}
 				entity.setDead();
-			}
-			else if (entity instanceof EChe)
-			{
+			} else if (entity instanceof EChe) {
 				((EChe) entity).killMinecart(DamageSource.generic);
 			}
 
 			this.discharge(itemStack, YONG_DIAN_LIANG, true);
 			return true;
-		}
-		else
-		{
+		} else {
 			player.addChatMessage("Defuser out of electricity!");
 		}
 
@@ -85,14 +82,12 @@ public class ItJieJa extends ItElectricICBM
 	}
 
 	@Override
-	public float getVoltage(ItemStack itemStack)
-	{
+	public float getVoltage(ItemStack itemStack) {
 		return 20;
 	}
 
 	@Override
-	public float getMaxElectricityStored(ItemStack itemStack)
-	{
+	public float getMaxElectricityStored(ItemStack itemStack) {
 		return 80000;
 	}
 }

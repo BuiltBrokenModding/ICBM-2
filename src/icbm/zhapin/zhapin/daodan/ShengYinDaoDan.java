@@ -9,8 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ShengYinDaoDan implements IUpdatePlayerListBox
-{
+public class ShengYinDaoDan implements IUpdatePlayerListBox {
 	private final SoundManager theSoundManager;
 
 	private final EDaoDan entity;
@@ -25,8 +24,8 @@ public class ShengYinDaoDan implements IUpdatePlayerListBox
 	private float minecartRideSoundVolume = 0.0F;
 	private double minecartSpeed = 0.0D;
 
-	public ShengYinDaoDan(SoundManager par1SoundManager, EDaoDan entity, EntityPlayerSP par3EntityPlayerSP)
-	{
+	public ShengYinDaoDan(SoundManager par1SoundManager, EDaoDan entity,
+			EntityPlayerSP par3EntityPlayerSP) {
 		this.theSoundManager = par1SoundManager;
 		this.entity = entity;
 		this.thePlayer = par3EntityPlayerSP;
@@ -36,8 +35,7 @@ public class ShengYinDaoDan implements IUpdatePlayerListBox
 	 * Updates the JList with a new model.
 	 */
 	@Override
-	public void update()
-	{
+	public void update() {
 		boolean var1 = false;
 		final boolean var2 = this.playerSPRidingMinecart;
 		final boolean var3 = this.minecartIsDead;
@@ -45,98 +43,91 @@ public class ShengYinDaoDan implements IUpdatePlayerListBox
 		final float var5 = this.minecartMoveSoundVolume;
 		final float var6 = this.minecartSoundPitch;
 		final float var7 = this.minecartRideSoundVolume;
-		this.playerSPRidingMinecart = this.thePlayer != null && this.entity.riddenByEntity == this.thePlayer;
+		this.playerSPRidingMinecart = this.thePlayer != null
+				&& this.entity.riddenByEntity == this.thePlayer;
 		this.minecartIsDead = this.entity.isDead;
 		this.minecartSpeed = 20;
 		this.minecartIsMoving = this.minecartSpeed >= 0.01D;
 
-		if (var2 && !this.playerSPRidingMinecart)
-		{
+		if (var2 && !this.playerSPRidingMinecart) {
 			this.theSoundManager.stopEntitySound(this.thePlayer);
 		}
 
-		if (this.minecartIsDead || !this.silent && this.minecartMoveSoundVolume == 0.0F && this.minecartRideSoundVolume == 0.0F)
-		{
-			if (!var3)
-			{
+		if (this.minecartIsDead || !this.silent
+				&& this.minecartMoveSoundVolume == 0.0F
+				&& this.minecartRideSoundVolume == 0.0F) {
+			if (!var3) {
 				this.theSoundManager.stopEntitySound(this.entity);
 
-				if (var2 || this.playerSPRidingMinecart)
-				{
+				if (var2 || this.playerSPRidingMinecart) {
 					this.theSoundManager.stopEntitySound(this.thePlayer);
 				}
 			}
 
 			this.silent = true;
 
-			if (this.minecartIsDead)
-			{
+			if (this.minecartIsDead) {
 				return;
 			}
 		}
 
-		if (this.theSoundManager != null && this.entity != null && this.minecartMoveSoundVolume > 0)
-		{
-			this.theSoundManager.playEntitySound(ZhuYaoICBM.PREFIX + "missileinair", this.entity, 7.0F, this.minecartSoundPitch, true);
+		if (this.theSoundManager != null && this.entity != null
+				&& this.minecartMoveSoundVolume > 0) {
+			this.theSoundManager.playEntitySound(ZhuYaoICBM.PREFIX
+					+ "missileinair", this.entity, 7.0F,
+					this.minecartSoundPitch, true);
 			this.silent = false;
 			var1 = true;
 		}
 
-		if (this.entity.getTicksInAir() > 0)
-		{
-			if (this.minecartSoundPitch < 1.0F)
-			{
+		if (this.entity.getTicksInAir() > 0) {
+			if (this.minecartSoundPitch < 1.0F) {
 				this.minecartSoundPitch += 0.0025F;
 			}
 
-			if (this.minecartSoundPitch > 1.0F)
-			{
+			if (this.minecartSoundPitch > 1.0F) {
 				this.minecartSoundPitch = 1.0F;
 			}
 
-			float var10 = MathHelper.clamp_float((float) this.minecartSpeed, 0.0F, 4.0F) / 4.0F;
+			float var10 = MathHelper.clamp_float((float) this.minecartSpeed,
+					0.0F, 4.0F) / 4.0F;
 			this.minecartRideSoundVolume = 0.0F + var10 * 0.75F;
 			var10 = MathHelper.clamp_float(var10 * 2.0F, 0.0F, 1.0F);
 			this.minecartMoveSoundVolume = 0.0F + var10 * 6.7F;
 
-			if (this.entity.posY > 1000)
-			{
+			if (this.entity.posY > 1000) {
 				this.minecartMoveSoundVolume = 0F;
 				this.minecartRideSoundVolume = 0F;
 			}
-		}
-		else if (var4)
-		{
+		} else if (var4) {
 			this.minecartMoveSoundVolume = 0.0F;
 			this.minecartSoundPitch = 0.0F;
 			this.minecartRideSoundVolume = 0.0F;
 		}
 
-		if (!this.silent)
-		{
-			if (this.minecartSoundPitch != var6)
-			{
-				this.theSoundManager.setEntitySoundPitch(this.entity, this.minecartSoundPitch);
+		if (!this.silent) {
+			if (this.minecartSoundPitch != var6) {
+				this.theSoundManager.setEntitySoundPitch(this.entity,
+						this.minecartSoundPitch);
 			}
 
-			if (this.minecartMoveSoundVolume != var5)
-			{
-				this.theSoundManager.setEntitySoundVolume(this.entity, this.minecartMoveSoundVolume);
+			if (this.minecartMoveSoundVolume != var5) {
+				this.theSoundManager.setEntitySoundVolume(this.entity,
+						this.minecartMoveSoundVolume);
 			}
 
-			if (this.minecartRideSoundVolume != var7)
-			{
-				this.theSoundManager.setEntitySoundVolume(this.thePlayer, this.minecartRideSoundVolume);
+			if (this.minecartRideSoundVolume != var7) {
+				this.theSoundManager.setEntitySoundVolume(this.thePlayer,
+						this.minecartRideSoundVolume);
 			}
 		}
 
-		if (!var1)
-		{
+		if (!var1) {
 			this.theSoundManager.updateSoundLocation(this.entity);
 
-			if (this.playerSPRidingMinecart)
-			{
-				this.theSoundManager.updateSoundLocation(this.thePlayer, this.entity);
+			if (this.playerSPRidingMinecart) {
+				this.theSoundManager.updateSoundLocation(this.thePlayer,
+						this.entity);
 			}
 		}
 	}

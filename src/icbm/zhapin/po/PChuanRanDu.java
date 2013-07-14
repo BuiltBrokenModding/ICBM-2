@@ -15,61 +15,63 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import universalelectricity.core.vector.Vector3;
 
-public class PChuanRanDu extends PICBM
-{
+public class PChuanRanDu extends PICBM {
 	public static PChuanRanDu INSTANCE;
 
-	public PChuanRanDu(int id, boolean isBadEffect, int color, String name)
-	{
+	public PChuanRanDu(int id, boolean isBadEffect, int color, String name) {
 		super(id, isBadEffect, color, name);
 		this.setIconIndex(6, 0);
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityLiving, int amplifier)
-	{
-		if (!(entityLiving instanceof EntityZombie) && !(entityLiving instanceof EntityPigZombie))
-		{
+	public void performEffect(EntityLivingBase entityLiving, int amplifier) {
+		if (!(entityLiving instanceof EntityZombie)
+				&& !(entityLiving instanceof EntityPigZombie)) {
 			entityLiving.attackEntityFrom(DamageSource.magic, 1);
 		}
 
-		if (entityLiving.worldObj.rand.nextFloat() > 0.8)
-		{
+		if (entityLiving.worldObj.rand.nextFloat() > 0.8) {
 			// Poison things around it
-			if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ExplosiveType.ALL, ZhaPin.duQi))
-			{
+			if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(
+					entityLiving), ExplosiveType.ALL, ZhaPin.duQi)) {
 				int r = 13;
-				AxisAlignedBB entitySurroundings = AxisAlignedBB.getBoundingBox(entityLiving.posX - r, entityLiving.posY - r, entityLiving.posZ - r, entityLiving.posX + r, entityLiving.posY + r, entityLiving.posZ + r);
-				List<EntityLivingBase> entities = entityLiving.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, entitySurroundings);
+				AxisAlignedBB entitySurroundings = AxisAlignedBB
+						.getBoundingBox(entityLiving.posX - r,
+								entityLiving.posY - r, entityLiving.posZ - r,
+								entityLiving.posX + r, entityLiving.posY + r,
+								entityLiving.posZ + r);
+				List<EntityLivingBase> entities = entityLiving.worldObj
+						.getEntitiesWithinAABB(EntityLivingBase.class,
+								entitySurroundings);
 
-				for (EntityLivingBase entity : entities)
-				{
-					if (entity != null && entity != entityLiving)
-					{
-						if (entity instanceof EntityPig)
-						{
-							EntityPigZombie newEntity = new EntityPigZombie(entity.worldObj);
-							newEntity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+				for (EntityLivingBase entity : entities) {
+					if (entity != null && entity != entityLiving) {
+						if (entity instanceof EntityPig) {
+							EntityPigZombie newEntity = new EntityPigZombie(
+									entity.worldObj);
+							newEntity.setLocationAndAngles(entity.posX,
+									entity.posY, entity.posZ,
+									entity.rotationYaw, entity.rotationPitch);
 
-							if (!entity.worldObj.isRemote)
-							{
+							if (!entity.worldObj.isRemote) {
 								entity.worldObj.spawnEntityInWorld(newEntity);
 							}
 							entity.setDead();
-						}
-						else if (entity instanceof EntityVillager)
-						{
-							EntityZombie newEntity = new EntityZombie(entity.worldObj);
-							newEntity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+						} else if (entity instanceof EntityVillager) {
+							EntityZombie newEntity = new EntityZombie(
+									entity.worldObj);
+							newEntity.setLocationAndAngles(entity.posX,
+									entity.posY, entity.posZ,
+									entity.rotationYaw, entity.rotationPitch);
 							newEntity.setVillager(true);
-							if (!entity.worldObj.isRemote)
-							{
+							if (!entity.worldObj.isRemote) {
 								entity.worldObj.spawnEntityInWorld(newEntity);
 							}
 							entity.setDead();
 						}
 
-						ZhuYaoZhaPin.DU_CHUAN_RAN.poisonEntity(new Vector3(entity), entity);
+						ZhuYaoZhaPin.DU_CHUAN_RAN.poisonEntity(new Vector3(
+								entity), entity);
 					}
 				}
 			}
@@ -77,10 +79,8 @@ public class PChuanRanDu extends PICBM
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier)
-	{
-		if (duration % (20 * 2) == 0)
-		{
+	public boolean isReady(int duration, int amplifier) {
+		if (duration % (20 * 2) == 0) {
 			return true;
 		}
 
