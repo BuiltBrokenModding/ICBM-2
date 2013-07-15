@@ -5,13 +5,12 @@ import universalelectricity.core.block.IElectricalStorage;
 import universalelectricity.core.vector.Vector3;
 
 /**
- * Applied to all launcher TileEntitiies that operates the launching of
- * missiles.
+ * Applied to all launcher TileEntitiies that operates the launching of missiles.
  * 
  * @author Calclavia
  */
-public interface ILauncherController extends IElectricalStorage,
-		IBlockFrequency {
+public interface ILauncherController extends IElectricalStorage, IBlockFrequency
+{
 	/**
 	 * What type of launcher is this?
 	 */
@@ -38,8 +37,7 @@ public interface ILauncherController extends IElectricalStorage,
 	public Vector3 getTarget();
 
 	/**
-	 * @param target
-	 *            Sets the target of the launcher
+	 * @param target Sets the target of the launcher
 	 */
 	public void setTarget(Vector3 target);
 

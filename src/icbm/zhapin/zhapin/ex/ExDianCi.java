@@ -12,29 +12,28 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.prefab.RecipeHelper;
 import calclavia.lib.UniversalRecipes;
 
-public class ExDianCi extends DaoDan {
-	public ExDianCi(String mingZi, int tier) {
+public class ExDianCi extends DaoDan
+{
+	public ExDianCi(String mingZi, int tier)
+	{
 		super(mingZi, tier);
 	}
 
 	@Override
-	public void doCreateExplosion(World world, double x, double y, double z,
-			Entity entity) {
-		new BzDianCi(world, entity, x, y, z, 50).setEffectBlocks()
-				.setEffectEntities().explode();
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		new BzDianCi(world, entity, x, y, z, 50).setEffectBlocks().setEffectEntities().explode();
 	}
 
 	@Override
-	public void init() {
-		RecipeHelper.addRecipe(
-				new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR",
-						"BTB", "RBR", 'T', tui.getItemStack(), 'R',
-						Block.blockRedstone, 'B', UniversalRecipes.BATTERY }),
-				this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+	public void init()
+	{
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Block.blockRedstone, 'B', UniversalRecipes.BATTERY }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override
-	public MICBM getMuoXing() {
+	public MICBM getMuoXing()
+	{
 		return new MMDianCi();
 	}
 }

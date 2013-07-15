@@ -5,12 +5,13 @@ import icbm.gangshao.access.UserAccess;
 
 import java.util.List;
 
-public interface ISpecialAccess {
+public interface ISpecialAccess
+{
 	/**
 	 * Gets the player's access level on the machine he is using
 	 * 
-	 * @return access level of the player, make sure to return no access if the
-	 *         player doesn't have any
+	 * @return access level of the player, make sure to return no access if the player doesn't have
+	 * any
 	 */
 	public AccessLevel getUserAccess(String username);
 
@@ -27,8 +28,7 @@ public interface ISpecialAccess {
 	 * @param player
 	 * @return true if the level was set false if something went wrong
 	 */
-	public boolean addUserAccess(String username, AccessLevel level,
-			boolean save);
+	public boolean addUserAccess(String username, AccessLevel level, boolean save);
 
 	/**
 	 * Removes the user from the access list

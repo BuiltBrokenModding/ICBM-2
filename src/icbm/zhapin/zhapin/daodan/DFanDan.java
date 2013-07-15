@@ -16,27 +16,32 @@ import universalelectricity.core.vector.Vector3;
  * @author Calclavia
  * 
  */
-public class DFanDan extends DaoDanTeBie {
+public class DFanDan extends DaoDanTeBie
+{
 	public static final int ABMRange = 30;
 
-	public DFanDan(String mingZi, int tier) {
+	public DFanDan(String mingZi, int tier)
+	{
 		super(mingZi, tier);
 		this.hasBlock = false;
 	}
 
 	@Override
-	public void update(EDaoDan missileObj) {
-		if (missileObj.lockedTarget != null) {
+	public void update(EDaoDan missileObj)
+	{
+		if (missileObj.lockedTarget != null)
+		{
 			Vector3 guJiDiDian = new Vector3(missileObj.lockedTarget);
 
-			if (missileObj.lockedTarget.isDead) {
+			if (missileObj.lockedTarget.isDead)
+			{
 				missileObj.explode();
 				return;
 			}
 
-			if (missileObj.lockedTarget instanceof IMissileLockable) {
-				guJiDiDian = ((IMissileLockable) missileObj.lockedTarget)
-						.getPredictedPosition(4);
+			if (missileObj.lockedTarget instanceof IMissileLockable)
+			{
+				guJiDiDian = ((IMissileLockable) missileObj.lockedTarget).getPredictedPosition(4);
 			}
 
 			missileObj.motionX = (guJiDiDian.x - missileObj.posX) * (0.3F);
@@ -46,47 +51,47 @@ public class DFanDan extends DaoDanTeBie {
 			return;
 		}
 
-		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(missileObj.posX
-				- ABMRange, missileObj.posY - ABMRange, missileObj.posZ
-				- ABMRange, missileObj.posX + ABMRange, missileObj.posY
-				+ ABMRange, missileObj.posZ + ABMRange);
+		AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(missileObj.posX - ABMRange, missileObj.posY - ABMRange, missileObj.posZ - ABMRange, missileObj.posX + ABMRange, missileObj.posY + ABMRange, missileObj.posZ + ABMRange);
 		// TODO: Check if this works.
-		Entity nearestEntity = missileObj.worldObj.findNearestEntityWithinAABB(
-				IMissileLockable.class, bounds, missileObj);
+		Entity nearestEntity = missileObj.worldObj.findNearestEntityWithinAABB(IMissileLockable.class, bounds, missileObj);
 
-		if (nearestEntity instanceof IMissileLockable) {
-			if (((IMissileLockable) nearestEntity).canLock(missileObj)) {
+		if (nearestEntity instanceof IMissileLockable)
+		{
+			if (((IMissileLockable) nearestEntity).canLock(missileObj))
+			{
 				// Lock target onto missileObj missile
 				missileObj.lockedTarget = nearestEntity;
 				missileObj.didTargetLockBefore = true;
-				missileObj.worldObj.playSoundAtEntity(missileObj,
-						ZhuYaoICBM.PREFIX + "targetlocked", 5F, 0.9F);
+				missileObj.worldObj.playSoundAtEntity(missileObj, ZhuYaoICBM.PREFIX + "targetlocked", 5F, 0.9F);
 			}
-		} else {
-			missileObj.motionX = missileObj.xXiangCha
-					/ missileObj.feiXingShiJian;
-			missileObj.motionZ = missileObj.zXiangCha
-					/ missileObj.feiXingShiJian;
+		}
+		else
+		{
+			missileObj.motionX = missileObj.xXiangCha / missileObj.feiXingShiJian;
+			missileObj.motionZ = missileObj.zXiangCha / missileObj.feiXingShiJian;
 
-			if (missileObj.didTargetLockBefore == true) {
+			if (missileObj.didTargetLockBefore == true)
+			{
 				missileObj.explode();
 			}
 		}
 	}
 
 	@Override
-	public boolean isCruise() {
+	public boolean isCruise()
+	{
 		return true;
 	}
 
 	@Override
-	public void doCreateExplosion(World world, double x, double y, double z,
-			Entity entity) {
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+	{
 		new BzYaSuo(world, entity, x, y, z, 6).setDestroyItems().explode();
 	}
 
 	@Override
-	public MICBM getMuoXing() {
+	public MICBM getMuoXing()
+	{
 		return new MMFanDan();
 	}
 }

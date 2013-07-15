@@ -3,7 +3,8 @@ package icbm.gangshao.muoxing;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class ModelAATurret extends ModelBase {
+public class ModelAATurret extends ModelBase
+{
 	// fields
 	ModelRenderer rot1;
 	ModelRenderer radarNeck;
@@ -43,7 +44,8 @@ public class ModelAATurret extends ModelBase {
 	ModelRenderer cannonBarrelCoupleLeft;
 	ModelRenderer cannonBarrelTopLeft;
 
-	public ModelAATurret() {
+	public ModelAATurret()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -272,7 +274,8 @@ public class ModelAATurret extends ModelBase {
 		setRotation(cannonBarrelTopLeft, -0.6108652F, 0F, 0F);
 	}
 
-	public void render(float f5) {
+	public void render(float f5)
+	{
 		rot1.render(f5);
 		radarNeck.render(f5);
 		radarBase.render(f5);
@@ -312,7 +315,8 @@ public class ModelAATurret extends ModelBase {
 		cannonBarrelTopLeft.render(f5);
 	}
 
-	public void renderBody(float f5) {
+	public void renderBody(float f5)
+	{
 		rot1.render(f5);
 		baseEdge4.render(f5);
 		base.render(f5);
@@ -331,31 +335,30 @@ public class ModelAATurret extends ModelBase {
 
 	}
 
-	public void renderCannon(float f5, float rot) {
-		ModelRenderer[] cannon = { cannonRight, cannonFaceRight,
-				cannonBarrelTopRight, cannonBarrelBotRight, cannonCapTopRight,
-				cannonCapBotRight, cannonInFaceRight, cannonBarrelCouple,
-				cannonBarrelNeck, cannonCapBotLeft, cannonCapTopLeft,
-				cannonFaceLeft, cannonLeft, cannonInFaceLeft,
-				cannonBarrelNeckLeft, cannonBarrelBotLeft,
-				cannonBarrelCoupleLeft, cannonBarrelTopLeft };
+	public void renderCannon(float f5, float rot)
+	{
+		ModelRenderer[] cannon = { cannonRight, cannonFaceRight, cannonBarrelTopRight, cannonBarrelBotRight, cannonCapTopRight, cannonCapBotRight, cannonInFaceRight, cannonBarrelCouple, cannonBarrelNeck, cannonCapBotLeft, cannonCapTopLeft, cannonFaceLeft, cannonLeft, cannonInFaceLeft, cannonBarrelNeckLeft, cannonBarrelBotLeft, cannonBarrelCoupleLeft, cannonBarrelTopLeft };
 
-		for (int i = 0; i < cannon.length; i++) {
+		for (int i = 0; i < cannon.length; i++)
+		{
 			cannon[i].rotateAngleX = rot;
 		}
-		for (int i = 0; i < cannon.length; i++) {
+		for (int i = 0; i < cannon.length; i++)
+		{
 			cannon[i].render(f5);
 		}
 	}
 
-	public void renderRadar(float f5) {
+	public void renderRadar(float f5)
+	{
 		radarNeck.render(f5);
 		radarBack.render(f5);
 		radarRight.render(f5);
 		radarLeft.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

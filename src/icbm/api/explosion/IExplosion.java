@@ -6,7 +6,8 @@ package icbm.api.explosion;
  * @author Calclavia
  * 
  */
-public interface IExplosion {
+public interface IExplosion
+{
 	/**
 	 * Called to initiate the explosion.
 	 */
@@ -18,8 +19,8 @@ public interface IExplosion {
 	public float getRadius();
 
 	/**
-	 * @return The energy emitted by this explosive. In Joules and approximately
-	 *         based off of a real life equivalent.
+	 * @return The energy emitted by this explosive. In Joules and approximately based off of a real
+	 * life equivalent.
 	 */
 	public float getEnergy();
 }

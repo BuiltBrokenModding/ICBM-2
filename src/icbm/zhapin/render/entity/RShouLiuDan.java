@@ -17,29 +17,29 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RShouLiuDan extends Render {
+public class RShouLiuDan extends Render
+{
 	@Override
-	public void doRender(Entity entity, double x, double y, double z,
-			float par8, float par9) {
+	public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
+	{
 		/**
 		 * Renders the grenade based on the explosive ID.
 		 */
-		Icon icon = ZhuYaoZhaPin.itShouLiuDan
-				.getIconFromDamage(((EShouLiuDan) entity).haoMa);
+		Icon icon = ZhuYaoZhaPin.itShouLiuDan.getIconFromDamage(((EShouLiuDan) entity).haoMa);
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y + 0.4f, (float) z);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(0.6F, 0.6F, 0.6F);
-		CalclaviaRenderHelper.setSpriteTexture(new ItemStack(
-				ZhuYaoZhaPin.itShouLiuDan));
+		CalclaviaRenderHelper.setSpriteTexture(new ItemStack(ZhuYaoZhaPin.itShouLiuDan));
 		Tessellator tessellator = Tessellator.instance;
 		this.renderIcon(tessellator, icon);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glPopMatrix();
 	}
 
-	private void renderIcon(Tessellator par1Tessellator, Icon icon) {
+	private void renderIcon(Tessellator par1Tessellator, Icon icon)
+	{
 		float f = icon.getMinU();
 		float f1 = icon.getMaxU();
 		float f2 = icon.getMinV();
@@ -47,8 +47,7 @@ public class RShouLiuDan extends Render {
 		float f4 = 1.0F;
 		float f5 = 0.5F;
 		float f6 = 0.25F;
-		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F,
-				0.0F);
+		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 		par1Tessellator.startDrawingQuads();
 		par1Tessellator.setNormal(0.0F, 1.0F, 0.0F);
@@ -60,7 +59,8 @@ public class RShouLiuDan extends Render {
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+	protected ResourceLocation func_110775_a(Entity entity)
+	{
 		return null;
 	}
 }

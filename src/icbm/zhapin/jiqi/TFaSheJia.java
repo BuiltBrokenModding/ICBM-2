@@ -27,43 +27,46 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver,
-		ITier, IMultiBlock, IRotatable {
+public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, ITier, IMultiBlock, IRotatable
+{
 	// The tier of this screen
 	private int tier = 0;
 
 	private byte orientation = 3;
 
 	@Override
-	public void handlePacketData(INetworkManager network, int packetType,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		try {
+	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	{
+		try
+		{
 			this.orientation = dataStream.readByte();
 			this.tier = dataStream.readInt();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this,
-				this.orientation, this.getTier());
+	public Packet getDescriptionPacket()
+	{
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, this.orientation, this.getTier());
 	}
 
 	/**
-	 * Gets the inaccuracy of the missile based on the launcher support frame's
-	 * tier
+	 * Gets the inaccuracy of the missile based on the launcher support frame's tier
 	 */
-	public int getInaccuracy() {
-		switch (this.tier) {
-		default:
-			return 15;
-		case 1:
-			return 7;
-		case 2:
-			return 0;
+	public int getInaccuracy()
+	{
+		switch (this.tier)
+		{
+			default:
+				return 15;
+			case 1:
+				return 7;
+			case 2:
+				return 0;
 		}
 	}
 
@@ -73,7 +76,8 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver,
 	 * @return True if you want updateEntity() to be called, false if not
 	 */
 	@Override
-	public boolean canUpdate() {
+	public boolean canUpdate()
+	{
 		return false;
 	}
 
@@ -81,7 +85,8 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver,
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	{
 		super.readFromNBT(par1NBTTagCompound);
 		this.tier = par1NBTTagCompound.getInteger("tier");
 	}
@@ -90,61 +95,62 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver,
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	{
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("tier", this.tier);
 	}
 
 	@Override
-	public int getTier() {
+	public int getTier()
+	{
 		return this.tier;
 	}
 
 	@Override
-	public void setTier(int tier) {
+	public void setTier(int tier)
+	{
 		this.tier = tier;
 	}
 
 	@Override
-	public void onDestroy(TileEntity callingBlock) {
+	public void onDestroy(TileEntity callingBlock)
+	{
 		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0,
-				2);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, 0, 0,
-				2);
+		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
+		this.worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, 0, 0, 2);
 	}
 
 	@Override
-	public boolean onActivated(EntityPlayer par5EntityPlayer) {
+	public boolean onActivated(EntityPlayer par5EntityPlayer)
+	{
 		return false;
 	}
 
 	@Override
-	public void onCreate(Vector3 position) {
-		this.worldObj.setBlock(position.intX(), position.intY() + 1,
-				position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(
-				position.intX(), position.intY() + 1, position.intZ()))
-				.setMainBlock(position);
-		this.worldObj.setBlock(position.intX(), position.intY() + 2,
-				position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(
-				position.intX(), position.intY() + 2, position.intZ()))
-				.setMainBlock(position);
+	public void onCreate(Vector3 position)
+	{
+		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
+		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
+		this.worldObj.setBlock(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
+		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
 	}
 
 	@Override
-	public ForgeDirection getDirection() {
+	public ForgeDirection getDirection()
+	{
 		return ForgeDirection.getOrientation(this.orientation);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection) {
+	public void setDirection(ForgeDirection facingDirection)
+	{
 		this.orientation = (byte) facingDirection.ordinal();
 	}
 
 	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
+	public AxisAlignedBB getRenderBoundingBox()
+	{
 		return INFINITE_EXTENT_AABB;
 	}
 }

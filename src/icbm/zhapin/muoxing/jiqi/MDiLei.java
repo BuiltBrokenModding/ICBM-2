@@ -7,7 +7,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MDiLei extends MICBM {
+public class MDiLei extends MICBM
+{
 	public static final MDiLei INSTANCE = new MDiLei();
 
 	// fields
@@ -15,7 +16,8 @@ public class MDiLei extends MICBM {
 	ModelRenderer B;
 	ModelRenderer C;
 
-	public MDiLei() {
+	public MDiLei()
+	{
 		textureWidth = 45;
 		textureHeight = 26;
 
@@ -40,21 +42,23 @@ public class MDiLei extends MICBM {
 	}
 
 	@Override
-	public void render(float f5) {
+	public void render(float f5)
+	{
 		A.render(f5);
 		B.render(f5);
 		C.render(f5);
 	}
 
 	@Override
-	public void render(Entity entity, float x, float y, float z, float f1,
-			float f2, float f3) {
+	public void render(Entity entity, float x, float y, float z, float f1, float f2, float f3)
+	{
 		super.render(entity, x, y, z, f1, f2, f3);
 		this.setRotationAngles(x, y, z, f1, f2, f3, entity);
 		this.render(f3);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

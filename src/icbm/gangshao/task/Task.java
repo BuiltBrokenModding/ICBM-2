@@ -8,7 +8,8 @@ import net.minecraft.world.World;
  * 
  * @author Calclavia
  */
-public abstract class Task {
+public abstract class Task
+{
 	/** The amount of ticks this command has been running for. */
 	protected int ticks = 0;
 
@@ -19,26 +20,28 @@ public abstract class Task {
 	/**
 	 * Called by the TaskManager to propagate tick updates
 	 * 
-	 * @param ticks
-	 *            The amount of ticks this task has been running
+	 * @param ticks The amount of ticks this task has been running
 	 * @return false if the task is finished, true otherwise
 	 */
-	protected boolean onUpdateTask() {
+	protected boolean onUpdateTask()
+	{
 		this.ticks++;
 		return false;
 	}
 
-	public void onTaskStart() {
+	public void onTaskStart()
+	{
 	}
 
-	public void onTaskEnd() {
+	public void onTaskEnd()
+	{
 	}
 
 	/**
-	 * @return The tick interval of this task. 0 means it will receive no update
-	 *         ticks.
+	 * @return The tick interval of this task. 0 means it will receive no update ticks.
 	 */
-	public int getTickInterval() {
+	public int getTickInterval()
+	{
 		return 1;
 	}
 }

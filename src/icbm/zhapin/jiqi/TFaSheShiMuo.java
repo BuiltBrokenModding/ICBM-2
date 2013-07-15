@@ -35,8 +35,8 @@ import cpw.mods.fml.common.network.Player;
  * @author Calclavia
  * 
  */
-public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate,
-		IPacketReceiver, ITier, IRotatable {
+public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketReceiver, ITier, IRotatable
+{
 	// Is the block powered by redstone?
 	private boolean isPowered = false;
 
@@ -54,139 +54,169 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate,
 
 	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
-	public TFaSheShiMuo() {
+	public TFaSheShiMuo()
+	{
 		super();
-		this.electricityHandler = new ElectricityHandler(this,
-				this.getMaxEnergyStored());
+		this.electricityHandler = new ElectricityHandler(this, this.getMaxEnergyStored());
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity()
+	{
 		super.updateEntity();
 
-		if (this.faSheDi == null) {
-			for (byte i = 2; i < 6; i++) {
-				Vector3 position = new Vector3(this.xCoord, this.yCoord,
-						this.zCoord);
-				position.modifyPositionFromSide(ForgeDirection
-						.getOrientation(i));
+		if (this.faSheDi == null)
+		{
+			for (byte i = 2; i < 6; i++)
+			{
+				Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+				position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
 
-				TileEntity tileEntity = this.worldObj.getBlockTileEntity(
-						position.intX(), position.intY(), position.intZ());
+				TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
 
-				if (tileEntity != null) {
-					if (tileEntity instanceof TFaSheDi) {
+				if (tileEntity != null)
+				{
+					if (tileEntity instanceof TFaSheDi)
+					{
 						this.faSheDi = (TFaSheDi) tileEntity;
 						this.fangXiang = i;
 					}
 				}
 			}
-		} else {
-			if (this.faSheDi.isInvalid()) {
+		}
+		else
+		{
+			if (this.faSheDi.isInvalid())
+			{
 				this.faSheDi = null;
 			}
 		}
 
-		if (isPowered) {
+		if (isPowered)
+		{
 			isPowered = false;
 			this.launch();
 		}
 
-		if (!this.worldObj.isRemote) {
-			if (this.ticks % 3 == 0) {
-				if (this.muBiao == null) {
+		if (!this.worldObj.isRemote)
+		{
+			if (this.ticks % 3 == 0)
+			{
+				if (this.muBiao == null)
+				{
 					this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
 				}
 
-				for (EntityPlayer wanJia : this.yongZhe) {
-					PacketDispatcher.sendPacketToPlayer(
-							this.getDescriptionPacket2(), (Player) wanJia);
+				for (EntityPlayer wanJia : this.yongZhe)
+				{
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
 				}
 			}
 
-			if (this.ticks % 600 == 0) {
-				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord,
-						this.zCoord);
+			if (this.ticks % 600 == 0)
+			{
+				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 			}
 		}
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0,
-				this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
+	public Packet getDescriptionPacket()
+	{
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
 	}
 
-	public Packet getDescriptionPacket2() {
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 3,
-				this.getEnergyStored(), this.muBiao.x, this.muBiao.y,
-				this.muBiao.z);
+	public Packet getDescriptionPacket2()
+	{
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 3, this.getEnergyStored(), this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override
-	public void placeMissile(ItemStack itemStack) {
-		if (this.faSheDi != null) {
-			if (!this.faSheDi.isInvalid()) {
+	public void placeMissile(ItemStack itemStack)
+	{
+		if (this.faSheDi != null)
+		{
+			if (!this.faSheDi.isInvalid())
+			{
 				this.faSheDi.setInventorySlotContents(0, itemStack);
 			}
 		}
 	}
 
 	@Override
-	public void handlePacketData(INetworkManager network, int packetType,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		try {
+	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+	{
+		try
+		{
 			final int ID = dataStream.readInt();
 
-			if (ID == -1) {
-				if (dataStream.readBoolean()) {
+			if (ID == -1)
+			{
+				if (dataStream.readBoolean())
+				{
 					this.yongZhe.add(player);
-					PacketManager.sendPacketToClients(this
-							.getDescriptionPacket());
-				} else {
+					PacketManager.sendPacketToClients(this.getDescriptionPacket());
+				}
+				else
+				{
 					this.yongZhe.remove(player);
 				}
-			} else if (ID == 0) {
+			}
+			else if (ID == 0)
+			{
 				this.fangXiang = dataStream.readByte();
 				this.tier = dataStream.readInt();
 				this.setFrequency(dataStream.readInt());
 				this.gaoDu = dataStream.readShort();
-			} else if (!this.worldObj.isRemote) {
-				if (ID == 1) {
+			}
+			else if (!this.worldObj.isRemote)
+			{
+				if (ID == 1)
+				{
 					this.setFrequency(dataStream.readInt());
-				} else if (ID == 2) {
-					this.muBiao = new Vector3(dataStream.readDouble(),
-							dataStream.readDouble(), dataStream.readDouble());
+				}
+				else if (ID == 2)
+				{
+					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 
-					if (this.getTier() < 2) {
+					if (this.getTier() < 2)
+					{
 						this.muBiao.y = 0;
 					}
-				} else if (ID == 3) {
-					this.gaoDu = (short) Math.max(
-							Math.min(dataStream.readShort(), Short.MAX_VALUE),
-							3);
 				}
-			} else if (ID == 3) {
-				if (this.worldObj.isRemote) {
+				else if (ID == 3)
+				{
+					this.gaoDu = (short) Math.max(Math.min(dataStream.readShort(), Short.MAX_VALUE), 3);
+				}
+			}
+			else if (ID == 3)
+			{
+				if (this.worldObj.isRemote)
+				{
 					this.setEnergyStored(dataStream.readFloat());
-					this.muBiao = new Vector3(dataStream.readDouble(),
-							dataStream.readDouble(), dataStream.readDouble());
+					this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 				}
 			}
 
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	// Checks if the missile is launchable
 	@Override
-	public boolean canLaunch() {
-		if (this.faSheDi != null) {
-			if (this.faSheDi.daoDan != null) {
-				if (this.getEnergyStored() >= this.getMaxEnergyStored()) {
-					if (this.faSheDi.isInRange(this.muBiao)) {
+	public boolean canLaunch()
+	{
+		if (this.faSheDi != null)
+		{
+			if (this.faSheDi.daoDan != null)
+			{
+				if (this.getEnergyStored() >= this.getMaxEnergyStored())
+				{
+					if (this.faSheDi.isInRange(this.muBiao))
+					{
 						return true;
 					}
 
@@ -198,12 +228,13 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate,
 	}
 
 	/**
-	 * Calls the missile launcher base to launch it's missile towards a targeted
-	 * location
+	 * Calls the missile launcher base to launch it's missile towards a targeted location
 	 */
 	@Override
-	public void launch() {
-		if (this.canLaunch()) {
+	public void launch()
+	{
+		if (this.canLaunch())
+		{
 			this.setEnergyStored(0);
 			this.faSheDi.launchMissile(this.muBiao.clone(), this.gaoDu);
 		}
@@ -215,23 +246,37 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate,
 	 * @return The string to be displayed
 	 */
 	@Override
-	public String getStatus() {
+	public String getStatus()
+	{
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.faSheDi == null) {
+		if (this.faSheDi == null)
+		{
 			status = "Not connected!";
-		} else if (this.getEnergyStored() < this.getMaxEnergyStored()) {
+		}
+		else if (this.getEnergyStored() < this.getMaxEnergyStored())
+		{
 			status = "Insufficient electricity!";
-		} else if (this.faSheDi.daoDan == null) {
+		}
+		else if (this.faSheDi.daoDan == null)
+		{
 			status = "Missile silo is empty!";
-		} else if (this.muBiao == null) {
+		}
+		else if (this.muBiao == null)
+		{
 			status = "Target is invalid!";
-		} else if (this.faSheDi.shiTaiJin(this.muBiao)) {
+		}
+		else if (this.faSheDi.shiTaiJin(this.muBiao))
+		{
 			status = "Target too close!";
-		} else if (this.faSheDi.shiTaiYuan(this.muBiao)) {
+		}
+		else if (this.faSheDi.shiTaiYuan(this.muBiao))
+		{
 			status = "Target too far!";
-		} else {
+		}
+		else
+		{
 			color = "\u00a72";
 			status = "Ready to launch!";
 		}
@@ -243,7 +288,8 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate,
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	{
 		super.readFromNBT(par1NBTTagCompound);
 
 		this.tier = par1NBTTagCompound.getInteger("tier");
@@ -255,7 +301,8 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate,
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	{
 		super.writeToNBT(par1NBTTagCompound);
 
 		par1NBTTagCompound.setInteger("tier", this.tier);
@@ -264,75 +311,87 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate,
 	}
 
 	@Override
-	public float getVoltage() {
-		switch (this.getTier()) {
-		default:
-			return 120;
-		case 1:
-			return 240;
-		case 2:
-			return 480;
+	public float getVoltage()
+	{
+		switch (this.getTier())
+		{
+			default:
+				return 120;
+			case 1:
+				return 240;
+			case 2:
+				return 480;
 		}
 	}
 
 	@Override
-	public void onPowerOn() {
+	public void onPowerOn()
+	{
 		this.isPowered = true;
 	}
 
 	@Override
-	public void onPowerOff() {
+	public void onPowerOff()
+	{
 		this.isPowered = false;
 	}
 
 	@Override
-	public int getTier() {
+	public int getTier()
+	{
 		return this.tier;
 	}
 
 	@Override
-	public void setTier(int tier) {
+	public void setTier(int tier)
+	{
 		this.tier = tier;
 	}
 
 	@Override
-	public ForgeDirection getDirection() {
+	public ForgeDirection getDirection()
+	{
 		return ForgeDirection.getOrientation(this.fangXiang);
 	}
 
 	@Override
-	public void setDirection(ForgeDirection facingDirection) {
+	public void setDirection(ForgeDirection facingDirection)
+	{
 		this.fangXiang = (byte) facingDirection.ordinal();
 	}
 
 	@Override
-	public float getMaxEnergyStored() {
-		switch (this.getTier()) {
-		case 0:
-			return 400000;
-		case 1:
-			return 60000;
+	public float getMaxEnergyStored()
+	{
+		switch (this.getTier())
+		{
+			case 0:
+				return 400000;
+			case 1:
+				return 60000;
 		}
 
 		return 800000;
 	}
 
 	@Override
-	public boolean onActivated(EntityPlayer entityPlayer) {
-		entityPlayer.openGui(ZhuYaoZhaPin.instance,
-				ZhuYaoICBM.GUI_FA_SHE_SHI_MUO, this.worldObj, this.xCoord,
-				this.yCoord, this.zCoord);
+	public boolean onActivated(EntityPlayer entityPlayer)
+	{
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_FA_SHE_SHI_MUO, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
 	@Override
-	public LauncherType getLauncherType() {
+	public LauncherType getLauncherType()
+	{
 		return LauncherType.TRADITIONAL;
 	}
 
 	@Override
-	public IMissile getMissile() {
-		if (this.faSheDi != null) {
+	public IMissile getMissile()
+	{
+		if (this.faSheDi != null)
+		{
 			return this.faSheDi.getContainingMissile();
 		}
 

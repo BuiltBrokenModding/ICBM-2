@@ -10,7 +10,8 @@ import mffs.api.security.IBiometricIdentifier;
  * @author Calclavia
  * 
  */
-public interface IBiometricIdentifierLink {
+public interface IBiometricIdentifierLink
+{
 	public IBiometricIdentifier getBiometricIdentifier();
 
 	public Set<IBiometricIdentifier> getBiometricIdentifiers();

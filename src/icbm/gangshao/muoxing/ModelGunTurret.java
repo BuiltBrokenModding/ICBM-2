@@ -3,7 +3,8 @@ package icbm.gangshao.muoxing;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class ModelGunTurret extends ModelBase {
+public class ModelGunTurret extends ModelBase
+{
 	// fields
 	ModelRenderer BasePlate;
 	ModelRenderer neck;
@@ -45,7 +46,8 @@ public class ModelGunTurret extends ModelBase {
 	ModelRenderer Shell1Body5;
 	ModelRenderer AmmoCaseT;
 
-	public ModelGunTurret() {
+	public ModelGunTurret()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -286,7 +288,8 @@ public class ModelGunTurret extends ModelBase {
 	}
 
 	/** renders the stationary parts of the model */
-	public void render(float f5) {
+	public void render(float f5)
+	{
 		BasePlate.render(f5);
 	}
 
@@ -295,7 +298,8 @@ public class ModelGunTurret extends ModelBase {
 	 * 
 	 * @param f5
 	 */
-	public void renderBody(float f5) {
+	public void renderBody(float f5)
+	{
 		neck.render(f5);
 		neck2.render(f5);
 		neck3.render(f5);
@@ -309,12 +313,12 @@ public class ModelGunTurret extends ModelBase {
 	}
 
 	/**
-	 * renders the cannon part of the model as well as other parts that move
-	 * with it
+	 * renders the cannon part of the model as well as other parts that move with it
 	 * 
 	 * @param f5
 	 */
-	public void renderCannon(float f5) {
+	public void renderCannon(float f5)
+	{
 		CannonBackStoper.render(f5);
 		CannonBarrelBrace.render(f5);
 		CannonS1.render(f5);
@@ -345,7 +349,8 @@ public class ModelGunTurret extends ModelBase {
 		AmmoCaseT.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

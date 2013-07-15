@@ -7,7 +7,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MShouFaSheQi extends ModelBase {
+public class MShouFaSheQi extends ModelBase
+{
 	// fields
 	ModelRenderer a;
 	ModelRenderer b;
@@ -31,7 +32,8 @@ public class MShouFaSheQi extends ModelBase {
 	ModelRenderer t;
 	ModelRenderer u;
 
-	public MShouFaSheQi() {
+	public MShouFaSheQi()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -164,8 +166,8 @@ public class MShouFaSheQi extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float x, float y, float z, float f3,
-			float f4, float f5) {
+	public void render(Entity entity, float x, float y, float z, float f3, float f4, float f5)
+	{
 		super.render(entity, x, y, z, f3, f4, f5);
 		this.setRotationAngles(x, y, z, f3, f4, f5, entity);
 		a.render(f5);
@@ -191,7 +193,8 @@ public class MShouFaSheQi extends ModelBase {
 		u.render(f5);
 	}
 
-	public void render(float f5) {
+	public void render(float f5)
+	{
 		a.render(f5);
 		b.render(f5);
 		c.render(f5);
@@ -215,7 +218,8 @@ public class MShouFaSheQi extends ModelBase {
 		u.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

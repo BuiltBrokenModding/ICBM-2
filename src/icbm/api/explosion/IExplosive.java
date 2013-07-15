@@ -10,7 +10,8 @@ import net.minecraft.world.World;
  * @author Calclavia
  * 
  */
-public interface IExplosive extends ITier {
+public interface IExplosive extends ITier
+{
 	/**
 	 * @return Gets the explosive's ID.
 	 */
@@ -22,26 +23,22 @@ public interface IExplosive extends ITier {
 	public String getUnlocalizedName();
 
 	/**
-	 * @return Gets the specific translated name of the block versions of the
-	 *         explosive.
+	 * @return Gets the specific translated name of the block versions of the explosive.
 	 */
 	public String getExplosiveName();
 
 	/**
-	 * @return Gets the specific translated name of the grenade versions of the
-	 *         explosive.
+	 * @return Gets the specific translated name of the grenade versions of the explosive.
 	 */
 	public String getGrenadeName();
 
 	/**
-	 * @return Gets the specific translated name of the missile versions of the
-	 *         explosive.
+	 * @return Gets the specific translated name of the missile versions of the explosive.
 	 */
 	public String getMissileName();
 
 	/**
-	 * @return Gets the specific translated name of the minecart versions of the
-	 *         explosive.
+	 * @return Gets the specific translated name of the minecart versions of the explosive.
 	 */
 	public String getMinecartName();
 
@@ -54,17 +51,11 @@ public interface IExplosive extends ITier {
 	/**
 	 * Creates a new explosion at a given location.
 	 * 
-	 * @param world
-	 *            The world in which the explosion takes place.
-	 * @param x
-	 *            The X-Coord
-	 * @param y
-	 *            The Y-Coord
-	 * @param z
-	 *            The Z-Coord
-	 * @param entity
-	 *            Entity that caused the explosion.
+	 * @param world The world in which the explosion takes place.
+	 * @param x The X-Coord
+	 * @param y The Y-Coord
+	 * @param z The Z-Coord
+	 * @param entity Entity that caused the explosion.
 	 */
-	public void createExplosion(World world, double x, double y, double z,
-			Entity entity);
+	public void createExplosion(World world, double x, double y, double z, Entity entity);
 }

@@ -6,7 +6,8 @@ package icbm.api;
  * @author Calclavia
  * 
  */
-public interface ILauncherContainer {
+public interface ILauncherContainer
+{
 	public IMissile getContainingMissile();
 
 	public void setContainingMissile(IMissile missile);

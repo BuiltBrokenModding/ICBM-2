@@ -6,7 +6,8 @@ package icbm.api;
  * @author Calclavia
  * 
  */
-public interface ITier {
+public interface ITier
+{
 	/**
 	 * Gets the tier of this object
 	 * 
@@ -17,8 +18,7 @@ public interface ITier {
 	/**
 	 * Sets the tier of the object
 	 * 
-	 * @param tier
-	 *            - The tier to be set
+	 * @param tier - The tier to be set
 	 */
 	public void setTier(int tier);
 }

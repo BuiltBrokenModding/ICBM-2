@@ -18,13 +18,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RSuiPian extends Render {
-	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(
-			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "fragment.png");
+public class RSuiPian extends Render
+{
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "fragment.png");
 
-	public void renderArrow(ESuiPian suiPian, double par2, double par4,
-			double par6, float par8, float par9) {
-		if (suiPian.isAnvil) {
+	public void renderArrow(ESuiPian suiPian, double par2, double par4, double par6, float par8, float par9)
+	{
+		if (suiPian.isAnvil)
+		{
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 			CalclaviaRenderHelper.setTerrainTexture();
@@ -35,29 +36,21 @@ public class RSuiPian extends Render {
 			this.renderBlocks.blockAccess = world;
 			Tessellator var12 = Tessellator.instance;
 			var12.startDrawingQuads();
-			var12.setTranslation(
-					(-MathHelper.floor_double(suiPian.posX)) - 0.5F,
-					(-MathHelper.floor_double(suiPian.posY)) - 0.5F,
-					(-MathHelper.floor_double(suiPian.posZ)) - 0.5F);
-			this.renderBlocks.renderBlockByRenderType(block,
-					MathHelper.floor_double(suiPian.posX),
-					MathHelper.floor_double(suiPian.posY),
-					MathHelper.floor_double(suiPian.posZ));
+			var12.setTranslation((-MathHelper.floor_double(suiPian.posX)) - 0.5F, (-MathHelper.floor_double(suiPian.posY)) - 0.5F, (-MathHelper.floor_double(suiPian.posZ)) - 0.5F);
+			this.renderBlocks.renderBlockByRenderType(block, MathHelper.floor_double(suiPian.posX), MathHelper.floor_double(suiPian.posY), MathHelper.floor_double(suiPian.posZ));
 			var12.setTranslation(0.0D, 0.0D, 0.0D);
 			var12.draw();
 
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glPopMatrix();
-		} else {
+		}
+		else
+		{
 			this.func_110776_a(TEXTURE_FILE);
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
-			GL11.glRotatef(suiPian.prevRotationYaw
-					+ (suiPian.rotationYaw - suiPian.prevRotationYaw) * par9
-					- 90.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(suiPian.prevRotationPitch
-					+ (suiPian.rotationPitch - suiPian.prevRotationPitch)
-					* par9, 0.0F, 0.0F, 1.0F);
+			GL11.glRotatef(suiPian.prevRotationYaw + (suiPian.rotationYaw - suiPian.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(suiPian.prevRotationPitch + (suiPian.rotationPitch - suiPian.prevRotationPitch) * par9, 0.0F, 0.0F, 1.0F);
 			Tessellator var10 = Tessellator.instance;
 			byte var11 = 0;
 			float var12 = 0.0F;
@@ -72,7 +65,8 @@ public class RSuiPian extends Render {
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			float var21 = suiPian.arrowShake - par9;
 
-			if (var21 > 0.0F) {
+			if (var21 > 0.0F)
+			{
 				float var22 = -MathHelper.sin(var21 * 3.0F) * var21;
 				GL11.glRotatef(var22, 0.0F, 0.0F, 1.0F);
 			}
@@ -95,7 +89,8 @@ public class RSuiPian extends Render {
 			var10.addVertexWithUV(-7.0D, -2.0D, -2.0D, var16, var19);
 			var10.draw();
 
-			for (int var23 = 0; var23 < 4; ++var23) {
+			for (int var23 = 0; var23 < 4; ++var23)
+			{
 				GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glNormal3f(0.0F, 0.0F, var20);
 				var10.startDrawingQuads();
@@ -112,21 +107,21 @@ public class RSuiPian extends Render {
 	}
 
 	/**
-	 * Actually renders the given argument. This is a synthetic bridge method,
-	 * always casting down its argument and then handing it off to a worker
-	 * function which does the actual work. In all probabilty, the class Render
-	 * is generic (Render<T extends Entity) and this method has signature public
-	 * void doRender(T entity, double d, double d1, double d2, float f, float
-	 * f1). But JAD is pre 1.5 so doesn't do that.
+	 * Actually renders the given argument. This is a synthetic bridge method, always casting down
+	 * its argument and then handing it off to a worker function which does the actual work. In all
+	 * probabilty, the class Render is generic (Render<T extends Entity) and this method has
+	 * signature public void doRender(T entity, double d, double d1, double d2, float f, float f1).
+	 * But JAD is pre 1.5 so doesn't do that.
 	 */
 	@Override
-	public void doRender(Entity par1Entity, double par2, double par4,
-			double par6, float par8, float par9) {
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	{
 		this.renderArrow((ESuiPian) par1Entity, par2, par4, par6, par8, par9);
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+	protected ResourceLocation func_110775_a(Entity entity)
+	{
 		return null;
 	}
 }

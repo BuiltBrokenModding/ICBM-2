@@ -6,7 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public abstract class ThrEx extends Thread {
+public abstract class ThrEx extends Thread
+{
 	public World world;
 	public final Vector3 position;
 	public int banJing;
@@ -18,8 +19,8 @@ public abstract class ThrEx extends Thread {
 	public final HashSet<Vector3> deltaSet = new HashSet<Vector3>();
 	public final HashSet<Vector3> results = new HashSet<Vector3>();
 
-	public ThrEx(World world, Vector3 position, int banJing, float nengLiang,
-			Entity source) {
+	public ThrEx(World world, Vector3 position, int banJing, float nengLiang, Entity source)
+	{
 		this.world = world;
 		this.position = position;
 		this.banJing = banJing;
@@ -29,7 +30,8 @@ public abstract class ThrEx extends Thread {
 	}
 
 	@Override
-	public void run() {
+	public void run()
+	{
 		this.isComplete = true;
 	}
 }

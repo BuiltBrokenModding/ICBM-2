@@ -6,15 +6,16 @@ import universalelectricity.core.vector.Vector3;
 /**
  * Applied to all turret TileEntities.
  */
-public interface ISentry {
+public interface ISentry
+{
 	/**
 	 * Set the sentry guns new rotation. This will be updated over time.
 	 */
 	public void setRotation(float yaw, float pitch);
 
 	/**
-	 * Gets the offset of the barrel from its actual location. Needs to be based
-	 * off or current rotation of barrel for best results
+	 * Gets the offset of the barrel from its actual location. Needs to be based off or current
+	 * rotation of barrel for best results
 	 */
 	public Vector3 getMuzzle();
 

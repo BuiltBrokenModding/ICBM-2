@@ -6,6 +6,7 @@ package icbm.api;
  * @author Calclavia
  * 
  */
-public enum LauncherType {
+public enum LauncherType
+{
 	TRADITIONAL, CRUISE
 }

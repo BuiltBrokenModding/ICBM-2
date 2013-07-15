@@ -13,11 +13,13 @@ import universalelectricity.prefab.block.BlockTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BICBM extends BlockTile {
+public class BICBM extends BlockTile
+{
 	protected Icon iconTop, iconSide, iconBottom;
 	protected boolean requireSidedTextures = false;
 
-	public BICBM(int id, String name, Material material) {
+	public BICBM(int id, String name, Material material)
+	{
 		super(SheDing.CONFIGURATION.getBlock(name, id).getInt(id), material);
 		this.setUnlocalizedName(ZhuYaoICBM.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
@@ -25,22 +27,22 @@ public class BICBM extends BlockTile {
 	}
 
 	@Override
-	public int damageDropped(int metadata) {
+	public int damageDropped(int metadata)
+	{
 		return metadata;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerIcons(IconRegister iconRegister)
+	{
 		super.registerIcons(iconRegister);
 
-		if (this.requireSidedTextures) {
-			this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName()
-					.replace("tile.", "") + "_top");
-			this.iconSide = iconRegister.registerIcon(this.getUnlocalizedName()
-					.replace("tile.", "") + "_side");
-			this.iconBottom = iconRegister.registerIcon(this
-					.getUnlocalizedName().replace("tile.", "") + "_bottom");
+		if (this.requireSidedTextures)
+		{
+			this.iconTop = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_top");
+			this.iconSide = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_side");
+			this.iconBottom = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "_bottom");
 		}
 	}
 
@@ -48,13 +50,13 @@ public class BICBM extends BlockTile {
 	 * Is this block powering the block on the specified side
 	 */
 	@Override
-	public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x,
-			int y, int z, int side) {
+	public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IRedstoneProvider) {
-			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection
-					.getOrientation(side)) ? 15 : 0;
+		if (tileEntity instanceof IRedstoneProvider)
+		{
+			return ((IRedstoneProvider) tileEntity).isPoweringTo(ForgeDirection.getOrientation(side)) ? 15 : 0;
 		}
 
 		return 0;
@@ -64,14 +66,13 @@ public class BICBM extends BlockTile {
 	 * Is this block indirectly powering the block on the specified side
 	 */
 	@Override
-	public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x,
-			int y, int z, int side) {
+	public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+	{
 		TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof IRedstoneProvider) {
-			return ((IRedstoneProvider) tileEntity)
-					.isIndirectlyPoweringTo(ForgeDirection.getOrientation(side)) ? 15
-					: 0;
+		if (tileEntity instanceof IRedstoneProvider)
+		{
+			return ((IRedstoneProvider) tileEntity).isIndirectlyPoweringTo(ForgeDirection.getOrientation(side)) ? 15 : 0;
 		}
 
 		return 0;

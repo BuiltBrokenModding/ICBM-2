@@ -15,19 +15,22 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemAmmo extends ItICBM implements IAmmunition {
-	public static enum AmmoType {
-		SHELL("bulletShell", ProjectileType.UNKNOWN, true), BULLET("bullet",
-				ProjectileType.CONVENTIONAL, true), BULLETRAIL("bulletRailgun",
-				ProjectileType.RAILGUN, true), BULLETANTI("bulletAntimatter",
-				ProjectileType.RAILGUN, true), BULLETINF("bulletInfinite",
-				ProjectileType.CONVENTIONAL, false);
+public class ItemAmmo extends ItICBM implements IAmmunition
+{
+	public static enum AmmoType
+	{
+		SHELL("bulletShell", ProjectileType.UNKNOWN, true),
+		BULLET("bullet", ProjectileType.CONVENTIONAL, true),
+		BULLETRAIL("bulletRailgun", ProjectileType.RAILGUN, true),
+		BULLETANTI("bulletAntimatter", ProjectileType.RAILGUN, true),
+		BULLETINF("bulletInfinite", ProjectileType.CONVENTIONAL, false);
 
 		public String iconName;
 		public ProjectileType type;
 		public boolean consume;
 
-		private AmmoType(String iconName, ProjectileType type, boolean consume) {
+		private AmmoType(String iconName, ProjectileType type, boolean consume)
+		{
 			this.iconName = iconName;
 			this.type = type;
 			this.consume = consume;
@@ -36,40 +39,46 @@ public class ItemAmmo extends ItICBM implements IAmmunition {
 
 	public static final Icon[] ICONS = new Icon[AmmoType.values().length];
 
-	public ItemAmmo(int id) {
+	public ItemAmmo(int id)
+	{
 		super(id, "ammunition");
 		this.setMaxDamage(0);
 		this.setHasSubtypes(true);
 	}
 
 	@Override
-	public int getMetadata(int damage) {
+	public int getMetadata(int damage)
+	{
 		return damage;
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack itemStack) {
-		return "item." + ZhuYaoICBM.PREFIX
-				+ AmmoType.values()[itemStack.getItemDamage()].iconName;
+	public String getUnlocalizedName(ItemStack itemStack)
+	{
+		return "item." + ZhuYaoICBM.PREFIX + AmmoType.values()[itemStack.getItemDamage()].iconName;
 	}
 
 	@Override
-	public Icon getIconFromDamage(int i) {
+	public Icon getIconFromDamage(int i)
+	{
 		return ICONS[i];
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerIcons(IconRegister iconRegister) {
-		for (int i = 0; i < AmmoType.values().length; i++) {
-			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX
-					+ AmmoType.values()[i].iconName);
+	public void registerIcons(IconRegister iconRegister)
+	{
+		for (int i = 0; i < AmmoType.values().length; i++)
+		{
+			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + AmmoType.values()[i].iconName);
 		}
 	}
 
 	@Override
-	public ProjectileType getType(ItemStack itemStack) {
-		if (itemStack.getItemDamage() < AmmoType.values().length) {
+	public ProjectileType getType(ItemStack itemStack)
+	{
+		if (itemStack.getItemDamage() < AmmoType.values().length)
+		{
 			return AmmoType.values()[itemStack.getItemDamage()].type;
 		}
 
@@ -77,22 +86,26 @@ public class ItemAmmo extends ItICBM implements IAmmunition {
 	}
 
 	@Override
-	public boolean canDrop(int meta) {
-		if (meta == AmmoType.BULLETINF.ordinal()) {
+	public boolean canDrop(int meta)
+	{
+		if (meta == AmmoType.BULLETINF.ordinal())
+		{
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public ItemStack onDroppedIntoWorld(ItemStack stack) {
+	public ItemStack onDroppedIntoWorld(ItemStack stack)
+	{
 		return stack;
 	}
 
 	@Override
-	public int getEntityLifespan(ItemStack itemStack, World world) {
-		if (itemStack != null
-				&& itemStack.getItemDamage() == AmmoType.BULLETINF.ordinal()) {
+	public int getEntityLifespan(ItemStack itemStack, World world)
+	{
+		if (itemStack != null && itemStack.getItemDamage() == AmmoType.BULLETINF.ordinal())
+		{
 			return 40;
 		}
 		return super.getEntityLifespan(itemStack, world);
@@ -100,15 +113,17 @@ public class ItemAmmo extends ItICBM implements IAmmunition {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void getSubItems(int par1, CreativeTabs par2CreativeTabs,
-			List par3List) {
-		for (int i = 0; i < AmmoType.values().length; i++) {
+	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+	{
+		for (int i = 0; i < AmmoType.values().length; i++)
+		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
 	}
 
 	@Override
-	public int getDamage() {
+	public int getDamage()
+	{
 		return 8;
 	}
 }

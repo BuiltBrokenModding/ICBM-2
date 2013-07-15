@@ -13,7 +13,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelTurretMed extends ModelBase {
+public class ModelTurretMed extends ModelBase
+{
 	// fields
 
 	ModelRenderer Center;
@@ -38,7 +39,8 @@ public class ModelTurretMed extends ModelBase {
 	ModelRenderer BarrelBrace;
 	ModelRenderer BarrelCap;
 
-	public ModelTurretMed() {
+	public ModelTurretMed()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -171,8 +173,8 @@ public class ModelTurretMed extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity par1Entity, float f, float f1, float f2,
-			float f3, float f4, float f5) {
+	public void render(Entity par1Entity, float f, float f1, float f2, float f3, float f4, float f5)
+	{
 		this.setRotationAngles(f, f1, f2, f3, f4, f5);
 
 		// Turret
@@ -184,7 +186,8 @@ public class ModelTurretMed extends ModelBase {
 		BarrelCap.render(f5);
 	}
 
-	public void renderLegs(float f5) {
+	public void renderLegs(float f5)
+	{
 		// turret stand
 		FRBrace.render(f5);
 		BRBrace.render(f5);
@@ -203,18 +206,18 @@ public class ModelTurretMed extends ModelBase {
 		Center2.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
 
-	public void setRotationAngles(float par1, float par2, float par3,
-			float par4, float par5, float par6) {
-		ModelRenderer[] Body = { Center, FRBrace, BRBrace, FLBrace, BLBrace,
-				FLBrace2, FLBrace3, FRBrace2, FRBrace3, BRBrace2, BRBrace3,
-				BLBrace3, BLBrace2, neck };
-		for (int i = 0; i < Body.length; i++) {
+	public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6)
+	{
+		ModelRenderer[] Body = { Center, FRBrace, BRBrace, FLBrace, BLBrace, FLBrace2, FLBrace3, FRBrace2, FRBrace3, BRBrace2, BRBrace3, BLBrace3, BLBrace2, neck };
+		for (int i = 0; i < Body.length; i++)
+		{
 			// Body[i].rotateAngleY -= par4 / (180F / (float)Math.PI);
 			// TODO correct rotation to not move
 		}

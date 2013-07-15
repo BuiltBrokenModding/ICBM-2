@@ -3,7 +3,8 @@ package icbm.gangshao.muoxing;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class MLeiShe extends ModelBase {
+public class MLeiShe extends ModelBase
+{
 	// fields
 	ModelRenderer basePlate;
 	ModelRenderer leftMount;
@@ -43,7 +44,8 @@ public class MLeiShe extends ModelBase {
 	ModelRenderer rEar1;
 	ModelRenderer rEar2;
 
-	public MLeiShe() {
+	public MLeiShe()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -271,7 +273,8 @@ public class MLeiShe extends ModelBase {
 		setRotation(rEar2, -0.6632251F, 0F, 0F);
 	}
 
-	public void renderYaw(float f5) {
+	public void renderYaw(float f5)
+	{
 		basePlate.render(f5);
 		leftMount.render(f5);
 		rightMount.render(f5);
@@ -284,7 +287,8 @@ public class MLeiShe extends ModelBase {
 		RightFootBase.render(f5);
 	}
 
-	public void renderYawPitch(float f5, float rotation) {
+	public void renderYawPitch(float f5, float rotation)
+	{
 		body.render(f5);
 		bodyTop.render(f5);
 		bodyRight.render(f5);
@@ -331,7 +335,8 @@ public class MLeiShe extends ModelBase {
 		rEar2.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

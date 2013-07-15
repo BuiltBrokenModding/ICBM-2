@@ -30,11 +30,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * @author Calclavia
  * 
  */
-public class CommonProxy implements IGuiHandler {
-	public void preInit() {
+public class CommonProxy implements IGuiHandler
+{
+	public void preInit()
+	{
 	}
 
-	public void init() {
+	public void init()
+	{
 		GameRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMXiaoFaSheQi");
 		GameRegistry.registerTileEntity(TFaSheDi.class, "ICBMFaSheDi");
 		GameRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMFaSheShiMuo");
@@ -46,60 +49,62 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z) {
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+	{
 		return null;
 	}
 
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z) {
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null) {
-			switch (ID) {
-			case ZhuYaoICBM.GUI_XIA_FA_SHE_QI:
-				return new CXiaoFaSheQi(player.inventory,
-						(TXiaoFaSheQi) tileEntity);
-			case ZhuYaoICBM.GUI_FA_SHE_DI:
-				return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
+		if (tileEntity != null)
+		{
+			switch (ID)
+			{
+				case ZhuYaoICBM.GUI_XIA_FA_SHE_QI:
+					return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
+				case ZhuYaoICBM.GUI_FA_SHE_DI:
+					return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 			}
 		}
 
 		return null;
 	}
 
-	public boolean isGaoQing() {
+	public boolean isGaoQing()
+	{
 		return false;
 	}
 
-	public void spawnParticle(String name, World world, Vector3 position,
-			float scale, double distance) {
+	public void spawnParticle(String name, World world, Vector3 position, float scale, double distance)
+	{
 		this.spawnParticle(name, world, position, 0, 0, 0, scale, distance);
 	}
 
-	public void spawnParticle(String name, World world, Vector3 position,
-			double motionX, double motionY, double motionZ, float scale,
-			double distance) {
-		this.spawnParticle(name, world, position, motionX, motionY, motionZ, 1,
-				1, 1, scale, distance);
+	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float scale, double distance)
+	{
+		this.spawnParticle(name, world, position, motionX, motionY, motionZ, 1, 1, 1, scale, distance);
 	}
 
-	public void spawnParticle(String name, World world, Vector3 position,
-			double motionX, double motionY, double motionZ, float red,
-			float green, float blue, float scale, double distance) {
+	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float red, float green, float blue, float scale, double distance)
+	{
 
 	}
 
-	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan) {
+	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan)
+	{
 		return null;
 	}
 
-	public int getParticleSetting() {
+	public int getParticleSetting()
+	{
 		return -1;
 	}
 
-	public List<Entity> getEntityFXs() {
+	public List<Entity> getEntityFXs()
+	{
 		return null;
 	}
 

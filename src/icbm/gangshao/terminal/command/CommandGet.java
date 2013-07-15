@@ -12,35 +12,44 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class CommandGet extends TerminalCommand {
+public class CommandGet extends TerminalCommand
+{
 	@Override
-	public String getCommandPrefix() {
+	public String getCommandPrefix()
+	{
 		return "get";
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ITerminal TE,
-			String[] args) {
-		if (args[0].equalsIgnoreCase("get") && args.length > 1
-				&& args[1] != null && TE instanceof TPaoTaiZhan) {
+	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
+	{
+		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TPaoTaiZhan)
+		{
 			TPaoTaiZhan turret = (TPaoTaiZhan) TE;
-			if (args[1].equalsIgnoreCase("owner")) {
-				List<UserAccess> userList = turret
-						.getUsersWithAcess(AccessLevel.OWNER);
+			if (args[1].equalsIgnoreCase("owner"))
+			{
+				List<UserAccess> userList = turret.getUsersWithAcess(AccessLevel.OWNER);
 
-				if (userList.size() > 0) {
-					for (UserAccess access : userList) {
+				if (userList.size() > 0)
+				{
+					for (UserAccess access : userList)
+					{
 						TE.addToConsole("" + access.username);
 					}
-				} else {
+				}
+				else
+				{
 					TE.addToConsole("No owners");
 				}
 				return true;
-			} else if (args[1].equalsIgnoreCase("position")) {
-				TE.addToConsole("position: " + turret.xCoord + "x "
-						+ turret.yCoord + "y " + turret.zCoord + "z ");
+			}
+			else if (args[1].equalsIgnoreCase("position"))
+			{
+				TE.addToConsole("position: " + turret.xCoord + "x " + turret.yCoord + "y " + turret.zCoord + "z ");
 				return true;
-			} else if (args[1].equalsIgnoreCase("kills")) {
+			}
+			else if (args[1].equalsIgnoreCase("kills"))
+			{
 				// TODO track
 				TE.addToConsole("Not yet useable");
 				return true;
@@ -50,17 +59,20 @@ public class CommandGet extends TerminalCommand {
 	}
 
 	@Override
-	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm) {
+	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
+	{
 		return true;
 	}
 
 	@Override
-	public boolean showOnHelp(EntityPlayer player, ISpecialAccess mm) {
+	public boolean showOnHelp(EntityPlayer player, ISpecialAccess mm)
+	{
 		return true;
 	}
 
 	@Override
-	public List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm) {
+	public List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm)
+	{
 		List<String> cmds = new ArrayList<String>();
 		cmds.add("get owner");
 		cmds.add("get position");
@@ -73,7 +85,8 @@ public class CommandGet extends TerminalCommand {
 	}
 
 	@Override
-	public boolean canMachineUse(ISpecialAccess mm) {
+	public boolean canMachineUse(ISpecialAccess mm)
+	{
 		return mm instanceof TPaoTaiZhan;
 	}
 

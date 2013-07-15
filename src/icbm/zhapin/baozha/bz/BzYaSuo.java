@@ -13,7 +13,8 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.vector.Region3;
 
-public class BzYaSuo extends BaoZha {
+public class BzYaSuo extends BaoZha
+{
 	private int checkBanJing = 16;
 	protected float nengLiang = 10F;
 
@@ -23,69 +24,63 @@ public class BzYaSuo extends BaoZha {
 	private int pushType = 0;
 	private boolean destroyItem = false;
 
-	public BzYaSuo(World world, Entity entity, double x, double y, double z,
-			float size) {
+	public BzYaSuo(World world, Entity entity, double x, double y, double z, float size)
+	{
 		super(world, entity, x, y, z, size);
 	}
 
-	public BzYaSuo setPushType(int type) {
+	public BzYaSuo setPushType(int type)
+	{
 		this.pushType = type;
 		return this;
 	}
 
-	public BzYaSuo setDestroyItems() {
+	public BzYaSuo setDestroyItems()
+	{
 		this.destroyItem = true;
 		return this;
 	}
 
 	@Override
-	public void doExplode() {
-		if (!this.worldObj.isRemote) {
-			for (int x = 0; x < this.checkBanJing; ++x) {
-				for (int y = 0; y < this.checkBanJing; ++y) {
-					for (int z = 0; z < this.checkBanJing; ++z) {
-						if (x == 0 || x == this.checkBanJing - 1 || y == 0
-								|| y == this.checkBanJing - 1 || z == 0
-								|| z == this.checkBanJing - 1) {
-							double xStep = x / (this.checkBanJing - 1.0F)
-									* 2.0F - 1.0F;
-							double yStep = y / (this.checkBanJing - 1.0F)
-									* 2.0F - 1.0F;
-							double zStep = z / (this.checkBanJing - 1.0F)
-									* 2.0F - 1.0F;
-							double diagonalDistance = Math.sqrt(xStep * xStep
-									+ yStep * yStep + zStep * zStep);
+	public void doExplode()
+	{
+		if (!this.worldObj.isRemote)
+		{
+			for (int x = 0; x < this.checkBanJing; ++x)
+			{
+				for (int y = 0; y < this.checkBanJing; ++y)
+				{
+					for (int z = 0; z < this.checkBanJing; ++z)
+					{
+						if (x == 0 || x == this.checkBanJing - 1 || y == 0 || y == this.checkBanJing - 1 || z == 0 || z == this.checkBanJing - 1)
+						{
+							double xStep = x / (this.checkBanJing - 1.0F) * 2.0F - 1.0F;
+							double yStep = y / (this.checkBanJing - 1.0F) * 2.0F - 1.0F;
+							double zStep = z / (this.checkBanJing - 1.0F) * 2.0F - 1.0F;
+							double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
 							xStep /= diagonalDistance;
 							yStep /= diagonalDistance;
 							zStep /= diagonalDistance;
-							float var14 = this.getRadius()
-									* (0.7F + this.worldObj.rand.nextFloat() * 0.6F);
+							float var14 = this.getRadius() * (0.7F + this.worldObj.rand.nextFloat() * 0.6F);
 							double var15 = this.position.x;
 							double var17 = this.position.y;
 							double var19 = this.position.z;
 
-							for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F) {
+							for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
+							{
 								int var22 = MathHelper.floor_double(var15);
 								int var23 = MathHelper.floor_double(var17);
 								int var24 = MathHelper.floor_double(var19);
-								int var25 = this.worldObj.getBlockId(var22,
-										var23, var24);
+								int var25 = this.worldObj.getBlockId(var22, var23, var24);
 
-								if (var25 > 0) {
-									var14 -= (Block.blocksList[var25]
-											.getExplosionResistance(
-													this.exploder,
-													this.worldObj, var22,
-													var23, var24,
-													this.position.intX(),
-													this.position.intY(),
-													this.position.intZ()) + 0.3F)
-											* var21;
+								if (var25 > 0)
+								{
+									var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder, this.worldObj, var22, var23, var24, this.position.intX(), this.position.intY(), this.position.intZ()) + 0.3F) * var21;
 								}
 
-								if (var14 > 0.0F) {
-									blownBlocks.add(new Vector3(var22, var23,
-											var24));
+								if (var14 > 0.0F)
+								{
+									blownBlocks.add(new Vector3(var22, var23, var24));
 								}
 
 								var15 += xStep * var21;
@@ -99,21 +94,20 @@ public class BzYaSuo extends BaoZha {
 
 		}
 
-		this.worldObj.playSoundEffect(this.position.x, this.position.y,
-				this.position.z, "random.explode", 4.0F,
-				(1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand
-						.nextFloat()) * 0.2F) * 0.7F);
+		this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, "random.explode", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
-		switch (this.pushType) {
-		case 0:
-			this.doDamageEntities(this.getRadius(), nengLiang, this.destroyItem);
-			break;
-		default:
-			this.pushEntities(8, this.getRadius() * 4, this.pushType);
-			break;
+		switch (this.pushType)
+		{
+			case 0:
+				this.doDamageEntities(this.getRadius(), nengLiang, this.destroyItem);
+				break;
+			default:
+				this.pushEntities(8, this.getRadius() * 4, this.pushType);
+				break;
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isRemote)
+		{
 			int var3;
 			Vector3 blownPosition;
 			int var5;
@@ -122,7 +116,8 @@ public class BzYaSuo extends BaoZha {
 			int blockID;
 			int metadata;
 
-			for (var3 = blownBlocks.size() - 1; var3 >= 0; --var3) {
+			for (var3 = blownBlocks.size() - 1; var3 >= 0; --var3)
+			{
 				blownPosition = blownBlocks.get(var3);
 				var5 = blownPosition.intX();
 				var6 = blownPosition.intY();
@@ -136,39 +131,33 @@ public class BzYaSuo extends BaoZha {
 				double var151 = var9 - this.position.y;
 				double var171 = var11 - this.position.y;
 				double var191 = var13 - this.position.z;
-				double var211 = MathHelper.sqrt_double(var151 * var151 + var171
-						* var171 + var191 * var191);
+				double var211 = MathHelper.sqrt_double(var151 * var151 + var171 * var171 + var191 * var191);
 				var151 /= var211;
 				var171 /= var211;
 				var191 /= var211;
 				double var23 = 0.5D / (var211 / this.getRadius() + 0.1D);
-				var23 *= (this.worldObj.rand.nextFloat()
-						* this.worldObj.rand.nextFloat() + 0.3F);
+				var23 *= (this.worldObj.rand.nextFloat() * this.worldObj.rand.nextFloat() + 0.3F);
 				var151 *= var23;
 				var171 *= var23;
 				var191 *= var23;
-				this.worldObj.spawnParticle("explode",
-						(var9 + this.position.x * 1.0D) / 2.0D,
-						(var11 + this.position.y * 1.0D) / 2.0D,
-						(var13 + this.position.z * 1.0D) / 2.0D, var151,
-						var171, var191);
-				this.worldObj.spawnParticle("smoke", var9, var11, var13,
-						var151, var171, var191);
+				this.worldObj.spawnParticle("explode", (var9 + this.position.x * 1.0D) / 2.0D, (var11 + this.position.y * 1.0D) / 2.0D, (var13 + this.position.z * 1.0D) / 2.0D, var151, var171, var191);
+				this.worldObj.spawnParticle("smoke", var9, var11, var13, var151, var171, var191);
 
-				if (blockID > 0) {
-					try {
+				if (blockID > 0)
+				{
+					try
+					{
 						Block block = Block.blocksList[blockID];
 
-						if (block.canDropFromExplosion(null)) {
-							block.dropBlockAsItemWithChance(this.worldObj,
-									var5, var6, var7,
-									this.worldObj.getBlockMetadata(var5, var6,
-											var7), 1F, 0);
+						if (block.canDropFromExplosion(null))
+						{
+							block.dropBlockAsItemWithChance(this.worldObj, var5, var6, var7, this.worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
 						}
 
-						block.onBlockExploded(this.worldObj, var5, var6, var7,
-								this);
-					} catch (Exception e) {
+						block.onBlockExploded(this.worldObj, var5, var6, var7, this);
+					}
+					catch (Exception e)
+					{
 						e.printStackTrace();
 					}
 				}
@@ -176,7 +165,8 @@ public class BzYaSuo extends BaoZha {
 		}
 	}
 
-	public void pushEntities(float radius, float force, int type) {
+	public void pushEntities(float radius, float force, int type)
+	{
 		// Step 2: Damage all entities
 		Vector3 minCoord = position.clone();
 		minCoord.add(-radius - 1);
@@ -186,48 +176,51 @@ public class BzYaSuo extends BaoZha {
 		Region3 region = new Region3(minCoord, maxCoord);
 		List<Entity> entities = region.getEntities(this.worldObj, Entity.class);
 
-		for (Entity entity : entities) {
-			double var13 = entity.getDistance(position.x, position.y,
-					position.z) / radius;
+		for (Entity entity : entities)
+		{
+			double var13 = entity.getDistance(position.x, position.y, position.z) / radius;
 
-			if (var13 <= 1.0D) {
+			if (var13 <= 1.0D)
+			{
 				double xDifference = entity.posX - position.x;
 				double yDifference = entity.posY - position.y;
 				double zDifference = entity.posZ - position.z;
-				double distance = MathHelper.sqrt_double(xDifference
-						* xDifference + yDifference * yDifference + zDifference
-						* zDifference);
+				double distance = MathHelper.sqrt_double(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
 				xDifference /= distance;
 				yDifference /= distance;
 				zDifference /= distance;
 
-				if (type == 1) {
+				if (type == 1)
+				{
 					double modifier = var13 * force;
-					entity.addVelocity(-xDifference * modifier, -yDifference
-							* modifier, -zDifference * modifier);
-				} else if (type == 2) {
+					entity.addVelocity(-xDifference * modifier, -yDifference * modifier, -zDifference * modifier);
+				}
+				else if (type == 2)
+				{
 					double modifier = (1.0D - var13) * force;
-					entity.addVelocity(xDifference * modifier, yDifference
-							* modifier, zDifference * modifier);
+					entity.addVelocity(xDifference * modifier, yDifference * modifier, zDifference * modifier);
 				}
 			}
 		}
 	}
 
 	@Override
-	public float getEnergy() {
+	public float getEnergy()
+	{
 		return 418000;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(NBTTagCompound nbt)
+	{
 		super.readFromNBT(nbt);
 		this.pushType = nbt.getInteger("pushType");
 		this.destroyItem = nbt.getBoolean("destroyItem");
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public void writeToNBT(NBTTagCompound nbt)
+	{
 		super.writeToNBT(nbt);
 		nbt.setInteger("pushType", this.pushType);
 		nbt.setBoolean("destroyItem", this.destroyItem);

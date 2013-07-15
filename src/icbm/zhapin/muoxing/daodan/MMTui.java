@@ -7,7 +7,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMTui extends MICBM {
+public class MMTui extends MICBM
+{
 	// fields
 	ModelRenderer a;
 	ModelRenderer b;
@@ -26,7 +27,8 @@ public class MMTui extends MICBM {
 	ModelRenderer o;
 	ModelRenderer p;
 
-	public MMTui() {
+	public MMTui()
+	{
 		textureWidth = 128;
 		textureHeight = 128;
 
@@ -129,8 +131,8 @@ public class MMTui extends MICBM {
 	}
 
 	@Override
-	public void render(Entity entity, float x, float y, float z, float f3,
-			float f4, float f5) {
+	public void render(Entity entity, float x, float y, float z, float f3, float f4, float f5)
+	{
 		super.render(entity, x, y, z, f3, f4, f5);
 		this.setRotationAngles(x, y, z, f3, f4, f5, entity);
 
@@ -138,7 +140,8 @@ public class MMTui extends MICBM {
 	}
 
 	@Override
-	public void render(float f5) {
+	public void render(float f5)
+	{
 		a.render(f5);
 		b.render(f5);
 		c.render(f5);
@@ -157,7 +160,8 @@ public class MMTui extends MICBM {
 		p.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

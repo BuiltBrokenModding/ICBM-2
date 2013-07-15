@@ -6,6 +6,7 @@ package icbm.api.explosion;
  * @author Calclavia
  * 
  */
-public interface IExplosiveIgnore {
+public interface IExplosiveIgnore
+{
 	public boolean canIgnore(IExplosion explosion);
 }

@@ -6,22 +6,26 @@ import icbm.zhapin.muoxing.daodan.MMYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class DModule extends DaoDanTeBie {
-	public DModule(String mingZi, int tier) {
+public class DModule extends DaoDanTeBie
+{
+	public DModule(String mingZi, int tier)
+	{
 		super(mingZi, tier);
 		this.hasBlock = false;
 	}
 
 	@Override
-	public void doCreateExplosion(World world, double x, double y, double z,
-			Entity entity) {
-		if (entity instanceof IMissile) {
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		if (entity instanceof IMissile)
+		{
 			((IMissile) entity).dropMissileAsItem();
 		}
 	}
 
 	@Override
-	public MICBM getMuoXing() {
+	public MICBM getMuoXing()
+	{
 		return MMYaSuo.INSTANCE;
 	}
 }

@@ -43,7 +43,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * The explosive registry class. Used to register explosions.
  */
-public abstract class ZhaPin implements IExplosive {
+public abstract class ZhaPin implements IExplosive
+{
 	/** Explosives */
 	public static final ZhaPin yaSuo;
 	public static final ZhaPin xiaoQunDan;
@@ -80,7 +81,8 @@ public abstract class ZhaPin implements IExplosive {
 	public static final DaoDan fenZhiDan;
 	public static final DaoDan yuanZiFenZhiDan;
 
-	static {
+	static
+	{
 		SheDing.CONFIGURATION.load();
 		yaSuo = ZhaPinRegistry.register(new ExYaSuo("condensed", 1));
 		xiaoQunDan = ZhaPinRegistry.register(new ExQunDan("shrapnel", 1));
@@ -111,16 +113,11 @@ public abstract class ZhaPin implements IExplosive {
 		hongSu = ZhaPinRegistry.register(new ExHongSu("redMatter", 4));
 
 		/** Missiles */
-		missileModule = (DaoDan) ZhaPinRegistry.register(new DModule(
-				"missileModule", 1));
-		zhuiZhong = (DaoDan) ZhaPinRegistry
-				.register(new DZhuiZhong("homing", 1));
-		fanDan = (DaoDan) ZhaPinRegistry.register(new DFanDan("antiBallistic",
-				2));
-		fenZhiDan = (DaoDan) ZhaPinRegistry.register(new DFenZhiDan("cluster",
-				2));
-		yuanZiFenZhiDan = (DaoDan) ZhaPinRegistry
-				.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
+		missileModule = (DaoDan) ZhaPinRegistry.register(new DModule("missileModule", 1));
+		zhuiZhong = (DaoDan) ZhaPinRegistry.register(new DZhuiZhong("homing", 1));
+		fanDan = (DaoDan) ZhaPinRegistry.register(new DFanDan("antiBallistic", 2));
+		fenZhiDan = (DaoDan) ZhaPinRegistry.register(new DFenZhiDan("cluster", 2));
+		yuanZiFenZhiDan = (DaoDan) ZhaPinRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
 
 		SheDing.CONFIGURATION.save();
 	}
@@ -143,7 +140,8 @@ public abstract class ZhaPin implements IExplosive {
 	protected boolean hasMinecart;
 	protected boolean hasMissile;
 
-	protected ZhaPin(String mingZi, int tier) {
+	protected ZhaPin(String mingZi, int tier)
+	{
 		this.mingZi = mingZi;
 		this.tier = tier;
 		this.yinXin = 100;
@@ -154,56 +152,60 @@ public abstract class ZhaPin implements IExplosive {
 		this.hasMinecart = this.tier <= 2;
 
 		this.qiZi = FlagRegistry.registerFlag("ban_" + this.mingZi);
-		this.isDisabled = SheDing.CONFIGURATION.get("Disable_Explosives",
-				"Disable " + this.mingZi, false).getBoolean(false);
+		this.isDisabled = SheDing.CONFIGURATION.get("Disable_Explosives", "Disable " + this.mingZi, false).getBoolean(false);
 
 	}
 
 	@Override
-	public final int getID() {
+	public final int getID()
+	{
 		return ZhaPinRegistry.getID(this.getUnlocalizedName());
 	}
 
 	@Override
-	public String getUnlocalizedName() {
+	public String getUnlocalizedName()
+	{
 		return this.mingZi;
 	}
 
 	@Override
-	public String getExplosiveName() {
-		return TranslationHelper.getLocal("icbm.explosive." + this.mingZi
-				+ ".name");
+	public String getExplosiveName()
+	{
+		return TranslationHelper.getLocal("icbm.explosive." + this.mingZi + ".name");
 	}
 
 	@Override
-	public String getGrenadeName() {
-		return TranslationHelper.getLocal("icbm.grenade." + this.mingZi
-				+ ".name");
+	public String getGrenadeName()
+	{
+		return TranslationHelper.getLocal("icbm.grenade." + this.mingZi + ".name");
 	}
 
 	@Override
-	public String getMissileName() {
-		return TranslationHelper.getLocal("icbm.missile." + this.mingZi
-				+ ".name");
+	public String getMissileName()
+	{
+		return TranslationHelper.getLocal("icbm.missile." + this.mingZi + ".name");
 	}
 
 	@Override
-	public String getMinecartName() {
-		return TranslationHelper.getLocal("icbm.minecart." + this.mingZi
-				+ ".name");
+	public String getMinecartName()
+	{
+		return TranslationHelper.getLocal("icbm.minecart." + this.mingZi + ".name");
 	}
 
 	@Override
-	public int getTier() {
+	public int getTier()
+	{
 		return this.tier;
 	}
 
 	@Override
-	public void setTier(int tier) {
+	public void setTier(int tier)
+	{
 		this.tier = tier;
 	}
 
-	public ZhaPin setYinXin(int fuse) {
+	public ZhaPin setYinXin(int fuse)
+	{
 		this.yinXin = fuse;
 		return this;
 	}
@@ -213,7 +215,8 @@ public abstract class ZhaPin implements IExplosive {
 	 * 
 	 * @return The Fuse
 	 */
-	public int getYinXin() {
+	public int getYinXin()
+	{
 		return yinXin;
 	}
 
@@ -223,19 +226,19 @@ public abstract class ZhaPin implements IExplosive {
 	 * @param world
 	 * @param entity
 	 */
-	public void yinZhaQian(World world, Entity entity) {
+	public void yinZhaQian(World world, Entity entity)
+	{
 		world.playSoundAtEntity(entity, "random.fuse", 1.0F, 1.0F);
 	}
 
 	/**
 	 * Called while the explosive is being detonated (fuse ticks) in block form.
 	 * 
-	 * @param fuseTicks
-	 *            - The amount of ticks this explosive is on fuse
+	 * @param fuseTicks - The amount of ticks this explosive is on fuse
 	 */
-	public void onYinZha(World world, Vector3 position, int fuseTicks) {
-		world.spawnParticle("smoke", position.x, position.y + 0.5D, position.z,
-				0.0D, 0.0D, 0.0D);
+	public void onYinZha(World world, Vector3 position, int fuseTicks)
+	{
+		world.spawnParticle("smoke", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
 	}
 
 	/**
@@ -243,70 +246,80 @@ public abstract class ZhaPin implements IExplosive {
 	 * 
 	 * @return - Fuse left
 	 */
-	public int onBeiZha() {
+	public int onBeiZha()
+	{
 		return (int) (this.yinXin / 2 + Math.random() * this.yinXin / 4);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public MICBM getBlockModel() {
+	public MICBM getBlockModel()
+	{
 		return null;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public ResourceLocation getBlockResource() {
+	public ResourceLocation getBlockResource()
+	{
 		return null;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon() {
+	public Icon getIcon()
+	{
 		return null;
 	}
 
-	public boolean hasGrenadeForm() {
+	public boolean hasGrenadeForm()
+	{
 		return this.hasGrenade;
 	}
 
-	public boolean hasMissileForm() {
+	public boolean hasMissileForm()
+	{
 		return this.hasMissile;
 	}
 
-	public boolean hasMinecartForm() {
+	public boolean hasMinecartForm()
+	{
 		return this.hasMinecart;
 	}
 
-	public boolean hasBlockForm() {
+	public boolean hasBlockForm()
+	{
 		return this.hasBlock;
 	}
 
 	/**
 	 * Called to add the recipe for this explosive
 	 */
-	public void init() {
+	public void init()
+	{
 
 	}
 
-	public ItemStack getItemStack() {
+	public ItemStack getItemStack()
+	{
 		return new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, this.getID());
 	}
 
-	public ItemStack getItemStack(int amount) {
+	public ItemStack getItemStack(int amount)
+	{
 		return new ItemStack(ZhuYaoZhaPin.bZhaDan, amount, this.getID());
 	}
 
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer entityPlayer, int par6, float par7, float par8,
-			float par9) {
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
+	{
 		return false;
 	}
 
 	@Override
-	public void createExplosion(World world, double x, double y, double z,
-			Entity entity) {
-		if (!this.isDisabled) {
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		if (!this.isDisabled)
+		{
 			this.doCreateExplosion(world, x, y, z, entity);
 		}
 	}
 
-	public abstract void doCreateExplosion(World world, double x, double y,
-			double z, Entity entity);
+	public abstract void doCreateExplosion(World world, double x, double y, double z, Entity entity);
 }

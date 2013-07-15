@@ -15,22 +15,28 @@ import calclavia.lib.multiblock.IMultiBlock;
  * @author Calclavia
  * 
  */
-public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock {
+public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
+{
 	/** Fake entity this sentry uses for mounting the player in position */
 	protected EJia entityFake = null;
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity()
+	{
 		super.updateEntity();
 
-		if (this.entityFake != null) {
-			if (this.entityFake.riddenByEntity instanceof EntityPlayer) {
+		if (this.entityFake != null)
+		{
+			if (this.entityFake.riddenByEntity instanceof EntityPlayer)
+			{
 				EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
 
-				if (mountedPlayer.rotationPitch > this.maxPitch) {
+				if (mountedPlayer.rotationPitch > this.maxPitch)
+				{
 					mountedPlayer.rotationPitch = this.maxPitch;
 				}
-				if (mountedPlayer.rotationPitch < this.minPitch) {
+				if (mountedPlayer.rotationPitch < this.minPitch)
+				{
 					mountedPlayer.rotationPitch = this.minPitch;
 				}
 				this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch;
@@ -40,29 +46,35 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock {
 	}
 
 	/**
-	 * Performs a ray trace for the distance specified and using the partial
-	 * tick time. Args: distance, partialTickTime
+	 * Performs a ray trace for the distance specified and using the partial tick time. Args:
+	 * distance, partialTickTime
 	 */
-	public MovingObjectPosition rayTrace(double distance) {
-		return CalculationHelper.doCustomRayTrace(this.worldObj,
-				this.getMuzzle(), this.wantedRotationYaw,
-				this.wantedRotationPitch, true, distance);
+	public MovingObjectPosition rayTrace(double distance)
+	{
+		return CalculationHelper.doCustomRayTrace(this.worldObj, this.getMuzzle(), this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
 	}
 
 	@Override
-	public boolean onActivated(EntityPlayer entityPlayer) {
-		if (entityPlayer.isSneaking()) {
+	public boolean onActivated(EntityPlayer entityPlayer)
+	{
+		if (entityPlayer.isSneaking())
+		{
 			this.tryActivateWeapon();
-		} else {
-			if (this.entityFake != null) {
-				if (this.entityFake.riddenByEntity instanceof EntityPlayer) {
+		}
+		else
+		{
+			if (this.entityFake != null)
+			{
+				if (this.entityFake.riddenByEntity instanceof EntityPlayer)
+				{
 					// Unmount
 					EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
 
-					if (entityPlayer == mountedPlayer) {
-						if (!this.worldObj.isRemote) {
-							PacketManager.sendPacketToClients(this
-									.getRotationPacket());
+					if (entityPlayer == mountedPlayer)
+					{
+						if (!this.worldObj.isRemote)
+						{
+							PacketManager.sendPacketToClients(this.getRotationPacket());
 						}
 
 						entityPlayer.mountEntity(null);
@@ -74,7 +86,9 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock {
 				}
 
 				return false;
-			} else {
+			}
+			else
+			{
 				this.mount(entityPlayer);
 			}
 		}
@@ -82,13 +96,14 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock {
 		return true;
 	}
 
-	public void mount(EntityPlayer entityPlayer) {
-		if (!this.worldObj.isRemote) {
+	public void mount(EntityPlayer entityPlayer)
+	{
+		if (!this.worldObj.isRemote)
+		{
 			// Creates a fake entity to be mounted on
-			if (this.entityFake == null) {
-				this.entityFake = new EJia(this.worldObj,
-						new Vector3(this.xCoord + 0.5, this.yCoord + 1.2,
-								this.zCoord + 0.5), this, true);
+			if (this.entityFake == null)
+			{
+				this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
 				this.worldObj.spawnEntityInWorld(this.entityFake);
 			}
 
@@ -99,14 +114,17 @@ public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock {
 		}
 	}
 
-	public void tryActivateWeapon() {
-		if (this.canActivateWeapon()) {
+	public void tryActivateWeapon()
+	{
+		if (this.canActivateWeapon())
+		{
 			this.onWeaponActivated();
 		}
 	}
 
 	@Override
-	public boolean canApplyPotion(PotionEffect par1PotionEffect) {
+	public boolean canApplyPotion(PotionEffect par1PotionEffect)
+	{
 		return false;
 	}
 

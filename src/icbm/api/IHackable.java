@@ -2,7 +2,8 @@ package icbm.api;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public interface IHackable {
+public interface IHackable
+{
 	/**
 	 * Causes the machine to generate a new pass key
 	 */

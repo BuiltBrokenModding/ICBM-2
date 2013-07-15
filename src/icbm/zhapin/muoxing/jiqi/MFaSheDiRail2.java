@@ -7,14 +7,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MFaSheDiRail2 extends ModelBase {
+public class MFaSheDiRail2 extends ModelBase
+{
 	// fields
 	ModelRenderer Shape9;
 	ModelRenderer Shape20;
 	ModelRenderer Shape21;
 	ModelRenderer Shape16;
 
-	public MFaSheDiRail2() {
+	public MFaSheDiRail2()
+	{
 		textureWidth = 256;
 		textureHeight = 256;
 
@@ -45,8 +47,8 @@ public class MFaSheDiRail2 extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3,
-			float f4, float f5) {
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+	{
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		Shape9.render(f5);
@@ -55,14 +57,16 @@ public class MFaSheDiRail2 extends ModelBase {
 		Shape16.render(f5);
 	}
 
-	public void render(float f5) {
+	public void render(float f5)
+	{
 		Shape9.render(f5);
 		Shape20.render(f5);
 		Shape21.render(f5);
 		Shape16.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;

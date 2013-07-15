@@ -16,57 +16,55 @@ import net.minecraft.entity.player.EntityPlayer;
  * 
  * @author Darkguardsman, Calclavia
  */
-public class CommandAccess extends TerminalCommand {
+public class CommandAccess extends TerminalCommand
+{
 
 	@Override
-	public String getCommandPrefix() {
+	public String getCommandPrefix()
+	{
 		return "access";
 	}
 
 	@Override
-	public boolean processCommand(EntityPlayer player, ITerminal terminal,
-			String[] args) {
-		if (args[0].equalsIgnoreCase("access") && args.length > 1
-				&& args[1] != null && terminal instanceof TPaoTaiZhan) {
+	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
+	{
+		if (args[0].equalsIgnoreCase("access") && args.length > 1 && args[1] != null && terminal instanceof TPaoTaiZhan)
+		{
 			TPaoTaiZhan platform = (TPaoTaiZhan) terminal;
 			AccessLevel userAccess = terminal.getUserAccess(player.username);
 
-			if (args[1].equalsIgnoreCase("?")) {
-				terminal.addToConsole("Access Level: "
-						+ platform.getUserAccess(player.username).displayName);
+			if (args[1].equalsIgnoreCase("?"))
+			{
+				terminal.addToConsole("Access Level: " + platform.getUserAccess(player.username).displayName);
 				return true;
-			} else if (args[1].equalsIgnoreCase("set") && args.length > 3
-					&& userAccess.ordinal() >= AccessLevel.ADMIN.ordinal()) {
+			}
+			else if (args[1].equalsIgnoreCase("set") && args.length > 3 && userAccess.ordinal() >= AccessLevel.ADMIN.ordinal())
+			{
 				String username = args[2];
 				AccessLevel currentAccess = terminal.getUserAccess(username);
 
 				// Only Admins can set ranks
-				AccessLevel playerAccess = terminal
-						.getUserAccess(player.username);
+				AccessLevel playerAccess = terminal.getUserAccess(player.username);
 
-				if (playerAccess.ordinal() >= AccessLevel.ADMIN.ordinal()
-						&& playerAccess.ordinal() >= currentAccess.ordinal()
-						&& (!player.username.equalsIgnoreCase(username) || playerAccess == AccessLevel.OWNER)) {
-					if (currentAccess != AccessLevel.NONE) {
+				if (playerAccess.ordinal() >= AccessLevel.ADMIN.ordinal() && playerAccess.ordinal() >= currentAccess.ordinal() && (!player.username.equalsIgnoreCase(username) || playerAccess == AccessLevel.OWNER))
+				{
+					if (currentAccess != AccessLevel.NONE)
+					{
 						AccessLevel newAccess = AccessLevel.get(args[3]);
 
-						if (currentAccess != AccessLevel.OWNER
-								|| platform
-										.getUsersWithAcess(AccessLevel.OWNER)
-										.size() > 1) {
-							if (newAccess != AccessLevel.NONE
-									&& terminal.addUserAccess(username,
-											newAccess, true)) {
-								terminal.addToConsole(username + " set to "
-										+ newAccess.displayName);
-								platform.worldObj.markBlockForUpdate(
-										platform.xCoord, platform.yCoord,
-										platform.zCoord);
+						if (currentAccess != AccessLevel.OWNER || platform.getUsersWithAcess(AccessLevel.OWNER).size() > 1)
+						{
+							if (newAccess != AccessLevel.NONE && terminal.addUserAccess(username, newAccess, true))
+							{
+								terminal.addToConsole(username + " set to " + newAccess.displayName);
+								platform.worldObj.markBlockForUpdate(platform.xCoord, platform.yCoord, platform.zCoord);
 								return true;
 							}
 						}
 					}
-				} else {
+				}
+				else
+				{
 					terminal.addToConsole("Access denied!");
 					return true;
 				}
@@ -76,18 +74,20 @@ public class CommandAccess extends TerminalCommand {
 	}
 
 	@Override
-	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm) {
-		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.USER
-				.ordinal() || var1.capabilities.isCreativeMode;
+	public boolean canPlayerUse(EntityPlayer var1, ISpecialAccess mm)
+	{
+		return mm.getUserAccess(var1.username).ordinal() >= AccessLevel.USER.ordinal() || var1.capabilities.isCreativeMode;
 	}
 
 	@Override
-	public boolean showOnHelp(EntityPlayer player, ISpecialAccess mm) {
+	public boolean showOnHelp(EntityPlayer player, ISpecialAccess mm)
+	{
 		return this.canPlayerUse(player, mm);
 	}
 
 	@Override
-	public List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm) {
+	public List<String> getCmdUses(EntityPlayer player, ISpecialAccess mm)
+	{
 		List<String> cmds = new ArrayList<String>();
 		cmds.add("access set username level");
 		cmds.add("access ?");
@@ -95,7 +95,8 @@ public class CommandAccess extends TerminalCommand {
 	}
 
 	@Override
-	public boolean canMachineUse(ISpecialAccess mm) {
+	public boolean canMachineUse(ISpecialAccess mm)
+	{
 		return mm instanceof TPaoTaiZhan;
 	}
 

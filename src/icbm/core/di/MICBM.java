@@ -5,8 +5,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public abstract class MICBM extends ModelBase {
-	public void render(float f5) {
+public abstract class MICBM extends ModelBase
+{
+	public void render(float f5)
+	{
 
 	}
 }

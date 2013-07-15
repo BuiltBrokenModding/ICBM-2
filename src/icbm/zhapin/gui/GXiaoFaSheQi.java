@@ -19,9 +19,9 @@ import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GXiaoFaSheQi extends GuiContainer {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(
-			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_cruise_launcher.png");
+public class GXiaoFaSheQi extends GuiContainer
+{
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_cruise_launcher.png");
 
 	private TXiaoFaSheQi tileEntity;
 	private GuiTextField textFieldX;
@@ -32,14 +32,15 @@ public class GXiaoFaSheQi extends GuiContainer {
 	private int containerWidth;
 	private int containerHeight;
 
-	public GXiaoFaSheQi(InventoryPlayer par1InventoryPlayer,
-			TXiaoFaSheQi tileEntity) {
+	public GXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TXiaoFaSheQi tileEntity)
+	{
 		super(new CXiaoFaSheQi(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 	}
 
 	@Override
-	public void initGui() {
+	public void initGui()
+	{
 		super.initGui();
 		this.textFieldX = new GuiTextField(fontRenderer, 20, 21, 35, 12);
 		this.textFieldY = new GuiTextField(fontRenderer, 20, 37, 35, 12);
@@ -52,49 +53,47 @@ public class GXiaoFaSheQi extends GuiContainer {
 
 		this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
 
-		if (this.tileEntity.getTarget() == null) {
+		if (this.tileEntity.getTarget() == null)
+		{
 			this.textFieldX.setText(Math.round(this.tileEntity.xCoord) + "");
 			this.textFieldZ.setText(Math.round(this.tileEntity.zCoord) + "");
 			this.textFieldY.setText(Math.round(this.tileEntity.yCoord) + "");
-		} else {
-			this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x)
-					+ "");
-			this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z)
-					+ "");
-			this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y)
-					+ "");
+		}
+		else
+		{
+			this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
+			this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
+			this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 		}
 	}
 
 	@Override
-	public void keyTyped(char par1, int par2) {
+	public void keyTyped(char par1, int par2)
+	{
 		super.keyTyped(par1, par2);
 		this.textFieldX.textboxKeyTyped(par1, par2);
 		this.textFieldZ.textboxKeyTyped(par1, par2);
 		this.textFieldY.textboxKeyTyped(par1, par2);
 		this.textFieldFreq.textboxKeyTyped(par1, par2);
 
-		try {
-			Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX
-					.getText()), Integer.parseInt(this.textFieldY.getText()),
-					Integer.parseInt(this.textFieldZ.getText()));
+		try
+		{
+			Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Integer.parseInt(this.textFieldY.getText()), Integer.parseInt(this.textFieldZ.getText()));
 			this.tileEntity.setTarget(newTarget);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(
-					ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2,
-					this.tileEntity.getTarget().x,
-					this.tileEntity.getTarget().y,
-					this.tileEntity.getTarget().z));
-		} catch (NumberFormatException e) {
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+		}
+		catch (NumberFormatException e)
+		{
 		}
 
-		try {
-			short newFrequency = (short) Math.max(
-					Short.parseShort(this.textFieldFreq.getText()), 0);
+		try
+		{
+			short newFrequency = (short) Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
 			this.tileEntity.setFrequency(newFrequency);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(
-					ZhuYaoZhaPin.CHANNEL, this.tileEntity, 1,
-					this.tileEntity.getFrequency()));
-		} catch (NumberFormatException e) {
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 1, this.tileEntity.getFrequency()));
+		}
+		catch (NumberFormatException e)
+		{
 		}
 	}
 
@@ -102,26 +101,22 @@ public class GXiaoFaSheQi extends GuiContainer {
 	 * Args: x, y, buttonClicked
 	 */
 	@Override
-	public void mouseClicked(int par1, int par2, int par3) {
+	public void mouseClicked(int par1, int par2, int par3)
+	{
 		super.mouseClicked(par1, par2, par3);
-		this.textFieldX.mouseClicked(par1 - containerWidth, par2
-				- containerHeight, par3);
-		this.textFieldZ.mouseClicked(par1 - containerWidth, par2
-				- containerHeight, par3);
-		this.textFieldY.mouseClicked(par1 - containerWidth, par2
-				- containerHeight, par3);
-		this.textFieldFreq.mouseClicked(par1 - containerWidth, par2
-				- containerHeight, par3);
+		this.textFieldX.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+		this.textFieldZ.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+		this.textFieldY.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+		this.textFieldFreq.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
 	}
 
 	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of
-	 * the items)
+	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		this.fontRenderer.drawString("\u00a77" + tileEntity.getInvName(), 52,
-				6, 4210752);
+	protected void drawGuiContainerForegroundLayer(int par1, int par2)
+	{
+		this.fontRenderer.drawString("\u00a77" + tileEntity.getInvName(), 52, 6, 4210752);
 
 		this.fontRenderer.drawString("X:", 8, 23, 4210752);
 		this.fontRenderer.drawString("Y:", 8, 39, 4210752);
@@ -134,54 +129,39 @@ public class GXiaoFaSheQi extends GuiContainer {
 		this.textFieldY.drawTextBox();
 		this.textFieldFreq.drawTextBox();
 
-		this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50,
-				4210752);
-		this.fontRenderer.drawString(this.tileEntity.getVoltage() + "v", 70,
-				60, 4210752);
-		this.fontRenderer.drawString(
-				ElectricityDisplay.getDisplayShort(
-						this.tileEntity.getEnergyStored(), ElectricUnit.JOULES)
-						+ "/"
-						+ ElectricityDisplay.getDisplayShort(
-								this.tileEntity.getMaxEnergyStored(),
-								ElectricUnit.JOULES), 70, 70, 4210752);
+		this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50, 4210752);
+		this.fontRenderer.drawString(this.tileEntity.getVoltage() + "v", 70, 60, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), ElectricUnit.JOULES), 70, 70, 4210752);
 
-		this.fontRenderer.drawString(
-				StatCollector.translateToLocal("container.inventory"), 8,
-				this.ySize - 96 + 2, 4210752);
+		this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	/**
-	 * Draw the background layer for the GuiContainer (everything behind the
-	 * items)
+	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
-			int par3) {
-		FMLClientHandler.instance().getClient().renderEngine
-				.func_110577_a(TEXTURE);
+	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
+	{
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		containerWidth = (this.width - this.xSize) / 2;
 		containerHeight = (this.height - this.ySize) / 2;
-		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0,
-				this.xSize, this.ySize);
+		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);
 	}
 
 	@Override
-	public void updateScreen() {
+	public void updateScreen()
+	{
 		super.updateScreen();
 
 		if (!this.textFieldX.isFocused())
-			this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x)
-					+ "");
+			this.textFieldX.setText(Math.round(this.tileEntity.getTarget().x) + "");
 		if (!this.textFieldZ.isFocused())
-			this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z)
-					+ "");
+			this.textFieldZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
 		if (!this.textFieldY.isFocused())
-			this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y)
-					+ "");
+			this.textFieldY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 		if (!this.textFieldFreq.isFocused())
 			this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
 	}

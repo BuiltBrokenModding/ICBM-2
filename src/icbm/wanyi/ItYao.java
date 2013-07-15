@@ -6,17 +6,20 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItYao extends ItICBM {
-	public ItYao(int id) {
+public class ItYao extends ItICBM
+{
+	public ItYao(int id)
+	{
 		super(id, "antidote");
 	}
 
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
+	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	{
 		par1ItemStack.stackSize--;
 
-		if (!par2World.isRemote) {
+		if (!par2World.isRemote)
+		{
 			par3EntityPlayer.clearActivePotions();
 		}
 
@@ -27,28 +30,28 @@ public class ItYao extends ItICBM {
 	 * How long it takes to use or consume an item
 	 */
 	@Override
-	public int getMaxItemUseDuration(ItemStack par1ItemStack) {
+	public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	{
 		return 32;
 	}
 
 	/**
-	 * returns the action that specifies what animation to play when the items
-	 * is being used
+	 * returns the action that specifies what animation to play when the items is being used
 	 */
 	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
+	public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	{
 		return EnumAction.eat;
 	}
 
 	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
+	 * world, entityPlayer
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-		par3EntityPlayer.setItemInUse(par1ItemStack,
-				this.getMaxItemUseDuration(par1ItemStack));
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	{
+		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
 		return par1ItemStack;
 	}
 }

@@ -22,33 +22,35 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RZhaDan extends TileEntitySpecialRenderer implements
-		ISimpleBlockRenderingHandler {
-	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(
-			ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "s-mine.png");
+public class RZhaDan extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler
+{
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "s-mine.png");
 	public static final int ID = RenderingRegistry.getNextAvailableRenderId();
 
 	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelID,
-			RenderBlocks renderer) {
-		if (modelID == ID) {
-			if (metadata == ZhaPin.diLei.getID()) {
+	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
+	{
+		if (modelID == ID)
+		{
+			if (metadata == ZhaPin.diLei.getID())
+			{
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, 1.5F, 0.0F);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				FMLClientHandler.instance().getClient().renderEngine
-						.func_110577_a(TEXTURE_FILE);
+				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_FILE);
 				MDiLei.INSTANCE.render(0.0625F);
 				GL11.glPopMatrix();
-			} else {
-				try {
+			}
+			else
+			{
+				try
+				{
 
-					CalclaviaRenderHelper.renderNormalBlockAsItem(block,
-							metadata, renderer);
-				} catch (Exception e) {
-					ZhuYaoICBM.LOGGER
-							.severe("ICBM Explosive Rendering Crash with: "
-									+ block + " and metadata: " + metadata);
+					CalclaviaRenderHelper.renderNormalBlockAsItem(block, metadata, renderer);
+				}
+				catch (Exception e)
+				{
+					ZhuYaoICBM.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
 					e.printStackTrace();
 				}
 			}
@@ -56,17 +58,18 @@ public class RZhaDan extends TileEntitySpecialRenderer implements
 	}
 
 	@Override
-	public boolean renderWorldBlock(IBlockAccess iBlockAccess, int x, int y,
-			int z, Block block, int modelID, RenderBlocks renderer) {
-		if (modelID == ID) {
+	public boolean renderWorldBlock(IBlockAccess iBlockAccess, int x, int y, int z, Block block, int modelID, RenderBlocks renderer)
+	{
+		if (modelID == ID)
+		{
 			TileEntity tileEntity = iBlockAccess.getBlockTileEntity(x, y, z);
 
-			if (tileEntity instanceof TZhaDan) {
-				ZhaPin zhaPin = ZhaPinRegistry
-						.get(((TZhaDan) tileEntity).haoMa);
+			if (tileEntity instanceof TZhaDan)
+			{
+				ZhaPin zhaPin = ZhaPinRegistry.get(((TZhaDan) tileEntity).haoMa);
 
-				if (!(zhaPin.getBlockModel() != null && zhaPin
-						.getBlockResource() != null)) {
+				if (!(zhaPin.getBlockModel() != null && zhaPin.getBlockResource() != null))
+				{
 					renderer.renderStandardBlock(block, x, y, z);
 					return true;
 				}
@@ -77,18 +80,18 @@ public class RZhaDan extends TileEntitySpecialRenderer implements
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y,
-			double z, float f) {
-		if (tileEntity instanceof TZhaDan) {
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
+	{
+		if (tileEntity instanceof TZhaDan)
+		{
 			ZhaPin zhaPin = ZhaPinRegistry.get(((TZhaDan) tileEntity).haoMa);
 
-			if (zhaPin != null && zhaPin.getBlockModel() != null
-					&& zhaPin.getBlockResource() != null) {
+			if (zhaPin != null && zhaPin.getBlockModel() != null && zhaPin.getBlockResource() != null)
+			{
 				GL11.glPushMatrix();
 				GL11.glTranslated(x + 0.5f, y + 1.5f, z + 0.5f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				FMLClientHandler.instance().getClient().renderEngine
-						.func_110577_a(zhaPin.getBlockResource());
+				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(zhaPin.getBlockResource());
 				zhaPin.getBlockModel().render(0.0625f);
 				CalclaviaRenderHelper.setTerrainTexture();
 				GL11.glPopMatrix();
@@ -97,12 +100,14 @@ public class RZhaDan extends TileEntitySpecialRenderer implements
 	}
 
 	@Override
-	public boolean shouldRender3DInInventory() {
+	public boolean shouldRender3DInInventory()
+	{
 		return true;
 	}
 
 	@Override
-	public int getRenderId() {
+	public int getRenderId()
+	{
 		return ID;
 	}
 

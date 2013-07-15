@@ -1,6 +1,7 @@
 package mffs.api.fortron;
 
-public interface IFortronStorage {
+public interface IFortronStorage
+{
 	/**
 	 * Sets the amount of fortron energy.
 	 * 
@@ -22,10 +23,8 @@ public interface IFortronStorage {
 	/**
 	 * Called to use and consume fortron energy from this storage unit.
 	 * 
-	 * @param joules
-	 *            - Amount of fortron energy to use.
-	 * @param doUse
-	 *            - True if actually using, false if just simulating.
+	 * @param joules - Amount of fortron energy to use.
+	 * @param doUse - True if actually using, false if just simulating.
 	 * @return joules - The amount of energy that was actually provided.
 	 */
 	public int requestFortron(int joules, boolean doUse);
@@ -33,10 +32,8 @@ public interface IFortronStorage {
 	/**
 	 * Called to use and give fortron energy from this storage unit.
 	 * 
-	 * @param joules
-	 *            - Amount of fortron energy to give.
-	 * @param doUse
-	 *            - True if actually using, false if just simulating.
+	 * @param joules - Amount of fortron energy to give.
+	 * @param doUse - True if actually using, false if just simulating.
 	 * 
 	 * @return joules - The amount of energy that was actually injected.
 	 */

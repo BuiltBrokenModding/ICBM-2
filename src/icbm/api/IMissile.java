@@ -4,25 +4,23 @@ import icbm.api.explosion.IExplosiveContainer;
 import universalelectricity.core.vector.Vector3;
 
 /**
- * This is an interface applied by all missile entities. You may cast this into
- * an @Entity. The "set" version of the function will make the entity do the
- * action on the next tick.
+ * This is an interface applied by all missile entities. You may cast this into an @Entity. The
+ * "set" version of the function will make the entity do the action on the next tick.
  * 
  * @author Calclavia
  */
-public interface IMissile extends IExplosiveContainer {
+public interface IMissile extends IExplosiveContainer
+{
 	/**
-	 * Blows up this missile. It will detonate the missile with the appropriate
-	 * explosion.
+	 * Blows up this missile. It will detonate the missile with the appropriate explosion.
 	 */
 	public void explode();
 
 	public void setExplode();
 
 	/**
-	 * Blows up this missile like a TNT explosion. Small explosion used for
-	 * events such as a missile crashing or failure to explode will result in
-	 * this function being called.
+	 * Blows up this missile like a TNT explosion. Small explosion used for events such as a missile
+	 * crashing or failure to explode will result in this function being called.
 	 */
 	public void normalExplode();
 
@@ -34,8 +32,8 @@ public interface IMissile extends IExplosiveContainer {
 	public void dropMissileAsItem();
 
 	/**
-	 * The amount of ticks this missile has been flying for. Returns -1 if the
-	 * missile is not flying.
+	 * The amount of ticks this missile has been flying for. Returns -1 if the missile is not
+	 * flying.
 	 */
 	public int getTicksInAir();
 
