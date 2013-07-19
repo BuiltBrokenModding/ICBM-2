@@ -5,14 +5,19 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.tile.IRotatable;
-import calclavia.lib.TileEntityUniversalElectrical;
 
 import com.google.common.io.ByteArrayDataInput;
 
 public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketReceiver, IRotatable
 {
+	public TYinDaoQi()
+	{
+		super(10000);
+	}
+
 	private byte fangXiang = 3;
 
 	@Override
@@ -28,7 +33,6 @@ public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketR
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		super.readFromNBT(par1NBTTagCompound);
-
 		this.fangXiang = par1NBTTagCompound.getByte("fangXiang");
 	}
 
@@ -54,4 +58,17 @@ public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketR
 	{
 		this.fangXiang = (byte) facingDirection.ordinal();
 	}
+
+	@Override
+	public float getRequest(ForgeDirection direction)
+	{
+		return 0;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
+	}
+
 }

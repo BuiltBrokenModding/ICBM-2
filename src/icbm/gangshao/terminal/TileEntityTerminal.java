@@ -18,9 +18,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.TileEntityUniversalElectrical;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -34,6 +34,11 @@ import cpw.mods.fml.common.network.Player;
  */
 public abstract class TileEntityTerminal extends TileEntityUniversalElectrical implements ISpecialAccess, IPacketReceiver, ITerminal
 {
+	public TileEntityTerminal(float maxEnergy)
+	{
+		super(maxEnergy);
+	}
+
 	public enum TerminalPacketType
 	{
 		GUI_EVENT, GUI_COMMAND, TERMINAL_OUTPUT, DESCRIPTION_DATA;

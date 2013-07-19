@@ -1,6 +1,6 @@
 package icbm.zhapin.dianqi;
 
-import icbm.core.di.ItElectricICBM;
+import icbm.core.di.ItICBMElectricBase;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.TZhaDan;
@@ -19,7 +19,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItYaoKong extends ItElectricICBM
+public class ItYaoKong extends ItICBMElectricBase
 {
 	public static final int BAN_JING = 100;
 	public static final int YONG_DIAN_LIANG = 1500;

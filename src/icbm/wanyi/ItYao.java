@@ -1,12 +1,12 @@
 package icbm.wanyi;
 
-import icbm.core.di.ItICBM;
+import icbm.core.di.ItICBMBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItYao extends ItICBM
+public class ItYao extends ItICBMBase
 {
 	public ItYao(int id)
 	{

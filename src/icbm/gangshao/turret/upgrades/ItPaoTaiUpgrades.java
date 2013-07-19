@@ -1,7 +1,7 @@
 package icbm.gangshao.turret.upgrades;
 
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.ItICBM;
+import icbm.core.di.ItICBMBase;
 import icbm.gangshao.ITurretUpgrade;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItPaoTaiUpgrades extends ItICBM implements ITurretUpgrade
+public class ItPaoTaiUpgrades extends ItICBMBase implements ITurretUpgrade
 {
 	public enum TurretUpgradeType
 	{

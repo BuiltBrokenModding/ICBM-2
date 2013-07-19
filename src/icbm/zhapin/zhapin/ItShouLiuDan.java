@@ -3,7 +3,7 @@ package icbm.zhapin.zhapin;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.ItICBM;
+import icbm.core.di.ItICBMBase;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItShouLiuDan extends ItICBM
+public class ItShouLiuDan extends ItICBMBase
 {
 	public static final Icon[] ICONS = new Icon[256];
 

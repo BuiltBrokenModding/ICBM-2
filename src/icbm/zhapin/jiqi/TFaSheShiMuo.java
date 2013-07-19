@@ -3,7 +3,6 @@ package icbm.zhapin.jiqi;
 import icbm.api.IMissile;
 import icbm.api.ITier;
 import icbm.api.LauncherType;
-import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 
 import java.util.HashSet;
@@ -20,7 +19,6 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.ElectricityHandler;
 import universalelectricity.prefab.tile.IRotatable;
 import calclavia.lib.multiblock.IBlockActivate;
 
@@ -56,8 +54,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public TFaSheShiMuo()
 	{
-		super();
-		this.electricityHandler = new ElectricityHandler(this, this.getMaxEnergyStored());
+		super(0);
 	}
 
 	@Override
@@ -377,7 +374,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_FA_SHE_SHI_MUO, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
@@ -396,5 +393,17 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		}
 
 		return null;
+	}
+
+	@Override
+	public float getRequest(ForgeDirection direction)
+	{
+		return this.getMaxEnergyStored() - this.getEnergyStored();
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
 	}
 }

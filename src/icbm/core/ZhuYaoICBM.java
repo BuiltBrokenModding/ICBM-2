@@ -1,7 +1,7 @@
 package icbm.core;
 
 import icbm.api.ICBM;
-import icbm.core.di.ItICBM;
+import icbm.core.di.ItICBMBase;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -79,18 +79,6 @@ public class ZhuYaoICBM
 
 	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
 
-	/**
-	 * GUI ID Numbers: These numbers are used to identify the ID of the specific GUIs used by ICBM.
-	 * TODO: USE TILES INSTEAD OF IDS.
-	 */
-	public static final int GUI_XIA_FA_SHE_QI = 1;
-	public static final int GUI_FA_SHE_SHI_MUO = 2;
-	public static final int GUI_LEI_DA_TAI = 3;
-	public static final int GUI_YIN_GAN_QI = 4;
-	public static final int GUI_SHENG_BUO = 5;
-	public static final int GUI_DIAN_CI_QI = 6;
-	public static final int GUI_FA_SHE_DI = 7;
-
 	private static boolean isPreInit, isInit, isPostInit;
 
 	public static final Logger LOGGER = Logger.getLogger(ICBM.NAME);
@@ -117,8 +105,8 @@ public class ZhuYaoICBM
 			bJia = new BlockMulti(SheDing.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ZhuYaoICBM.PREFIX + "machine").setChannel(this.getChannel());
 
 			// Items
-			itDu = new ItICBM(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
-			itLiu = new ItICBM(ICBM.ITEM_ID_PREFIX + 1, "sulfur");
+			itDu = new ItICBMBase(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
+			itLiu = new ItICBMBase(ICBM.ITEM_ID_PREFIX + 1, "sulfur");
 
 			// -- Registering Blocks
 			GameRegistry.registerBlock(bLiu, "bLiu");

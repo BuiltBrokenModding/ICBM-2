@@ -2,7 +2,7 @@ package icbm.zhapin.dianqi;
 
 import icbm.api.IItemFrequency;
 import icbm.core.SheDing;
-import icbm.core.di.ItElectricICBM;
+import icbm.core.di.ItICBMElectricBase;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.FaSheQiGuanLi;
@@ -25,7 +25,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiSheZhiBiao extends ItElectricICBM implements IItemFrequency
+public class ItLeiSheZhiBiao extends ItICBMElectricBase implements IItemFrequency
 {
 	public static final int BAN_JING = SheDing.DAO_DAN_ZUI_YUAN;
 	public static final int YONG_DIAN_LIANG = 6000;

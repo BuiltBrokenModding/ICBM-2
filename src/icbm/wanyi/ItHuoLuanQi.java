@@ -1,8 +1,7 @@
 package icbm.wanyi;
 
 import icbm.api.IItemFrequency;
-import icbm.core.ZhuYaoICBM;
-import icbm.core.di.ItElectricICBM;
+import icbm.core.di.ItICBMElectricBase;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class ItHuoLuanQi extends ItElectricICBM implements IItemFrequency
+public class ItHuoLuanQi extends ItICBMElectricBase implements IItemFrequency
 {
 	public ItHuoLuanQi(int id)
 	{
@@ -67,7 +66,7 @@ public class ItHuoLuanQi extends ItElectricICBM implements IItemFrequency
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		par3EntityPlayer.openGui(ZhuYaoWanYi.instance, ZhuYaoICBM.GUI_SHENG_BUO, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+		par3EntityPlayer.openGui(ZhuYaoWanYi.instance, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
 		return par1ItemStack;
 	}
 

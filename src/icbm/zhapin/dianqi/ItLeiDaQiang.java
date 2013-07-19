@@ -1,6 +1,6 @@
 package icbm.zhapin.dianqi;
 
-import icbm.core.di.ItElectricICBM;
+import icbm.core.di.ItICBMElectricBase;
 import icbm.zhapin.ZhaPinPacketGuanLi.ZhaPinPacketType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TFaSheQi;
@@ -20,7 +20,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class ItLeiDaQiang extends ItElectricICBM implements ICoordLink
+public class ItLeiDaQiang extends ItICBMElectricBase implements ICoordLink
 {
 	public static final int YONG_DIAN_LIANG = 1000;
 	public static final int JU_LI = 1000;

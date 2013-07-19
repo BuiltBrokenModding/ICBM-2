@@ -1,6 +1,6 @@
 package icbm.zhapin.dianqi;
 
-import icbm.core.di.ItElectricICBM;
+import icbm.core.di.ItICBMElectricBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.zhapin.EZhaDan;
@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
 //Explosive Defuser
-public class ItJieJa extends ItElectricICBM
+public class ItJieJa extends ItICBMElectricBase
 {
 	private static final int YONG_DIAN_LIANG = 2000;
 

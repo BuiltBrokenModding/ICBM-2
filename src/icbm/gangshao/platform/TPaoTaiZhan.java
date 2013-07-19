@@ -22,7 +22,6 @@ import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
-import universalelectricity.prefab.tile.ElectricityHandler;
 
 /**
  * Turret Platform
@@ -32,6 +31,7 @@ import universalelectricity.prefab.tile.ElectricityHandler;
  */
 public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 {
+
 	/** The turret linked to this platform. */
 	private TPaoDaiBase turret = null;
 	/** Deploy direction of the sentry */
@@ -47,7 +47,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 
 	public TPaoTaiZhan()
 	{
-		this.electricityHandler = new ElectricityHandler(this);
+		super(0);
 	}
 
 	private float prevWatts;
@@ -59,11 +59,11 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 
 		if (this.getTurret(false) != null)
 		{
-			this.electricityHandler.setMaxEnergyStored(Math.max(turret.getFiringRequest(), 0) * 2);
+			this.setMaxEnergyStored(Math.max(turret.getFiringRequest(), 0) * 2);
 		}
 		else
 		{
-			this.electricityHandler.setMaxEnergyStored(0);
+			this.setMaxEnergyStored(0);
 		}
 
 		if (this.prevWatts != this.getEnergyStored())
@@ -80,7 +80,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 					break;
 				}
 
-				this.electricityHandler.receiveElectricity(ElectricItemHelper.dischargeItem(this.getStackInSlot(i), this.getRequest(null)), true);
+				this.receiveElectricity(ElectricItemHelper.dischargeItem(this.getStackInSlot(i), this.getRequest(null)), true);
 			}
 		}
 	}
@@ -468,5 +468,11 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 		}
 
 		return false;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
 	}
 }

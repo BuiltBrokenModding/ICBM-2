@@ -5,7 +5,6 @@ import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.LauncherType;
 import icbm.api.explosion.ExplosiveType;
-import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;
@@ -31,7 +30,6 @@ import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.ElectricityHandler;
 import calclavia.lib.multiblock.IBlockActivate;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -59,8 +57,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public TXiaoFaSheQi()
 	{
-		super();
-		this.electricityHandler = new ElectricityHandler(this, this.getMaxEnergyStored());
+		super(800);
 		this.muBiao = new Vector3();
 	}
 
@@ -476,12 +473,6 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	}
 
 	@Override
-	public float getMaxEnergyStored()
-	{
-		return 800000;
-	}
-
-	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
 		if (this.isItemValidForSlot(0, entityPlayer.inventory.getCurrentItem()))
@@ -491,7 +482,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 			return true;
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_XIA_FA_SHE_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 		return true;
 	}
@@ -576,6 +567,12 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public void closeChest()
 	{
 
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
 	}
 
 }

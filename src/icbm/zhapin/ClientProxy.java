@@ -124,21 +124,25 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == ZhuYaoICBM.GUI_SHENG_BUO)
+		if (tileEntity instanceof TXiaoFaSheQi)
 		{
-			switch (ID)
-			{
-				case ZhuYaoICBM.GUI_XIA_FA_SHE_QI:
-					return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi) tileEntity);
-				case ZhuYaoICBM.GUI_FA_SHE_SHI_MUO:
-					return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
-				case ZhuYaoICBM.GUI_LEI_DA_TAI:
-					return new GLeiDaTai(((TLeiDaTai) tileEntity));
-				case ZhuYaoICBM.GUI_DIAN_CI_QI:
-					return new GDianCiQi((TDianCiQi) tileEntity);
-				case ZhuYaoICBM.GUI_FA_SHE_DI:
-					return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
-			}
+			return new GXiaoFaSheQi(entityPlayer.inventory, (TXiaoFaSheQi) tileEntity);
+		}
+		else if (tileEntity instanceof TFaSheShiMuo)
+		{
+			return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
+		}
+		else if (tileEntity instanceof TLeiDaTai)
+		{
+			return new GLeiDaTai(((TLeiDaTai) tileEntity));
+		}
+		else if (tileEntity instanceof TDianCiQi)
+		{
+			return new GDianCiQi((TDianCiQi) tileEntity);
+		}
+		else if (tileEntity instanceof TFaSheDi)
+		{
+			return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
 		}
 
 		return null;

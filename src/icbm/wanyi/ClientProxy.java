@@ -1,7 +1,7 @@
 package icbm.wanyi;
 
+import icbm.api.IItemFrequency;
 import icbm.core.ShengYin;
-import icbm.core.ZhuYaoICBM;
 import icbm.wanyi.b.TYinGanQi;
 import icbm.wanyi.gui.GShengBuo;
 import icbm.wanyi.gui.GYinGanQi;
@@ -27,15 +27,13 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity != null || ID == ZhuYaoICBM.GUI_SHENG_BUO)
+		if (tileEntity instanceof TYinGanQi)
 		{
-			switch (ID)
-			{
-				case ZhuYaoICBM.GUI_YIN_GAN_QI:
-					return new GYinGanQi((TYinGanQi) tileEntity);
-				case ZhuYaoICBM.GUI_SHENG_BUO:
-					return new GShengBuo(entityPlayer.inventory.getCurrentItem());
-			}
+			return new GYinGanQi((TYinGanQi) tileEntity);
+		}
+		else if (entityPlayer.inventory.getCurrentItem() != null && entityPlayer.inventory.getCurrentItem().getItem() instanceof IItemFrequency)
+		{
+			return new GShengBuo(entityPlayer.inventory.getCurrentItem());
 		}
 
 		return null;

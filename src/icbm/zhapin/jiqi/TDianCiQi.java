@@ -16,11 +16,11 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.ElectricityHandler;
-import calclavia.lib.TileEntityUniversalElectrical;
 import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -46,8 +46,7 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 
 	public TDianCiQi()
 	{
-		super();
-		this.electricityHandler = new ElectricityHandler(this);
+		super(0);
 		RadarRegistry.register(this);
 	}
 
@@ -63,7 +62,7 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	{
 		super.updateEntity();
 
-		this.electricityHandler.setMaxEnergyStored(Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000));
+		this.setMaxEnergyStored(Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000));
 
 		if (this.ticks % 20 == 0 && this.getEnergyStored() > 0)
 		{
@@ -207,7 +206,7 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_DIAN_CI_QI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
@@ -221,5 +220,17 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	public AxisAlignedBB getRenderBoundingBox()
 	{
 		return INFINITE_EXTENT_AABB;
+	}
+
+	@Override
+	public float getRequest(ForgeDirection direction)
+	{
+		return 0;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
 	}
 }

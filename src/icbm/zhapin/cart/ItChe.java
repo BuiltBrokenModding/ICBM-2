@@ -1,6 +1,6 @@
 package icbm.zhapin.cart;
 
-import icbm.core.di.ItICBM;
+import icbm.core.di.ItICBMBase;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItChe extends ItICBM
+public class ItChe extends ItICBMBase
 {
 	public ItChe(int id)
 	{

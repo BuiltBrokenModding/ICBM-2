@@ -28,13 +28,12 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.ElectricityHandler;
-import calclavia.lib.TileEntityUniversalElectrical;
 import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -48,6 +47,8 @@ import dan200.computer.api.IPeripheral;
 public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
 {
 	public final static int MAX_BIAN_JING = 500;
+
+	private static final float DIAN = 1;
 
 	public float xuanZhuan = 0;
 
@@ -69,8 +70,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 
 	public TLeiDaTai()
 	{
-		super();
-		this.electricityHandler = new ElectricityHandler(this, this.getRequest(null) * 2);
+		super(DIAN);
 		RadarRegistry.register(this);
 	}
 
@@ -117,7 +117,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 				}
 			}
 
-			if (this.electricityHandler.provideElectricity(this.getRequest(null), true).getWatts() >= this.getRequest(null))
+			if (this.provideElectricity(this.getRequest(null), true).getWatts() >= this.getRequest(null))
 			{
 				this.xuanZhuan += 0.05F;
 
@@ -126,7 +126,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 
 				if (!this.worldObj.isRemote)
 				{
-					this.electricityHandler.provideElectricity(this.getRequest(null), true);
+					this.provideElectricity(this.getRequest(null), true);
 				}
 
 				int prevShuMu = this.xunZhaoEntity.size();
@@ -416,7 +416,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 			}
 		}
 
-		entityPlayer.openGui(ZhuYaoZhaPin.instance, ZhuYaoICBM.GUI_LEI_DA_TAI, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}
 
@@ -519,12 +519,18 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	@Override
 	public float getRequest(ForgeDirection direction)
 	{
-		return 200;
+		return DIAN;
 	}
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox()
 	{
 		return INFINITE_EXTENT_AABB;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
 	}
 }

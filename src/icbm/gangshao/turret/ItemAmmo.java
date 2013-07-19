@@ -1,7 +1,7 @@
 package icbm.gangshao.turret;
 
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.ItICBM;
+import icbm.core.di.ItICBMBase;
 import icbm.gangshao.IAmmunition;
 import icbm.gangshao.ProjectileType;
 
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemAmmo extends ItICBM implements IAmmunition
+public class ItemAmmo extends ItICBMBase implements IAmmunition
 {
 	public static enum AmmoType
 	{

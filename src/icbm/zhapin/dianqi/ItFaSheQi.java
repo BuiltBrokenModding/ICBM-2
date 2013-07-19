@@ -1,7 +1,7 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.explosion.ExplosiveType;
-import icbm.core.di.ItElectricICBM;
+import icbm.core.di.ItICBMElectricBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;
@@ -21,7 +21,7 @@ import universalelectricity.core.vector.Vector3;
  * 
  */
 
-public class ItFaSheQi extends ItElectricICBM
+public class ItFaSheQi extends ItICBMElectricBase
 {
 	private static final int YONG_DIAN_LIANG = 5000;
 

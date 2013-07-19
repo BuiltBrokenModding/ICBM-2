@@ -5,23 +5,23 @@ import icbm.api.LauncherType;
 import icbm.core.di.IRedstoneReceptor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector3;
-import calclavia.lib.TileEntityUniversalElectrical;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
 public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral, IRedstoneReceptor
 {
+	public TFaSheQi(float maxEnergy)
+	{
+		super(maxEnergy);
+		FaSheQiGuanLi.jiaFaSheQi(this);
+	}
+
 	protected Vector3 muBiao = null;
 
 	protected int shengBuo = 0;
-
-	public TFaSheQi()
-	{
-		super();
-		FaSheQiGuanLi.jiaFaSheQi(this);
-	}
 
 	@Override
 	public boolean canConnect(ForgeDirection direction)

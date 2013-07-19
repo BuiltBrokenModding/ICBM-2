@@ -17,10 +17,10 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.TileEntityUniversalElectrical;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -30,6 +30,8 @@ import cpw.mods.fml.common.network.Player;
 public class TYinGanQi extends TileEntityUniversalElectrical implements IRedstoneProvider, IPacketReceiver
 {
 	private static final int MAX_DISTANCE = 30;
+
+	private static final float DIAN = 5;
 
 	public short frequency = 0;
 
@@ -43,6 +45,11 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
 	public boolean isInverted = false;
+
+	public TYinGanQi()
+	{
+		super(DIAN);
+	}
 
 	@Override
 	public void initiate()
@@ -67,7 +74,7 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 
 				boolean isDetectThisCheck = false;
 
-				if (this.electricityHandler.provideElectricity(this.getRequest(null), false).getWatts() >= this.getRequest(null))
+				if (this.provideElectricity(DIAN, false).getWatts() >= DIAN)
 				{
 					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
 					List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
@@ -118,7 +125,7 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 
 					if (!this.worldObj.isRemote)
 					{
-						this.electricityHandler.provideElectricity(this.getRequest(null), true);
+						this.provideElectricity(DIAN, true);
 					}
 				}
 
@@ -236,6 +243,12 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 	@Override
 	public float getRequest(ForgeDirection direction)
 	{
-		return 100;
+		return DIAN;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
 	}
 }

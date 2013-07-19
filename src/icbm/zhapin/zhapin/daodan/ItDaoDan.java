@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.daodan;
 
-import icbm.core.di.ItICBM;
+import icbm.core.di.ItICBMBase;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class ItDaoDan extends ItICBM
+public class ItDaoDan extends ItICBMBase
 {
 	public ItDaoDan(int id, String name)
 	{
