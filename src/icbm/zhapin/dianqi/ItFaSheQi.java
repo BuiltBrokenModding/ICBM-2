@@ -1,7 +1,7 @@
 package icbm.zhapin.dianqi;
 
 import icbm.api.explosion.ExplosiveType;
-import icbm.core.di.ItICBMElectricBase;
+import icbm.core.ItICBMElectricBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;

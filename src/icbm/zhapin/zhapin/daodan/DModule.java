@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin.daodan;
 
 import icbm.api.IMissile;
-import icbm.core.di.MICBM;
+import icbm.core.MICBM;
 import icbm.zhapin.muoxing.daodan.MMYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;

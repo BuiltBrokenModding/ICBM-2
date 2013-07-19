@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin.daodan;
 
 import icbm.api.ITracker;
-import icbm.core.di.MICBM;
+import icbm.core.MICBM;
 import icbm.zhapin.baozha.bz.BzYaSuo;
 import icbm.zhapin.muoxing.daodan.MMZhuiZhong;
 import icbm.zhapin.zhapin.daodan.EDaoDan.XingShi;

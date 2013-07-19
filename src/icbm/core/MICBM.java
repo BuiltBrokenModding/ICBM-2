@@ -1,4 +1,4 @@
-package icbm.core.di;
+package icbm.core;
 
 import net.minecraft.client.model.ModelBase;
 import cpw.mods.fml.relauncher.Side;

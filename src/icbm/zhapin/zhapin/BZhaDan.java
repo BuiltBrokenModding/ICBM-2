@@ -2,9 +2,9 @@ package icbm.zhapin.zhapin;
 
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.ExplosiveType;
+import icbm.core.BICBM;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.BICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.tile.RZhaDan;
 

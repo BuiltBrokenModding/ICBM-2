@@ -1,8 +1,5 @@
-package icbm.core.di;
+package icbm.core;
 
-import icbm.core.ICBMTab;
-import icbm.core.SheDing;
-import icbm.core.ZhuYaoICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;

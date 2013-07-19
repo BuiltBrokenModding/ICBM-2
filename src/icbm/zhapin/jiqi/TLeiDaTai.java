@@ -3,8 +3,8 @@ package icbm.zhapin.jiqi;
 import icbm.api.IItemFrequency;
 import icbm.api.RadarRegistry;
 import icbm.core.IChunkLoadHandler;
+import icbm.core.IRedstoneProvider;
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.IRedstoneProvider;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 

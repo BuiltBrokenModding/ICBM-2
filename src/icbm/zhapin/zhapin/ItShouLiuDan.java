@@ -2,8 +2,8 @@ package icbm.zhapin.zhapin;
 
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
+import icbm.core.ItICBMBase;
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.ItICBMBase;
 
 import java.util.List;
 

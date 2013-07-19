@@ -1,4 +1,4 @@
-package icbm.core.di;
+package icbm.core;
 
 public interface IRedstoneReceptor
 {

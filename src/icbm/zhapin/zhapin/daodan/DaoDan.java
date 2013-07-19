@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin.daodan;
 
+import icbm.core.MICBM;
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.MICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;

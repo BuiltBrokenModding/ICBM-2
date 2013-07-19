@@ -1,7 +1,7 @@
 package icbm.wanyi;
 
 import icbm.api.ITracker;
-import icbm.core.di.ItICBMElectricBase;
+import icbm.core.ItICBMElectricBase;
 
 import java.util.List;
 

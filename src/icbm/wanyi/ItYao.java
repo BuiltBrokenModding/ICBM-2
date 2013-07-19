@@ -1,6 +1,6 @@
 package icbm.wanyi;
 
-import icbm.core.di.ItICBMBase;
+import icbm.core.ItICBMBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;

@@ -1,7 +1,7 @@
 package icbm.gangshao.turret.upgrades;
 
+import icbm.core.ItICBMBase;
 import icbm.core.ZhuYaoICBM;
-import icbm.core.di.ItICBMBase;
 import icbm.gangshao.ITurretUpgrade;
 
 import java.util.List;

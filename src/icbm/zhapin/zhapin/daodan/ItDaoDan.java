@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.daodan;
 
-import icbm.core.di.ItICBMBase;
+import icbm.core.ItICBMBase;
 import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 

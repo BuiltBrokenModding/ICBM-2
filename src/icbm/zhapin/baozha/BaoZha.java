@@ -5,7 +5,7 @@ import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
 import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosion;
-import icbm.core.di.MICBM;
+import icbm.core.MICBM;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 
 import java.util.List;

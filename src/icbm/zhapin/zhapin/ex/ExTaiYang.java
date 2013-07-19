@@ -1,7 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
+import icbm.core.MICBM;
 import icbm.core.SheDing;
-import icbm.core.di.MICBM;
 import icbm.zhapin.baozha.bz.BzTaiYang;
 import icbm.zhapin.muoxing.daodan.MMTaiYang;
 import icbm.zhapin.zhapin.ZhaPin;

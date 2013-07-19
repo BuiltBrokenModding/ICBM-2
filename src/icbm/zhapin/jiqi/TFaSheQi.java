@@ -2,7 +2,7 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
-import icbm.core.di.IRedstoneReceptor;
+import icbm.core.IRedstoneReceptor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.compatibility.TileEntityUniversalElectrical;

@@ -1,6 +1,6 @@
 package icbm.wanyi.b;
 
-import icbm.core.di.BICBM;
+import icbm.core.BICBM;
 import icbm.wanyi.ZhuYaoWanYi;
 
 import java.util.ArrayList;

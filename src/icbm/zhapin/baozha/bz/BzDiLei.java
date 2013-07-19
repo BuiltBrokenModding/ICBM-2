@@ -1,6 +1,6 @@
 package icbm.zhapin.baozha.bz;
 
-import icbm.core.di.MICBM;
+import icbm.core.MICBM;
 import icbm.zhapin.baozha.BaoZha;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
 import icbm.zhapin.zhapin.ex.ExDiLei;
