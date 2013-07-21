@@ -84,7 +84,7 @@ public class BzDiLei extends BaoZha
 	@Override
 	public ResourceLocation getRenderResource()
 	{
-		return ExDiLei.TEXTURE;
+		return MDiLei.TEXTURE;
 	}
 
 }
