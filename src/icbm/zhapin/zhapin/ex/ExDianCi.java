@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.MICBM;
 import icbm.core.SheDing;
 import icbm.zhapin.baozha.bz.BzDianCi;
@@ -31,6 +33,7 @@ public class ExDianCi extends DaoDan
 		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', tui.getItemStack(), 'R', Block.blockRedstone, 'B', UniversalRecipes.BATTERY }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

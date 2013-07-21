@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.MICBM;
 import icbm.core.SheDing;
 import icbm.zhapin.baozha.bz.BzPiaoFu;
@@ -30,6 +32,7 @@ public class ExPiaoFu extends DaoDan
 		new BzPiaoFu(world, entity, x, y, z, 30).explode();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

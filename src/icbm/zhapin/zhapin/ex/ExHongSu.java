@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.MICBM;
 import icbm.core.SheDing;
 import icbm.zhapin.baozha.bz.BzHongSu;
@@ -29,6 +31,7 @@ public class ExHongSu extends DaoDan
 		new BzHongSu(world, entity, x, y, z, 35).explode();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

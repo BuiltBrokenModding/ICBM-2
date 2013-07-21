@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.daodan;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.IMissileLockable;
 import icbm.core.MICBM;
 import icbm.core.ZhuYaoICBM;
@@ -89,6 +91,7 @@ public class DFanDan extends DaoDanTeBie
 		new BzYaSuo(world, entity, x, y, z, 6).setDestroyItems().explode();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

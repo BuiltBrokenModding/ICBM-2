@@ -17,9 +17,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExDiLei extends ZhaPin
 {
-	@SideOnly(Side.CLIENT)
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "s-mine.png");
-
 	public ExDiLei(String mingZi, int tier)
 	{
 		super(mingZi, tier);
@@ -52,7 +49,7 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public ResourceLocation getBlockResource()
 	{
-		return TEXTURE;
+		return MDiLei.TEXTURE;
 	}
 
 	@Override

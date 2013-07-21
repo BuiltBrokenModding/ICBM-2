@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.MICBM;
 import icbm.core.SheDing;
 import icbm.core.ZhuYaoICBM;
@@ -50,6 +52,7 @@ public class ExFanWuSu extends DaoDan
 		new BzFanWuSu(world, entity, x, y, z, SheDing.ANTIMATTER_SIZE, SheDing.DESTROY_BEDROCK).explode();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

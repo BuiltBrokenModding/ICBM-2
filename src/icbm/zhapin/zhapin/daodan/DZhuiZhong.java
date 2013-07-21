@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.daodan;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.ITracker;
 import icbm.core.MICBM;
 import icbm.zhapin.baozha.bz.BzYaSuo;
@@ -127,6 +129,7 @@ public class DZhuiZhong extends DaoDanTeBie
 		new BzYaSuo(world, entity, x, y, z, 4).setDestroyItems().explode();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

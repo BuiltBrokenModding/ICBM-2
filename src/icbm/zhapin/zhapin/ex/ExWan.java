@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.ex;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.MICBM;
 import icbm.core.SheDing;
@@ -103,6 +105,7 @@ public class ExWan extends DaoDan
 		new BzWan(world, entity, x, y, z, 30, teleportTarget).explode();
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

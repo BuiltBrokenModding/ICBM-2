@@ -1,5 +1,7 @@
 package icbm.zhapin.zhapin.daodan;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.IMissile;
 import icbm.core.MICBM;
 import icbm.zhapin.muoxing.daodan.MMYaSuo;
@@ -23,6 +25,7 @@ public class DModule extends DaoDanTeBie
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMuoXing()
 	{

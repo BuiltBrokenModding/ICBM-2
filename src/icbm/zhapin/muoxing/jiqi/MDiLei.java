@@ -1,8 +1,10 @@
 package icbm.zhapin.muoxing.jiqi;
 
 import icbm.core.MICBM;
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -10,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class MDiLei extends MICBM
 {
 	public static final MDiLei INSTANCE = new MDiLei();
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "s-mine.png");
 
 	// fields
 	ModelRenderer A;
