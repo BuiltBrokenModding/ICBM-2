@@ -108,11 +108,15 @@ public class BzWan extends BaoZha
 					{
 						if (this.teleportTarget != null)
 						{
-							worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0F, 1.0F);
+							this.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0F, 1.0F);
 
-							if (!this.worldObj.isRemote)
+							if (entity instanceof EntityPlayerMP)
 							{
 								((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(this.teleportTarget.x + 0.5, this.teleportTarget.y + 0.5, this.teleportTarget.z + 0.5, entity.rotationYaw, entity.rotationPitch);
+							}
+							else
+							{
+								entity.setPosition(this.teleportTarget.x + 0.5, this.teleportTarget.y + 0.5, this.teleportTarget.z + 0.5);
 							}
 						}
 						else
