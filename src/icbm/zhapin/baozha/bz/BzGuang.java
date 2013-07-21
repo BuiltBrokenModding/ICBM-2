@@ -3,7 +3,8 @@ package icbm.zhapin.baozha.bz;
 import icbm.zhapin.EFeiBlock;
 import icbm.zhapin.EGuang;
 import icbm.zhapin.baozha.BaoZha;
-import icbm.zhapin.baozha.thr.ThrXunZhao;
+import icbm.zhapin.baozha.thr.ThrEx;
+import icbm.zhapin.baozha.thr.ThrGuang;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,7 @@ import calclavia.lib.CalculationHelper;
  */
 public abstract class BzGuang extends BaoZha
 {
-	protected ThrXunZhao thread;
+	protected ThrEx thread;
 	protected Set<EFeiBlock> feiBlocks = new HashSet<EFeiBlock>();
 	protected EGuang lightBeam;
 	protected float red, green, blue;
@@ -45,11 +46,11 @@ public abstract class BzGuang extends BaoZha
 		{
 			this.worldObj.createExplosion(this.exploder, position.x, position.y, position.z, 4F, true);
 
-			this.thread = new ThrXunZhao(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
-			this.thread.run();
-
 			this.lightBeam = new EGuang(this.worldObj, position, 20 * 20, this.red, this.green, this.blue);
 			this.worldObj.spawnEntityInWorld(this.lightBeam);
+
+			this.thread = new ThrGuang(this.worldObj, this.position, (int) this.getRadius(), 50, this.exploder);
+			this.thread.run();
 		}
 	}
 

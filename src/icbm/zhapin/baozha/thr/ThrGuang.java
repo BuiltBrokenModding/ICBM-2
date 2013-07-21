@@ -1,5 +1,6 @@
 package icbm.zhapin.baozha.thr;
 
+import icbm.zhapin.baozha.thr.ThrSheXian.IThreadCallBack;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
@@ -8,11 +9,12 @@ import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 
 /**
- * Used for large raycasting explosions.
+ * Used for searching block spawn. Returns a block above this found block coordinate.
+ * 
  * @author Calclavia
- *
+ * 
  */
-public class ThrSheXian extends ThrEx
+public class ThrGuang extends ThrEx
 {
 	public static interface IThreadCallBack
 	{
@@ -21,13 +23,13 @@ public class ThrSheXian extends ThrEx
 
 	public IThreadCallBack callBack;
 
-	public ThrSheXian(World world, Vector3 position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
+	public ThrGuang(World world, Vector3 position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
 	{
 		super(world, position, banJing, nengLiang, source);
 		this.callBack = callBack;
 	}
 
-	public ThrSheXian(World world, Vector3 position, int banJing, float nengLiang, Entity source)
+	public ThrGuang(World world, Vector3 position, int banJing, float nengLiang, Entity source)
 	{
 		this(world, position, banJing, nengLiang, source, new IThreadCallBack()
 		{
@@ -67,7 +69,7 @@ public class ThrSheXian extends ThrEx
 				Vector3 delta = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
 				float power = this.nengLiang - (this.nengLiang * this.world.rand.nextFloat() / 2);
 
-				Vector3 targetPosition = position.clone();
+				Vector3 targetPosition = this.position.clone();
 
 				for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
 				{
@@ -89,7 +91,7 @@ public class ThrSheXian extends ThrEx
 
 						if (power > 0f)
 						{
-							this.results.add(targetPosition.clone());
+							this.results.add(targetPosition.clone().add(new Vector3(0, 1, 0)));
 						}
 					}
 
@@ -99,7 +101,6 @@ public class ThrSheXian extends ThrEx
 				}
 			}
 		}
-
 		super.run();
 	}
 }

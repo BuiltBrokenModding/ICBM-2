@@ -3,7 +3,7 @@ package icbm.zhapin.baozha.bz;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.EFeiBlock;
 import icbm.zhapin.baozha.BaoZha;
-import icbm.zhapin.baozha.thr.ThrXunZhao;
+import icbm.zhapin.baozha.thr.ThrBaoZha;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +18,7 @@ import universalelectricity.core.vector.Vector3;
 
 public class BzPiaoFu extends BaoZha
 {
-	protected ThrXunZhao thread;
+	protected ThrBaoZha thread;
 	protected Set<EFeiBlock> feiBlocks = new HashSet<EFeiBlock>();
 
 	public BzPiaoFu(World world, Entity entity, double x, double y, double z, float size)
@@ -31,7 +31,7 @@ public class BzPiaoFu extends BaoZha
 	{
 		if (!this.worldObj.isRemote)
 		{
-			this.thread = new ThrXunZhao(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
+			this.thread = new ThrBaoZha(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
 			this.thread.run();
 		}
 

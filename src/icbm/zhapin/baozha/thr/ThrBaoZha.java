@@ -5,9 +5,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class ThrXunZhao extends ThrEx
+/**
+ * Used for small explosions.
+ * @author Calclavia
+ *
+ */
+public class ThrBaoZha extends ThrEx
 {
-	public ThrXunZhao(World world, Vector3 position, int banJing, Entity source)
+	public ThrBaoZha(World world, Vector3 position, int banJing, Entity source)
 	{
 		super(world, position, banJing, 0, source);
 	}
