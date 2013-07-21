@@ -46,11 +46,6 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 
 	public boolean isInverted = false;
 
-	public TYinGanQi()
-	{
-		super(DIAN);
-	}
-
 	@Override
 	public void initiate()
 	{
@@ -250,5 +245,11 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return DIAN;
 	}
 }

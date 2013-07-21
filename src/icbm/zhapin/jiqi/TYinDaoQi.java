@@ -13,11 +13,6 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketReceiver, IRotatable
 {
-	public TYinDaoQi()
-	{
-		super(10000);
-	}
-
 	private byte fangXiang = 3;
 
 	@Override
@@ -69,6 +64,12 @@ public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketR
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return 10000;
 	}
 
 }

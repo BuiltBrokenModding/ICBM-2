@@ -34,11 +34,6 @@ import cpw.mods.fml.common.network.Player;
  */
 public abstract class TileEntityTerminal extends TileEntityUniversalElectrical implements ISpecialAccess, IPacketReceiver, ITerminal
 {
-	public TileEntityTerminal(float maxEnergy)
-	{
-		super(maxEnergy);
-	}
-
 	public enum TerminalPacketType
 	{
 		GUI_EVENT, GUI_COMMAND, TERMINAL_OUTPUT, DESCRIPTION_DATA;

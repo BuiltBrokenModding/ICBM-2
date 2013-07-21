@@ -13,9 +13,9 @@ import dan200.computer.api.IPeripheral;
 
 public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral, IRedstoneReceptor
 {
-	public TFaSheQi(float maxEnergy)
+	public TFaSheQi()
 	{
-		super(maxEnergy);
+		super();
 		FaSheQiGuanLi.jiaFaSheQi(this);
 	}
 

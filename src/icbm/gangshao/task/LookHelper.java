@@ -1,6 +1,6 @@
 package icbm.gangshao.task;
 
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.TPaoTaiBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
@@ -13,9 +13,9 @@ import universalelectricity.core.vector.Vector3;
 public class LookHelper
 {
 	public static final int PITCH_DISPLACEMENT = 0;
-	private TPaoDaiBase sentry;
+	private TPaoTaiBase sentry;
 
-	public LookHelper(TPaoDaiBase turret)
+	public LookHelper(TPaoTaiBase turret)
 	{
 		this.sentry = turret;
 	}

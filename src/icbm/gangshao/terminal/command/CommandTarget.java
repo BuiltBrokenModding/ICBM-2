@@ -27,9 +27,9 @@ public class CommandTarget extends TerminalCommand
 		{
 			TPaoTaiZhan turret = (TPaoTaiZhan) terminal;
 
-			if (turret.getTurret(false) instanceof TPaoTaiZiDong)
+			if (turret.getTurret() instanceof TPaoTaiZiDong)
 			{
-				TPaoTaiZiDong sentry = ((TPaoTaiZiDong) turret.getTurret(false));
+				TPaoTaiZiDong sentry = ((TPaoTaiZiDong) turret.getTurret());
 
 				if (args.length > 1)
 				{
@@ -126,11 +126,11 @@ public class CommandTarget extends TerminalCommand
 	}
 
 	@Override
-	public boolean canMachineUse(ISpecialAccess mm)
+	public boolean canMachineUse(ISpecialAccess specialAccess)
 	{
-		if (mm instanceof TPaoTaiZhan)
+		if (specialAccess instanceof TPaoTaiZhan)
 		{
-			return ((TPaoTaiZhan) mm).getTurret(false) instanceof TPaoTaiZiDong;
+			return ((TPaoTaiZhan) specialAccess).getTurret() instanceof TPaoTaiZiDong;
 		}
 		return false;
 	}

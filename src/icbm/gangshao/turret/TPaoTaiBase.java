@@ -38,7 +38,7 @@ import com.google.common.io.ByteArrayDataInput;
  * 
  * @author Calclavia, Rseifert
  */
-public abstract class TPaoDaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, ISentry, IHealthTile
+public abstract class TPaoTaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, ISentry, IHealthTile
 {
 	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
 	public float maxPitch = 35;

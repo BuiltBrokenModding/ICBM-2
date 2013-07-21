@@ -35,7 +35,7 @@ public class TQiang extends TPaoTaiZiDong
 	@Override
 	public float getFiringRequest()
 	{
-		return 1000;
+		return 1;
 	}
 
 	@Override

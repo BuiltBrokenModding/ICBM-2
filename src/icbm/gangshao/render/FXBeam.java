@@ -26,7 +26,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class FXBeam extends EntityFX
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "noise.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.TEXTURE_PATH + "noise.png");
 
 	double movX = 0.0D;
 	double movY = 0.0D;

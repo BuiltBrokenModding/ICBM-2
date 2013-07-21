@@ -52,11 +52,6 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
-	public TFaSheShiMuo()
-	{
-		super(0);
-	}
-
 	@Override
 	public void updateEntity()
 	{
@@ -363,12 +358,12 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 		switch (this.getTier())
 		{
 			case 0:
-				return 400000;
+				return 500;
 			case 1:
-				return 60000;
+				return 800;
 		}
 
-		return 800000;
+		return 1000;
 	}
 
 	@Override
@@ -398,7 +393,7 @@ public class TFaSheShiMuo extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public float getRequest(ForgeDirection direction)
 	{
-		return this.getMaxEnergyStored() - this.getEnergyStored();
+		return (float) Math.ceil(this.getMaxEnergyStored() - this.getEnergyStored());
 	}
 
 	@Override

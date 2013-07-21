@@ -63,7 +63,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	{
 		super.updateScreen();
 
-		if (this.tileEntity.getTurret(false) == null)
+		if (this.tileEntity.getTurret() == null)
 		{
 			this.mc.thePlayer.closeScreen();
 		}
@@ -72,7 +72,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if (tileEntity.getTurret(false) != null)
+		if (tileEntity.getTurret() != null)
 		{
 
 			switch (button.id)
@@ -107,9 +107,9 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y)
 	{
-		if (this.tileEntity.getTurret(false) != null)
+		if (this.tileEntity.getTurret() != null)
 		{
-			String title = this.tileEntity.getTurret(false).getName();
+			String title = this.tileEntity.getTurret().getName();
 			this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
 
 			/** Render Tool Tips */

@@ -7,7 +7,7 @@ import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.IHealthTile;
 import icbm.gangshao.terminal.TileEntityTerminal;
 import icbm.gangshao.turret.ItemAmmo.AmmoType;
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.TPaoTaiBase;
 import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -31,11 +31,8 @@ import universalelectricity.prefab.CustomDamageSource;
  */
 public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 {
-
 	/** The turret linked to this platform. */
-	private TPaoDaiBase turret = null;
-	/** Deploy direction of the sentry */
-	public ForgeDirection deployDirection = ForgeDirection.UP;
+	private TPaoTaiBase cachedTurret = null;
 	/** The start index of the upgrade slots for the turret. */
 	public static final int UPGRADE_START_INDEX = 12;
 	private static final int TURRET_UPGADE_SLOTS = 3;
@@ -45,11 +42,6 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	 */
 	public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
 
-	public TPaoTaiZhan()
-	{
-		super(0);
-	}
-
 	private float prevWatts;
 
 	@Override
@@ -57,20 +49,14 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	{
 		super.updateEntity();
 
-		if (this.getTurret(false) != null)
-		{
-			this.setMaxEnergyStored(Math.max(turret.getFiringRequest(), 0) * 2);
-		}
-		else
-		{
-			this.setMaxEnergyStored(0);
-		}
-
 		if (this.prevWatts != this.getEnergyStored())
 		{
 			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 		}
 
+		/**
+		 * Consume electrical items.
+		 */
 		if (!this.worldObj.isRemote)
 		{
 			for (int i = 0; i < UPGRADE_START_INDEX; i++)
@@ -86,7 +72,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	}
 
 	@Override
-	public float receiveElectricity(ForgeDirection from, ElectricityPack receive, boolean doReceive)
+	public float receiveElectricity(ElectricityPack receive, boolean doReceive)
 	{
 		this.prevWatts = this.getEnergyStored();
 
@@ -97,20 +83,19 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 			{
 				if (receive.voltage > this.getVoltage())
 				{
-					TPaoDaiBase turret = this.getTurret(false);
+					TPaoTaiBase turret = this.getTurret();
 
 					if (turret != null && turret instanceof IHealthTile)
 					{
-						((IHealthTile) this.turret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
+						((IHealthTile) this.cachedTurret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
 					}
 
 					return 0;
 				}
 			}
-
 		}
 
-		float returnValue = super.receiveElectricity(from, receive, doReceive);
+		float returnValue = super.receiveElectricity(receive, doReceive);
 
 		if ((this.prevWatts <= this.getRequest(null) && this.getEnergyStored() >= this.getRequest(null)) && !(this.prevWatts == this.getEnergyStored()))
 		{
@@ -123,11 +108,11 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	@Override
 	public float getRequest(ForgeDirection direction)
 	{
-		if (this.getTurret(false) != null)
+		if (this.getTurret() != null)
 		{
-			if (this.getEnergyStored() < this.getTurret(false).getFiringRequest())
+			if (this.getEnergyStored() < this.getTurret().getFiringRequest())
 			{
-				Math.max(turret.getFiringRequest(), 0);
+				return Math.max(this.getTurret().getFiringRequest(), 0);
 			}
 		}
 
@@ -135,24 +120,23 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	}
 
 	/** Gets the turret instance linked to this platform */
-	public TPaoDaiBase getTurret(boolean getNew)
+	public TPaoTaiBase getTurret()
 	{
-		Vector3 position = new Vector3(this);
-
-		if (getNew || this.turret == null || this.turret.isInvalid() || !(new Vector3(this.turret).equals(position.clone().modifyPositionFromSide(this.deployDirection))))
+		if (this.cachedTurret == null || this.cachedTurret.isInvalid() || !(new Vector3(this.cachedTurret).equals(new Vector3(this).modifyPositionFromSide(this.getTurretDirection()))))
 		{
-			TileEntity tileEntity = position.clone().modifyPositionFromSide(this.deployDirection).getTileEntity(this.worldObj);
+			TileEntity tileEntity = new Vector3(this).modifyPositionFromSide(this.getTurretDirection()).getTileEntity(this.worldObj);
 
-			if (tileEntity instanceof TPaoDaiBase)
+			if (tileEntity instanceof TPaoTaiBase)
 			{
-				this.turret = (TPaoDaiBase) tileEntity;
+				this.cachedTurret = (TPaoTaiBase) tileEntity;
 			}
 			else
 			{
-				this.turret = null;
+				this.cachedTurret = null;
 			}
 		}
-		return this.turret;
+
+		return this.cachedTurret;
 	}
 
 	/**
@@ -162,12 +146,12 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	 */
 	public boolean destroyTurret()
 	{
-		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + deployDirection.offsetX, this.yCoord + deployDirection.offsetY, this.zCoord + deployDirection.offsetZ);
+		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + this.getTurretDirection().offsetX, this.yCoord + this.getTurretDirection().offsetY, this.zCoord + this.getTurretDirection().offsetZ);
 
-		if (ent instanceof TPaoDaiBase)
+		if (ent instanceof TPaoTaiBase)
 		{
-			this.turret = null;
-			((TPaoDaiBase) ent).destroy(false);
+			this.cachedTurret = null;
+			((TPaoTaiBase) ent).destroy(false);
 			return true;
 		}
 
@@ -197,7 +181,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 
 	public boolean isRunning()
 	{
-		return (this.getTurret(false) != null && this.getEnergyStored() >= this.getTurret(false).getFiringRequest());
+		return (this.getTurret() != null && this.getEnergyStored() >= this.getTurret().getFiringRequest());
 	}
 
 	public ItemStack hasAmmunition(ProjectileType projectileType)
@@ -474,5 +458,24 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		if (this.getTurret() != null)
+		{
+			return Math.max(this.getTurret().getFiringRequest(), 0) * 2;
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Deploy direction of the sentry
+	 */
+	public ForgeDirection getTurretDirection()
+	{
+		return ForgeDirection.UP;
 	}
 }

@@ -47,7 +47,7 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public float getFiringRequest()
 	{
-		return 8000;
+		return 50;
 	}
 
 	@Override

@@ -67,9 +67,9 @@ public class BlockTurret extends BICBM
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (ent instanceof TPaoDaiBase)
+		if (ent instanceof TPaoTaiBase)
 		{
-			EntityTileDamagable dEnt = ((TPaoDaiBase) ent).getDamageEntity();
+			EntityTileDamagable dEnt = ((TPaoTaiBase) ent).getDamageEntity();
 			if (dEnt != null)
 			{
 				this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
@@ -128,10 +128,10 @@ public class BlockTurret extends BICBM
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
 
-		if (ent instanceof TPaoDaiBase)
+		if (ent instanceof TPaoTaiBase)
 		{
 			Random random = new Random();
-			((TPaoDaiBase) ent).setHealth(5 + random.nextInt(7), true);
+			((TPaoTaiBase) ent).setHealth(5 + random.nextInt(7), true);
 			return true;
 		}
 
@@ -168,7 +168,7 @@ public class BlockTurret extends BICBM
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TPaoDaiBase)
+		if (tileEntity instanceof TPaoTaiBase)
 		{
 			if (this.canBlockStay(world, x, y, z))
 			{
@@ -188,7 +188,7 @@ public class BlockTurret extends BICBM
 			{
 				if (tileEntity != null)
 				{
-					((TPaoDaiBase) tileEntity).destroy(false);
+					((TPaoTaiBase) tileEntity).destroy(false);
 				}
 			}
 		}

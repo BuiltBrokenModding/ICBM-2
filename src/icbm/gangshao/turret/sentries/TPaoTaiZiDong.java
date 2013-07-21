@@ -8,7 +8,7 @@ import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.TileDamageSource;
 import icbm.gangshao.task.TaskManager;
 import icbm.gangshao.task.TaskSearchTarget;
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.TPaoTaiBase;
 import icbm.gangshao.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
  * 
  * @author Rseifert
  */
-public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
+public abstract class TPaoTaiZiDong extends TPaoTaiBase implements IAutoSentry
 {
 	/** CURRENT TARGET TO ATTACK */
 	public Entity target;
@@ -208,7 +208,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 		{
 			if (this.lookHelper.isLookingAt(this.target, 5))
 			{
-				return this.tickSinceFired == 0 && (this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), false).getWatts() >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
+				return this.tickSinceFired == 0 && (this.getPlatform().provideElectricity(this.getFiringRequest(), false).getWatts() >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
 			}
 		}
 
@@ -237,7 +237,7 @@ public abstract class TPaoTaiZiDong extends TPaoDaiBase implements IAutoSentry
 			{
 				this.sendShotToClient(this.getTargetPosition());
 				this.playFiringSound();
-				this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
+				this.getPlatform().provideElectricity(this.getFiringRequest(), true);
 			}
 		}
 	}

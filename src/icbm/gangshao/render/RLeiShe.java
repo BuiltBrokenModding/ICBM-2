@@ -3,7 +3,7 @@ package icbm.gangshao.render;
 import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.muoxing.MLeiShe;
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.TPaoTaiBase;
 import icbm.gangshao.turret.sentries.TLeiShe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -58,7 +58,7 @@ public class RLeiShe extends RenderTaggedTile
 		MODEL.renderYawPitch(0.0625F, barrelRotation);
 	}
 
-	public void setTextureBaseOnState(TPaoDaiBase tileEntity)
+	public void setTextureBaseOnState(TPaoTaiBase tileEntity)
 	{
 		EntityPlayer player = this.getPlayer();
 

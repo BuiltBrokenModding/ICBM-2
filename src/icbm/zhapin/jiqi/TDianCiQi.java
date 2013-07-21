@@ -46,7 +46,6 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 
 	public TDianCiQi()
 	{
-		super(0);
 		RadarRegistry.register(this);
 	}
 
@@ -61,8 +60,6 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	public void updateEntity()
 	{
 		super.updateEntity();
-
-		this.setMaxEnergyStored(Math.max(2000000 * ((float) this.banJing / (float) MAX_RADIUS), 1000000));
 
 		if (this.ticks % 20 == 0 && this.getEnergyStored() > 0)
 		{
@@ -225,12 +222,18 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	@Override
 	public float getRequest(ForgeDirection direction)
 	{
-		return 0;
+		return (float) Math.ceil(this.getMaxEnergyStored() - this.getEnergyStored());
 	}
 
 	@Override
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return Math.max(3000 * ((float) this.banJing / (float) MAX_RADIUS), 1000);
 	}
 }

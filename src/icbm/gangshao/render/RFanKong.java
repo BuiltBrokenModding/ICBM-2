@@ -3,7 +3,7 @@ package icbm.gangshao.render;
 import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.access.AccessLevel;
 import icbm.gangshao.muoxing.ModelAATurret;
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.TPaoTaiBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -27,9 +27,9 @@ public class RFanKong extends RenderTaggedTile
 	{
 		super.renderTileEntityAt(t, x, y, z, f);
 
-		if (t instanceof TPaoDaiBase)
+		if (t instanceof TPaoTaiBase)
 		{
-			TPaoDaiBase tileEntity = (TPaoDaiBase) t;
+			TPaoTaiBase tileEntity = (TPaoTaiBase) t;
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
 			GL11.glScalef(0.7f, 0.7f, 0.7f);
@@ -52,7 +52,7 @@ public class RFanKong extends RenderTaggedTile
 		MODEL.renderCannon(0.0625F, (float) Math.toRadians(renderPitch));
 	}
 
-	public void setTextureBaseOnState(TPaoDaiBase tileEntity)
+	public void setTextureBaseOnState(TPaoTaiBase tileEntity)
 	{
 		EntityPlayer player = this.getPlayer();
 

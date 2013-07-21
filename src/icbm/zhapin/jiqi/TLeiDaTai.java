@@ -48,7 +48,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 {
 	public final static int MAX_BIAN_JING = 500;
 
-	private static final float DIAN = 1;
+	private static final float DIAN = 1.5f;
 
 	public float xuanZhuan = 0;
 
@@ -70,13 +70,14 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 
 	public TLeiDaTai()
 	{
-		super(DIAN);
+		super();
 		RadarRegistry.register(this);
 	}
 
 	@Override
 	public void initiate()
 	{
+		super.initiate();
 		this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
 		this.chunkLoaderInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.NORMAL));
 	}
@@ -100,64 +101,57 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	{
 		super.updateEntity();
 
-		try
+		if (!this.worldObj.isRemote)
 		{
+			if (this.ticks % 40 == 0)
+			{
+				PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
+			}
+			else if (this.ticks % 3 == 0)
+			{
+				for (EntityPlayer wanJia : this.yongZhe)
+				{
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
+				}
+			}
+		}
+
+		if (this.provideElectricity(DIAN, false).getWatts() >= this.getRequest(null))
+		{
+			this.xuanZhuan += 0.05F;
+
+			if (this.xuanZhuan > 360)
+				this.xuanZhuan = 0;
+
 			if (!this.worldObj.isRemote)
 			{
-				if (this.ticks % 40 == 0)
-				{
-					PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
-				}
-				else if (this.ticks % 3 == 0)
-				{
-					for (EntityPlayer wanJia : this.yongZhe)
-					{
-						PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
-					}
-				}
+				this.provideElectricity(DIAN, true);
 			}
 
-			if (this.provideElectricity(this.getRequest(null), true).getWatts() >= this.getRequest(null))
-			{
-				this.xuanZhuan += 0.05F;
+			int prevShuMu = this.xunZhaoEntity.size();
 
-				if (this.xuanZhuan > 360)
-					this.xuanZhuan = 0;
+			// Do a radar scan
+			this.doScan();
 
-				if (!this.worldObj.isRemote)
-				{
-					this.provideElectricity(this.getRequest(null), true);
-				}
-
-				int prevShuMu = this.xunZhaoEntity.size();
-
-				// Do a radar scan
-				this.doScan();
-
-				if (prevShuMu != this.xunZhaoEntity.size())
-				{
-					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-				}
-			}
-			else
-			{
-				if (this.xunZhaoEntity.size() > 0)
-				{
-					this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-				}
-
-				this.xunZhaoEntity.clear();
-				this.xunZhaoJiQi.clear();
-			}
-
-			if (this.ticks % 40 == 0)
+			if (prevShuMu != this.xunZhaoEntity.size())
 			{
 				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 			}
 		}
-		catch (Exception e)
+		else
 		{
-			e.printStackTrace();
+			if (this.xunZhaoEntity.size() > 0)
+			{
+				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+			}
+
+			this.xunZhaoEntity.clear();
+			this.xunZhaoJiQi.clear();
+		}
+
+		if (this.ticks % 40 == 0)
+		{
+			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
 	}
 
@@ -519,7 +513,13 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	@Override
 	public float getRequest(ForgeDirection direction)
 	{
-		return DIAN;
+		return (float) Math.ceil(this.getMaxEnergyStored() - this.getEnergyStored());
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return DIAN * 3;
 	}
 
 	@Override
@@ -533,4 +533,5 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	{
 		return 0;
 	}
+
 }

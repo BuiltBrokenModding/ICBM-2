@@ -57,7 +57,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 
 	public TXiaoFaSheQi()
 	{
-		super(800);
+		super();
 		this.muBiao = new Vector3();
 	}
 
@@ -573,6 +573,12 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return 700;
 	}
 
 }

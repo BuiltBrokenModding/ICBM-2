@@ -1,6 +1,6 @@
 package icbm.gangshao.turret.mount;
 
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.TPaoTaiBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
@@ -15,7 +15,7 @@ import calclavia.lib.multiblock.IMultiBlock;
  * @author Calclavia
  * 
  */
-public abstract class TPaoTaiQi extends TPaoDaiBase implements IMultiBlock
+public abstract class TPaoTaiQi extends TPaoTaiBase implements IMultiBlock
 {
 	/** Fake entity this sentry uses for mounting the player in position */
 	protected EJia entityFake = null;

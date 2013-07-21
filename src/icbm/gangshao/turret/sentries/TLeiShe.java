@@ -51,7 +51,7 @@ public class TLeiShe extends TPaoTaiZiDong
 	@Override
 	public float getFiringRequest()
 	{
-		return 20000;
+		return 20;
 	}
 
 	@Override

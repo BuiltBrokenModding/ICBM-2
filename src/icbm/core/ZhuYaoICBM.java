@@ -22,6 +22,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
+import universalelectricity.compatibility.Compatibility;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.ore.OreGenBase;
@@ -91,6 +92,7 @@ public class ZhuYaoICBM
 			MinecraftForge.EVENT_BUS.register(INSTANCE);
 
 			LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
+			Compatibility.initiate();
 
 			SheDing.initiate();
 			SheDing.CONFIGURATION.load();

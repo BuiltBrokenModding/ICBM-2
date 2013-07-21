@@ -2,7 +2,7 @@ package icbm.gangshao.shimian;
 
 import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.platform.TPaoTaiZhan;
-import icbm.gangshao.turret.TPaoDaiBase;
+import icbm.gangshao.turret.TPaoTaiBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,7 +32,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 	{
 		this.fontRenderer.drawString("Ammunition", 8, 30, 4210752);
 
-		TPaoDaiBase turret = this.tileEntity.getTurret(false);
+		TPaoTaiBase turret = this.tileEntity.getTurret();
 
 		// Render the turret energy
 		if (turret != null && turret.getFiringRequest() > 0)
@@ -46,7 +46,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 
 			this.fontRenderer.drawString("Energy Per Shot", 85, 33, 4210752);
 			this.fontRenderer.drawString(color + ElectricityDisplay.getDisplayShort(Math.min(this.tileEntity.getEnergyStored(), turret.getFiringRequest()), ElectricUnit.JOULES), 87, 43, 4210752);
-			this.fontRenderer.drawString(color + "of " + ElectricityDisplay.getDisplayShort(this.tileEntity.getTurret(false).getFiringRequest(), ElectricUnit.JOULES), 87, 53, 4210752);
+			this.fontRenderer.drawString(color + "of " + ElectricityDisplay.getDisplayShort(this.tileEntity.getTurret().getFiringRequest(), ElectricUnit.JOULES), 87, 53, 4210752);
 		}
 
 		this.fontRenderer.drawString("Upgrades", 87, 66, 4210752);
