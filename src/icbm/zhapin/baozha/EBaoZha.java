@@ -171,8 +171,6 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 			ZhuYaoICBM.LOGGER.severe("ICBM error in loading an explosion!");
 			e.printStackTrace();
 		}
-
-		// this.ticksExisted = nbt.getInteger("ticksExisted");
 	}
 
 	/**
@@ -185,8 +183,6 @@ public class EBaoZha extends Entity implements IEntityAdditionalSpawnData
 		baoZhaNBT.setString("class", this.baoZha.getClass().getCanonicalName());
 		this.baoZha.writeToNBT(baoZhaNBT);
 		nbt.setCompoundTag("baoZha", baoZhaNBT);
-
-		// nbt.setInteger("ticksExisted", this.ticksExisted);
 	}
 
 	@Override

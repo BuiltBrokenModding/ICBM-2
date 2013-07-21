@@ -107,7 +107,7 @@ public class BzHongSu extends BaoZha
 								}
 
 								takenBlocks++;
-								if (takenBlocks > maxTakeBlocks)
+								if (takenBlocks > this.maxTakeBlocks)
 									break loop;
 							}
 						}
@@ -189,19 +189,16 @@ public class BzHongSu extends BaoZha
 		double xPercentage = 1 - (xDifference / radius);
 		double yPercentage = 1 - (yDifference / radius);
 		double zPercentage = 1 - (zDifference / radius);
-		double distancePercentage = 2 - (this.position.distanceTo(new Vector3(entity)) / radius);
+		double distancePercentage = (this.position.distanceTo(new Vector3(entity)) / radius);
 
 		Vector3 entityPosition = new Vector3(entity);
 		Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
-		CalculationHelper.rotateByAngle(centeredPosition, 6 * distancePercentage * Math.random(), 6 * distancePercentage * Math.random(), 6 * distancePercentage * Math.random());
+		CalculationHelper.rotateByAngle(centeredPosition, 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random());
 		Vector3 newPosition = Vector3.add(this.position, centeredPosition);
-		entity.motionX /= 2;
-		entity.motionY /= 2;
-		entity.motionZ /= 2;
 		// Orbit Velocity
 		entity.addVelocity(newPosition.x - entityPosition.x, 0, newPosition.z - entityPosition.z);
 		// Gravity Velocity
-		entity.addVelocity(-xDifference * 0.04 * xPercentage, -yDifference * 0.04 * yPercentage, -zDifference * 0.04 * zPercentage);
+		entity.addVelocity(-xDifference * 0.015 * xPercentage, -yDifference * 0.015 * yPercentage, -zDifference * 0.015 * zPercentage);
 
 		if (this.worldObj.isRemote)
 		{
@@ -222,7 +219,14 @@ public class BzHongSu extends BaoZha
 		{
 			if (doExplosion && !explosionCreated && callCount % 5 == 0)
 			{
+				/**
+				 * Inject velocities to prevent this explosion to move RedMatter.
+				 */
+				Vector3 tempMotion = new Vector3(this.controller.motionX, this.controller.motionY, this.controller.motionZ);
 				this.worldObj.createExplosion(this.exploder, entity.posX, entity.posY, entity.posZ, 3.0F, true);
+				this.controller.motionX = tempMotion.x;
+				this.controller.motionY = tempMotion.y;
+				this.controller.motionZ = tempMotion.z;
 				explosionCreated = true;
 			}
 
@@ -255,6 +259,7 @@ public class BzHongSu extends BaoZha
 				}
 			}
 		}
+
 		return explosionCreated;
 	}
 
@@ -278,6 +283,6 @@ public class BzHongSu extends BaoZha
 	@Override
 	public boolean isMovable()
 	{
-		return true;
+		return this.callCount > 1;
 	}
 }
