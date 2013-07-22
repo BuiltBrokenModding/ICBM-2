@@ -4,17 +4,18 @@ import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.jiqi.TFaSheDi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import universalelectricity.prefab.SlotSpecific;
+import calclavia.lib.gui.ContainerBase;
 
-public class CFaShiDi extends Container
+public class CFaShiDi extends ContainerBase
 {
 	private TFaSheDi missileLauncher;
 
 	public CFaShiDi(InventoryPlayer par1InventoryPlayer, TFaSheDi tileEntity)
 	{
+		super(tileEntity);
 		this.missileLauncher = tileEntity;
 		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ZhuYaoZhaPin.itDaoDan)));
 		int var3;

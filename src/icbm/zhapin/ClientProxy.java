@@ -13,6 +13,7 @@ import icbm.zhapin.gui.GFaSheDi;
 import icbm.zhapin.gui.GFaSheShiMuo;
 import icbm.zhapin.gui.GLeiDaTai;
 import icbm.zhapin.gui.GXiaoFaSheQi;
+import icbm.zhapin.gui.GYinDaoQi;
 import icbm.zhapin.jiqi.TDianCiQi;
 import icbm.zhapin.jiqi.TFaSheDi;
 import icbm.zhapin.jiqi.TFaSheJia;
@@ -143,6 +144,10 @@ public class ClientProxy extends CommonProxy
 		else if (tileEntity instanceof TFaSheDi)
 		{
 			return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
+		}
+		else if (tileEntity instanceof TYinDaoQi)
+		{
+			return new GYinDaoQi(entityPlayer.inventory, (TYinDaoQi) tileEntity);
 		}
 
 		return null;

@@ -1,7 +1,5 @@
 package icbm.zhapin.zhapin.daodan;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.MICBM;
 import icbm.zhapin.baozha.bz.BzYaSuo;
 import icbm.zhapin.muoxing.daodan.MMFenZiDan;
@@ -9,6 +7,8 @@ import icbm.zhapin.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class DFenZhiDan extends DaoDanTeBie
 {

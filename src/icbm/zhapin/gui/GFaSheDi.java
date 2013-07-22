@@ -16,10 +16,10 @@ public class GFaSheDi extends GuiContainer
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_launcher.png");
 
-	private TFaSheDi tileEntity;
-
 	private int containerWidth;
 	private int containerHeight;
+	
+	private TFaSheDi tileEntity;
 
 	public GFaSheDi(InventoryPlayer par1InventoryPlayer, TFaSheDi tileEntity)
 	{

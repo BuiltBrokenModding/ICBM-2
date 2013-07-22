@@ -1,7 +1,5 @@
 package icbm.zhapin.zhapin.ex;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.MICBM;
 import icbm.core.SheDing;
 import icbm.zhapin.baozha.bz.BzShengBuo;
@@ -15,6 +13,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.prefab.RecipeHelper;
 import calclavia.lib.UniversalRecipes;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExShengBuo extends DaoDan
 {

@@ -9,6 +9,7 @@ import icbm.zhapin.jiqi.TXiaoFaSheQi;
 import icbm.zhapin.jiqi.TYinDaoQi;
 import icbm.zhapin.rongqi.CFaShiDi;
 import icbm.zhapin.rongqi.CXiaoFaSheQi;
+import icbm.zhapin.rongqi.CYinDaoQi;
 import icbm.zhapin.zhapin.TZhaDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 
@@ -65,6 +66,10 @@ public class CommonProxy implements IGuiHandler
 		else if (tileEntity instanceof TFaSheDi)
 		{
 			return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
+		}
+		else if (tileEntity instanceof TYinDaoQi)
+		{
+			return new CYinDaoQi(player.inventory, (TYinDaoQi) tileEntity);
 		}
 
 		return null;

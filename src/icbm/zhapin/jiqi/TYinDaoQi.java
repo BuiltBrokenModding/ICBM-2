@@ -1,19 +1,37 @@
 package icbm.zhapin.jiqi;
 
+import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.tile.IRotatable;
+import universalelectricity.prefab.tile.TileEntityAdvanced;
+import calclavia.lib.multiblock.IBlockActivate;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketReceiver, IRotatable
+/**
+ * Missile Coordinator
+ * 
+ * @author Calclavia
+ * 
+ */
+public class TYinDaoQi extends TileEntityAdvanced implements IPacketReceiver, IRotatable, IInventory, IBlockActivate
 {
 	private byte fangXiang = 3;
+	protected ItemStack[] containingItems = new ItemStack[this.getSizeInventory()];
+
+	@Override
+	public boolean canUpdate()
+	{
+		return false;
+	}
 
 	@Override
 	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
@@ -21,25 +39,179 @@ public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketR
 
 	}
 
-	/**
-	 * Reads a tile entity from NBT.
-	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
 	{
-		super.readFromNBT(par1NBTTagCompound);
-		this.fangXiang = par1NBTTagCompound.getByte("fangXiang");
+		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int par1)
+	{
+		return this.containingItems[par1];
+	}
+
+	@Override
+	public ItemStack decrStackSize(int par1, int par2)
+	{
+		if (this.containingItems[par1] != null)
+		{
+			ItemStack var3;
+
+			if (this.containingItems[par1].stackSize <= par2)
+			{
+				var3 = this.containingItems[par1];
+				this.containingItems[par1] = null;
+				return var3;
+			}
+			else
+			{
+				var3 = this.containingItems[par1].splitStack(par2);
+
+				if (this.containingItems[par1].stackSize == 0)
+				{
+					this.containingItems[par1] = null;
+				}
+
+				return var3;
+			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int par1)
+	{
+		if (this.containingItems[par1] != null)
+		{
+			ItemStack var2 = this.containingItems[par1];
+			this.containingItems[par1] = null;
+			return var2;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	@Override
+	public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	{
+		this.containingItems[par1] = par2ItemStack;
+
+		if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
+		{
+			par2ItemStack.stackSize = this.getInventoryStackLimit();
+		}
+	}
+
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return 64;
+	}
+
+	@Override
+	public void openChest()
+	{
+
+	}
+
+	@Override
+	public void closeChest()
+	{
+
+	}
+
+	@Override
+	public boolean isInvNameLocalized()
+	{
+		return true;
+	}
+
+	@Override
+	public String getInvName()
+	{
+		return "Missile Coordinator";
 	}
 
 	/**
-	 * Writes a tile entity to NBT.
+	 * @return Returns if a specific slot is valid to input a specific itemStack.
+	 * 
 	 */
-	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	public boolean isStackValidForInputSlot(int slot, ItemStack itemStack)
 	{
-		super.writeToNBT(par1NBTTagCompound);
+		if (this.getStackInSlot(slot) == null)
+		{
+			return true;
+		}
+		else
+		{
+			if (this.getStackInSlot(slot).stackSize + 1 <= 64)
+			{
+				return this.getStackInSlot(slot).isItemEqual(itemStack);
+			}
+		}
 
-		par1NBTTagCompound.setByte("fangXiang", this.fangXiang);
+		return false;
+	}
+
+	public void incrStackSize(int slot, ItemStack itemStack)
+	{
+		if (this.getStackInSlot(slot) == null)
+		{
+			this.setInventorySlotContents(slot, itemStack.copy());
+		}
+		else if (this.getStackInSlot(slot).isItemEqual(itemStack))
+		{
+			this.getStackInSlot(slot).stackSize++;
+		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		NBTTagList var2 = nbt.getTagList("Items");
+		this.containingItems = new ItemStack[this.getSizeInventory()];
+
+		for (int var3 = 0; var3 < var2.tagCount(); ++var3)
+		{
+			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
+			byte var5 = var4.getByte("Slot");
+
+			if (var5 >= 0 && var5 < this.containingItems.length)
+			{
+				this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
+			}
+		}
+		this.fangXiang = nbt.getByte("fangXiang");
+
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		NBTTagList var2 = new NBTTagList();
+
+		for (int var3 = 0; var3 < this.containingItems.length; ++var3)
+		{
+			if (this.containingItems[var3] != null)
+			{
+				NBTTagCompound var4 = new NBTTagCompound();
+				var4.setByte("Slot", (byte) var3);
+				this.containingItems[var3].writeToNBT(var4);
+				var2.appendTag(var4);
+			}
+		}
+
+		nbt.setTag("Items", var2);
+		nbt.setByte("fangXiang", this.fangXiang);
+
 	}
 
 	@Override
@@ -55,21 +227,21 @@ public class TYinDaoQi extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public float getRequest(ForgeDirection direction)
+	public int getSizeInventory()
 	{
-		return 0;
+		return 2;
 	}
 
 	@Override
-	public float getProvide(ForgeDirection direction)
+	public boolean isItemValidForSlot(int i, ItemStack itemstack)
 	{
-		return 0;
+		return false;
 	}
 
 	@Override
-	public float getMaxEnergyStored()
+	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		return 10000;
+		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		return true;
 	}
-
 }

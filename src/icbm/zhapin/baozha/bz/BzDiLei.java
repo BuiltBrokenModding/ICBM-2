@@ -3,7 +3,6 @@ package icbm.zhapin.baozha.bz;
 import icbm.core.MICBM;
 import icbm.zhapin.baozha.BaoZha;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
-import icbm.zhapin.zhapin.ex.ExDiLei;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;

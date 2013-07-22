@@ -1,6 +1,5 @@
 package icbm.zhapin.baozha.thr;
 
-import icbm.zhapin.baozha.thr.ThrSheXian.IThreadCallBack;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
