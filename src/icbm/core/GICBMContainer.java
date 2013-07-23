@@ -6,7 +6,7 @@ import calclavia.lib.gui.GuiContainerBase;
 
 public abstract class GICBMContainer extends GuiContainerBase
 {
-	public static final ResourceLocation ICBM_EMPTY_TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+	public static final ResourceLocation ICBM_EMPTY_TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_container.png");
 
 	public GICBMContainer(Container container)
 	{

@@ -1,5 +1,6 @@
 package icbm.zhapin.jiqi;
 
+import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -241,6 +242,7 @@ public class TYinDaoQi extends TileEntityAdvanced implements IPacketReceiver, IR
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "interface", 1, (float) (this.worldObj.rand.nextFloat() * 0.2 + 0.9F));
 		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
 	}

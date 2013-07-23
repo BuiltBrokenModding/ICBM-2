@@ -227,9 +227,13 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 
 			// TODO: Calculate parabola and relative out the height.
 			// Calculate the power required to reach the target co-ordinates
+			//Ground Displacement
 			this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), this.muBiao.toVector2());
+			//Parabolic Height
 			this.tianGao = 160 + (int) (this.diShangJuLi * 3);
+			//Flight time
 			this.feiXingShiJian = (float) Math.max(100, 2 * this.diShangJuLi) - this.feiXingTick;
+			//Acceleration
 			this.jiaSu = (float) this.tianGao * 2 / (this.feiXingShiJian * this.feiXingShiJian);
 		}
 	}
@@ -366,7 +370,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 					// Start the launch
 					if (this.qiFeiGaoDu > 0)
 					{
-						this.motionY = EDaoDan.JIA_KUAI_SU_DU * this.feiXingTick * (this.feiXingTick / 2);
+						this.motionY = JIA_KUAI_SU_DU * this.feiXingTick * (this.feiXingTick / 2);
 						this.motionX = 0;
 						this.motionZ = 0;
 						this.qiFeiGaoDu -= this.motionY;

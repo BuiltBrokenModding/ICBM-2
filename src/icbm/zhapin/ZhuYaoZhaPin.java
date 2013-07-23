@@ -316,12 +316,12 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', ElectricItemHelper.getUncharged(ZhuYaoZhaPin.itLeiDaQiang), '!', UniversalRecipes.PRIMARY_PLATE, '#', UniversalRecipes.CIRCUIT_T1, '?', Item.ingotGold }));
 		// EMP Tower
 		RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipes.PRIMARY_PLATE, '!', UniversalRecipes.CIRCUIT_T3, '@', UniversalRecipes.BATTERY_BOX, '#', UniversalRecipes.MOTOR, 'W', UniversalRecipes.WIRE }), "EMP Tower", SheDing.CONFIGURATION, true);
-
 		// Cruise Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipes.PRIMARY_PLATE, '!', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 2), '?', new ItemStack(ZhuYaoZhaPin.bJiQi, 1, 8) }));
+		// Missile Coordinator
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ZhuYaoZhaPin.bJiQi, 1, JiQi.YinDaoQi.ordinal()), new Object[] { "R R", "SCS", "SSS", 'C', UniversalRecipes.CIRCUIT_T2, 'S', UniversalRecipes.PRIMARY_PLATE, 'R', itYaoKong }));
 
-		// Missile Module
-		// Find and try to add a recipe with fuel, then oil then coal.
+		// Missile Module find and try to add a recipe with fuel, then oil then coal.
 		try
 		{
 			if (FluidRegistry.getFluid("fuel") != null && SheDing.USE_FUEL)

@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import calclavia.lib.render.CalclaviaRenderHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -21,8 +22,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RYinDaoQi extends TileEntitySpecialRenderer
 {
 	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_coordinator_off.png");
-	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_coordinator_on.png");
+	public static final ResourceLocation TEXTURE_FILE_ON = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_coordinator_on.png");
 	public static final MYinDaoQi MODEL = new MYinDaoQi();
+	private float lastSeePlayer = 0;
+	private float lastFlicker = 0;
 
 	public void renderModelAt(TYinDaoQi tileEntity, double x, double y, double z, float f)
 	{
@@ -32,12 +35,37 @@ public class RYinDaoQi extends TileEntitySpecialRenderer
 		int radius = 2;
 		List players = tileEntity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(tileEntity.xCoord - radius, tileEntity.yCoord - radius, tileEntity.zCoord - radius, tileEntity.xCoord + radius, tileEntity.yCoord + radius, tileEntity.zCoord + radius));
 
+		// CalclaviaRenderHelper.disableLighting();
+		// CalclaviaRenderHelper.enableBlending();
+
 		if (players.size() > 0)
 		{
-			this.func_110628_a(TEXTURE_FILE_2);
+			if (this.lastSeePlayer > 20 * 3)
+			{
+				this.func_110628_a(TEXTURE_FILE_ON);
+			}
+			else
+			{
+				// Flicker for first 3 seconds when player comes near.
+				this.lastSeePlayer += f;
+
+				if (Math.random() * 3 < this.lastSeePlayer / 3 && this.lastFlicker <= 0)
+				{
+					this.lastFlicker = 8;
+					this.func_110628_a(TEXTURE_FILE_ON);
+				}
+				else
+				{
+					this.func_110628_a(TEXTURE_FILE);
+				}
+
+				this.lastFlicker -= f;
+			}
+
 		}
 		else
 		{
+			this.lastSeePlayer = 0;
 			this.func_110628_a(TEXTURE_FILE);
 		}
 
@@ -55,6 +83,9 @@ public class RYinDaoQi extends TileEntitySpecialRenderer
 				GL11.glRotatef(-90F, 0.0F, 180F, 1.0F);
 				break;
 		}
+
+		// CalclaviaRenderHelper.disableBlending();
+		// CalclaviaRenderHelper.enableLighting();
 
 		MODEL.render(0, 0.0625F);
 		GL11.glPopMatrix();

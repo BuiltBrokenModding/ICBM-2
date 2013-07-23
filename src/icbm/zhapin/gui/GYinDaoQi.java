@@ -5,7 +5,10 @@ import icbm.zhapin.jiqi.TYinDaoQi;
 import icbm.zhapin.rongqi.CYinDaoQi;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.Direction;
+import net.minecraft.util.MathHelper;
 import universalelectricity.core.electricity.ElectricityDisplay;
+import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 
 public class GYinDaoQi extends GICBMContainer
@@ -17,7 +20,6 @@ public class GYinDaoQi extends GICBMContainer
 	{
 		super(new CYinDaoQi(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
-		this.ySize = 166;
 	}
 
 	/**
@@ -27,7 +29,7 @@ public class GYinDaoQi extends GICBMContainer
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		this.fontRenderer.drawString("\u00a77" + tileEntity.getInvName(), 48, 6, 4210752);
-		this.fontRenderer.drawString("Path Prediction", 50, 20, 4210752);
+		this.fontRenderer.drawString("Path Simulator", 50, 20, 4210752);
 		this.fontRenderer.drawString("From:", 13, 30, 4210752);
 		this.fontRenderer.drawString("To:", 134, 30, 4210752);
 
@@ -37,12 +39,28 @@ public class GYinDaoQi extends GICBMContainer
 			{
 				Vector3 pos1 = ((ICoordLink) this.tileEntity.getStackInSlot(0).getItem()).getLink(this.tileEntity.getStackInSlot(0));
 				Vector3 pos2 = ((ICoordLink) this.tileEntity.getStackInSlot(1).getItem()).getLink(this.tileEntity.getStackInSlot(1));
-				this.fontRenderer.drawString("Displacement: " + ElectricityDisplay.roundDecimals(pos1.distanceTo(pos2)) + " Meters", 13, 65, 4210752);
-				this.fontRenderer.drawString("Distance: " + ElectricityDisplay.roundDecimals(pos1.distanceTo(pos2)) + " Meters", 13, 75, 4210752);
-				this.fontRenderer.drawString("Time: " + ElectricityDisplay.roundDecimals(pos1.distanceTo(pos2)) + " Meters", 13, 85, 4210752);
-				this.fontRenderer.drawString("Direction: " + ElectricityDisplay.roundDecimals(pos1.distanceTo(pos2)) + " Meters", 13, 95, 4210752);
+
+				double displacement = pos1.distanceTo(pos2);
+
+				this.fontRenderer.drawString("Displacement: " + ElectricityDisplay.roundDecimals(displacement) + " Meters", 13, 65, 4210752);
+
+				double w = Vector2.distance(pos1.toVector2(), pos2.toVector2());
+				double h = 160 + (w * 3) - pos1.y;
+
+				double distance = 0.5 * Math.sqrt(16 * (h * h) + (w * w)) + (((w * w) / (8 * h)) * (Math.log(4 * h + Math.sqrt(16 * (h * h) + (w * w))) - Math.log(w)));
+
+				this.fontRenderer.drawString("Arc: " + ElectricityDisplay.roundDecimals(distance) + " Meters", 13, 75, 4210752);
+				this.fontRenderer.drawString("Time: " + ElectricityDisplay.roundDecimals(Math.max(100, 2 * displacement) / 20) + " Seconds", 13, 85, 4210752);
+
+				Vector3 delta = Vector3.subtract(pos1, pos2);
+				double rotation = MathHelper.wrapAngleTo180_double(Math.toDegrees(Math.atan2(delta.z, delta.x))) - 90;
+				int heading = MathHelper.floor_double((double) (rotation * 4.0F / 360.0F) + 0.5D) & 3;
+
+				this.fontRenderer.drawString("Direction: " + ElectricityDisplay.roundDecimals(rotation) + " (" + Direction.directions[heading] + ")", 13, 95, 4210752);
 			}
 		}
+
+		this.fontRenderer.drawString("More features coming soon!", 13, 120, 4210752);
 
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 	}
