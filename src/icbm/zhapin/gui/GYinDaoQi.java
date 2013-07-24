@@ -54,7 +54,7 @@ public class GYinDaoQi extends GICBMContainer
 
 				Vector3 delta = Vector3.subtract(pos1, pos2);
 				double rotation = MathHelper.wrapAngleTo180_double(Math.toDegrees(Math.atan2(delta.z, delta.x))) - 90;
-				int heading = MathHelper.floor_double((double) (rotation * 4.0F / 360.0F) + 0.5D) & 3;
+				int heading = MathHelper.floor_double(rotation * 4.0F / 360.0F + 0.5D) & 3;
 
 				this.fontRenderer.drawString("Direction: " + ElectricityDisplay.roundDecimals(rotation) + " (" + Direction.directions[heading] + ")", 13, 95, 4210752);
 			}

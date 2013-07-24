@@ -227,13 +227,13 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 
 			// TODO: Calculate parabola and relative out the height.
 			// Calculate the power required to reach the target co-ordinates
-			//Ground Displacement
+			// Ground Displacement
 			this.diShangJuLi = Vector2.distance(this.kaiShi.toVector2(), this.muBiao.toVector2());
-			//Parabolic Height
+			// Parabolic Height
 			this.tianGao = 160 + (int) (this.diShangJuLi * 3);
-			//Flight time
+			// Flight time
 			this.feiXingShiJian = (float) Math.max(100, 2 * this.diShangJuLi) - this.feiXingTick;
-			//Acceleration
+			// Acceleration
 			this.jiaSu = (float) this.tianGao * 2 / (this.feiXingShiJian * this.feiXingShiJian);
 		}
 	}

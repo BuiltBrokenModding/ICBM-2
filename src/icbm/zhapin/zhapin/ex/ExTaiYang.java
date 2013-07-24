@@ -44,6 +44,7 @@ public class ExTaiYang extends DaoDan
 	{
 		new BzTaiYang(world, entity, x, y, z, 50).explode();
 	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public MICBM getMissileModel()

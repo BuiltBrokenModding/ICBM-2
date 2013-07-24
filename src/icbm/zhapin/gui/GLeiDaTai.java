@@ -114,7 +114,7 @@ public class GLeiDaTai extends GuiBase
 		this.fontRenderer.drawString("Frequency:", 155, 100, 4210752);
 		this.textFieldFrequency.drawTextBox();
 
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.DIAN, ElectricUnit.WATT), 155, 128, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(TLeiDaTai.DIAN, ElectricUnit.WATT), 155, 128, 4210752);
 
 		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
 

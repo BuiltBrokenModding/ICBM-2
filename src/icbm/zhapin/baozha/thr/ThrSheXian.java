@@ -9,8 +9,9 @@ import universalelectricity.core.vector.Vector3;
 
 /**
  * Used for large raycasting explosions.
+ * 
  * @author Calclavia
- *
+ * 
  */
 public class ThrSheXian extends ThrEx
 {

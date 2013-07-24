@@ -18,7 +18,7 @@ public class GFaSheDi extends GuiContainer
 
 	private int containerWidth;
 	private int containerHeight;
-	
+
 	private TFaSheDi tileEntity;
 
 	public GFaSheDi(InventoryPlayer par1InventoryPlayer, TFaSheDi tileEntity)
