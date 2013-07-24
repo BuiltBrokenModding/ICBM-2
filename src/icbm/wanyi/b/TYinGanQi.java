@@ -1,6 +1,6 @@
 package icbm.wanyi.b;
 
-import icbm.core.IRedstoneProvider;
+import icbm.core.implement.IRedstoneProvider;
 import icbm.wanyi.ItHuoLuanQi;
 import icbm.wanyi.ZhuYaoWanYi;
 

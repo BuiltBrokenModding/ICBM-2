@@ -1,8 +1,8 @@
 package icbm.gangshao.turret.mount;
 
 import icbm.api.explosion.IExplosive;
-import icbm.core.IRedstoneReceptor;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.implement.IRedstoneReceptor;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
 

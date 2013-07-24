@@ -1,6 +1,6 @@
 package icbm.zhapin.muoxing.jiqi;
 
-import icbm.core.MICBM;
+import icbm.core.base.MICBM;
 import net.minecraft.client.model.ModelRenderer;
 
 public class MYinDaoQi extends MICBM

@@ -1,6 +1,6 @@
 package icbm.zhapin.muoxing.daodan;
 
-import icbm.core.MICBM;
+import icbm.core.base.MICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.relauncher.Side;

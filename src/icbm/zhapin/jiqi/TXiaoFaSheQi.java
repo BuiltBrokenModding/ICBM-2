@@ -240,7 +240,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.getEnergyStored(), this.shengBuo, this.muBiao.x, this.muBiao.y, this.muBiao.z);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 0, this.getEnergyStored(), this.getFrequency(), this.muBiao.x, this.muBiao.y, this.muBiao.z);
 	}
 
 	@Override

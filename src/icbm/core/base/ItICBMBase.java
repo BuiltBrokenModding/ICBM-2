@@ -1,5 +1,8 @@
-package icbm.core;
+package icbm.core.base;
 
+import icbm.core.ICBMTab;
+import icbm.core.SheDing;
+import icbm.core.ZhuYaoICBM;
 import calclavia.lib.base.ItemBase;
 
 public class ItICBMBase extends ItemBase

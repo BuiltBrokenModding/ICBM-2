@@ -1,5 +1,6 @@
-package icbm.core;
+package icbm.core.base;
 
+import icbm.core.ZhuYaoICBM;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;

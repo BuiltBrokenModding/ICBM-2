@@ -1,9 +1,9 @@
 package icbm.gangshao.turret;
 
-import icbm.core.BICBM;
 import icbm.core.ICBMTab;
-import icbm.core.IRedstoneReceptor;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.base.BICBM;
+import icbm.core.implement.IRedstoneReceptor;
 import icbm.gangshao.ZhuYaoGangShao;
 import icbm.gangshao.damage.EntityTileDamagable;
 import icbm.gangshao.render.BlockRenderingHandler;

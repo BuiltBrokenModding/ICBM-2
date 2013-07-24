@@ -1,7 +1,7 @@
 package icbm.wanyi;
 
 import icbm.api.IItemFrequency;
-import icbm.core.ItICBMElectricBase;
+import icbm.core.base.ItICBMElectricBase;
 
 import java.util.List;
 

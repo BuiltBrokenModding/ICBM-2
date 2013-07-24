@@ -1,6 +1,6 @@
 package icbm.zhapin.dianqi;
 
-import icbm.core.ItICBMElectricBase;
+import icbm.core.base.ItICBMElectricBase;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.cart.EChe;
 import icbm.zhapin.zhapin.EZhaDan;

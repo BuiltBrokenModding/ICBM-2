@@ -1,6 +1,6 @@
 package icbm.wanyi.gui;
 
-import icbm.core.GICBM;
+import icbm.core.base.GICBM;
 import icbm.wanyi.ZhuYaoWanYi;
 import icbm.wanyi.b.TYinGanQi;
 import net.minecraft.client.gui.GuiButton;

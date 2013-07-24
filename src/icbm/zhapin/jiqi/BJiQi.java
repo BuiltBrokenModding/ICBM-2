@@ -1,8 +1,8 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.ITier;
-import icbm.core.BICBM;
-import icbm.core.IRedstoneReceptor;
+import icbm.core.base.BICBM;
+import icbm.core.implement.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.render.tile.RHJiQi;
 

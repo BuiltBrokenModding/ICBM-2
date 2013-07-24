@@ -1,4 +1,4 @@
-package icbm.core;
+package icbm.core.base;
 
 import net.minecraft.client.model.ModelBase;
 

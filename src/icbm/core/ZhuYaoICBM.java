@@ -1,6 +1,7 @@
 package icbm.core;
 
 import icbm.api.ICBM;
+import icbm.core.base.ItICBMBase;
 
 import java.util.Arrays;
 import java.util.logging.Logger;

@@ -1,7 +1,7 @@
 package icbm.zhapin.muoxing.jiqi;
 
-import icbm.core.MICBM;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.base.MICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

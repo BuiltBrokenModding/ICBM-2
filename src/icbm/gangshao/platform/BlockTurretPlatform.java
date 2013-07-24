@@ -1,7 +1,7 @@
 package icbm.gangshao.platform;
 
-import icbm.core.BICBM;
 import icbm.core.ICBMTab;
+import icbm.core.base.BICBM;
 import icbm.gangshao.CommonProxy;
 import icbm.gangshao.IAmmunition;
 import icbm.gangshao.ISpecialAccess;

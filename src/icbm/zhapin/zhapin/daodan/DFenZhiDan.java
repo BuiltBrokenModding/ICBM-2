@@ -1,6 +1,6 @@
 package icbm.zhapin.zhapin.daodan;
 
-import icbm.core.MICBM;
+import icbm.core.base.MICBM;
 import icbm.zhapin.baozha.bz.BzYaSuo;
 import icbm.zhapin.muoxing.daodan.MMFenZiDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan.XingShi;

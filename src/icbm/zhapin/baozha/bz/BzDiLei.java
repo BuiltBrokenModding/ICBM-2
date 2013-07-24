@@ -1,6 +1,6 @@
 package icbm.zhapin.baozha.bz;
 
-import icbm.core.MICBM;
+import icbm.core.base.MICBM;
 import icbm.zhapin.baozha.BaoZha;
 import icbm.zhapin.muoxing.jiqi.MDiLei;
 import net.minecraft.entity.Entity;

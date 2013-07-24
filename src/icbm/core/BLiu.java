@@ -1,5 +1,7 @@
 package icbm.core;
 
+import icbm.core.base.BICBM;
+
 import java.util.Random;
 
 import net.minecraft.block.material.Material;

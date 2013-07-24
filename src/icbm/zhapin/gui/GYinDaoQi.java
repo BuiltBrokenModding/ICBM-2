@@ -1,6 +1,6 @@
 package icbm.zhapin.gui;
 
-import icbm.core.GICBMContainer;
+import icbm.core.base.GICBMContainer;
 import icbm.zhapin.jiqi.TYinDaoQi;
 import icbm.zhapin.rongqi.CYinDaoQi;
 import mffs.api.card.ICoordLink;

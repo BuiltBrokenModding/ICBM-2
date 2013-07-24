@@ -1,8 +1,8 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.RadarRegistry;
-import icbm.core.IRedstoneReceptor;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.implement.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.baozha.bz.BzDianCi;
 

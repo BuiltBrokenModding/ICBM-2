@@ -1,7 +1,7 @@
 package icbm.gangshao.turret;
 
-import icbm.core.ItICBMBase;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.base.ItICBMBase;
 import icbm.gangshao.IAmmunition;
 import icbm.gangshao.ProjectileType;
 

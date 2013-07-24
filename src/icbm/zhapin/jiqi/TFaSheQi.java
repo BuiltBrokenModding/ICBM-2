@@ -2,16 +2,16 @@ package icbm.zhapin.jiqi;
 
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
-import icbm.core.IRedstoneReceptor;
+import icbm.core.base.TShengBuo;
+import icbm.core.implement.IRedstoneReceptor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector3;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral, IRedstoneReceptor
+public abstract class TFaSheQi extends TShengBuo implements ILauncherController, IPeripheral, IRedstoneReceptor
 {
 	@Override
 	public void initiate()
@@ -28,8 +28,6 @@ public abstract class TFaSheQi extends TileEntityUniversalElectrical implements 
 	}
 
 	protected Vector3 muBiao = null;
-
-	protected int shengBuo = 0;
 
 	@Override
 	public boolean canConnect(ForgeDirection direction)
@@ -59,18 +57,6 @@ public abstract class TFaSheQi extends TileEntityUniversalElectrical implements 
 	public void setTarget(Vector3 target)
 	{
 		this.muBiao = target.floor();
-	}
-
-	@Override
-	public int getFrequency()
-	{
-		return this.shengBuo;
-	}
-
-	@Override
-	public void setFrequency(int frequency)
-	{
-		this.shengBuo = frequency;
 	}
 
 	@Override
@@ -165,7 +151,6 @@ public abstract class TFaSheQi extends TileEntityUniversalElectrical implements 
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.setFrequency(nbt.getInteger("frequency"));
 		this.muBiao = Vector3.readFromNBT(nbt.getCompoundTag("target"));
 	}
 
@@ -173,7 +158,6 @@ public abstract class TFaSheQi extends TileEntityUniversalElectrical implements 
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setInteger("frequency", this.getFrequency());
 
 		if (this.muBiao != null)
 		{

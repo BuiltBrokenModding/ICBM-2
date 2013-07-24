@@ -4,9 +4,10 @@ import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
 import icbm.api.IRadarDetectable;
 import icbm.api.RadarRegistry;
-import icbm.core.IChunkLoadHandler;
-import icbm.core.IRedstoneProvider;
 import icbm.core.ZhuYaoICBM;
+import icbm.core.base.TShengBuo;
+import icbm.core.implement.IChunkLoadHandler;
+import icbm.core.implement.IRedstoneProvider;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 
@@ -30,7 +31,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -46,7 +46,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral, IBlockFrequency
+public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral, IBlockFrequency
 {
 	public final static int MAX_BIAN_JING = 500;
 
@@ -72,8 +72,6 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	public boolean emitAll = true;
 
 	private Ticket ticket;
-
-	private int frequency = 0;
 
 	public TLeiDaTai()
 	{
@@ -420,11 +418,9 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-
 		this.safetyBanJing = nbt.getInteger("safetyBanJing");
 		this.alarmBanJing = nbt.getInteger("alarmBanJing");
 		this.emitAll = nbt.getBoolean("emitAll");
-		this.frequency = nbt.getInteger("frequency");
 	}
 
 	/**
@@ -434,11 +430,9 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-
 		nbt.setInteger("safetyBanJing", this.safetyBanJing);
 		nbt.setInteger("alarmBanJing", this.alarmBanJing);
 		nbt.setBoolean("emitAll", this.emitAll);
-		nbt.setInteger("frequency", this.frequency);
 	}
 
 	@Override
@@ -553,14 +547,6 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	}
 
 	@Override
-	public void invalidate()
-	{
-		ForgeChunkManager.releaseTicket(this.ticket);
-		RadarRegistry.unregister(this);
-		super.invalidate();
-	}
-
-	@Override
 	public boolean canAttachToSide(int side)
 	{
 		return true;
@@ -576,6 +562,14 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	public void detach(IComputerAccess computer)
 	{
 
+	}
+
+	@Override
+	public void invalidate()
+	{
+		ForgeChunkManager.releaseTicket(this.ticket);
+		RadarRegistry.unregister(this);
+		super.invalidate();
 	}
 
 	@Override
@@ -600,18 +594,6 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
-	}
-
-	@Override
-	public int getFrequency()
-	{
-		return this.frequency;
-	}
-
-	@Override
-	public void setFrequency(int frequency)
-	{
-		this.frequency = frequency;
 	}
 
 }
