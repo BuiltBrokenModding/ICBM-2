@@ -1,10 +1,10 @@
 package icbm.gangshao;
 
+import icbm.core.base.REJia;
 import icbm.gangshao.platform.TPaoTaiZhan;
 import icbm.gangshao.render.BlockRenderingHandler;
 import icbm.gangshao.render.FXBeam;
 import icbm.gangshao.render.RCiGuiPao;
-import icbm.gangshao.render.REJia;
 import icbm.gangshao.render.RFanKong;
 import icbm.gangshao.render.RLeiShe;
 import icbm.gangshao.render.RQiang;
