@@ -35,7 +35,7 @@ public class ExHuanYuan extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		return new MMHuanYuan();
 	}

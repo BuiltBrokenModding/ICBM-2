@@ -36,7 +36,7 @@ public class ExYaSuo extends DaoDan
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		return new MMYaSuo();
 	}

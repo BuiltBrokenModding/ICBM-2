@@ -27,7 +27,7 @@ public class DModule extends DaoDanTeBie
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		return MMYaSuo.INSTANCE;
 	}

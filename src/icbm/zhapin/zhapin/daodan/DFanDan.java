@@ -93,7 +93,7 @@ public class DFanDan extends DaoDanTeBie
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		return new MMFanDan();
 	}

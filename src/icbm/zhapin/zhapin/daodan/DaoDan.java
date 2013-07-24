@@ -56,9 +56,6 @@ public abstract class DaoDan extends ZhaPin
 	}
 
 	@SideOnly(Side.CLIENT)
-	public abstract MICBM getMuoXing();
-
-	@SideOnly(Side.CLIENT)
 	public ResourceLocation getMissileResource()
 	{
 		if (this.resourceLocation == null)

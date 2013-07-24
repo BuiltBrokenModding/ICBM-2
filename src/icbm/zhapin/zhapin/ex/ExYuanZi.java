@@ -81,7 +81,7 @@ public class ExYuanZi extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		if (this.getTier() == 3)
 		{

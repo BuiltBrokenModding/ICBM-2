@@ -251,20 +251,30 @@ public abstract class ZhaPin implements IExplosive
 		return (int) (this.yinXin / 2 + Math.random() * this.yinXin / 4);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public MICBM getBlockModel()
 	{
 		return null;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public ResourceLocation getBlockResource()
 	{
 		return null;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon()
+	{
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public MICBM getMissileModel()
 	{
 		return null;
 	}

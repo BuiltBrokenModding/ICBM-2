@@ -34,7 +34,7 @@ public class ExPiaoFu extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		return new MMPiaoFu();
 	}

@@ -51,7 +51,7 @@ public class ExTuiLa extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		if (this.getID() == ZhaPin.la.getID())
 		{

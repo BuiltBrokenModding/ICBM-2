@@ -41,7 +41,7 @@ public class RDaoDan extends Render
 			}
 
 			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(daoDan.getMissileResource());
-			daoDan.getMuoXing().render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			daoDan.getMissileModel().render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 
 			GL11.glPopMatrix();
 		}

@@ -51,7 +51,7 @@ public class ExDuQi extends DaoDan
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		if (this.getTier() == 1)
 		{

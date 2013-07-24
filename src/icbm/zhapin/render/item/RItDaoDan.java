@@ -79,7 +79,7 @@ public class RItDaoDan implements IItemRenderer
 			GL11.glScalef(scale, scale, scale);
 
 			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(daoDan.getMissileResource());
-			daoDan.getMuoXing().render(0.0625F);
+			daoDan.getMissileModel().render(0.0625F);
 		}
 	}
 }

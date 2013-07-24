@@ -60,7 +60,7 @@ public class ExQunDan extends DaoDan
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMuoXing()
+	public MICBM getMissileModel()
 	{
 		if (this.getID() == ZhaPin.xiaoQunDan.getID())
 		{

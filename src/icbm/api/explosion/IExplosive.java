@@ -1,8 +1,13 @@
 package icbm.api.explosion;
 
 import icbm.api.ITier;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Icon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * An interface used to find various types of explosive's information.
@@ -58,4 +63,17 @@ public interface IExplosive extends ITier
 	 * @param entity Entity that caused the explosion.
 	 */
 	public void createExplosion(World world, double x, double y, double z, Entity entity);
+
+	@SideOnly(Side.CLIENT)
+	public ModelBase getBlockModel();
+
+	@SideOnly(Side.CLIENT)
+	public ModelBase getMissileModel();
+
+	@SideOnly(Side.CLIENT)
+	public ResourceLocation getBlockResource();
+
+	@SideOnly(Side.CLIENT)
+	public Icon getIcon();
+
 }
