@@ -13,10 +13,16 @@ import dan200.computer.api.IPeripheral;
 
 public abstract class TFaSheQi extends TileEntityUniversalElectrical implements ILauncherController, IPeripheral, IRedstoneReceptor
 {
-	public TFaSheQi()
+	public void initiate()
 	{
-		super();
-		FaSheQiGuanLi.jiaFaSheQi(this);
+		super.initiate();
+		FaSheQiGuanLi.registerFaSheQi(this);
+	}
+
+	public void invalidate()
+	{
+		FaSheQiGuanLi.unregisterFaSheQi(this);
+		super.invalidate();
 	}
 
 	protected Vector3 muBiao = null;

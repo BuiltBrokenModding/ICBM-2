@@ -1,31 +1,35 @@
 package icbm.zhapin.jiqi;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 import universalelectricity.core.vector.Vector2;
 
 public class FaSheQiGuanLi
 {
-	// Static methods
-	private static List<TFaSheQi> faSheQi = new ArrayList<TFaSheQi>();
+	private static HashSet<TFaSheQi> FA_SHE_QI = new HashSet<TFaSheQi>();
 
-	public static void jiaFaSheQi(TFaSheQi launcher)
+	public static void registerFaSheQi(TFaSheQi launcher)
 	{
-		qingLiFaSheQi();
-
-		if (!faSheQi.contains(launcher))
+		if (!launcher.isInvalid())
 		{
-			faSheQi.add(launcher);
+			FA_SHE_QI.add(launcher);
+		}
+		else
+		{
+			unregisterFaSheQi(launcher);
 		}
 	}
 
-	public static List<TFaSheQi> naFaSheQiInArea(Vector2 minVector, Vector2 maxVector)
+	public static void unregisterFaSheQi(TFaSheQi launcher)
 	{
-		qingLiFaSheQi();
-		List<TFaSheQi> returnArray = new ArrayList<TFaSheQi>();
+		FA_SHE_QI.remove(launcher);
+	}
 
-		for (TFaSheQi launcher : faSheQi)
+	public static HashSet<TFaSheQi> naFaSheQiInArea(Vector2 minVector, Vector2 maxVector)
+	{
+		HashSet<TFaSheQi> returnArray = new HashSet<TFaSheQi>();
+
+		for (TFaSheQi launcher : FA_SHE_QI)
 		{
 			if (launcher.xCoord > minVector.x && launcher.xCoord < maxVector.x && launcher.zCoord > minVector.y && launcher.zCoord < maxVector.y)
 			{
@@ -36,24 +40,8 @@ public class FaSheQiGuanLi
 		return returnArray;
 	}
 
-	public static List<TFaSheQi> getFaSheQi()
+	public static HashSet<TFaSheQi> getFaSheQi()
 	{
-		qingLiFaSheQi();
-		return faSheQi;
-	}
-
-	public static void qingLiFaSheQi()
-	{
-		for (int i = 0; i < faSheQi.size(); i++)
-		{
-			if (faSheQi.get(i) == null)
-			{
-				faSheQi.remove(i);
-			}
-			else if (faSheQi.get(i).isInvalid())
-			{
-				faSheQi.remove(i);
-			}
-		}
+		return FA_SHE_QI;
 	}
 }

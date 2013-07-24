@@ -41,11 +41,11 @@ public class GLeiDaTai extends GuiBase
 
 	private GuiTextField textFieldAlarmRange;
 	private GuiTextField textFieldSafetyZone;
+	private GuiTextField textFieldFrequency;
 
 	private List<Vector2> missileCoords = new ArrayList<Vector2>();
 
 	private Vector2 mouseOverCoords = new Vector2();
-
 	private Vector2 mousePosition = new Vector2();
 
 	// Radar Map
@@ -70,13 +70,17 @@ public class GLeiDaTai extends GuiBase
 	{
 		super.initGui();
 
-		this.textFieldSafetyZone = new GuiTextField(fontRenderer, 155, 83, 30, 12);
+		this.textFieldSafetyZone = new GuiTextField(fontRenderer, 210, 67, 30, 12);
 		this.textFieldSafetyZone.setMaxStringLength(3);
 		this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
 
-		this.textFieldAlarmRange = new GuiTextField(fontRenderer, 155, 110, 30, 12);
+		this.textFieldAlarmRange = new GuiTextField(fontRenderer, 210, 82, 30, 12);
 		this.textFieldAlarmRange.setMaxStringLength(3);
 		this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
+
+		this.textFieldFrequency = new GuiTextField(fontRenderer, 155, 112, 50, 12);
+		this.textFieldFrequency.setMaxStringLength(6);
+		this.textFieldFrequency.setText(this.tileEntity.getFrequency() + "");
 
 		PacketDispatcher.sendPacketToServer(PacketManager.getPacket("ICBM", this.tileEntity, -1, true));
 	}
@@ -89,6 +93,49 @@ public class GLeiDaTai extends GuiBase
 	}
 
 	/**
+	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
+	 */
+	@Override
+	protected void drawForegroundLayer(int var2, int var3, float var1)
+	{
+		this.fontRenderer.drawString("\u00a77" + TranslationHelper.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
+
+		this.fontRenderer.drawString("Coordinates:", 155, 18, 4210752);
+		this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
+
+		this.fontRenderer.drawString("\u00a76" + this.info, 155, 42, 4210752);
+		this.fontRenderer.drawString("\u00a74" + this.info2, 155, 54, 4210752);
+
+		this.fontRenderer.drawString("Safe Zone:", 152, 70, 4210752);
+		this.textFieldSafetyZone.drawTextBox();
+		this.fontRenderer.drawString("Alarm Zone:", 150, 85, 4210752);
+		this.textFieldAlarmRange.drawTextBox();
+
+		this.fontRenderer.drawString("Frequency:", 155, 100, 4210752);
+		this.textFieldFrequency.drawTextBox();
+
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.DIAN, ElectricUnit.WATT), 155, 128, 4210752);
+
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
+
+		// Shows the status of the radar
+		String color = "\u00a74";
+		String status = "Idle";
+
+		if (this.tileEntity.getEnergyStored() >= this.tileEntity.getRequest(null))
+		{
+			color = "\u00a72";
+			status = "Radar On!";
+		}
+		else
+		{
+			status = "No Electricity!";
+		}
+
+		this.fontRenderer.drawString(color + status, 155, 150, 4210752);
+	}
+
+	/**
 	 * Call this method from you GuiScreen to process the keys into textbox.
 	 */
 	@Override
@@ -97,6 +144,7 @@ public class GLeiDaTai extends GuiBase
 		super.keyTyped(par1, par2);
 		this.textFieldSafetyZone.textboxKeyTyped(par1, par2);
 		this.textFieldAlarmRange.textboxKeyTyped(par1, par2);
+		this.textFieldFrequency.textboxKeyTyped(par1, par2);
 
 		try
 		{
@@ -118,6 +166,15 @@ public class GLeiDaTai extends GuiBase
 		{
 		}
 
+		try
+		{
+			this.tileEntity.setFrequency(Integer.parseInt(this.textFieldFrequency.getText()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 4, this.tileEntity.getFrequency()));
+		}
+		catch (NumberFormatException e)
+		{
+		}
+
 	}
 
 	/**
@@ -129,49 +186,7 @@ public class GLeiDaTai extends GuiBase
 		super.mouseClicked(par1, par2, par3);
 		this.textFieldAlarmRange.mouseClicked(par1 - containerPosX, par2 - containerPosY, par3);
 		this.textFieldSafetyZone.mouseClicked(par1 - containerPosX, par2 - containerPosY, par3);
-	}
-
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
-	 */
-	@Override
-	protected void drawForegroundLayer(int var2, int var3, float var1)
-	{
-		this.fontRenderer.drawString("\u00a77" + TranslationHelper.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
-
-		this.fontRenderer.drawString("Coordinates:", 155, 18, 4210752);
-		this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
-
-		this.fontRenderer.drawString("\u00a76" + this.info, 155, 42, 4210752);
-		this.fontRenderer.drawString("\u00a74" + this.info2, 155, 54, 4210752);
-
-		this.fontRenderer.drawString("Safe Zone:", 155, 70, 4210752);
-		this.textFieldSafetyZone.drawTextBox();
-		this.fontRenderer.drawString("Blocks", 190, 85, 4210752);
-
-		this.fontRenderer.drawString("Alarm Range:", 155, 98, 4210752);
-		this.textFieldAlarmRange.drawTextBox();
-		this.fontRenderer.drawString("Blocks", 190, 112, 4210752);
-
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest(null) * 20, ElectricUnit.WATT), 155, 128, 4210752);
-
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
-
-		// Shows the status of the radar
-		String color = "\u00a74";
-		String status = "Idle";
-
-		if (this.tileEntity.getEnergyStored() >= this.tileEntity.getRequest(null))
-		{
-			color = "\u00a72";
-			status = "Radar On!";
-		}
-		else
-		{
-			status = "No Electricity!";
-		}
-
-		this.fontRenderer.drawString(color + status, 155, 150, 4210752);
+		this.textFieldFrequency.mouseClicked(par1 - containerPosX, par2 - containerPosY, par3);
 	}
 
 	/**

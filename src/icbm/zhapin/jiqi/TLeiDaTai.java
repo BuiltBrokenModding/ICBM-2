@@ -1,6 +1,8 @@
 package icbm.zhapin.jiqi;
 
+import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
+import icbm.api.IRadarDetectable;
 import icbm.api.RadarRegistry;
 import icbm.core.IChunkLoadHandler;
 import icbm.core.IRedstoneProvider;
@@ -44,11 +46,11 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral
+public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral, IBlockFrequency
 {
 	public final static int MAX_BIAN_JING = 500;
 
-	private static final float DIAN = 1.5f;
+	public static final float DIAN = 1.5f;
 
 	public float xuanZhuan = 0;
 
@@ -56,6 +58,9 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 
 	public int safetyBanJing = 50;
 
+	/**
+	 * List of all incoming missiles, in order of distance.
+	 */
 	private List<EDaoDan> weiXianDaoDan = new ArrayList<EDaoDan>();
 
 	public List<Entity> xunZhaoEntity = new ArrayList<Entity>();
@@ -67,6 +72,8 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	public boolean emitAll = true;
 
 	private Ticket ticket;
+
+	private int frequency = 0;
 
 	public TLeiDaTai()
 	{
@@ -137,6 +144,25 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 			{
 				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 			}
+
+			if (this.ticks % 20 == 0 && this.weiXianDaoDan.size() > 0)
+			{
+				for (TFaSheQi faSheQi : FaSheQiGuanLi.getFaSheQi())
+				{
+					if (new Vector3(this).distanceTo(new Vector3(faSheQi)) < this.alarmBanJing && faSheQi.getFrequency() == this.getFrequency())
+					{
+						if (faSheQi instanceof TFaSheShiMuo)
+						{
+							double height = faSheQi.getTarget() != null ? faSheQi.getTarget().y : 0;
+							faSheQi.setTarget(new Vector3(this.weiXianDaoDan.get(0).posX, height, this.weiXianDaoDan.get(0).posZ));
+						}
+						else
+						{
+							faSheQi.setTarget(new Vector3(this.weiXianDaoDan.get(0)));
+						}
+					}
+				}
+			}
 		}
 		else
 		{
@@ -176,7 +202,33 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 
 					if (this.isWeiXianDaoDan((EDaoDan) entity))
 					{
-						weiXianDaoDan.add((EDaoDan) entity);
+						if (this.weiXianDaoDan.size() > 0)
+						{
+							/**
+							 * Sort in order of distance
+							 */
+							double dist = new Vector3(this).distanceTo(new Vector3(entity));
+
+							for (int i = 0; i < this.weiXianDaoDan.size(); i++)
+							{
+								EDaoDan daoDan = this.weiXianDaoDan.get(i);
+
+								if (dist < new Vector3(this).distanceTo(new Vector3(daoDan)))
+								{
+									this.weiXianDaoDan.add(i, (EDaoDan) entity);
+									break;
+								}
+								else if (i == this.weiXianDaoDan.size() - 1)
+								{
+									this.weiXianDaoDan.add((EDaoDan) entity);
+									break;
+								}
+							}
+						}
+						else
+						{
+							this.weiXianDaoDan.add((EDaoDan) entity);
+						}
 					}
 				}
 			}
@@ -203,7 +255,6 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 						if (itemStack.getItem() instanceof IItemFrequency)
 						{
 							youHuoLuan = true;
-
 							break;
 						}
 					}
@@ -227,7 +278,17 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 			}
 			else
 			{
-				this.xunZhaoJiQi.add(jiQi);
+				if (this.xunZhaoJiQi instanceof IRadarDetectable)
+				{
+					if (((IRadarDetectable) this.xunZhaoJiQi).canDetect(this))
+					{
+						this.xunZhaoJiQi.add(jiQi);
+					}
+				}
+				else
+				{
+					this.xunZhaoJiQi.add(jiQi);
+				}
 			}
 		}
 	}
@@ -248,7 +309,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 
 	private Packet getDescriptionPacket2()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, this.alarmBanJing, this.safetyBanJing);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 1, this.alarmBanJing, this.safetyBanJing, this.getFrequency());
 	}
 
 	@Override
@@ -282,6 +343,7 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 				{
 					this.alarmBanJing = dataStream.readInt();
 					this.safetyBanJing = dataStream.readInt();
+					this.setFrequency(dataStream.readInt());
 				}
 				else if (ID == 4)
 				{
@@ -297,6 +359,10 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 				else if (ID == 3)
 				{
 					this.alarmBanJing = dataStream.readInt();
+				}
+				else if (ID == 4)
+				{
+					this.setFrequency(dataStream.readInt());
 				}
 			}
 		}
@@ -358,19 +424,21 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 		this.safetyBanJing = nbt.getInteger("safetyBanJing");
 		this.alarmBanJing = nbt.getInteger("alarmBanJing");
 		this.emitAll = nbt.getBoolean("emitAll");
+		this.frequency = nbt.getInteger("frequency");
 	}
 
 	/**
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	public void writeToNBT(NBTTagCompound nbt)
 	{
-		super.writeToNBT(par1NBTTagCompound);
+		super.writeToNBT(nbt);
 
-		par1NBTTagCompound.setInteger("safetyBanJing", this.safetyBanJing);
-		par1NBTTagCompound.setInteger("alarmBanJing", this.alarmBanJing);
-		par1NBTTagCompound.setBoolean("emitAll", this.emitAll);
+		nbt.setInteger("safetyBanJing", this.safetyBanJing);
+		nbt.setInteger("alarmBanJing", this.alarmBanJing);
+		nbt.setBoolean("emitAll", this.emitAll);
+		nbt.setInteger("frequency", this.frequency);
 	}
 
 	@Override
@@ -532,6 +600,18 @@ public class TLeiDaTai extends TileEntityUniversalElectrical implements IChunkLo
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public int getFrequency()
+	{
+		return this.frequency;
+	}
+
+	@Override
+	public void setFrequency(int frequency)
+	{
+		this.frequency = frequency;
 	}
 
 }

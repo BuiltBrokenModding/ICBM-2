@@ -10,6 +10,7 @@ import icbm.zhapin.jiqi.TFaSheQi;
 import icbm.zhapin.jiqi.TXiaoFaSheQi;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
@@ -148,7 +149,7 @@ public class ItLeiSheZhiBiao extends ItICBMElectricBase implements IItemFrequenc
 			if (this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
 			{
 				Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-				List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - ItLeiSheZhiBiao.BAN_JING, position.z - ItLeiSheZhiBiao.BAN_JING), new Vector2(position.x + ItLeiSheZhiBiao.BAN_JING, position.z + ItLeiSheZhiBiao.BAN_JING));
+				HashSet<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - ItLeiSheZhiBiao.BAN_JING, position.z - ItLeiSheZhiBiao.BAN_JING), new Vector2(position.x + ItLeiSheZhiBiao.BAN_JING, position.z + ItLeiSheZhiBiao.BAN_JING));
 
 				for (TFaSheQi missileLauncher : launchers)
 				{
@@ -279,7 +280,7 @@ public class ItLeiSheZhiBiao extends ItICBMElectricBase implements IItemFrequenc
 						if (this.getElectricityStored(par1ItemStack) > YONG_DIAN_LIANG)
 						{
 							Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
-							List<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - ItLeiSheZhiBiao.BAN_JING, position.z - ItLeiSheZhiBiao.BAN_JING), new Vector2(position.x + ItLeiSheZhiBiao.BAN_JING, position.z + ItLeiSheZhiBiao.BAN_JING));
+							HashSet<TFaSheQi> launchers = FaSheQiGuanLi.naFaSheQiInArea(new Vector2(position.x - ItLeiSheZhiBiao.BAN_JING, position.z - ItLeiSheZhiBiao.BAN_JING), new Vector2(position.x + ItLeiSheZhiBiao.BAN_JING, position.z + ItLeiSheZhiBiao.BAN_JING));
 
 							boolean doAirStrike = false;
 							int errorCount = 0;
