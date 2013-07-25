@@ -28,7 +28,6 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
-import calclavia.lib.CalculationHelper;
 import calclavia.lib.render.ITagRender;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -277,7 +276,7 @@ public abstract class TPaoTaiBase extends TileEntityAdvanced implements IPacketR
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
+		return this.getCenter().add(Vector3.multiply(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
 	@Override
@@ -485,7 +484,7 @@ public abstract class TPaoTaiBase extends TileEntityAdvanced implements IPacketR
 		if (this.worldObj.isRemote)
 		{
 			Vector3 startPosition = this.getMuzzle();
-			Vector3 direction = CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch);
+			Vector3 direction = Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch);
 			double xoffset = 0;
 			double yoffset = 0;
 			double zoffset = 0;

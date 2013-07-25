@@ -20,7 +20,6 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
-import calclavia.lib.CalculationHelper;
 import calclavia.lib.multiblock.IMultiBlock;
 import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 
@@ -190,7 +189,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.6));
+		return this.getCenter().add(Vector3.multiply(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.6));
 	}
 
 	@Override

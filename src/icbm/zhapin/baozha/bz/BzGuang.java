@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import calclavia.lib.CalculationHelper;
 
 /**
  * Used by Exothermic and Endothermic explosions.
@@ -114,7 +113,7 @@ public abstract class BzGuang extends BaoZha
 			{
 				Vector3 entityPosition = new Vector3(entity);
 				Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
-				CalculationHelper.rotateByAngle(centeredPosition, 2);
+				centeredPosition.rotate(2);
 				Vector3 newPosition = Vector3.add(this.position, centeredPosition);
 				entity.motionX /= 3;
 				entity.motionY /= 3;

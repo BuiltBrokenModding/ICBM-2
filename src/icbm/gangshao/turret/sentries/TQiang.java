@@ -2,7 +2,6 @@ package icbm.gangshao.turret.sentries;
 
 import icbm.core.ZhuYaoICBM;
 import universalelectricity.core.vector.Vector3;
-import calclavia.lib.CalculationHelper;
 
 public class TQiang extends TPaoTaiZiDong
 {
@@ -47,7 +46,7 @@ public class TQiang extends TPaoTaiZiDong
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return this.getCenter().add(Vector3.multiply(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
+		return this.getCenter().add(Vector3.multiply(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
 	}
 
 	@Override

@@ -21,7 +21,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
-import calclavia.lib.CalculationHelper;
 
 public class BzHongSu extends BaoZha
 {
@@ -193,7 +192,7 @@ public class BzHongSu extends BaoZha
 
 		Vector3 entityPosition = new Vector3(entity);
 		Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
-		CalculationHelper.rotateByAngle(centeredPosition, 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random());
+		centeredPosition.rotate(1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random());
 		Vector3 newPosition = Vector3.add(this.position, centeredPosition);
 		// Orbit Velocity
 		entity.addVelocity(newPosition.x - entityPosition.x, 0, newPosition.z - entityPosition.z);

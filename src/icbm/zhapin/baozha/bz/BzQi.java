@@ -88,7 +88,7 @@ public class BzQi extends BaoZha
 				diDian.x = Math.random() * radius / 2 - radius / 4;
 				diDian.y = Math.random() * radius / 2 - radius / 4;
 				diDian.z = Math.random() * radius / 2 - radius / 4;
-				diDian.multiply(Math.min(radius, callCount) / 10);
+				diDian.scale(Math.min(radius, callCount) / 10);
 
 				if (diDian.getMagnitude() <= radius)
 				{

@@ -4,7 +4,6 @@ import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.ZhuYaoGangShao;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.core.vector.Vector3;
-import calclavia.lib.CalculationHelper;
 
 /**
  * AA Turret, shoots down missiles and planes.
@@ -66,8 +65,8 @@ public class TFanKong extends TPaoTaiZiDong
 	public void renderShot(Vector3 target)
 	{
 		Vector3 center = this.getCenter();
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).multiply(1.15)), target, 1, 1, 1, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class TFanKong extends TPaoTaiZiDong
 	@Override
 	public Vector3 getMuzzle()
 	{
-		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch).multiply(1));
+		return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch).scale(1));
 	}
 
 }

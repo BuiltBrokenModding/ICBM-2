@@ -539,11 +539,11 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 			position.add(delta);
 			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
 			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-			position.multiply(1 - 0.001 * Math.random());
+			position.scale(1 - 0.001 * Math.random());
 			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-			position.multiply(1 - 0.001 * Math.random());
+			position.scale(1 - 0.001 * Math.random());
 			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-			position.multiply(1 - 0.001 * Math.random());
+			position.scale(1 - 0.001 * Math.random());
 			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
 		}
 	}

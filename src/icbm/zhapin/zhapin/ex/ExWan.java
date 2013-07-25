@@ -10,7 +10,6 @@ import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import icbm.zhapin.zhapin.daodan.EDaoDan;
 import mffs.api.card.ICoordLink;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

@@ -10,7 +10,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
-import calclavia.lib.CalculationHelper;
 
 public class TLeiShe extends TPaoTaiZiDong
 {
@@ -76,8 +75,8 @@ public class TLeiShe extends TPaoTaiZiDong
 	public void renderShot(Vector3 target)
 	{
 		Vector3 center = this.getCenter();
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
-		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, CalculationHelper.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).multiply(1.2)), target, 1, 0.4f, 0.4f, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
+		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
 		this.barrelRotationVelocity += 1;
 	}
 
