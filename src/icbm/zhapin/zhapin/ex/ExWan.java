@@ -46,10 +46,12 @@ public class ExWan extends DaoDan
 					if (tileEntity instanceof TZhaDan)
 					{
 						link.writeToNBT(((TZhaDan) tileEntity).nbtData);
+
 						if (!world.isRemote)
 						{
 							entityPlayer.addChatMessage("Synced coordinate with " + this.getExplosiveName());
 						}
+
 						return true;
 					}
 				}
@@ -86,7 +88,7 @@ public class ExWan extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EPE", "ETE", "EPE", 'P', Item.enderPearl, 'E', Block.whiteStone, 'T', ZhaPin.la.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', ZhaPin.la.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override

@@ -106,30 +106,35 @@ public class BzWan extends BaoZha
 
 					try
 					{
-						if (this.teleportTarget != null)
+						/**
+						 * If a target doesn't exist, search for a random one within 100 block
+						 * range.
+						 */
+						if (this.teleportTarget == null)
 						{
-							this.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0F, 1.0F);
+							int checkY;
+							int checkX = this.worldObj.rand.nextInt(300) - 150 + (int) this.controller.posX;
+							int checkZ = this.worldObj.rand.nextInt(300) - 150 + (int) this.controller.posZ;
 
-							if (entity instanceof EntityPlayerMP)
+							for (checkY = 63; !this.worldObj.isAirBlock(checkX, checkY, checkZ) && !this.worldObj.isAirBlock(checkX, checkY + 1, checkZ); ++checkY)
 							{
-								((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(this.teleportTarget.x + 0.5, this.teleportTarget.y + 0.5, this.teleportTarget.z + 0.5, entity.rotationYaw, entity.rotationPitch);
+								;
 							}
-							else
-							{
-								entity.setPosition(this.teleportTarget.x + 0.5, this.teleportTarget.y + 0.5, this.teleportTarget.z + 0.5);
-							}
+
+							this.teleportTarget = new Vector3(checkX, checkY, checkZ);
+						}
+
+						this.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0F, 1.0F);
+
+						if (entity instanceof EntityPlayerMP)
+						{
+							((EntityPlayerMP) entity).playerNetServerHandler.setPlayerLocation(this.teleportTarget.x + 0.5, this.teleportTarget.y + 0.5, this.teleportTarget.z + 0.5, entity.rotationYaw, entity.rotationPitch);
 						}
 						else
 						{
-							if (entity.worldObj.provider.dimensionId != 0)
-							{
-								entity.travelToDimension(0);
-							}
-							else
-							{
-								entity.travelToDimension(1);
-							}
+							entity.setPosition(this.teleportTarget.x + 0.5, this.teleportTarget.y + 0.5, this.teleportTarget.z + 0.5);
 						}
+
 					}
 					catch (Exception e)
 					{
@@ -155,7 +160,7 @@ public class BzWan extends BaoZha
 
 		if (!this.worldObj.isRemote)
 		{
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				EntityEnderman enderman = new EntityEnderman(worldObj);
 				enderman.setPosition(this.position.x, this.position.y, this.position.z);
