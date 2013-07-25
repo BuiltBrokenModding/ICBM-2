@@ -114,7 +114,7 @@ public abstract class BzGuang extends BaoZha
 				Vector3 entityPosition = new Vector3(entity);
 				Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
 				centeredPosition.rotate(2);
-				Vector3 newPosition = Vector3.add(this.position, centeredPosition);
+				Vector3 newPosition = this.position.clone().translate(centeredPosition);
 				entity.motionX /= 3;
 				entity.motionY /= 3;
 				entity.motionZ /= 3;

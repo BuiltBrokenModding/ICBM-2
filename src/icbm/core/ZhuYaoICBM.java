@@ -78,7 +78,7 @@ public class ZhuYaoICBM
 
 	public static final String YU_YAN_PATH = ASSETS_PATH + "yuyan/";
 
-	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES" };
+	private static final String[] YU_YAN = new String[] { "en_US", "zh_CN", "es_ES", "de_DE" };
 
 	private static boolean isPreInit, isInit, isPostInit;
 
