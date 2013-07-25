@@ -253,7 +253,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 		{
 			if (this.getPlatform().hasAmmunition(ProjectileType.RAILGUN) != null)
 			{
-				if (this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), false).getWatts() >= this.getFiringRequest())
+				if (Math.round(this.getPlatform().provideElectricity(this.getFiringRequest(), false).getWatts()) >= this.getFiringRequest())
 				{
 					return true;
 				}

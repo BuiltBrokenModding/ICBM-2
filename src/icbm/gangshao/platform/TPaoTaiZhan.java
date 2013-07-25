@@ -61,7 +61,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 		{
 			for (int i = 0; i < UPGRADE_START_INDEX; i++)
 			{
-				if (this.getEnergyStored() >= this.getRequest(null))
+				if (this.getEnergyStored() > this.getRequest(null))
 				{
 					break;
 				}
@@ -112,7 +112,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 		{
 			if (this.getEnergyStored() < this.getTurret().getFiringRequest())
 			{
-				return Math.max(this.getTurret().getFiringRequest(), 0);
+				return (float) Math.ceil(Math.max(this.getTurret().getFiringRequest(), 0));
 			}
 		}
 

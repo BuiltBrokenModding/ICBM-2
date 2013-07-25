@@ -25,23 +25,27 @@ public abstract class TPaoTaiQi extends TPaoTaiBase implements IMultiBlock
 	{
 		super.updateEntity();
 
-		if (this.entityFake != null)
+		// Creates a fake entity to be mounted on
+		if (this.entityFake == null || this.entityFake.isDead)
 		{
-			if (this.entityFake.riddenByEntity instanceof EntityPlayer)
-			{
-				EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
+			this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
+			this.worldObj.spawnEntityInWorld(this.entityFake);
+		}
 
-				if (mountedPlayer.rotationPitch > this.maxPitch)
-				{
-					mountedPlayer.rotationPitch = this.maxPitch;
-				}
-				if (mountedPlayer.rotationPitch < this.minPitch)
-				{
-					mountedPlayer.rotationPitch = this.minPitch;
-				}
-				this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch;
-				this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw;
+		if (this.entityFake.riddenByEntity instanceof EntityPlayer)
+		{
+			EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
+
+			if (mountedPlayer.rotationPitch > this.maxPitch)
+			{
+				mountedPlayer.rotationPitch = this.maxPitch;
 			}
+			if (mountedPlayer.rotationPitch < this.minPitch)
+			{
+				mountedPlayer.rotationPitch = this.minPitch;
+			}
+			this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch;
+			this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw;
 		}
 	}
 
@@ -57,41 +61,38 @@ public abstract class TPaoTaiQi extends TPaoTaiBase implements IMultiBlock
 	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
-		if (entityPlayer.isSneaking())
-		{
-			this.tryActivateWeapon();
-		}
-		else
+		if (!entityPlayer.isSneaking())
 		{
 			if (this.entityFake != null)
 			{
 				if (this.entityFake.riddenByEntity instanceof EntityPlayer)
 				{
-					// Unmount
-					EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
+					this.tryActivateWeapon();
 
-					if (entityPlayer == mountedPlayer)
+					if (!this.worldObj.isRemote)
 					{
-						if (!this.worldObj.isRemote)
-						{
-							PacketManager.sendPacketToClients(this.getRotationPacket());
-						}
-
-						entityPlayer.mountEntity(null);
-						this.entityFake.setDead();
-						this.entityFake = null;
-
-						return true;
+						PacketManager.sendPacketToClients(this.getRotationPacket());
 					}
+
+					return true;
+					/*
+					 * // Unmount EntityPlayer mountedPlayer = (EntityPlayer)
+					 * this.entityFake.riddenByEntity;
+					 * 
+					 * if (entityPlayer == mountedPlayer) {
+					 * 
+					 * 
+					 * entityPlayer.mountEntity(null); this.entityFake.setDead(); this.entityFake =
+					 * null;
+					 * 
+					 * return true; }
+					 */
 				}
 
-				return false;
-			}
-			else
-			{
-				this.mount(entityPlayer);
 			}
 		}
+
+		this.mount(entityPlayer);
 
 		return true;
 	}
@@ -100,12 +101,6 @@ public abstract class TPaoTaiQi extends TPaoTaiBase implements IMultiBlock
 	{
 		if (!this.worldObj.isRemote)
 		{
-			// Creates a fake entity to be mounted on
-			if (this.entityFake == null)
-			{
-				this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
-				this.worldObj.spawnEntityInWorld(this.entityFake);
-			}
 
 			entityPlayer.rotationYaw = this.currentRotationYaw;
 			entityPlayer.rotationPitch = this.currentRotationPitch;

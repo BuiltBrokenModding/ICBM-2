@@ -137,11 +137,18 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 	protected void readEntityFromNBT(NBTTagCompound nbt)
 	{
 		this.shouldSit = nbt.getBoolean("shouldSit");
+		Vector3 readVec = Vector3.readFromNBT(nbt.getCompoundTag("controller"));
+
+		if (readVec.getTileEntity(this.worldObj) != null)
+		{
+			this.controller = readVec.getTileEntity(this.worldObj);
+		}
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt)
 	{
 		nbt.setBoolean("shouldSit", this.shouldSit);
+		nbt.setCompoundTag("controller", new Vector3(this.controller).writeToNBT(new NBTTagCompound()));
 	}
 }
