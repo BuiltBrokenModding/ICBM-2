@@ -1,5 +1,7 @@
 package icbm.zhapin.jiqi;
 
+import java.util.Set;
+
 import icbm.api.ITier;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -114,26 +116,9 @@ public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, IT
 	}
 
 	@Override
-	public void onDestroy(TileEntity callingBlock)
+	public Vector3[] getMultiBlockVectors()
 	{
-		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 2, this.zCoord, 0, 0, 2);
-	}
-
-	@Override
-	public boolean onActivated(EntityPlayer par5EntityPlayer)
-	{
-		return false;
-	}
-
-	@Override
-	public void onCreate(Vector3 position)
-	{
-		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
-		this.worldObj.setBlock(position.intX(), position.intY() + 2, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 2, position.intZ())).setMainBlock(position);
+		return new Vector3[] { new Vector3(0, 1, 0), new Vector3(0, 2, 0) };
 	}
 
 	@Override

@@ -92,13 +92,13 @@ public class RHJiQi implements ISimpleBlockRenderingHandler
 			}
 			else if (metadata == JiQi.LeiDaTai.ordinal() + 6)
 			{
-				GL11.glTranslatef(0f, 0.2f, 0f);
+				GL11.glTranslatef(0f, 1f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				GL11.glScalef(0.55f, 0.6f, 0.55f);
+				GL11.glRotatef(180f, 0, 1, 0);
 
 				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(RLeiDaTai.TEXTURE_FILE);
 
-				RLeiDaTai.MODEL.render(1.2f, 0.0625F);
+				RLeiDaTai.MODEL.render(0.0625f, 0, 1.2f);
 			}
 			else if (metadata == JiQi.DianCiQi.ordinal() + 6)
 			{

@@ -13,7 +13,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
@@ -21,7 +20,6 @@ import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 
 /**
  * Railgun
@@ -167,17 +165,9 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	}
 
 	@Override
-	public void onDestroy(TileEntity callingBlock)
+	public Vector3[] getMultiBlockVectors()
 	{
-		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0);
-	}
-
-	@Override
-	public void onCreate(Vector3 position)
-	{
-		this.worldObj.setBlock(position.intX(), position.intY() + 1, position.intZ(), ZhuYaoICBM.bJia.blockID, 0, 2);
-		((TileEntityMultiBlockPart) this.worldObj.getBlockTileEntity(position.intX(), position.intY() + 1, position.intZ())).setMainBlock(position);
+		return new Vector3[] { new Vector3(0, 1, 0) };
 	}
 
 	@Override

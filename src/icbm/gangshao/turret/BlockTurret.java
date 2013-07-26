@@ -27,7 +27,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.tile.IRotatable;
 import calclavia.lib.multiblock.IBlockActivate;
@@ -119,7 +118,7 @@ public class BlockTurret extends BICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			((IMultiBlock) tileEntity).onCreate(new Vector3(x, y, z));
+			ZhuYaoGangShao.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 	}
 
@@ -201,9 +200,8 @@ public class BlockTurret extends BICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			((IMultiBlock) tileEntity).onDestroy(tileEntity);
+			ZhuYaoGangShao.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
 		}
-
 		super.breakBlock(par1World, x, y, z, par5, par6);
 	}
 

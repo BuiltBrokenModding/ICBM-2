@@ -7,7 +7,7 @@ import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.CalculationHelper;
-import calclavia.lib.multiblock.IMultiBlock;
+import calclavia.lib.multiblock.IBlockActivate;
 
 /**
  * Mountable Turret
@@ -15,7 +15,7 @@ import calclavia.lib.multiblock.IMultiBlock;
  * @author Calclavia
  * 
  */
-public abstract class TPaoTaiQi extends TPaoTaiBase implements IMultiBlock
+public abstract class TPaoTaiQi extends TPaoTaiBase implements IBlockActivate
 {
 	/** Fake entity this sentry uses for mounting the player in position */
 	protected EJia entityFake = null;
@@ -75,18 +75,6 @@ public abstract class TPaoTaiQi extends TPaoTaiBase implements IMultiBlock
 					}
 
 					return true;
-					/*
-					 * // Unmount EntityPlayer mountedPlayer = (EntityPlayer)
-					 * this.entityFake.riddenByEntity;
-					 * 
-					 * if (entityPlayer == mountedPlayer) {
-					 * 
-					 * 
-					 * entityPlayer.mountEntity(null); this.entityFake.setDead(); this.entityFake =
-					 * null;
-					 * 
-					 * return true; }
-					 */
 				}
 
 			}

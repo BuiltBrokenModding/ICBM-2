@@ -6,7 +6,6 @@ import icbm.api.IMissile;
 import icbm.api.ITier;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.SheDing;
-import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;
@@ -30,6 +29,7 @@ import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.IRotatable;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
+import calclavia.lib.multiblock.IBlockActivate;
 import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -40,7 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory
+public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory, IBlockActivate
 {
 	// The missile that this launcher is holding
 	public IMissile daoDan = null;
@@ -53,7 +53,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	// The tier of this launcher base
 	private int tier = 0;
 
-	private byte orientation = 3;
+	private byte fangXiang = 3;
 
 	private boolean packetGengXin = true;
 
@@ -210,7 +210,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, this.orientation, this.tier);
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, this.fangXiang, this.tier);
 	}
 
 	@Override
@@ -218,7 +218,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	{
 		try
 		{
-			this.orientation = dataStream.readByte();
+			this.fangXiang = dataStream.readByte();
 			this.tier = dataStream.readInt();
 		}
 		catch (Exception e)
@@ -367,7 +367,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
 
 		this.tier = par1NBTTagCompound.getInteger("tier");
-		this.orientation = par1NBTTagCompound.getByte("facingDirection");
+		this.fangXiang = par1NBTTagCompound.getByte("facingDirection");
 
 		this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -392,7 +392,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		super.writeToNBT(par1NBTTagCompound);
 
 		par1NBTTagCompound.setInteger("tier", this.tier);
-		par1NBTTagCompound.setByte("facingDirection", this.orientation);
+		par1NBTTagCompound.setByte("facingDirection", this.fangXiang);
 
 		NBTTagList var2 = new NBTTagList();
 
@@ -469,73 +469,39 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	}
 
 	@Override
-	public void onCreate(Vector3 position)
+	public void invalidate()
 	{
-		if (this.orientation == 3 || this.orientation == 2)
-		{
-			// Left
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 0, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 1, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(1, 2, 0)), new Vector3(this));
-
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 0, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 1, 0)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(-1, 2, 0)), new Vector3(this));
-		}
-		else
-		{
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, 1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, 1)), new Vector3(this));
-
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 0, -1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, -1)), new Vector3(this));
-			ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 2, -1)), new Vector3(this));
-		}
-	}
-
-	@Override
-	public void onDestroy(TileEntity callingBlock)
-	{
-		Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-
-		if (this.orientation == 3 || this.orientation == 2)
-		{
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x + 1, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x + 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x - 1, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 1, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x - 1, (int) position.y + 2, (int) position.z, 0, 0, 2);
-		}
-		else
-		{
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 1, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 2, (int) position.z + 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y, (int) position.z - 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 1, (int) position.z - 1, 0, 0, 2);
-			this.worldObj.setBlock((int) position.x, (int) position.y + 2, (int) position.z - 1, 0, 0, 2);
-		}
-
 		if (this.daoDan != null)
 		{
 			((Entity) this.daoDan).setDead();
+		}
+
+		super.invalidate();
+	}
+
+	@Override
+	public Vector3[] getMultiBlockVectors()
+	{
+		if (this.fangXiang == 3 || this.fangXiang == 2)
+		{
+			return new Vector3[] { new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0), new Vector3(-1, 0, 0), new Vector3(-1, 1, 0), new Vector3(-1, 2, 0) };
+		}
+		else
+		{
+			return new Vector3[] { new Vector3(0, 0, 1), new Vector3(0, 1, 1), new Vector3(0, 2, 1), new Vector3(0, 0, -1), new Vector3(0, 1, -1), new Vector3(0, 2, -1) };
 		}
 	}
 
 	@Override
 	public ForgeDirection getDirection()
 	{
-		return ForgeDirection.getOrientation(this.orientation);
+		return ForgeDirection.getOrientation(this.fangXiang);
 	}
 
 	@Override
 	public void setDirection(ForgeDirection facingDirection)
 	{
-		this.orientation = (byte) facingDirection.ordinal();
+		this.fangXiang = (byte) facingDirection.ordinal();
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package icbm.zhapin.render.tile;
 
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.jiqi.TLeiDaTai;
-import icbm.zhapin.muoxing.jiqi.MLeiDa;
+import icbm.zhapin.muoxing.jiqi.MLeiDaTai;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -16,16 +16,39 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RLeiDaTai extends TileEntitySpecialRenderer
 {
 	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "radar.png");
+	public static final ResourceLocation TEXTURE_FILE_OFF = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "radar_off.png");
 
-	public static final MLeiDa MODEL = new MLeiDa();
+	public static final MLeiDaTai MODEL = new MLeiDaTai();
 
 	public void renderAModelAt(TLeiDaTai tileEntity, double x, double y, double z, float f)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		this.func_110628_a(TEXTURE_FILE);
+
+		if (tileEntity.getEnergyStored() >= tileEntity.getRequest(null))
+		{
+			this.func_110628_a(TEXTURE_FILE);
+		}
+		else
+		{
+			this.func_110628_a(TEXTURE_FILE_OFF);
+		}
+
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-		MODEL.render(tileEntity.xuanZhuan, 0.0625F);
+		switch (tileEntity.getDirection().ordinal())
+		{
+			case 2:
+				GL11.glRotatef(180F, 0.0F, 180F, 1.0F);
+				break;
+			case 4:
+				GL11.glRotatef(90F, 0.0F, 180F, 1.0F);
+				break;
+			case 5:
+				GL11.glRotatef(-90F, 0.0F, 180F, 1.0F);
+				break;
+		}
+
+		MODEL.render(0.0625F, 0f, tileEntity.xuanZhuan);
 		GL11.glPopMatrix();
 	}
 

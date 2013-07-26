@@ -4,7 +4,6 @@ import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
 import icbm.api.IRadarDetectable;
 import icbm.api.RadarRegistry;
-import icbm.core.ZhuYaoICBM;
 import icbm.core.base.TShengBuo;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.implement.IRedstoneProvider;
@@ -36,7 +35,8 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.block.BlockAdvanced;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.multiblock.IMultiBlock;
+import universalelectricity.prefab.tile.IRotatable;
+import calclavia.lib.multiblock.IBlockActivate;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -46,7 +46,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IMultiBlock, IPeripheral, IBlockFrequency
+public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IPeripheral, IBlockFrequency, IBlockActivate, IRotatable
 {
 	public final static int MAX_BIAN_JING = 500;
 
@@ -70,6 +70,8 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
 	public boolean emitAll = true;
+
+	private byte fangXiang = 3;
 
 	private Ticket ticket;
 
@@ -123,7 +125,7 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 
 		if (this.provideElectricity(DIAN, false).getWatts() >= this.getRequest(null))
 		{
-			this.xuanZhuan += 0.05F;
+			this.xuanZhuan += 0.08f;
 
 			if (this.xuanZhuan > 360)
 				this.xuanZhuan = 0;
@@ -313,7 +315,7 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 4, this.getEnergyStored());
+		return PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this, 4, this.fangXiang, this.getEnergyStored());
 	}
 
 	@Override
@@ -345,6 +347,7 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 				}
 				else if (ID == 4)
 				{
+					this.fangXiang = dataStream.readByte();
 					this.setEnergyStored(dataStream.readFloat());
 				}
 			}
@@ -421,6 +424,7 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 		this.safetyBanJing = nbt.getInteger("safetyBanJing");
 		this.alarmBanJing = nbt.getInteger("alarmBanJing");
 		this.emitAll = nbt.getBoolean("emitAll");
+		this.fangXiang = nbt.getByte("fangXiang");
 	}
 
 	/**
@@ -433,26 +437,7 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 		nbt.setInteger("safetyBanJing", this.safetyBanJing);
 		nbt.setInteger("alarmBanJing", this.alarmBanJing);
 		nbt.setBoolean("emitAll", this.emitAll);
-	}
-
-	@Override
-	public void onDestroy(TileEntity callingBlock)
-	{
-		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
-
-		// Top 3x3
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
-
-		this.worldObj.setBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord, 0, 0, 2);
-
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord + 1, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord - 1, 0, 0, 2);
-
-		this.worldObj.setBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord + 1, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord - 1, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord - 1, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord + 1, 0, 0, 2);
+		nbt.setByte("fangXiang", this.fangXiang);
 	}
 
 	@Override
@@ -474,25 +459,6 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 
 		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		return true;
-	}
-
-	@Override
-	public void onCreate(Vector3 position)
-	{
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 0), position), new Vector3(this));
-
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 0), position), new Vector3(this));
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 0), position), new Vector3(this));
-
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, 1), position), new Vector3(this));
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(0, 1, -1), position), new Vector3(this));
-
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, -1), position), new Vector3(this));
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, 1), position), new Vector3(this));
-
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(1, 1, 1), position), new Vector3(this));
-		ZhuYaoICBM.bJia.makeFakeBlock(worldObj, Vector3.add(new Vector3(-1, 1, -1), position), new Vector3(this));
-
 	}
 
 	@Override
@@ -585,15 +551,21 @@ public class TLeiDaTai extends TShengBuo implements IChunkLoadHandler, IPacketRe
 	}
 
 	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
-		return INFINITE_EXTENT_AABB;
-	}
-
-	@Override
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public ForgeDirection getDirection()
+	{
+		return ForgeDirection.getOrientation(this.fangXiang);
+	}
+
+	@Override
+	public void setDirection(ForgeDirection facingDirection)
+	{
+		this.fangXiang = (byte) facingDirection.ordinal();
 	}
 
 }

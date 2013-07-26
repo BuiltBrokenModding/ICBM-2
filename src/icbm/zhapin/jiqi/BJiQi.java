@@ -1,6 +1,7 @@
 package icbm.zhapin.jiqi;
 
 import icbm.api.ITier;
+import icbm.core.ZhuYaoICBM;
 import icbm.core.base.BICBM;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -19,7 +20,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.tile.IRotatable;
 import calclavia.lib.multiblock.IBlockActivate;
@@ -107,7 +107,7 @@ public class BJiQi extends BICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			((IMultiBlock) tileEntity).onCreate(new Vector3(x, y, z));
+			ZhuYaoICBM.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 	}
 
@@ -143,12 +143,6 @@ public class BJiQi extends BICBM
 			{
 				// Launcher Frame
 				return world.getBlockMaterial(x, y - 1, z).isSolid() && world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x, y + 2, z) == 0;
-			}
-			case 3:
-			{
-				// Radar
-				return world.getBlockMaterial(x, y - 1, z).isSolid() && world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x + 1, y + 1, z) == 0 && world.getBlockId(x - 1, y + 1, z) == 0 && world.getBlockId(x, y + 1, z + 1) == 0 && world.getBlockId(x, y + 1, z - 1) == 0 && world.getBlockId(x + 1, y + 1, z + 1) == 0 && world.getBlockId(x - 1, y + 1, z - 1) == 0 && world.getBlockId(x + 1, y + 1, z - 1) == 0 && world.getBlockId(x - 1, y + 1, z + 1) == 0;
-
 			}
 			case 4:
 			{
@@ -274,7 +268,7 @@ public class BJiQi extends BICBM
 
 			if (tileEntity instanceof IMultiBlock)
 			{
-				((IMultiBlock) tileEntity).onDestroy(tileEntity);
+				ZhuYaoICBM.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
 			}
 		}
 

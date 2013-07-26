@@ -14,13 +14,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.multiblock.IBlockActivate;
 import calclavia.lib.multiblock.IMultiBlock;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -28,7 +28,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketReceiver, IMultiBlock, IRedstoneReceptor
+public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketReceiver, IMultiBlock, IRedstoneReceptor, IBlockActivate
 {
 	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 150;
@@ -194,13 +194,6 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public void onDestroy(TileEntity callingBlock)
-	{
-		this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0, 0, 2);
-		this.worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, 0, 0, 2);
-	}
-
-	@Override
 	public boolean onActivated(EntityPlayer entityPlayer)
 	{
 		entityPlayer.openGui(ZhuYaoZhaPin.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
@@ -208,9 +201,9 @@ public class TDianCiQi extends TileEntityUniversalElectrical implements IPacketR
 	}
 
 	@Override
-	public void onCreate(Vector3 position)
+	public Vector3[] getMultiBlockVectors()
 	{
-		ZhuYaoICBM.bJia.makeFakeBlock(this.worldObj, Vector3.add(position, new Vector3(0, 1, 0)), new Vector3(this));
+		return new Vector3[] { new Vector3(0, 1, 0) };
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MLeiDa extends ModelBase
+public class MDaLeiDa extends ModelBase
 {
 	// fields
 	ModelRenderer Main_Base;
@@ -24,7 +24,7 @@ public class MLeiDa extends ModelBase
 	ModelRenderer Secondary_Dish_Piece_1;
 	ModelRenderer Secondary_Dish_Piece_2;
 
-	public MLeiDa()
+	public MDaLeiDa()
 	{
 		textureWidth = 128;
 		textureHeight = 128;
