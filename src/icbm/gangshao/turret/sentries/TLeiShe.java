@@ -29,7 +29,7 @@ public class TLeiShe extends TPaoTaiZiDong
 
 		this.rotationSpeed = 3;
 
-		this.baseFiringDelay = 12;
+		this.baseFiringDelay = 13;
 		this.minFiringDelay = 5;
 
 		this.projectileType = ProjectileType.UNKNOWN;
@@ -78,43 +78,5 @@ public class TLeiShe extends TPaoTaiZiDong
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
 		ZhuYaoGangShao.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
 		this.barrelRotationVelocity += 1;
-	}
-
-	@Override
-	protected boolean onFire()
-	{
-		if (!this.worldObj.isRemote)
-		{
-			if (this.getPlatform() != null)
-			{
-				if (this.target instanceof EntityLiving)
-				{
-					this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
-					this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 2);
-					this.target.setFire(3);
-					return true;
-				}
-				else if (this.target instanceof IAATarget)
-				{
-					if (this.worldObj.rand.nextFloat() > 0.2)
-					{
-						int damage = ((IAATarget) this.target).doDamage(10);
-
-						if (damage == -1 && this.worldObj.rand.nextFloat() > 0.7)
-						{
-							((IAATarget) this.target).destroyCraft();
-						}
-						else if (damage <= 0)
-						{
-							((IAATarget) this.target).destroyCraft();
-						}
-					}
-
-					return true;
-				}
-			}
-		}
-
-		return false;
 	}
 }

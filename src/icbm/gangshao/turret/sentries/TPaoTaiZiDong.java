@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.boss.EntityDragon;
@@ -133,7 +133,7 @@ public abstract class TPaoTaiZiDong extends TPaoTaiBase implements IAutoSentry
 			{
 				if (this.getCenter().distanceTo(new Vector3(entity)) <= this.getDetectRange())
 				{
-					float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).add(new Vector3(0, entity.getEyeHeight(), 0)));
+					float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).translate(new Vector3(0, entity.getEyeHeight(), 0)));
 
 					if ((rotations[1] <= this.maxPitch && rotations[1] >= this.minPitch) || this.allowFreePitch)
 					{
@@ -204,7 +204,7 @@ public abstract class TPaoTaiZiDong extends TPaoTaiBase implements IAutoSentry
 	@Override
 	public boolean canActivateWeapon()
 	{
-		if (this.isValidTarget(this.target) && this.getPlatform() != null)
+		if (this.isValidTarget(this.getTarget()) && this.getPlatform() != null)
 		{
 			if (this.lookHelper.isLookingAt(this.target, 5))
 			{
@@ -255,18 +255,30 @@ public abstract class TPaoTaiZiDong extends TPaoTaiBase implements IAutoSentry
 		{
 			ItemStack ammoStack = this.getPlatform().hasAmmunition(this.projectileType);
 
-			if (this.getPlatform() != null && ammoStack != null)
+			if (this.getPlatform() != null && (ammoStack != null || this.projectileType == ProjectileType.UNKNOWN))
 			{
 				boolean fired = false;
-				IAmmunition bullet = (IAmmunition) ammoStack.getItem();
+				IAmmunition bullet = null;
 
-				if (this.target instanceof EntityLiving)
+				if (ammoStack != null)
+				{
+					bullet = (IAmmunition) ammoStack.getItem();
+				}
+
+				if (this.target instanceof EntityLivingBase)
 				{
 					this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
 
-					if (bullet.getType(ammoStack) == ProjectileType.CONVENTIONAL)
+					if (this instanceof TLeiShe)
 					{
-						this.target.attackEntityFrom(TileDamageSource.doBulletDamage(this), bullet.getDamage());
+						this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 2);
+					}
+					else if (bullet != null)
+					{
+						if (bullet.getType(ammoStack) == ProjectileType.CONVENTIONAL)
+						{
+							this.target.attackEntityFrom(TileDamageSource.doBulletDamage(this), bullet.getDamage());
+						}
 					}
 
 					fired = true;

@@ -22,6 +22,7 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 {
 	private TileEntity controller;
 	private boolean shouldSit = false;
+	private Vector3 controllVec;
 
 	public EJia(World par1World)
 	{
@@ -83,6 +84,11 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 	{
 		if (this.controller == null)
 		{
+			this.controller = this.controllVec.getTileEntity(this.worldObj);
+		}
+
+		if (this.controller == null)
+		{
 			this.setDead();
 			return;
 		}
@@ -137,12 +143,7 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 	protected void readEntityFromNBT(NBTTagCompound nbt)
 	{
 		this.shouldSit = nbt.getBoolean("shouldSit");
-		Vector3 readVec = Vector3.readFromNBT(nbt.getCompoundTag("controller"));
-
-		if (readVec.getTileEntity(this.worldObj) != null)
-		{
-			this.controller = readVec.getTileEntity(this.worldObj);
-		}
+		this.controllVec = new Vector3(nbt.getCompoundTag("controller"));
 	}
 
 	@Override
