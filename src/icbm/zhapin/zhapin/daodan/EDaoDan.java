@@ -441,6 +441,9 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 			{
 				launcher.setContainingMissile(this);
 
+				/**
+				 * Rotate the missile to the cruise launcher's rotation.
+				 */
 				if (launcher instanceof TXiaoFaSheQi)
 				{
 					this.xingShi = XingShi.XIAO_DAN;

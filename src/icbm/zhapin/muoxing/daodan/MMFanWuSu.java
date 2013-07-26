@@ -157,7 +157,8 @@ public class MMFanWuSu extends MICBM
 		Shape10a.setRotationPoint(8F, -23F, 1F);
 		Shape10a.setTextureSize(128, 128);
 		Shape10a.mirror = true;
-		setRotation(Shape10a, 0F, -3.141593F, -0.7853982F);
+		// Wing 1
+		setRotation(Shape10a, 0F, -3.141593F, 0.7853982F);
 		Shape10b = new ModelRenderer(this, 72, 17);
 		Shape10b.addBox(0F, 0F, 0F, 2, 6, 6);
 		Shape10b.setRotationPoint(-1F, -23F, -8F);
@@ -175,6 +176,7 @@ public class MMFanWuSu extends MICBM
 		Shape10d.setRotationPoint(-1F, -23F, 8F);
 		Shape10d.setTextureSize(128, 128);
 		Shape10d.mirror = true;
+		// Wing 2
 		setRotation(Shape10d, 0F, 1.570796F, -0.7853982F);
 		Shape11a = new ModelRenderer(this, 72, 0);
 		Shape11a.addBox(0F, 0F, 0F, 16, 5, 2);
@@ -219,7 +221,6 @@ public class MMFanWuSu extends MICBM
 	{
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-
 		this.render(f5);
 	}
 

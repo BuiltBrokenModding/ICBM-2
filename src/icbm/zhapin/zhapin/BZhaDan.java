@@ -2,6 +2,7 @@ package icbm.zhapin.zhapin;
 
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.ExplosiveType;
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.core.ICBMTab;
 import icbm.core.ZhuYaoICBM;
 import icbm.core.base.BICBM;
@@ -34,6 +35,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import cpw.mods.fml.common.FMLLog;
@@ -285,13 +287,16 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 	{
 		if (!world.isRemote)
 		{
-			if (!ZhuYaoZhaPin.shiBaoHu(world, new Vector3(x, y, z), ExplosiveType.BLOCK, explosiveID))
-			{
-				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+			TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-				if (tileEntity != null)
+			if (tileEntity != null)
+			{
+				if (tileEntity instanceof TZhaDan)
 				{
-					if (tileEntity instanceof TZhaDan)
+					ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, x, y, z, ExplosiveType.BLOCK, ZhaPinRegistry.get(((TZhaDan) tileEntity).haoMa));
+					MinecraftForge.EVENT_BUS.post(evt);
+
+					if (!evt.isCanceled())
 					{
 						((TZhaDan) tileEntity).exploding = true;
 						EZhaDan eZhaDan = new EZhaDan(world, new Vector3(x, y, z).add(0.5), ((TZhaDan) tileEntity).haoMa, (byte) world.getBlockMetadata(x, y, z), ((TZhaDan) tileEntity).nbtData);
