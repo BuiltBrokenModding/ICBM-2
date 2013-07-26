@@ -5,6 +5,7 @@ import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.LauncherType;
 import icbm.api.explosion.ExplosiveType;
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPinRegistry;
 import icbm.zhapin.zhapin.daodan.DaoDan;
@@ -25,6 +26,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
@@ -258,27 +260,33 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 				if (this.containingItems[0].getItem() instanceof ItDaoDan)
 				{
 					int haoMa = this.containingItems[0].getItemDamage();
-
-					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
+					if (ZhaPinRegistry.get(haoMa) instanceof DaoDan)
 					{
-						if (this.daoDan == null)
-						{
-							DaoDan missile = (DaoDan) ZhaPinRegistry.get(haoMa);
+						DaoDan missile = (DaoDan) ZhaPinRegistry.get(haoMa);
 
-							if (missile.isCruise() && missile.getTier() <= 3)
+						ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
+						MinecraftForge.EVENT_BUS.post(evt);
+
+						if (!evt.isCanceled())
+						{
+							if (this.daoDan == null)
 							{
-								Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-								this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
-								this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
-								return;
+
+								if (missile.isCruise() && missile.getTier() <= 3)
+								{
+									Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
+									this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
+									this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
+									return;
+								}
 							}
-						}
 
-						if (this.daoDan != null)
-						{
-							if (this.daoDan.getExplosiveType().getID() == haoMa)
+							if (this.daoDan != null)
 							{
-								return;
+								if (this.daoDan.getExplosiveType().getID() == haoMa)
+								{
+									return;
+								}
 							}
 						}
 					}

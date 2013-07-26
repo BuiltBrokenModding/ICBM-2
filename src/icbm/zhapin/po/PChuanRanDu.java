@@ -1,5 +1,6 @@
 package icbm.zhapin.po;
 
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
@@ -13,6 +14,7 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 
 public class PChuanRanDu extends PICBM
@@ -35,8 +37,12 @@ public class PChuanRanDu extends PICBM
 
 		if (entityLiving.worldObj.rand.nextFloat() > 0.8)
 		{
+
+			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(entityLiving.worldObj, entityLiving.posX, entityLiving.posY, entityLiving.posZ, ExplosiveType.ALL, ZhaPin.duQi);
+			MinecraftForge.EVENT_BUS.post(evt);
+
 			// Poison things around it
-			if (!ZhuYaoZhaPin.shiBaoHu(entityLiving.worldObj, new Vector3(entityLiving), ExplosiveType.ALL, ZhaPin.duQi))
+			if (!evt.isCanceled())
 			{
 				int r = 13;
 				AxisAlignedBB entitySurroundings = AxisAlignedBB.getBoundingBox(entityLiving.posX - r, entityLiving.posY - r, entityLiving.posZ - r, entityLiving.posX + r, entityLiving.posY + r, entityLiving.posZ + r);
