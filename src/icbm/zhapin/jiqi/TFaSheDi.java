@@ -4,6 +4,7 @@ import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
 import icbm.api.ITier;
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.SheDing;
 import icbm.zhapin.ZhuYaoZhaPin;
@@ -23,6 +24,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
@@ -237,26 +239,29 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 				{
 					int haoMa = this.containingItems[0].getItemDamage();
 
-					if (!ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, haoMa))
+					if (ZhaPinRegistry.get(haoMa) instanceof DaoDan)
 					{
-						if (this.daoDan == null)
-						{
-							DaoDan missile = (DaoDan) ZhaPinRegistry.get(haoMa);
+						DaoDan missile = (DaoDan) ZhaPinRegistry.get(haoMa);
 
-							if (missile.isCruise() && missile.getTier() <= 3)
+						ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
+						MinecraftForge.EVENT_BUS.post(evt);
+
+						if (!evt.isCanceled())
+						{
+							if (this.daoDan == null)
 							{
-								Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
+								Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 1.8f), (this.zCoord + 0.5f));
 								this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
 								this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
 								return;
 							}
-						}
 
-						if (this.daoDan != null)
-						{
-							if (this.daoDan.getExplosiveType().getID() == haoMa)
+							if (this.daoDan != null)
 							{
-								return;
+								if (this.daoDan.getExplosiveType().getID() == haoMa)
+								{
+									return;
+								}
 							}
 						}
 					}
@@ -360,14 +365,14 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * Reads a tile entity from NBT.
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		super.readFromNBT(par1NBTTagCompound);
+		super.readFromNBT(nbt);
 
-		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+		NBTTagList var2 = nbt.getTagList("Items");
 
-		this.tier = par1NBTTagCompound.getInteger("tier");
-		this.fangXiang = par1NBTTagCompound.getByte("facingDirection");
+		this.tier = nbt.getInteger("tier");
+		this.fangXiang = nbt.getByte("facingDirection");
 
 		this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -387,12 +392,12 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	public void writeToNBT(NBTTagCompound nbt)
 	{
-		super.writeToNBT(par1NBTTagCompound);
+		super.writeToNBT(nbt);
 
-		par1NBTTagCompound.setInteger("tier", this.tier);
-		par1NBTTagCompound.setByte("facingDirection", this.fangXiang);
+		nbt.setInteger("tier", this.tier);
+		nbt.setByte("facingDirection", this.fangXiang);
 
 		NBTTagList var2 = new NBTTagList();
 
@@ -407,7 +412,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 			}
 		}
 
-		par1NBTTagCompound.setTag("Items", var2);
+		nbt.setTag("Items", var2);
 	}
 
 	/**

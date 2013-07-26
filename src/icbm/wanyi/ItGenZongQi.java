@@ -96,13 +96,13 @@ public class ItGenZongQi extends ItICBMElectricBase implements ITracker
 
 			if (player.inventory.getCurrentItem() != null)
 			{
-				if (player.inventory.getCurrentItem().itemID == this.itemID)
+				if (player.inventory.getCurrentItem().itemID == this.itemID && par2World.getWorldTime() % 20 == 0)
 				{
 					Entity trackingEntity = this.getTrackingEntity(par2World, itemStack);
 
 					if (trackingEntity != null)
 					{
-						if (this.discharge(itemStack, YONG_DIAN_LIANG, true) < YONG_DIAN_LIANG)
+						if (this.discharge(itemStack, YONG_DIAN_LIANG * 20, true) < YONG_DIAN_LIANG * 20)
 						{
 							this.setTrackingEntity(itemStack, null);
 						}

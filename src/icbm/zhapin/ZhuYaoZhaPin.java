@@ -1,7 +1,9 @@
 package icbm.zhapin;
 
 import icbm.api.ICBM;
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
+import icbm.api.explosion.IExplosive;
 import icbm.core.ICBMFlags;
 import icbm.core.ICBMTab;
 import icbm.core.SheDing;
@@ -423,10 +425,19 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 		}
 	}
 
+	@ForgeSubscribe
+	public void explosionEvent(ExplosivePreDetonationEvent evt)
+	{
+		if (shiBaoHu(evt.world, new Vector3(evt.x, evt.y, evt.z), evt.type, evt.explosion))
+		{
+			evt.setCanceled(true);
+		}
+	}
+
 	/**
 	 * Is a specific position being protected from a specific type of danger?
 	 */
-	public static boolean shiBaoHu(World world, Vector3 diDian, ExplosiveType type, ZhaPin zhaPin)
+	public static boolean shiBaoHu(World world, Vector3 diDian, ExplosiveType type, IExplosive zhaPin)
 	{
 		if (zhaPin != null)
 		{
@@ -458,7 +469,9 @@ public class ZhuYaoZhaPin extends ZhuYaoICBM
 						break;
 				}
 
-				return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, zhaPin.qiZi, "true", diDian) || baoHu;
+				String flag = zhaPin instanceof ZhaPin ? ((ZhaPin) zhaPin).qiZi : "ban_" + zhaPin.getUnlocalizedName();
+
+				return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, flag, "true", diDian) || baoHu;
 			}
 		}
 
