@@ -4,10 +4,14 @@
 
 	<property file="build.properties" />
 	<property environment="env" />
-	<property name="file.JarFile1" 	value="ICBM_Explosion_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
-	<property name="file.JarFile2" 	value="ICBM_Contraption_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
-	<property name="file.JarFile3" 	value="ICBM_Sentry_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
-	<property name="file.APIFile" 	value="ICBM_API_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.zip" />
+	<property name="file.explosion" value="ICBM_Explosion.jar" />
+	<property name="file.contraption" value="ICBM_Contraption.jar" />
+	<property name="file.sentry" value="ICBM_Sentry.jar" />
+	<property name="file.api" value="ICBM_API.zip" />
+	<property name="file.JarFile1" value="ICBM_Explosion_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+	<property name="file.JarFile2" value="ICBM_Contraption_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+	<property name="file.JarFile3" value="ICBM_Sentry_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.jar" />
+	<property name="file.APIFile" value="ICBM_API_v${version.mod.major}.${version.mod.minor}.${version.mod.revis}.${env.BUILD_NUMBER}.zip" />
 
 	<target name="build">
 		<copy todir="${dir.development}">
@@ -130,11 +134,22 @@
 		<jar destfile="output/${file.JarFile3}">
 			<fileset dir="JarFile3" />
 		</jar>
-
 		<zip destfile="output/${file.APIFile}">
 			<fileset dir="APIFile" />
 		</zip>
 		
-		<copy todir="output" file="build.properties" />
+		<!-- OUTPUT LATEST JAR AND ZIP FILES -->
+		<jar destfile="/var/www/downloads/${file.explosion}">
+			<fileset dir="JarFile1" />
+		</jar>
+		<jar destfile="/var/www/downloads/${file.contraption}">
+			<fileset dir="JarFile2" />
+		</jar>
+		<jar destfile="/var/www/downloads/${file.sentry}">
+			<fileset dir="JarFile3" />
+		</jar>
+		<zip destfile="/var/www/downloads/${file.api}">
+			<fileset dir="APIFile" />
+		</zip>
 	</target>
 </project>
