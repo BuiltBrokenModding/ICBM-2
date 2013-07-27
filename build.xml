@@ -139,16 +139,16 @@
 		</zip>
 		
 		<!-- OUTPUT LATEST JAR AND ZIP FILES -->
-		<jar destfile="/var/www/downloads/${file.explosion}">
+		<jar destfile="${file.explosion}">
 			<fileset dir="JarFile1" />
 		</jar>
-		<jar destfile="/var/www/downloads/${file.contraption}">
+		<jar destfile="${file.contraption}">
 			<fileset dir="JarFile2" />
 		</jar>
-		<jar destfile="/var/www/downloads/${file.sentry}">
+		<jar destfile="${file.sentry}">
 			<fileset dir="JarFile3" />
 		</jar>
-		<zip destfile="/var/www/downloads/${file.api}">
+		<zip destfile="${file.api}">
 			<fileset dir="APIFile" />
 		</zip>
 	</target>
