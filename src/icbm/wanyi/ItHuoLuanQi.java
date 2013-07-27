@@ -54,11 +54,9 @@ public class ItHuoLuanQi extends ItICBMElectricBase implements IItemFrequency
 	{
 		if (!par2World.isRemote)
 		{
-			super.onUpdate(itemStack, par2World, par3Entity, par4, par5);
-
-			if (this.getElectricityStored(itemStack) > 1)
+			if (this.getElectricityStored(itemStack) > 20 && par2World.getWorldTime() % 20 == 0)
 			{
-				this.discharge(itemStack, 1, true);
+				this.discharge(itemStack, 1 * 20, true);
 			}
 		}
 	}

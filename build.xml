@@ -90,6 +90,7 @@
 			<include name="**/ic2/**"/>
 			<include name="**/dan200/**"/>
 			<include name="**/mffs/**"/>
+			<include name="**/thermalexpansion/**"/>
 		</fileset>
 		
 		<!-- ICBM Explosion -->
