@@ -17,6 +17,8 @@ import mffs.api.IForceFieldBlock;
 import mffs.api.fortron.IFortronStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -130,27 +132,46 @@ public class BzDianCi extends BaoZha
 
 			for (Entity entity : entities)
 			{
-				if (entity instanceof EntityPlayer)
+				if (entity instanceof EntityLivingBase)
 				{
-					IInventory inventory = ((EntityPlayer) entity).inventory;
+					ZhuYaoZhaPin.proxy.spawnShock(this.worldObj, this.position, new Vector3(entity));
 
-					for (int i = 0; i < inventory.getSizeInventory(); i++)
+					if (entity instanceof EntityCreeper)
 					{
-						ItemStack itemStack = inventory.getStackInSlot(i);
-
-						if (itemStack != null)
+						if (!this.worldObj.isRemote)
 						{
-							if (itemStack.getItem() instanceof IEMPItem)
+							try
 							{
-								((IEMPItem) itemStack.getItem()).onEMP(itemStack, entity, this);
+								((EntityCreeper) entity).getDataWatcher().updateObject(17, (byte) 1);
 							}
-							else if (itemStack.getItem() instanceof IItemElectric)
+							catch (Exception e)
 							{
-								((IItemElectric) itemStack.getItem()).setElectricity(itemStack, 0);
+								e.printStackTrace();
 							}
-							else if (itemStack.getItem() instanceof ISpecialElectricItem)
+						}
+					}
+					if (entity instanceof EntityPlayer)
+					{
+						IInventory inventory = ((EntityPlayer) entity).inventory;
+
+						for (int i = 0; i < inventory.getSizeInventory(); i++)
+						{
+							ItemStack itemStack = inventory.getStackInSlot(i);
+
+							if (itemStack != null)
 							{
-								((ISpecialElectricItem) itemStack.getItem()).getManager(itemStack).discharge(itemStack, ((ISpecialElectricItem) itemStack.getItem()).getMaxCharge(itemStack), 0, true, false);
+								if (itemStack.getItem() instanceof IEMPItem)
+								{
+									((IEMPItem) itemStack.getItem()).onEMP(itemStack, entity, this);
+								}
+								else if (itemStack.getItem() instanceof IItemElectric)
+								{
+									((IItemElectric) itemStack.getItem()).setElectricity(itemStack, 0);
+								}
+								else if (itemStack.getItem() instanceof ISpecialElectricItem)
+								{
+									((ISpecialElectricItem) itemStack.getItem()).getManager(itemStack).discharge(itemStack, ((ISpecialElectricItem) itemStack.getItem()).getMaxCharge(itemStack), 0, true, false);
+								}
 							}
 						}
 					}

@@ -6,7 +6,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
-import calclavia.lib.CalculationHelper;
 import calclavia.lib.multiblock.IBlockActivate;
 
 /**
@@ -55,7 +54,7 @@ public abstract class TPaoTaiQi extends TPaoTaiBase implements IBlockActivate
 	 */
 	public MovingObjectPosition rayTrace(double distance)
 	{
-		return CalculationHelper.doCustomRayTrace(this.worldObj, this.getMuzzle(), this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
+		return this.getMuzzle().rayTrace(this.worldObj, this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
 	}
 
 	@Override

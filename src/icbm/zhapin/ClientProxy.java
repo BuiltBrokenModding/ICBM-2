@@ -4,6 +4,7 @@ import icbm.core.ShengYin;
 import icbm.core.ZhuYaoICBM;
 import icbm.zhapin.baozha.EBaoZha;
 import icbm.zhapin.cart.EChe;
+import icbm.zhapin.fx.FXDian;
 import icbm.zhapin.fx.FXFanWuSu;
 import icbm.zhapin.fx.FXWan;
 import icbm.zhapin.fx.FXYan;
@@ -203,6 +204,12 @@ public class ClientProxy extends CommonProxy
 			fx.motionZ = motionZ;
 			FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
 		}
+	}
+
+	@Override
+	public void spawnShock(World world, Vector3 startVec, Vector3 targetVec)
+	{
+		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXDian(world, startVec, targetVec, world.rand.nextInt(Integer.MAX_VALUE)));
 	}
 
 	@Override

@@ -110,4 +110,9 @@ public class CommonProxy implements IGuiHandler
 		return null;
 	}
 
+	public void spawnShock(World world, Vector3 position, Vector3 target)
+	{
+
+	}
+
 }
