@@ -3,6 +3,7 @@ package icbm.zhapin.zhapin;
 import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.zhapin.ZhuYaoZhaPin;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -33,7 +35,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	{
 		super(par1World);
 		this.setSize(0.3F, 0.3F);
-		this.renderDistanceWeight = 10.0D;
+		this.renderDistanceWeight = 8;
 	}
 
 	public EShouLiuDan(World par1World, Vector3 position, int explosiveID)
@@ -65,6 +67,11 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	@Override
 	public String getEntityName()
 	{
+		if (ZhaPinRegistry.get(this.haoMa) != null)
+		{
+			return ZhaPinRegistry.get(this.haoMa).getGrenadeName();
+		}
+
 		return "Grenade";
 	}
 
@@ -144,7 +151,10 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 	{
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.ITEM, this.haoMa))
+			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this, ExplosiveType.ITEM, ZhaPinRegistry.get(this.haoMa));
+			MinecraftForge.EVENT_BUS.post(evt);
+
+			if (evt.isCanceled())
 			{
 				float var6 = 0.7F;
 				double var7 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
@@ -222,7 +232,7 @@ public class EShouLiuDan extends Entity implements IExplosiveContainer, IEntityA
 		if (this.ticksExisted > Math.max(60, ((ZhaPin) this.getExplosiveType()).getYinXin()))
 		{
 			this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-			((ZhaPin) this.getExplosiveType()).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
+			((ZhaPin) this.getExplosiveType()).createExplosion(this.worldObj, this.posX, this.posY + 0.3f, this.posZ, this);
 			this.setDead();
 			return;
 		}
