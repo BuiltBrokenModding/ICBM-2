@@ -123,6 +123,7 @@ public class FXDian extends EntityFX
 		this.width = m;
 	}
 
+	@Override
 	public void onUpdate()
 	{
 		this.main.onUpdate();
@@ -193,6 +194,7 @@ public class FXDian extends EntityFX
 		}
 	}
 
+	@Override
 	public void renderParticle(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float sinsinpitch, float cossinpitch)
 	{
 		EntityPlayer renderentity = ModLoader.getMinecraftInstance().thePlayer;

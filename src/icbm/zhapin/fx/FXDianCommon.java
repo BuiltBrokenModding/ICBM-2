@@ -229,6 +229,7 @@ public class FXDianCommon
 			return comp;
 		}
 
+		@Override
 		public int compare(Object obj, Object obj1)
 		{
 			return compare((FXDianCommon.Segment) obj, (FXDianCommon.Segment) obj1);
@@ -249,6 +250,7 @@ public class FXDianCommon
 			return Float.compare(o2.light, o1.light);
 		}
 
+		@Override
 		public int compare(Object obj, Object obj1)
 		{
 			return compare((FXDianCommon.Segment) obj, (FXDianCommon.Segment) obj1);
@@ -325,6 +327,7 @@ public class FXDianCommon
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.startpoint.point.toString() + " " + this.endpoint.point.toString();

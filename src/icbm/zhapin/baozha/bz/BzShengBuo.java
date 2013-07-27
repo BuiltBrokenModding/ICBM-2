@@ -146,7 +146,7 @@ public class BzShengBuo extends BaoZha
 						}
 						else
 						{
-							this.worldObj.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 2);
+							this.worldObj.setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 						}
 
 						targetPosition.add(0.5D);

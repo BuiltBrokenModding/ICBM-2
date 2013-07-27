@@ -118,7 +118,7 @@ public class BlockTurret extends BICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			ZhuYaoGangShao.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
+			ZhuYaoICBM.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 	}
 
@@ -200,7 +200,7 @@ public class BlockTurret extends BICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			ZhuYaoGangShao.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+			ZhuYaoICBM.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 		super.breakBlock(par1World, x, y, z, par5, par6);
 	}

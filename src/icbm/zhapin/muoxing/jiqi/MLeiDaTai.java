@@ -1,7 +1,5 @@
 package icbm.zhapin.muoxing.jiqi;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 

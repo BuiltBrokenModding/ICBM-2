@@ -60,7 +60,7 @@ public class BzTaiYang extends BzGuang
 
 						if (blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID || blockID == Block.ice.blockID)
 						{
-							this.worldObj.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), 0, 0, 2);
+							this.worldObj.setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 						}
 
 						if ((blockID == 0 || blockID == Block.snow.blockID) && this.worldObj.getBlockMaterial(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ()).isSolid())

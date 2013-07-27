@@ -94,7 +94,7 @@ public abstract class BzGuang extends BaoZha
 							{
 								this.worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, 2);
 
-								currentPos.add(0.5D);
+								currentPos.translate(0.5D);
 								EFeiBlock entity = new EFeiBlock(this.worldObj, currentPos, blockID, metadata);
 								this.worldObj.spawnEntityInWorld(entity);
 								this.feiBlocks.add(entity);

@@ -1,14 +1,9 @@
 package icbm.gangshao.turret.sentries;
 
-import icbm.api.sentry.IAATarget;
 import icbm.core.ZhuYaoICBM;
 import icbm.gangshao.ProjectileType;
 import icbm.gangshao.ZhuYaoGangShao;
-import icbm.gangshao.damage.TileDamageSource;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.vector.Vector3;
 
 public class TLeiShe extends TPaoTaiZiDong
