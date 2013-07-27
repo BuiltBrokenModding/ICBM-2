@@ -74,14 +74,10 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 	{
 		if (this.host != null)
 		{
-			if (this.host.getPlatform() != null)
-			{
-				return this.host.getPlatform().getInvName();
-			}
-
 			return this.host.getName();
 		}
-		return "EntityTileTarget";
+		
+		return "Entity Tile";
 	}
 
 	@Override
