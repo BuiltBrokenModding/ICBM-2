@@ -127,6 +127,7 @@ public class BzDianCi extends BaoZha
 				}
 			}
 
+			int maxFx = 10;
 			AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - this.getRadius(), position.y - this.getRadius(), position.z - this.getRadius(), position.x + this.getRadius(), position.y + this.getRadius(), position.z + this.getRadius());
 			List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
@@ -134,7 +135,11 @@ public class BzDianCi extends BaoZha
 			{
 				if (entity instanceof EntityLivingBase)
 				{
-					ZhuYaoZhaPin.proxy.spawnShock(this.worldObj, this.position, new Vector3(entity));
+					if (this.worldObj.isRemote && maxFx > 0)
+					{
+						ZhuYaoZhaPin.proxy.spawnShock(this.worldObj, this.position, new Vector3(entity), 20);
+						maxFx--;
+					}
 
 					if (entity instanceof EntityCreeper)
 					{

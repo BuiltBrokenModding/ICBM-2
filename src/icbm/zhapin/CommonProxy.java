@@ -115,4 +115,10 @@ public class CommonProxy implements IGuiHandler
 
 	}
 
+	public void spawnShock(World world, Vector3 startVec, Vector3 targetVec, int duration)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
