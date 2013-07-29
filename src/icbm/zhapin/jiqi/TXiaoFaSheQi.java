@@ -196,7 +196,7 @@ public class TXiaoFaSheQi extends TFaSheQi implements IBlockActivate, IPacketRec
 	{
 		super.updateEntity();
 
-		this.receiveElectricity(null, ElectricityPack.getFromWatts(ElectricItemHelper.dischargeItem(this.containingItems[1], this.getRequest(null)), this.getVoltage()), true);
+		this.discharge(this.containingItems[1]);
 
 		// Rotate the yaw
 		if (this.getYawFromTarget() - this.rotationYaw != 0)

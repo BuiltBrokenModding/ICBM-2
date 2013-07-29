@@ -138,7 +138,8 @@
 		<zip destfile="output/${file.APIFile}">
 			<fileset dir="APIFile" />
 		</zip>
-		
+		<copy todir="output" file="build.properties" />
+
 		<!-- OUTPUT LATEST JAR AND ZIP FILES -->
 		<jar destfile="${file.explosion}">
 			<fileset dir="JarFile1" />
