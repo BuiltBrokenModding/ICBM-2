@@ -82,7 +82,7 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 	@Override
 	public void onUpdate()
 	{
-		if (this.controller == null)
+		if (this.controller == null && this.controllVec != null)
 		{
 			this.controller = this.controllVec.getTileEntity(this.worldObj);
 		}
