@@ -32,7 +32,7 @@ public class BzPiaoFu extends BaoZha
 		if (!this.worldObj.isRemote)
 		{
 			this.thread = new ThrBaoZha(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
-			this.thread.run();
+			this.thread.start();
 		}
 
 		this.worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);

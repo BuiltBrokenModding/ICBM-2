@@ -96,7 +96,7 @@ public class BzShengBuo extends BaoZha
 				}
 
 			});
-			this.thread.run();
+			this.thread.start();
 		}
 
 		if (this.hasShockWave)

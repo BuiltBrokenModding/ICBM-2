@@ -37,7 +37,7 @@ public class BzFuLan extends BaoZha
 		if (!this.worldObj.isRemote)
 		{
 			this.thread = new ThrSheXian(worldObj, position, (int) this.getRadius(), this.nengLiang, this.exploder);
-			this.thread.run();
+			this.thread.start();
 		}
 	}
 

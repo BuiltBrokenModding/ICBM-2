@@ -49,7 +49,7 @@ public abstract class BzGuang extends BaoZha
 			this.worldObj.spawnEntityInWorld(this.lightBeam);
 
 			this.thread = new ThrGuang(this.worldObj, this.position, (int) this.getRadius(), 50, this.exploder);
-			this.thread.run();
+			this.thread.start();
 		}
 	}
 

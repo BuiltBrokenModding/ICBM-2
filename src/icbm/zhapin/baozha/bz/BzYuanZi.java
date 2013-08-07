@@ -53,7 +53,7 @@ public class BzYuanZi extends BaoZha
 		if (!this.worldObj.isRemote)
 		{
 			this.thread = new ThrSheXian(this.worldObj, this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
-			this.thread.run();
+			this.thread.start();
 		}
 		else if (this.spawnMoreParticles && ZhuYaoZhaPin.proxy.isGaoQing())
 		{
