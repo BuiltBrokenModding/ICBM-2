@@ -30,7 +30,7 @@ import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenerator;
 import atomicscience.api.BlockRadioactive;
 import atomicscience.api.poison.PotionRadiation;
-import basiccomponents.common.BasicComponents;
+import basiccomponents.api.BasicRegistry;
 import calclavia.lib.NBTFileLoader;
 import calclavia.lib.UniversalRecipes;
 import calclavia.lib.flag.CommandFlag;
@@ -158,32 +158,26 @@ public class ZhuYaoICBM
 			 * Load Basic Components
 			 */
 
-			BasicComponents.requestItem("ingotCopper", 0);
-			BasicComponents.requestItem("ingotTin", 0);
+			BasicRegistry.register("itemIngotCopper");
+			BasicRegistry.register("itemIngotTin");
 
-			BasicComponents.requestBlock("oreCopper", 0);
-			BasicComponents.requestBlock("oreTin", 0);
+			BasicRegistry.register("blockOreCopper");
+			BasicRegistry.register("blockOreTin");
 
-			BasicComponents.requestItem("ingotSteel", 0);
-			BasicComponents.requestItem("dustSteel", 0);
-			BasicComponents.requestItem("plateSteel", 0);
+			BasicRegistry.register("itemIngotSteel");
+			BasicRegistry.register("itemDustSteel");
+			BasicRegistry.register("itemPlateSteel");
 
-			BasicComponents.requestItem("ingotBronze", 0);
-			BasicComponents.requestItem("dustBronze", 0);
-			BasicComponents.requestItem("plateBronze", 0);
+			BasicRegistry.register("itemIngotBronze");
+			BasicRegistry.register("itemDustBronze");
+			BasicRegistry.register("itemPlateBronze");
 
-			BasicComponents.requestBlock("copperWire", 0);
+			BasicRegistry.register("itemCircuitBasic");
+			BasicRegistry.register("itemCircuitAdvanced");
+			BasicRegistry.register("itemCircuitElite");
 
-			BasicComponents.requestItem("circuitBasic", 0);
-			BasicComponents.requestItem("circuitAdvanced", 0);
-			BasicComponents.requestItem("circuitElite", 0);
-
-			BasicComponents.requestItem("motor", 0);
-			BasicComponents.requestItem("wrench", 0);
-
-			BasicComponents.requestItem("infiniteBattery", 0);
-
-			BasicComponents.register(this.getChannel());
+			BasicRegistry.register("itemMotor");
+			BasicRegistry.register("itemWrench");
 
 			isInit = true;
 		}
