@@ -94,7 +94,6 @@
 		<!-- ICBM Contraption -->
 		<copy todir="JarFile2">
 			<fileset refid="mlResources"/>
-			<fileset refid="bcResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/wanyi/**" />
@@ -103,7 +102,6 @@
 		<!-- ICBM Sentry -->
 		<copy todir="JarFile3">
 			<fileset refid="mlResources"/>
-			<fileset refid="bcResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/gangshao/**" />
