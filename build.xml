@@ -27,10 +27,6 @@
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-			<fileset dir="${dir.development}Basic-Components/src/">
-				<exclude name=".git/**"/>
-				<exclude name="**/*.xml"/>
-			</fileset>
 		</copy>
 		
 		<mkdir dir="JarFile1" />
@@ -63,12 +59,6 @@
 			<exclude name=".git/**"/>
 			<exclude name="**/*.java"/>
 			<exclude name="**/*.xml"/>
-		</fileset>
-		
-		<fileset id="bcResources" dir="${dir.development}Basic-Components/resources/">
-				<exclude name=".git/**"/>
-				<exclude name="**/*.java"/>
-				<exclude name="**/*.xml"/>
 		</fileset>
 		
 		<fileset id="mlResources" dir="${dir.development}Modding-Library/resources/">
