@@ -86,7 +86,6 @@
 		<!-- ICBM Explosion -->
 		<copy todir="JarFile1">
 			<fileset refid="mlResources"/>
-			<fileset refid="bcResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/zhapin/**" />
