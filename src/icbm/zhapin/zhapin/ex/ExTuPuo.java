@@ -4,6 +4,7 @@ import icbm.core.SheDing;
 import icbm.core.base.MICBM;
 import icbm.zhapin.baozha.bz.BzTuPuo;
 import icbm.zhapin.muoxing.daodan.MMTuPuo;
+import icbm.zhapin.zhapin.ZhaPin;
 import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -24,7 +25,7 @@ public class ExTuPuo extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', yaSuo.getItemStack(), 'G', Item.gunpowder }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', ZhaPin.yaSuo.getItemStack(), 'G', Item.gunpowder }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
 	}
 
 	@Override

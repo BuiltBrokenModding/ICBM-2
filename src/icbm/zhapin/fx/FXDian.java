@@ -250,7 +250,7 @@ public class FXDian extends EntityFX
 			{
 				lastActiveSegment.put(lastSplitCalc, lastActiveSeg);
 				lastSplitCalc = segment.splitID;
-				lastActiveSeg = ((Integer) lastActiveSegment.get(this.splitparents.get(segment.splitID))).intValue();
+				lastActiveSeg = lastActiveSegment.get(this.splitparents.get(segment.splitID)).intValue();
 			}
 
 			lastActiveSeg = segment.segmentID;
@@ -258,7 +258,7 @@ public class FXDian extends EntityFX
 
 		lastActiveSegment.put(lastSplitCalc, lastActiveSeg);
 		lastSplitCalc = 0;
-		lastActiveSeg = ((Integer) lastActiveSegment.get(0)).intValue();
+		lastActiveSeg = lastActiveSegment.get(0).intValue();
 		BoltSegment segment;
 
 		for (Iterator<BoltSegment> iterator = this.segments.iterator(); iterator.hasNext(); segment.calculateEndDifferences())

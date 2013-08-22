@@ -2,10 +2,10 @@ package icbm.zhapin.fx;
 
 import java.util.Random;
 
-import universalelectricity.core.vector.Vector3;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 
 /**
  * A spawner used to spawn in multiple electrical bolts for a specific duration.

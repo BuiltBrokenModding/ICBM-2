@@ -1,10 +1,8 @@
 package icbm.zhapin.zhapin.daodan;
 
 import icbm.core.ZhuYaoICBM;
-import icbm.zhapin.ZhuYaoZhaPin;
 import icbm.zhapin.zhapin.ZhaPin;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,12 +34,6 @@ public abstract class DaoDan extends ZhaPin
 	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
 	{
 		return false;
-	}
-
-	@Override
-	public ItemStack getItemStack()
-	{
-		return new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.getID());
 	}
 
 	/**

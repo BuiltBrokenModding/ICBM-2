@@ -81,9 +81,12 @@ public abstract class ZhaPin implements IExplosive
 	public static final DaoDan fenZhiDan;
 	public static final DaoDan yuanZiFenZhiDan;
 
+	public static boolean registered = false;
+
 	static
 	{
 		SheDing.CONFIGURATION.load();
+
 		yaSuo = ZhaPinRegistry.register(new ExYaSuo("condensed", 1));
 		xiaoQunDan = ZhaPinRegistry.register(new ExQunDan("shrapnel", 1));
 		huo = ZhaPinRegistry.register(new ExHuo("incendiary", 1));
@@ -120,6 +123,7 @@ public abstract class ZhaPin implements IExplosive
 		yuanZiFenZhiDan = (DaoDan) ZhaPinRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
 
 		SheDing.CONFIGURATION.save();
+		registered = true;
 	}
 
 	/** The unique identification name for this explosive. */
@@ -309,7 +313,7 @@ public abstract class ZhaPin implements IExplosive
 
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(ZhuYaoZhaPin.bZhaDan, 1, this.getID());
+		return this.getItemStack(1);
 	}
 
 	public ItemStack getItemStack(int amount)

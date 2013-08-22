@@ -76,7 +76,7 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 		{
 			return this.host.getName();
 		}
-		
+
 		return "Entity Tile";
 	}
 

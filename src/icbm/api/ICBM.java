@@ -35,7 +35,7 @@ public class ICBM
 	/**
 	 * The item ID in which ICBM starts with.
 	 */
-	public static final int ITEM_ID_PREFIX = 3900;
+	public static final int ITEM_ID_PREFIX = 22000;
 
 	public static Class explosionManager;
 
