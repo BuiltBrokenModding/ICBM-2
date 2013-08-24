@@ -4,7 +4,7 @@ import icbm.core.SheDing;
 import icbm.core.base.MICBM;
 import icbm.zhapin.baozha.bz.BzHuo;
 import icbm.zhapin.muoxing.daodan.MMHuo;
-import icbm.zhapin.zhapin.ZhaPin;
+import icbm.zhapin.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -14,7 +14,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExHuo extends ZhaPin
+public class ExHuo extends DaoDan
 {
 	public ExHuo(String mingZi, int tier)
 	{
@@ -46,4 +46,10 @@ public class ExHuo extends ZhaPin
 		return new MMHuo();
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public MICBM getMissileModel()
+	{
+		return new MMHuo();
+	}
 }
