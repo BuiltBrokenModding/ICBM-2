@@ -228,7 +228,7 @@ public class BZhaDan extends BICBM implements ICamouflageMaterial
 		try
 		{
 			ResourceLocation resourcelocation = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.BLOCK_PATH + iconName + ".png");
-			InputStream inputstream = Minecraft.getMinecraft().func_110442_L().func_110536_a(resourcelocation).func_110527_b();
+			InputStream inputstream = Minecraft.getMinecraft().getResourceManager().getResource(resourcelocation).getInputStream();
 			BufferedImage bufferedimage = ImageIO.read(inputstream);
 
 			if (bufferedimage != null)

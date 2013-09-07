@@ -62,17 +62,17 @@ public class RFanKong extends RenderTaggedTile
 
 			if (level == AccessLevel.ADMIN)
 			{
-				this.func_110628_a(TEXTURE_FILE);
+				this.bindTexture(TEXTURE_FILE);
 				return;
 			}
 			else if (level.ordinal() >= AccessLevel.USER.ordinal())
 			{
-				this.func_110628_a(TEXTURE_FILE_FRIENDLY);
+				this.bindTexture(TEXTURE_FILE_FRIENDLY);
 				return;
 			}
 		}
 
-		this.func_110628_a(TEXTURE_FILE_HOSTILE);
+		this.bindTexture(TEXTURE_FILE_HOSTILE);
 
 	}
 }

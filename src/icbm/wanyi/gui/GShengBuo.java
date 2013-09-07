@@ -95,7 +95,7 @@ public class GShengBuo extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

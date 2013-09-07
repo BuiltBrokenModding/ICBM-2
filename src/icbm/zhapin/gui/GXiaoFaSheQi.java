@@ -142,7 +142,7 @@ public class GXiaoFaSheQi extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

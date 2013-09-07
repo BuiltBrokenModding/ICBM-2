@@ -195,7 +195,7 @@ public class GLeiDaTai extends GuiBase
 	@Override
 	protected void drawBackgroundLayer(int var2, int var3, float var1)
 	{
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -221,16 +221,16 @@ public class GLeiDaTai extends GuiBase
 				{
 					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
 					{
-						FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_RED_DOT);
+						FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_RED_DOT);
 					}
 					else
 					{
-						FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_YELLOW_DOT);
+						FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_YELLOW_DOT);
 					}
 				}
 				else
 				{
-					FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_YELLOW_DOT);
+					FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_YELLOW_DOT);
 				}
 
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
@@ -265,7 +265,7 @@ public class GLeiDaTai extends GuiBase
 			for (TileEntity jiQi : this.tileEntity.xunZhaoJiQi)
 			{
 				Vector2 position = new Vector2(this.radarCenter.x + (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
-				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_WHITE_DOT);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_WHITE_DOT);
 
 				this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
 

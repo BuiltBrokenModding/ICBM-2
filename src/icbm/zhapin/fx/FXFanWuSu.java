@@ -62,7 +62,7 @@ public class FXFanWuSu extends EntityFX
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 1);
 
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 
@@ -87,7 +87,7 @@ public class FXFanWuSu extends EntityFX
 		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(CalclaviaRenderHelper.PARTICLE_RESOURCE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(CalclaviaRenderHelper.PARTICLE_RESOURCE);
 
 		tessellator.startDrawingQuads();
 	}

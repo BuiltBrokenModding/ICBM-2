@@ -24,7 +24,7 @@ public class BICBM extends BlockTile
 		super(SheDing.CONFIGURATION.getBlock(name, id).getInt(id), material);
 		this.setUnlocalizedName(ZhuYaoICBM.PREFIX + name);
 		this.setCreativeTab(ICBMTab.INSTANCE);
-		this.func_111022_d(ZhuYaoICBM.PREFIX + name);
+		this.setTextureName(ZhuYaoICBM.PREFIX + name);
 	}
 
 	@Override

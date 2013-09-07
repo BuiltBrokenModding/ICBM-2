@@ -27,11 +27,11 @@ public class RLeiDaTai extends TileEntitySpecialRenderer
 
 		if (tileEntity.getEnergyStored() >= tileEntity.getRequest(null))
 		{
-			this.func_110628_a(TEXTURE_FILE);
+			this.bindTexture(TEXTURE_FILE);
 		}
 		else
 		{
-			this.func_110628_a(TEXTURE_FILE_OFF);
+			this.bindTexture(TEXTURE_FILE_OFF);
 		}
 
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

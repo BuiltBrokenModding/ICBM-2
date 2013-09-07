@@ -40,7 +40,7 @@ public class RDaoDan extends Render
 				GL11.glScalef(0.5f, 0.5f, 0.5f);
 			}
 
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(daoDan.getMissileResource());
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(daoDan.getMissileResource());
 			daoDan.getMissileModel().render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 
 			GL11.glPopMatrix();
@@ -48,7 +48,7 @@ public class RDaoDan extends Render
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity)
+	protected ResourceLocation getEntityTexture(Entity entity)
 	{
 		return null;
 	}

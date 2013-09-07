@@ -52,13 +52,13 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 		// The missile launcher screen
 		if (tileEntity.getTier() == 0)
 		{
-			this.func_110628_a(TEXTURE_FILE_0);
+			this.bindTexture(TEXTURE_FILE_0);
 			modelBase0.render(0.0625F);
 			modelRail0.render(0.0625F);
 		}
 		else if (tileEntity.getTier() == 1)
 		{
-			this.func_110628_a(TEXTURE_FILE_1);
+			this.bindTexture(TEXTURE_FILE_1);
 			modelBase1.render(0.0625F);
 			modelRail1.render(0.0625F);
 			GL11.glRotatef(180F, 0F, 180F, 1.0F);
@@ -66,7 +66,7 @@ public class RFaSheDi extends TileEntitySpecialRenderer
 		}
 		else if (tileEntity.getTier() == 2)
 		{
-			this.func_110628_a(TEXTURE_FILE_2);
+			this.bindTexture(TEXTURE_FILE_2);
 			modelBase2.render(0.0625F);
 			modelRail2.render(0.0625F);
 			GL11.glRotatef(180F, 0F, 180F, 1.0F);

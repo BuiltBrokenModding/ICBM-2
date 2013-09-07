@@ -46,7 +46,7 @@ public class RSuiPian extends Render
 		}
 		else
 		{
-			this.func_110776_a(TEXTURE_FILE);
+			this.bindTexture(TEXTURE_FILE);
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 			GL11.glRotatef(suiPian.prevRotationYaw + (suiPian.rotationYaw - suiPian.prevRotationYaw) * par9 - 90.0F, 0.0F, 1.0F, 0.0F);
@@ -120,7 +120,7 @@ public class RSuiPian extends Render
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity)
+	protected ResourceLocation getEntityTexture(Entity entity)
 	{
 		return null;
 	}

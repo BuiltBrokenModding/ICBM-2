@@ -487,7 +487,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	}
 
 	@Override
-	public boolean func_130002_c(EntityPlayer entityPlayer)
+	public boolean interactFirst(EntityPlayer entityPlayer)
 	{
 		if (((DaoDan) ZhaPinRegistry.get(this.haoMa)) != null)
 		{

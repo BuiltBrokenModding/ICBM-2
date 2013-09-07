@@ -41,7 +41,7 @@ public class RYinDaoQi extends TileEntitySpecialRenderer
 		{
 			if (this.lastSeePlayer > 20 * 3)
 			{
-				this.func_110628_a(TEXTURE_FILE_ON);
+				this.bindTexture(TEXTURE_FILE_ON);
 			}
 			else
 			{
@@ -51,11 +51,11 @@ public class RYinDaoQi extends TileEntitySpecialRenderer
 				if (Math.random() * 3 < this.lastSeePlayer / 3 && this.lastFlicker <= 0)
 				{
 					this.lastFlicker = 8;
-					this.func_110628_a(TEXTURE_FILE_ON);
+					this.bindTexture(TEXTURE_FILE_ON);
 				}
 				else
 				{
-					this.func_110628_a(TEXTURE_FILE);
+					this.bindTexture(TEXTURE_FILE);
 				}
 
 				this.lastFlicker -= f;
@@ -65,7 +65,7 @@ public class RYinDaoQi extends TileEntitySpecialRenderer
 		else
 		{
 			this.lastSeePlayer = 0;
-			this.func_110628_a(TEXTURE_FILE);
+			this.bindTexture(TEXTURE_FILE);
 		}
 
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);

@@ -37,7 +37,7 @@ public class PDongShang extends PICBM
 		}
 
 		// Shatter enemy if health is too low
-		if (par1EntityLiving.func_110143_aJ() < 6)
+		if (par1EntityLiving.getHealth() < 6)
 		{
 			par1EntityLiving.attackEntityFrom(DamageSource.magic, 999999999);
 		}

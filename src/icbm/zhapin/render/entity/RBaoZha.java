@@ -79,7 +79,7 @@ public class RBaoZha extends Render
 				 * 
 				 * float renderX = (float) x; float renderY = (float) y; float renderZ = (float) z;
 				 * 
-				 * this.func_110776_a(TEXTURE_FILE); tessellator.startDrawingQuads();
+				 * this.bindTexture(TEXTURE_FILE); tessellator.startDrawingQuads();
 				 * tessellator.setBrightness(240); tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1F);
 				 * tessellator.addVertexWithUV(-size, 0, -size, x1, x3);
 				 * tessellator.addVertexWithUV(-size, 0, +size, x1, x2);
@@ -163,7 +163,7 @@ public class RBaoZha extends Render
 					GL11.glPushMatrix();
 					GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
 					GL11.glRotatef(eZhaPin.rotationPitch, 0.0F, 0.0F, 1.0F);
-					this.func_110776_a(eZhaPin.baoZha.getRenderResource());
+					this.bindTexture(eZhaPin.baoZha.getRenderResource());
 					eZhaPin.baoZha.getRenderModel().render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
 					GL11.glPopMatrix();
 				}
@@ -190,7 +190,7 @@ public class RBaoZha extends Render
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity)
+	protected ResourceLocation getEntityTexture(Entity entity)
 	{
 		return null;
 	}

@@ -62,7 +62,7 @@ public class MingLing extends CommandBase
 						}
 					}
 
-					sender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Removed all ICBM lag sources within " + radius + " radius."));
+					sender.sendChatToPlayer(ChatMessageComponent.createFromText("Removed all ICBM lag sources within " + radius + " radius."));
 					return;
 				}
 				else

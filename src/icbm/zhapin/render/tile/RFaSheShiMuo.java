@@ -51,15 +51,15 @@ public class RFaSheShiMuo extends TileEntitySpecialRenderer
 		switch (tileEntity.getTier())
 		{
 			case 0:
-				this.func_110628_a(TEXTURE_FILE_0);
+				this.bindTexture(TEXTURE_FILE_0);
 				model0.render(0.0625F);
 				break;
 			case 1:
-				this.func_110628_a(TEXTURE_FILE_1);
+				this.bindTexture(TEXTURE_FILE_1);
 				model1.render(0.0625F);
 				break;
 			case 2:
-				this.func_110628_a(TEXTURE_FILE_2);
+				this.bindTexture(TEXTURE_FILE_2);
 				model2.render(0.0625F);
 				break;
 		}

@@ -25,7 +25,7 @@ public class RDianCiQi extends TileEntitySpecialRenderer
 		TDianCiQi tileEntity = (TDianCiQi) t;
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		this.func_110628_a(TEXTURE_FILE);
+		this.bindTexture(TEXTURE_FILE);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		MODEL.render(tileEntity.xuanZhuan, 0.0625F);
 		GL11.glPopMatrix();

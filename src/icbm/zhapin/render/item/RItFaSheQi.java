@@ -38,7 +38,7 @@ public class RItFaSheQi implements IItemRenderer
 	{
 		GL11.glPushMatrix();
 
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
 		if (type == ItemRenderType.INVENTORY)
 		{

@@ -205,16 +205,11 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
 		return false;
 	}
 
-	public float getMaxHealth()
-	{
-		return this.host != null && host instanceof IHealthTile ? ((IHealthTile) host).getMaxHealth() : 100;
-	}
-
 	@Override
-	protected void func_110147_ax()
+	protected void applyEntityAttributes()
 	{
-		super.func_110147_ax();
-		this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(this.getMaxHealth());
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(this.getMaxHealth());
 	}
 
 }

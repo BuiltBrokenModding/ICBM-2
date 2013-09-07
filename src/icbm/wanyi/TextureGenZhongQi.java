@@ -85,15 +85,15 @@ public class TextureGenZhongQi extends TextureAtlasSprite
 
 		int i;
 
-		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * this.field_110976_a.size()) % this.field_110976_a.size(); i < 0; i = (i + this.field_110976_a.size()) % this.field_110976_a.size())
+		for (i = (int) ((this.currentAngle / (Math.PI * 2D) + 1.0D) * this.framesTextureData.size()) % this.framesTextureData.size(); i < 0; i = (i + this.framesTextureData.size()) % this.framesTextureData.size())
 		{
 			;
 		}
 
-		if (i != this.field_110973_g)
+		if (i != this.frameCounter)
 		{
-			this.field_110973_g = i;
-			TextureUtil.func_110998_a((int[]) this.field_110976_a.get(this.field_110973_g), this.field_130223_c, this.field_130224_d, this.field_110975_c, this.field_110974_d, false, false);
+			this.frameCounter = i;
+			TextureUtil.uploadTextureSub((int[]) this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false);
 		}
 	}
 }

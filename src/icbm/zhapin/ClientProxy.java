@@ -271,7 +271,7 @@ public class ClientProxy extends CommonProxy
 						}
 
 						float f1 = evt.entity.ticksExisted;
-						// this.func_110776_a(evt.renderer.func_110829_a);
+						// this.bindTexture(evt.renderer.func_110829_a);
 						CalclaviaRenderHelper.setTerrainTexture();
 						GL11.glMatrixMode(GL11.GL_TEXTURE);
 						GL11.glLoadIdentity();

@@ -142,7 +142,7 @@ public class FXBeam extends EntityFX
 			op = 0.5F - (4 - (this.particleMaxAge - this.particleAge)) * 0.1F;
 		}
 
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
 		GL11.glTexParameterf(3553, 10243, 10497.0F);
@@ -204,6 +204,6 @@ public class FXBeam extends EntityFX
 		tessellator.startDrawingQuads();
 		this.prevSize = size;
 
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(CalclaviaRenderHelper.PARTICLE_RESOURCE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(CalclaviaRenderHelper.PARTICLE_RESOURCE);
 	}
 }

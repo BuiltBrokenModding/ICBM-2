@@ -85,7 +85,7 @@ public class ItFaSheQi extends ItICBMElectricBase
 								}
 								else
 								{
-									player.sendChatToPlayer(ChatMessageComponent.func_111066_d("Region being is protected."));
+									player.sendChatToPlayer(ChatMessageComponent.createFromText("Region being is protected."));
 								}
 							}
 

@@ -64,7 +64,7 @@ public class ItShouLiuDan extends ItICBMBase
 			}
 			else
 			{
-				entityPlayer.sendChatToPlayer(ChatMessageComponent.func_111066_d("Grenades are banned in this region."));
+				entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Grenades are banned in this region."));
 			}
 		}
 
@@ -97,7 +97,7 @@ public class ItShouLiuDan extends ItICBMBase
 			}
 			else
 			{
-				entityPlayer.sendChatToPlayer(ChatMessageComponent.func_111066_d("Grenades are banned in this region."));
+				entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Grenades are banned in this region."));
 			}
 		}
 	}

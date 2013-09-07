@@ -137,7 +137,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
 	{
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

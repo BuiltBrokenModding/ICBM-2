@@ -37,7 +37,7 @@ public class RZhaDan extends TileEntitySpecialRenderer implements ISimpleBlockRe
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0.0F, 1.5F, 0.0F);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE_FILE);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_FILE);
 				MDiLei.INSTANCE.render(0.0625F);
 				GL11.glPopMatrix();
 			}
@@ -91,7 +91,7 @@ public class RZhaDan extends TileEntitySpecialRenderer implements ISimpleBlockRe
 				GL11.glPushMatrix();
 				GL11.glTranslated(x + 0.5f, y + 1.5f, z + 0.5f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
-				FMLClientHandler.instance().getClient().renderEngine.func_110577_a(zhaPin.getBlockResource());
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(zhaPin.getBlockResource());
 				zhaPin.getBlockModel().render(0.0625f);
 				CalclaviaRenderHelper.setTerrainTexture();
 				GL11.glPopMatrix();

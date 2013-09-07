@@ -382,7 +382,7 @@ public class FXDian extends EntityFX
 		GL11.glDepthMask(false);
 		GL11.glEnable(3042);
 
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 		/**
 		 * Render the actual bolts.
 		 */
@@ -402,7 +402,7 @@ public class FXDian extends EntityFX
 		GL11.glDepthMask(true);
 		GL11.glPopMatrix();
 
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(CalclaviaRenderHelper.PARTICLE_RESOURCE);
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(CalclaviaRenderHelper.PARTICLE_RESOURCE);
 
 		tessellator.startDrawingQuads();
 	}

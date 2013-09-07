@@ -30,7 +30,7 @@ public class GuiButtonImage extends GuiButton
 	{
 		if (this.drawButton)
 		{
-			FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TEXTURE);
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean var4 = width >= this.xPosition && hight >= this.yPosition && width < this.xPosition + this.width && hight < this.yPosition + this.height;
 			int var5 = 106;
