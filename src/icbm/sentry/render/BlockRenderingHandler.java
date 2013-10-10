@@ -34,23 +34,23 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 			{
 				/** Render the gun turret. */
 				GL11.glTranslatef(0.1f, 1f, 0f);
-				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RQiang.TEXTURE_FILE);
-				RQiang.render(0, 0);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderGunTurret.TEXTURE_FILE);
+				RenderGunTurret.render(0, 0);
 			}
 			if (metadata == TurretType.LASER.ordinal())
 			{
 				/** Render the gun turret. */
 				GL11.glTranslatef(0.4f, 1.4f, 0f);
-				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RLeiShe.TEXTURE_FILE);
-				RLeiShe.render(0, 0);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLaserTurret.TEXTURE_FILE);
+				RenderLaserTurret.render(0, 0);
 			}
 			else if (metadata == TurretType.AA.ordinal())
 			{
 				/** Render the gun turret. */
 				GL11.glTranslatef(0.2f, 0.3f, 0);
 				GL11.glScalef(0.45f, 0.45f, 0.45f);
-				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFanKong.TEXTURE_FILE);
-				RFanKong.render(0, 0);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderAAGun.TEXTURE_FILE);
+				RenderAAGun.render(0, 0);
 			}
 			else if (metadata == TurretType.RAILGUN.ordinal())
 			{
@@ -58,8 +58,8 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 				GL11.glTranslatef(0f, 0.9f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
 
-				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RCiGuiPao.TEXTURE);
-				RCiGuiPao.MODEL.render(90, 0, 0.0625F);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderRailGun.TEXTURE);
+				RenderRailGun.MODEL.render(90, 0, 0.0625F);
 			}
 
 			GL11.glPopMatrix();

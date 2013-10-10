@@ -1,21 +1,21 @@
 package icbm.sentry;
 
 import icbm.core.base.REJia;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.gui.GuiPlatformAccess;
+import icbm.sentry.gui.GuiPlatformSlots;
+import icbm.sentry.gui.GuiPlatformTerminal;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.render.BlockRenderingHandler;
 import icbm.sentry.render.FXBeam;
-import icbm.sentry.render.RCiGuiPao;
-import icbm.sentry.render.RFanKong;
-import icbm.sentry.render.RLeiShe;
-import icbm.sentry.render.RQiang;
-import icbm.sentry.shimian.GuiPlatformAccess;
-import icbm.sentry.shimian.GuiPlatformSlots;
-import icbm.sentry.shimian.GuiPlatformTerminal;
-import icbm.sentry.turret.mount.EJia;
-import icbm.sentry.turret.mount.TCiGuiPao;
-import icbm.sentry.turret.sentries.TFanKong;
-import icbm.sentry.turret.sentries.TLeiShe;
-import icbm.sentry.turret.sentries.TQiang;
+import icbm.sentry.render.RenderRailGun;
+import icbm.sentry.render.RenderAAGun;
+import icbm.sentry.render.RenderLaserTurret;
+import icbm.sentry.render.RenderGunTurret;
+import icbm.sentry.turret.mount.EntityMountPoint;
+import icbm.sentry.turret.mount.TileEntityRailGun;
+import icbm.sentry.turret.sentries.TileEntityAAGun;
+import icbm.sentry.turret.sentries.TileEntityLaserGun;
+import icbm.sentry.turret.sentries.TileEntityGunTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -38,12 +38,12 @@ public class ClientProxy extends CommonProxy
 		super.init();
 
 		/** TileEntities */
-		ClientRegistry.bindTileEntitySpecialRenderer(TQiang.class, new RQiang());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFanKong.class, new RFanKong());
-		ClientRegistry.bindTileEntitySpecialRenderer(TCiGuiPao.class, new RCiGuiPao());
-		ClientRegistry.bindTileEntitySpecialRenderer(TLeiShe.class, new RLeiShe());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAAGun.class, new RenderAAGun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailGun.class, new RenderRailGun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserGun.class, new RenderLaserTurret());
 
-		RenderingRegistry.registerEntityRenderingHandler(EJia.class, new REJia());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new REJia());
 		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 	}
 
@@ -57,11 +57,11 @@ public class ClientProxy extends CommonProxy
 			switch (ID)
 			{
 				case GUI_PLATFORM_ID:
-					return new GuiPlatformSlots(player.inventory, ((TPaoTaiZhan) tileEntity));
+					return new GuiPlatformSlots(player.inventory, ((TileEntityTurretPlatform) tileEntity));
 				case GUI_PLATFORM_TERMINAL_ID:
-					return new GuiPlatformTerminal(player, ((TPaoTaiZhan) tileEntity));
+					return new GuiPlatformTerminal(player, ((TileEntityTurretPlatform) tileEntity));
 				case GUI_PLATFORM_ACCESS_ID:
-					return new GuiPlatformAccess(player, ((TPaoTaiZhan) tileEntity));
+					return new GuiPlatformAccess(player, ((TileEntityTurretPlatform) tileEntity));
 			}
 		}
 

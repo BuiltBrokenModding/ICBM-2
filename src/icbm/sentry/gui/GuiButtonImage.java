@@ -1,4 +1,4 @@
-package icbm.sentry.shimian;
+package icbm.sentry.gui;
 
 import icbm.core.ZhuYaoICBM;
 import net.minecraft.client.Minecraft;

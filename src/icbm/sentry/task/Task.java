@@ -1,6 +1,6 @@
 package icbm.sentry.task;
 
-import icbm.sentry.turret.sentries.TPaoTaiZiDong;
+import icbm.sentry.turret.sentries.TileEntityAutoTurret;
 import net.minecraft.world.World;
 
 /**
@@ -14,7 +14,7 @@ public abstract class Task
 	protected int ticks = 0;
 
 	public World world;
-	public TPaoTaiZiDong tileEntity;
+	public TileEntityAutoTurret tileEntity;
 	public TaskManager taskManager;
 
 	/**

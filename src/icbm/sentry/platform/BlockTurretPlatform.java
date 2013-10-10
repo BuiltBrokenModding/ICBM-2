@@ -61,17 +61,17 @@ public class BlockTurretPlatform extends BICBM
 		 */
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TPaoTaiZhan)
+		if (tileEntity instanceof TileEntityTurretPlatform)
 		{
 			if (player.getCurrentEquippedItem() != null)
 			{
-				if (side == ((TPaoTaiZhan) tileEntity).getTurretDirection().ordinal() && player.getCurrentEquippedItem().itemID == ICBMSentry.blockTurret.blockID)
+				if (side == ((TileEntityTurretPlatform) tileEntity).getTurretDirection().ordinal() && player.getCurrentEquippedItem().itemID == ICBMSentry.blockTurret.blockID)
 				{
 					return false;
 				}
 			}
 
-			if (((TPaoTaiZhan) tileEntity).getTurret() != null)
+			if (((TileEntityTurretPlatform) tileEntity).getTurret() != null)
 			{
 				if (!world.isRemote)
 				{
@@ -88,7 +88,7 @@ public class BlockTurretPlatform extends BICBM
 	@Override
 	public TileEntity createNewTileEntity(World var1)
 	{
-		return new TPaoTaiZhan();
+		return new TileEntityTurretPlatform();
 	}
 
 	@Override

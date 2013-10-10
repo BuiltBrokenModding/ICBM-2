@@ -2,10 +2,10 @@ package icbm.sentry.terminal.command;
 
 import icbm.sentry.ISpecialAccess;
 import icbm.sentry.access.AccessLevel;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
-import icbm.sentry.turret.sentries.TPaoTaiZiDong;
+import icbm.sentry.turret.sentries.TileEntityAutoTurret;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +23,13 @@ public class CommandTarget extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
 	{
-		if (terminal instanceof TPaoTaiZhan)
+		if (terminal instanceof TileEntityTurretPlatform)
 		{
-			TPaoTaiZhan turret = (TPaoTaiZhan) terminal;
+			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
 
-			if (turret.getTurret() instanceof TPaoTaiZiDong)
+			if (turret.getTurret() instanceof TileEntityAutoTurret)
 			{
-				TPaoTaiZiDong sentry = ((TPaoTaiZiDong) turret.getTurret());
+				TileEntityAutoTurret sentry = ((TileEntityAutoTurret) turret.getTurret());
 
 				if (args.length > 1)
 				{
@@ -128,9 +128,9 @@ public class CommandTarget extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess specialAccess)
 	{
-		if (specialAccess instanceof TPaoTaiZhan)
+		if (specialAccess instanceof TileEntityTurretPlatform)
 		{
-			return ((TPaoTaiZhan) specialAccess).getTurret() instanceof TPaoTaiZiDong;
+			return ((TileEntityTurretPlatform) specialAccess).getTurret() instanceof TileEntityAutoTurret;
 		}
 		return false;
 	}

@@ -13,7 +13,7 @@ import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItPaoTaiUpgrades extends ItICBMBase implements ITurretUpgrade
+public class ItemSentryUpgrade extends ItICBMBase implements ITurretUpgrade
 {
 	public enum TurretUpgradeType
 	{
@@ -29,7 +29,7 @@ public class ItPaoTaiUpgrades extends ItICBMBase implements ITurretUpgrade
 
 	public static final Icon[] ICONS = new Icon[TurretUpgradeType.values().length];
 
-	public ItPaoTaiUpgrades(int par1)
+	public ItemSentryUpgrade(int par1)
 	{
 		super(par1, "turretUpgrades");
 		this.setMaxDamage(0);

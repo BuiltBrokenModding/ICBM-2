@@ -4,7 +4,7 @@
 // Keep in mind that you still need to fill in some blanks
 // - ZeuX
 
-package icbm.sentry.muoxing;
+package icbm.sentry.models;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

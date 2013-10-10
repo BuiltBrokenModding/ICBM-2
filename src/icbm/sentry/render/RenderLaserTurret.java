@@ -2,9 +2,9 @@ package icbm.sentry.render;
 
 import icbm.core.ZhuYaoICBM;
 import icbm.sentry.access.AccessLevel;
-import icbm.sentry.muoxing.MLeiShe;
-import icbm.sentry.turret.TPaoTaiBase;
-import icbm.sentry.turret.sentries.TLeiShe;
+import icbm.sentry.models.ModelLaserTurret;
+import icbm.sentry.turret.TileEntityTurret;
+import icbm.sentry.turret.sentries.TileEntityLaserGun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -16,21 +16,21 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RLeiShe extends RenderTaggedTile
+public class RenderLaserTurret extends RenderTaggedTile
 {
 	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "laser_turret_neutral.png");
 	public static final ResourceLocation TEXTURE_FILE_FRIENDLY = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "laser_turret_friendly.png");
 	public static final ResourceLocation TEXTURE_FILE_HOSTILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "laser_turret_hostile.png");
-	public static final MLeiShe MODEL = new MLeiShe();
+	public static final ModelLaserTurret MODEL = new ModelLaserTurret();
 
 	@Override
 	public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
 	{
 		super.renderTileEntityAt(t, x, y, z, f);
 
-		if (t instanceof TLeiShe)
+		if (t instanceof TileEntityLaserGun)
 		{
-			TLeiShe tileEntity = (TLeiShe) t;
+			TileEntityLaserGun tileEntity = (TileEntityLaserGun) t;
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
 
@@ -58,7 +58,7 @@ public class RLeiShe extends RenderTaggedTile
 		MODEL.renderYawPitch(0.0625F, barrelRotation);
 	}
 
-	public void setTextureBaseOnState(TPaoTaiBase tileEntity)
+	public void setTextureBaseOnState(TileEntityTurret tileEntity)
 	{
 		EntityPlayer player = this.getPlayer();
 

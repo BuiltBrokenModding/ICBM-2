@@ -6,7 +6,7 @@ import icbm.sentry.ICBMSentry;
 import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
 
-public class TLeiShe extends TPaoTaiZiDong
+public class TileEntityLaserGun extends TileEntityAutoTurret
 {
 	/**
 	 * Laser turret spins its barrels every shot.
@@ -14,7 +14,7 @@ public class TLeiShe extends TPaoTaiZiDong
 	public float barrelRotation;
 	public float barrelRotationVelocity;
 
-	public TLeiShe()
+	public TileEntityLaserGun()
 	{
 		this.targetPlayers = true;
 		this.targetHostile = true;

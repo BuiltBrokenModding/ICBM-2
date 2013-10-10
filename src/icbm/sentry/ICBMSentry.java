@@ -17,9 +17,9 @@ import icbm.sentry.terminal.command.CommandUser;
 import icbm.sentry.turret.BlockTurret;
 import icbm.sentry.turret.ItemAmmo;
 import icbm.sentry.turret.ItemBlockTurret;
-import icbm.sentry.turret.mount.EJia;
-import icbm.sentry.turret.upgrades.ItPaoTaiUpgrades;
-import icbm.sentry.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
+import icbm.sentry.turret.mount.EntityMountPoint;
+import icbm.sentry.turret.upgrades.ItemSentryUpgrade;
+import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -102,7 +102,7 @@ public class ICBMSentry extends ZhuYaoICBM
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
-		itemUpgrade = new ItPaoTaiUpgrades(ITEM_ID_PREFIX + 2);
+		itemUpgrade = new ItemSentryUpgrade(ITEM_ID_PREFIX + 2);
 		SheDing.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
@@ -113,8 +113,8 @@ public class ICBMSentry extends ZhuYaoICBM
 		GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class, "ICBMTurret");
 		GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
 
-		EntityRegistry.registerGlobalEntityID(EJia.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EJia.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityMountPoint.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityMountPoint.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
 		EntityRegistry.registerGlobalEntityID(EntityTileDamagable.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityTileDamagable.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
 

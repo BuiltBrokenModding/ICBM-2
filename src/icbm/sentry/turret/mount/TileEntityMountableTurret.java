@@ -1,6 +1,6 @@
 package icbm.sentry.turret.mount;
 
-import icbm.sentry.turret.TPaoTaiBase;
+import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
@@ -14,10 +14,10 @@ import calclavia.lib.multiblock.IBlockActivate;
  * @author Calclavia
  * 
  */
-public abstract class TPaoTaiQi extends TPaoTaiBase implements IBlockActivate
+public abstract class TileEntityMountableTurret extends TileEntityTurret implements IBlockActivate
 {
 	/** Fake entity this sentry uses for mounting the player in position */
-	protected EJia entityFake = null;
+	protected EntityMountPoint entityFake = null;
 
 	@Override
 	public void updateEntity()
@@ -27,7 +27,7 @@ public abstract class TPaoTaiQi extends TPaoTaiBase implements IBlockActivate
 		// Creates a fake entity to be mounted on
 		if (this.entityFake == null || this.entityFake.isDead)
 		{
-			this.entityFake = new EJia(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
+			this.entityFake = new EntityMountPoint(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
 			this.worldObj.spawnEntityInWorld(this.entityFake);
 		}
 

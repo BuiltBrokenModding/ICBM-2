@@ -2,7 +2,7 @@ package icbm.sentry.terminal.command;
 
 import icbm.sentry.ISpecialAccess;
 import icbm.sentry.access.AccessLevel;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
 
@@ -22,9 +22,9 @@ public class CommandDestroy extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal terminal, String[] args)
 	{
-		if (terminal instanceof TPaoTaiZhan)
+		if (terminal instanceof TileEntityTurretPlatform)
 		{
-			TPaoTaiZhan turret = (TPaoTaiZhan) terminal;
+			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) terminal;
 
 			if (args.length > 1)
 			{
@@ -65,7 +65,7 @@ public class CommandDestroy extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess mm)
 	{
-		return mm instanceof TPaoTaiZhan;
+		return mm instanceof TileEntityTurretPlatform;
 	}
 
 }

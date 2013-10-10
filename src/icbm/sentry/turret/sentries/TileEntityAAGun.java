@@ -10,9 +10,9 @@ import universalelectricity.core.vector.Vector3;
  * 
  * @author DarkGaurdsman
  */
-public class TFanKong extends TPaoTaiZiDong
+public class TileEntityAAGun extends TileEntityAutoTurret
 {
-	public TFanKong()
+	public TileEntityAAGun()
 	{
 		this.targetAir = true;
 		this.canTargetAir = true;

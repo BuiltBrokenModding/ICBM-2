@@ -26,7 +26,7 @@ import calclavia.lib.multiblock.IMultiBlock;
  * 
  * @author Calclavia
  */
-public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TileEntityRailGun extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
 {
 	private int gunChargingTicks = 0;
 
@@ -43,7 +43,7 @@ public class TCiGuiPao extends TPaoTaiQi implements IPacketReceiver, IRedstoneRe
 	 */
 	private int endTicks = 0;
 
-	public TCiGuiPao()
+	public TileEntityRailGun()
 	{
 		this.baseFiringDelay = 80;
 		this.minFiringDelay = 50;

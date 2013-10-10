@@ -8,8 +8,8 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.TileDamageSource;
 import icbm.sentry.task.TaskManager;
 import icbm.sentry.task.TaskSearchTarget;
-import icbm.sentry.turret.TPaoTaiBase;
-import icbm.sentry.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
+import icbm.sentry.turret.TileEntityTurret;
+import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 
 import java.io.IOException;
 
@@ -40,7 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
  * 
  * @author Rseifert
  */
-public abstract class TPaoTaiZiDong extends TPaoTaiBase implements IAutoSentry
+public abstract class TileEntityAutoTurret extends TileEntityTurret implements IAutoSentry
 {
 	/** CURRENT TARGET TO ATTACK */
 	public Entity target;
@@ -269,7 +269,7 @@ public abstract class TPaoTaiZiDong extends TPaoTaiBase implements IAutoSentry
 				{
 					this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
 
-					if (this instanceof TLeiShe)
+					if (this instanceof TileEntityLaserGun)
 					{
 						this.target.attackEntityFrom(TileDamageSource.doLaserDamage(this), 2);
 					}

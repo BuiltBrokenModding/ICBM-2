@@ -5,7 +5,7 @@ import icbm.sentry.ISentry;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.task.LookHelper;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ import com.google.common.io.ByteArrayDataInput;
  * 
  * @author Calclavia, Rseifert
  */
-public abstract class TPaoTaiBase extends TileEntityAdvanced implements IPacketReceiver, ITagRender, ISentry, IHealthTile
+public abstract class TileEntityTurret extends TileEntityAdvanced implements IPacketReceiver, ITagRender, ISentry, IHealthTile
 {
 	/** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
 	public float maxPitch = 35;
@@ -207,13 +207,13 @@ public abstract class TPaoTaiBase extends TileEntityAdvanced implements IPacketR
 
 	/** get the turrets control platform */
 	@Override
-	public TPaoTaiZhan getPlatform()
+	public TileEntityTurretPlatform getPlatform()
 	{
 		TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.xCoord + this.platformDirection.offsetX, this.yCoord + this.platformDirection.offsetY, this.zCoord + this.platformDirection.offsetZ);
 
-		if (tileEntity instanceof TPaoTaiZhan)
+		if (tileEntity instanceof TileEntityTurretPlatform)
 		{
-			return (TPaoTaiZhan) tileEntity;
+			return (TileEntityTurretPlatform) tileEntity;
 		}
 		else
 		{

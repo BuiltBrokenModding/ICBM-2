@@ -4,7 +4,7 @@ import icbm.sentry.IAmmunition;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.SlotTurret;
 import icbm.sentry.access.AccessLevel;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.turret.ItemAmmo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,9 +14,9 @@ import universalelectricity.core.item.IItemElectric;
 
 public class ContainerTurretPlatform extends ContainerTerminal
 {
-	private TPaoTaiZhan tileEntity;
+	private TileEntityTurretPlatform tileEntity;
 
-	public ContainerTurretPlatform(InventoryPlayer inventoryPlayer, TPaoTaiZhan tileEntity)
+	public ContainerTurretPlatform(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
 	{
 		super(inventoryPlayer, tileEntity);
 		this.tileEntity = tileEntity;
@@ -34,7 +34,7 @@ public class ContainerTurretPlatform extends ContainerTerminal
 		// Turret Upgrade Slots
 		for (int i = 0; i < 4; i++)
 		{
-			this.addSlotToContainer(new SlotTurret(tileEntity, i + TPaoTaiZhan.UPGRADE_START_INDEX, 89 + i * 18, 77, ITurretUpgrade.class));
+			this.addSlotToContainer(new SlotTurret(tileEntity, i + TileEntityTurretPlatform.UPGRADE_START_INDEX, 89 + i * 18, 77, ITurretUpgrade.class));
 		}
 
 		// Player Inventory
@@ -71,14 +71,14 @@ public class ContainerTurretPlatform extends ContainerTerminal
 				{
 					if (itemStack.getItem() instanceof ItemAmmo || itemStack.getItem() instanceof IItemElectric)
 					{
-						if (!this.mergeItemStack(itemStack, 0, TPaoTaiZhan.UPGRADE_START_INDEX, false))
+						if (!this.mergeItemStack(itemStack, 0, TileEntityTurretPlatform.UPGRADE_START_INDEX, false))
 						{
 							return null;
 						}
 					}
 					else if (itemStack.getItem() instanceof ITurretUpgrade)
 					{
-						if (!this.mergeItemStack(itemStack, TPaoTaiZhan.UPGRADE_START_INDEX, this.tileEntity.containingItems.length, false))
+						if (!this.mergeItemStack(itemStack, TileEntityTurretPlatform.UPGRADE_START_INDEX, this.tileEntity.containingItems.length, false))
 						{
 							return null;
 						}

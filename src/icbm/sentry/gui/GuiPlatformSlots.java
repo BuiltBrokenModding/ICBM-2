@@ -1,8 +1,8 @@
-package icbm.sentry.shimian;
+package icbm.sentry.gui;
 
 import icbm.core.ZhuYaoICBM;
-import icbm.sentry.platform.TPaoTaiZhan;
-import icbm.sentry.turret.TPaoTaiBase;
+import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -19,7 +19,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_platform_slot.png");
 
-	public GuiPlatformSlots(InventoryPlayer inventoryPlayer, TPaoTaiZhan tileEntity)
+	public GuiPlatformSlots(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
 	{
 		super(inventoryPlayer, tileEntity);
 	}
@@ -32,7 +32,7 @@ public class GuiPlatformSlots extends GuiPlatformContainer
 	{
 		this.fontRenderer.drawString("Ammunition", 8, 30, 4210752);
 
-		TPaoTaiBase turret = this.tileEntity.getTurret();
+		TileEntityTurret turret = this.tileEntity.getTurret();
 
 		// Render the turret energy
 		if (turret != null && turret.getFiringRequest() > 0)

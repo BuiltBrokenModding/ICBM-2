@@ -1,43 +1,43 @@
-package icbm.sentry.shimian;
+package icbm.sentry.gui;
 
 import icbm.core.ZhuYaoICBM;
 import icbm.sentry.CommonProxy;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.container.ContainerTurretPlatform;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.terminal.TileEntityTerminal.TerminalPacketType;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
- * A base class for all ICBM Sentry GUIs with containers.
+ * A base class for all ICBM Sentry GUIs.
  * 
  * @author Calclavia
  */
 @SideOnly(Side.CLIENT)
-public abstract class GuiPlatformContainer extends GuiContainer
+public abstract class GuiPlatformBase extends GuiBase
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_base.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_platform_terminal.png");
 
 	protected static final int MAX_BUTTON_ID = 3;
-	protected TPaoTaiZhan tileEntity;
+	protected TileEntityTurretPlatform tileEntity;
 	protected EntityPlayer entityPlayer;
 
-	public GuiPlatformContainer(InventoryPlayer inventoryPlayer, TPaoTaiZhan tileEntity)
+	public GuiPlatformBase(EntityPlayer player, TileEntityTurretPlatform tileEntity)
 	{
-		super(new ContainerTurretPlatform(inventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
-		this.entityPlayer = inventoryPlayer.player;
+		this.entityPlayer = player;
 		this.ySize = 380 / 2;
 	}
 
@@ -56,6 +56,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 		// this.buttonList.add(new GuiButtonImage(3, (this.width - this.xSize) /
 		// 2 - 22,
 		// (this.height - this.ySize) / 2 + 66, 1));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMSentry.CHANNEL, this.tileEntity, TerminalPacketType.GUI_EVENT.ordinal(), true));
 	}
 
 	@Override
@@ -101,41 +102,43 @@ public abstract class GuiPlatformContainer extends GuiContainer
 		}
 	}
 
+	@Override
+	public void onGuiClosed()
+	{
+		super.onGuiClosed();
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMSentry.CHANNEL, this.tileEntity, TerminalPacketType.GUI_EVENT.ordinal(), false));
+	}
+
 	/**
 	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	 */
 	@Override
-	protected void drawGuiContainerForegroundLayer(int x, int y)
+	protected void drawForegroundLayer(int x, int y, float var1)
 	{
-		if (this.tileEntity.getTurret() != null)
-		{
-			String title = this.tileEntity.getTurret().getName();
-			this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
 
-			/** Render Tool Tips */
-			if (((GuiButtonImage) this.buttonList.get(0)).isIntersect(x, y))
-			{
-				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Terminal");
-			}
-			else if (((GuiButtonImage) this.buttonList.get(1)).isIntersect(x, y))
-			{
-				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Access");
-			}
-			else if (((GuiButtonImage) this.buttonList.get(2)).isIntersect(x, y))
-			{
-				this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
-			}/*
-			 * else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y)) {
-			 * this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection"); }
-			 */
+		/** Render Tool Tips */
+		if (((GuiButtonImage) this.buttonList.get(0)).isIntersect(x, y))
+		{
+			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Terminal");
 		}
+		else if (((GuiButtonImage) this.buttonList.get(1)).isIntersect(x, y))
+		{
+			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Access");
+		}
+		else if (((GuiButtonImage) this.buttonList.get(2)).isIntersect(x, y))
+		{
+			this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Ammunition");
+		}/*
+		 * else if (((GuiButtonImage) this.buttonList.get(3)).isIntersect(x, y)) {
+		 * this.drawTooltip(x - this.guiLeft, y - this.guiTop + 10, "Protection"); }
+		 */
 	}
 
 	/**
 	 * Draw the background layer for the GuiContainer (everything behind the items)
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
+	protected void drawBackgroundLayer(int x, int y, float var1)
 	{
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
@@ -146,6 +149,7 @@ public abstract class GuiPlatformContainer extends GuiContainer
 		this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);
 	}
 
+	@Override
 	public void drawTooltip(int x, int y, String... toolTips)
 	{
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

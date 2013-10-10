@@ -1,6 +1,6 @@
 package icbm.sentry;
 
-import icbm.sentry.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
+import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.item.ItemStack;
 
 /**

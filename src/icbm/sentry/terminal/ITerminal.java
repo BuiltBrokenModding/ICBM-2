@@ -1,7 +1,7 @@
 package icbm.sentry.terminal;
 
 import icbm.sentry.ISpecialAccess;
-import icbm.sentry.shimian.IScroll;
+import icbm.sentry.gui.IScroll;
 
 import java.util.List;
 

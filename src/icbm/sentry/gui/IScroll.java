@@ -1,4 +1,4 @@
-package icbm.sentry.shimian;
+package icbm.sentry.gui;
 
 public interface IScroll
 {

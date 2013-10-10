@@ -1,4 +1,4 @@
-package icbm.sentry.shimian;
+package icbm.sentry.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

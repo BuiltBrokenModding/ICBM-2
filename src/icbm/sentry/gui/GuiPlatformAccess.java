@@ -1,9 +1,9 @@
-package icbm.sentry.shimian;
+package icbm.sentry.gui;
 
 import icbm.core.ZhuYaoICBM;
 import icbm.sentry.access.AccessLevel;
 import icbm.sentry.access.UserAccess;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.TileEntityTerminal;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	private static final int SPACING = 10;
 	private final HashMap<UserAccess, Vector2> outputMap = new HashMap<UserAccess, Vector2>();
 
-	public GuiPlatformAccess(EntityPlayer entityPlayer, TPaoTaiZhan tileEntity)
+	public GuiPlatformAccess(EntityPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
 	{
 		super(entityPlayer, tileEntity);
 	}

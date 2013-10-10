@@ -3,9 +3,9 @@ package icbm.sentry.turret.sentries;
 import icbm.core.ZhuYaoICBM;
 import universalelectricity.core.vector.Vector3;
 
-public class TQiang extends TPaoTaiZiDong
+public class TileEntityGunTurret extends TileEntityAutoTurret
 {
-	public TQiang()
+	public TileEntityGunTurret()
 	{
 		this.targetPlayers = true;
 		this.targetHostile = true;

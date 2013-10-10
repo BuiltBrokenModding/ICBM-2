@@ -7,10 +7,10 @@ import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.render.BlockRenderingHandler;
-import icbm.sentry.turret.mount.TCiGuiPao;
-import icbm.sentry.turret.sentries.TFanKong;
-import icbm.sentry.turret.sentries.TLeiShe;
-import icbm.sentry.turret.sentries.TQiang;
+import icbm.sentry.turret.mount.TileEntityRailGun;
+import icbm.sentry.turret.sentries.TileEntityAAGun;
+import icbm.sentry.turret.sentries.TileEntityLaserGun;
+import icbm.sentry.turret.sentries.TileEntityGunTurret;
 
 import java.util.List;
 import java.util.Random;
@@ -44,7 +44,7 @@ public class BlockTurret extends BICBM
 {
 	public enum TurretType
 	{
-		GUN(TQiang.class), RAILGUN(TCiGuiPao.class), AA(TFanKong.class), LASER(TLeiShe.class);
+		GUN(TileEntityGunTurret.class), RAILGUN(TileEntityRailGun.class), AA(TileEntityAAGun.class), LASER(TileEntityLaserGun.class);
 
 		public Class<? extends TileEntity> tileEntity;
 
@@ -66,9 +66,9 @@ public class BlockTurret extends BICBM
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
-		if (ent instanceof TPaoTaiBase)
+		if (ent instanceof TileEntityTurret)
 		{
-			EntityTileDamagable dEnt = ((TPaoTaiBase) ent).getDamageEntity();
+			EntityTileDamagable dEnt = ((TileEntityTurret) ent).getDamageEntity();
 			if (dEnt != null)
 			{
 				this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
@@ -127,10 +127,10 @@ public class BlockTurret extends BICBM
 	{
 		TileEntity ent = world.getBlockTileEntity(x, y, z);
 
-		if (ent instanceof TPaoTaiBase)
+		if (ent instanceof TileEntityTurret)
 		{
 			Random random = new Random();
-			((TPaoTaiBase) ent).setHealth(5 + random.nextInt(7), true);
+			((TileEntityTurret) ent).setHealth(5 + random.nextInt(7), true);
 			return true;
 		}
 
@@ -167,7 +167,7 @@ public class BlockTurret extends BICBM
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TPaoTaiBase)
+		if (tileEntity instanceof TileEntityTurret)
 		{
 			if (this.canBlockStay(world, x, y, z))
 			{
@@ -187,7 +187,7 @@ public class BlockTurret extends BICBM
 			{
 				if (tileEntity != null)
 				{
-					((TPaoTaiBase) tileEntity).destroy(false);
+					((TileEntityTurret) tileEntity).destroy(false);
 				}
 			}
 		}

@@ -1,11 +1,11 @@
 package icbm.sentry;
 
 import icbm.sentry.container.ContainerTurretPlatform;
-import icbm.sentry.platform.TPaoTaiZhan;
-import icbm.sentry.turret.mount.TCiGuiPao;
-import icbm.sentry.turret.sentries.TFanKong;
-import icbm.sentry.turret.sentries.TLeiShe;
-import icbm.sentry.turret.sentries.TQiang;
+import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.turret.mount.TileEntityRailGun;
+import icbm.sentry.turret.sentries.TileEntityAAGun;
+import icbm.sentry.turret.sentries.TileEntityLaserGun;
+import icbm.sentry.turret.sentries.TileEntityGunTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -22,11 +22,11 @@ public class CommonProxy implements IGuiHandler
 
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TQiang.class, "ICBMGunTurret");
-		GameRegistry.registerTileEntity(TFanKong.class, "ICBMAATurret");
-		GameRegistry.registerTileEntity(TCiGuiPao.class, "ICBMRailgun");
-		GameRegistry.registerTileEntity(TLeiShe.class, "ICBMLeiSheF");
-		GameRegistry.registerTileEntity(TPaoTaiZhan.class, "ICBMPlatform");
+		GameRegistry.registerTileEntity(TileEntityGunTurret.class, "ICBMGunTurret");
+		GameRegistry.registerTileEntity(TileEntityAAGun.class, "ICBMAATurret");
+		GameRegistry.registerTileEntity(TileEntityRailGun.class, "ICBMRailgun");
+		GameRegistry.registerTileEntity(TileEntityLaserGun.class, "ICBMLeiSheF");
+		GameRegistry.registerTileEntity(TileEntityTurretPlatform.class, "ICBMPlatform");
 	}
 
 	public void preInit()
@@ -44,7 +44,7 @@ public class CommonProxy implements IGuiHandler
 			switch (ID)
 			{
 				case GUI_PLATFORM_ID:
-					return new ContainerTurretPlatform(player.inventory, ((TPaoTaiZhan) tileEntity));
+					return new ContainerTurretPlatform(player.inventory, ((TileEntityTurretPlatform) tileEntity));
 			}
 		}
 

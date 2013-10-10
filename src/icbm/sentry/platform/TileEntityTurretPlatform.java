@@ -6,9 +6,9 @@ import icbm.sentry.ProjectileType;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.terminal.TileEntityTerminal;
-import icbm.sentry.turret.TPaoTaiBase;
+import icbm.sentry.turret.TileEntityTurret;
 import icbm.sentry.turret.ItemAmmo.AmmoType;
-import icbm.sentry.turret.upgrades.ItPaoTaiUpgrades.TurretUpgradeType;
+import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -29,10 +29,10 @@ import universalelectricity.prefab.CustomDamageSource;
  * @author Calclavia
  * 
  */
-public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
+public class TileEntityTurretPlatform extends TileEntityTerminal implements IInventory
 {
 	/** The turret linked to this platform. */
-	private TPaoTaiBase cachedTurret = null;
+	private TileEntityTurret cachedTurret = null;
 	/** The start index of the upgrade slots for the turret. */
 	public static final int UPGRADE_START_INDEX = 12;
 	private static final int TURRET_UPGADE_SLOTS = 3;
@@ -83,7 +83,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 			{
 				if (receive.voltage > this.getVoltage())
 				{
-					TPaoTaiBase turret = this.getTurret();
+					TileEntityTurret turret = this.getTurret();
 
 					if (turret != null && turret instanceof IHealthTile)
 					{
@@ -120,15 +120,15 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	}
 
 	/** Gets the turret instance linked to this platform */
-	public TPaoTaiBase getTurret()
+	public TileEntityTurret getTurret()
 	{
 		if (this.cachedTurret == null || this.cachedTurret.isInvalid() || !(new Vector3(this.cachedTurret).equals(new Vector3(this).modifyPositionFromSide(this.getTurretDirection()))))
 		{
 			TileEntity tileEntity = new Vector3(this).modifyPositionFromSide(this.getTurretDirection()).getTileEntity(this.worldObj);
 
-			if (tileEntity instanceof TPaoTaiBase)
+			if (tileEntity instanceof TileEntityTurret)
 			{
-				this.cachedTurret = (TPaoTaiBase) tileEntity;
+				this.cachedTurret = (TileEntityTurret) tileEntity;
 			}
 			else
 			{
@@ -148,10 +148,10 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 	{
 		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + this.getTurretDirection().offsetX, this.yCoord + this.getTurretDirection().offsetY, this.zCoord + this.getTurretDirection().offsetZ);
 
-		if (ent instanceof TPaoTaiBase)
+		if (ent instanceof TileEntityTurret)
 		{
 			this.cachedTurret = null;
-			((TPaoTaiBase) ent).destroy(false);
+			((TileEntityTurret) ent).destroy(false);
 			return true;
 		}
 
@@ -186,7 +186,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 
 	public ItemStack hasAmmunition(ProjectileType projectileType)
 	{
-		for (int i = 0; i < TPaoTaiZhan.UPGRADE_START_INDEX; i++)
+		for (int i = 0; i < TileEntityTurretPlatform.UPGRADE_START_INDEX; i++)
 		{
 			ItemStack itemStack = this.containingItems[i];
 
@@ -213,7 +213,7 @@ public class TPaoTaiZhan extends TileEntityTerminal implements IInventory
 				return true;
 			}
 
-			for (int i = 0; i < TPaoTaiZhan.UPGRADE_START_INDEX; i++)
+			for (int i = 0; i < TileEntityTurretPlatform.UPGRADE_START_INDEX; i++)
 			{
 				ItemStack itemStack = this.containingItems[i];
 

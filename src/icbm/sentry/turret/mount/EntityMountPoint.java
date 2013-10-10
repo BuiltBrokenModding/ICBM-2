@@ -18,20 +18,20 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
  * 
  * @author Calclavia
  */
-public class EJia extends Entity implements IEntityAdditionalSpawnData
+public class EntityMountPoint extends Entity implements IEntityAdditionalSpawnData
 {
 	private TileEntity controller;
 	private boolean shouldSit = false;
 	private Vector3 controllVec;
 
-	public EJia(World par1World)
+	public EntityMountPoint(World par1World)
 	{
 		super(par1World);
 		this.setSize(1F, 1F);
 		this.noClip = true;
 	}
 
-	public EJia(World par1World, Vector3 position, TileEntity controller, boolean sit)
+	public EntityMountPoint(World par1World, Vector3 position, TileEntity controller, boolean sit)
 	{
 		this(par1World);
 		this.isImmuneToFire = true;
@@ -98,9 +98,9 @@ public class EJia extends Entity implements IEntityAdditionalSpawnData
 			return;
 		}
 
-		if (this.controller instanceof TPaoTaiQi)
+		if (this.controller instanceof TileEntityMountableTurret)
 		{
-			((TPaoTaiQi) this.controller).entityFake = this;
+			((TileEntityMountableTurret) this.controller).entityFake = this;
 		}
 
 		if (this.worldObj.isRemote && this.riddenByEntity != null)

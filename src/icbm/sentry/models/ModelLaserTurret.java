@@ -1,9 +1,9 @@
-package icbm.sentry.muoxing;
+package icbm.sentry.models;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class MLeiShe extends ModelBase
+public class ModelLaserTurret extends ModelBase
 {
 	// fields
 	ModelRenderer basePlate;
@@ -44,7 +44,7 @@ public class MLeiShe extends ModelBase
 	ModelRenderer rEar1;
 	ModelRenderer rEar2;
 
-	public MLeiShe()
+	public ModelLaserTurret()
 	{
 		textureWidth = 128;
 		textureHeight = 128;

@@ -1,22 +1,22 @@
 package icbm.sentry.damage;
 
-import icbm.sentry.turret.TPaoTaiBase;
+import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 
 public class TileDamageSource extends EntityDamageSource
 {
-	public TileDamageSource(String damageName, TPaoTaiBase tileEntity)
+	public TileDamageSource(String damageName, TileEntityTurret tileEntity)
 	{
 		super(damageName, tileEntity.getDamageEntity());
 	}
 
-	public static TileDamageSource doBulletDamage(TPaoTaiBase tileEntity)
+	public static TileDamageSource doBulletDamage(TileEntityTurret tileEntity)
 	{
 		return (TileDamageSource) (new TileDamageSource("bullet", tileEntity).setProjectile());
 	}
 
-	public static TileDamageSource doLaserDamage(TPaoTaiBase tileEntity)
+	public static TileDamageSource doLaserDamage(TileEntityTurret tileEntity)
 	{
 		return (TileDamageSource) (new TileDamageSource("laser", tileEntity).setDamageBypassesArmor().setProjectile());
 	}

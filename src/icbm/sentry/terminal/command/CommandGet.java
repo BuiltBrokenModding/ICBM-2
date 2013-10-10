@@ -3,7 +3,7 @@ package icbm.sentry.terminal.command;
 import icbm.sentry.ISpecialAccess;
 import icbm.sentry.access.AccessLevel;
 import icbm.sentry.access.UserAccess;
-import icbm.sentry.platform.TPaoTaiZhan;
+import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.terminal.ITerminal;
 import icbm.sentry.terminal.TerminalCommand;
 
@@ -23,9 +23,9 @@ public class CommandGet extends TerminalCommand
 	@Override
 	public boolean processCommand(EntityPlayer player, ITerminal TE, String[] args)
 	{
-		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TPaoTaiZhan)
+		if (args[0].equalsIgnoreCase("get") && args.length > 1 && args[1] != null && TE instanceof TileEntityTurretPlatform)
 		{
-			TPaoTaiZhan turret = (TPaoTaiZhan) TE;
+			TileEntityTurretPlatform turret = (TileEntityTurretPlatform) TE;
 			if (args[1].equalsIgnoreCase("owner"))
 			{
 				List<UserAccess> userList = turret.getUsersWithAcess(AccessLevel.OWNER);
@@ -87,7 +87,7 @@ public class CommandGet extends TerminalCommand
 	@Override
 	public boolean canMachineUse(ISpecialAccess mm)
 	{
-		return mm instanceof TPaoTaiZhan;
+		return mm instanceof TileEntityTurretPlatform;
 	}
 
 }
