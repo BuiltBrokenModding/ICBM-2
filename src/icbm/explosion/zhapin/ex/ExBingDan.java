@@ -1,9 +1,9 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzBingDan;
-import icbm.explosion.muoxing.daodan.MMBingDan;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzBingDan;
+import icbm.explosion.model.missiles.MMBingDan;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -23,7 +23,7 @@ public class ExBingDan extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', la.getItemStack(), '?', Block.ice, '!', Block.blockSnow }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "?!?", "!@!", "?!?", '@', la.getItemStack(), '?', Block.ice, '!', Block.blockSnow }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class ExBingDan extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMBingDan();
 	}

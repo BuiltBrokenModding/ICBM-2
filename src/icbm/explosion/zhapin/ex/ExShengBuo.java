@@ -1,11 +1,11 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzShengBuo;
-import icbm.explosion.muoxing.daodan.MMChaoShengBuo;
-import icbm.explosion.muoxing.daodan.MMShengBuo;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzShengBuo;
+import icbm.explosion.model.missiles.MMChaoShengBuo;
+import icbm.explosion.model.missiles.MMShengBuo;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -28,11 +28,11 @@ public class ExShengBuo extends DaoDan
 	{
 		if (this.getTier() == 3)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "S S", " S ", 'S', ZhaPin.shengBuo.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "S S", " S ", 'S', Explosive.shengBuo.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 		}
 		else
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', ZhaPin.tui.getItemStack(), '?', Block.music, '@', UniversalRecipes.SECONDARY_METAL }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', Explosive.tui.getItemStack(), '?', Block.music, '@', UniversalRecipes.SECONDARY_METAL }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class ExShengBuo extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		if (this.getTier() == 3)
 		{

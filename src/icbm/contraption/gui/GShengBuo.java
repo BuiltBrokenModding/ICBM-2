@@ -3,7 +3,7 @@ package icbm.contraption.gui;
 import icbm.api.IItemFrequency;
 import icbm.contraption.ICBMContraption;
 import icbm.contraption.WanYiPacketGuanLi.WanYiPacketType;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +17,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GShengBuo extends GuiBase
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
 	private ItemStack itemStack;
 

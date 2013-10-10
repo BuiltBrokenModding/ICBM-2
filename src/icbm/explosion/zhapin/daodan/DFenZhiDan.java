@@ -1,8 +1,8 @@
 package icbm.explosion.zhapin.daodan;
 
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzYaSuo;
-import icbm.explosion.muoxing.daodan.MMFenZiDan;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.model.missiles.MMFenZiDan;
 import icbm.explosion.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -60,7 +60,7 @@ public class DFenZhiDan extends DaoDanTeBie
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMFenZiDan();
 	}

@@ -1,6 +1,6 @@
 package icbm.contraption;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -28,6 +28,6 @@ public class IBZha extends ItemBlock
 	@Override
 	public String getUnlocalizedName()
 	{
-		return "tile." + ZhuYaoICBM.PREFIX + "spikes";
+		return "tile." + ICBMCore.PREFIX + "spikes";
 	}
 }

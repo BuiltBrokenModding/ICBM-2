@@ -1,9 +1,9 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzHongSu;
-import icbm.explosion.muoxing.daodan.MMHongSu;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzHongSu;
+import icbm.explosion.model.missiles.MMHongSu;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -22,7 +22,7 @@ public class ExHongSu extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', fanWuSu.getItemStack(), 'A', "strangeMatter" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', fanWuSu.getItemStack(), 'A', "strangeMatter" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class ExHongSu extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMHongSu();
 	}

@@ -1,8 +1,8 @@
 package icbm.explosion.render.tile;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.jiqi.TFaSheJia;
-import icbm.explosion.muoxing.jiqi.MFaSheJia;
+import icbm.core.ICBMCore;
+import icbm.explosion.machines.TFaSheJia;
+import icbm.explosion.model.tiles.MFaSheJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RFaSheJia extends TileEntitySpecialRenderer
 {
 	public static final MFaSheJia MODEL = new MFaSheJia();
-	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_0.png");
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "launcher_0.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)

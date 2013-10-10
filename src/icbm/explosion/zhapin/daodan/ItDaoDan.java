@@ -1,15 +1,15 @@
 package icbm.explosion.zhapin.daodan;
 
-import icbm.core.base.ItICBMBase;
-import icbm.explosion.zhapin.ZhaPin;
-import icbm.explosion.zhapin.ZhaPinRegistry;
+import icbm.core.base.ItemICBMBase;
+import icbm.explosion.zhapin.Explosive;
+import icbm.explosion.zhapin.ExplosiveRegistry;
 
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class ItDaoDan extends ItICBMBase
+public class ItDaoDan extends ItemICBMBase
 {
 	public ItDaoDan(int id, String name)
 	{
@@ -28,7 +28,7 @@ public class ItDaoDan extends ItICBMBase
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return this.getUnlocalizedName() + "." + ZhaPinRegistry.get(itemStack.getItemDamage()).getUnlocalizedName();
+		return this.getUnlocalizedName() + "." + ExplosiveRegistry.get(itemStack.getItemDamage()).getUnlocalizedName();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ItDaoDan extends ItICBMBase
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (ZhaPin zhaPin : ZhaPinRegistry.getAllDaoDan())
+		for (Explosive zhaPin : ExplosiveRegistry.getAllDaoDan())
 		{
 			if (zhaPin.hasMissileForm())
 			{

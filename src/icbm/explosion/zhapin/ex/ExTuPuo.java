@@ -1,10 +1,10 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzTuPuo;
-import icbm.explosion.muoxing.daodan.MMTuPuo;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzTuPuo;
+import icbm.explosion.model.missiles.MMTuPuo;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -25,7 +25,7 @@ public class ExTuPuo extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', ZhaPin.yaSuo.getItemStack(), 'G', Item.gunpowder }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', Explosive.yaSuo.getItemStack(), 'G', Item.gunpowder }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class ExTuPuo extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMTuPuo();
 	}

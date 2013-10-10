@@ -1,6 +1,6 @@
 package icbm.sentry.render;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.sentry.access.AccessLevel;
 import icbm.sentry.models.ModelSentryCannon;
 import icbm.sentry.turret.TileEntityTurret;
@@ -17,9 +17,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderGunTurret extends RenderTaggedTile
 {
-	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "gun_turret_neutral.png");
-	public static final ResourceLocation TEXTURE_FILE_FRIENDLY = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "gun_turret_friendly.png");
-	public static final ResourceLocation TEXTURE_FILE_HOSTILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "gun_turret_hostile.png");
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_neutral.png");
+	public static final ResourceLocation TEXTURE_FILE_FRIENDLY = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_friendly.png");
+	public static final ResourceLocation TEXTURE_FILE_HOSTILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_hostile.png");
 	public static final ModelSentryCannon MODEL = new ModelSentryCannon();
 
 	@Override

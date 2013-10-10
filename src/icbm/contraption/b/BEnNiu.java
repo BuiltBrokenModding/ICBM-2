@@ -1,7 +1,7 @@
 package icbm.contraption.b;
 
-import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.ICBMCore;
 
 import java.util.Random;
 
@@ -16,9 +16,9 @@ public class BEnNiu extends BlockButton
 	{
 		super(id, true);
 		this.setTickRandomly(true);
-		this.setUnlocalizedName(ZhuYaoICBM.PREFIX + "glassButton");
+		this.setUnlocalizedName(ICBMCore.PREFIX + "glassButton");
 		this.setStepSound(soundGlassFootstep);
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.setCreativeTab(CreativeTabICBM.INSTANCE);
 	}
 
 	@SideOnly(Side.CLIENT)

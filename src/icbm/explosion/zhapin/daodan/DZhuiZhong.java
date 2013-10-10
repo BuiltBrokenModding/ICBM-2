@@ -1,9 +1,9 @@
 package icbm.explosion.zhapin.daodan;
 
 import icbm.api.ITracker;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzYaSuo;
-import icbm.explosion.muoxing.daodan.MMZhuiZhong;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.model.missiles.MMZhuiZhong;
 import icbm.explosion.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -131,7 +131,7 @@ public class DZhuiZhong extends DaoDanTeBie
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMZhuiZhong();
 	}

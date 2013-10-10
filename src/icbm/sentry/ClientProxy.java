@@ -1,6 +1,6 @@
 package icbm.sentry;
 
-import icbm.core.base.REJia;
+import icbm.core.base.EmptyRenderer;
 import icbm.sentry.gui.GuiPlatformAccess;
 import icbm.sentry.gui.GuiPlatformSlots;
 import icbm.sentry.gui.GuiPlatformTerminal;
@@ -43,7 +43,7 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailGun.class, new RenderRailGun());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserGun.class, new RenderLaserTurret());
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new REJia());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new EmptyRenderer());
 		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 	}
 

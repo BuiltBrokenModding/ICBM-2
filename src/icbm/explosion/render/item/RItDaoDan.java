@@ -1,6 +1,6 @@
 package icbm.explosion.render.item;
 
-import icbm.explosion.zhapin.ZhaPinRegistry;
+import icbm.explosion.zhapin.ExplosiveRegistry;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import icbm.explosion.zhapin.daodan.ItDaoDan;
 import net.minecraft.item.ItemStack;
@@ -33,7 +33,7 @@ public class RItDaoDan implements IItemRenderer
 	{
 		if (this.shouldUseRenderHelper(type, item, null))
 		{
-			DaoDan daoDan = (DaoDan) ZhaPinRegistry.get(item.getItemDamage());
+			DaoDan daoDan = (DaoDan) ExplosiveRegistry.get(item.getItemDamage());
 
 			float scale = 0.7f;
 			float right = 0f;

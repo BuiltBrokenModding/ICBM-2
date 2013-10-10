@@ -1,7 +1,7 @@
 package icbm.contraption;
 
 import icbm.api.IItemFrequency;
-import icbm.core.base.ItICBMElectricBase;
+import icbm.core.base.ItemICBMElectricBase;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class ItHuoLuanQi extends ItICBMElectricBase implements IItemFrequency
+public class ItHuoLuanQi extends ItemICBMElectricBase implements IItemFrequency
 {
 	public ItHuoLuanQi(int id)
 	{

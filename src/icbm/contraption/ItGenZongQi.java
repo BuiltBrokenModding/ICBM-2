@@ -1,7 +1,7 @@
 package icbm.contraption;
 
 import icbm.api.ITracker;
-import icbm.core.base.ItICBMElectricBase;
+import icbm.core.base.ItemICBMElectricBase;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItGenZongQi extends ItICBMElectricBase implements ITracker
+public class ItGenZongQi extends ItemICBMElectricBase implements ITracker
 {
 	private static final float YONG_DIAN_LIANG = 0.1f;
 

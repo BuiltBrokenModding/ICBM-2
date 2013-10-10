@@ -1,6 +1,6 @@
 package icbm.sentry.turret.sentries;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.ICBMSentry;
 import net.minecraft.util.MathHelper;
@@ -63,7 +63,7 @@ public class TileEntityLaserGun extends TileEntityAutoTurret
 	@Override
 	public void playFiringSound()
 	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "lasershot", 5F, 1F - (this.worldObj.rand.nextFloat() * 0.2f));
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "lasershot", 5F, 1F - (this.worldObj.rand.nextFloat() * 0.2f));
 	}
 
 	@Override

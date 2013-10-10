@@ -2,9 +2,9 @@ package icbm.sentry;
 
 import icbm.api.ICBM;
 import icbm.core.ICBMFlags;
-import icbm.core.ICBMTab;
-import icbm.core.SheDing;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.ICBMConfiguration;
+import icbm.core.ICBMCore;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.terminal.command.CommandAccess;
@@ -58,7 +58,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ICBMSentry.NAME, name = ICBMSentry.NAME, version = ICBM.VERSION, useMetadata = true)
 @NetworkMod(channels = { ICBMSentry.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketManager.class)
-public class ICBMSentry extends ZhuYaoICBM
+public class ICBMSentry extends ICBMCore
 {
 	public static final String NAME = ICBM.NAME + "|Sentry";
 	public static final String CHANNEL = ICBM.NAME;
@@ -96,14 +96,14 @@ public class ICBMSentry extends ZhuYaoICBM
 		NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 
-		SheDing.CONFIGURATION.load();
+		ICBMConfiguration.CONFIGURATION.load();
 
 		blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
 		blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
 		itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
 		itemUpgrade = new ItemSentryUpgrade(ITEM_ID_PREFIX + 2);
-		SheDing.CONFIGURATION.save();
+		ICBMConfiguration.CONFIGURATION.save();
 
 		bulletShell = new ItemStack(itemAmmo, 1, 0);
 		conventionalBullet = new ItemStack(itemAmmo, 1, 1);
@@ -118,7 +118,7 @@ public class ICBMSentry extends ZhuYaoICBM
 		EntityRegistry.registerGlobalEntityID(EntityTileDamagable.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityTileDamagable.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
 
-		ICBMTab.itemStack = new ItemStack(blockTurret);
+		CreativeTabICBM.itemStack = new ItemStack(blockTurret);
 
 		proxy.preInit();
 	}
@@ -128,7 +128,7 @@ public class ICBMSentry extends ZhuYaoICBM
 	public void init(FMLInitializationEvent event)
 	{
 		super.init(event);
-		ZhuYaoICBM.setModMetadata(NAME, metadata);
+		ICBMCore.setModMetadata(NAME, metadata);
 	}
 
 	@Override

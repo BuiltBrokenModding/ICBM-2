@@ -1,10 +1,10 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzQi;
-import icbm.explosion.muoxing.daodan.MMWuQi;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzQi;
+import icbm.explosion.model.missiles.MMWuQi;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ public class ExWuQi extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS", "WRW", "SSS", 'R', ZhaPin.tui.getItemStack(), 'W', Item.bucketWater, 'S', "dustSulfur" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS", "WRW", "SSS", 'R', Explosive.tui.getItemStack(), 'W', Item.bucketWater, 'S', "dustSulfur" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ExWuQi extends DaoDan
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMWuQi();
 	}

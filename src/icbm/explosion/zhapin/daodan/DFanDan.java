@@ -1,10 +1,10 @@
 package icbm.explosion.zhapin.daodan;
 
 import icbm.api.IMissileLockable;
-import icbm.core.ZhuYaoICBM;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzYaSuo;
-import icbm.explosion.muoxing.daodan.MMFanDan;
+import icbm.core.ICBMCore;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.model.missiles.MMFanDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -64,7 +64,7 @@ public class DFanDan extends DaoDanTeBie
 				// Lock target onto missileObj missile
 				missileObj.lockedTarget = nearestEntity;
 				missileObj.didTargetLockBefore = true;
-				missileObj.worldObj.playSoundAtEntity(missileObj, ZhuYaoICBM.PREFIX + "targetlocked", 5F, 0.9F);
+				missileObj.worldObj.playSoundAtEntity(missileObj, ICBMCore.PREFIX + "targetlocked", 5F, 0.9F);
 			}
 		}
 		else
@@ -93,7 +93,7 @@ public class DFanDan extends DaoDanTeBie
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMFanDan();
 	}

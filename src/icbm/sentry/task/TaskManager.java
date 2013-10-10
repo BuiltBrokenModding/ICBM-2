@@ -1,6 +1,6 @@
 package icbm.sentry.task;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.sentry.turret.sentries.TileEntityAutoTurret;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class TaskManager
 		}
 		catch (Exception e)
 		{
-			ZhuYaoICBM.LOGGER.severe("Failed to execute AI tasks!");
+			ICBMCore.LOGGER.severe("Failed to execute AI tasks!");
 			e.printStackTrace();
 		}
 	}

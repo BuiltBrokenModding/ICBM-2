@@ -1,7 +1,7 @@
 package icbm.contraption.b;
 
-import icbm.core.ICBMTab;
-import icbm.core.base.BICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.base.BlockICBM;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BZha extends BICBM
+public class BZha extends BlockICBM
 {
 	private Icon iconPoison, iconFlammable;
 
@@ -30,7 +30,7 @@ public class BZha extends BICBM
 	{
 		super(id, "spikes", Material.cactus);
 		this.setHardness(1.0F);
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.setCreativeTab(CreativeTabICBM.INSTANCE);
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -1,12 +1,12 @@
 package icbm.explosion.zhapin.ex;
 
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzWan;
-import icbm.explosion.muoxing.daodan.MMWan;
-import icbm.explosion.zhapin.TZhaDan;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzWan;
+import icbm.explosion.model.missiles.MMWan;
+import icbm.explosion.zhapin.TileEntityExplosive;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import icbm.explosion.zhapin.daodan.EDaoDan;
 import mffs.api.card.ICoordLink;
@@ -42,9 +42,9 @@ public class ExWan extends DaoDan
 				{
 					TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-					if (tileEntity instanceof TZhaDan)
+					if (tileEntity instanceof TileEntityExplosive)
 					{
-						link.writeToNBT(((TZhaDan) tileEntity).nbtData);
+						link.writeToNBT(((TileEntityExplosive) tileEntity).nbtData);
 
 						if (!world.isRemote)
 						{
@@ -87,7 +87,7 @@ public class ExWan extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', ZhaPin.la.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', Explosive.la.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class ExWan extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMWan();
 	}

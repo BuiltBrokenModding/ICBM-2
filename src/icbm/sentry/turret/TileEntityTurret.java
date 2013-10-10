@@ -1,6 +1,6 @@
 package icbm.sentry.turret;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.sentry.ISentry;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
@@ -112,7 +112,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements IPa
 		}
 		catch (Exception e)
 		{
-			ZhuYaoICBM.LOGGER.severe(MessageFormat.format("Packet receiving failed: {0}", this.getClass().getSimpleName()));
+			ICBMCore.LOGGER.severe(MessageFormat.format("Packet receiving failed: {0}", this.getClass().getSimpleName()));
 			e.printStackTrace();
 		}
 	}

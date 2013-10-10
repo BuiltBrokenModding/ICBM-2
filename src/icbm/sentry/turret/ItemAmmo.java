@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.core.base.ItICBMBase;
+import icbm.core.ICBMCore;
+import icbm.core.base.ItemICBMBase;
 import icbm.sentry.IAmmunition;
 import icbm.sentry.ProjectileType;
 
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemAmmo extends ItICBMBase implements IAmmunition
+public class ItemAmmo extends ItemICBMBase implements IAmmunition
 {
 	public static enum AmmoType
 	{
@@ -55,7 +55,7 @@ public class ItemAmmo extends ItICBMBase implements IAmmunition
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return "item." + ZhuYaoICBM.PREFIX + AmmoType.values()[itemStack.getItemDamage()].iconName;
+		return "item." + ICBMCore.PREFIX + AmmoType.values()[itemStack.getItemDamage()].iconName;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ItemAmmo extends ItICBMBase implements IAmmunition
 	{
 		for (int i = 0; i < AmmoType.values().length; i++)
 		{
-			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + AmmoType.values()[i].iconName);
+			ICONS[i] = iconRegister.registerIcon(ICBMCore.PREFIX + AmmoType.values()[i].iconName);
 		}
 	}
 

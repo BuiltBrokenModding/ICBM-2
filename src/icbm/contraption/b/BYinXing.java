@@ -3,8 +3,8 @@ package icbm.contraption.b;
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.IEMPBlock;
 import icbm.api.explosion.IExplosion;
-import icbm.core.ICBMTab;
-import icbm.core.base.BICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.base.BlockICBM;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
-public class BYinXing extends BICBM implements IEMPBlock
+public class BYinXing extends BlockICBM implements IEMPBlock
 {
 	public BYinXing(int id)
 	{
@@ -24,7 +24,7 @@ public class BYinXing extends BICBM implements IEMPBlock
 		this.setHardness(0.3F);
 		this.setResistance(1F);
 		this.setStepSound(Block.soundClothFootstep);
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.setCreativeTab(CreativeTabICBM.INSTANCE);
 	}
 
 	@Override

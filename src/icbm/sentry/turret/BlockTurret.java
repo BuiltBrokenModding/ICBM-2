@@ -1,8 +1,8 @@
 package icbm.sentry.turret;
 
-import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoICBM;
-import icbm.core.base.BICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.ICBMCore;
+import icbm.core.base.BlockICBM;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
@@ -40,7 +40,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Calclavia
  */
-public class BlockTurret extends BICBM
+public class BlockTurret extends BlockICBM
 {
 	public enum TurretType
 	{
@@ -57,7 +57,7 @@ public class BlockTurret extends BICBM
 	public BlockTurret(int par1)
 	{
 		super(par1, "turret", UniversalElectricity.machine);
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.setCreativeTab(CreativeTabICBM.INSTANCE);
 		this.setHardness(100f);
 		this.setResistance(50f);
 	}
@@ -84,7 +84,7 @@ public class BlockTurret extends BICBM
 	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
-		this.blockIcon = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + "machine");
+		this.blockIcon = iconRegister.registerIcon(ICBMCore.PREFIX + "machine");
 	}
 
 	/** Called when the block is placed in the world. */
@@ -118,7 +118,7 @@ public class BlockTurret extends BICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			ZhuYaoICBM.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
+			ICBMCore.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 	}
 
@@ -200,7 +200,7 @@ public class BlockTurret extends BICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			ZhuYaoICBM.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+			ICBMCore.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 		super.breakBlock(par1World, x, y, z, par5, par6);
 	}

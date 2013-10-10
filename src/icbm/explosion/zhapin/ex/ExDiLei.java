@@ -1,10 +1,10 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzDiLei;
-import icbm.explosion.muoxing.jiqi.MDiLei;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzDiLei;
+import icbm.explosion.model.tiles.MDiLei;
+import icbm.explosion.zhapin.Explosive;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -14,7 +14,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExDiLei extends ZhaPin
+public class ExDiLei extends Explosive
 {
 	public ExDiLei(String mingZi, int tier)
 	{
@@ -34,12 +34,12 @@ public class ExDiLei extends ZhaPin
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', ZhaPin.qunDan.getItemStack(), 'L', ZhaPin.la.getItemStack(), 'R', ZhaPin.tui.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "S", "L", "R", 'S', Explosive.qunDan.getItemStack(), 'L', Explosive.la.getItemStack(), 'R', Explosive.tui.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getBlockModel()
+	public ModelICBM getBlockModel()
 	{
 		return MDiLei.INSTANCE;
 	}

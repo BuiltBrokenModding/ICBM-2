@@ -1,6 +1,6 @@
 package icbm.explosion.zhapin.daodan;
 
-import icbm.explosion.ZhuYaoZhaPin;
+import icbm.explosion.ICBMExplosion;
 import net.minecraft.item.ItemStack;
 
 public abstract class DaoDanTeBie extends DaoDan
@@ -16,6 +16,6 @@ public abstract class DaoDanTeBie extends DaoDan
 	@Override
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.getID());
+		return new ItemStack(ICBMExplosion.itDaoDan, 1, this.getID());
 	}
 }

@@ -1,8 +1,8 @@
 package icbm.explosion.render.item;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.muoxing.jiqi.MShouFaSheQi;
+import icbm.core.ICBMCore;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.model.tiles.MShouFaSheQi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,20 +17,20 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RItFaSheQi implements IItemRenderer
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "rocket_launcher.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "rocket_launcher.png");
 
 	public static final MShouFaSheQi MODEL = new MShouFaSheQi();
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)
 	{
-		return item.itemID == ZhuYaoZhaPin.itFaSheQi.itemID;
+		return item.itemID == ICBMExplosion.itFaSheQi.itemID;
 	}
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.itemID == ZhuYaoZhaPin.itFaSheQi.itemID;
+		return item.itemID == ICBMExplosion.itFaSheQi.itemID;
 	}
 
 	@Override

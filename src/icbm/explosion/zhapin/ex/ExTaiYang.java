@@ -1,10 +1,10 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzTaiYang;
-import icbm.explosion.muoxing.daodan.MMTaiYang;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzTaiYang;
+import icbm.explosion.model.missiles.MMTaiYang;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -23,7 +23,7 @@ public class ExTaiYang extends DaoDan
 	public ExTaiYang(String mingZi, int tier)
 	{
 		super(mingZi, tier);
-		this.createNetherrack = SheDing.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
+		this.createNetherrack = ICBMConfiguration.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class ExTaiYang extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', Explosive.huo.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class ExTaiYang extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMTaiYang();
 	}

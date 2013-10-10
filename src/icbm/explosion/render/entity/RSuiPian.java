@@ -1,6 +1,6 @@
 package icbm.explosion.render.entity;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.explosion.ESuiPian;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RSuiPian extends Render
 {
-	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "fragment.png");
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "fragment.png");
 
 	public void renderArrow(ESuiPian suiPian, double par2, double par4, double par6, float par8, float par9)
 	{

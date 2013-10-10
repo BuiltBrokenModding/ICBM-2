@@ -8,12 +8,12 @@ import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.sentry.IAATarget;
-import icbm.core.SheDing;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMConfiguration;
+import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.jiqi.TXiaoFaSheQi;
-import icbm.explosion.zhapin.ZhaPinRegistry;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.machines.TileEntityCruiseLauncher;
+import icbm.explosion.zhapin.ExplosiveRegistry;
 
 import java.util.Random;
 
@@ -106,7 +106,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 		this.renderDistanceWeight = 3;
 		this.isImmuneToFire = true;
 		this.ignoreFrustumCheck = true;
-		this.shengYin = this.worldObj != null ? ZhuYaoZhaPin.proxy.getDaoDanShengYin(this) : null;
+		this.shengYin = this.worldObj != null ? ICBMExplosion.proxy.getDaoDanShengYin(this) : null;
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	@Override
 	public String getEntityName()
 	{
-		return ZhaPinRegistry.get(this.haoMa).getMissileName();
+		return ExplosiveRegistry.get(this.haoMa).getMissileName();
 	}
 
 	@Override
@@ -196,12 +196,12 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 		this.kaiShi = new Vector3(this);
 		this.muBiao = target;
 		this.baoZhaGaoDu = this.muBiao.intY();
-		((DaoDan) ZhaPinRegistry.get(this.haoMa)).launch(this);
+		((DaoDan) ExplosiveRegistry.get(this.haoMa)).launch(this);
 		this.feiXingTick = 0;
 		this.jiSuan();
-		this.worldObj.playSoundAtEntity(this, ZhuYaoICBM.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		this.worldObj.playSoundAtEntity(this, ICBMCore.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		RadarRegistry.register(this);
-		ZhuYaoICBM.LOGGER.info("Launching " + this.getEntityName() + " (" + this.entityId + ") from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
+		ICBMCore.LOGGER.info("Launching " + this.getEntityName() + " (" + this.entityId + ") from " + kaiShi.intX() + ", " + kaiShi.intY() + ", " + kaiShi.intZ() + " to " + muBiao.intX() + ", " + muBiao.intY() + ", " + muBiao.intZ());
 	}
 
 	@Override
@@ -242,7 +242,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	public void entityInit()
 	{
 		this.dataWatcher.addObject(16, -1);
-		this.chunkLoaderInit(ForgeChunkManager.requestTicket(ZhuYaoZhaPin.instance, this.worldObj, Type.ENTITY));
+		this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMExplosion.instance, this.worldObj, Type.ENTITY));
 	}
 
 	@Override
@@ -266,7 +266,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
-		if (!this.worldObj.isRemote && SheDing.ZAI_KUAI && this.chunkTicket != null)
+		if (!this.worldObj.isRemote && ICBMConfiguration.ZAI_KUAI && this.chunkTicket != null)
 		{
 			ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
 		}
@@ -291,7 +291,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 
 		if (!this.worldObj.isRemote)
 		{
-			if (ZhuYaoZhaPin.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, this.haoMa))
+			if (ICBMExplosion.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.AIR, this.haoMa))
 			{
 				if (this.feiXingTick >= 0)
 				{
@@ -353,7 +353,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 					// Look at the next point
 					this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-					((DaoDan) ZhaPinRegistry.get(this.haoMa)).update(this);
+					((DaoDan) ExplosiveRegistry.get(this.haoMa)).update(this);
 
 					Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
 
@@ -392,7 +392,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 						// Look at the next point
 						this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-						((DaoDan) ZhaPinRegistry.get(this.haoMa)).update(this);
+						((DaoDan) ExplosiveRegistry.get(this.haoMa)).update(this);
 
 						this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -444,18 +444,18 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 				/**
 				 * Rotate the missile to the cruise launcher's rotation.
 				 */
-				if (launcher instanceof TXiaoFaSheQi)
+				if (launcher instanceof TileEntityCruiseLauncher)
 				{
 					this.xingShi = XingShi.XIAO_DAN;
 					this.noClip = true;
 
 					if (this.worldObj.isRemote)
 					{
-						this.rotationYaw = -((TXiaoFaSheQi) launcher).rotationYaw + 90;
-						this.rotationPitch = ((TXiaoFaSheQi) launcher).rotationPitch;
+						this.rotationYaw = -((TileEntityCruiseLauncher) launcher).rotationYaw + 90;
+						this.rotationPitch = ((TileEntityCruiseLauncher) launcher).rotationPitch;
 					}
 
-					this.posY = ((TXiaoFaSheQi) launcher).yCoord + 1;
+					this.posY = ((TileEntityCruiseLauncher) launcher).yCoord + 1;
 				}
 			}
 			else
@@ -489,9 +489,9 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	@Override
 	public boolean interactFirst(EntityPlayer entityPlayer)
 	{
-		if (((DaoDan) ZhaPinRegistry.get(this.haoMa)) != null)
+		if (((DaoDan) ExplosiveRegistry.get(this.haoMa)) != null)
 		{
-			if (((DaoDan) ZhaPinRegistry.get(this.haoMa)).onInteract(this, entityPlayer))
+			if (((DaoDan) ExplosiveRegistry.get(this.haoMa)).onInteract(this, entityPlayer))
 			{
 				return true;
 			}
@@ -541,13 +541,13 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 
 			position.add(delta);
 			this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
 			position.scale(1 - 0.001 * Math.random());
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
 			position.scale(1 - 0.001 * Math.random());
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
 			position.scale(1 - 0.001 * Math.random());
-			ZhuYaoZhaPin.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+			ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
 		}
 	}
 
@@ -649,12 +649,12 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 				}
 				else
 				{
-					((DaoDan) ZhaPinRegistry.get(this.haoMa)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
+					((DaoDan) ExplosiveRegistry.get(this.haoMa)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
 				}
 
 				this.zhengZaiBaoZha = true;
 
-				ZhuYaoICBM.LOGGER.info(this.getEntityName() + " (" + this.entityId + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+				ICBMCore.LOGGER.info(this.getEntityName() + " (" + this.entityId + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
 
 			this.setDead();
@@ -662,7 +662,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 		}
 		catch (Exception e)
 		{
-			ZhuYaoICBM.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
+			ICBMCore.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
 			e.printStackTrace();
 		}
 	}
@@ -688,7 +688,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	{
 		if (!this.zhengZaiBaoZha && !this.worldObj.isRemote)
 		{
-			EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ZhuYaoZhaPin.itDaoDan, 1, this.haoMa));
+			EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBMExplosion.itDaoDan, 1, this.haoMa));
 
 			float var13 = 0.05F;
 			Random random = new Random();
@@ -761,7 +761,7 @@ public class EDaoDan extends Entity implements IChunkLoadHandler, IMissileLockab
 	@Override
 	public IExplosive getExplosiveType()
 	{
-		return ZhaPinRegistry.get(this.haoMa);
+		return ExplosiveRegistry.get(this.haoMa);
 	}
 
 	@Override

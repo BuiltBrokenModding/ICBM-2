@@ -1,8 +1,8 @@
 package icbm.explosion.gui;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.jiqi.TFaSheShiMuo;
+import icbm.core.ICBMCore;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.machines.TFaSheShiMuo;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 
@@ -18,7 +18,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GFaSheShiMuo extends GuiBase
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
 	private TFaSheShiMuo tileEntity;
 	private GuiTextField tFX;
@@ -70,14 +70,14 @@ public class GFaSheShiMuo extends GuiBase
 			this.tFY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, -1, true));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, -1, true));
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, -1, false));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, -1, false));
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class GFaSheShiMuo extends GuiBase
 			Vector3 newTarget = new Vector3(Integer.parseInt(this.tFX.getText()), Math.max(Integer.parseInt(this.tFY.getText()), 0), Integer.parseInt(this.tFZ.getText()));
 
 			this.tileEntity.setTarget(newTarget);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
 		}
 		catch (NumberFormatException e)
 		{
@@ -118,7 +118,7 @@ public class GFaSheShiMuo extends GuiBase
 			short newFrequency = (short) Math.max(Short.parseShort(this.tFFreq.getText()), 0);
 
 			this.tileEntity.setFrequency(newFrequency);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 1, this.tileEntity.getFrequency()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 1, this.tileEntity.getFrequency()));
 		}
 		catch (NumberFormatException e)
 		{
@@ -130,7 +130,7 @@ public class GFaSheShiMuo extends GuiBase
 			short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.tFGaoDu.getText()), Short.MAX_VALUE), 3);
 
 			this.tileEntity.gaoDu = newGaoDu;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3, this.tileEntity.gaoDu));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 3, this.tileEntity.gaoDu));
 		}
 		catch (NumberFormatException e)
 		{

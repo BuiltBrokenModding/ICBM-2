@@ -1,6 +1,6 @@
 package icbm.explosion.rongqi;
 
-import icbm.explosion.jiqi.TXiaoFaSheQi;
+import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.zhapin.daodan.ItDaoDan;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,9 +12,9 @@ import universalelectricity.prefab.SlotSpecific;
 
 public class CXiaoFaSheQi extends Container
 {
-	private TXiaoFaSheQi tileEntity;
+	private TileEntityCruiseLauncher tileEntity;
 
-	public CXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TXiaoFaSheQi tileEntity)
+	public CXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		// Missile Slot

@@ -1,11 +1,11 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzYaSuo;
-import icbm.explosion.muoxing.daodan.MMLa;
-import icbm.explosion.muoxing.daodan.MMTui;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.model.missiles.MMLa;
+import icbm.explosion.model.missiles.MMTui;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -25,20 +25,20 @@ public class ExTuiLa extends DaoDan
 	@Override
 	public void init()
 	{
-		if (this.getID() == ZhaPin.la.getID())
+		if (this.getID() == Explosive.la.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', Explosive.yaSuo.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 		}
 		else
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', ZhaPin.yaSuo.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', Explosive.yaSuo.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 		}
 	}
 
 	@Override
 	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		if (this.getID() == ZhaPin.la.getID())
+		if (this.getID() == Explosive.la.getID())
 		{
 			new BzYaSuo(world, entity, x, y, z, 2f).setDestroyItems().setPushType(1).explode();
 		}
@@ -51,9 +51,9 @@ public class ExTuiLa extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
-		if (this.getID() == ZhaPin.la.getID())
+		if (this.getID() == Explosive.la.getID())
 		{
 			return new MMLa();
 		}

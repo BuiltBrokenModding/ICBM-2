@@ -4,7 +4,7 @@ import icbm.api.IItemFrequency;
 import icbm.contraption.b.TYinGanQi;
 import icbm.contraption.gui.GShengBuo;
 import icbm.contraption.gui.GYinGanQi;
-import icbm.core.ShengYin;
+import icbm.core.AudioHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -19,7 +19,7 @@ public class ClientProxy extends CommonProxy
 	public void preInit()
 	{
 		super.preInit();
-		MinecraftForge.EVENT_BUS.register(ShengYin.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(AudioHandler.INSTANCE);
 	}
 
 	@Override

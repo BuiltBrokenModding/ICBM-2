@@ -1,7 +1,7 @@
 package icbm.explosion.gui;
 
-import icbm.core.base.GICBMContainer;
-import icbm.explosion.jiqi.TYinDaoQi;
+import icbm.core.base.GuiICBMContainer;
+import icbm.explosion.machines.TileEntityMissileCoordinator;
 import icbm.explosion.rongqi.CYinDaoQi;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,12 +11,12 @@ import universalelectricity.core.electricity.ElectricityDisplay;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 
-public class GYinDaoQi extends GICBMContainer
+public class GYinDaoQi extends GuiICBMContainer
 {
-	private TYinDaoQi tileEntity;
+	private TileEntityMissileCoordinator tileEntity;
 	private float animation = 0;
 
-	public GYinDaoQi(InventoryPlayer par1InventoryPlayer, TYinDaoQi tileEntity)
+	public GYinDaoQi(InventoryPlayer par1InventoryPlayer, TileEntityMissileCoordinator tileEntity)
 	{
 		super(new CYinDaoQi(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;

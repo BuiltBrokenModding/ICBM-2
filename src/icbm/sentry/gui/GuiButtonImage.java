@@ -1,6 +1,6 @@
 package icbm.sentry.gui;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiButtonImage extends GuiButton
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_button.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_button.png");
 
 	private int type = 0;
 

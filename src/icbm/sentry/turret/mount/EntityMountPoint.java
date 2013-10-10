@@ -1,6 +1,6 @@
 package icbm.sentry.turret.mount;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -57,7 +57,7 @@ public class EntityMountPoint extends Entity implements IEntityAdditionalSpawnDa
 		}
 		else
 		{
-			ZhuYaoICBM.LOGGER.severe("Failed to send ridable turret packet!");
+			ICBMCore.LOGGER.severe("Failed to send ridable turret packet!");
 		}
 
 		data.writeBoolean(this.shouldSit);

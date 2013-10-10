@@ -1,9 +1,9 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzHuo;
-import icbm.explosion.muoxing.daodan.MMHuo;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzHuo;
+import icbm.explosion.model.missiles.MMHuo;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ public class ExHuo extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', "dustSulfur", '?', tui.getItemStack(), '!', Item.bucketLava }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', "dustSulfur", '?', tui.getItemStack(), '!', Item.bucketLava }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -41,14 +41,14 @@ public class ExHuo extends DaoDan
 	}
 
 	@SideOnly(Side.CLIENT)
-	public MICBM getMuoXing()
+	public ModelICBM getMuoXing()
 	{
 		return new MMHuo();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMHuo();
 	}

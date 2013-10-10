@@ -1,9 +1,9 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzYaSuo;
-import icbm.explosion.muoxing.daodan.MMYaSuo;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.model.missiles.MMYaSuo;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -25,7 +25,7 @@ public class ExYaSuo extends DaoDan
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class ExYaSuo extends DaoDan
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMYaSuo();
 	}

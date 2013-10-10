@@ -1,8 +1,8 @@
 package icbm.explosion.render.entity;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.baozha.EBaoZha;
-import icbm.explosion.baozha.bz.BzHongSu;
+import icbm.core.ICBMCore;
+import icbm.explosion.explosive.EntityExplosion;
+import icbm.explosion.explosive.explosion.BzHongSu;
 
 import java.util.Random;
 
@@ -22,14 +22,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RBaoZha extends Render
 {
-	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.TEXTURE_PATH + "blackhole.png");
+	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.TEXTURE_PATH + "blackhole.png");
 
 	public Random random = new Random();
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
 	{
-		EBaoZha eZhaPin = (EBaoZha) entity;
+		EntityExplosion eZhaPin = (EntityExplosion) entity;
 
 		if (eZhaPin.baoZha != null)
 		{

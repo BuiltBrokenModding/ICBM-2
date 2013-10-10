@@ -1,7 +1,7 @@
 package icbm.explosion.render.entity;
 
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.zhapin.EShouLiuDan;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.zhapin.EntityGrenade;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -25,13 +25,13 @@ public class RShouLiuDan extends Render
 		/**
 		 * Renders the grenade based on the explosive ID.
 		 */
-		Icon icon = ZhuYaoZhaPin.itShouLiuDan.getIconFromDamage(((EShouLiuDan) entity).haoMa);
+		Icon icon = ICBMExplosion.itShouLiuDan.getIconFromDamage(((EntityGrenade) entity).haoMa);
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y + 0.4f, (float) z);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(0.6F, 0.6F, 0.6F);
-		CalclaviaRenderHelper.setSpriteTexture(new ItemStack(ZhuYaoZhaPin.itShouLiuDan));
+		CalclaviaRenderHelper.setSpriteTexture(new ItemStack(ICBMExplosion.itShouLiuDan));
 		Tessellator tessellator = Tessellator.instance;
 		this.renderIcon(tessellator, icon);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

@@ -1,6 +1,6 @@
 package icbm.sentry.gui;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiPlatformSlots extends GuiPlatformContainer
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_platform_slot.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_platform_slot.png");
 
 	public GuiPlatformSlots(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
 	{

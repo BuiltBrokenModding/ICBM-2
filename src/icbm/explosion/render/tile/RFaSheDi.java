@@ -1,13 +1,13 @@
 package icbm.explosion.render.tile;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.jiqi.TFaSheDi;
-import icbm.explosion.muoxing.jiqi.MFaSheDi0;
-import icbm.explosion.muoxing.jiqi.MFaSheDi1;
-import icbm.explosion.muoxing.jiqi.MFaSheDi2;
-import icbm.explosion.muoxing.jiqi.MFaSheDiRail0;
-import icbm.explosion.muoxing.jiqi.MFaSheDiRail1;
-import icbm.explosion.muoxing.jiqi.MFaSheDiRail2;
+import icbm.core.ICBMCore;
+import icbm.explosion.machines.TFaSheDi;
+import icbm.explosion.model.tiles.MFaSheDi0;
+import icbm.explosion.model.tiles.MFaSheDi1;
+import icbm.explosion.model.tiles.MFaSheDi2;
+import icbm.explosion.model.tiles.MFaSheDiRail0;
+import icbm.explosion.model.tiles.MFaSheDiRail1;
+import icbm.explosion.model.tiles.MFaSheDiRail2;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -21,9 +21,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RFaSheDi extends TileEntitySpecialRenderer
 {
-	public static final ResourceLocation TEXTURE_FILE_0 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_0.png");
-	public static final ResourceLocation TEXTURE_FILE_1 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_1.png");
-	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "launcher_2.png");
+	public static final ResourceLocation TEXTURE_FILE_0 = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "launcher_0.png");
+	public static final ResourceLocation TEXTURE_FILE_1 = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "launcher_1.png");
+	public static final ResourceLocation TEXTURE_FILE_2 = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "launcher_2.png");
 
 	public static final MFaSheDi0 modelBase0 = new MFaSheDi0();
 	public static final MFaSheDiRail0 modelRail0 = new MFaSheDiRail0();

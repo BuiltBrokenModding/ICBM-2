@@ -1,8 +1,8 @@
 package icbm.explosion.gui;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.jiqi.TDianCiQi;
+import icbm.core.ICBMCore;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.machines.TileEntityEmpTower;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
@@ -18,15 +18,15 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GDianCiQi extends GuiBase
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_empty.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
-	private TDianCiQi tileEntity;
+	private TileEntityEmpTower tileEntity;
 	private GuiTextField textFieldBanJing;
 
 	private int containerWidth;
 	private int containerHeight;
 
-	public GDianCiQi(TDianCiQi tileEntity)
+	public GDianCiQi(TileEntityEmpTower tileEntity)
 	{
 		this.tileEntity = tileEntity;
 	}
@@ -46,15 +46,15 @@ public class GDianCiQi extends GuiBase
 
 		this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 30, 12);
 		this.textFieldBanJing.setMaxStringLength(3);
-		this.textFieldBanJing.setText(this.tileEntity.banJing + "");
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, -1, true));
+		this.textFieldBanJing.setText(this.tileEntity.empRadius + "");
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, -1, true));
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, -1, false));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, -1, false));
 	}
 
 	/**
@@ -67,17 +67,17 @@ public class GDianCiQi extends GuiBase
 		switch (par1GuiButton.id)
 		{
 			case 0:
-				this.tileEntity.muoShi = 1;
+				this.tileEntity.empMode = 1;
 				break;
 			case 1:
-				this.tileEntity.muoShi = 2;
+				this.tileEntity.empMode = 2;
 				break;
 			case 2:
-				this.tileEntity.muoShi = 0;
+				this.tileEntity.empMode = 0;
 				break;
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3, this.tileEntity.muoShi));
+		PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 3, this.tileEntity.empMode));
 	}
 
 	/**
@@ -91,9 +91,9 @@ public class GDianCiQi extends GuiBase
 
 		try
 		{
-			int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), TDianCiQi.MAX_RADIUS);
-			this.tileEntity.banJing = radius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.banJing));
+			int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), TileEntityEmpTower.MAX_RADIUS);
+			this.tileEntity.empRadius = radius;
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.empRadius));
 		}
 		catch (NumberFormatException e)
 		{
@@ -127,11 +127,11 @@ public class GDianCiQi extends GuiBase
 		// Shows the EMP mode of the EMP Tower
 		String mode = "Debilitate Electronics";
 
-		if (this.tileEntity.muoShi == 1)
+		if (this.tileEntity.empMode == 1)
 		{
 			mode = "Disrupt Missiles";
 		}
-		else if (this.tileEntity.muoShi == 2)
+		else if (this.tileEntity.empMode == 2)
 		{
 			mode = "Deplete Electricity";
 		}
@@ -178,6 +178,6 @@ public class GDianCiQi extends GuiBase
 		super.updateScreen();
 
 		if (!this.textFieldBanJing.isFocused())
-			this.textFieldBanJing.setText(this.tileEntity.banJing + "");
+			this.textFieldBanJing.setText(this.tileEntity.empRadius + "");
 	}
 }

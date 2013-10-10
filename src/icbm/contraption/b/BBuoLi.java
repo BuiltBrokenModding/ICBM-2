@@ -1,7 +1,7 @@
 package icbm.contraption.b;
 
-import icbm.core.ICBMTab;
-import icbm.core.base.BICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.base.BlockICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -10,13 +10,13 @@ import atomicscience.api.poison.Poison;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BBuoLi extends BICBM implements IAntiPoisonBlock
+public class BBuoLi extends BlockICBM implements IAntiPoisonBlock
 {
 	public BBuoLi(int id)
 	{
 		super(id, "glassReinforced", Material.glass);
 		this.setResistance(48);
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.setCreativeTab(CreativeTabICBM.INSTANCE);
 	}
 
 	/**

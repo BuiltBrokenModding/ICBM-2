@@ -1,8 +1,8 @@
 package icbm.explosion.zhapin.daodan;
 
 import icbm.api.IMissile;
-import icbm.core.base.MICBM;
-import icbm.explosion.muoxing.daodan.MMYaSuo;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.model.missiles.MMYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -27,7 +27,7 @@ public class DModule extends DaoDanTeBie
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return MMYaSuo.INSTANCE;
 	}

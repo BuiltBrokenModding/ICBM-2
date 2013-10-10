@@ -1,6 +1,6 @@
 package icbm.sentry.gui;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.sentry.CommonProxy;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.platform.TileEntityTurretPlatform;
@@ -28,7 +28,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public abstract class GuiPlatformBase extends GuiBase
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_platform_terminal.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_platform_terminal.png");
 
 	protected static final int MAX_BUTTON_ID = 3;
 	protected TileEntityTurretPlatform tileEntity;

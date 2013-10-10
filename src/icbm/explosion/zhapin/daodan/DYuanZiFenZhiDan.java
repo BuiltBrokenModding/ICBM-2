@@ -1,7 +1,7 @@
 package icbm.explosion.zhapin.daodan;
 
-import icbm.explosion.baozha.bz.BzYuanZi;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.explosion.explosive.explosion.BzYuanZi;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.EDaoDan.XingShi;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -27,7 +27,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 				if (!missileObj.worldObj.isRemote)
 				{
 					Vector3 position = new Vector3(missileObj);
-					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, new Vector3(missileObj), ZhaPin.yuanZi.getID());
+					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, new Vector3(missileObj), Explosive.yuanZi.getID());
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 					clusterMissile.xingShi = XingShi.XIAO_DAN;
 					clusterMissile.baoHuShiJian = 20;

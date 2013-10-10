@@ -1,7 +1,7 @@
 package icbm.explosion.gui;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.jiqi.TFaSheDi;
+import icbm.core.ICBMCore;
+import icbm.explosion.machines.TFaSheDi;
 import icbm.explosion.rongqi.CFaShiDi;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,7 +14,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public class GFaSheDi extends GuiContainer
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_launcher.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_launcher.png");
 
 	private int containerWidth;
 	private int containerHeight;

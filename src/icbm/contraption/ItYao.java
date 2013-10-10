@@ -1,12 +1,12 @@
 package icbm.contraption;
 
-import icbm.core.base.ItICBMBase;
+import icbm.core.base.ItemICBMBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItYao extends ItICBMBase
+public class ItYao extends ItemICBMBase
 {
 	public ItYao(int id)
 	{

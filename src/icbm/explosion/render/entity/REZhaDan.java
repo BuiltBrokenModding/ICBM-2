@@ -1,7 +1,7 @@
 package icbm.explosion.render.entity;
 
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.zhapin.EZhaDan;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.zhapin.EntityExplosive;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -26,7 +26,7 @@ public class REZhaDan extends Render
 	@Override
 	public void doRender(Entity par1Entity, double x, double y, double z, float par8, float par9)
 	{
-		EZhaDan entityExplosive = (EZhaDan) par1Entity;
+		EntityExplosive entityExplosive = (EntityExplosive) par1Entity;
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
@@ -54,7 +54,7 @@ public class REZhaDan extends Render
 
 		f2 = (1.0F - (entityExplosive.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
 		CalclaviaRenderHelper.setTerrainTexture();
-		this.blockRenderer.renderBlockAsItem(ZhuYaoZhaPin.bZhaDan, entityExplosive.haoMa, entityExplosive.getBrightness(par9));
+		this.blockRenderer.renderBlockAsItem(ICBMExplosion.bZhaDan, entityExplosive.haoMa, entityExplosive.getBrightness(par9));
 
 		if (entityExplosive.fuse / 5 % 2 == 0)
 		{
@@ -63,7 +63,7 @@ public class REZhaDan extends Render
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, f2);
-			this.blockRenderer.renderBlockAsItem(ZhuYaoZhaPin.bZhaDan, entityExplosive.haoMa, 1.0F);
+			this.blockRenderer.renderBlockAsItem(ICBMExplosion.bZhaDan, entityExplosive.haoMa, 1.0F);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glEnable(GL11.GL_LIGHTING);

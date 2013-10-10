@@ -1,12 +1,12 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzQunDan;
-import icbm.explosion.muoxing.daodan.MMQunDan;
-import icbm.explosion.muoxing.daodan.MMXiaoQunDan;
-import icbm.explosion.muoxing.daodan.MMZhen;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzQunDan;
+import icbm.explosion.model.missiles.MMQunDan;
+import icbm.explosion.model.missiles.MMXiaoQunDan;
+import icbm.explosion.model.missiles.MMZhen;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -27,17 +27,17 @@ public class ExQunDan extends DaoDan
 	@Override
 	public void init()
 	{
-		if (this.getID() == ZhaPin.xiaoQunDan.getID())
+		if (this.getID() == Explosive.xiaoQunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', tui.getItemStack(), '?', Item.arrow }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', tui.getItemStack(), '?', Item.arrow }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 		}
-		else if (this.getID() == ZhaPin.zhen.getID())
+		else if (this.getID() == Explosive.zhen.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', ZhaPin.xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', Explosive.xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 		}
-		else if (this.getID() == ZhaPin.qunDan.getID())
+		else if (this.getID() == Explosive.qunDan.getID())
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', huo.getItemStack(), '@', xiaoQunDan.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class ExQunDan extends DaoDan
 		{
 			new BzQunDan(world, entity, x, y, z, 15, true, true, false).explode();
 		}
-		else if (this.getID() == ZhaPin.zhen.getID())
+		else if (this.getID() == Explosive.zhen.getID())
 		{
 			new BzQunDan(world, entity, x, y, z, 25, false, false, true).explode();
 		}
@@ -60,17 +60,17 @@ public class ExQunDan extends DaoDan
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
-		if (this.getID() == ZhaPin.xiaoQunDan.getID())
+		if (this.getID() == Explosive.xiaoQunDan.getID())
 		{
 			return new MMXiaoQunDan();
 		}
-		else if (this.getID() == ZhaPin.zhen.getID())
+		else if (this.getID() == Explosive.zhen.getID())
 		{
 			return new MMZhen();
 		}
-		else if (this.getID() == ZhaPin.qunDan.getID())
+		else if (this.getID() == Explosive.qunDan.getID())
 		{
 			return new MMQunDan();
 		}

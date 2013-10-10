@@ -1,6 +1,6 @@
 package icbm.explosion.rongqi;
 
-import icbm.explosion.jiqi.TYinDaoQi;
+import icbm.explosion.machines.TileEntityMissileCoordinator;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
 import universalelectricity.prefab.SlotSpecific;
@@ -8,7 +8,7 @@ import calclavia.lib.gui.ContainerBase;
 
 public class CYinDaoQi extends ContainerBase
 {
-	public CYinDaoQi(InventoryPlayer inventoryPlayer, TYinDaoQi tileEntity)
+	public CYinDaoQi(InventoryPlayer inventoryPlayer, TileEntityMissileCoordinator tileEntity)
 	{
 		super(tileEntity);
 		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 16, 41, ICoordLink.class));

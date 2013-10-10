@@ -1,11 +1,11 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.ZhuYaoICBM;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzQi;
-import icbm.explosion.muoxing.daodan.MMDuQi;
-import icbm.explosion.muoxing.daodan.MMGanRanDu;
+import icbm.core.ICBMConfiguration;
+import icbm.core.ICBMCore;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzQi;
+import icbm.explosion.model.missiles.MMDuQi;
+import icbm.explosion.model.missiles.MMGanRanDu;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -27,11 +27,11 @@ public class ExDuQi extends DaoDan
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ZhuYaoICBM.itDu, '?', wuQi.getItemStack() }), "Chemical", SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ICBMCore.itDu, '?', wuQi.getItemStack() }), "Chemical", ICBMConfiguration.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', duQi.getItemStack() }), "Contagious", ICBMConfiguration.CONFIGURATION, true);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class ExDuQi extends DaoDan
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		if (this.getTier() == 1)
 		{

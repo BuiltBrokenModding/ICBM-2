@@ -1,9 +1,9 @@
 package icbm.explosion.gui;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.jiqi.BJiQi;
-import icbm.explosion.jiqi.TLeiDaTai;
+import icbm.core.ICBMCore;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.machines.BlockICBMMachine;
+import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.zhapin.daodan.EDaoDan;
 
 import java.util.ArrayList;
@@ -30,11 +30,11 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GLeiDaTai extends GuiBase
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_radar.png");
-	public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "reddot.png");
-	public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "yellowdot.png");
-	public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "whitedot.png");
-	private TLeiDaTai tileEntity;
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_radar.png");
+	public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "reddot.png");
+	public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "yellowdot.png");
+	public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "whitedot.png");
+	private TileEntityRadarStation tileEntity;
 
 	private int containerPosX;
 	private int containerPosY;
@@ -56,13 +56,13 @@ public class GLeiDaTai extends GuiBase
 
 	private String info2;
 
-	public GLeiDaTai(TLeiDaTai tileEntity)
+	public GLeiDaTai(TileEntityRadarStation tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
 		this.xSize = 256;
 		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 14, this.containerPosY + this.ySize / 2 + 4);
-		radarMapRadius = TLeiDaTai.MAX_BIAN_JING / 63.8F;
+		radarMapRadius = TileEntityRadarStation.MAX_BIAN_JING / 63.8F;
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class GLeiDaTai extends GuiBase
 		this.fontRenderer.drawString("Frequency:", 155, 100, 4210752);
 		this.textFieldFrequency.drawTextBox();
 
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(TLeiDaTai.DIAN, ElectricUnit.WATT), 155, 128, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(TileEntityRadarStation.DIAN, ElectricUnit.WATT), 155, 128, 4210752);
 
 		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
 
@@ -148,9 +148,9 @@ public class GLeiDaTai extends GuiBase
 
 		try
 		{
-			int newSafetyRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
+			int newSafetyRadius = Math.min(TileEntityRadarStation.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
 			this.tileEntity.safetyBanJing = newSafetyRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.safetyBanJing));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.safetyBanJing));
 		}
 		catch (NumberFormatException e)
 		{
@@ -158,9 +158,9 @@ public class GLeiDaTai extends GuiBase
 
 		try
 		{
-			int newAlarmRadius = Math.min(TLeiDaTai.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
+			int newAlarmRadius = Math.min(TileEntityRadarStation.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
 			this.tileEntity.alarmBanJing = newAlarmRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 3, this.tileEntity.alarmBanJing));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 3, this.tileEntity.alarmBanJing));
 		}
 		catch (NumberFormatException e)
 		{
@@ -169,7 +169,7 @@ public class GLeiDaTai extends GuiBase
 		try
 		{
 			this.tileEntity.setFrequency(Integer.parseInt(this.textFieldFrequency.getText()));
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 4, this.tileEntity.getFrequency()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 4, this.tileEntity.getFrequency()));
 		}
 		catch (NumberFormatException e)
 		{
@@ -204,7 +204,7 @@ public class GLeiDaTai extends GuiBase
 		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
 
 		this.radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
-		this.radarMapRadius = TLeiDaTai.MAX_BIAN_JING / 71f;
+		this.radarMapRadius = TileEntityRadarStation.MAX_BIAN_JING / 71f;
 
 		this.info = "";
 		this.info2 = "";
@@ -278,9 +278,9 @@ public class GLeiDaTai extends GuiBase
 				{
 					if (jiQi.getBlockType() != null)
 					{
-						if (jiQi.getBlockType() instanceof BJiQi)
+						if (jiQi.getBlockType() instanceof BlockICBMMachine)
 						{
-							this.info = BJiQi.getJiQiMing(jiQi);
+							this.info = BlockICBMMachine.getJiQiMing(jiQi);
 						}
 						else
 						{
@@ -303,7 +303,7 @@ public class GLeiDaTai extends GuiBase
 			{
 				this.mousePosition = new Vector2(Mouse.getEventX() * this.width / this.mc.displayWidth, this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1);
 
-				float difference = TLeiDaTai.MAX_BIAN_JING / this.radarMapRadius;
+				float difference = TileEntityRadarStation.MAX_BIAN_JING / this.radarMapRadius;
 
 				if (this.mousePosition.x > this.radarCenter.x - difference && this.mousePosition.x < this.radarCenter.x + difference && this.mousePosition.y > this.radarCenter.y - difference && this.mousePosition.y < this.radarCenter.y + difference)
 				{

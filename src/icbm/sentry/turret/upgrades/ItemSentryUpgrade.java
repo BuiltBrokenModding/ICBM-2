@@ -1,7 +1,7 @@
 package icbm.sentry.turret.upgrades;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.core.base.ItICBMBase;
+import icbm.core.ICBMCore;
+import icbm.core.base.ItemICBMBase;
 import icbm.sentry.ITurretUpgrade;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSentryUpgrade extends ItICBMBase implements ITurretUpgrade
+public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 {
 	public enum TurretUpgradeType
 	{
@@ -45,7 +45,7 @@ public class ItemSentryUpgrade extends ItICBMBase implements ITurretUpgrade
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
-		return "item." + ZhuYaoICBM.PREFIX + TurretUpgradeType.values()[itemStack.getItemDamage()].iconName;
+		return "item." + ICBMCore.PREFIX + TurretUpgradeType.values()[itemStack.getItemDamage()].iconName;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class ItemSentryUpgrade extends ItICBMBase implements ITurretUpgrade
 	{
 		for (int i = 0; i < TurretUpgradeType.values().length; i++)
 		{
-			ICONS[i] = iconRegister.registerIcon(ZhuYaoICBM.PREFIX + TurretUpgradeType.values()[i].iconName);
+			ICONS[i] = iconRegister.registerIcon(ICBMCore.PREFIX + TurretUpgradeType.values()[i].iconName);
 		}
 	}
 

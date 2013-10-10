@@ -1,6 +1,6 @@
 package icbm.contraption.b;
 
-import icbm.core.base.BICBM;
+import icbm.core.base.BlockICBM;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import atomicscience.api.poison.Poison;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BNiTu extends BICBM implements IAntiPoisonBlock
+public class BNiTu extends BlockICBM implements IAntiPoisonBlock
 {
 	private Icon iconCompact, iconReinforced;
 

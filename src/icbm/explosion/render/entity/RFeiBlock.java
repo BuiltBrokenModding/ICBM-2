@@ -1,6 +1,6 @@
 package icbm.explosion.render.entity;
 
-import icbm.explosion.EFeiBlock;
+import icbm.explosion.EntityFlyingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -27,7 +27,7 @@ public class RFeiBlock extends Render
 	/**
 	 * The actual render method that is used in doRender
 	 */
-	public void doRenderGravityBlock(EFeiBlock entity, double x, double y, double z, float par8, float par9)
+	public void doRenderGravityBlock(EntityFlyingBlock entity, double x, double y, double z, float par8, float par9)
 	{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
@@ -101,7 +101,7 @@ public class RFeiBlock extends Render
 	@Override
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
-		this.doRenderGravityBlock((EFeiBlock) par1Entity, par2, par4, par6, par8, par9);
+		this.doRenderGravityBlock((EntityFlyingBlock) par1Entity, par2, par4, par6, par8, par9);
 	}
 
 	@Override

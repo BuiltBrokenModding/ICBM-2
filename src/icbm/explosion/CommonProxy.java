@@ -1,16 +1,16 @@
 package icbm.explosion;
 
-import icbm.explosion.jiqi.TDianCiQi;
-import icbm.explosion.jiqi.TFaSheDi;
-import icbm.explosion.jiqi.TFaSheJia;
-import icbm.explosion.jiqi.TFaSheShiMuo;
-import icbm.explosion.jiqi.TLeiDaTai;
-import icbm.explosion.jiqi.TXiaoFaSheQi;
-import icbm.explosion.jiqi.TYinDaoQi;
+import icbm.explosion.machines.TFaSheDi;
+import icbm.explosion.machines.TFaSheJia;
+import icbm.explosion.machines.TFaSheShiMuo;
+import icbm.explosion.machines.TileEntityRadarStation;
+import icbm.explosion.machines.TileEntityMissileCoordinator;
+import icbm.explosion.machines.TileEntityEmpTower;
+import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.rongqi.CFaShiDi;
 import icbm.explosion.rongqi.CXiaoFaSheQi;
 import icbm.explosion.rongqi.CYinDaoQi;
-import icbm.explosion.zhapin.TZhaDan;
+import icbm.explosion.zhapin.TileEntityExplosive;
 import icbm.explosion.zhapin.daodan.EDaoDan;
 
 import java.util.List;
@@ -38,14 +38,14 @@ public class CommonProxy implements IGuiHandler
 
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TXiaoFaSheQi.class, "ICBMXiaoFaSheQi");
+		GameRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMXiaoFaSheQi");
 		GameRegistry.registerTileEntity(TFaSheDi.class, "ICBMFaSheDi");
 		GameRegistry.registerTileEntity(TFaSheShiMuo.class, "ICBMFaSheShiMuo");
 		GameRegistry.registerTileEntity(TFaSheJia.class, "ICBMFaSheJia");
-		GameRegistry.registerTileEntity(TLeiDaTai.class, "ICBMLeiDaTai");
-		GameRegistry.registerTileEntity(TDianCiQi.class, "ICBMDianCiQi");
-		GameRegistry.registerTileEntity(TYinDaoQi.class, "ICBMYinDaoQi");
-		GameRegistry.registerTileEntity(TZhaDan.class, "ICBMZhaDan");
+		GameRegistry.registerTileEntity(TileEntityRadarStation.class, "ICBMLeiDaTai");
+		GameRegistry.registerTileEntity(TileEntityEmpTower.class, "ICBMDianCiQi");
+		GameRegistry.registerTileEntity(TileEntityMissileCoordinator.class, "ICBMYinDaoQi");
+		GameRegistry.registerTileEntity(TileEntityExplosive.class, "ICBMZhaDan");
 	}
 
 	@Override
@@ -59,17 +59,17 @@ public class CommonProxy implements IGuiHandler
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TXiaoFaSheQi)
+		if (tileEntity instanceof TileEntityCruiseLauncher)
 		{
-			return new CXiaoFaSheQi(player.inventory, (TXiaoFaSheQi) tileEntity);
+			return new CXiaoFaSheQi(player.inventory, (TileEntityCruiseLauncher) tileEntity);
 		}
 		else if (tileEntity instanceof TFaSheDi)
 		{
 			return new CFaShiDi(player.inventory, (TFaSheDi) tileEntity);
 		}
-		else if (tileEntity instanceof TYinDaoQi)
+		else if (tileEntity instanceof TileEntityMissileCoordinator)
 		{
-			return new CYinDaoQi(player.inventory, (TYinDaoQi) tileEntity);
+			return new CYinDaoQi(player.inventory, (TileEntityMissileCoordinator) tileEntity);
 		}
 
 		return null;

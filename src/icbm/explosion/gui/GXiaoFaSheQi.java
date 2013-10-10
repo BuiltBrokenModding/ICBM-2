@@ -1,8 +1,8 @@
 package icbm.explosion.gui;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.ZhuYaoZhaPin;
-import icbm.explosion.jiqi.TXiaoFaSheQi;
+import icbm.core.ICBMCore;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.rongqi.CXiaoFaSheQi;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -21,9 +21,9 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GXiaoFaSheQi extends GuiContainer
 {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.GUI_PATH + "gui_cruise_launcher.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_cruise_launcher.png");
 
-	private TXiaoFaSheQi tileEntity;
+	private TileEntityCruiseLauncher tileEntity;
 	private GuiTextField textFieldX;
 	private GuiTextField textFieldZ;
 	private GuiTextField textFieldY;
@@ -32,7 +32,7 @@ public class GXiaoFaSheQi extends GuiContainer
 	private int containerWidth;
 	private int containerHeight;
 
-	public GXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TXiaoFaSheQi tileEntity)
+	public GXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
 	{
 		super(new CXiaoFaSheQi(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
@@ -80,7 +80,7 @@ public class GXiaoFaSheQi extends GuiContainer
 		{
 			Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Integer.parseInt(this.textFieldY.getText()), Integer.parseInt(this.textFieldZ.getText()));
 			this.tileEntity.setTarget(newTarget);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
 		}
 		catch (NumberFormatException e)
 		{
@@ -90,7 +90,7 @@ public class GXiaoFaSheQi extends GuiContainer
 		{
 			short newFrequency = (short) Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
 			this.tileEntity.setFrequency(newFrequency);
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ZhuYaoZhaPin.CHANNEL, this.tileEntity, 1, this.tileEntity.getFrequency()));
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 1, this.tileEntity.getFrequency()));
 		}
 		catch (NumberFormatException e)
 		{

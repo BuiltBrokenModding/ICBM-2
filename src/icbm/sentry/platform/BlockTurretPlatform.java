@@ -1,7 +1,7 @@
 package icbm.sentry.platform;
 
-import icbm.core.ICBMTab;
-import icbm.core.base.BICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.base.BlockICBM;
 import icbm.sentry.CommonProxy;
 import icbm.sentry.IAmmunition;
 import icbm.sentry.ISpecialAccess;
@@ -22,14 +22,14 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
 
-public class BlockTurretPlatform extends BICBM
+public class BlockTurretPlatform extends BlockICBM
 {
 	public BlockTurretPlatform(int id)
 	{
 		super(id, "turretPlatform", UniversalElectricity.machine);
 		this.setHardness(100f);
 		this.setResistance(50f);
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.setCreativeTab(CreativeTabICBM.INSTANCE);
 		this.requireSidedTextures = true;
 	}
 

@@ -1,11 +1,11 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.ZhuYaoICBM;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzFanWuSu;
-import icbm.explosion.muoxing.daodan.MMFanWuSu;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.ICBMCore;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzFanWuSu;
+import icbm.explosion.model.missiles.MMFanWuSu;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -36,25 +36,25 @@ public class ExFanWuSu extends DaoDan
 
 		if (fuseTicks % 25 == 0)
 		{
-			worldObj.playSoundEffect(position.x, position.y, position.z, ZhuYaoICBM.PREFIX + "alarm", 4F, 1F);
+			worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "alarm", 4F, 1F);
 		}
 	}
 
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', ZhaPin.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', Explosive.yuanZi.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
 	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		new BzFanWuSu(world, entity, x, y, z, SheDing.ANTIMATTER_SIZE, SheDing.DESTROY_BEDROCK).explode();
+		new BzFanWuSu(world, entity, x, y, z, ICBMConfiguration.ANTIMATTER_SIZE, ICBMConfiguration.DESTROY_BEDROCK).explode();
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		return new MMFanWuSu();
 	}

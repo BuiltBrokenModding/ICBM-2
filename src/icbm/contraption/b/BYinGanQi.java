@@ -1,7 +1,7 @@
 package icbm.contraption.b;
 
 import icbm.contraption.ICBMContraption;
-import icbm.core.base.BICBM;
+import icbm.core.base.BlockICBM;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
 
-public class BYinGanQi extends BICBM
+public class BYinGanQi extends BlockICBM
 {
 	public BYinGanQi(int id)
 	{

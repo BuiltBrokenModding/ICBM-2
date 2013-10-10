@@ -1,7 +1,7 @@
 package icbm.contraption.b;
 
-import icbm.core.ICBMTab;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.CreativeTabICBM;
+import icbm.core.ICBMCore;
 
 import java.util.Random;
 
@@ -14,13 +14,13 @@ public class BBuoLiPan extends BlockPressurePlate
 {
 	public BBuoLiPan(int id)
 	{
-		super(id, ZhuYaoICBM.PREFIX + "glassPressurePlate", Material.glass, EnumMobType.everything);
+		super(id, ICBMCore.PREFIX + "glassPressurePlate", Material.glass, EnumMobType.everything);
 		this.setTickRandomly(true);
 		this.setResistance(1F);
 		this.setHardness(0.3F);
 		this.setStepSound(soundGlassFootstep);
-		this.setUnlocalizedName(ZhuYaoICBM.PREFIX + "glassPressurePlate");
-		this.setCreativeTab(ICBMTab.INSTANCE);
+		this.setUnlocalizedName(ICBMCore.PREFIX + "glassPressurePlate");
+		this.setCreativeTab(CreativeTabICBM.INSTANCE);
 	}
 
 	@Override

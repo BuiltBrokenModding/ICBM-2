@@ -1,13 +1,13 @@
 package icbm.explosion.zhapin.daodan;
 
-import icbm.core.ZhuYaoICBM;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMCore;
+import icbm.explosion.zhapin.Explosive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class DaoDan extends ZhaPin
+public abstract class DaoDan extends Explosive
 {
 	@SideOnly(Side.CLIENT)
 	private ResourceLocation resourceLocation;
@@ -51,7 +51,7 @@ public abstract class DaoDan extends ZhaPin
 	{
 		if (this.resourceLocation == null)
 		{
-			this.resourceLocation = new ResourceLocation(ZhuYaoICBM.DOMAIN, ZhuYaoICBM.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
+			this.resourceLocation = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
 		}
 
 		return this.resourceLocation;

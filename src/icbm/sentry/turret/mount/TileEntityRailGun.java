@@ -1,7 +1,7 @@
 package icbm.sentry.turret.mount;
 
 import icbm.api.explosion.IExplosive;
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.ICBMSentry;
@@ -155,7 +155,7 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IPac
 	@Override
 	public void playFiringSound()
 	{
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ZhuYaoICBM.PREFIX + "railgun", 5F, 1F);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "railgun", 5F, 1F);
 	}
 
 	@Override

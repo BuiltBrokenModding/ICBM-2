@@ -1,12 +1,12 @@
 package icbm.explosion.zhapin.ex;
 
-import icbm.core.SheDing;
-import icbm.core.ZhuYaoICBM;
-import icbm.core.base.MICBM;
-import icbm.explosion.baozha.bz.BzYuanZi;
-import icbm.explosion.muoxing.daodan.MMWenZha;
-import icbm.explosion.muoxing.daodan.MMYuanZi;
-import icbm.explosion.zhapin.ZhaPin;
+import icbm.core.ICBMConfiguration;
+import icbm.core.ICBMCore;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.explosive.explosion.BzYuanZi;
+import icbm.explosion.model.missiles.MMWenZha;
+import icbm.explosion.model.missiles.MMYuanZi;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.DaoDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -31,17 +31,17 @@ public class ExYuanZi extends DaoDan
 		{
 			if (OreDictionary.getOres("ingotUranium").size() > 0)
 			{
-				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', wenYa.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 			}
 			else
 			{
-				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+				RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', wenYa.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 
 			}
 		}
 		else
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', ZhaPin.tui.getItemStack(), 'C', ZhaPin.duQi.getItemStack(), 'I', ZhaPin.huo.getItemStack() }), this.getUnlocalizedName(), SheDing.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', Explosive.tui.getItemStack(), 'C', Explosive.duQi.getItemStack(), 'I', Explosive.huo.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 
 		}
 	}
@@ -61,7 +61,7 @@ public class ExYuanZi extends DaoDan
 		{
 			if (fuseTicks % 25 == 0)
 			{
-				worldObj.playSoundEffect((int) position.x, (int) position.y, (int) position.z, ZhuYaoICBM.PREFIX + "alarm", 4F, 1F);
+				worldObj.playSoundEffect((int) position.x, (int) position.y, (int) position.z, ICBMCore.PREFIX + "alarm", 4F, 1F);
 			}
 		}
 	}
@@ -81,7 +81,7 @@ public class ExYuanZi extends DaoDan
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public MICBM getMissileModel()
+	public ModelICBM getMissileModel()
 	{
 		if (this.getTier() == 3)
 		{

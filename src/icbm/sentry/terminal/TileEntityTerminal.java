@@ -1,6 +1,6 @@
 package icbm.sentry.terminal;
 
-import icbm.core.ZhuYaoICBM;
+import icbm.core.ICBMCore;
 import icbm.sentry.ISpecialAccess;
 import icbm.sentry.access.AccessLevel;
 import icbm.sentry.access.UserAccess;
@@ -186,7 +186,7 @@ public abstract class TileEntityTerminal extends TileEntityUniversalElectrical i
 		}
 		catch (Exception e)
 		{
-			ZhuYaoICBM.LOGGER.severe("Terminal error: " + this.toString());
+			ICBMCore.LOGGER.severe("Terminal error: " + this.toString());
 			e.printStackTrace();
 		}
 	}
