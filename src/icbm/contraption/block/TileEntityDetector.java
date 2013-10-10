@@ -1,6 +1,6 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
-import icbm.contraption.ItHuoLuanQi;
+import icbm.contraption.ItemSignalDisrupter;
 import icbm.contraption.ICBMContraption;
 import icbm.core.implement.IRedstoneProvider;
 
@@ -27,7 +27,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TYinGanQi extends TileEntityUniversalElectrical implements IRedstoneProvider, IPacketReceiver
+public class TileEntityDetector extends TileEntityUniversalElectrical implements IRedstoneProvider, IPacketReceiver
 {
 	private static final int MAX_DISTANCE = 30;
 
@@ -84,9 +84,9 @@ public class TYinGanQi extends TileEntityUniversalElectrical implements IRedston
 							{
 								if (inventory != null)
 								{
-									if (inventory.getItem() instanceof ItHuoLuanQi)
+									if (inventory.getItem() instanceof ItemSignalDisrupter)
 									{
-										if (((ItHuoLuanQi) inventory.getItem()).getFrequency(inventory) == this.frequency)
+										if (((ItemSignalDisrupter) inventory.getItem()).getFrequency(inventory) == this.frequency)
 										{
 											gotDisrupter = true;
 											break;

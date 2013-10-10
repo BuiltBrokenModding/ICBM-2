@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.IEMPBlock;
@@ -16,9 +16,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 
-public class BYinXing extends BlockICBM implements IEMPBlock
+public class BlockCamouflage extends BlockICBM implements IEMPBlock
 {
-	public BYinXing(int id)
+	public BlockCamouflage(int id)
 	{
 		super(id, "camouflage", Material.cloth);
 		this.setHardness(0.3F);
@@ -32,10 +32,10 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 	{
 		TileEntity tileEntity = position.getTileEntity(world);
 
-		if (tileEntity instanceof TYinXing)
+		if (tileEntity instanceof TileEntityCamouflage)
 		{
-			((TYinXing) tileEntity).setFangGe(0, 0);
-			((TYinXing) tileEntity).setQing(false);
+			((TileEntityCamouflage) tileEntity).setFangGe(0, 0);
+			((TileEntityCamouflage) tileEntity).setQing(false);
 			world.markBlockForRenderUpdate(position.intX(), position.intY(), position.intZ());
 		}
 	}
@@ -51,9 +51,9 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 
 		if (t != null)
 		{
-			if (t instanceof TYinXing)
+			if (t instanceof TileEntityCamouflage)
 			{
-				TYinXing tileEntity = (TYinXing) t;
+				TileEntityCamouflage tileEntity = (TileEntityCamouflage) t;
 
 				if (tileEntity.getQing(ForgeDirection.getOrientation(side)))
 				{
@@ -99,7 +99,7 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 					{
 						if (block instanceof ICamouflageMaterial || (isNormalCube(block.blockID) && (block.getRenderType() == 0 || block.getRenderType() == 31)))
 						{
-							((TYinXing) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
+							((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
 							par1World.markBlockForRenderUpdate(x, y, z);
 							return true;
 						}
@@ -122,9 +122,9 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 
 		if (t != null)
 		{
-			if (t instanceof TYinXing)
+			if (t instanceof TileEntityCamouflage)
 			{
-				((TYinXing) par1World.getBlockTileEntity(x, y, z)).setQing(ForgeDirection.getOrientation(side));
+				((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setQing(ForgeDirection.getOrientation(side));
 				par1World.markBlockForRenderUpdate(x, y, z);
 			}
 		}
@@ -139,9 +139,9 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 
 		if (t != null)
 		{
-			if (t instanceof TYinXing)
+			if (t instanceof TileEntityCamouflage)
 			{
-				((TYinXing) par1World.getBlockTileEntity(x, y, z)).setYing();
+				((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setYing();
 			}
 		}
 
@@ -159,9 +159,9 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 		{
 			TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-			if (tileEntity instanceof TYinXing)
+			if (tileEntity instanceof TileEntityCamouflage)
 			{
-				int haoMa = ((TYinXing) tileEntity).getJiaHaoMa();
+				int haoMa = ((TileEntityCamouflage) tileEntity).getJiaHaoMa();
 
 				if (haoMa < Block.blocksList.length)
 				{
@@ -189,9 +189,9 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 
 		if (t != null)
 		{
-			if (t instanceof TYinXing)
+			if (t instanceof TileEntityCamouflage)
 			{
-				if (((TYinXing) t).getYing())
+				if (((TileEntityCamouflage) t).getYing())
 				{
 					return super.getCollisionBoundingBoxFromPool(par1World, x, y, z);
 				}
@@ -223,6 +223,6 @@ public class BYinXing extends BlockICBM implements IEMPBlock
 	@Override
 	public TileEntity createNewTileEntity(World var1)
 	{
-		return new TYinXing();
+		return new TileEntityCamouflage();
 	}
 }

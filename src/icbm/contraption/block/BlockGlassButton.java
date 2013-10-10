@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMCore;
@@ -10,9 +10,9 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BEnNiu extends BlockButton
+public class BlockGlassButton extends BlockButton
 {
-	public BEnNiu(int id)
+	public BlockGlassButton(int id)
 	{
 		super(id, true);
 		this.setTickRandomly(true);

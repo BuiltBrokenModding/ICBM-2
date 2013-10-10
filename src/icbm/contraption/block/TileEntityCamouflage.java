@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.contraption.ICBMContraption;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +13,7 @@ import universalelectricity.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TYinXing extends TileEntity implements IPacketReceiver
+public class TileEntityCamouflage extends TileEntity implements IPacketReceiver
 {
 	// The block Id this block is trying to mimik
 	private int jiaHaoMa = 0;

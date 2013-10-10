@@ -1,9 +1,9 @@
 package icbm.contraption;
 
 import icbm.api.IItemFrequency;
-import icbm.contraption.b.TYinGanQi;
-import icbm.contraption.gui.GShengBuo;
-import icbm.contraption.gui.GYinGanQi;
+import icbm.contraption.block.TileEntityDetector;
+import icbm.contraption.gui.GuiTracker;
+import icbm.contraption.gui.GuiDectector;
 import icbm.core.AudioHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -27,13 +27,13 @@ public class ClientProxy extends CommonProxy
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TYinGanQi)
+		if (tileEntity instanceof TileEntityDetector)
 		{
-			return new GYinGanQi((TYinGanQi) tileEntity);
+			return new GuiDectector((TileEntityDetector) tileEntity);
 		}
 		else if (entityPlayer.inventory.getCurrentItem() != null && entityPlayer.inventory.getCurrentItem().getItem() instanceof IItemFrequency)
 		{
-			return new GShengBuo(entityPlayer.inventory.getCurrentItem());
+			return new GuiTracker(entityPlayer.inventory.getCurrentItem());
 		}
 
 		return null;

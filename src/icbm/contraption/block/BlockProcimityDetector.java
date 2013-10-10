@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.contraption.ICBMContraption;
 import icbm.core.base.BlockICBM;
@@ -12,9 +12,9 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.core.UniversalElectricity;
 
-public class BYinGanQi extends BlockICBM
+public class BlockProcimityDetector extends BlockICBM
 {
-	public BYinGanQi(int id)
+	public BlockProcimityDetector(int id)
 	{
 		super(id, "proximityDetector", UniversalElectricity.machine);
 		this.requireSidedTextures = true;
@@ -41,9 +41,9 @@ public class BYinGanQi extends BlockICBM
 	{
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TYinGanQi)
+		if (tileEntity instanceof TileEntityDetector)
 		{
-			((TYinGanQi) tileEntity).isInverted = !((TYinGanQi) tileEntity).isInverted;
+			((TileEntityDetector) tileEntity).isInverted = !((TileEntityDetector) tileEntity).isInverted;
 			return true;
 		}
 
@@ -65,7 +65,7 @@ public class BYinGanQi extends BlockICBM
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
-		return new TYinGanQi();
+		return new TileEntityDetector();
 	}
 
 	/**

@@ -16,11 +16,11 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItGenZongQi extends ItemICBMElectricBase implements ITracker
+public class ItemTracker extends ItemICBMElectricBase implements ITracker
 {
 	private static final float YONG_DIAN_LIANG = 0.1f;
 
-	public ItGenZongQi(int id)
+	public ItemTracker(int id)
 	{
 		super(id, "tracker");
 	}

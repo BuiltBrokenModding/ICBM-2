@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.core.CreativeTabICBM;
 import icbm.core.base.BlockICBM;
@@ -22,11 +22,11 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BZha extends BlockICBM
+public class BlockSpikes extends BlockICBM
 {
 	private Icon iconPoison, iconFlammable;
 
-	public BZha(int id)
+	public BlockSpikes(int id)
 	{
 		super(id, "spikes", Material.cactus);
 		this.setHardness(1.0F);

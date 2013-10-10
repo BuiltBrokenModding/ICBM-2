@@ -1,7 +1,7 @@
 package icbm.contraption;
 
-import icbm.contraption.b.TYinGanQi;
-import icbm.contraption.b.TYinXing;
+import icbm.contraption.block.TileEntityDetector;
+import icbm.contraption.block.TileEntityCamouflage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -15,8 +15,8 @@ public class CommonProxy implements IGuiHandler
 
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TYinXing.class, "ICBMYinXin");
-		GameRegistry.registerTileEntity(TYinGanQi.class, "ICBMYinGanQi");
+		GameRegistry.registerTileEntity(TileEntityCamouflage.class, "ICBMYinXin");
+		GameRegistry.registerTileEntity(TileEntityDetector.class, "ICBMYinGanQi");
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.core.base.BlockICBM;
 
@@ -16,11 +16,11 @@ import atomicscience.api.poison.Poison;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BNiTu extends BlockICBM implements IAntiPoisonBlock
+public class BlockConcrete extends BlockICBM implements IAntiPoisonBlock
 {
 	private Icon iconCompact, iconReinforced;
 
-	public BNiTu(int id)
+	public BlockConcrete(int id)
 	{
 		super(id, "concrete", Material.rock);
 		this.setHardness(3.8f);

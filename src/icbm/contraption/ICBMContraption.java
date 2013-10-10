@@ -1,14 +1,14 @@
 package icbm.contraption;
 
 import icbm.api.ICBM;
-import icbm.contraption.b.BBuoLi;
-import icbm.contraption.b.BBuoLiPan;
-import icbm.contraption.b.BEnNiu;
-import icbm.contraption.b.BNiTu;
-import icbm.contraption.b.BYinGanQi;
-import icbm.contraption.b.BYinXing;
-import icbm.contraption.b.BZha;
-import icbm.contraption.b.IBNiTu;
+import icbm.contraption.block.BlockReinforcedGlass;
+import icbm.contraption.block.BlockGlassPressurePlate;
+import icbm.contraption.block.BlockGlassButton;
+import icbm.contraption.block.BlockConcrete;
+import icbm.contraption.block.BlockProcimityDetector;
+import icbm.contraption.block.BlockCamouflage;
+import icbm.contraption.block.BlockSpikes;
+import icbm.contraption.block.ItemBlockConcreate;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
@@ -36,7 +36,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ICBMContraption.NAME, name = ICBMContraption.NAME, version = ICBM.VERSION, dependencies = "after:AtomicScience", useMetadata = true)
-@NetworkMod(channels = ICBMContraption.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = WanYiPacketGuanLi.class)
+@NetworkMod(channels = ICBMContraption.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ContraptionPacketHandler.class)
 public class ICBMContraption extends ICBMCore
 {
 	public static final String NAME = ICBM.NAME + "|Contraption";
@@ -69,18 +69,18 @@ public class ICBMContraption extends ICBMCore
 		ICBMConfiguration.CONFIGURATION.load();
 
 		// Blocks
-		bBuoLiPan = new BBuoLiPan(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
-		bBuoLiEnNiu = new BEnNiu(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
-		bYinGanQi = new BYinGanQi(ICBM.BLOCK_ID_PREFIX - 3);
-		bZha = new BZha(ICBM.BLOCK_ID_PREFIX - 4);
-		bYinXing = new BYinXing(ICBM.BLOCK_ID_PREFIX - 5);
-		bNiTu = new BNiTu(ICBM.BLOCK_ID_PREFIX - 6);
-		bBuoLi = new BBuoLi(ICBM.BLOCK_ID_PREFIX - 7);
+		bBuoLiPan = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
+		bBuoLiEnNiu = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
+		bYinGanQi = new BlockProcimityDetector(ICBM.BLOCK_ID_PREFIX - 3);
+		bZha = new BlockSpikes(ICBM.BLOCK_ID_PREFIX - 4);
+		bYinXing = new BlockCamouflage(ICBM.BLOCK_ID_PREFIX - 5);
+		bNiTu = new BlockConcrete(ICBM.BLOCK_ID_PREFIX - 6);
+		bBuoLi = new BlockReinforcedGlass(ICBM.BLOCK_ID_PREFIX - 7);
 
 		// ITEMS
-		itYao = new ItYao(ICBMConfiguration.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
-		itHuoLaunQi = new ItHuoLuanQi(ICBMConfiguration.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
-		itGenZongQi = new ItGenZongQi(ICBMConfiguration.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
+		itYao = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
+		itHuoLaunQi = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
+		itGenZongQi = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
 		ICBMConfiguration.CONFIGURATION.save();
 
@@ -92,8 +92,8 @@ public class ICBMContraption extends ICBMCore
 		GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
 		GameRegistry.registerBlock(bYinXing, "bYinXing");
 		GameRegistry.registerBlock(bBuoLi, "bBuoLi");
-		GameRegistry.registerBlock(bZha, IBZha.class, "bZha");
-		GameRegistry.registerBlock(bNiTu, IBNiTu.class, "bNiTu");
+		GameRegistry.registerBlock(bZha, ItemblockSpikes.class, "bZha");
+		GameRegistry.registerBlock(bNiTu, ItemBlockConcreate.class, "bNiTu");
 
 		ICBMContraption.proxy.preInit();
 	}

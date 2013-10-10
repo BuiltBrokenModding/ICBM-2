@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMCore;
@@ -10,9 +10,9 @@ import net.minecraft.block.EnumMobType;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 
-public class BBuoLiPan extends BlockPressurePlate
+public class BlockGlassPressurePlate extends BlockPressurePlate
 {
-	public BBuoLiPan(int id)
+	public BlockGlassPressurePlate(int id)
 	{
 		super(id, ICBMCore.PREFIX + "glassPressurePlate", Material.glass, EnumMobType.everything);
 		this.setTickRandomly(true);

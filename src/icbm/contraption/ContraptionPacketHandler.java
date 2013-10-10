@@ -19,7 +19,7 @@ import com.google.common.io.ByteArrayDataInput;
  * 
  * @author Calclavia
  */
-public class WanYiPacketGuanLi extends PacketManager
+public class ContraptionPacketHandler extends PacketManager
 {
 	public enum WanYiPacketType
 	{
@@ -44,11 +44,11 @@ public class WanYiPacketGuanLi extends PacketManager
 
 			if (icbmPacketType == WanYiPacketType.HUO_LUAN)
 			{
-				if (player.inventory.getCurrentItem().getItem() instanceof ItHuoLuanQi)
+				if (player.inventory.getCurrentItem().getItem() instanceof ItemSignalDisrupter)
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
 
-					((ItHuoLuanQi) itemStack.getItem()).setFrequency(dataStream.readShort(), itemStack);
+					((ItemSignalDisrupter) itemStack.getItem()).setFrequency(dataStream.readShort(), itemStack);
 				}
 			}
 		}

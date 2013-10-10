@@ -1,11 +1,11 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class IBNiTu extends ItemBlock
+public class ItemBlockConcreate extends ItemBlock
 {
-	public IBNiTu(int id)
+	public ItemBlockConcreate(int id)
 	{
 		super(id);
 		this.setMaxDamage(0);

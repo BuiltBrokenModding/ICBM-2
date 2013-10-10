@@ -1,7 +1,7 @@
 package icbm.contraption.gui;
 
 import icbm.contraption.ICBMContraption;
-import icbm.contraption.b.TYinGanQi;
+import icbm.contraption.block.TileEntityDetector;
 import icbm.core.base.GuiICBM;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -11,9 +11,9 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GYinGanQi extends GuiICBM
+public class GuiDectector extends GuiICBM
 {
-	private TYinGanQi tileEntity;
+	private TileEntityDetector tileEntity;
 
 	private int containerWidth;
 	private int containerHeight;
@@ -28,7 +28,7 @@ public class GYinGanQi extends GuiICBM
 	private GuiTextField textFieldmaxY;
 	private GuiTextField textFieldmaxZ;
 
-	public GYinGanQi(TYinGanQi tileEntity)
+	public GuiDectector(TileEntityDetector tileEntity)
 	{
 		this.tileEntity = tileEntity;
 	}

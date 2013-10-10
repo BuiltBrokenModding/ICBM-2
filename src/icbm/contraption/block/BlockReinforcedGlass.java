@@ -1,4 +1,4 @@
-package icbm.contraption.b;
+package icbm.contraption.block;
 
 import icbm.core.CreativeTabICBM;
 import icbm.core.base.BlockICBM;
@@ -10,9 +10,9 @@ import atomicscience.api.poison.Poison;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BBuoLi extends BlockICBM implements IAntiPoisonBlock
+public class BlockReinforcedGlass extends BlockICBM implements IAntiPoisonBlock
 {
-	public BBuoLi(int id)
+	public BlockReinforcedGlass(int id)
 	{
 		super(id, "glassReinforced", Material.glass);
 		this.setResistance(48);

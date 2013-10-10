@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class ItHuoLuanQi extends ItemICBMElectricBase implements IItemFrequency
+public class ItemSignalDisrupter extends ItemICBMElectricBase implements IItemFrequency
 {
-	public ItHuoLuanQi(int id)
+	public ItemSignalDisrupter(int id)
 	{
 		super(id, "signalDisrupter");
 	}

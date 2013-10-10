@@ -4,9 +4,9 @@ import icbm.core.ICBMCore;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class IBZha extends ItemBlock
+public class ItemblockSpikes extends ItemBlock
 {
-	public IBZha(int par1)
+	public ItemblockSpikes(int par1)
 	{
 		super(par1);
 		this.setMaxDamage(0);

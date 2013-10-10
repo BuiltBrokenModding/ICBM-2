@@ -2,7 +2,7 @@ package icbm.contraption.gui;
 
 import icbm.api.IItemFrequency;
 import icbm.contraption.ICBMContraption;
-import icbm.contraption.WanYiPacketGuanLi.WanYiPacketType;
+import icbm.contraption.ContraptionPacketHandler.WanYiPacketType;
 import icbm.core.ICBMCore;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.item.ItemStack;
@@ -15,7 +15,7 @@ import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GShengBuo extends GuiBase
+public class GuiTracker extends GuiBase
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
@@ -26,7 +26,7 @@ public class GShengBuo extends GuiBase
 	private int containerWidth;
 	private int containerHeight;
 
-	public GShengBuo(ItemStack par1ItemStack)
+	public GuiTracker(ItemStack par1ItemStack)
 	{
 		this.itemStack = par1ItemStack;
 	}

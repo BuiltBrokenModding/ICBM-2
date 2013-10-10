@@ -6,9 +6,9 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItYao extends ItemICBMBase
+public class ItemAntidote extends ItemICBMBase
 {
-	public ItYao(int id)
+	public ItemAntidote(int id)
 	{
 		super(id, "antidote");
 	}
