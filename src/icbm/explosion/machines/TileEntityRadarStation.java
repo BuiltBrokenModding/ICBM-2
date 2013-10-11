@@ -8,7 +8,7 @@ import icbm.core.base.TileEnityBase;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.implement.IRedstoneProvider;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.zhapin.daodan.EDaoDan;
+import icbm.explosion.zhapin.daodan.EntityMissile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,26 +48,26 @@ import dan200.computer.api.IPeripheral;
 
 public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IPeripheral, IBlockFrequency, IBlockActivate, IRotatable
 {
-	public final static int MAX_BIAN_JING = 500;
+	public final static int MAX_DETECTION_RANGE = 500;
 
-	public static final float DIAN = 1.5f;
+	public static final float WATTS = 1.5f;
 
-	public float xuanZhuan = 0;
+	public float rotation = 0;
 
-	public int alarmBanJing = 100;
+	public int alarmRange = 100;
 
-	public int safetyBanJing = 50;
+	public int safetyRange = 50;
 
 	/**
 	 * List of all incoming missiles, in order of distance.
 	 */
-	private List<EDaoDan> weiXianDaoDan = new ArrayList<EDaoDan>();
+	private List<EntityMissile> incomingMissiles = new ArrayList<EntityMissile>();
 
-	public List<Entity> xunZhaoEntity = new ArrayList<Entity>();
+	public List<Entity> detectedEntities = new ArrayList<Entity>();
 
-	public List<TileEntity> xunZhaoJiQi = new ArrayList<TileEntity>();
+	public List<TileEntity> detectedTiles = new ArrayList<TileEntity>();
 
-	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
+	private final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
 	public boolean emitAll = true;
 
@@ -116,49 +116,51 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 			}
 			else if (this.ticks % 3 == 0)
 			{
-				for (EntityPlayer wanJia : this.yongZhe)
+				for (EntityPlayer player : this.playersUsing)
 				{
-					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) player);
 				}
 			}
 		}
 
-		if (this.provideElectricity(DIAN, false).getWatts() >= this.getRequest(null))
+		if (this.provideElectricity(WATTS, false).getWatts() >= this.getRequest(null))
 		{
-			this.xuanZhuan += 0.08f;
+			this.rotation += 0.08f;
 
-			if (this.xuanZhuan > 360)
-				this.xuanZhuan = 0;
+			if (this.rotation > 360)
+			{
+				this.rotation = 0;
+			}
 
 			if (!this.worldObj.isRemote)
 			{
-				this.provideElectricity(DIAN, true);
+				this.provideElectricity(WATTS, true);
 			}
 
-			int prevShuMu = this.xunZhaoEntity.size();
+			int prevDetectedEntities = this.detectedEntities.size();
 
 			// Do a radar scan
 			this.doScan();
 
-			if (prevShuMu != this.xunZhaoEntity.size())
+			if (prevDetectedEntities != this.detectedEntities.size())
 			{
 				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 			}
 
-			if (this.ticks % 20 == 0 && this.weiXianDaoDan.size() > 0)
+			if (this.ticks % 20 == 0 && this.incomingMissiles.size() > 0)
 			{
-				for (TileEntityLauncher faSheQi : MissileLauncherRegistry.getFaSheQi())
+				for (TileEntityLauncherPrefab faSheQi : MissileLauncherRegistry.getFaSheQi())
 				{
-					if (new Vector3(this).distanceTo(new Vector3(faSheQi)) < this.alarmBanJing && faSheQi.getFrequency() == this.getFrequency())
+					if (new Vector3(this).distance(new Vector3(faSheQi)) < this.alarmRange && faSheQi.getFrequency() == this.getFrequency())
 					{
-						if (faSheQi instanceof TFaSheShiMuo)
+						if (faSheQi instanceof TileEntityLauncherScreen)
 						{
 							double height = faSheQi.getTarget() != null ? faSheQi.getTarget().y : 0;
-							faSheQi.setTarget(new Vector3(this.weiXianDaoDan.get(0).posX, height, this.weiXianDaoDan.get(0).posZ));
+							faSheQi.setTarget(new Vector3(this.incomingMissiles.get(0).posX, height, this.incomingMissiles.get(0).posZ));
 						}
 						else
 						{
-							faSheQi.setTarget(new Vector3(this.weiXianDaoDan.get(0)));
+							faSheQi.setTarget(new Vector3(this.incomingMissiles.get(0)));
 						}
 					}
 				}
@@ -166,13 +168,13 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 		}
 		else
 		{
-			if (this.xunZhaoEntity.size() > 0)
+			if (this.detectedEntities.size() > 0)
 			{
 				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 			}
 
-			this.xunZhaoEntity.clear();
-			this.xunZhaoJiQi.clear();
+			this.detectedEntities.clear();
+			this.detectedTiles.clear();
 		}
 
 		if (this.ticks % 40 == 0)
@@ -183,62 +185,62 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 
 	private void doScan()
 	{
-		this.weiXianDaoDan.clear();
-		this.xunZhaoEntity.clear();
-		this.xunZhaoJiQi.clear();
+		this.incomingMissiles.clear();
+		this.detectedEntities.clear();
+		this.detectedTiles.clear();
 
-		List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), MAX_BIAN_JING);
+		List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), MAX_DETECTION_RANGE);
 
 		for (Entity entity : entities)
 		{
-			if (entity instanceof EDaoDan)
+			if (entity instanceof EntityMissile)
 			{
-				if (((EDaoDan) entity).feiXingTick > -1)
+				if (((EntityMissile) entity).feiXingTick > -1)
 				{
-					if (!this.xunZhaoEntity.contains(entity))
+					if (!this.detectedEntities.contains(entity))
 					{
-						this.xunZhaoEntity.add(entity);
+						this.detectedEntities.add(entity);
 					}
 
-					if (this.isWeiXianDaoDan((EDaoDan) entity))
+					if (this.isWeiXianDaoDan((EntityMissile) entity))
 					{
-						if (this.weiXianDaoDan.size() > 0)
+						if (this.incomingMissiles.size() > 0)
 						{
 							/**
 							 * Sort in order of distance
 							 */
-							double dist = new Vector3(this).distanceTo(new Vector3(entity));
+							double dist = new Vector3(this).distance(new Vector3(entity));
 
-							for (int i = 0; i < this.weiXianDaoDan.size(); i++)
+							for (int i = 0; i < this.incomingMissiles.size(); i++)
 							{
-								EDaoDan daoDan = this.weiXianDaoDan.get(i);
+								EntityMissile daoDan = this.incomingMissiles.get(i);
 
-								if (dist < new Vector3(this).distanceTo(new Vector3(daoDan)))
+								if (dist < new Vector3(this).distance(new Vector3(daoDan)))
 								{
-									this.weiXianDaoDan.add(i, (EDaoDan) entity);
+									this.incomingMissiles.add(i, (EntityMissile) entity);
 									break;
 								}
-								else if (i == this.weiXianDaoDan.size() - 1)
+								else if (i == this.incomingMissiles.size() - 1)
 								{
-									this.weiXianDaoDan.add((EDaoDan) entity);
+									this.incomingMissiles.add((EntityMissile) entity);
 									break;
 								}
 							}
 						}
 						else
 						{
-							this.weiXianDaoDan.add((EDaoDan) entity);
+							this.incomingMissiles.add((EntityMissile) entity);
 						}
 					}
 				}
 			}
 			else
 			{
-				this.xunZhaoEntity.add(entity);
+				this.detectedEntities.add(entity);
 			}
 		}
 
-		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - MAX_BIAN_JING, this.yCoord - MAX_BIAN_JING, this.zCoord - MAX_BIAN_JING, this.xCoord + MAX_BIAN_JING, this.yCoord + MAX_BIAN_JING, this.zCoord + MAX_BIAN_JING));
+		List<EntityPlayer> players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.xCoord - MAX_DETECTION_RANGE, this.yCoord - MAX_DETECTION_RANGE, this.zCoord - MAX_DETECTION_RANGE, this.xCoord + MAX_DETECTION_RANGE, this.yCoord + MAX_DETECTION_RANGE, this.zCoord + MAX_DETECTION_RANGE));
 
 		for (EntityPlayer player : players)
 		{
@@ -262,54 +264,54 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 
 				if (!youHuoLuan)
 				{
-					this.xunZhaoEntity.add(player);
+					this.detectedEntities.add(player);
 				}
 			}
 		}
 
-		for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TileEntityRadarStation.MAX_BIAN_JING, this.zCoord - TileEntityRadarStation.MAX_BIAN_JING), new Vector2(this.xCoord + TileEntityRadarStation.MAX_BIAN_JING, this.zCoord + TileEntityRadarStation.MAX_BIAN_JING)))
+		for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TileEntityRadarStation.MAX_DETECTION_RANGE, this.zCoord - TileEntityRadarStation.MAX_DETECTION_RANGE), new Vector2(this.xCoord + TileEntityRadarStation.MAX_DETECTION_RANGE, this.zCoord + TileEntityRadarStation.MAX_DETECTION_RANGE)))
 		{
 			if (jiQi instanceof TileEntityRadarStation)
 			{
 				if (((TileEntityRadarStation) jiQi).getEnergyStored() > 0)
 				{
-					this.xunZhaoJiQi.add(jiQi);
+					this.detectedTiles.add(jiQi);
 				}
 			}
 			else
 			{
-				if (this.xunZhaoJiQi instanceof IRadarDetectable)
+				if (this.detectedTiles instanceof IRadarDetectable)
 				{
-					if (((IRadarDetectable) this.xunZhaoJiQi).canDetect(this))
+					if (((IRadarDetectable) this.detectedTiles).canDetect(this))
 					{
-						this.xunZhaoJiQi.add(jiQi);
+						this.detectedTiles.add(jiQi);
 					}
 				}
 				else
 				{
-					this.xunZhaoJiQi.add(jiQi);
+					this.detectedTiles.add(jiQi);
 				}
 			}
 		}
 	}
 
-	public boolean isWeiXianDaoDan(EDaoDan daoDan)
+	public boolean isWeiXianDaoDan(EntityMissile daoDan)
 	{
 		if (daoDan == null)
 		{
 			return false;
 		}
-		if (daoDan.muBiao == null)
+		if (daoDan.targetVector == null)
 		{
 			return false;
 		}
 
-		return (Vector2.distance(new Vector3(daoDan).toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.alarmBanJing && Vector2.distance(daoDan.muBiao.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyBanJing);
+		return (Vector2.distance(new Vector3(daoDan).toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.alarmRange && Vector2.distance(daoDan.targetVector.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyRange);
 	}
 
 	private Packet getDescriptionPacket2()
 	{
-		return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, 1, this.alarmBanJing, this.safetyBanJing, this.getFrequency());
+		return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, 1, this.alarmRange, this.safetyRange, this.getFrequency());
 	}
 
 	@Override
@@ -330,19 +332,19 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 				if (dataStream.readBoolean())
 				{
 					PacketManager.sendPacketToClients(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 15);
-					this.yongZhe.add(player);
+					this.playersUsing.add(player);
 				}
 				else
 				{
-					this.yongZhe.remove(player);
+					this.playersUsing.remove(player);
 				}
 			}
 			else if (this.worldObj.isRemote)
 			{
 				if (ID == 1)
 				{
-					this.alarmBanJing = dataStream.readInt();
-					this.safetyBanJing = dataStream.readInt();
+					this.alarmRange = dataStream.readInt();
+					this.safetyRange = dataStream.readInt();
 					this.setFrequency(dataStream.readInt());
 				}
 				else if (ID == 4)
@@ -355,11 +357,11 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 			{
 				if (ID == 2)
 				{
-					this.safetyBanJing = dataStream.readInt();
+					this.safetyRange = dataStream.readInt();
 				}
 				else if (ID == 3)
 				{
-					this.alarmBanJing = dataStream.readInt();
+					this.alarmRange = dataStream.readInt();
 				}
 				else if (ID == 4)
 				{
@@ -378,12 +380,12 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 	{
 		if (this.getEnergyStored() > 0)
 		{
-			if (this.weiXianDaoDan.size() > 0)
+			if (this.incomingMissiles.size() > 0)
 			{
 				if (this.emitAll)
 					return true;
 
-				for (EDaoDan daoDan : this.weiXianDaoDan)
+				for (EntityMissile daoDan : this.incomingMissiles)
 				{
 					Vector2 position = new Vector3(daoDan).toVector2();
 					ForgeDirection daoDanFangXiang = ForgeDirection.UNKNOWN;
@@ -421,8 +423,8 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.safetyBanJing = nbt.getInteger("safetyBanJing");
-		this.alarmBanJing = nbt.getInteger("alarmBanJing");
+		this.safetyRange = nbt.getInteger("safetyBanJing");
+		this.alarmRange = nbt.getInteger("alarmBanJing");
 		this.emitAll = nbt.getBoolean("emitAll");
 		this.fangXiang = nbt.getByte("fangXiang");
 	}
@@ -434,8 +436,8 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setInteger("safetyBanJing", this.safetyBanJing);
-		nbt.setInteger("alarmBanJing", this.alarmBanJing);
+		nbt.setInteger("safetyBanJing", this.safetyRange);
+		nbt.setInteger("alarmBanJing", this.alarmRange);
 		nbt.setBoolean("emitAll", this.emitAll);
 		nbt.setByte("fangXiang", this.fangXiang);
 	}
@@ -487,7 +489,7 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 		switch (method)
 		{
 			case 0:
-				List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), this.alarmBanJing);
+				List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), this.alarmRange);
 
 				for (Entity entity : entities)
 				{
@@ -499,7 +501,7 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 
 				return new Object[] { returnArray };
 			case 1:
-				for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TileEntityRadarStation.MAX_BIAN_JING, this.zCoord - TileEntityRadarStation.MAX_BIAN_JING), new Vector2(this.xCoord + TileEntityRadarStation.MAX_BIAN_JING, this.zCoord + TileEntityRadarStation.MAX_BIAN_JING)))
+				for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TileEntityRadarStation.MAX_DETECTION_RANGE, this.zCoord - TileEntityRadarStation.MAX_DETECTION_RANGE), new Vector2(this.xCoord + TileEntityRadarStation.MAX_DETECTION_RANGE, this.zCoord + TileEntityRadarStation.MAX_DETECTION_RANGE)))
 				{
 					returnArray.put("x_" + count, (double) jiQi.xCoord);
 					returnArray.put("y_" + count, (double) jiQi.yCoord);
@@ -547,7 +549,7 @@ public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadH
 	@Override
 	public float getMaxEnergyStored()
 	{
-		return DIAN * 3;
+		return WATTS * 3;
 	}
 
 	@Override

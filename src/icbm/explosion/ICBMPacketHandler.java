@@ -53,7 +53,7 @@ public class ICBMPacketHandler extends PacketManager
 				{
 					ItemStack itemStack = player.inventory.getCurrentItem();
 					((ItemRadarGun) player.inventory.getCurrentItem().getItem()).setLink(itemStack, new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt()));
-					ICBMExplosion.itLeiDaQiang.discharge(itemStack, ItemRadarGun.YONG_DIAN_LIANG, true);
+					ICBMExplosion.itemRadarGun.discharge(itemStack, ItemRadarGun.YONG_DIAN_LIANG, true);
 				}
 			}
 			else if (icbmPacketType == ZhaPinPacketType.LASER_DESIGNATOR)
@@ -63,19 +63,19 @@ public class ICBMPacketHandler extends PacketManager
 					ItemStack itemStack = player.inventory.getCurrentItem();
 					Vector3 position = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 
-					((ItemLaserDesignator) ICBMExplosion.itLeiSheZhiBiao).setLauncherCountDown(itemStack, 119);
+					((ItemLaserDesignator) ICBMExplosion.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
 
 					player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), ICBMCore.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
-					player.worldObj.spawnEntityInWorld(new EGuang(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
+					player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
 
-					ICBMExplosion.itLeiDaQiang.discharge(itemStack, ItemLaserDesignator.YONG_DIAN_LIANG, true);
+					ICBMExplosion.itemRadarGun.discharge(itemStack, ItemLaserDesignator.YONG_DIAN_LIANG, true);
 				}
 			}
 			else if (icbmPacketType == ZhaPinPacketType.REMOTE)
 			{
 				ItemStack itemStack = player.inventory.getCurrentItem();
-				ICBMExplosion.itYaoKong.discharge(itemStack, ItemRemoteDetonator.YONG_DIAN_LIANG, true);
+				ICBMExplosion.itemRemoteDetonator.discharge(itemStack, ItemRemoteDetonator.YONG_DIAN_LIANG, true);
 			}
 		}
 		catch (Exception e)

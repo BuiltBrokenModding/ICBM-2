@@ -18,7 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Calclavia
  * 
  */
-public class DFanDan extends DaoDanTeBie
+public class DFanDan extends MissileTeBie
 {
 	public static final int ABMRange = 30;
 
@@ -29,7 +29,7 @@ public class DFanDan extends DaoDanTeBie
 	}
 
 	@Override
-	public void update(EDaoDan missileObj)
+	public void update(EntityMissile missileObj)
 	{
 		if (missileObj.lockedTarget != null)
 		{
@@ -69,8 +69,8 @@ public class DFanDan extends DaoDanTeBie
 		}
 		else
 		{
-			missileObj.motionX = missileObj.xXiangCha / missileObj.feiXingShiJian;
-			missileObj.motionZ = missileObj.zXiangCha / missileObj.feiXingShiJian;
+			missileObj.motionX = missileObj.xXiangCha / missileObj.missileFlightTime;
+			missileObj.motionZ = missileObj.zXiangCha / missileObj.missileFlightTime;
 
 			if (missileObj.didTargetLockBefore == true)
 			{

@@ -1,7 +1,7 @@
 package icbm.contraption.block;
 
-import icbm.contraption.ItemSignalDisrupter;
 import icbm.contraption.ICBMContraption;
+import icbm.contraption.ItemSignalDisrupter;
 import icbm.core.implement.IRedstoneProvider;
 
 import java.util.HashSet;

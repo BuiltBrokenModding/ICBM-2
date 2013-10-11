@@ -1,8 +1,8 @@
 package icbm.explosion.gui;
 
 import icbm.core.base.GuiICBMContainer;
+import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
-import icbm.explosion.rongqi.CYinDaoQi;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Direction;
@@ -18,7 +18,7 @@ public class GYinDaoQi extends GuiICBMContainer
 
 	public GYinDaoQi(InventoryPlayer par1InventoryPlayer, TileEntityMissileCoordinator tileEntity)
 	{
-		super(new CYinDaoQi(par1InventoryPlayer, tileEntity));
+		super(new ContainerMissileCoordinator(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 	}
 

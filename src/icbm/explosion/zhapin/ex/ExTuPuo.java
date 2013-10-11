@@ -5,7 +5,7 @@ import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzTuPuo;
 import icbm.explosion.model.missiles.MMTuPuo;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -14,7 +14,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExTuPuo extends DaoDan
+public class ExTuPuo extends Missile
 {
 	public ExTuPuo(String mingZi, int tier)
 	{

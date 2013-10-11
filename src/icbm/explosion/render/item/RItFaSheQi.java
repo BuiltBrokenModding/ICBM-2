@@ -24,13 +24,13 @@ public class RItFaSheQi implements IItemRenderer
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)
 	{
-		return item.itemID == ICBMExplosion.itFaSheQi.itemID;
+		return item.itemID == ICBMExplosion.itemRocketLauncher.itemID;
 	}
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.itemID == ICBMExplosion.itFaSheQi.itemID;
+		return item.itemID == ICBMExplosion.itemRocketLauncher.itemID;
 	}
 
 	@Override

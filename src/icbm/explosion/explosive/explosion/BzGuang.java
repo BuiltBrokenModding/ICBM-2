@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.explosion;
 
 import icbm.explosion.EntityFlyingBlock;
-import icbm.explosion.EGuang;
+import icbm.explosion.EntityLightBeam;
 import icbm.explosion.explosive.ExplosionBase;
 import icbm.explosion.explosive.thread.ThreadExplosion;
 import icbm.explosion.explosive.thread.ThreadGuang;
@@ -25,7 +25,7 @@ public abstract class BzGuang extends ExplosionBase
 {
 	protected ThreadExplosion thread;
 	protected Set<EntityFlyingBlock> feiBlocks = new HashSet<EntityFlyingBlock>();
-	protected EGuang lightBeam;
+	protected EntityLightBeam lightBeam;
 	protected float red, green, blue;
 	/** Radius in which the uplighting of blocks takes place */
 	protected int radius = 5;
@@ -45,7 +45,7 @@ public abstract class BzGuang extends ExplosionBase
 		{
 			this.worldObj.createExplosion(this.exploder, position.x, position.y, position.z, 4F, true);
 
-			this.lightBeam = new EGuang(this.worldObj, position, 20 * 20, this.red, this.green, this.blue);
+			this.lightBeam = new EntityLightBeam(this.worldObj, position, 20 * 20, this.red, this.green, this.blue);
 			this.worldObj.spawnEntityInWorld(this.lightBeam);
 
 			this.thread = new ThreadGuang(this.worldObj, this.position, (int) this.getRadius(), 50, this.exploder);

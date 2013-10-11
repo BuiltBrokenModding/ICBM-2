@@ -9,9 +9,9 @@ import icbm.api.explosion.ExplosiveType;
 import icbm.core.ICBMConfiguration;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.zhapin.ExplosiveRegistry;
-import icbm.explosion.zhapin.daodan.DaoDan;
-import icbm.explosion.zhapin.daodan.EDaoDan;
-import icbm.explosion.zhapin.daodan.ItDaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.daodan.EntityMissile;
+import icbm.explosion.zhapin.daodan.ItemMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -42,13 +42,13 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory, IBlockActivate
+public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory, IBlockActivate
 {
 	// The missile that this launcher is holding
-	public IMissile daoDan = null;
+	public IMissile missile = null;
 
 	// The connected missile launcher frame
-	public TFaSheJia jiaZi = null;
+	public TileEntitySupportFrame supportFrame = null;
 
 	private ItemStack[] containingItems = new ItemStack[1];
 
@@ -59,7 +59,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 
 	private boolean packetGengXin = true;
 
-	public TFaSheDi()
+	public TileEntityLauncherBase()
 	{
 		super();
 	}
@@ -169,7 +169,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	{
 		super.updateEntity();
 
-		if (this.jiaZi == null)
+		if (this.supportFrame == null)
 		{
 			for (byte i = 2; i < 6; i++)
 			{
@@ -178,22 +178,22 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 
 				TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
 
-				if (tileEntity instanceof TFaSheJia)
+				if (tileEntity instanceof TileEntitySupportFrame)
 				{
-					this.jiaZi = (TFaSheJia) tileEntity;
-					this.jiaZi.setDirection(VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
+					this.supportFrame = (TileEntitySupportFrame) tileEntity;
+					this.supportFrame.setDirection(VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
 				}
 			}
 		}
 		else
 		{
-			if (this.jiaZi.isInvalid())
+			if (this.supportFrame.isInvalid())
 			{
-				this.jiaZi = null;
+				this.supportFrame = null;
 			}
-			else if (this.packetGengXin || this.ticks % (20 * 30) == 0 && this.jiaZi != null && !this.worldObj.isRemote)
+			else if (this.packetGengXin || this.ticks % (20 * 30) == 0 && this.supportFrame != null && !this.worldObj.isRemote)
 			{
-				PacketManager.sendPacketToClients(this.jiaZi.getDescriptionPacket());
+				PacketManager.sendPacketToClients(this.supportFrame.getDescriptionPacket());
 			}
 		}
 
@@ -235,30 +235,30 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		{
 			if (this.containingItems[0] != null)
 			{
-				if (this.containingItems[0].getItem() instanceof ItDaoDan)
+				if (this.containingItems[0].getItem() instanceof ItemMissile)
 				{
 					int haoMa = this.containingItems[0].getItemDamage();
 
-					if (ExplosiveRegistry.get(haoMa) instanceof DaoDan)
+					if (ExplosiveRegistry.get(haoMa) instanceof Missile)
 					{
-						DaoDan missile = (DaoDan) ExplosiveRegistry.get(haoMa);
+						Missile missile = (Missile) ExplosiveRegistry.get(haoMa);
 
 						ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
 						MinecraftForge.EVENT_BUS.post(evt);
 
 						if (!evt.isCanceled())
 						{
-							if (this.daoDan == null)
+							if (this.missile == null)
 							{
 								Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 1.8f), (this.zCoord + 0.5f));
-								this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
-								this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
+								this.missile = new EntityMissile(this.worldObj, startingPosition, new Vector3(this), haoMa);
+								this.worldObj.spawnEntityInWorld((Entity) this.missile);
 								return;
 							}
 
-							if (this.daoDan != null)
+							if (this.missile != null)
 							{
-								if (this.daoDan.getExplosiveType().getID() == haoMa)
+								if (this.missile.getExplosiveType().getID() == haoMa)
 								{
 									return;
 								}
@@ -268,12 +268,12 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 				}
 			}
 
-			if (this.daoDan != null)
+			if (this.missile != null)
 			{
-				((Entity) this.daoDan).setDead();
+				((Entity) this.missile).setDead();
 			}
 
-			this.daoDan = null;
+			this.missile = null;
 		}
 	}
 
@@ -287,9 +287,9 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		// Apply inaccuracy
 		float inaccuracy;
 
-		if (this.jiaZi != null)
+		if (this.supportFrame != null)
 		{
-			inaccuracy = this.jiaZi.getInaccuracy();
+			inaccuracy = this.supportFrame.getInaccuracy();
 		}
 		else
 		{
@@ -302,8 +302,8 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 		target.z += inaccuracy;
 
 		this.decrStackSize(0, 1);
-		this.daoDan.launch(target, gaoDu);
-		this.daoDan = null;
+		this.missile.launch(target, gaoDu);
+		this.missile = null;
 	}
 
 	// Checks if the missile target is in range
@@ -461,7 +461,7 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	{
 		if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
 		{
-			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItDaoDan)
+			if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItemMissile)
 			{
 				this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
 				entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
@@ -476,9 +476,9 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	@Override
 	public void invalidate()
 	{
-		if (this.daoDan != null)
+		if (this.missile != null)
 		{
-			((Entity) this.daoDan).setDead();
+			((Entity) this.missile).setDead();
 		}
 
 		super.invalidate();
@@ -524,19 +524,19 @@ public class TFaSheDi extends TileEntityAdvanced implements IPacketReceiver, ILa
 	@Override
 	public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
 	{
-		return itemStack.getItem() instanceof ItDaoDan;
+		return itemStack.getItem() instanceof ItemMissile;
 	}
 
 	@Override
 	public IMissile getContainingMissile()
 	{
-		return this.daoDan;
+		return this.missile;
 	}
 
 	@Override
 	public void setContainingMissile(IMissile missile)
 	{
-		this.daoDan = missile;
+		this.missile = missile;
 	}
 
 	@Override

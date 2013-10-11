@@ -1,7 +1,7 @@
-package icbm.explosion.rongqi;
+package icbm.explosion.container;
 
 import icbm.explosion.machines.TileEntityCruiseLauncher;
-import icbm.explosion.zhapin.daodan.ItDaoDan;
+import icbm.explosion.zhapin.daodan.ItemMissile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -10,15 +10,15 @@ import net.minecraft.item.ItemStack;
 import universalelectricity.core.item.IItemElectric;
 import universalelectricity.prefab.SlotSpecific;
 
-public class CXiaoFaSheQi extends Container
+public class ContainerCruiseLauncher extends Container
 {
 	private TileEntityCruiseLauncher tileEntity;
 
-	public CXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
+	public ContainerCruiseLauncher(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		// Missile Slot
-		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 151, 23, ItDaoDan.class));
+		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 151, 23, ItemMissile.class));
 		// Battery Slot
 		this.addSlotToContainer(new SlotSpecific(tileEntity, 1, 151, 47, IItemElectric.class));
 

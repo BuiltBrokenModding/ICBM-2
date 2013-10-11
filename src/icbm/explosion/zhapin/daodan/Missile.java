@@ -7,12 +7,12 @@ import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class DaoDan extends Explosive
+public abstract class Missile extends Explosive
 {
 	@SideOnly(Side.CLIENT)
 	private ResourceLocation resourceLocation;
 
-	public DaoDan(String mingZi, int tier)
+	public Missile(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 	}
@@ -20,18 +20,18 @@ public abstract class DaoDan extends Explosive
 	/**
 	 * Called when launched.
 	 */
-	public void launch(EDaoDan missileObj)
+	public void launch(EntityMissile missileObj)
 	{
 	}
 
 	/**
 	 * Called every tick while flying.
 	 */
-	public void update(EDaoDan missileObj)
+	public void update(EntityMissile missileObj)
 	{
 	}
 
-	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
+	public boolean onInteract(EntityMissile missileObj, EntityPlayer entityPlayer)
 	{
 		return false;
 	}

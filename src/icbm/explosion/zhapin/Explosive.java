@@ -9,7 +9,7 @@ import icbm.explosion.zhapin.daodan.DFenZhiDan;
 import icbm.explosion.zhapin.daodan.DModule;
 import icbm.explosion.zhapin.daodan.DYuanZiFenZhiDan;
 import icbm.explosion.zhapin.daodan.DZhuiZhong;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import icbm.explosion.zhapin.ex.ExBingDan;
 import icbm.explosion.zhapin.ex.ExDiLei;
 import icbm.explosion.zhapin.ex.ExDianCi;
@@ -75,11 +75,11 @@ public abstract class Explosive implements IExplosive
 	public static final Explosive hongSu;
 
 	/** Missiles */
-	public static final DaoDan missileModule;
-	public static final DaoDan zhuiZhong;
-	public static final DaoDan fanDan;
-	public static final DaoDan fenZhiDan;
-	public static final DaoDan yuanZiFenZhiDan;
+	public static final Missile missileModule;
+	public static final Missile zhuiZhong;
+	public static final Missile fanDan;
+	public static final Missile fenZhiDan;
+	public static final Missile yuanZiFenZhiDan;
 
 	public static boolean registered = false;
 
@@ -116,11 +116,11 @@ public abstract class Explosive implements IExplosive
 		hongSu = ExplosiveRegistry.register(new ExHongSu("redMatter", 4));
 
 		/** Missiles */
-		missileModule = (DaoDan) ExplosiveRegistry.register(new DModule("missileModule", 1));
-		zhuiZhong = (DaoDan) ExplosiveRegistry.register(new DZhuiZhong("homing", 1));
-		fanDan = (DaoDan) ExplosiveRegistry.register(new DFanDan("antiBallistic", 2));
-		fenZhiDan = (DaoDan) ExplosiveRegistry.register(new DFenZhiDan("cluster", 2));
-		yuanZiFenZhiDan = (DaoDan) ExplosiveRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
+		missileModule = (Missile) ExplosiveRegistry.register(new DModule("missileModule", 1));
+		zhuiZhong = (Missile) ExplosiveRegistry.register(new DZhuiZhong("homing", 1));
+		fanDan = (Missile) ExplosiveRegistry.register(new DFanDan("antiBallistic", 2));
+		fenZhiDan = (Missile) ExplosiveRegistry.register(new DFenZhiDan("cluster", 2));
+		yuanZiFenZhiDan = (Missile) ExplosiveRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
 
 		ICBMConfiguration.CONFIGURATION.save();
 		registered = true;
@@ -318,7 +318,7 @@ public abstract class Explosive implements IExplosive
 
 	public ItemStack getItemStack(int amount)
 	{
-		return new ItemStack(ICBMExplosion.bZhaDan, amount, this.getID());
+		return new ItemStack(ICBMExplosion.blockExplosive, amount, this.getID());
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)

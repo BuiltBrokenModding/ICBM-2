@@ -4,7 +4,7 @@ import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.TileEntityRadarStation;
-import icbm.explosion.zhapin.daodan.EDaoDan;
+import icbm.explosion.zhapin.daodan.EntityMissile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class GLeiDaTai extends GuiBase
 		mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
 		this.xSize = 256;
 		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 14, this.containerPosY + this.ySize / 2 + 4);
-		radarMapRadius = TileEntityRadarStation.MAX_BIAN_JING / 63.8F;
+		radarMapRadius = TileEntityRadarStation.MAX_DETECTION_RANGE / 63.8F;
 	}
 
 	@Override
@@ -72,11 +72,11 @@ public class GLeiDaTai extends GuiBase
 
 		this.textFieldSafetyZone = new GuiTextField(fontRenderer, 210, 67, 30, 12);
 		this.textFieldSafetyZone.setMaxStringLength(3);
-		this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
+		this.textFieldSafetyZone.setText(this.tileEntity.safetyRange + "");
 
 		this.textFieldAlarmRange = new GuiTextField(fontRenderer, 210, 82, 30, 12);
 		this.textFieldAlarmRange.setMaxStringLength(3);
-		this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
+		this.textFieldAlarmRange.setText(this.tileEntity.alarmRange + "");
 
 		this.textFieldFrequency = new GuiTextField(fontRenderer, 155, 112, 50, 12);
 		this.textFieldFrequency.setMaxStringLength(6);
@@ -114,7 +114,7 @@ public class GLeiDaTai extends GuiBase
 		this.fontRenderer.drawString("Frequency:", 155, 100, 4210752);
 		this.textFieldFrequency.drawTextBox();
 
-		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(TileEntityRadarStation.DIAN, ElectricUnit.WATT), 155, 128, 4210752);
+		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(TileEntityRadarStation.WATTS, ElectricUnit.WATT), 155, 128, 4210752);
 
 		this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
 
@@ -148,9 +148,9 @@ public class GLeiDaTai extends GuiBase
 
 		try
 		{
-			int newSafetyRadius = Math.min(TileEntityRadarStation.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
-			this.tileEntity.safetyBanJing = newSafetyRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.safetyBanJing));
+			int newSafetyRadius = Math.min(TileEntityRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
+			this.tileEntity.safetyRange = newSafetyRadius;
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.safetyRange));
 		}
 		catch (NumberFormatException e)
 		{
@@ -158,9 +158,9 @@ public class GLeiDaTai extends GuiBase
 
 		try
 		{
-			int newAlarmRadius = Math.min(TileEntityRadarStation.MAX_BIAN_JING, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
-			this.tileEntity.alarmBanJing = newAlarmRadius;
-			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 3, this.tileEntity.alarmBanJing));
+			int newAlarmRadius = Math.min(TileEntityRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
+			this.tileEntity.alarmRange = newAlarmRadius;
+			PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 3, this.tileEntity.alarmRange));
 		}
 		catch (NumberFormatException e)
 		{
@@ -204,7 +204,7 @@ public class GLeiDaTai extends GuiBase
 		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
 
 		this.radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
-		this.radarMapRadius = TileEntityRadarStation.MAX_BIAN_JING / 71f;
+		this.radarMapRadius = TileEntityRadarStation.MAX_DETECTION_RANGE / 71f;
 
 		this.info = "";
 		this.info2 = "";
@@ -213,13 +213,13 @@ public class GLeiDaTai extends GuiBase
 		{
 			int range = 4;
 
-			for (Entity entity : this.tileEntity.xunZhaoEntity)
+			for (Entity entity : this.tileEntity.detectedEntities)
 			{
 				Vector2 position = new Vector2(radarCenter.x + (entity.posX - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (entity.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
 
-				if (entity instanceof EDaoDan)
+				if (entity instanceof EntityMissile)
 				{
-					if (this.tileEntity.isWeiXianDaoDan((EDaoDan) entity))
+					if (this.tileEntity.isWeiXianDaoDan((EntityMissile) entity))
 					{
 						FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_RED_DOT);
 					}
@@ -250,11 +250,11 @@ public class GLeiDaTai extends GuiBase
 						this.info = "\u00a71" + this.info;
 					}
 
-					if (entity instanceof EDaoDan)
+					if (entity instanceof EntityMissile)
 					{
-						if (((EDaoDan) entity).muBiao != null)
+						if (((EntityMissile) entity).targetVector != null)
 						{
-							this.info2 = "(" + ((EDaoDan) entity).muBiao.intX() + ", " + ((EDaoDan) entity).muBiao.intZ() + ")";
+							this.info2 = "(" + ((EntityMissile) entity).targetVector.intX() + ", " + ((EntityMissile) entity).targetVector.intZ() + ")";
 						}
 					}
 				}
@@ -262,7 +262,7 @@ public class GLeiDaTai extends GuiBase
 
 			range = 2;
 
-			for (TileEntity jiQi : this.tileEntity.xunZhaoJiQi)
+			for (TileEntity jiQi : this.tileEntity.detectedTiles)
 			{
 				Vector2 position = new Vector2(this.radarCenter.x + (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
 				FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_WHITE_DOT);
@@ -303,7 +303,7 @@ public class GLeiDaTai extends GuiBase
 			{
 				this.mousePosition = new Vector2(Mouse.getEventX() * this.width / this.mc.displayWidth, this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1);
 
-				float difference = TileEntityRadarStation.MAX_BIAN_JING / this.radarMapRadius;
+				float difference = TileEntityRadarStation.MAX_DETECTION_RANGE / this.radarMapRadius;
 
 				if (this.mousePosition.x > this.radarCenter.x - difference && this.mousePosition.x < this.radarCenter.x + difference && this.mousePosition.y > this.radarCenter.y - difference && this.mousePosition.y < this.radarCenter.y + difference)
 				{
@@ -320,8 +320,8 @@ public class GLeiDaTai extends GuiBase
 		}
 
 		if (!this.textFieldSafetyZone.isFocused())
-			this.textFieldSafetyZone.setText(this.tileEntity.safetyBanJing + "");
+			this.textFieldSafetyZone.setText(this.tileEntity.safetyRange + "");
 		if (!this.textFieldAlarmRange.isFocused())
-			this.textFieldAlarmRange.setText(this.tileEntity.alarmBanJing + "");
+			this.textFieldAlarmRange.setText(this.tileEntity.alarmRange + "");
 	}
 }

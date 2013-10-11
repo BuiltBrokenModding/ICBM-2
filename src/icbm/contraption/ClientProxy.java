@@ -2,8 +2,8 @@ package icbm.contraption;
 
 import icbm.api.IItemFrequency;
 import icbm.contraption.block.TileEntityDetector;
-import icbm.contraption.gui.GuiTracker;
 import icbm.contraption.gui.GuiDectector;
+import icbm.contraption.gui.GuiTracker;
 import icbm.core.AudioHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

@@ -13,7 +13,7 @@ public class ShengYinDaoDan implements IUpdatePlayerListBox
 {
 	private final SoundManager theSoundManager;
 
-	private final EDaoDan entity;
+	private final EntityMissile entity;
 
 	private final EntityPlayerSP thePlayer;
 	private boolean playerSPRidingMinecart = false;
@@ -25,7 +25,7 @@ public class ShengYinDaoDan implements IUpdatePlayerListBox
 	private float minecartRideSoundVolume = 0.0F;
 	private double minecartSpeed = 0.0D;
 
-	public ShengYinDaoDan(SoundManager par1SoundManager, EDaoDan entity, EntityPlayerSP par3EntityPlayerSP)
+	public ShengYinDaoDan(SoundManager par1SoundManager, EntityMissile entity, EntityPlayerSP par3EntityPlayerSP)
 	{
 		this.theSoundManager = par1SoundManager;
 		this.entity = entity;

@@ -2,8 +2,8 @@ package icbm.explosion.gui;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
+import icbm.explosion.container.ContainerCruiseLauncher;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
-import icbm.explosion.rongqi.CXiaoFaSheQi;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -34,7 +34,7 @@ public class GXiaoFaSheQi extends GuiContainer
 
 	public GXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
 	{
-		super(new CXiaoFaSheQi(par1InventoryPlayer, tileEntity));
+		super(new ContainerCruiseLauncher(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 	}
 

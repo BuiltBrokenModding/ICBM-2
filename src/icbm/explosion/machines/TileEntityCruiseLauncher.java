@@ -8,9 +8,9 @@ import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.zhapin.ExplosiveRegistry;
-import icbm.explosion.zhapin.daodan.DaoDan;
-import icbm.explosion.zhapin.daodan.EDaoDan;
-import icbm.explosion.zhapin.daodan.ItDaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.daodan.EntityMissile;
+import icbm.explosion.zhapin.daodan.ItemMissile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +37,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TileEntityCruiseLauncher extends TileEntityLauncher implements IBlockActivate, IPacketReceiver, IInventory, ILauncherContainer
+public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implements IBlockActivate, IPacketReceiver, IInventory, ILauncherContainer
 {
 	// The missile that this launcher is holding
 	public IMissile daoDan = null;
@@ -255,12 +255,12 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IBlo
 		{
 			if (this.containingItems[0] != null)
 			{
-				if (this.containingItems[0].getItem() instanceof ItDaoDan)
+				if (this.containingItems[0].getItem() instanceof ItemMissile)
 				{
 					int haoMa = this.containingItems[0].getItemDamage();
-					if (ExplosiveRegistry.get(haoMa) instanceof DaoDan)
+					if (ExplosiveRegistry.get(haoMa) instanceof Missile)
 					{
-						DaoDan missile = (DaoDan) ExplosiveRegistry.get(haoMa);
+						Missile missile = (Missile) ExplosiveRegistry.get(haoMa);
 
 						ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
 						MinecraftForge.EVENT_BUS.post(evt);
@@ -273,7 +273,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IBlo
 								if (missile.isCruise() && missile.getTier() <= 3)
 								{
 									Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
-									this.daoDan = new EDaoDan(this.worldObj, startingPosition, new Vector3(this), haoMa);
+									this.daoDan = new EntityMissile(this.worldObj, startingPosition, new Vector3(this), haoMa);
 									this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
 									return;
 								}
@@ -352,7 +352,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IBlo
 	{
 		if (this.daoDan != null && this.containingItems[0] != null)
 		{
-			DaoDan missile = (DaoDan) ExplosiveRegistry.get(this.containingItems[0].getItemDamage());
+			Missile missile = (Missile) ExplosiveRegistry.get(this.containingItems[0].getItemDamage());
 
 			if (missile != null && missile.getID() == daoDan.getExplosiveType().getID() && missile.isCruise() && missile.getTier() <= 3)
 			{
@@ -372,7 +372,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IBlo
 	/**
 	 * Launches the missile
 	 * 
-	 * @param muBiao - The target in which the missile will land in
+	 * @param targetVector - The target in which the missile will land in
 	 */
 	@Override
 	public void launch()
@@ -516,11 +516,11 @@ public class TileEntityCruiseLauncher extends TileEntityLauncher implements IBlo
 	{
 		if (itemStack != null)
 		{
-			if (itemStack.getItem() instanceof ItDaoDan && this.getStackInSlot(slotID) == null)
+			if (itemStack.getItem() instanceof ItemMissile && this.getStackInSlot(slotID) == null)
 			{
-				if (ExplosiveRegistry.get(itemStack.getItemDamage()) instanceof DaoDan)
+				if (ExplosiveRegistry.get(itemStack.getItemDamage()) instanceof Missile)
 				{
-					DaoDan missile = (DaoDan) ExplosiveRegistry.get(itemStack.getItemDamage());
+					Missile missile = (Missile) ExplosiveRegistry.get(itemStack.getItemDamage());
 
 					if (missile.isCruise() && missile.getTier() <= 3)
 					{

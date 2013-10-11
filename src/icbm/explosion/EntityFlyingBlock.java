@@ -93,7 +93,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
 			return;
 		}
 
-		if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ICBMCore.bJia.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+		if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ICBMCore.blockMulti.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
 		{
 			this.setDead();
 			return;

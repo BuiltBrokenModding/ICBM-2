@@ -77,7 +77,7 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
 		{
 			if (ICBMExplosion.shiBaoHu(this.worldObj, new Vector3(this), ExplosiveType.BLOCK, this.haoMa))
 			{
-				ICBMExplosion.bZhaDan.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.haoMa, 0);
+				ICBMExplosion.blockExplosive.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.haoMa, 0);
 				this.setDead();
 				return;
 			}

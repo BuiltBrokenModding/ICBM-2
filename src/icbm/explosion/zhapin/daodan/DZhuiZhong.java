@@ -4,7 +4,7 @@ import icbm.api.ITracker;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzYaSuo;
 import icbm.explosion.model.missiles.MMZhuiZhong;
-import icbm.explosion.zhapin.daodan.EDaoDan.XingShi;
+import icbm.explosion.zhapin.daodan.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -14,7 +14,7 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class DZhuiZhong extends DaoDanTeBie
+public class DZhuiZhong extends MissileTeBie
 {
 	public DZhuiZhong(String mingZi, int tier)
 	{
@@ -23,7 +23,7 @@ public class DZhuiZhong extends DaoDanTeBie
 	}
 
 	@Override
-	public void launch(EDaoDan missileObj)
+	public void launch(EntityMissile missileObj)
 	{
 		if (!missileObj.worldObj.isRemote)
 		{
@@ -37,15 +37,15 @@ public class DZhuiZhong extends DaoDanTeBie
 					missileObj.setExplode();
 				}
 
-				missileObj.muBiao = new Vector3(trackingEntity);
+				missileObj.targetVector = new Vector3(trackingEntity);
 			}
 		}
 	}
 
 	@Override
-	public void update(EDaoDan missileObj)
+	public void update(EntityMissile missileObj)
 	{
-		if (missileObj.feiXingTick > missileObj.feiXingShiJian / 2 && missileObj.xingShi == XingShi.DAO_DAN)
+		if (missileObj.feiXingTick > missileObj.missileFlightTime / 2 && missileObj.missileType == MissileType.DAO_DAN)
 		{
 			WorldServer worldServer = (WorldServer) missileObj.worldObj;
 			Entity trackingEntity = worldServer.getEntityByID(missileObj.genZongE);
@@ -57,33 +57,33 @@ public class DZhuiZhong extends DaoDanTeBie
 					missileObj.setExplode();
 				}
 
-				missileObj.muBiao = new Vector3(trackingEntity);
+				missileObj.targetVector = new Vector3(trackingEntity);
 
-				missileObj.xingShi = XingShi.XIAO_DAN;
+				missileObj.missileType = MissileType.XIAO_DAN;
 
-				missileObj.xXiangCha = missileObj.muBiao.x - missileObj.posX;
-				missileObj.yXiangCha = missileObj.muBiao.y - missileObj.posY;
-				missileObj.zXiangCha = missileObj.muBiao.z - missileObj.posZ;
+				missileObj.xXiangCha = missileObj.targetVector.x - missileObj.posX;
+				missileObj.yXiangCha = missileObj.targetVector.y - missileObj.posY;
+				missileObj.zXiangCha = missileObj.targetVector.z - missileObj.posZ;
 
-				missileObj.diShangJuLi = Vector2.distance(missileObj.kaiShi.toVector2(), missileObj.muBiao.toVector2());
+				missileObj.diShangJuLi = Vector2.distance(missileObj.startPos.toVector2(), missileObj.targetVector.toVector2());
 				missileObj.tianGao = 150 + (int) (missileObj.diShangJuLi * 1.8);
-				missileObj.feiXingShiJian = (float) Math.max(100, 2.4 * missileObj.diShangJuLi);
-				missileObj.jiaSu = (float) missileObj.tianGao * 2 / (missileObj.feiXingShiJian * missileObj.feiXingShiJian);
+				missileObj.missileFlightTime = (float) Math.max(100, 2.4 * missileObj.diShangJuLi);
+				missileObj.acceleration = (float) missileObj.tianGao * 2 / (missileObj.missileFlightTime * missileObj.missileFlightTime);
 
 				if (missileObj.xiaoDanMotion.equals(new Vector3()) || missileObj.xiaoDanMotion == null)
 				{
 					float suDu = 0.3f;
 					missileObj.xiaoDanMotion = new Vector3();
-					missileObj.xiaoDanMotion.x = missileObj.xXiangCha / (missileObj.feiXingShiJian * suDu);
-					missileObj.xiaoDanMotion.y = missileObj.yXiangCha / (missileObj.feiXingShiJian * suDu);
-					missileObj.xiaoDanMotion.z = missileObj.zXiangCha / (missileObj.feiXingShiJian * suDu);
+					missileObj.xiaoDanMotion.x = missileObj.xXiangCha / (missileObj.missileFlightTime * suDu);
+					missileObj.xiaoDanMotion.y = missileObj.yXiangCha / (missileObj.missileFlightTime * suDu);
+					missileObj.xiaoDanMotion.z = missileObj.zXiangCha / (missileObj.missileFlightTime * suDu);
 				}
 			}
 		}
 	}
 
 	@Override
-	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
+	public boolean onInteract(EntityMissile missileObj, EntityPlayer entityPlayer)
 	{
 		if (!missileObj.worldObj.isRemote && missileObj.feiXingTick <= 0)
 		{

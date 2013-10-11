@@ -6,7 +6,7 @@ import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosion;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.zhapin.daodan.EDaoDan;
+import icbm.explosion.zhapin.daodan.EntityMissile;
 
 import java.util.List;
 
@@ -186,9 +186,9 @@ public abstract class ExplosionBase extends Explosion implements IExplosion
 				continue;
 			}
 
-			if (entity instanceof EDaoDan)
+			if (entity instanceof EntityMissile)
 			{
-				((EDaoDan) entity).setExplode();
+				((EntityMissile) entity).setExplode();
 				continue;
 			}
 

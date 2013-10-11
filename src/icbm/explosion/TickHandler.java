@@ -23,7 +23,7 @@ public class TickHandler implements ITickHandler
 
 				if (currentItem != null && (player != Minecraft.getMinecraft().renderViewEntity || Minecraft.getMinecraft().gameSettings.thirdPersonView != 0))
 				{
-					if (currentItem.itemID == ICBMExplosion.itFaSheQi.itemID)
+					if (currentItem.itemID == ICBMExplosion.itemRocketLauncher.itemID)
 					{
 						if (player.getItemInUseCount() <= 0)
 						{

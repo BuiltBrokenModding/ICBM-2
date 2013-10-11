@@ -6,7 +6,7 @@ import icbm.explosion.explosive.explosion.BzYaSuo;
 import icbm.explosion.model.missiles.MMLa;
 import icbm.explosion.model.missiles.MMTui;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -14,7 +14,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExTuiLa extends DaoDan
+public class ExTuiLa extends Missile
 {
 	public ExTuiLa(String mingZi, int tier)
 	{

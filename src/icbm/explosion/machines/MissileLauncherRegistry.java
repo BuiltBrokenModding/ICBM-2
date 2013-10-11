@@ -6,9 +6,9 @@ import universalelectricity.core.vector.Vector2;
 
 public class MissileLauncherRegistry
 {
-	private static HashSet<TileEntityLauncher> FA_SHE_QI = new HashSet<TileEntityLauncher>();
+	private static HashSet<TileEntityLauncherPrefab> FA_SHE_QI = new HashSet<TileEntityLauncherPrefab>();
 
-	public static void registerLauncher(TileEntityLauncher launcher)
+	public static void registerLauncher(TileEntityLauncherPrefab launcher)
 	{
 		if (!launcher.isInvalid())
 		{
@@ -20,16 +20,16 @@ public class MissileLauncherRegistry
 		}
 	}
 
-	public static void unregisterLauncher(TileEntityLauncher launcher)
+	public static void unregisterLauncher(TileEntityLauncherPrefab launcher)
 	{
 		FA_SHE_QI.remove(launcher);
 	}
 
-	public static HashSet<TileEntityLauncher> naFaSheQiInArea(Vector2 minVector, Vector2 maxVector)
+	public static HashSet<TileEntityLauncherPrefab> naFaSheQiInArea(Vector2 minVector, Vector2 maxVector)
 	{
-		HashSet<TileEntityLauncher> returnArray = new HashSet<TileEntityLauncher>();
+		HashSet<TileEntityLauncherPrefab> returnArray = new HashSet<TileEntityLauncherPrefab>();
 
-		for (TileEntityLauncher launcher : FA_SHE_QI)
+		for (TileEntityLauncherPrefab launcher : FA_SHE_QI)
 		{
 			if (launcher.xCoord > minVector.x && launcher.xCoord < maxVector.x && launcher.zCoord > minVector.y && launcher.zCoord < maxVector.y)
 			{
@@ -40,7 +40,7 @@ public class MissileLauncherRegistry
 		return returnArray;
 	}
 
-	public static HashSet<TileEntityLauncher> getFaSheQi()
+	public static HashSet<TileEntityLauncherPrefab> getFaSheQi()
 	{
 		return FA_SHE_QI;
 	}

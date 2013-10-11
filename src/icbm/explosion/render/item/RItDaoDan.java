@@ -1,8 +1,8 @@
 package icbm.explosion.render.item;
 
 import icbm.explosion.zhapin.ExplosiveRegistry;
-import icbm.explosion.zhapin.daodan.DaoDan;
-import icbm.explosion.zhapin.daodan.ItDaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.daodan.ItemMissile;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -25,7 +25,7 @@ public class RItDaoDan implements IItemRenderer
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
 	{
-		return item.getItem() instanceof ItDaoDan;
+		return item.getItem() instanceof ItemMissile;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class RItDaoDan implements IItemRenderer
 	{
 		if (this.shouldUseRenderHelper(type, item, null))
 		{
-			DaoDan daoDan = (DaoDan) ExplosiveRegistry.get(item.getItemDamage());
+			Missile daoDan = (Missile) ExplosiveRegistry.get(item.getItemDamage());
 
 			float scale = 0.7f;
 			float right = 0f;

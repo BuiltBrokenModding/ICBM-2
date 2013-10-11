@@ -4,7 +4,7 @@ import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.ExplosionEmp;
 import icbm.explosion.model.missiles.MMDianCi;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -14,7 +14,7 @@ import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExDianCi extends DaoDan
+public class ExDianCi extends Missile
 {
 	public ExDianCi(String mingZi, int tier)
 	{

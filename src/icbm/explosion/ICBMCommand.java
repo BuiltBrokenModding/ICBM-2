@@ -1,7 +1,7 @@
 package icbm.explosion;
 
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.zhapin.daodan.EDaoDan;
+import icbm.explosion.zhapin.daodan.EntityMissile;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class ICBMCommand extends CommandBase
 						{
 							((EntityFlyingBlock) entity).setBlock();
 						}
-						else if (entity instanceof EDaoDan)
+						else if (entity instanceof EntityMissile)
 						{
 							entity.setDead();
 						}

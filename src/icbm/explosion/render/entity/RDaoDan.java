@@ -1,8 +1,8 @@
 package icbm.explosion.render.entity;
 
-import icbm.explosion.zhapin.daodan.DaoDan;
-import icbm.explosion.zhapin.daodan.EDaoDan;
-import icbm.explosion.zhapin.daodan.EDaoDan.XingShi;
+import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.daodan.EntityMissile;
+import icbm.explosion.zhapin.daodan.EntityMissile.MissileType;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -24,18 +24,18 @@ public class RDaoDan extends Render
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float f, float f1)
 	{
-		EDaoDan entityMissile = (EDaoDan) entity;
+		EntityMissile entityMissile = (EntityMissile) entity;
 
-		if (entityMissile.getExplosiveType() instanceof DaoDan)
+		if (entityMissile.getExplosiveType() instanceof Missile)
 		{
-			DaoDan daoDan = (DaoDan) entityMissile.getExplosiveType();
+			Missile daoDan = (Missile) entityMissile.getExplosiveType();
 
 			GL11.glPushMatrix();
 			GL11.glTranslated(x, y, z);
 			GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 + 90.0F, 0.0F, 0.0F, 1.0F);
 
-			if (entityMissile.xingShi == XingShi.XIAO_DAN)
+			if (entityMissile.missileType == MissileType.XIAO_DAN)
 			{
 				GL11.glScalef(0.5f, 0.5f, 0.5f);
 			}

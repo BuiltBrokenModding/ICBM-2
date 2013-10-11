@@ -2,7 +2,7 @@ package icbm.explosion.zhapin.daodan;
 
 import icbm.explosion.explosive.explosion.BzYuanZi;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.EDaoDan.XingShi;
+import icbm.explosion.zhapin.daodan.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
@@ -18,7 +18,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 	public static final int MAX_CLUSTER = 4;
 
 	@Override
-	public void update(EDaoDan missileObj)
+	public void update(EntityMissile missileObj)
 	{
 		if (missileObj.motionY < -0.5)
 		{
@@ -27,11 +27,11 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 				if (!missileObj.worldObj.isRemote)
 				{
 					Vector3 position = new Vector3(missileObj);
-					EDaoDan clusterMissile = new EDaoDan(missileObj.worldObj, position, new Vector3(missileObj), Explosive.yuanZi.getID());
+					EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), Explosive.yuanZi.getID());
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
-					clusterMissile.xingShi = XingShi.XIAO_DAN;
+					clusterMissile.missileType = MissileType.XIAO_DAN;
 					clusterMissile.baoHuShiJian = 20;
-					clusterMissile.launch(Vector3.add(missileObj.muBiao, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
+					clusterMissile.launch(Vector3.add(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
 				}
 
 				missileObj.baoHuShiJian = 20;

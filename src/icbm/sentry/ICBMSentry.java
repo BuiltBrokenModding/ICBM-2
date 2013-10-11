@@ -1,10 +1,10 @@
 package icbm.sentry;
 
 import icbm.api.ICBM;
-import icbm.core.ICBMFlags;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
+import icbm.core.ICBMFlags;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.terminal.command.CommandAccess;

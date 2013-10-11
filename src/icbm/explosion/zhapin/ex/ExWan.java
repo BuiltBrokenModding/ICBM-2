@@ -5,10 +5,10 @@ import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzWan;
 import icbm.explosion.model.missiles.MMWan;
-import icbm.explosion.zhapin.TileEntityExplosive;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.DaoDan;
-import icbm.explosion.zhapin.daodan.EDaoDan;
+import icbm.explosion.zhapin.TileEntityExplosive;
+import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.daodan.EntityMissile;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +21,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExWan extends DaoDan
+public class ExWan extends Missile
 {
 	public ExWan(String mingZi, int tier)
 	{
@@ -61,7 +61,7 @@ public class ExWan extends DaoDan
 	}
 
 	@Override
-	public boolean onInteract(EDaoDan missileObj, EntityPlayer entityPlayer)
+	public boolean onInteract(EntityMissile missileObj, EntityPlayer entityPlayer)
 	{
 		if (entityPlayer.inventory.getCurrentItem() != null)
 		{

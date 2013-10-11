@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.explosion;
 
-import icbm.explosion.ESuiPian;
+import icbm.explosion.EntityFragments;
 import icbm.explosion.explosive.ExplosionBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -38,7 +38,7 @@ public class BzQunDan extends ExplosionBase
 
 				for (int ii = 0; ii < this.getRadius(); ii++)
 				{
-					ESuiPian arrow = new ESuiPian(worldObj, position.x, position.y, position.z, this.isExplosive, this.isAnvil);
+					EntityFragments arrow = new EntityFragments(worldObj, position.x, position.y, position.z, this.isExplosive, this.isAnvil);
 
 					if (this.isFlaming)
 					{

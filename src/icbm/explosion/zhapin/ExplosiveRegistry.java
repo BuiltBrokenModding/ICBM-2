@@ -1,6 +1,6 @@
 package icbm.explosion.zhapin;
 
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,15 +58,15 @@ public class ExplosiveRegistry
 		return zhaPinMap.values();
 	}
 
-	public static Collection<DaoDan> getAllDaoDan()
+	public static Collection<Missile> getAllDaoDan()
 	{
-		Collection<DaoDan> daoDans = new HashSet<DaoDan>();
+		Collection<Missile> daoDans = new HashSet<Missile>();
 
 		for (Explosive zhaPin : zhaPinMap.values())
 		{
-			if (zhaPin instanceof DaoDan)
+			if (zhaPin instanceof Missile)
 			{
-				daoDans.add((DaoDan) zhaPin);
+				daoDans.add((Missile) zhaPin);
 			}
 		}
 

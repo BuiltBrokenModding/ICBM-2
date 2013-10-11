@@ -9,8 +9,8 @@ import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.render.BlockRenderingHandler;
 import icbm.sentry.turret.mount.TileEntityRailGun;
 import icbm.sentry.turret.sentries.TileEntityAAGun;
-import icbm.sentry.turret.sentries.TileEntityLaserGun;
 import icbm.sentry.turret.sentries.TileEntityGunTurret;
+import icbm.sentry.turret.sentries.TileEntityLaserGun;
 
 import java.util.List;
 import java.util.Random;
@@ -118,7 +118,7 @@ public class BlockTurret extends BlockICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			ICBMCore.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
+			ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 	}
 
@@ -200,7 +200,7 @@ public class BlockTurret extends BlockICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			ICBMCore.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+			ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 		super.breakBlock(par1World, x, y, z, par5, par6);
 	}

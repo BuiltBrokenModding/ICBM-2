@@ -25,13 +25,13 @@ public class RShouLiuDan extends Render
 		/**
 		 * Renders the grenade based on the explosive ID.
 		 */
-		Icon icon = ICBMExplosion.itShouLiuDan.getIconFromDamage(((EntityGrenade) entity).haoMa);
+		Icon icon = ICBMExplosion.itemGrenade.getIconFromDamage(((EntityGrenade) entity).haoMa);
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y + 0.4f, (float) z);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(0.6F, 0.6F, 0.6F);
-		CalclaviaRenderHelper.setSpriteTexture(new ItemStack(ICBMExplosion.itShouLiuDan));
+		CalclaviaRenderHelper.setSpriteTexture(new ItemStack(ICBMExplosion.itemGrenade));
 		Tessellator tessellator = Tessellator.instance;
 		this.renderIcon(tessellator, icon);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

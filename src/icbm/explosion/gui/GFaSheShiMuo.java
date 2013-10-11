@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.machines.TFaSheShiMuo;
+import icbm.explosion.machines.TileEntityLauncherScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 
@@ -20,7 +20,7 @@ public class GFaSheShiMuo extends GuiBase
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
-	private TFaSheShiMuo tileEntity;
+	private TileEntityLauncherScreen tileEntity;
 	private GuiTextField tFX;
 	private GuiTextField tFY;
 	private GuiTextField tFZ;
@@ -30,7 +30,7 @@ public class GFaSheShiMuo extends GuiBase
 	private int containerWidth;
 	private int containerHeight;
 
-	public GFaSheShiMuo(TFaSheShiMuo par2ICBMTileEntityMissileLauncher)
+	public GFaSheShiMuo(TileEntityLauncherScreen par2ICBMTileEntityMissileLauncher)
 	{
 		this.tileEntity = par2ICBMTileEntityMissileLauncher;
 	}
@@ -195,11 +195,11 @@ public class GFaSheShiMuo extends GuiBase
 
 		int inaccuracy = 30;
 
-		if (this.tileEntity.faSheDi != null)
+		if (this.tileEntity.laucherBase != null)
 		{
-			if (this.tileEntity.faSheDi.jiaZi != null)
+			if (this.tileEntity.laucherBase.supportFrame != null)
 			{
-				inaccuracy = this.tileEntity.faSheDi.jiaZi.getInaccuracy();
+				inaccuracy = this.tileEntity.laucherBase.supportFrame.getInaccuracy();
 			}
 		}
 

@@ -1,6 +1,6 @@
 package icbm.explosion.render.tile;
 
-import icbm.explosion.machines.BlockICBMMachine.JiQi;
+import icbm.explosion.machines.BlockICBMMachine.MachineData;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
@@ -25,7 +25,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 		{
 			GL11.glPushMatrix();
 
-			if (metadata < JiQi.FaSheDi.ordinal() * 3 + 3)
+			if (metadata < MachineData.FaSheDi.ordinal() * 3 + 3)
 			{
 				int tier = metadata;
 
@@ -56,7 +56,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 					RFaSheDi.modelRail2.render(0.0625F);
 				}
 			}
-			else if (metadata < JiQi.FaSheShiMuo.ordinal() * 3 + 3)
+			else if (metadata < MachineData.FaSheShiMuo.ordinal() * 3 + 3)
 			{
 				int tier = metadata - 3;
 				GL11.glTranslatef(0f, 0.9f, 0f);
@@ -79,7 +79,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 					RFaSheShiMuo.model2.render(0.0625F);
 				}
 			}
-			else if (metadata < JiQi.FaSheJia.ordinal() * 3 + 3)
+			else if (metadata < MachineData.FaSheJia.ordinal() * 3 + 3)
 			{
 				int tier = metadata - 6;
 				GL11.glTranslatef(0f, -0.1f, 0f);
@@ -90,7 +90,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 
 				RFaSheJia.MODEL.render(0.0625F);
 			}
-			else if (metadata == JiQi.LeiDaTai.ordinal() + 6)
+			else if (metadata == MachineData.RadarStation.ordinal() + 6)
 			{
 				GL11.glTranslatef(0f, 1f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
@@ -100,7 +100,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 
 				RenderRadarStation.MODEL.render(0.0625f, 0, 1.2f);
 			}
-			else if (metadata == JiQi.EmpTower.ordinal() + 6)
+			else if (metadata == MachineData.EmpTower.ordinal() + 6)
 			{
 				GL11.glTranslatef(0f, 0.3f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
@@ -110,7 +110,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 
 				RenderEmpTower.MODEL.render(0, 0.0625F);
 			}
-			else if (metadata == JiQi.XiaoFaSheQi.ordinal() + 6)
+			else if (metadata == MachineData.CruiseLauncher.ordinal() + 6)
 			{
 				GL11.glTranslatef(0f, 0.4f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);
@@ -121,7 +121,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 				RenderCruiseLauncher.MODEL0.render(0.0625F);
 				RenderCruiseLauncher.MODEL1.render(0.0625F);
 			}
-			else if (metadata == JiQi.YinDaoQi.ordinal() + 6)
+			else if (metadata == MachineData.MissileCoordinator.ordinal() + 6)
 			{
 				GL11.glTranslatef(0f, 1.1f, 0f);
 				GL11.glRotatef(180f, 0f, 0f, 1f);

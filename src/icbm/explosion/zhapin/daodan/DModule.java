@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class DModule extends DaoDanTeBie
+public class DModule extends MissileTeBie
 {
 	public DModule(String mingZi, int tier)
 	{

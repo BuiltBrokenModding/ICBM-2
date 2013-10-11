@@ -1,7 +1,7 @@
-package icbm.explosion.rongqi;
+package icbm.explosion.container;
 
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.machines.TFaSheDi;
+import icbm.explosion.machines.TileEntityLauncherBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -9,15 +9,15 @@ import net.minecraft.item.ItemStack;
 import universalelectricity.prefab.SlotSpecific;
 import calclavia.lib.gui.ContainerBase;
 
-public class CFaShiDi extends ContainerBase
+public class ContainerLauncher extends ContainerBase
 {
-	private TFaSheDi missileLauncher;
+	private TileEntityLauncherBase missileLauncher;
 
-	public CFaShiDi(InventoryPlayer par1InventoryPlayer, TFaSheDi tileEntity)
+	public ContainerLauncher(InventoryPlayer par1InventoryPlayer, TileEntityLauncherBase tileEntity)
 	{
 		super(tileEntity);
 		this.missileLauncher = tileEntity;
-		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ICBMExplosion.itDaoDan)));
+		this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ICBMExplosion.itemMissile)));
 		int var3;
 
 		for (var3 = 0; var3 < 3; ++var3)

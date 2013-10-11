@@ -48,7 +48,7 @@ public class RenderRadarStation extends TileEntitySpecialRenderer
 				break;
 		}
 
-		MODEL.render(0.0625F, 0f, tileEntity.xuanZhuan);
+		MODEL.render(0.0625F, 0f, tileEntity.rotation);
 		GL11.glPopMatrix();
 	}
 

@@ -4,9 +4,9 @@ import icbm.core.AudioHandler;
 import icbm.core.ICBMCore;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.explosive.EntityExplosion;
+import icbm.explosion.fx.FXAntimatterPartical;
 import icbm.explosion.fx.FXElectricBolt;
 import icbm.explosion.fx.FXElectricBoltSpawner;
-import icbm.explosion.fx.FXAntimatterPartical;
 import icbm.explosion.fx.FXEnderPortalPartical;
 import icbm.explosion.fx.FXYan;
 import icbm.explosion.fx.FXZhenBuo;
@@ -16,13 +16,13 @@ import icbm.explosion.gui.GFaSheShiMuo;
 import icbm.explosion.gui.GLeiDaTai;
 import icbm.explosion.gui.GXiaoFaSheQi;
 import icbm.explosion.gui.GYinDaoQi;
-import icbm.explosion.machines.TFaSheDi;
-import icbm.explosion.machines.TFaSheJia;
-import icbm.explosion.machines.TFaSheShiMuo;
-import icbm.explosion.machines.TileEntityRadarStation;
-import icbm.explosion.machines.TileEntityMissileCoordinator;
-import icbm.explosion.machines.TileEntityEmpTower;
+import icbm.explosion.machines.TileEntityLauncherBase;
+import icbm.explosion.machines.TileEntitySupportFrame;
+import icbm.explosion.machines.TileEntityLauncherScreen;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
+import icbm.explosion.machines.TileEntityEmpTower;
+import icbm.explosion.machines.TileEntityMissileCoordinator;
+import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.potion.PDongShang;
 import icbm.explosion.render.entity.RBaoZha;
 import icbm.explosion.render.entity.RDaoDan;
@@ -33,19 +33,19 @@ import icbm.explosion.render.entity.RShouLiuDan;
 import icbm.explosion.render.entity.RSuiPian;
 import icbm.explosion.render.item.RItDaoDan;
 import icbm.explosion.render.item.RItFaSheQi;
-import icbm.explosion.render.tile.RenderEmpTower;
+import icbm.explosion.render.tile.BlockRenderHandler;
 import icbm.explosion.render.tile.RFaSheDi;
 import icbm.explosion.render.tile.RFaSheJia;
 import icbm.explosion.render.tile.RFaSheShiMuo;
-import icbm.explosion.render.tile.BlockRenderHandler;
-import icbm.explosion.render.tile.RenderRadarStation;
-import icbm.explosion.render.tile.RenderCruiseLauncher;
-import icbm.explosion.render.tile.RenderMissileCoordinator;
 import icbm.explosion.render.tile.RenderBombBlock;
-import icbm.explosion.zhapin.EntityGrenade;
+import icbm.explosion.render.tile.RenderCruiseLauncher;
+import icbm.explosion.render.tile.RenderEmpTower;
+import icbm.explosion.render.tile.RenderMissileCoordinator;
+import icbm.explosion.render.tile.RenderRadarStation;
 import icbm.explosion.zhapin.EntityExplosive;
+import icbm.explosion.zhapin.EntityGrenade;
 import icbm.explosion.zhapin.TileEntityExplosive;
-import icbm.explosion.zhapin.daodan.EDaoDan;
+import icbm.explosion.zhapin.daodan.EntityMissile;
 import icbm.explosion.zhapin.daodan.ShengYinDaoDan;
 
 import java.util.List;
@@ -97,25 +97,25 @@ public class ClientProxy extends CommonProxy
 	{
 		super.init();
 
-		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itFaSheQi.itemID, new RItFaSheQi());
-		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itDaoDan.itemID, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemRocketLauncher.itemID, new RItFaSheQi());
+		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemMissile.itemID, new RItDaoDan());
 
 		RenderingRegistry.registerBlockHandler(new RenderBombBlock());
 		RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityExplosive.class, new REZhaDan());
-		RenderingRegistry.registerEntityRenderingHandler(EDaoDan.class, new RDaoDan(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RDaoDan(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RBaoZha());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RFeiBlock());
-		RenderingRegistry.registerEntityRenderingHandler(EGuang.class, new RGuangBang());
-		RenderingRegistry.registerEntityRenderingHandler(ESuiPian.class, new RSuiPian());
+		RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RGuangBang());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RSuiPian());
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RShouLiuDan());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCruiseLauncher.class, new RenderCruiseLauncher());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheDi.class, new RFaSheDi());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheShiMuo.class, new RFaSheShiMuo());
-		ClientRegistry.bindTileEntitySpecialRenderer(TFaSheJia.class, new RFaSheJia());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLauncherBase.class, new RFaSheDi());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLauncherScreen.class, new RFaSheShiMuo());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySupportFrame.class, new RFaSheJia());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadarStation.class, new RenderRadarStation());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmpTower.class, new RenderEmpTower());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMissileCoordinator.class, new RenderMissileCoordinator());
@@ -131,9 +131,9 @@ public class ClientProxy extends CommonProxy
 		{
 			return new GXiaoFaSheQi(entityPlayer.inventory, (TileEntityCruiseLauncher) tileEntity);
 		}
-		else if (tileEntity instanceof TFaSheShiMuo)
+		else if (tileEntity instanceof TileEntityLauncherScreen)
 		{
-			return new GFaSheShiMuo(((TFaSheShiMuo) tileEntity));
+			return new GFaSheShiMuo(((TileEntityLauncherScreen) tileEntity));
 		}
 		else if (tileEntity instanceof TileEntityRadarStation)
 		{
@@ -143,9 +143,9 @@ public class ClientProxy extends CommonProxy
 		{
 			return new GDianCiQi((TileEntityEmpTower) tileEntity);
 		}
-		else if (tileEntity instanceof TFaSheDi)
+		else if (tileEntity instanceof TileEntityLauncherBase)
 		{
-			return new GFaSheDi(entityPlayer.inventory, (TFaSheDi) tileEntity);
+			return new GFaSheDi(entityPlayer.inventory, (TileEntityLauncherBase) tileEntity);
 		}
 		else if (tileEntity instanceof TileEntityMissileCoordinator)
 		{
@@ -220,7 +220,7 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@Override
-	public IUpdatePlayerListBox getDaoDanShengYin(EDaoDan eDaoDan)
+	public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
 	{
 		return new ShengYinDaoDan(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
 	}

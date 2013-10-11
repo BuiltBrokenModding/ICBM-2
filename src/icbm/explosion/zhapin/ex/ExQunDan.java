@@ -7,7 +7,7 @@ import icbm.explosion.model.missiles.MMQunDan;
 import icbm.explosion.model.missiles.MMXiaoQunDan;
 import icbm.explosion.model.missiles.MMZhen;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -17,7 +17,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExQunDan extends DaoDan
+public class ExQunDan extends Missile
 {
 	public ExQunDan(String mingZi, int tier)
 	{

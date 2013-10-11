@@ -84,7 +84,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
 
 		if (!par1DamageSource.isExplosion())
 		{
-			this.entityDropItem(new ItemStack(ICBMExplosion.bZhaDan, 1, this.haoMa), 0.0F);
+			this.entityDropItem(new ItemStack(ICBMExplosion.blockExplosive, 1, this.haoMa), 0.0F);
 		}
 
 		if (par1DamageSource.isFireDamage() || par1DamageSource.isExplosion() || d0 >= 0.009999999776482582D)
@@ -96,7 +96,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
 	@Override
 	public ItemStack getCartItem()
 	{
-		return new ItemStack(ICBMExplosion.itChe, 1, this.haoMa);
+		return new ItemStack(ICBMExplosion.itemBombCart, 1, this.haoMa);
 	}
 
 	@Override
@@ -126,7 +126,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
 	@Override
 	public Block getDefaultDisplayTile()
 	{
-		return ICBMExplosion.bZhaDan;
+		return ICBMExplosion.blockExplosive;
 	}
 
 	@Override

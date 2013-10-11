@@ -7,7 +7,7 @@ import icbm.explosion.explosive.explosion.BzYuanZi;
 import icbm.explosion.model.missiles.MMWenZha;
 import icbm.explosion.model.missiles.MMYuanZi;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -17,7 +17,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExYuanZi extends DaoDan
+public class ExYuanZi extends Missile
 {
 	public ExYuanZi(String mingZi, int tier)
 	{

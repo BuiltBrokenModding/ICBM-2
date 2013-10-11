@@ -3,9 +3,9 @@ package icbm.explosion.items;
 import icbm.core.base.ItemICBMElectricBase;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.ICBMPacketHandler.ZhaPinPacketType;
-import icbm.explosion.machines.TileEntityLauncher;
-import icbm.explosion.machines.TFaSheShiMuo;
+import icbm.explosion.machines.TileEntityLauncherScreen;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
+import icbm.explosion.machines.TileEntityLauncherPrefab;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class ItemRadarGun extends ItemICBMElectricBase implements ICoordLink
 
 				// Do not scan if the target is a
 				// missile launcher
-				if (!(tileEntity instanceof TileEntityLauncher))
+				if (!(tileEntity instanceof TileEntityLauncherPrefab))
 				{
 					// Check for electricity
 					if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
@@ -91,15 +91,15 @@ public class ItemRadarGun extends ItemICBMElectricBase implements ICoordLink
 		int blockId = par3World.getBlockId(x, y, z);
 		int blockMetadata = par3World.getBlockMetadata(x, y, z);
 
-		if (blockId == ICBMExplosion.bJiQi.blockID)
+		if (blockId == ICBMExplosion.blockMachine.blockID)
 		{
 			TileEntity tileEntity = par3World.getBlockTileEntity(x, y, z);
 
 			if (tileEntity != null)
 			{
-				if (tileEntity instanceof TFaSheShiMuo)
+				if (tileEntity instanceof TileEntityLauncherScreen)
 				{
-					TFaSheShiMuo missileLauncher = (TFaSheShiMuo) tileEntity;
+					TileEntityLauncherScreen missileLauncher = (TileEntityLauncherScreen) tileEntity;
 
 					Vector3 savedCords = this.getLink(par1ItemStack);
 

@@ -3,8 +3,8 @@ package icbm.explosion.items;
 import icbm.core.base.ItemICBMElectricBase;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.ICBMPacketHandler.ZhaPinPacketType;
-import icbm.explosion.zhapin.TileEntityExplosive;
 import icbm.explosion.zhapin.Explosive;
+import icbm.explosion.zhapin.TileEntityExplosive;
 
 import java.util.List;
 
@@ -104,7 +104,7 @@ public class ItemRemoteDetonator extends ItemICBMElectricBase
 					{
 						if (tile instanceof TileEntityExplosive)
 						{
-							if (blockID == ICBMExplosion.bJiQi.blockID)
+							if (blockID == ICBMExplosion.blockMachine.blockID)
 							{
 								return itemStack;
 							}

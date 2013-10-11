@@ -33,7 +33,7 @@ import cpw.mods.fml.common.network.Player;
  * @author Calclavia
  * 
  */
-public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, IPacketReceiver, ITier, IRotatable
+public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implements IBlockActivate, IPacketReceiver, ITier, IRotatable
 {
 	// Is the block powered by redstone?
 	private boolean isPowered = false;
@@ -46,18 +46,18 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 
 	// The missile launcher base in which this
 	// screen is connected with
-	public TFaSheDi faSheDi = null;
+	public TileEntityLauncherBase laucherBase = null;
 
 	public short gaoDu = 3;
 
-	private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
+	private final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
 	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 
-		if (this.faSheDi == null)
+		if (this.laucherBase == null)
 		{
 			for (byte i = 2; i < 6; i++)
 			{
@@ -68,9 +68,9 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 
 				if (tileEntity != null)
 				{
-					if (tileEntity instanceof TFaSheDi)
+					if (tileEntity instanceof TileEntityLauncherBase)
 					{
-						this.faSheDi = (TFaSheDi) tileEntity;
+						this.laucherBase = (TileEntityLauncherBase) tileEntity;
 						this.fangXiang = i;
 					}
 				}
@@ -78,9 +78,9 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 		}
 		else
 		{
-			if (this.faSheDi.isInvalid())
+			if (this.laucherBase.isInvalid())
 			{
-				this.faSheDi = null;
+				this.laucherBase = null;
 			}
 		}
 
@@ -99,7 +99,7 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 					this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
 				}
 
-				for (EntityPlayer wanJia : this.yongZhe)
+				for (EntityPlayer wanJia : this.playersUsing)
 				{
 					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
 				}
@@ -126,11 +126,11 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 	@Override
 	public void placeMissile(ItemStack itemStack)
 	{
-		if (this.faSheDi != null)
+		if (this.laucherBase != null)
 		{
-			if (!this.faSheDi.isInvalid())
+			if (!this.laucherBase.isInvalid())
 			{
-				this.faSheDi.setInventorySlotContents(0, itemStack);
+				this.laucherBase.setInventorySlotContents(0, itemStack);
 			}
 		}
 	}
@@ -146,12 +146,12 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 			{
 				if (dataStream.readBoolean())
 				{
-					this.yongZhe.add(player);
+					this.playersUsing.add(player);
 					PacketManager.sendPacketToClients(this.getDescriptionPacket());
 				}
 				else
 				{
-					this.yongZhe.remove(player);
+					this.playersUsing.remove(player);
 				}
 			}
 			else if (ID == 0)
@@ -201,13 +201,13 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 	@Override
 	public boolean canLaunch()
 	{
-		if (this.faSheDi != null)
+		if (this.laucherBase != null)
 		{
-			if (this.faSheDi.daoDan != null)
+			if (this.laucherBase.missile != null)
 			{
 				if (this.getEnergyStored() >= this.getMaxEnergyStored())
 				{
-					if (this.faSheDi.isInRange(this.muBiao))
+					if (this.laucherBase.isInRange(this.muBiao))
 					{
 						return true;
 					}
@@ -228,7 +228,7 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 		if (this.canLaunch())
 		{
 			this.setEnergyStored(0);
-			this.faSheDi.launchMissile(this.muBiao.clone(), this.gaoDu);
+			this.laucherBase.launchMissile(this.muBiao.clone(), this.gaoDu);
 		}
 	}
 
@@ -243,7 +243,7 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 		String color = "\u00a74";
 		String status = "Idle";
 
-		if (this.faSheDi == null)
+		if (this.laucherBase == null)
 		{
 			status = "Not connected!";
 		}
@@ -251,7 +251,7 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 		{
 			status = "Insufficient electricity!";
 		}
-		else if (this.faSheDi.daoDan == null)
+		else if (this.laucherBase.missile == null)
 		{
 			status = "Missile silo is empty!";
 		}
@@ -259,11 +259,11 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 		{
 			status = "Target is invalid!";
 		}
-		else if (this.faSheDi.shiTaiJin(this.muBiao))
+		else if (this.laucherBase.shiTaiJin(this.muBiao))
 		{
 			status = "Target too close!";
 		}
-		else if (this.faSheDi.shiTaiYuan(this.muBiao))
+		else if (this.laucherBase.shiTaiYuan(this.muBiao))
 		{
 			status = "Target too far!";
 		}
@@ -382,9 +382,9 @@ public class TFaSheShiMuo extends TileEntityLauncher implements IBlockActivate, 
 	@Override
 	public IMissile getMissile()
 	{
-		if (this.faSheDi != null)
+		if (this.laucherBase != null)
 		{
-			return this.faSheDi.getContainingMissile();
+			return this.laucherBase.getContainingMissile();
 		}
 
 		return null;

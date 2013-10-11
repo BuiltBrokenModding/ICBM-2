@@ -24,7 +24,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia
  * 
  */
-public class TFaSheJia extends TileEntityAdvanced implements IPacketReceiver, ITier, IMultiBlock, IRotatable
+public class TileEntitySupportFrame extends TileEntityAdvanced implements IPacketReceiver, ITier, IMultiBlock, IRotatable
 {
 	// The tier of this screen
 	private int tier = 0;

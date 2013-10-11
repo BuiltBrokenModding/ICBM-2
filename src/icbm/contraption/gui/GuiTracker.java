@@ -1,8 +1,8 @@
 package icbm.contraption.gui;
 
 import icbm.api.IItemFrequency;
-import icbm.contraption.ICBMContraption;
 import icbm.contraption.ContraptionPacketHandler.WanYiPacketType;
+import icbm.contraption.ICBMContraption;
 import icbm.core.ICBMCore;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.item.ItemStack;

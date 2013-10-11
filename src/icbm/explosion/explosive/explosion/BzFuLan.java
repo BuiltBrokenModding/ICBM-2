@@ -61,7 +61,7 @@ public class BzFuLan extends ExplosionBase
 						{
 							if (this.worldObj.rand.nextFloat() > 0.96)
 							{
-								targetPosition.setBlock(this.worldObj, ICBMCore.bFuShe.blockID);
+								targetPosition.setBlock(this.worldObj, ICBMCore.blockRadioactive.blockID);
 							}
 						}
 
@@ -69,7 +69,7 @@ public class BzFuLan extends ExplosionBase
 						{
 							if (this.worldObj.rand.nextFloat() > 0.99)
 							{
-								targetPosition.setBlock(this.worldObj, ICBMCore.bFuShe.blockID);
+								targetPosition.setBlock(this.worldObj, ICBMCore.blockRadioactive.blockID);
 							}
 						}
 
@@ -90,7 +90,7 @@ public class BzFuLan extends ExplosionBase
 						}
 						else if (blockID == Block.tilledField.blockID)
 						{
-							targetPosition.setBlock(this.worldObj, ICBMCore.bFuShe.blockID);
+							targetPosition.setBlock(this.worldObj, ICBMCore.blockRadioactive.blockID);
 						}
 						else if (blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID)
 						{

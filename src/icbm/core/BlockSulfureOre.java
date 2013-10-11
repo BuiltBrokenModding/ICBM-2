@@ -18,7 +18,7 @@ public class BlockSulfureOre extends BlockICBM
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
 	{
-		return ICBMCore.itLiu.itemID;
+		return ICBMCore.itemSulfurDust.itemID;
 	}
 
 	@Override

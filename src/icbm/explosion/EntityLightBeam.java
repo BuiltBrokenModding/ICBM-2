@@ -10,12 +10,12 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class EGuang extends Entity implements IEntityAdditionalSpawnData
+public class EntityLightBeam extends Entity implements IEntityAdditionalSpawnData
 {
 	private int life;
 	public float red, green, blue;
 
-	public EGuang(World world)
+	public EntityLightBeam(World world)
 	{
 		super(world);
 		this.setSize(1F, 1F);
@@ -24,7 +24,7 @@ public class EGuang extends Entity implements IEntityAdditionalSpawnData
 		this.renderDistanceWeight = 3;
 	}
 
-	public EGuang(World world, Vector3 position, int life, float red, float green, float blue)
+	public EntityLightBeam(World world, Vector3 position, int life, float red, float green, float blue)
 	{
 		super(world);
 		this.setPosition(position.x, position.y, position.z);

@@ -1,13 +1,13 @@
 package icbm.sentry.platform;
 
 import icbm.sentry.IAmmunition;
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.ProjectileType;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.terminal.TileEntityTerminal;
-import icbm.sentry.turret.TileEntityTurret;
 import icbm.sentry.turret.ItemAmmo.AmmoType;
+import icbm.sentry.turret.TileEntityTurret;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

@@ -1,8 +1,8 @@
 package icbm.explosion.gui;
 
 import icbm.core.ICBMCore;
-import icbm.explosion.machines.TFaSheDi;
-import icbm.explosion.rongqi.CFaShiDi;
+import icbm.explosion.container.ContainerLauncher;
+import icbm.explosion.machines.TileEntityLauncherBase;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -19,11 +19,11 @@ public class GFaSheDi extends GuiContainer
 	private int containerWidth;
 	private int containerHeight;
 
-	private TFaSheDi tileEntity;
+	private TileEntityLauncherBase tileEntity;
 
-	public GFaSheDi(InventoryPlayer par1InventoryPlayer, TFaSheDi tileEntity)
+	public GFaSheDi(InventoryPlayer par1InventoryPlayer, TileEntityLauncherBase tileEntity)
 	{
-		super(new CFaShiDi(par1InventoryPlayer, tileEntity));
+		super(new ContainerLauncher(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
 	}
 

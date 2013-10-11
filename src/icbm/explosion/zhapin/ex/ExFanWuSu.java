@@ -6,7 +6,7 @@ import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzFanWuSu;
 import icbm.explosion.model.missiles.MMFanWuSu;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -15,7 +15,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExFanWuSu extends DaoDan
+public class ExFanWuSu extends Missile
 {
 	public ExFanWuSu(String mingZi, int tier)
 	{

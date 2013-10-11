@@ -9,9 +9,9 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class ItDaoDan extends ItemICBMBase
+public class ItemMissile extends ItemICBMBase
 {
-	public ItDaoDan(int id, String name)
+	public ItemMissile(int id, String name)
 	{
 		super(id, name);
 		this.setMaxDamage(0);

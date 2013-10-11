@@ -1,8 +1,8 @@
 package icbm.sentry.turret;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.ISentry;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.ISentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.platform.TileEntityTurretPlatform;

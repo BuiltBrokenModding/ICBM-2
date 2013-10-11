@@ -1,7 +1,7 @@
 package icbm.contraption;
 
-import icbm.contraption.block.TileEntityDetector;
 import icbm.contraption.block.TileEntityCamouflage;
+import icbm.contraption.block.TileEntityDetector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;

@@ -1,6 +1,6 @@
 package icbm.explosion.render.entity;
 
-import icbm.explosion.EGuang;
+import icbm.explosion.EntityLightBeam;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -23,7 +23,7 @@ public class RGuangBang extends Render
 			this.setRenderManager(RenderManager.instance);
 		}
 
-		EGuang entity = ((EGuang) par1Entity);
+		EntityLightBeam entity = ((EntityLightBeam) par1Entity);
 
 		Tessellator tessellator = Tessellator.instance;
 		GL11.glDisable(GL11.GL_TEXTURE_2D);

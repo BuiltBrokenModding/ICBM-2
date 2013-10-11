@@ -1,7 +1,7 @@
 package icbm.explosion.render.entity;
 
 import icbm.core.ICBMCore;
-import icbm.explosion.ESuiPian;
+import icbm.explosion.EntityFragments;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -22,7 +22,7 @@ public class RSuiPian extends Render
 {
 	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "fragment.png");
 
-	public void renderArrow(ESuiPian suiPian, double par2, double par4, double par6, float par8, float par9)
+	public void renderArrow(EntityFragments suiPian, double par2, double par4, double par6, float par8, float par9)
 	{
 		if (suiPian.isAnvil)
 		{
@@ -116,7 +116,7 @@ public class RSuiPian extends Render
 	@Override
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
-		this.renderArrow((ESuiPian) par1Entity, par2, par4, par6, par8, par9);
+		this.renderArrow((EntityFragments) par1Entity, par2, par4, par6, par8, par9);
 	}
 
 	@Override

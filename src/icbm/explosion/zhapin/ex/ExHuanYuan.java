@@ -4,7 +4,7 @@ import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzHuanYuan;
 import icbm.explosion.model.missiles.MMHuanYuan;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -14,7 +14,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExHuanYuan extends DaoDan
+public class ExHuanYuan extends Missile
 {
 	public ExHuanYuan(String mingZi, int tier)
 	{

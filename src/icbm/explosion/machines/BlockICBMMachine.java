@@ -29,24 +29,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockICBMMachine extends BlockICBM
 {
-	public enum JiQi
+	public enum MachineData
 	{
-		FaSheDi(TFaSheDi.class), FaSheShiMuo(TFaSheShiMuo.class), FaSheJia(TFaSheJia.class),
-		LeiDaTai(TileEntityRadarStation.class), EmpTower(TileEntityEmpTower.class), XiaoFaSheQi(TileEntityCruiseLauncher.class),
-		YinDaoQi(TileEntityMissileCoordinator.class);
+		FaSheDi(TileEntityLauncherBase.class), FaSheShiMuo(TileEntityLauncherScreen.class), FaSheJia(TileEntitySupportFrame.class),
+		RadarStation(TileEntityRadarStation.class), EmpTower(TileEntityEmpTower.class), CruiseLauncher(TileEntityCruiseLauncher.class),
+		MissileCoordinator(TileEntityMissileCoordinator.class);
 
 		public Class<? extends TileEntity> tileEntity;
 
-		JiQi(Class<? extends TileEntity> tileEntity)
+		MachineData(Class<? extends TileEntity> tileEntity)
 		{
 			this.tileEntity = tileEntity;
 		}
 
-		public static JiQi get(int id)
+		public static MachineData get(int id)
 		{
-			if (id < JiQi.values().length && id >= 0)
+			if (id < MachineData.values().length && id >= 0)
 			{
-				return JiQi.values()[id];
+				return MachineData.values()[id];
 			}
 
 			return null;
@@ -107,7 +107,7 @@ public class BlockICBMMachine extends BlockICBM
 
 		if (tileEntity instanceof IMultiBlock)
 		{
-			ICBMCore.bJia.createMultiBlockStructure((IMultiBlock) tileEntity);
+			ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
 		}
 	}
 
@@ -175,27 +175,27 @@ public class BlockICBMMachine extends BlockICBM
 	 * Called when the block is right clicked by the player
 	 */
 	@Override
-	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
+	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		if (par5EntityPlayer.inventory.getCurrentItem() != null)
+		if (player.inventory.getCurrentItem() != null)
 		{
-			if (par5EntityPlayer.inventory.getCurrentItem().itemID == ICBMExplosion.itLeiSheZhiBiao.itemID)
+			if (player.inventory.getCurrentItem().itemID == ICBMExplosion.itemLaserDesignator.itemID)
 			{
 				return false;
 			}
-			else if (par5EntityPlayer.inventory.getCurrentItem().itemID == ICBMExplosion.itLeiDaQiang.itemID)
+			else if (player.inventory.getCurrentItem().itemID == ICBMExplosion.itemRadarGun.itemID)
 			{
 				return false;
 			}
 		}
 
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity != null)
 		{
 			if (tileEntity instanceof IBlockActivate)
 			{
-				return ((IBlockActivate) tileEntity).onActivated(par5EntityPlayer);
+				return ((IBlockActivate) tileEntity).onActivated(player);
 			}
 		}
 
@@ -203,23 +203,23 @@ public class BlockICBMMachine extends BlockICBM
 	}
 
 	@Override
-	public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
+	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		return this.onMachineActivated(par1World, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
+		return this.onMachineActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
 	}
 
 	/**
 	 * Checks of this block is being powered by redstone
 	 */
-	public void isBeingPowered(World par1World, int x, int y, int z)
+	public void isBeingPowered(World world, int x, int y, int z)
 	{
-		int metadata = par1World.getBlockMetadata(x, y, z);
+		int metadata = world.getBlockMetadata(x, y, z);
 
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity instanceof IRedstoneReceptor)
 		{
-			if (par1World.isBlockIndirectlyGettingPowered(x, y, z))
+			if (world.isBlockIndirectlyGettingPowered(x, y, z))
 			{
 				// Send signal to tile entity
 				((IRedstoneReceptor) tileEntity).onPowerOn();
@@ -242,12 +242,12 @@ public class BlockICBMMachine extends BlockICBM
 	}
 
 	@Override
-	public void breakBlock(World par1World, int x, int y, int z, int par5, int par6)
+	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
 	{
-		int metadata = par1World.getBlockMetadata(x, y, z);
+		int metadata = world.getBlockMetadata(x, y, z);
 		Random random = new Random();
 
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity != null)
 		{
@@ -264,25 +264,25 @@ public class BlockICBMMachine extends BlockICBM
 				itemMetadata = 9 + metadata - 3;
 			}
 
-			this.dropBlockAsItem_do(par1World, x, y, z, new ItemStack(ICBMExplosion.bJiQi, 1, itemMetadata));
+			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMachine, 1, itemMetadata));
 
 			if (tileEntity instanceof IMultiBlock)
 			{
-				ICBMCore.bJia.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+				ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
 			}
 		}
 
-		super.breakBlock(par1World, x, y, z, par5, par6);
+		super.breakBlock(world, x, y, z, par5, par6);
 	}
 
 	@Override
-	public TileEntity createTileEntity(World var1, int metadata)
+	public TileEntity createTileEntity(World world, int metadata)
 	{
-		if (JiQi.get(metadata) != null)
+		if (MachineData.get(metadata) != null)
 		{
 			try
 			{
-				return JiQi.get(metadata).tileEntity.newInstance();
+				return MachineData.get(metadata).tileEntity.newInstance();
 			}
 			catch (InstantiationException e)
 			{
@@ -325,17 +325,17 @@ public class BlockICBMMachine extends BlockICBM
 	@Override
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < JiQi.values().length + 6; i++)
+		for (int i = 0; i < MachineData.values().length + 6; i++)
 		{
 			par3List.add(new ItemStack(this, 1, i));
 		}
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World par1World, int x, int y, int z)
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
 	{
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
-		return new ItemStack(ICBMExplosion.bJiQi, 1, getJiQiID(tileEntity));
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		return new ItemStack(ICBMExplosion.blockMachine, 1, getJiQiID(tileEntity));
 	}
 
 	@Override

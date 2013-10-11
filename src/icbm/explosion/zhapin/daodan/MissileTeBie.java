@@ -3,9 +3,9 @@ package icbm.explosion.zhapin.daodan;
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.item.ItemStack;
 
-public abstract class DaoDanTeBie extends DaoDan
+public abstract class MissileTeBie extends Missile
 {
-	public DaoDanTeBie(String mingZi, int tier)
+	public MissileTeBie(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.hasBlock = false;
@@ -16,6 +16,6 @@ public abstract class DaoDanTeBie extends DaoDan
 	@Override
 	public ItemStack getItemStack()
 	{
-		return new ItemStack(ICBMExplosion.itDaoDan, 1, this.getID());
+		return new ItemStack(ICBMExplosion.itemMissile, 1, this.getID());
 	}
 }

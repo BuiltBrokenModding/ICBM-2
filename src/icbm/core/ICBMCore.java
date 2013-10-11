@@ -58,13 +58,13 @@ public class ICBMCore
 {
 	public static final ICBMCore INSTANCE = new ICBMCore();
 
-	public static Block bLiu, bFuShe;
+	public static Block blockSulfurOre, blockRadioactive;
 
-	public static BlockMulti bJia;
+	public static BlockMulti blockMulti;
 
-	public static Item itLiu, itDu;
+	public static Item itemSulfurDust, itemPoisonPowder;
 
-	public static OreGenBase liuGenData;
+	public static OreGenBase sulfureOreGenData;
 
 	public static final String DOMAIN = "icbm";
 	public static final String PREFIX = DOMAIN + ":";
@@ -103,32 +103,32 @@ public class ICBMCore
 			PotionRadiation.INSTANCE.getId();
 
 			// BLOCKS
-			bLiu = new BlockSulfureOre(ICBM.BLOCK_ID_PREFIX + 0);
-			bJia = new BlockMulti(ICBMConfiguration.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ICBMCore.PREFIX + "machine").setChannel(this.getChannel());
+			blockSulfurOre = new BlockSulfureOre(ICBM.BLOCK_ID_PREFIX + 0);
+			blockMulti = new BlockMulti(ICBMConfiguration.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ICBMCore.PREFIX + "machine").setChannel(this.getChannel());
 
 			// Items
-			itDu = new ItemICBMBase(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
-			itLiu = new ItemICBMBase(ICBM.ITEM_ID_PREFIX + 1, "sulfur");
+			itemPoisonPowder = new ItemICBMBase(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
+			itemSulfurDust = new ItemICBMBase(ICBM.ITEM_ID_PREFIX + 1, "sulfur");
 
 			// -- Registering Blocks
-			GameRegistry.registerBlock(bLiu, "bLiu");
-			GameRegistry.registerBlock(bJia, "bJia");
+			GameRegistry.registerBlock(blockSulfurOre, "bLiu");
+			GameRegistry.registerBlock(blockMulti, "bJia");
 
-			liuGenData = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(bLiu), 0, 40, 20, 4).enable(ICBMConfiguration.CONFIGURATION);
+			sulfureOreGenData = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(ICBMConfiguration.CONFIGURATION);
 
 			/**
 			 * Check for existence of radioactive block. If it does not exist, then create it.
 			 */
 			if (OreDictionary.getOres("blockRadioactive").size() > 0)
 			{
-				bFuShe = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
+				blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
 				LOGGER.fine("Detected radioative block from another mod, utilizing it.");
 			}
 			else
 			{
-				bFuShe = new BlockRadioactive(ICBMConfiguration.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive").setTextureName(PREFIX + "radioactive");
-				GameRegistry.registerBlock(bFuShe, "Radioactive");
-				OreDictionary.registerOre("blockRadioactive", bFuShe);
+				blockRadioactive = new BlockRadioactive(ICBMConfiguration.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive").setTextureName(PREFIX + "radioactive");
+				GameRegistry.registerBlock(blockRadioactive, "Radioactive");
+				OreDictionary.registerOre("blockRadioactive", blockRadioactive);
 				LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
 			}
 
@@ -140,8 +140,8 @@ public class ICBMCore
 
 			ICBMConfiguration.CONFIGURATION.save();
 
-			OreDictionary.registerOre("dustSulfur", itLiu);
-			OreGenerator.addOre(liuGenData);
+			OreDictionary.registerOre("dustSulfur", itemSulfurDust);
+			OreGenerator.addOre(sulfureOreGenData);
 
 			GameRegistry.registerTileEntity(TileEntityMultiBlockPart.class, "TileEntityMultiBlockPart");
 
@@ -194,14 +194,14 @@ public class ICBMCore
 			UniversalRecipes.init();
 
 			// Sulfur
-			GameRegistry.addSmelting(bLiu.blockID, new ItemStack(itLiu, 4), 0.8f);
+			GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
 
 			GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
 
 			// Poison Powder
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itDu, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
 
 			isPostInit = true;
 		}

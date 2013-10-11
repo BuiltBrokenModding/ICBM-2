@@ -6,7 +6,7 @@ import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzQi;
 import icbm.explosion.model.missiles.MMDuQi;
 import icbm.explosion.model.missiles.MMGanRanDu;
-import icbm.explosion.zhapin.daodan.DaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -15,7 +15,7 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExDuQi extends DaoDan
+public class ExDuQi extends Missile
 {
 	public ExDuQi(String mingZi, int tier)
 	{
@@ -27,7 +27,7 @@ public class ExDuQi extends DaoDan
 	{
 		if (this.getTier() == 1)
 		{
-			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ICBMCore.itDu, '?', wuQi.getItemStack() }), "Chemical", ICBMConfiguration.CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ICBMCore.itemPoisonPowder, '?', wuQi.getItemStack() }), "Chemical", ICBMConfiguration.CONFIGURATION, true);
 		}
 		else if (this.getTier() == 2)
 		{

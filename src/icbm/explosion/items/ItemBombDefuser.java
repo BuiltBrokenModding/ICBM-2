@@ -44,7 +44,7 @@ public class ItemBombDefuser extends ItemICBMElectricBase
 				if (!entity.worldObj.isRemote)
 				{
 					EntityExplosive entityTNT = (EntityExplosive) entity;
-					EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ICBMExplosion.bZhaDan, 1, entityTNT.haoMa));
+					EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ICBMExplosion.blockExplosive, 1, entityTNT.haoMa));
 					float var13 = 0.05F;
 					Random random = new Random();
 					entityItem.motionX = ((float) random.nextGaussian() * var13);

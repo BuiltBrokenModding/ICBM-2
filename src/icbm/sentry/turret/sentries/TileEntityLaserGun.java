@@ -1,8 +1,8 @@
 package icbm.sentry.turret.sentries;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.ProjectileType;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.ProjectileType;
 import net.minecraft.util.MathHelper;
 import universalelectricity.core.vector.Vector3;
 

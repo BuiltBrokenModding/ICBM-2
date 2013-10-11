@@ -8,7 +8,7 @@ import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion.IThreadCallBack;
 import icbm.explosion.zhapin.BlockExplosive;
 import icbm.explosion.zhapin.TileEntityExplosive;
-import icbm.explosion.zhapin.daodan.EDaoDan;
+import icbm.explosion.zhapin.daodan.EntityMissile;
 
 import java.util.Iterator;
 import java.util.List;
@@ -140,7 +140,7 @@ public class BzShengBuo extends ExplosionBase
 
 					if (distance < r - 1 || this.worldObj.rand.nextInt(3) > 0)
 					{
-						if (blockID == ICBMExplosion.bZhaDan.blockID)
+						if (blockID == ICBMExplosion.blockExplosive.blockID)
 						{
 							BlockExplosive.yinZha(this.worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TileEntityExplosive) this.worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
 						}
@@ -175,9 +175,9 @@ public class BzShengBuo extends ExplosionBase
 			{
 				Entity entity = (Entity) it.next();
 
-				if (entity instanceof EDaoDan)
+				if (entity instanceof EntityMissile)
 				{
-					((EDaoDan) entity).setExplode();
+					((EntityMissile) entity).setExplode();
 					break;
 				}
 				else

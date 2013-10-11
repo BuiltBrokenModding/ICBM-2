@@ -4,9 +4,9 @@ import icbm.api.explosion.ExplosiveType;
 import icbm.core.base.ItemICBMElectricBase;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.zhapin.ExplosiveRegistry;
-import icbm.explosion.zhapin.daodan.DaoDan;
-import icbm.explosion.zhapin.daodan.EDaoDan;
-import icbm.explosion.zhapin.daodan.ItDaoDan;
+import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.daodan.EntityMissile;
+import icbm.explosion.zhapin.daodan.ItemMissile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -50,13 +50,13 @@ public class ItemRocketLauncher extends ItemICBMElectricBase
 
 					if (inventoryStack != null)
 					{
-						if (inventoryStack.getItem() instanceof ItDaoDan)
+						if (inventoryStack.getItem() instanceof ItemMissile)
 						{
 							int haoMa = inventoryStack.getItemDamage();
 
-							if (ExplosiveRegistry.get(haoMa) instanceof DaoDan)
+							if (ExplosiveRegistry.get(haoMa) instanceof Missile)
 							{
-								DaoDan daoDan = (DaoDan) ExplosiveRegistry.get(haoMa);
+								Missile daoDan = (Missile) ExplosiveRegistry.get(haoMa);
 
 								if (daoDan != null && !ICBMExplosion.shiBaoHu(world, new Vector3(player), ExplosiveType.AIR, haoMa))
 								{
@@ -69,7 +69,7 @@ public class ItemRocketLauncher extends ItemICBMElectricBase
 										Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 1.1));
 										Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
 
-										EDaoDan eDaoDan = new EDaoDan(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
+										EntityMissile eDaoDan = new EntityMissile(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
 										world.spawnEntityInWorld(eDaoDan);
 										eDaoDan.launch(muBiao);
 

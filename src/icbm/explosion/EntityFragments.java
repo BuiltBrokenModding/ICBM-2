@@ -21,7 +21,7 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
-public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
+public class EntityFragments extends Entity implements IEntityAdditionalSpawnData
 {
 	private int xTile = -1;
 	private int yTile = -1;
@@ -51,13 +51,13 @@ public class ESuiPian extends Entity implements IEntityAdditionalSpawnData
 	public boolean arrowCritical = false;
 	public float explosionSize = 1.5F;
 
-	public ESuiPian(World par1World)
+	public EntityFragments(World par1World)
 	{
 		super(par1World);
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public ESuiPian(World par1World, double x, double y, double z, boolean isExplosive, boolean isAnvil)
+	public EntityFragments(World par1World, double x, double y, double z, boolean isExplosive, boolean isAnvil)
 	{
 		super(par1World);
 		this.setPosition(x, y, z);

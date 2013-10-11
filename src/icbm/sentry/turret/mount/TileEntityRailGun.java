@@ -3,8 +3,8 @@ package icbm.sentry.turret.mount;
 import icbm.api.explosion.IExplosive;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IRedstoneReceptor;
-import icbm.sentry.ProjectileType;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.ProjectileType;
 
 import java.util.HashMap;
 import java.util.List;

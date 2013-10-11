@@ -1,12 +1,12 @@
 package icbm.contraption;
 
 import icbm.api.ICBM;
-import icbm.contraption.block.BlockReinforcedGlass;
-import icbm.contraption.block.BlockGlassPressurePlate;
-import icbm.contraption.block.BlockGlassButton;
-import icbm.contraption.block.BlockConcrete;
-import icbm.contraption.block.BlockProcimityDetector;
 import icbm.contraption.block.BlockCamouflage;
+import icbm.contraption.block.BlockConcrete;
+import icbm.contraption.block.BlockGlassButton;
+import icbm.contraption.block.BlockGlassPressurePlate;
+import icbm.contraption.block.BlockProcimityDetector;
+import icbm.contraption.block.BlockReinforcedGlass;
 import icbm.contraption.block.BlockSpikes;
 import icbm.contraption.block.ItemBlockConcreate;
 import icbm.core.CreativeTabICBM;
@@ -117,7 +117,7 @@ public class ICBMContraption extends ICBMCore
 		// Spikes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', UniversalRecipes.SECONDARY_METAL }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
-		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ICBMCore.itDu, 'S', bZha });
+		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ICBMCore.itemPoisonPowder, 'S', bZha });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', bZha }));
 
 		// Camouflage
