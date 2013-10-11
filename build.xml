@@ -44,7 +44,7 @@
 			<arg line="recompile.bat" />
 		</exec>
 		<exec dir="${dir.mcp}" executable="cmd" osfamily="windows">
-			<arg line="reobfuscate.bat" />
+			<arg line="reobfuscate_srg.bat" />
 		</exec>
 		
 		<exec dir="${dir.mcp}" executable="bash" osfamily="unix">
