@@ -2,7 +2,7 @@ package icbm.explosion.explosive.explosion;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.ex.ExTaiYang;
+import icbm.explosion.zhapin.ex.ExExothermic;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -75,7 +75,7 @@ public class BzTaiYang extends BzGuang
 
 								blockID = this.worldObj.getBlockId(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ());
 
-								if (((ExTaiYang) Explosive.taiYang).createNetherrack && (blockID == Block.stone.blockID || blockID == Block.grass.blockID || blockID == Block.dirt.blockID) && this.worldObj.rand.nextFloat() > 0.75)
+								if (((ExExothermic) Explosive.taiYang).createNetherrack && (blockID == Block.stone.blockID || blockID == Block.grass.blockID || blockID == Block.dirt.blockID) && this.worldObj.rand.nextFloat() > 0.75)
 								{
 									this.worldObj.setBlock(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ(), Block.netherrack.blockID, 0, 2);
 								}

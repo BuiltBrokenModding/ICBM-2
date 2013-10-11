@@ -16,11 +16,11 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExTaiYang extends Missile
+public class ExExothermic extends Missile
 {
 	public boolean createNetherrack = true;
 
-	public ExTaiYang(String mingZi, int tier)
+	public ExExothermic(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.createNetherrack = ICBMConfiguration.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);

@@ -17,9 +17,9 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExYuanZi extends Missile
+public class ExNuclear extends Missile
 {
-	public ExYuanZi(String mingZi, int tier)
+	public ExNuclear(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 	}

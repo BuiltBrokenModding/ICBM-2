@@ -14,9 +14,9 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExDiLei extends Explosive
+public class ExSMine extends Explosive
 {
-	public ExDiLei(String mingZi, int tier)
+	public ExSMine(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.setYinXin(20);

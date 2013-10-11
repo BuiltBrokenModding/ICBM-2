@@ -16,9 +16,9 @@ import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExShengBuo extends Missile
+public class ExSonic extends Missile
 {
-	public ExShengBuo(String mingZi, int tier)
+	public ExSonic(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 	}

@@ -15,9 +15,9 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExDuQi extends Missile
+public class ExChemical extends Missile
 {
-	public ExDuQi(String mingZi, int tier)
+	public ExChemical(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 	}

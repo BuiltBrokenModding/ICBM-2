@@ -2,40 +2,42 @@ package icbm.explosion.zhapin.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzHongSu;
-import icbm.explosion.model.missiles.MMHongSu;
+import icbm.explosion.explosive.explosion.BzTuPuo;
+import icbm.explosion.model.missiles.MMTuPuo;
+import icbm.explosion.zhapin.Explosive;
 import icbm.explosion.zhapin.daodan.Missile;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExHongSu extends Missile
+public class ExBreaching extends Missile
 {
-	public ExHongSu(String mingZi, int tier)
+	public ExBreaching(String mingZi, int tier)
 	{
 		super(mingZi, tier);
+		this.setYinXin(40);
 	}
 
 	@Override
 	public void init()
 	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', fanWuSu.getItemStack(), 'A', "strangeMatter" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', Explosive.yaSuo.getItemStack(), 'G', Item.gunpowder }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
 	}
 
 	@Override
 	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
 	{
-		new BzHongSu(world, entity, x, y, z, 35).explode();
+		new BzTuPuo(world, entity, x, y, z, 2.5f, 7).explode();
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ModelICBM getMissileModel()
 	{
-		return new MMHongSu();
+		return new MMTuPuo();
 	}
-
 }

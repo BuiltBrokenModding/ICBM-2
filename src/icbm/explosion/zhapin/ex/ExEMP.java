@@ -14,9 +14,9 @@ import calclavia.lib.UniversalRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExDianCi extends Missile
+public class ExEMP extends Missile
 {
-	public ExDianCi(String mingZi, int tier)
+	public ExEMP(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 	}

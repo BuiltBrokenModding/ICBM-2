@@ -14,9 +14,9 @@ import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExYaSuo extends Missile
+public class ExCondensed extends Missile
 {
-	public ExYaSuo(String mingZi, int tier)
+	public ExCondensed(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.setYinXin(1);
