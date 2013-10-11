@@ -45,7 +45,7 @@ public class DZhuiZhong extends MissileTeBie
 	@Override
 	public void update(EntityMissile missileObj)
 	{
-		if (missileObj.feiXingTick > missileObj.missileFlightTime / 2 && missileObj.missileType == MissileType.DAO_DAN)
+		if (missileObj.feiXingTick > missileObj.missileFlightTime / 2 && missileObj.missileType == MissileType.missile)
 		{
 			WorldServer worldServer = (WorldServer) missileObj.worldObj;
 			Entity trackingEntity = worldServer.getEntityByID(missileObj.genZongE);
@@ -59,7 +59,7 @@ public class DZhuiZhong extends MissileTeBie
 
 				missileObj.targetVector = new Vector3(trackingEntity);
 
-				missileObj.missileType = MissileType.XIAO_DAN;
+				missileObj.missileType = MissileType.CruiseMissile;
 
 				missileObj.xXiangCha = missileObj.targetVector.x - missileObj.posX;
 				missileObj.yXiangCha = missileObj.targetVector.y - missileObj.posY;

@@ -29,7 +29,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 					Vector3 position = new Vector3(missileObj);
 					EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), Explosive.yuanZi.getID());
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
-					clusterMissile.missileType = MissileType.XIAO_DAN;
+					clusterMissile.missileType = MissileType.CruiseMissile;
 					clusterMissile.baoHuShiJian = 20;
 					clusterMissile.launch(Vector3.add(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
 				}

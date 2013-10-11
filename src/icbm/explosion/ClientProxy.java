@@ -25,7 +25,7 @@ import icbm.explosion.machines.TileEntityMissileCoordinator;
 import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.potion.PDongShang;
 import icbm.explosion.render.entity.RBaoZha;
-import icbm.explosion.render.entity.RDaoDan;
+import icbm.explosion.render.entity.RenderMissile;
 import icbm.explosion.render.entity.REZhaDan;
 import icbm.explosion.render.entity.RFeiBlock;
 import icbm.explosion.render.entity.RGuangBang;
@@ -104,7 +104,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityExplosive.class, new REZhaDan());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RDaoDan(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RBaoZha());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RFeiBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RGuangBang());

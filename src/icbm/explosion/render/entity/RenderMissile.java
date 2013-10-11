@@ -14,9 +14,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RDaoDan extends Render
+public class RenderMissile extends Render
 {
-	public RDaoDan(float f)
+	public RenderMissile(float f)
 	{
 		this.shadowSize = f;
 	}
@@ -28,20 +28,20 @@ public class RDaoDan extends Render
 
 		if (entityMissile.getExplosiveType() instanceof Missile)
 		{
-			Missile daoDan = (Missile) entityMissile.getExplosiveType();
+			Missile missile = (Missile) entityMissile.getExplosiveType();
 
 			GL11.glPushMatrix();
 			GL11.glTranslated(x, y, z);
 			GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 + 90.0F, 0.0F, 0.0F, 1.0F);
 
-			if (entityMissile.missileType == MissileType.XIAO_DAN)
+			if (entityMissile.missileType == MissileType.CruiseMissile)
 			{
 				GL11.glScalef(0.5f, 0.5f, 0.5f);
 			}
 
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(daoDan.getMissileResource());
-			daoDan.getMissileModel().render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
+			missile.getMissileModel().render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 
 			GL11.glPopMatrix();
 		}

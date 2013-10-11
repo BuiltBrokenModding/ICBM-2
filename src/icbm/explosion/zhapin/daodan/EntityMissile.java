@@ -44,7 +44,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 {
 	public enum MissileType
 	{
-		DAO_DAN, XIAO_DAN, HUO_JIAN
+		missile, CruiseMissile, HUO_JIAN
 	}
 
 	public static final float JIA_KUAI_SU_DU = 0.012F;
@@ -54,7 +54,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	public Vector3 targetVector = null;
 	public Vector3 startPos = null;
 	public Vector3 launcherPos = null;
-	public boolean zhengZaiBaoZha = false;
+	public boolean isExpoding = false;
 
 	public int baoZhaGaoDu = 0;
 	public int feiXingTick = -1;
@@ -88,7 +88,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	private boolean setNormalExplode;
 
 	// Missile Type
-	public MissileType missileType = MissileType.DAO_DAN;
+	public MissileType missileType = MissileType.missile;
 
 	public Vector3 xiaoDanMotion = new Vector3();
 
@@ -338,7 +338,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 
 			if (!this.worldObj.isRemote)
 			{
-				if (this.missileType == MissileType.XIAO_DAN || this.missileType == MissileType.HUO_JIAN)
+				if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.HUO_JIAN)
 				{
 					if (this.feiXingTick == 0 && this.xiaoDanMotion != null)
 					{
@@ -447,7 +447,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 				 */
 				if (launcher instanceof TileEntityCruiseLauncher)
 				{
-					this.missileType = MissileType.XIAO_DAN;
+					this.missileType = MissileType.CruiseMissile;
 					this.noClip = true;
 
 					if (this.worldObj.isRemote)
@@ -510,11 +510,11 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	@Override
 	public double getMountedYOffset()
 	{
-		if (this.missileFlightTime <= 0 && this.missileType == MissileType.DAO_DAN)
+		if (this.missileFlightTime <= 0 && this.missileType == MissileType.missile)
 		{
 			return this.height;
 		}
-		else if (this.missileType == MissileType.XIAO_DAN)
+		else if (this.missileType == MissileType.CruiseMissile)
 		{
 			return this.height * 0.1;
 		}
@@ -583,7 +583,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 		{
 			for (int i = 0; i < t; i++)
 			{
-				if (this.missileType == MissileType.XIAO_DAN || this.missileType == MissileType.HUO_JIAN)
+				if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.HUO_JIAN)
 				{
 					guJiDiDian.x += this.xiaoDanMotion.x;
 					guJiDiDian.y += this.xiaoDanMotion.y;
@@ -639,7 +639,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 		try
 		{
 			// Make sure the missile is not already exploding
-			if (!this.zhengZaiBaoZha)
+			if (!this.isExpoding)
 			{
 				if (this.explosiveId == 0)
 				{
@@ -653,7 +653,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 					((Missile) ExplosiveRegistry.get(this.explosiveId)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
 				}
 
-				this.zhengZaiBaoZha = true;
+				this.isExpoding = true;
 
 				ICBMCore.LOGGER.info(this.getEntityName() + " (" + this.entityId + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
@@ -671,9 +671,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	@Override
 	public void normalExplode()
 	{
-		if (!this.zhengZaiBaoZha)
+		if (!this.isExpoding)
 		{
-			this.zhengZaiBaoZha = true;
+			this.isExpoding = true;
 
 			if (!this.worldObj.isRemote)
 			{
@@ -687,7 +687,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	@Override
 	public void dropMissileAsItem()
 	{
-		if (!this.zhengZaiBaoZha && !this.worldObj.isRemote)
+		if (!this.isExpoding && !this.worldObj.isRemote)
 		{
 			EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBMExplosion.itemMissile, 1, this.explosiveId));
 
