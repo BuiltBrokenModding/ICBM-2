@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RGuangBang extends Render
+public class RenderLightBeam extends Render
 {
 	@Override
 	public void doRender(Entity par1Entity, double x, double y, double z, float f, float f1)

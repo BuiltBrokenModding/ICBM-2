@@ -14,11 +14,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class REZhaDan extends Render
+public class RenderEntityExplosive extends Render
 {
 	private RenderBlocks blockRenderer = new RenderBlocks();
 
-	public REZhaDan()
+	public RenderEntityExplosive()
 	{
 		this.shadowSize = 0.5F;
 	}

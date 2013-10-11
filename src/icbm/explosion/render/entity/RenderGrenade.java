@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RShouLiuDan extends Render
+public class RenderGrenade extends Render
 {
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float par8, float par9)

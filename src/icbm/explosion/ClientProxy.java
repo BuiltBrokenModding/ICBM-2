@@ -24,15 +24,15 @@ import icbm.explosion.machines.TileEntityEmpTower;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
 import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.potion.PDongShang;
-import icbm.explosion.render.entity.RBaoZha;
+import icbm.explosion.render.entity.RenderExplosion;
 import icbm.explosion.render.entity.RenderMissile;
-import icbm.explosion.render.entity.REZhaDan;
-import icbm.explosion.render.entity.RFeiBlock;
-import icbm.explosion.render.entity.RGuangBang;
-import icbm.explosion.render.entity.RShouLiuDan;
-import icbm.explosion.render.entity.RSuiPian;
-import icbm.explosion.render.item.RItDaoDan;
-import icbm.explosion.render.item.RItFaSheQi;
+import icbm.explosion.render.entity.RenderEntityExplosive;
+import icbm.explosion.render.entity.RenderEntityBlock;
+import icbm.explosion.render.entity.RenderLightBeam;
+import icbm.explosion.render.entity.RenderGrenade;
+import icbm.explosion.render.entity.RenderShrapnel;
+import icbm.explosion.render.item.RenderItemMissile;
+import icbm.explosion.render.item.RenderItemLauncher;
 import icbm.explosion.render.tile.BlockRenderHandler;
 import icbm.explosion.render.tile.RFaSheDi;
 import icbm.explosion.render.tile.RFaSheJia;
@@ -97,19 +97,19 @@ public class ClientProxy extends CommonProxy
 	{
 		super.init();
 
-		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemRocketLauncher.itemID, new RItFaSheQi());
-		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemMissile.itemID, new RItDaoDan());
+		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemRocketLauncher.itemID, new RenderItemLauncher());
+		MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemMissile.itemID, new RenderItemMissile());
 
 		RenderingRegistry.registerBlockHandler(new RenderBombBlock());
 		RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityExplosive.class, new REZhaDan());
+		RenderingRegistry.registerEntityRenderingHandler(EntityExplosive.class, new RenderEntityExplosive());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RBaoZha());
-		RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RFeiBlock());
-		RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RGuangBang());
-		RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RSuiPian());
-		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RShouLiuDan());
+		RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RenderExplosion());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RenderEntityBlock());
+		RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RenderLightBeam());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RenderShrapnel());
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCruiseLauncher.class, new RenderCruiseLauncher());
