@@ -1,4 +1,4 @@
-package icbm.explosion.model.missiles;
+package icbm.explosion.missile.missile;
 
 import icbm.api.ILauncherContainer;
 import icbm.api.IMissile;

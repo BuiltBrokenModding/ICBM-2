@@ -1,6 +1,6 @@
 package icbm.explosion.missile;
 
-import icbm.explosion.model.missiles.Missile;
+import icbm.explosion.missile.missile.Missile;
 
 import java.util.Collection;
 import java.util.HashMap;

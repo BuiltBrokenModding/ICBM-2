@@ -8,7 +8,7 @@ import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion.IThreadCallBack;
 import icbm.explosion.missile.BlockExplosive;
 import icbm.explosion.missile.TileEntityExplosive;
-import icbm.explosion.model.missiles.EntityMissile;
+import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.Iterator;
 import java.util.List;

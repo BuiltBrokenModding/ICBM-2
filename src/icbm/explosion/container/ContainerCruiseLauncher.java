@@ -1,7 +1,7 @@
 package icbm.explosion.container;
 
 import icbm.explosion.machines.TileEntityCruiseLauncher;
-import icbm.explosion.model.missiles.ItemMissile;
+import icbm.explosion.missile.missile.ItemMissile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

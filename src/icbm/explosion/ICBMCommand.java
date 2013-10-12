@@ -1,7 +1,7 @@
 package icbm.explosion;
 
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.model.missiles.EntityMissile;
+import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.List;
 

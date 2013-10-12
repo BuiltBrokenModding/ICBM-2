@@ -1,9 +1,10 @@
-package icbm.explosion.model.missiles;
+package icbm.explosion.missile.missile;
 
 import icbm.api.IMissileLockable;
 import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.blast.BzYaSuo;
+import icbm.explosion.model.missiles.MMFanDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;

@@ -1,8 +1,8 @@
-package icbm.explosion.model.missiles;
+package icbm.explosion.missile.missile;
 
 import icbm.explosion.explosive.blast.BzYuanZi;
 import icbm.explosion.missile.Explosive;
-import icbm.explosion.model.missiles.EntityMissile.MissileType;
+import icbm.explosion.missile.missile.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;

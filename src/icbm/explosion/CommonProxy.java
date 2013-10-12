@@ -11,7 +11,7 @@ import icbm.explosion.machines.TileEntityMissileCoordinator;
 import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.machines.TileEntitySupportFrame;
 import icbm.explosion.missile.TileEntityExplosive;
-import icbm.explosion.model.missiles.EntityMissile;
+import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.List;
 

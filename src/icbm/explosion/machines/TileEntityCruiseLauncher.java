@@ -8,9 +8,9 @@ import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.ExplosiveRegistry;
-import icbm.explosion.model.missiles.EntityMissile;
-import icbm.explosion.model.missiles.ItemMissile;
-import icbm.explosion.model.missiles.Missile;
+import icbm.explosion.missile.missile.EntityMissile;
+import icbm.explosion.missile.missile.ItemMissile;
+import icbm.explosion.missile.missile.Missile;
 
 import java.util.HashSet;
 import java.util.Set;

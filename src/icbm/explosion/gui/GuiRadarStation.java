@@ -4,7 +4,7 @@ import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.TileEntityRadarStation;
-import icbm.explosion.model.missiles.EntityMissile;
+import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.ArrayList;
 import java.util.List;

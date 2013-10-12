@@ -6,7 +6,7 @@ import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosion;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.model.missiles.EntityMissile;
+import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.List;
 

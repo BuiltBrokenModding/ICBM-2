@@ -1,7 +1,8 @@
-package icbm.explosion.model.missiles;
+package icbm.explosion.missile.missile;
 
 import icbm.api.IMissile;
 import icbm.core.base.ModelICBM;
+import icbm.explosion.model.missiles.MMYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;

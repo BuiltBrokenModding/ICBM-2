@@ -1,4 +1,4 @@
-package icbm.explosion.model.missiles;
+package icbm.explosion.missile.missile;
 
 import icbm.core.ICBMCore;
 import net.minecraft.client.audio.SoundManager;

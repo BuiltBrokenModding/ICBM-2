@@ -1,4 +1,4 @@
-package icbm.explosion.model.missiles;
+package icbm.explosion.missile.missile;
 
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.item.ItemStack;
