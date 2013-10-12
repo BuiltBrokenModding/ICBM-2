@@ -3,8 +3,8 @@ package icbm.explosion.items;
 import icbm.core.base.ItemICBMElectricBase;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.ICBMPacketHandler.ZhaPinPacketType;
-import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.TileEntityExplosive;
+import icbm.explosion.missile.Explosive;
+import icbm.explosion.missile.TileEntityExplosive;
 
 import java.util.List;
 
@@ -155,7 +155,7 @@ public class ItemRemoteDetonator extends ItemICBMElectricBase
 		{
 			if (tileEntity instanceof TileEntityExplosive)
 			{
-				return ((TileEntityExplosive) tileEntity).haoMa == Explosive.yaSuo.getID() || ((TileEntityExplosive) tileEntity).haoMa == Explosive.tuPuo.getID() || ((TileEntityExplosive) tileEntity).haoMa == Explosive.sMine.getID();
+				return ((TileEntityExplosive) tileEntity).haoMa == Explosive.condensed.getID() || ((TileEntityExplosive) tileEntity).haoMa == Explosive.breaching.getID() || ((TileEntityExplosive) tileEntity).haoMa == Explosive.sMine.getID();
 			}
 		}
 

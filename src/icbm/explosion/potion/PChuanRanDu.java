@@ -3,7 +3,7 @@ package icbm.explosion.potion;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.zhapin.Explosive;
+import icbm.explosion.missile.Explosive;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class PChuanRanDu extends ICBMPotion
 		if (entityLiving.worldObj.rand.nextFloat() > 0.8)
 		{
 
-			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(entityLiving.worldObj, entityLiving.posX, entityLiving.posY, entityLiving.posZ, ExplosiveType.ALL, Explosive.duQi);
+			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(entityLiving.worldObj, entityLiving.posX, entityLiving.posY, entityLiving.posZ, ExplosiveType.ALL, Explosive.chemical);
 			MinecraftForge.EVENT_BUS.post(evt);
 
 			// Poison things around it

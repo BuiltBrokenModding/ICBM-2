@@ -3,7 +3,7 @@ package icbm.explosion.items;
 import icbm.core.base.ItemICBMElectricBase;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.cart.EntityBombCart;
-import icbm.explosion.zhapin.EntityExplosive;
+import icbm.explosion.missile.EntityExplosive;
 
 import java.util.Random;
 

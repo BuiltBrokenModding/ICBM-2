@@ -20,18 +20,18 @@ import icbm.explosion.items.ItemRocketLauncher;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.BlockICBMMachine.MachineData;
 import icbm.explosion.machines.ItemBlockMachine;
+import icbm.explosion.missile.BlockExplosive;
+import icbm.explosion.missile.EntityExplosive;
+import icbm.explosion.missile.EntityGrenade;
+import icbm.explosion.missile.Explosive;
+import icbm.explosion.missile.ExplosiveRegistry;
+import icbm.explosion.missile.ItemBlockExplosive;
+import icbm.explosion.missile.ItemGrenade;
+import icbm.explosion.model.missiles.EntityMissile;
+import icbm.explosion.model.missiles.ItemMissile;
 import icbm.explosion.potion.PChuanRanDu;
 import icbm.explosion.potion.PDaDu;
 import icbm.explosion.potion.PDongShang;
-import icbm.explosion.zhapin.BlockExplosive;
-import icbm.explosion.zhapin.EntityExplosive;
-import icbm.explosion.zhapin.EntityGrenade;
-import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.ExplosiveRegistry;
-import icbm.explosion.zhapin.ItemBlockExplosive;
-import icbm.explosion.zhapin.ItemGrenade;
-import icbm.explosion.zhapin.missile.EntityMissile;
-import icbm.explosion.zhapin.missile.ItemMissile;
 
 import java.util.List;
 
@@ -364,13 +364,13 @@ public class ICBMExplosion extends ICBMCore
 		}
 
 		// Homing
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.zhuiZhong.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipes.CIRCUIT_T1, 'B', UniversalRecipes.SECONDARY_METAL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.homing.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipes.CIRCUIT_T1, 'B', UniversalRecipes.SECONDARY_METAL }));
 		// Anti-ballistic
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.fanDan.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', new ItemStack(ICBMExplosion.blockExplosive, 1, 0), '!', UniversalRecipes.CIRCUIT_T1 }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.antiBallistic.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', new ItemStack(ICBMExplosion.blockExplosive, 1, 0), '!', UniversalRecipes.CIRCUIT_T1 }));
 		// Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.fenZhiDan.getID()), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', Explosive.qunDan.getItemStack(), '!', new ItemStack(ICBMExplosion.itemMissile, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.cluster.getID()), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', Explosive.fragmentation.getItemStack(), '!', new ItemStack(ICBMExplosion.itemMissile, 1, 0) }));
 		// Nuclear Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.yuanZiFenZhiDan.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.fenZhiDan.getID()), 'N', Explosive.yuanZi.getItemStack() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
 		/**
 		 * Add all explosive recipes.
@@ -469,7 +469,7 @@ public class ICBMExplosion extends ICBMCore
 						break;
 				}
 
-				String flag = zhaPin instanceof Explosive ? ((Explosive) zhaPin).qiZi : "ban_" + zhaPin.getUnlocalizedName();
+				String flag = zhaPin instanceof Explosive ? ((Explosive) zhaPin).flagName : "ban_" + zhaPin.getUnlocalizedName();
 
 				return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, flag, "true", diDian) || baoHu;
 			}

@@ -9,7 +9,7 @@ import icbm.api.explosion.IEMPItem;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosionBase;
-import icbm.explosion.zhapin.EntityExplosive;
+import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;
 

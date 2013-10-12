@@ -8,7 +8,7 @@ import icbm.core.base.TileEnityBase;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.implement.IRedstoneProvider;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.zhapin.missile.EntityMissile;
+import icbm.explosion.model.missiles.EntityMissile;
 
 import java.util.ArrayList;
 import java.util.HashMap;

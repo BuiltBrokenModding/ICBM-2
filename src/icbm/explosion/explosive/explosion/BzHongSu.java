@@ -6,7 +6,7 @@ import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.explosive.ExplosionBase;
-import icbm.explosion.zhapin.EntityExplosive;
+import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;
 

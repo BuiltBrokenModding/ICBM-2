@@ -1,7 +1,7 @@
 package icbm.explosion.render.entity;
 
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.zhapin.EntityExplosive;
+import icbm.explosion.missile.EntityExplosive;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

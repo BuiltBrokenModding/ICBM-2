@@ -1,8 +1,8 @@
 package icbm.explosion.render.entity;
 
-import icbm.explosion.zhapin.missile.EntityMissile;
-import icbm.explosion.zhapin.missile.Missile;
-import icbm.explosion.zhapin.missile.EntityMissile.MissileType;
+import icbm.explosion.model.missiles.EntityMissile;
+import icbm.explosion.model.missiles.EntityMissile.MissileType;
+import icbm.explosion.model.missiles.Missile;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
