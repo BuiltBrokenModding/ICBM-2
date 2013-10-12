@@ -19,7 +19,23 @@
 		</copy>
 
 		<copy todir="${dir.mcp}/src/minecraft">
-			<fileset dir="${dir.development}src">
+			<fileset dir="${dir.development}src/API">
+				<exclude name=".git/**"/>
+				<exclude name="**/*.xml"/>
+			</fileset>
+            <fileset dir="${dir.development}src/CORE">
+				<exclude name=".git/**"/>
+				<exclude name="**/*.xml"/>
+			</fileset>
+            <fileset dir="${dir.development}src/SENTRY">
+				<exclude name=".git/**"/>
+				<exclude name="**/*.xml"/>
+			</fileset>
+            <fileset dir="${dir.development}src/CONTRAPTION">
+				<exclude name=".git/**"/>
+				<exclude name="**/*.xml"/>
+			</fileset>
+            <fileset dir="${dir.development}src/EXPLOSION">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
@@ -81,6 +97,7 @@
 			<include name="**/dan200/**"/>
 			<include name="**/mffs/**"/>
 			<include name="**/thermalexpansion/**"/>
+            <include name="**/com/builtbroken/**"/>
 		</fileset>
 		
 		<!-- ICBM Explosion -->
@@ -88,7 +105,7 @@
 			<fileset refid="mlResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/zhapin/**" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/explosion/**" />
 		</copy>
 	
 		<!-- ICBM Contraption -->
@@ -96,7 +113,7 @@
 			<fileset refid="mlResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/wanyi/**" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/contraption/**" />
 		</copy>
 		
 		<!-- ICBM Sentry -->
@@ -104,7 +121,7 @@
 			<fileset refid="mlResources"/>
 			<fileset refid="icbmResources"/>
 			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/gangshao/**" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/sentry/**" />
 		</copy>
 		
 		<!-- ICBM API -->
