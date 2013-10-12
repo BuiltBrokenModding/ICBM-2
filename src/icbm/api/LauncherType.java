@@ -1,12 +1,10 @@
 package icbm.api;
 
-/**
- * Types of missile launchers
+/** Types of missile launchers
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 public enum LauncherType
 {
-	TRADITIONAL, CRUISE
+    TRADITIONAL,
+    CRUISE
 }

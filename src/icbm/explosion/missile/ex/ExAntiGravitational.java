@@ -15,27 +15,27 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExAntiGravitational extends Missile
 {
-	public ExAntiGravitational(String mingZi, int tier)
-	{
-		super(mingZi, tier);
-	}
+    public ExAntiGravitational(String mingZi, int tier)
+    {
+        super(mingZi, tier);
+    }
 
-	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', replsive.getItemStack(), 'E', Item.eyeOfEnder }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
-	}
+    @Override
+    public void init()
+    {
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', replsive.getItemStack(), 'E', Item.eyeOfEnder }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+    }
 
-	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		new BzPiaoFu(world, entity, x, y, z, 30).explode();
-	}
+    @Override
+    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    {
+        new BzPiaoFu(world, entity, x, y, z, 30).explode();
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		return new MMPiaoFu();
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ModelICBM getMissileModel()
+    {
+        return new MMPiaoFu();
+    }
 }

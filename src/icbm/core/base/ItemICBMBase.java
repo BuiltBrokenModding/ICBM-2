@@ -7,9 +7,9 @@ import calclavia.lib.base.ItemBase;
 
 public class ItemICBMBase extends ItemBase
 {
-	public ItemICBMBase(int id, String name)
-	{
-		super(id, name, ICBMConfiguration.CONFIGURATION, ICBMCore.PREFIX, CreativeTabICBM.INSTANCE);
-	}
+    public ItemICBMBase(int id, String name)
+    {
+        super(id, name, ICBMConfiguration.CONFIGURATION, ICBMCore.PREFIX, CreativeTabICBM.INSTANCE);
+    }
 
 }

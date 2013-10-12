@@ -112,7 +112,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     }
 
     /** Spawns a traditional missile and cruise missiles
-     *
+     * 
      * @param explosiveId - Explosive ID
      * @param startPos - Starting Position
      * @param launcherPos - Missile Launcher Position */
@@ -128,7 +128,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     }
 
     /** For rocket launchers
-     *
+     * 
      * @param explosiveId - Explosive ID
      * @param startPos - Starting Position
      * @param targetVector - Target Position */
@@ -211,7 +211,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     }
 
     /** Recalculates required parabolic path for the missile.
-     *
+     * 
      * @param target */
     public void jiSuan()
     {

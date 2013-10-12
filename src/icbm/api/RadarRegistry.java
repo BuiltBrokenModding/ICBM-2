@@ -13,9 +13,9 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.vector.Region2;
 
 /** This class allows you to register TileEntities and Entities to be detectable by the ICBM radar.
- *
+ * 
  * Make sure you unregister your object when it invalidates!
- *
+ * 
  * @author Calclavia */
 public class RadarRegistry
 {

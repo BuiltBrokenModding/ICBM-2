@@ -14,28 +14,28 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExRedMatter extends Missile
 {
-	public ExRedMatter(String mingZi, int tier)
-	{
-		super(mingZi, tier);
-	}
+    public ExRedMatter(String mingZi, int tier)
+    {
+        super(mingZi, tier);
+    }
 
-	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', antimatter.getItemStack(), 'A', "strangeMatter" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
-	}
+    @Override
+    public void init()
+    {
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', antimatter.getItemStack(), 'A', "strangeMatter" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+    }
 
-	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		new BzHongSu(world, entity, x, y, z, 35).explode();
-	}
+    @Override
+    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    {
+        new BzHongSu(world, entity, x, y, z, 35).explode();
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		return new MMHongSu();
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ModelICBM getMissileModel()
+    {
+        return new MMHongSu();
+    }
 
 }
