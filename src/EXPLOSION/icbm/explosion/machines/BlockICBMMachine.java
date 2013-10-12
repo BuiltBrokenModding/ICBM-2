@@ -31,9 +31,9 @@ public class BlockICBMMachine extends BlockICBM
 {
     public enum MachineData
     {
-        FaSheDi(TileEntityLauncherBase.class),
-        FaSheShiMuo(TileEntityLauncherScreen.class),
-        FaSheJia(TileEntitySupportFrame.class),
+        LauncherBase(TileEntityLauncherBase.class),
+        LauncherScreen(TileEntityLauncherScreen.class),
+        LauncherFrame(TileEntitySupportFrame.class),
         RadarStation(TileEntityRadarStation.class),
         EmpTower(TileEntityEmpTower.class),
         CruiseLauncher(TileEntityCruiseLauncher.class),

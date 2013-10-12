@@ -25,7 +25,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
         {
             GL11.glPushMatrix();
 
-            if (metadata < MachineData.FaSheDi.ordinal() * 3 + 3)
+            if (metadata < MachineData.LauncherBase.ordinal() * 3 + 3)
             {
                 int tier = metadata;
 
@@ -56,7 +56,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
                     RFaSheDi.modelRail2.render(0.0625F);
                 }
             }
-            else if (metadata < MachineData.FaSheShiMuo.ordinal() * 3 + 3)
+            else if (metadata < MachineData.LauncherScreen.ordinal() * 3 + 3)
             {
                 int tier = metadata - 3;
                 GL11.glTranslatef(0f, 0.9f, 0f);
@@ -79,7 +79,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
                     RFaSheShiMuo.model2.render(0.0625F);
                 }
             }
-            else if (metadata < MachineData.FaSheJia.ordinal() * 3 + 3)
+            else if (metadata < MachineData.LauncherFrame.ordinal() * 3 + 3)
             {
                 int tier = metadata - 6;
                 GL11.glTranslatef(0f, -0.1f, 0f);

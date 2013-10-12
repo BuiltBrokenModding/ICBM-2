@@ -6,13 +6,13 @@ import universalelectricity.core.vector.Vector2;
 
 public class MissileLauncherRegistry
 {
-    private static HashSet<TileEntityLauncherPrefab> FA_SHE_QI = new HashSet<TileEntityLauncherPrefab>();
+    private static HashSet<TileEntityLauncherPrefab> launcherList = new HashSet<TileEntityLauncherPrefab>();
 
     public static void registerLauncher(TileEntityLauncherPrefab launcher)
     {
         if (!launcher.isInvalid())
         {
-            FA_SHE_QI.add(launcher);
+            launcherList.add(launcher);
         }
         else
         {
@@ -22,14 +22,14 @@ public class MissileLauncherRegistry
 
     public static void unregisterLauncher(TileEntityLauncherPrefab launcher)
     {
-        FA_SHE_QI.remove(launcher);
+        launcherList.remove(launcher);
     }
 
     public static HashSet<TileEntityLauncherPrefab> naFaSheQiInArea(Vector2 minVector, Vector2 maxVector)
     {
         HashSet<TileEntityLauncherPrefab> returnArray = new HashSet<TileEntityLauncherPrefab>();
 
-        for (TileEntityLauncherPrefab launcher : FA_SHE_QI)
+        for (TileEntityLauncherPrefab launcher : launcherList)
         {
             if (launcher.xCoord > minVector.x && launcher.xCoord < maxVector.x && launcher.zCoord > minVector.y && launcher.zCoord < maxVector.y)
             {
@@ -42,6 +42,6 @@ public class MissileLauncherRegistry
 
     public static HashSet<TileEntityLauncherPrefab> getFaSheQi()
     {
-        return FA_SHE_QI;
+        return launcherList;
     }
 }
