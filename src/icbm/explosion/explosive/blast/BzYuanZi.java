@@ -1,4 +1,4 @@
-package icbm.explosion.explosive.explosion;
+package icbm.explosion.explosive.blast;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
@@ -79,7 +79,7 @@ public class BzYuanZi extends ExplosionBase
 
                         if (r > distance && r - 3 < distance)
                         {
-                            Vector3 spawnPosition = Vector3.add(position, new Vector3(x * 2, (y - 2) * 2, z * 2));
+                            Vector3 spawnPosition = Vector3.translate(position, new Vector3(x * 2, (y - 2) * 2, z * 2));
                             float xDiff = (float) (spawnPosition.x - position.x);
                             float zDiff = (float) (spawnPosition.z - position.z);
                             ICBMExplosion.proxy.spawnParticle("smoke", worldObj, spawnPosition, xDiff * 0.3 * worldObj.rand.nextFloat(), -worldObj.rand.nextFloat(), zDiff * 0.3 * worldObj.rand.nextFloat(), (float) (distance / this.getRadius()) * worldObj.rand.nextFloat(), 0, 0, 8F, 1.2F);
@@ -175,7 +175,7 @@ public class BzYuanZi extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     * 
+     *
      * @param return - Return -1 if this explosive does not need procedural calls */
     @Override
     public int proceduralInterval()

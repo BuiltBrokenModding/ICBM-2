@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class GFaSheDi extends GuiContainer
+public class GuiLauncherBase extends GuiContainer
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_launcher.png");
 
@@ -21,7 +21,7 @@ public class GFaSheDi extends GuiContainer
 
     private TileEntityLauncherBase tileEntity;
 
-    public GFaSheDi(InventoryPlayer par1InventoryPlayer, TileEntityLauncherBase tileEntity)
+    public GuiLauncherBase(InventoryPlayer par1InventoryPlayer, TileEntityLauncherBase tileEntity)
     {
         super(new ContainerLauncher(par1InventoryPlayer, tileEntity));
         this.tileEntity = tileEntity;

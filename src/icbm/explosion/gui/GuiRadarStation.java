@@ -28,7 +28,7 @@ import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GLeiDaTai extends GuiBase
+public class GuiRadarStation extends GuiBase
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_radar.png");
     public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "reddot.png");
@@ -56,7 +56,7 @@ public class GLeiDaTai extends GuiBase
 
     private String info2;
 
-    public GLeiDaTai(TileEntityRadarStation tileEntity)
+    public GuiRadarStation(TileEntityRadarStation tileEntity)
     {
         this.tileEntity = tileEntity;
         mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);

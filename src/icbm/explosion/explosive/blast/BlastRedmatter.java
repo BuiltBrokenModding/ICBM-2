@@ -1,4 +1,4 @@
-package icbm.explosion.explosive.explosion;
+package icbm.explosion.explosive.blast;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.potion.PDongShang;
@@ -16,9 +16,9 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 
-public class BzBingDan extends BzGuang
+public class BlastRedmatter extends BzGuang
 {
-    public BzBingDan(World world, Entity entity, double x, double y, double z, float size)
+    public BlastRedmatter(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
         this.red = 0f;

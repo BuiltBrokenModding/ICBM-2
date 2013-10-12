@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzTuPuo;
+import icbm.explosion.explosive.blast.BzTuPuo;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.model.missiles.MMTuPuo;
 import icbm.explosion.model.missiles.Missile;

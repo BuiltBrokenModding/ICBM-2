@@ -2,7 +2,7 @@ package icbm.explosion.model.missiles;
 
 import icbm.api.ITracker;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.explosive.blast.BzYaSuo;
 import icbm.explosion.model.missiles.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

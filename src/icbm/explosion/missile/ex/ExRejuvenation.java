@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzHuanYuan;
+import icbm.explosion.explosive.blast.BlastRegen;
 import icbm.explosion.model.missiles.MMHuanYuan;
 import icbm.explosion.model.missiles.Missile;
 import net.minecraft.block.Block;
@@ -30,7 +30,7 @@ public class ExRejuvenation extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzHuanYuan(world, entity, x, y, z, 16).doExplode();
+        new BlastRegen(world, entity, x, y, z, 16).doExplode();
     }
 
     @SideOnly(Side.CLIENT)

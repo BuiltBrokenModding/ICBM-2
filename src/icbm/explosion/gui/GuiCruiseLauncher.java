@@ -19,7 +19,7 @@ import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GXiaoFaSheQi extends GuiContainer
+public class GuiCruiseLauncher extends GuiContainer
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_cruise_launcher.png");
 
@@ -32,7 +32,7 @@ public class GXiaoFaSheQi extends GuiContainer
     private int containerWidth;
     private int containerHeight;
 
-    public GXiaoFaSheQi(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
+    public GuiCruiseLauncher(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
     {
         super(new ContainerCruiseLauncher(par1InventoryPlayer, tileEntity));
         this.tileEntity = tileEntity;

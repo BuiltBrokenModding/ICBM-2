@@ -1,4 +1,4 @@
-package icbm.explosion.explosive.explosion;
+package icbm.explosion.explosive.blast;
 
 import icbm.explosion.explosive.ExplosionBase;
 import net.minecraft.entity.Entity;
@@ -10,9 +10,9 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderServer;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
-public class BzHuanYuan extends ExplosionBase
+public class BlastRegen extends ExplosionBase
 {
-    public BzHuanYuan(World world, Entity entity, double x, double y, double z, float size)
+    public BlastRegen(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }

@@ -1,6 +1,6 @@
 package icbm.explosion.model.missiles;
 
-import icbm.explosion.explosive.explosion.BzYuanZi;
+import icbm.explosion.explosive.blast.BzYuanZi;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.model.missiles.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;

@@ -1,4 +1,4 @@
-package icbm.explosion.explosive.explosion;
+package icbm.explosion.explosive.blast;
 
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.ExplosionBase;

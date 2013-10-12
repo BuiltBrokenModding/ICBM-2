@@ -1,4 +1,4 @@
-package icbm.explosion.explosive.explosion;
+package icbm.explosion.explosive.blast;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.EntityExplosion;
@@ -8,16 +8,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class BzFanWuSu extends ExplosionBase
+public class BlastAntimatter extends ExplosionBase
 {
     private boolean destroyBedrock;
 
-    public BzFanWuSu(World world, Entity entity, double x, double y, double z, float size)
+    public BlastAntimatter(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
 
-    public BzFanWuSu(World world, Entity entity, double x, double y, double z, float size, boolean destroyBedrock)
+    public BlastAntimatter(World world, Entity entity, double x, double y, double z, float size, boolean destroyBedrock)
     {
         this(world, entity, x, y, z, size);
         this.destroyBedrock = destroyBedrock;

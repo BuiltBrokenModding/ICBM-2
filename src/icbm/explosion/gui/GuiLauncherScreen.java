@@ -16,7 +16,7 @@ import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GFaSheShiMuo extends GuiBase
+public class GuiLauncherScreen extends GuiBase
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
@@ -30,7 +30,7 @@ public class GFaSheShiMuo extends GuiBase
     private int containerWidth;
     private int containerHeight;
 
-    public GFaSheShiMuo(TileEntityLauncherScreen par2ICBMTileEntityMissileLauncher)
+    public GuiLauncherScreen(TileEntityLauncherScreen par2ICBMTileEntityMissileLauncher)
     {
         this.tileEntity = par2ICBMTileEntityMissileLauncher;
     }

@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzDiLei;
+import icbm.explosion.explosive.blast.BzDiLei;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.model.tiles.MDiLei;
 import net.minecraft.entity.Entity;

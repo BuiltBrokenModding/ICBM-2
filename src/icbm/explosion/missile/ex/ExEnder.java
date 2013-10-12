@@ -3,7 +3,7 @@ package icbm.explosion.missile.ex;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzWan;
+import icbm.explosion.explosive.blast.BzWan;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.TileEntityExplosive;
 import icbm.explosion.model.missiles.EntityMissile;

@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.explosive.blast.BzYaSuo;
 import icbm.explosion.model.missiles.MMYaSuo;
 import icbm.explosion.model.missiles.Missile;
 import net.minecraft.block.Block;

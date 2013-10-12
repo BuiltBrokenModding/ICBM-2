@@ -3,7 +3,7 @@ package icbm.explosion.model.missiles;
 import icbm.api.IMissileLockable;
 import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzYaSuo;
+import icbm.explosion.explosive.blast.BzYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;

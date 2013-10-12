@@ -4,7 +4,7 @@ import icbm.api.RadarRegistry;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.explosion.ExplosionEmp;
+import icbm.explosion.explosive.blast.BlastEmp;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -170,13 +170,13 @@ public class TileEntityEmpTower extends TileEntityUniversalElectrical implements
             switch (this.empMode)
             {
                 default:
-                    new ExplosionEmp(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().setEffectEntities().explode();
+                    new BlastEmp(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().setEffectEntities().explode();
                     break;
                 case 1:
-                    new ExplosionEmp(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectEntities().explode();
+                    new BlastEmp(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectEntities().explode();
                     break;
                 case 2:
-                    new ExplosionEmp(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().explode();
+                    new BlastEmp(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().explode();
                     break;
             }
 

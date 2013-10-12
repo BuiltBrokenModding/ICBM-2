@@ -16,7 +16,7 @@ import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GDianCiQi extends GuiBase
+public class GuiEmpTower extends GuiBase
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
@@ -26,7 +26,7 @@ public class GDianCiQi extends GuiBase
     private int containerWidth;
     private int containerHeight;
 
-    public GDianCiQi(TileEntityEmpTower tileEntity)
+    public GuiEmpTower(TileEntityEmpTower tileEntity)
     {
         this.tileEntity = tileEntity;
     }

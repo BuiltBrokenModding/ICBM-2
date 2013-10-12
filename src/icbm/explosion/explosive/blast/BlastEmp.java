@@ -1,4 +1,4 @@
-package icbm.explosion.explosive.explosion;
+package icbm.explosion.explosive.blast;
 
 import ic2.api.item.ISpecialElectricItem;
 import ic2.api.tile.IEnergyStorage;
@@ -30,23 +30,23 @@ import universalelectricity.core.block.IElectricalStorage;
 import universalelectricity.core.item.IItemElectric;
 import universalelectricity.core.vector.Vector3;
 
-public class ExplosionEmp extends ExplosionBase
+public class BlastEmp extends ExplosionBase
 {
     private boolean effectEntities = false;
     private boolean effectBlocks = false;
 
-    public ExplosionEmp(World world, Entity entity, double x, double y, double z, float size)
+    public BlastEmp(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
 
-    public ExplosionEmp setEffectBlocks()
+    public BlastEmp setEffectBlocks()
     {
         this.effectBlocks = true;
         return this;
     }
 
-    public ExplosionEmp setEffectEntities()
+    public BlastEmp setEffectEntities()
     {
         this.effectEntities = true;
         return this;

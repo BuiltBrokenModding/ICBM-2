@@ -10,12 +10,12 @@ import icbm.explosion.fx.FXElectricBoltSpawner;
 import icbm.explosion.fx.FXEnderPortalPartical;
 import icbm.explosion.fx.FXYan;
 import icbm.explosion.fx.FXZhenBuo;
-import icbm.explosion.gui.GDianCiQi;
-import icbm.explosion.gui.GFaSheDi;
-import icbm.explosion.gui.GFaSheShiMuo;
-import icbm.explosion.gui.GLeiDaTai;
-import icbm.explosion.gui.GXiaoFaSheQi;
-import icbm.explosion.gui.GYinDaoQi;
+import icbm.explosion.gui.GuiEmpTower;
+import icbm.explosion.gui.GuiLauncherBase;
+import icbm.explosion.gui.GuiLauncherScreen;
+import icbm.explosion.gui.GuiRadarStation;
+import icbm.explosion.gui.GuiCruiseLauncher;
+import icbm.explosion.gui.GuiMissileCoordinator;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.machines.TileEntityEmpTower;
 import icbm.explosion.machines.TileEntityLauncherBase;
@@ -129,27 +129,27 @@ public class ClientProxy extends CommonProxy
 
         if (tileEntity instanceof TileEntityCruiseLauncher)
         {
-            return new GXiaoFaSheQi(entityPlayer.inventory, (TileEntityCruiseLauncher) tileEntity);
+            return new GuiCruiseLauncher(entityPlayer.inventory, (TileEntityCruiseLauncher) tileEntity);
         }
         else if (tileEntity instanceof TileEntityLauncherScreen)
         {
-            return new GFaSheShiMuo(((TileEntityLauncherScreen) tileEntity));
+            return new GuiLauncherScreen(((TileEntityLauncherScreen) tileEntity));
         }
         else if (tileEntity instanceof TileEntityRadarStation)
         {
-            return new GLeiDaTai(((TileEntityRadarStation) tileEntity));
+            return new GuiRadarStation(((TileEntityRadarStation) tileEntity));
         }
         else if (tileEntity instanceof TileEntityEmpTower)
         {
-            return new GDianCiQi((TileEntityEmpTower) tileEntity);
+            return new GuiEmpTower((TileEntityEmpTower) tileEntity);
         }
         else if (tileEntity instanceof TileEntityLauncherBase)
         {
-            return new GFaSheDi(entityPlayer.inventory, (TileEntityLauncherBase) tileEntity);
+            return new GuiLauncherBase(entityPlayer.inventory, (TileEntityLauncherBase) tileEntity);
         }
         else if (tileEntity instanceof TileEntityMissileCoordinator)
         {
-            return new GYinDaoQi(entityPlayer.inventory, (TileEntityMissileCoordinator) tileEntity);
+            return new GuiMissileCoordinator(entityPlayer.inventory, (TileEntityMissileCoordinator) tileEntity);
         }
 
         return null;

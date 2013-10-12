@@ -3,7 +3,7 @@ package icbm.explosion.missile.ex;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.explosion.BzFanWuSu;
+import icbm.explosion.explosive.blast.BlastAntimatter;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.model.missiles.MMFanWuSu;
 import icbm.explosion.model.missiles.Missile;
@@ -47,7 +47,7 @@ public class ExAntimatter extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzFanWuSu(world, entity, x, y, z, ICBMConfiguration.ANTIMATTER_SIZE, ICBMConfiguration.DESTROY_BEDROCK).explode();
+        new BlastAntimatter(world, entity, x, y, z, ICBMConfiguration.ANTIMATTER_SIZE, ICBMConfiguration.DESTROY_BEDROCK).explode();
     }
 
     @SideOnly(Side.CLIENT)

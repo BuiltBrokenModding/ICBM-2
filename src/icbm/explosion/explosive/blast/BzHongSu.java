@@ -1,4 +1,4 @@
-package icbm.explosion.explosive.explosion;
+package icbm.explosion.explosive.blast;
 
 import icbm.api.explosion.IExplosiveIgnore;
 import icbm.core.ICBMCore;
@@ -231,7 +231,7 @@ public class BzHongSu extends ExplosionBase
             {
                 if (entity instanceof EntityExplosion)
                 {
-                    if (((EntityExplosion) entity).baoZha instanceof BzFanWuSu || ((EntityExplosion) entity).baoZha instanceof BzHongSu)
+                    if (((EntityExplosion) entity).baoZha instanceof BlastAntimatter || ((EntityExplosion) entity).baoZha instanceof BzHongSu)
                     {
                         this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 

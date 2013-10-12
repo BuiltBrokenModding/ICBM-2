@@ -11,12 +11,12 @@ import universalelectricity.core.electricity.ElectricityDisplay;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
 
-public class GYinDaoQi extends GuiICBMContainer
+public class GuiMissileCoordinator extends GuiICBMContainer
 {
     private TileEntityMissileCoordinator tileEntity;
     private float animation = 0;
 
-    public GYinDaoQi(InventoryPlayer par1InventoryPlayer, TileEntityMissileCoordinator tileEntity)
+    public GuiMissileCoordinator(InventoryPlayer par1InventoryPlayer, TileEntityMissileCoordinator tileEntity)
     {
         super(new ContainerMissileCoordinator(par1InventoryPlayer, tileEntity));
         this.tileEntity = tileEntity;
@@ -38,7 +38,7 @@ public class GYinDaoQi extends GuiICBMContainer
                 Vector3 pos1 = ((ICoordLink) this.tileEntity.getStackInSlot(0).getItem()).getLink(this.tileEntity.getStackInSlot(0));
                 Vector3 pos2 = ((ICoordLink) this.tileEntity.getStackInSlot(1).getItem()).getLink(this.tileEntity.getStackInSlot(1));
 
-                double displacement = pos1.distanceTo(pos2);
+                double displacement = pos1.distance(pos2);
 
                 this.fontRenderer.drawString("Displacement: " + ElectricityDisplay.roundDecimals(displacement) + " Meters", 13, 65, 4210752);
 

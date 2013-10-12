@@ -2,7 +2,7 @@ package icbm.explosion.render.entity;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.explosive.explosion.BzHongSu;
+import icbm.explosion.explosive.blast.BzHongSu;
 
 import java.util.Random;
 
