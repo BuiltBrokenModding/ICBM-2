@@ -1,6 +1,6 @@
 package icbm.explosion.zhapin;
 
-import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.missile.Missile;
 
 import java.util.Collection;
 import java.util.HashMap;

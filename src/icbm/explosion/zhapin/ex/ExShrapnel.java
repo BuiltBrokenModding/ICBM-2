@@ -7,7 +7,7 @@ import icbm.explosion.model.missiles.MMQunDan;
 import icbm.explosion.model.missiles.MMXiaoQunDan;
 import icbm.explosion.model.missiles.MMZhen;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.missile.Missile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;

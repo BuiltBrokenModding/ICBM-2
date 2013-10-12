@@ -4,12 +4,6 @@ import icbm.api.explosion.IExplosive;
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.zhapin.daodan.DFanDan;
-import icbm.explosion.zhapin.daodan.DFenZhiDan;
-import icbm.explosion.zhapin.daodan.DModule;
-import icbm.explosion.zhapin.daodan.DYuanZiFenZhiDan;
-import icbm.explosion.zhapin.daodan.DZhuiZhong;
-import icbm.explosion.zhapin.daodan.Missile;
 import icbm.explosion.zhapin.ex.ExEndothermic;
 import icbm.explosion.zhapin.ex.ExSMine;
 import icbm.explosion.zhapin.ex.ExEMP;
@@ -28,6 +22,12 @@ import icbm.explosion.zhapin.ex.ExEnder;
 import icbm.explosion.zhapin.ex.ExDebilitation;
 import icbm.explosion.zhapin.ex.ExCondensed;
 import icbm.explosion.zhapin.ex.ExNuclear;
+import icbm.explosion.zhapin.missile.DYuanZiFenZhiDan;
+import icbm.explosion.zhapin.missile.MissileHoming;
+import icbm.explosion.zhapin.missile.Missile;
+import icbm.explosion.zhapin.missile.MissileAnti;
+import icbm.explosion.zhapin.missile.MissileCluster;
+import icbm.explosion.zhapin.missile.MissileModule;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -116,10 +116,10 @@ public abstract class Explosive implements IExplosive
 		hongSu = ExplosiveRegistry.register(new ExRedMatter("redMatter", 4));
 
 		/** Missiles */
-		missileModule = (Missile) ExplosiveRegistry.register(new DModule("missileModule", 1));
-		zhuiZhong = (Missile) ExplosiveRegistry.register(new DZhuiZhong("homing", 1));
-		fanDan = (Missile) ExplosiveRegistry.register(new DFanDan("antiBallistic", 2));
-		fenZhiDan = (Missile) ExplosiveRegistry.register(new DFenZhiDan("cluster", 2));
+		missileModule = (Missile) ExplosiveRegistry.register(new MissileModule("missileModule", 1));
+		zhuiZhong = (Missile) ExplosiveRegistry.register(new MissileHoming("homing", 1));
+		fanDan = (Missile) ExplosiveRegistry.register(new MissileAnti("antiBallistic", 2));
+		fenZhiDan = (Missile) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
 		yuanZiFenZhiDan = (Missile) ExplosiveRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
 
 		ICBMConfiguration.CONFIGURATION.save();

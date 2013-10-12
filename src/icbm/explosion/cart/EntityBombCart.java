@@ -49,16 +49,17 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
 	@Override
 	protected void explodeCart(double par1)
 	{
+	    //TODO add event
 		this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 		this.getExplosiveType().createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
 		this.setDead();
 	}
 
-	public boolean interact(EntityPlayer par1EntityPlayer)
+	public boolean interact(EntityPlayer player)
 	{
-		if (par1EntityPlayer.getCurrentEquippedItem() != null)
+		if (player.getCurrentEquippedItem() != null)
 		{
-			if (par1EntityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
+			if (player.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
 			{
 				this.ignite();
 				return true;

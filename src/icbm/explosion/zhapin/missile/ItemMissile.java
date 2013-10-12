@@ -1,4 +1,4 @@
-package icbm.explosion.zhapin.daodan;
+package icbm.explosion.zhapin.missile;
 
 import icbm.core.base.ItemICBMBase;
 import icbm.explosion.zhapin.Explosive;

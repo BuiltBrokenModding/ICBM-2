@@ -5,7 +5,7 @@ import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzQi;
 import icbm.explosion.model.missiles.MMWuQi;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.missile.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;

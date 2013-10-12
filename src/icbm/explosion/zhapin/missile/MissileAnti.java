@@ -1,4 +1,4 @@
-package icbm.explosion.zhapin.daodan;
+package icbm.explosion.zhapin.missile;
 
 import icbm.api.IMissileLockable;
 import icbm.core.ICBMCore;
@@ -18,11 +18,11 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Calclavia
  * 
  */
-public class DFanDan extends MissileTeBie
+public class MissileAnti extends MissileBase
 {
 	public static final int ABMRange = 30;
 
-	public DFanDan(String mingZi, int tier)
+	public MissileAnti(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.hasBlock = false;

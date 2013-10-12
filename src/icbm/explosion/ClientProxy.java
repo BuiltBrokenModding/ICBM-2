@@ -45,8 +45,8 @@ import icbm.explosion.render.tile.RenderRadarStation;
 import icbm.explosion.zhapin.EntityExplosive;
 import icbm.explosion.zhapin.EntityGrenade;
 import icbm.explosion.zhapin.TileEntityExplosive;
-import icbm.explosion.zhapin.daodan.EntityMissile;
-import icbm.explosion.zhapin.daodan.ShengYinDaoDan;
+import icbm.explosion.zhapin.missile.EntityMissile;
+import icbm.explosion.zhapin.missile.MissilePlayerHandler;
 
 import java.util.List;
 
@@ -222,7 +222,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
 	{
-		return new ShengYinDaoDan(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
+		return new MissilePlayerHandler(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
 	}
 
 	@Override

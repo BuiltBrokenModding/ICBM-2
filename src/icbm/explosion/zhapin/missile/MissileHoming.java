@@ -1,10 +1,10 @@
-package icbm.explosion.zhapin.daodan;
+package icbm.explosion.zhapin.missile;
 
 import icbm.api.ITracker;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.explosion.BzYaSuo;
 import icbm.explosion.model.missiles.MMZhuiZhong;
-import icbm.explosion.zhapin.daodan.EntityMissile.MissileType;
+import icbm.explosion.zhapin.missile.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -14,9 +14,9 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class DZhuiZhong extends MissileTeBie
+public class MissileHoming extends MissileBase
 {
-	public DZhuiZhong(String mingZi, int tier)
+	public MissileHoming(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.hasBlock = false;

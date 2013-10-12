@@ -1,4 +1,4 @@
-package icbm.explosion.zhapin.daodan;
+package icbm.explosion.zhapin.missile;
 
 import icbm.api.IMissile;
 import icbm.core.base.ModelICBM;
@@ -8,9 +8,9 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class DModule extends MissileTeBie
+public class MissileModule extends MissileBase
 {
-	public DModule(String mingZi, int tier)
+	public MissileModule(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.hasBlock = false;

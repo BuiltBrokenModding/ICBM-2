@@ -1,13 +1,13 @@
-package icbm.explosion.zhapin.daodan;
+package icbm.explosion.zhapin.missile;
 
 import icbm.explosion.explosive.explosion.BzYuanZi;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.EntityMissile.MissileType;
+import icbm.explosion.zhapin.missile.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class DYuanZiFenZhiDan extends DFenZhiDan
+public class DYuanZiFenZhiDan extends MissileCluster
 {
 	public DYuanZiFenZhiDan(String mingZi, int tier)
 	{
@@ -31,7 +31,7 @@ public class DYuanZiFenZhiDan extends DFenZhiDan
 					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
 					clusterMissile.missileType = MissileType.CruiseMissile;
 					clusterMissile.baoHuShiJian = 20;
-					clusterMissile.launch(Vector3.add(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
+					clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
 				}
 
 				missileObj.baoHuShiJian = 20;

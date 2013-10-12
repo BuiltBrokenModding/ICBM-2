@@ -1,11 +1,11 @@
-package icbm.explosion.zhapin.daodan;
+package icbm.explosion.zhapin.missile;
 
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.item.ItemStack;
 
-public abstract class MissileTeBie extends Missile
+public abstract class MissileBase extends Missile
 {
-	public MissileTeBie(String mingZi, int tier)
+	public MissileBase(String mingZi, int tier)
 	{
 		super(mingZi, tier);
 		this.hasBlock = false;

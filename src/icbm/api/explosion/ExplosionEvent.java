@@ -9,9 +9,9 @@ import net.minecraftforge.event.Event;
 /**
  * Use ForgeSubscribe to subscribe to this event. This event is called every single time when an
  * ICBM explosion happens.
- * 
+ *
  * @author Calclavia
- * 
+ *
  */
 @Cancelable
 public class ExplosionEvent extends Event
@@ -40,11 +40,11 @@ public class ExplosionEvent extends Event
 
 	/**
 	 * Called before an explosive is detonated or a missile is placed to check if detonation is
-	 * possible. You may cancel and explosion here if needed. After this it will be a bit too late
+	 * possible. You may cancel an explosion here if needed. After this it will be a bit too late
 	 * to prevent destruction without any losses.
-	 * 
+	 *
 	 * @author Calclavia
-	 * 
+	 *
 	 */
 	@Cancelable
 	public static class ExplosivePreDetonationEvent extends Event
@@ -84,9 +84,9 @@ public class ExplosionEvent extends Event
 
 	/**
 	 * Called when an explosion is constructed.
-	 * 
+	 *
 	 * @author Calclavia
-	 * 
+	 *
 	 */
 	public static class ExplosionConstructionEvent extends ExplosionEvent
 	{
@@ -98,9 +98,9 @@ public class ExplosionEvent extends Event
 
 	/**
 	 * Called before an explosion happens.
-	 * 
+	 *
 	 * @author Calclavia
-	 * 
+	 *
 	 */
 	public static class PreExplosionEvent extends ExplosionEvent
 	{
@@ -113,9 +113,9 @@ public class ExplosionEvent extends Event
 	/**
 	 * Called while an explosion happens. May be called every single tick if explosion is
 	 * procedural. (E.g: Red matter explosive)
-	 * 
+	 *
 	 * @author Calclavia
-	 * 
+	 *
 	 */
 	public static class DoExplosionEvent extends ExplosionEvent
 	{
@@ -127,9 +127,9 @@ public class ExplosionEvent extends Event
 
 	/**
 	 * Called after an explosion happens.
-	 * 
+	 *
 	 * @author Calclavia
-	 * 
+	 *
 	 */
 	public static class PostExplosionEvent extends ExplosionEvent
 	{

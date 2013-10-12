@@ -6,7 +6,7 @@ import icbm.explosion.explosive.explosion.BzYaSuo;
 import icbm.explosion.model.missiles.MMLa;
 import icbm.explosion.model.missiles.MMTui;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.missile.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;

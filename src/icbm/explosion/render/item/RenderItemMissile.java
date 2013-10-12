@@ -1,12 +1,16 @@
 package icbm.explosion.render.item;
 
+import java.util.HashMap;
+
 import icbm.explosion.zhapin.ExplosiveRegistry;
-import icbm.explosion.zhapin.daodan.Missile;
-import icbm.explosion.zhapin.daodan.ItemMissile;
+import icbm.explosion.zhapin.missile.ItemMissile;
+import icbm.explosion.zhapin.missile.Missile;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
+
+import com.builtbroken.common.Triple;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -15,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderItemMissile implements IItemRenderer
 {
-
+    HashMap<Triple<Integer,Integer, Boolean>, int[]> cache = new HashMap<Triple<Integer, Integer, Boolean>, int[]>();
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)
 	{

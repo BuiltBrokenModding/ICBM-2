@@ -6,7 +6,7 @@ import icbm.explosion.explosive.explosion.BzShengBuo;
 import icbm.explosion.model.missiles.MMChaoShengBuo;
 import icbm.explosion.model.missiles.MMShengBuo;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.missile.Missile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;

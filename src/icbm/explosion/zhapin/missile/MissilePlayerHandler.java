@@ -1,4 +1,4 @@
-package icbm.explosion.zhapin.daodan;
+package icbm.explosion.zhapin.missile;
 
 import icbm.core.ICBMCore;
 import net.minecraft.client.audio.SoundManager;
@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ShengYinDaoDan implements IUpdatePlayerListBox
+public class MissilePlayerHandler implements IUpdatePlayerListBox
 {
 	private final SoundManager theSoundManager;
 
@@ -25,7 +25,7 @@ public class ShengYinDaoDan implements IUpdatePlayerListBox
 	private float minecartRideSoundVolume = 0.0F;
 	private double minecartSpeed = 0.0D;
 
-	public ShengYinDaoDan(SoundManager par1SoundManager, EntityMissile entity, EntityPlayerSP par3EntityPlayerSP)
+	public MissilePlayerHandler(SoundManager par1SoundManager, EntityMissile entity, EntityPlayerSP par3EntityPlayerSP)
 	{
 		this.theSoundManager = par1SoundManager;
 		this.entity = entity;

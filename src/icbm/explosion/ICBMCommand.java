@@ -1,7 +1,7 @@
 package icbm.explosion;
 
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.zhapin.daodan.EntityMissile;
+import icbm.explosion.zhapin.missile.EntityMissile;
 
 import java.util.List;
 

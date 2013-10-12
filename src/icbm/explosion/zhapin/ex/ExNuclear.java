@@ -7,7 +7,7 @@ import icbm.explosion.explosive.explosion.BzYuanZi;
 import icbm.explosion.model.missiles.MMWenZha;
 import icbm.explosion.model.missiles.MMYuanZi;
 import icbm.explosion.zhapin.Explosive;
-import icbm.explosion.zhapin.daodan.Missile;
+import icbm.explosion.zhapin.missile.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
