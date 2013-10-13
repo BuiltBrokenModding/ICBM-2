@@ -19,23 +19,23 @@
 		</copy>
 
 		<copy todir="${dir.mcp}/src/minecraft">
-			<fileset dir="${dir.development}src/API">
+			<fileset dir="${dir.development}src/api">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-            <fileset dir="${dir.development}src/CORE">
+            <fileset dir="${dir.development}src/core">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-            <fileset dir="${dir.development}src/SENTRY">
+            <fileset dir="${dir.development}src/sentry">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-            <fileset dir="${dir.development}src/CONTRAPTION">
+            <fileset dir="${dir.development}src/contraption">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-            <fileset dir="${dir.development}src/EXPLOSION">
+            <fileset dir="${dir.development}src/explosion">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
