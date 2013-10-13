@@ -1,5 +1,6 @@
 package icbm.core.base;
 
+import net.minecraft.nbt.NBTTagCompound;
 import icbm.api.ITier;
 
 /** @author DarkGuardsman */
@@ -35,5 +36,10 @@ public class Modular implements ITier
     {
         this.name = name;
         return this;
+    }
+
+    public NBTTagCompound save(NBTTagCompound nbt)
+    {
+        return nbt;
     }
 }
