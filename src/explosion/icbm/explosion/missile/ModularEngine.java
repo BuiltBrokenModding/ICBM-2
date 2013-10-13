@@ -1,5 +1,6 @@
 package icbm.explosion.missile;
 
+import net.minecraft.nbt.NBTTagCompound;
 import icbm.core.base.Modular;
 
 /** @author DarkGuardsman */
@@ -33,5 +34,20 @@ public class ModularEngine extends Modular
     {
         this.maxSpeed = maxSpeed;
         return this;
+    }
+
+    public NBTTagCompound save(NBTTagCompound nbt)
+    {
+        super.save(nbt);
+        nbt.setFloat("acceleration", this.acceleration);
+        nbt.setFloat("maxSpeed", this.maxSpeed);
+        return nbt;
+    }
+
+    public void load(NBTTagCompound nbt)
+    {
+        super.load(nbt);
+        this.acceleration = nbt.getFloat("acceleration");
+        this.maxSpeed = nbt.getFloat("maxSpeed");
     }
 }

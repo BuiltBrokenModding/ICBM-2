@@ -34,4 +34,15 @@ public class ModularWarhead extends Modular implements IExplosiveContainer
         return this.explosive;
     }
 
+    public NBTTagCompound save(NBTTagCompound nbt)
+    {
+        super.save(nbt);
+        return nbt;
+    }
+
+    public void load(NBTTagCompound nbt)
+    {
+        super.load(nbt);
+    }
+
 }

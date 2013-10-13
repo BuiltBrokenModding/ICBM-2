@@ -40,6 +40,15 @@ public class Modular implements ITier
 
     public NBTTagCompound save(NBTTagCompound nbt)
     {
+        nbt.setString("Name", this.name);
+        nbt.setByte("tier", (byte) this.tier);
         return nbt;
+    }
+
+    public void load(NBTTagCompound nbt)
+    {
+        //TODO make a tileEntity like loader to remove issues with different classes
+        this.tier = nbt.getByte("tier");
+        this.name = nbt.getString("Name");
     }
 }
