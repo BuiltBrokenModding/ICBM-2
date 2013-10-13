@@ -1,0 +1,3 @@
+[submodule "modding-library"]
+	path = modding-library
+	url = https://bitbucket.org/calclavia/modding-library.git
