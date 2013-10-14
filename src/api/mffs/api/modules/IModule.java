@@ -26,6 +26,8 @@ public interface IModule
 	 * @return True to stop projecting.
 	 */
 	boolean onProject(IProjector projector, Set<Vector3> field);
+	
+	boolean onDestroy(IProjector projector, Set<Vector3> field);
 
 	/**
 	 * Called right after the projector creates a force field block.
