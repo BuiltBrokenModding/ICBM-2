@@ -24,6 +24,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     public ForgeDirection placedSide = ForgeDirection.UP;
     /** 0 - 3 of rotation on the given side */
     public byte rotationSide = 0;
+    public boolean rotating = false;
 
     @Override
     public Vector3[] getMultiBlockVectors()
@@ -123,7 +124,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
         {
             rot = 3;
         }
-        if(BlockMissileTable.canRotateBlockTo(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
+        if (BlockMissileTable.canRotateBlockTo(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.placedSide, rot))
         {
             this.rotationSide = rot;
             this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -133,14 +134,13 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     public void setPlacedSide(ForgeDirection side)
     {
         this.placedSide = side;
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     public void setRotation(byte rot)
     {
-        if(BlockMissileTable.canRotateBlockTo(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
-        {
-            this.rotationSide = rot;
-        }
+        this.rotationSide = rot;
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
@@ -165,10 +165,13 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
         if (this.worldObj.isRemote)
         {
             byte id = dataStream.readByte();
-            if(id == 0)
+            if (id == 0)
             {
                 this.rotationSide = dataStream.readByte();
                 this.placedSide = ForgeDirection.getOrientation(dataStream.readByte());
+                this.worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
+                System.out.println("Rotation: " + rotationSide);
+                System.out.println("Side: " + placedSide.toString());
             }
         }
     }

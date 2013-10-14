@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -72,14 +73,16 @@ public class BlockMissileTable extends BlockICBM
     @Override
     public boolean canBlockStay(World world, int x, int y, int z)
     {
-        ForgeDirection side = ForgeDirection.UP;
-        byte rot = 0;
-        if (world.getBlockTileEntity(x, y, z) instanceof TileEntityMissileTable)
+        TileEntity entity = world.getBlockTileEntity(x, y, z);
+        if (entity instanceof TileEntityMissileTable)
         {
-            side = ((TileEntityMissileTable) world.getBlockTileEntity(x, y, z)).placedSide;
-            rot = ((TileEntityMissileTable) world.getBlockTileEntity(x, y, z)).rotationSide;
+            ForgeDirection s = ((TileEntityMissileTable) entity).placedSide;
+            Vector3 vec = new Vector3(entity).translate(new Vector3(-s.offsetX, -s.offsetY, -s.offsetZ));
+
+            return Block.blocksList[vec.getBlockID(world)] != null;
         }
-        return canPlaceBlockAt(world, x, y, z, side, rot);
+
+        return false;
     }
 
     /** Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
@@ -118,13 +121,13 @@ public class BlockMissileTable extends BlockICBM
             for (Vector3 vec : vecs)
             {
                 block = Block.blocksList[pos.clone().translate(vec).getBlockID(world)];
-                boolean flag = true;
+                boolean isNotSubBlock = true;
                 if (pos.clone().translate(vec).getTileEntity(world) instanceof TileEntityMultiBlockPart)
                 {
                     Vector3 main = ((TileEntityMultiBlockPart) pos.clone().translate(vec).getTileEntity(world)).getMainBlock();
-                    flag = !main.equals(new Vector3(x, y, z));
+                    isNotSubBlock = !main.equals(new Vector3(x, y, z));
                 }
-                if (block != null && !block.isBlockReplaceable(world, x, y, z) && flag)
+                if (block != null && !block.isBlockReplaceable(world, x, y, z) && isNotSubBlock)
                 {
                     return false;
                 }
@@ -158,14 +161,25 @@ public class BlockMissileTable extends BlockICBM
             }
             if (canRotateBlockTo(world, x, y, z, side, rotation))
             {
-                Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
+                //Due to how multi blocks work we nee to save and display item drops for the tileEntity
+                //Then reload the tileEntity nbt into the newly created block&tileEntity
+                NBTTagCompound tag = new NBTTagCompound();
+                ((TileEntityMissileTable) entity).rotating = true;
 
+                Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
+                ((TileEntityMissileTable) entity).setRotation(rotation);
+                ((TileEntityMissileTable)entity).writeToNBT(tag);
                 for (Vector3 position : positions)
                 {
                     new Vector3(entity).translate(position).setBlock(entity.worldObj, 0);
                 }
-                ((TileEntityMissileTable) entity).setRotation(rotation);
+                world.setBlock(x, y, z, this.blockID);
+                entity = world.getBlockTileEntity(x, y, z);
+                ((TileEntityMissileTable)entity).readFromNBT(tag);
+
                 ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
+                ((TileEntityMissileTable) entity).rotating = false;
+                world.markBlockForUpdate(x, y, z);
 
             }
         }
@@ -176,9 +190,13 @@ public class BlockMissileTable extends BlockICBM
     @Override
     public void breakBlock(World world, int x, int y, int z, int par5, int par6)
     {
-        if (world.getBlockTileEntity(x, y, z) instanceof IMultiBlock)
+        TileEntity entity = world.getBlockTileEntity(x, y, z);
+        if (!world.isRemote && entity instanceof TileEntityMissileTable)
         {
-            this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMissileTable, 1, 0));
+            if (!((TileEntityMissileTable) entity).rotating)
+            {
+                this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMissileTable, 1, 0));
+            }
 
             ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) world.getBlockTileEntity(x, y, z));
         }
