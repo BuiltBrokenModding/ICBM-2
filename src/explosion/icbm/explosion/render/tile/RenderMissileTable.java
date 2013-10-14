@@ -51,6 +51,7 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
             if(tileEntity.placedSide == ForgeDirection.DOWN)
             {
                 GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+                GL11.glTranslatef(0, -2f, 0);
             }
         }
         else
