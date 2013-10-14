@@ -25,7 +25,7 @@ public class ICBMCommand extends CommandBase
     @Override
     public String getCommandUsage(ICommandSender par1ICommandSender)
     {
-        return "/icbm lag <radius>";
+        return "/icbm help";
     }
 
     @Override

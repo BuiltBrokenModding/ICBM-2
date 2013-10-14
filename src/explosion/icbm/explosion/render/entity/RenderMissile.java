@@ -19,7 +19,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMissile extends Render
 {
-    HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();
+    private static HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();
+
     public RenderMissile(float f)
     {
         this.shadowSize = f;
@@ -47,10 +48,15 @@ public class RenderMissile extends Render
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
             if (!this.cache.containsKey(missile))
             {
-                this.cache.put(missile, missile.getMissileModel());
+                synchronized (cache)
+                {
+                    this.cache.put(missile, missile.getMissileModel());
+                }
             }
-
-            this.cache.get(missile).render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+            synchronized (cache)
+            {
+                this.cache.get(missile).render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+            }
 
             GL11.glPopMatrix();
         }

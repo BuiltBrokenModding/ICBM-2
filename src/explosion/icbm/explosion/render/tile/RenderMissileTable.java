@@ -1,11 +1,15 @@
 package icbm.explosion.render.tile;
 
 import icbm.core.ICBMCore;
-import icbm.explosion.machines.TileEntityRadarStation;
+import icbm.core.base.ModelICBM;
+import icbm.explosion.missile.ExplosiveRegistry;
+import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.missile.modular.TileEntityMissileTable;
 import icbm.explosion.model.tiles.ModelMissileClaw;
 import icbm.explosion.model.tiles.ModelMissileCradel;
-import icbm.explosion.model.tiles.ModelRadarStation;
+
+import java.util.HashMap;
+
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -13,8 +17,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.core.vector.Vector3;
-
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -27,6 +30,7 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
     public static final ModelMissileClaw MODEL_CLAW = new ModelMissileClaw(-2);
     public static final ModelMissileClaw MODEL_CLAW2 = new ModelMissileClaw(12);
     public static final ModelMissileClaw MODEL_CLAW3 = new ModelMissileClaw(-16);
+    private static HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();;
 
     public void renderAModelAt(TileEntityMissileTable tileEntity, double x, double y, double z, float f)
     {
@@ -131,8 +135,22 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
         MODEL_CLAW2.render(0.0625F);
         MODEL_CLAW3.render(0.0625F);
 
+        Missile missile = (Missile) ExplosiveRegistry.get(0);
+
+        GL11.glRotatef(90F, 0.0F, 0.0F, 1.0F);
+        GL11.glScalef(0.8f, 0.8f, 0.8f);
+        GL11.glTranslatef(1.0f, 0f, 0f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
+
+        if (!this.cache.containsKey(missile))
+        {
+            this.cache.put(missile, missile.getMissileModel());
+        }
+
+        this.cache.get(missile).render(0.0625F);
 
         GL11.glPopMatrix();
+
     }
 
     @Override

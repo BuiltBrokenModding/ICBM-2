@@ -34,36 +34,6 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     public void updateEntity()
     {
         super.updateEntity();
-        if (missile == null)
-        {
-            this.spawnEntityMissile();
-        }
-    }
-    @Override
-    public void invalidate()
-    {
-        if (this.missile != null)
-        {
-            this.missile.setDead();
-        }
-
-        super.invalidate();
-    }
-
-    public void spawnEntityMissile()
-    {
-        if (missile != null)
-        {
-            missile.setDead();
-        }
-        if(!this.worldObj.isRemote)
-        {
-            Vector3 pos = new Vector3(this).translate(new Vector3(this.placedSide)).translate(0.5D);
-            float yaw = 90, pitch = 0;
-
-            missile = new EntityMissile(worldObj, pos, 0, yaw, pitch);
-            this.worldObj.spawnEntityInWorld(missile);
-        }
     }
 
     @Override
