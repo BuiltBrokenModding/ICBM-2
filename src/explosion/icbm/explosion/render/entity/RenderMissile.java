@@ -1,5 +1,8 @@
 package icbm.explosion.render.entity;
 
+import java.util.HashMap;
+
+import icbm.core.base.ModelICBM;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.missile.missile.EntityMissile.MissileType;
@@ -16,6 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMissile extends Render
 {
+    HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();
     public RenderMissile(float f)
     {
         this.shadowSize = f;
@@ -41,7 +45,12 @@ public class RenderMissile extends Render
             }
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
-            missile.getMissileModel().render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+            if (!this.cache.containsKey(missile))
+            {
+                this.cache.put(missile, missile.getMissileModel());
+            }
+
+            this.cache.get(missile).render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
 
             GL11.glPopMatrix();
         }
