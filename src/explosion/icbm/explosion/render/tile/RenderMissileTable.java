@@ -13,6 +13,7 @@ import java.util.HashMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
@@ -130,24 +131,42 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
         }
 
         MODEL.render(0.0625F);
-        //center claw
         MODEL_CLAW.render(0.0625F);
         MODEL_CLAW2.render(0.0625F);
         MODEL_CLAW3.render(0.0625F);
-
-        Missile missile = (Missile) ExplosiveRegistry.get(0);
-
-        GL11.glRotatef(90F, 0.0F, 0.0F, 1.0F);
-        GL11.glScalef(0.8f, 0.8f, 0.8f);
-        GL11.glTranslatef(1.0f, 0f, 0f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
-
-        if (!this.cache.containsKey(missile))
+        if (tileEntity.missileID >= 0)
         {
-            this.cache.put(missile, missile.getMissileModel());
-        }
+            Missile missile = (Missile) ExplosiveRegistry.get(tileEntity.missileID);
+            float scale = 0.8f;
+            float right = 0f;
 
-        this.cache.get(missile).render(0.0625F);
+            if (missile.getTier() == 2 || !missile.hasBlockForm())
+            {
+                //scale = scale / 1.5f;
+            }
+            else if (missile.getTier() == 3)
+            {
+                //scale = scale / 1.7f;
+            }
+            else if (missile.getTier() == 4)
+            {
+                //scale = scale / 1.4f;
+            }
+
+            GL11.glTranslatef(right, 0f, 0f);
+
+            GL11.glRotatef(90F, 0.0F, 0.0F, 1.0F);
+            GL11.glScalef(scale, scale, scale);
+            GL11.glTranslatef(1.0f, 0f, 0f);
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
+
+            if (!this.cache.containsKey(missile))
+            {
+                this.cache.put(missile, missile.getMissileModel());
+            }
+
+            this.cache.get(missile).render(0.0625F);
+        }
 
         GL11.glPopMatrix();
 

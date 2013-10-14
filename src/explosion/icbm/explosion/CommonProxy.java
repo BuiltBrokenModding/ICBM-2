@@ -3,6 +3,7 @@ package icbm.explosion;
 import icbm.explosion.container.ContainerCruiseLauncher;
 import icbm.explosion.container.ContainerLauncher;
 import icbm.explosion.container.ContainerMissileCoordinator;
+import icbm.explosion.container.ContainerMissileTable;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.machines.TileEntityEmpTower;
 import icbm.explosion.machines.TileEntityLauncherBase;
@@ -69,6 +70,10 @@ public class CommonProxy implements IGuiHandler
         else if (tileEntity instanceof TileEntityMissileCoordinator)
         {
             return new ContainerMissileCoordinator(player.inventory, (TileEntityMissileCoordinator) tileEntity);
+        }
+        else if (tileEntity instanceof TileEntityMissileTable)
+        {
+            return new ContainerMissileTable(player.inventory, (TileEntityMissileTable) tileEntity);
         }
 
         return null;

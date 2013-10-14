@@ -10,12 +10,13 @@ import icbm.explosion.fx.FXElectricBoltSpawner;
 import icbm.explosion.fx.FXEnderPortalPartical;
 import icbm.explosion.fx.FXYan;
 import icbm.explosion.fx.FXZhenBuo;
+import icbm.explosion.gui.GuiCruiseLauncher;
 import icbm.explosion.gui.GuiEmpTower;
 import icbm.explosion.gui.GuiLauncherBase;
 import icbm.explosion.gui.GuiLauncherScreen;
-import icbm.explosion.gui.GuiRadarStation;
-import icbm.explosion.gui.GuiCruiseLauncher;
 import icbm.explosion.gui.GuiMissileCoordinator;
+import icbm.explosion.gui.GuiMissileTable;
+import icbm.explosion.gui.GuiRadarStation;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.machines.TileEntityEmpTower;
 import icbm.explosion.machines.TileEntityLauncherBase;
@@ -154,6 +155,10 @@ public class ClientProxy extends CommonProxy
         else if (tileEntity instanceof TileEntityMissileCoordinator)
         {
             return new GuiMissileCoordinator(entityPlayer.inventory, (TileEntityMissileCoordinator) tileEntity);
+        }
+        else if (tileEntity instanceof TileEntityMissileTable)
+        {
+            return new GuiMissileTable(entityPlayer.inventory, ((TileEntityMissileTable) tileEntity));
         }
 
         return null;

@@ -4,14 +4,20 @@ import com.google.common.io.ByteArrayDataInput;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import icbm.api.ITier;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.missile.EntityMissile;
+import icbm.explosion.missile.missile.ItemMissile;
+import calclavia.lib.multiblock.IBlockActivate;
 import calclavia.lib.multiblock.IMultiBlock;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
@@ -19,9 +25,9 @@ import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.IRotatable;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
 
-public class TileEntityMissileTable extends TileEntityAdvanced implements IMultiBlock, ITier, IRotatable, IPacketReceiver
+public class TileEntityMissileTable extends TileEntityAdvanced implements IMultiBlock, ITier, IRotatable, IPacketReceiver, IInventory, IBlockActivate
 {
-    public int tier = -1;
+    public int tier = -1, missileID = -1;
     /** Side placed on */
     public ForgeDirection placedSide = ForgeDirection.UP;
     /** 0 - 3 of rotation on the given side */
@@ -29,11 +35,13 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     public boolean rotating = false;
 
     EntityMissile missile;
+    private ItemStack[] containingItems = new ItemStack[1];
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
+        //TODO crafting and display missile settings
     }
 
     @Override
@@ -159,6 +167,21 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
         super.readFromNBT(nbt);
         this.rotationSide = nbt.getByte("rotationSide");
         this.placedSide = ForgeDirection.getOrientation((int) nbt.getByte("placedSide"));
+
+        NBTTagList var2 = nbt.getTagList("Items");
+
+        this.containingItems = new ItemStack[this.getSizeInventory()];
+
+        for (int var3 = 0; var3 < var2.tagCount(); ++var3)
+        {
+            NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
+            byte var5 = var4.getByte("Slot");
+
+            if (var5 >= 0 && var5 < this.containingItems.length)
+            {
+                this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
+            }
+        }
     }
 
     @Override
@@ -167,6 +190,38 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
         super.writeToNBT(nbt);
         nbt.setByte("rotationSide", this.rotationSide);
         nbt.setByte("placedSide", (byte) this.placedSide.ordinal());
+
+        NBTTagList var2 = new NBTTagList();
+
+        for (int var3 = 0; var3 < this.containingItems.length; ++var3)
+        {
+            if (this.containingItems[var3] != null)
+            {
+                NBTTagCompound var4 = new NBTTagCompound();
+                var4.setByte("Slot", (byte) var3);
+                this.containingItems[var3].writeToNBT(var4);
+                var2.appendTag(var4);
+            }
+        }
+
+        nbt.setTag("Items", var2);
+    }
+
+    @Override
+    public boolean onActivated(EntityPlayer entityPlayer)
+    {
+        if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
+        {
+            if (entityPlayer.inventory.getCurrentItem().getItem() instanceof ItemMissile)
+            {
+                this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
+                entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+                return true;
+            }
+        }
+
+        entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        return true;
     }
 
     @Override
@@ -179,6 +234,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
             {
                 this.rotationSide = dataStream.readByte();
                 this.placedSide = ForgeDirection.getOrientation(dataStream.readByte());
+                this.missileID = dataStream.readInt();
                 this.worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
             }
         }
@@ -187,7 +243,146 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, ((byte) 0), ((byte) this.rotationSide), ((byte) this.placedSide.ordinal()));
+        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, ((byte) 0), ((byte) this.rotationSide), ((byte) this.placedSide.ordinal()), this.missileID);
+    }
+
+    public void onInventoryChanged()
+    {
+        super.onInventoryChanged();
+        if (!this.worldObj.isRemote)
+        {
+            if (this.getStackInSlot(0) != null && this.getStackInSlot(0).getItem() instanceof ItemMissile)
+            {
+                missileID = this.getStackInSlot(0).getItemDamage();
+            }
+        }
+    }
+
+    /** Returns the number of slots in the inventory. */
+    @Override
+    public int getSizeInventory()
+    {
+        return this.containingItems.length;
+    }
+
+    /** Returns the stack in slot i */
+    @Override
+    public ItemStack getStackInSlot(int par1)
+    {
+        return this.containingItems[par1];
+    }
+
+    /** Decrease the size of the stack in slot (first int arg) by the amount of the second int arg.
+     * Returns the new stack. */
+    @Override
+    public ItemStack decrStackSize(int par1, int par2)
+    {
+        if (this.containingItems[par1] != null)
+        {
+            ItemStack var3;
+
+            if (this.containingItems[par1].stackSize <= par2)
+            {
+                var3 = this.containingItems[par1];
+                this.containingItems[par1] = null;
+                return var3;
+            }
+            else
+            {
+                var3 = this.containingItems[par1].splitStack(par2);
+
+                if (this.containingItems[par1].stackSize == 0)
+                {
+                    this.containingItems[par1] = null;
+                }
+
+                return var3;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /** When some containers are closed they call this on each slot, then drop whatever it returns as
+     * an EntityItem - like when you close a workbench GUI. */
+    @Override
+    public ItemStack getStackInSlotOnClosing(int par1)
+    {
+        if (this.containingItems[par1] != null)
+        {
+            ItemStack var2 = this.containingItems[par1];
+            this.containingItems[par1] = null;
+            return var2;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /** Sets the given item stack to the specified slot in the inventory (can be crafting or armor
+     * sections). */
+    @Override
+    public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+    {
+        this.containingItems[par1] = par2ItemStack;
+
+        if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
+        {
+            par2ItemStack.stackSize = this.getInventoryStackLimit();
+        }
+    }
+
+    /** Returns the name of the inventory. */
+    @Override
+    public String getInvName()
+    {
+        return "Missile Table";
+    }
+
+    /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
+     * extended. *Isn't this more of a set than a get?* */
+    @Override
+    public int getInventoryStackLimit()
+    {
+        return 1;
+    }
+
+    /** Do not make give this method the name canInteractWith because it clashes with Container */
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+    {
+        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+    }
+
+    @Override
+    public void openChest()
+    {
+    }
+
+    @Override
+    public void closeChest()
+    {
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return INFINITE_EXTENT_AABB;
+    }
+
+    @Override
+    public boolean isInvNameLocalized()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
+    {
+        return itemStack.getItem() instanceof ItemMissile;
     }
 
 }

@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
+import calclavia.lib.multiblock.IBlockActivate;
 import calclavia.lib.multiblock.IMultiBlock;
 import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 import cpw.mods.fml.relauncher.Side;
@@ -202,6 +203,23 @@ public class BlockMissileTable extends BlockICBM
         }
 
         super.breakBlock(world, x, y, z, par5, par6);
+    }
+
+    /** Called when the block is right clicked by the player */
+    @Override
+    public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    {
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+        if (tileEntity != null)
+        {
+            if (tileEntity instanceof IBlockActivate)
+            {
+                return ((IBlockActivate) tileEntity).onActivated(player);
+            }
+        }
+
+        return false;
     }
 
 }
