@@ -1,41 +1,44 @@
 package icbm.explosion.missile.modular;
 
+import icbm.api.explosion.IMissileModule.IMissileEngine;
 import net.minecraft.nbt.NBTTagCompound;
-import icbm.core.base.Modular;
 
 /** @author DarkGuardsman */
-public class ModularEngine extends Modular
+public class ModuleMissileEngine extends ModuleMissileBase implements IMissileEngine
 {
 
-    protected float acceleration, maxSpeed;
+    protected float acceleration, maxSpeed, mass = 100;
 
-    public ModularEngine(String name, int tier)
+    public ModuleMissileEngine(String name, int tier)
     {
         super(name, tier);
     }
 
+    @Override
     public float getAcceleration()
     {
         return this.acceleration;
     }
 
-    public float getMaxspeed()
+    @Override
+    public float getMaxSpeed()
     {
         return this.maxSpeed;
     }
 
-    public ModularEngine setAcceleration(float acceleration)
+    public ModuleMissileEngine setAcceleration(float acceleration)
     {
         this.acceleration = acceleration;
         return this;
     }
 
-    public ModularEngine setMaxspeed(float maxSpeed)
+    public ModuleMissileEngine setMaxspeed(float maxSpeed)
     {
         this.maxSpeed = maxSpeed;
         return this;
     }
 
+    @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
         super.save(nbt);
@@ -44,10 +47,18 @@ public class ModularEngine extends Modular
         return nbt;
     }
 
+    @Override
     public void load(NBTTagCompound nbt)
     {
         super.load(nbt);
         this.acceleration = nbt.getFloat("acceleration");
         this.maxSpeed = nbt.getFloat("maxSpeed");
     }
+
+    @Override
+    public String getOreName()
+    {
+        return "MissileEngine";
+    }
+
 }

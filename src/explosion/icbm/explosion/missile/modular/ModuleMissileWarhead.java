@@ -3,16 +3,15 @@ package icbm.explosion.missile.modular;
 import net.minecraft.nbt.NBTTagCompound;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.core.base.Modular;
 
 /** @author DarkGuardsman */
-public class ModularWarhead extends Modular implements IExplosiveContainer
+public class ModuleMissileWarhead extends ModuleMissileBase implements IExplosiveContainer
 {
 
     protected NBTTagCompound nbtTagCompound;
     protected IExplosive explosive;
 
-    public ModularWarhead(String name, int tier, IExplosive bomb)
+    public ModuleMissileWarhead(String name, int tier, IExplosive bomb)
     {
         super(name, tier);
         this.explosive = bomb;
@@ -34,15 +33,23 @@ public class ModularWarhead extends Modular implements IExplosiveContainer
         return this.explosive;
     }
 
+    @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
         super.save(nbt);
         return nbt;
     }
 
+    @Override
     public void load(NBTTagCompound nbt)
     {
         super.load(nbt);
+    }
+
+    @Override
+    public String getOreName()
+    {
+        return "MissileWarhead";
     }
 
 }

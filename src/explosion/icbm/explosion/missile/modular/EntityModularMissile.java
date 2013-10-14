@@ -1,5 +1,11 @@
 package icbm.explosion.missile.modular;
 
+import icbm.api.ILauncherContainer;
+import icbm.api.IMissile;
+import icbm.api.IMissileLockable;
+import icbm.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosiveContainer;
+import icbm.api.sentry.IAATarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -8,37 +14,50 @@ import universalelectricity.core.vector.Vector3;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
-import icbm.api.ILauncherContainer;
-import icbm.api.IMissile;
-import icbm.api.IMissileLockable;
-import icbm.api.explosion.IExplosive;
-import icbm.api.explosion.IExplosiveContainer;
-import icbm.api.sentry.IAATarget;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityModularMissile extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
 {
-    /** Missile warhead */
-    ModularWarhead warhead;
-    /** Missile casing */
-    ModularCasing casing;
-    /** Missile engine */
-    ModularEngine engine;
-    float health;
+    protected float currentHealt;
+    protected ModuleContainerMissile missileDesign;
+    protected Vector3 startPos, targetPos, launcherPos;
 
     public EntityModularMissile(World par1World)
     {
         super(par1World);
+        this.setSize(1F, 1F);
+        this.renderDistanceWeight = 3;
+        this.isImmuneToFire = true;
+        this.ignoreFrustumCheck = true;
     }
 
-    public EntityModularMissile(World world, Vector3 spawnPoint, ModularWarhead warhead, ModularCasing casing, ModularEngine engine)
+    /** Spawns a traditional missile and cruise missiles
+     * 
+     * @param explosiveId - Explosive ID
+     * @param startPos - Starting Position
+     * @param launcherPos - Missile Launcher Position */
+    public EntityModularMissile(World world, Vector3 startPos, Vector3 launcherPos)
     {
         this(world);
-        this.setLocationAndAngles(spawnPoint.x, spawnPoint.y, spawnPoint.z, 0, 0);
-        this.warhead = warhead;
-        this.casing = casing;
-        this.engine = engine;
-        this.health = casing.health;
+        this.startPos = startPos;
+        this.launcherPos = launcherPos;
+
+        this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
+        this.setRotation(0, 90);
+    }
+
+    /** For rocket launchers
+     * 
+     * @param explosiveId - Explosive ID
+     * @param startPos - Starting Position
+     * @param targetVector - Target Position */
+    public EntityModularMissile(World world, Vector3 startPos, float yaw, float pitch)
+    {
+        this(world);
+        this.launcherPos = this.startPos = startPos;
+
+        this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
+        this.setRotation(yaw, pitch);
     }
 
     @Override
@@ -50,13 +69,15 @@ public class EntityModularMissile extends Entity implements IMissileLockable, IE
     @Override
     public int doDamage(int damage)
     {
-        return;
+        currentHealt -= damage;
+        return (int) this.currentHealt;
     }
 
     @Override
     public boolean canBeTargeted(Object entity)
     {
-        //TODO later add radar damping modular to decrase targeting chance
+        //TODO later add radar damping modular to decrease targeting chance at higher ranges
+        //Possible take this as far as real world conditions were weather, and light effect visual targeting, in which a radar damping setup would make a missile get closer before being seen
         return true;
     }
 

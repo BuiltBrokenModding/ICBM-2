@@ -2,14 +2,19 @@ package icbm.core.base;
 
 import net.minecraft.nbt.NBTTagCompound;
 import icbm.api.ITier;
+import icbm.core.implement.IModule;
+import icbm.core.implement.IModuleContainer;
 
-/** @author DarkGuardsman */
-public class Modular implements ITier
+/** Prefab for ICBM module parts uses in the creation, modification, or design of a more complex
+ * object.
+ *
+ * @author DarkGuardsman */
+public abstract class Module implements ITier, IModule
 {
     protected String name = "";
     protected int tier;
 
-    public Modular(String name, int tier)
+    public Module(String name, int tier)
     {
         this.name = name;
         this.tier = tier;
@@ -32,7 +37,7 @@ public class Modular implements ITier
         this.tier = tier;
     }
 
-    public Modular setName(String name)
+    public IModule setName(String name)
     {
         this.name = name;
         return this;
@@ -51,4 +56,11 @@ public class Modular implements ITier
         this.tier = nbt.getByte("tier");
         this.name = nbt.getString("Name");
     }
+
+    @Override
+    public boolean canBeUsedIn(IModuleContainer container)
+    {
+        return true;
+    }
+
 }

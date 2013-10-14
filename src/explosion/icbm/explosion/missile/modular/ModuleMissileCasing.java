@@ -1,10 +1,10 @@
 package icbm.explosion.missile.modular;
 
 import net.minecraft.nbt.NBTTagCompound;
-import icbm.core.base.Modular;
+import icbm.api.explosion.IMissileModule.IMissileBody;
 
 /** @author DarkGuardsman */
-public class ModularCasing extends Modular
+public class ModuleMissileCasing extends ModuleMissileBase implements IMissileBody
 {
 
     /** Starting HP of the casing */
@@ -16,55 +16,61 @@ public class ModularCasing extends Modular
     /** Chance for the missile to catch fire when damaged */
     protected float fireChance;
 
-    public ModularCasing(String name, int tier)
+    public ModuleMissileCasing(String name, int tier)
     {
         super(name, tier);
     }
 
-    public float getHealth()
+    @Override
+    public float getHealthBonus()
     {
-        return this.health;
+        return 0;
     }
 
-    public float getArmor()
+    @Override
+    public float getArmorBonus()
     {
-        return this.armor;
+        // TODO Auto-generated method stub
+        return 0;
     }
 
+    @Override
     public float getDamageChance()
     {
         return this.damageChance;
     }
 
+    @Override
     public float getFireChance()
     {
         return this.fireChance;
     }
 
-    public ModularCasing setDamageChance(float chance)
+    public ModuleMissileCasing setDamageChance(float chance)
     {
         this.damageChance = chance;
         return this;
     }
 
-    public ModularCasing setFireChance(float chance)
+    public ModuleMissileCasing setFireChance(float chance)
     {
         this.fireChance = chance;
         return this;
     }
 
-    public ModularCasing setHealth(float health)
+    public ModuleMissileCasing setHealth(float health)
     {
         this.health = health;
         return this;
     }
 
-    public ModularCasing setArmor(float armor)
+    public ModuleMissileCasing setArmor(float armor)
     {
         this.armor = armor;
         return this;
     }
 
+    @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
         super.save(nbt);
@@ -75,13 +81,20 @@ public class ModularCasing extends Modular
         return nbt;
     }
 
+    @Override
     public void load(NBTTagCompound nbt)
     {
-       super.load(nbt);
-       this.health = nbt.getFloat("health");
-       this.armor = nbt.getFloat("armor");
-       this.damageChance = nbt.getFloat("damageChance");
-       this.fireChance = nbt.getFloat("fireChance");
+        super.load(nbt);
+        this.health = nbt.getFloat("health");
+        this.armor = nbt.getFloat("armor");
+        this.damageChance = nbt.getFloat("damageChance");
+        this.fireChance = nbt.getFloat("fireChance");
+    }
+
+    @Override
+    public String getOreName()
+    {
+        return "MissileCasing";
     }
 
 }
