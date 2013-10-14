@@ -19,7 +19,7 @@ public interface IAATarget
     @Deprecated
     public int doDamage(int damage);
 
-    /** Attacks the aa target in the same way as a normal EntityLiving
+    /** Attacks the aa target in the same way as  Entity.attackEntityFrom
      *
      * @param source - Damage source
      * @param damage - actual damage to apply

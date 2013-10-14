@@ -4,6 +4,9 @@ import icbm.api.explosion.IMissileModule;
 import icbm.core.base.Module;
 import icbm.core.implement.IModuleContainer;
 
+/** Prefab for all parts that go into a missile
+ *
+ * @author DarkGuardsman */
 public abstract class ModuleMissileBase extends Module implements IMissileModule
 {
     float mass = 1;
@@ -39,9 +42,10 @@ public abstract class ModuleMissileBase extends Module implements IMissileModule
         return this.mass;
     }
 
-    public void setMass(float kilograms)
+    public ModuleMissileBase setMass(float kilograms)
     {
         this.mass = kilograms;
+        return this;
     }
 
 }

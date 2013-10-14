@@ -26,12 +26,14 @@ public class ModuleMissileEngine extends ModuleMissileBase implements IMissileEn
         return this.maxSpeed;
     }
 
+    /** Base acceleration in meters a second */
     public ModuleMissileEngine setAcceleration(float acceleration)
     {
         this.acceleration = acceleration;
         return this;
     }
 
+    /** Max speed in meters a second */
     public ModuleMissileEngine setMaxspeed(float maxSpeed)
     {
         this.maxSpeed = maxSpeed;
