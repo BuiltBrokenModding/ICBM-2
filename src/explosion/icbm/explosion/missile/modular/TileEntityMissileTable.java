@@ -1,28 +1,43 @@
 package icbm.explosion.missile.modular;
 
+import com.google.common.io.ByteArrayDataInput;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import icbm.api.ITier;
+import icbm.explosion.ICBMExplosion;
 import calclavia.lib.multiblock.IMultiBlock;
 import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.IRotatable;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
 
-public class TileEntityMissileTable extends TileEntityAdvanced implements IMultiBlock, ITier, IRotatable
+public class TileEntityMissileTable extends TileEntityAdvanced implements IMultiBlock, ITier, IRotatable, IPacketReceiver
 {
     public int tier = -1;
     /** Side placed on */
-    ForgeDirection placedSide = ForgeDirection.UP;
+    public ForgeDirection placedSide = ForgeDirection.UP;
     /** 0 - 3 of rotation on the given side */
-    byte rotationSide = 0;
+    public byte rotationSide = 0;
 
     @Override
     public Vector3[] getMultiBlockVectors()
     {
+        return getMultiBlockVectors(placedSide, rotationSide);
+    }
+
+    public static Vector3[] getMultiBlockVectors(ForgeDirection side, byte rot)
+    {
         //rotation doesn't really effect the multi block too much however placed side does
-        if (placedSide == ForgeDirection.UP || placedSide == ForgeDirection.DOWN)
+        if (side == ForgeDirection.UP || side == ForgeDirection.DOWN)
         {
             //line up on the x
-            if (rotationSide == 0 || rotationSide == 2)
+            if (rot == 0 || rot == 2)
             {
                 return new Vector3[] { new Vector3(1, 0, 0), new Vector3(-1, 0, 0) };
             }
@@ -32,13 +47,13 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
         else
         {
             //Lined up with x or z
-            if (rotationSide == 0 || rotationSide == 2)
+            if (rot == 0 || rot == 2)
             {
-                if (placedSide == ForgeDirection.NORTH || placedSide == ForgeDirection.EAST)
+                if (side == ForgeDirection.NORTH || side == ForgeDirection.EAST)
                 {
                     return new Vector3[] { new Vector3(-1, 0, 0), new Vector3(1, 0, 0) };
                 }
-                else if (placedSide == ForgeDirection.SOUTH || placedSide == ForgeDirection.WEST)
+                else if (side == ForgeDirection.SOUTH || side == ForgeDirection.WEST)
                 {
                     return new Vector3[] { new Vector3(0, 0, -1), new Vector3(0, 0, 1) };
                 }
@@ -67,14 +82,101 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     @Override
     public ForgeDirection getDirection()
     {
-        return null;
+        //direction is actually based on the rotation of the object on the side of a block. This way the assembly line rotation block will rotate it correctly. As well for wrench support
+
+        if (this.rotationSide == 0)
+        {
+            return ForgeDirection.NORTH;
+        }
+        else if (this.rotationSide == 2)
+        {
+            return ForgeDirection.SOUTH;
+        }
+        else if (this.rotationSide == 1)
+        {
+            return ForgeDirection.EAST;
+        }
+        else
+        {
+            return ForgeDirection.WEST;
+        }
     }
 
     @Override
-    public void setDirection(ForgeDirection direection)
+    public void setDirection(ForgeDirection direction)
     {
-        // TODO Auto-generated method stub
+        byte rot = 0;
 
+        if (direction == ForgeDirection.NORTH)
+        {
+            rot = 0;
+        }
+        else if (direction == ForgeDirection.SOUTH)
+        {
+            rot = 2;
+        }
+        else if (direction == ForgeDirection.EAST)
+        {
+            rot = 1;
+        }
+        else
+        {
+            rot = 3;
+        }
+        if(BlockMissileTable.canPlaceBlockAt(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
+        {
+            this.rotationSide = rot;
+            this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
+    }
+
+    public void setPlacedSide(ForgeDirection side)
+    {
+        this.placedSide = side;
+    }
+
+    public void setRotation(byte rot)
+    {
+        if(BlockMissileTable.canPlaceBlockAt(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
+        {
+            this.rotationSide = rot;
+        }
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        this.rotationSide = nbt.getByte("rotationSide");
+        this.placedSide = ForgeDirection.getOrientation((int) nbt.getByte("placedSide"));
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        nbt.setByte("rotationSide", this.rotationSide);
+        nbt.setByte("placedSide", (byte) this.placedSide.ordinal());
+    }
+
+    @Override
+    public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+    {
+        if (this.worldObj.isRemote)
+        {
+            byte id = dataStream.readByte();
+            if(id == 0)
+            {
+                this.rotationSide = dataStream.readByte();
+                this.placedSide = ForgeDirection.getOrientation(dataStream.readByte());
+            }
+        }
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        return PacketManager.getPacket(ICBMExplosion.CHANNEL, ((byte) 0), ((byte) this.rotationSide), ((byte) this.placedSide.ordinal()));
     }
 
 }

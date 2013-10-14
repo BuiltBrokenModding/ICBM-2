@@ -38,32 +38,32 @@ public class ItemBlockMachine extends ItemBlock
     @Override
     public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
-        int jiQiMetadata;
+        int meta;
 
         if (itemStack.getItemDamage() < 3)
         {
-            jiQiMetadata = 0;
+            meta = 0;
         }
         else if (itemStack.getItemDamage() < 6)
         {
-            jiQiMetadata = 1;
+            meta = 1;
         }
         else if (itemStack.getItemDamage() < 9)
         {
-            jiQiMetadata = 2;
+            meta = 2;
         }
         else
         {
-            jiQiMetadata = itemStack.getItemDamage() - 6;
+            meta = itemStack.getItemDamage() - 6;
         }
 
         int direction = MathHelper.floor_double((entityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
-        if (BlockICBMMachine.canBePlacedAt(world, x, y, z, jiQiMetadata, direction))
+        if (BlockICBMMachine.canBePlacedAt(world, x, y, z, meta, direction))
         {
             Block var9 = Block.blocksList[this.getBlockID()];
 
-            if (world.setBlock(x, y, z, this.getBlockID(), jiQiMetadata, 3))
+            if (world.setBlock(x, y, z, this.getBlockID(), meta, 3))
             {
                 if (world.getBlockId(x, y, z) == this.getBlockID())
                 {

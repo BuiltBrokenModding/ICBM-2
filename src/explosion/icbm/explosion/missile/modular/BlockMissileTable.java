@@ -1,16 +1,16 @@
 package icbm.explosion.missile.modular;
 
-import calclavia.lib.multiblock.IMultiBlock;
 import icbm.core.ICBMCore;
 import icbm.core.base.BlockICBM;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.prefab.tile.IRotatable;
+import universalelectricity.core.vector.Vector3;
+import calclavia.lib.multiblock.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -66,7 +66,38 @@ public class BlockMissileTable extends BlockICBM
     @Override
     public boolean canBlockStay(World world, int x, int y, int z)
     {
-       return false;
+        ForgeDirection side = ForgeDirection.UP;
+        byte rot = 0;
+        if (world.getBlockTileEntity(x, y, z) instanceof TileEntityMissileTable)
+        {
+            side = ((TileEntityMissileTable) world.getBlockTileEntity(x, y, z)).placedSide;
+            rot = ((TileEntityMissileTable) world.getBlockTileEntity(x, y, z)).rotationSide;
+        }
+        return canPlaceBlockAt(world, x, y, z, side, rot);
+    }
+
+    /** Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
+     * z
+     *
+     * @param rot
+     * @param placeSide */
+    public static boolean canPlaceBlockAt(World world, int x, int y, int z, ForgeDirection placeSide, int rot)
+    {
+        Block block = Block.blocksList[world.getBlockId(x, y, z)];
+        if (block == null || block.isBlockReplaceable(world, x, y, z))
+        {
+            Vector3[] vecs = TileEntityMissileTable.getMultiBlockVectors(placeSide, (byte) rot);
+            for (int i = 0; i > vecs.length; i++)
+            {
+                block = Block.blocksList[world.getBlockId(x + vecs[i].intX(), y + vecs[i].intY(), z + vecs[i].intZ())];
+                if (block != null && !block.isBlockReplaceable(world, x, y, z))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 }
