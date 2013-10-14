@@ -9,6 +9,7 @@ import icbm.explosion.model.tiles.ModelRadarStation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -27,10 +28,12 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
     public void renderAModelAt(TileEntityMissileTable tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
+        this.bindTexture(TEXTURE_FILE);
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+        int rotation = 0;
+        ForgeDirection side = ForgeDirection.UP;
 
-        this.bindTexture(TEXTURE_FILE);
 
         MODEL.render(0.0625F);
         //center claw
