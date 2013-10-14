@@ -48,30 +48,78 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
             {
                 GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
             }
-            if(tileEntity.placedSide == ForgeDirection.DOWN)
+            if (tileEntity.placedSide == ForgeDirection.DOWN)
             {
                 GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
                 GL11.glTranslatef(0, -2f, 0);
             }
         }
-        else
+        else if (tileEntity.placedSide == ForgeDirection.EAST)
         {
-            //Lined up with x or z
-            if (tileEntity.rotationSide == 0 || tileEntity.rotationSide == 2)
+            GL11.glRotatef(-90F, 0.0F, 0.0F, 1.0F);
+            GL11.glTranslatef(-1f, -1f, 0);
+            if (tileEntity.rotationSide == 0)
             {
-                if (tileEntity.placedSide == ForgeDirection.NORTH || tileEntity.placedSide == ForgeDirection.EAST)
-                {
-                    // return new Vector3[] { new Vector3(-1, 0, 0), new Vector3(1, 0, 0) };
-                }
-                else if (tileEntity.placedSide == ForgeDirection.SOUTH || tileEntity.placedSide == ForgeDirection.WEST)
-                {
-                    //return new Vector3[] { new Vector3(0, 0, -1), new Vector3(0, 0, 1) };
-                }
+                GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
             }
-            else
+            else if (tileEntity.rotationSide == 1)
             {
-                //Lined up with the Y
-                //return new Vector3[] { new Vector3(0, 1, 0), new Vector3(0, -1, 0) };
+                GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 2)
+            {
+                GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
+            }
+        }
+        else if (tileEntity.placedSide == ForgeDirection.WEST)
+        {
+            GL11.glRotatef(90F, 0.0F, 0.0F, 1.0F);
+            GL11.glTranslatef(1f, -1f, 0);
+            if (tileEntity.rotationSide == 0)
+            {
+                GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 1)
+            {
+                GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 2)
+            {
+                GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
+            }
+        }
+        else if (tileEntity.placedSide == ForgeDirection.NORTH)
+        {
+            GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
+            GL11.glTranslatef(0, -1f, -1f);
+            if (tileEntity.rotationSide == 1)
+            {
+                GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 2)
+            {
+                GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 3)
+            {
+                GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
+            }
+        }
+        else if (tileEntity.placedSide == ForgeDirection.SOUTH)
+        {
+            GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
+            GL11.glTranslatef(0, -1f, 1f);
+            if (tileEntity.rotationSide == 1)
+            {
+                GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 2)
+            {
+                GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 3)
+            {
+                GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
             }
         }
 

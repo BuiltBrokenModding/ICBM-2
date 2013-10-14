@@ -50,11 +50,11 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
             //Lined up with x or z
             if (rot == 0 || rot == 2)
             {
-                if (side == ForgeDirection.NORTH || side == ForgeDirection.EAST)
+                if (side == ForgeDirection.NORTH || side == ForgeDirection.SOUTH)
                 {
                     return new Vector3[] { new Vector3(-1, 0, 0), new Vector3(1, 0, 0) };
                 }
-                else if (side == ForgeDirection.SOUTH || side == ForgeDirection.WEST)
+                else if (side == ForgeDirection.EAST || side == ForgeDirection.WEST)
                 {
                     return new Vector3[] { new Vector3(0, 0, -1), new Vector3(0, 0, 1) };
                 }
