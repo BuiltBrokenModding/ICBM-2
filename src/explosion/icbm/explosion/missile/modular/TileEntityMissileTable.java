@@ -2,6 +2,7 @@ package icbm.explosion.missile.modular;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -38,6 +39,16 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
             this.spawnEntityMissile();
         }
     }
+    @Override
+    public void invalidate()
+    {
+        if (this.missile != null)
+        {
+            this.missile.setDead();
+        }
+
+        super.invalidate();
+    }
 
     public void spawnEntityMissile()
     {
@@ -47,8 +58,8 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
         }
         if(!this.worldObj.isRemote)
         {
-            Vector3 pos = new Vector3(this).translate(new Vector3(this.placedSide));
-            float yaw = 0, pitch = 0;
+            Vector3 pos = new Vector3(this).translate(new Vector3(this.placedSide)).translate(0.5D);
+            float yaw = 90, pitch = 0;
 
             missile = new EntityMissile(worldObj, pos, 0, yaw, pitch);
             this.worldObj.spawnEntityInWorld(missile);
@@ -199,8 +210,6 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
                 this.rotationSide = dataStream.readByte();
                 this.placedSide = ForgeDirection.getOrientation(dataStream.readByte());
                 this.worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
-                System.out.println("Rotation: " + rotationSide);
-                System.out.println("Side: " + placedSide.toString());
             }
         }
     }
