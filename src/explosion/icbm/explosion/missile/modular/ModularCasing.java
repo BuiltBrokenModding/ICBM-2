@@ -1,4 +1,4 @@
-package icbm.explosion.missile;
+package icbm.explosion.missile.modular;
 
 import net.minecraft.nbt.NBTTagCompound;
 import icbm.core.base.Modular;
