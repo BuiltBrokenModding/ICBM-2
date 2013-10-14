@@ -10,6 +10,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import icbm.api.ITier;
 import icbm.explosion.ICBMExplosion;
+import icbm.explosion.missile.missile.EntityMissile;
 import calclavia.lib.multiblock.IMultiBlock;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
@@ -25,6 +26,34 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     /** 0 - 3 of rotation on the given side */
     public byte rotationSide = 0;
     public boolean rotating = false;
+
+    EntityMissile missile;
+
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
+        if (missile == null)
+        {
+            this.spawnEntityMissile();
+        }
+    }
+
+    public void spawnEntityMissile()
+    {
+        if (missile != null)
+        {
+            missile.setDead();
+        }
+        if(!this.worldObj.isRemote)
+        {
+            Vector3 pos = new Vector3(this).translate(new Vector3(this.placedSide));
+            float yaw = 0, pitch = 0;
+
+            missile = new EntityMissile(worldObj, pos, 0, yaw, pitch);
+            this.worldObj.spawnEntityInWorld(missile);
+        }
+    }
 
     @Override
     public Vector3[] getMultiBlockVectors()

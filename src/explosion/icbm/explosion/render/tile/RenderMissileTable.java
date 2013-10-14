@@ -24,7 +24,9 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
     public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "grey.png");
 
     public static final ModelMissileCradel MODEL = new ModelMissileCradel();
-    public static final ModelMissileClaw MODEL_CLAW = new ModelMissileClaw();
+    public static final ModelMissileClaw MODEL_CLAW = new ModelMissileClaw(-2);
+    public static final ModelMissileClaw MODEL_CLAW2 = new ModelMissileClaw(12);
+    public static final ModelMissileClaw MODEL_CLAW3 = new ModelMissileClaw(-16);
 
     public void renderAModelAt(TileEntityMissileTable tileEntity, double x, double y, double z, float f)
     {
@@ -126,10 +128,9 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
         MODEL.render(0.0625F);
         //center claw
         MODEL_CLAW.render(0.0625F);
-        //left
-        MODEL_CLAW.render(0.0625F);
-        //right
-        MODEL_CLAW.render(0.0625F);
+        MODEL_CLAW2.render(0.0625F);
+        MODEL_CLAW3.render(0.0625F);
+
 
         GL11.glPopMatrix();
     }
