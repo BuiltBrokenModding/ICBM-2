@@ -179,7 +179,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMExplosion.CHANNEL, ((byte) 0), ((byte) this.rotationSide), ((byte) this.placedSide.ordinal()));
+        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, ((byte) 0), ((byte) this.rotationSide), ((byte) this.placedSide.ordinal()));
     }
 
 }

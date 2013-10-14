@@ -161,7 +161,7 @@ public class BlockMissileTable extends BlockICBM
             }
             if (canRotateBlockTo(world, x, y, z, side, rotation))
             {
-                //Due to how multi blocks work we nee to save and display item drops for the tileEntity
+                //Due to how multi blocks work we need to save and disable item drops for the tileEntity
                 //Then reload the tileEntity nbt into the newly created block&tileEntity
                 NBTTagCompound tag = new NBTTagCompound();
                 ((TileEntityMissileTable) entity).rotating = true;
