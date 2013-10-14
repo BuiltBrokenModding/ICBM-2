@@ -5,7 +5,7 @@ import calclavia.lib.multiblock.IMultiBlock;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
 
-public class TileMissileTable extends TileEntityAdvanced implements IMultiBlock, ITier
+public class TileEntityMissileTable extends TileEntityAdvanced implements IMultiBlock, ITier
 {
     public int tier = -1;
 

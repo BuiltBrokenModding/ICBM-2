@@ -12,6 +12,7 @@ import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.machines.TileEntitySupportFrame;
 import icbm.explosion.missile.TileEntityExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
+import icbm.explosion.missile.modular.TileEntityMissileTable;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /** ICBM Explosion Module Common Proxy
- * 
+ *
  * @author Calclavia */
 public class CommonProxy implements IGuiHandler
 {
@@ -43,6 +44,7 @@ public class CommonProxy implements IGuiHandler
         GameRegistry.registerTileEntity(TileEntityEmpTower.class, "ICBMDianCiQi");
         GameRegistry.registerTileEntity(TileEntityMissileCoordinator.class, "ICBMYinDaoQi");
         GameRegistry.registerTileEntity(TileEntityExplosive.class, "ICBMZhaDan");
+        GameRegistry.registerTileEntity(TileEntityMissileTable.class, "ICBMMissileTable");
     }
 
     @Override

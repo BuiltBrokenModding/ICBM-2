@@ -28,6 +28,7 @@ import icbm.explosion.missile.EntityGrenade;
 import icbm.explosion.missile.TileEntityExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.MissilePlayerHandler;
+import icbm.explosion.missile.modular.TileEntityMissileTable;
 import icbm.explosion.potion.PDongShang;
 import icbm.explosion.render.entity.RenderEntityBlock;
 import icbm.explosion.render.entity.RenderEntityExplosive;
@@ -46,6 +47,7 @@ import icbm.explosion.render.tile.RenderBombBlock;
 import icbm.explosion.render.tile.RenderCruiseLauncher;
 import icbm.explosion.render.tile.RenderEmpTower;
 import icbm.explosion.render.tile.RenderMissileCoordinator;
+import icbm.explosion.render.tile.RenderMissileTable;
 import icbm.explosion.render.tile.RenderRadarStation;
 
 import java.util.List;
@@ -120,6 +122,8 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEmpTower.class, new RenderEmpTower());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMissileCoordinator.class, new RenderMissileCoordinator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityExplosive.class, new RenderBombBlock());
+
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMissileTable.class, new RenderMissileTable());
     }
 
     @Override
