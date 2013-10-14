@@ -123,7 +123,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
         {
             rot = 3;
         }
-        if(BlockMissileTable.canPlaceBlockAt(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
+        if(BlockMissileTable.canRotateBlockTo(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
         {
             this.rotationSide = rot;
             this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -137,7 +137,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
 
     public void setRotation(byte rot)
     {
-        if(BlockMissileTable.canPlaceBlockAt(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
+        if(BlockMissileTable.canRotateBlockTo(this.worldObj, this.xCoord,this.yCoord,this.zCoord, this.placedSide, rot))
         {
             this.rotationSide = rot;
         }

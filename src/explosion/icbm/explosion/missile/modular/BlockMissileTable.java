@@ -1,9 +1,14 @@
 package icbm.explosion.missile.modular;
 
+import java.util.Random;
+
+import icbm.api.ITier;
 import icbm.core.ICBMCore;
 import icbm.core.base.BlockICBM;
+import icbm.explosion.ICBMExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -11,6 +16,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.vector.Vector3;
 import calclavia.lib.multiblock.IMultiBlock;
+import calclavia.lib.multiblock.TileEntityMultiBlockPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -83,13 +89,14 @@ public class BlockMissileTable extends BlockICBM
      * @param placeSide */
     public static boolean canPlaceBlockAt(World world, int x, int y, int z, ForgeDirection placeSide, int rot)
     {
-        Block block = Block.blocksList[world.getBlockId(x, y, z)];
+        Vector3 pos = new Vector3(x, y, z);
+        Block block = Block.blocksList[pos.getBlockID(world)];
         if (block == null || block.isBlockReplaceable(world, x, y, z))
         {
             Vector3[] vecs = TileEntityMissileTable.getMultiBlockVectors(placeSide, (byte) rot);
-            for (int i = 0; i > vecs.length; i++)
+            for (Vector3 vec : vecs)
             {
-                block = Block.blocksList[world.getBlockId(x + vecs[i].intX(), y + vecs[i].intY(), z + vecs[i].intZ())];
+                block = Block.blocksList[pos.clone().translate(vec).getBlockID(world)];
                 if (block != null && !block.isBlockReplaceable(world, x, y, z))
                 {
                     return false;
@@ -98,6 +105,85 @@ public class BlockMissileTable extends BlockICBM
             return true;
         }
         return false;
+    }
+
+    public static boolean canRotateBlockTo(World world, int x, int y, int z, ForgeDirection placeSide, int rot)
+    {
+        Vector3 pos = new Vector3(x, y, z);
+        Block block = Block.blocksList[pos.getBlockID(world)];
+        if (block == null || block.isBlockReplaceable(world, x, y, z) || block.blockID == ICBMExplosion.blockMissileTable.blockID)
+        {
+            Vector3[] vecs = TileEntityMissileTable.getMultiBlockVectors(placeSide, (byte) rot);
+
+            for (Vector3 vec : vecs)
+            {
+                block = Block.blocksList[pos.clone().translate(vec).getBlockID(world)];
+                boolean flag = true;
+                if (pos.clone().translate(vec).getTileEntity(world) instanceof TileEntityMultiBlockPart)
+                {
+                    Vector3 main = ((TileEntityMultiBlockPart) pos.clone().translate(vec).getTileEntity(world)).getMainBlock();
+                    flag = !main.equals(new Vector3(x, y, z));
+                }
+                if (block != null && !block.isBlockReplaceable(world, x, y, z) && flag)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onSneakUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int s, float hitX, float hitY, float hitZ)
+    {
+        if (world.isRemote)
+        {
+            return true;
+        }
+        byte rotation = 0;
+        ForgeDirection side = ForgeDirection.UP;
+        TileEntity entity = world.getBlockTileEntity(x, y, z);
+        if (entity instanceof TileEntityMissileTable)
+        {
+            rotation = ((TileEntityMissileTable) entity).rotationSide;
+            side = ((TileEntityMissileTable) entity).placedSide;
+            if (rotation == 3)
+            {
+                rotation = 0;
+            }
+            else
+            {
+                rotation++;
+            }
+            if (canRotateBlockTo(world, x, y, z, side, rotation))
+            {
+                Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
+
+                for (Vector3 position : positions)
+                {
+                    new Vector3(entity).translate(position).setBlock(entity.worldObj, 0);
+                }
+                ((TileEntityMissileTable) entity).setRotation(rotation);
+                ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
+
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, int par5, int par6)
+    {
+        if (world.getBlockTileEntity(x, y, z) instanceof IMultiBlock)
+        {
+            this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMissileTable, 1, 0));
+
+            ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) world.getBlockTileEntity(x, y, z));
+        }
+
+        super.breakBlock(world, x, y, z, par5, par6);
     }
 
 }

@@ -36,9 +36,17 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
         if (tileEntity.placedSide == ForgeDirection.UP || tileEntity.placedSide == ForgeDirection.DOWN)
         {
             //line up on the x
-            if (tileEntity.rotationSide == 1 || tileEntity.rotationSide == 3)
+            if (tileEntity.rotationSide == 1)
             {
                 GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 2)
+            {
+                GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (tileEntity.rotationSide == 3)
+            {
+                GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
             }
         }
         else
@@ -48,7 +56,7 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
             {
                 if (tileEntity.placedSide == ForgeDirection.NORTH || tileEntity.placedSide == ForgeDirection.EAST)
                 {
-                   // return new Vector3[] { new Vector3(-1, 0, 0), new Vector3(1, 0, 0) };
+                    // return new Vector3[] { new Vector3(-1, 0, 0), new Vector3(1, 0, 0) };
                 }
                 else if (tileEntity.placedSide == ForgeDirection.SOUTH || tileEntity.placedSide == ForgeDirection.WEST)
                 {
