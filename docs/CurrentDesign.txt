@@ -1,0 +1,12 @@
+3 Teirs of missiles
+
+
+Explosive types
+    EMP
+    Thermal
+        Exo
+            Nuke
+        Endo
+    Sharpnal
+    Sonic
+    Gravity
