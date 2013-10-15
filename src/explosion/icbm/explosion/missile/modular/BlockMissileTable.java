@@ -181,6 +181,39 @@ public class BlockMissileTable extends BlockICBM
                 ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
                 ((TileEntityMissileTable) entity).rotating = false;
                 world.markBlockForUpdate(x, y, z);
+                return true;
+
+            }
+            if (rotation == 3)
+            {
+                rotation = 0;
+            }
+            else
+            {
+                rotation++;
+            }
+            if (canRotateBlockTo(world, x, y, z, side, rotation))
+            {
+                //Due to how multi blocks work we need to save and disable item drops for the tileEntity
+                //Then reload the tileEntity nbt into the newly created block&tileEntity
+                NBTTagCompound tag = new NBTTagCompound();
+                ((TileEntityMissileTable) entity).rotating = true;
+
+                Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
+                ((TileEntityMissileTable) entity).setRotation(rotation);
+                ((TileEntityMissileTable)entity).writeToNBT(tag);
+                for (Vector3 position : positions)
+                {
+                    new Vector3(entity).translate(position).setBlock(entity.worldObj, 0);
+                }
+                world.setBlock(x, y, z, this.blockID);
+                entity = world.getBlockTileEntity(x, y, z);
+                ((TileEntityMissileTable)entity).readFromNBT(tag);
+
+                ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
+                ((TileEntityMissileTable) entity).rotating = false;
+                world.markBlockForUpdate(x, y, z);
+                return true;
 
             }
         }
