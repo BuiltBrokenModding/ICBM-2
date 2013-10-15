@@ -1,0 +1,5 @@
+Pumkin bomb - Halloween troll bomb that rises the dead. If possible turns it to night turns the moon to a blood moon, and stars to creeper heads. 
+Ender Dragon - extension to the ender bomb in which a enderdragon will pop up and attack for 20 seconds than vanishes. Does zero block damage.
+Nether Bomb - teleports a person to the nether and peaces of the nether to the world
+Dirty Bomb - nuke but without block damage. Designed to make radiation in the area.
+Teleportation Missile - teleports randomly to get to the target. Making it harder to take out, and cover larger distances.
