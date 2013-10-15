@@ -38,6 +38,12 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     private ItemStack[] containingItems = new ItemStack[1];
 
     @Override
+    public void initiate()
+    {
+        this.onInventoryChanged();
+    }
+
+    @Override
     public void updateEntity()
     {
         super.updateEntity();
@@ -216,6 +222,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
             {
                 this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
                 entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
+                this.onInventoryChanged();
                 return true;
             }
         }
@@ -256,6 +263,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
                 missileID = this.getStackInSlot(0).getItemDamage();
             }
         }
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     /** Returns the number of slots in the inventory. */
