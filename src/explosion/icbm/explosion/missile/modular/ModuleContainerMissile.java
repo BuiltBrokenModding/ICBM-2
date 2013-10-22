@@ -1,7 +1,7 @@
 package icbm.explosion.missile.modular;
 
-import universalelectricity.core.vector.Vector3;
 import net.minecraft.world.World;
+import universalelectricity.core.vector.Vector3;
 
 public class ModuleContainerMissile
 {

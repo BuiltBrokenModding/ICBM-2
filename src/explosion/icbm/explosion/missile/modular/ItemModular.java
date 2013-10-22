@@ -3,7 +3,7 @@ package icbm.explosion.missile.modular;
 import net.minecraft.item.Item;
 
 /** Container item that hold the module and info about it
- *
+ * 
  * @author DarkGuardsman */
 public class ItemModular extends Item
 {

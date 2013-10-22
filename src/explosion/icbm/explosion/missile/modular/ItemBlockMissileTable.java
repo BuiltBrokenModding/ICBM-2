@@ -23,7 +23,7 @@ public class ItemBlockMissileTable extends ItemBlock
     {
         ForgeDirection placeSide = ForgeDirection.getOrientation(side);
         byte rot = (byte) (MathHelper.floor_double((entityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3);
-        if(placeSide != ForgeDirection.UP && placeSide != ForgeDirection.DOWN)
+        if (placeSide != ForgeDirection.UP && placeSide != ForgeDirection.DOWN)
         {
             rot = 3;
         }

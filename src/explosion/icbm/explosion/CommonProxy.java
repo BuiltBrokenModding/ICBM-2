@@ -27,7 +27,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /** ICBM Explosion Module Common Proxy
- *
+ * 
  * @author Calclavia */
 public class CommonProxy implements IGuiHandler
 {

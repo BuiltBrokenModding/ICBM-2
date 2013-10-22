@@ -1,8 +1,5 @@
 package icbm.explosion.missile.modular;
 
-import java.util.Random;
-
-import icbm.api.ITier;
 import icbm.core.ICBMCore;
 import icbm.core.base.BlockICBM;
 import icbm.explosion.ICBMExplosion;
@@ -24,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 /** Multi-block table use to hold a missile prototype while the player is working on the design.
  * 3x1x1 in size
- *
+ * 
  * @author DarkGuardsman */
 public class BlockMissileTable extends BlockICBM
 {
@@ -88,7 +85,7 @@ public class BlockMissileTable extends BlockICBM
 
     /** Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y,
      * z
-     *
+     * 
      * @param rot
      * @param placeSide */
     public static boolean canPlaceBlockAt(World world, int x, int y, int z, ForgeDirection placeSide, int rot)
@@ -169,14 +166,14 @@ public class BlockMissileTable extends BlockICBM
 
                 Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
                 ((TileEntityMissileTable) entity).setRotation(rotation);
-                ((TileEntityMissileTable)entity).writeToNBT(tag);
+                ((TileEntityMissileTable) entity).writeToNBT(tag);
                 for (Vector3 position : positions)
                 {
                     new Vector3(entity).translate(position).setBlock(entity.worldObj, 0);
                 }
                 world.setBlock(x, y, z, this.blockID);
                 entity = world.getBlockTileEntity(x, y, z);
-                ((TileEntityMissileTable)entity).readFromNBT(tag);
+                ((TileEntityMissileTable) entity).readFromNBT(tag);
 
                 ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
                 ((TileEntityMissileTable) entity).rotating = false;
@@ -201,14 +198,14 @@ public class BlockMissileTable extends BlockICBM
 
                 Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
                 ((TileEntityMissileTable) entity).setRotation(rotation);
-                ((TileEntityMissileTable)entity).writeToNBT(tag);
+                ((TileEntityMissileTable) entity).writeToNBT(tag);
                 for (Vector3 position : positions)
                 {
                     new Vector3(entity).translate(position).setBlock(entity.worldObj, 0);
                 }
                 world.setBlock(x, y, z, this.blockID);
                 entity = world.getBlockTileEntity(x, y, z);
-                ((TileEntityMissileTable)entity).readFromNBT(tag);
+                ((TileEntityMissileTable) entity).readFromNBT(tag);
 
                 ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
                 ((TileEntityMissileTable) entity).rotating = false;

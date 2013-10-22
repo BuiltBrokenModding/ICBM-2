@@ -1,11 +1,12 @@
 package icbm.explosion.render.entity;
 
-import java.util.HashMap;
-
 import icbm.core.base.ModelICBM;
 import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.missile.missile.EntityMissile.MissileType;
+import icbm.explosion.missile.missile.Missile;
+
+import java.util.HashMap;
+
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -46,16 +47,16 @@ public class RenderMissile extends Render
             }
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
-            if (!this.cache.containsKey(missile))
+            if (!RenderMissile.cache.containsKey(missile))
             {
                 synchronized (cache)
                 {
-                    this.cache.put(missile, missile.getMissileModel());
+                    RenderMissile.cache.put(missile, missile.getMissileModel());
                 }
             }
             synchronized (cache)
             {
-                this.cache.get(missile).render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+                RenderMissile.cache.get(missile).render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
             }
 
             GL11.glPopMatrix();

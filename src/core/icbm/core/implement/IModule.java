@@ -1,9 +1,8 @@
 package icbm.core.implement;
 
-
 /** Interface design to say this object is a peace that can be used to modify or construct a large
  * object.
- *
+ * 
  * @author DarkGuardsman */
 public interface IModule
 {

@@ -1,8 +1,9 @@
 package icbm.explosion.missile.modular;
 
-import com.google.common.io.ByteArrayDataInput;
-
-import net.minecraft.entity.Entity;
+import icbm.api.ITier;
+import icbm.explosion.ICBMExplosion;
+import icbm.explosion.missile.missile.EntityMissile;
+import icbm.explosion.missile.missile.ItemMissile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -13,17 +14,15 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import icbm.api.ITier;
-import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.missile.ItemMissile;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.multiblock.IMultiBlock;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.IRotatable;
 import universalelectricity.prefab.tile.TileEntityAdvanced;
+import calclavia.lib.multiblock.IBlockActivate;
+import calclavia.lib.multiblock.IMultiBlock;
+
+import com.google.common.io.ByteArrayDataInput;
 
 public class TileEntityMissileTable extends TileEntityAdvanced implements IMultiBlock, ITier, IRotatable, IPacketReceiver, IInventory, IBlockActivate
 {
@@ -172,7 +171,7 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     {
         super.readFromNBT(nbt);
         this.rotationSide = nbt.getByte("rotationSide");
-        this.placedSide = ForgeDirection.getOrientation((int) nbt.getByte("placedSide"));
+        this.placedSide = ForgeDirection.getOrientation(nbt.getByte("placedSide"));
 
         NBTTagList var2 = nbt.getTagList("Items");
 
@@ -250,9 +249,10 @@ public class TileEntityMissileTable extends TileEntityAdvanced implements IMulti
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, ((byte) 0), ((byte) this.rotationSide), ((byte) this.placedSide.ordinal()), this.missileID);
+        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, ((byte) 0), this.rotationSide, ((byte) this.placedSide.ordinal()), this.missileID);
     }
 
+    @Override
     public void onInventoryChanged()
     {
         super.onInventoryChanged();

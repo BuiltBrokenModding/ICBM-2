@@ -5,7 +5,7 @@ import icbm.core.base.Module;
 import icbm.core.implement.IModuleContainer;
 
 /** Prefab for all parts that go into a missile
- *
+ * 
  * @author DarkGuardsman */
 public abstract class ModuleMissileBase extends Module implements IMissileModule
 {

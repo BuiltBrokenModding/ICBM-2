@@ -13,7 +13,6 @@ import java.util.HashMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
@@ -160,12 +159,12 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
             GL11.glTranslatef(1.0f, 0f, 0f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
 
-            if (!this.cache.containsKey(missile))
+            if (!RenderMissileTable.cache.containsKey(missile))
             {
-                this.cache.put(missile, missile.getMissileModel());
+                RenderMissileTable.cache.put(missile, missile.getMissileModel());
             }
 
-            this.cache.get(missile).render(0.0625F);
+            RenderMissileTable.cache.get(missile).render(0.0625F);
         }
 
         GL11.glPopMatrix();

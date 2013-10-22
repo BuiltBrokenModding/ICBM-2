@@ -1,7 +1,7 @@
 package icbm.explosion.missile.modular;
 
-import net.minecraft.nbt.NBTTagCompound;
 import icbm.api.explosion.IMissileModule.IMissileBody;
+import net.minecraft.nbt.NBTTagCompound;
 
 /** @author DarkGuardsman */
 public class ModuleMissileCasing extends ModuleMissileBase implements IMissileBody

@@ -1,8 +1,8 @@
 package icbm.explosion.missile.modular;
 
-import net.minecraft.nbt.NBTTagCompound;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
+import net.minecraft.nbt.NBTTagCompound;
 
 /** @author DarkGuardsman */
 public class ModuleMissileWarhead extends ModuleMissileBase implements IExplosiveContainer

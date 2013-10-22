@@ -175,7 +175,7 @@ public class BzYuanZi extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     *
+     * 
      * @param return - Return -1 if this explosive does not need procedural calls */
     @Override
     public int proceduralInterval()
