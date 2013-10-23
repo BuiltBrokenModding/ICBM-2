@@ -43,17 +43,20 @@ public class BlastAntimatter extends ExplosionBase
                 {
                     for (int z = (int) -this.getRadius(); z < this.getRadius(); z++)
                     {
-                        Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
-                        double dist = position.distanceTo(targetPosition);
+                        Vector3 targetPosition = Vector3.translate(position, new Vector3(x, y, z));
+                        double dist = position.distance(targetPosition);
 
                         if (dist < this.getRadius())
                         {
                             int blockID = targetPosition.getBlockID(worldObj);
+                            Block block = Block.blocksList[blockID];
 
-                            if (blockID > 0)
+                            if (block != null && !block.isAirBlock(this.worldObj, x, y, x))
                             {
-                                if (blockID == Block.bedrock.blockID && !this.destroyBedrock)
+                                if (!this.destroyBedrock && block.getBlockHardness(this.worldObj, x, y, x) < 0)
+                                {
                                     continue;
+                                }
 
                                 if (dist < this.getRadius() - 1 || worldObj.rand.nextFloat() > 0.7)
                                 {
@@ -74,7 +77,7 @@ public class BlastAntimatter extends ExplosionBase
          * (int z = -this.getRadius(); z < this.getRadius(); z++) { Vector3 targetPosition =
          * Vector3.add(position, new Vector3(x, y, z)); double distance =
          * position.distanceTo(targetPosition);
-         * 
+         *
          * if (targetPosition.getBlockID(worldObj) == 0) { if (distance < this.getRadius() &&
          * distance > this.getRadius() - 1 && worldObj.rand.nextFloat() > 0.5) {
          * ParticleSpawner.spawnParticle("antimatter", worldObj, targetPosition); } } } } } }

@@ -21,7 +21,7 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-These files are text and should be normalized (Convert crlf => lf)
+# These files are text and should be normalized (Convert crlf => lf)
 *.java text
 *.xml text
 *.txt text
@@ -31,4 +31,3 @@ These files are text and should be normalized (Convert crlf => lf)
 *.jar binary
 *.so binary
 *.dll binary
-
