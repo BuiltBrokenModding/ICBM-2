@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
 /** Used by Exothermic and Endothermic explosions.
- * 
+ *
  * @author Calclavia */
 public abstract class BzGuang extends ExplosionBase
 {
@@ -76,12 +76,16 @@ public abstract class BzGuang extends ExplosionBase
                             dist = MathHelper.sqrt_double((x * x + y * y + z * z));
 
                             if (dist > r || dist < r - 3)
+                            {
                                 continue;
+                            }
                             currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
                             blockID = this.worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-
-                            if (blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID)
+                            Block block = Block.blocksList[blockID];
+                            if (block == null || block.isAirBlock(this.worldObj, x, y, z) || block.getBlockHardness(this.worldObj, x, y, x) < 0)
+                            {
                                 continue;
+                            }
 
                             metadata = this.worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
 
@@ -107,7 +111,7 @@ public abstract class BzGuang extends ExplosionBase
             for (EntityFlyingBlock entity : this.feiBlocks)
             {
                 Vector3 entityPosition = new Vector3(entity);
-                Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
+                Vector3 centeredPosition = entityPosition.clone().translate(this.position.invert());
                 centeredPosition.rotate(2);
                 Vector3 newPosition = this.position.clone().translate(centeredPosition);
                 entity.motionX /= 3;
@@ -138,7 +142,7 @@ public abstract class BzGuang extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     * 
+     *
      * @param return - Return -1 if this explosive does not need proceudral calls */
     @Override
     public int proceduralInterval()
