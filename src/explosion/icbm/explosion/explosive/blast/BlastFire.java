@@ -7,9 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class BzHuo extends ExplosionBase
+public class BlastFire extends ExplosionBase
 {
-    public BzHuo(World world, Entity entity, double x, double y, double z, float size)
+    public BlastFire(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
@@ -44,7 +44,7 @@ public class BzHuo extends ExplosionBase
                             for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
                             {
                                 Vector3 targetPosition = new Vector3(var15, var17, var19);
-                                double distanceFromCenter = position.distanceTo(targetPosition);
+                                double distanceFromCenter = position.distance(targetPosition);
                                 int var25 = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                                 if (var25 > 0)

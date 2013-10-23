@@ -13,17 +13,17 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class BzWan extends ExplosionBase
+public class BlastEnderman extends ExplosionBase
 {
     public int duration = 20 * 8;
     private Vector3 teleportTarget;
 
-    public BzWan(World world, Entity entity, double x, double y, double z, float size)
+    public BlastEnderman(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
 
-    public BzWan(World world, Entity entity, double x, double y, double z, float size, Vector3 teleportTarget)
+    public BlastEnderman(World world, Entity entity, double x, double y, double z, float size, Vector3 teleportTarget)
     {
         super(world, entity, x, y, z, size);
         this.teleportTarget = teleportTarget;
@@ -42,9 +42,9 @@ public class BzWan extends ExplosionBase
                 {
                     for (int y = -r; y < r; y++)
                     {
-                        Vector3 targetPosition = Vector3.add(position, new Vector3(x, y, z));
+                        Vector3 targetPosition = Vector3.translate(position, new Vector3(x, y, z));
 
-                        double distance = targetPosition.distanceTo(position);
+                        double distance = targetPosition.distance(position);
 
                         if (distance < r && distance > r - 1)
                         {
@@ -168,7 +168,7 @@ public class BzWan extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     * 
+     *
      * @return - Return -1 if this explosive does not need proceudral calls */
     @Override
     public int proceduralInterval()

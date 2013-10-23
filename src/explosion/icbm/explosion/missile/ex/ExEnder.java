@@ -3,7 +3,7 @@ package icbm.explosion.missile.ex;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzWan;
+import icbm.explosion.explosive.blast.BlastEnderman;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.TileEntityExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
@@ -90,6 +90,7 @@ public class ExEnder extends Missile
         RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
@@ -99,11 +100,11 @@ public class ExEnder extends Missile
         {
             if (((IExplosiveContainer) entity).getTagCompound().hasKey("x") && ((IExplosiveContainer) entity).getTagCompound().hasKey("y") && ((IExplosiveContainer) entity).getTagCompound().hasKey("z"))
             {
-                teleportTarget = Vector3.readFromNBT(((IExplosiveContainer) entity).getTagCompound());
+                teleportTarget = new Vector3(((IExplosiveContainer) entity).getTagCompound());
             }
         }
 
-        new BzWan(world, entity, x, y, z, 30, teleportTarget).explode();
+        new BlastEnderman(world, entity, x, y, z, 30, teleportTarget).explode();
     }
 
     @SideOnly(Side.CLIENT)

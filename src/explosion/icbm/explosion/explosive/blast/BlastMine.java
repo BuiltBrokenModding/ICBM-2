@@ -9,9 +9,9 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BzDiLei extends ExplosionBase
+public class BlastMine extends ExplosionBase
 {
-    public BzDiLei(World world, Entity entity, double x, double y, double z, float size)
+    public BlastMine(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
@@ -44,7 +44,7 @@ public class BzDiLei extends ExplosionBase
 
             if (this.callCount >= 20 * 2 && this.callCount % 2 == 0)
             {
-                new BzQunDan(this.worldObj, this.exploder, this.position.x, this.position.y, this.position.z, this.getRadius(), true, true, false).doExplode();
+                new BlastShrapnel(this.worldObj, this.exploder, this.position.x, this.position.y, this.position.z, this.getRadius(), true, true, false).doExplode();
             }
 
             if (this.callCount >= 20 * 2 + 20)

@@ -23,18 +23,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 
-public class BzShengBuo extends ExplosionBase
+public class BlastSonic extends ExplosionBase
 {
     private float nengLiang;
     private ThreadLargeExplosion thread;
     private boolean hasShockWave = false;;
 
-    public BzShengBuo(World world, Entity entity, double x, double y, double z, float size)
+    public BlastSonic(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
 
-    public BzShengBuo(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+    public BlastSonic(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
     {
         this(world, entity, x, y, z, size);
         this.nengLiang = nengLiang;

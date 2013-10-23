@@ -8,7 +8,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.tile.IRotatable;
 
-public class BzTuPuo extends BzYaSuo
+public class BzTuPuo extends BlastRepulsive
 {
     private int depth;
 

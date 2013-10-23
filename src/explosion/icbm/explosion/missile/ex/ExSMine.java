@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzDiLei;
+import icbm.explosion.explosive.blast.BlastMine;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.model.tiles.MDiLei;
 import net.minecraft.entity.Entity;
@@ -54,7 +54,7 @@ public class ExSMine extends Explosive
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzDiLei(world, entity, x, y, z, 5).explode();
+        new BlastMine(world, entity, x, y, z, 5).explode();
     }
 
 }

@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.vector.Region3;
 
-public class BzYaSuo extends ExplosionBase
+public class BlastRepulsive extends ExplosionBase
 {
     private int checkBanJing = 16;
     protected float nengLiang = 10F;
@@ -24,18 +24,18 @@ public class BzYaSuo extends ExplosionBase
     private int pushType = 0;
     private boolean destroyItem = false;
 
-    public BzYaSuo(World world, Entity entity, double x, double y, double z, float size)
+    public BlastRepulsive(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
 
-    public BzYaSuo setPushType(int type)
+    public BlastRepulsive setPushType(int type)
     {
         this.pushType = type;
         return this;
     }
 
-    public BzYaSuo setDestroyItems()
+    public BlastRepulsive setDestroyItems()
     {
         this.destroyItem = true;
         return this;

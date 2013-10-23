@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzQi;
+import icbm.explosion.explosive.blast.BlastChemical;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMWuQi;
@@ -30,7 +30,7 @@ public class ExDebilitation extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzQi(world, entity, x, y, z, 20, 20 * 30, false).setConfuse().explode();
+        new BlastChemical(world, entity, x, y, z, 20, 20 * 30, false).setConfuse().explode();
     }
 
     @Override

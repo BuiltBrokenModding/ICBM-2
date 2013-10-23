@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzShengBuo;
+import icbm.explosion.explosive.blast.BlastSonic;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMChaoShengBuo;
@@ -41,11 +41,11 @@ public class ExSonic extends Missile
     {
         if (this.getTier() == 3)
         {
-            new BzShengBuo(world, entity, x, y, z, 15, 30).setShockWave().explode();
+            new BlastSonic(world, entity, x, y, z, 15, 30).setShockWave().explode();
         }
         else
         {
-            new BzShengBuo(world, entity, x, y, z, 10, 25).explode();
+            new BlastSonic(world, entity, x, y, z, 10, 25).explode();
         }
     }
 

@@ -1,7 +1,7 @@
 package icbm.explosion.missile.missile;
 
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzYaSuo;
+import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.missile.missile.EntityMissile.MissileType;
 import icbm.explosion.model.missiles.MMFenZiDan;
 import net.minecraft.entity.Entity;
@@ -49,7 +49,7 @@ public class MissileCluster extends MissileBase
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzYaSuo(world, entity, x, y, z, 6).setDestroyItems().explode();
+        new BlastRepulsive(world, entity, x, y, z, 6).setDestroyItems().explode();
     }
 
     @Override

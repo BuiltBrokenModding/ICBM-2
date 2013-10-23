@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzYaSuo;
+import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMLa;
@@ -40,11 +40,11 @@ public class ExRepulsive extends Missile
     {
         if (this.getID() == Explosive.attractive.getID())
         {
-            new BzYaSuo(world, entity, x, y, z, 2f).setDestroyItems().setPushType(1).explode();
+            new BlastRepulsive(world, entity, x, y, z, 2f).setDestroyItems().setPushType(1).explode();
         }
         else
         {
-            new BzYaSuo(world, entity, x, y, z, 2f).setDestroyItems().setPushType(2).explode();
+            new BlastRepulsive(world, entity, x, y, z, 2f).setDestroyItems().setPushType(2).explode();
 
         }
     }

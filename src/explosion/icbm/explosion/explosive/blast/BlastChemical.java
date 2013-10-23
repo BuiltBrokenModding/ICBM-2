@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.potion.CustomPotionEffect;
 
-public class BzQi extends ExplosionBase
+public class BlastChemical extends ExplosionBase
 {
     private static final int CHECK_BAN_JING = 16;
     private static final float NENG_LIANG = 10F;
@@ -25,19 +25,19 @@ public class BzQi extends ExplosionBase
     private boolean playShortSoundFX;
     private boolean isContagious, isPoisonous, isConfuse, isMutate;
 
-    public BzQi(World world, Entity entity, double x, double y, double z, float size)
+    public BlastChemical(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
 
-    public BzQi(World world, Entity entity, double x, double y, double z, float size, int duration, boolean playShortSoundFX)
+    public BlastChemical(World world, Entity entity, double x, double y, double z, float size, int duration, boolean playShortSoundFX)
     {
         this(world, entity, x, y, z, size);
         this.duration = duration / this.proceduralInterval();
         this.playShortSoundFX = playShortSoundFX;
     }
 
-    public BzQi setRGB(float r, float g, float b)
+    public BlastChemical setRGB(float r, float g, float b)
     {
         this.red = r;
         this.green = g;
@@ -45,19 +45,19 @@ public class BzQi extends ExplosionBase
         return this;
     }
 
-    public BzQi setConfuse()
+    public BlastChemical setConfuse()
     {
         this.isConfuse = true;
         return this;
     }
 
-    public BzQi setPoison()
+    public BlastChemical setPoison()
     {
         this.isPoisonous = true;
         return this;
     }
 
-    public BzQi setContagious()
+    public BlastChemical setContagious()
     {
         this.isContagious = true;
         this.isMutate = true;
@@ -92,7 +92,7 @@ public class BzQi extends ExplosionBase
 
                 if (diDian.getMagnitude() <= radius)
                 {
-                    diDian.add(this.position);
+                    diDian.translate(this.position);
                     ICBMExplosion.proxy.spawnParticle("smoke", this.worldObj, diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, this.red, this.green, this.blue, 7.0F, 8);
                 }
             }
@@ -144,7 +144,7 @@ public class BzQi extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     * 
+     *
      * @return - Return -1 if this explosive does not need proceudral calls */
     @Override
     public int proceduralInterval()

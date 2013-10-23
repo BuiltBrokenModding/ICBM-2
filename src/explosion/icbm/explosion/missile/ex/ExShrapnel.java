@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzQunDan;
+import icbm.explosion.explosive.blast.BlastShrapnel;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMQunDan;
@@ -46,15 +46,15 @@ public class ExShrapnel extends Missile
     {
         if (this.getTier() == 2)
         {
-            new BzQunDan(world, entity, x, y, z, 15, true, true, false).explode();
+            new BlastShrapnel(world, entity, x, y, z, 15, true, true, false).explode();
         }
         else if (this.getID() == Explosive.anvil.getID())
         {
-            new BzQunDan(world, entity, x, y, z, 25, false, false, true).explode();
+            new BlastShrapnel(world, entity, x, y, z, 25, false, false, true).explode();
         }
         else
         {
-            new BzQunDan(world, entity, x, y, z, 30, true, false, false).explode();
+            new BlastShrapnel(world, entity, x, y, z, 30, true, false, false).explode();
         }
     }
 

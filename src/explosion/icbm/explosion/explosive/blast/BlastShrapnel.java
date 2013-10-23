@@ -6,12 +6,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BzQunDan extends ExplosionBase
+public class BlastShrapnel extends ExplosionBase
 {
     private boolean isExplosive = false;
     private boolean isAnvil = false;
 
-    public BzQunDan(World world, Entity entity, double x, double y, double z, float size, boolean isFlaming, boolean isExplosive, boolean isAnvil)
+    public BlastShrapnel(World world, Entity entity, double x, double y, double z, float size, boolean isFlaming, boolean isExplosive, boolean isAnvil)
     {
         this(world, entity, x, y, z, size);
         this.isFlaming = isFlaming;
@@ -19,7 +19,7 @@ public class BzQunDan extends ExplosionBase
         this.isAnvil = isAnvil;
     }
 
-    public BzQunDan(World world, Entity entity, double x, double y, double z, float size)
+    public BlastShrapnel(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }

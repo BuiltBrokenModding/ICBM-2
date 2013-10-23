@@ -3,7 +3,7 @@ package icbm.explosion.missile.ex;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzQi;
+import icbm.explosion.explosive.blast.BlastChemical;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMDuQi;
 import icbm.explosion.model.missiles.MMGanRanDu;
@@ -40,11 +40,11 @@ public class ExChemical extends Missile
     {
         if (this.getTier() == 1)
         {
-            new BzQi(world, entity, x, y, z, 20, 20 * 30, false).setPoison().setRGB(0.8f, 0.8f, 0).explode();
+            new BlastChemical(world, entity, x, y, z, 20, 20 * 30, false).setPoison().setRGB(0.8f, 0.8f, 0).explode();
         }
         else if (this.getTier() == 2)
         {
-            new BzQi(world, entity, x, y, z, 20, 20 * 30, false).setContagious().setRGB(0.3f, 0.8f, 0).explode();
+            new BlastChemical(world, entity, x, y, z, 20, 20 * 30, false).setContagious().setRGB(0.3f, 0.8f, 0).explode();
         }
 
     }

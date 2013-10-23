@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzYaSuo;
+import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMYaSuo;
 import net.minecraft.block.Block;
@@ -31,7 +31,7 @@ public class ExCondensed extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzYaSuo(world, entity, x, y, z, 2.5f).explode();
+        new BlastRepulsive(world, entity, x, y, z, 2.5f).explode();
     }
 
     @Override

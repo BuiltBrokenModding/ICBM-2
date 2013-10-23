@@ -3,7 +3,7 @@ package icbm.explosion.missile.missile;
 import icbm.api.IMissileLockable;
 import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzYaSuo;
+import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.model.missiles.MMFanDan;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
@@ -85,7 +85,7 @@ public class MissileAnti extends MissileBase
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzYaSuo(world, entity, x, y, z, 6).setDestroyItems().explode();
+        new BlastRepulsive(world, entity, x, y, z, 6).setDestroyItems().explode();
     }
 
     @SideOnly(Side.CLIENT)

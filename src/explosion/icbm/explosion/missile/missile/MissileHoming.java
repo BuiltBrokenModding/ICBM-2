@@ -2,7 +2,7 @@ package icbm.explosion.missile.missile;
 
 import icbm.api.ITracker;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzYaSuo;
+import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.missile.missile.EntityMissile.MissileType;
 import icbm.explosion.model.missiles.MMZhuiZhong;
 import net.minecraft.entity.Entity;
@@ -126,7 +126,7 @@ public class MissileHoming extends MissileBase
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzYaSuo(world, entity, x, y, z, 4).setDestroyItems().explode();
+        new BlastRepulsive(world, entity, x, y, z, 4).setDestroyItems().explode();
     }
 
     @SideOnly(Side.CLIENT)

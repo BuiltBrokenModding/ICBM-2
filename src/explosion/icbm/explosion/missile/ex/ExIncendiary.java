@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzHuo;
+import icbm.explosion.explosive.blast.BlastFire;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMHuo;
 import net.minecraft.entity.Entity;
@@ -37,7 +37,7 @@ public class ExIncendiary extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzHuo(world, entity, x, y, z, 14).explode();
+        new BlastFire(world, entity, x, y, z, 14).explode();
     }
 
     @SideOnly(Side.CLIENT)
