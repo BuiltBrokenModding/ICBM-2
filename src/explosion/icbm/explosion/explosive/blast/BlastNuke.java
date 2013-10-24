@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import universalelectricity.core.vector.Vector3;
 
-public class BzYuanZi extends ExplosionBase
+public class BlastNuke extends ExplosionBase
 {
     public static boolean POLLUTIVE_NUCLEAR = true;
 
@@ -29,18 +29,18 @@ public class BzYuanZi extends ExplosionBase
     private boolean spawnMoreParticles = false;
     private boolean isRadioactive = false;
 
-    public BzYuanZi(World world, Entity entity, double x, double y, double z, float size)
+    public BlastNuke(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
 
-    public BzYuanZi(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+    public BlastNuke(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
     {
         this(world, entity, x, y, z, size);
         this.nengLiang = nengLiang;
     }
 
-    public BzYuanZi setNuclear()
+    public BlastNuke setNuclear()
     {
         this.spawnMoreParticles = true;
         this.isRadioactive = true;
@@ -53,7 +53,10 @@ public class BzYuanZi extends ExplosionBase
         if (!this.worldObj.isRemote)
         {
             this.thread = new ThreadLargeExplosion(this.worldObj, this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
-            this.thread.start();
+            if (thread != null)
+            {
+                this.thread.start();
+            }
         }
         else if (this.spawnMoreParticles && ICBMExplosion.proxy.isGaoQing())
         {
@@ -175,7 +178,7 @@ public class BzYuanZi extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     * 
+     *
      * @param return - Return -1 if this explosive does not need procedural calls */
     @Override
     public int proceduralInterval()

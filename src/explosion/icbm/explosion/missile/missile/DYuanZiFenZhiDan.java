@@ -1,6 +1,6 @@
 package icbm.explosion.missile.missile;
 
-import icbm.explosion.explosive.blast.BzYuanZi;
+import icbm.explosion.explosive.blast.BlastNuke;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
@@ -47,7 +47,7 @@ public class DYuanZiFenZhiDan extends MissileCluster
     @Override
     public void createExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzYuanZi(world, entity, x, y, z, 30, 50).setNuclear().explode();
+        new BlastNuke(world, entity, x, y, z, 30, 50).setNuclear().explode();
     }
 
     @Override
