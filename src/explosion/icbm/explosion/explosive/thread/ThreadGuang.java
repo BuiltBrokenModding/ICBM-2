@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 
 /** Used for searching block spawn. Returns a block above this found block coordinate.
- * 
+ *
  * @author Calclavia */
 public class ThreadGuang extends ThreadExplosion
 {
@@ -69,7 +69,7 @@ public class ThreadGuang extends ThreadExplosion
 
                 for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
                 {
-                    if (targetPosition.distanceTo(position) > this.banJing)
+                    if (targetPosition.distance(position) > this.banJing)
                         break;
 
                     int blockID = this.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
@@ -87,7 +87,7 @@ public class ThreadGuang extends ThreadExplosion
 
                         if (power > 0f)
                         {
-                            this.results.add(targetPosition.clone().add(new Vector3(0, 1, 0)));
+                            this.results.add(targetPosition.clone().translate(new Vector3(0, 1, 0)));
                         }
                     }
 

@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
 /** Used for small explosions.
- * 
+ *
  * @author Calclavia */
 public class ThreadSmallExplosion extends ThreadExplosion
 {
@@ -43,7 +43,7 @@ public class ThreadSmallExplosion extends ThreadExplosion
                             for (float var21 = 0.3F; power > 0.0F; power -= var21 * 0.75F)
                             {
                                 Vector3 targetPosition = new Vector3(var15, var17, var19);
-                                double distanceFromCenter = position.distanceTo(targetPosition);
+                                double distanceFromCenter = position.distance(targetPosition);
                                 int blockID = this.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                                 if (blockID > 0)
@@ -58,7 +58,7 @@ public class ThreadSmallExplosion extends ThreadExplosion
                                     {
                                         resistance = Block.blocksList[blockID].getExplosionResistance(this.source, this.world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
                                     }
-
+                                    //TODO rather than remove power divert a percentage to the sides, and then calculate how much is absorbed by the block
                                     power -= resistance;
                                 }
 
