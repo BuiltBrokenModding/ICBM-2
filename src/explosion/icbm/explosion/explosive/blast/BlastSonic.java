@@ -116,7 +116,7 @@ public class BlastSonic extends ExplosionBase
 
         if (!this.worldObj.isRemote)
         {
-            if (this.thread.isComplete)
+            if (this.thread != null && this.thread.isComplete)
             {
                 Iterator<Vector3> it = this.thread.results.iterator();
 
@@ -149,7 +149,7 @@ public class BlastSonic extends ExplosionBase
                             this.worldObj.setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
                         }
 
-                        targetPosition.add(0.5D);
+                        targetPosition.translate(0.5D);
 
                         if (this.worldObj.rand.nextFloat() < 0.3 * (this.getRadius() - r))
                         {
@@ -209,7 +209,7 @@ public class BlastSonic extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     * 
+     *
      * @return - Return -1 if this explosive does not need proceudral calls */
     @Override
     public int proceduralInterval()
