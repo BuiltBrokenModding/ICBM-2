@@ -168,7 +168,7 @@ public class BlastEnderman extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     *
+     * 
      * @return - Return -1 if this explosive does not need proceudral calls */
     @Override
     public int proceduralInterval()

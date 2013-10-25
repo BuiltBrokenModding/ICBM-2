@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 
 /** Used for large raycasting explosions.
- *
+ * 
  * @author Calclavia */
 public class ThreadLargeExplosion extends ThreadExplosion
 {

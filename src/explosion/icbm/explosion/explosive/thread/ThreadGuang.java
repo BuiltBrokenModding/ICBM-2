@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 
 /** Used for searching block spawn. Returns a block above this found block coordinate.
- *
+ * 
  * @author Calclavia */
 public class ThreadGuang extends ThreadExplosion
 {

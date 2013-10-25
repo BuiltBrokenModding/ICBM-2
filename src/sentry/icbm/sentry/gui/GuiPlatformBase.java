@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** A base class for all ICBM Sentry GUIs.
- *
+ * 
  * @author Calclavia */
 @SideOnly(Side.CLIENT)
 public abstract class GuiPlatformBase extends GuiBase
