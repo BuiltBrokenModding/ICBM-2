@@ -2,7 +2,7 @@ package icbm.explosion.render.entity;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.explosive.blast.BzHongSu;
+import icbm.explosion.explosive.blast.BlastRedMatter;
 
 import java.util.Random;
 
@@ -34,7 +34,7 @@ public class RenderExplosion extends Render
         if (eZhaPin.baoZha != null)
         {
             // RedM atter Render
-            if (eZhaPin.baoZha instanceof BzHongSu)
+            if (eZhaPin.baoZha instanceof BlastRedMatter)
             {
                 Tessellator tessellator = Tessellator.instance;
 

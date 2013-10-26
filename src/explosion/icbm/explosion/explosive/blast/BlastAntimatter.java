@@ -95,7 +95,7 @@ public class BlastAntimatter extends ExplosionBase
     {
         if (entity instanceof EntityExplosion)
         {
-            if (((EntityExplosion) entity).baoZha instanceof BzHongSu)
+            if (((EntityExplosion) entity).baoZha instanceof BlastRedMatter)
             {
                 entity.setDead();
                 return true;

@@ -8,9 +8,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class BzTaiYang extends BzGuang
+public class BlastExothermic extends BlastBeam
 {
-    public BzTaiYang(World world, Entity entity, double x, double y, double z, float size)
+    public BlastExothermic(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
         this.red = 0.7f;

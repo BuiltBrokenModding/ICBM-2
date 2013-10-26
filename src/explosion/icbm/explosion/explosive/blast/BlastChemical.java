@@ -123,7 +123,7 @@ public class BlastChemical extends ExplosionBase
 
         if (this.isMutate)
         {
-            new BzBianZhong(worldObj, this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
+            new BlastMutation(worldObj, this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
         }
 
         if (this.playShortSoundFX)

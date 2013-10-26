@@ -16,12 +16,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public class BzPiaoFu extends ExplosionBase
+public class BlastAntiGravitational extends ExplosionBase
 {
     protected ThreadSmallExplosion thread;
     protected Set<EntityFlyingBlock> feiBlocks = new HashSet<EntityFlyingBlock>();
 
-    public BzPiaoFu(World world, Entity entity, double x, double y, double z, float size)
+    public BlastAntiGravitational(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }

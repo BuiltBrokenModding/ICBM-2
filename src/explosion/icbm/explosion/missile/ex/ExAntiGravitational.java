@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzPiaoFu;
+import icbm.explosion.explosive.blast.BlastAntiGravitational;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMPiaoFu;
 import net.minecraft.entity.Entity;
@@ -29,7 +29,7 @@ public class ExAntiGravitational extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzPiaoFu(world, entity, x, y, z, 30).explode();
+        new BlastAntiGravitational(world, entity, x, y, z, 30).explode();
     }
 
     @SideOnly(Side.CLIENT)

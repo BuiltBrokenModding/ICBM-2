@@ -8,17 +8,17 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.tile.IRotatable;
 
-public class BzTuPuo extends BlastRepulsive
+public class BlastBreech extends BlastRepulsive
 {
     private int depth;
 
-    public BzTuPuo(World world, Entity entity, double x, double y, double z, float size, int depth)
+    public BlastBreech(World world, Entity entity, double x, double y, double z, float size, int depth)
     {
         this(world, entity, x, y, z, size);
         this.depth = depth;
     }
 
-    public BzTuPuo(World world, Entity entity, double x, double y, double z, float size)
+    public BlastBreech(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
         this.nengLiang = 13;

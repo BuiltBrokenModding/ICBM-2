@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzTuPuo;
+import icbm.explosion.explosive.blast.BlastBreech;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMTuPuo;
@@ -31,7 +31,7 @@ public class ExBreaching extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzTuPuo(world, entity, x, y, z, 2.5f, 7).explode();
+        new BlastBreech(world, entity, x, y, z, 2.5f, 7).explode();
     }
 
     @SideOnly(Side.CLIENT)

@@ -165,8 +165,8 @@ public class BlastNuke extends ExplosionBase
 
         if (this.isRadioactive)
         {
-            new BzFuLan(worldObj, this.exploder, position.x, position.y, position.z, this.getRadius(), this.nengLiang).explode();
-            new BzBianZhong(worldObj, this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
+            new BlastRot(worldObj, this.exploder, position.x, position.y, position.z, this.getRadius(), this.nengLiang).explode();
+            new BlastMutation(worldObj, this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
 
             if (this.worldObj.rand.nextInt(3) == 0)
             {

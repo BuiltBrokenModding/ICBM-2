@@ -13,9 +13,9 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class BzBianZhong extends ExplosionBase
+public class BlastMutation extends ExplosionBase
 {
-    public BzBianZhong(World world, Entity entity, double x, double y, double z, float size)
+    public BlastMutation(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }

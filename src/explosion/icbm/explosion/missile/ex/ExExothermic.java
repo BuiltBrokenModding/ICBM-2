@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BzTaiYang;
+import icbm.explosion.explosive.blast.BlastExothermic;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMTaiYang;
@@ -42,7 +42,7 @@ public class ExExothermic extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BzTaiYang(world, entity, x, y, z, 50).explode();
+        new BlastExothermic(world, entity, x, y, z, 50).explode();
     }
 
     @SideOnly(Side.CLIENT)

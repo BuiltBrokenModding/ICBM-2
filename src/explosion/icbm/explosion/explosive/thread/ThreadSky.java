@@ -10,7 +10,7 @@ import universalelectricity.core.vector.Vector3;
 /** Used for searching block spawn. Returns a block above this found block coordinate.
  * 
  * @author Calclavia */
-public class ThreadGuang extends ThreadExplosion
+public class ThreadSky extends ThreadExplosion
 {
     public static interface IThreadCallBack
     {
@@ -19,13 +19,13 @@ public class ThreadGuang extends ThreadExplosion
 
     public IThreadCallBack callBack;
 
-    public ThreadGuang(World world, Vector3 position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
+    public ThreadSky(World world, Vector3 position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
     {
         super(world, position, banJing, nengLiang, source);
         this.callBack = callBack;
     }
 
-    public ThreadGuang(World world, Vector3 position, int banJing, float nengLiang, Entity source)
+    public ThreadSky(World world, Vector3 position, int banJing, float nengLiang, Entity source)
     {
         this(world, position, banJing, nengLiang, source, new IThreadCallBack()
         {

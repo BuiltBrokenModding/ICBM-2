@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BlastRedmatter;
+import icbm.explosion.explosive.blast.BlastSky;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMBingDan;
 import net.minecraft.block.Block;
@@ -29,7 +29,7 @@ public class ExEndothermic extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BlastRedmatter(world, entity, x, y, z, 50).explode();
+        new BlastSky(world, entity, x, y, z, 50).explode();
     }
 
     @SideOnly(Side.CLIENT)
