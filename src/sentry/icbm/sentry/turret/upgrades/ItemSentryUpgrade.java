@@ -8,23 +8,49 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
+import universalelectricity.core.electricity.ElectricityDisplay;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 {
-    public enum TurretUpgradeType
+    public static enum TurretUpgradeType
     {
-        RANGE("targetCard"),
-        COLLECTOR("shellCollector");
+        RANGE("targetCard", 5000, "Upgrades the targeting range of the sentry gun."),
+        COLLECTOR("shellCollector", 1000, "Allows the sentry to collect ejected shell casings.");
 
-        String iconName;
+        public String iconName;
+        public String details = "Upgrade for a sentry gun";
+        public int maxUses = 1000;
 
-        private TurretUpgradeType(String name)
+        private TurretUpgradeType(String name, int maxDamage, String de)
         {
             this.iconName = name;
+            this.maxUses = maxDamage;
+            this.details = de;
+
+        }
+
+        public static int getMaxUses(int meta)
+        {
+            if (meta < values().length)
+            {
+                return values()[meta].maxUses;
+            }
+            return 1000;
+        }
+
+        public static String getDescription(int meta)
+        {
+            if (meta < values().length)
+            {
+                return "" + values()[meta].details;
+            }
+            return "An upgrade for a sentry gun";
         }
     }
 
@@ -35,12 +61,63 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
         super(par1, "turretUpgrades");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
+        this.setMaxStackSize(1);
+
     }
 
     @Override
     public int getMetadata(int damage)
     {
         return damage;
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    {
+        if (itemStack != null)
+        {
+            if (itemStack.getTagCompound() == null)
+            {
+                itemStack.setTagCompound(new NBTTagCompound());
+            }
+            par3List.add(TurretUpgradeType.getDescription(itemStack.getItemDamage()));
+            par3List.add("\u00a7c" + (ElectricityDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
+
+        }
+    }
+
+    @Override
+    public boolean damageUpgrade(ItemStack itemStack, int damage)
+    {
+        if (itemStack.getItem() instanceof ItemSentryUpgrade)
+        {
+            if (itemStack.getTagCompound() == null)
+            {
+                itemStack.setTagCompound(new NBTTagCompound());
+            }
+
+            damage = damage + itemStack.getTagCompound().getInteger("upgradeDamage");
+            if (damage > TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))
+            {
+                itemStack.getTagCompound().setBoolean("broken", true);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isFunctional(ItemStack item)
+    {
+        if (item.getTagCompound() == null)
+        {
+            item.setTagCompound(new NBTTagCompound());
+        }
+        int damage = item.getTagCompound().getInteger("upgradeDamage");
+        if (item.getTagCompound().getBoolean("broken") || damage > TurretUpgradeType.getMaxUses(item.getItemDamage()))
+        {
+            item.getTagCompound().setBoolean("broken", true);
+        }
+        return false;
     }
 
     @Override

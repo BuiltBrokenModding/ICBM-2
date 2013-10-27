@@ -24,7 +24,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.CustomDamageSource;
 
 /** Turret Platform
- * 
+ *
  * @author Calclavia */
 public class TileEntityTurretPlatform extends TileEntityTerminal implements IInventory
 {
@@ -133,7 +133,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IInv
     }
 
     /** if a sentry is spawned above the stand it is removed
-     * 
+     *
      * @return */
     public boolean destroyTurret()
     {
@@ -232,7 +232,7 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IInv
 
             if (itemStack != null)
             {
-                if (itemStack.getItem() instanceof ITurretUpgrade)
+                if (itemStack.getItem() instanceof ITurretUpgrade && ((ITurretUpgrade) itemStack.getItem()).isFunctional(itemStack))
                 {
                     if (((ITurretUpgrade) itemStack.getItem()).getType(itemStack) == type)
                     {
@@ -243,6 +243,26 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IInv
         }
 
         return count;
+    }
+
+    public void damageUpgrade(TurretUpgradeType collector)
+    {
+        for (int i = UPGRADE_START_INDEX; i < UPGRADE_START_INDEX + TURRET_UPGADE_SLOTS; i++)
+        {
+            ItemStack itemStack = this.getStackInSlot(i);
+
+            if (itemStack != null)
+            {
+                if (itemStack.getItem() instanceof ITurretUpgrade && ((ITurretUpgrade) itemStack.getItem()).isFunctional(itemStack))
+                {
+                    if(((ITurretUpgrade) itemStack.getItem()).damageUpgrade(itemStack, 1))
+                    {
+                        this.setInventorySlotContents(i, null);
+                    }
+                }
+            }
+        }
+
     }
 
     @Override
@@ -465,4 +485,5 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IInv
     {
         return ForgeDirection.UP;
     }
+
 }

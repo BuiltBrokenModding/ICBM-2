@@ -36,7 +36,7 @@ import universalelectricity.prefab.network.PacketManager;
 import com.google.common.io.ByteArrayDataInput;
 
 /** Extend this class for all turrets that are automatic.
- * 
+ *
  * @author Rseifert */
 public abstract class TileEntityAutoTurret extends TileEntityTurret implements IAutoSentry
 {
@@ -304,6 +304,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
 
                         if (this.getPlatform().getUpgradeCount(TurretUpgradeType.COLLECTOR) > 0)
                         {
+                            this.getPlatform().damageUpgrade(TurretUpgradeType.COLLECTOR);
                             if (this.getPlatform().addStackToInventory(ICBMSentry.bulletShell.copy()))
                             {
                                 drop = false;

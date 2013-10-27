@@ -157,7 +157,7 @@ public class ICBMSentry extends ICBMCore
 
         // Upgrades
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 3, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.ingotIron }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.COLLECTOR.ordinal()), new Object[] { "BBB", " I ", "BBB", 'B', Item.bucketEmpty, 'I', Item.bowlEmpty }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.COLLECTOR.ordinal()), new Object[] { "BBB", " I ", "BBB", 'B', Block.cloth, 'I', Item.bowlEmpty }));
 
         CommandRegistry.register(new CommandAccess());
         CommandRegistry.register(new CommandDestroy());
