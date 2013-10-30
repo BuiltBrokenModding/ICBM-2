@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BlastRedMatter;
+import icbm.explosion.explosive.blast.BlastRedmatter;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMHongSu;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ public class ExRedMatter extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BlastRedMatter(world, entity, x, y, z, 35).explode();
+        new BlastRedmatter(world, entity, x, y, z, 35).explode();
     }
 
     @SideOnly(Side.CLIENT)

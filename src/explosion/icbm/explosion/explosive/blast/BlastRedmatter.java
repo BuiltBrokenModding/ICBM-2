@@ -22,11 +22,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.core.vector.Vector3;
 
-public class BlastRedMatter extends ExplosionBase
+public class BlastRedmatter extends ExplosionBase
 {
     private int maxTakeBlocks = 5;
 
-    public BlastRedMatter(World world, Entity entity, double x, double y, double z, float size)
+    public BlastRedmatter(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
     }
@@ -133,9 +133,9 @@ public class BlastRedMatter extends ExplosionBase
          * this.worldObj.rand.nextInt((int) this.getRadius()) - this.getRadius());
          * ZhuYaoZhaPin.proxy.spawnParticle("smoke", this.worldObj, Vector3.add(this.position,
          * randomVector), 0, 0, 0, 1, 1, 1, 7.0F, 8); }
-         * 
+         *
          * List<Entity> list = ZhuYaoZhaPin.proxy.getEntityFXs();
-         * 
+         *
          * if (list != null) { for (Entity entity : list) { if (this.position.distanceTo(new
          * Vector3(entity)) <= radius) { this.affectEntity(radius, entity, false); } } } }
          */
@@ -149,7 +149,7 @@ public class BlastRedMatter extends ExplosionBase
     }
 
     /** Makes an entity get affected by Red Matter.
-     * 
+     *
      * @Return True if explosion happened */
     public boolean affectEntity(float radius, Entity entity, boolean doExplosion)
     {
@@ -231,7 +231,7 @@ public class BlastRedMatter extends ExplosionBase
             {
                 if (entity instanceof EntityExplosion)
                 {
-                    if (((EntityExplosion) entity).baoZha instanceof BlastAntimatter || ((EntityExplosion) entity).baoZha instanceof BlastRedMatter)
+                    if (((EntityExplosion) entity).baoZha instanceof BlastAntimatter || ((EntityExplosion) entity).baoZha instanceof BlastRedmatter)
                     {
                         this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
@@ -257,7 +257,7 @@ public class BlastRedMatter extends ExplosionBase
     }
 
     /** The interval in ticks before the next procedural call of this explosive
-     * 
+     *
      * @return - Return -1 if this explosive does not need proceudral calls */
     @Override
     public int proceduralInterval()
