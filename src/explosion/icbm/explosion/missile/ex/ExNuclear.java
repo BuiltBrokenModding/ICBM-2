@@ -3,7 +3,7 @@ package icbm.explosion.missile.ex;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
-import icbm.explosion.explosive.blast.BlastNuke;
+import icbm.explosion.explosive.blast.BlastNuclear;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMWenZha;
@@ -69,11 +69,11 @@ public class ExNuclear extends Missile
     {
         if (this.getTier() == 3)
         {
-            new BlastNuke(world, entity, x, y, z, 50, 80).setNuclear().explode();
+            new BlastNuclear(world, entity, x, y, z, 50, 80).setNuclear().explode();
         }
         else
         {
-            new BlastNuke(world, entity, x, y, z, 30, 45).explode();
+            new BlastNuclear(world, entity, x, y, z, 30, 45).explode();
         }
     }
 
