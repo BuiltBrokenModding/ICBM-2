@@ -39,123 +39,123 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @NetworkMod(channels = ICBMContraption.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ContraptionPacketHandler.class)
 public class ICBMContraption extends ICBMCore
 {
-    public static final String NAME = ICBM.NAME + "|Contraption";
-    public static final String CHANNEL = ICBM.NAME + "|C";
+	public static final String NAME = ICBM.NAME + "|Contraption";
+	public static final String CHANNEL = ICBM.NAME + "|C";
 
-    @Instance(NAME)
-    public static ICBMContraption instance;
+	@Instance(NAME)
+	public static ICBMContraption instance;
 
-    @Metadata(NAME)
-    public static ModMetadata metadata;
+	@Metadata(NAME)
+	public static ModMetadata metadata;
 
-    @SidedProxy(clientSide = "icbm.contraption.ClientProxy", serverSide = "icbm.contraption.CommonProxy")
-    public static CommonProxy proxy;
+	@SidedProxy(clientSide = "icbm.contraption.ClientProxy", serverSide = "icbm.contraption.CommonProxy")
+	public static CommonProxy proxy;
 
-    // Blocks
-    public static Block bBuoLiPan, bBuoLiEnNiu, bYinGanQi, bZha, bYinXing, bNiTu, bBuoLi;
+	// Blocks
+	public static Block bBuoLiPan, bBuoLiEnNiu, bYinGanQi, bZha, bYinXing, bNiTu, bBuoLi;
 
-    // Items
-    public static Item itYao;
-    public static ItemElectric itHuoLaunQi;
-    public static ItemElectric itGenZongQi;
+	// Items
+	public static Item itYao;
+	public static ItemElectric itHuoLaunQi;
+	public static ItemElectric itGenZongQi;
 
-    @Override
-    @PreInit
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        super.preInit(event);
-        NetworkRegistry.instance().registerGuiHandler(this, ICBMContraption.proxy);
+	@Override
+	@PreInit
+	public void preInit(FMLPreInitializationEvent event)
+	{
+		super.preInit(event);
+		NetworkRegistry.instance().registerGuiHandler(this, ICBMContraption.proxy);
 
-        ICBMConfiguration.CONFIGURATION.load();
+		ICBMConfiguration.CONFIGURATION.load();
 
-        // Blocks
-        bBuoLiPan = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
-        bBuoLiEnNiu = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
-        bYinGanQi = new BlockProcimityDetector(ICBM.BLOCK_ID_PREFIX - 3);
-        bZha = new BlockSpikes(ICBM.BLOCK_ID_PREFIX - 4);
-        bYinXing = new BlockCamouflage(ICBM.BLOCK_ID_PREFIX - 5);
-        bNiTu = new BlockConcrete(ICBM.BLOCK_ID_PREFIX - 6);
-        bBuoLi = new BlockReinforcedGlass(ICBM.BLOCK_ID_PREFIX - 7);
+		// Blocks
+		bBuoLiPan = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
+		bBuoLiEnNiu = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
+		bYinGanQi = new BlockProcimityDetector(ICBM.BLOCK_ID_PREFIX - 3);
+		bZha = new BlockSpikes(ICBM.BLOCK_ID_PREFIX - 4);
+		bYinXing = new BlockCamouflage(ICBM.BLOCK_ID_PREFIX - 5);
+		bNiTu = new BlockConcrete(ICBM.BLOCK_ID_PREFIX - 6);
+		bBuoLi = new BlockReinforcedGlass(ICBM.BLOCK_ID_PREFIX - 7);
 
-        // ITEMS
-        itYao = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
-        itHuoLaunQi = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
-        itGenZongQi = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
+		// ITEMS
+		itYao = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
+		itHuoLaunQi = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
+		itGenZongQi = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
-        ICBMConfiguration.CONFIGURATION.save();
+		ICBMConfiguration.CONFIGURATION.save();
 
-        CreativeTabICBM.itemStack = new ItemStack(bYinGanQi);
+		CreativeTabICBM.itemStack = new ItemStack(bYinGanQi);
 
-        // -- Registering Blocks
-        GameRegistry.registerBlock(bBuoLiPan, "bBuoLiPan");
-        GameRegistry.registerBlock(bBuoLiEnNiu, "bBuoLiEnNiu");
-        GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
-        GameRegistry.registerBlock(bYinXing, "bYinXing");
-        GameRegistry.registerBlock(bBuoLi, "bBuoLi");
-        GameRegistry.registerBlock(bZha, ItemblockSpikes.class, "bZha");
-        GameRegistry.registerBlock(bNiTu, ItemBlockConcreate.class, "bNiTu");
+		// -- Registering Blocks
+		GameRegistry.registerBlock(bBuoLiPan, "bBuoLiPan");
+		GameRegistry.registerBlock(bBuoLiEnNiu, "bBuoLiEnNiu");
+		GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
+		GameRegistry.registerBlock(bYinXing, "bYinXing");
+		GameRegistry.registerBlock(bBuoLi, "bBuoLi");
+		GameRegistry.registerBlock(bZha, ItemblockSpikes.class, "bZha");
+		GameRegistry.registerBlock(bNiTu, ItemBlockConcreate.class, "bNiTu");
 
-        ICBMContraption.proxy.preInit();
-    }
+		ICBMContraption.proxy.preInit();
+	}
 
-    @Init
-    public void load(FMLInitializationEvent evt)
-    {
-        super.init(evt);
-        ICBMCore.setModMetadata(NAME, metadata);
-    }
+	@Init
+	public void load(FMLInitializationEvent evt)
+	{
+		super.init(evt);
+		ICBMCore.setModMetadata(NAME, metadata);
+	}
 
-    @Override
-    @PostInit
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        super.postInit(event);
+	@Override
+	@PostInit
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		super.postInit(event);
 
-        /** Add all Recipes */
-        // Spikes
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', UniversalRecipes.SECONDARY_METAL }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
-        GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ICBMCore.itemPoisonPowder, 'S', bZha });
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', bZha }));
+		/** Add all Recipes */
+		// Spikes
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', UniversalRecipes.SECONDARY_METAL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
+		GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ICBMCore.itemPoisonPowder, 'S', bZha });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', bZha }));
 
-        // Camouflage
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', UniversalRecipes.CIRCUIT_T1, 'G', Block.glass, 'W', new ItemStack(Block.cloth, 1, OreDictionary.WILDCARD_VALUE) }));
+		// Camouflage
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', UniversalRecipes.CIRCUIT_T1, 'G', Block.glass, 'W', new ItemStack(Block.cloth, 1, OreDictionary.WILDCARD_VALUE) }));
 
-        if (OreDictionary.getOres(UniversalRecipes.BATTERY).size() > 0)
-        {
-            // Tracker
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', UniversalRecipes.CIRCUIT_T1, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres(UniversalRecipes.BATTERY).get(0)), 'S', UniversalRecipes.PRIMARY_METAL }));
-        }
-        // Glass Pressure Plate
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMContraption.bBuoLiPan, 1, 0), new Object[] { "##", '#', Block.glass }));
+		if (OreDictionary.getOres(UniversalRecipes.BATTERY).size() > 0)
+		{
+			// Tracker
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', UniversalRecipes.CIRCUIT_T1, 'B', ElectricItemHelper.getUncharged(OreDictionary.getOres(UniversalRecipes.BATTERY).get(0)), 'S', UniversalRecipes.PRIMARY_METAL }));
+		}
+		// Glass Pressure Plate
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMContraption.bBuoLiPan, 1, 0), new Object[] { "##", '#', Block.glass }));
 
-        // Glass Button
-        GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
+		// Glass Button
+		GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
 
-        // Proximity Detector
-        GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', UniversalRecipes.PRIMARY_METAL, '?', ElectricItemHelper.getUncharged(itGenZongQi) }));
+		// Proximity Detector
+		GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', UniversalRecipes.PRIMARY_METAL, '?', ElectricItemHelper.getUncharged(itGenZongQi) }));
 
-        // Signal Disrupter
-        GameRegistry.addRecipe(new ShapedOreRecipe(itHuoLaunQi, new Object[] { "WWW", "SCS", "SSS", 'S', UniversalRecipes.PRIMARY_METAL, 'C', UniversalRecipes.CIRCUIT_T1, 'W', UniversalRecipes.WIRE }));
+		// Signal Disrupter
+		GameRegistry.addRecipe(new ShapedOreRecipe(itHuoLaunQi, new Object[] { "WWW", "SCS", "SSS", 'S', UniversalRecipes.PRIMARY_METAL, 'C', UniversalRecipes.CIRCUIT_T1, 'W', UniversalRecipes.WIRE }));
 
-        // Antidote
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
+		// Antidote
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
 
-        // Concrete
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 0), 'O', Block.obsidian }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', UniversalRecipes.PRIMARY_METAL }));
+		// Concrete
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 0), 'O', Block.obsidian }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', UniversalRecipes.PRIMARY_METAL }));
 
-        // Reinforced Glass
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
+		// Reinforced Glass
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-        ICBMContraption.proxy.init();
-    }
+		ICBMContraption.proxy.init();
+	}
 
-    @Override
-    protected String getChannel()
-    {
-        return CHANNEL;
-    }
+	@Override
+	protected String getChannel()
+	{
+		return CHANNEL;
+	}
 }

@@ -6,24 +6,24 @@ import net.minecraft.item.ItemStack;
 
 public class CreativeTabICBM extends CreativeTabs
 {
-    public static final CreativeTabICBM INSTANCE = new CreativeTabICBM();
+	public static final CreativeTabICBM INSTANCE = new CreativeTabICBM();
 
-    public static ItemStack itemStack;
+	public static ItemStack itemStack;
 
-    public CreativeTabICBM()
-    {
-        super(CreativeTabs.getNextID(), "ICBM");
-    }
+	public CreativeTabICBM()
+	{
+		super(CreativeTabs.getNextID(), "ICBM");
+	}
 
-    @Override
-    public ItemStack getIconItemStack()
-    {
-        if (itemStack == null)
-        {
-            itemStack = new ItemStack(Block.tnt);
-        }
+	@Override
+	public ItemStack getIconItemStack()
+	{
+		if (itemStack == null)
+		{
+			itemStack = new ItemStack(Block.tnt);
+		}
 
-        return itemStack;
-    }
+		return itemStack;
+	}
 
 }

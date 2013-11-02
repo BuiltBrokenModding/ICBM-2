@@ -8,101 +8,105 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.multiblock.IBlockActivate;
 
-/** Mountable Turret
+/**
+ * Mountable Turret
  * 
- * @author Calclavia */
+ * @author Calclavia
+ */
 public abstract class TileEntityMountableTurret extends TileEntityTurret implements IBlockActivate
 {
-    /** Fake entity this sentry uses for mounting the player in position */
-    protected EntityMountPoint entityFake = null;
+	/** Fake entity this sentry uses for mounting the player in position */
+	protected EntityMountPoint entityFake = null;
 
-    @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
+	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
 
-        // Creates a fake entity to be mounted on
-        if (this.entityFake == null || this.entityFake.isDead)
-        {
-            this.entityFake = new EntityMountPoint(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
-            this.worldObj.spawnEntityInWorld(this.entityFake);
-        }
+		// Creates a fake entity to be mounted on
+		if (this.entityFake == null || this.entityFake.isDead)
+		{
+			this.entityFake = new EntityMountPoint(this.worldObj, new Vector3(this.xCoord + 0.5, this.yCoord + 1.2, this.zCoord + 0.5), this, true);
+			this.worldObj.spawnEntityInWorld(this.entityFake);
+		}
 
-        if (this.entityFake.riddenByEntity instanceof EntityPlayer)
-        {
-            EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
+		if (this.entityFake.riddenByEntity instanceof EntityPlayer)
+		{
+			EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
 
-            if (mountedPlayer.rotationPitch > this.maxPitch)
-            {
-                mountedPlayer.rotationPitch = this.maxPitch;
-            }
-            if (mountedPlayer.rotationPitch < this.minPitch)
-            {
-                mountedPlayer.rotationPitch = this.minPitch;
-            }
-            this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch;
-            this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw;
-        }
-    }
+			if (mountedPlayer.rotationPitch > this.maxPitch)
+			{
+				mountedPlayer.rotationPitch = this.maxPitch;
+			}
+			if (mountedPlayer.rotationPitch < this.minPitch)
+			{
+				mountedPlayer.rotationPitch = this.minPitch;
+			}
+			this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch;
+			this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw;
+		}
+	}
 
-    /** Performs a ray trace for the distance specified and using the partial tick time. Args:
-     * distance, partialTickTime */
-    public MovingObjectPosition rayTrace(double distance)
-    {
-        return this.getMuzzle().rayTrace(this.worldObj, this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
-    }
+	/**
+	 * Performs a ray trace for the distance specified and using the partial tick time. Args:
+	 * distance, partialTickTime
+	 */
+	public MovingObjectPosition rayTrace(double distance)
+	{
+		return this.getMuzzle().rayTrace(this.worldObj, this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
+	}
 
-    @Override
-    public boolean onActivated(EntityPlayer entityPlayer)
-    {
-        if (!entityPlayer.isSneaking())
-        {
-            if (this.entityFake != null)
-            {
-                if (this.entityFake.riddenByEntity instanceof EntityPlayer)
-                {
-                    this.tryActivateWeapon();
+	@Override
+	public boolean onActivated(EntityPlayer entityPlayer)
+	{
+		if (!entityPlayer.isSneaking())
+		{
+			if (this.entityFake != null)
+			{
+				if (this.entityFake.riddenByEntity instanceof EntityPlayer)
+				{
+					this.tryActivateWeapon();
 
-                    if (!this.worldObj.isRemote)
-                    {
-                        PacketManager.sendPacketToClients(this.getRotationPacket());
-                    }
+					if (!this.worldObj.isRemote)
+					{
+						PacketManager.sendPacketToClients(this.getRotationPacket());
+					}
 
-                    return true;
-                }
+					return true;
+				}
 
-            }
-        }
+			}
+		}
 
-        this.mount(entityPlayer);
+		this.mount(entityPlayer);
 
-        return true;
-    }
+		return true;
+	}
 
-    public void mount(EntityPlayer entityPlayer)
-    {
-        if (!this.worldObj.isRemote)
-        {
+	public void mount(EntityPlayer entityPlayer)
+	{
+		if (!this.worldObj.isRemote)
+		{
 
-            entityPlayer.rotationYaw = this.currentRotationYaw;
-            entityPlayer.rotationPitch = this.currentRotationPitch;
+			entityPlayer.rotationYaw = this.currentRotationYaw;
+			entityPlayer.rotationPitch = this.currentRotationPitch;
 
-            entityPlayer.mountEntity(this.entityFake);
-        }
-    }
+			entityPlayer.mountEntity(this.entityFake);
+		}
+	}
 
-    public void tryActivateWeapon()
-    {
-        if (this.canActivateWeapon())
-        {
-            this.onWeaponActivated();
-        }
-    }
+	public void tryActivateWeapon()
+	{
+		if (this.canActivateWeapon())
+		{
+			this.onWeaponActivated();
+		}
+	}
 
-    @Override
-    public boolean canApplyPotion(PotionEffect par1PotionEffect)
-    {
-        return false;
-    }
+	@Override
+	public boolean canApplyPotion(PotionEffect par1PotionEffect)
+	{
+		return false;
+	}
 
 }
