@@ -43,7 +43,8 @@ public class BlastAntimatter extends ExplosionBase
                 {
                     for (int z = (int) -this.getRadius(); z < this.getRadius(); z++)
                     {
-                        Vector3 targetPosition = Vector3.translate(position, new Vector3(x, y, z));
+                        Vector3 targetPosition = this.position.clone().translate(new Vector3(x, y, z));
+
                         double dist = position.distance(targetPosition);
 
                         if (dist < this.getRadius())
@@ -70,7 +71,7 @@ public class BlastAntimatter extends ExplosionBase
             }
         }
 
-        // TODO: Render shockwave
+        // TODO: Render antimatter shockwave
         /*
          * else if (ZhuYao.proxy.isGaoQing()) { for (int x = -this.getRadius(); x <
          * this.getRadius(); x++) { for (int y = -this.getRadius(); y < this.getRadius(); y++) { for
