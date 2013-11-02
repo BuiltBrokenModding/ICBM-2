@@ -12,8 +12,8 @@ public abstract class GuiICBM extends GuiBase
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
 
-    private int containerWidth;
-    private int containerHeight;
+    protected int containerWidth;
+    protected int containerHeight;
 
     @Override
     protected void drawBackgroundLayer(int var2, int var3, float var1)
