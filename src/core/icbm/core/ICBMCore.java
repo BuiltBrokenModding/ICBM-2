@@ -171,6 +171,8 @@ public class ICBMCore
 
 			BasicRegistry.register("itemMotor");
 			BasicRegistry.register("itemWrench");
+			
+			UniversalRecipes.init();
 
 			isInit = true;
 		}
@@ -182,7 +184,6 @@ public class ICBMCore
 		if (!isPostInit)
 		{
 			/** LOAD. */
-			UniversalRecipes.init();
 
 			// Sulfur
 			GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
