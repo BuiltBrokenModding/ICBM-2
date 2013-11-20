@@ -11,6 +11,7 @@ import net.minecraftforge.event.Event;
  * ICBM explosion happens.
  * 
  * @author Calclavia
+ * 
  */
 @Cancelable
 public class ExplosionEvent extends Event
@@ -23,7 +24,9 @@ public class ExplosionEvent extends Event
 	public double x, y, z;
 	public IExplosion iExplosion;
 
-	/** Pre-cast explosion class. */
+	/**
+	 * Pre-cast explosion class.
+	 */
 	public Explosion explosion;
 
 	public ExplosionEvent(World world, IExplosion iExplosion)
@@ -33,14 +36,20 @@ public class ExplosionEvent extends Event
 		this.x = ((Explosion) iExplosion).explosionX;
 		this.y = ((Explosion) iExplosion).explosionY;
 		this.z = ((Explosion) iExplosion).explosionZ;
+
+		if (this.iExplosion instanceof Explosion)
+		{
+			this.explosion = (Explosion) this.iExplosion;
+		}
 	}
 
 	/**
 	 * Called before an explosive is detonated or a missile is placed to check if detonation is
-	 * possible. You may cancel an explosion here if needed. After this it will be a bit too late to
-	 * prevent destruction without any losses.
+	 * possible. You may cancel and explosion here if needed. After this it will be a bit too late
+	 * to prevent destruction without any losses.
 	 * 
 	 * @author Calclavia
+	 * 
 	 */
 	@Cancelable
 	public static class ExplosivePreDetonationEvent extends Event
@@ -82,6 +91,7 @@ public class ExplosionEvent extends Event
 	 * Called when an explosion is constructed.
 	 * 
 	 * @author Calclavia
+	 * 
 	 */
 	public static class ExplosionConstructionEvent extends ExplosionEvent
 	{
@@ -95,6 +105,7 @@ public class ExplosionEvent extends Event
 	 * Called before an explosion happens.
 	 * 
 	 * @author Calclavia
+	 * 
 	 */
 	public static class PreExplosionEvent extends ExplosionEvent
 	{
@@ -109,6 +120,7 @@ public class ExplosionEvent extends Event
 	 * procedural. (E.g: Red matter explosive)
 	 * 
 	 * @author Calclavia
+	 * 
 	 */
 	public static class DoExplosionEvent extends ExplosionEvent
 	{
@@ -122,6 +134,7 @@ public class ExplosionEvent extends Event
 	 * Called after an explosion happens.
 	 * 
 	 * @author Calclavia
+	 * 
 	 */
 	public static class PostExplosionEvent extends ExplosionEvent
 	{
