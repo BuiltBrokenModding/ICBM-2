@@ -243,14 +243,17 @@ public class FXElectricBolt extends EntityFX
 
 		for (BoltSegment segment : this.segments)
 		{
-			if (segment.splitID > lastSplitCalc)
+			if (segment != null)
 			{
-				lastActiveSegment.put(lastSplitCalc, lastActiveSeg);
-				lastSplitCalc = segment.splitID;
-				lastActiveSeg = lastActiveSegment.get(this.splitparents.get(segment.splitID)).intValue();
-			}
+				if (segment.splitID > lastSplitCalc)
+				{
+					lastActiveSegment.put(lastSplitCalc, lastActiveSeg);
+					lastSplitCalc = segment.splitID;
+					lastActiveSeg = lastActiveSegment.get(this.splitparents.get(segment.splitID)).intValue();
+				}
 
-			lastActiveSeg = segment.segmentID;
+				lastActiveSeg = segment.segmentID;
+			}
 		}
 
 		lastActiveSegment.put(lastSplitCalc, lastActiveSeg);
