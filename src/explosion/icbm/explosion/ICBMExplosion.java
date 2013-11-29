@@ -300,7 +300,7 @@ public class ICBMExplosion extends ICBMCore
 		// Missile Launcher Platform
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 0), new Object[] { "! !", "!C!", "!!!", '!', UniversalRecipe.SECONDARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T1.get() }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 1), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(ICBMExplosion.blockMachine, 1, 0), '!', UniversalRecipe.PRIMARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T2.get() }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(ICBMExplosion.blockMachine, 1, 1), '!', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3 }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(ICBMExplosion.blockMachine, 1, 1), '!', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get() }));
 		// Missile Launcher Panel
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T1.get(), '!', Block.glass, '?', UniversalRecipe.WIRE.get() }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 4), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T2.get(), '!', UniversalRecipe.PRIMARY_METAL.get(), '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(ICBMExplosion.blockMachine, 1, 3) }));
@@ -359,7 +359,7 @@ public class ICBMExplosion extends ICBMCore
 		}
 
 		// Homing
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.homing.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.SECONDARY_METAL }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.homing.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.SECONDARY_METAL.get() }));
 		// Anti-ballistic
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.antiBallistic.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', new ItemStack(ICBMExplosion.blockExplosive, 1, 0), '!', UniversalRecipe.CIRCUIT_T1.get() }));
 		// Cluster
