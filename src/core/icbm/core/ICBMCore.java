@@ -32,7 +32,7 @@ import atomicscience.api.BlockRadioactive;
 import atomicscience.api.poison.PotionRadiation;
 import basiccomponents.api.BasicRegistry;
 import calclavia.lib.NBTFileLoader;
-import calclavia.lib.UniversalRecipes;
+import calclavia.lib.UniversalRecipe;
 import calclavia.lib.flag.CommandFlag;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.flag.ModFlag;
@@ -172,7 +172,7 @@ public class ICBMCore
 			BasicRegistry.register("itemMotor");
 			BasicRegistry.register("itemWrench");
 			
-			UniversalRecipes.init();
+			UniversalRecipe.init();
 
 			isInit = true;
 		}
