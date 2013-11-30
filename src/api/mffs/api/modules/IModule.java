@@ -52,7 +52,7 @@ public interface IModule
 	 * 
 	 * @return False if to prevent this position from being added to the projection que.
 	 */
-	public void onPreCalculate(IFieldInteraction projector, Set<Vector3> calculatedField);
+	public Set<Vector3> onPreCalculate(IFieldInteraction projector, Set<Vector3> calculatedField);
 
 	/**
 	 * Called in this module when it is being calculated by the projector.
