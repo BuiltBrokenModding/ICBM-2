@@ -53,4 +53,10 @@ public interface IModule
 	 */
 	public void onCalculate(IFieldInteraction projector, Set<Vector3> fieldDefinition);
 
+	/**
+	 * @param moduleStack
+	 * @return Does this module require ticking from the force field projector?
+	 */
+	public boolean requireTicks(ItemStack moduleStack);
+
 }
