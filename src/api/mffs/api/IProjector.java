@@ -1,5 +1,8 @@
 package mffs.api;
 
+import java.util.Set;
+
+import universalelectricity.core.vector.Vector3;
 import net.minecraft.inventory.IInventory;
 
 /**
@@ -29,5 +32,11 @@ public abstract interface IProjector extends IInventory, IBiometricIdentifierLin
 	 * * @return The amount of ticks this projector has existed in the world.
 	 */
 	public long getTicks();
+
+	/**
+	 * DO NOT modify this list. Read-only.
+	 * @return The actual force field block coordinates in the world.
+	 */
+	public Set<Vector3> getForceFields();
 
 }
