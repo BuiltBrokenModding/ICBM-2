@@ -21,6 +21,7 @@ import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.item.ItemElectric;
 import calclavia.lib.UniversalRecipe;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
@@ -60,7 +61,7 @@ public class ICBMContraption extends ICBMCore
 	public static ItemElectric itGenZongQi;
 
 	@Override
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		super.preInit(event);
@@ -98,7 +99,7 @@ public class ICBMContraption extends ICBMCore
 		ICBMContraption.proxy.preInit();
 	}
 
-	@Init
+	@EventHandler
 	public void load(FMLInitializationEvent evt)
 	{
 		super.init(evt);
@@ -106,7 +107,7 @@ public class ICBMContraption extends ICBMCore
 	}
 
 	@Override
-	@PostInit
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		super.postInit(event);

@@ -171,8 +171,6 @@ public class ICBMCore
 
 			BasicRegistry.register("itemMotor");
 			BasicRegistry.register("itemWrench");
-			
-			UniversalRecipe.init();
 
 			isInit = true;
 		}
@@ -183,6 +181,8 @@ public class ICBMCore
 	{
 		if (!isPostInit)
 		{
+			UniversalRecipe.init();
+
 			/** LOAD. */
 
 			// Sulfur
