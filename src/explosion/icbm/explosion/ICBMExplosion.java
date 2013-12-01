@@ -349,7 +349,7 @@ public class ICBMExplosion extends ICBMCore
 			}
 			else
 			{
-				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL, '?', Item.coal, '#', UniversalRecipe.CIRCUIT_T1.get() }));
+				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.coal, '#', UniversalRecipe.CIRCUIT_T1.get() }));
 			}
 		}
 		catch (Exception e)
