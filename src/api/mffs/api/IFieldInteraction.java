@@ -50,7 +50,7 @@ public interface IFieldInteraction extends IModuleAcceptor, IRotatable, IActivat
 	public int getRotationPitch();
 
 	/**
-	 * * @return Gets all the blocks that are occupying the force field.
+	 * * @return Gets all the relative block coordinates that are occupying the force field.
 	 */
 	public Set<Vector3> getCalculatedField();
 

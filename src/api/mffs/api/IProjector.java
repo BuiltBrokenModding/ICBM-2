@@ -2,8 +2,8 @@ package mffs.api;
 
 import java.util.Set;
 
-import universalelectricity.core.vector.Vector3;
 import net.minecraft.inventory.IInventory;
+import universalelectricity.core.vector.Vector3;
 
 /**
  * Also extends IDisableable, IFortronFrequency

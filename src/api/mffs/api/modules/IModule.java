@@ -9,15 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
-public interface IModule
+public interface IModule extends IFortronCost
 {
-
-	/**
-	 * The amount of Fortron this module consumes per tick.
-	 * 
-	 * @return
-	 */
-	public float getFortronCost(float amplifier);
 
 	/**
 	 * Called before the projector projects a field.

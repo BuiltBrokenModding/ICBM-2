@@ -6,7 +6,7 @@ import mffs.api.IFieldInteraction;
 import mffs.api.IProjector;
 import universalelectricity.core.vector.Vector3;
 
-public interface IProjectorMode
+public interface IProjectorMode extends IFortronCost
 {
 	/**
 	 * Called when the force field projector calculates the shape of the module.
