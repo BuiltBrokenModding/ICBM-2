@@ -10,25 +10,25 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class MissileModule extends MissileBase
 {
-	public MissileModule(String mingZi, int tier)
-	{
-		super(mingZi, tier);
-		this.hasBlock = false;
-	}
+    public MissileModule(String mingZi, int tier)
+    {
+        super(mingZi, tier);
+        this.hasBlock = false;
+    }
 
-	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		if (entity instanceof IMissile)
-		{
-			((IMissile) entity).dropMissileAsItem();
-		}
-	}
+    @Override
+    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    {
+        if (entity instanceof IMissile)
+        {
+            ((IMissile) entity).dropMissileAsItem();
+        }
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		return MMYaSuo.INSTANCE;
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ModelICBM getMissileModel()
+    {
+        return MMYaSuo.INSTANCE;
+    }
 }

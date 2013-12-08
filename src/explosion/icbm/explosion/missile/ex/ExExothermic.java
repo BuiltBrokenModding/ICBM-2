@@ -18,37 +18,37 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExExothermic extends Missile
 {
-	public boolean createNetherrack = true;
+    public boolean createNetherrack = true;
 
-	public ExExothermic(String mingZi, int tier)
-	{
-		super(mingZi, tier);
-		this.createNetherrack = ICBMConfiguration.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
-	}
+    public ExExothermic(String mingZi, int tier)
+    {
+        super(mingZi, tier);
+        this.createNetherrack = ICBMConfiguration.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
+    }
 
-	@Override
-	public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
-	{
-		super.onYinZha(worldObj, position, fuseTicks);
-		worldObj.spawnParticle("lava", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
-	}
+    @Override
+    public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
+    {
+        super.onYinZha(worldObj, position, fuseTicks);
+        worldObj.spawnParticle("lava", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
+    }
 
-	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
-	}
+    @Override
+    public void init()
+    {
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+    }
 
-	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		new BlastExothermic(world, entity, x, y, z, 50).explode();
-	}
+    @Override
+    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    {
+        new BlastExothermic(world, entity, x, y, z, 50).explode();
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		return new MMTaiYang();
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ModelICBM getMissileModel()
+    {
+        return new MMTaiYang();
+    }
 }

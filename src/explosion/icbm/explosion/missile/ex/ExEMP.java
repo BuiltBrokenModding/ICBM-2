@@ -16,27 +16,27 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExEMP extends Missile
 {
-	public ExEMP(String mingZi, int tier)
-	{
-		super(mingZi, tier);
-	}
+    public ExEMP(String mingZi, int tier)
+    {
+        super(mingZi, tier);
+    }
 
-	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		new BlastEmp(world, entity, x, y, z, 50).setEffectBlocks().setEffectEntities().explode();
-	}
+    @Override
+    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    {
+        new BlastEmp(world, entity, x, y, z, 50).setEffectBlocks().setEffectEntities().explode();
+    }
 
-	@Override
-	public void init()
-	{
-		RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', replsive.getItemStack(), 'R', Block.blockRedstone, 'B', UniversalRecipe.BATTERY.get() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
-	}
+    @Override
+    public void init()
+    {
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', replsive.getItemStack(), 'R', Block.blockRedstone, 'B', UniversalRecipe.BATTERY.get() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		return new MMDianCi();
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ModelICBM getMissileModel()
+    {
+        return new MMDianCi();
+    }
 }

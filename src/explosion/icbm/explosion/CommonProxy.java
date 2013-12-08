@@ -26,105 +26,103 @@ import universalelectricity.core.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-/**
- * ICBM Explosion Module Common Proxy
+/** ICBM Explosion Module Common Proxy
  * 
- * @author Calclavia
- */
+ * @author Calclavia */
 public class CommonProxy implements IGuiHandler
 {
-	public void preInit()
-	{
-	}
+    public void preInit()
+    {
+    }
 
-	public void init()
-	{
-		GameRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMXiaoFaSheQi");
-		GameRegistry.registerTileEntity(TileEntityLauncherBase.class, "ICBMFaSheDi");
-		GameRegistry.registerTileEntity(TileEntityLauncherScreen.class, "ICBMFaSheShiMuo");
-		GameRegistry.registerTileEntity(TileEntitySupportFrame.class, "ICBMFaSheJia");
-		GameRegistry.registerTileEntity(TileEntityRadarStation.class, "ICBMLeiDaTai");
-		GameRegistry.registerTileEntity(TileEntityEmpTower.class, "ICBMDianCiQi");
-		GameRegistry.registerTileEntity(TileEntityMissileCoordinator.class, "ICBMYinDaoQi");
-		GameRegistry.registerTileEntity(TileEntityExplosive.class, "ICBMZhaDan");
-		GameRegistry.registerTileEntity(TileEntityMissileTable.class, "ICBMMissileTable");
-	}
+    public void init()
+    {
+        GameRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMXiaoFaSheQi");
+        GameRegistry.registerTileEntity(TileEntityLauncherBase.class, "ICBMFaSheDi");
+        GameRegistry.registerTileEntity(TileEntityLauncherScreen.class, "ICBMFaSheShiMuo");
+        GameRegistry.registerTileEntity(TileEntitySupportFrame.class, "ICBMFaSheJia");
+        GameRegistry.registerTileEntity(TileEntityRadarStation.class, "ICBMLeiDaTai");
+        GameRegistry.registerTileEntity(TileEntityEmpTower.class, "ICBMDianCiQi");
+        GameRegistry.registerTileEntity(TileEntityMissileCoordinator.class, "ICBMYinDaoQi");
+        GameRegistry.registerTileEntity(TileEntityExplosive.class, "ICBMZhaDan");
+        GameRegistry.registerTileEntity(TileEntityMissileTable.class, "ICBMMissileTable");
+    }
 
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
-	{
-		return null;
-	}
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
+        return null;
+    }
 
-	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
-	{
-		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TileEntityCruiseLauncher)
-		{
-			return new ContainerCruiseLauncher(player.inventory, (TileEntityCruiseLauncher) tileEntity);
-		}
-		else if (tileEntity instanceof TileEntityLauncherBase)
-		{
-			return new ContainerLauncher(player.inventory, (TileEntityLauncherBase) tileEntity);
-		}
-		else if (tileEntity instanceof TileEntityMissileCoordinator)
-		{
-			return new ContainerMissileCoordinator(player.inventory, (TileEntityMissileCoordinator) tileEntity);
-		}
-		else if (tileEntity instanceof TileEntityMissileTable)
-		{
-			return new ContainerMissileTable(player.inventory, (TileEntityMissileTable) tileEntity);
-		}
+        if (tileEntity instanceof TileEntityCruiseLauncher)
+        {
+            return new ContainerCruiseLauncher(player.inventory, (TileEntityCruiseLauncher) tileEntity);
+        }
+        else if (tileEntity instanceof TileEntityLauncherBase)
+        {
+            return new ContainerLauncher(player.inventory, (TileEntityLauncherBase) tileEntity);
+        }
+        else if (tileEntity instanceof TileEntityMissileCoordinator)
+        {
+            return new ContainerMissileCoordinator(player.inventory, (TileEntityMissileCoordinator) tileEntity);
+        }
+        else if (tileEntity instanceof TileEntityMissileTable)
+        {
+            return new ContainerMissileTable(player.inventory, (TileEntityMissileTable) tileEntity);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public boolean isGaoQing()
-	{
-		return false;
-	}
+    public boolean isGaoQing()
+    {
+        return false;
+    }
 
-	public void spawnParticle(String name, World world, Vector3 position, float scale, double distance)
-	{
-		this.spawnParticle(name, world, position, 0, 0, 0, scale, distance);
-	}
+    public void spawnParticle(String name, World world, Vector3 position, float scale, double distance)
+    {
+        this.spawnParticle(name, world, position, 0, 0, 0, scale, distance);
+    }
 
-	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float scale, double distance)
-	{
-		this.spawnParticle(name, world, position, motionX, motionY, motionZ, 1, 1, 1, scale, distance);
-	}
+    public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float scale, double distance)
+    {
+        this.spawnParticle(name, world, position, motionX, motionY, motionZ, 1, 1, 1, scale, distance);
+    }
 
-	public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float red, float green, float blue, float scale, double distance)
-	{
+    public void spawnParticle(String name, World world, Vector3 position, double motionX, double motionY, double motionZ, float red, float green, float blue, float scale, double distance)
+    {
 
-	}
+    }
 
-	public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
-	{
-		return null;
-	}
+    public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
+    {
+        return null;
+    }
 
-	public int getParticleSetting()
-	{
-		return -1;
-	}
+    public int getParticleSetting()
+    {
+        return -1;
+    }
 
-	public List<Entity> getEntityFXs()
-	{
-		return null;
-	}
+    public List<Entity> getEntityFXs()
+    {
+        return null;
+    }
 
-	public void spawnShock(World world, Vector3 position, Vector3 target)
-	{
+    public void spawnShock(World world, Vector3 position, Vector3 target)
+    {
 
-	}
+    }
 
-	public void spawnShock(World world, Vector3 startVec, Vector3 targetVec, int duration)
-	{
-		// TODO Auto-generated method stub
+    public void spawnShock(World world, Vector3 startVec, Vector3 targetVec, int duration)
+    {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
 }
