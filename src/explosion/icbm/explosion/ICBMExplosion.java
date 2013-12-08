@@ -317,47 +317,8 @@ public class ICBMExplosion extends ICBMCore
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipe.PRIMARY_PLATE.get(), '!', new ItemStack(ICBMExplosion.blockMachine, 1, 2), '?', new ItemStack(ICBMExplosion.blockMachine, 1, 8) }));
         // Missile Coordinator
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, MachineData.MissileCoordinator.ordinal()), new Object[] { "R R", "SCS", "SSS", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'R', itemRemoteDetonator }));
-
-        // Missile Module find and try to add a recipe with fuel, then oil then coal.
-        try
-        {
-            if (FluidRegistry.getFluid("fuel") != null && ICBMConfiguration.USE_FUEL)
-            {
-                for (FluidContainerData data : FluidContainerRegistry.getRegisteredFluidContainerData())
-                {
-                    if (data.fluid != null)
-                    {
-                        if (data.fluid.getFluid() == FluidRegistry.getFluid("fuel"))
-                        {
-                            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL, '?', data.filledContainer, '#', UniversalRecipe.CIRCUIT_T1.get() }));
-                        }
-                    }
-                }
-            }
-            else if (FluidRegistry.getFluid("oil") != null && ICBMConfiguration.USE_FUEL)
-            {
-                for (FluidContainerData data : FluidContainerRegistry.getRegisteredFluidContainerData())
-                {
-                    if (data.fluid != null)
-                    {
-                        if (data.fluid.getFluid() == FluidRegistry.getFluid("oil"))
-                        {
-                            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL, '?', data.filledContainer, '#', UniversalRecipe.CIRCUIT_T1.get() }));
-                        }
-                    }
-                }
-            }
-            else
-            {
-                GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.coal, '#', UniversalRecipe.CIRCUIT_T1.get() }));
-            }
-        }
-        catch (Exception e)
-        {
-            FMLLog.severe("Failed to add missile module recipe!");
-            e.printStackTrace();
-        }
-
+        //Missile module
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.flintAndSteel, '#', UniversalRecipe.CIRCUIT_T1.get() }));
         // Homing
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.homing.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.SECONDARY_METAL.get() }));
         // Anti-ballistic
