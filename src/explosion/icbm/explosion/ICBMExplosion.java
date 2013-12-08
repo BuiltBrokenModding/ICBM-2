@@ -49,6 +49,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -57,6 +58,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -120,6 +122,8 @@ public class ICBMExplosion extends ICBMCore
     public static final ContagiousPoison DU_DU = new ContagiousPoison("Chemical", 1, false);
     public static final ContagiousPoison DU_CHUAN_RAN = new ContagiousPoison("Contagious", 1, true);
 
+    public static boolean CREEPER_DROP_SULFER = true, CREEPER_BLOW_UP_IN_FIRE = true;
+
     @Override
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -150,6 +154,9 @@ public class ICBMExplosion extends ICBMCore
         PDaDu.INSTANCE = new PDaDu(22, true, 5149489, "toxin");
         PChuanRanDu.INSTANCE = new PChuanRanDu(23, false, 5149489, "virus");
         PDongShang.INSTANCE = new PDongShang(24, false, 5149489, "frostBite");
+
+        ICBMExplosion.CREEPER_DROP_SULFER = ICBMConfiguration.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
+        ICBMExplosion.CREEPER_BLOW_UP_IN_FIRE = ICBMConfiguration.CONFIGURATION.get("Extras", "CreeperBoomInFire", true).getBoolean(true);
 
         ICBMConfiguration.CONFIGURATION.save();
 
@@ -387,11 +394,40 @@ public class ICBMExplosion extends ICBMCore
     }
 
     @ForgeSubscribe
-    public void creeperDeathEvent(LivingDropsEvent evt)
+    public void creeperDeathEvent(LivingDeathEvent evt)
     {
         if (evt.entityLiving instanceof EntityCreeper)
         {
-            evt.entityLiving.dropItem(this.itemSulfurDust.itemID, 3 + evt.entityLiving.worldObj.rand.nextInt(6));
+            if (ICBMExplosion.CREEPER_BLOW_UP_IN_FIRE)
+            {
+                if (evt.source == DamageSource.onFire || evt.source == DamageSource.inFire)
+                {
+                    evt.setCanceled(true);
+                    boolean flag = evt.entityLiving.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+
+                    if (((EntityCreeper) evt.entityLiving).getPowered())
+                    {
+                        evt.entityLiving.worldObj.createExplosion(evt.entityLiving, evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ, 6f, flag);
+                    }
+                    else
+                    {
+                        evt.entityLiving.worldObj.createExplosion(evt.entityLiving, evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ, 3f, flag);
+                    }
+
+                }
+            }
+        }
+    }
+
+    @ForgeSubscribe
+    public void creeperDropEvent(LivingDropsEvent evt)
+    {
+        if (evt.entityLiving instanceof EntityCreeper)
+        {
+            if (ICBMExplosion.CREEPER_DROP_SULFER)
+            {
+                evt.entityLiving.dropItem(this.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
+            }
         }
     }
 
