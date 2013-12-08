@@ -45,6 +45,7 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -56,9 +57,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidContainerRegistry.FluidContainerData;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.core.item.ElectricItemHelper;
@@ -68,7 +67,6 @@ import universalelectricity.prefab.RecipeHelper;
 import calclavia.lib.UniversalRecipe;
 import calclavia.lib.flag.FlagRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -385,6 +383,15 @@ public class ICBMExplosion extends ICBMCore
         if (shiBaoHu(evt.world, new Vector3(evt.x, evt.y, evt.z), evt.type, evt.explosion))
         {
             evt.setCanceled(true);
+        }
+    }
+
+    @ForgeSubscribe
+    public void creeperDeathEvent(LivingDropsEvent evt)
+    {
+        if (evt.entityLiving instanceof EntityCreeper)
+        {
+            evt.entityLiving.dropItem(this.itemSulfurDust.itemID, 3 + evt.entityLiving.worldObj.rand.nextInt(6));
         }
     }
 
