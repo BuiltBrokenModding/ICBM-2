@@ -5,10 +5,10 @@ import icbm.explosion.potion.PDaDu;
 
 import java.util.EnumSet;
 
+import calclavia.lib.prefab.potion.CustomPotionEffect;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.potion.CustomPotionEffect;
 import atomicscience.api.poison.Poison;
 
 public class ContagiousPoison extends Poison

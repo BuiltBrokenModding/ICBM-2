@@ -1,5 +1,6 @@
 package icbm.explosion.missile.ex;
 
+import calclavia.lib.prefab.RecipeHelper;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ICBMConfiguration;
 import icbm.core.base.ModelICBM;
@@ -17,7 +18,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

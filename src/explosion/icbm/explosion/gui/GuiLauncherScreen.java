@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.core.electricity.ElectricityDisplay;
 import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.gui.GuiBase;
+import calclavia.lib.prefab.network.PacketManager;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

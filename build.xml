@@ -39,7 +39,7 @@
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-			<fileset dir="${dir.development}modding-library/src/">
+			<fileset dir="${dir.development}Calclavia-Library/src/">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
@@ -77,7 +77,7 @@
 			<exclude name="**/*.xml"/>
 		</fileset>
 		
-		<fileset id="mlResources" dir="${dir.development}modding-library/resources/">
+		<fileset id="mlResources" dir="${dir.development}Calclavia-Library/resources/">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.java"/>
 				<exclude name="**/*.xml"/>

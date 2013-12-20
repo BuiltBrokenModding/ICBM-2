@@ -19,8 +19,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import calclavia.lib.prefab.vector.Region2;
 import universalelectricity.core.vector.Vector2;
-import universalelectricity.prefab.vector.Region2;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -18,10 +18,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
 import calclavia.lib.multiblock.IBlockActivate;
 import calclavia.lib.multiblock.IMultiBlock;
+import calclavia.lib.prefab.network.IPacketReceiver;
+import calclavia.lib.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 

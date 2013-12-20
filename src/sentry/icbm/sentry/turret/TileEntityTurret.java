@@ -25,9 +25,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityAdvanced;
+import calclavia.lib.prefab.network.IPacketReceiver;
+import calclavia.lib.prefab.network.PacketManager;
+import calclavia.lib.prefab.tile.TileEntityAdvanced;
 import calclavia.lib.render.ITagRender;
 
 import com.google.common.io.ByteArrayDataInput;

@@ -6,6 +6,7 @@ import icbm.explosion.potion.PDongShang;
 import java.util.Iterator;
 import java.util.List;
 
+import calclavia.lib.prefab.potion.CustomPotionEffect;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -14,7 +15,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.potion.CustomPotionEffect;
 
 public class BlastSky extends BlastBeam
 {

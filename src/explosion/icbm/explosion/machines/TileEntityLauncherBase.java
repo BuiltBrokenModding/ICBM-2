@@ -27,12 +27,12 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.IRotatable;
-import universalelectricity.prefab.tile.TileEntityAdvanced;
 import calclavia.lib.multiblock.IBlockActivate;
 import calclavia.lib.multiblock.IMultiBlock;
+import calclavia.lib.prefab.network.IPacketReceiver;
+import calclavia.lib.prefab.network.PacketManager;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.prefab.tile.TileEntityAdvanced;
 
 import com.google.common.io.ByteArrayDataInput;
 

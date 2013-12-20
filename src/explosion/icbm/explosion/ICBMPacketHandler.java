@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.PacketManager;
+import calclavia.lib.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 

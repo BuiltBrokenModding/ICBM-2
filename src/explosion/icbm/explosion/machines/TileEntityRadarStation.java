@@ -32,11 +32,11 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.block.BlockAdvanced;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.IRotatable;
 import calclavia.lib.multiblock.IBlockActivate;
+import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.prefab.network.IPacketReceiver;
+import calclavia.lib.prefab.network.PacketManager;
+import calclavia.lib.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 

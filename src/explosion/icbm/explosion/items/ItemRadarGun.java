@@ -9,6 +9,7 @@ import icbm.explosion.machines.TileEntityLauncherScreen;
 
 import java.util.List;
 
+import calclavia.lib.prefab.network.PacketManager;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItemRadarGun extends ItemICBMElectricBase implements ICoordLink

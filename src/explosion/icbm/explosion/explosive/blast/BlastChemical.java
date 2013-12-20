@@ -6,6 +6,7 @@ import icbm.explosion.explosive.ExplosionBase;
 
 import java.util.List;
 
+import calclavia.lib.prefab.potion.CustomPotionEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +14,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.potion.CustomPotionEffect;
 
 public class BlastChemical extends ExplosionBase
 {

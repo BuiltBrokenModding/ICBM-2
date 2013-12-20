@@ -1,5 +1,6 @@
 package icbm.contraption.gui;
 
+import calclavia.lib.prefab.network.PacketManager;
 import icbm.contraption.ICBMContraption;
 import icbm.contraption.block.TileEntityDetector;
 import icbm.core.base.GuiICBM;
@@ -8,7 +9,6 @@ import net.minecraft.client.gui.GuiTextField;
 import universalelectricity.core.electricity.ElectricityDisplay;
 import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.PacketManager;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiDectector extends GuiICBM

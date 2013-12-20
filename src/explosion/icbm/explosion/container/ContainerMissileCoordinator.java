@@ -3,8 +3,8 @@ package icbm.explosion.container;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
 import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
-import universalelectricity.prefab.SlotSpecific;
 import calclavia.lib.gui.ContainerBase;
+import calclavia.lib.prefab.SlotSpecific;
 
 public class ContainerMissileCoordinator extends ContainerBase
 {

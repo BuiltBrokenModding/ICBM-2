@@ -6,11 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import calclavia.lib.prefab.vector.Region2;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import universalelectricity.core.vector.Vector2;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.vector.Region2;
 
 /** This class allows you to register TileEntities and Entities to be detectable by the ICBM radar.
  * 

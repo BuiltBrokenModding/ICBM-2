@@ -2,12 +2,12 @@ package atomicscience.api.poison;
 
 import java.util.EnumSet;
 
+import calclavia.lib.prefab.CustomDamageSource;
+import calclavia.lib.prefab.potion.CustomPotionEffect;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.CustomDamageSource;
-import universalelectricity.prefab.potion.CustomPotionEffect;
 import atomicscience.api.IAntiPoisonBlock;
 
 public class PoisonRadiation extends Poison

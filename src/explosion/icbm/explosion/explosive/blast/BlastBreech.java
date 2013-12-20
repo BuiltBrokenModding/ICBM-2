@@ -1,12 +1,12 @@
 package icbm.explosion.explosive.blast;
 
+import calclavia.lib.prefab.tile.IRotatable;
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.tile.IRotatable;
 
 public class BlastBreech extends BlastRepulsive
 {

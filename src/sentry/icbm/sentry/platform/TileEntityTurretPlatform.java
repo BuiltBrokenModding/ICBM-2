@@ -1,5 +1,6 @@
 package icbm.sentry.platform;
 
+import calclavia.lib.prefab.CustomDamageSource;
 import icbm.sentry.IAmmunition;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ITurretUpgrade;
@@ -21,7 +22,6 @@ import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.CustomDamageSource;
 
 /** Turret Platform
  * 
