@@ -6,7 +6,7 @@ import universalelectricity.api.vector.Vector3;
 /** Applied to all launcher TileEntitiies that operates the launching of missiles.
  * 
  * @author Calclavia */
-public interface ILauncherController extends IElectricalStorage, IBlockFrequency
+public interface ILauncherController extends IBlockFrequency
 {
     /** What type of launcher is this? */
     public LauncherType getLauncherType();
