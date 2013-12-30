@@ -2,13 +2,12 @@ package mffs.api;
 
 import java.util.Set;
 
-import calclavia.lib.prefab.tile.IRotatable;
 import mffs.api.modules.IModule;
 import mffs.api.modules.IModuleAcceptor;
 import mffs.api.modules.IProjectorMode;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 public interface IFieldInteraction extends IModuleAcceptor, IRotatable, IActivatable
 {

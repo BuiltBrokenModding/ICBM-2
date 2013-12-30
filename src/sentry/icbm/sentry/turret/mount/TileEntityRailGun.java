@@ -15,9 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.core.vector.Vector3;
-import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.prefab.network.IPacketReceiver;
+import universalelectricity.api.vector.Vector3;
+
+import com.builtbroken.minecraft.interfaces.IMultiBlock;
 
 /** Railgun
  * 

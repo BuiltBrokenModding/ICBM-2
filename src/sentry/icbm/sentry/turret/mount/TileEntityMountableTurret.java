@@ -4,9 +4,7 @@ import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.core.vector.Vector3;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.prefab.network.PacketManager;
+import universalelectricity.api.vector.Vector3;
 
 /** Mountable Turret
  * 

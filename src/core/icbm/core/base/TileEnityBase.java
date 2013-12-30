@@ -2,7 +2,6 @@ package icbm.core.base;
 
 import icbm.api.IBlockFrequency;
 import net.minecraft.nbt.NBTTagCompound;
-import universalelectricity.compatibility.TileEntityUniversalElectrical;
 
 public abstract class TileEnityBase extends TileEntityUniversalElectrical implements IBlockFrequency
 {

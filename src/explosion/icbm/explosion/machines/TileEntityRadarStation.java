@@ -30,14 +30,10 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.vector.Vector2;
-import universalelectricity.core.vector.Vector3;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.prefab.block.BlockAdvanced;
-import calclavia.lib.prefab.network.IPacketReceiver;
-import calclavia.lib.prefab.network.PacketManager;
-import calclavia.lib.prefab.tile.IRotatable;
+import universalelectricity.api.vector.Vector2;
+import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.prefab.BlockAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;

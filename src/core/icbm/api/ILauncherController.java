@@ -1,8 +1,7 @@
 package icbm.api;
 
 import net.minecraft.item.ItemStack;
-import universalelectricity.core.block.IElectricalStorage;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** Applied to all launcher TileEntitiies that operates the launching of missiles.
  * 

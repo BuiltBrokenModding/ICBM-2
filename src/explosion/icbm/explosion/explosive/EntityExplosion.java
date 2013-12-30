@@ -7,8 +7,7 @@ import java.lang.reflect.Constructor;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
-import calclavia.lib.prefab.network.PacketManager;
+import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

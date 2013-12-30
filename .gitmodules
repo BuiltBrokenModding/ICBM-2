@@ -1,0 +1,3 @@
+[submodule "Universal-Electricity"]
+	path = Universal-Electricity
+	url = https://github.com/Universal-Electricity/Universal-Electricity.git

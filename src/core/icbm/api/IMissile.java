@@ -1,7 +1,7 @@
 package icbm.api;
 
 import icbm.api.explosion.IExplosiveContainer;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** This is an interface applied by all missile entities. You may cast this into an @Entity. The
  * "set" version of the function will make the entity do the action on the next tick.

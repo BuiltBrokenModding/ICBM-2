@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 import atomicscience.api.IAntiPoisonArmor;
 
 public abstract class Poison

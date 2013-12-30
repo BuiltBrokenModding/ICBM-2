@@ -1,7 +1,7 @@
 package icbm.api.explosion;
 
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** Applied to all blocks that has a custom reaction to EMPs. Blocks not TileEntities.
  * 

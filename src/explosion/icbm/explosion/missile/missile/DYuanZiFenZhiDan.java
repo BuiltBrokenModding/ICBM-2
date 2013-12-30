@@ -5,7 +5,7 @@ import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.EntityMissile.MissileType;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 public class DYuanZiFenZhiDan extends MissileCluster
 {

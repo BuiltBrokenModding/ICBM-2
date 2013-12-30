@@ -12,10 +12,10 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.prefab.network.PacketManager;
-import universalelectricity.core.electricity.ElectricityDisplay;
-import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
+
+import com.builtbroken.common.science.units.ElectricUnit;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

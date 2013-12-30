@@ -19,11 +19,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UniversalElectricity;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.prefab.TranslationHelper;
-import calclavia.lib.prefab.tile.IRotatable;
+import universalelectricity.api.UniversalElectricity;
+
+import com.builtbroken.minecraft.TranslationHelper;
+import com.builtbroken.minecraft.interfaces.IMultiBlock;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

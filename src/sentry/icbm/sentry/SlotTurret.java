@@ -1,10 +1,11 @@
 package icbm.sentry;
 
-import calclavia.lib.prefab.SlotSpecific;
 import icbm.sentry.access.AccessLevel;
 import icbm.sentry.terminal.ITerminal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+
+import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
 
 public class SlotTurret extends SlotSpecific
 {

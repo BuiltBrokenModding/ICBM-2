@@ -11,11 +11,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.vector.Vector3;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.multiblock.TileEntityMultiBlockPart;
+import universalelectricity.api.UniversalElectricity;
+import universalelectricity.api.vector.Vector3;
+
+import com.builtbroken.minecraft.interfaces.IMultiBlock;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -2,7 +2,6 @@ package icbm.api.explosion;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import universalelectricity.core.item.IItemElectric;
 
 /** Applied to all items that can be protected from EMP somehow.
  * 

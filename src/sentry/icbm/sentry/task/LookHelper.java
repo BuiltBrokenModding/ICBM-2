@@ -3,7 +3,7 @@ package icbm.sentry.task;
 import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** Rotation always in degrees.
  * 

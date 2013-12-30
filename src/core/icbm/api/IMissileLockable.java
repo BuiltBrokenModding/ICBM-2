@@ -1,6 +1,6 @@
 package icbm.api;
 
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** Implement this to your entity if you want antiballistic missiles to be able to lock onto it.
  * 

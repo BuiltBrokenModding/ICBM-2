@@ -18,9 +18,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import universalelectricity.compatibility.TileEntityUniversalElectrical;
-import calclavia.lib.prefab.network.IPacketReceiver;
-import calclavia.lib.prefab.network.PacketManager;
 
 import com.google.common.io.ByteArrayDataInput;
 

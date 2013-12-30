@@ -10,8 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.gui.GuiBase;
-import calclavia.lib.prefab.network.PacketManager;
+import com.builtbroken.minecraft.prefab.invgui.GuiBase;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

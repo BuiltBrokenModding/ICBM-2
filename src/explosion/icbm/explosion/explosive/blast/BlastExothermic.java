@@ -6,7 +6,7 @@ import icbm.explosion.missile.ex.ExExothermic;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 public class BlastExothermic extends BlastBeam
 {

@@ -5,13 +5,12 @@ import icbm.explosion.explosive.ExplosionBase;
 import java.util.ArrayList;
 import java.util.List;
 
-import calclavia.lib.prefab.vector.Region3;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 public class BlastRepulsive extends ExplosionBase
 {

@@ -1,7 +1,7 @@
 package icbm.sentry;
 
 import net.minecraft.tileentity.TileEntity;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** Applied to all turret TileEntities. */
 public interface ISentry

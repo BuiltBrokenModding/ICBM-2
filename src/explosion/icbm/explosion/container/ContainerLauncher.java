@@ -6,8 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import calclavia.lib.gui.ContainerBase;
-import calclavia.lib.prefab.SlotSpecific;
+
+import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
 
 public class ContainerLauncher extends ContainerBase
 {

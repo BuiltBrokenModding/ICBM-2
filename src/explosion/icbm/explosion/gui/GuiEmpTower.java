@@ -9,10 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.core.electricity.ElectricityDisplay;
-import universalelectricity.core.electricity.ElectricityDisplay.ElectricUnit;
-import calclavia.lib.gui.GuiBase;
-import calclavia.lib.prefab.network.PacketManager;
+import com.builtbroken.common.science.units.ElectricUnit;
+import com.builtbroken.minecraft.prefab.invgui.GuiBase;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

@@ -1,6 +1,5 @@
 package icbm.explosion.container;
 
-import calclavia.lib.prefab.SlotSpecific;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.missile.missile.ItemMissile;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,7 +7,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import universalelectricity.core.item.IItemElectric;
+
+import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
 
 public class ContainerCruiseLauncher extends Container
 {

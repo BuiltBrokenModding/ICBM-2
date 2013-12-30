@@ -24,12 +24,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.vector.Vector3;
-import calclavia.lib.prefab.network.IPacketReceiver;
-import calclavia.lib.prefab.network.PacketManager;
-import calclavia.lib.prefab.tile.TileEntityAdvanced;
-import calclavia.lib.render.ITagRender;
+import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 /** Turret Base Class Class that handles all the basic movement, and block based updates of a turret.

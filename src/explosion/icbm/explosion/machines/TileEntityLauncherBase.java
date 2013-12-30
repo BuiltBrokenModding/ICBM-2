@@ -25,15 +25,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.prefab.network.IPacketReceiver;
-import calclavia.lib.prefab.network.PacketManager;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.prefab.tile.TileEntityAdvanced;
+import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorHelper;
 
+import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 /** This tile entity is for the base of the missile launcher

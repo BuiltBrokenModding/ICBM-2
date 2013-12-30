@@ -16,13 +16,9 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.compatibility.TileEntityUniversalElectrical;
-import universalelectricity.core.vector.Vector3;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.prefab.network.IPacketReceiver;
-import calclavia.lib.prefab.network.PacketManager;
+import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.interfaces.IMultiBlock;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;

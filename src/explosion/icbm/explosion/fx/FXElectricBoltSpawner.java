@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** A spawner used to spawn in multiple electrical bolts for a specific duration. */
 public class FXElectricBoltSpawner extends EntityFX

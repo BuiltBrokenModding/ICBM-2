@@ -1,6 +1,5 @@
 package icbm.sentry.platform;
 
-import calclavia.lib.prefab.CustomDamageSource;
 import icbm.sentry.IAmmunition;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ITurretUpgrade;
@@ -18,10 +17,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.item.ElectricItemHelper;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.UniversalElectricity;
+import universalelectricity.api.vector.Vector3;
 
 /** Turret Platform
  * 

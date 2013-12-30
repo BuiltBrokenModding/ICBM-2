@@ -4,7 +4,7 @@ import java.util.Set;
 
 import mffs.api.IFieldInteraction;
 import mffs.api.IProjector;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 public interface IProjectorMode extends IFortronCost
 {

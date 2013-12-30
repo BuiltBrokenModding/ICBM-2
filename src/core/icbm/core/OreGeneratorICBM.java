@@ -2,12 +2,11 @@ package icbm.core;
 
 import java.util.Random;
 
-import calclavia.lib.prefab.ore.OreGenReplace;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 /** @author CovertJaguar, Modified by Calclavia */
 

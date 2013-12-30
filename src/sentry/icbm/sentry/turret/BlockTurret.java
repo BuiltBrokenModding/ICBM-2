@@ -26,11 +26,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UniversalElectricity;
-import calclavia.lib.multiblock.IBlockActivate;
-import calclavia.lib.multiblock.IMultiBlock;
-import calclavia.lib.prefab.block.BlockAdvanced;
-import calclavia.lib.prefab.tile.IRotatable;
+import universalelectricity.api.UniversalElectricity;
+
+import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import com.builtbroken.minecraft.prefab.BlockAdvanced;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

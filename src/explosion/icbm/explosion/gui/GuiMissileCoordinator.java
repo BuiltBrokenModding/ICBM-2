@@ -7,9 +7,8 @@ import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
-import universalelectricity.core.electricity.ElectricityDisplay;
-import universalelectricity.core.vector.Vector2;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector2;
+import universalelectricity.api.vector.Vector3;
 
 public class GuiMissileCoordinator extends GuiICBMContainer
 {

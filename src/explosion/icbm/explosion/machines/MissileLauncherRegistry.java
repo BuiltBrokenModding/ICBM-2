@@ -2,7 +2,7 @@ package icbm.explosion.machines;
 
 import java.util.HashSet;
 
-import universalelectricity.core.vector.Vector2;
+import universalelectricity.api.vector.Vector2;
 
 public class MissileLauncherRegistry
 {

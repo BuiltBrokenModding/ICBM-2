@@ -1,6 +1,5 @@
 package icbm.core;
 
-import calclavia.lib.flag.FlagRegistry;
 
 /** This class requires the UE API to run. Delete this if not applicable.
  * 

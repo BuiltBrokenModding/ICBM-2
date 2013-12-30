@@ -23,21 +23,13 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
-import universalelectricity.compatibility.Compatibility;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 import atomicscience.api.BlockRadioactive;
 import atomicscience.api.poison.PotionRadiation;
-import basiccomponents.api.BasicRegistry;
-import calclavia.lib.NBTFileLoader;
-import calclavia.lib.UniversalRecipe;
-import calclavia.lib.flag.CommandFlag;
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.flag.ModFlag;
-import calclavia.lib.multiblock.BlockMulti;
-import calclavia.lib.multiblock.TileEntityMultiBlockPart;
-import calclavia.lib.prefab.TranslationHelper;
-import calclavia.lib.prefab.ore.OreGenBase;
-import calclavia.lib.prefab.ore.OreGenerator;
+
+import com.builtbroken.minecraft.TranslationHelper;
+import com.builtbroken.minecraft.prefab.BlockMulti;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.ModMetadata;

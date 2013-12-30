@@ -4,7 +4,7 @@ import icbm.core.ICBMCore;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ProjectileType;
 import net.minecraft.util.MathHelper;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 public class TileEntityLaserGun extends TileEntityAutoTurret
 {

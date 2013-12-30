@@ -1,7 +1,7 @@
 package icbm.sentry.turret.sentries;
 
 import icbm.core.ICBMCore;
-import universalelectricity.core.vector.Vector3;
+import universalelectricity.api.vector.Vector3;
 
 public class TileEntityGunTurret extends TileEntityAutoTurret
 {
