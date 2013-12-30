@@ -2,6 +2,7 @@ package icbm.core;
 
 import icbm.api.ICBM;
 import icbm.core.base.ItemICBMBase;
+import icbm.core.base.TileEntityMultiBlockPart;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -82,7 +83,6 @@ public class ICBMCore
             MinecraftForge.EVENT_BUS.register(INSTANCE);
 
             LOGGER.fine("Loaded " + TranslationHelper.loadLanguages(YU_YAN_PATH, YU_YAN) + " languages.");
-            Compatibility.initiate();
 
             ICBMConfiguration.initiate();
             ICBMConfiguration.CONFIGURATION.load();
@@ -138,30 +138,7 @@ public class ICBMCore
     public void init(FMLInitializationEvent event)
     {
         if (!isInit)
-        {
-            /** Load Basic Components */
-
-            BasicRegistry.register("itemIngotCopper");
-            BasicRegistry.register("itemIngotTin");
-
-            BasicRegistry.register("blockOreCopper");
-            BasicRegistry.register("blockOreTin");
-
-            BasicRegistry.register("itemIngotSteel");
-            BasicRegistry.register("itemDustSteel");
-            BasicRegistry.register("itemPlateSteel");
-
-            BasicRegistry.register("itemIngotBronze");
-            BasicRegistry.register("itemDustBronze");
-            BasicRegistry.register("itemPlateBronze");
-
-            BasicRegistry.register("itemCircuitBasic");
-            BasicRegistry.register("itemCircuitAdvanced");
-            BasicRegistry.register("itemCircuitElite");
-
-            BasicRegistry.register("itemMotor");
-            BasicRegistry.register("itemWrench");
-
+        {           
             isInit = true;
         }
     }
@@ -171,8 +148,6 @@ public class ICBMCore
     {
         if (!isPostInit)
         {
-            UniversalRecipe.init();
-
             /** LOAD. */
 
             // Sulfur
@@ -186,25 +161,6 @@ public class ICBMCore
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
 
             isPostInit = true;
-        }
-    }
-
-    @EventHandler
-    public void serverStarting(FMLServerStartingEvent event)
-    {
-        FlagRegistry.registerModFlag(FlagRegistry.DEFAULT_NAME, new ModFlag(NBTFileLoader.loadData(FlagRegistry.DEFAULT_NAME)));
-
-        ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
-        ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-        serverCommandManager.registerCommand(new CommandFlag(FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME)));
-    }
-
-    @ForgeSubscribe
-    public void worldSave(Save evt)
-    {
-        if (!evt.world.isRemote)
-        {
-            NBTFileLoader.saveData(FlagRegistry.DEFAULT_NAME, FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getNBT());
         }
     }
 

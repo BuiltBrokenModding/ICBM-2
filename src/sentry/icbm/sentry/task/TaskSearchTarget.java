@@ -48,7 +48,7 @@ public class TaskSearchTarget extends Task
 
                     for (Entity entity : entities)
                     {
-                        final double distance = this.tileEntity.getCenter().distanceTo(new Vector3(entity));
+                        final double distance = this.tileEntity.getCenter().distance(new Vector3(entity));
 
                         if (sentry.isValidTarget(entity) && distance <= smallestDis)
                         {

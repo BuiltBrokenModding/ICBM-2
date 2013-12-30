@@ -33,6 +33,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
@@ -82,7 +83,7 @@ public class ICBMSentry extends ICBMCore
     public static final String FLAG_RAILGUN = FlagRegistry.registerFlag("ban_railgun");
 
     @Override
-    @PreInit
+    @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
@@ -118,7 +119,7 @@ public class ICBMSentry extends ICBMCore
     }
 
     @Override
-    @Init
+    @EventHandler
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
@@ -126,7 +127,7 @@ public class ICBMSentry extends ICBMCore
     }
 
     @Override
-    @PostInit
+    @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         super.postInit(event);

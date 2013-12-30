@@ -26,13 +26,16 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.network.ISimplePacketReceiver;
 import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.Player;
 
 /** Turret Base Class Class that handles all the basic movement, and block based updates of a turret.
  * 
  * @author Calclavia, Rseifert */
-public abstract class TileEntityTurret extends TileEntityAdvanced implements IPacketReceiver, ITagRender, ISentry, IHealthTile
+public abstract class TileEntityTurret extends TileEntityAdvanced implements ISimplePacketReceiver, ISentry, IHealthTile
 {
     /** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
     public float maxPitch = 35;
@@ -100,43 +103,37 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements IPa
      * ----------------------- PACKET DATA AND SAVING --------------------------------------
      */
     @Override
-    public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+    public boolean simplePacket(String id, ByteArrayDataInput data, Player player)
     {
         try
         {
-            this.onReceivePacket(dataStream.readInt(), player, dataStream);
+            if (packetID == TurretPacketType.ROTATION.ordinal())
+            {
+                this.setRotation(dataStream.readFloat(), dataStream.readFloat());
+            }
+            else if (packetID == TurretPacketType.DESCRIPTION.ordinal())
+            {
+                short size = dataStream.readShort();
+
+                if (size > 0)
+                {
+                    byte[] byteCode = new byte[size];
+                    dataStream.readFully(byteCode);
+                    this.readFromNBT(CompressedStreamTools.decompress(byteCode));
+                }
+            }
+            else if (packetID == TurretPacketType.STATS.ordinal())
+            {
+                this.health = dataStream.readInt();
+            }
         }
         catch (Exception e)
         {
             ICBMCore.LOGGER.severe(MessageFormat.format("Packet receiving failed: {0}", this.getClass().getSimpleName()));
             e.printStackTrace();
+            return true;
         }
-    }
-
-    /** Inherit this function to receive packets. Make sure this function is supered.
-     * 
-     * @throws IOException */
-    public void onReceivePacket(int packetID, EntityPlayer player, ByteArrayDataInput dataStream) throws IOException
-    {
-        if (packetID == TurretPacketType.ROTATION.ordinal())
-        {
-            this.setRotation(dataStream.readFloat(), dataStream.readFloat());
-        }
-        else if (packetID == TurretPacketType.DESCRIPTION.ordinal())
-        {
-            short size = dataStream.readShort();
-
-            if (size > 0)
-            {
-                byte[] byteCode = new byte[size];
-                dataStream.readFully(byteCode);
-                this.readFromNBT(CompressedStreamTools.decompress(byteCode));
-            }
-        }
-        else if (packetID == TurretPacketType.STATS.ordinal())
-        {
-            this.health = dataStream.readInt();
-        }
+        return false;
     }
 
     public Packet getStatsPacket()
@@ -191,7 +188,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements IPa
      */
 
     /** Energy consumed each time the weapon activates */
-    public abstract float getFiringRequest();
+    public abstract long getFiringRequest();
 
     /** is this sentry currently operating */
     public boolean isRunning()

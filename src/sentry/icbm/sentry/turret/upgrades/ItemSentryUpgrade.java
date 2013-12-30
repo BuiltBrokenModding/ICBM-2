@@ -6,6 +6,8 @@ import icbm.sentry.ITurretUpgrade;
 
 import java.util.List;
 
+import universalelectricity.api.energy.UnitDisplay;
+
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,41 +19,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 {
-    public static enum TurretUpgradeType
-    {
-        RANGE("targetCard", 5000, "Upgrades the targeting range of the sentry gun."),
-        COLLECTOR("shellCollector", 1000, "Allows the sentry to collect ejected shell casings.");
-
-        public String iconName;
-        public String details = "Upgrade for a sentry gun";
-        public int maxUses = 1000;
-
-        private TurretUpgradeType(String name, int maxDamage, String de)
-        {
-            this.iconName = name;
-            this.maxUses = maxDamage;
-            this.details = de;
-
-        }
-
-        public static int getMaxUses(int meta)
-        {
-            if (meta < values().length)
-            {
-                return values()[meta].maxUses;
-            }
-            return 1000;
-        }
-
-        public static String getDescription(int meta)
-        {
-            if (meta < values().length)
-            {
-                return "" + values()[meta].details;
-            }
-            return "An upgrade for a sentry gun";
-        }
-    }
 
     public static final Icon[] ICONS = new Icon[TurretUpgradeType.values().length];
 
@@ -80,7 +47,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
                 itemStack.setTagCompound(new NBTTagCompound());
             }
             par3List.add(TurretUpgradeType.getDescription(itemStack.getItemDamage()));
-            par3List.add("\u00a7c" + (ElectricityDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
+            par3List.add("\u00a7c" + (UnitDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
 
         }
     }
@@ -154,6 +121,42 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
     public TurretUpgradeType getType(ItemStack itemstack)
     {
         return TurretUpgradeType.values()[itemstack.getItemDamage()];
+    }
+
+    public static enum TurretUpgradeType
+    {
+        RANGE("targetCard", 5000, "Upgrades the targeting range of the sentry gun."),
+        COLLECTOR("shellCollector", 1000, "Allows the sentry to collect ejected shell casings.");
+
+        public String iconName;
+        public String details = "Upgrade for a sentry gun";
+        public int maxUses = 1000;
+
+        private TurretUpgradeType(String name, int maxDamage, String de)
+        {
+            this.iconName = name;
+            this.maxUses = maxDamage;
+            this.details = de;
+
+        }
+
+        public static int getMaxUses(int meta)
+        {
+            if (meta < values().length)
+            {
+                return values()[meta].maxUses;
+            }
+            return 1000;
+        }
+
+        public static String getDescription(int meta)
+        {
+            if (meta < values().length)
+            {
+                return "" + values()[meta].details;
+            }
+            return "An upgrade for a sentry gun";
+        }
     }
 
 }

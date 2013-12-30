@@ -18,16 +18,14 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
 
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
 import com.builtbroken.minecraft.prefab.BlockAdvanced;
 
@@ -88,41 +86,6 @@ public class BlockTurret extends BlockICBM
         this.blockIcon = iconRegister.registerIcon(ICBMCore.PREFIX + "machine");
     }
 
-    /** Called when the block is placed in the world. */
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase par5EntityLiving, ItemStack itemStack)
-    {
-        int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-
-        if (tileEntity instanceof IRotatable)
-        {
-            IRotatable rotatableEntity = ((IRotatable) tileEntity);
-
-            switch (angle)
-            {
-                case 0:
-                    rotatableEntity.setDirection(ForgeDirection.getOrientation(3));
-                    break;
-                case 1:
-                    rotatableEntity.setDirection(ForgeDirection.getOrientation(4));
-                    break;
-                case 2:
-                    rotatableEntity.setDirection(ForgeDirection.getOrientation(2));
-                    break;
-                case 3:
-                    rotatableEntity.setDirection(ForgeDirection.getOrientation(5));
-                    break;
-            }
-        }
-
-        if (tileEntity instanceof IMultiBlock)
-        {
-            ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
-        }
-    }
-
     @Override
     public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
     {
@@ -145,9 +108,9 @@ public class BlockTurret extends BlockICBM
          * platform below it. */
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof IBlockActivate)
+        if (tileEntity instanceof IBlockActivated)
         {
-            return ((IBlockActivate) tileEntity).onActivated(entityPlayer);
+            return ((IBlockActivated) tileEntity).onActivated(entityPlayer);
         }
 
         int id = world.getBlockId(x, y - 1, z);

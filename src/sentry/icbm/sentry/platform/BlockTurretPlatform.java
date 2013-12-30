@@ -5,8 +5,6 @@ import icbm.core.base.BlockICBM;
 import icbm.sentry.CommonProxy;
 import icbm.sentry.IAmmunition;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.ISpecialAccess;
-import icbm.sentry.access.AccessLevel;
 
 import java.util.Random;
 
@@ -21,6 +19,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
+
+import com.builtbroken.minecraft.access.ISpecialAccess;
 
 public class BlockTurretPlatform extends BlockICBM
 {
@@ -48,7 +48,7 @@ public class BlockTurretPlatform extends BlockICBM
 
             if (ent instanceof ISpecialAccess)
             {
-                ((ISpecialAccess) ent).addUserAccess(((EntityPlayer) entity).username, AccessLevel.OWNER, true);
+                ((ISpecialAccess) ent).setUserAccess(((EntityPlayer) entity).username, ((ISpecialAccess) ent).getOwnerGroup(), true);
             }
         }
     }

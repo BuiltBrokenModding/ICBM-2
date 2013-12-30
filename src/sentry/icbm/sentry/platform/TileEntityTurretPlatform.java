@@ -5,7 +5,6 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.damage.IHealthTile;
-import icbm.sentry.terminal.TileEntityTerminal;
 import icbm.sentry.turret.ItemAmmo.AmmoType;
 import icbm.sentry.turret.TileEntityTurret;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
@@ -17,13 +16,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.vector.Vector3;
+
+import com.builtbroken.minecraft.terminal.TileEntityTerminal;
 
 /** Turret Platform
  * 
  * @author Calclavia */
-public class TileEntityTurretPlatform extends TileEntityTerminal implements IInventory
+public class TileEntityTurretPlatform extends TileEntityTerminal
 {
     /** The turret linked to this platform. */
     private TileEntityTurret cachedTurret = null;
@@ -45,67 +47,31 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IInv
         {
             this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
         }
-
+        this.JOULES_PER_TICK = this.getRequest();
         /** Consume electrical items. */
         if (!this.worldObj.isRemote)
         {
             for (int i = 0; i < UPGRADE_START_INDEX; i++)
             {
-                if (this.getEnergyStored() > this.getRequest(null))
+                if (this.getEnergy(ForgeDirection.UNKNOWN) >= this.getEnergyCapacity(ForgeDirection.UNKNOWN))
                 {
                     break;
                 }
+                this.setEnergy(ForgeDirection.UNKNOWN, this.getEnergy(ForgeDirection.UNKNOWN) + CompatibilityModule.dischargeItem(this.getStackInSlot(1), Math.min(1000, this.getEnergyCapacity(ForgeDirection.UNKNOWN) - this.getEnergyStored()), true));
 
-                this.receiveElectricity(ElectricItemHelper.dischargeItem(this.getStackInSlot(i), this.getRequest(null)), true);
             }
         }
     }
 
-    @Override
-    public float receiveElectricity(ElectricityPack receive, boolean doReceive)
-    {
-        this.prevWatts = this.getEnergyStored();
-
-        if (doReceive)
-        {
-            /** Creates an explosion if the voltage is too high. */
-            if (UniversalElectricity.isVoltageSensitive)
-            {
-                if (receive.voltage > this.getVoltage())
-                {
-                    TileEntityTurret turret = this.getTurret();
-
-                    if (turret != null && turret instanceof IHealthTile)
-                    {
-                        ((IHealthTile) this.cachedTurret).onDamageTaken(CustomDamageSource.electrocution, Integer.MAX_VALUE);
-                    }
-
-                    return 0;
-                }
-            }
-        }
-
-        float returnValue = super.receiveElectricity(receive, doReceive);
-
-        if ((this.prevWatts <= this.getRequest(null) && this.getEnergyStored() >= this.getRequest(null)) && !(this.prevWatts == this.getEnergyStored()))
-        {
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-        }
-
-        return returnValue;
-    }
-
-    @Override
-    public float getRequest(ForgeDirection direction)
+    public long getRequest()
     {
         if (this.getTurret() != null)
         {
             if (this.getEnergyStored() < this.getTurret().getFiringRequest())
             {
-                return (float) Math.ceil(Math.max(this.getTurret().getFiringRequest(), 0));
+                return Math.max(this.getTurret().getFiringRequest(), 0);
             }
         }
-
         return 0;
     }
 
@@ -388,13 +354,11 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IInv
 
     @Override
     public void openChest()
-    {
-    }
+    {}
 
     @Override
     public void closeChest()
-    {
-    }
+    {}
 
     @Override
     public boolean canConnect(ForgeDirection direction)
@@ -458,23 +422,6 @@ public class TileEntityTurretPlatform extends TileEntityTerminal implements IInv
         }
 
         return false;
-    }
-
-    @Override
-    public float getProvide(ForgeDirection direction)
-    {
-        return 0;
-    }
-
-    @Override
-    public float getMaxEnergyStored()
-    {
-        if (this.getTurret() != null)
-        {
-            return Math.max(this.getTurret().getFiringRequest(), 0) * 2;
-        }
-
-        return 0;
     }
 
     /** Deploy direction of the sentry */

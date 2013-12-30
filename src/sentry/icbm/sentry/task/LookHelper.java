@@ -32,7 +32,7 @@ public class LookHelper
     /** Tells the turret to look at a location using an entity */
     public void lookAtEntity(Entity entity)
     {
-        this.lookAt(Vector3.add(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0)));
+        this.lookAt(Vector3.translate(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0)));
     }
 
     /** checks to see if the sentry is looking the target location
@@ -69,7 +69,7 @@ public class LookHelper
     /** Gets the pitch angle between the two points */
     public static float getPitch(Vector3 position, Vector3 target)
     {
-        Vector3 difference = Vector3.subtract(target, position);
+        Vector3 difference = target.clone().difference(target);
         double verticleDistance = MathHelper.sqrt_double(difference.x * difference.x + difference.z * difference.z);
         return -MathHelper.wrapAngleTo180_float((float) (Math.atan2(difference.y, verticleDistance) * 180.0D / Math.PI) + PITCH_DISPLACEMENT);
     }
@@ -77,7 +77,7 @@ public class LookHelper
     /** Gets the rotation yaw between the two points in angles */
     public static float getYaw(Vector3 position, Vector3 target)
     {
-        Vector3 difference = Vector3.subtract(target, position);
+        Vector3 difference = target.clone().difference(target);
         return MathHelper.wrapAngleTo180_float((float) (Math.atan2(difference.z, difference.x) * 180.0D / Math.PI) - 90.0F);
     }
 
@@ -106,7 +106,7 @@ public class LookHelper
 
     public boolean canEntityBeSeen(Entity entity)
     {
-        Vector3 target = Vector3.add(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0));
+        Vector3 target = Vector3.translate(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0));
         /*
          * float rotationYaw = getYaw(this.sentry.getCenter(), target); float rotationPitch =
          * getPitch(this.sentry.getCenter(), target); MovingObjectPosition mop =
