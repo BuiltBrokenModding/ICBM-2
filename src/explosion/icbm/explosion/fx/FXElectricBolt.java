@@ -1,6 +1,7 @@
 package icbm.explosion.fx;
 
 import icbm.core.ICBMCore;
+import icbm.sentry.render.CalclaviaRenderHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +72,7 @@ public class FXElectricBolt extends EntityFX
         this.particleGreen = 0.7f + (this.rand.nextFloat() * 0.1f);
         this.particleBlue = 1f;
         this.segmentCount = 1;
-        this.length = this.start.distanceTo(this.end);
+        this.length = this.start.distance(this.end);
         this.particleMaxAge = (3 + this.rand.nextInt(3) - 1);
         this.complexity = 2f;
 

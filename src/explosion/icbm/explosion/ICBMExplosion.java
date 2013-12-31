@@ -7,7 +7,6 @@ import icbm.api.explosion.IExplosive;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
-import icbm.core.ICBMFlags;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.cart.ItemBombCart;

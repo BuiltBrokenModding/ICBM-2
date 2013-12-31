@@ -33,7 +33,7 @@ public class ClientProxy extends CommonProxy
         }
         else if (entityPlayer.inventory.getCurrentItem() != null && entityPlayer.inventory.getCurrentItem().getItem() instanceof IItemFrequency)
         {
-            return new GuiTracker(entityPlayer.inventory.getCurrentItem());
+            return new GuiTracker(entityPlayer, entityPlayer.inventory.getCurrentItem());
         }
 
         return null;

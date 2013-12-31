@@ -9,7 +9,6 @@ import icbm.explosion.machines.TileEntityLauncherScreen;
 
 import java.util.List;
 
-import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

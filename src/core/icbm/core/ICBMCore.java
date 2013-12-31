@@ -2,7 +2,6 @@ package icbm.core;
 
 import icbm.api.ICBM;
 import icbm.core.base.ItemICBMBase;
-import icbm.core.base.TileEntityMultiBlockPart;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -26,6 +25,7 @@ import atomicscience.api.poison.PotionRadiation;
 
 import com.builtbroken.minecraft.TranslationHelper;
 import com.builtbroken.minecraft.prefab.BlockMulti;
+import com.builtbroken.minecraft.prefab.TileEntityMulti;
 import com.builtbroken.minecraft.worldgen.OreGenBase;
 import com.builtbroken.minecraft.worldgen.OreGenerator;
 
@@ -45,8 +45,6 @@ public class ICBMCore
     public static final ICBMCore INSTANCE = new ICBMCore();
 
     public static Block blockSulfurOre, blockRadioactive;
-
-    public static BlockMulti blockMulti;
 
     public static Item itemSulfurDust, itemPoisonPowder;
 
@@ -89,7 +87,6 @@ public class ICBMCore
 
             // BLOCKS
             blockSulfurOre = new BlockSulfureOre(ICBM.BLOCK_ID_PREFIX + 0);
-            blockMulti = new BlockMulti().setTextureName(ICBMCore.PREFIX + "machine");
 
             // Items
             itemPoisonPowder = new ItemICBMBase(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");
@@ -124,7 +121,7 @@ public class ICBMCore
             OreDictionary.registerOre("dustSulfur", itemSulfurDust);
             OreGenerator.addOre(sulfureOreGenData);
 
-            GameRegistry.registerTileEntity(TileEntityMultiBlockPart.class, "TileEntityMultiBlockPart");
+            GameRegistry.registerTileEntity(TileEntityMulti.class, "TileEntityMultiBlockPart");
 
             isPreInit = true;
         }

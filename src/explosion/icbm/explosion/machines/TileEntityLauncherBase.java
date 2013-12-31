@@ -18,9 +18,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
@@ -28,14 +26,20 @@ import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorHelper;
 
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import com.builtbroken.minecraft.interfaces.IRotatable;
+import com.builtbroken.minecraft.network.ISimplePacketReceiver;
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.Player;
 
 /** This tile entity is for the base of the missile launcher
  * 
  * @author Calclavia */
-public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory, IBlockActivate
+public class TileEntityLauncherBase extends TileEntityAdvanced implements ISimplePacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory, IBlockActivated
 {
     // The missile that this launcher is holding
     public IMissile missile = null;
@@ -48,7 +52,7 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
     // The tier of this launcher base
     private int tier = 0;
 
-    private byte fangXiang = 3;
+    private byte facingDirection = 3;
 
     private boolean packetGengXin = true;
 
@@ -172,7 +176,7 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
             }
             else if (this.packetGengXin || this.ticks % (20 * 30) == 0 && this.supportFrame != null && !this.worldObj.isRemote)
             {
-                PacketManager.sendPacketToClients(this.supportFrame.getDescriptionPacket());
+                PacketHandler.instance().sendPacketToClients(this.supportFrame.getDescriptionPacket());
             }
         }
 
@@ -182,7 +186,7 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
 
             if (this.packetGengXin || this.ticks % (20 * 30) == 0)
             {
-                PacketManager.sendPacketToClients(this.getDescriptionPacket());
+                PacketHandler.instance().sendPacketToClients(this.getDescriptionPacket());
                 this.packetGengXin = false;
             }
         }
@@ -191,21 +195,27 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, this.fangXiang, this.tier);
+        return PacketHandler.instance().getTilePacket(ICBMExplosion.CHANNEL, "desc", this, this.facingDirection, this.tier);
     }
 
     @Override
-    public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+    public boolean simplePacket(String id, ByteArrayDataInput data, Player player)
     {
         try
         {
-            this.fangXiang = dataStream.readByte();
-            this.tier = dataStream.readInt();
+            if (id.equalsIgnoreCase("desc"))
+            {
+                this.facingDirection = data.readByte();
+                this.tier = data.readInt();
+                return true;
+            }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            return true;
         }
+        return false;
     }
 
     public void setMissile()
@@ -345,7 +355,7 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
         NBTTagList var2 = nbt.getTagList("Items");
 
         this.tier = nbt.getInteger("tier");
-        this.fangXiang = nbt.getByte("facingDirection");
+        this.facingDirection = nbt.getByte("facingDirection");
 
         this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -368,7 +378,7 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
         super.writeToNBT(nbt);
 
         nbt.setInteger("tier", this.tier);
-        nbt.setByte("facingDirection", this.fangXiang);
+        nbt.setByte("facingDirection", this.facingDirection);
 
         NBTTagList var2 = new NBTTagList();
 
@@ -454,7 +464,7 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
     @Override
     public Vector3[] getMultiBlockVectors()
     {
-        if (this.fangXiang == 3 || this.fangXiang == 2)
+        if (this.facingDirection == 3 || this.facingDirection == 2)
         {
             return new Vector3[] { new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0), new Vector3(-1, 0, 0), new Vector3(-1, 1, 0), new Vector3(-1, 2, 0) };
         }
@@ -467,13 +477,13 @@ public class TileEntityLauncherBase extends TileEntityAdvanced implements IPacke
     @Override
     public ForgeDirection getDirection()
     {
-        return ForgeDirection.getOrientation(this.fangXiang);
+        return ForgeDirection.getOrientation(this.facingDirection);
     }
 
     @Override
     public void setDirection(ForgeDirection facingDirection)
     {
-        this.fangXiang = (byte) facingDirection.ordinal();
+        this.facingDirection = (byte) facingDirection.ordinal();
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
@@ -54,7 +55,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         {
             NBTTagCompound nbt = new NBTTagCompound();
             this.writeEntityToNBT(nbt);
-            PacketManager.writeNBTTagCompound(nbt, data);
+            PacketHandler.instance().writeNBTTagCompound(nbt, data);
         }
         catch (Exception e)
         {
@@ -67,7 +68,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
     {
         try
         {
-            this.readEntityFromNBT(PacketManager.readNBTTagCompound(data));
+            this.readEntityFromNBT(PacketHandler.instance().readNBTTagCompound(data));
         }
         catch (Exception e)
         {

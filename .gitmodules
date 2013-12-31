@@ -1,3 +1,9 @@
 [submodule "Universal-Electricity"]
 	path = Universal-Electricity
 	url = https://github.com/Universal-Electricity/Universal-Electricity.git
+[submodule "Built-Broken-Lib"]
+	path = Built-Broken-Lib
+	url = https://github.com/DarkGuardsman/Built-Broken-Lib.git
+[submodule "CoreLibrary"]
+	path = CoreLibrary
+	url = https://github.com/DarksCoreMachine/CoreLibrary.git

@@ -10,7 +10,6 @@ import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;
 
-import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;

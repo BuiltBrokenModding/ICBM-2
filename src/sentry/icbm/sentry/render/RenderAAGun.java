@@ -1,7 +1,6 @@
 package icbm.sentry.render;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.access.AccessLevel;
 import icbm.sentry.models.ModelAATurret;
 import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,14 +56,13 @@ public class RenderAAGun extends RenderTaggedTile
 
         if (tileEntity.getPlatform() != null)
         {
-            AccessLevel level = tileEntity.getPlatform().getUserAccess(player.username);
 
-            if (level == AccessLevel.ADMIN)
+            if (tileEntity.getPlatform().getOwnerGroup().isMemeber(player.username))
             {
                 this.bindTexture(TEXTURE_FILE);
                 return;
             }
-            else if (level.ordinal() >= AccessLevel.USER.ordinal())
+            else if (tileEntity.getPlatform().getUserAccess(player.username) != null)
             {
                 this.bindTexture(TEXTURE_FILE_FRIENDLY);
                 return;

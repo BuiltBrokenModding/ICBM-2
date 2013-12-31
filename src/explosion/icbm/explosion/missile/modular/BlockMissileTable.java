@@ -15,6 +15,7 @@ import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.vector.Vector3;
 
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import com.builtbroken.minecraft.prefab.TileEntityMulti;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -120,9 +121,9 @@ public class BlockMissileTable extends BlockICBM
             {
                 block = Block.blocksList[pos.clone().translate(vec).getBlockID(world)];
                 boolean isNotSubBlock = true;
-                if (pos.clone().translate(vec).getTileEntity(world) instanceof TileEntityMultiBlockPart)
+                if (pos.clone().translate(vec).getTileEntity(world) instanceof TileEntityMulti)
                 {
-                    Vector3 main = ((TileEntityMultiBlockPart) pos.clone().translate(vec).getTileEntity(world)).getMainBlock();
+                    Vector3 main = ((TileEntityMulti) pos.clone().translate(vec).getTileEntity(world)).getMainBlock();
                     isNotSubBlock = !main.equals(new Vector3(x, y, z));
                 }
                 if (block != null && !block.isBlockReplaceable(world, x, y, z) && isNotSubBlock)

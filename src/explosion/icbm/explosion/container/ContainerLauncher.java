@@ -1,5 +1,6 @@
 package icbm.explosion.container;
 
+import icbm.core.base.ContainerBase;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileEntityLauncherBase;
 import net.minecraft.entity.player.EntityPlayer;

@@ -2,6 +2,7 @@ package icbm.explosion.render.entity;
 
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.EntityExplosive;
+import icbm.sentry.render.CalclaviaRenderHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

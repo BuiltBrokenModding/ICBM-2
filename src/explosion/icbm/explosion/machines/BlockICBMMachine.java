@@ -21,8 +21,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
 
+import com.builtbroken.minecraft.DarkCore;
 import com.builtbroken.minecraft.TranslationHelper;
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import com.builtbroken.minecraft.interfaces.IRotatable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -107,7 +110,7 @@ public class BlockICBMMachine extends BlockICBM
 
         if (tileEntity instanceof IMultiBlock)
         {
-            ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
+            DarkCore.multiBlock.createMultiBlockStructure((IMultiBlock) tileEntity);
         }
     }
 
@@ -191,9 +194,9 @@ public class BlockICBMMachine extends BlockICBM
 
         if (tileEntity != null)
         {
-            if (tileEntity instanceof IBlockActivate)
+            if (tileEntity instanceof IBlockActivated)
             {
-                return ((IBlockActivate) tileEntity).onActivated(player);
+                return ((IBlockActivated) tileEntity).onActivated(player);
             }
         }
 
@@ -262,7 +265,7 @@ public class BlockICBMMachine extends BlockICBM
 
             if (tileEntity instanceof IMultiBlock)
             {
-                ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+                DarkCore.multiBlock.destroyMultiBlockStructure((IMultiBlock) tileEntity);
             }
         }
 

@@ -1,7 +1,7 @@
 package icbm.explosion.container;
 
+import icbm.core.base.ContainerBase;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
-import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
 
 import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;

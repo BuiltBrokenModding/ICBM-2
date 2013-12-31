@@ -3,6 +3,7 @@ package icbm.explosion.render.entity;
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.explosive.blast.BlastRedmatter;
+import icbm.sentry.render.CalclaviaRenderHelper;
 
 import java.util.Random;
 

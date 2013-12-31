@@ -55,7 +55,7 @@ public class FXBeam extends EntityFX
         float xd = (float) (this.posX - this.target.x);
         float yd = (float) (this.posY - this.target.y);
         float zd = (float) (this.posZ - this.target.z);
-        this.length = (float) new Vector3(this).distanceTo(this.target);
+        this.length = (float) new Vector3(this).distance(this.target);
         double var7 = MathHelper.sqrt_double(xd * xd + zd * zd);
         this.rotYaw = ((float) (Math.atan2(xd, zd) * 180.0D / 3.141592653589793D));
         this.rotPitch = ((float) (Math.atan2(yd, var7) * 180.0D / 3.141592653589793D));

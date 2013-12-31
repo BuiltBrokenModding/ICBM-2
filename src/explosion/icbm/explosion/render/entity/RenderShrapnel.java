@@ -2,6 +2,7 @@ package icbm.explosion.render.entity;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.EntityFragments;
+import icbm.sentry.render.CalclaviaRenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;

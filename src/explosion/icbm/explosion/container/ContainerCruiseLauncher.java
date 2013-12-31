@@ -8,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import com.builtbroken.minecraft.prefab.invgui.SlotEnergyItem;
 import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
 
 public class ContainerCruiseLauncher extends Container
@@ -20,7 +21,7 @@ public class ContainerCruiseLauncher extends Container
         // Missile Slot
         this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 151, 23, ItemMissile.class));
         // Battery Slot
-        this.addSlotToContainer(new SlotSpecific(tileEntity, 1, 151, 47, IItemElectric.class));
+        this.addSlotToContainer(new SlotEnergyItem(tileEntity, 1, 151, 47));
 
         int var3;
 

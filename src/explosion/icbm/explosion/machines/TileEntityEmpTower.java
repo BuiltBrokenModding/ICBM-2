@@ -18,13 +18,15 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TileEntityEmpTower extends TileEntityUniversalElectrical implements IPacketReceiver, IMultiBlock, IRedstoneReceptor, IBlockActivate
+public class TileEntityEmpTower extends TileEntityEnergyMachine implements IPacketReceiver, IMultiBlock, IRedstoneReceptor, IBlockActivated
 {
     // The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 150;

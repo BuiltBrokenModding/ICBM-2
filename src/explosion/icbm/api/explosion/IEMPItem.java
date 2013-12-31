@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 /** Applied to all items that can be protected from EMP somehow.
  * 
  * @author Calclavia */
-public interface IEMPItem extends IItemElectric
+public interface IEMPItem
 {
     /** Called when this item is being EMPed
      * 

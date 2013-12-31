@@ -40,7 +40,7 @@ public class BlastExothermic extends BlastBeam
                 {
                     double distance = Vector3.distance(targetPosition, position);
 
-                    double distanceFromCenter = position.distanceTo(targetPosition);
+                    double distanceFromCenter = position.distance(targetPosition);
 
                     if (distanceFromCenter > this.getRadius())
                         continue;
