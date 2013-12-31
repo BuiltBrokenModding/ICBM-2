@@ -22,9 +22,9 @@ public abstract class GuiICBM extends GuiBase
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        this.containerWidth = (this.width - this.xSize) / 2;
-        this.containerHeight = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);
+        this.containerWidth = (this.width - this.guiSize.intX()) / 2;
+        this.containerHeight = (this.height - this.guiSize.intY()) / 2;
+        this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.guiSize.intX(), this.guiSize.intY());
     }
 
 }

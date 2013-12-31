@@ -8,15 +8,11 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.world.WorldEvent.Save;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -30,14 +26,14 @@ import atomicscience.api.poison.PotionRadiation;
 
 import com.builtbroken.minecraft.TranslationHelper;
 import com.builtbroken.minecraft.prefab.BlockMulti;
+import com.builtbroken.minecraft.worldgen.OreGenBase;
+import com.builtbroken.minecraft.worldgen.OreGenerator;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
@@ -93,7 +89,7 @@ public class ICBMCore
 
             // BLOCKS
             blockSulfurOre = new BlockSulfureOre(ICBM.BLOCK_ID_PREFIX + 0);
-            blockMulti = new BlockMulti(ICBMConfiguration.CONFIGURATION.getBlock("Multiblock", ICBM.BLOCK_ID_PREFIX + 6).getInt()).setTextureName(ICBMCore.PREFIX + "machine").setChannel(this.getChannel());
+            blockMulti = new BlockMulti().setTextureName(ICBMCore.PREFIX + "machine");
 
             // Items
             itemPoisonPowder = new ItemICBMBase(ICBM.ITEM_ID_PREFIX + 0, "poisonPowder");

@@ -2,6 +2,7 @@ package icbm.contraption.block;
 
 import icbm.contraption.ICBMContraption;
 import icbm.contraption.ItemSignalDisrupter;
+import icbm.core.base.TileEnityBase;
 import icbm.core.implement.IRedstoneProvider;
 
 import java.util.HashSet;
@@ -19,12 +20,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TileEntityDetector extends TileEntityUniversalElectrical implements IRedstoneProvider, IPacketReceiver
+public class TileEntityDetector extends TileEnityBase implements IRedstoneProvider
 {
     private static final int MAX_DISTANCE = 30;
 
@@ -42,6 +44,11 @@ public class TileEntityDetector extends TileEntityUniversalElectrical implements
     private final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
 
     public boolean isInverted = false;
+
+    public TileEntityDetector()
+    {
+        super(5);
+    }
 
     @Override
     public void initiate()
@@ -66,7 +73,7 @@ public class TileEntityDetector extends TileEntityUniversalElectrical implements
 
                 boolean isDetectThisCheck = false;
 
-                if (this.provideElectricity(DIAN, false).getWatts() >= DIAN)
+                if (this.isFunctioning())
                 {
                     AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
                     List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
@@ -114,11 +121,6 @@ public class TileEntityDetector extends TileEntityUniversalElectrical implements
                             break;
                         }
                     }
-
-                    if (!this.worldObj.isRemote)
-                    {
-                        this.provideElectricity(DIAN, true);
-                    }
                 }
 
                 if (isDetectThisCheck != this.isDetect)
@@ -134,58 +136,58 @@ public class TileEntityDetector extends TileEntityUniversalElectrical implements
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMContraption.CHANNEL, this, 1, this.getEnergyStored(), this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+        return PacketHandler.instance().getTilePacket(ICBMContraption.CHANNEL, "desc", this, this.getEnergyStored(), this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
     }
 
     @Override
-    public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+    public boolean simplePacket(String id, ByteArrayDataInput data, Player player)
     {
         try
         {
-            final int ID = dataStream.readInt();
-
-            if (ID == -1)
+            if (!super.simplePacket(id, data, player))
             {
-                if (dataStream.readBoolean())
+                if (id.equalsIgnoreCase("desc"))
                 {
-                    this.yongZhe.add(player);
-                    PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) player);
+                    this.setEnergy(ForgeDirection.UNKNOWN, data.readLong());
+                    this.frequency = data.readShort();
+                    this.mode = data.readByte();
+                    this.isInverted = data.readBoolean();
+                    this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
+                    this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
+                    return true;
                 }
-                else
+                else if (id.equalsIgnoreCase("mode"))
                 {
-                    this.yongZhe.remove(player);
+                    this.mode = data.readByte();
+                    return true;
+                }
+                else if (id.equalsIgnoreCase("freq"))
+                {
+                    this.frequency = data.readShort();
+                    return true;
+                }
+                else if (id.equalsIgnoreCase("minVec"))
+                {
+                    this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
+                    return true;
+                }
+                else if (id.equalsIgnoreCase("maxVec"))
+                {
+                    this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
+                    return true;
                 }
             }
-            else if (ID == 1)
+            else
             {
-                this.setEnergyStored(dataStream.readFloat());
-                this.frequency = dataStream.readShort();
-                this.mode = dataStream.readByte();
-                this.isInverted = dataStream.readBoolean();
-                this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
-                this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
-            }
-            else if (ID == 2)
-            {
-                this.mode = dataStream.readByte();
-            }
-            else if (ID == 3)
-            {
-                this.frequency = dataStream.readShort();
-            }
-            else if (ID == 4)
-            {
-                this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
-            }
-            else if (ID == 5)
-            {
-                this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())), Math.max(0, Math.min(MAX_DISTANCE, dataStream.readInt())));
+                return true;
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            return true;
         }
+        return false;
     }
 
     /** Reads a tile entity from NBT. */
@@ -198,8 +200,8 @@ public class TileEntityDetector extends TileEntityUniversalElectrical implements
         this.frequency = nbt.getShort("frequency");
         this.isInverted = nbt.getBoolean("isInverted");
 
-        this.minCoord = Vector3.readFromNBT(nbt.getCompoundTag("minCoord"));
-        this.maxCoord = Vector3.readFromNBT(nbt.getCompoundTag("maxCoord"));
+        this.minCoord = new Vector3(nbt.getCompoundTag("minCoord"));
+        this.maxCoord = new Vector3(nbt.getCompoundTag("maxCoord"));
     }
 
     /** Writes a tile entity to NBT. */
@@ -226,23 +228,5 @@ public class TileEntityDetector extends TileEntityUniversalElectrical implements
     public boolean isIndirectlyPoweringTo(ForgeDirection side)
     {
         return this.isDetect;
-    }
-
-    @Override
-    public float getRequest(ForgeDirection direction)
-    {
-        return DIAN;
-    }
-
-    @Override
-    public float getProvide(ForgeDirection direction)
-    {
-        return 0;
-    }
-
-    @Override
-    public float getMaxEnergyStored()
-    {
-        return DIAN;
     }
 }

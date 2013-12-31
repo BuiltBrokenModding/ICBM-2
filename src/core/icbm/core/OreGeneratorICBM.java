@@ -8,6 +8,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.worldgen.OreGenReplace;
+
 /** @author CovertJaguar, Modified by Calclavia */
 
 public class OreGeneratorICBM extends OreGenReplace

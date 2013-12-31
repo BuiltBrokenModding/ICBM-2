@@ -34,7 +34,7 @@ public class BlockCamouflage extends BlockICBM implements IEMPBlock
 
         if (tileEntity instanceof TileEntityCamouflage)
         {
-            ((TileEntityCamouflage) tileEntity).setFangGe(0, 0);
+            ((TileEntityCamouflage) tileEntity).setMimicBlock(0, 0);
             ((TileEntityCamouflage) tileEntity).setQing(false);
             world.markBlockForRenderUpdate(position.intX(), position.intY(), position.intZ());
         }
@@ -53,18 +53,18 @@ public class BlockCamouflage extends BlockICBM implements IEMPBlock
             {
                 TileEntityCamouflage tileEntity = (TileEntityCamouflage) t;
 
-                if (tileEntity.getQing(ForgeDirection.getOrientation(side)))
+                if (tileEntity.getRenderSide(ForgeDirection.getOrientation(side)))
                 {
                     return Block.glass.getBlockTextureFromSide(side);
                 }
 
-                Block block = Block.blocksList[tileEntity.getJiaHaoMa()];
+                Block block = Block.blocksList[tileEntity.getMimicBlockID()];
 
                 if (block != null)
                 {
                     try
                     {
-                        Icon blockIcon = Block.blocksList[tileEntity.getJiaHaoMa()].getIcon(side, tileEntity.getJiaMetadata());
+                        Icon blockIcon = Block.blocksList[tileEntity.getMimicBlockID()].getIcon(side, tileEntity.getMimicBlockMeta());
 
                         if (blockIcon != null)
                         {
@@ -97,7 +97,7 @@ public class BlockCamouflage extends BlockICBM implements IEMPBlock
                     {
                         if (block instanceof ICamouflageMaterial || (isNormalCube(block.blockID) && (block.getRenderType() == 0 || block.getRenderType() == 31)))
                         {
-                            ((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setFangGe(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
+                            ((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setMimicBlock(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
                             par1World.markBlockForRenderUpdate(x, y, z);
                             return true;
                         }
@@ -139,7 +139,7 @@ public class BlockCamouflage extends BlockICBM implements IEMPBlock
         {
             if (t instanceof TileEntityCamouflage)
             {
-                ((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setYing();
+                ((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).toggleCollision();
             }
         }
 
@@ -157,7 +157,7 @@ public class BlockCamouflage extends BlockICBM implements IEMPBlock
 
             if (tileEntity instanceof TileEntityCamouflage)
             {
-                int haoMa = ((TileEntityCamouflage) tileEntity).getJiaHaoMa();
+                int haoMa = ((TileEntityCamouflage) tileEntity).getMimicBlockID();
 
                 if (haoMa < Block.blocksList.length)
                 {
@@ -187,7 +187,7 @@ public class BlockCamouflage extends BlockICBM implements IEMPBlock
         {
             if (t instanceof TileEntityCamouflage)
             {
-                if (((TileEntityCamouflage) t).getYing())
+                if (((TileEntityCamouflage) t).getCanCollide())
                 {
                     return super.getCollisionBoundingBoxFromPool(par1World, x, y, z);
                 }

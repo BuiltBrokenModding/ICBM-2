@@ -1,19 +1,24 @@
 package icbm.contraption.gui;
 
 import icbm.api.IItemFrequency;
-import icbm.contraption.ContraptionPacketHandler.WanYiPacketType;
 import icbm.contraption.ICBMContraption;
 import icbm.core.ICBMCore;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.builtbroken.minecraft.network.ISimplePacketReceiver;
+import com.builtbroken.minecraft.network.PacketHandler;
+import com.builtbroken.minecraft.network.PacketManagerItem;
 import com.builtbroken.minecraft.prefab.invgui.GuiBase;
+import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 public class GuiTracker extends GuiBase
 {
@@ -25,9 +30,11 @@ public class GuiTracker extends GuiBase
 
     private int containerWidth;
     private int containerHeight;
+    private EntityPlayer player;
 
-    public GuiTracker(ItemStack par1ItemStack)
+    public GuiTracker(EntityPlayer player, ItemStack par1ItemStack)
     {
+        this.player = player;
         this.itemStack = par1ItemStack;
     }
 
@@ -56,7 +63,7 @@ public class GuiTracker extends GuiBase
             if (((IItemFrequency) this.itemStack.getItem()).getFrequency(this.itemStack) != newFrequency)
             {
                 ((IItemFrequency) this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
-                PacketDispatcher.sendPacketToServer(PacketManager.getPacketWithID(ICBMContraption.CHANNEL, WanYiPacketType.HUO_LUAN.ordinal(), newFrequency));
+                PacketDispatcher.sendPacketToServer(PacketManagerItem.getPacket(this.player, ICBMContraption.CHANNEL, "freq", -1, newFrequency));
             }
         }
         catch (NumberFormatException e)
@@ -89,8 +96,9 @@ public class GuiTracker extends GuiBase
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        this.containerWidth = (this.width - this.xSize) / 2;
-        this.containerHeight = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.xSize, this.ySize);
+        this.containerWidth = (this.width - this.guiSize.intX()) / 2;
+        this.containerHeight = (this.height - this.guiSize.intY()) / 2;
+        this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, this.guiSize.intX(), this.guiSize.intY());
     }
+
 }

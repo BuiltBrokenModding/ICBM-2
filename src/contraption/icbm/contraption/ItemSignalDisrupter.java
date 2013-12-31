@@ -11,7 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class ItemSignalDisrupter extends ItemICBMElectricBase implements IItemFrequency
+import com.builtbroken.minecraft.network.ISimpleItemPacketReceiver;
+import com.builtbroken.minecraft.network.ISimplePacketReceiver;
+import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.Player;
+
+public class ItemSignalDisrupter extends ItemICBMElectricBase implements IItemFrequency, ISimpleItemPacketReceiver
 {
     public ItemSignalDisrupter(int id)
     {
@@ -48,11 +54,11 @@ public class ItemSignalDisrupter extends ItemICBMElectricBase implements IItemFr
     }
 
     @Override
-    public void onUpdate(ItemStack itemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5)
     {
-        if (!par2World.isRemote)
+        if (!world.isRemote)
         {
-            if (this.getElectricityStored(itemStack) > 20 && par2World.getWorldTime() % 20 == 0)
+            if (this.getEnergy(itemStack) > 20 && world.getWorldTime() % 20 == 0)
             {
                 this.discharge(itemStack, 1 * 20, true);
             }
@@ -67,14 +73,28 @@ public class ItemSignalDisrupter extends ItemICBMElectricBase implements IItemFr
     }
 
     @Override
-    public float getVoltage(ItemStack itemStack)
+    public long getVoltage(ItemStack itemStack)
     {
         return 25;
     }
 
     @Override
-    public float getMaxElectricityStored(ItemStack itemStack)
+    public long getEnergyCapacity(ItemStack itemStack)
     {
         return 80000;
+    }
+
+    @Override
+    public boolean simplePacket(EntityPlayer player, ItemStack stack, String id, ByteArrayDataInput data)
+    {
+        if (id.equalsIgnoreCase("freq"))
+        {
+            if (stack.getItem() instanceof ItemSignalDisrupter)
+            {
+                ((ItemSignalDisrupter) stack.getItem()).setFrequency(data.readShort(), stack);
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -9,15 +9,19 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
+import com.builtbroken.minecraft.network.ISimplePacketReceiver;
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 
-public class TileEntityCamouflage extends TileEntity implements IPacketReceiver
+import cpw.mods.fml.common.network.Player;
+
+public class TileEntityCamouflage extends TileEntity implements ISimplePacketReceiver
 {
     // The block Id this block is trying to mimik
-    private int jiaHaoMa = 0;
-    private int jiaMetadata = 0;
-    private boolean isYing = true;
-    private final boolean[] qingBian = new boolean[] { false, false, false, false, false, false };
+    private int blockID = 0;
+    private int blockMeta = 0;
+    private boolean isSolid = true;
+    private final boolean[] renderSides = new boolean[] { false, false, false, false, false, false };
 
     @Override
     public boolean canUpdate()
@@ -26,110 +30,115 @@ public class TileEntityCamouflage extends TileEntity implements IPacketReceiver
     }
 
     @Override
-    public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+    public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
     {
         try
         {
-            this.setFangGe(dataStream.readInt(), dataStream.readInt());
-            this.qingBian[0] = dataStream.readBoolean();
-            this.qingBian[1] = dataStream.readBoolean();
-            this.qingBian[2] = dataStream.readBoolean();
-            this.qingBian[3] = dataStream.readBoolean();
-            this.qingBian[4] = dataStream.readBoolean();
-            this.qingBian[5] = dataStream.readBoolean();
-            this.isYing = dataStream.readBoolean();
-
-            this.worldObj.markBlockForRenderUpdate(this.xCoord, this.yCoord, this.zCoord);
+            if (id.equalsIgnoreCase("desc"))
+            {
+                this.setMimicBlock(dataStream.readInt(), dataStream.readInt());
+                this.renderSides[0] = dataStream.readBoolean();
+                this.renderSides[1] = dataStream.readBoolean();
+                this.renderSides[2] = dataStream.readBoolean();
+                this.renderSides[3] = dataStream.readBoolean();
+                this.renderSides[4] = dataStream.readBoolean();
+                this.renderSides[5] = dataStream.readBoolean();
+                this.isSolid = dataStream.readBoolean();
+                this.worldObj.markBlockForRenderUpdate(this.xCoord, this.yCoord, this.zCoord);
+                return true;
+            }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            return true;
         }
+        return false;
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMContraption.CHANNEL, this, this.jiaHaoMa, this.jiaMetadata, this.qingBian[0], this.qingBian[1], this.qingBian[2], this.qingBian[3], this.qingBian[4], this.qingBian[5], this.isYing);
+        return PacketHandler.instance().getTilePacket(ICBMContraption.CHANNEL, "desc", this, this.blockID, this.blockMeta, this.renderSides[0], this.renderSides[1], this.renderSides[2], this.renderSides[3], this.renderSides[4], this.renderSides[5], this.isSolid);
     }
 
-    public boolean getYing()
+    public boolean getCanCollide()
     {
-        return this.isYing;
+        return this.isSolid;
     }
 
-    public void setYing(boolean isYing)
+    public void setCanCollide(boolean isYing)
     {
-        this.isYing = isYing;
+        this.isSolid = isYing;
 
         if (!this.worldObj.isRemote)
         {
-            PacketManager.sendPacketToClients(this.getDescriptionPacket());
+            PacketHandler.instance().sendPacketToClients(this.getDescriptionPacket());
         }
     }
 
-    public void setYing()
+    public void toggleCollision()
     {
-        this.setYing(!this.isYing);
+        this.setCanCollide(!this.isSolid);
     }
 
-    public int getJiaHaoMa()
+    public int getMimicBlockID()
     {
-        return this.jiaHaoMa;
+        return this.blockID;
     }
 
-    public int getJiaMetadata()
+    public int getMimicBlockMeta()
     {
-        return this.jiaMetadata;
+        return this.blockMeta;
     }
 
-    public void setFangGe(int blockID, int metadata)
+    public void setMimicBlock(int blockID, int metadata)
     {
-        if (this.jiaHaoMa != blockID || this.jiaMetadata != metadata)
+        if (this.blockID != blockID || this.blockMeta != metadata)
         {
-            this.jiaHaoMa = Math.max(blockID, 0);
-            this.jiaMetadata = Math.max(metadata, 0);
+            this.blockID = Math.max(blockID, 0);
+            this.blockMeta = Math.max(metadata, 0);
 
             if (!this.worldObj.isRemote)
             {
-                PacketManager.sendPacketToClients(this.getDescriptionPacket());
+                PacketHandler.instance().sendPacketToClients(this.getDescriptionPacket());
             }
         }
     }
 
-    public boolean getQing(ForgeDirection direction)
+    public boolean getRenderSide(ForgeDirection direction)
     {
-        if (direction.ordinal() < qingBian.length)
+        if (direction.ordinal() < renderSides.length)
         {
-            return qingBian[direction.ordinal()];
+            return renderSides[direction.ordinal()];
         }
 
         return false;
     }
 
-    public void setQing(ForgeDirection direction, boolean isQing)
+    public void setRenderSide(ForgeDirection direction, boolean isQing)
     {
-        if (direction.ordinal() < qingBian.length)
+        if (direction.ordinal() < renderSides.length)
         {
-            qingBian[direction.ordinal()] = isQing;
+            renderSides[direction.ordinal()] = isQing;
 
             if (!this.worldObj.isRemote)
             {
-                PacketManager.sendPacketToClients(this.getDescriptionPacket());
+                PacketHandler.instance().sendPacketToClients(this.getDescriptionPacket());
             }
         }
     }
 
     public void setQing(ForgeDirection direction)
     {
-        this.setQing(direction, !getQing(direction));
+        this.setRenderSide(direction, !getRenderSide(direction));
     }
 
     public void setQing(boolean isQing)
     {
-        for (int i = 0; i < this.qingBian.length; i++)
+        for (int i = 0; i < this.renderSides.length; i++)
         {
-            this.setQing(ForgeDirection.getOrientation(i), isQing);
+            this.setRenderSide(ForgeDirection.getOrientation(i), isQing);
         }
     }
 
@@ -138,15 +147,15 @@ public class TileEntityCamouflage extends TileEntity implements IPacketReceiver
     {
         super.readFromNBT(par1NBTTagCompound);
 
-        this.jiaHaoMa = par1NBTTagCompound.getInteger("jiaHaoMa");
-        this.jiaMetadata = par1NBTTagCompound.getInteger("jiaMetadata");
+        this.blockID = par1NBTTagCompound.getInteger("jiaHaoMa");
+        this.blockMeta = par1NBTTagCompound.getInteger("jiaMetadata");
 
-        for (int i = 0; i < qingBian.length; i++)
+        for (int i = 0; i < renderSides.length; i++)
         {
-            this.qingBian[i] = par1NBTTagCompound.getBoolean("qingBian" + i);
+            this.renderSides[i] = par1NBTTagCompound.getBoolean("qingBian" + i);
         }
 
-        this.isYing = par1NBTTagCompound.getBoolean("isYing");
+        this.isSolid = par1NBTTagCompound.getBoolean("isYing");
     }
 
     /** Writes a tile entity to NBT. */
@@ -155,14 +164,15 @@ public class TileEntityCamouflage extends TileEntity implements IPacketReceiver
     {
         super.writeToNBT(par1NBTTagCompound);
 
-        par1NBTTagCompound.setInteger("jiaHaoMa", this.jiaHaoMa);
-        par1NBTTagCompound.setInteger("jiaMetadata", this.jiaMetadata);
+        par1NBTTagCompound.setInteger("jiaHaoMa", this.blockID);
+        par1NBTTagCompound.setInteger("jiaMetadata", this.blockMeta);
 
-        for (int i = 0; i < qingBian.length; i++)
+        for (int i = 0; i < renderSides.length; i++)
         {
-            par1NBTTagCompound.setBoolean("qingBian" + i, this.qingBian[i]);
+            par1NBTTagCompound.setBoolean("qingBian" + i, this.renderSides[i]);
         }
 
-        par1NBTTagCompound.setBoolean("isYing", this.isYing);
+        par1NBTTagCompound.setBoolean("isYing", this.isSolid);
     }
+
 }

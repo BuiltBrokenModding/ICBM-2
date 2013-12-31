@@ -2,12 +2,15 @@ package mffs.api.fortron;
 
 import icbm.api.IBlockFrequency;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -99,36 +102,35 @@ public class FrequencyGrid
 
 	public void cleanUp()
 	{
-		try
+		Set<IBlockFrequency> tilesToRemove = new HashSet<IBlockFrequency>();
+		Iterator<IBlockFrequency> it = this.frequencyGrid.iterator();
+
+		while (it.hasNext())
 		{
-			Iterator<IBlockFrequency> it = this.frequencyGrid.iterator();
+			IBlockFrequency frequency = it.next();
 
-			while (it.hasNext())
+			if (frequency == null)
 			{
-				IBlockFrequency frequency = it.next();
+				tilesToRemove.add(frequency);
+				continue;
+			}
 
-				if (frequency == null)
-				{
-					it.remove();
-					continue;
-				}
+			if (((TileEntity) frequency).isInvalid())
+			{
+				tilesToRemove.add(frequency);
+				continue;
+			}
 
-				if (((TileEntity) frequency).isInvalid())
-				{
-					it.remove();
-					continue;
-				}
-
-				if (((TileEntity) frequency).worldObj.getBlockTileEntity(((TileEntity) frequency).xCoord, ((TileEntity) frequency).yCoord, ((TileEntity) frequency).zCoord) != ((TileEntity) frequency))
-				{
-					it.remove();
-					continue;
-				}
+			if (((TileEntity) frequency).worldObj.getBlockTileEntity(((TileEntity) frequency).xCoord, ((TileEntity) frequency).yCoord, ((TileEntity) frequency).zCoord) != ((TileEntity) frequency))
+			{
+				tilesToRemove.add(frequency);
+				continue;
 			}
 		}
-		catch (Exception e)
+
+		for (IBlockFrequency tile : tilesToRemove)
 		{
-			e.printStackTrace();
+			this.unregister(tile);
 		}
 	}
 

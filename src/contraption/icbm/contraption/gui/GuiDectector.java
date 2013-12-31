@@ -5,9 +5,13 @@ import icbm.contraption.block.TileEntityDetector;
 import icbm.core.base.GuiICBM;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.energy.UnitDisplay;
+import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
 
 import com.builtbroken.common.science.units.ElectricUnit;
+import com.builtbroken.minecraft.network.PacketHandler;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -81,15 +85,7 @@ public class GuiDectector extends GuiICBM
         this.textFieldmaxZ.setMaxStringLength(2);
         this.textFieldmaxZ.setText(this.tileEntity.maxCoord.intZ() + "");
 
-        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMContraption.CHANNEL, this.tileEntity, -1, true));
-
-    }
-
-    @Override
-    public void onGuiClosed()
-    {
-        super.onGuiClosed();
-        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMContraption.CHANNEL, this.tileEntity, -1, false));
+        PacketDispatcher.sendPacketToServer(PacketHandler.instance().getPacket(ICBMContraption.CHANNEL, this.tileEntity, -1, true));
 
     }
 
@@ -107,7 +103,7 @@ public class GuiDectector extends GuiICBM
                 this.tileEntity.mode = 0;
             }
 
-            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMContraption.CHANNEL, this.tileEntity, 2, this.tileEntity.mode));
+            PacketDispatcher.sendPacketToServer(PacketHandler.instance().getTilePacket(ICBMContraption.CHANNEL, "mode", this.tileEntity, this.tileEntity.mode));
         }
     }
 
@@ -129,7 +125,7 @@ public class GuiDectector extends GuiICBM
             Vector3 newMinCoord = new Vector3(Integer.parseInt(this.textFieldminX.getText()), Integer.parseInt(this.textFieldminY.getText()), Integer.parseInt(this.textFieldminZ.getText()));
 
             this.tileEntity.minCoord = newMinCoord;
-            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMContraption.CHANNEL, this.tileEntity, 4, this.tileEntity.minCoord.intX(), this.tileEntity.minCoord.intY(), this.tileEntity.minCoord.intZ()));
+            PacketDispatcher.sendPacketToServer(PacketHandler.instance().getTilePacket(ICBMContraption.CHANNEL, "minVec", this.tileEntity, this.tileEntity.minCoord.intX(), this.tileEntity.minCoord.intY(), this.tileEntity.minCoord.intZ()));
         }
         catch (Exception e)
         {
@@ -140,7 +136,7 @@ public class GuiDectector extends GuiICBM
             Vector3 newMaxCoord = new Vector3(Integer.parseInt(this.textFieldmaxX.getText()), Integer.parseInt(this.textFieldmaxY.getText()), Integer.parseInt(this.textFieldmaxZ.getText()));
 
             this.tileEntity.maxCoord = newMaxCoord;
-            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMContraption.CHANNEL, this.tileEntity, 5, this.tileEntity.maxCoord.intX(), this.tileEntity.maxCoord.intY(), this.tileEntity.maxCoord.intZ()));
+            PacketDispatcher.sendPacketToServer(PacketHandler.instance().getTilePacket(ICBMContraption.CHANNEL, "maxVec", this.tileEntity, this.tileEntity.maxCoord.intX(), this.tileEntity.maxCoord.intY(), this.tileEntity.maxCoord.intZ()));
         }
         catch (Exception e)
         {
@@ -150,9 +146,8 @@ public class GuiDectector extends GuiICBM
         try
         {
             short newFrequency = (short) Math.max(0, Short.parseShort(this.textFieldFreq.getText()));
-
             this.tileEntity.frequency = newFrequency;
-            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMContraption.CHANNEL, this.tileEntity, 3, this.tileEntity.frequency));
+            PacketDispatcher.sendPacketToServer(PacketHandler.instance().getTilePacket(ICBMContraption.CHANNEL, "freq", this.tileEntity, this.tileEntity.frequency));
         }
         catch (Exception e)
         {
@@ -214,7 +209,7 @@ public class GuiDectector extends GuiICBM
         String color = "\u00a74";
         String status = "Idle";
 
-        if (this.tileEntity.getEnergyStored() < this.tileEntity.getRequest(null))
+        if (this.tileEntity.getEnergyStored() < this.tileEntity.getJoulesPerTick())
         {
             status = "Insufficient electricity!";
         }
@@ -225,7 +220,7 @@ public class GuiDectector extends GuiICBM
         }
 
         this.fontRenderer.drawString(color + "Status: " + status, 12, 138, 4210752);
-        this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getRequest(null) * 20, ElectricUnit.WATT) + " " + ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 12, 150, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplay(this.tileEntity.getEnergy(ForgeDirection.UNKNOWN), Unit.JOULES) + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltage(), Unit.VOLTAGE), 12, 150, 4210752);
     }
 
     @Override

@@ -18,7 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemTracker extends ItemICBMElectricBase implements ITracker
 {
-    private static final float YONG_DIAN_LIANG = 0.1f;
+    private static final long ENERGY_PER_TICK = 1;
 
     public ItemTracker(int id)
     {
@@ -102,7 +102,7 @@ public class ItemTracker extends ItemICBMElectricBase implements ITracker
 
                     if (trackingEntity != null)
                     {
-                        if (this.discharge(itemStack, YONG_DIAN_LIANG * 20, true) < YONG_DIAN_LIANG * 20)
+                        if (this.discharge(itemStack, ENERGY_PER_TICK, true) < ENERGY_PER_TICK)
                         {
                             this.setTrackingEntity(itemStack, null);
                         }
@@ -124,7 +124,7 @@ public class ItemTracker extends ItemICBMElectricBase implements ITracker
     {
         if (!player.worldObj.isRemote)
         {
-            if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
+            if (this.getEnergy(itemStack) > ENERGY_PER_TICK)
             {
                 setTrackingEntity(itemStack, entity);
                 player.addChatMessage("Now tracking: " + entity.getEntityName());
@@ -140,13 +140,13 @@ public class ItemTracker extends ItemICBMElectricBase implements ITracker
     }
 
     @Override
-    public float getVoltage(ItemStack itemStack)
+    public long getVoltage(ItemStack itemStack)
     {
         return 20;
     }
 
     @Override
-    public float getMaxElectricityStored(ItemStack itemStack)
+    public long getEnergyCapacity(ItemStack itemStack)
     {
         return 100000;
     }
