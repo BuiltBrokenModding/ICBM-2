@@ -15,9 +15,11 @@ import icbm.core.ICBMCore;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.item.ItemElectric;
+
+import com.builtbroken.minecraft.network.PacketHandler;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -32,7 +34,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ICBMContraption.NAME, name = ICBMContraption.NAME, version = ICBM.VERSION, dependencies = "after:AtomicScience", useMetadata = true)
-@NetworkMod(channels = ICBMContraption.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ContraptionPacketHandler.class)
+@NetworkMod(channels = ICBMContraption.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMContraption extends ICBMCore
 {
     public static final String NAME = ICBM.NAME + "|Contraption";
@@ -48,12 +50,12 @@ public class ICBMContraption extends ICBMCore
     public static CommonProxy proxy;
 
     // Blocks
-    public static Block bBuoLiPan, bBuoLiEnNiu, bYinGanQi, bZha, bYinXing, bNiTu, bBuoLi;
+    public static Block blockGlassPlate, blockGlassButton, blockProximityDetector, blockSpikes, blockCamo, blockConcrete, blockReinforcedGlass;
 
     // Items
-    public static Item itYao;
-    public static ItemElectric itHuoLaunQi;
-    public static ItemElectric itGenZongQi;
+    public static Item itemAntidote;
+    public static ItemElectric itemSignalDisrupter;
+    public static ItemElectric itemTracker;
 
     @Override
     @EventHandler
@@ -65,31 +67,31 @@ public class ICBMContraption extends ICBMCore
         ICBMConfiguration.CONFIGURATION.load();
 
         // Blocks
-        bBuoLiPan = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
-        bBuoLiEnNiu = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
-        bYinGanQi = new BlockProcimityDetector(ICBM.BLOCK_ID_PREFIX - 3);
-        bZha = new BlockSpikes(ICBM.BLOCK_ID_PREFIX - 4);
-        bYinXing = new BlockCamouflage(ICBM.BLOCK_ID_PREFIX - 5);
-        bNiTu = new BlockConcrete(ICBM.BLOCK_ID_PREFIX - 6);
-        bBuoLi = new BlockReinforcedGlass(ICBM.BLOCK_ID_PREFIX - 7);
+        blockGlassPlate = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
+        blockGlassButton = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
+        blockProximityDetector = new BlockProcimityDetector(ICBM.BLOCK_ID_PREFIX - 3);
+        blockSpikes = new BlockSpikes(ICBM.BLOCK_ID_PREFIX - 4);
+        blockCamo = new BlockCamouflage(ICBM.BLOCK_ID_PREFIX - 5);
+        blockConcrete = new BlockConcrete(ICBM.BLOCK_ID_PREFIX - 6);
+        blockReinforcedGlass = new BlockReinforcedGlass(ICBM.BLOCK_ID_PREFIX - 7);
 
         // ITEMS
-        itYao = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
-        itHuoLaunQi = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
-        itGenZongQi = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
+        itemAntidote = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
+        itemSignalDisrupter = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
+        itemTracker = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
         ICBMConfiguration.CONFIGURATION.save();
 
-        CreativeTabICBM.itemStack = new ItemStack(bYinGanQi);
+        CreativeTabICBM.itemStack = new ItemStack(blockProximityDetector);
 
         // -- Registering Blocks
-        GameRegistry.registerBlock(bBuoLiPan, "bBuoLiPan");
-        GameRegistry.registerBlock(bBuoLiEnNiu, "bBuoLiEnNiu");
-        GameRegistry.registerBlock(bYinGanQi, "bYinGanQi");
-        GameRegistry.registerBlock(bYinXing, "bYinXing");
-        GameRegistry.registerBlock(bBuoLi, "bBuoLi");
-        GameRegistry.registerBlock(bZha, ItemblockSpikes.class, "bZha");
-        GameRegistry.registerBlock(bNiTu, ItemBlockConcreate.class, "bNiTu");
+        GameRegistry.registerBlock(blockGlassPlate, "bBuoLiPan");
+        GameRegistry.registerBlock(blockGlassButton, "bBuoLiEnNiu");
+        GameRegistry.registerBlock(blockProximityDetector, "bYinGanQi");
+        GameRegistry.registerBlock(blockCamo, "bYinXing");
+        GameRegistry.registerBlock(blockReinforcedGlass, "bBuoLi");
+        GameRegistry.registerBlock(blockSpikes, ItemblockSpikes.class, "bZha");
+        GameRegistry.registerBlock(blockConcrete, ItemBlockConcreate.class, "bNiTu");
 
         ICBMContraption.proxy.preInit();
     }
@@ -109,40 +111,39 @@ public class ICBMContraption extends ICBMCore
 
         /** Add all Recipes */
         // Spikes
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', UniversalRecipe.SECONDARY_METAL.get() }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
-        GameRegistry.addRecipe(new ItemStack(bZha, 1, 1), new Object[] { "E", "S", 'E', ICBMCore.itemPoisonPowder, 'S', bZha });
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bZha, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', bZha }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
+        GameRegistry.addRecipe(new ItemStack(blockSpikes, 1, 1), new Object[] { "E", "S", 'E', ICBMCore.itemPoisonPowder, 'S', blockSpikes });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', blockSpikes }));
 
         // Camouflage
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bYinXing, 12), new Object[] { "WGW", "GCG", "WGW", 'C', UniversalRecipe.CIRCUIT_T1.get(), 'G', Block.glass, 'W', new ItemStack(Block.cloth, 1, OreDictionary.WILDCARD_VALUE) }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCamo, 12), new Object[] { "WGW", "G G", "WGW", 'G', Block.vine, 'W', Block.cloth }));
 
         // Tracker
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itGenZongQi), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.BATTERY.get(), 'S', UniversalRecipe.PRIMARY_METAL.get() }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemTracker), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', "circuitBasic", 'B', "battery", 'S', Item.ingotIron }));
 
         // Glass Pressure Plate
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMContraption.bBuoLiPan, 1, 0), new Object[] { "##", '#', Block.glass }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGlassPlate, 1, 0), new Object[] { "##", '#', Block.glass }));
 
         // Glass Button
-        GameRegistry.addRecipe(new ItemStack(bBuoLiEnNiu, 2), new Object[] { "G", "G", 'G', Block.glass });
+        GameRegistry.addRecipe(new ItemStack(blockGlassButton, 2), new Object[] { "G", "G", 'G', Block.glass });
 
         // Proximity Detector
-        GameRegistry.addRecipe(new ShapedOreRecipe(bYinGanQi, new Object[] { "SSS", "S?S", "SSS", 'S', UniversalRecipe.PRIMARY_METAL.get(), '?', ElectricItemHelper.getUncharged(itGenZongQi) }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(blockProximityDetector, new Object[] { "SSS", "S?S", "SSS", 'S', Item.ingotIron, '?', itemTracker }));
 
         // Signal Disrupter
-        GameRegistry.addRecipe(new ShapedOreRecipe(itHuoLaunQi, new Object[] { "WWW", "SCS", "SSS", 'S', UniversalRecipe.PRIMARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', UniversalRecipe.WIRE.get() }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(itemSignalDisrupter, new Object[] { "WWW", "SCS", "SSS", 'S', Item.ingotIron, 'C', "circuitBasic", 'W', "wireCopper" }));
 
         // Antidote
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itYao), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
 
         // Concrete
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 0), 'O', Block.obsidian }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bNiTu, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(bNiTu, 1, 1), 'O', UniversalRecipe.PRIMARY_METAL.get() }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 0), 'O', Block.obsidian }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 1), 'O', Item.ingotIron }));
 
         // Reinforced Glass
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(bBuoLi, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
         ICBMContraption.proxy.init();
     }

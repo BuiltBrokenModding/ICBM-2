@@ -20,7 +20,7 @@ public class TextureGenZhongQi extends TextureAtlasSprite
 
     public TextureGenZhongQi()
     {
-        super(ICBMContraption.itGenZongQi.getUnlocalizedName().replace("item.", ""));
+        super(ICBMContraption.itemTracker.getUnlocalizedName().replace("item.", ""));
     }
 
     @Override
