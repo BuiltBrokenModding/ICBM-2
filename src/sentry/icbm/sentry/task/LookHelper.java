@@ -45,9 +45,9 @@ public class LookHelper
         float yaw = getYaw(sentry.getCenter(), target);
         float pitch = getPitch(sentry.getCenter(), target);
 
-        if (Math.abs(getAngleDif(sentry.currentRotationYaw, yaw)) <= allowedError)
+        if (Math.abs(getAngleDif(sentry.getYawServo().getRotation(), yaw)) <= allowedError)
         {
-            if (Math.abs(getAngleDif(sentry.currentRotationPitch, pitch)) <= allowedError)
+            if (Math.abs(getAngleDif(sentry.getPitchServo().getRotation(), pitch)) <= allowedError)
             {
                 return true;
             }

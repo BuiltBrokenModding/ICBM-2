@@ -41,9 +41,7 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
     {
         this.baseFiringDelay = 80;
         this.minFiringDelay = 50;
-
-        this.maxPitch = 60;
-        this.minPitch = -60;
+        this.getPitchServo().setLimits(60, -60);
     }
 
     @Override
@@ -137,13 +135,13 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
         }
     }
 
-    @Override
+    
     public void renderShot(Vector3 target)
     {
         this.endTicks = 20;
     }
 
-    @Override
+   
     public void playFiringSound()
     {
         this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "railgun", 5F, 1F);
@@ -159,12 +157,6 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
     public Vector3 getCenter()
     {
         return new Vector3(this).add(new Vector3(0.5, 1.5, 0.5));
-    }
-
-    @Override
-    public VectorWorld getAimingDirection()
-    {
-        return new VectorWorld(this.worldObj, this.getCenter().translate(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.6)));
     }
 
     @Override
@@ -242,5 +234,5 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
     {
         return 450;
     }
-   
+
 }

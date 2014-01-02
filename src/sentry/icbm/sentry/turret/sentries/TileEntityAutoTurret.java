@@ -10,9 +10,6 @@ import icbm.sentry.task.TaskManager;
 import icbm.sentry.task.TaskSearchTarget;
 import icbm.sentry.turret.TileEntityTurret;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
-
-import java.io.IOException;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,7 +25,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
 import com.builtbroken.minecraft.network.PacketHandler;
@@ -69,31 +65,16 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     /** MAIN AMMO TYPE */
     public ProjectileType projectileType = ProjectileType.CONVENTIONAL;
 
-    @Override
-    public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
-    {
-        if (!super.simplePacket(id, dataStream, player))
-        {
-            if (id.equalsIgnoreCase(TurretPacketType.SHOT.name()))
-            {
-                this.renderShot(new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
-                this.currentRotationPitch = dataStream.readFloat();
-                this.currentRotationYaw = dataStream.readFloat();
-                this.playFiringSound();
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+    public int lastRotateTick;
+
+    protected boolean allowFreePitch;
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
+        if (lastRotateTick > 0)
+            lastRotateTick--;
 
         if (!this.worldObj.isRemote && this.isRunning())
         {
@@ -141,7 +122,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
                 {
                     float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).translate(new Vector3(0, entity.getEyeHeight(), 0)));
 
-                    if ((rotations[1] <= this.maxPitch && rotations[1] >= this.minPitch) || this.allowFreePitch)
+                    if ((rotations[1] <= this.getPitchServo().getLimits().left() && rotations[1] >= this.getPitchServo().getLimits().right()) || this.allowFreePitch)
                     {
                         if (this.lookHelper.canEntityBeSeen(entity))
                         {
@@ -207,7 +188,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         return (entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this)) || entity instanceof EntityWither || entity instanceof EntityDragon;
     }
 
-    @Override
+    
     public boolean canActivateWeapon()
     {
         if (this.isValidTarget(this.getTarget()) && this.getPlatform() != null)
@@ -221,10 +202,31 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         return false;
     }
 
+    @Override
+    public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
+    {
+        if (!super.simplePacket(id, dataStream, player))
+        {
+            if (id.equalsIgnoreCase(TurretPacketType.SHOT.name()))
+            {
+                Vector3 target = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+                this.getYawServo().setRotation(dataStream.readFloat());
+                this.getYawServo().setRotation(dataStream.readFloat());
+                this.drawParticleStreamTo(target);
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     /** Sends the firing info to the client to render tracer effects */
     public void sendShotToClient(Vector3 position)
     {
-        PacketHandler.instance().sendPacketToClients(PacketHandler.instance().getPacket(ICBMSentry.CHANNEL, TurretPacketType.SHOT.ordinal(), this, position.x, position.y, position.z, this.currentRotationPitch, this.currentRotationYaw), this.worldObj, new Vector3(this), 40);
+        PacketHandler.instance().sendPacketToClients(PacketHandler.instance().getTilePacket(ICBMSentry.CHANNEL, TurretPacketType.SHOT.name(), this, position, this.getYawServo().getRotation(), this.getPitchServo().getRotation()), this.worldObj, new Vector3(this), 40);
     }
 
     /** Server side only */
@@ -238,16 +240,8 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
             if (this.onFire())
             {
                 this.sendShotToClient(this.getTargetPosition());
-                this.playFiringSound();
-                //this.getPlatform().provideElectricity(this.getFiringRequest(), true);
             }
         }
-    }
-
-    @Override
-    public void renderShot(Vector3 target)
-    {
-        this.drawParticleStreamTo(target);
     }
 
     /** Does the actual firing process for the sentry */
@@ -321,7 +315,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
 
                         if (drop && this.worldObj.rand.nextFloat() < 0.9)
                         {
-                            Vector3 spawnPos = this.getMuzzle();
+                            Vector3 spawnPos = this.getAimingDirection();
                             EntityItem entityShell = new EntityItem(this.worldObj, spawnPos.x, spawnPos.y, spawnPos.z, ICBMSentry.bulletShell.copy());
                             entityShell.delayBeforeCanPickup = 20;
                             this.worldObj.spawnEntityInWorld(entityShell);

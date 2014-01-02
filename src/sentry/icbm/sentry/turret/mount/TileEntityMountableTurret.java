@@ -1,13 +1,13 @@
 package icbm.sentry.turret.mount;
 
-import com.builtbroken.minecraft.interfaces.IBlockActivated;
-import com.builtbroken.minecraft.network.PacketHandler;
-
 import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.Vector3;
+
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
+import com.builtbroken.minecraft.network.PacketHandler;
 
 /** Mountable Turret
  * 
@@ -16,6 +16,11 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
 {
     /** Fake entity this sentry uses for mounting the player in position */
     protected EntityMountPoint entityFake = null;
+
+    public TileEntityMountableTurret()
+    {
+        this.enableRotationHelper = false;
+    }
 
     @Override
     public void updateEntity()
@@ -33,16 +38,16 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
         {
             EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
 
-            if (mountedPlayer.rotationPitch > this.maxPitch)
+            if (mountedPlayer.rotationPitch > this.getPitchServo().getLimits().left())
             {
-                mountedPlayer.rotationPitch = this.maxPitch;
+                mountedPlayer.rotationPitch = this.getPitchServo().getLimits().left();
             }
-            if (mountedPlayer.rotationPitch < this.minPitch)
+            if (mountedPlayer.rotationPitch < this.getPitchServo().getLimits().right())
             {
-                mountedPlayer.rotationPitch = this.minPitch;
+                mountedPlayer.rotationPitch = this.getPitchServo().getLimits().right();
             }
-            this.currentRotationPitch = this.wantedRotationPitch = mountedPlayer.rotationPitch;
-            this.currentRotationYaw = this.wantedRotationYaw = mountedPlayer.rotationYaw;
+            this.getPitchServo().setRotation(mountedPlayer.rotationPitch);
+            this.getYawServo().setRotation(mountedPlayer.rotationYaw);
         }
     }
 
@@ -50,7 +55,7 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
      * distance, partialTickTime */
     public MovingObjectPosition rayTrace(double distance)
     {
-        return this.getAimingDirection().rayTrace(this.worldObj, this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
+        return this.getAimingDirection().rayTrace(this.worldObj, this.getYawServo().getRotation(), this.getPitchServo().getRotation(), true, distance);
     }
 
     @Override
@@ -80,10 +85,8 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
     {
         if (!this.worldObj.isRemote)
         {
-
-            entityPlayer.rotationYaw = this.currentRotationYaw;
-            entityPlayer.rotationPitch = this.currentRotationPitch;
-
+            entityPlayer.rotationYaw = this.getYawServo().getRotation();
+            entityPlayer.rotationPitch = this.getPitchServo().getRotation();
             entityPlayer.mountEntity(this.entityFake);
         }
     }

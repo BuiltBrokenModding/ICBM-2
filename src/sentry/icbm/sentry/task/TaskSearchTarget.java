@@ -27,21 +27,6 @@ public class TaskSearchTarget extends Task
                 List<Entity> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
                 Entity currentTarget = null;
 
-                /** Try to look for the owner within range and attack the entity attacking the owner
-                 * if possible.
-                 * 
-                 * for (Entity entity : entities) { if (entity instanceof EntityPlayer) {
-                 * EntityPlayer player = (EntityPlayer) entity; AccessLevel level =
-                 * this.tileEntity.getPlatform().getUserAccess(player.username);
-                 * 
-                 * /** Checks to see if this player is friendly. If so, attempt to protect the
-                 * player.
-                 * 
-                 * if (level.ordinal() >= AccessLevel.USER.ordinal()) { if (player.get != null) { if
-                 * (sentry.isValidTarget(player.getLastAttackingEntity()) &&
-                 * !player.getLastAttackingEntity().isDead) { currentTarget =
-                 * player.getLastAttackingEntity(); break; } } } } } */
-
                 if (currentTarget == null)
                 {
                     double smallestDis = sentry.getDetectRange();

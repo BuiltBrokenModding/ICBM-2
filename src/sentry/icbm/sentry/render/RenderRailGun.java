@@ -32,7 +32,7 @@ public class RenderRailGun extends RenderTaggedTile
             this.bindTexture(TEXTURE);
             GL11.glRotatef(180F, 0F, 0F, 1F);
             GL11.glRotatef(180F, 0F, 1F, 0F);
-            MODEL.render((float) Math.toRadians(tileEntity.currentRotationYaw), (float) Math.toRadians(tileEntity.currentRotationPitch), 0.0625F);
+            MODEL.render((float) Math.toRadians(tileEntity.getYawServo().getRotation()), (float) Math.toRadians(tileEntity.getPitchServo().getRotation()), 0.0625F);
             GL11.glPopMatrix();
         }
     }

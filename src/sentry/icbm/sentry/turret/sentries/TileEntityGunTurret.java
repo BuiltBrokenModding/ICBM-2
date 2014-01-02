@@ -20,33 +20,15 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
     }
 
     @Override
-    public float getVoltage()
-    {
-        return 240;
-    }
-
-    @Override
     public int getMaxHealth()
     {
         return 200;
     }
 
-    @Override
-    public long getFiringRequest()
-    {
-        return 1;
-    }
-
-    @Override
+  
     public void playFiringSound()
     {
         this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "machinegun", 5F, 1F);
-    }
-
-    @Override
-    public Vector3 getMuzzle()
-    {
-        return this.getCenter().translate(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
     }
 
     @Override

@@ -3,7 +3,6 @@ package icbm.sentry.render;
 import icbm.core.ICBMCore;
 import icbm.sentry.models.ModelSentryCannon;
 import icbm.sentry.turret.TileEntityTurret;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -13,12 +12,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderGunTurret extends RenderTaggedTile
+public class RenderGunTurret extends RenderTurret
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_neutral.png");
-    public static final ResourceLocation TEXTURE_FILE_FRIENDLY = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_friendly.png");
-    public static final ResourceLocation TEXTURE_FILE_HOSTILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_hostile.png");
     public static final ModelSentryCannon MODEL = new ModelSentryCannon();
+
+    public RenderGunTurret()
+    {
+        TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_neutral.png");
+        TEXTURE_FILE_FRIENDLY = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_friendly.png");
+        TEXTURE_FILE_HOSTILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_hostile.png");
+    }
 
     @Override
     public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
@@ -32,7 +35,7 @@ public class RenderGunTurret extends RenderTaggedTile
             GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
 
             this.setTextureBaseOnState(tileEntity);
-            render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch);
+            render(tileEntity.getYawServo().getRotation(), tileEntity.getPitchServo().getRotation());
 
             GL11.glPopMatrix();
         }
@@ -48,28 +51,5 @@ public class RenderGunTurret extends RenderTaggedTile
         // Render gun pitch rotation
         GL11.glRotatef(renderPitch, 1F, 0F, 0F);
         MODEL.renderYawPitch(0.0625F);
-    }
-
-    public void setTextureBaseOnState(TileEntityTurret tileEntity)
-    {
-        EntityPlayer player = this.getPlayer();
-
-        if (tileEntity.getPlatform() != null)
-        {
-
-            if (tileEntity.getPlatform().getOwnerGroup().isMemeber(player.username))
-            {
-                this.bindTexture(TEXTURE_FILE);
-                return;
-            }
-            else if (tileEntity.getPlatform().getUserAccess(player.username) != null)
-            {
-                this.bindTexture(TEXTURE_FILE_FRIENDLY);
-                return;
-            }
-        }
-
-        this.bindTexture(TEXTURE_FILE_HOSTILE);
-
     }
 }

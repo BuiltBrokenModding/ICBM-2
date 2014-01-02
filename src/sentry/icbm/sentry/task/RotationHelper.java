@@ -1,16 +1,22 @@
 package icbm.sentry.task;
 
-import net.minecraft.nbt.NBTTagCompound;
 import icbm.sentry.interfaces.IGyroMotor;
 import icbm.sentry.interfaces.IServo;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import net.minecraft.nbt.NBTTagCompound;
+
 import com.builtbroken.minecraft.helpers.MathHelper;
+import com.builtbroken.minecraft.save.IPacketLoad;
 import com.builtbroken.minecraft.save.ISaveObj;
+import com.google.common.io.ByteArrayDataInput;
 
 /** Modular way of dealing with yaw and pitch rotation of an object
  * 
  * @author DarkGuardsman */
-public class RotationHelper implements ISaveObj
+public class RotationHelper implements ISaveObj, IPacketLoad
 {
     protected IGyroMotor motor;
     protected float targetYaw, targetPitch;
@@ -91,5 +97,25 @@ public class RotationHelper implements ISaveObj
     {
         this.targetYaw = nbt.getFloat("targetYaw");
         this.targetPitch = nbt.getFloat("targetPitch");
+
+    }
+
+    @Override
+    public void readPacket(ByteArrayDataInput data)
+    {
+        this.targetYaw = data.readFloat();
+        this.targetPitch = data.readFloat();
+        this.motor.getYawServo().setRotation(data.readFloat());
+        this.motor.getPitchServo().setRotation(data.readFloat());
+    }
+
+    @Override
+    public void loadPacket(DataOutputStream data) throws IOException
+    {
+        data.writeFloat(this.targetYaw);
+        data.writeFloat(this.targetPitch);
+        data.writeFloat(this.motor.getYawServo().getRotation());
+        data.writeFloat(this.motor.getPitchServo().getRotation());
+
     }
 }

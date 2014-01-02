@@ -32,4 +32,10 @@ public class ServoMotor implements IServo
         return this.limits;
     }
 
+    @Override
+    public void setLimits(float upperLimit, float lowerLimit)
+    {
+        this.limits = new Pair<Float, Float>(upperLimit, upperLimit);
+    }
+
 }

@@ -13,12 +13,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderAAGun extends RenderTaggedTile
+public class RenderAAGun extends RenderTurret
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "aa_turret_neutral.png");
-    public static final ResourceLocation TEXTURE_FILE_FRIENDLY = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "aa_turret_friendly.png");
-    public static final ResourceLocation TEXTURE_FILE_HOSTILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "aa_turret_hostile.png");
     public static final ModelAATurret MODEL = new ModelAATurret();
+    
+    public RenderAAGun()
+    {
+        TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "aa_turret_neutral.png");
+        TEXTURE_FILE_FRIENDLY = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "aa_turret_friendly.png");
+        TEXTURE_FILE_HOSTILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "aa_turret_hostile.png");
+    }
 
     @Override
     public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
@@ -32,7 +36,7 @@ public class RenderAAGun extends RenderTaggedTile
             GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
             GL11.glScalef(0.7f, 0.7f, 0.7f);
             this.setTextureBaseOnState(tileEntity);
-            render(tileEntity.currentRotationYaw, tileEntity.currentRotationPitch);
+            render(tileEntity.getYawServo().getRotation(), tileEntity.getPitchServo().getRotation());
 
             GL11.glPopMatrix();
         }
@@ -48,28 +52,5 @@ public class RenderAAGun extends RenderTaggedTile
         MODEL.renderRadar(0.0625F);
         // Render gun pitch rotation
         MODEL.renderCannon(0.0625F, (float) Math.toRadians(renderPitch));
-    }
-
-    public void setTextureBaseOnState(TileEntityTurret tileEntity)
-    {
-        EntityPlayer player = this.getPlayer();
-
-        if (tileEntity.getPlatform() != null)
-        {
-
-            if (tileEntity.getPlatform().getOwnerGroup().isMemeber(player.username))
-            {
-                this.bindTexture(TEXTURE_FILE);
-                return;
-            }
-            else if (tileEntity.getPlatform().getUserAccess(player.username) != null)
-            {
-                this.bindTexture(TEXTURE_FILE_FRIENDLY);
-                return;
-            }
-        }
-
-        this.bindTexture(TEXTURE_FILE_HOSTILE);
-
     }
 }

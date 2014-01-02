@@ -41,35 +41,21 @@ public class TileEntityLaserGun extends TileEntityAutoTurret
     }
 
     @Override
-    public long getFiringRequest()
-    {
-        return 20;
-    }
-
-    @Override
-    public float getVoltage()
-    {
-        return 480;
-    }
-
-    @Override
     public int getMaxHealth()
     {
         return 130;
     }
 
-    @Override
     public void playFiringSound()
     {
         this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "lasershot", 5F, 1F - (this.worldObj.rand.nextFloat() * 0.2f));
     }
 
-    @Override
     public void renderShot(Vector3 target)
     {
         Vector3 center = this.getCenter();
-        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw - 6, this.currentRotationPitch * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
-        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw + 6, this.currentRotationPitch * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
+        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.getYawServo().getRotation() - 6, this.getPitchServo().getRotation() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
+        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.getYawServo().getRotation() + 6, this.getPitchServo().getRotation() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
         this.barrelRotationVelocity += 1;
     }
 }

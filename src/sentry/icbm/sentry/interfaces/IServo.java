@@ -15,4 +15,6 @@ public interface IServo
 
     /** Gets limits or rotation with left being upper, and right being lower */
     public Pair<Float, Float> getLimits();
+
+    public void setLimits(float upperLimit, float lowerLimit);
 }

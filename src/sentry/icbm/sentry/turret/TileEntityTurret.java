@@ -37,10 +37,12 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
 {
     /** SPAWN DIRECTION OF SENTRY */
     private ForgeDirection platformDirection = ForgeDirection.DOWN;
-    /** TURRET AIM & ROTATION HELPER */
-    public LookHelper lookHelper = new LookHelper(this);
+
     /** SHOULD SPEED UP ROATION */
     protected boolean speedUpRotation = false;
+    /** Is the rotation helper enabled, true will cause the rotation helper to auto rotate the turret */
+    protected boolean enableRotationHelper = true;
+
     /** CURRENT HP OF THE SENTRY */
     public int health = -1;
     /** DEFUALT FIRING DELAY OF SENTRY */
@@ -51,12 +53,23 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     public int minFiringDelay = 5;
     /** ENTITY THAT TAKES DAMAGE FOR THE SENTRY */
     private EntityTileDamagable damageEntity;
-    public long joulesPerTick = 0;
 
+    /** Energy cost per tick to run this sentry */
+    public long joulesPerTick = 0;    
+    
+    /** Radius by which the weapon system can fire without clipping the sentries collision box */
+    public float sentrySafeRadius = 1.5f;
+
+    /** Weapon systems loaded into the turret */
     public IWeaponSystem[] weaponSystems;
+    /** Helper class that deals with rotation */
     public RotationHelper rotationHelper;
+    /** TURRET AIM & ROTATION HELPER */
+    public LookHelper lookHelper = new LookHelper(this);
+    /** Yaw servo rotation */
     public ServoMotor yawMotor;
-    public ServoMotor pitchMotor;;
+    /** Pitch servo rotation */
+    public ServoMotor pitchMotor;
 
     /** PACKET TYPES THIS TILE RECEIVES */
     public static enum TurretPacketType
@@ -93,8 +106,8 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
                 this.worldObj.spawnEntityInWorld(this.getDamageEntity());
             }
         }
-
-        this.rotationHelper.updateRotation(this.getRotationSpeed());
+        if (this.enableRotationHelper)
+            this.rotationHelper.updateRotation(this.getRotationSpeed());
     }
 
     @Override
@@ -159,7 +172,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
 
     public Packet getRotationPacket()
     {
-        return PacketHandler.instance().getTilePacket(ICBMSentry.CHANNEL, TurretPacketType.ROTATION.name(), this, this.wantedRotationYaw, this.wantedRotationPitch);
+        return PacketHandler.instance().getPacketFromLoader(ICBMSentry.CHANNEL, TurretPacketType.ROTATION.name(), this, this.rotationHelper);
     }
 
     @Override
@@ -257,7 +270,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     @Override
     public VectorWorld getAimingDirection()
     {
-        return new VectorWorld(this.worldObj, this.getCenter().add(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1)));
+        return new VectorWorld(this.worldObj, this.getCenter().add(Vector3.scale(new Vector3(this.getYawServo().getRotation(), this.getPitchServo().getRotation()), 1)));
     }
 
     public void onWeaponActivated()
@@ -379,7 +392,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
 
     public void cancelRotation()
     {
-        this.setRotation(this.currentRotationYaw, this.currentRotationPitch);
+        this.rotationHelper.setTargetRotation(this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
 
     /*
@@ -390,7 +403,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
         if (this.worldObj.isRemote)
         {
             Vector3 startPosition = this.getAimingDirection();
-            Vector3 direction = Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch);
+            Vector3 direction = this.getAimingDirection();
             double xoffset = 0;
             double yoffset = 0;
             double zoffset = 0;
@@ -418,7 +431,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return INFINITE_EXTENT_AABB;
+        return AxisAlignedBB.getBoundingBox(this.xCoord - 1, this.yCoord - 1, this.zCoord - 1, this.xCoord + 2, this.yCoord + 2, this.zCoord + 2);
     }
 
     public Vector3 getCenter()

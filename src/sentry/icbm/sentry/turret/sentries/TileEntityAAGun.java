@@ -22,10 +22,7 @@ public class TileEntityAAGun extends TileEntityAutoTurret
 
         this.minFiringDelay = 8;
         this.baseFiringDelay = 15;
-
-        this.minPitch = 40;
-        this.maxPitch = 90;
-
+        this.getPitchServo().setLimits(90, 40);
         this.allowFreePitch = true;
     }
 
@@ -41,30 +38,16 @@ public class TileEntityAAGun extends TileEntityAutoTurret
         return 180;
     }
 
-    @Override
+ 
     public void playFiringSound()
     {
         this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "aagun", 5F, 1F);
     }
 
     @Override
-    public void renderShot(Vector3 target)
-    {
-        Vector3 center = this.getCenter();
-        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
-        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
-    }
-
-    @Override
     public Vector3 getCenter()
     {
         return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5));
-    }
-
-    @Override
-    public Vector3 getAimingDirection()
-    {
-        return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch).scale(1));
     }
 
 }
