@@ -1,8 +1,6 @@
 package icbm.contraption.block;
 
 import icbm.api.ICamouflageMaterial;
-import icbm.api.explosion.IEMPBlock;
-import icbm.api.explosion.IExplosion;
 import icbm.core.CreativeTabICBM;
 import icbm.core.base.BlockICBM;
 import net.minecraft.block.Block;
@@ -14,9 +12,8 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.api.vector.Vector3;
 
-public class BlockCamouflage extends BlockICBM implements IEMPBlock
+public class BlockCamouflage extends BlockICBM 
 {
     public BlockCamouflage(int id)
     {
@@ -25,19 +22,6 @@ public class BlockCamouflage extends BlockICBM implements IEMPBlock
         this.setResistance(1F);
         this.setStepSound(Block.soundClothFootstep);
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
-    }
-
-    @Override
-    public void onEMP(World world, Vector3 position, IExplosion empExplosive)
-    {
-        TileEntity tileEntity = position.getTileEntity(world);
-
-        if (tileEntity instanceof TileEntityCamouflage)
-        {
-            ((TileEntityCamouflage) tileEntity).setMimicBlock(0, 0);
-            ((TileEntityCamouflage) tileEntity).setQing(false);
-            world.markBlockForRenderUpdate(position.intX(), position.intY(), position.intZ());
-        }
     }
 
     /** Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z,

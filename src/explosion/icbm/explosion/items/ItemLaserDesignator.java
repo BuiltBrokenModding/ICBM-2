@@ -268,7 +268,7 @@ public class ItemLaserDesignator extends ItemICBMElectricBase implements IItemFr
                     // one.
                     if (airStrikeFreq > 0)
                     {
-                        if (this.getElectricityStored(par1ItemStack) > YONG_DIAN_LIANG)
+                        if (this.getEnergy(par1ItemStack) > YONG_DIAN_LIANG)
                         {
                             Vector3 position = new Vector3(par3EntityPlayer.posX, par3EntityPlayer.posY, par3EntityPlayer.posZ);
                             HashSet<TileEntityLauncherPrefab> launchers = MissileLauncherRegistry.naFaSheQiInArea(new Vector2(position.x - ItemLaserDesignator.BAN_JING, position.z - ItemLaserDesignator.BAN_JING), new Vector2(position.x + ItemLaserDesignator.BAN_JING, position.z + ItemLaserDesignator.BAN_JING));
@@ -334,14 +334,14 @@ public class ItemLaserDesignator extends ItemICBMElectricBase implements IItemFr
     }
 
     @Override
-    public float getVoltage(ItemStack itemStack)
+    public long getVoltage(ItemStack itemStack)
     {
         return 30;
     }
 
     @Override
-    public float getMaxElectricityStored(ItemStack itemStack)
+    public long getEnergyCapacity(ItemStack itemStack)
     {
-        return 80000;
+        return 800;
     }
 }

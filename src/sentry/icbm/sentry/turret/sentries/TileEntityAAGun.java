@@ -42,7 +42,7 @@ public class TileEntityAAGun extends TileEntityAutoTurret
     }
 
     @Override
-    public float getFiringRequest()
+    public long getFiringRequest()
     {
         return 50;
     }
@@ -63,8 +63,8 @@ public class TileEntityAAGun extends TileEntityAutoTurret
     public void renderShot(Vector3 target)
     {
         Vector3 center = this.getCenter();
-        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
-        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.add(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
+        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw - 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
+        ICBMSentry.proxy.renderBeam(this.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.currentRotationYaw + 25, this.currentRotationPitch * 1.4f).scale(1.15)), target, 1, 1, 1, 5);
     }
 
     @Override

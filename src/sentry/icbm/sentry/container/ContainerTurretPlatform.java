@@ -1,23 +1,23 @@
 package icbm.sentry.container;
 
+import universalelectricity.api.item.IEnergyItem;
 import icbm.sentry.IAmmunition;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.SlotTurret;
-import icbm.sentry.access.AccessLevel;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.turret.ItemAmmo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerTurretPlatform extends ContainerTerminal
+public class ContainerTurretPlatform extends Container
 {
     private TileEntityTurretPlatform tileEntity;
 
     public ContainerTurretPlatform(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
     {
-        super(inventoryPlayer, tileEntity);
         this.tileEntity = tileEntity;
         int row;
 
@@ -26,7 +26,7 @@ public class ContainerTurretPlatform extends ContainerTerminal
         {
             for (int column = 0; column < 4; column++)
             {
-                this.addSlotToContainer(new SlotTurret(tileEntity, column + row * 4, 8 + column * 18, 40 + row * 18, IAmmunition.class, IItemElectric.class));
+                this.addSlotToContainer(new SlotTurret(tileEntity, column + row * 4, 8 + column * 18, 40 + row * 18, IAmmunition.class, IEnergyItem.class));
             }
         }
 
@@ -64,9 +64,9 @@ public class ContainerTurretPlatform extends ContainerTerminal
 
             if (slotID > this.tileEntity.containingItems.length - 1)
             {
-                if (this.tileEntity.getUserAccess(entityPlayer.username).ordinal() > AccessLevel.NONE.ordinal())
+                if (this.tileEntity.getUserAccess(entityPlayer.username) != null)
                 {
-                    if (itemStack.getItem() instanceof ItemAmmo || itemStack.getItem() instanceof IItemElectric)
+                    if (itemStack.getItem() instanceof ItemAmmo || itemStack.getItem() instanceof IEnergyItem)
                     {
                         if (!this.mergeItemStack(itemStack, 0, TileEntityTurretPlatform.UPGRADE_START_INDEX, false))
                         {
@@ -116,5 +116,12 @@ public class ContainerTurretPlatform extends ContainerTerminal
         }
 
         return var2;
+    }
+
+    @Override
+    public boolean canInteractWith(EntityPlayer entityplayer)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

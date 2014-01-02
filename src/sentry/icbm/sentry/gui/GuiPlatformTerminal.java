@@ -1,14 +1,16 @@
 package icbm.sentry.gui;
 
 import icbm.sentry.platform.TileEntityTurretPlatform;
-import icbm.sentry.terminal.TileEntityTerminal;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
+import com.builtbroken.minecraft.prefab.invgui.ContainerFake;
+import com.builtbroken.minecraft.terminal.TileEntityTerminal;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,12 +21,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiPlatformTerminal extends GuiPlatformBase
 {
-    private TileEntityTerminal tileEntity;
     private GuiTextField commandLine;
 
-    public GuiPlatformTerminal(EntityPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
+    public GuiPlatformTerminal(InventoryPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
     {
-        super(entityPlayer, tileEntity);
+        super(entityPlayer, new ContainerFake(tileEntity), tileEntity);
         this.tileEntity = tileEntity;
     }
 
@@ -64,11 +65,11 @@ public class GuiPlatformTerminal extends GuiPlatformBase
         int wheel = Mouse.getEventDWheel();
         if (wheel > 0)
         {
-            this.tileEntity.scroll(-2);
+            ((TileEntityTerminal) this.tileEntity).scroll(-2);
         }
         else if (wheel < 0)
         {
-            this.tileEntity.scroll(2);
+            ((TileEntityTerminal) this.tileEntity).scroll(2);
         }
     }
 
@@ -82,13 +83,13 @@ public class GuiPlatformTerminal extends GuiPlatformBase
             case MAX_BUTTON_ID + 1:
             {
                 // Arrow Up
-                this.tileEntity.scroll(-1);
+                ((TileEntityTerminal) this.tileEntity).scroll(-1);
                 break;
             }
             case MAX_BUTTON_ID + 2:
             {
                 // Arrow Down
-                this.tileEntity.scroll(1);
+                ((TileEntityTerminal) this.tileEntity).scroll(1);
                 break;
             }
         }
@@ -103,15 +104,15 @@ public class GuiPlatformTerminal extends GuiPlatformBase
         }
         else if (keycode == 200) // PAGE UP (no constant)
         {
-            this.tileEntity.scroll(-1);
+            ((TileEntityTerminal) this.tileEntity).scroll(-1);
         }
         else if (keycode == 208) // PAGE DOWN (no constant)
         {
-            this.tileEntity.scroll(1);
+            ((TileEntityTerminal) this.tileEntity).scroll(1);
         }
         else if (keycode == Keyboard.KEY_RETURN)
         {
-            this.tileEntity.sendCommandToServer(this.entityPlayer, this.commandLine.getText());
+            ((TileEntityTerminal) this.tileEntity).sendCommandToServer(this.entityPlayer, this.commandLine.getText());
             this.commandLine.setText("");
         }
         else
@@ -128,12 +129,12 @@ public class GuiPlatformTerminal extends GuiPlatformBase
     }
 
     @Override
-    protected void drawForegroundLayer(int x, int y, float var1)
+    protected void drawGuiContainerForegroundLayer(int x, int y)
     {
         String title = "Terminal";
         this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
         this.drawConsole(25, 16, TileEntityTerminal.SCROLL_SIZE);
-        super.drawForegroundLayer(x, y, var1);
+        super.drawGuiContainerForegroundLayer(x, y);
     }
 
     public void drawConsole(int x, int y, int lines)
@@ -148,11 +149,11 @@ public class GuiPlatformTerminal extends GuiPlatformBase
         // Draws each line
         for (int i = 0; i < lines; i++)
         {
-            int currentLine = i + this.tileEntity.getScroll();
+            int currentLine = i + ((TileEntityTerminal) this.tileEntity).getScroll();
 
-            if (currentLine < this.tileEntity.getTerminalOuput().size() && currentLine >= 0)
+            if (currentLine < ((TileEntityTerminal) this.tileEntity).getTerminalOuput().size() && currentLine >= 0)
             {
-                String line = this.tileEntity.getTerminalOuput().get(currentLine);
+                String line = ((TileEntityTerminal) this.tileEntity).getTerminalOuput().get(currentLine);
 
                 if (line != null && line != "")
                 {
@@ -165,9 +166,9 @@ public class GuiPlatformTerminal extends GuiPlatformBase
     }
 
     @Override
-    protected void drawBackgroundLayer(int x, int y, float var1)
+    protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
     {
-        super.drawBackgroundLayer(x, y, var1);
+        super.drawGuiContainerBackgroundLayer(par1, x, y);
         this.commandLine.drawTextBox();
     }
 }

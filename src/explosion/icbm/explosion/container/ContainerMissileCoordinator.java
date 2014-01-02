@@ -3,16 +3,15 @@ package icbm.explosion.container;
 import icbm.core.base.ContainerBase;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
 import net.minecraft.entity.player.InventoryPlayer;
-
-import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
+import net.minecraft.inventory.Slot;
 
 public class ContainerMissileCoordinator extends ContainerBase
 {
     public ContainerMissileCoordinator(InventoryPlayer inventoryPlayer, TileEntityMissileCoordinator tileEntity)
     {
         super(tileEntity);
-        this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 16, 41, ICoordLink.class));
-        this.addSlotToContainer(new SlotSpecific(tileEntity, 1, 136, 41, ICoordLink.class));
+        this.addSlotToContainer(new Slot(tileEntity, 0, 16, 41));
+        this.addSlotToContainer(new Slot(tileEntity, 1, 136, 41));
         this.addPlayerInventory(inventoryPlayer.player);
     }
 }

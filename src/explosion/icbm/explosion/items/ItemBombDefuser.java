@@ -35,7 +35,7 @@ public class ItemBombDefuser extends ItemICBMElectricBase
     @Override
     public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
     {
-        if (this.getElectricityStored(itemStack) > YONG_DIAN_LIANG)
+        if (this.getEnergy(itemStack) > YONG_DIAN_LIANG)
         {
             if (entity instanceof EntityExplosive)
             {
@@ -83,14 +83,14 @@ public class ItemBombDefuser extends ItemICBMElectricBase
     }
 
     @Override
-    public float getVoltage(ItemStack itemStack)
+    public long getVoltage(ItemStack itemStack)
     {
         return 20;
     }
 
     @Override
-    public float getMaxElectricityStored(ItemStack itemStack)
+    public long getEnergyCapacity(ItemStack itemStack)
     {
-        return 80000;
+        return 800;
     }
 }

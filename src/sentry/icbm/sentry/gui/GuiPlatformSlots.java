@@ -1,6 +1,7 @@
 package icbm.sentry.gui;
 
 import icbm.core.ICBMCore;
+import icbm.sentry.container.ContainerTurretPlatform;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,20 +9,22 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.builtbroken.common.science.units.ElectricUnit;
+import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
 
+import universalelectricity.api.energy.UnitDisplay;
+import universalelectricity.api.energy.UnitDisplay.Unit;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiPlatformSlots extends GuiPlatformContainer
+public class GuiPlatformSlots extends GuiPlatformBase
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_platform_slot.png");
 
     public GuiPlatformSlots(InventoryPlayer inventoryPlayer, TileEntityTurretPlatform tileEntity)
     {
-        super(inventoryPlayer, tileEntity);
+        super(inventoryPlayer, new ContainerTurretPlatform(inventoryPlayer, tileEntity), tileEntity);
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
@@ -30,21 +33,21 @@ public class GuiPlatformSlots extends GuiPlatformContainer
     {
         this.fontRenderer.drawString("Ammunition", 8, 30, 4210752);
 
-        TileEntityTurret turret = this.tileEntity.getTurret();
+        TileEntityTurret turret = ((TileEntityTurretPlatform) this.tileEntity).getTurret();
 
         // Render the turret energy
         if (turret != null && turret.getFiringRequest() > 0)
         {
             String color = "\u00a74";
 
-            if (this.tileEntity.isRunning())
+            if (((TileEntityTurretPlatform) this.tileEntity).isRunning())
             {
                 color = "\u00a7a";
             }
 
             this.fontRenderer.drawString("Energy Per Shot", 85, 33, 4210752);
-            this.fontRenderer.drawString(color + ElectricityDisplay.getDisplayShort(Math.min(this.tileEntity.getEnergyStored(), turret.getFiringRequest()), ElectricUnit.JOULES), 87, 43, 4210752);
-            this.fontRenderer.drawString(color + "of " + ElectricityDisplay.getDisplayShort(this.tileEntity.getTurret().getFiringRequest(), ElectricUnit.JOULES), 87, 53, 4210752);
+            this.fontRenderer.drawString(color + UnitDisplay.getDisplayShort(Math.min(((TileEntityEnergyMachine) this.tileEntity).getEnergyStored(), turret.getFiringRequest()), Unit.JOULES), 87, 43, 4210752);
+            this.fontRenderer.drawString(color + "of " + UnitDisplay.getDisplayShort(((TileEntityTurretPlatform) this.tileEntity).getTurret().getFiringRequest(), Unit.JOULES), 87, 53, 4210752);
         }
 
         this.fontRenderer.drawString("Upgrades", 87, 66, 4210752);

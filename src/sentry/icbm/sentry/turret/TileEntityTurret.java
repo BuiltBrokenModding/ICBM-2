@@ -6,9 +6,9 @@ import icbm.sentry.ISentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.render.ITagRender;
 import icbm.sentry.task.LookHelper;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 
@@ -16,9 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -27,6 +25,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
 import com.builtbroken.minecraft.network.ISimplePacketReceiver;
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
@@ -35,7 +34,7 @@ import cpw.mods.fml.common.network.Player;
 /** Turret Base Class Class that handles all the basic movement, and block based updates of a turret.
  * 
  * @author Calclavia, Rseifert */
-public abstract class TileEntityTurret extends TileEntityAdvanced implements ISimplePacketReceiver, ISentry, IHealthTile
+public abstract class TileEntityTurret extends TileEntityAdvanced implements ISimplePacketReceiver, ISentry, IHealthTile, ITagRender
 {
     /** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
     public float maxPitch = 35;
@@ -103,15 +102,15 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
      * ----------------------- PACKET DATA AND SAVING --------------------------------------
      */
     @Override
-    public boolean simplePacket(String id, ByteArrayDataInput data, Player player)
+    public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
     {
         try
         {
-            if (packetID == TurretPacketType.ROTATION.ordinal())
+            if (id.equalsIgnoreCase(TurretPacketType.ROTATION.name()))
             {
                 this.setRotation(dataStream.readFloat(), dataStream.readFloat());
             }
-            else if (packetID == TurretPacketType.DESCRIPTION.ordinal())
+            else if (id.equalsIgnoreCase(TurretPacketType.DESCRIPTION.name()))
             {
                 short size = dataStream.readShort();
 
@@ -122,7 +121,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
                     this.readFromNBT(CompressedStreamTools.decompress(byteCode));
                 }
             }
-            else if (packetID == TurretPacketType.STATS.ordinal())
+            else if (id.equalsIgnoreCase(TurretPacketType.STATS.name()))
             {
                 this.health = dataStream.readInt();
             }
@@ -138,12 +137,12 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
 
     public Packet getStatsPacket()
     {
-        return PacketManager.getPacket(ICBMSentry.CHANNEL, this, TurretPacketType.STATS.ordinal(), this.health);
+        return PacketHandler.instance().getTilePacket(ICBMSentry.CHANNEL, TurretPacketType.STATS.name(), this, this.health);
     }
 
     public Packet getRotationPacket()
     {
-        return PacketManager.getPacket(ICBMSentry.CHANNEL, this, TurretPacketType.ROTATION.ordinal(), this.wantedRotationYaw, this.wantedRotationPitch);
+        return PacketHandler.instance().getTilePacket(ICBMSentry.CHANNEL, TurretPacketType.ROTATION.name(), this, this.wantedRotationYaw, this.wantedRotationPitch);
     }
 
     @Override
@@ -151,7 +150,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     {
         NBTTagCompound nbt = new NBTTagCompound();
         writeToNBT(nbt);
-        return PacketManager.getPacket(ICBMSentry.CHANNEL, this, TurretPacketType.DESCRIPTION.ordinal(), nbt);
+        return PacketHandler.instance().getPacket(ICBMSentry.CHANNEL, TurretPacketType.DESCRIPTION.name(), this, nbt);
     }
 
     /** Writes a tile entity to NBT. */
@@ -265,7 +264,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     @Override
     public Vector3 getMuzzle()
     {
-        return this.getCenter().add(Vector3.multiply(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
+        return this.getCenter().add(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
     }
 
     @Override
@@ -314,7 +313,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
 
         if (!this.worldObj.isRemote)
         {
-            PacketManager.sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
+            PacketHandler.instance().sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
         }
     }
 
@@ -345,7 +344,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
             }
             else
             {
-                PacketManager.sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
+                PacketHandler.instance().sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
             }
 
             return true;
@@ -454,7 +453,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
 
                 if (!this.worldObj.isRemote)
                 {
-                    PacketManager.sendPacketToClients(this.getRotationPacket(), this.worldObj, new Vector3(this), 50);
+                    PacketHandler.instance().sendPacketToClients(this.getRotationPacket(), this.worldObj, new Vector3(this), 50);
                 }
             }
         }

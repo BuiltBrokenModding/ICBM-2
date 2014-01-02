@@ -20,11 +20,8 @@ import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
 import universalelectricity.api.vector.Vector3;
-import atomicscience.api.BlockRadioactive;
-import atomicscience.api.poison.PotionRadiation;
 
 import com.builtbroken.minecraft.TranslationHelper;
-import com.builtbroken.minecraft.prefab.BlockMulti;
 import com.builtbroken.minecraft.prefab.TileEntityMulti;
 import com.builtbroken.minecraft.worldgen.OreGenBase;
 import com.builtbroken.minecraft.worldgen.OreGenerator;
@@ -80,10 +77,7 @@ public class ICBMCore
 
             ICBMConfiguration.initiate();
             ICBMConfiguration.CONFIGURATION.load();
-
-            // Calling this once to prevent the static class from not
-            // initiating.
-            PotionRadiation.INSTANCE.getId();
+          
 
             // BLOCKS
             blockSulfurOre = new BlockSulfureOre(ICBM.BLOCK_ID_PREFIX + 0);
@@ -93,8 +87,7 @@ public class ICBMCore
             itemSulfurDust = new ItemICBMBase(ICBM.ITEM_ID_PREFIX + 1, "sulfur");
 
             // -- Registering Blocks
-            GameRegistry.registerBlock(blockSulfurOre, "bLiu");
-            GameRegistry.registerBlock(blockMulti, "bJia");
+            GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");
 
             sulfureOreGenData = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(ICBMConfiguration.CONFIGURATION);
 
@@ -103,13 +96,6 @@ public class ICBMCore
             {
                 blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
                 LOGGER.fine("Detected radioative block from another mod, utilizing it.");
-            }
-            else
-            {
-                blockRadioactive = new BlockRadioactive(ICBMConfiguration.CONFIGURATION.getBlock("Radioactive Block", BlockRadioactive.RECOMMENDED_ID).getInt()).setUnlocalizedName(PREFIX + "radioactive").setTextureName(PREFIX + "radioactive");
-                GameRegistry.registerBlock(blockRadioactive, "Radioactive");
-                OreDictionary.registerOre("blockRadioactive", blockRadioactive);
-                LOGGER.fine("Cannot find radioactive block in ore dictionary. Creating one.");
             }
 
             /** Decrease Obsidian Resistance */

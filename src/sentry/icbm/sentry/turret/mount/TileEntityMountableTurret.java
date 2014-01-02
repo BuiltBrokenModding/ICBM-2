@@ -1,5 +1,8 @@
 package icbm.sentry.turret.mount;
 
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
+import com.builtbroken.minecraft.network.PacketHandler;
+
 import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -9,7 +12,7 @@ import universalelectricity.api.vector.Vector3;
 /** Mountable Turret
  * 
  * @author Calclavia */
-public abstract class TileEntityMountableTurret extends TileEntityTurret implements IBlockActivate
+public abstract class TileEntityMountableTurret extends TileEntityTurret implements IBlockActivated
 {
     /** Fake entity this sentry uses for mounting the player in position */
     protected EntityMountPoint entityFake = null;
@@ -63,7 +66,7 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
 
                     if (!this.worldObj.isRemote)
                     {
-                        PacketManager.sendPacketToClients(this.getRotationPacket());
+                        PacketHandler.instance().sendPacketToClients(this.getRotationPacket());
                     }
 
                     return true;

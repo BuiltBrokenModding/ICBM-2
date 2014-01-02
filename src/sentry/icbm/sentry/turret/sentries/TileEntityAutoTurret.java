@@ -31,7 +31,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.Player;
 
 /** Extend this class for all turrets that are automatic.
  * 
@@ -67,16 +70,23 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     public ProjectileType projectileType = ProjectileType.CONVENTIONAL;
 
     @Override
-    public void onReceivePacket(int packetID, EntityPlayer player, ByteArrayDataInput dataStream) throws IOException
+    public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
     {
-        super.onReceivePacket(packetID, player, dataStream);
-
-        if (packetID == TurretPacketType.SHOT.ordinal())
+        if (!super.simplePacket(id, dataStream, player))
         {
-            this.renderShot(new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
-            this.currentRotationPitch = dataStream.readFloat();
-            this.currentRotationYaw = dataStream.readFloat();
-            this.playFiringSound();
+            if (id.equalsIgnoreCase(TurretPacketType.SHOT.name()))
+            {
+                this.renderShot(new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble()));
+                this.currentRotationPitch = dataStream.readFloat();
+                this.currentRotationYaw = dataStream.readFloat();
+                this.playFiringSound();
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
@@ -127,7 +137,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         {
             if (!entity.isDead && !entity.isEntityInvulnerable())
             {
-                if (this.getCenter().distanceTo(new Vector3(entity)) <= this.getDetectRange())
+                if (this.getCenter().distance(new Vector3(entity)) <= this.getDetectRange())
                 {
                     float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).translate(new Vector3(0, entity.getEyeHeight(), 0)));
 
@@ -160,7 +170,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
 
                                     if (!player.capabilities.isCreativeMode)
                                     {
-                                        if (this.getPlatform() != null && !this.getPlatform().canUserAccess(player.username))
+                                        if (this.getPlatform() != null && this.getPlatform().getUserAccess(player.username) != null)
                                         {
                                             return true;
                                         }
@@ -204,7 +214,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         {
             if (this.lookHelper.isLookingAt(this.target, 5))
             {
-                return this.tickSinceFired == 0 && (this.getPlatform().provideElectricity(this.getFiringRequest(), false).getWatts() >= this.getFiringRequest()) && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
+                return this.tickSinceFired == 0 && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
             }
         }
 
@@ -214,7 +224,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     /** Sends the firing info to the client to render tracer effects */
     public void sendShotToClient(Vector3 position)
     {
-        PacketManager.sendPacketToClients(PacketManager.getPacket(ICBMSentry.CHANNEL, this, TurretPacketType.SHOT.ordinal(), position.x, position.y, position.z, this.currentRotationPitch, this.currentRotationYaw), this.worldObj, new Vector3(this), 40);
+        PacketHandler.instance().sendPacketToClients(PacketHandler.instance().getPacket(ICBMSentry.CHANNEL, TurretPacketType.SHOT.ordinal(), this, position.x, position.y, position.z, this.currentRotationPitch, this.currentRotationYaw), this.worldObj, new Vector3(this), 40);
     }
 
     /** Server side only */
@@ -229,7 +239,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
             {
                 this.sendShotToClient(this.getTargetPosition());
                 this.playFiringSound();
-                this.getPlatform().provideElectricity(this.getFiringRequest(), true);
+                //this.getPlatform().provideElectricity(this.getFiringRequest(), true);
             }
         }
     }
@@ -259,7 +269,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
 
                 if (this.target instanceof EntityLivingBase)
                 {
-                    this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
+                    //this.getPlatform().provideElectricity(ForgeDirection.UP, ElectricityPack.getFromWatts(this.getFiringRequest(), this.getVoltage()), true);
 
                     if (this instanceof TileEntityLaserGun)
                     {

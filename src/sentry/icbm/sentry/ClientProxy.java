@@ -59,9 +59,9 @@ public class ClientProxy extends CommonProxy
                 case GUI_PLATFORM_ID:
                     return new GuiPlatformSlots(player.inventory, ((TileEntityTurretPlatform) tileEntity));
                 case GUI_PLATFORM_TERMINAL_ID:
-                    return new GuiPlatformTerminal(player, ((TileEntityTurretPlatform) tileEntity));
+                    return new GuiPlatformTerminal(player.inventory, ((TileEntityTurretPlatform) tileEntity));
                 case GUI_PLATFORM_ACCESS_ID:
-                    return new GuiPlatformAccess(player, ((TileEntityTurretPlatform) tileEntity));
+                    return new GuiPlatformAccess(player.inventory, ((TileEntityTurretPlatform) tileEntity));
             }
         }
 

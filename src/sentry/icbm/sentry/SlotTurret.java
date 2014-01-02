@@ -1,10 +1,9 @@
 package icbm.sentry;
 
-import icbm.sentry.access.AccessLevel;
-import icbm.sentry.terminal.ITerminal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 
+import com.builtbroken.minecraft.interfaces.ITerminal;
 import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
 
 public class SlotTurret extends SlotSpecific
@@ -19,7 +18,7 @@ public class SlotTurret extends SlotSpecific
     {
         if (this.inventory instanceof ITerminal)
         {
-            return ((ITerminal) this.inventory).getUserAccess(entityPlayer.username).ordinal() > AccessLevel.NONE.ordinal();
+            return ((ITerminal) this.inventory).getUserAccess(entityPlayer.username) != null;
         }
 
         return false;

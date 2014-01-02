@@ -1,5 +1,6 @@
 package icbm.api;
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -63,25 +64,6 @@ public class RadarRegistry
                 detectableEntities.remove(entity);
             }
         }
-    }
-
-    public static List<TileEntity> getTileEntitiesInArea(Vector2 minVector, Vector2 maxVector)
-    {
-        cleanUpArray();
-        List<TileEntity> returnArray = new ArrayList<TileEntity>();
-
-        synchronized (detectableTileEntities)
-        {
-            for (TileEntity tileEntity : detectableTileEntities)
-            {
-                if (new Region2(minVector, maxVector).isIn(new Vector3(tileEntity).toVector2()))
-                {
-                    returnArray.add(tileEntity);
-                }
-            }
-        }
-
-        return returnArray;
     }
 
     public static List<Entity> getEntitiesWithinRadius(Vector2 vector, int radius)

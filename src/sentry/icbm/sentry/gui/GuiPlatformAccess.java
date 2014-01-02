@@ -1,10 +1,8 @@
 package icbm.sentry.gui;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.access.AccessLevel;
-import icbm.sentry.access.UserAccess;
+import icbm.core.base.Region2;
 import icbm.sentry.platform.TileEntityTurretPlatform;
-import icbm.sentry.terminal.TileEntityTerminal;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +11,7 @@ import java.util.Map.Entry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
@@ -20,6 +19,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.vector.Vector2;
+
+import com.builtbroken.minecraft.access.AccessUser;
+import com.builtbroken.minecraft.prefab.invgui.ContainerFake;
+import com.builtbroken.minecraft.terminal.TileEntityTerminal;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,11 +39,11 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
     private GuiTextField commandLine;
     private int scroll = 0;
     private static final int SPACING = 10;
-    private final HashMap<UserAccess, Vector2> outputMap = new HashMap<UserAccess, Vector2>();
+    private final HashMap<AccessUser, Vector2> outputMap = new HashMap<AccessUser, Vector2>();
 
-    public GuiPlatformAccess(EntityPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
+    public GuiPlatformAccess(InventoryPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
     {
-        super(entityPlayer, tileEntity);
+        super(entityPlayer, new ContainerFake(tileEntity), tileEntity);
     }
 
     @Override
@@ -130,16 +134,16 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
             String command = "users add";
             String username = this.commandLine.getText();
 
-            for (UserAccess access : this.tileEntity.getUsers())
+            for (AccessUser access : this.tileEntity.getUsers())
             {
-                if (access.username.equalsIgnoreCase(username))
+                if (access.getName().equalsIgnoreCase(username))
                 {
                     command = "users remove";
                     break;
                 }
             }
 
-            this.tileEntity.sendCommandToServer(this.entityPlayer, command + " " + username);
+            ((TileEntityTerminal) this.tileEntity).sendCommandToServer(this.entityPlayer, command + " " + username);
             this.commandLine.setText("");
         }
         else
@@ -149,56 +153,12 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
     }
 
     @Override
-    protected void mouseClicked(int x, int y, int type)
-    {
-        super.mouseClicked(x, y, type);
-
-        if (type == 0)
-        {
-            Iterator<Entry<UserAccess, Vector2>> it = this.outputMap.entrySet().iterator();
-
-            while (it.hasNext())
-            {
-                Entry<UserAccess, Vector2> entry = it.next();
-                Vector2 minPos = entry.getValue();
-                minPos.x -= 2;
-                minPos.y -= 2;
-                Vector2 maxPos = minPos.clone();
-                maxPos.x += 132;
-                maxPos.y += SPACING + 2;
-
-                if (new Region2(minPos, maxPos).isIn(new Vector2(x - this.guiLeft, y - this.guiTop)))
-                {
-                    UserAccess access = entry.getKey();
-                    int newLevelOrdinal = access.level.ordinal() + 1;
-
-                    if (newLevelOrdinal >= AccessLevel.values().length)
-                    {
-                        newLevelOrdinal -= AccessLevel.values().length;
-                    }
-
-                    if (newLevelOrdinal <= 0)
-                    {
-                        newLevelOrdinal = 1;
-                    }
-
-                    AccessLevel newLevel = AccessLevel.get(newLevelOrdinal);
-                    this.tileEntity.sendCommandToServer(this.entityPlayer, "access set " + access.username + " " + newLevel.displayName);
-                    break;
-                }
-            }
-        }
-
-        this.commandLine.mouseClicked(x, y, type);
-    }
-
-    @Override
-    protected void drawForegroundLayer(int x, int y, float var1)
+    protected void drawGuiContainerForegroundLayer(int x, int y)
     {
         String title = "User Access";
         this.fontRenderer.drawString("\u00a77" + title, this.xSize / 2 - title.length() * 3, 4, 4210752);
         this.drawConsole(15, 25, TileEntityTerminal.SCROLL_SIZE);
-        super.drawForegroundLayer(x, y, var1);
+        super.drawGuiContainerForegroundLayer(x, y);
     }
 
     public void drawConsole(int x, int y, int lines)
@@ -213,8 +173,8 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 
             if (currentLine < this.tileEntity.getUsers().size() && currentLine >= 0)
             {
-                UserAccess accesInfo = this.tileEntity.getUsers().get(currentLine);
-                String line = accesInfo.username + " (" + accesInfo.level.displayName + ")";
+                AccessUser accesInfo = this.tileEntity.getUsers().get(currentLine);
+                String line = accesInfo.getName();
 
                 if (line != null && line != "")
                 {
@@ -227,9 +187,9 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
     }
 
     @Override
-    protected void drawBackgroundLayer(int x, int y, float var1)
+    protected void drawGuiContainerBackgroundLayer(float var1, int x, int y)
     {
-        super.drawBackgroundLayer(x, y, var1);
+        super.drawGuiContainerBackgroundLayer(var1, x, y);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

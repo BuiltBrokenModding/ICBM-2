@@ -156,18 +156,6 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void breakBlock(World par1World, int x, int y, int z, int par5, int par6)
-    {
-        TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
-
-        if (tileEntity instanceof IMultiBlock)
-        {
-            ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
-        }
-        super.breakBlock(par1World, x, y, z, par5, par6);
-    }
-
-    @Override
     public TileEntity createTileEntity(World world, int meta)
     {
         if (meta < TurretType.values().length)

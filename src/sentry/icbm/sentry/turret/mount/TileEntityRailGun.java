@@ -1,6 +1,5 @@
 package icbm.sentry.turret.mount;
 
-import icbm.api.explosion.IExplosive;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ICBMSentry;
@@ -15,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
@@ -22,7 +22,7 @@ import com.builtbroken.minecraft.interfaces.IMultiBlock;
 /** Railgun
  * 
  * @author Calclavia */
-public class TileEntityRailGun extends TileEntityMountableTurret implements IPacketReceiver, IRedstoneReceptor, IMultiBlock
+public class TileEntityRailGun extends TileEntityMountableTurret implements IRedstoneReceptor, IMultiBlock
 {
     private int gunChargingTicks = 0;
 
@@ -101,38 +101,36 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IPac
 
                 if (objectMouseOver != null)
                 {
-                    if (!ICBMSentry.isProtected(this.worldObj, new Vector3(objectMouseOver), ICBMSentry.FLAG_RAILGUN))
+
+                    if (this.isAntimatter)
                     {
-                        if (this.isAntimatter)
-                        {
-                            /** Remove Redmatter Explosions. */
-                            int radius = 50;
-                            AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
-                            List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+                        /** Remove Redmatter Explosions. */
+                        int radius = 50;
+                        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(objectMouseOver.blockX - radius, objectMouseOver.blockY - radius, objectMouseOver.blockZ - radius, objectMouseOver.blockX + radius, objectMouseOver.blockY + radius, objectMouseOver.blockZ + radius);
+                        List<Entity> missilesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
-                            for (Entity entity : missilesNearby)
-                            {
-                                if (entity instanceof IExplosive)
-                                {
-                                    entity.setDead();
-                                }
-                            }
-                        }
-
-                        Vector3 blockPosition = new Vector3(objectMouseOver.hitVec);
-
-                        int blockID = blockPosition.getBlockID(this.worldObj);
-                        Block block = Block.blocksList[blockID];
-
-                        // Any hardness under zero is unbreakable
-                        if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) != -1)
-                        {
-                            this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
-                        }
-
-                        Entity responsibleEntity = this.entityFake != null ? this.entityFake.riddenByEntity : null;
-                        this.worldObj.newExplosion(responsibleEntity, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
+                        //for (Entity entity : missilesNearby)
+                        //{
+                        // if (entity instanceof IExplosive)
+                        //{
+                        //     entity.setDead();
+                        //}
+                        //}
                     }
+
+                    Vector3 blockPosition = new Vector3(objectMouseOver.hitVec);
+
+                    int blockID = blockPosition.getBlockID(this.worldObj);
+                    Block block = Block.blocksList[blockID];
+
+                    // Any hardness under zero is unbreakable
+                    if (block != null && block.getBlockHardness(this.worldObj, blockPosition.intX(), blockPosition.intY(), blockPosition.intZ()) != -1)
+                    {
+                        this.worldObj.setBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ, 0, 0, 2);
+                    }
+
+                    Entity responsibleEntity = this.entityFake != null ? this.entityFake.riddenByEntity : null;
+                    this.worldObj.newExplosion(responsibleEntity, blockPosition.x, blockPosition.y, blockPosition.z, explosionSize, true, true);
                 }
 
                 this.explosionDepth--;
@@ -189,9 +187,9 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IPac
     }
 
     @Override
-    public float getFiringRequest()
+    public long getFiringRequest()
     {
-        return 1000000;
+        return 10000;
     }
 
     @Override
@@ -217,7 +215,7 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IPac
 
         // TODO: Somehow this energy request method does not work.
         // this.getPlatform().provideElectricity(this.getFiringRequest(), true);
-        this.getPlatform().setEnergyStored(0);
+        this.getPlatform().setEnergy(ForgeDirection.UNKNOWN, 0);
 
         this.explosionSize = 5f;
         this.explosionDepth = 5;
@@ -238,7 +236,7 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IPac
         {
             if (this.getPlatform().hasAmmunition(ProjectileType.RAILGUN) != null)
             {
-                if (Math.round(this.getPlatform().provideElectricity(this.getFiringRequest(), false).getWatts()) >= this.getFiringRequest())
+                if (this.getPlatform().getEnergyStored() >= this.getFiringRequest())
                 {
                     return true;
                 }

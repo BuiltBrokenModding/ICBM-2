@@ -1,9 +1,6 @@
 package icbm.explosion;
 
 import icbm.api.ICBM;
-import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import icbm.api.explosion.ExplosiveType;
-import icbm.api.explosion.IExplosive;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
@@ -17,12 +14,10 @@ import icbm.explosion.items.ItemRadarGun;
 import icbm.explosion.items.ItemRemoteDetonator;
 import icbm.explosion.items.ItemRocketLauncher;
 import icbm.explosion.machines.BlockICBMMachine;
-import icbm.explosion.machines.BlockICBMMachine.MachineData;
 import icbm.explosion.machines.ItemBlockMachine;
 import icbm.explosion.missile.BlockExplosive;
 import icbm.explosion.missile.EntityExplosive;
 import icbm.explosion.missile.EntityGrenade;
-import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.ItemBlockExplosive;
 import icbm.explosion.missile.ItemGrenade;
@@ -39,8 +34,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRailBase;
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
@@ -59,11 +52,11 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.api.item.ItemElectric;
 import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.common.FMLCommonHandler;
+
+import com.builtbroken.minecraft.network.PacketHandler;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -73,14 +66,13 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ICBMExplosion.NAME, name = ICBMExplosion.NAME, version = ICBM.VERSION, dependencies = "after:ICBM|Sentry;after:AtomicScience", useMetadata = true)
-@NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = ICBMPacketHandler.class)
+@NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMExplosion extends ICBMCore
 {
     public static final String NAME = ICBM.NAME + "|Explosion";
@@ -248,7 +240,7 @@ public class ICBMExplosion extends ICBMCore
                     {
                         if (ticket.getModData() != null)
                         {
-                            Vector3 position = Vector3.readFromNBT(ticket.getModData());
+                            Vector3 position = new Vector3(ticket.getModData());
 
                             TileEntity tileEntity = position.getTileEntity(ticket.world);
 
@@ -286,7 +278,7 @@ public class ICBMExplosion extends ICBMCore
         super.postInit(event);
 
         /** Add all Recipes */
-        // Rocket Launcher
+        /* Rocket Launcher
         GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
 
         // Radar Gun
@@ -328,7 +320,7 @@ public class ICBMExplosion extends ICBMCore
         // Nuclear Cluster
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
-        /** Add all explosive recipes. */
+        /* Add all explosive recipes. *
         for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
         {
             zhaPin.init();
@@ -347,7 +339,8 @@ public class ICBMExplosion extends ICBMCore
                 // Minecart
                 RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.itemBombCart, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(ICBMExplosion.blockExplosive, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", ICBMConfiguration.CONFIGURATION, true);
             }
-        }
+        } 
+        */
 
         EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
@@ -376,15 +369,6 @@ public class ICBMExplosion extends ICBMCore
         if (evt.entity instanceof EntityMissile)
         {
             ((EntityMissile) evt.entity).updateLoadChunk(evt.newChunkX, evt.newChunkZ);
-        }
-    }
-
-    @ForgeSubscribe
-    public void explosionEvent(ExplosivePreDetonationEvent evt)
-    {
-        if (shiBaoHu(evt.world, new Vector3(evt.x, evt.y, evt.z), evt.type, evt.explosion))
-        {
-            evt.setCanceled(true);
         }
     }
 
@@ -424,63 +408,6 @@ public class ICBMExplosion extends ICBMCore
                 evt.entityLiving.dropItem(this.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
             }
         }
-    }
-
-    /** Is a specific position being protected from a specific type of danger? */
-    public static boolean shiBaoHu(World world, Vector3 diDian, ExplosiveType type, IExplosive zhaPin)
-    {
-        if (zhaPin != null)
-        {
-            if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) != null)
-            {
-                if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GLOBAL, "true", diDian))
-                {
-                    return true;
-                }
-
-                boolean baoHu = false;
-
-                switch (type)
-                {
-                    case ALL:
-                        baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian) || FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
-                        break;
-                    case VEHICLE:
-                        baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MINECART, "true", diDian);
-                        break;
-                    case AIR:
-                        baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_MISSILE, "true", diDian);
-                        break;
-                    case ITEM:
-                        baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_GRENADE, "true", diDian);
-                        break;
-                    case BLOCK:
-                        baoHu = FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, ICBMFlags.FLAG_BAN_EXPLOSIVE, "true", diDian);
-                        break;
-                }
-
-                String flag = zhaPin instanceof Explosive ? ((Explosive) zhaPin).flagName : "ban_" + zhaPin.getUnlocalizedName();
-
-                return FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(world, flag, "true", diDian) || baoHu;
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean shiBaoHu(World world, Vector3 diDian, ExplosiveType type, int haoMa)
-    {
-        return shiBaoHu(world, diDian, type, ExplosiveRegistry.get(haoMa));
-    }
-
-    @Override
-    @EventHandler
-    public void serverStarting(FMLServerStartingEvent event)
-    {
-        super.serverStarting(event);
-        ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
-        ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-        serverCommandManager.registerCommand(new ICBMCommand());
     }
 
     @Override
