@@ -8,7 +8,6 @@ import icbm.contraption.block.BlockGlassPressurePlate;
 import icbm.contraption.block.BlockProcimityDetector;
 import icbm.contraption.block.BlockReinforcedGlass;
 import icbm.contraption.block.BlockSpikes;
-import icbm.contraption.block.ItemBlockConcreate;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
@@ -19,6 +18,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.item.ItemElectric;
 
 import com.builtbroken.minecraft.network.PacketHandler;
+import com.builtbroken.minecraft.prefab.ItemBlockHolder;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -76,22 +76,22 @@ public class ICBMContraption extends ICBMCore
         blockReinforcedGlass = new BlockReinforcedGlass(ICBM.BLOCK_ID_PREFIX - 7);
 
         // ITEMS
-        itemAntidote = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemID3", ICBM.ITEM_ID_PREFIX + 2).getInt());
-        itemSignalDisrupter = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemID10", ICBM.ITEM_ID_PREFIX + 9).getInt());
-        itemTracker = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemID11", ICBM.ITEM_ID_PREFIX + 10).getInt());
+        itemAntidote = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemAntidote", ICBM.ITEM_ID_PREFIX + 2).getInt());
+        itemSignalDisrupter = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemSignalDisrupter", ICBM.ITEM_ID_PREFIX + 9).getInt());
+        itemTracker = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemTracker", ICBM.ITEM_ID_PREFIX + 10).getInt());
 
         ICBMConfiguration.CONFIGURATION.save();
 
         CreativeTabICBM.itemStack = new ItemStack(blockProximityDetector);
 
         // -- Registering Blocks
-        GameRegistry.registerBlock(blockGlassPlate, "bBuoLiPan");
-        GameRegistry.registerBlock(blockGlassButton, "bBuoLiEnNiu");
-        GameRegistry.registerBlock(blockProximityDetector, "bYinGanQi");
-        GameRegistry.registerBlock(blockCamo, "bYinXing");
-        GameRegistry.registerBlock(blockReinforcedGlass, "bBuoLi");
-        GameRegistry.registerBlock(blockSpikes, ItemblockSpikes.class, "bZha");
-        GameRegistry.registerBlock(blockConcrete, ItemBlockConcreate.class, "bNiTu");
+        GameRegistry.registerBlock(blockGlassPlate, "blockGlassPlate");
+        GameRegistry.registerBlock(blockGlassButton, "blockGlassButton");
+        GameRegistry.registerBlock(blockProximityDetector, "blockProximityDetector");
+        GameRegistry.registerBlock(blockCamo, "blockCamo");
+        GameRegistry.registerBlock(blockReinforcedGlass, "blockReinforcedGlass");
+        GameRegistry.registerBlock(blockSpikes, ItemblockSpikes.class, "blockSpikes");
+        GameRegistry.registerBlock(blockConcrete, ItemBlockHolder.class, "blockConcrete");
 
         ICBMContraption.proxy.preInit();
     }
