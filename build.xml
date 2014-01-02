@@ -35,10 +35,6 @@
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
 			</fileset>
-            <fileset dir="${dir.development}src/explosion">
-				<exclude name=".git/**"/>
-				<exclude name="**/*.xml"/>
-			</fileset>
 			 <fileset dir="${dir.development}Universal-Electricity/src/main/java">
 				<exclude name=".git/**"/>
 				<exclude name="**/*.xml"/>
