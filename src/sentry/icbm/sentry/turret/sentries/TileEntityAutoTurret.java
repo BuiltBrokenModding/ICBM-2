@@ -1,11 +1,11 @@
 package icbm.sentry.turret.sentries;
 
 import icbm.api.sentry.IAATarget;
-import icbm.sentry.IAmmunition;
-import icbm.sentry.IAutoSentry;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.damage.TileDamageSource;
+import icbm.sentry.interfaces.IAmmunition;
+import icbm.sentry.interfaces.IAutoSentry;
 import icbm.sentry.task.TaskManager;
 import icbm.sentry.task.TaskSearchTarget;
 import icbm.sentry.turret.TileEntityTurret;

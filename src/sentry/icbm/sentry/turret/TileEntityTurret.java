@@ -2,10 +2,10 @@ package icbm.sentry.turret;
 
 import icbm.core.ICBMCore;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.ISentry;
-import icbm.sentry.IWeaponSystem;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
+import icbm.sentry.interfaces.ISentry;
+import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.render.ITagRender;
 import icbm.sentry.task.LookHelper;
@@ -502,12 +502,6 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
             }
         }
     }
-
-    /** creates client side effects when the sentry fires its weapon */
-    public abstract void renderShot(Vector3 target);
-
-    /** Sound this turrets plays each time its fires */
-    public abstract void playFiringSound();
 
     @Override
     public AxisAlignedBB getRenderBoundingBox()

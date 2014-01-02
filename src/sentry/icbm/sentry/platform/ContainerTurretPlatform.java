@@ -1,9 +1,9 @@
 package icbm.sentry.platform;
 
 import universalelectricity.api.item.IEnergyItem;
-import icbm.sentry.IAmmunition;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.SlotTurret;
+import icbm.sentry.interfaces.IAmmunition;
 import icbm.sentry.turret.ItemAmmo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -62,7 +62,7 @@ public class TileEntityAAGun extends TileEntityAutoTurret
     }
 
     @Override
-    public Vector3 getMuzzle()
+    public Vector3 getAimingDirection()
     {
         return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5)).add(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch).scale(1));
     }

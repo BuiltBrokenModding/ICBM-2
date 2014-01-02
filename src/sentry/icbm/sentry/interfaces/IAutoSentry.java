@@ -1,4 +1,4 @@
-package icbm.sentry;
+package icbm.sentry.interfaces;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;

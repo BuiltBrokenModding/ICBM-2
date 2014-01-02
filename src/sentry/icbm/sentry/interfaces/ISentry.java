@@ -1,4 +1,4 @@
-package icbm.sentry;
+package icbm.sentry.interfaces;
 
 import net.minecraft.tileentity.TileEntity;
 import universalelectricity.api.vector.Vector3;

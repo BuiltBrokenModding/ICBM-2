@@ -1,6 +1,6 @@
 package icbm.sentry.task;
 
-import icbm.sentry.IAutoSentry;
+import icbm.sentry.interfaces.IAutoSentry;
 
 public class TaskKillTarget extends TaskSearchTarget
 {

@@ -1,4 +1,4 @@
-package icbm.sentry;
+package icbm.sentry.interfaces;
 
 import universalelectricity.api.vector.VectorWorld;
 

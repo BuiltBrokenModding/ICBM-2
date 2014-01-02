@@ -1,5 +1,6 @@
-package icbm.sentry;
+package icbm.sentry.interfaces;
 
+import icbm.sentry.ProjectileType;
 import net.minecraft.item.ItemStack;
 
 public interface IAmmunition
@@ -12,7 +13,7 @@ public interface IAmmunition
     /** Called when the item is added to the world when a ammo container is forcefully broken. Useful
      * it the ammo should detonate or cause extra havoc
      * 
-     * @return what is left of the stack after action. Return intire stack if nothing happens */
+     * @return what is left of the stack after action. Return entire stack if nothing happens */
     public ItemStack onDroppedIntoWorld(ItemStack itemStack);
 
     public ProjectileType getType(ItemStack itemStack);
