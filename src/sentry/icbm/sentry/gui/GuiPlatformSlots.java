@@ -1,11 +1,12 @@
 package icbm.sentry.gui;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.container.ContainerTurretPlatform;
+import icbm.sentry.platform.ContainerTurretPlatform;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -33,22 +34,15 @@ public class GuiPlatformSlots extends GuiPlatformBase
     {
         this.fontRenderer.drawString("Ammunition", 8, 30, 4210752);
 
-        TileEntityTurret turret = ((TileEntityTurretPlatform) this.tileEntity).getTurret();
+        String color = "\u00a74";
 
-        // Render the turret energy
-        if (turret != null && turret.getFiringRequest() > 0)
+        if (((TileEntityTurretPlatform) this.tileEntity).isFunctioning())
         {
-            String color = "\u00a74";
-
-            if (((TileEntityTurretPlatform) this.tileEntity).isRunning())
-            {
-                color = "\u00a7a";
-            }
-
-            this.fontRenderer.drawString("Energy Per Shot", 85, 33, 4210752);
-            this.fontRenderer.drawString(color + UnitDisplay.getDisplayShort(Math.min(((TileEntityEnergyMachine) this.tileEntity).getEnergyStored(), turret.getFiringRequest()), Unit.JOULES), 87, 43, 4210752);
-            this.fontRenderer.drawString(color + "of " + UnitDisplay.getDisplayShort(((TileEntityTurretPlatform) this.tileEntity).getTurret().getFiringRequest(), Unit.JOULES), 87, 53, 4210752);
+            color = "\u00a7a";
         }
+       
+        this.fontRenderer.drawString(color + UnitDisplay.getDisplayShort(Math.min(((TileEntityEnergyMachine) this.tileEntity).getEnergyStored(), ((TileEntityTurretPlatform) this.tileEntity).getEnergyStored()), Unit.JOULES), 87, 43, 4210752);
+        this.fontRenderer.drawString(color + "of " + UnitDisplay.getDisplayShort(((TileEntityTurretPlatform) this.tileEntity).getEnergyCapacity(ForgeDirection.UNKNOWN), Unit.JOULES), 87, 53, 4210752);
 
         this.fontRenderer.drawString("Upgrades", 87, 66, 4210752);
         super.drawGuiContainerForegroundLayer(x, y);

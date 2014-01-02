@@ -3,19 +3,19 @@ package icbm.sentry.turret.mount;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.IWeaponSystem;
 import icbm.sentry.ProjectileType;
 
-import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
 
@@ -81,7 +81,6 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
         }
     }
 
-    @Override
     public void tryActivateWeapon()
     {
         if (this.canActivateWeapon() && this.gunChargingTicks == 0)
@@ -151,12 +150,6 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
     }
 
     @Override
-    public float getVoltage()
-    {
-        return 220;
-    }
-
-    @Override
     public Vector3[] getMultiBlockVectors()
     {
         return new Vector3[] { new Vector3(0, 1, 0) };
@@ -169,9 +162,9 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
     }
 
     @Override
-    public Vector3 getMuzzle()
+    public VectorWorld getAimingDirection()
     {
-        return this.getCenter().translate(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.6));
+        return new VectorWorld(this.worldObj, this.getCenter().translate(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1.6)));
     }
 
     @Override
@@ -186,7 +179,6 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
         this.redstonePowerOn = false;
     }
 
-    @Override
     public long getFiringRequest()
     {
         return 10000;
@@ -229,7 +221,6 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
         this.playFiringSound();
     }
 
-    @Override
     public boolean canActivateWeapon()
     {
         if (this.getPlatform() != null)
@@ -247,15 +238,9 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
     }
 
     @Override
-    public float addInformation(HashMap<String, Integer> map, EntityPlayer player)
-    {
-        super.addInformation(map, player);
-        return 2;
-    }
-
-    @Override
     public int getMaxHealth()
     {
         return 450;
     }
+   
 }

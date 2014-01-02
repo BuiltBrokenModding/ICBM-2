@@ -50,7 +50,7 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
      * distance, partialTickTime */
     public MovingObjectPosition rayTrace(double distance)
     {
-        return this.getMuzzle().rayTrace(this.worldObj, this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
+        return this.getAimingDirection().rayTrace(this.worldObj, this.wantedRotationYaw, this.wantedRotationPitch, true, distance);
     }
 
     @Override
@@ -62,16 +62,12 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
             {
                 if (this.entityFake.riddenByEntity instanceof EntityPlayer)
                 {
-                    this.tryActivateWeapon();
-
                     if (!this.worldObj.isRemote)
                     {
                         PacketHandler.instance().sendPacketToClients(this.getRotationPacket());
                     }
-
                     return true;
                 }
-
             }
         }
 
@@ -89,14 +85,6 @@ public abstract class TileEntityMountableTurret extends TileEntityTurret impleme
             entityPlayer.rotationPitch = this.currentRotationPitch;
 
             entityPlayer.mountEntity(this.entityFake);
-        }
-    }
-
-    public void tryActivateWeapon()
-    {
-        if (this.canActivateWeapon())
-        {
-            this.onWeaponActivated();
         }
     }
 

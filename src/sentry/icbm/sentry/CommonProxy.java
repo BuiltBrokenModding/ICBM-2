@@ -1,6 +1,6 @@
 package icbm.sentry;
 
-import icbm.sentry.container.ContainerTurretPlatform;
+import icbm.sentry.platform.ContainerTurretPlatform;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.turret.mount.TileEntityRailGun;
 import icbm.sentry.turret.sentries.TileEntityAAGun;

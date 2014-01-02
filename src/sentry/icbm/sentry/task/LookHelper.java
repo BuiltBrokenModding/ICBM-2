@@ -21,12 +21,12 @@ public class LookHelper
     /** Adjusts the turret target to look at a specific location. */
     public void lookAt(Vector3 target)
     {
-        this.sentry.rotateTo(getYaw(sentry.getMuzzle(), target), getPitch(sentry.getMuzzle(), target));
+        this.sentry.rotateTo(getYaw(sentry.getAimingDirection(), target), getPitch(sentry.getAimingDirection(), target));
     }
 
     public float[] getDeltaRotations(Vector3 target)
     {
-        return new float[] { getYaw(sentry.getMuzzle(), target), getPitch(sentry.getMuzzle(), target) };
+        return new float[] { getYaw(sentry.getAimingDirection(), target), getPitch(sentry.getAimingDirection(), target) };
     }
 
     /** Tells the turret to look at a location using an entity */
@@ -101,7 +101,7 @@ public class LookHelper
      * 
      * return false;
      */
-        return this.sentry.worldObj.clip(this.sentry.getMuzzle().toVec3(), target.toVec3()) == null;
+        return this.sentry.worldObj.clip(this.sentry.getAimingDirection().toVec3(), target.toVec3()) == null;
     }
 
     public boolean canEntityBeSeen(Entity entity)

@@ -36,18 +36,6 @@ public class TileEntityAAGun extends TileEntityAutoTurret
     }
 
     @Override
-    public float getVoltage()
-    {
-        return 240;
-    }
-
-    @Override
-    public long getFiringRequest()
-    {
-        return 50;
-    }
-
-    @Override
     public int getMaxHealth()
     {
         return 180;

@@ -3,6 +3,7 @@ package icbm.sentry.turret;
 import icbm.core.ICBMCore;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ISentry;
+import icbm.sentry.IWeaponSystem;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.platform.TileEntityTurretPlatform;
@@ -23,6 +24,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
 import com.builtbroken.minecraft.network.ISimplePacketReceiver;
 import com.builtbroken.minecraft.network.PacketHandler;
@@ -34,14 +36,14 @@ import cpw.mods.fml.common.network.Player;
 /** Turret Base Class Class that handles all the basic movement, and block based updates of a turret.
  * 
  * @author Calclavia, Rseifert */
-public abstract class TileEntityTurret extends TileEntityAdvanced implements ISimplePacketReceiver, ISentry, IHealthTile, ITagRender
+public abstract class TileEntityTurret extends TileEntityAdvanced implements ISimplePacketReceiver, ISentry, IHealthTile
 {
     /** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
     public float maxPitch = 35;
     /** MAX DOWNWARD PITCH ANGLE OF THE SENTRY BARREL */
     public float minPitch = -35;
 
-    protected boolean allowFreePitch = false;;
+    protected boolean allowFreePitch = false;
 
     /** SPAWN DIRECTION OF SENTRY */
     private ForgeDirection platformDirection = ForgeDirection.DOWN;
@@ -65,6 +67,10 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     public float currentRotationYaw, currentRotationPitch = 0;
     /** Amount of time since the last rotational movement. */
     public int lastRotateTick = 0;
+
+    public long joulesPerTick = 0;
+
+    public IWeaponSystem[] weaponSystems;
 
     /** PACKET TYPES THIS TILE RECEIVES */
     public static enum TurretPacketType
@@ -98,6 +104,30 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
         this.updateRotation();
     }
 
+    @Override
+    public IWeaponSystem[] getWeaponSystems()
+    {
+        return this.weaponSystems;
+    }
+
+    @Override
+    public boolean canSupportWeaponSystem(int slot, IWeaponSystem system)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean addWeaponSystem(int slot, IWeaponSystem system)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean removeWeaponSystem(int slot, IWeaponSystem system)
+    {
+        return false;
+    }
+
     /*
      * ----------------------- PACKET DATA AND SAVING --------------------------------------
      */
@@ -112,14 +142,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
             }
             else if (id.equalsIgnoreCase(TurretPacketType.DESCRIPTION.name()))
             {
-                short size = dataStream.readShort();
-
-                if (size > 0)
-                {
-                    byte[] byteCode = new byte[size];
-                    dataStream.readFully(byteCode);
-                    this.readFromNBT(CompressedStreamTools.decompress(byteCode));
-                }
+                this.readFromNBT(PacketHandler.instance().readNBTTagCompound(dataStream));
             }
             else if (id.equalsIgnoreCase(TurretPacketType.STATS.name()))
             {
@@ -186,13 +209,10 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
      * -------------------------- GENERIC SENTRY CODE --------------------------------------
      */
 
-    /** Energy consumed each time the weapon activates */
-    public abstract long getFiringRequest();
-
     /** is this sentry currently operating */
     public boolean isRunning()
     {
-        return this.getPlatform() != null && this.getPlatform().isRunning() && this.isAlive();
+        return this.getPlatform() != null && this.getPlatform().isFunctioning() && this.isAlive();
     }
 
     /** get the turrets control platform */
@@ -249,25 +269,11 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     }
 
     @Override
-    public float addInformation(HashMap<String, Integer> map, EntityPlayer player)
+    public VectorWorld getAimingDirection()
     {
-        map.put(this.getName(), 0x88FF88);
-        return 1;
+        return new VectorWorld(this.worldObj, this.getCenter().add(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1)));
     }
 
-    @Override
-    public String getName()
-    {
-        return new ItemStack(this.getBlockType(), 1, this.getBlockMetadata()).getDisplayName() + " " + this.getHealth() + "/" + this.getMaxHealth();
-    }
-
-    @Override
-    public Vector3 getMuzzle()
-    {
-        return this.getCenter().add(Vector3.scale(Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch), 1));
-    }
-
-    @Override
     public void onWeaponActivated()
     {
         this.tickSinceFired += this.getFireDelay();
@@ -471,7 +477,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     {
         if (this.worldObj.isRemote)
         {
-            Vector3 startPosition = this.getMuzzle();
+            Vector3 startPosition = this.getAimingDirection();
             Vector3 direction = Vector3.getDeltaPositionFromRotation(this.currentRotationYaw, this.currentRotationPitch);
             double xoffset = 0;
             double yoffset = 0;
@@ -514,9 +520,9 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
         return new Vector3(this).add(0.5);
     }
 
-    public float getVoltage()
+    public long getJoulesPerTick()
     {
-        return 120;
+        return this.joulesPerTick;
     }
 
 }

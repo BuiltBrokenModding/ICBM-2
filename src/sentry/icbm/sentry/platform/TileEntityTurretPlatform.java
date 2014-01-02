@@ -36,18 +36,18 @@ public class TileEntityTurretPlatform extends TileEntityTerminal
     /** The first 12 slots are for ammunition. The last 4 slots are for upgrades. */
     public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
 
-    private float prevWatts;
-
     @Override
     public void updateEntity()
     {
         super.updateEntity();
-
-        if (this.prevWatts != this.getEnergyStored())
+        if (this.getTurret() != null)
         {
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            this.JOULES_PER_TICK = this.getTurret().getJoulesPerTick();
         }
-        this.JOULES_PER_TICK = this.getRequest();
+        else
+        {
+            this.JOULES_PER_TICK = 0;
+        }
         /** Consume electrical items. */
         if (!this.worldObj.isRemote)
         {
@@ -58,21 +58,8 @@ public class TileEntityTurretPlatform extends TileEntityTerminal
                     break;
                 }
                 this.setEnergy(ForgeDirection.UNKNOWN, this.getEnergy(ForgeDirection.UNKNOWN) + CompatibilityModule.dischargeItem(this.getStackInSlot(1), Math.min(1000, this.getEnergyCapacity(ForgeDirection.UNKNOWN) - this.getEnergyStored()), true));
-
             }
         }
-    }
-
-    public long getRequest()
-    {
-        if (this.getTurret() != null)
-        {
-            if (this.getEnergyStored() < this.getTurret().getFiringRequest())
-            {
-                return Math.max(this.getTurret().getFiringRequest(), 0);
-            }
-        }
-        return 0;
     }
 
     /** Gets the turret instance linked to this platform */
@@ -131,11 +118,6 @@ public class TileEntityTurretPlatform extends TileEntityTerminal
     public String getInvName()
     {
         return this.getBlockType().getLocalizedName();
-    }
-
-    public boolean isRunning()
-    {
-        return (this.getTurret() != null && this.getEnergyStored() >= this.getTurret().getFiringRequest());
     }
 
     public ItemStack hasAmmunition(ProjectileType projectileType)
@@ -354,11 +336,13 @@ public class TileEntityTurretPlatform extends TileEntityTerminal
 
     @Override
     public void openChest()
-    {}
+    {
+    }
 
     @Override
     public void closeChest()
-    {}
+    {
+    }
 
     @Override
     public boolean canConnect(ForgeDirection direction)
