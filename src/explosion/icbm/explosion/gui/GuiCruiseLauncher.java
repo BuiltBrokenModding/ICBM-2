@@ -12,9 +12,11 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.api.energy.UnitDisplay;
+import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
 
-import com.builtbroken.common.science.units.ElectricUnit;
+import com.builtbroken.minecraft.network.PacketHandler;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -80,21 +82,19 @@ public class GuiCruiseLauncher extends GuiContainer
         {
             Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Integer.parseInt(this.textFieldY.getText()), Integer.parseInt(this.textFieldZ.getText()));
             this.tileEntity.setTarget(newTarget);
-            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
+            PacketDispatcher.sendPacketToServer(PacketHandler.instance().getTilePacket(ICBMExplosion.CHANNEL, "targetSet", this.tileEntity, this.tileEntity.getTarget().x, this.tileEntity.getTarget().y, this.tileEntity.getTarget().z));
         }
         catch (NumberFormatException e)
-        {
-        }
+        {}
 
         try
         {
             short newFrequency = (short) Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
             this.tileEntity.setFrequency(newFrequency);
-            PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 1, this.tileEntity.getFrequency()));
+            PacketDispatcher.sendPacketToServer(PacketHandler.instance().getTilePacket(ICBMExplosion.CHANNEL, "freq", this.tileEntity, this.tileEntity.getFrequency()));
         }
         catch (NumberFormatException e)
-        {
-        }
+        {}
     }
 
     /** Args: x, y, buttonClicked */
@@ -127,7 +127,7 @@ public class GuiCruiseLauncher extends GuiContainer
 
         this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50, 4210752);
         this.fontRenderer.drawString(this.tileEntity.getVoltage() + "v", 70, 60, 4210752);
-        this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), ElectricUnit.JOULES), 70, 70, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), Unit.JOULES), 70, 70, 4210752);
 
         this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }

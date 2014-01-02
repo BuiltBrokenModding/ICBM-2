@@ -11,22 +11,21 @@ import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
 import com.builtbroken.minecraft.interfaces.IBlockActivated;
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TileEntityEmpTower extends TileEntityEnergyMachine implements IPacketReceiver, IMultiBlock, IRedstoneReceptor, IBlockActivated
+public class TileEntityEmpTower extends TileEntityEnergyMachine implements IMultiBlock, IRedstoneReceptor, IBlockActivated
 {
     // The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 150;
@@ -69,55 +68,25 @@ public class TileEntityEmpTower extends TileEntityEnergyMachine implements IPack
         if (this.xuanZhuan > 360)
             this.xuanZhuan = 0;
 
-        if (!this.worldObj.isRemote)
-        {
-            if (this.ticks % 3 == 0)
-            {
-                for (EntityPlayer wanJia : this.playersUsing)
-                {
-                    PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
-                }
-            }
-
-            if (this.ticks % 60 == 0 && this.prevXuanZhuanLu != this.xuanZhuanLu)
-            {
-                PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
-            }
-        }
-
         this.prevXuanZhuanLu = this.xuanZhuanLu;
     }
 
     @Override
-    public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+    public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
     {
         try
         {
-            final int ID = dataStream.readInt();
-
-            if (ID == -1)
+            if (id.equalsIgnoreCase("desc"))
             {
-                if (dataStream.readBoolean())
-                {
-                    PacketManager.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 15);
-                    this.playersUsing.add(player);
-                }
-                else
-                {
-                    this.playersUsing.remove(player);
-                }
-            }
-            else if (ID == 1)
-            {
-                this.setEnergyStored(dataStream.readFloat());
+                this.setEnergy(ForgeDirection.UNKNOWN, dataStream.readLong());
                 this.empRadius = dataStream.readInt();
                 this.empMode = dataStream.readByte();
             }
-            else if (ID == 2)
+            else if (id.equalsIgnoreCase("empRadius"))
             {
                 this.empRadius = dataStream.readInt();
             }
-            else if (ID == 3)
+            else if (id.equalsIgnoreCase("empMode"))
             {
                 this.empMode = dataStream.readByte();
             }
@@ -125,19 +94,15 @@ public class TileEntityEmpTower extends TileEntityEnergyMachine implements IPack
         catch (Exception e)
         {
             e.printStackTrace();
+            return true;
         }
+        return false;
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, 1, this.getEnergyStored(), this.empRadius, this.empMode);
-    }
-
-    @Override
-    public float getVoltage()
-    {
-        return 240;
+        return PacketHandler.instance().getTilePacket(ICBMExplosion.CHANNEL, "desc", this, this.getEnergyStored(), this.empRadius, this.empMode);
     }
 
     /** Reads a tile entity from NBT. */
@@ -178,14 +143,13 @@ public class TileEntityEmpTower extends TileEntityEnergyMachine implements IPack
                     break;
             }
 
-            this.setEnergyStored(0);
+            this.setEnergy(ForgeDirection.UNKNOWN, 0);
         }
     }
 
     @Override
     public void onPowerOff()
-    {
-    }
+    {}
 
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
@@ -207,20 +171,8 @@ public class TileEntityEmpTower extends TileEntityEnergyMachine implements IPack
     }
 
     @Override
-    public float getRequest(ForgeDirection direction)
+    public long getMaxEnergyStored()
     {
-        return (float) Math.ceil(this.getMaxEnergyStored() - this.getEnergyStored());
-    }
-
-    @Override
-    public float getProvide(ForgeDirection direction)
-    {
-        return 0;
-    }
-
-    @Override
-    public float getMaxEnergyStored()
-    {
-        return Math.max(3000 * ((float) this.empRadius / (float) MAX_RADIUS), 1000);
+        return Math.max(3000000 * (this.empRadius / MAX_RADIUS), 1000000);
     }
 }

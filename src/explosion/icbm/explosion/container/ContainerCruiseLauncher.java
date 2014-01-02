@@ -37,17 +37,6 @@ public class ContainerCruiseLauncher extends Container
         {
             this.addSlotToContainer(new Slot(par1InventoryPlayer, var3, 8 + var3 * 18, 142));
         }
-
-        tileEntity.openChest();
-        tileEntity.yongZhe.add(par1InventoryPlayer.player);
-    }
-
-    @Override
-    public void onContainerClosed(EntityPlayer entityplayer)
-    {
-        super.onContainerClosed(entityplayer);
-        this.tileEntity.closeChest();
-        this.tileEntity.yongZhe.remove(entityplayer);
     }
 
     @Override

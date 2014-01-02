@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.builtbroken.common.science.units.ElectricUnit;
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.prefab.invgui.GuiBase;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -44,14 +45,6 @@ public class GuiEmpTower extends GuiBase
         this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 30, 12);
         this.textFieldBanJing.setMaxStringLength(3);
         this.textFieldBanJing.setText(this.tileEntity.empRadius + "");
-        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, -1, true));
-    }
-
-    @Override
-    public void onGuiClosed()
-    {
-        super.onGuiClosed();
-        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, -1, false));
     }
 
     /** Fired when a control is clicked. This is the equivalent of
@@ -72,7 +65,7 @@ public class GuiEmpTower extends GuiBase
                 break;
         }
 
-        PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 3, this.tileEntity.empMode));
+        PacketDispatcher.sendPacketToServer(PacketHandler.instance().getTilePacket(ICBMExplosion.CHANNEL, this.tileEntity, 3, this.tileEntity.empMode));
     }
 
     /** Call this method from you GuiScreen to process the keys into textbox. */

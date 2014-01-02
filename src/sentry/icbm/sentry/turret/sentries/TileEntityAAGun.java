@@ -13,7 +13,6 @@ public class TileEntityAAGun extends TileEntityAutoTurret
     public TileEntityAAGun()
     {
         this.targetAir = true;
-        this.canTargetAir = true;
 
         this.baseTargetRange = 80;
         this.maxTargetRange = 120;

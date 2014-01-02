@@ -48,7 +48,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     public boolean targetHostile = false;
     /** SHOULD TARGET ANIMALS, NPCS, SHEEP :( */
     public boolean targetFriendly = false;
-    public boolean canTargetAir = false;
 
     /** AI MANAGER */
     public final TaskManager taskManager = new TaskManager(this);
@@ -126,7 +125,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
                     {
                         if (this.lookHelper.canEntityBeSeen(entity))
                         {
-                            if (this.targetAir && this.canTargetAir)
+                            if (this.targetAir)
                             {
                                 if (this.isAir(entity))
                                 {

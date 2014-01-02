@@ -7,6 +7,7 @@ import icbm.api.LauncherType;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.explosion.ICBMExplosion;
+import icbm.explosion.container.ContainerCruiseLauncher;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;
@@ -17,24 +18,24 @@ import java.util.Set;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
+import com.builtbroken.minecraft.network.PacketHandler;
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implements IBlockActivate, IPacketReceiver, IInventory, ILauncherContainer
+public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implements IBlockActivated, IInventory, ILauncherContainer
 {
     // The missile that this launcher is holding
     public IMissile daoDan = null;
@@ -48,12 +49,18 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
 
     private boolean isPowered = false;
 
-    public final Set<EntityPlayer> yongZhe = new HashSet<EntityPlayer>();
-
     public TileEntityCruiseLauncher()
     {
         super();
-        this.muBiao = new Vector3();
+        this.targetPos = new Vector3();
+        this.setMaxEnergyStored(10000);
+        this.hasGUI = true;
+    }
+
+    @Override
+    public Class<? extends Container> getContainer()
+    {
+        return ContainerCruiseLauncher.class;
     }
 
     /** Returns the number of slots in the inventory. */
@@ -150,7 +157,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
         {
             status = "Silo Empty!";
         }
-        else if (this.muBiao == null)
+        else if (this.targetPos == null)
         {
             status = "Invalid Target!";
         }
@@ -197,31 +204,12 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
                 this.isPowered = false;
             }
         }
-
-        if (!this.worldObj.isRemote && this.ticks % 3 == 0)
-        {
-            if (this.muBiao == null)
-            {
-                this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-            }
-
-            for (EntityPlayer wanJia : this.yongZhe)
-            {
-                PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
-            }
-        }
-    }
-
-    @Override
-    public float getRequest(ForgeDirection direction)
-    {
-        return this.getMaxEnergyStored() - this.getEnergyStored();
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, 0, this.getEnergyStored(), this.getFrequency(), this.muBiao.x, this.muBiao.y, this.muBiao.z);
+        return PacketHandler.instance().getTilePacket(ICBMExplosion.CHANNEL, "desc", this, this.getEnergy(ForgeDirection.UNKNOWN), this.getFrequency(), this.targetPos);
     }
 
     @Override
@@ -282,49 +270,60 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
     }
 
     @Override
-    public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream)
+    public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
     {
         try
         {
-            final int ID = dataStream.readInt();
 
-            if (ID == 0)
+            if (!super.simplePacket(id, dataStream, player))
             {
-                this.setEnergyStored(dataStream.readFloat());
-                this.setFrequency(dataStream.readInt());
-                this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
-            }
-            else if (ID == 1)
-            {
+
                 if (!this.worldObj.isRemote)
                 {
-                    this.setFrequency(dataStream.readInt());
+                    if (id.equalsIgnoreCase("freq"))
+                    {
+                        this.setFrequency(dataStream.readInt());
+                    }
+                    else if (id.equalsIgnoreCase("targetSet"))
+                    {
+                        this.targetPos = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+
+                    }
+                }
+                else
+                {
+                    if (id.equalsIgnoreCase("desc"))
+                    {
+                        this.setEnergy(ForgeDirection.UNKNOWN, dataStream.readLong());
+                        this.setFrequency(dataStream.readInt());
+                        this.targetPos = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+                        return true;
+                    }
                 }
             }
-            else if (ID == 2)
+            else
             {
-                if (!this.worldObj.isRemote)
-                {
-                    this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
-                }
+                return true;
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            return true;
         }
+        return false;
     }
 
     private float getPitchFromTarget()
     {
-        double distance = Math.sqrt((this.muBiao.x - this.xCoord) * (this.muBiao.x - this.xCoord) + (this.muBiao.z - this.zCoord) * (this.muBiao.z - this.zCoord));
-        return (float) Math.toDegrees(Math.atan((this.muBiao.y - (this.yCoord + 0.5F)) / distance));
+        double distance = Math.sqrt((this.targetPos.x - this.xCoord) * (this.targetPos.x - this.xCoord) + (this.targetPos.z - this.zCoord) * (this.targetPos.z - this.zCoord));
+        return (float) Math.toDegrees(Math.atan((this.targetPos.y - (this.yCoord + 0.5F)) / distance));
     }
 
     private float getYawFromTarget()
     {
-        double xDifference = this.muBiao.x - (this.xCoord + 0.5F);
-        double yDifference = this.muBiao.z - (this.zCoord + 0.5F);
+        double xDifference = this.targetPos.x - (this.xCoord + 0.5F);
+        double yDifference = this.targetPos.z - (this.zCoord + 0.5F);
         return (float) Math.toDegrees(Math.atan2(yDifference, xDifference));
     }
 
@@ -339,7 +338,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
             {
                 if (this.getEnergyStored() >= this.getMaxEnergyStored())
                 {
-                    if (!this.isTooClose(this.muBiao))
+                    if (!this.isTooClose(this.targetPos))
                     {
                         return true;
                     }
@@ -359,8 +358,8 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
         if (this.canLaunch())
         {
             this.decrStackSize(0, 1);
-            this.setEnergyStored(0);
-            this.daoDan.launch(this.muBiao);
+            this.setEnergy(ForgeDirection.UNKNOWN, 0);
+            this.daoDan.launch(this.targetPos);
             this.daoDan = null;
         }
     }
@@ -368,14 +367,7 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
     // Is the target too close?
     public boolean isTooClose(Vector3 target)
     {
-        // Check if it is greater than the minimum
-        // range
-        if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 8)
-        {
-            return true;
-        }
-
-        return false;
+        return Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 8;
     }
 
     /** Reads a tile entity from NBT. */
@@ -545,17 +537,4 @@ public class TileEntityCruiseLauncher extends TileEntityLauncherPrefab implement
     {
 
     }
-
-    @Override
-    public float getProvide(ForgeDirection direction)
-    {
-        return 0;
-    }
-
-    @Override
-    public float getMaxEnergyStored()
-    {
-        return 700;
-    }
-
 }

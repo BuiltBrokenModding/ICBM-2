@@ -18,6 +18,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
+import com.builtbroken.minecraft.interfaces.IBlockActivated;
+import com.builtbroken.minecraft.interfaces.IRotatable;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -26,7 +28,7 @@ import cpw.mods.fml.common.network.Player;
 /** This tile entity is for the screen of the missile launcher
  * 
  * @author Calclavia */
-public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implements IBlockActivate, IPacketReceiver, ITier, IRotatable
+public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implements IBlockActivated,  ITier, IRotatable
 {
     // Is the block powered by redstone?
     private boolean isPowered = false;
@@ -87,9 +89,9 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
         {
             if (this.ticks % 3 == 0)
             {
-                if (this.muBiao == null)
+                if (this.targetPos == null)
                 {
-                    this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
+                    this.targetPos = new Vector3(this.xCoord, 0, this.zCoord);
                 }
 
                 for (EntityPlayer wanJia : this.playersUsing)
@@ -113,7 +115,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
 
     public Packet getDescriptionPacket2()
     {
-        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, 3, this.getEnergyStored(), this.muBiao.x, this.muBiao.y, this.muBiao.z);
+        return PacketManager.getPacket(ICBMExplosion.CHANNEL, this, 3, this.getEnergyStored(), this.targetPos.x, this.targetPos.y, this.targetPos.z);
     }
 
     @Override
@@ -162,11 +164,11 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
                 }
                 else if (ID == 2)
                 {
-                    this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+                    this.targetPos = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
 
                     if (this.getTier() < 2)
                     {
-                        this.muBiao.y = 0;
+                        this.targetPos.y = 0;
                     }
                 }
                 else if (ID == 3)
@@ -179,7 +181,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
                 if (this.worldObj.isRemote)
                 {
                     this.setEnergyStored(dataStream.readFloat());
-                    this.muBiao = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+                    this.targetPos = new Vector3(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
                 }
             }
 
@@ -200,7 +202,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
             {
                 if (this.getEnergyStored() >= this.getMaxEnergyStored())
                 {
-                    if (this.laucherBase.isInRange(this.muBiao))
+                    if (this.laucherBase.isInRange(this.targetPos))
                     {
                         return true;
                     }
@@ -219,7 +221,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
         if (this.canLaunch())
         {
             this.setEnergyStored(0);
-            this.laucherBase.launchMissile(this.muBiao.clone(), this.gaoDu);
+            this.laucherBase.launchMissile(this.targetPos.clone(), this.gaoDu);
         }
     }
 
@@ -244,15 +246,15 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
         {
             status = "Missile silo is empty!";
         }
-        else if (this.muBiao == null)
+        else if (this.targetPos == null)
         {
             status = "Target is invalid!";
         }
-        else if (this.laucherBase.shiTaiJin(this.muBiao))
+        else if (this.laucherBase.shiTaiJin(this.targetPos))
         {
             status = "Target too close!";
         }
-        else if (this.laucherBase.shiTaiYuan(this.muBiao))
+        else if (this.laucherBase.shiTaiYuan(this.targetPos))
         {
             status = "Target too far!";
         }

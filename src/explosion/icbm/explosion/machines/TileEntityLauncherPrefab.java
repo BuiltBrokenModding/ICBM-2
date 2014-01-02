@@ -27,7 +27,7 @@ public abstract class TileEntityLauncherPrefab extends TileEnityBase implements 
         super.invalidate();
     }
 
-    protected Vector3 muBiao = null;
+    protected Vector3 targetPos = null;
 
     @Override
     public boolean canConnect(ForgeDirection direction)
@@ -38,25 +38,25 @@ public abstract class TileEntityLauncherPrefab extends TileEnityBase implements 
     @Override
     public Vector3 getTarget()
     {
-        if (this.muBiao == null)
+        if (this.targetPos == null)
         {
             if (this.getLauncherType() == LauncherType.CRUISE)
             {
-                this.muBiao = new Vector3(this.xCoord, this.yCoord, this.zCoord);
+                this.targetPos = new Vector3(this.xCoord, this.yCoord, this.zCoord);
             }
             else
             {
-                this.muBiao = new Vector3(this.xCoord, 0, this.zCoord);
+                this.targetPos = new Vector3(this.xCoord, 0, this.zCoord);
             }
         }
 
-        return this.muBiao;
+        return this.targetPos;
     }
 
     @Override
     public void setTarget(Vector3 target)
     {
-        this.muBiao = target.floor();
+        this.targetPos = target.floor();
     }
 
     @Override
@@ -151,7 +151,7 @@ public abstract class TileEntityLauncherPrefab extends TileEnityBase implements 
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        this.muBiao = Vector3.readFromNBT(nbt.getCompoundTag("target"));
+        this.targetPos = new Vector3(nbt.getCompoundTag("target"));
     }
 
     @Override
@@ -159,9 +159,9 @@ public abstract class TileEntityLauncherPrefab extends TileEnityBase implements 
     {
         super.writeToNBT(nbt);
 
-        if (this.muBiao != null)
+        if (this.targetPos != null)
         {
-            nbt.setCompoundTag("target", this.muBiao.writeToNBT(new NBTTagCompound()));
+            nbt.setCompoundTag("target", this.targetPos.writeToNBT(new NBTTagCompound()));
         }
     }
 }
