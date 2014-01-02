@@ -78,7 +78,46 @@
 			<arg line="reobfuscate_srg.sh" />
 		</exec>
 		<!-- ICBM common source code -->
-		<fileset id="commonSource" dir="${dir.mcp}/reobf/minecraft/">
+		
+		
+		<!-- ICBM Explosion -->
+		<copy todir="JarFile1">
+			<fileset dir="${dir.mcp}/reobf/minecraft" includes="icbm/api/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="icbm/core/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="buildcraft/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="cofh/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="dan200/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="ic2/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="universalelectricity/api/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="universalelectricity/compatibility/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="micdoodle8/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="mffs/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="org/modstats/" />
+            <fileset dir="${dir.development}resources" excludes=".git/**" />
+			<fileset dir="${dir.development}CoreLibrary/resources" excludes=".git/**" />
+			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/explosion/**" />
+		</copy>
+	
+		<!-- ICBM Contraption -->
+		<copy todir="JarFile2">
+			 <fileset dir="${dir.mcp}/reobf/minecraft" includes="icbm/api/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="icbm/core/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="buildcraft/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="cofh/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="dan200/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="ic2/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="universalelectricity/api/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="universalelectricity/compatibility/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="micdoodle8/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="mffs/" />
+            <fileset dir="${dir.mcp}/reobf/minecraft" includes="org/modstats/" />
+            <fileset dir="${dir.development}resources" excludes=".git/**" />
+            <fileset dir="${dir.development}CoreLibrary/resources" excludes=".git/**" />
+            <fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/contraption/**" />
+		</copy>
+		
+		<!-- ICBM Sentry -->
+		<copy todir="JarFile3">
             <fileset dir="${dir.mcp}/reobf/minecraft" includes="icbm/api/" />
             <fileset dir="${dir.mcp}/reobf/minecraft" includes="icbm/core/" />
             <fileset dir="${dir.mcp}/reobf/minecraft" includes="buildcraft/" />
@@ -92,23 +131,6 @@
             <fileset dir="${dir.mcp}/reobf/minecraft" includes="org/modstats/" />
             <fileset dir="${dir.development}resources" excludes=".git/**" />
 			<fileset dir="${dir.development}CoreLibrary/resources" excludes=".git/**" />
-		</fileset>
-		
-		<!-- ICBM Explosion -->
-		<copy todir="JarFile1">
-			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/explosion/**" />
-		</copy>
-	
-		<!-- ICBM Contraption -->
-		<copy todir="JarFile2">
-			<fileset refid="commonSource"/>
-			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/contraption/**" />
-		</copy>
-		
-		<!-- ICBM Sentry -->
-		<copy todir="JarFile3">
-			<fileset refid="commonSource"/>
 			<fileset dir="${dir.mcp}/reobf/minecraft/" includes="**/icbm/sentry/**" />
 		</copy>
 		
