@@ -5,23 +5,20 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.interfaces.ISentry;
+import icbm.sentry.interfaces.IServo;
 import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.platform.TileEntityTurretPlatform;
-import icbm.sentry.render.ITagRender;
 import icbm.sentry.task.LookHelper;
+import icbm.sentry.task.RotationHelper;
+import icbm.sentry.task.ServoMotor;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -38,13 +35,6 @@ import cpw.mods.fml.common.network.Player;
  * @author Calclavia, Rseifert */
 public abstract class TileEntityTurret extends TileEntityAdvanced implements ISimplePacketReceiver, ISentry, IHealthTile
 {
-    /** MAX UPWARD PITCH ANGLE OF THE SENTRY BARREL */
-    public float maxPitch = 35;
-    /** MAX DOWNWARD PITCH ANGLE OF THE SENTRY BARREL */
-    public float minPitch = -35;
-
-    protected boolean allowFreePitch = false;
-
     /** SPAWN DIRECTION OF SENTRY */
     private ForgeDirection platformDirection = ForgeDirection.DOWN;
     /** TURRET AIM & ROTATION HELPER */
@@ -61,16 +51,12 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     public int minFiringDelay = 5;
     /** ENTITY THAT TAKES DAMAGE FOR THE SENTRY */
     private EntityTileDamagable damageEntity;
-    /** TARGET ROATION ANGLES */
-    public float wantedRotationYaw, wantedRotationPitch = 0;
-    /** CURRENT ROATION ANGLES */
-    public float currentRotationYaw, currentRotationPitch = 0;
-    /** Amount of time since the last rotational movement. */
-    public int lastRotateTick = 0;
-
     public long joulesPerTick = 0;
 
     public IWeaponSystem[] weaponSystems;
+    public RotationHelper rotationHelper;
+    public ServoMotor yawMotor;
+    public ServoMotor pitchMotor;;
 
     /** PACKET TYPES THIS TILE RECEIVES */
     public static enum TurretPacketType
@@ -79,6 +65,13 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
         DESCRIPTION,
         SHOT,
         STATS;
+    }
+
+    public TileEntityTurret()
+    {
+        this.rotationHelper = new RotationHelper(this);
+        this.yawMotor = new ServoMotor(360, 0);
+        this.pitchMotor = new ServoMotor(35, -35);
     }
 
     @Override
@@ -101,7 +94,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
             }
         }
 
-        this.updateRotation();
+        this.rotationHelper.updateRotation(this.getRotationSpeed());
     }
 
     @Override
@@ -138,7 +131,8 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
         {
             if (id.equalsIgnoreCase(TurretPacketType.ROTATION.name()))
             {
-                this.setRotation(dataStream.readFloat(), dataStream.readFloat());
+                this.yawMotor.setRotation(dataStream.readFloat());
+                this.pitchMotor.setRotation(dataStream.readFloat());
             }
             else if (id.equalsIgnoreCase(TurretPacketType.DESCRIPTION.name()))
             {
@@ -181,10 +175,6 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        nbt.setFloat("yaw", this.wantedRotationYaw);
-        nbt.setFloat("pitch", this.wantedRotationPitch);
-        nbt.setFloat("cYaw", this.currentRotationYaw);
-        nbt.setFloat("cPitch", this.currentRotationPitch);
         nbt.setInteger("dir", this.platformDirection.ordinal());
         nbt.setInteger("health", this.getHealth());
     }
@@ -193,10 +183,6 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        this.wantedRotationYaw = nbt.getFloat("yaw");
-        this.wantedRotationPitch = nbt.getFloat("pitch");
-        this.currentRotationYaw = nbt.getFloat("cYaw");
-        this.currentRotationPitch = nbt.getFloat("cPitch");
         this.platformDirection = ForgeDirection.getOrientation(nbt.getInteger("dir"));
 
         if (nbt.hasKey("health"))
@@ -369,100 +355,26 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
         this.damageEntity = damageEntity;
     }
 
-    /*
-     * ----------------------------- ROTATION CODE --------------------------------------
-     */
-
-    public void updateRotation()
-    {
-        final float yawDifference = Math.abs(LookHelper.getAngleDif(this.currentRotationYaw, this.wantedRotationYaw));
-
-        if (yawDifference > 0.001f)
-        {
-            float speedYaw = Math.min(this.getRotationSpeed(), yawDifference);
-
-            if (this.currentRotationYaw > this.wantedRotationYaw)
-            {
-                this.currentRotationYaw -= speedYaw;
-            }
-            else
-            {
-                this.currentRotationYaw += speedYaw;
-            }
-
-            if (Math.abs(this.currentRotationYaw - this.wantedRotationYaw) <= speedYaw + 0.1)
-            {
-                this.currentRotationYaw = this.wantedRotationYaw;
-            }
-        }
-
-        final float pitchDifference = Math.abs(LookHelper.getAngleDif(this.currentRotationPitch, this.wantedRotationPitch));
-
-        if (pitchDifference > 0.001f)
-        {
-            float speedPitch = Math.min(this.getRotationSpeed(), pitchDifference);
-
-            if (this.currentRotationPitch > this.wantedRotationPitch)
-            {
-                this.currentRotationPitch -= speedPitch;
-            }
-            else
-            {
-                this.currentRotationPitch += speedPitch;
-            }
-
-            if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) <= speedPitch + 0.1)
-            {
-                this.currentRotationPitch = this.wantedRotationPitch;
-            }
-        }
-
-        if (Math.abs(this.currentRotationPitch - this.wantedRotationPitch) <= 0.001f && Math.abs(this.currentRotationYaw - this.wantedRotationYaw) <= 0.001f)
-        {
-            this.lastRotateTick++;
-        }
-
-        /** Wraps all the angels and cleans them up. */
-        this.currentRotationPitch = MathHelper.wrapAngleTo180_float(this.currentRotationPitch);
-        this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(this.wantedRotationYaw);
-        this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(this.wantedRotationPitch);
-    }
-
     public float getRotationSpeed()
     {
         return Float.MAX_VALUE;
     }
 
     @Override
-    public void setRotation(float yaw, float pitch)
+    public IServo getYawServo()
     {
-        this.wantedRotationYaw = MathHelper.wrapAngleTo180_float(yaw);
-
-        if (!this.allowFreePitch)
-        {
-            this.wantedRotationPitch = Math.max(Math.min(MathHelper.wrapAngleTo180_float(pitch), this.maxPitch), this.minPitch);
-        }
-        else
-        {
-            this.wantedRotationPitch = MathHelper.wrapAngleTo180_float(pitch);
-        }
+        return this.yawMotor;
     }
 
-    public void rotateTo(float wantedRotationYaw, float wantedRotationPitch)
+    @Override
+    public IServo getPitchServo()
     {
-        if (!this.worldObj.isRemote)
-        {
-            if (this.lastRotateTick > 0 && (this.wantedRotationYaw != wantedRotationYaw || this.wantedRotationPitch != wantedRotationPitch))
-            {
-                this.setRotation(wantedRotationYaw, wantedRotationPitch);
-                this.lastRotateTick = 0;
+        return this.pitchMotor;
+    }
 
-                if (!this.worldObj.isRemote)
-                {
-                    PacketHandler.instance().sendPacketToClients(this.getRotationPacket(), this.worldObj, new Vector3(this), 50);
-                }
-            }
-        }
+    public void rotateTo(float yaw, float pitch)
+    {
+        this.rotationHelper.setTargetRotation(yaw, pitch);
     }
 
     public void cancelRotation()
