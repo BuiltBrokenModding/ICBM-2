@@ -144,10 +144,10 @@
 		</zip>
 		<copy todir="output" file="build.properties" />
 
-		<!-- OUTPUT LATEST JAR AND ZIP FILES -->
+		<!-- OUTPUT LATEST JAR AND ZIP FILES 
 		<jar destfile="${file.explosion}">
 			<fileset dir="JarFile1" />
-		</jar>
+		</jar>-->
 		<jar destfile="${file.contraption}">
 			<fileset dir="JarFile2" />
 		</jar>
