@@ -11,16 +11,16 @@ import java.util.Set;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
 import com.builtbroken.minecraft.network.PacketHandler;
+import com.builtbroken.minecraft.prefab.invgui.ContainerFake;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -48,6 +48,13 @@ public class TileEntityDetector extends TileEnityBase implements IRedstoneProvid
     public TileEntityDetector()
     {
         super(5);
+        this.hasGUI = true;
+    }
+
+    @Override
+    public Class<? extends Container> getContainer()
+    {
+        return ContainerFake.class;
     }
 
     @Override
