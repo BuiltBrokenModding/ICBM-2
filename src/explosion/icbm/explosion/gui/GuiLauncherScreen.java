@@ -8,9 +8,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.vector.Vector3;
 
-import com.builtbroken.common.science.units.ElectricUnit;
 import com.builtbroken.minecraft.prefab.invgui.GuiBase;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -200,7 +200,7 @@ public class GuiLauncherScreen extends GuiBase
         // Shows the status of the missile launcher
         this.fontRenderer.drawString("Status: " + this.tileEntity.getStatus(), 12, 125, 4210752);
         this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 12, 137, 4210752);
-        this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), ElectricUnit.JOULES), 12, 150, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), Unit.JOULES), 12, 150, 4210752);
     }
 
     @Override

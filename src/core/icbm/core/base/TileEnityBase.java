@@ -1,9 +1,9 @@
 package icbm.core.base;
 
-import com.builtbroken.minecraft.terminal.TileEntityTerminal;
-
 import icbm.api.IBlockFrequency;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.builtbroken.minecraft.terminal.TileEntityTerminal;
 
 public abstract class TileEnityBase extends TileEntityTerminal implements IBlockFrequency
 {

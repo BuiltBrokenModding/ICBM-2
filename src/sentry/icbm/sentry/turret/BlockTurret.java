@@ -26,7 +26,6 @@ import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
 
 import com.builtbroken.minecraft.interfaces.IBlockActivated;
-import com.builtbroken.minecraft.interfaces.IMultiBlock;
 import com.builtbroken.minecraft.prefab.BlockAdvanced;
 
 import cpw.mods.fml.relauncher.Side;

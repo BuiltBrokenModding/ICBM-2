@@ -18,9 +18,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.vector.Vector2;
 
-import com.builtbroken.common.science.units.ElectricUnit;
 import com.builtbroken.minecraft.TranslationHelper;
 import com.builtbroken.minecraft.prefab.invgui.GuiBase;
 
@@ -111,9 +111,9 @@ public class GuiRadarStation extends GuiBase
         this.fontRenderer.drawString("Frequency:", 155, 100, 4210752);
         this.textFieldFrequency.drawTextBox();
 
-        this.fontRenderer.drawString(ElectricityDisplay.getDisplay(TileEntityRadarStation.WATTS, ElectricUnit.WATT), 155, 128, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplay(TileEntityRadarStation.WATTS, Unit.WATT), 155, 128, 4210752);
 
-        this.fontRenderer.drawString(ElectricityDisplay.getDisplay(this.tileEntity.getVoltage(), ElectricUnit.VOLTAGE), 155, 138, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplay(this.tileEntity.getVoltage(), Unit.VOLTAGE), 155, 138, 4210752);
 
         // Shows the status of the radar
         String color = "\u00a74";

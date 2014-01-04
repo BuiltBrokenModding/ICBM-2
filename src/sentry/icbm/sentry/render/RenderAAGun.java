@@ -3,7 +3,6 @@ package icbm.sentry.render;
 import icbm.core.ICBMCore;
 import icbm.sentry.models.ModelAATurret;
 import icbm.sentry.turret.TileEntityTurret;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 

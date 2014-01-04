@@ -9,7 +9,6 @@ import java.io.IOException;
 import net.minecraft.nbt.NBTTagCompound;
 
 import com.builtbroken.minecraft.helpers.MathHelper;
-import com.builtbroken.minecraft.save.IPacketLoad;
 import com.builtbroken.minecraft.save.ISaveObj;
 import com.google.common.io.ByteArrayDataInput;
 

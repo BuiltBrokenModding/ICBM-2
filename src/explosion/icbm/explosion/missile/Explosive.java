@@ -35,6 +35,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.flag.FlagRegistry;
 
 import com.builtbroken.minecraft.TranslationHelper;
 

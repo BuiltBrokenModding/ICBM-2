@@ -1,7 +1,6 @@
 package icbm.explosion.machines;
 
 import icbm.api.ITier;
-import icbm.core.ICBMCore;
 import icbm.core.base.BlockICBM;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.explosion.ICBMExplosion;

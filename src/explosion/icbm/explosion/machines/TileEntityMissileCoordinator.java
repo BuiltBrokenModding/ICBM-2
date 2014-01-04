@@ -10,6 +10,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
+import calclavia.lib.multiblock.IBlockActivate;
+import calclavia.lib.network.IPacketReceiver;
 
 import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;

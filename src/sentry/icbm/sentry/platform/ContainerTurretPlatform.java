@@ -1,6 +1,5 @@
 package icbm.sentry.platform;
 
-import universalelectricity.api.item.IEnergyItem;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.SlotTurret;
 import icbm.sentry.interfaces.IAmmunition;
@@ -10,6 +9,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import universalelectricity.api.item.IEnergyItem;
 
 public class ContainerTurretPlatform extends Container
 {

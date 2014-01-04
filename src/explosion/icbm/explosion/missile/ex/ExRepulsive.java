@@ -10,6 +10,7 @@ import icbm.explosion.model.missiles.MMTui;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import calclavia.lib.prefab.RecipeHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

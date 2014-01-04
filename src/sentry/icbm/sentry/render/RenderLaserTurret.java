@@ -2,9 +2,7 @@ package icbm.sentry.render;
 
 import icbm.core.ICBMCore;
 import icbm.sentry.models.ModelLaserTurret;
-import icbm.sentry.turret.TileEntityTurret;
 import icbm.sentry.turret.sentries.TileEntityLaserGun;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 

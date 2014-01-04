@@ -9,7 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.builtbroken.common.science.units.ElectricUnit;
+import universalelectricity.api.energy.UnitDisplay;
+import universalelectricity.api.energy.UnitDisplay.Unit;
+
 import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.prefab.invgui.GuiBase;
 
@@ -136,7 +138,7 @@ public class GuiEmpTower extends GuiBase
 
         this.fontRenderer.drawString(color + "Status: " + status, 12, 120, 4210752);
         this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 12, 135, 4210752);
-        this.fontRenderer.drawString(ElectricityDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), ElectricUnit.JOULES) + "/" + ElectricityDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), ElectricUnit.JOULES), 12, 150, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyStored(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), Unit.JOULES), 12, 150, 4210752);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */

@@ -4,7 +4,6 @@ import icbm.core.ICBMCore;
 import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ProjectileType;
-import icbm.sentry.interfaces.IWeaponSystem;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
 
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
 

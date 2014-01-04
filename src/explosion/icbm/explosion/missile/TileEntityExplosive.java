@@ -12,6 +12,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import calclavia.lib.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 

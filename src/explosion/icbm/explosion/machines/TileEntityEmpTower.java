@@ -22,7 +22,6 @@ import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
 public class TileEntityEmpTower extends TileEntityEnergyMachine implements IMultiBlock, IRedstoneReceptor, IBlockActivated

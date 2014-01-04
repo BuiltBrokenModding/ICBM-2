@@ -14,6 +14,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.prefab.potion.CustomPotionEffect;
 
 public class BlastSky extends BlastBeam
 {

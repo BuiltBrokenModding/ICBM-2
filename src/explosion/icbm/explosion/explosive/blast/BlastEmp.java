@@ -13,6 +13,7 @@ import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;
 
+import mffs.api.IForceFieldBlock;
 import mffs.api.fortron.IFortronStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

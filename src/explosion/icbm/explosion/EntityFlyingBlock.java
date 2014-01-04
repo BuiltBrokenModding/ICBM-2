@@ -1,6 +1,5 @@
 package icbm.explosion;
 
-import icbm.core.ICBMCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;

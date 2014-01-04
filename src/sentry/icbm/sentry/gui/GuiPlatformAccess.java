@@ -1,16 +1,12 @@
 package icbm.sentry.gui;
 
 import icbm.core.ICBMCore;
-import icbm.core.base.Region2;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 

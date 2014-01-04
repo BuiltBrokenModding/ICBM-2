@@ -10,7 +10,6 @@ import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
 
-import com.builtbroken.common.science.units.ElectricUnit;
 import com.builtbroken.minecraft.network.PacketHandler;
 
 import cpw.mods.fml.common.network.PacketDispatcher;

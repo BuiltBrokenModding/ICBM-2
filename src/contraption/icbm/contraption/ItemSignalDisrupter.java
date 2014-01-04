@@ -12,10 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 import com.builtbroken.minecraft.network.ISimpleItemPacketReceiver;
-import com.builtbroken.minecraft.network.ISimplePacketReceiver;
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.Player;
 
 public class ItemSignalDisrupter extends ItemICBMElectricBase implements IItemFrequency, ISimpleItemPacketReceiver
 {

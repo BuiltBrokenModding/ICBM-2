@@ -1,9 +1,9 @@
 package icbm.core.base;
 
-import net.minecraft.item.Item;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
+import net.minecraft.item.Item;
 
 public class ItemICBMBase extends Item
 {

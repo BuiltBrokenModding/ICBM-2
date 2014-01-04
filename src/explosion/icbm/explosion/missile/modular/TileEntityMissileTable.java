@@ -15,6 +15,8 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.multiblock.IBlockActivate;
+import calclavia.lib.network.IPacketReceiver;
 
 import com.builtbroken.minecraft.interfaces.IMultiBlock;
 import com.builtbroken.minecraft.prefab.TileEntityAdvanced;

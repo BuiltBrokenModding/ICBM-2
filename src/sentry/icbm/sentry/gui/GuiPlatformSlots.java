@@ -3,17 +3,17 @@ package icbm.sentry.gui;
 import icbm.core.ICBMCore;
 import icbm.sentry.platform.ContainerTurretPlatform;
 import icbm.sentry.platform.TileEntityTurretPlatform;
-import icbm.sentry.turret.TileEntityTurret;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
-
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
+
+import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

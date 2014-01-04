@@ -1,9 +1,9 @@
 package icbm.core.base;
 
-import universalelectricity.api.item.ItemElectric;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
+import universalelectricity.api.item.ItemElectric;
 
 public abstract class ItemICBMElectricBase extends ItemElectric
 {

@@ -12,10 +12,6 @@ import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.missile.Missile;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

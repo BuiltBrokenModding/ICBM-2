@@ -10,15 +10,11 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.builtbroken.minecraft.network.ISimplePacketReceiver;
-import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.network.PacketManagerItem;
 import com.builtbroken.minecraft.prefab.invgui.GuiBase;
-import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 
 public class GuiTracker extends GuiBase
 {

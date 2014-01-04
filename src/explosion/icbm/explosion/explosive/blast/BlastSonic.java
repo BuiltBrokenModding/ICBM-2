@@ -13,6 +13,7 @@ import icbm.explosion.missile.missile.EntityMissile;
 import java.util.Iterator;
 import java.util.List;
 
+import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;

@@ -2,15 +2,12 @@ package mffs.api.fortron;
 
 import icbm.api.IBlockFrequency;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;

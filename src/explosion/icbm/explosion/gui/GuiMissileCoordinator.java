@@ -3,9 +3,11 @@ package icbm.explosion.gui;
 import icbm.core.base.GuiICBMContainer;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
+import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
+import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 
@@ -38,21 +40,21 @@ public class GuiMissileCoordinator extends GuiICBMContainer
 
                 double displacement = pos1.distance(pos2);
 
-                this.fontRenderer.drawString("Displacement: " + ElectricityDisplay.roundDecimals(displacement) + " Meters", 13, 65, 4210752);
+                this.fontRenderer.drawString("Displacement: " + UnitDisplay.roundDecimals(displacement) + " Meters", 13, 65, 4210752);
 
                 double w = Vector2.distance(pos1.toVector2(), pos2.toVector2());
                 double h = 160 + (w * 3) - pos1.y;
 
                 double distance = 0.5 * Math.sqrt(16 * (h * h) + (w * w)) + (((w * w) / (8 * h)) * (Math.log(4 * h + Math.sqrt(16 * (h * h) + (w * w))) - Math.log(w)));
 
-                this.fontRenderer.drawString("Arc: " + ElectricityDisplay.roundDecimals(distance) + " Meters", 13, 75, 4210752);
-                this.fontRenderer.drawString("Time: " + ElectricityDisplay.roundDecimals(Math.max(100, 2 * displacement) / 20) + " Seconds", 13, 85, 4210752);
+                this.fontRenderer.drawString("Arc: " + UnitDisplay.roundDecimals(distance) + " Meters", 13, 75, 4210752);
+                this.fontRenderer.drawString("Time: " + UnitDisplay.roundDecimals(Math.max(100, 2 * displacement) / 20) + " Seconds", 13, 85, 4210752);
 
                 Vector3 delta = Vector3.subtract(pos1, pos2);
                 double rotation = MathHelper.wrapAngleTo180_double(Math.toDegrees(Math.atan2(delta.z, delta.x))) - 90;
                 int heading = MathHelper.floor_double(rotation * 4.0F / 360.0F + 0.5D) & 3;
 
-                this.fontRenderer.drawString("Direction: " + ElectricityDisplay.roundDecimals(rotation) + " (" + Direction.directions[heading] + ")", 13, 95, 4210752);
+                this.fontRenderer.drawString("Direction: " + UnitDisplay.roundDecimals(rotation) + " (" + Direction.directions[heading] + ")", 13, 95, 4210752);
             }
         }
 
