@@ -40,15 +40,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     /** CURRENT TARGET TO ATTACK */
     public Entity target;
 
-    /** SHOULD TARGET PLAYERS */
-    public boolean targetPlayers = false;
-    /** SHOULD TARGET FLYING OBJECTS -> MISSILES, PLANES */
-    public boolean targetAir = false;
-    /** SHOULD TARGET MONSTERS */
-    public boolean targetHostile = false;
-    /** SHOULD TARGET ANIMALS, NPCS, SHEEP :( */
-    public boolean targetFriendly = false;
-
     /** AI MANAGER */
     public final TaskManager taskManager = new TaskManager(this);
 
@@ -125,53 +116,9 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
                     {
                         if (this.lookHelper.canEntityBeSeen(entity))
                         {
-                            if (this.targetAir)
+                            if (entity instanceof IMob && !this.isAir(entity))
                             {
-                                if (this.isAir(entity))
-                                {
-                                    return true;
-                                }
-                            }
-
-                            if (this.targetPlayers)
-                            {
-                                if (entity instanceof EntityPlayer || entity.riddenByEntity instanceof EntityPlayer)
-                                {
-                                    EntityPlayer player;
-
-                                    if (entity.riddenByEntity instanceof EntityPlayer)
-                                    {
-                                        player = (EntityPlayer) entity.riddenByEntity;
-                                    }
-                                    else
-                                    {
-                                        player = ((EntityPlayer) entity);
-                                    }
-
-                                    if (!player.capabilities.isCreativeMode)
-                                    {
-                                        if (this.getPlatform() != null && this.getPlatform().getUserAccess(player.username) != null)
-                                        {
-                                            return true;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (this.targetHostile)
-                            {
-                                if (entity instanceof IMob && !this.isAir(entity))
-                                {
-                                    return true;
-                                }
-                            }
-
-                            if (this.targetFriendly)
-                            {
-                                if ((entity instanceof IAnimals || entity instanceof INpc || entity instanceof IMerchant) && !this.isAir(entity))
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
                         }
                     }
@@ -187,7 +134,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         return (entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this)) || entity instanceof EntityWither || entity instanceof EntityDragon;
     }
 
-    
     public boolean canActivateWeapon()
     {
         if (this.isValidTarget(this.getTarget()) && this.getPlatform() != null)
@@ -335,36 +281,12 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-
-        nbt.setBoolean("targetPlayers", this.targetPlayers);
-        nbt.setBoolean("targetAir", this.targetAir);
-        nbt.setBoolean("targetHostile", this.targetHostile);
-        nbt.setBoolean("targetFriendly", this.targetFriendly);
-
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-
-        if (nbt.hasKey("targetPlayers"))
-        {
-            this.targetPlayers = nbt.getBoolean("targetPlayers");
-        }
-        if (nbt.hasKey("targetAir"))
-        {
-            this.targetAir = nbt.getBoolean("targetAir");
-        }
-        if (nbt.hasKey("targetHostile"))
-        {
-            this.targetHostile = nbt.getBoolean("targetHostile");
-        }
-        if (nbt.hasKey("targetFriendly"))
-        {
-            this.targetFriendly = nbt.getBoolean("targetFriendly");
-        }
-
     }
 
     @Override

@@ -7,9 +7,6 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 {
     public TileEntityGunTurret()
     {
-        this.targetPlayers = true;
-        this.targetHostile = true;
-
         this.baseTargetRange = 13;
         this.maxTargetRange = 25;
 
@@ -24,7 +21,6 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
     {
         return 200;
     }
-
   
     public void playFiringSound()
     {

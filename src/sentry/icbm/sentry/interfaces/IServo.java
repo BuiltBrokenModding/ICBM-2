@@ -1,5 +1,7 @@
 package icbm.sentry.interfaces;
 
+import com.builtbroken.common.Pair;
+
 
 /** Simple interface to control an object that rotates
  * 

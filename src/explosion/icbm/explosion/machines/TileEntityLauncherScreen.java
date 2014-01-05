@@ -28,7 +28,7 @@ import cpw.mods.fml.common.network.Player;
 /** This tile entity is for the screen of the missile launcher
  * 
  * @author Calclavia */
-public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implements IBlockActivated,  ITier, IRotatable
+public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implements IBlockActivated, ITier, IRotatable
 {
     // Is the block powered by redstone?
     private boolean isPowered = false;
@@ -135,21 +135,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
     {
         try
         {
-            final int ID = dataStream.readInt();
-
-            if (ID == -1)
-            {
-                if (dataStream.readBoolean())
-                {
-                    this.playersUsing.add(player);
-                    PacketManager.sendPacketToClients(this.getDescriptionPacket());
-                }
-                else
-                {
-                    this.playersUsing.remove(player);
-                }
-            }
-            else if (ID == 0)
+            if (ID == 0)
             {
                 this.fangXiang = dataStream.readByte();
                 this.tier = dataStream.readInt();

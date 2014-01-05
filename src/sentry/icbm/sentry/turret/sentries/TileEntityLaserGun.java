@@ -14,8 +14,6 @@ public class TileEntityLaserGun extends TileEntityAutoTurret
 
     public TileEntityLaserGun()
     {
-        this.targetPlayers = true;
-        this.targetHostile = true;
 
         this.baseTargetRange = 20;
         this.maxTargetRange = 35;
