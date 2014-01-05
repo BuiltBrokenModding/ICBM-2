@@ -6,6 +6,7 @@ import icbm.sentry.ProjectileType;
 import icbm.sentry.damage.TileDamageSource;
 import icbm.sentry.interfaces.IAmmunition;
 import icbm.sentry.interfaces.IAutoSentry;
+import icbm.sentry.task.TaskKillTarget;
 import icbm.sentry.task.TaskManager;
 import icbm.sentry.task.TaskSearchTarget;
 import icbm.sentry.turret.TileEntityTurret;
@@ -41,7 +42,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     public Entity target;
 
     /** AI MANAGER */
-    public final TaskManager taskManager = new TaskManager(this);
+    public final TaskManager taskManager;
 
     /** DEFAULT TARGETING RANGE */
     public int baseTargetRange = 20;
@@ -59,6 +60,18 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
 
     protected boolean allowFreePitch;
 
+    public TileEntityAutoTurret()
+    {
+        taskManager = new TaskManager(this);
+        this.loadTasks();
+    }
+
+    public void loadTasks()
+    {
+        this.taskManager.addTask(new TaskSearchTarget());
+        this.taskManager.addTask(new TaskKillTarget());
+    }
+
     @Override
     public void updateEntity()
     {
@@ -66,13 +79,13 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         if (lastRotateTick > 0)
             lastRotateTick--;
 
-        if (!this.worldObj.isRemote && this.isRunning())
+        if (!this.worldObj.isRemote)
         {
             this.taskManager.onUpdate();
 
             if (!this.taskManager.hasTasks())
             {
-                this.taskManager.addTask(new TaskSearchTarget());
+                this.loadTasks();
             }
         }
     }
@@ -83,10 +96,9 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         return this.rotationSpeed;
     }
 
-    @Override
     public AxisAlignedBB getTargetingBox()
     {
-        return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), this.yCoord - 5, zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + 5, zCoord + this.getDetectRange());
+        return AxisAlignedBB.getBoundingBox(xCoord - this.maxTargetRange, this.yCoord - 5, zCoord - this.maxTargetRange, xCoord + this.maxTargetRange, yCoord + this.maxTargetRange, zCoord + this.maxTargetRange);
     }
 
     @Override
@@ -101,14 +113,13 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         this.target = target;
     }
 
-    @Override
     public boolean isValidTarget(Entity entity)
     {
         if (entity != null)
         {
             if (!entity.isDead && !entity.isEntityInvulnerable())
             {
-                if (this.getCenter().distance(new Vector3(entity)) <= this.getDetectRange())
+                if (this.getCenter().distance(new Vector3(entity)) <= this.maxTargetRange)
                 {
                     float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).translate(new Vector3(0, entity.getEyeHeight(), 0)));
 
@@ -116,7 +127,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
                     {
                         if (this.lookHelper.canEntityBeSeen(entity))
                         {
-                            if (entity instanceof IMob && !this.isAir(entity))
+                            if (entity instanceof IMob)
                             {
                                 return true;
                             }
@@ -129,18 +140,13 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         return false;
     }
 
-    protected boolean isAir(Entity entity)
-    {
-        return (entity instanceof IMob && entity instanceof EntityFlying) || (entity instanceof IAATarget && ((IAATarget) entity).canBeTargeted(this)) || entity instanceof EntityWither || entity instanceof EntityDragon;
-    }
-
     public boolean canActivateWeapon()
     {
-        if (this.isValidTarget(this.getTarget()) && this.getPlatform() != null)
+        if (this.isValidTarget(this.getTarget()))
         {
             if (this.lookHelper.isLookingAt(this.target, 5))
             {
-                return this.tickSinceFired == 0 && (this.getPlatform().hasAmmunition(this.projectileType) != null || this.projectileType == ProjectileType.UNKNOWN);
+                return this.tickSinceFired == 0;
             }
         }
 
@@ -287,17 +293,6 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-    }
-
-    @Override
-    public double getDetectRange()
-    {
-        if (this.getPlatform() != null)
-        {
-            return Math.min(this.baseTargetRange + (this.maxTargetRange - this.baseTargetRange) * (this.getPlatform().getUpgradeCount(TurretUpgradeType.RANGE) / 64f), this.maxTargetRange);
-        }
-
-        return this.baseTargetRange;
     }
 
     @Override

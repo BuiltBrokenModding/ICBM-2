@@ -23,12 +23,6 @@ public class TileEntityAAGun extends TileEntityAutoTurret
     }
 
     @Override
-    public AxisAlignedBB getTargetingBox()
-    {
-        return AxisAlignedBB.getBoundingBox(xCoord - this.getDetectRange(), yCoord - this.getDetectRange(), zCoord - this.getDetectRange(), xCoord + this.getDetectRange(), yCoord + this.getDetectRange(), zCoord + this.getDetectRange());
-    }
-
-    @Override
     public int getMaxHealth()
     {
         return 180;

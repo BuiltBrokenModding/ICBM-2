@@ -15,27 +15,24 @@ public class TaskSearchTarget extends Task
     protected boolean onUpdateTask()
     {
         super.onUpdateTask();
+      
 
-        if (this.tileEntity instanceof IAutoSentry)
-        {
-            IAutoSentry sentry = this.tileEntity;
-
-            if (sentry.getTarget() == null || !sentry.isValidTarget(sentry.getTarget()))
+            if (this.tileEntity.getTarget() == null || !this.tileEntity.isValidTarget(this.tileEntity.getTarget()))
             {
-                AxisAlignedBB bounds = sentry.getTargetingBox();
+                AxisAlignedBB bounds = this.tileEntity.getTargetingBox();
 
                 List<Entity> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
                 Entity currentTarget = null;
 
                 if (currentTarget == null)
                 {
-                    double smallestDis = sentry.getDetectRange();
+                    double smallestDis = this.tileEntity.maxTargetRange;
 
                     for (Entity entity : entities)
                     {
                         final double distance = this.tileEntity.getCenter().distance(new Vector3(entity));
 
-                        if (sentry.isValidTarget(entity) && distance <= smallestDis)
+                        if (this.tileEntity.isValidTarget(entity) && distance <= smallestDis)
                         {
                             currentTarget = entity;
                             smallestDis = distance;
@@ -47,7 +44,7 @@ public class TaskSearchTarget extends Task
                 {
                     this.tileEntity.cancelRotation();
                     this.taskManager.addTask(new TaskKillTarget());
-                    sentry.setTarget(currentTarget);
+                    this.tileEntity.setTarget(currentTarget);
                     return false;
                 }
                 else if (this.tileEntity.lastRotateTick > this.world.rand.nextInt(30) + 10)
@@ -61,7 +58,6 @@ public class TaskSearchTarget extends Task
             {
                 this.taskManager.addTask(new TaskKillTarget());
             }
-        }
 
         return false;
     }
