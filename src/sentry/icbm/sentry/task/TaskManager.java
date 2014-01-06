@@ -9,8 +9,8 @@ import java.util.List;
 public class TaskManager
 {
     private final List<Task> tasks = new ArrayList<Task>();
-
-    public TileEntityAutoTurret tileEntity;
+    private int taskIndex = 0;
+    protected TileEntityAutoTurret tileEntity;
 
     public TaskManager(TileEntityAutoTurret tileEntity)
     {
@@ -20,13 +20,10 @@ public class TaskManager
     /** Must be called every tick by a tileEntity. */
     public void onUpdate()
     {
-        /** Loop through each task and does them. */
         try
         {
             if (this.tasks.size() > 0)
             {
-                int taskIndex = 0;
-
                 Task currentTask = this.tasks.get(taskIndex);
 
                 if (currentTask != null)
@@ -34,14 +31,17 @@ public class TaskManager
                     if (!currentTask.onUpdateTask())
                     {
                         currentTask.onTaskEnd();
-                        this.tasks.remove(taskIndex);
+                        if (this.taskIndex < this.tasks.size() - 1)
+                            this.taskIndex++;
+                        else
+                            this.taskIndex = 0;
                     }
                 }
             }
         }
         catch (Exception e)
         {
-            ICBMCore.LOGGER.severe("Failed to execute AI tasks!");
+            ICBMCore.LOGGER.severe("[ICBM:Sentry]Failed to execute AI tasks!");
             e.printStackTrace();
         }
     }

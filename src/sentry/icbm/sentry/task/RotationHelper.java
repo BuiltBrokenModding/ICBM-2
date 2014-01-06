@@ -1,13 +1,12 @@
 package icbm.sentry.task;
 
-import icbm.sentry.interfaces.IGyroMotor;
-import icbm.sentry.interfaces.IServo;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.builtbroken.ai.movement.IGyroMotor;
+import com.builtbroken.ai.movement.IServo;
 import com.builtbroken.minecraft.helpers.MathHelper;
 import com.builtbroken.minecraft.save.IPacketLoad;
 import com.builtbroken.minecraft.save.ISaveObj;

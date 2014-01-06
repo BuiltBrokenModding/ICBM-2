@@ -1,5 +1,8 @@
 package icbm.sentry.interfaces;
 
+import com.builtbroken.ai.combat.IWeaponPlatform;
+import com.builtbroken.ai.movement.IGyroMotor;
+
 import net.minecraft.tileentity.TileEntity;
 
 /** Applied to all turret TileEntities. */

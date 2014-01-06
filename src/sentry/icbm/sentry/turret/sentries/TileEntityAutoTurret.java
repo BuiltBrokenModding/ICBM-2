@@ -119,7 +119,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
         {
             if (!entity.isDead && !entity.isEntityInvulnerable())
             {
-                if (this.getCenter().distance(new Vector3(entity)) <= this.maxTargetRange)
+                if (this.pos().distance(new Vector3(entity)) <= this.maxTargetRange)
                 {
                     float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).translate(new Vector3(0, entity.getEyeHeight(), 0)));
 

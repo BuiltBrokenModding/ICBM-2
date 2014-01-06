@@ -7,3 +7,6 @@
 [submodule "CoreLibrary"]
 	path = CoreLibrary
 	url = https://github.com/DarksCoreMachine/CoreLibrary.git
+[submodule "AI-Library"]
+	path = AI-Library
+	url = https://github.com/Artillect-Project/AI-Library.git

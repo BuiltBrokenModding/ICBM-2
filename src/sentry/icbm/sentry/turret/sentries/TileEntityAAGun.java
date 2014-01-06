@@ -2,6 +2,7 @@ package icbm.sentry.turret.sentries;
 
 import icbm.core.ICBMCore;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.
@@ -28,16 +29,15 @@ public class TileEntityAAGun extends TileEntityAutoTurret
         return 180;
     }
 
- 
     public void playFiringSound()
     {
         this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "aagun", 5F, 1F);
     }
 
     @Override
-    public Vector3 getCenter()
+    public Vector3 pos()
     {
-        return new Vector3(this).add(new Vector3(0.5, 0.75, 0.5));
+        return new Vector3(xCoord + 0.5, yCoord + 0.75, zCoord + 0.5);
     }
 
 }

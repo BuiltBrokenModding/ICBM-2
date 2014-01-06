@@ -152,7 +152,7 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
     }
 
     @Override
-    public Vector3 getCenter()
+    public Vector3 pos()
     {
         return new Vector3(this).add(new Vector3(0.5, 1.5, 0.5));
     }

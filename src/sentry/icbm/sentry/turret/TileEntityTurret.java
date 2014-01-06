@@ -5,8 +5,6 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.interfaces.ISentry;
-import icbm.sentry.interfaces.IServo;
-import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 import icbm.sentry.task.LookHelper;
 import icbm.sentry.task.RotationHelper;
@@ -19,10 +17,13 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 
+import com.builtbroken.ai.combat.IWeaponSystem;
+import com.builtbroken.ai.movement.IServo;
 import com.builtbroken.minecraft.network.ISimplePacketReceiver;
 import com.builtbroken.minecraft.network.PacketHandler;
 import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
@@ -55,8 +56,8 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     private EntityTileDamagable damageEntity;
 
     /** Energy cost per tick to run this sentry */
-    public long joulesPerTick = 0;    
-    
+    public long joulesPerTick = 0;
+
     /** Radius by which the weapon system can fire without clipping the sentries collision box */
     public float sentrySafeRadius = 1.5f;
 
@@ -270,7 +271,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     @Override
     public VectorWorld getAimingDirection()
     {
-        return new VectorWorld(this.worldObj, this.getCenter().add(Vector3.scale(new Vector3(this.getYawServo().getRotation(), this.getPitchServo().getRotation()), 1)));
+        return new VectorWorld(this.worldObj, this.pos().add(Vector3.scale(new Vector3(this.getYawServo().getRotation(), this.getPitchServo().getRotation()), 1)));
     }
 
     public void onWeaponActivated()
@@ -434,14 +435,19 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
         return AxisAlignedBB.getBoundingBox(this.xCoord - 1, this.yCoord - 1, this.zCoord - 1, this.xCoord + 2, this.yCoord + 2, this.zCoord + 2);
     }
 
-    public Vector3 getCenter()
-    {
-        return new Vector3(this).add(0.5);
-    }
-
     public long getJoulesPerTick()
     {
         return this.joulesPerTick;
+    }
+
+    public World getWorld()
+    {
+        return this.worldObj;
+    }
+
+    public Vector3 pos()
+    {
+        return Vector3.fromCenter(this);
     }
 
 }
