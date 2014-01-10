@@ -89,7 +89,7 @@ public class ICBMContraption extends ICBMCore
 		GameRegistry.registerBlock(blockProximityDetector, "blockProximityDetector");
 		GameRegistry.registerBlock(blockCamo, "blockCamo");
 		GameRegistry.registerBlock(blockReinforcedGlass, "blockReinforcedGlass");
-		GameRegistry.registerBlock(blockSpikes, ItemblockSpikes.class, "blockSpikes");
+		GameRegistry.registerBlock(blockSpikes, ItemBlockSpikes.class, "blockSpikes");
 		GameRegistry.registerBlock(blockConcrete, ItemBlockHolder.class, "blockConcrete");
 
 		ICBMContraption.proxy.preInit();

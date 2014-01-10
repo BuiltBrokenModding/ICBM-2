@@ -4,9 +4,9 @@ import icbm.Reference;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemblockSpikes extends ItemBlock
+public class ItemBlockSpikes extends ItemBlock
 {
-    public ItemblockSpikes(int par1)
+    public ItemBlockSpikes(int par1)
     {
         super(par1);
         this.setMaxDamage(0);

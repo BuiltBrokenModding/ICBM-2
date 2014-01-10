@@ -29,7 +29,7 @@ public class BlockMissileTable extends BlockICBM
 {
 	public BlockMissileTable(int id)
 	{
-		super(id, "MissileTable", UniversalElectricity.machine);
+		super(id, "missileAssembler", UniversalElectricity.machine);
 	}
 
 	@Override
