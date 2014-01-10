@@ -20,10 +20,7 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.vector.Vector2;
-
-import com.builtbroken.minecraft.TranslationHelper;
-import com.builtbroken.minecraft.prefab.invgui.GuiBase;
-
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -95,7 +92,7 @@ public class GuiRadarStation extends GuiBase
     @Override
     protected void drawForegroundLayer(int var2, int var3, float var1)
     {
-        this.fontRenderer.drawString("\u00a77" + TranslationHelper.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
+        this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
 
         this.fontRenderer.drawString("Coordinates:", 155, 18, 4210752);
         this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);

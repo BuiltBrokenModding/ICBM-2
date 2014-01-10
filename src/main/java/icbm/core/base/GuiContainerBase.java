@@ -19,8 +19,7 @@ import org.lwjgl.opengl.GL12;
 import universalelectricity.api.CompatibilityType;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
-
-import com.builtbroken.minecraft.TranslationHelper;
+import calclavia.lib.utility.LanguageUtility;
 
 public class GuiContainerBase extends GuiContainer
 {
@@ -110,11 +109,11 @@ public class GuiContainerBase extends GuiContainer
 
 	protected void drawTextWithTooltip(String textName, String format, int x, int y, int mouseX, int mouseY, int color)
 	{
-		String name = TranslationHelper.getLocal("gui." + textName + ".name");
+		String name = LanguageUtility.getLocal("gui." + textName + ".name");
 		String text = format.replaceAll("%1", name);
 		this.fontRenderer.drawString(text, x, y, color);
 
-		String tooltip = TranslationHelper.getLocal("gui." + textName + ".tooltip");
+		String tooltip = LanguageUtility.getLocal("gui." + textName + ".tooltip");
 
 		if (tooltip != null && tooltip != "")
 		{

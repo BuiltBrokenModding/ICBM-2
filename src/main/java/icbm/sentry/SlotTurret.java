@@ -2,9 +2,7 @@ package icbm.sentry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-
-import com.builtbroken.minecraft.interfaces.ITerminal;
-import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
+import dark.lib.interfaces.ITerminal;
 
 public class SlotTurret extends SlotSpecific
 {

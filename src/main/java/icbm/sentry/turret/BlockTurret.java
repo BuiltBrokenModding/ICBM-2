@@ -3,7 +3,6 @@ package icbm.sentry.turret;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMCore;
 import icbm.core.base.BlockICBM;
-import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.render.BlockRenderingHandler;
@@ -24,10 +23,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
-
-import com.builtbroken.minecraft.interfaces.IBlockActivated;
-import com.builtbroken.minecraft.prefab.BlockAdvanced;
-
+import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

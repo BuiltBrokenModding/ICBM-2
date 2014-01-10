@@ -4,9 +4,8 @@ import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
 import icbm.api.IRadarDetectable;
 import icbm.api.RadarRegistry;
-import icbm.core.base.TileEnityBase;
+import icbm.core.base.TileFrequency;
 import icbm.core.implement.IChunkLoadHandler;
-import icbm.core.implement.IRedstoneProvider;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.missile.EntityMissile;
 
@@ -32,10 +31,11 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.IBlockActivate;
+import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.prefab.tile.IRedstoneProvider;
 
-import com.builtbroken.minecraft.prefab.BlockAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -44,7 +44,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public class TileEntityRadarStation extends TileEnityBase implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IPeripheral, IBlockFrequency, IBlockActivate, IRotatable
+public class TileEntityRadarStation extends TileFrequency implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IPeripheral, IBlockFrequency, IBlockActivate, IRotatable
 {
     public final static int MAX_DETECTION_RANGE = 500;
 

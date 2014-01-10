@@ -13,11 +13,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.IBlockActivate;
-
-import com.builtbroken.minecraft.interfaces.IMultiBlock;
-import com.builtbroken.minecraft.prefab.TileEntityMulti;
-
+import calclavia.lib.multiblock.link.IBlockActivate;
+import calclavia.lib.multiblock.link.IMultiBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

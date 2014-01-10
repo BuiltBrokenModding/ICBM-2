@@ -2,7 +2,6 @@ package icbm.explosion.machines;
 
 import icbm.api.RadarRegistry;
 import icbm.core.ICBMCore;
-import icbm.core.implement.IRedstoneReceptor;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.blast.BlastEmp;
 
@@ -15,11 +14,10 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.multiblock.link.IMultiBlock;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
-import com.builtbroken.minecraft.interfaces.IBlockActivated;
-import com.builtbroken.minecraft.interfaces.IMultiBlock;
-import com.builtbroken.minecraft.network.PacketHandler;
-import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.Player;

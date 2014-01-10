@@ -8,9 +8,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import com.builtbroken.minecraft.prefab.invgui.SlotEnergyItem;
-import com.builtbroken.minecraft.prefab.invgui.SlotSpecific;
-
 public class ContainerCruiseLauncher extends Container
 {
     private TileEntityCruiseLauncher tileEntity;

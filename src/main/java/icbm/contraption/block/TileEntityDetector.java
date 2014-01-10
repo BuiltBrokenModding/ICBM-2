@@ -2,8 +2,7 @@ package icbm.contraption.block;
 
 import icbm.contraption.ICBMContraption;
 import icbm.contraption.ItemSignalDisrupter;
-import icbm.core.base.TileEnityBase;
-import icbm.core.implement.IRedstoneProvider;
+import icbm.core.base.TileFrequency;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,15 +17,16 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.tile.IRedstoneProvider;
 
-import com.builtbroken.minecraft.network.PacketHandler;
-import com.builtbroken.minecraft.prefab.invgui.ContainerFake;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
+import dark.lib.prefab.invgui.ContainerFake;
 
-public class TileEntityDetector extends TileEnityBase implements IRedstoneProvider
+public class TileEntityDetector extends TileFrequency implements IRedstoneProvider
 {
     private static final int MAX_DISTANCE = 30;
 

@@ -9,9 +9,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
-
-import com.builtbroken.minecraft.network.PacketHandler;
-
+import calclavia.lib.network.PacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiDectector extends GuiICBM

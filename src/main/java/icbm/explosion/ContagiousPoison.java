@@ -8,7 +8,6 @@ import java.util.EnumSet;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import universalelectricity.api.vector.Vector3;
-import atomicscience.api.poison.Poison;
 import calclavia.lib.prefab.potion.CustomPotionEffect;
 
 public class ContagiousPoison extends Poison

@@ -3,7 +3,6 @@ package icbm.explosion.gui;
 import icbm.core.base.GuiICBMContainer;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
-import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;

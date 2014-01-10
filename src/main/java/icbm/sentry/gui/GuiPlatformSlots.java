@@ -11,9 +11,6 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
-
-import com.builtbroken.minecraft.prefab.TileEntityEnergyMachine;
-
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

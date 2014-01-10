@@ -11,10 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
-
-import com.builtbroken.minecraft.network.PacketHandler;
-import com.builtbroken.minecraft.prefab.invgui.GuiBase;
-
+import calclavia.lib.network.PacketHandler;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

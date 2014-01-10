@@ -15,9 +15,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
-
-import com.builtbroken.minecraft.network.PacketHandler;
-
+import calclavia.lib.network.PacketHandler;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

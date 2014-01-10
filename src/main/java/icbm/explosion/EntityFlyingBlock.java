@@ -11,7 +11,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
-import com.builtbroken.minecraft.DarkCore;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 

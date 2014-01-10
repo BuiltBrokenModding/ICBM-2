@@ -18,8 +18,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 
-import com.builtbroken.minecraft.interfaces.IBlockActivated;
-import com.builtbroken.minecraft.interfaces.IRotatable;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;

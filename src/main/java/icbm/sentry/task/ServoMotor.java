@@ -1,6 +1,5 @@
 package icbm.sentry.task;
 
-import com.builtbroken.ai.movement.IServo;
 import com.builtbroken.common.Pair;
 
 public class ServoMotor implements IServo

@@ -19,8 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
-
-import com.builtbroken.minecraft.access.ISpecialAccess;
+import calclavia.lib.access.ISpecialAccess;
 
 public class BlockTurretPlatform extends BlockICBM
 {

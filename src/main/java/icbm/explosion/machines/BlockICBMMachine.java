@@ -2,7 +2,6 @@ package icbm.explosion.machines;
 
 import icbm.api.ITier;
 import icbm.core.base.BlockICBM;
-import icbm.core.implement.IRedstoneReceptor;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.BlockRenderHandler;
 
@@ -19,13 +18,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
-
-import com.builtbroken.minecraft.DarkCore;
-import com.builtbroken.minecraft.TranslationHelper;
-import com.builtbroken.minecraft.interfaces.IBlockActivated;
-import com.builtbroken.minecraft.interfaces.IMultiBlock;
-import com.builtbroken.minecraft.interfaces.IRotatable;
-
+import calclavia.lib.multiblock.link.IMultiBlock;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -359,6 +354,6 @@ public class BlockICBMMachine extends BlockICBM
 
     public static String getJiQiMing(TileEntity tileEntity)
     {
-        return TranslationHelper.getLocal("icbm.machine." + getJiQiID(tileEntity) + ".name");
+        return LanguageUtility.getLocal("icbm.machine." + getJiQiID(tileEntity) + ".name");
     }
 }

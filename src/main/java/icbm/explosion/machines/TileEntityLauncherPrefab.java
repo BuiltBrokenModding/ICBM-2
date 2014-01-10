@@ -1,9 +1,9 @@
 package icbm.explosion.machines;
 
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
-import icbm.core.base.TileEnityBase;
-import icbm.core.implement.IRedstoneReceptor;
+import icbm.core.base.TileFrequency;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
@@ -11,7 +11,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TileEntityLauncherPrefab extends TileEnityBase implements ILauncherController, IPeripheral, IRedstoneReceptor
+public abstract class TileEntityLauncherPrefab extends TileFrequency implements ILauncherController, IPeripheral, IRedstoneReceptor
 {
     @Override
     public void initiate()

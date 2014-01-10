@@ -4,12 +4,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.nbt.NBTTagCompound;
+import calclavia.lib.network.IPacketLoad;
+import calclavia.lib.utility.ISaveObj;
 
-import com.builtbroken.ai.movement.IGyroMotor;
-import com.builtbroken.ai.movement.IServo;
-import com.builtbroken.minecraft.helpers.MathHelper;
-import com.builtbroken.minecraft.save.IPacketLoad;
-import com.builtbroken.minecraft.save.ISaveObj;
 import com.google.common.io.ByteArrayDataInput;
 
 /** Modular way of dealing with yaw and pitch rotation of an object

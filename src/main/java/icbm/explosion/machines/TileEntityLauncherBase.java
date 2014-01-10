@@ -25,13 +25,9 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorHelper;
+import calclavia.lib.multiblock.link.IMultiBlock;
+import calclavia.lib.network.PacketHandler;
 
-import com.builtbroken.minecraft.interfaces.IBlockActivated;
-import com.builtbroken.minecraft.interfaces.IMultiBlock;
-import com.builtbroken.minecraft.interfaces.IRotatable;
-import com.builtbroken.minecraft.network.ISimplePacketReceiver;
-import com.builtbroken.minecraft.network.PacketHandler;
-import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.Player;

@@ -16,10 +16,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.item.ItemElectric;
-
-import com.builtbroken.minecraft.network.PacketHandler;
-import com.builtbroken.minecraft.prefab.ItemBlockHolder;
-
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.item.ItemBlockHolder;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;

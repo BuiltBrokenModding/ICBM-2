@@ -1,7 +1,6 @@
 package icbm.sentry.turret.mount;
 
 import icbm.core.ICBMCore;
-import icbm.core.implement.IRedstoneReceptor;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ProjectileType;
 
@@ -14,8 +13,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
-
-import com.builtbroken.minecraft.interfaces.IMultiBlock;
+import calclavia.lib.multiblock.link.IMultiBlock;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
 /** Railgun
  * 

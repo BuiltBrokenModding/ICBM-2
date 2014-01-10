@@ -15,14 +15,12 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.vector.Vector2;
-
-import com.builtbroken.minecraft.access.AccessUser;
-import com.builtbroken.minecraft.prefab.invgui.ContainerFake;
-import com.builtbroken.minecraft.terminal.TileEntityTerminal;
-
+import calclavia.lib.access.AccessUser;
+import calclavia.lib.terminal.TileTerminal;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.lib.prefab.invgui.ContainerFake;
 
 /** The GUI for user permissions and access.
  * 
@@ -139,7 +137,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
                 }
             }
 
-            ((TileEntityTerminal) this.tileEntity).sendCommandToServer(this.entityPlayer, command + " " + username);
+            ((TileTerminal) this.tileEntity).sendCommandToServer(this.entityPlayer, command + " " + username);
             this.commandLine.setText("");
         }
         else
@@ -153,7 +151,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
     {
         String title = "User Access";
         this.fontRenderer.drawString("\u00a77" + title, this.xSize / 2 - title.length() * 3, 4, 4210752);
-        this.drawConsole(15, 25, TileEntityTerminal.SCROLL_SIZE);
+        this.drawConsole(15, 25, TileTerminal.SCROLL_SIZE);
         super.drawGuiContainerForegroundLayer(x, y);
     }
 

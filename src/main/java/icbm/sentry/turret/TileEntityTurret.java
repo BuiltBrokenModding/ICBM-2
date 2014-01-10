@@ -21,12 +21,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
+import calclavia.lib.network.PacketHandler;
 
-import com.builtbroken.ai.combat.IWeaponSystem;
-import com.builtbroken.ai.movement.IServo;
-import com.builtbroken.minecraft.network.ISimplePacketReceiver;
-import com.builtbroken.minecraft.network.PacketHandler;
-import com.builtbroken.minecraft.prefab.TileEntityAdvanced;
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.Player;

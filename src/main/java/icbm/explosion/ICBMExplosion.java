@@ -54,9 +54,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import universalelectricity.api.item.ItemElectric;
 import universalelectricity.api.vector.Vector3;
-
-import com.builtbroken.minecraft.network.PacketHandler;
-
+import calclavia.lib.network.PacketHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;

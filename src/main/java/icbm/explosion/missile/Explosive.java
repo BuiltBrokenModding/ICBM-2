@@ -36,9 +36,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.flag.FlagRegistry;
-
-import com.builtbroken.minecraft.TranslationHelper;
-
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -175,25 +173,25 @@ public abstract class Explosive implements IExplosive
     @Override
     public String getExplosiveName()
     {
-        return TranslationHelper.getLocal("icbm.explosive." + this.nameID + ".name");
+        return LanguageUtility.getLocal("icbm.explosive." + this.nameID + ".name");
     }
 
     @Override
     public String getGrenadeName()
     {
-        return TranslationHelper.getLocal("icbm.grenade." + this.nameID + ".name");
+        return LanguageUtility.getLocal("icbm.grenade." + this.nameID + ".name");
     }
 
     @Override
     public String getMissileName()
     {
-        return TranslationHelper.getLocal("icbm.missile." + this.nameID + ".name");
+        return LanguageUtility.getLocal("icbm.missile." + this.nameID + ".name");
     }
 
     @Override
     public String getMinecartName()
     {
-        return TranslationHelper.getLocal("icbm.minecart." + this.nameID + ".name");
+        return LanguageUtility.getLocal("icbm.minecart." + this.nameID + ".name");
     }
 
     @Override

@@ -10,9 +10,6 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.vector.Vector3;
-
-import com.builtbroken.minecraft.prefab.invgui.GuiBase;
-
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

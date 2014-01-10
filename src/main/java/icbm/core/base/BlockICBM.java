@@ -3,16 +3,14 @@ package icbm.core.base;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
-import icbm.core.implement.IRedstoneProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
-
-import com.builtbroken.minecraft.prefab.BlockTile;
-
+import calclavia.lib.prefab.block.BlockTile;
+import calclavia.lib.prefab.tile.IRedstoneProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -1,8 +1,6 @@
 package icbm.sentry.turret.sentries;
 
 import icbm.core.ICBMCore;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.

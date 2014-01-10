@@ -6,11 +6,9 @@ import icbm.sentry.platform.TileEntityTurretPlatform;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-
-import com.builtbroken.minecraft.prefab.invgui.GuiMachineContainer;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import dark.lib.prefab.invgui.GuiMachineContainer;
 
 /** A base class for gun platforms
  * 
