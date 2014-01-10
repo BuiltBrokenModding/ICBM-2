@@ -1,6 +1,6 @@
 package icbm.explosion.missile.missile;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
@@ -75,7 +75,7 @@ public class MissilePlayerHandler implements IUpdatePlayerListBox
 
         if (this.theSoundManager != null && this.entity != null && this.minecartMoveSoundVolume > 0)
         {
-            this.theSoundManager.playEntitySound(ICBMCore.PREFIX + "missileinair", this.entity, 7.0F, this.minecartSoundPitch, true);
+            this.theSoundManager.playEntitySound(Reference.PREFIX + "missileinair", this.entity, 7.0F, this.minecartSoundPitch, true);
             this.silent = false;
             var1 = true;
         }

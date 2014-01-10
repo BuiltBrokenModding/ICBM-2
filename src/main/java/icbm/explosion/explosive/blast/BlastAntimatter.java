@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.explosive.ExplosionBase;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ public class BlastAntimatter extends ExplosionBase
     public void doPreExplode()
     {
         super.doPreExplode();
-        this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, ICBMCore.PREFIX + "antimatter", 7F, (float) (this.worldObj.rand.nextFloat() * 0.1 + 0.9F));
+        this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "antimatter", 7F, (float) (this.worldObj.rand.nextFloat() * 0.1 + 0.9F));
         this.doDamageEntities(this.getRadius() * 2, Integer.MAX_VALUE);
     }
 

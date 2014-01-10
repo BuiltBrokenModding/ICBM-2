@@ -1,8 +1,8 @@
 package icbm.core.base;
 
+import icbm.Reference;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
-import icbm.core.ICBMCore;
 import net.minecraft.item.Item;
 
 public class ItemICBMBase extends Item
@@ -10,9 +10,9 @@ public class ItemICBMBase extends Item
     public ItemICBMBase(int id, String name)
     {
         super(ICBMConfiguration.CONFIGURATION.getItem("name", id).getInt(id));
-        this.setUnlocalizedName(ICBMCore.PREFIX + name);
+        this.setUnlocalizedName(Reference.PREFIX + name);
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
-        this.setTextureName(ICBMCore.PREFIX + name);
+        this.setTextureName(Reference.PREFIX + name);
     }
 
 }

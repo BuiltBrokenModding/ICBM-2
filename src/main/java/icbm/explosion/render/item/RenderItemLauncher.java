@@ -1,6 +1,6 @@
 package icbm.explosion.render.item;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.model.tiles.MShouFaSheQi;
 import net.minecraft.client.Minecraft;
@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderItemLauncher implements IItemRenderer
 {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "rocket_launcher.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "rocket_launcher.png");
 
     public static final MShouFaSheQi MODEL = new MShouFaSheQi();
 

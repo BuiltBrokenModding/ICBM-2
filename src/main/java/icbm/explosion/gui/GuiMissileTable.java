@@ -1,6 +1,6 @@
 package icbm.explosion.gui;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.container.ContainerMissileTable;
 import icbm.explosion.missile.modular.TileEntityMissileTable;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,7 +14,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public class GuiMissileTable extends GuiContainer
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_launcher.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_launcher.png");
 
     private int containerWidth;
     private int containerHeight;

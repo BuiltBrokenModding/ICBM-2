@@ -1,6 +1,6 @@
 package icbm.sentry.turret;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.core.base.ItemICBMBase;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.interfaces.IAmmunition;
@@ -55,7 +55,7 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-        return "item." + ICBMCore.PREFIX + AmmoType.values()[itemStack.getItemDamage()].iconName;
+        return "item." + Reference.PREFIX + AmmoType.values()[itemStack.getItemDamage()].iconName;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     {
         for (int i = 0; i < AmmoType.values().length; i++)
         {
-            ICONS[i] = iconRegister.registerIcon(ICBMCore.PREFIX + AmmoType.values()[i].iconName);
+            ICONS[i] = iconRegister.registerIcon(Reference.PREFIX + AmmoType.values()[i].iconName);
         }
     }
 

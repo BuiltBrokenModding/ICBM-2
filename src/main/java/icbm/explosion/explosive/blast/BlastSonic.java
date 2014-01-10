@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosionBase;
@@ -100,11 +100,11 @@ public class BlastSonic extends ExplosionBase
 
         if (this.hasShockWave)
         {
-            this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "hypersonic", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "hypersonic", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }
         else
         {
-            this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "sonicwave", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "sonicwave", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
 

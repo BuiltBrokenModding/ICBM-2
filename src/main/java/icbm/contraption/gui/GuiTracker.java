@@ -1,8 +1,8 @@
 package icbm.contraption.gui;
 
+import icbm.Reference;
 import icbm.api.IItemFrequency;
 import icbm.contraption.ICBMContraption;
-import icbm.core.ICBMCore;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,7 +15,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiTracker extends GuiBase
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
     private ItemStack itemStack;
 

@@ -1,7 +1,7 @@
 package icbm.contraption.block;
 
+import icbm.Reference;
 import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMCore;
 
 import java.util.Random;
 
@@ -14,12 +14,12 @@ public class BlockGlassPressurePlate extends BlockPressurePlate
 {
     public BlockGlassPressurePlate(int id)
     {
-        super(id, ICBMCore.PREFIX + "glassPressurePlate", Material.glass, EnumMobType.everything);
+        super(id, Reference.PREFIX + "glassPressurePlate", Material.glass, EnumMobType.everything);
         this.setTickRandomly(true);
         this.setResistance(1F);
         this.setHardness(0.3F);
         this.setStepSound(soundGlassFootstep);
-        this.setUnlocalizedName(ICBMCore.PREFIX + "glassPressurePlate");
+        this.setUnlocalizedName(Reference.PREFIX + "glassPressurePlate");
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
     }
 

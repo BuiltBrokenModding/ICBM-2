@@ -1,6 +1,6 @@
 package icbm.contraption;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -28,6 +28,6 @@ public class ItemblockSpikes extends ItemBlock
     @Override
     public String getUnlocalizedName()
     {
-        return "tile." + ICBMCore.PREFIX + "spikes";
+        return "tile." + Reference.PREFIX + "spikes";
     }
 }

@@ -2,11 +2,11 @@ package icbm.explosion.explosive.blast;
 
 import ic2.api.item.ISpecialElectricItem;
 import ic2.api.tile.IEnergyStorage;
+import icbm.Reference;
 import icbm.api.IMissile;
 import icbm.api.RadarRegistry;
 import icbm.api.explosion.IEMPBlock;
 import icbm.api.explosion.IEMPItem;
-import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosionBase;
 import icbm.explosion.missile.EntityExplosive;
@@ -185,7 +185,7 @@ public class BlastEmp extends ExplosionBase
         }
 
         ICBMExplosion.proxy.spawnParticle("shockwave", worldObj, position, 0, 0, 0, 0, 0, 255, 10, 3);
-        this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "emp", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "emp", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override

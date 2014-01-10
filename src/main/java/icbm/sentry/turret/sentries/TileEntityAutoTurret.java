@@ -1,5 +1,6 @@
 package icbm.sentry.turret.sentries;
 
+import icbm.Reference;
 import icbm.api.sentry.IAATarget;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ProjectileType;
@@ -170,7 +171,7 @@ public abstract class TileEntityAutoTurret extends TileEntityTurret implements I
     /** Sends the firing info to the client to render tracer effects */
     public void sendShotToClient(Vector3 position)
     {
-        PacketHandler.instance().sendPacketToClients(PacketHandler.instance().getTilePacket(ICBMSentry.CHANNEL, TurretPacketType.SHOT.name(), this, position, this.getYawServo().getRotation(), this.getPitchServo().getRotation()), this.worldObj, new Vector3(this), 40);
+        PacketHandler.instance().sendPacketToClients(PacketHandler.instance().getTilePacket(Reference.CHANNEL, TurretPacketType.SHOT.name(), this, position, this.getYawServo().getRotation(), this.getPitchServo().getRotation()), this.worldObj, new Vector3(this), 40);
     }
 
     /** Server side only */

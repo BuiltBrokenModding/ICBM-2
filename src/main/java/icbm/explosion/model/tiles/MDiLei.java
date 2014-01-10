@@ -1,6 +1,6 @@
 package icbm.explosion.model.tiles;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.core.base.ModelICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class MDiLei extends ModelICBM
 {
     public static final MDiLei INSTANCE = new MDiLei();
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "s-mine.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "s-mine.png");
 
     // fields
     ModelRenderer A;

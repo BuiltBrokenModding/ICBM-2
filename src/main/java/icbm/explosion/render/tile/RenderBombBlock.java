@@ -1,5 +1,6 @@
 package icbm.explosion.render.tile;
 
+import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.ExplosiveRegistry;
@@ -24,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "s-mine.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "s-mine.png");
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();
 
     @Override

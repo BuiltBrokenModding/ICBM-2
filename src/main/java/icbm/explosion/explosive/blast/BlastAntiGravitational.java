@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.explosive.ExplosionBase;
 import icbm.explosion.explosive.thread.ThreadSmallExplosion;
@@ -34,7 +34,7 @@ public class BlastAntiGravitational extends ExplosionBase
             this.thread.start();
         }
 
-        this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override

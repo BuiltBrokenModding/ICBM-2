@@ -1,6 +1,6 @@
 package icbm.sentry.render;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.sentry.models.ModelLaserTurret;
 import icbm.sentry.turret.sentries.TileEntityLaserGun;
 import net.minecraft.tileentity.TileEntity;
@@ -18,9 +18,9 @@ public class RenderLaserTurret extends RenderTurret
 
     public RenderLaserTurret()
     {
-        TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "laser_turret_neutral.png");
-        TEXTURE_FILE_FRIENDLY = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "laser_turret_friendly.png");
-        TEXTURE_FILE_HOSTILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "laser_turret_hostile.png");
+        TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "laser_turret_neutral.png");
+        TEXTURE_FILE_FRIENDLY = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "laser_turret_friendly.png");
+        TEXTURE_FILE_HOSTILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "laser_turret_hostile.png");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package icbm.explosion.missile.missile;
 
+import icbm.Reference;
 import icbm.api.ILauncherContainer;
 import icbm.api.IMissile;
 import icbm.api.IMissileLockable;
@@ -197,7 +198,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
         ((Missile) ExplosiveRegistry.get(this.explosiveId)).launch(this);
         this.feiXingTick = 0;
         this.jiSuan();
-        this.worldObj.playSoundAtEntity(this, ICBMCore.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         // TODO add an event system here
         RadarRegistry.register(this);
         ICBMCore.LOGGER.info("Launching " + this.getEntityName() + " (" + this.entityId + ") from " + startPos.intX() + ", " + startPos.intY() + ", " + startPos.intZ() + " to " + targetVector.intX() + ", " + targetVector.intY() + ", " + targetVector.intZ());

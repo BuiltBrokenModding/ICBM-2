@@ -1,5 +1,7 @@
 package icbm.core;
 
+import icbm.Reference;
+
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -13,7 +15,7 @@ public class BlockSulfureOre extends Block
         this.setUnlocalizedName("blockSulfer");
         this.setHardness(3.0f);
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
-        this.setTextureName(ICBMCore.PREFIX +"oreSulfer");
+        this.setTextureName(Reference.PREFIX +"oreSulfer");
     }
 
     @Override

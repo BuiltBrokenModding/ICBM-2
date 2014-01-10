@@ -1,5 +1,6 @@
 package icbm.explosion;
 
+import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.explosion.items.ItemLaserDesignator;
 import icbm.explosion.items.ItemRadarGun;
@@ -66,7 +67,7 @@ public class ICBMPacketHandler extends PacketManager
 
                     ((ItemLaserDesignator) ICBMExplosion.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
 
-                    player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), ICBMCore.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+                    player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), Reference.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
                     player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
 

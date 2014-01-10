@@ -1,8 +1,8 @@
 package icbm.explosion.missile;
 
+import icbm.Reference;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
-import icbm.core.ICBMCore;
 import icbm.core.base.ItemICBMBase;
 
 import java.util.List;
@@ -126,7 +126,7 @@ public class ItemGrenade extends ItemICBMBase
     {
         for (int i = 0; i < ExplosiveRegistry.getAllZhaPin().size(); i++)
         {
-            ICONS[i] = iconRegister.registerIcon(ICBMCore.PREFIX + "grenade_" + ExplosiveRegistry.get(i).getUnlocalizedName());
+            ICONS[i] = iconRegister.registerIcon(Reference.PREFIX + "grenade_" + ExplosiveRegistry.get(i).getUnlocalizedName());
         }
     }
 

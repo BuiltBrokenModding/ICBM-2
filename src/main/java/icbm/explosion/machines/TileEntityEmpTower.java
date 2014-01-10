@@ -1,7 +1,7 @@
 package icbm.explosion.machines;
 
+import icbm.Reference;
 import icbm.api.RadarRegistry;
-import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.blast.BlastEmp;
 
@@ -57,7 +57,7 @@ public class TileEntityEmpTower extends TileEntityEnergyMachine implements IMult
 
         if (this.ticks % 20 == 0 && this.getEnergyStored() > 0)
         {
-            this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "machinehum", 0.5F, 0.85F * this.getEnergyStored() / this.getMaxEnergyStored());
+            this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * this.getEnergyStored() / this.getMaxEnergyStored());
         }
 
         this.xuanZhuanLu = (float) (Math.pow(this.getEnergyStored() / this.getMaxEnergyStored(), 2) * 0.5);

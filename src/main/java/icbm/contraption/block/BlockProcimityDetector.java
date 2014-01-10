@@ -39,9 +39,9 @@ public class BlockProcimityDetector extends BlockICBM
     {
         TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntityDetector)
+        if (tileEntity instanceof TileDetector)
         {
-            ((TileEntityDetector) tileEntity).isInverted = !((TileEntityDetector) tileEntity).isInverted;
+            ((TileDetector) tileEntity).isInverted = !((TileDetector) tileEntity).isInverted;
             return true;
         }
 
@@ -63,7 +63,7 @@ public class BlockProcimityDetector extends BlockICBM
     @Override
     public TileEntity createNewTileEntity(World world)
     {
-        return new TileEntityDetector();
+        return new TileDetector();
     }
 
     /** Override this if you do not want your machine to be added to the creative menu or if you have

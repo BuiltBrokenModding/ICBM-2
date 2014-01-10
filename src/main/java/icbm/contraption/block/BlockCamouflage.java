@@ -33,11 +33,11 @@ public class BlockCamouflage extends BlockICBM
 
         if (t != null)
         {
-            if (t instanceof TileEntityCamouflage)
+            if (t instanceof TileCamouflage)
             {
-                TileEntityCamouflage tileEntity = (TileEntityCamouflage) t;
+                TileCamouflage tileEntity = (TileCamouflage) t;
 
-                if (tileEntity.getRenderSide(ForgeDirection.getOrientation(side)))
+                if (tileEntity.canRenderSide(ForgeDirection.getOrientation(side)))
                 {
                     return Block.glass.getBlockTextureFromSide(side);
                 }
@@ -81,7 +81,7 @@ public class BlockCamouflage extends BlockICBM
                     {
                         if (block instanceof ICamouflageMaterial || (isNormalCube(block.blockID) && (block.getRenderType() == 0 || block.getRenderType() == 31)))
                         {
-                            ((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setMimicBlock(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
+                            ((TileCamouflage) par1World.getBlockTileEntity(x, y, z)).setMimicBlock(block.blockID, par5EntityPlayer.getCurrentEquippedItem().getItemDamage());
                             par1World.markBlockForRenderUpdate(x, y, z);
                             return true;
                         }
@@ -104,9 +104,9 @@ public class BlockCamouflage extends BlockICBM
 
         if (t != null)
         {
-            if (t instanceof TileEntityCamouflage)
+            if (t instanceof TileCamouflage)
             {
-                ((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).setQing(ForgeDirection.getOrientation(side));
+                ((TileCamouflage) par1World.getBlockTileEntity(x, y, z)).toggleRenderSide(ForgeDirection.getOrientation(side));
                 par1World.markBlockForRenderUpdate(x, y, z);
             }
         }
@@ -121,9 +121,9 @@ public class BlockCamouflage extends BlockICBM
 
         if (t != null)
         {
-            if (t instanceof TileEntityCamouflage)
+            if (t instanceof TileCamouflage)
             {
-                ((TileEntityCamouflage) par1World.getBlockTileEntity(x, y, z)).toggleCollision();
+                ((TileCamouflage) par1World.getBlockTileEntity(x, y, z)).toggleCollision();
             }
         }
 
@@ -139,9 +139,9 @@ public class BlockCamouflage extends BlockICBM
         {
             TileEntity tileEntity = par1IBlockAccess.getBlockTileEntity(x, y, z);
 
-            if (tileEntity instanceof TileEntityCamouflage)
+            if (tileEntity instanceof TileCamouflage)
             {
-                int haoMa = ((TileEntityCamouflage) tileEntity).getMimicBlockID();
+                int haoMa = ((TileCamouflage) tileEntity).getMimicBlockID();
 
                 if (haoMa < Block.blocksList.length)
                 {
@@ -169,9 +169,9 @@ public class BlockCamouflage extends BlockICBM
 
         if (t != null)
         {
-            if (t instanceof TileEntityCamouflage)
+            if (t instanceof TileCamouflage)
             {
-                if (((TileEntityCamouflage) t).getCanCollide())
+                if (((TileCamouflage) t).getCanCollide())
                 {
                     return super.getCollisionBoundingBoxFromPool(par1World, x, y, z);
                 }
@@ -203,6 +203,6 @@ public class BlockCamouflage extends BlockICBM
     @Override
     public TileEntity createNewTileEntity(World var1)
     {
-        return new TileEntityCamouflage();
+        return new TileCamouflage();
     }
 }

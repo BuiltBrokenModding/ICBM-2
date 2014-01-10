@@ -1,6 +1,6 @@
 package icbm.sentry.turret.upgrades;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.core.base.ItemICBMBase;
 import icbm.sentry.ITurretUpgrade;
 
@@ -88,7 +88,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-        return "item." + ICBMCore.PREFIX + TurretUpgradeType.values()[itemStack.getItemDamage()].iconName;
+        return "item." + Reference.PREFIX + TurretUpgradeType.values()[itemStack.getItemDamage()].iconName;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
     {
         for (int i = 0; i < TurretUpgradeType.values().length; i++)
         {
-            ICONS[i] = iconRegister.registerIcon(ICBMCore.PREFIX + TurretUpgradeType.values()[i].iconName);
+            ICONS[i] = iconRegister.registerIcon(Reference.PREFIX + TurretUpgradeType.values()[i].iconName);
         }
     }
 

@@ -1,7 +1,7 @@
 package icbm.explosion.missile.missile;
 
+import icbm.Reference;
 import icbm.api.IMissileLockable;
-import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.model.missiles.MMFanDan;
@@ -61,7 +61,7 @@ public class MissileAnti extends MissileBase
                 // Lock target onto missileObj missile
                 missileObj.lockedTarget = nearestEntity;
                 missileObj.didTargetLockBefore = true;
-                missileObj.worldObj.playSoundAtEntity(missileObj, ICBMCore.PREFIX + "targetlocked", 5F, 0.9F);
+                missileObj.worldObj.playSoundAtEntity(missileObj, Reference.PREFIX + "targetlocked", 5F, 0.9F);
             }
         }
         else

@@ -1,6 +1,6 @@
 package icbm.sentry.render;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.sentry.models.ModelRailgun;
 import icbm.sentry.turret.mount.TileEntityRailGun;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderRailGun extends RenderTaggedTile
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "railgun.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "railgun.png");
     public static final ModelRailgun MODEL = new ModelRailgun();
 
     @Override

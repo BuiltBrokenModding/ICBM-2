@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.blast;
 
+import icbm.Reference;
 import icbm.api.explosion.IExplosiveIgnore;
-import icbm.core.ICBMCore;
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.EntityExplosion;
@@ -141,10 +141,10 @@ public class BlastRedmatter extends ExplosionBase
 
         if (this.worldObj.rand.nextInt(8) == 0)
         {
-            this.worldObj.playSoundEffect(position.x + (Math.random() - 0.5) * radius, position.y + (Math.random() - 0.5) * radius, position.z + (Math.random() - 0.5) * radius, ICBMCore.PREFIX + "collapse", 6.0F - this.worldObj.rand.nextFloat(), 1.0F - this.worldObj.rand.nextFloat() * 0.4F);
+            this.worldObj.playSoundEffect(position.x + (Math.random() - 0.5) * radius, position.y + (Math.random() - 0.5) * radius, position.z + (Math.random() - 0.5) * radius, Reference.PREFIX + "collapse", 6.0F - this.worldObj.rand.nextFloat(), 1.0F - this.worldObj.rand.nextFloat() * 0.4F);
         }
 
-        this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "redmatter", 3.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 1F);
+        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "redmatter", 3.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 1F);
     }
 
     /** Makes an entity get affected by Red Matter.
@@ -232,7 +232,7 @@ public class BlastRedmatter extends ExplosionBase
                 {
                     if (((EntityExplosion) entity).baoZha instanceof BlastAntimatter || ((EntityExplosion) entity).baoZha instanceof BlastRedmatter)
                     {
-                        this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+                        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
                         if (this.worldObj.rand.nextFloat() > 0.85 && !this.worldObj.isRemote)
                         {

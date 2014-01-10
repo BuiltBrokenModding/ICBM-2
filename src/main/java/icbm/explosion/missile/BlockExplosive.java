@@ -1,10 +1,10 @@
 package icbm.explosion.missile;
 
+import icbm.Reference;
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMCore;
 import icbm.core.base.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.RenderBombBlock;
@@ -217,13 +217,13 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 
         try
         {
-            ResourceLocation resourcelocation = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.BLOCK_PATH + iconName + ".png");
+            ResourceLocation resourcelocation = new ResourceLocation(Reference.DOMAIN, Reference.BLOCK_PATH + iconName + ".png");
             InputStream inputstream = Minecraft.getMinecraft().getResourceManager().getResource(resourcelocation).getInputStream();
             BufferedImage bufferedimage = ImageIO.read(inputstream);
 
             if (bufferedimage != null)
             {
-                return iconRegister.registerIcon(ICBMCore.PREFIX + iconName);
+                return iconRegister.registerIcon(Reference.PREFIX + iconName);
             }
         }
         catch (Exception e)
@@ -232,10 +232,10 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 
         if (suffix.equals("_bottom"))
         {
-            return iconRegister.registerIcon(ICBMCore.PREFIX + "explosive_bottom_" + zhaPin.getTier());
+            return iconRegister.registerIcon(Reference.PREFIX + "explosive_bottom_" + zhaPin.getTier());
         }
 
-        return iconRegister.registerIcon(ICBMCore.PREFIX + "explosive_base_" + zhaPin.getTier());
+        return iconRegister.registerIcon(Reference.PREFIX + "explosive_base_" + zhaPin.getTier());
     }
 
     /** Called whenever the block is added into the world. Args: world, x, y, z */

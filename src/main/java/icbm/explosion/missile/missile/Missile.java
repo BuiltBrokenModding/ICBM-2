@@ -1,6 +1,6 @@
 package icbm.explosion.missile.missile;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.missile.Explosive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -45,7 +45,7 @@ public abstract class Missile extends Explosive
     {
         if (this.resourceLocation == null)
         {
-            this.resourceLocation = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
+            this.resourceLocation = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
         }
 
         return this.resourceLocation;

@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
+import icbm.Reference;
 import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMCore;
 import icbm.core.base.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
@@ -79,7 +79,7 @@ public class BlockTurret extends BlockICBM
     @Override
     public void registerIcons(IconRegister iconRegister)
     {
-        this.blockIcon = iconRegister.registerIcon(ICBMCore.PREFIX + "machine");
+        this.blockIcon = iconRegister.registerIcon(Reference.PREFIX + "machine");
     }
 
     @Override

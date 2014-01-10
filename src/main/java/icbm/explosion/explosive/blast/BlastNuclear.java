@@ -1,5 +1,6 @@
 package icbm.explosion.explosive.blast;
 
+import icbm.Reference;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
@@ -94,7 +95,7 @@ public class BlastNuclear extends ExplosionBase
 
         this.doDamageEntities(this.getRadius(), this.nengLiang * 1000);
 
-        this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, ICBMCore.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override
@@ -182,7 +183,7 @@ public class BlastNuclear extends ExplosionBase
             }
         }
 
-        this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, ICBMCore.PREFIX + "explosion", 10.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "explosion", 10.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     /** The interval in ticks before the next procedural call of this explosive

@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.explosive.ExplosionBase;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -86,7 +86,7 @@ public class BlastFire extends ExplosionBase
             }
         }
 
-        worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, ICBMCore.PREFIX + "explosionfire", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+        worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "explosionfire", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
     }
 
     @Override

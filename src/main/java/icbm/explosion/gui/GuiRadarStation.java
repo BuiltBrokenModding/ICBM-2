@@ -1,6 +1,6 @@
 package icbm.explosion.gui;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.TileEntityRadarStation;
@@ -26,10 +26,10 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiRadarStation extends GuiBase
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_radar.png");
-    public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "reddot.png");
-    public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "yellowdot.png");
-    public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "whitedot.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_radar.png");
+    public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "reddot.png");
+    public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "yellowdot.png");
+    public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "whitedot.png");
     private TileEntityRadarStation tileEntity;
 
     private int containerPosX;

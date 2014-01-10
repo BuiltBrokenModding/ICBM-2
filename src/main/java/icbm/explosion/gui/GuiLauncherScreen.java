@@ -1,6 +1,6 @@
 package icbm.explosion.gui;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileEntityLauncherScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -15,7 +15,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiLauncherScreen extends GuiBase
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
     private TileEntityLauncherScreen tileEntity;
     private GuiTextField tFX;

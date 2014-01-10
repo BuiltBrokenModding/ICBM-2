@@ -1,6 +1,6 @@
 package icbm.contraption;
 
-import icbm.api.ICBM;
+import icbm.Reference;
 import icbm.contraption.block.BlockCamouflage;
 import icbm.contraption.block.BlockConcrete;
 import icbm.contraption.block.BlockGlassButton;
@@ -31,12 +31,12 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ICBMContraption.NAME, name = ICBMContraption.NAME, version = ICBM.VERSION, dependencies = "after:AtomicScience", useMetadata = true)
+@Mod(modid = ICBMContraption.NAME, name = ICBMContraption.NAME, version = Reference.VERSION, dependencies = "after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ICBMContraption.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMContraption extends ICBMCore
 {
-    public static final String NAME = ICBM.NAME + "|Contraption";
-    public static final String CHANNEL = ICBM.NAME + "|C";
+    public static final String NAME = Reference.NAME + "|Contraption";
+    public static final String CHANNEL = Reference.NAME + "|C";
 
     @Instance(NAME)
     public static ICBMContraption instance;
@@ -65,18 +65,18 @@ public class ICBMContraption extends ICBMCore
         ICBMConfiguration.CONFIGURATION.load();
 
         // Blocks
-        blockGlassPlate = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", ICBM.BLOCK_ID_PREFIX - 1).getInt());
-        blockGlassButton = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", ICBM.BLOCK_ID_PREFIX - 2).getInt());
-        blockProximityDetector = new BlockProcimityDetector(ICBM.BLOCK_ID_PREFIX - 3);
-        blockSpikes = new BlockSpikes(ICBM.BLOCK_ID_PREFIX - 4);
-        blockCamo = new BlockCamouflage(ICBM.BLOCK_ID_PREFIX - 5);
-        blockConcrete = new BlockConcrete(ICBM.BLOCK_ID_PREFIX - 6);
-        blockReinforcedGlass = new BlockReinforcedGlass(ICBM.BLOCK_ID_PREFIX - 7);
+        blockGlassPlate = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", Reference.BLOCK_ID_PREFIX - 1).getInt());
+        blockGlassButton = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", Reference.BLOCK_ID_PREFIX - 2).getInt());
+        blockProximityDetector = new BlockProcimityDetector(Reference.BLOCK_ID_PREFIX - 3);
+        blockSpikes = new BlockSpikes(Reference.BLOCK_ID_PREFIX - 4);
+        blockCamo = new BlockCamouflage(Reference.BLOCK_ID_PREFIX - 5);
+        blockConcrete = new BlockConcrete(Reference.BLOCK_ID_PREFIX - 6);
+        blockReinforcedGlass = new BlockReinforcedGlass(Reference.BLOCK_ID_PREFIX - 7);
 
         // ITEMS
-        itemAntidote = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemAntidote", ICBM.ITEM_ID_PREFIX + 2).getInt());
-        itemSignalDisrupter = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemSignalDisrupter", ICBM.ITEM_ID_PREFIX + 9).getInt());
-        itemTracker = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemTracker", ICBM.ITEM_ID_PREFIX + 10).getInt());
+        itemAntidote = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemAntidote", Reference.ITEM_ID_PREFIX + 2).getInt());
+        itemSignalDisrupter = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemSignalDisrupter", Reference.ITEM_ID_PREFIX + 9).getInt());
+        itemTracker = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemTracker", Reference.ITEM_ID_PREFIX + 10).getInt());
 
         ICBMConfiguration.CONFIGURATION.save();
 

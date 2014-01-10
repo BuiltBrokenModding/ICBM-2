@@ -1,6 +1,6 @@
 package icbm.explosion.fx;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.sentry.render.CalclaviaRenderHelper;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class FXElectricBolt extends EntityFX
 {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.TEXTURE_PATH + "fadedSphere.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.TEXTURE_PATH + "fadedSphere.png");
 
     /** The width of the electrical bolt. */
     private float boltWidth = 0.05f;

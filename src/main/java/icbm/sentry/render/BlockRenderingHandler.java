@@ -1,6 +1,6 @@
 package icbm.sentry.render;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.sentry.turret.BlockTurret.TurretType;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -22,9 +22,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler
 {
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();
-    public static ResourceLocation GUN_TURRET_TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "gun_turret_neutral.png");
-    public static ResourceLocation LASER_TURRET_TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "laser_turret_neutral.png");
-    public static ResourceLocation AA_TURRET_TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "aa_turret_neutral.png");
+    public static ResourceLocation GUN_TURRET_TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "gun_turret_neutral.png");
+    public static ResourceLocation LASER_TURRET_TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "laser_turret_neutral.png");
+    public static ResourceLocation AA_TURRET_TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "aa_turret_neutral.png");
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
     {

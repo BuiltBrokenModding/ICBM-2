@@ -1,6 +1,6 @@
 package icbm.explosion.render.tile;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.machines.TileEntityEmpTower;
 import icbm.explosion.model.tiles.ModelEmpTower;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderEmpTower extends TileEntitySpecialRenderer
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "emp_tower.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "emp_tower.png");
 
     public static final ModelEmpTower MODEL = new ModelEmpTower();
 

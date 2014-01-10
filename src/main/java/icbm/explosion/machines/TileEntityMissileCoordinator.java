@@ -1,6 +1,6 @@
 package icbm.explosion.machines;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -234,7 +234,7 @@ public class TileEntityMissileCoordinator extends TileEntityAdvanced implements 
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
     {
-        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "interface", 1, (float) (this.worldObj.rand.nextFloat() * 0.2 + 0.9F));
+        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "interface", 1, (float) (this.worldObj.rand.nextFloat() * 0.2 + 0.9F));
         entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }

@@ -1,6 +1,7 @@
 package icbm.explosion;
 
-import icbm.api.ICBM;
+import icbm.Reference;
+import icbm.api.ExplosiveHelper;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
@@ -69,12 +70,12 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ICBMExplosion.NAME, name = ICBMExplosion.NAME, version = ICBM.VERSION, dependencies = "after:ICBM|Sentry;after:AtomicScience", useMetadata = true)
+@Mod(modid = ICBMExplosion.NAME, name = ICBMExplosion.NAME, version = Reference.VERSION, dependencies = "after:ICBM|Sentry;after:AtomicScience", useMetadata = true)
 @NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMExplosion extends ICBMCore
 {
-    public static final String NAME = ICBM.NAME + "|Explosion";
-    public static final String CHANNEL = ICBM.NAME + "|E";
+    public static final String NAME = Reference.NAME + "|Explosion";
+    public static final String CHANNEL = Reference.NAME + "|E";
 
     @Instance(NAME)
     public static ICBMExplosion instance;
@@ -119,21 +120,21 @@ public class ICBMExplosion extends ICBMCore
         MinecraftForge.EVENT_BUS.register(proxy);
 
         ICBMConfiguration.CONFIGURATION.load();
-        blockExplosive = new BlockExplosive(ICBM.BLOCK_ID_PREFIX + 3);
-        blockMachine = new BlockICBMMachine(ICBM.BLOCK_ID_PREFIX + 4);
-        blockMissileTable = new BlockMissileTable(ICBM.BLOCK_ID_PREFIX + 12);
+        blockExplosive = new BlockExplosive(Reference.BLOCK_ID_PREFIX + 3);
+        blockMachine = new BlockICBMMachine(Reference.BLOCK_ID_PREFIX + 4);
+        blockMissileTable = new BlockMissileTable(Reference.BLOCK_ID_PREFIX + 12);
 
         // ITEMS
-        itemMissile = new ItemMissile(ICBM.ITEM_ID_PREFIX + 3, "missile");
+        itemMissile = new ItemMissile(Reference.ITEM_ID_PREFIX + 3, "missile");
 
-        itemBombDefuser = new ItemBombDefuser(ICBM.ITEM_ID_PREFIX + 5);
-        itemRadarGun = new ItemRadarGun(ICBM.ITEM_ID_PREFIX + 6);
-        itemRemoteDetonator = new ItemRemoteDetonator(ICBM.ITEM_ID_PREFIX + 7);
-        itemLaserDesignator = new ItemLaserDesignator(ICBM.ITEM_ID_PREFIX + 8);
-        itemRocketLauncher = new ItemRocketLauncher(ICBM.ITEM_ID_PREFIX + 11);
+        itemBombDefuser = new ItemBombDefuser(Reference.ITEM_ID_PREFIX + 5);
+        itemRadarGun = new ItemRadarGun(Reference.ITEM_ID_PREFIX + 6);
+        itemRemoteDetonator = new ItemRemoteDetonator(Reference.ITEM_ID_PREFIX + 7);
+        itemLaserDesignator = new ItemLaserDesignator(Reference.ITEM_ID_PREFIX + 8);
+        itemRocketLauncher = new ItemRocketLauncher(Reference.ITEM_ID_PREFIX + 11);
 
-        itemGrenade = new ItemGrenade(ICBM.ITEM_ID_PREFIX + 12);
-        itemBombCart = new ItemBombCart(ICBM.ITEM_ID_PREFIX + 11);
+        itemGrenade = new ItemGrenade(Reference.ITEM_ID_PREFIX + 12);
+        itemBombCart = new ItemBombCart(Reference.ITEM_ID_PREFIX + 11);
 
         /** Potion Effects */
         PDaDu.INSTANCE = new PDaDu(22, true, 5149489, "toxin");
@@ -257,7 +258,7 @@ public class ICBMExplosion extends ICBMCore
         GameRegistry.registerBlock(blockMachine, ItemBlockMachine.class, "bJiQi");
         GameRegistry.registerBlock(blockMissileTable, ItemBlockMissileTable.class, "blockMissileTable");
 
-        ICBM.explosionManager = ExplosiveRegistry.class;
+        ExplosiveHelper.explosionManager = ExplosiveRegistry.class;
 
         ICBMExplosion.proxy.preInit();
     }

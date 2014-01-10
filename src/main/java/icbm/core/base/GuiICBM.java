@@ -1,6 +1,6 @@
 package icbm.core.base;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -9,7 +9,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public abstract class GuiICBM extends GuiBase
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
     protected int containerWidth;
     protected int containerHeight;

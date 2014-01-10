@@ -1,6 +1,6 @@
 package icbm.explosion;
 
-import icbm.core.AudioHandler;
+import icbm.core.SoundHandler;
 import icbm.core.ICBMCore;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.explosive.EntityExplosion;
@@ -92,7 +92,7 @@ public class ClientProxy extends CommonProxy
     public void preInit()
     {
         TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
-        MinecraftForge.EVENT_BUS.register(AudioHandler.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package icbm.explosion.gui;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.container.ContainerCruiseLauncher;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
@@ -21,7 +21,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiCruiseLauncher extends GuiContainer
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_cruise_launcher.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_cruise_launcher.png");
 
     private TileEntityCruiseLauncher tileEntity;
     private GuiTextField textFieldX;

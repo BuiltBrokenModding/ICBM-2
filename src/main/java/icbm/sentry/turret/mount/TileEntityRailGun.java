@@ -1,6 +1,6 @@
 package icbm.sentry.turret.mount;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.ProjectileType;
 
@@ -141,7 +141,7 @@ public class TileEntityRailGun extends TileEntityMountableTurret implements IRed
    
     public void playFiringSound()
     {
-        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "railgun", 5F, 1F);
+        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "railgun", 5F, 1F);
     }
 
     @Override

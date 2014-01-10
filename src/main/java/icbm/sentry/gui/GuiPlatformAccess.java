@@ -1,6 +1,6 @@
 package icbm.sentry.gui;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.sentry.platform.TileEntityTurretPlatform;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import dark.lib.prefab.invgui.ContainerFake;
 @SideOnly(Side.CLIENT)
 public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_platform_terminal.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_platform_terminal.png");
 
     private GuiTextField commandLine;
     private int scroll = 0;

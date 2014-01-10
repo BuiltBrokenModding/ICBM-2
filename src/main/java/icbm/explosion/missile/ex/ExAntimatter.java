@@ -1,7 +1,7 @@
 package icbm.explosion.missile.ex;
 
+import icbm.Reference;
 import icbm.core.ICBMConfiguration;
-import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.blast.BlastAntimatter;
 import icbm.explosion.missile.Explosive;
@@ -33,7 +33,7 @@ public class ExAntimatter extends Missile
 
         if (fuseTicks % 25 == 0)
         {
-            worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "alarm", 4F, 1F);
+            worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "alarm", 4F, 1F);
         }
     }
 

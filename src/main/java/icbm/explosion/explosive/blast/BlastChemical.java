@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosionBase;
 
@@ -70,7 +70,7 @@ public class BlastChemical extends ExplosionBase
         super.doPreExplode();
         if (!this.playShortSoundFX)
         {
-            this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, ICBMCore.PREFIX + "debilitation", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "debilitation", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
 
@@ -128,7 +128,7 @@ public class BlastChemical extends ExplosionBase
 
         if (this.playShortSoundFX)
         {
-            worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, ICBMCore.PREFIX + "gasleak", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+            worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "gasleak", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
         }
 
         if (this.callCount > this.duration)

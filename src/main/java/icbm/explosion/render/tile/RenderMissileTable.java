@@ -1,6 +1,6 @@
 package icbm.explosion.render.tile;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.Missile;
@@ -24,7 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMissileTable extends TileEntitySpecialRenderer
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "grey.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "grey.png");
 
     public static final ModelMissileCradel MODEL = new ModelMissileCradel();
     public static final ModelMissileClaw MODEL_CLAW = new ModelMissileClaw(-2);

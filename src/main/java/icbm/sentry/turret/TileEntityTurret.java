@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
+import icbm.Reference;
 import icbm.core.ICBMCore;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.interfaces.ISentry;
@@ -164,12 +164,12 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
 
     public Packet getStatsPacket()
     {
-        return PacketHandler.instance().getTilePacket(ICBMSentry.CHANNEL, TurretPacketType.STATS.name(), this, this.health);
+        return PacketHandler.instance().getTilePacket(Reference.CHANNEL, TurretPacketType.STATS.name(), this, this.health);
     }
 
     public Packet getRotationPacket()
     {
-        return PacketHandler.instance().getPacketFromLoader(ICBMSentry.CHANNEL, TurretPacketType.ROTATION.name(), this, this.rotationHelper);
+        return PacketHandler.instance().getPacketFromLoader(Reference.CHANNEL, TurretPacketType.ROTATION.name(), this, this.rotationHelper);
     }
 
     @Override
@@ -177,7 +177,7 @@ public abstract class TileEntityTurret extends TileEntityAdvanced implements ISi
     {
         NBTTagCompound nbt = new NBTTagCompound();
         writeToNBT(nbt);
-        return PacketHandler.instance().getPacket(ICBMSentry.CHANNEL, TurretPacketType.DESCRIPTION.name(), this, nbt);
+        return PacketHandler.instance().getPacket(Reference.CHANNEL, TurretPacketType.DESCRIPTION.name(), this, nbt);
     }
 
     /** Writes a tile entity to NBT. */

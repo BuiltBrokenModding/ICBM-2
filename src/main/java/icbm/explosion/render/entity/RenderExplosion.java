@@ -1,6 +1,6 @@
 package icbm.explosion.render.entity;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.explosive.blast.BlastRedmatter;
 import icbm.sentry.render.CalclaviaRenderHelper;
@@ -22,7 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderExplosion extends Render
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.TEXTURE_PATH + "blackhole.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.TEXTURE_PATH + "blackhole.png");
 
     public Random random = new Random();
 

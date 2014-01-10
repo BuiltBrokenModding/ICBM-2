@@ -1,7 +1,7 @@
 package icbm.sentry.platform;
 
 import calclavia.lib.terminal.TileTerminal;
-import icbm.sentry.ICBMSentry;
+import icbm.Reference;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.interfaces.IAmmunition;
@@ -372,7 +372,7 @@ public class TileEntityTurretPlatform extends TileTerminal
     @Override
     public String getChannel()
     {
-        return ICBMSentry.CHANNEL;
+        return Reference.CHANNEL;
     }
 
     /** @return True on successful drop. */

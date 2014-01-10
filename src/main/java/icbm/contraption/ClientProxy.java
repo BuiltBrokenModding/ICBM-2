@@ -1,10 +1,10 @@
 package icbm.contraption;
 
 import icbm.api.IItemFrequency;
-import icbm.contraption.block.TileEntityDetector;
+import icbm.contraption.block.TileDetector;
 import icbm.contraption.gui.GuiDectector;
 import icbm.contraption.gui.GuiTracker;
-import icbm.core.AudioHandler;
+import icbm.core.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -19,7 +19,7 @@ public class ClientProxy extends CommonProxy
     public void preInit()
     {
         super.preInit();
-        MinecraftForge.EVENT_BUS.register(AudioHandler.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
     }
 
     @Override
@@ -27,9 +27,9 @@ public class ClientProxy extends CommonProxy
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntityDetector)
+        if (tileEntity instanceof TileDetector)
         {
-            return new GuiDectector((TileEntityDetector) tileEntity);
+            return new GuiDectector((TileDetector) tileEntity);
         }
         else if (entityPlayer.inventory.getCurrentItem() != null && entityPlayer.inventory.getCurrentItem().getItem() instanceof IItemFrequency)
         {

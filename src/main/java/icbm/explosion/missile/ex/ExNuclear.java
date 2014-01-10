@@ -1,7 +1,7 @@
 package icbm.explosion.missile.ex;
 
+import icbm.Reference;
 import icbm.core.ICBMConfiguration;
-import icbm.core.ICBMCore;
 import icbm.core.base.ModelICBM;
 import icbm.explosion.explosive.blast.BlastNuclear;
 import icbm.explosion.missile.Explosive;
@@ -58,7 +58,7 @@ public class ExNuclear extends Missile
         {
             if (fuseTicks % 25 == 0)
             {
-                worldObj.playSoundEffect((int) position.x, (int) position.y, (int) position.z, ICBMCore.PREFIX + "alarm", 4F, 1F);
+                worldObj.playSoundEffect((int) position.x, (int) position.y, (int) position.z, Reference.PREFIX + "alarm", 4F, 1F);
             }
         }
     }

@@ -1,8 +1,8 @@
 package icbm.core.base;
 
+import icbm.Reference;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
-import icbm.core.ICBMCore;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
@@ -22,9 +22,9 @@ public class BlockICBM extends BlockTile
     public BlockICBM(int id, String name, Material material)
     {
         super(ICBMConfiguration.CONFIGURATION.getBlock(name, id).getInt(id), material);
-        this.setUnlocalizedName(ICBMCore.PREFIX + name);
+        this.setUnlocalizedName(Reference.PREFIX + name);
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
-        this.setTextureName(ICBMCore.PREFIX + name);
+        this.setTextureName(Reference.PREFIX + name);
     }
 
     @Override

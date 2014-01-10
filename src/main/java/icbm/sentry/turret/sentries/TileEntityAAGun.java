@@ -1,6 +1,6 @@
 package icbm.sentry.turret.sentries;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.
@@ -29,7 +29,7 @@ public class TileEntityAAGun extends TileEntityAutoTurret
 
     public void playFiringSound()
     {
-        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "aagun", 5F, 1F);
+        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "aagun", 5F, 1F);
     }
 
     @Override

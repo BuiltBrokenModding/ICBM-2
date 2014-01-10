@@ -1,7 +1,7 @@
 package icbm.contraption.gui;
 
 import icbm.contraption.ICBMContraption;
-import icbm.contraption.block.TileEntityDetector;
+import icbm.contraption.block.TileDetector;
 import icbm.core.base.GuiICBM;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -14,7 +14,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiDectector extends GuiICBM
 {
-    private TileEntityDetector tileEntity;
+    private TileDetector tileEntity;
 
     private GuiTextField textFieldFreq;
 
@@ -26,7 +26,7 @@ public class GuiDectector extends GuiICBM
     private GuiTextField textFieldmaxY;
     private GuiTextField textFieldmaxZ;
 
-    public GuiDectector(TileEntityDetector tileEntity)
+    public GuiDectector(TileDetector tileEntity)
     {
         this.tileEntity = tileEntity;
     }

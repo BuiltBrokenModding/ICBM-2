@@ -1,6 +1,6 @@
 package icbm.sentry.turret.sentries;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import universalelectricity.api.vector.Vector3;
 
 public class TileEntityGunTurret extends TileEntityAutoTurret
@@ -24,7 +24,7 @@ public class TileEntityGunTurret extends TileEntityAutoTurret
 
     public void playFiringSound()
     {
-        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, ICBMCore.PREFIX + "machinegun", 5F, 1F);
+        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "machinegun", 5F, 1F);
     }
 
     @Override

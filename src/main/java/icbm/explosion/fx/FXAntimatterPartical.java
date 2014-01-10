@@ -1,6 +1,6 @@
 package icbm.explosion.fx;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.sentry.render.CalclaviaRenderHelper;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class FXAntimatterPartical extends EntityFX
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.TEXTURE_PATH + "antimatter.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.TEXTURE_PATH + "antimatter.png");
 
     float antimatterParticleScale;
 

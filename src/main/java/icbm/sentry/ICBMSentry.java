@@ -1,6 +1,6 @@
 package icbm.sentry;
 
-import icbm.api.ICBM;
+import icbm.Reference;
 import icbm.core.CreativeTabICBM;
 import icbm.core.ICBMConfiguration;
 import icbm.core.ICBMCore;
@@ -32,13 +32,11 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ICBMSentry.NAME, name = ICBMSentry.NAME, version = ICBM.VERSION, useMetadata = true)
-@NetworkMod(channels = { ICBMSentry.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
+@Mod(modid = ICBMSentry.NAME, name = ICBMSentry.NAME, version = Reference.VERSION, useMetadata = true)
+@NetworkMod(channels = { Reference.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMSentry extends ICBMCore
 {
-    public static final String NAME = ICBM.NAME + "|Sentry";
-    public static final String CHANNEL = ICBM.NAME;
-
+    public static final String NAME = Reference.NAME + "|Sentry";
     @SidedProxy(clientSide = "icbm.sentry.ClientProxy", serverSide = "icbm.sentry.CommonProxy")
     public static CommonProxy proxy;
 
@@ -139,6 +137,6 @@ public class ICBMSentry extends ICBMCore
     @Override
     protected String getChannel()
     {
-        return CHANNEL;
+        return Reference.CHANNEL;
     }
 }

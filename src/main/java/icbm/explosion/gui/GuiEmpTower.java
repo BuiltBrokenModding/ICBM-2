@@ -1,6 +1,6 @@
 package icbm.explosion.gui;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileEntityEmpTower;
 import net.minecraft.client.gui.GuiButton;
@@ -17,7 +17,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiEmpTower extends GuiBase
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.GUI_PATH + "gui_empty.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
     private TileEntityEmpTower tileEntity;
     private GuiTextField textFieldBanJing;

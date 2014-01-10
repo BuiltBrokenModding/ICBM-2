@@ -1,6 +1,6 @@
 package icbm.explosion.render.tile;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.model.tiles.MXiaoFaSheQi;
 import icbm.explosion.model.tiles.MXiaoFaSheQiJia;
@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderCruiseLauncher extends TileEntitySpecialRenderer
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "cruise_launcher.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "cruise_launcher.png");
 
     public static final MXiaoFaSheQi MODEL0 = new MXiaoFaSheQi();
     public static final MXiaoFaSheQiJia MODEL1 = new MXiaoFaSheQiJia();

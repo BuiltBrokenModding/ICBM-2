@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.ex.ExExothermic;
 import net.minecraft.block.Block;
@@ -22,7 +22,7 @@ public class BlastExothermic extends BlastBeam
     public void doExplode()
     {
         super.doExplode();
-        this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "beamcharging", 4.0F, 0.8F);
+        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "beamcharging", 4.0F, 0.8F);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class BlastExothermic extends BlastBeam
 
         if (!this.worldObj.isRemote)
         {
-            this.worldObj.playSoundEffect(position.x, position.y, position.z, ICBMCore.PREFIX + "powerdown", 4.0F, 0.8F);
+            this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "powerdown", 4.0F, 0.8F);
 
             if (this.canFocusBeam(this.worldObj, position) && this.thread.isComplete)
             {
@@ -88,7 +88,7 @@ public class BlastExothermic extends BlastBeam
                     }
                 }
 
-                this.worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, ICBMCore.PREFIX + "explosionfire", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+                this.worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "explosionfire", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
             }
 
             this.worldObj.setWorldTime(18000);

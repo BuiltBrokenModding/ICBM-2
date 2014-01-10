@@ -1,6 +1,6 @@
 package icbm.explosion.render.tile;
 
-import icbm.core.ICBMCore;
+import icbm.Reference;
 import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.model.tiles.ModelRadarStation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -15,8 +15,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderRadarStation extends TileEntitySpecialRenderer
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "radar.png");
-    public static final ResourceLocation TEXTURE_FILE_OFF = new ResourceLocation(ICBMCore.DOMAIN, ICBMCore.MODEL_PATH + "radar_off.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "radar.png");
+    public static final ResourceLocation TEXTURE_FILE_OFF = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "radar_off.png");
 
     public static final ModelRadarStation MODEL = new ModelRadarStation();
 
