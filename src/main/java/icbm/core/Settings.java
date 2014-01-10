@@ -2,8 +2,8 @@ package icbm.core;
 
 import java.io.File;
 
-import calclavia.lib.prefab.block.IDManager;
 import net.minecraftforge.common.Configuration;
+import calclavia.lib.prefab.block.IDManager;
 import cpw.mods.fml.common.Loader;
 
 /**

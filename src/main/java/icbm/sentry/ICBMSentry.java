@@ -2,8 +2,8 @@ package icbm.sentry;
 
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
-import icbm.core.Settings;
 import icbm.core.ICBMCore;
+import icbm.core.Settings;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.turret.BlockTurret;

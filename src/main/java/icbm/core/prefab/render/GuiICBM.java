@@ -1,6 +1,8 @@
 package icbm.core.prefab.render;
 
 import icbm.Reference;
+import icbm.sentry.platform.TileEntityTurretPlatform;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;

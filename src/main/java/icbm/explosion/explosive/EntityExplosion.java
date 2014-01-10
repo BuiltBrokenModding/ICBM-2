@@ -55,7 +55,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         {
             NBTTagCompound nbt = new NBTTagCompound();
             this.writeEntityToNBT(nbt);
-            PacketHandler.instance().writeNBTTagCompound(nbt, data);
+            PacketHandler.writeNBTTagCompound(nbt, data);
         }
         catch (Exception e)
         {
@@ -68,7 +68,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
     {
         try
         {
-            this.readEntityFromNBT(PacketHandler.instance().readNBTTagCompound(data));
+            this.readEntityFromNBT(PacketHandler.readNBTTagCompound(data));
         }
         catch (Exception e)
         {

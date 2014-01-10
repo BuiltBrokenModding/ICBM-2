@@ -1,8 +1,8 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.core.Settings;
 import icbm.core.ICBMCore;
+import icbm.core.Settings;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosionBase;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
@@ -115,7 +115,7 @@ public class BlastNuclear extends ExplosionBase
 
                         if (distance < r && distance > r - 1)
                         {
-                            Vector3 targetPosition = Vector3.add(this.position, new Vector3(x, 0, z));
+                            Vector3 targetPosition = Vector3.translate(this.position, new Vector3(x, 0, z));
 
                             if (this.worldObj.rand.nextFloat() < Math.max(0.001 * r, 0.05))
                             {

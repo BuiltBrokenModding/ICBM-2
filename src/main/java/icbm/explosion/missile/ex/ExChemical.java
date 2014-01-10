@@ -1,7 +1,7 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.Settings;
 import icbm.core.ICBMCore;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastChemical;
 import icbm.explosion.missile.missile.Missile;
