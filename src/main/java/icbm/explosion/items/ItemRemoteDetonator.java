@@ -4,7 +4,7 @@ import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.Explosive;
-import icbm.explosion.missile.TileEntityExplosive;
+import icbm.explosion.missile.TileExplosive;
 
 import java.util.List;
 
@@ -103,7 +103,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 
 					if (tile != null)
 					{
-						if (tile instanceof TileEntityExplosive)
+						if (tile instanceof TileExplosive)
 						{
 							if (blockID == ICBMExplosion.blockMachine.blockID)
 							{
@@ -154,9 +154,9 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 	{
 		if (tileEntity != null)
 		{
-			if (tileEntity instanceof TileEntityExplosive)
+			if (tileEntity instanceof TileExplosive)
 			{
-				return ((TileEntityExplosive) tileEntity).haoMa == Explosive.condensed.getID() || ((TileEntityExplosive) tileEntity).haoMa == Explosive.breaching.getID() || ((TileEntityExplosive) tileEntity).haoMa == Explosive.sMine.getID();
+				return ((TileExplosive) tileEntity).haoMa == Explosive.condensed.getID() || ((TileExplosive) tileEntity).haoMa == Explosive.breaching.getID() || ((TileExplosive) tileEntity).haoMa == Explosive.sMine.getID();
 			}
 		}
 

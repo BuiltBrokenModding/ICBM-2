@@ -5,7 +5,7 @@ import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastEnderman;
 import icbm.explosion.missile.Explosive;
-import icbm.explosion.missile.TileEntityExplosive;
+import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMWan;
@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.recipe.RecipeUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,9 +42,9 @@ public class ExEnder extends Missile
                 {
                     TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-                    if (tileEntity instanceof TileEntityExplosive)
+                    if (tileEntity instanceof TileExplosive)
                     {
-                        link.writeToNBT(((TileEntityExplosive) tileEntity).nbtData);
+                        link.writeToNBT(((TileExplosive) tileEntity).nbtData);
 
                         if (!world.isRemote)
                         {
@@ -86,7 +87,7 @@ public class ExEnder extends Missile
     @Override
     public void init()
     {
-        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @SuppressWarnings("deprecation")

@@ -89,9 +89,9 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 
         if (tileEntity != null)
         {
-            if (tileEntity instanceof TileEntityExplosive)
+            if (tileEntity instanceof TileExplosive)
             {
-                if (((TileEntityExplosive) tileEntity).haoMa == Explosive.sMine.getID())
+                if (((TileExplosive) tileEntity).haoMa == Explosive.sMine.getID())
                 {
                     this.setBlockBounds(0, 0, 0, 1f, 0.2f, 1f);
                     return;
@@ -117,9 +117,9 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 
         if (tileEntity != null)
         {
-            if (tileEntity instanceof TileEntityExplosive)
+            if (tileEntity instanceof TileExplosive)
             {
-                if (((TileEntityExplosive) tileEntity).haoMa == Explosive.sMine.getID())
+                if (((TileExplosive) tileEntity).haoMa == Explosive.sMine.getID())
                 {
                     return AxisAlignedBB.getAABBPool().getAABB(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + 0.2, z + this.maxZ);
                 }
@@ -133,12 +133,12 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
     {
-        ((TileEntityExplosive) world.getBlockTileEntity(x, y, z)).haoMa = itemStack.getItemDamage();
-        int explosiveID = ((TileEntityExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
+        ((TileExplosive) world.getBlockTileEntity(x, y, z)).haoMa = itemStack.getItemDamage();
+        int explosiveID = ((TileExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
 
         if (!world.isRemote)
         {
-            if (ICBMExplosion.shiBaoHu(world, new Vector3(x, y, z), ExplosiveType.BLOCK, explosiveID))
+            if (ICBMExplosion.isProtected(world, new Vector3(x, y, z), ExplosiveType.BLOCK, explosiveID))
             {
                 this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
                 world.setBlock(x, y, z, 0, 0, 2);
@@ -178,7 +178,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
     @Override
     public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
     {
-        int explosiveID = ((TileEntityExplosive) par1IBlockAccess.getBlockTileEntity(x, y, z)).haoMa;
+        int explosiveID = ((TileExplosive) par1IBlockAccess.getBlockTileEntity(x, y, z)).haoMa;
         return this.getIcon(side, explosiveID);
     }
 
@@ -244,7 +244,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
     {
         super.onBlockAdded(par1World, x, y, z);
 
-        int explosiveID = ((TileEntityExplosive) par1World.getBlockTileEntity(x, y, z)).haoMa;
+        int explosiveID = ((TileExplosive) par1World.getBlockTileEntity(x, y, z)).haoMa;
         par1World.markBlockForRenderUpdate(x, y, z);
     }
 
@@ -253,7 +253,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, int blockId)
     {
-        int explosiveID = ((TileEntityExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
+        int explosiveID = ((TileExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
 
         if (world.isBlockIndirectlyGettingPowered(x, y, z))
         {
@@ -277,15 +277,15 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 
             if (tileEntity != null)
             {
-                if (tileEntity instanceof TileEntityExplosive)
+                if (tileEntity instanceof TileExplosive)
                 {
-                    ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, x, y, z, ExplosiveType.BLOCK, ExplosiveRegistry.get(((TileEntityExplosive) tileEntity).haoMa));
+                    ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, x, y, z, ExplosiveType.BLOCK, ExplosiveRegistry.get(((TileExplosive) tileEntity).haoMa));
                     MinecraftForge.EVENT_BUS.post(evt);
 
                     if (!evt.isCanceled())
                     {
-                        ((TileEntityExplosive) tileEntity).exploding = true;
-                        EntityExplosive eZhaDan = new EntityExplosive(world, new Vector3(x, y, z).add(0.5), ((TileEntityExplosive) tileEntity).haoMa, (byte) world.getBlockMetadata(x, y, z), ((TileEntityExplosive) tileEntity).nbtData);
+                        ((TileExplosive) tileEntity).exploding = true;
+                        EntityExplosive eZhaDan = new EntityExplosive(world, new Vector3(x, y, z).add(0.5), ((TileExplosive) tileEntity).haoMa, (byte) world.getBlockMetadata(x, y, z), ((TileExplosive) tileEntity).nbtData);
 
                         switch (causeOfExplosion)
                         {
@@ -308,7 +308,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
     {
         if (world.getBlockTileEntity(x, y, z) != null)
         {
-            int explosiveID = ((TileEntityExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
+            int explosiveID = ((TileExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
             BlockExplosive.yinZha(world, x, y, z, explosiveID, 1);
         }
 
@@ -326,7 +326,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
         {
             if (entityPlayer.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
             {
-                int explosiveID = ((TileEntityExplosive) tileEntity).haoMa;
+                int explosiveID = ((TileExplosive) tileEntity).haoMa;
                 BlockExplosive.yinZha(world, x, y, z, explosiveID, 0);
                 return true;
             }
@@ -365,9 +365,9 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 
         }
 
-        if (tileEntity instanceof TileEntityExplosive)
+        if (tileEntity instanceof TileExplosive)
         {
-            return ExplosiveRegistry.get(((TileEntityExplosive) tileEntity).haoMa).onBlockActivated(world, x, y, z, entityPlayer, par6, par7, par8, par9);
+            return ExplosiveRegistry.get(((TileExplosive) tileEntity).haoMa).onBlockActivated(world, x, y, z, entityPlayer, par6, par7, par8, par9);
         }
 
         return false;
@@ -385,7 +385,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
     {
         if (world.getBlockTileEntity(x, y, z) != null)
         {
-            int explosiveID = ((TileEntityExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
+            int explosiveID = ((TileExplosive) world.getBlockTileEntity(x, y, z)).haoMa;
 
             return new ItemStack(this.blockID, 1, explosiveID);
         }
@@ -400,11 +400,11 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 
         if (tileEntity != null)
         {
-            if (tileEntity instanceof TileEntityExplosive)
+            if (tileEntity instanceof TileExplosive)
             {
-                if (!((TileEntityExplosive) tileEntity).exploding)
+                if (!((TileExplosive) tileEntity).exploding)
                 {
-                    int explosiveID = ((TileEntityExplosive) tileEntity).haoMa;
+                    int explosiveID = ((TileExplosive) tileEntity).haoMa;
                     int id = idDropped(world.getBlockMetadata(x, y, z), world.rand, 0);
 
                     this.dropBlockAsItem_do(world, x, y, z, new ItemStack(id, 1, explosiveID));
@@ -436,7 +436,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
     @Override
     public TileEntity createNewTileEntity(World var1)
     {
-        return new TileEntityExplosive();
+        return new TileExplosive();
     }
 
     @Override

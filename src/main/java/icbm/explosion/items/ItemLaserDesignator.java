@@ -8,8 +8,8 @@ import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.EntityLightBeam;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.MissileLauncherRegistry;
-import icbm.explosion.machines.TileEntityCruiseLauncher;
-import icbm.explosion.machines.TileEntityLauncherPrefab;
+import icbm.explosion.machines.TileCruiseLauncher;
+import icbm.explosion.machines.TileLauncherPrefab;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -147,14 +147,14 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 
 		if (!par2World.isRemote)
 		{
-			List<TileEntityLauncherPrefab> connectedLaunchers = new ArrayList<TileEntityLauncherPrefab>();
+			List<TileLauncherPrefab> connectedLaunchers = new ArrayList<TileLauncherPrefab>();
 
 			if (this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
 			{
 				Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-				HashSet<TileEntityLauncherPrefab> launchers = MissileLauncherRegistry.naFaSheQiInArea(new Vector2(position.x - ItemLaserDesignator.BAN_JING, position.z - ItemLaserDesignator.BAN_JING), new Vector2(position.x + ItemLaserDesignator.BAN_JING, position.z + ItemLaserDesignator.BAN_JING));
+				HashSet<TileLauncherPrefab> launchers = MissileLauncherRegistry.naFaSheQiInArea(new Vector2(position.x - ItemLaserDesignator.BAN_JING, position.z - ItemLaserDesignator.BAN_JING), new Vector2(position.x + ItemLaserDesignator.BAN_JING, position.z + ItemLaserDesignator.BAN_JING));
 
-				for (TileEntityLauncherPrefab missileLauncher : launchers)
+				for (TileLauncherPrefab missileLauncher : launchers)
 				{
 					if (missileLauncher != null && missileLauncher.getFrequency() == this.getFrequency(par1ItemStack))
 					{
@@ -218,9 +218,9 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 
 			if (tileEntity != null)
 			{
-				if (tileEntity instanceof TileEntityLauncherPrefab)
+				if (tileEntity instanceof TileLauncherPrefab)
 				{
-					TileEntityLauncherPrefab missileLauncher = (TileEntityLauncherPrefab) tileEntity;
+					TileLauncherPrefab missileLauncher = (TileLauncherPrefab) tileEntity;
 
 					if (missileLauncher.getFrequency() > 0)
 					{
@@ -283,16 +283,16 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 						if (this.getEnergy(par1ItemStack) > YONG_DIAN_LIANG)
 						{
 							Vector3 position = new Vector3(player.posX, player.posY, player.posZ);
-							HashSet<TileEntityLauncherPrefab> launchers = MissileLauncherRegistry.naFaSheQiInArea(new Vector2(position.x - ItemLaserDesignator.BAN_JING, position.z - ItemLaserDesignator.BAN_JING), new Vector2(position.x + ItemLaserDesignator.BAN_JING, position.z + ItemLaserDesignator.BAN_JING));
+							HashSet<TileLauncherPrefab> launchers = MissileLauncherRegistry.naFaSheQiInArea(new Vector2(position.x - ItemLaserDesignator.BAN_JING, position.z - ItemLaserDesignator.BAN_JING), new Vector2(position.x + ItemLaserDesignator.BAN_JING, position.z + ItemLaserDesignator.BAN_JING));
 
 							boolean doAirStrike = false;
 							int errorCount = 0;
 
-							for (TileEntityLauncherPrefab missileLauncher : launchers)
+							for (TileLauncherPrefab missileLauncher : launchers)
 							{
 								if (missileLauncher != null && missileLauncher.getFrequency() == airStrikeFreq)
 								{
-									if (missileLauncher instanceof TileEntityCruiseLauncher)
+									if (missileLauncher instanceof TileCruiseLauncher)
 									{
 										missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 										PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, missileLauncher.getTarget().x, missileLauncher.getTarget().y, missileLauncher.getTarget().z));

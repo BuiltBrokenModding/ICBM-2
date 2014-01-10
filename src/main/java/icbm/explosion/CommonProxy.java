@@ -4,14 +4,14 @@ import icbm.explosion.container.ContainerCruiseLauncher;
 import icbm.explosion.container.ContainerLauncher;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.container.ContainerMissileTable;
+import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileEMPTower;
-import icbm.explosion.machines.TileEntityCruiseLauncher;
-import icbm.explosion.machines.TileEntityLauncherScreen;
-import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.machines.TileEntitySupportFrame;
 import icbm.explosion.machines.TileLauncherBase;
+import icbm.explosion.machines.TileLauncherScreen;
 import icbm.explosion.machines.TileMissileCoordinator;
-import icbm.explosion.missile.TileEntityExplosive;
+import icbm.explosion.machines.TileRadarStation;
+import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.modular.TileMissileAssembler;
 
@@ -37,14 +37,14 @@ public class CommonProxy implements IGuiHandler
 
     public void init()
     {
-        GameRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMXiaoFaSheQi");
+        GameRegistry.registerTileEntity(TileCruiseLauncher.class, "ICBMXiaoFaSheQi");
         GameRegistry.registerTileEntity(TileLauncherBase.class, "ICBMFaSheDi");
-        GameRegistry.registerTileEntity(TileEntityLauncherScreen.class, "ICBMFaSheShiMuo");
+        GameRegistry.registerTileEntity(TileLauncherScreen.class, "ICBMFaSheShiMuo");
         GameRegistry.registerTileEntity(TileEntitySupportFrame.class, "ICBMFaSheJia");
-        GameRegistry.registerTileEntity(TileEntityRadarStation.class, "ICBMLeiDaTai");
+        GameRegistry.registerTileEntity(TileRadarStation.class, "ICBMLeiDaTai");
         GameRegistry.registerTileEntity(TileEMPTower.class, "ICBMDianCiQi");
         GameRegistry.registerTileEntity(TileMissileCoordinator.class, "ICBMYinDaoQi");
-        GameRegistry.registerTileEntity(TileEntityExplosive.class, "ICBMZhaDan");
+        GameRegistry.registerTileEntity(TileExplosive.class, "ICBMZhaDan");
         GameRegistry.registerTileEntity(TileMissileAssembler.class, "ICBMMissileTable");
     }
 
@@ -59,9 +59,9 @@ public class CommonProxy implements IGuiHandler
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntityCruiseLauncher)
+        if (tileEntity instanceof TileCruiseLauncher)
         {
-            return new ContainerCruiseLauncher(player.inventory, (TileEntityCruiseLauncher) tileEntity);
+            return new ContainerCruiseLauncher(player.inventory, (TileCruiseLauncher) tileEntity);
         }
         else if (tileEntity instanceof TileLauncherBase)
         {

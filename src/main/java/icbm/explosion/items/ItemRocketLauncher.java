@@ -22,7 +22,7 @@ import universalelectricity.api.vector.Vector3;
 
 public class ItemRocketLauncher extends ItemICBMElectrical
 {
-	private static final int YONG_DIAN_LIANG = 8000;
+	private static final int ENERGY = 8000;
 
 	public ItemRocketLauncher(int par1)
 	{
@@ -40,7 +40,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 	{
 		if (!world.isRemote)
 		{
-			if (this.getElectricityStored(itemStack) >= YONG_DIAN_LIANG)
+			if (this.getEnergy(itemStack) >= ENERGY)
 			{
 				// Check the player's inventory and look for missiles.
 				for (int i = 0; i < player.inventory.getSizeInventory(); i++)
@@ -63,10 +63,10 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 									if (daoDan.getTier() <= 2 && daoDan.isCruise())
 									{
 										double dist = 5000;
-										Vector3 diDian = Vector3.add(new Vector3(player), new Vector3(0, 0.5, 0));
+										Vector3 diDian = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
 										Vector3 kan = new Vector3(player.getLook(1));
-										Vector3 kaiShiDiDian = Vector3.add(diDian, Vector3.multiply(kan, 1.1));
-										Vector3 muBiao = Vector3.add(diDian, Vector3.multiply(kan, 100));
+										Vector3 kaiShiDiDian = Vector3.translate(diDian, Vector3.scale(kan, 1.1));
+										Vector3 muBiao = Vector3.translate(diDian, Vector3.scale(kan, 100));
 
 										EntityMissile eDaoDan = new EntityMissile(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
 										world.spawnEntityInWorld(eDaoDan);
@@ -77,7 +77,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 											player.inventory.setInventorySlotContents(i, null);
 										}
 
-										this.discharge(itemStack, YONG_DIAN_LIANG, true);
+										this.discharge(itemStack, ENERGY, true);
 
 										return itemStack;
 									}

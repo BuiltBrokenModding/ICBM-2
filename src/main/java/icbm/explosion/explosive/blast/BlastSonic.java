@@ -7,7 +7,7 @@ import icbm.explosion.explosive.ExplosionBase;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion.IThreadCallBack;
 import icbm.explosion.missile.BlockExplosive;
-import icbm.explosion.missile.TileEntityExplosive;
+import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.Iterator;
@@ -142,7 +142,7 @@ public class BlastSonic extends ExplosionBase
 					{
 						if (blockID == ICBMExplosion.blockExplosive.blockID)
 						{
-							BlockExplosive.yinZha(this.worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TileEntityExplosive) this.worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
+							BlockExplosive.yinZha(this.worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TileExplosive) this.worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
 						}
 						else
 						{

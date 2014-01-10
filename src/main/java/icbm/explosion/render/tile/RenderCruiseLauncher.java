@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileEntityCruiseLauncher;
+import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.model.tiles.MXiaoFaSheQi;
 import icbm.explosion.model.tiles.MXiaoFaSheQiJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -21,7 +21,7 @@ public class RenderCruiseLauncher extends TileEntitySpecialRenderer
     public static final MXiaoFaSheQi MODEL0 = new MXiaoFaSheQi();
     public static final MXiaoFaSheQiJia MODEL1 = new MXiaoFaSheQiJia();
 
-    public void renderModelAt(TileEntityCruiseLauncher tileEntity, double d, double d1, double d2, float f)
+    public void renderModelAt(TileCruiseLauncher tileEntity, double d, double d1, double d2, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
@@ -37,6 +37,6 @@ public class RenderCruiseLauncher extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        renderModelAt((TileEntityCruiseLauncher) tileentity, d, d1, d2, f);
+        renderModelAt((TileCruiseLauncher) tileentity, d, d1, d2, f);
     }
 }

@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.ExplosiveRegistry;
-import icbm.explosion.missile.TileEntityExplosive;
+import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.model.tiles.MDiLei;
 import icbm.sentry.render.CalclaviaRenderHelper;
 import net.minecraft.block.Block;
@@ -65,9 +65,9 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
         {
             TileEntity tileEntity = iBlockAccess.getBlockTileEntity(x, y, z);
 
-            if (tileEntity instanceof TileEntityExplosive)
+            if (tileEntity instanceof TileExplosive)
             {
-                Explosive explosive = ExplosiveRegistry.get(((TileEntityExplosive) tileEntity).haoMa);
+                Explosive explosive = ExplosiveRegistry.get(((TileExplosive) tileEntity).haoMa);
 
                 if (!(explosive.getBlockModel() != null && explosive.getBlockResource() != null))
                 {
@@ -83,9 +83,9 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
-        if (tileEntity instanceof TileEntityExplosive)
+        if (tileEntity instanceof TileExplosive)
         {
-            Explosive explosive = ExplosiveRegistry.get(((TileEntityExplosive) tileEntity).haoMa);
+            Explosive explosive = ExplosiveRegistry.get(((TileExplosive) tileEntity).haoMa);
 
             if (explosive != null && explosive.getBlockModel() != null && explosive.getBlockResource() != null)
             {

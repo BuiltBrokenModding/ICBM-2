@@ -2,7 +2,6 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.core.ICBMCore;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileEMPTower;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -13,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import calclavia.lib.gui.GuiBase;
-import calclavia.lib.network.PacketHandler;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

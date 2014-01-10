@@ -3,7 +3,7 @@ package icbm.explosion.gui;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.explosion.container.ContainerCruiseLauncher;
-import icbm.explosion.machines.TileEntityCruiseLauncher;
+import icbm.explosion.machines.TileCruiseLauncher;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -22,7 +22,7 @@ public class GuiCruiseLauncher extends GuiContainer
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_cruise_launcher.png");
 
-	private TileEntityCruiseLauncher tileEntity;
+	private TileCruiseLauncher tileEntity;
 	private GuiTextField textFieldX;
 	private GuiTextField textFieldZ;
 	private GuiTextField textFieldY;
@@ -31,7 +31,7 @@ public class GuiCruiseLauncher extends GuiContainer
 	private int containerWidth;
 	private int containerHeight;
 
-	public GuiCruiseLauncher(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
+	public GuiCruiseLauncher(InventoryPlayer par1InventoryPlayer, TileCruiseLauncher tileEntity)
 	{
 		super(new ContainerCruiseLauncher(par1InventoryPlayer, tileEntity));
 		this.tileEntity = tileEntity;
@@ -126,7 +126,7 @@ public class GuiCruiseLauncher extends GuiContainer
 
 		this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50, 4210752);
 		this.fontRenderer.drawString(this.tileEntity.getVoltageInput(null) + "v", 70, 60, 4210752);
-		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), Unit.JOULES), 70, 70, 4210752);
+		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 70, 70, 4210752);
 
 		this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}

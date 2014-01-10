@@ -2,8 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.core.ICBMCore;
-import icbm.explosion.ICBMExplosion;
-import icbm.explosion.machines.TileEntityLauncherScreen;
+import icbm.explosion.machines.TileLauncherScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 
@@ -20,7 +19,7 @@ public class GuiLauncherScreen extends GuiBase
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
-	private TileEntityLauncherScreen tileEntity;
+	private TileLauncherScreen tileEntity;
 	private GuiTextField tFX;
 	private GuiTextField tFY;
 	private GuiTextField tFZ;
@@ -30,7 +29,7 @@ public class GuiLauncherScreen extends GuiBase
 	private int containerWidth;
 	private int containerHeight;
 
-	public GuiLauncherScreen(TileEntityLauncherScreen par2ICBMTileEntityMissileLauncher)
+	public GuiLauncherScreen(TileLauncherScreen par2ICBMTileEntityMissileLauncher)
 	{
 		this.tileEntity = par2ICBMTileEntityMissileLauncher;
 	}
@@ -199,8 +198,8 @@ public class GuiLauncherScreen extends GuiBase
 
 		// Shows the status of the missile launcher
 		this.fontRenderer.drawString("Status: " + this.tileEntity.getStatus(), 12, 125, 4210752);
-		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltage() + "v", 12, 137, 4210752);
-		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.getMaxEnergyStored(), Unit.JOULES), 12, 150, 4210752);
+		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltageInput(null) + "v", 12, 137, 4210752);
+		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
 	}
 
 	@Override

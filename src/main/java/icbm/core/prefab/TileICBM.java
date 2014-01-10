@@ -2,10 +2,10 @@ package icbm.core.prefab;
 
 import java.util.HashSet;
 
-import universalelectricity.api.UniversalElectricity;
-import universalelectricity.api.electricity.IVoltageInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.UniversalElectricity;
+import universalelectricity.api.electricity.IVoltageInput;
 import calclavia.lib.prefab.tile.IPlayerUsing;
 import calclavia.lib.prefab.tile.TileElectrical;
 

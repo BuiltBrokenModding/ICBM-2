@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileEntityLauncherScreen;
+import icbm.explosion.machines.TileLauncherScreen;
 import icbm.explosion.model.tiles.MFaSheShiMuo0;
 import icbm.explosion.model.tiles.MFaSheShiMuo1;
 import icbm.explosion.model.tiles.MFaSheShiMuo2;
@@ -28,7 +28,7 @@ public class RFaSheShiMuo extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)
     {
-        TileEntityLauncherScreen tileEntity = (TileEntityLauncherScreen) var1;
+        TileLauncherScreen tileEntity = (TileLauncherScreen) var1;
 
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);

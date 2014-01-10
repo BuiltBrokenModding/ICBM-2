@@ -3,9 +3,9 @@ package icbm.explosion.items;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.machines.TileEntityCruiseLauncher;
-import icbm.explosion.machines.TileEntityLauncherPrefab;
-import icbm.explosion.machines.TileEntityLauncherScreen;
+import icbm.explosion.machines.TileCruiseLauncher;
+import icbm.explosion.machines.TileLauncherPrefab;
+import icbm.explosion.machines.TileLauncherScreen;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
 
 				// Do not scan if the target is a
 				// missile launcher
-				if (!(tileEntity instanceof TileEntityLauncherPrefab))
+				if (!(tileEntity instanceof TileLauncherPrefab))
 				{
 					// Check for electricity
 					if (this.getEnergy(itemStack) > YONG_DIAN_LIANG)
@@ -97,9 +97,9 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
 
 			if (tileEntity != null)
 			{
-				if (tileEntity instanceof TileEntityLauncherScreen)
+				if (tileEntity instanceof TileLauncherScreen)
 				{
-					TileEntityLauncherScreen missileLauncher = (TileEntityLauncherScreen) tileEntity;
+					TileLauncherScreen missileLauncher = (TileLauncherScreen) tileEntity;
 
 					Vector3 savedCords = this.getLink(par1ItemStack);
 
@@ -126,9 +126,9 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
 							par2EntityPlayer.addChatMessage("You must scan a coordinate!");
 					}
 				}
-				else if (tileEntity instanceof TileEntityCruiseLauncher)
+				else if (tileEntity instanceof TileCruiseLauncher)
 				{
-					TileEntityCruiseLauncher missileLauncher = (TileEntityCruiseLauncher) tileEntity;
+					TileCruiseLauncher missileLauncher = (TileCruiseLauncher) tileEntity;
 
 					Vector3 savedCords = this.getLink(par1ItemStack);
 

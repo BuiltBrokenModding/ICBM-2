@@ -42,7 +42,8 @@ public class ICBMCore
 {
 	public static final ICBMCore INSTANCE = new ICBMCore();
 
-	public static Block blockMulti, blockSulfurOre, blockRadioactive;
+	public static BlockMulti blockMulti;
+	public static Block blockSulfurOre, blockRadioactive;
 
 	public static Item itemSulfurDust, itemPoisonPowder;
 

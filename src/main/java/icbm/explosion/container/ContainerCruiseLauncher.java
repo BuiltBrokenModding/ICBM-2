@@ -1,6 +1,6 @@
 package icbm.explosion.container;
 
-import icbm.explosion.machines.TileEntityCruiseLauncher;
+import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.missile.missile.ItemMissile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,9 +12,9 @@ import calclavia.lib.prefab.slot.SlotSpecific;
 
 public class ContainerCruiseLauncher extends Container
 {
-    private TileEntityCruiseLauncher tileEntity;
+    private TileCruiseLauncher tileEntity;
 
-    public ContainerCruiseLauncher(InventoryPlayer par1InventoryPlayer, TileEntityCruiseLauncher tileEntity)
+    public ContainerCruiseLauncher(InventoryPlayer par1InventoryPlayer, TileCruiseLauncher tileEntity)
     {
         this.tileEntity = tileEntity;
         // Missile Slot

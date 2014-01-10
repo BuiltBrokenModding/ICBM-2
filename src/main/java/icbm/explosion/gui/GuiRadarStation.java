@@ -2,9 +2,8 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.core.ICBMCore;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.BlockICBMMachine;
-import icbm.explosion.machines.TileEntityRadarStation;
+import icbm.explosion.machines.TileRadarStation;
 import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class GuiRadarStation extends GuiBase
 	public static final ResourceLocation TEXTURE_RED_DOT = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "reddot.png");
 	public static final ResourceLocation TEXTURE_YELLOW_DOT = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "yellowdot.png");
 	public static final ResourceLocation TEXTURE_WHITE_DOT = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "whitedot.png");
-	private TileEntityRadarStation tileEntity;
+	private TileRadarStation tileEntity;
 
 	private int containerPosX;
 	private int containerPosY;
@@ -56,13 +55,13 @@ public class GuiRadarStation extends GuiBase
 
 	private String info2;
 
-	public GuiRadarStation(TileEntityRadarStation tileEntity)
+	public GuiRadarStation(TileRadarStation tileEntity)
 	{
 		this.tileEntity = tileEntity;
 		mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
 		this.xSize = 256;
 		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 14, this.containerPosY + this.ySize / 2 + 4);
-		radarMapRadius = TileEntityRadarStation.MAX_DETECTION_RANGE / 63.8F;
+		radarMapRadius = TileRadarStation.MAX_DETECTION_RANGE / 63.8F;
 	}
 
 	@Override
@@ -112,7 +111,7 @@ public class GuiRadarStation extends GuiBase
 		this.fontRenderer.drawString("Frequency:", 155, 100, 4210752);
 		this.textFieldFrequency.drawTextBox();
 
-		this.fontRenderer.drawString(UnitDisplay.getDisplay(TileEntityRadarStation.WATTS, Unit.WATT), 155, 128, 4210752);
+		this.fontRenderer.drawString(UnitDisplay.getDisplay(TileRadarStation.WATTS, Unit.WATT), 155, 128, 4210752);
 
 		this.fontRenderer.drawString(UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 155, 138, 4210752);
 
@@ -144,7 +143,7 @@ public class GuiRadarStation extends GuiBase
 
 		try
 		{
-			int newSafetyRadius = Math.min(TileEntityRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
+			int newSafetyRadius = Math.min(TileRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
 			this.tileEntity.safetyRange = newSafetyRadius;
 			PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.safetyRange));
 		}
@@ -154,7 +153,7 @@ public class GuiRadarStation extends GuiBase
 
 		try
 		{
-			int newAlarmRadius = Math.min(TileEntityRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
+			int newAlarmRadius = Math.min(TileRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
 			this.tileEntity.alarmRange = newAlarmRadius;
 			PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.alarmRange));
 		}
@@ -196,7 +195,7 @@ public class GuiRadarStation extends GuiBase
 		this.drawTexturedModalRect(containerPosX, containerPosY, 0, 0, this.xSize, this.ySize);
 
 		this.radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 10, this.containerPosY + this.ySize / 2 + 4);
-		this.radarMapRadius = TileEntityRadarStation.MAX_DETECTION_RANGE / 71f;
+		this.radarMapRadius = TileRadarStation.MAX_DETECTION_RANGE / 71f;
 
 		this.info = "";
 		this.info2 = "";
@@ -295,7 +294,7 @@ public class GuiRadarStation extends GuiBase
 			{
 				this.mousePosition = new Vector2(Mouse.getEventX() * this.width / this.mc.displayWidth, this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1);
 
-				float difference = TileEntityRadarStation.MAX_DETECTION_RANGE / this.radarMapRadius;
+				float difference = TileRadarStation.MAX_DETECTION_RANGE / this.radarMapRadius;
 
 				if (this.mousePosition.x > this.radarCenter.x - difference && this.mousePosition.x < this.radarCenter.x + difference && this.mousePosition.y > this.radarCenter.y - difference && this.mousePosition.y < this.radarCenter.y + difference)
 				{

@@ -17,16 +17,16 @@ import icbm.explosion.gui.GuiLauncherScreen;
 import icbm.explosion.gui.GuiMissileCoordinator;
 import icbm.explosion.gui.GuiMissileTable;
 import icbm.explosion.gui.GuiRadarStation;
+import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileEMPTower;
-import icbm.explosion.machines.TileEntityCruiseLauncher;
-import icbm.explosion.machines.TileEntityLauncherScreen;
-import icbm.explosion.machines.TileEntityRadarStation;
 import icbm.explosion.machines.TileEntitySupportFrame;
 import icbm.explosion.machines.TileLauncherBase;
+import icbm.explosion.machines.TileLauncherScreen;
 import icbm.explosion.machines.TileMissileCoordinator;
+import icbm.explosion.machines.TileRadarStation;
 import icbm.explosion.missile.EntityExplosive;
 import icbm.explosion.missile.EntityGrenade;
-import icbm.explosion.missile.TileEntityExplosive;
+import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.MissilePlayerHandler;
 import icbm.explosion.missile.modular.TileMissileAssembler;
@@ -115,14 +115,14 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
         RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCruiseLauncher.class, new RenderCruiseLauncher());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCruiseLauncher.class, new RenderCruiseLauncher());
         ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RFaSheDi());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLauncherScreen.class, new RFaSheShiMuo());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RFaSheShiMuo());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySupportFrame.class, new RFaSheJia());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadarStation.class, new RenderRadarStation());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileRadarStation.class, new RenderRadarStation());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMissileCoordinator.class, new RenderMissileCoordinator());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityExplosive.class, new RenderBombBlock());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileExplosive.class, new RenderBombBlock());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileTable());
     }
 
@@ -131,17 +131,17 @@ public class ClientProxy extends CommonProxy
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntityCruiseLauncher)
+        if (tileEntity instanceof TileCruiseLauncher)
         {
-            return new GuiCruiseLauncher(entityPlayer.inventory, (TileEntityCruiseLauncher) tileEntity);
+            return new GuiCruiseLauncher(entityPlayer.inventory, (TileCruiseLauncher) tileEntity);
         }
-        else if (tileEntity instanceof TileEntityLauncherScreen)
+        else if (tileEntity instanceof TileLauncherScreen)
         {
-            return new GuiLauncherScreen(((TileEntityLauncherScreen) tileEntity));
+            return new GuiLauncherScreen(((TileLauncherScreen) tileEntity));
         }
-        else if (tileEntity instanceof TileEntityRadarStation)
+        else if (tileEntity instanceof TileRadarStation)
         {
-            return new GuiRadarStation(((TileEntityRadarStation) tileEntity));
+            return new GuiRadarStation(((TileRadarStation) tileEntity));
         }
         else if (tileEntity instanceof TileEMPTower)
         {
