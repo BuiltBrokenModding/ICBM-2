@@ -16,7 +16,7 @@ public abstract class GuiICBM extends GuiBase
 	protected int containerHeight;
 
 	@Override
-	protected void drawBackgroundLayer(int var2, int var3, float var1)
+	protected void drawBackgroundLayer(int mouseX, int mouseY, float var1)
 	{
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

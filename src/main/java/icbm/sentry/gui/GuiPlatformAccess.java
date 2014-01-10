@@ -1,8 +1,7 @@
 package icbm.sentry.gui;
 
 import icbm.Reference;
-import icbm.core.prefab.render.GuiICBM;
-import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.platform.TileTurretPlatform;
 
 import java.util.HashMap;
 
@@ -28,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Calclavia
  */
 @SideOnly(Side.CLIENT)
-public class GuiPlatformAccess extends GuiICBM implements IScroll
+public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_platform_terminal.png");
 
@@ -37,7 +36,7 @@ public class GuiPlatformAccess extends GuiICBM implements IScroll
 	private static final int SPACING = 10;
 	private final HashMap<AccessUser, Vector2> outputMap = new HashMap<AccessUser, Vector2>();
 
-	public GuiPlatformAccess(InventoryPlayer entityPlayer, TileEntityTurretPlatform tileEntity)
+	public GuiPlatformAccess(InventoryPlayer entityPlayer, TileTurretPlatform tileEntity)
 	{
 		super(entityPlayer, tileEntity);
 	}
@@ -130,14 +129,14 @@ public class GuiPlatformAccess extends GuiICBM implements IScroll
 			String command = "users add";
 			String username = this.commandLine.getText();
 
-			for (AccessUser access : this.tileEntity.getUsers())
+			/*for (AccessUser access : this.tileEntity.getUsers())
 			{
 				if (access.getName().equalsIgnoreCase(username))
 				{
 					command = "users remove";
 					break;
 				}
-			}
+			}*/
 
 			((TileTerminal) this.tileEntity).sendCommandToServer(this.entityPlayer, command + " " + username);
 			this.commandLine.setText("");
@@ -149,12 +148,11 @@ public class GuiPlatformAccess extends GuiICBM implements IScroll
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int x, int y)
+	protected void drawForegroundLayer(int mouseX, int mouseY, float var1)
 	{
 		String title = "User Access";
 		this.fontRenderer.drawString("\u00a77" + title, this.xSize / 2 - title.length() * 3, 4, 4210752);
 		this.drawConsole(15, 25, TileTerminal.SCROLL_SIZE);
-		super.drawGuiContainerForegroundLayer(x, y);
 	}
 
 	public void drawConsole(int x, int y, int lines)
@@ -163,7 +161,7 @@ public class GuiPlatformAccess extends GuiICBM implements IScroll
 		outputMap.clear();
 
 		// Draws Each Line
-		for (int i = 0; i < lines; i++)
+		/*for (int i = 0; i < lines; i++)
 		{
 			int currentLine = i + this.getScroll();
 
@@ -179,13 +177,13 @@ public class GuiPlatformAccess extends GuiICBM implements IScroll
 					this.fontRenderer.drawString(line, drawPosition.intX(), drawPosition.intY(), color);
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float var1, int x, int y)
+	protected void drawBackgroundLayer(int mouseX, int mouseY, float var1)
 	{
-		super.drawGuiContainerBackgroundLayer(var1, x, y);
+		super.drawBackgroundLayer(mouseX, mouseY, var1);
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -204,7 +202,7 @@ public class GuiPlatformAccess extends GuiICBM implements IScroll
 	@Override
 	public void setScroll(int length)
 	{
-		this.scroll = Math.max(Math.min(length, this.tileEntity.getUsers().size()), 0);
+		//this.scroll = Math.max(Math.min(length, this.tileEntity.getUsers().size()), 0);
 	}
 
 	@Override

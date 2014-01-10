@@ -6,7 +6,7 @@ import icbm.core.prefab.TileICBM;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.interfaces.ISentry;
-import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.task.LookHelper;
 import icbm.sentry.task.RotationHelper;
 import icbm.sentry.task.ServoMotor;
@@ -216,13 +216,13 @@ public abstract class TileEntityTurret extends TileICBM implements IPacketReceiv
 
 	/** get the turrets control platform */
 	@Override
-	public TileEntityTurretPlatform getPlatform()
+	public TileTurretPlatform getPlatform()
 	{
 		TileEntity tileEntity = this.worldObj.getBlockTileEntity(this.xCoord + this.platformDirection.offsetX, this.yCoord + this.platformDirection.offsetY, this.zCoord + this.platformDirection.offsetZ);
 
-		if (tileEntity instanceof TileEntityTurretPlatform)
+		if (tileEntity instanceof TileTurretPlatform)
 		{
-			return (TileEntityTurretPlatform) tileEntity;
+			return (TileTurretPlatform) tileEntity;
 		}
 		else
 		{

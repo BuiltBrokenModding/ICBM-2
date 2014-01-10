@@ -58,17 +58,17 @@ public class BlockTurretPlatform extends BlockICBM
         /** Only allow the platform to be open if there is a turret installed with it. */
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntityTurretPlatform)
+        if (tileEntity instanceof TileTurretPlatform)
         {
             if (player.getCurrentEquippedItem() != null)
             {
-                if (side == ((TileEntityTurretPlatform) tileEntity).getTurretDirection().ordinal() && player.getCurrentEquippedItem().itemID == ICBMSentry.blockTurret.blockID)
+                if (side == ((TileTurretPlatform) tileEntity).getTurretDirection().ordinal() && player.getCurrentEquippedItem().itemID == ICBMSentry.blockTurret.blockID)
                 {
                     return false;
                 }
             }
 
-            if (((TileEntityTurretPlatform) tileEntity).getTurret() != null)
+            if (((TileTurretPlatform) tileEntity).getTurret() != null)
             {
                 if (!world.isRemote)
                 {
@@ -85,7 +85,7 @@ public class BlockTurretPlatform extends BlockICBM
     @Override
     public TileEntity createNewTileEntity(World var1)
     {
-        return new TileEntityTurretPlatform();
+        return new TileTurretPlatform();
     }
 
     @Override

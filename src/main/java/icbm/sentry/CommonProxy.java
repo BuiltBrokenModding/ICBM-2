@@ -1,7 +1,7 @@
 package icbm.sentry;
 
 import icbm.sentry.platform.ContainerTurretPlatform;
-import icbm.sentry.platform.TileEntityTurretPlatform;
+import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.mount.TileEntityRailGun;
 import icbm.sentry.turret.sentries.TileEntityAAGun;
 import icbm.sentry.turret.sentries.TileEntityGunTurret;
@@ -26,7 +26,7 @@ public class CommonProxy implements IGuiHandler
         GameRegistry.registerTileEntity(TileEntityAAGun.class, "ICBMAATurret");
         GameRegistry.registerTileEntity(TileEntityRailGun.class, "ICBMRailgun");
         GameRegistry.registerTileEntity(TileEntityLaserGun.class, "ICBMLeiSheF");
-        GameRegistry.registerTileEntity(TileEntityTurretPlatform.class, "ICBMPlatform");
+        GameRegistry.registerTileEntity(TileTurretPlatform.class, "ICBMPlatform");
     }
 
     public void preInit()
@@ -44,7 +44,7 @@ public class CommonProxy implements IGuiHandler
             switch (ID)
             {
                 case GUI_PLATFORM_ID:
-                    return new ContainerTurretPlatform(player.inventory, ((TileEntityTurretPlatform) tileEntity));
+                    return new ContainerTurretPlatform(player.inventory, ((TileTurretPlatform) tileEntity));
             }
         }
 
