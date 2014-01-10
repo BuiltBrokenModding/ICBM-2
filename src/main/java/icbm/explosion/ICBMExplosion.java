@@ -149,15 +149,15 @@ public class ICBMExplosion extends ICBMCore
 		PChuanRanDu.INSTANCE = new PChuanRanDu(23, false, 5149489, "virus");
 		PDongShang.INSTANCE = new PDongShang(24, false, 5149489, "frostBite");
 
-		ICBMExplosion.CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
-		ICBMExplosion.CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperBoomInFire", true).getBoolean(true);
+		CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
+		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperBoomInFire", true).getBoolean(true);
 
 		Settings.CONFIGURATION.save();
 
-		CreativeTabICBM.itemStack = new ItemStack(ICBMExplosion.blockExplosive);
+		CreativeTabICBM.itemStack = new ItemStack(blockExplosive);
 
 		/** Dispenser Handler */
-		BlockDispenser.dispenseBehaviorRegistry.putObject(ICBMExplosion.itemGrenade, new IBehaviorDispenseItem()
+		BlockDispenser.dispenseBehaviorRegistry.putObject(itemGrenade, new IBehaviorDispenseItem()
 		{
 			@Override
 			public ItemStack dispense(IBlockSource blockSource, ItemStack itemStack)
@@ -181,7 +181,7 @@ public class ICBMExplosion extends ICBMCore
 			}
 		});
 
-		BlockDispenser.dispenseBehaviorRegistry.putObject(ICBMExplosion.itemBombCart, new IBehaviorDispenseItem()
+		BlockDispenser.dispenseBehaviorRegistry.putObject(itemBombCart, new IBehaviorDispenseItem()
 		{
 			private final BehaviorDefaultDispenseItem defaultItemDispenseBehavior = new BehaviorDefaultDispenseItem();
 
@@ -268,7 +268,7 @@ public class ICBMExplosion extends ICBMCore
 
 		ExplosiveHelper.explosionManager = ExplosiveRegistry.class;
 
-		ICBMExplosion.proxy.preInit();
+		proxy.preInit();
 	}
 
 	@EventHandler
@@ -283,46 +283,48 @@ public class ICBMExplosion extends ICBMCore
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		super.postInit(event);
+		
+		ItemStack remoteDetonator = CompatibilityModule.getItemWithCharge(new ItemStack(itemRemoteDetonator), 0);
 
 		/** Add all Recipes */
 		// Rocket Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
 		// Radar Gun
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.itemRadarGun), new Object[] { "@#!", " $!", "  !", '@', Block.glass, '!', UniversalRecipe.PRIMARY_METAL.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '$', Block.stoneButton }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRadarGun), new Object[] { "@#!", " $!", "  !", '@', Block.glass, '!', UniversalRecipe.PRIMARY_METAL.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '$', Block.stoneButton }));
 		// Remote
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.itemRemoteDetonator), new Object[] { "?@@", "@#$", "@@@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.redstone, '#', UniversalRecipe.CIRCUIT_T2.get(), '$', Block.stoneButton }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRemoteDetonator), new Object[] { "?@@", "@#$", "@@@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.redstone, '#', UniversalRecipe.CIRCUIT_T2.get(), '$', Block.stoneButton }));
 		// Laser Designator
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.itemLaserDesignator), new Object[] { "!  ", " ? ", "  @", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRemoteDetonator), 0), '?', UniversalRecipe.CIRCUIT_T3.get(), '!', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemLaserDesignator), new Object[] { "!  ", " ? ", "  @", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRemoteDetonator), 0), '?', UniversalRecipe.CIRCUIT_T3.get(), '!', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0) }));
 		// Defuser
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.itemBombDefuser), new Object[] { "I  ", " W ", "  C", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', UniversalRecipe.WRENCH.get(), 'I', UniversalRecipe.WIRE.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombDefuser), new Object[] { "I  ", " W ", "  C", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', UniversalRecipe.WRENCH.get(), 'I', UniversalRecipe.WIRE.get() }));
 		// Missile Launcher Platform
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 0), new Object[] { "! !", "!C!", "!!!", '!', UniversalRecipe.SECONDARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T1.get() }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 1), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(ICBMExplosion.blockMachine, 1, 0), '!', UniversalRecipe.PRIMARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T2.get() }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(ICBMExplosion.blockMachine, 1, 1), '!', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 0), new Object[] { "! !", "!C!", "!!!", '!', UniversalRecipe.SECONDARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T1.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 1), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 0), '!', UniversalRecipe.PRIMARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T2.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 1), '!', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get() }));
 		// Missile Launcher Panel
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T1.get(), '!', Block.glass, '?', UniversalRecipe.WIRE.get() }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 4), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T2.get(), '!', UniversalRecipe.PRIMARY_METAL.get(), '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(ICBMExplosion.blockMachine, 1, 3) }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 5), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T3.get(), '!', Item.ingotGold, '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(ICBMExplosion.blockMachine, 1, 4) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T1.get(), '!', Block.glass, '?', UniversalRecipe.WIRE.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 4), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T2.get(), '!', UniversalRecipe.PRIMARY_METAL.get(), '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 3) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 5), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T3.get(), '!', Item.ingotGold, '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 4) }));
 		// Missile Launcher Support Frame
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 6), new Object[] { "! !", "!!!", "! !", '!', UniversalRecipe.SECONDARY_METAL.get() }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 7), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_METAL.get(), '@', new ItemStack(ICBMExplosion.blockMachine, 1, 6) }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 8), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_PLATE.get(), '@', new ItemStack(ICBMExplosion.blockMachine, 1, 7) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 6), new Object[] { "! !", "!!!", "! !", '!', UniversalRecipe.SECONDARY_METAL.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 7), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_METAL.get(), '@', new ItemStack(blockMachine, 1, 6) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 8), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_PLATE.get(), '@', new ItemStack(blockMachine, 1, 7) }));
 		// Radar Station
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Item.ingotGold }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Item.ingotGold }));
 		// EMP Tower
-		RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipe.PRIMARY_PLATE.get(), '!', UniversalRecipe.CIRCUIT_T3.get(), '@', UniversalRecipe.BATTERY_BOX.get(), '#', UniversalRecipe.MOTOR.get(), 'W', UniversalRecipe.WIRE.get() }), "EMP Tower", Settings.CONFIGURATION, true);
+		RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipe.PRIMARY_PLATE.get(), '!', UniversalRecipe.CIRCUIT_T3.get(), '@', UniversalRecipe.BATTERY_BOX.get(), '#', UniversalRecipe.MOTOR.get(), 'W', UniversalRecipe.WIRE.get() }), "EMP Tower", Settings.CONFIGURATION, true);
 		// Cruise Launcher
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipe.PRIMARY_PLATE.get(), '!', new ItemStack(ICBMExplosion.blockMachine, 1, 2), '?', new ItemStack(ICBMExplosion.blockMachine, 1, 8) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipe.PRIMARY_PLATE.get(), '!', new ItemStack(blockMachine, 1, 2), '?', new ItemStack(blockMachine, 1, 8) }));
 		// Missile Coordinator
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.blockMachine, 1, MachineData.MissileCoordinator.ordinal()), new Object[] { "R R", "SCS", "SSS", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'R', itemRemoteDetonator }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, MachineData.MissileCoordinator.ordinal()), new Object[] { "R R", "SCS", "SSS", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'R', itemRemoteDetonator }));
 		// Missile module
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.flintAndSteel, '#', UniversalRecipe.CIRCUIT_T1.get() }));
 		// Homing
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.homing.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.SECONDARY_METAL.get() }));
 		// Anti-ballistic
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.antiBallistic.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', new ItemStack(ICBMExplosion.blockExplosive, 1, 0), '!', UniversalRecipe.CIRCUIT_T1.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.antiBallistic.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', new ItemStack(blockExplosive, 1, 0), '!', UniversalRecipe.CIRCUIT_T1.get() }));
 		// Cluster
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.cluster.getID()), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', Explosive.fragmentation.getItemStack(), '!', new ItemStack(ICBMExplosion.itemMissile, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.cluster.getID()), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', Explosive.fragmentation.getItemStack(), '!', new ItemStack(itemMissile, 1, 0) }));
 		// Nuclear Cluster
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
@@ -331,16 +333,16 @@ public class ICBMExplosion extends ICBMCore
 		{
 			zhaPin.init();
 			// Missile
-			RecipeUtility.addRecipe(new ShapelessOreRecipe(new ItemStack(ICBMExplosion.itemMissile, 1, zhaPin.getID()), new Object[] { new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new ItemStack(ICBMExplosion.blockExplosive, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", Settings.CONFIGURATION, true);
+			RecipeUtility.addRecipe(new ShapelessOreRecipe(new ItemStack(itemMissile, 1, zhaPin.getID()), new Object[] { new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new ItemStack(blockExplosive, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", Settings.CONFIGURATION, true);
 			if (zhaPin.getTier() < 2)
 			{
 				// Grenade
-				RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.itemGrenade, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(ICBMExplosion.blockExplosive, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
+				RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemGrenade, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(blockExplosive, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
 			}
 			if (zhaPin.getTier() < 3)
 			{
 				// Minecart
-				RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(ICBMExplosion.itemBombCart, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(ICBMExplosion.blockExplosive, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
+				RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
 			}
 		}
 
@@ -362,7 +364,7 @@ public class ICBMExplosion extends ICBMCore
 		EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
 		EntityRegistry.registerModEntity(EntityBombCart.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
 
-		ICBMExplosion.proxy.init();
+		proxy.init();
 	}
 
 	@ForgeSubscribe
@@ -379,7 +381,7 @@ public class ICBMExplosion extends ICBMCore
 	{
 		if (evt.entityLiving instanceof EntityCreeper)
 		{
-			if (ICBMExplosion.CREEPER_BLOW_UP_IN_FIRE)
+			if (CREEPER_BLOW_UP_IN_FIRE)
 			{
 				if (evt.source == DamageSource.onFire || evt.source == DamageSource.inFire)
 				{
@@ -405,7 +407,7 @@ public class ICBMExplosion extends ICBMCore
 	{
 		if (evt.entityLiving instanceof EntityCreeper)
 		{
-			if (ICBMExplosion.CREEPER_DROP_SULFER)
+			if (CREEPER_DROP_SULFER)
 			{
 				evt.entityLiving.dropItem(this.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
 			}

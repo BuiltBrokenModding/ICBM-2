@@ -79,6 +79,7 @@ public class ICBMCore
 
 			// -- Registering Blocks
 			GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");
+			GameRegistry.registerBlock(blockMulti, "blockMulti");
 
 			sulfureOreGenData = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
@@ -98,7 +99,7 @@ public class ICBMCore
 			OreDictionary.registerOre("dustSulfur", itemSulfurDust);
 			OreGenerator.addOre(sulfureOreGenData);
 
-			GameRegistry.registerTileEntity(TileMultiBlockPart.class, "TileEntityMultiBlockPart");
+			GameRegistry.registerTileEntity(TileMultiBlockPart.class, "ICBMTileEntityMultiBlockPart");
 
 			isPreInit = true;
 		}
