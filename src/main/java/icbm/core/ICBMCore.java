@@ -69,12 +69,12 @@ public class ICBMCore
 			Settings.CONFIGURATION.load();
 
 			// BLOCKS
-			blockSulfurOre = new BlockSulfureOre(Reference.BLOCK_ID_PREFIX + 0);
-			blockMulti = new BlockMulti().setChannel(Reference.CHANNEL);
+			blockSulfurOre = new BlockSulfureOre(Settings.getNextBlockID());
+			blockMulti = new BlockMulti(Settings.getNextBlockID()).setPacketType(PACKET_TILE);
 
 			// Items
-			itemPoisonPowder = new ItemICBMBase(Reference.ITEM_ID_PREFIX + 0, "poisonPowder");
-			itemSulfurDust = new ItemICBMBase(Reference.ITEM_ID_PREFIX + 1, "sulfur");
+			itemPoisonPowder = new ItemICBMBase(Settings.getNextItemID(), "poisonPowder");
+			itemSulfurDust = new ItemICBMBase(Settings.getNextItemID(), "sulfur");
 
 			// -- Registering Blocks
 			GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");

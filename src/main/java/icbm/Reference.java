@@ -2,7 +2,7 @@ package icbm;
 
 /**
  * @author Calclavia
- *
+ * 
  */
 public class Reference
 {
@@ -19,16 +19,7 @@ public class Reference
 	public static final String REVISION_VERSION = "@REVIS@";
 	public static final String BUILD_VERSION = "@BUILD@";
 	public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION;
-	
-	/**
-	 * The block ID in which ICBM starts with. ICBM Explosion will count up, ICBM Contraption will
-	 * count down.
-	 */
-	public static final int BLOCK_ID_PREFIX = 3880;
-	/**
-	 * The item ID in which ICBM starts with.
-	 */
-	public static final int ITEM_ID_PREFIX = 3900;
+
 	public static final String CHANNEL = NAME;
 	public static final String DOMAIN = "icbm";
 	public static final String PREFIX = DOMAIN + ":";

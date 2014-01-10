@@ -2,6 +2,7 @@ package icbm.core;
 
 import java.io.File;
 
+import calclavia.lib.prefab.block.IDManager;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Loader;
 
@@ -15,22 +16,16 @@ public class Settings
 	/**
 	 * Auto-incrementing configuration IDs. Use this to make sure no config ID is the same.
 	 */
-	public static final int BLOCK_ID_PREFIX = 1680;
-	public static final int ITEM_ID_PREFIX = 11130;
-
-	private static int NEXT_BLOCK_ID = BLOCK_ID_PREFIX;
-	private static int NEXT_ITEM_ID = ITEM_ID_PREFIX;
+	public static final IDManager idManager = new IDManager(3880, 10900);
 
 	public static int getNextBlockID()
 	{
-		NEXT_BLOCK_ID++;
-		return NEXT_BLOCK_ID;
+		return idManager.getNextBlockID();
 	}
 
 	public static int getNextItemID()
 	{
-		NEXT_ITEM_ID++;
-		return NEXT_ITEM_ID;
+		return idManager.getNextItemID();
 	}
 
 	/** Configuration file for ICBM. */
