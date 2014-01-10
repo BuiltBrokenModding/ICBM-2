@@ -7,6 +7,7 @@ import icbm.explosion.missile.EntityExplosive;
 
 import java.util.Random;
 
+import calclavia.lib.utility.LanguageUtility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -76,7 +77,7 @@ public class ItemBombDefuser extends ItemICBMElectrical
         }
         else
         {
-            player.addChatMessage("Defuser out of electricity!");
+            player.addChatMessage(LanguageUtility.getLocal("message.defuser.nopower"));
         }
 
         return false;

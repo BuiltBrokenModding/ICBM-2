@@ -37,6 +37,7 @@ import calclavia.lib.network.PacketHandler;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.prefab.tile.IRedstoneProvider;
 import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -445,7 +446,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 				if (!this.worldObj.isRemote)
 				{
 					this.emitAll = !this.emitAll;
-					entityPlayer.addChatMessage("Radar redstone all side emission: " + this.emitAll);
+					entityPlayer.addChatMessage(LanguageUtility.getLocal("message.radar.redstone") + " " + this.emitAll);
 				}
 
 				return true;

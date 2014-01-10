@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -49,11 +50,11 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 
 		if (this.getFrequency(itemStack) > 0)
 		{
-			par3List.add("Frequency: " + getFrequency(itemStack));
+			par3List.add(LanguageUtility.getLocal("info.misc.freq") + " " + getFrequency(itemStack));
 		}
 		else
 		{
-			par3List.add("Frequency: Not Set");
+			par3List.add(LanguageUtility.getLocal("info.designator.noFreq"));
 		}
 	}
 
@@ -170,14 +171,14 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 			{
 				if (this.getLauncherCountDown(par1ItemStack) % 20 == 0)
 				{
-					((EntityPlayer) par3Entity).addChatMessage("Calling air strike in: " + (int) Math.floor(this.getLauncherCountDown(par1ItemStack) / 20));
+					((EntityPlayer) par3Entity).addChatMessage(LanguageUtility.getLocal("message.designator.callTime") + " " + (int) Math.floor(this.getLauncherCountDown(par1ItemStack) / 20));
 				}
 
 				if (this.getLauncherCountDown(par1ItemStack) == 1)
 				{
 					this.setLauncherCount(par1ItemStack, connectedLaunchers.size());
 					this.setLauncherDelay(par1ItemStack, 0);
-					((EntityPlayer) par3Entity).addChatMessage("Incoming air strike!");
+					((EntityPlayer) par3Entity).addChatMessage(LanguageUtility.getLocal("message.designator.blast"));
 				}
 
 				this.setLauncherCountDown(par1ItemStack, this.getLauncherCountDown(par1ItemStack) - 1);
@@ -225,11 +226,11 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 					if (missileLauncher.getFrequency() > 0)
 					{
 						this.setFrequency(missileLauncher.getFrequency(), par1ItemStack);
-						par2EntityPlayer.addChatMessage("Laser designator frequency Set: " + this.getFrequency(par1ItemStack));
+						par2EntityPlayer.addChatMessage(LanguageUtility.getLocal("message.designator.setFreq") + " " + this.getFrequency(par1ItemStack));
 					}
 					else
 					{
-						par2EntityPlayer.addChatMessage("Frequency must be greater than zero.");
+						par2EntityPlayer.addChatMessage(LanguageUtility.getLocal("message.designator.failFreq"));
 					}
 				}
 			}
@@ -326,17 +327,17 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 							if (doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
 							{
 								PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(player, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
-								player.addChatMessage("Calling air strike into designated position!");
+								player.addChatMessage(LanguageUtility.getLocal("message.designator.callBlast"));
 							}
 						}
 						else
 						{
-							player.addChatMessage("Laser designator out of electricity!");
+							player.addChatMessage(LanguageUtility.getLocal("message.designator.nopower"));
 						}
 					}
 					else
 					{
-						player.addChatMessage("Laser designator frequency not set!");
+						player.addChatMessage(LanguageUtility.getLocal("message.designator.noFreq"));
 					}
 				}
 			}

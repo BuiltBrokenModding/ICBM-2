@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import calclavia.lib.gui.GuiBase;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -37,9 +38,9 @@ public class GuiEmpTower extends GuiBase
 		super.initGui();
 		this.buttonList.clear();
 
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 77, this.height / 2 - 10, 50, 20, "Missiles"));
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 25, this.height / 2 - 10, 65, 20, "Electricity"));
-		this.buttonList.add(new GuiButton(2, this.width / 2 + 43, this.height / 2 - 10, 35, 20, "Both"));
+		this.buttonList.add(new GuiButton(0, this.width / 2 - 77, this.height / 2 - 10, 50, 20, LanguageUtility.getLocal("gui.empTower.missiles")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 - 25, this.height / 2 - 10, 65, 20, LanguageUtility.getLocal("gui.empTower.elec")));
+		this.buttonList.add(new GuiButton(2, this.width / 2 + 43, this.height / 2 - 10, 35, 20, LanguageUtility.getLocal("gui.empTower.both")));
 
 		this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 30, 12);
 		this.textFieldBanJing.setMaxStringLength(3);
@@ -100,43 +101,43 @@ public class GuiEmpTower extends GuiBase
 	@Override
 	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
-		this.fontRenderer.drawString("\u00a77EMP Tower", 65, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.empTower.name"), 65, 6, 4210752);
 
-		this.fontRenderer.drawString("EMP Radius:          blocks", 12, 30, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.radius").replace("%p", "        "), 12, 30, 4210752);
 		this.textFieldBanJing.drawTextBox();
 
-		this.fontRenderer.drawString("EMP Effect:", 12, 55, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.effect"), 12, 55, 4210752);
 
 		// Shows the EMP mode of the EMP Tower
-		String mode = "Debilitate Electronics";
+		String mode = LanguageUtility.getLocal("gui.empTower.effectDebilitate");
 
 		if (this.tileEntity.empMode == 1)
 		{
-			mode = "Disrupt Missiles";
+			mode = LanguageUtility.getLocal("gui.empTower.effectDisrupt");
 		}
 		else if (this.tileEntity.empMode == 2)
 		{
-			mode = "Deplete Electricity";
+			mode = LanguageUtility.getLocal("gui.empTower.effectDeplete");
 		}
 
-		this.fontRenderer.drawString("Mode: " + mode, 12, 105, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.mode") + " " + mode, 12, 105, 4210752);
 
 		// Shows the status of the EMP Tower
 		String color = "\u00a74";
-		String status = "Idle";
+		String status = LanguageUtility.getLocal("gui.misc.idle");
 
 		if (this.tileEntity.energy.checkExtract())
 		{
-			status = "Insufficient electricity!";
+			status = LanguageUtility.getLocal("gui.misc.nopower");
 		}
 		else
 		{
 			color = "\u00a72";
-			status = "Ready to blast!";
+			status = LanguageUtility.getLocal("gui.empTower.ready");
 		}
 
-		this.fontRenderer.drawString(color + "Status: " + status, 12, 120, 4210752);
-		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltageInput(null) + "v", 12, 135, 4210752);
+		this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.misc.status") + " " + status, 12, 120, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + this.tileEntity.getVoltageInput(null) + "v", 12, 135, 4210752);
 		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
 	}
 

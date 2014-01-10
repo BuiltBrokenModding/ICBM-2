@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.vector.Vector2;
 import calclavia.lib.access.AccessUser;
 import calclavia.lib.terminal.TileTerminal;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -150,7 +151,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	@Override
 	protected void drawForegroundLayer(int mouseX, int mouseY, float var1)
 	{
-		String title = "User Access";
+		String title = LanguageUtility.getLocal("gui.platform.access");
 		this.fontRenderer.drawString("\u00a77" + title, this.xSize / 2 - title.length() * 3, 4, 4210752);
 		this.drawConsole(15, 25, TileTerminal.SCROLL_SIZE);
 	}

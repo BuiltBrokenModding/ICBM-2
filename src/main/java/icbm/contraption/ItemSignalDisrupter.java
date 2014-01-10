@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -26,7 +27,7 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
 	public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
 	{
 		super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
-		par3List.add("Frequency: " + this.getFrequency(itemStack));
+		par3List.add(LanguageUtility.getLocal("info.misc.freq") + " " + this.getFrequency(itemStack));
 	}
 
 	@Override

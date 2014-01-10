@@ -97,18 +97,18 @@ public class GuiRadarStation extends GuiBase
 	{
 		this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
 
-		this.fontRenderer.drawString("Coordinates:", 155, 18, 4210752);
-		this.fontRenderer.drawString("X: " + (int) Math.round(mouseOverCoords.x) + " Z: " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.radar.coords"), 155, 18, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.x") + " " + (int) Math.round(mouseOverCoords.x) + " " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
 
 		this.fontRenderer.drawString("\u00a76" + this.info, 155, 42, 4210752);
 		this.fontRenderer.drawString("\u00a74" + this.info2, 155, 54, 4210752);
 
-		this.fontRenderer.drawString("Safe Zone:", 152, 70, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.radar.zoneSafe"), 152, 70, 4210752);
 		this.textFieldSafetyZone.drawTextBox();
-		this.fontRenderer.drawString("Alarm Zone:", 150, 85, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.radar.zoneAlarm"), 150, 85, 4210752);
 		this.textFieldAlarmRange.drawTextBox();
 
-		this.fontRenderer.drawString("Frequency:", 155, 100, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.freq"), 155, 100, 4210752);
 		this.textFieldFrequency.drawTextBox();
 
 		this.fontRenderer.drawString(UnitDisplay.getDisplay(TileRadarStation.WATTS, Unit.WATT), 155, 128, 4210752);
@@ -117,16 +117,16 @@ public class GuiRadarStation extends GuiBase
 
 		// Shows the status of the radar
 		String color = "\u00a74";
-		String status = "Idle";
+		String status = LanguageUtility.getLocal("gui.misc.idle");
 
 		if (this.tileEntity.energy.checkExtract())
 		{
 			color = "\u00a72";
-			status = "Radar On!";
+			status = LanguageUtility.getLocal("gui.radar.on");
 		}
 		else
 		{
-			status = "No Electricity!";
+			status = LanguageUtility.getLocal("gui.radar.nopower");
 		}
 
 		this.fontRenderer.drawString(color + status, 155, 150, 4210752);

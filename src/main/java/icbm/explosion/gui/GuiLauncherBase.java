@@ -7,6 +7,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import calclavia.lib.utility.LanguageUtility;
 
 import org.lwjgl.opengl.GL11;
 
@@ -32,7 +33,7 @@ public class GuiLauncherBase extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
         this.fontRenderer.drawString("\u00a77" + tileEntity.getInvName(), 48, 6, 4210752);
-        this.fontRenderer.drawString("Place Missile", 63, 28, 4210752);
+        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherBase.place"), 63, 28, 4210752);
         this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
 

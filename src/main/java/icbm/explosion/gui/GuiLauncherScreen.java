@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -157,24 +158,24 @@ public class GuiLauncherScreen extends GuiICBM
 		if (tileEntity.getTier() >= 1)
 		{
 			this.tFY.drawTextBox();
-			this.fontRenderer.drawString("Detonation Height:", 12, 68, 4210752);
+			this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.detHeight"), 12, 68, 4210752);
 
 			this.tFGaoDu.drawTextBox();
-			this.fontRenderer.drawString("Lock Height:", 12, 83, 4210752);
+			this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.lockHeight"), 12, 83, 4210752);
 
 			if (tileEntity.getTier() > 1)
 			{
 				this.tFFreq.drawTextBox();
-				this.fontRenderer.drawString("Frequency:", 12, 98, 4210752);
+				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.freq"), 12, 98, 4210752);
 			}
 		}
 
 		this.fontRenderer.drawString("", 45, 6, 4210752);
-		this.fontRenderer.drawString("\u00a77Launcher Control Panel", 30, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.launcherScreen.name"), 30, 6, 4210752);
 
-		this.fontRenderer.drawString("Missile Target", 12, 25, 4210752);
-		this.fontRenderer.drawString("X-Coord:", 25, 40, 4210752);
-		this.fontRenderer.drawString("Z-Coord:", 25, 55, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.target"), 12, 25, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.XCoord"), 25, 40, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.ZCoord"), 25, 55, 4210752);
 
 		int inaccuracy = 30;
 
@@ -186,11 +187,11 @@ public class GuiLauncherScreen extends GuiICBM
 			}
 		}
 
-		this.fontRenderer.drawString("Inaccuracy: " + inaccuracy + " blocks", 12, 113, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.inaccuracy").replace("%p", inaccuracy), 12, 113, 4210752);
 
 		// Shows the status of the missile launcher
-		this.fontRenderer.drawString("Status: " + this.tileEntity.getStatus(), 12, 125, 4210752);
-		this.fontRenderer.drawString("Voltage: " + this.tileEntity.getVoltageInput(null) + "v", 12, 137, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.status") + " " + this.tileEntity.getStatus(), 12, 125, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + this.tileEntity.getVoltageInput(null) + "v", 12, 137, 4210752);
 		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
 	}
 

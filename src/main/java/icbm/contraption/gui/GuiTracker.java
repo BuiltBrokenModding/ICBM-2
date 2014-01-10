@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import calclavia.lib.gui.GuiBase;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -77,8 +78,8 @@ public class GuiTracker extends GuiBase
 	@Override
 	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
-		this.fontRenderer.drawString("\u00a77Frequency", 62, 6, 4210752);
-		this.fontRenderer.drawString("Frequency:", 15, 52, 4210752);
+		this.fontRenderer.drawString("\u00a77"+LanguageUtility.getLocal("gui.tracker.freq"), 62, 6, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.tracker.freq") + ":", 15, 52, 4210752);
 		this.textFieldFrequency.drawTextBox();
 	}
 

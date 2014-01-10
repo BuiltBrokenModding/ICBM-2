@@ -7,6 +7,7 @@ import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.missile.Missile;
+import calclavia.lib.utility.LanguageUtility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -84,7 +85,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 								}
 								else
 								{
-									player.sendChatToPlayer(ChatMessageComponent.createFromText("Region being is protected."));
+									player.sendChatToPlayer(ChatMessageComponent.createFromText(LanguageUtility.getLocal("message.launcher.protected")));
 								}
 							}
 

@@ -10,6 +10,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import calclavia.lib.terminal.TileTerminal;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -131,7 +132,7 @@ public class GuiPlatformTerminal extends GuiPlatformBase
 	@Override
 	protected void drawForegroundLayer(int mouseX, int mouseY, float var1)
 	{
-		String title = "Terminal";
+		String title = LanguageUtility.getLocal("gui.terminal.name");
 		this.fontRenderer.drawString("\u00a77" + title, (int) (this.xSize / 2 - title.length() * 2.5), 4, 4210752);
 		this.drawConsole(25, 16, TileTerminal.SCROLL_SIZE);
 	}

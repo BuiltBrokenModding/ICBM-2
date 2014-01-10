@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -113,11 +114,11 @@ public class GuiCruiseLauncher extends GuiContainer
 	{
 		this.fontRenderer.drawString("\u00a77" + tileEntity.getInvName(), 52, 6, 4210752);
 
-		this.fontRenderer.drawString("X:", 8, 23, 4210752);
-		this.fontRenderer.drawString("Y:", 8, 39, 4210752);
-		this.fontRenderer.drawString("Z:", 8, 54, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.x"), 8, 23, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.y"), 8, 39, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.z"), 8, 54, 4210752);
 
-		this.fontRenderer.drawString("Frequency:", 70, 20, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.freq"), 70, 20, 4210752);
 
 		this.textFieldX.drawTextBox();
 		this.textFieldZ.drawTextBox();

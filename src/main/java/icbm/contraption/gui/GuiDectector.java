@@ -9,6 +9,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiDectector extends GuiICBM
@@ -38,15 +39,15 @@ public class GuiDectector extends GuiICBM
 
 		this.buttonList.clear();
 
-		String mode = "All";
+		String mode = LanguageUtility.getLocal("gui.detector.all");
 
 		if (this.tileEntity.mode == 1)
 		{
-			mode = "Players";
+			mode = LanguageUtility.getLocal("gui.detector.players");
 		}
 		else if (this.tileEntity.mode == 2)
 		{
-			mode = "Mobs";
+			mode = LanguageUtility.getLocal("gui.detector.mobs");
 		}
 
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 15, this.height / 2 + 32, 45, 20, mode));
@@ -170,16 +171,16 @@ public class GuiDectector extends GuiICBM
 	@Override
 	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
-		this.fontRenderer.drawString("\u00a77Proximity Detector", 48, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.detector.name"), 48, 6, 4210752);
 
-		this.fontRenderer.drawString("Detection Range", 12, 25, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.range"), 12, 25, 4210752);
 
-		this.fontRenderer.drawString("Min", 75, 40, 4210752);
-		this.fontRenderer.drawString("Max", 130, 40, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.min"), 75, 40, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.max"), 130, 40, 4210752);
 
-		this.fontRenderer.drawString("X-Coord:", 15, 51, 4210752);
-		this.fontRenderer.drawString("Y-Coord:", 15, 68, 4210752);
-		this.fontRenderer.drawString("Z-Coord:", 15, 83, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.XCoord"), 15, 51, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.YCoord"), 15, 68, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.ZCoord"), 15, 83, 4210752);
 
 		this.textFieldminX.drawTextBox();
 		this.textFieldminY.drawTextBox();
@@ -189,34 +190,34 @@ public class GuiDectector extends GuiICBM
 		this.textFieldmaxY.drawTextBox();
 		this.textFieldmaxZ.drawTextBox();
 
-		this.fontRenderer.drawString("Frequency:", 15, 102, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.freq"), 15, 102, 4210752);
 
 		if (!this.tileEntity.isInverted)
 		{
-			this.fontRenderer.drawString("Exclude", 120, 102, 4210752);
+			this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.exclude"), 120, 102, 4210752);
 		}
 		else
 		{
-			this.fontRenderer.drawString("Include", 120, 102, 4210752);
+			this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.include"), 120, 102, 4210752);
 		}
-		this.fontRenderer.drawString("Target:", 15, 120, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.target"), 15, 120, 4210752);
 
 		this.textFieldFreq.drawTextBox();
 
 		String color = "\u00a74";
-		String status = "Idle";
+		String status = LanguageUtility.getLocal("gui.misc.idle");
 
 		if (!this.tileEntity.energy.checkExtract())
 		{
-			status = "Insufficient electricity!";
+			status = LanguageUtility.getLocal("gui.misc.nopower");
 		}
 		else
 		{
 			color = "\u00a72";
-			status = "On";
+			status = LanguageUtility.getLocal("gui.detector.on");
 		}
 
-		this.fontRenderer.drawString(color + "Status: " + status, 12, 138, 4210752);
+		this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.detector.status") + " " + status, 12, 138, 4210752);
 		this.fontRenderer.drawString(UnitDisplay.getDisplay(this.tileEntity.getEnergy(ForgeDirection.UNKNOWN), Unit.JOULES) + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 150, 4210752);
 	}
 
@@ -225,15 +226,15 @@ public class GuiDectector extends GuiICBM
 	{
 		super.updateScreen();
 
-		String mode = "All";
+		String mode = LanguageUtility.getLocal("gui.detector.all");
 
 		if (this.tileEntity.mode == 1)
 		{
-			mode = "Players";
+			mode = LanguageUtility.getLocal("gui.detector.players");
 		}
 		else if (this.tileEntity.mode == 2)
 		{
-			mode = "Mobs";
+			mode = LanguageUtility.getLocal("gui.detector.mobs");
 		}
 
 		((GuiButton) this.buttonList.get(0)).displayString = mode;

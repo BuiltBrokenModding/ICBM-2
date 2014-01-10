@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,7 +47,7 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
 
         if (trackingEntity != null)
         {
-            par3List.add("Tracking: " + trackingEntity.getEntityName());
+            par3List.add(LanguageUtility.getLocal("info.tracker.tracking") + " " + trackingEntity.getEntityName());
         }
     }
 
@@ -127,12 +128,12 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
             if (this.getEnergy(itemStack) > ENERGY_PER_TICK)
             {
                 setTrackingEntity(itemStack, entity);
-                player.addChatMessage("Now tracking: " + entity.getEntityName());
+                player.addChatMessage(LanguageUtility.getLocal("message.tracker.nowtrack") + " " + entity.getEntityName());
                 return true;
             }
             else
             {
-                player.addChatMessage("Tracker out of electricity!");
+                player.addChatMessage(LanguageUtility.getLocal("message.tracker.nopower"));
             }
         }
 

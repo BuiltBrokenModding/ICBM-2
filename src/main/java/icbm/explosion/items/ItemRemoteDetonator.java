@@ -17,6 +17,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -40,12 +41,12 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 
 		if (this.nengZha(coord.getTileEntity(player.worldObj)))
 		{
-			par3List.add("\uaa74Linked Explosive:");
-			par3List.add("X: " + (int) coord.x + ", Y: " + (int) coord.y + ", Z: " + (int) coord.z);
+			par3List.add("\uaa74" + LanguageUtility.getLocal("info.detonator.linked"));
+			par3List.add(LanguageUtility.getLocal("gui.misc.x") + " " + (int) coord.x + ", " + LanguageUtility.getLocal("gui.misc.y") + " " + (int) coord.y + ", " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) coord.z);
 		}
 		else
 		{
-			par3List.add("\u00a74No Linked Explosive");
+			par3List.add("\u00a74" + LanguageUtility.getLocal("info.detonator.noLink"));
 		}
 	}
 
@@ -66,12 +67,12 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 					this.discharge(itemStack, ENERGY, true);
 					if (world.isRemote)
 					{
-						entityPlayer.addChatMessage("Remote Locked to: X:" + x + ", Y:" + y + ", Z:" + z);
+						entityPlayer.addChatMessage(LanguageUtility.getLocal("message.detonator.locked").replace("%x", x).replace("%y", y).replace("%z", z));
 					}
 				}
 				else if (world.isRemote)
 				{
-					entityPlayer.addChatMessage("Remote out of electricity!");
+					entityPlayer.addChatMessage(LanguageUtility.getLocal("message.detonator.nopower"));
 				}
 
 				return true;
@@ -119,7 +120,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 								}
 								else
 								{
-									player.addChatMessage("Remote out of electricity!");
+									player.addChatMessage(LanguageUtility.getLocal("message.detonator.nopower"));
 								}
 							}
 						}
@@ -142,7 +143,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 				}
 				else
 				{
-					player.addChatMessage("Remote out of electricity!");
+					player.addChatMessage(LanguageUtility.getLocal("message.detonator.nopower"));
 				}
 			}
 		}
