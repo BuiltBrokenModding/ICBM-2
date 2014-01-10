@@ -20,7 +20,6 @@ import calclavia.lib.terminal.TileTerminal;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.lib.prefab.invgui.ContainerFake;
 
 /** The GUI for user permissions and access.
  * 

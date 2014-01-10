@@ -1,7 +1,7 @@
 package icbm.contraption;
 
 import icbm.api.ITracker;
-import icbm.core.base.ItemICBMElectricBase;
+import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTracker extends ItemICBMElectricBase implements ITracker
+public class ItemTracker extends ItemICBMElectrical implements ITracker
 {
     private static final long ENERGY_PER_TICK = 1;
 

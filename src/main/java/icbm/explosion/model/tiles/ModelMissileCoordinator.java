@@ -1,6 +1,6 @@
 package icbm.explosion.model.tiles;
 
-import icbm.core.base.ModelICBM;
+import icbm.core.prefab.render.ModelICBM;
 import net.minecraft.client.model.ModelRenderer;
 
 public class ModelMissileCoordinator extends ModelICBM

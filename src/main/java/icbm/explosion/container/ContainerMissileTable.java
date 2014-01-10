@@ -1,12 +1,13 @@
 package icbm.explosion.container;
 
-import icbm.core.base.ContainerBase;
+import icbm.core.prefab.ContainerBase;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.modular.TileEntityMissileTable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import calclavia.lib.prefab.slot.SlotSpecific;
 
 public class ContainerMissileTable extends ContainerBase
 {

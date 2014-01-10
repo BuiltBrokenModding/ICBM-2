@@ -1,4 +1,4 @@
-package icbm.core.base;
+package icbm.core.prefab.render;
 
 import net.minecraft.client.model.ModelBase;
 

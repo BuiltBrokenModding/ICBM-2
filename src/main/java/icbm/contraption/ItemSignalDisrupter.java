@@ -1,7 +1,7 @@
 package icbm.contraption;
 
 import icbm.api.IItemFrequency;
-import icbm.core.base.ItemICBMElectricBase;
+import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import calclavia.lib.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class ItemSignalDisrupter extends ItemICBMElectricBase implements IItemFrequency, IPacketReceiver
+public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
 	public ItemSignalDisrupter(int id)
 	{

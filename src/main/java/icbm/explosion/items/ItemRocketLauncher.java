@@ -1,7 +1,7 @@
 package icbm.explosion.items;
 
 import icbm.api.explosion.ExplosiveType;
-import icbm.core.base.ItemICBMElectricBase;
+import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
@@ -18,7 +18,7 @@ import universalelectricity.api.vector.Vector3;
  * 
  * @author Calclavia */
 
-public class ItemRocketLauncher extends ItemICBMElectricBase
+public class ItemRocketLauncher extends ItemICBMElectrical
 {
     private static final int YONG_DIAN_LIANG = 5000;
 

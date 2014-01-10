@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.explosion.container.ContainerLauncher;
-import icbm.explosion.machines.TileEntityLauncherBase;
+import icbm.explosion.machines.TileLauncherBase;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -19,9 +19,9 @@ public class GuiLauncherBase extends GuiContainer
     private int containerWidth;
     private int containerHeight;
 
-    private TileEntityLauncherBase tileEntity;
+    private TileLauncherBase tileEntity;
 
-    public GuiLauncherBase(InventoryPlayer par1InventoryPlayer, TileEntityLauncherBase tileEntity)
+    public GuiLauncherBase(InventoryPlayer par1InventoryPlayer, TileLauncherBase tileEntity)
     {
         super(new ContainerLauncher(par1InventoryPlayer, tileEntity));
         this.tileEntity = tileEntity;

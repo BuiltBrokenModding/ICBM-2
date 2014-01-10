@@ -2,7 +2,7 @@ package icbm.contraption.block;
 
 import icbm.api.ICamouflageMaterial;
 import icbm.core.CreativeTabICBM;
-import icbm.core.base.BlockICBM;
+import icbm.core.prefab.BlockICBM;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

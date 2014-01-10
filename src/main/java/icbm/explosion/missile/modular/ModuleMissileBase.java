@@ -1,8 +1,8 @@
 package icbm.explosion.missile.modular;
 
 import icbm.api.explosion.IMissileModule;
-import icbm.core.base.Module;
 import icbm.core.implement.IModuleContainer;
+import icbm.core.prefab.Module;
 
 /** Prefab for all parts that go into a missile
  * 

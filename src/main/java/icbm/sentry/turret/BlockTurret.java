@@ -2,7 +2,7 @@ package icbm.sentry.turret;
 
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
-import icbm.core.base.BlockICBM;
+import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.render.BlockRenderingHandler;

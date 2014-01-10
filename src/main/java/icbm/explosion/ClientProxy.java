@@ -1,7 +1,7 @@
 package icbm.explosion;
 
-import icbm.core.SoundHandler;
 import icbm.core.ICBMCore;
+import icbm.core.SoundHandler;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.fx.FXAntimatterPartical;
@@ -19,7 +19,7 @@ import icbm.explosion.gui.GuiMissileTable;
 import icbm.explosion.gui.GuiRadarStation;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.machines.TileEntityEmpTower;
-import icbm.explosion.machines.TileEntityLauncherBase;
+import icbm.explosion.machines.TileLauncherBase;
 import icbm.explosion.machines.TileEntityLauncherScreen;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
 import icbm.explosion.machines.TileEntityRadarStation;
@@ -116,7 +116,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCruiseLauncher.class, new RenderCruiseLauncher());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLauncherBase.class, new RFaSheDi());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RFaSheDi());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLauncherScreen.class, new RFaSheShiMuo());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySupportFrame.class, new RFaSheJia());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadarStation.class, new RenderRadarStation());
@@ -148,9 +148,9 @@ public class ClientProxy extends CommonProxy
         {
             return new GuiEmpTower((TileEntityEmpTower) tileEntity);
         }
-        else if (tileEntity instanceof TileEntityLauncherBase)
+        else if (tileEntity instanceof TileLauncherBase)
         {
-            return new GuiLauncherBase(entityPlayer.inventory, (TileEntityLauncherBase) tileEntity);
+            return new GuiLauncherBase(entityPlayer.inventory, (TileLauncherBase) tileEntity);
         }
         else if (tileEntity instanceof TileEntityMissileCoordinator)
         {

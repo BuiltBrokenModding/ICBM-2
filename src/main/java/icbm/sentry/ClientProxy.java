@@ -1,6 +1,6 @@
 package icbm.sentry;
 
-import icbm.core.base.EmptyRenderer;
+import icbm.core.prefab.EmptyRenderer;
 import icbm.sentry.gui.GuiPlatformAccess;
 import icbm.sentry.gui.GuiPlatformSlots;
 import icbm.sentry.gui.GuiPlatformTerminal;

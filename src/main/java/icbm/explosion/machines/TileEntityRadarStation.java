@@ -4,8 +4,8 @@ import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
 import icbm.api.IRadarDetectable;
 import icbm.api.RadarRegistry;
-import icbm.core.base.TileFrequency;
 import icbm.core.implement.IChunkLoadHandler;
+import icbm.core.prefab.TileFrequency;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.missile.EntityMissile;
 
@@ -35,6 +35,7 @@ import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.prefab.tile.IRedstoneProvider;
+import calclavia.lib.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 

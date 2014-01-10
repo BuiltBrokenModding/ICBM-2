@@ -1,6 +1,6 @@
 package icbm.contraption;
 
-import icbm.core.base.ItemICBMBase;
+import icbm.core.prefab.item.ItemICBMBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;

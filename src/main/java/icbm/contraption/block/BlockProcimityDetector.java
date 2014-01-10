@@ -1,7 +1,7 @@
 package icbm.contraption.block;
 
 import icbm.contraption.ICBMContraption;
-import icbm.core.base.BlockICBM;
+import icbm.core.prefab.BlockICBM;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
 package icbm.sentry.platform;
 
-import calclavia.lib.terminal.TileTerminal;
 import icbm.Reference;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.ProjectileType;
@@ -17,6 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.terminal.TileTerminal;
 
 /** Turret Platform
  * 

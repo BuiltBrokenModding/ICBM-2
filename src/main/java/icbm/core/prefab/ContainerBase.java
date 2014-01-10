@@ -1,4 +1,4 @@
-package icbm.core.base;
+package icbm.core.prefab;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

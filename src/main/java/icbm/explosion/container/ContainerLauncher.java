@@ -1,18 +1,19 @@
 package icbm.explosion.container;
 
-import icbm.core.base.ContainerBase;
+import icbm.core.prefab.ContainerBase;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.machines.TileEntityLauncherBase;
+import icbm.explosion.machines.TileLauncherBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import calclavia.lib.prefab.slot.SlotSpecific;
 
 public class ContainerLauncher extends ContainerBase
 {
-    private TileEntityLauncherBase missileLauncher;
+    private TileLauncherBase missileLauncher;
 
-    public ContainerLauncher(InventoryPlayer par1InventoryPlayer, TileEntityLauncherBase tileEntity)
+    public ContainerLauncher(InventoryPlayer par1InventoryPlayer, TileLauncherBase tileEntity)
     {
         super(tileEntity);
         this.missileLauncher = tileEntity;

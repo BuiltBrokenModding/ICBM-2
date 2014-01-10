@@ -1,7 +1,7 @@
 package icbm.core;
 
 import icbm.Reference;
-import icbm.core.base.ItemICBMBase;
+import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -19,6 +19,7 @@ import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
 import calclavia.lib.multiblock.link.TileMultiBlockPart;
+import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
 import calclavia.lib.ore.OreGenBase;
 import calclavia.lib.ore.OreGenerator;
@@ -51,6 +52,7 @@ public class ICBMCore
 	public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
 
 	public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
+	public static final PacketPlayerItem PACKET_ITEM = new PacketPlayerItem(Reference.CHANNEL);
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)

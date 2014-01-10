@@ -6,7 +6,7 @@ import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.container.ContainerMissileTable;
 import icbm.explosion.machines.TileEntityCruiseLauncher;
 import icbm.explosion.machines.TileEntityEmpTower;
-import icbm.explosion.machines.TileEntityLauncherBase;
+import icbm.explosion.machines.TileLauncherBase;
 import icbm.explosion.machines.TileEntityLauncherScreen;
 import icbm.explosion.machines.TileEntityMissileCoordinator;
 import icbm.explosion.machines.TileEntityRadarStation;
@@ -38,7 +38,7 @@ public class CommonProxy implements IGuiHandler
     public void init()
     {
         GameRegistry.registerTileEntity(TileEntityCruiseLauncher.class, "ICBMXiaoFaSheQi");
-        GameRegistry.registerTileEntity(TileEntityLauncherBase.class, "ICBMFaSheDi");
+        GameRegistry.registerTileEntity(TileLauncherBase.class, "ICBMFaSheDi");
         GameRegistry.registerTileEntity(TileEntityLauncherScreen.class, "ICBMFaSheShiMuo");
         GameRegistry.registerTileEntity(TileEntitySupportFrame.class, "ICBMFaSheJia");
         GameRegistry.registerTileEntity(TileEntityRadarStation.class, "ICBMLeiDaTai");
@@ -63,9 +63,9 @@ public class CommonProxy implements IGuiHandler
         {
             return new ContainerCruiseLauncher(player.inventory, (TileEntityCruiseLauncher) tileEntity);
         }
-        else if (tileEntity instanceof TileEntityLauncherBase)
+        else if (tileEntity instanceof TileLauncherBase)
         {
-            return new ContainerLauncher(player.inventory, (TileEntityLauncherBase) tileEntity);
+            return new ContainerLauncher(player.inventory, (TileLauncherBase) tileEntity);
         }
         else if (tileEntity instanceof TileEntityMissileCoordinator)
         {

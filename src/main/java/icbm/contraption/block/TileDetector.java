@@ -1,8 +1,8 @@
 package icbm.contraption.block;
 
-import icbm.contraption.ICBMContraption;
 import icbm.contraption.ItemSignalDisrupter;
-import icbm.core.base.TileFrequency;
+import icbm.core.ICBMCore;
+import icbm.core.prefab.TileFrequency;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,24 +10,23 @@ import java.util.Set;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.electricity.IVoltageInput;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.network.PacketHandler;
+import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.tile.IRedstoneProvider;
 
 import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
-import dark.lib.prefab.invgui.ContainerFake;
 
-public class TileDetector extends TileFrequency implements IRedstoneProvider
+public class TileDetector extends TileFrequency implements IRedstoneProvider, IPacketReceiver, IVoltageInput
 {
 	private static final int MAX_DISTANCE = 30;
 
@@ -48,7 +47,7 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider
 
 	public TileDetector()
 	{
-		this.energy = new EnergyStorageHandler(100);
+		this.energy = new EnergyStorageHandler(200, 100);
 	}
 
 	@Override
@@ -74,7 +73,7 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider
 
 				boolean isDetectThisCheck = false;
 
-				if (this.isFunctioning())
+				if (this.energy.checkExtract())
 				{
 					AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
 					List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
@@ -122,6 +121,8 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider
 							break;
 						}
 					}
+
+					this.energy.extractEnergy();
 				}
 
 				if (isDetectThisCheck != this.isDetect)
@@ -137,7 +138,7 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketHandler.instance().getTilePacket(ICBMContraption.CHANNEL, "desc", this, this.energy.getEnergy(), this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+		return ICBMCore.PACKET_TILE.getPacket(this, 1, this.energy.getEnergy(), this.frequency, this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
 	}
 
 	@Override
@@ -145,9 +146,21 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider
 	{
 		try
 		{
-			if (!super.simplePacket(id, data, player))
+
+			switch (data.readInt())
 			{
-				if (id.equalsIgnoreCase("desc"))
+				case -1:
+				{
+					if (data.readBoolean())
+					{
+						this.playersUsing.add(player);
+					}
+					else
+					{
+						this.playersUsing.remove(player);
+					}
+				}
+				case 0:
 				{
 					this.setEnergy(ForgeDirection.UNKNOWN, data.readLong());
 					this.frequency = data.readShort();
@@ -155,26 +168,32 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider
 					this.isInverted = data.readBoolean();
 					this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
 					this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
+					break;
 				}
-				else if (id.equalsIgnoreCase("mode"))
+				case 1:
 				{
+					// Mode
 					this.mode = data.readByte();
+					break;
 				}
-				else if (id.equalsIgnoreCase("freq"))
+				case 2:
 				{
+					// Freq
 					this.frequency = data.readShort();
+					break;
 				}
-				else if (id.equalsIgnoreCase("minVec"))
+				case 3:
 				{
+					// MinVec
 					this.minCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
+					break;
 				}
-				else if (id.equalsIgnoreCase("maxVec"))
+				case 4:
 				{
+					// MaxVec
 					this.maxCoord = new Vector3(Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())), Math.max(0, Math.min(MAX_DISTANCE, data.readInt())));
+					break;
 				}
-			}
-			else
-			{
 			}
 		}
 		catch (Exception e)
@@ -222,4 +241,17 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider
 	{
 		return this.isDetect;
 	}
+
+	@Override
+	public long getVoltageInput(ForgeDirection direction)
+	{
+		return 240;
+	}
+
+	@Override
+	public void onWrongVoltage(ForgeDirection direction, long voltage)
+	{
+
+	}
+
 }

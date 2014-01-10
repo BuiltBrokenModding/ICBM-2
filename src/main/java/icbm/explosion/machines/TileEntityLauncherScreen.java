@@ -17,6 +17,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -39,7 +40,7 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
 
     // The missile launcher base in which this
     // screen is connected with
-    public TileEntityLauncherBase laucherBase = null;
+    public TileLauncherBase laucherBase = null;
 
     public short gaoDu = 3;
 
@@ -61,9 +62,9 @@ public class TileEntityLauncherScreen extends TileEntityLauncherPrefab implement
 
                 if (tileEntity != null)
                 {
-                    if (tileEntity instanceof TileEntityLauncherBase)
+                    if (tileEntity instanceof TileLauncherBase)
                     {
-                        this.laucherBase = (TileEntityLauncherBase) tileEntity;
+                        this.laucherBase = (TileLauncherBase) tileEntity;
                         this.fangXiang = i;
                     }
                 }

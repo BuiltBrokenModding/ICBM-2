@@ -1,7 +1,7 @@
 package icbm.explosion.machines;
 
 import icbm.api.ITier;
-import icbm.core.base.BlockICBM;
+import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.BlockRenderHandler;
 
@@ -20,6 +20,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
 import calclavia.lib.multiblock.link.IMultiBlock;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
+import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +29,7 @@ public class BlockICBMMachine extends BlockICBM
 {
     public enum MachineData
     {
-        LauncherBase(TileEntityLauncherBase.class),
+        LauncherBase(TileLauncherBase.class),
         LauncherScreen(TileEntityLauncherScreen.class),
         LauncherFrame(TileEntitySupportFrame.class),
         RadarStation(TileEntityRadarStation.class),

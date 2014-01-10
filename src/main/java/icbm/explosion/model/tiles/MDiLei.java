@@ -1,7 +1,7 @@
 package icbm.explosion.model.tiles;
 
 import icbm.Reference;
-import icbm.core.base.ModelICBM;
+import icbm.core.prefab.render.ModelICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

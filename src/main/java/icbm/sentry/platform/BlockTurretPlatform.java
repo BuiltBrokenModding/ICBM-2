@@ -1,7 +1,7 @@
 package icbm.sentry.platform;
 
 import icbm.core.CreativeTabICBM;
-import icbm.core.base.BlockICBM;
+import icbm.core.prefab.BlockICBM;
 import icbm.sentry.CommonProxy;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.IAmmunition;

@@ -2,7 +2,7 @@ package icbm.explosion.missile.missile;
 
 import icbm.Reference;
 import icbm.api.IMissileLockable;
-import icbm.core.base.ModelICBM;
+import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.model.missiles.MMFanDan;
 import net.minecraft.entity.Entity;

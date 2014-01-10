@@ -1,4 +1,4 @@
-package icbm.core.base;
+package icbm.core.prefab;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

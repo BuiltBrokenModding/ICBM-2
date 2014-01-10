@@ -133,10 +133,10 @@ public class ICBMCommand extends CommandBase
                     switch (entityPlayer.worldObj.rand.nextInt(20))
                     {
                         case 0:
-                            sender.sendChatToPlayer(ChatMessageComponent.createFromText("Did you pay the power bill!"));
+                            sender.sendChatToPlayer(ChatMessageComponent.createFromText("Did you pay the power bill?"));
                             return;
                         case 1:
-                            sender.sendChatToPlayer(ChatMessageComponent.createFromText("See them power there toys now!"));
+                            sender.sendChatToPlayer(ChatMessageComponent.createFromText("See them power their toys now!"));
                             return;
                         case 2:
                             sender.sendChatToPlayer(ChatMessageComponent.createFromText("Hey who turned the lights out."));

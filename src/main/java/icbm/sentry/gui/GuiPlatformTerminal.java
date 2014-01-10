@@ -12,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 import calclavia.lib.terminal.TileTerminal;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dark.lib.prefab.invgui.ContainerFake;
 
 /** The console GUI used by turrets.
  * 

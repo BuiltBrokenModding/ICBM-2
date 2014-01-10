@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ICBMConfiguration;
-import icbm.core.base.ModelICBM;
+import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastEnderman;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.TileEntityExplosive;

@@ -5,7 +5,7 @@ import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.CreativeTabICBM;
-import icbm.core.base.BlockICBM;
+import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.RenderBombBlock;
 

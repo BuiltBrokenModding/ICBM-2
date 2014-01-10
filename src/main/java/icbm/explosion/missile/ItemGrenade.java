@@ -3,7 +3,7 @@ package icbm.explosion.missile;
 import icbm.Reference;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
-import icbm.core.base.ItemICBMBase;
+import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.List;
 

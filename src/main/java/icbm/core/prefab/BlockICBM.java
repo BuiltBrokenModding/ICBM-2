@@ -1,4 +1,4 @@
-package icbm.core.base;
+package icbm.core.prefab;
 
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;

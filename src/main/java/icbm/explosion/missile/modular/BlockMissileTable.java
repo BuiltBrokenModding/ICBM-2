@@ -1,7 +1,7 @@
 package icbm.explosion.missile.modular;
 
 import icbm.core.ICBMCore;
-import icbm.core.base.BlockICBM;
+import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;

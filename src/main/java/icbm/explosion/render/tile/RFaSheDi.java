@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileEntityLauncherBase;
+import icbm.explosion.machines.TileLauncherBase;
 import icbm.explosion.model.tiles.MFaSheDi0;
 import icbm.explosion.model.tiles.MFaSheDi1;
 import icbm.explosion.model.tiles.MFaSheDi2;
@@ -37,7 +37,7 @@ public class RFaSheDi extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f)
     {
-        TileEntityLauncherBase tileEntity = (TileEntityLauncherBase) tileentity;
+        TileLauncherBase tileEntity = (TileLauncherBase) tileentity;
 
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);

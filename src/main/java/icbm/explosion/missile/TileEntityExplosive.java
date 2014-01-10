@@ -13,6 +13,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -64,7 +65,7 @@ public class TileEntityExplosive extends TileEntity implements IExplosiveContain
                 {
                     ItemStack itemStack = player.inventory.getCurrentItem();
                     BlockExplosive.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
-                    ((ItemRemoteDetonator) ICBMExplosion.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.YONG_DIAN_LIANG, true);
+                    ((ItemRemoteDetonator) ICBMExplosion.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.ENERGY, true);
                 }
             }
         }

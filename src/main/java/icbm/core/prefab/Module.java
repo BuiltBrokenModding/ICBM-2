@@ -1,4 +1,4 @@
-package icbm.core.base;
+package icbm.core.prefab;
 
 import icbm.api.ITier;
 import icbm.core.implement.IModule;

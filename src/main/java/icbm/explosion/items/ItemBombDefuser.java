@@ -1,6 +1,6 @@
 package icbm.explosion.items;
 
-import icbm.core.base.ItemICBMElectricBase;
+import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.missile.EntityExplosive;
@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
 //Explosive Defuser
-public class ItemBombDefuser extends ItemICBMElectricBase
+public class ItemBombDefuser extends ItemICBMElectrical
 {
     private static final int YONG_DIAN_LIANG = 2000;
 

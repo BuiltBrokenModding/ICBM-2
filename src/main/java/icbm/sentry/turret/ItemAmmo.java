@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
 import icbm.Reference;
-import icbm.core.base.ItemICBMBase;
+import icbm.core.prefab.item.ItemICBMBase;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.interfaces.IAmmunition;
 

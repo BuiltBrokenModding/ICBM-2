@@ -1,6 +1,6 @@
 package icbm.explosion.model.missiles;
 
-import icbm.core.base.ModelICBM;
+import icbm.core.prefab.render.ModelICBM;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import cpw.mods.fml.relauncher.Side;

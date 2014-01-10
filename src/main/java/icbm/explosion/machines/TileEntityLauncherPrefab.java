@@ -1,12 +1,12 @@
 package icbm.explosion.machines;
 
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
-import icbm.core.base.TileFrequency;
+import icbm.core.prefab.TileFrequency;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;

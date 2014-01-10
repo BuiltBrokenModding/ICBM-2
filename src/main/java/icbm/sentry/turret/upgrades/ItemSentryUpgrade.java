@@ -1,7 +1,7 @@
 package icbm.sentry.turret.upgrades;
 
 import icbm.Reference;
-import icbm.core.base.ItemICBMBase;
+import icbm.core.prefab.item.ItemICBMBase;
 import icbm.sentry.ITurretUpgrade;
 
 import java.util.List;

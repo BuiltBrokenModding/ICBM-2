@@ -2,7 +2,7 @@ package icbm.explosion.missile;
 
 import icbm.api.explosion.IExplosive;
 import icbm.core.ICBMConfiguration;
-import icbm.core.base.ModelICBM;
+import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.ex.ExAntiGravitational;
 import icbm.explosion.missile.ex.ExAntimatter;
