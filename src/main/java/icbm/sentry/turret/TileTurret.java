@@ -1,18 +1,21 @@
 package icbm.sentry.turret;
 
-import icbm.Reference;
+import icbm.api.sentry.IWeaponSystem;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.platform.TileTurretPlatform;
+import icbm.sentry.task.IServo;
 import icbm.sentry.task.LookHelper;
 import icbm.sentry.task.RotationHelper;
 import icbm.sentry.task.ServoMotor;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
@@ -27,14 +30,12 @@ import calclavia.lib.network.PacketHandler;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.network.Player;
-
 /**
  * Turret Base Class Class that handles all the basic movement, and block based updates of a turret.
  * 
  * @author Calclavia, Rseifert
  */
-public abstract class TileEntityTurret extends TileICBM implements IPacketReceiver, ISentry, IHealthTile
+public abstract class TileTurret extends TileICBM implements IPacketReceiver, ISentry, IHealthTile
 {
 	/** SPAWN DIRECTION OF SENTRY */
 	private ForgeDirection platformDirection = ForgeDirection.DOWN;
@@ -80,7 +81,7 @@ public abstract class TileEntityTurret extends TileICBM implements IPacketReceiv
 		ROTATION, DESCRIPTION, SHOT, STATS;
 	}
 
-	public TileEntityTurret()
+	public TileTurret()
 	{
 		this.rotationHelper = new RotationHelper(this);
 		this.yawMotor = new ServoMotor(360, 0);
@@ -138,41 +139,52 @@ public abstract class TileEntityTurret extends TileICBM implements IPacketReceiv
 	 * ----------------------- PACKET DATA AND SAVING --------------------------------------
 	 */
 	@Override
-	public boolean simplePacket(String id, ByteArrayDataInput dataStream, Player player)
+	public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
 	{
 		try
 		{
-			if (id.equalsIgnoreCase(TurretPacketType.ROTATION.name()))
-			{
-				this.yawMotor.setRotation(dataStream.readFloat());
-				this.pitchMotor.setRotation(dataStream.readFloat());
-			}
-			else if (id.equalsIgnoreCase(TurretPacketType.DESCRIPTION.name()))
-			{
-				this.readFromNBT(PacketHandler.instance().readNBTTagCompound(dataStream));
-			}
-			else if (id.equalsIgnoreCase(TurretPacketType.STATS.name()))
-			{
-				this.health = dataStream.readInt();
-			}
+			this.onReceivePacket(data.readInt(), data, player, extra);
 		}
 		catch (Exception e)
 		{
 			ICBMCore.LOGGER.severe(MessageFormat.format("Packet receiving failed: {0}", this.getClass().getSimpleName()));
 			e.printStackTrace();
-			return true;
 		}
-		return false;
+	}
+
+	public void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
+	{
+		switch (TurretPacketType.values()[id])
+		{
+			case ROTATION:
+			{
+				this.yawMotor.setRotation(data.readFloat());
+				this.pitchMotor.setRotation(data.readFloat());
+				break;
+			}
+			case DESCRIPTION:
+			{
+				this.readFromNBT(PacketHandler.readNBTTagCompound(data));
+				break;
+			}
+			case STATS:
+			{
+				this.health = data.readInt();
+				break;
+			}
+			default:
+				break;
+		}
 	}
 
 	public Packet getStatsPacket()
 	{
-		return PacketHandler.instance().getTilePacket(Reference.CHANNEL, TurretPacketType.STATS.name(), this, this.health);
+		return ICBMCore.PACKET_TILE.getPacket(this, TurretPacketType.STATS.ordinal(), this, this.health);
 	}
 
 	public Packet getRotationPacket()
 	{
-		return PacketHandler.instance().getPacketFromLoader(Reference.CHANNEL, TurretPacketType.ROTATION.name(), this, this.rotationHelper);
+		return ICBMCore.PACKET_TILE.getPacket(this, TurretPacketType.ROTATION.ordinal(), this, this.rotationHelper);
 	}
 
 	@Override
@@ -180,7 +192,7 @@ public abstract class TileEntityTurret extends TileICBM implements IPacketReceiv
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
-		return PacketHandler.instance().getPacket(Reference.CHANNEL, TurretPacketType.DESCRIPTION.name(), this, nbt);
+		return ICBMCore.PACKET_TILE.getPacket(this, TurretPacketType.DESCRIPTION.ordinal(), this, nbt);
 	}
 
 	/** Writes a tile entity to NBT. */
@@ -269,7 +281,7 @@ public abstract class TileEntityTurret extends TileICBM implements IPacketReceiv
 		this.platformDirection = side.getOpposite();
 	}
 
-	@Override
+	// @Override
 	public VectorWorld getAimingDirection()
 	{
 		return new VectorWorld(this.worldObj, this.pos().add(Vector3.scale(new Vector3(this.getYawServo().getRotation(), this.getPitchServo().getRotation()), 1)));
@@ -320,7 +332,7 @@ public abstract class TileEntityTurret extends TileICBM implements IPacketReceiv
 
 		if (!this.worldObj.isRemote)
 		{
-			PacketHandler.instance().sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
+			PacketHandler.sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
 		}
 	}
 
@@ -351,7 +363,7 @@ public abstract class TileEntityTurret extends TileICBM implements IPacketReceiv
 			}
 			else
 			{
-				PacketHandler.instance().sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
+				PacketHandler.sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
 			}
 
 			return true;

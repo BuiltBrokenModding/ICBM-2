@@ -8,7 +8,7 @@ import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.ProjectileType;
 import icbm.sentry.interfaces.IAmmunition;
 import icbm.sentry.turret.ItemAmmo.AmmoType;
-import icbm.sentry.turret.TileEntityTurret;
+import icbm.sentry.turret.TileTurret;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -34,7 +34,7 @@ import calclavia.lib.terminal.TileTerminal;
 public class TileTurretPlatform extends TileTerminal implements IInventory
 {
 	/** The turret linked to this platform. */
-	private TileEntityTurret cachedTurret = null;
+	private TileTurret cachedTurret = null;
 	/** The start index of the upgrade slots for the turret. */
 	public static final int UPGRADE_START_INDEX = 12;
 	private static final int TURRET_UPGADE_SLOTS = 3;
@@ -79,15 +79,15 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
 	}
 
 	/** Gets the turret instance linked to this platform */
-	public TileEntityTurret getTurret()
+	public TileTurret getTurret()
 	{
 		if (this.cachedTurret == null || this.cachedTurret.isInvalid() || !(new Vector3(this.cachedTurret).equals(new Vector3(this).modifyPositionFromSide(this.getTurretDirection()))))
 		{
 			TileEntity tileEntity = new Vector3(this).modifyPositionFromSide(this.getTurretDirection()).getTileEntity(this.worldObj);
 
-			if (tileEntity instanceof TileEntityTurret)
+			if (tileEntity instanceof TileTurret)
 			{
-				this.cachedTurret = (TileEntityTurret) tileEntity;
+				this.cachedTurret = (TileTurret) tileEntity;
 			}
 			else
 			{
@@ -109,10 +109,10 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
 	{
 		TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + this.getTurretDirection().offsetX, this.yCoord + this.getTurretDirection().offsetY, this.zCoord + this.getTurretDirection().offsetZ);
 
-		if (ent instanceof TileEntityTurret)
+		if (ent instanceof TileTurret)
 		{
 			this.cachedTurret = null;
-			((TileEntityTurret) ent).destroy(false);
+			((TileTurret) ent).destroy(false);
 			return true;
 		}
 

@@ -2,7 +2,7 @@ package icbm.sentry.render;
 
 import icbm.Reference;
 import icbm.sentry.models.ModelAATurret;
-import icbm.sentry.turret.TileEntityTurret;
+import icbm.sentry.turret.TileTurret;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -28,9 +28,9 @@ public class RenderAAGun extends RenderTurret
     {
         super.renderTileEntityAt(t, x, y, z, f);
 
-        if (t instanceof TileEntityTurret)
+        if (t instanceof TileTurret)
         {
-            TileEntityTurret tileEntity = (TileEntityTurret) t;
+            TileTurret tileEntity = (TileTurret) t;
             GL11.glPushMatrix();
             GL11.glTranslatef((float) x + 0.5f, (float) y + 1f, (float) z + 0.5f);
             GL11.glScalef(0.7f, 0.7f, 0.7f);

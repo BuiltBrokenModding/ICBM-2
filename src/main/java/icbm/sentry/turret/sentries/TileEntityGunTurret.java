@@ -3,7 +3,7 @@ package icbm.sentry.turret.sentries;
 import icbm.Reference;
 import universalelectricity.api.vector.Vector3;
 
-public class TileEntityGunTurret extends TileEntityAutoTurret
+public class TileEntityGunTurret extends TileAutoTurret
 {
     public TileEntityGunTurret()
     {

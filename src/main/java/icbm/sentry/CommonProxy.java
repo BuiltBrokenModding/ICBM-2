@@ -2,7 +2,7 @@ package icbm.sentry;
 
 import icbm.sentry.platform.ContainerTurretPlatform;
 import icbm.sentry.platform.TileTurretPlatform;
-import icbm.sentry.turret.mount.TileEntityRailGun;
+import icbm.sentry.turret.mount.TileRailGun;
 import icbm.sentry.turret.sentries.TileEntityAAGun;
 import icbm.sentry.turret.sentries.TileEntityGunTurret;
 import icbm.sentry.turret.sentries.TileEntityLaserGun;
@@ -24,7 +24,7 @@ public class CommonProxy implements IGuiHandler
     {
         GameRegistry.registerTileEntity(TileEntityGunTurret.class, "ICBMGunTurret");
         GameRegistry.registerTileEntity(TileEntityAAGun.class, "ICBMAATurret");
-        GameRegistry.registerTileEntity(TileEntityRailGun.class, "ICBMRailgun");
+        GameRegistry.registerTileEntity(TileRailGun.class, "ICBMRailgun");
         GameRegistry.registerTileEntity(TileEntityLaserGun.class, "ICBMLeiSheF");
         GameRegistry.registerTileEntity(TileTurretPlatform.class, "ICBMPlatform");
     }

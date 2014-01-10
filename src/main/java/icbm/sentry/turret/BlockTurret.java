@@ -6,7 +6,7 @@ import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.render.BlockRenderingHandler;
-import icbm.sentry.turret.mount.TileEntityRailGun;
+import icbm.sentry.turret.mount.TileRailGun;
 import icbm.sentry.turret.sentries.TileEntityAAGun;
 import icbm.sentry.turret.sentries.TileEntityGunTurret;
 import icbm.sentry.turret.sentries.TileEntityLaserGun;
@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
+import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
 import cpw.mods.fml.relauncher.Side;
@@ -37,7 +38,7 @@ public class BlockTurret extends BlockICBM
     public enum TurretType
     {
         GUN(TileEntityGunTurret.class),
-        RAILGUN(TileEntityRailGun.class),
+        RAILGUN(TileRailGun.class),
         AA(TileEntityAAGun.class),
         LASER(TileEntityLaserGun.class);
 
@@ -61,9 +62,9 @@ public class BlockTurret extends BlockICBM
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         TileEntity ent = world.getBlockTileEntity(x, y, z);
-        if (ent instanceof TileEntityTurret)
+        if (ent instanceof TileTurret)
         {
-            EntityTileDamagable dEnt = ((TileEntityTurret) ent).getDamageEntity();
+            EntityTileDamagable dEnt = ((TileTurret) ent).getDamageEntity();
             if (dEnt != null)
             {
                 this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
@@ -87,10 +88,10 @@ public class BlockTurret extends BlockICBM
     {
         TileEntity ent = world.getBlockTileEntity(x, y, z);
 
-        if (ent instanceof TileEntityTurret)
+        if (ent instanceof TileTurret)
         {
             Random random = new Random();
-            ((TileEntityTurret) ent).setHealth(5 + random.nextInt(7), true);
+            ((TileTurret) ent).setHealth(5 + random.nextInt(7), true);
             return true;
         }
 
@@ -104,9 +105,9 @@ public class BlockTurret extends BlockICBM
          * platform below it. */
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof IBlockActivated)
+        if (tileEntity instanceof IBlockActivate)
         {
-            return ((IBlockActivated) tileEntity).onActivated(entityPlayer);
+            return ((IBlockActivate) tileEntity).onActivated(entityPlayer);
         }
 
         int id = world.getBlockId(x, y - 1, z);
@@ -125,7 +126,7 @@ public class BlockTurret extends BlockICBM
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntityTurret)
+        if (tileEntity instanceof TileTurret)
         {
             if (this.canBlockStay(world, x, y, z))
             {
@@ -145,7 +146,7 @@ public class BlockTurret extends BlockICBM
             {
                 if (tileEntity != null)
                 {
-                    ((TileEntityTurret) tileEntity).destroy(false);
+                    ((TileTurret) tileEntity).destroy(false);
                 }
             }
         }

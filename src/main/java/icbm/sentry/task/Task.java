@@ -1,6 +1,6 @@
 package icbm.sentry.task;
 
-import icbm.sentry.turret.sentries.TileEntityAutoTurret;
+import icbm.sentry.turret.sentries.TileAutoTurret;
 import net.minecraft.world.World;
 
 /** An AI Commands that is used by TileEntities with AI.
@@ -12,7 +12,7 @@ public abstract class Task
     protected int ticks = 0;
 
     public World world;
-    public TileEntityAutoTurret tileEntity;
+    public TileAutoTurret tileEntity;
     public TaskManager taskManager;
 
     /** Called by the TaskManager to propagate tick updates

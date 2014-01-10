@@ -1,11 +1,14 @@
 package icbm.sentry.task;
 
+import icbm.api.sentry.IGyroMotor;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.network.IPacketLoad;
 import calclavia.lib.utility.ISaveObj;
+import calclavia.lib.utility.MathUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -36,8 +39,8 @@ public class RotationHelper implements ISaveObj, IPacketLoad
     public void updateRotation(float speedYaw, float speedPitch)
     {
         //Clamp target angles
-        this.targetYaw = (int) MathHelper.clampAngleTo360(this.targetYaw);
-        this.targetPitch = (int) MathHelper.clampAngleTo360(this.targetPitch);
+        this.targetYaw = (int) MathUtility.clampAngleTo360(this.targetYaw);
+        this.targetPitch = (int) MathUtility.clampAngleTo360(this.targetPitch);
         updateRotation(this.motor.getYawServo(), speedYaw, this.targetYaw);
         updateRotation(this.motor.getPitchServo(), speedYaw, this.targetPitch);
     }
@@ -67,7 +70,7 @@ public class RotationHelper implements ISaveObj, IPacketLoad
             {
                 actualYaw = targetRotation;
             }
-            actualYaw = MathHelper.clampAngleTo360(actualYaw);
+            actualYaw = MathUtility.clampAngleTo360(actualYaw);
             if (actualYaw > servo.getLimits().left())
             {
                 actualYaw = servo.getLimits().left();

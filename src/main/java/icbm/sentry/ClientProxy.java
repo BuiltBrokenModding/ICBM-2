@@ -12,7 +12,7 @@ import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.RenderLaserTurret;
 import icbm.sentry.render.RenderRailGun;
 import icbm.sentry.turret.mount.EntityMountPoint;
-import icbm.sentry.turret.mount.TileEntityRailGun;
+import icbm.sentry.turret.mount.TileRailGun;
 import icbm.sentry.turret.sentries.TileEntityAAGun;
 import icbm.sentry.turret.sentries.TileEntityGunTurret;
 import icbm.sentry.turret.sentries.TileEntityLaserGun;
@@ -40,7 +40,7 @@ public class ClientProxy extends CommonProxy
         /** TileEntities */
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAAGun.class, new RenderAAGun());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailGun.class, new RenderRailGun());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileRailGun.class, new RenderRailGun());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserGun.class, new RenderLaserTurret());
 
         RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new EmptyRenderer());

@@ -6,7 +6,7 @@ import icbm.sentry.ProjectileType;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
 
-public class TileEntityLaserGun extends TileEntityAutoTurret
+public class TileEntityLaserGun extends TileAutoTurret
 {
     /** Laser turret spins its barrels every shot. */
     public float barrelRotation;

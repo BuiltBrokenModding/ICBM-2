@@ -96,9 +96,9 @@ public class EntityMountPoint extends Entity implements IEntityAdditionalSpawnDa
             return;
         }
 
-        if (this.controller instanceof TileEntityMountableTurret)
+        if (this.controller instanceof TileMountableTurret)
         {
-            ((TileEntityMountableTurret) this.controller).entityFake = this;
+            ((TileMountableTurret) this.controller).entityFake = this;
         }
 
         if (this.worldObj.isRemote && this.riddenByEntity != null)

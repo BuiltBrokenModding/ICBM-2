@@ -1,7 +1,7 @@
 package icbm.sentry.task;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.turret.sentries.TileEntityAutoTurret;
+import icbm.sentry.turret.sentries.TileAutoTurret;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ public class TaskManager
 {
     private final List<Task> tasks = new ArrayList<Task>();
     private int taskIndex = 0;
-    protected TileEntityAutoTurret tileEntity;
+    protected TileAutoTurret tileEntity;
 
-    public TaskManager(TileEntityAutoTurret tileEntity)
+    public TaskManager(TileAutoTurret tileEntity)
     {
         this.tileEntity = tileEntity;
     }

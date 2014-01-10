@@ -1,5 +1,6 @@
 package icbm.sentry.turret.weapon;
 
+import icbm.api.sentry.IWeaponPlatform;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import universalelectricity.api.vector.VectorWorld;

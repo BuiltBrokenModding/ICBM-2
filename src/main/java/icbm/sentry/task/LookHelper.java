@@ -1,6 +1,6 @@
 package icbm.sentry.task;
 
-import icbm.sentry.turret.TileEntityTurret;
+import icbm.sentry.turret.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
@@ -11,9 +11,9 @@ import universalelectricity.api.vector.Vector3;
 public class LookHelper
 {
     public static final int PITCH_DISPLACEMENT = 0;
-    private TileEntityTurret sentry;
+    private TileTurret sentry;
 
-    public LookHelper(TileEntityTurret turret)
+    public LookHelper(TileTurret turret)
     {
         this.sentry = turret;
     }

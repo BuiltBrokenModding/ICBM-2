@@ -1,6 +1,6 @@
 package icbm.sentry.damage;
 
-import icbm.sentry.turret.TileEntityTurret;
+import icbm.sentry.turret.TileTurret;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author DarkGuardsman */
 public class EntityTileDamagable extends EntityLiving implements IEntityAdditionalSpawnData
 {
-    private TileEntityTurret host;
+    private TileTurret host;
 
     public EntityTileDamagable(World par1World)
     {
@@ -37,7 +37,7 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
         this.setSize(1.1F, 1.1F);
     }
 
-    public EntityTileDamagable(TileEntityTurret host)
+    public EntityTileDamagable(TileTurret host)
     {
         this(host.worldObj);
         this.setPosition(host.xCoord + 0.5, host.yCoord, host.zCoord + 0.5);
@@ -89,9 +89,9 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
         try
         {
             TileEntity tileEntity = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
-            if (tileEntity instanceof TileEntityTurret)
+            if (tileEntity instanceof TileTurret)
             {
-                this.host = (TileEntityTurret) tileEntity;
+                this.host = (TileTurret) tileEntity;
             }
         }
         catch (Exception e)
