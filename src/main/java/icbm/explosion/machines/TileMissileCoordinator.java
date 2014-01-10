@@ -1,5 +1,6 @@
 package icbm.explosion.machines;
 
+import universalelectricity.api.energy.EnergyStorageHandler;
 import icbm.Reference;
 import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
@@ -24,6 +25,11 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
 {
 	private byte fangXiang = 3;
 	protected ItemStack[] containingItems = new ItemStack[this.getSizeInventory()];
+
+	public TileMissileCoordinator()
+	{
+		this.energy = new EnergyStorageHandler(0);
+	}
 
 	@Override
 	public boolean canUpdate()

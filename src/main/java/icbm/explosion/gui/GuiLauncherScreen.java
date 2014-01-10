@@ -2,6 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.core.ICBMCore;
+import icbm.core.prefab.render.GuiICBM;
 import icbm.explosion.machines.TileLauncherScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
@@ -11,11 +12,10 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.gui.GuiBase;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GuiLauncherScreen extends GuiBase
+public class GuiLauncherScreen extends GuiICBM
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
@@ -29,9 +29,10 @@ public class GuiLauncherScreen extends GuiBase
 	private int containerWidth;
 	private int containerHeight;
 
-	public GuiLauncherScreen(TileLauncherScreen par2ICBMTileEntityMissileLauncher)
+	public GuiLauncherScreen(TileLauncherScreen tileEntity)
 	{
-		this.tileEntity = par2ICBMTileEntityMissileLauncher;
+		super(tileEntity);
+		this.tileEntity = tileEntity;
 	}
 
 	/** Adds the buttons (and other controls) to the screen in question. */
@@ -66,15 +67,6 @@ public class GuiLauncherScreen extends GuiBase
 			this.tFZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
 			this.tFY.setText(Math.round(this.tileEntity.getTarget().y) + "");
 		}
-
-		PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, true));
-	}
-
-	@Override
-	public void onGuiClosed()
-	{
-		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, false));
 	}
 
 	/** Call this method from you GuiScreen to process the keys into textbox. */

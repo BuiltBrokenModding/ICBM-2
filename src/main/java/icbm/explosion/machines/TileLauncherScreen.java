@@ -102,9 +102,9 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 					this.targetPos = new Vector3(this.xCoord, 0, this.zCoord);
 				}
 
-				for (EntityPlayer wanJia : this.playersUsing)
+				for (EntityPlayer players : this.playersUsing)
 				{
-					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) wanJia);
+					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) players);
 				}
 			}
 
@@ -123,7 +123,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 
 	public Packet getDescriptionPacket2()
 	{
-		return ICBMCore.PACKET_TILE.getPacket(this, 3, this.energy.getEnergy(), this.targetPos.x, this.targetPos.y, this.targetPos.z);
+		return ICBMCore.PACKET_TILE.getPacket(this, 4, this.energy.getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
 	}
 
 	@Override
@@ -145,6 +145,14 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 		{
 			switch (data.readInt())
 			{
+				case -1:
+				{
+					if (data.readBoolean())
+						this.playersUsing.add(player);
+					else
+						this.playersUsing.remove(player);
+					break;
+				}
 				case 0:
 				{
 					this.fangXiang = data.readByte();
@@ -176,7 +184,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 				case 4:
 				{
 					this.energy.setEnergy(data.readLong());
-					this.targetPos = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
+					this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
 					break;
 				}
 			}
@@ -335,12 +343,12 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 		switch (this.getTier())
 		{
 			case 0:
-				return 500000;
+				return 5000000;
 			case 1:
-				return 800000;
+				return 8000000;
 		}
 
-		return 1000000;
+		return 10000000;
 	}
 
 	@Override
