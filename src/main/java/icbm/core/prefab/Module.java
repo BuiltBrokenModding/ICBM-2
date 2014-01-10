@@ -1,15 +1,15 @@
 package icbm.core.prefab;
 
 import icbm.api.ITier;
-import icbm.core.implement.IModule;
-import icbm.core.implement.IModuleContainer;
+import icbm.api.sentry.IICBMModule;
+import icbm.api.sentry.IModuleContainer;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** Prefab for ICBM module parts uses in the creation, modification, or design of a more complex
  * object.
  * 
  * @author DarkGuardsman */
-public abstract class Module implements ITier, IModule
+public abstract class Module implements ITier, IICBMModule
 {
     protected String name = "";
     protected int tier;
@@ -38,7 +38,7 @@ public abstract class Module implements ITier, IModule
         this.tier = tier;
     }
 
-    public IModule setName(String name)
+    public IICBMModule setName(String name)
     {
         this.name = name;
         return this;

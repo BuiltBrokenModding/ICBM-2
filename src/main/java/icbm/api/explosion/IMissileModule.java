@@ -1,12 +1,12 @@
 package icbm.api.explosion;
 
 import icbm.api.ITier;
-import icbm.core.implement.IModule;
+import icbm.api.sentry.IICBMModule;
 
 /** Basic parts of a modular missile setup
  * 
  * @author DarkGuardsman */
-public interface IMissileModule extends IModule, ITier
+public interface IMissileModule extends IICBMModule, ITier
 {
 
     /** Weight of the modular if it impacts max speed of the missile. in kilo-grams */

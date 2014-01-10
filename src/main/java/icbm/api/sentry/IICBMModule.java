@@ -1,10 +1,11 @@
-package icbm.core.implement;
+package icbm.api.sentry;
+
 
 /** Interface design to say this object is a peace that can be used to modify or construct a large
  * object.
  * 
  * @author DarkGuardsman */
-public interface IModule
+public interface IICBMModule
 {
     /** Called when the modular is update or first added to an object */
     public void init(IModuleContainer missile);

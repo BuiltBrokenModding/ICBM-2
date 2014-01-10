@@ -1,4 +1,4 @@
-package icbm.core.implement;
+package icbm.api.sentry;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
 public interface IModuleContainer
 {
     /** Set of modular inside this modular container */
-    public List<IModule> getModulars();
+    public List<IICBMModule> getModulars();
 
-    public boolean canAddModular(IModule modular);
+    public boolean canAddModular(IICBMModule modular);
 }
