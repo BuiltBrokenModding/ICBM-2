@@ -1,6 +1,6 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastExothermic;
 import icbm.explosion.missile.Explosive;
@@ -22,7 +22,7 @@ public class ExExothermic extends Missile
     public ExExothermic(String mingZi, int tier)
     {
         super(mingZi, tier);
-        this.createNetherrack = ICBMConfiguration.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
+        this.createNetherrack = Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ExExothermic extends Missile
     @Override
     public void init()
     {
-        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override

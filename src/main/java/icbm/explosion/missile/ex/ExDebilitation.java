@@ -1,6 +1,6 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastChemical;
 import icbm.explosion.missile.Explosive;
@@ -23,7 +23,7 @@ public class ExDebilitation extends Missile
     @Override
     public void init()
     {
-        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS", "WRW", "SSS", 'R', Explosive.replsive.getItemStack(), 'W', Item.bucketWater, 'S', "dustSulfur" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "SSS", "WRW", "SSS", 'R', Explosive.replsive.getItemStack(), 'W', Item.bucketWater, 'S', "dustSulfur" }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override

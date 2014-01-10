@@ -1,7 +1,7 @@
 package icbm.explosion.missile.ex;
 
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastEnderman;
 import icbm.explosion.missile.Explosive;
@@ -85,7 +85,7 @@ public class ExEnder extends Missile
     @Override
     public void init()
     {
-        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @SuppressWarnings("deprecation")

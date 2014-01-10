@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.machines.TileEntityEmpTower;
+import icbm.explosion.machines.TileEMPTower;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
@@ -20,13 +20,13 @@ public class GuiEmpTower extends GuiBase
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
-    private TileEntityEmpTower tileEntity;
+    private TileEMPTower tileEntity;
     private GuiTextField textFieldBanJing;
 
     private int containerWidth;
     private int containerHeight;
 
-    public GuiEmpTower(TileEntityEmpTower tileEntity)
+    public GuiEmpTower(TileEMPTower tileEntity)
     {
         this.tileEntity = tileEntity;
     }
@@ -77,7 +77,7 @@ public class GuiEmpTower extends GuiBase
 
         try
         {
-            int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), TileEntityEmpTower.MAX_RADIUS);
+            int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), TileEMPTower.MAX_RADIUS);
             this.tileEntity.empRadius = radius;
             PacketDispatcher.sendPacketToServer(PacketManager.getPacket(ICBMExplosion.CHANNEL, this.tileEntity, 2, this.tileEntity.empRadius));
         }

@@ -2,7 +2,7 @@ package icbm.explosion.container;
 
 import icbm.core.prefab.ContainerBase;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.modular.TileEntityMissileTable;
+import icbm.explosion.missile.modular.TileMissileAssembler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -11,9 +11,9 @@ import calclavia.lib.prefab.slot.SlotSpecific;
 
 public class ContainerMissileTable extends ContainerBase
 {
-    private TileEntityMissileTable missileLauncher;
+    private TileMissileAssembler missileLauncher;
 
-    public ContainerMissileTable(InventoryPlayer par1InventoryPlayer, TileEntityMissileTable tileEntity)
+    public ContainerMissileTable(InventoryPlayer par1InventoryPlayer, TileMissileAssembler tileEntity)
     {
         super(tileEntity);
         this.missileLauncher = tileEntity;

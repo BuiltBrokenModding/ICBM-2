@@ -52,7 +52,7 @@ public class BlockMissileTable extends BlockICBM
     @Override
     public TileEntity createNewTileEntity(World var1)
     {
-        return new TileEntityMissileTable();
+        return new TileMissileAssembler();
     }
 
     /** Called when the block is placed in the world. */
@@ -71,9 +71,9 @@ public class BlockMissileTable extends BlockICBM
     public boolean canBlockStay(World world, int x, int y, int z)
     {
         TileEntity entity = world.getBlockTileEntity(x, y, z);
-        if (entity instanceof TileEntityMissileTable)
+        if (entity instanceof TileMissileAssembler)
         {
-            ForgeDirection s = ((TileEntityMissileTable) entity).placedSide;
+            ForgeDirection s = ((TileMissileAssembler) entity).placedSide;
             Vector3 vec = new Vector3(entity).translate(new Vector3(-s.offsetX, -s.offsetY, -s.offsetZ));
 
             return Block.blocksList[vec.getBlockID(world)] != null;
@@ -93,7 +93,7 @@ public class BlockMissileTable extends BlockICBM
         Block block = Block.blocksList[pos.getBlockID(world)];
         if (block == null || block.isBlockReplaceable(world, x, y, z))
         {
-            Vector3[] vecs = TileEntityMissileTable.getMultiBlockVectors(placeSide, (byte) rot);
+            Vector3[] vecs = TileMissileAssembler.getMultiBlockVectors(placeSide, (byte) rot);
             for (Vector3 vec : vecs)
             {
                 block = Block.blocksList[pos.clone().translate(vec).getBlockID(world)];
@@ -113,7 +113,7 @@ public class BlockMissileTable extends BlockICBM
         Block block = Block.blocksList[pos.getBlockID(world)];
         if (block == null || block.isBlockReplaceable(world, x, y, z) || block.blockID == ICBMExplosion.blockMissileTable.blockID)
         {
-            Vector3[] vecs = TileEntityMissileTable.getMultiBlockVectors(placeSide, (byte) rot);
+            Vector3[] vecs = TileMissileAssembler.getMultiBlockVectors(placeSide, (byte) rot);
 
             for (Vector3 vec : vecs)
             {
@@ -144,10 +144,10 @@ public class BlockMissileTable extends BlockICBM
         byte rotation = 0;
         ForgeDirection side = ForgeDirection.UP;
         TileEntity entity = world.getBlockTileEntity(x, y, z);
-        if (entity instanceof TileEntityMissileTable)
+        if (entity instanceof TileMissileAssembler)
         {
-            rotation = ((TileEntityMissileTable) entity).rotationSide;
-            side = ((TileEntityMissileTable) entity).placedSide;
+            rotation = ((TileMissileAssembler) entity).rotationSide;
+            side = ((TileMissileAssembler) entity).placedSide;
             if (rotation == 3)
             {
                 rotation = 0;
@@ -162,21 +162,21 @@ public class BlockMissileTable extends BlockICBM
                 // tileEntity
                 // Then reload the tileEntity nbt into the newly created block&tileEntity
                 NBTTagCompound tag = new NBTTagCompound();
-                ((TileEntityMissileTable) entity).rotating = true;
+                ((TileMissileAssembler) entity).rotating = true;
 
-                Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
-                ((TileEntityMissileTable) entity).setRotation(rotation);
-                ((TileEntityMissileTable) entity).writeToNBT(tag);
+                Vector3[] positions = ((TileMissileAssembler) entity).getMultiBlockVectors();
+                ((TileMissileAssembler) entity).setRotation(rotation);
+                ((TileMissileAssembler) entity).writeToNBT(tag);
                 for (Vector3 position : positions)
                 {
                     new Vector3(entity).translate(position).setBlock(entity.worldObj, 0);
                 }
                 world.setBlock(x, y, z, this.blockID);
                 entity = world.getBlockTileEntity(x, y, z);
-                ((TileEntityMissileTable) entity).readFromNBT(tag);
+                ((TileMissileAssembler) entity).readFromNBT(tag);
 
                 ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
-                ((TileEntityMissileTable) entity).rotating = false;
+                ((TileMissileAssembler) entity).rotating = false;
                 world.markBlockForUpdate(x, y, z);
                 return true;
 
@@ -195,21 +195,21 @@ public class BlockMissileTable extends BlockICBM
                 // tileEntity
                 // Then reload the tileEntity nbt into the newly created block&tileEntity
                 NBTTagCompound tag = new NBTTagCompound();
-                ((TileEntityMissileTable) entity).rotating = true;
+                ((TileMissileAssembler) entity).rotating = true;
 
-                Vector3[] positions = ((TileEntityMissileTable) entity).getMultiBlockVectors();
-                ((TileEntityMissileTable) entity).setRotation(rotation);
-                ((TileEntityMissileTable) entity).writeToNBT(tag);
+                Vector3[] positions = ((TileMissileAssembler) entity).getMultiBlockVectors();
+                ((TileMissileAssembler) entity).setRotation(rotation);
+                ((TileMissileAssembler) entity).writeToNBT(tag);
                 for (Vector3 position : positions)
                 {
                     new Vector3(entity).translate(position).setBlock(entity.worldObj, 0);
                 }
                 world.setBlock(x, y, z, this.blockID);
                 entity = world.getBlockTileEntity(x, y, z);
-                ((TileEntityMissileTable) entity).readFromNBT(tag);
+                ((TileMissileAssembler) entity).readFromNBT(tag);
 
                 ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
-                ((TileEntityMissileTable) entity).rotating = false;
+                ((TileMissileAssembler) entity).rotating = false;
                 world.markBlockForUpdate(x, y, z);
                 return true;
 
@@ -223,9 +223,9 @@ public class BlockMissileTable extends BlockICBM
     public void breakBlock(World world, int x, int y, int z, int par5, int par6)
     {
         TileEntity entity = world.getBlockTileEntity(x, y, z);
-        if (!world.isRemote && entity instanceof TileEntityMissileTable)
+        if (!world.isRemote && entity instanceof TileMissileAssembler)
         {
-            if (!((TileEntityMissileTable) entity).rotating)
+            if (!((TileMissileAssembler) entity).rotating)
             {
                 this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMissileTable, 1, 0));
             }

@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.core.prefab.render.GuiICBMContainer;
 import icbm.explosion.container.ContainerMissileCoordinator;
-import icbm.explosion.machines.TileEntityMissileCoordinator;
+import icbm.explosion.machines.TileMissileCoordinator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
@@ -12,10 +12,10 @@ import universalelectricity.api.vector.Vector3;
 
 public class GuiMissileCoordinator extends GuiICBMContainer
 {
-    private TileEntityMissileCoordinator tileEntity;
+    private TileMissileCoordinator tileEntity;
     private float animation = 0;
 
-    public GuiMissileCoordinator(InventoryPlayer par1InventoryPlayer, TileEntityMissileCoordinator tileEntity)
+    public GuiMissileCoordinator(InventoryPlayer par1InventoryPlayer, TileMissileCoordinator tileEntity)
     {
         super(new ContainerMissileCoordinator(par1InventoryPlayer, tileEntity));
         this.tileEntity = tileEntity;

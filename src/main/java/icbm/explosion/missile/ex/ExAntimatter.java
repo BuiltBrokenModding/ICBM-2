@@ -1,7 +1,7 @@
 package icbm.explosion.missile.ex;
 
 import icbm.Reference;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastAntimatter;
 import icbm.explosion.missile.Explosive;
@@ -40,13 +40,13 @@ public class ExAntimatter extends Missile
     @Override
     public void init()
     {
-        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', Explosive.nuclear.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "AAA", "AEA", "AAA", 'E', Explosive.nuclear.getItemStack(), 'A', "antimatterGram" }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BlastAntimatter(world, entity, x, y, z, ICBMConfiguration.ANTIMATTER_SIZE, ICBMConfiguration.DESTROY_BEDROCK).explode();
+        new BlastAntimatter(world, entity, x, y, z, Settings.ANTIMATTER_SIZE, Settings.DESTROY_BEDROCK).explode();
     }
 
     @SideOnly(Side.CLIENT)

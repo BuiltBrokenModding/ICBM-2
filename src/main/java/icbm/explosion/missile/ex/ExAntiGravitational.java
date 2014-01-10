@@ -1,6 +1,6 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastAntiGravitational;
 import icbm.explosion.missile.missile.Missile;
@@ -22,7 +22,7 @@ public class ExAntiGravitational extends Missile
     @Override
     public void init()
     {
-        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', replsive.getItemStack(), 'E', Item.eyeOfEnder }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+        RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "ETE", "EEE", 'T', replsive.getItemStack(), 'E', Item.eyeOfEnder }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override

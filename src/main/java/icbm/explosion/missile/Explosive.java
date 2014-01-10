@@ -1,7 +1,7 @@
 package icbm.explosion.missile;
 
 import icbm.api.explosion.IExplosive;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.ex.ExAntiGravitational;
@@ -83,7 +83,7 @@ public abstract class Explosive implements IExplosive
 
     static
     {
-        ICBMConfiguration.CONFIGURATION.load();
+        Settings.CONFIGURATION.load();
 
         condensed = ExplosiveRegistry.register(new ExCondensed("condensed", 1));
         shrapnel = ExplosiveRegistry.register(new ExShrapnel("shrapnel", 1));
@@ -120,7 +120,7 @@ public abstract class Explosive implements IExplosive
         cluster = (Missile) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
         nuclearCluster = (Missile) ExplosiveRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
 
-        ICBMConfiguration.CONFIGURATION.save();
+        Settings.CONFIGURATION.save();
         registered = true;
     }
 
@@ -154,7 +154,7 @@ public abstract class Explosive implements IExplosive
         this.hasMinecart = this.tier <= 2;
 
         this.flagName = FlagRegistry.registerFlag("ban_" + this.nameID);
-        this.isDisabled = ICBMConfiguration.CONFIGURATION.get("Disable_Explosives", "Disable " + this.nameID, false).getBoolean(false);
+        this.isDisabled = Settings.CONFIGURATION.get("Disable_Explosives", "Disable " + this.nameID, false).getBoolean(false);
 
     }
 

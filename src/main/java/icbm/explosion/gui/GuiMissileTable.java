@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.explosion.container.ContainerMissileTable;
-import icbm.explosion.missile.modular.TileEntityMissileTable;
+import icbm.explosion.missile.modular.TileMissileAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -19,9 +19,9 @@ public class GuiMissileTable extends GuiContainer
     private int containerWidth;
     private int containerHeight;
 
-    private TileEntityMissileTable tileEntity;
+    private TileMissileAssembler tileEntity;
 
-    public GuiMissileTable(InventoryPlayer par1InventoryPlayer, TileEntityMissileTable tileEntity)
+    public GuiMissileTable(InventoryPlayer par1InventoryPlayer, TileMissileAssembler tileEntity)
     {
         super(new ContainerMissileTable(par1InventoryPlayer, tileEntity));
         this.tileEntity = tileEntity;

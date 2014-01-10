@@ -1,6 +1,6 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastShrapnel;
 import icbm.explosion.missile.Explosive;
@@ -28,15 +28,15 @@ public class ExShrapnel extends Missile
     {
         if (this.getID() == Explosive.shrapnel.getID())
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', replsive.getItemStack(), '?', Item.arrow }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', replsive.getItemStack(), '?', Item.arrow }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
         }
         else if (this.getID() == Explosive.anvil.getID())
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', Explosive.shrapnel.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', Explosive.shrapnel.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
         }
         else if (this.getID() == Explosive.fragmentation.getID())
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', incendiary.getItemStack(), '@', shrapnel.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " @ ", "@?@", " @ ", '?', incendiary.getItemStack(), '@', shrapnel.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
         }
     }
 

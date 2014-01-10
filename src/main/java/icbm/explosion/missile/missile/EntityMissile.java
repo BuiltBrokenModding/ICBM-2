@@ -9,7 +9,7 @@ import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.sentry.IAATarget;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ICBMExplosion;
@@ -264,7 +264,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 
     public void updateLoadChunk(int newChunkX, int newChunkZ)
     {
-        if (!this.worldObj.isRemote && ICBMConfiguration.ZAI_KUAI && this.chunkTicket != null)
+        if (!this.worldObj.isRemote && Settings.ZAI_KUAI && this.chunkTicket != null)
         {
             ForgeChunkManager.forceChunk(this.chunkTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
         }

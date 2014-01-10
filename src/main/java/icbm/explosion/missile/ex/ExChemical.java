@@ -1,6 +1,6 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastChemical;
@@ -26,11 +26,11 @@ public class ExChemical extends Missile
     {
         if (this.getTier() == 1)
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ICBMCore.itemPoisonPowder, '?', debilitation.getItemStack() }), "Chemical", ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ICBMCore.itemPoisonPowder, '?', debilitation.getItemStack() }), "Chemical", Settings.CONFIGURATION, true);
         }
         else if (this.getTier() == 2)
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', chemical.getItemStack() }), "Contagious", ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', chemical.getItemStack() }), "Contagious", Settings.CONFIGURATION, true);
         }
     }
 

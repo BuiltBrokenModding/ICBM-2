@@ -1,7 +1,7 @@
 package icbm.explosion.missile.ex;
 
 import icbm.Reference;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastNuclear;
 import icbm.explosion.missile.Explosive;
@@ -30,17 +30,17 @@ public class ExNuclear extends Missile
         {
             if (OreDictionary.getOres("ingotUranium").size() > 0)
             {
-                RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', thermobaric.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+                RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "UUU", "UEU", "UUU", 'E', thermobaric.getItemStack(), 'U', "ingotUranium" }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
             }
             else
             {
-                RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', thermobaric.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+                RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "EEE", "EEE", "EEE", 'E', thermobaric.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
 
             }
         }
         else
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', Explosive.replsive.getItemStack(), 'C', Explosive.chemical.getItemStack(), 'I', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', Explosive.replsive.getItemStack(), 'C', Explosive.chemical.getItemStack(), 'I', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
 
         }
     }

@@ -18,6 +18,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
+import calclavia.lib.multiblock.link.BlockMulti;
 import calclavia.lib.multiblock.link.TileMultiBlockPart;
 import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
@@ -41,7 +42,7 @@ public class ICBMCore
 {
 	public static final ICBMCore INSTANCE = new ICBMCore();
 
-	public static Block blockSulfurOre, blockRadioactive;
+	public static Block blockMulti, blockSulfurOre, blockRadioactive;
 
 	public static Item itemSulfurDust, itemPoisonPowder;
 
@@ -64,11 +65,12 @@ public class ICBMCore
 
 			LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
 
-			ICBMConfiguration.initiate();
-			ICBMConfiguration.CONFIGURATION.load();
+			Settings.initiate();
+			Settings.CONFIGURATION.load();
 
 			// BLOCKS
 			blockSulfurOre = new BlockSulfureOre(Reference.BLOCK_ID_PREFIX + 0);
+			blockMulti = new BlockMulti().setChannel(Reference.CHANNEL);
 
 			// Items
 			itemPoisonPowder = new ItemICBMBase(Reference.ITEM_ID_PREFIX + 0, "poisonPowder");
@@ -77,7 +79,7 @@ public class ICBMCore
 			// -- Registering Blocks
 			GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");
 
-			sulfureOreGenData = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(ICBMConfiguration.CONFIGURATION);
+			sulfureOreGenData = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
 			/** Check for existence of radioactive block. If it does not exist, then create it. */
 			if (OreDictionary.getOres("blockRadioactive").size() > 0)
@@ -87,10 +89,10 @@ public class ICBMCore
 			}
 
 			/** Decrease Obsidian Resistance */
-			Block.obsidian.setResistance(ICBMConfiguration.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+			Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
 			LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-			ICBMConfiguration.CONFIGURATION.save();
+			Settings.CONFIGURATION.save();
 
 			OreDictionary.registerOre("dustSulfur", itemSulfurDust);
 			OreGenerator.addOre(sulfureOreGenData);

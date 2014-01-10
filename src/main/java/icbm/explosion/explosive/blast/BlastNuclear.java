@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosionBase;
@@ -20,9 +20,9 @@ public class BlastNuclear extends ExplosionBase
 
     static
     {
-        ICBMConfiguration.CONFIGURATION.load();
-        POLLUTIVE_NUCLEAR = ICBMConfiguration.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Pollutive Nuclear", POLLUTIVE_NUCLEAR).getBoolean(POLLUTIVE_NUCLEAR);
-        ICBMConfiguration.CONFIGURATION.save();
+        Settings.CONFIGURATION.load();
+        POLLUTIVE_NUCLEAR = Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Pollutive Nuclear", POLLUTIVE_NUCLEAR).getBoolean(POLLUTIVE_NUCLEAR);
+        Settings.CONFIGURATION.save();
     }
 
     private ThreadLargeExplosion thread;

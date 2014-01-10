@@ -1,17 +1,10 @@
 package icbm.core.prefab;
 
-import java.util.HashSet;
-
 import icbm.api.IBlockFrequency;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import calclavia.lib.prefab.tile.IPlayerUsing;
-import calclavia.lib.prefab.tile.TileElectrical;
 
-public abstract class TileFrequency extends TileElectrical implements IBlockFrequency, IPlayerUsing
+public abstract class TileFrequency extends TileICBM implements IBlockFrequency
 {
-	public final HashSet<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
-
 	private int frequency = 0;
 
 	@Override
@@ -31,7 +24,7 @@ public abstract class TileFrequency extends TileElectrical implements IBlockFreq
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.frequency = nbt.getInteger("shengBuo");
+		this.frequency = nbt.getInteger("frequency");
 	}
 
 	/** Writes a tile entity to NBT. */
@@ -39,12 +32,6 @@ public abstract class TileFrequency extends TileElectrical implements IBlockFreq
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setInteger("shengBuo", this.frequency);
-	}
-
-	@Override
-	public HashSet<EntityPlayer> getPlayersUsing()
-	{
-		return this.playersUsing;
+		nbt.setInteger("frequency", this.frequency);
 	}
 }

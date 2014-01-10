@@ -2,7 +2,7 @@ package icbm.sentry;
 
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.ICBMCore;
 import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.platform.BlockTurretPlatform;
@@ -68,14 +68,14 @@ public class ICBMSentry extends ICBMCore
         NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
         MinecraftForge.EVENT_BUS.register(this);
 
-        ICBMConfiguration.CONFIGURATION.load();
+        Settings.CONFIGURATION.load();
 
         blockTurret = new BlockTurret(BLOCK_ID_PREFIX);
         blockPlatform = new BlockTurretPlatform(BLOCK_ID_PREFIX + 1);
 
         itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
         itemUpgrade = new ItemSentryUpgrade(ITEM_ID_PREFIX + 2);
-        ICBMConfiguration.CONFIGURATION.save();
+        Settings.CONFIGURATION.save();
 
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);

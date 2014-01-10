@@ -9,7 +9,7 @@ import icbm.contraption.block.BlockProcimityDetector;
 import icbm.contraption.block.BlockReinforcedGlass;
 import icbm.contraption.block.BlockSpikes;
 import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.ICBMCore;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -62,11 +62,11 @@ public class ICBMContraption extends ICBMCore
         super.preInit(event);
         NetworkRegistry.instance().registerGuiHandler(this, ICBMContraption.proxy);
 
-        ICBMConfiguration.CONFIGURATION.load();
+        Settings.CONFIGURATION.load();
 
         // Blocks
-        blockGlassPlate = new BlockGlassPressurePlate(ICBMConfiguration.CONFIGURATION.getBlock("Glass Pressure Plate", Reference.BLOCK_ID_PREFIX - 1).getInt());
-        blockGlassButton = new BlockGlassButton(ICBMConfiguration.CONFIGURATION.getBlock("Glass Button", Reference.BLOCK_ID_PREFIX - 2).getInt());
+        blockGlassPlate = new BlockGlassPressurePlate(Settings.CONFIGURATION.getBlock("Glass Pressure Plate", Reference.BLOCK_ID_PREFIX - 1).getInt());
+        blockGlassButton = new BlockGlassButton(Settings.CONFIGURATION.getBlock("Glass Button", Reference.BLOCK_ID_PREFIX - 2).getInt());
         blockProximityDetector = new BlockProcimityDetector(Reference.BLOCK_ID_PREFIX - 3);
         blockSpikes = new BlockSpikes(Reference.BLOCK_ID_PREFIX - 4);
         blockCamo = new BlockCamouflage(Reference.BLOCK_ID_PREFIX - 5);
@@ -74,11 +74,11 @@ public class ICBMContraption extends ICBMCore
         blockReinforcedGlass = new BlockReinforcedGlass(Reference.BLOCK_ID_PREFIX - 7);
 
         // ITEMS
-        itemAntidote = new ItemAntidote(ICBMConfiguration.CONFIGURATION.getItem("ItemAntidote", Reference.ITEM_ID_PREFIX + 2).getInt());
-        itemSignalDisrupter = new ItemSignalDisrupter(ICBMConfiguration.CONFIGURATION.getItem("ItemSignalDisrupter", Reference.ITEM_ID_PREFIX + 9).getInt());
-        itemTracker = new ItemTracker(ICBMConfiguration.CONFIGURATION.getItem("ItemTracker", Reference.ITEM_ID_PREFIX + 10).getInt());
+        itemAntidote = new ItemAntidote(Settings.CONFIGURATION.getItem("ItemAntidote", Reference.ITEM_ID_PREFIX + 2).getInt());
+        itemSignalDisrupter = new ItemSignalDisrupter(Settings.CONFIGURATION.getItem("ItemSignalDisrupter", Reference.ITEM_ID_PREFIX + 9).getInt());
+        itemTracker = new ItemTracker(Settings.CONFIGURATION.getItem("ItemTracker", Reference.ITEM_ID_PREFIX + 10).getInt());
 
-        ICBMConfiguration.CONFIGURATION.save();
+        Settings.CONFIGURATION.save();
 
         CreativeTabICBM.itemStack = new ItemStack(blockProximityDetector);
 

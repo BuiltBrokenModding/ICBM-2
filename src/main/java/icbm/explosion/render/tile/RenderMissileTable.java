@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.Missile;
-import icbm.explosion.missile.modular.TileEntityMissileTable;
+import icbm.explosion.missile.modular.TileMissileAssembler;
 import icbm.explosion.model.tiles.ModelMissileClaw;
 import icbm.explosion.model.tiles.ModelMissileCradel;
 
@@ -32,7 +32,7 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
     public static final ModelMissileClaw MODEL_CLAW3 = new ModelMissileClaw(-16);
     private static HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();;
 
-    public void renderAModelAt(TileEntityMissileTable tileEntity, double x, double y, double z, float f)
+    public void renderAModelAt(TileMissileAssembler tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         this.bindTexture(TEXTURE_FILE);
@@ -174,6 +174,6 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        renderAModelAt((TileEntityMissileTable) tileentity, d, d1, d2, f);
+        renderAModelAt((TileMissileAssembler) tileentity, d, d1, d2, f);
     }
 }

@@ -1,6 +1,6 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.missile.Explosive;
@@ -26,11 +26,11 @@ public class ExRepulsive extends Missile
     {
         if (this.getID() == Explosive.attractive.getID())
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
         }
         else
         {
-            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), ICBMConfiguration.CONFIGURATION, true);
+            RecipeHelper.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
         }
     }
 

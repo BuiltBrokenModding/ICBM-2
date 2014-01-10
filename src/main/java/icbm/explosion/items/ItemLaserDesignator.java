@@ -2,7 +2,7 @@ package icbm.explosion.items;
 
 import icbm.Reference;
 import icbm.api.IItemFrequency;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.EntityLightBeam;
@@ -32,7 +32,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
-	public static final int BAN_JING = ICBMConfiguration.DAO_DAN_ZUI_YUAN;
+	public static final int BAN_JING = Settings.DAO_DAN_ZUI_YUAN;
 	public static final int YONG_DIAN_LIANG = 6000;
 
 	public ItemLaserDesignator(int id)

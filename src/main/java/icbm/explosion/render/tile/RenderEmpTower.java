@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileEntityEmpTower;
+import icbm.explosion.machines.TileEMPTower;
 import icbm.explosion.model.tiles.ModelEmpTower;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +22,7 @@ public class RenderEmpTower extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
     {
-        TileEntityEmpTower tileEntity = (TileEntityEmpTower) t;
+        TileEMPTower tileEntity = (TileEMPTower) t;
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         this.bindTexture(TEXTURE_FILE);

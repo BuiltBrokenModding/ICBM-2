@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileEntityMissileCoordinator;
+import icbm.explosion.machines.TileMissileCoordinator;
 import icbm.explosion.model.tiles.ModelMissileCoordinator;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class RenderMissileCoordinator extends TileEntitySpecialRenderer
     private float lastSeePlayer = 0;
     private float lastFlicker = 0;
 
-    public void renderModelAt(TileEntityMissileCoordinator tileEntity, double x, double y, double z, float f)
+    public void renderModelAt(TileMissileCoordinator tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
@@ -93,6 +93,6 @@ public class RenderMissileCoordinator extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        renderModelAt((TileEntityMissileCoordinator) tileentity, d, d1, d2, f);
+        renderModelAt((TileMissileCoordinator) tileentity, d, d1, d2, f);
     }
 }

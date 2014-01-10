@@ -3,7 +3,7 @@ package icbm.explosion;
 import icbm.Reference;
 import icbm.api.ExplosiveHelper;
 import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMConfiguration;
+import icbm.core.Settings;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.cart.EntityBombCart;
@@ -119,7 +119,7 @@ public class ICBMExplosion extends ICBMCore
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(proxy);
 
-        ICBMConfiguration.CONFIGURATION.load();
+        Settings.CONFIGURATION.load();
         blockExplosive = new BlockExplosive(Reference.BLOCK_ID_PREFIX + 3);
         blockMachine = new BlockICBMMachine(Reference.BLOCK_ID_PREFIX + 4);
         blockMissileTable = new BlockMissileTable(Reference.BLOCK_ID_PREFIX + 12);
@@ -141,10 +141,10 @@ public class ICBMExplosion extends ICBMCore
         PChuanRanDu.INSTANCE = new PChuanRanDu(23, false, 5149489, "virus");
         PDongShang.INSTANCE = new PDongShang(24, false, 5149489, "frostBite");
 
-        ICBMExplosion.CREEPER_DROP_SULFER = ICBMConfiguration.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
-        ICBMExplosion.CREEPER_BLOW_UP_IN_FIRE = ICBMConfiguration.CONFIGURATION.get("Extras", "CreeperBoomInFire", true).getBoolean(true);
+        ICBMExplosion.CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
+        ICBMExplosion.CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperBoomInFire", true).getBoolean(true);
 
-        ICBMConfiguration.CONFIGURATION.save();
+        Settings.CONFIGURATION.save();
 
         CreativeTabICBM.itemStack = new ItemStack(ICBMExplosion.blockExplosive);
 

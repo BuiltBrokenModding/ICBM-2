@@ -33,10 +33,10 @@ public class ItemBlockMissileTable extends ItemBlock
             // TODO place object on side of block clicked
             world.setBlock(x, y, z, this.getBlockID(), 0, 3);
             TileEntity entity = world.getBlockTileEntity(x, y, z);
-            if (entity instanceof TileEntityMissileTable)
+            if (entity instanceof TileMissileAssembler)
             {
-                ((TileEntityMissileTable) entity).setPlacedSide(placeSide);
-                ((TileEntityMissileTable) entity).setRotation(rot);
+                ((TileMissileAssembler) entity).setPlacedSide(placeSide);
+                ((TileMissileAssembler) entity).setRotation(rot);
             }
             ICBMExplosion.blockMissileTable.onBlockPlacedBy(world, x, y, z, entityPlayer, itemStack);
             return true;

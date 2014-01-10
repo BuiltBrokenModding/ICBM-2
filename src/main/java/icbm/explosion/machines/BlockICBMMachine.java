@@ -33,9 +33,9 @@ public class BlockICBMMachine extends BlockICBM
         LauncherScreen(TileEntityLauncherScreen.class),
         LauncherFrame(TileEntitySupportFrame.class),
         RadarStation(TileEntityRadarStation.class),
-        EmpTower(TileEntityEmpTower.class),
+        EmpTower(TileEMPTower.class),
         CruiseLauncher(TileEntityCruiseLauncher.class),
-        MissileCoordinator(TileEntityMissileCoordinator.class);
+        MissileCoordinator(TileMissileCoordinator.class);
 
         public Class<? extends TileEntity> tileEntity;
 
