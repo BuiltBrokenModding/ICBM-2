@@ -24,6 +24,8 @@ buildProps.withReader {
 version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
 group = "icbm"
 archivesBaseName = "ICBM"
+sourceCompatability = 1.7
+targetCompatability = 1.7
 
 minecraft {
     version = "${config.version.minecraft}-${config.version.forge}"
@@ -57,11 +59,6 @@ task apiZip(type: Zip) {
 
 artifacts {
     archives apiZip
-}
-
-compileJava {
-	sourceCompatability = "1.7"
-	targetCompatability = "1.7"
 }
 
 jar {
