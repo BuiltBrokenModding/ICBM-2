@@ -4,7 +4,7 @@ import icbm.sentry.task.IServo;
 
 /**
  * @author Calclavia
- *
+ * 
  */
 public interface IGyroMotor
 {

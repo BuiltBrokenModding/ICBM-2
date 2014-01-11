@@ -1,7 +1,5 @@
 package icbm.sentry.turret.sentries;
 
-import java.io.IOException;
-
 import icbm.api.sentry.IAATarget;
 import icbm.core.ICBMCore;
 import icbm.sentry.ICBMSentry;
@@ -14,6 +12,9 @@ import icbm.sentry.task.TaskManager;
 import icbm.sentry.task.TaskSearchTarget;
 import icbm.sentry.turret.TileTurret;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
+
+import java.io.IOException;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;

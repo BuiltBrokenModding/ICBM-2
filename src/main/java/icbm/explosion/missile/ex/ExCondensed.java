@@ -16,28 +16,28 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExCondensed extends Missile
 {
-    public ExCondensed(String mingZi, int tier)
-    {
-        super(mingZi, tier);
-        this.setYinXin(1);
-    }
+	public ExCondensed(String mingZi, int tier)
+	{
+		super(mingZi, tier);
+		this.setYinXin(1);
+	}
 
-    @Override
-    public void init()
-    {
-        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
-    }
+	@Override
+	public void init()
+	{
+		RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+	}
 
-    @Override
-    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-    {
-        new BlastRepulsive(world, entity, x, y, z, 2.5f).explode();
-    }
+	@Override
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		new BlastRepulsive(world, entity, x, y, z, 2.5f).explode();
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ModelICBM getMissileModel()
-    {
-        return new MMYaSuo();
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ModelICBM getMissileModel()
+	{
+		return new MMYaSuo();
+	}
 }

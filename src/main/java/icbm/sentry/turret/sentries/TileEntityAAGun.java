@@ -1,9 +1,5 @@
 package icbm.sentry.turret.sentries;
 
-import net.minecraft.entity.player.EntityPlayer;
-
-import com.google.common.io.ByteArrayDataInput;
-
 import icbm.Reference;
 import universalelectricity.api.vector.Vector3;
 

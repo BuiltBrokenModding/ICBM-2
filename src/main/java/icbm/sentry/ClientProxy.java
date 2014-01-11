@@ -26,51 +26,51 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-    @Override
-    public void preInit()
-    {
-        super.preInit();
-    }
+	@Override
+	public void preInit()
+	{
+		super.preInit();
+	}
 
-    @Override
-    public void init()
-    {
-        super.init();
+	@Override
+	public void init()
+	{
+		super.init();
 
-        /** TileEntities */
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAAGun.class, new RenderAAGun());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileRailGun.class, new RenderRailGun());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserGun.class, new RenderLaserTurret());
+		/** TileEntities */
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAAGun.class, new RenderAAGun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileRailGun.class, new RenderRailGun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserGun.class, new RenderLaserTurret());
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new EmptyRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
-    }
+		RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new EmptyRenderer());
+		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
+	}
 
-    @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
-    {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+	@Override
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+	{
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity != null)
-        {
-            switch (ID)
-            {
-                case GUI_PLATFORM_ID:
-                    return new GuiPlatformSlots(player.inventory, ((TileTurretPlatform) tileEntity));
-                case GUI_PLATFORM_TERMINAL_ID:
-                    return new GuiPlatformTerminal(player.inventory, ((TileTurretPlatform) tileEntity));
-                case GUI_PLATFORM_ACCESS_ID:
-                    return new GuiPlatformAccess(player.inventory, ((TileTurretPlatform) tileEntity));
-            }
-        }
+		if (tileEntity != null)
+		{
+			switch (ID)
+			{
+				case GUI_PLATFORM_ID:
+					return new GuiPlatformSlots(player.inventory, ((TileTurretPlatform) tileEntity));
+				case GUI_PLATFORM_TERMINAL_ID:
+					return new GuiPlatformTerminal(player.inventory, ((TileTurretPlatform) tileEntity));
+				case GUI_PLATFORM_ACCESS_ID:
+					return new GuiPlatformAccess(player.inventory, ((TileTurretPlatform) tileEntity));
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
-    {
-        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, red, green, blue, age));
-    }
+	@Override
+	public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+	{
+		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, red, green, blue, age));
+	}
 }

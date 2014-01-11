@@ -16,50 +16,50 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExRepulsive extends Missile
 {
-    public ExRepulsive(String mingZi, int tier)
-    {
-        super(mingZi, tier);
-        this.setYinXin(120);
-    }
+	public ExRepulsive(String mingZi, int tier)
+	{
+		super(mingZi, tier);
+		this.setYinXin(120);
+	}
 
-    @Override
-    public void init()
-    {
-        if (this.getID() == Explosive.attractive.getID())
-        {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
-        }
-        else
-        {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
-        }
-    }
+	@Override
+	public void init()
+	{
+		if (this.getID() == Explosive.attractive.getID())
+		{
+			RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "YY", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+		}
+		else
+		{
+			RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "Y", "Y", 'Y', Explosive.condensed.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+		}
+	}
 
-    @Override
-    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-    {
-        if (this.getID() == Explosive.attractive.getID())
-        {
-            new BlastRepulsive(world, entity, x, y, z, 2f).setDestroyItems().setPushType(1).explode();
-        }
-        else
-        {
-            new BlastRepulsive(world, entity, x, y, z, 2f).setDestroyItems().setPushType(2).explode();
+	@Override
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		if (this.getID() == Explosive.attractive.getID())
+		{
+			new BlastRepulsive(world, entity, x, y, z, 2f).setDestroyItems().setPushType(1).explode();
+		}
+		else
+		{
+			new BlastRepulsive(world, entity, x, y, z, 2f).setDestroyItems().setPushType(2).explode();
 
-        }
-    }
+		}
+	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        if (this.getID() == Explosive.attractive.getID())
-        {
-            return new MMLa();
-        }
-        else
-        {
-            return new MMTui();
-        }
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public ModelICBM getMissileModel()
+	{
+		if (this.getID() == Explosive.attractive.getID())
+		{
+			return new MMLa();
+		}
+		else
+		{
+			return new MMTui();
+		}
+	}
 }

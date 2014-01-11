@@ -1,6 +1,5 @@
 package icbm.explosion.machines;
 
-import universalelectricity.api.energy.EnergyStorageHandler;
 import icbm.Reference;
 import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
@@ -10,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.energy.EnergyStorageHandler;
 import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.tile.IRotatable;

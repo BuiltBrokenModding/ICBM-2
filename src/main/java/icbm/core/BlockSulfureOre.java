@@ -1,6 +1,5 @@
 package icbm.core;
 
-import icbm.Reference;
 import icbm.core.prefab.BlockICBM;
 
 import java.util.Random;
@@ -11,7 +10,7 @@ public class BlockSulfureOre extends BlockICBM
 {
 	public BlockSulfureOre(int id)
 	{
-		super(id, "oreSulfer", Material.rock);
+		super(id, "oreSulfur", Material.rock);
 		this.setHardness(3.0f);
 	}
 

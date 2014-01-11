@@ -4,7 +4,7 @@ import com.builtbroken.common.Pair;
 
 /**
  * @author Calclavia
- *
+ * 
  */
 public interface IServo
 {

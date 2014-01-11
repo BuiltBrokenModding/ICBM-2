@@ -36,7 +36,7 @@ public class GuiPlatformSlots extends GuiContainerBase
 
 		String color = "\u00a74";
 
-		if (((TileTurretPlatform) this.tileEntity).isFunctioning())
+		if (this.tileEntity.isFunctioning())
 		{
 			color = "\u00a7a";
 		}

@@ -9,50 +9,50 @@ import universalelectricity.api.vector.Vector3;
 
 public class DYuanZiFenZhiDan extends MissileCluster
 {
-    public DYuanZiFenZhiDan(String mingZi, int tier)
-    {
-        super(mingZi, tier);
-        this.hasBlock = false;
-    }
+	public DYuanZiFenZhiDan(String mingZi, int tier)
+	{
+		super(mingZi, tier);
+		this.hasBlock = false;
+	}
 
-    public static final int MAX_CLUSTER = 4;
+	public static final int MAX_CLUSTER = 4;
 
-    @Override
-    public void update(EntityMissile missileObj)
-    {
-        if (missileObj.motionY < -0.5)
-        {
-            if (missileObj.daoDanCount < MAX_CLUSTER)
-            {
-                if (!missileObj.worldObj.isRemote)
-                {
-                    Vector3 position = new Vector3(missileObj);
-                    EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), Explosive.nuclear.getID());
-                    missileObj.worldObj.spawnEntityInWorld(clusterMissile);
-                    clusterMissile.missileType = MissileType.CruiseMissile;
-                    clusterMissile.baoHuShiJian = 20;
-                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
-                }
+	@Override
+	public void update(EntityMissile missileObj)
+	{
+		if (missileObj.motionY < -0.5)
+		{
+			if (missileObj.daoDanCount < MAX_CLUSTER)
+			{
+				if (!missileObj.worldObj.isRemote)
+				{
+					Vector3 position = new Vector3(missileObj);
+					EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), Explosive.nuclear.getID());
+					missileObj.worldObj.spawnEntityInWorld(clusterMissile);
+					clusterMissile.missileType = MissileType.CruiseMissile;
+					clusterMissile.baoHuShiJian = 20;
+					clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
+				}
 
-                missileObj.baoHuShiJian = 20;
-                missileObj.daoDanCount++;
-            }
-            else
-            {
-                missileObj.setDead();
-            }
-        }
-    }
+				missileObj.baoHuShiJian = 20;
+				missileObj.daoDanCount++;
+			}
+			else
+			{
+				missileObj.setDead();
+			}
+		}
+	}
 
-    @Override
-    public void createExplosion(World world, double x, double y, double z, Entity entity)
-    {
-        new BlastNuclear(world, entity, x, y, z, 30, 50).setNuclear().explode();
-    }
+	@Override
+	public void createExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		new BlastNuclear(world, entity, x, y, z, 30, 50).setNuclear().explode();
+	}
 
-    @Override
-    public boolean isCruise()
-    {
-        return false;
-    }
+	@Override
+	public boolean isCruise()
+	{
+		return false;
+	}
 }

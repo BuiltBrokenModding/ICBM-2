@@ -19,7 +19,6 @@ public class ContainerBase extends Container
 		this.inventory = inventory;
 		this.slotCount = inventory.getSizeInventory();
 	}
-	
 
 	public void addPlayerInventory(EntityPlayer player)
 	{

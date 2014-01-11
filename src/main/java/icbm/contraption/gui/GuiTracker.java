@@ -78,7 +78,7 @@ public class GuiTracker extends GuiBase
 	@Override
 	protected void drawForegroundLayer(int var2, int var3, float var1)
 	{
-		this.fontRenderer.drawString("\u00a77"+LanguageUtility.getLocal("gui.tracker.freq"), 62, 6, 4210752);
+		this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.tracker.freq"), 62, 6, 4210752);
 		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.tracker.freq") + ":", 15, 52, 4210752);
 		this.textFieldFrequency.drawTextBox();
 	}

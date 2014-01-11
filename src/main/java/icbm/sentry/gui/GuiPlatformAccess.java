@@ -130,14 +130,16 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 			String command = "users add";
 			String username = this.commandLine.getText();
 
-			/*for (AccessUser access : this.tileEntity.getUsers())
-			{
-				if (access.getName().equalsIgnoreCase(username))
-				{
-					command = "users remove";
-					break;
-				}
-			}*/
+			/*
+			 * for (AccessUser access : this.tileEntity.getUsers())
+			 * {
+			 * if (access.getName().equalsIgnoreCase(username))
+			 * {
+			 * command = "users remove";
+			 * break;
+			 * }
+			 * }
+			 */
 
 			((TileTerminal) this.tileEntity).sendCommandToServer(this.entityPlayer, command + " " + username);
 			this.commandLine.setText("");
@@ -162,23 +164,23 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 		outputMap.clear();
 
 		// Draws Each Line
-		/*for (int i = 0; i < lines; i++)
-		{
-			int currentLine = i + this.getScroll();
-
-			if (currentLine < this.tileEntity.getUsers().size() && currentLine >= 0)
-			{
-				AccessUser accesInfo = this.tileEntity.getUsers().get(currentLine);
-				String line = accesInfo.getName();
-
-				if (line != null && line != "")
-				{
-					Vector2 drawPosition = new Vector2(x, SPACING * i + y);
-					outputMap.put(accesInfo, drawPosition);
-					this.fontRenderer.drawString(line, drawPosition.intX(), drawPosition.intY(), color);
-				}
-			}
-		}*/
+		/*
+		 * for (int i = 0; i < lines; i++)
+		 * {
+		 * int currentLine = i + this.getScroll();
+		 * if (currentLine < this.tileEntity.getUsers().size() && currentLine >= 0)
+		 * {
+		 * AccessUser accesInfo = this.tileEntity.getUsers().get(currentLine);
+		 * String line = accesInfo.getName();
+		 * if (line != null && line != "")
+		 * {
+		 * Vector2 drawPosition = new Vector2(x, SPACING * i + y);
+		 * outputMap.put(accesInfo, drawPosition);
+		 * this.fontRenderer.drawString(line, drawPosition.intX(), drawPosition.intY(), color);
+		 * }
+		 * }
+		 * }
+		 */
 	}
 
 	@Override
@@ -203,7 +205,7 @@ public class GuiPlatformAccess extends GuiPlatformBase implements IScroll
 	@Override
 	public void setScroll(int length)
 	{
-		//this.scroll = Math.max(Math.min(length, this.tileEntity.getUsers().size()), 0);
+		// this.scroll = Math.max(Math.min(length, this.tileEntity.getUsers().size()), 0);
 	}
 
 	@Override

@@ -283,7 +283,7 @@ public class ICBMExplosion extends ICBMCore
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		super.postInit(event);
-		
+
 		ItemStack remoteDetonator = CompatibilityModule.getItemWithCharge(new ItemStack(itemRemoteDetonator), 0);
 
 		/** Add all Recipes */
@@ -409,7 +409,7 @@ public class ICBMExplosion extends ICBMCore
 		{
 			if (CREEPER_DROP_SULFER)
 			{
-				evt.entityLiving.dropItem(this.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
+				evt.entityLiving.dropItem(ICBMCore.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
 			}
 		}
 	}

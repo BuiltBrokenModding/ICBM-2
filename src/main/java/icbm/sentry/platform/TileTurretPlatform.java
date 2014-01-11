@@ -1,8 +1,5 @@
 package icbm.sentry.platform;
 
-import java.util.HashMap;
-
-import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.ProjectileType;
@@ -21,9 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.access.AccessUser;
 import calclavia.lib.terminal.TileTerminal;
 
 /**

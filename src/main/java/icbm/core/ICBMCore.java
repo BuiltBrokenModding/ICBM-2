@@ -24,7 +24,6 @@ import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
 import calclavia.lib.ore.OreGenBase;
 import calclavia.lib.ore.OreGenerator;
-import calclavia.lib.prefab.block.BlockRadioactive;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.ModMetadata;
@@ -89,7 +88,8 @@ public class ICBMCore
 			{
 				blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
 				LOGGER.fine("Detected radioative block from another mod, utilizing it.");
-			}else
+			}
+			else
 			{
 				blockRadioactive = Block.mycelium;
 			}

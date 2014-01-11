@@ -24,9 +24,6 @@ import calclavia.lib.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
-
 /**
  * This tile entity is for the screen of the missile launcher
  * 
@@ -117,6 +114,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 		return ICBMCore.PACKET_TILE.getPacket(this, 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
 	}
 
+	@Override
 	public Packet getGUIPacket()
 	{
 		return ICBMCore.PACKET_TILE.getPacket(this, 4, this.energy.getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());

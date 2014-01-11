@@ -1,6 +1,5 @@
 package icbm.sentry.platform;
 
-import calclavia.lib.access.Nodes;
 import icbm.sentry.ITurretUpgrade;
 import icbm.sentry.SlotTurret;
 import icbm.sentry.interfaces.IAmmunition;
@@ -11,6 +10,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import universalelectricity.api.item.IEnergyItem;
+import calclavia.lib.access.Nodes;
 
 public class ContainerTurretPlatform extends Container
 {
