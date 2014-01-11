@@ -19,7 +19,7 @@ public class TileCamouflage extends TileEntity implements IPacketReceiver
 	private boolean isSolid = true;
 
 	/** Bitmask **/
-	private byte renderSides = 63;
+	private byte renderSides = 0b111111;
 
 	@Override
 	public boolean canUpdate()
