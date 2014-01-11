@@ -102,7 +102,7 @@ public class GuiEMPTower extends GuiICBM
     {
         this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.empTower.name"), 65, 6, 4210752);
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.radius").replace("%p", "        "), 12, 30, 4210752);
+        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.radius").replaceAll("%p", "        "), 12, 30, 4210752);
         this.textFieldBanJing.drawTextBox();
 
         this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.effect"), 12, 55, 4210752);

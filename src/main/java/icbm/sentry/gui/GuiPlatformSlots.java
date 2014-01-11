@@ -42,7 +42,7 @@ public class GuiPlatformSlots extends GuiContainerBase
         }
 
         this.fontRenderer.drawString(color + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES), 87, 43, 4210752);
-        this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.platform.joules").replace("%j", UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES)), 87, 53, 4210752);
+        this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.platform.joules").replaceAll("%j", UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES)), 87, 53, 4210752);
 
         this.fontRenderer.drawString(LanguageUtility.getLocal("gui.platform.upgrades"), 87, 66, 4210752);
         super.drawGuiContainerForegroundLayer(x, y);
