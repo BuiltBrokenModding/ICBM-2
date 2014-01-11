@@ -18,6 +18,7 @@ public abstract class GuiPlatformBase extends GuiICBM
 
 	public GuiPlatformBase(InventoryPlayer inventory, TileTurretPlatform tileEntity)
 	{
+		super(tileEntity);
 		this.entityPlayer = inventory.player;
 		this.tileEntity = tileEntity;
 	}

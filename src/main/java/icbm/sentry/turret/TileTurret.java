@@ -152,7 +152,7 @@ public abstract class TileTurret extends TileICBM implements IPacketReceiver, IS
 		}
 	}
 
-	public void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
+	protected void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
 	{
 		switch (TurretPacketType.values()[id])
 		{

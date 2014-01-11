@@ -41,15 +41,15 @@ public class GuiMissileCoordinator extends GuiICBMContainer
 
 				double displacement = pos1.distance(pos2);
 
-				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.coordinator.displace").replace("%p", UnitDisplay.roundDecimals(displacement)), 13, 65, 4210752);
+				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.coordinator.displace").replaceAll("%p", "" + UnitDisplay.roundDecimals(displacement)), 13, 65, 4210752);
 
 				double w = Vector2.distance(pos1.toVector2(), pos2.toVector2());
 				double h = 160 + (w * 3) - pos1.y;
 
 				double distance = 0.5 * Math.sqrt(16 * (h * h) + (w * w)) + (((w * w) / (8 * h)) * (Math.log(4 * h + Math.sqrt(16 * (h * h) + (w * w))) - Math.log(w)));
 
-				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.coordinator.arc").replace("%p", UnitDisplay.roundDecimals(distance)), 13, 75, 4210752);
-				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.coordinator.time").replace("%p", UnitDisplay.roundDecimals(Math.max(100, 2 * displacement) / 20)), 13, 85, 4210752);
+				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.coordinator.arc").replaceAll("%p", "" + UnitDisplay.roundDecimals(distance)), 13, 75, 4210752);
+				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.coordinator.time").replaceAll("%p", "" + UnitDisplay.roundDecimals(Math.max(100, 2 * displacement) / 20)), 13, 85, 4210752);
 
 				Vector3 delta = pos1.clone().subtract(pos2);
 				double rotation = MathHelper.wrapAngleTo180_double(Math.toDegrees(Math.atan2(delta.z, delta.x))) - 90;

@@ -1,5 +1,7 @@
 package icbm.explosion.machines;
 
+import java.io.IOException;
+
 import icbm.Reference;
 import icbm.api.RadarRegistry;
 import icbm.core.ICBMCore;
@@ -20,7 +22,7 @@ import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TileEMPTower extends TileICBM implements IPacketReceiver, IMultiBlock, IRedstoneReceptor, IBlockActivate
+public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneReceptor, IBlockActivate
 {
 	// The maximum possible radius for the EMP to strike
 	public static final int MAX_RADIUS = 150;
@@ -37,7 +39,8 @@ public class TileEMPTower extends TileICBM implements IPacketReceiver, IMultiBlo
 	public TileEMPTower()
 	{
 		RadarRegistry.register(this);
-		this.energy = new EnergyStorageHandler(Math.max(3000000 * (this.empRadius / MAX_RADIUS), 1000000));
+		energy = new EnergyStorageHandler(0);
+		updateCapacity();
 	}
 
 	@Override
@@ -48,60 +51,65 @@ public class TileEMPTower extends TileICBM implements IPacketReceiver, IMultiBlo
 	}
 
 	@Override
+	public void initiate()
+	{
+		updateCapacity();
+	}
+
+	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 
-		if (this.ticks % 20 == 0 && this.energy.getEnergy() > 0)
-		{
-			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * this.energy.getEnergy() / this.energy.getEnergyCapacity());
-		}
+		if (ticks % 20 == 0 && energy.getEnergy() > 0)
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * energy.getEnergy() / energy.getEnergyCapacity());
 
-		this.xuanZhuanLu = (float) (Math.pow(this.energy.getEnergy() / this.energy.getEnergyCapacity(), 2) * 0.5);
-		this.xuanZhuan += xuanZhuanLu;
-		if (this.xuanZhuan > 360)
-			this.xuanZhuan = 0;
+		xuanZhuanLu = (float) (Math.pow(energy.getEnergy() / energy.getEnergyCapacity(), 2) * 0.5);
+		xuanZhuan += xuanZhuanLu;
+		if (xuanZhuan > 360)
+			xuanZhuan = 0;
 
-		this.prevXuanZhuanLu = this.xuanZhuanLu;
+		prevXuanZhuanLu = xuanZhuanLu;
 	}
 
 	@Override
-	public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+	public void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
 	{
-		try
+		switch (id)
 		{
-			switch (data.readInt())
+			case 0:
 			{
-				case 0:
-				{
-					this.energy.setEnergy(data.readLong());
-					this.empRadius = data.readInt();
-					this.empMode = data.readByte();
-					break;
-				}
-				case 1:
-				{
-					this.empRadius = data.readInt();
-					this.energy.setCapacity(Math.max(3000000 * (this.empRadius / MAX_RADIUS), 1000000));
-					break;
-				}
-				case 2:
-				{
-					this.empMode = data.readByte();
-					break;
-				}
+				energy.setEnergy(data.readLong());
+				empRadius = data.readInt();
+				empMode = data.readByte();
+				break;
+			}
+			case 1:
+			{
+				empRadius = data.readInt();
+				updateCapacity();
+				break;
+			}
+			case 2:
+			{
+				empMode = data.readByte();
+				break;
 			}
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+
+		super.onReceivePacket(id, data, player, extra);
+	}
+
+	private void updateCapacity()
+	{
+		this.energy.setCapacity(Math.max(300000000 * (this.empRadius / MAX_RADIUS), 1000000000));
+		this.energy.setMaxTransfer(this.energy.getEnergyCapacity() / 50);
 	}
 
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return ICBMCore.PACKET_TILE.getPacket(this, this.energy.getEnergy(), this.empRadius, this.empMode);
+		return ICBMCore.PACKET_TILE.getPacket(this, 0, this.energy.getEnergy(), this.empRadius, this.empMode);
 	}
 
 	/** Reads a tile entity from NBT. */
@@ -142,7 +150,7 @@ public class TileEMPTower extends TileICBM implements IPacketReceiver, IMultiBlo
 					break;
 			}
 
-			this.setEnergy(ForgeDirection.UNKNOWN, 0);
+			this.energy.setEnergy(0);
 		}
 	}
 

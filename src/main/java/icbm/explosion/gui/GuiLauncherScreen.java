@@ -187,12 +187,12 @@ public class GuiLauncherScreen extends GuiICBM
 			}
 		}
 
-		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.inaccuracy").replace("%p", inaccuracy), 12, 113, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.inaccuracy").replaceAll("%p", "" + inaccuracy), 12, 113, 4210752);
 
 		// Shows the status of the missile launcher
 		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.status") + " " + this.tileEntity.getStatus(), 12, 125, 4210752);
 		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + this.tileEntity.getVoltageInput(null) + "v", 12, 137, 4210752);
-		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
+		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplay(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
 	}
 
 	@Override

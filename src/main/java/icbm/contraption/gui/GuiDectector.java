@@ -28,6 +28,7 @@ public class GuiDectector extends GuiICBM
 
 	public GuiDectector(TileDetector tileEntity)
 	{
+		super(tileEntity);
 		this.tileEntity = tileEntity;
 	}
 

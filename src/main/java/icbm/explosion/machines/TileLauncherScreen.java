@@ -6,6 +6,7 @@ import icbm.api.LauncherType;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 
 	public TileLauncherScreen()
 	{
-		this.energy = new EnergyStorageHandler(getEnergyCapacity());
+		this.energy = new EnergyStorageHandler(getEnergyCapacity(), getEnergyCapacity() / 50);
 	}
 
 	@Override
@@ -101,11 +102,6 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 				{
 					this.targetPos = new Vector3(this.xCoord, 0, this.zCoord);
 				}
-
-				for (EntityPlayer players : this.playersUsing)
-				{
-					PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket2(), (Player) players);
-				}
 			}
 
 			if (this.ticks % 600 == 0)
@@ -121,7 +117,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 		return ICBMCore.PACKET_TILE.getPacket(this, 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
 	}
 
-	public Packet getDescriptionPacket2()
+	public Packet getGUIPacket()
 	{
 		return ICBMCore.PACKET_TILE.getPacket(this, 4, this.energy.getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
 	}
@@ -139,61 +135,47 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 	}
 
 	@Override
-	public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+	public void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
 	{
-		try
+		switch (id)
 		{
-			switch (data.readInt())
+			case 0:
 			{
-				case -1:
-				{
-					if (data.readBoolean())
-						this.playersUsing.add(player);
-					else
-						this.playersUsing.remove(player);
-					break;
-				}
-				case 0:
-				{
-					this.fangXiang = data.readByte();
-					this.tier = data.readInt();
-					this.setFrequency(data.readInt());
-					this.gaoDu = data.readShort();
-					break;
-				}
-				case 1:
-				{
-					this.setFrequency(data.readInt());
-					break;
-				}
-				case 2:
-				{
-					this.targetPos = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
-
-					if (this.getTier() < 2)
-					{
-						this.targetPos.y = 0;
-					}
-					break;
-				}
-				case 3:
-				{
-					this.gaoDu = (short) Math.max(Math.min(data.readShort(), Short.MAX_VALUE), 3);
-					break;
-				}
-				case 4:
-				{
-					this.energy.setEnergy(data.readLong());
-					this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
-					break;
-				}
+				this.fangXiang = data.readByte();
+				this.tier = data.readInt();
+				this.setFrequency(data.readInt());
+				this.gaoDu = data.readShort();
+				break;
 			}
+			case 1:
+			{
+				this.setFrequency(data.readInt());
+				break;
+			}
+			case 2:
+			{
+				this.targetPos = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
 
+				if (this.getTier() < 2)
+				{
+					this.targetPos.y = 0;
+				}
+				break;
+			}
+			case 3:
+			{
+				this.gaoDu = (short) Math.max(Math.min(data.readShort(), Short.MAX_VALUE), 3);
+				break;
+			}
+			case 4:
+			{
+				this.energy.setEnergy(data.readLong());
+				this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
+				break;
+			}
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+
+		super.onReceivePacket(id, data, player, extra);
 	}
 
 	// Checks if the missile is launchable

@@ -59,6 +59,11 @@ artifacts {
     archives apiZip
 }
 
+compileJava {
+	sourceCompatability = "1.7"
+	targetCompatability = "1.7"
+}
+
 jar {
     dependsOn copyBuildXml
     classifier = ''

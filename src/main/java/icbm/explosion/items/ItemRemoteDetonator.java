@@ -67,7 +67,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 					this.discharge(itemStack, ENERGY, true);
 					if (world.isRemote)
 					{
-						entityPlayer.addChatMessage(LanguageUtility.getLocal("message.detonator.locked").replace("%x", x).replace("%y", y).replace("%z", z));
+						entityPlayer.addChatMessage(LanguageUtility.getLocal("message.detonator.locked").replaceAll("%x", "" + x).replace("%y", "" + y).replace("%z", "" + z));
 					}
 				}
 				else if (world.isRemote)

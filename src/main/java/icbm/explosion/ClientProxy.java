@@ -11,7 +11,7 @@ import icbm.explosion.fx.FXEnderPortalPartical;
 import icbm.explosion.fx.FXYan;
 import icbm.explosion.fx.FXZhenBuo;
 import icbm.explosion.gui.GuiCruiseLauncher;
-import icbm.explosion.gui.GuiEmpTower;
+import icbm.explosion.gui.GuiEMPTower;
 import icbm.explosion.gui.GuiLauncherBase;
 import icbm.explosion.gui.GuiLauncherScreen;
 import icbm.explosion.gui.GuiMissileCoordinator;
@@ -145,7 +145,7 @@ public class ClientProxy extends CommonProxy
         }
         else if (tileEntity instanceof TileEMPTower)
         {
-            return new GuiEmpTower((TileEMPTower) tileEntity);
+            return new GuiEMPTower((TileEMPTower) tileEntity);
         }
         else if (tileEntity instanceof TileLauncherBase)
         {

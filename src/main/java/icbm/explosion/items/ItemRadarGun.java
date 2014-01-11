@@ -68,7 +68,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
 					{
 						PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(entityPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
 						this.discharge(itemStack, YONG_DIAN_LIANG, true);
-						entityPlayer.addChatMessage(LanguageUtility.getLocal("message.radarGun.scanned").replace("%x", objectMouseOver.blockX).replace("%y", objectMouseOver.blockY).replace("%z", objectMouseOver.blockZ).replace("%d", (int) Math.round(new Vector3(entityPlayer).distance(new Vector3(objectMouseOver)))));
+						entityPlayer.addChatMessage(LanguageUtility.getLocal("message.radarGun.scanned").replaceAll("%x", "" + objectMouseOver.blockX).replace("%y", "" + objectMouseOver.blockY).replaceAll("%z", "" + objectMouseOver.blockZ).replaceAll("%d", "" + Math.round(new Vector3(entityPlayer).distance(new Vector3(objectMouseOver)))));
 					}
 					else
 					{

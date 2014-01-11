@@ -2,6 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.core.ICBMCore;
+import icbm.core.prefab.render.GuiICBM;
 import icbm.explosion.machines.TileEMPTower;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -11,12 +12,11 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
-import calclavia.lib.gui.GuiBase;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GuiEmpTower extends GuiBase
+public class GuiEMPTower extends GuiICBM
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
@@ -26,8 +26,9 @@ public class GuiEmpTower extends GuiBase
 	private int containerWidth;
 	private int containerHeight;
 
-	public GuiEmpTower(TileEMPTower tileEntity)
+	public GuiEMPTower(TileEMPTower tileEntity)
 	{
+		super(tileEntity);
 		this.tileEntity = tileEntity;
 	}
 
@@ -67,7 +68,7 @@ public class GuiEmpTower extends GuiBase
 				break;
 		}
 
-		PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.empMode));
+		PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.empMode));
 	}
 
 	/** Call this method from you GuiScreen to process the keys into textbox. */
@@ -81,7 +82,7 @@ public class GuiEmpTower extends GuiBase
 		{
 			int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), TileEMPTower.MAX_RADIUS);
 			this.tileEntity.empRadius = radius;
-			PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.empRadius));
+			PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 1, this.tileEntity.empRadius));
 		}
 		catch (NumberFormatException e)
 		{
@@ -126,7 +127,7 @@ public class GuiEmpTower extends GuiBase
 		String color = "\u00a74";
 		String status = LanguageUtility.getLocal("gui.misc.idle");
 
-		if (this.tileEntity.energy.checkExtract())
+		if (!this.tileEntity.energy.isFull())
 		{
 			status = LanguageUtility.getLocal("gui.misc.nopower");
 		}
@@ -137,8 +138,8 @@ public class GuiEmpTower extends GuiBase
 		}
 
 		this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.misc.status") + " " + status, 12, 120, 4210752);
-		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + this.tileEntity.getVoltageInput(null) + "v", 12, 135, 4210752);
-		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
+		this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 135, 4210752);
+		this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplay(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
 	}
 
 	/** Draw the background layer for the GuiContainer (everything behind the items) */
