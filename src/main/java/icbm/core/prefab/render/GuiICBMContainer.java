@@ -7,11 +7,11 @@ import calclavia.lib.gui.GuiContainerBase;
 
 public abstract class GuiICBMContainer extends GuiContainerBase
 {
-	public static final ResourceLocation ICBM_EMPTY_TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_container.png");
+    public static final ResourceLocation ICBM_EMPTY_TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_container.png");
 
-	public GuiICBMContainer(Container container)
-	{
-		super(container);
-		this.baseTexture = ICBM_EMPTY_TEXTURE;
-	}
+    public GuiICBMContainer(Container container)
+    {
+        super(container);
+        this.baseTexture = ICBM_EMPTY_TEXTURE;
+    }
 }

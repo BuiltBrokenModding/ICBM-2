@@ -17,70 +17,67 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-/**
- * @author Calclavia
- * 
- */
+/** @author Calclavia */
 public abstract class TileICBM extends TileElectrical implements IPlayerUsing, IVoltageInput, IPacketReceiver
 {
-	public final HashSet<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
+    public final HashSet<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
-	@Override
-	public long getVoltageInput(ForgeDirection direction)
-	{
-		return UniversalElectricity.DEFAULT_VOLTAGE * 2;
-	}
+    @Override
+    public long getVoltageInput(ForgeDirection direction)
+    {
+        return UniversalElectricity.DEFAULT_VOLTAGE * 2;
+    }
 
-	@Override
-	public void onWrongVoltage(ForgeDirection direction, long voltage)
-	{
+    @Override
+    public void onWrongVoltage(ForgeDirection direction, long voltage)
+    {
 
-	}
+    }
 
-	@Override
-	public void updateEntity()
-	{
-		super.updateEntity();
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
 
-		for (EntityPlayer player : this.playersUsing)
-		{
-			PacketDispatcher.sendPacketToPlayer(this.getGUIPacket(), (Player) player);
-		}
-	}
+        for (EntityPlayer player : this.playersUsing)
+        {
+            PacketDispatcher.sendPacketToPlayer(this.getGUIPacket(), (Player) player);
+        }
+    }
 
-	protected Packet getGUIPacket()
-	{
-		return this.getDescriptionPacket();
-	}
+    protected Packet getGUIPacket()
+    {
+        return this.getDescriptionPacket();
+    }
 
-	@Override
-	public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
-	{
-		try
-		{
-			this.onReceivePacket(data.readInt(), data, player, extra);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    {
+        try
+        {
+            this.onReceivePacket(data.readInt(), data, player, extra);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-	protected void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
-	{
-		if (id == -1)
-		{
-			if (data.readBoolean())
-				this.playersUsing.add(player);
-			else
-				this.playersUsing.remove(player);
-		}
-	}
+    protected void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
+    {
+        if (id == -1)
+        {
+            if (data.readBoolean())
+                this.playersUsing.add(player);
+            else
+                this.playersUsing.remove(player);
+        }
+    }
 
-	@Override
-	public HashSet<EntityPlayer> getPlayersUsing()
-	{
-		return this.playersUsing;
-	}
+    @Override
+    public HashSet<EntityPlayer> getPlayersUsing()
+    {
+        return this.playersUsing;
+    }
 
 }

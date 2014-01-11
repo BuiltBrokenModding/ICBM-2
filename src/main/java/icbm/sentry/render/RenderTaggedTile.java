@@ -15,76 +15,72 @@ import calclavia.lib.render.RenderUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * @author Rseifert & Calclavia
- */
+/** @author Rseifert & Calclavia */
 @SideOnly(Side.CLIENT)
 public abstract class RenderTaggedTile extends TileEntitySpecialRenderer
 {
-	@Override
-	public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
-	{
-		if (t != null)
-		{
-			if (t instanceof ITagRender && this.getPlayer().getDistance(t.xCoord, t.yCoord, t.zCoord) <= RendererLivingEntity.NAME_TAG_RANGE)
-			{
-				HashMap<String, Integer> tags = new HashMap<String, Integer>();
-				float height = ((ITagRender) t).addInformation(tags, this.getPlayer());
+    @Override
+    public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
+    {
+        if (t != null)
+        {
+            if (t instanceof ITagRender && this.getPlayer().getDistance(t.xCoord, t.yCoord, t.zCoord) <= RendererLivingEntity.NAME_TAG_RANGE)
+            {
+                HashMap<String, Integer> tags = new HashMap<String, Integer>();
+                float height = ((ITagRender) t).addInformation(tags, this.getPlayer());
 
-				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
-				if (player.ridingEntity == null)
-				{
-					MovingObjectPosition objectPosition = player.rayTrace(8, 1);
+                if (player.ridingEntity == null)
+                {
+                    MovingObjectPosition objectPosition = player.rayTrace(8, 1);
 
-					if (objectPosition != null)
-					{
-						boolean isLooking = false;
+                    if (objectPosition != null)
+                    {
+                        boolean isLooking = false;
 
-						for (int h = 0; h < height; h++)
-						{
-							if (objectPosition.blockX == t.xCoord && objectPosition.blockY == t.yCoord + h && objectPosition.blockZ == t.zCoord)
-							{
-								isLooking = true;
-							}
-						}
+                        for (int h = 0; h < height; h++)
+                        {
+                            if (objectPosition.blockX == t.xCoord && objectPosition.blockY == t.yCoord + h && objectPosition.blockZ == t.zCoord)
+                            {
+                                isLooking = true;
+                            }
+                        }
 
-						if (isLooking)
-						{
-							Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
-							int i = 0;
+                        if (isLooking)
+                        {
+                            Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
+                            int i = 0;
 
-							while (it.hasNext())
-							{
-								Entry<String, Integer> entry = it.next();
+                            while (it.hasNext())
+                            {
+                                Entry<String, Integer> entry = it.next();
 
-								if (entry.getKey() != null)
-								{
-									RenderUtility.renderFloatingText(entry.getKey(), (float) x + 0.5f, ((float) y + (i * 0.25f)) - 2f + height, (float) z + 0.5f, entry.getValue());
-								}
+                                if (entry.getKey() != null)
+                                {
+                                    RenderUtility.renderFloatingText(entry.getKey(), (float) x + 0.5f, ((float) y + (i * 0.25f)) - 2f + height, (float) z + 0.5f, entry.getValue());
+                                }
 
-								i++;
-							}
-						}
-					}
-				}
+                                i++;
+                            }
+                        }
+                    }
+                }
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	/**
-	 * gets the player linked with the renderer
-	 */
-	public EntityPlayer getPlayer()
-	{
-		EntityLivingBase entity = this.tileEntityRenderer.entityLivingPlayer;
+    /** gets the player linked with the renderer */
+    public EntityPlayer getPlayer()
+    {
+        EntityLivingBase entity = this.tileEntityRenderer.entityLivingPlayer;
 
-		if (entity instanceof EntityPlayer)
-		{
-			return (EntityPlayer) entity;
-		}
+        if (entity instanceof EntityPlayer)
+        {
+            return (EntityPlayer) entity;
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

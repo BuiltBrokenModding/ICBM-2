@@ -2,16 +2,13 @@ package icbm.api.explosion;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * An object that contains a reference to IExplosive. Carried by explosives, grenades and missile
+/** An object that contains a reference to IExplosive. Carried by explosives, grenades and missile
  * entities etc.
  * 
- * @author Calclavia
- * 
- */
+ * @author Calclavia */
 public interface IExplosiveContainer
 {
-	public NBTTagCompound getTagCompound();
+    public NBTTagCompound getTagCompound();
 
-	public IExplosive getExplosiveType();
+    public IExplosive getExplosiveType();
 }

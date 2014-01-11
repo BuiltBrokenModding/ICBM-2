@@ -10,52 +10,52 @@ import cpw.mods.fml.common.TickType;
 
 public class TickHandler implements ITickHandler
 {
-	@Override
-	public void tickStart(EnumSet<TickType> type, Object... tickData)
-	{
-		if (type.equals(EnumSet.of(TickType.PLAYER)))
-		{
-			try
-			{
-				EntityPlayer player = (EntityPlayer) tickData[0];
+    @Override
+    public void tickStart(EnumSet<TickType> type, Object... tickData)
+    {
+        if (type.equals(EnumSet.of(TickType.PLAYER)))
+        {
+            try
+            {
+                EntityPlayer player = (EntityPlayer) tickData[0];
 
-				ItemStack currentItem = player.getCurrentEquippedItem();
+                ItemStack currentItem = player.getCurrentEquippedItem();
 
-				if (currentItem != null && (player != Minecraft.getMinecraft().renderViewEntity || Minecraft.getMinecraft().gameSettings.thirdPersonView != 0))
-				{
-					if (currentItem.itemID == ICBMExplosion.itemRocketLauncher.itemID)
-					{
-						if (player.getItemInUseCount() <= 0)
-						{
-							player.setItemInUse(currentItem, Integer.MAX_VALUE);
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				System.out.println(this.getLabel() + " failed to tick properly.");
-				e.printStackTrace();
-			}
-		}
-	}
+                if (currentItem != null && (player != Minecraft.getMinecraft().renderViewEntity || Minecraft.getMinecraft().gameSettings.thirdPersonView != 0))
+                {
+                    if (currentItem.itemID == ICBMExplosion.itemRocketLauncher.itemID)
+                    {
+                        if (player.getItemInUseCount() <= 0)
+                        {
+                            player.setItemInUse(currentItem, Integer.MAX_VALUE);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.out.println(this.getLabel() + " failed to tick properly.");
+                e.printStackTrace();
+            }
+        }
+    }
 
-	@Override
-	public void tickEnd(EnumSet<TickType> type, Object... tickData)
-	{
+    @Override
+    public void tickEnd(EnumSet<TickType> type, Object... tickData)
+    {
 
-	}
+    }
 
-	@Override
-	public EnumSet<TickType> ticks()
-	{
-		return EnumSet.of(TickType.PLAYER);
-	}
+    @Override
+    public EnumSet<TickType> ticks()
+    {
+        return EnumSet.of(TickType.PLAYER);
+    }
 
-	@Override
-	public String getLabel()
-	{
-		return "ICBM|Explosion";
-	}
+    @Override
+    public String getLabel()
+    {
+        return "ICBM|Explosion";
+    }
 
 }

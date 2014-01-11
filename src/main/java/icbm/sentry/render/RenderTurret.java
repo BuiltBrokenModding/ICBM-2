@@ -7,29 +7,29 @@ import calclavia.lib.access.Nodes;
 
 public abstract class RenderTurret extends RenderTaggedTile
 {
-	public ResourceLocation TEXTURE_FILE;
-	public ResourceLocation TEXTURE_FILE_FRIENDLY;
-	public ResourceLocation TEXTURE_FILE_HOSTILE;
+    public ResourceLocation TEXTURE_FILE;
+    public ResourceLocation TEXTURE_FILE_FRIENDLY;
+    public ResourceLocation TEXTURE_FILE_HOSTILE;
 
-	public void setTextureBaseOnState(TileTurret tileEntity)
-	{
-		EntityPlayer player = this.getPlayer();
+    public void setTextureBaseOnState(TileTurret tileEntity)
+    {
+        EntityPlayer player = this.getPlayer();
 
-		if (tileEntity.getPlatform() != null)
-		{
+        if (tileEntity.getPlatform() != null)
+        {
 
-			if (tileEntity.getPlatform().canUse(Nodes.GROUP_USER_NODE, player))
-			{
-				this.bindTexture(TEXTURE_FILE);
-				return;
-			}
-			else if (tileEntity.getPlatform().canUse(Nodes.GROUP_USER_NODE, player))
-			{
-				this.bindTexture(TEXTURE_FILE_FRIENDLY);
-				return;
-			}
-		}
+            if (tileEntity.getPlatform().canUse(Nodes.GROUP_USER_NODE, player))
+            {
+                this.bindTexture(TEXTURE_FILE);
+                return;
+            }
+            else if (tileEntity.getPlatform().canUse(Nodes.GROUP_USER_NODE, player))
+            {
+                this.bindTexture(TEXTURE_FILE_FRIENDLY);
+                return;
+            }
+        }
 
-		this.bindTexture(TEXTURE_FILE_HOSTILE);
-	}
+        this.bindTexture(TEXTURE_FILE_HOSTILE);
+    }
 }

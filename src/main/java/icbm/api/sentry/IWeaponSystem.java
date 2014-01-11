@@ -1,9 +1,6 @@
 package icbm.api.sentry;
 
-/**
- * @author Calclavia
- * 
- */
+/** @author Calclavia */
 public interface IWeaponSystem
 {
 

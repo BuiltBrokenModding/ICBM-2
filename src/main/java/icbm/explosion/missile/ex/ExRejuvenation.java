@@ -16,27 +16,27 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExRejuvenation extends Missile
 {
-	public ExRejuvenation(String mingZi, int tier)
-	{
-		super(mingZi, tier);
-	}
+    public ExRejuvenation(String mingZi, int tier)
+    {
+        super(mingZi, tier);
+    }
 
-	@Override
-	public void init()
-	{
-		RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockIron }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
-	}
+    @Override
+    public void init()
+    {
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockIron }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+    }
 
-	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		new BlastRegen(world, entity, x, y, z, 16).doExplode();
-	}
+    @Override
+    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    {
+        new BlastRegen(world, entity, x, y, z, 16).doExplode();
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		return new MMHuanYuan();
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ModelICBM getMissileModel()
+    {
+        return new MMHuanYuan();
+    }
 }

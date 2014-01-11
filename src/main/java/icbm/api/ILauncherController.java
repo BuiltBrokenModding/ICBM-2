@@ -4,47 +4,31 @@ import net.minecraft.item.ItemStack;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
 
-/**
- * Applied to all launcher TileEntitiies that operates the launching of missiles.
+/** Applied to all launcher TileEntitiies that operates the launching of missiles.
  * 
- * @author Calclavia
- */
+ * @author Calclavia */
 public interface ILauncherController extends IEnergyContainer, IBlockFrequency
 {
-	/**
-	 * What type of launcher is this?
-	 */
-	public LauncherType getLauncherType();
+    /** What type of launcher is this? */
+    public LauncherType getLauncherType();
 
-	/**
-	 * Launches the missile into the specified target.
-	 */
-	public void launch();
+    /** Launches the missile into the specified target. */
+    public void launch();
 
-	/**
-	 * Can the launcher launch the missile?
-	 */
-	public boolean canLaunch();
+    /** Can the launcher launch the missile? */
+    public boolean canLaunch();
 
-	/**
-	 * @return The status of the launcher.
-	 */
-	public String getStatus();
+    /** @return The status of the launcher. */
+    public String getStatus();
 
-	/**
-	 * @return The target of the launcher.
-	 */
-	public Vector3 getTarget();
+    /** @return The target of the launcher. */
+    public Vector3 getTarget();
 
-	/**
-	 * @param target Sets the target of the launcher
-	 */
-	public void setTarget(Vector3 target);
+    /** @param target Sets the target of the launcher */
+    public void setTarget(Vector3 target);
 
-	/**
-	 * Places a missile into the launcher.
-	 */
-	public void placeMissile(ItemStack itemStack);
+    /** Places a missile into the launcher. */
+    public void placeMissile(ItemStack itemStack);
 
-	public IMissile getMissile();
+    public IMissile getMissile();
 }

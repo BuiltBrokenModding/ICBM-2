@@ -2,21 +2,14 @@ package icbm.api.sentry;
 
 import icbm.sentry.task.IServo;
 
-/**
- * @author Calclavia
- * 
- */
+/** @author Calclavia */
 public interface IGyroMotor
 {
 
-	/**
-	 * @return
-	 */
-	IServo getYawServo();
+    /** @return */
+    IServo getYawServo();
 
-	/**
-	 * @return
-	 */
-	IServo getPitchServo();
+    /** @return */
+    IServo getPitchServo();
 
 }

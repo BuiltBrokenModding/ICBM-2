@@ -16,28 +16,28 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExBreaching extends Missile
 {
-	public ExBreaching(String mingZi, int tier)
-	{
-		super(mingZi, tier);
-		this.setYinXin(40);
-	}
+    public ExBreaching(String mingZi, int tier)
+    {
+        super(mingZi, tier);
+        this.setYinXin(40);
+    }
 
-	@Override
-	public void init()
-	{
-		RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', Explosive.condensed.getItemStack(), 'G', Item.gunpowder }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
-	}
+    @Override
+    public void init()
+    {
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { "GCG", "GCG", "GCG", 'C', Explosive.condensed.getItemStack(), 'G', Item.gunpowder }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+    }
 
-	@Override
-	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-	{
-		new BlastBreech(world, entity, x, y, z, 2.5f, 7).explode();
-	}
+    @Override
+    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    {
+        new BlastBreech(world, entity, x, y, z, 2.5f, 7).explode();
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		return new MMTuPuo();
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public ModelICBM getMissileModel()
+    {
+        return new MMTuPuo();
+    }
 }
