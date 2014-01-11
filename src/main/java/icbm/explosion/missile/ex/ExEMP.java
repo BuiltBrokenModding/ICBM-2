@@ -2,7 +2,7 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
-import icbm.explosion.explosive.blast.BlastEmp;
+import icbm.explosion.explosive.blast.BlastEMP;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMDianCi;
 import net.minecraft.block.Block;
@@ -24,7 +24,7 @@ public class ExEMP extends Missile
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BlastEmp(world, entity, x, y, z, 50).setEffectBlocks().setEffectEntities().explode();
+        new BlastEMP(world, entity, x, y, z, 50).setEffectBlocks().setEffectEntities().explode();
     }
 
     @Override

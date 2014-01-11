@@ -1,7 +1,7 @@
 package icbm.explosion;
 
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.explosive.blast.BlastEmp;
+import icbm.explosion.explosive.blast.BlastEMP;
 import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.List;
@@ -130,7 +130,7 @@ public class ICBMCommand extends CommandBase
 				int radius = parseInt(sender, args[1]);
 				if (radius > 0)
 				{
-					new BlastEmp(entityPlayer.worldObj, null, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, radius).setEffectBlocks().setEffectEntities().doExplode();
+					new BlastEMP(entityPlayer.worldObj, null, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, radius).setEffectBlocks().setEffectEntities().doExplode();
 					switch (entityPlayer.worldObj.rand.nextInt(20))
 					{
 						case 0:
