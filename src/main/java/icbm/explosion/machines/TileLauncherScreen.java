@@ -21,6 +21,7 @@ import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -214,36 +215,36 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     public String getStatus()
     {
         String color = "\u00a74";
-        String status = "Idle";
+        String status = LanguageUtility.getLocal("gui.misc.idle");
 
         if (this.laucherBase == null)
         {
-            status = "Not connected!";
+            status = LanguageUtility.getLocal("gui.launcherScreen.statusMissing");
         }
         else if (!this.energy.isFull())
         {
-            status = "Insufficient electricity!";
+            status = LanguageUtility.getLocal("gui.launcherScreen.statusNoPower");
         }
         else if (this.laucherBase.missile == null)
         {
-            status = "Missile silo is empty!";
+            status = LanguageUtility.getLocal("gui.launcherScreen.statusEmpty");
         }
         else if (this.targetPos == null)
         {
-            status = "Target is invalid!";
+            status = LanguageUtility.getLocal("gui.launcherScreen.statusInvalid");
         }
         else if (this.laucherBase.shiTaiJin(this.targetPos))
         {
-            status = "Target too close!";
+            status = LanguageUtility.getLocal("gui.launcherScreen.statusClose");
         }
         else if (this.laucherBase.shiTaiYuan(this.targetPos))
         {
-            status = "Target too far!";
+            status = LanguageUtility.getLocal("gui.launcherScreen.statusFar");
         }
         else
         {
             color = "\u00a72";
-            status = "Ready to launch!";
+            status = LanguageUtility.getLocal("gui.launcherScreen.statusReady");
         }
 
         return color + status;

@@ -26,6 +26,7 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -134,24 +135,24 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     public String getStatus()
     {
         String color = "\u00a74";
-        String status = "Idle";
+        String status = LanguageUtility.getLocal("gui.misc.idle");
 
         if (!this.energy.isFull())
         {
-            status = "No Power!";
+            status = LanguageUtility.getLocal("gui.launcherCruise.statusNoPower");
         }
         else if (this.daoDan == null)
         {
-            status = "Silo Empty!";
+            status = LanguageUtility.getLocal("gui.launcherCruise.statusEmpty");
         }
         else if (this.targetPos == null)
         {
-            status = "Invalid Target!";
+            status = LanguageUtility.getLocal("gui.launcherCruise.statusInvalid");
         }
         else
         {
             color = "\u00a72";
-            status = "Ready!";
+            status = LanguageUtility.getLocal("gui.launcherCruise.statusReady");
         }
 
         return color + status;
@@ -161,7 +162,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     @Override
     public String getInvName()
     {
-        return "Cruise Launcher";
+        return LanguageUtility.getLocal("gui.launcherCruise.name");
     }
 
     @Override

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import universalelectricity.api.energy.UnitDisplay;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -124,11 +125,11 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 
     public static enum TurretUpgradeType
     {
-        RANGE("targetCard", 5000, "Upgrades the targeting range of the sentry gun."),
-        COLLECTOR("shellCollector", 1000, "Allows the sentry to collect ejected shell casings.");
+        RANGE("targetCard", 5000, LanguageUtility.getLocal("info.upgrade.range")),
+        COLLECTOR("shellCollector", 1000, LanguageUtility.getLocal("info.upgrade.collect"));
 
         public String iconName;
-        public String details = "Upgrade for a sentry gun";
+        public String details = LanguageUtility.getLocal("info.upgrade.sentry");
         public int maxUses = 1000;
 
         private TurretUpgradeType(String name, int maxDamage, String de)
@@ -154,7 +155,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
             {
                 return "" + values()[meta].details;
             }
-            return "An upgrade for a sentry gun";
+            return LanguageUtility.getLocal("info.upgrade.sentry");
         }
     }
 

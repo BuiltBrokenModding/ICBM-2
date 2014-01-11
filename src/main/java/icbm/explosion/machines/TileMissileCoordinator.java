@@ -13,6 +13,7 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -131,7 +132,7 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
     @Override
     public String getInvName()
     {
-        return "Missile Coordinator";
+        return LanguageUtility.getLocal("gui.coordinator.name");
     }
 
     /** @return Returns if a specific slot is valid to input a specific itemStack. */

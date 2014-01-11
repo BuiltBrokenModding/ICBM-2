@@ -32,6 +32,7 @@ import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.prefab.tile.TileAdvanced;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -136,7 +137,7 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     @Override
     public String getInvName()
     {
-        return "Launcher Platform";
+        return LanguageUtility.getLocal("gui.launcherBase.name");
     }
 
     /** Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner

@@ -20,6 +20,7 @@ import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.multiblock.link.IMultiBlock;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -346,7 +347,7 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
     @Override
     public String getInvName()
     {
-        return "Missile Table";
+        return LanguageUtility.getLocal("gui.assembler.name");
     }
 
     /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
