@@ -1,5 +1,6 @@
 package icbm.explosion.render.tile;
 
+import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.BlockICBMMachine.MachineData;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -25,7 +26,19 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 		{
 			GL11.glPushMatrix();
 
-			if (metadata < MachineData.LauncherBase.ordinal() * 3 + 3)
+			if (block == ICBMExplosion.blockMissileAssembler)
+			{
+				GL11.glTranslatef(0f, 0.5f, 0f);
+				GL11.glScalef(0.5f, 0.5f, 0.5f);
+				GL11.glRotatef(180f, 0f, 0f, 1f);
+				GL11.glRotatef(180f, 0f, 1f, 0f);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderMissileAssembler.TEXTURE_FILE);
+				RenderMissileAssembler.MODEL_PANEL.render(0.0625F);
+				RenderMissileAssembler.MODEL_CLAW1.render(0.0625F);
+				RenderMissileAssembler.MODEL_CLAW2.render(0.0625F);
+				RenderMissileAssembler.MODEL_CLAW3.render(0.0625F);
+			}
+			else if (metadata < MachineData.LauncherBase.ordinal() * 3 + 3)
 			{
 				int tier = metadata;
 

@@ -5,8 +5,8 @@ import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.missile.modular.TileMissileAssembler;
-import icbm.explosion.model.tiles.ModelMissileClaw;
-import icbm.explosion.model.tiles.ModelMissileCradel;
+import icbm.explosion.model.tiles.ModelMissileAssemblerClaw;
+import icbm.explosion.model.tiles.ModelMissileAssemblerPanel;
 
 import java.util.HashMap;
 
@@ -22,14 +22,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderMissileTable extends TileEntitySpecialRenderer
+public class RenderMissileAssembler extends TileEntitySpecialRenderer
 {
 	public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "grey.png");
 
-	public static final ModelMissileCradel MODEL = new ModelMissileCradel();
-	public static final ModelMissileClaw MODEL_CLAW = new ModelMissileClaw(-2);
-	public static final ModelMissileClaw MODEL_CLAW2 = new ModelMissileClaw(12);
-	public static final ModelMissileClaw MODEL_CLAW3 = new ModelMissileClaw(-16);
+	public static final ModelMissileAssemblerPanel MODEL_PANEL = new ModelMissileAssemblerPanel();
+	public static final ModelMissileAssemblerClaw MODEL_CLAW1 = new ModelMissileAssemblerClaw(-2);
+	public static final ModelMissileAssemblerClaw MODEL_CLAW2 = new ModelMissileAssemblerClaw(12);
+	public static final ModelMissileAssemblerClaw MODEL_CLAW3 = new ModelMissileAssemblerClaw(-16);
 	private static HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();;
 
 	public void renderAModelAt(TileMissileAssembler tileEntity, double x, double y, double z, float f)
@@ -129,8 +129,8 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
 			}
 		}
 
-		MODEL.render(0.0625F);
-		MODEL_CLAW.render(0.0625F);
+		MODEL_PANEL.render(0.0625F);
+		MODEL_CLAW1.render(0.0625F);
 		MODEL_CLAW2.render(0.0625F);
 		MODEL_CLAW3.render(0.0625F);
 		if (tileEntity.missileID >= 0)
@@ -159,12 +159,12 @@ public class RenderMissileTable extends TileEntitySpecialRenderer
 			GL11.glTranslatef(1.0f, 0f, 0f);
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
 
-			if (!RenderMissileTable.cache.containsKey(missile))
+			if (!RenderMissileAssembler.cache.containsKey(missile))
 			{
-				RenderMissileTable.cache.put(missile, missile.getMissileModel());
+				RenderMissileAssembler.cache.put(missile, missile.getMissileModel());
 			}
 
-			RenderMissileTable.cache.get(missile).render(0.0625F);
+			RenderMissileAssembler.cache.get(missile).render(0.0625F);
 		}
 
 		GL11.glPopMatrix();

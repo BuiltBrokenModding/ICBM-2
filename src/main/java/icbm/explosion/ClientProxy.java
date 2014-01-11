@@ -48,7 +48,7 @@ import icbm.explosion.render.tile.RenderBombBlock;
 import icbm.explosion.render.tile.RenderCruiseLauncher;
 import icbm.explosion.render.tile.RenderEmpTower;
 import icbm.explosion.render.tile.RenderMissileCoordinator;
-import icbm.explosion.render.tile.RenderMissileTable;
+import icbm.explosion.render.tile.RenderMissileAssembler;
 import icbm.explosion.render.tile.RenderRadarStation;
 
 import java.util.List;
@@ -123,7 +123,7 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileMissileCoordinator.class, new RenderMissileCoordinator());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileExplosive.class, new RenderBombBlock());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileTable());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileAssembler());
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.multiblock.link.IMultiBlock;
@@ -33,6 +34,11 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
 	EntityMissile missile;
 	private ItemStack[] containingItems = new ItemStack[1];
+
+	public TileMissileAssembler()
+	{
+		energy = new EnergyStorageHandler();
+	}
 
 	@Override
 	public void initiate()
@@ -139,7 +145,7 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 		{
 			rot = 3;
 		}
-		if (BlockMissileTable.canRotateBlockTo(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.placedSide, rot))
+		if (BlockMissileAssembler.canRotateBlockTo(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.placedSide, rot))
 		{
 			this.rotationSide = rot;
 			this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);

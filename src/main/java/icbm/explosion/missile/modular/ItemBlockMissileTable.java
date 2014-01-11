@@ -27,7 +27,7 @@ public class ItemBlockMissileTable extends ItemBlock
 		{
 			rot = 3;
 		}
-		if (BlockMissileTable.canPlaceBlockAt(world, x, y, z, placeSide, rot))
+		if (BlockMissileAssembler.canPlaceBlockAt(world, x, y, z, placeSide, rot))
 		{
 
 			// TODO place object on side of block clicked
@@ -38,7 +38,7 @@ public class ItemBlockMissileTable extends ItemBlock
 				((TileMissileAssembler) entity).setPlacedSide(placeSide);
 				((TileMissileAssembler) entity).setRotation(rot);
 			}
-			ICBMExplosion.blockMissileTable.onBlockPlacedBy(world, x, y, z, entityPlayer, itemStack);
+			ICBMExplosion.blockMissileAssembler.onBlockPlacedBy(world, x, y, z, entityPlayer, itemStack);
 			return true;
 		}
 		return false;

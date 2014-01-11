@@ -27,7 +27,7 @@ import icbm.explosion.missile.ItemBlockExplosive;
 import icbm.explosion.missile.ItemGrenade;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;
-import icbm.explosion.missile.modular.BlockMissileTable;
+import icbm.explosion.missile.modular.BlockMissileAssembler;
 import icbm.explosion.missile.modular.ItemBlockMissileTable;
 import icbm.explosion.potion.PChuanRanDu;
 import icbm.explosion.potion.PDaDu;
@@ -100,7 +100,7 @@ public class ICBMExplosion extends ICBMCore
 	// Blocks
 	public static Block blockExplosive;
 	public static Block blockMachine;
-	public static Block blockMissileTable;
+	public static Block blockMissileAssembler;
 	// Items
 	public static Item itemMissile;
 
@@ -130,7 +130,7 @@ public class ICBMExplosion extends ICBMCore
 		Settings.CONFIGURATION.load();
 		blockExplosive = new BlockExplosive(Settings.getNextBlockID());
 		blockMachine = new BlockICBMMachine(Settings.getNextBlockID());
-		blockMissileTable = new BlockMissileTable(Settings.getNextBlockID());
+		blockMissileAssembler = new BlockMissileAssembler(Settings.getNextBlockID());
 
 		// ITEMS
 		itemMissile = new ItemMissile(Settings.getNextItemID(), "missile");
@@ -264,7 +264,7 @@ public class ICBMExplosion extends ICBMCore
 		// -- Registering Blocks
 		GameRegistry.registerBlock(blockExplosive, ItemBlockExplosive.class, "bZhaDan");
 		GameRegistry.registerBlock(blockMachine, ItemBlockMachine.class, "bJiQi");
-		GameRegistry.registerBlock(blockMissileTable, ItemBlockMissileTable.class, "blockMissileTable");
+		GameRegistry.registerBlock(blockMissileAssembler, ItemBlockMissileTable.class, "blockMissileTable");
 
 		ExplosiveHelper.explosionManager = ExplosiveRegistry.class;
 

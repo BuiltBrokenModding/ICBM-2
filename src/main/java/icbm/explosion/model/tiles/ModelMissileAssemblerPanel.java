@@ -9,13 +9,13 @@ package icbm.explosion.model.tiles;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class ModelMissileCradel extends ModelBase
+public class ModelMissileAssemblerPanel extends ModelBase
 {
 	// fields
 	ModelRenderer base;
 	ModelRenderer ridge;
 
-	public ModelMissileCradel()
+	public ModelMissileAssemblerPanel()
 	{
 		textureWidth = 512;
 		textureHeight = 512;

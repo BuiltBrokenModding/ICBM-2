@@ -3,6 +3,7 @@ package icbm.explosion.missile.modular;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
+import icbm.explosion.render.tile.BlockRenderHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,9 +26,9 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author DarkGuardsman
  */
-public class BlockMissileTable extends BlockICBM
+public class BlockMissileAssembler extends BlockICBM
 {
-	public BlockMissileTable(int id)
+	public BlockMissileAssembler(int id)
 	{
 		super(id, "missileAssembler", UniversalElectricity.machine);
 	}
@@ -49,7 +50,7 @@ public class BlockMissileTable extends BlockICBM
 	@SideOnly(Side.CLIENT)
 	public int getRenderType()
 	{
-		return -1;
+		return BlockRenderHandler.ID;
 	}
 
 	@Override
@@ -116,7 +117,7 @@ public class BlockMissileTable extends BlockICBM
 	{
 		Vector3 pos = new Vector3(x, y, z);
 		Block block = Block.blocksList[pos.getBlockID(world)];
-		if (block == null || block.isBlockReplaceable(world, x, y, z) || block.blockID == ICBMExplosion.blockMissileTable.blockID)
+		if (block == null || block.isBlockReplaceable(world, x, y, z) || block.blockID == ICBMExplosion.blockMissileAssembler.blockID)
 		{
 			Vector3[] vecs = TileMissileAssembler.getMultiBlockVectors(placeSide, (byte) rot);
 
@@ -232,7 +233,7 @@ public class BlockMissileTable extends BlockICBM
 		{
 			if (!((TileMissileAssembler) entity).rotating)
 			{
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMissileTable, 1, 0));
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMissileAssembler, 1, 0));
 			}
 
 			ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) world.getBlockTileEntity(x, y, z));

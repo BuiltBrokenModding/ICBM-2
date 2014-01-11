@@ -9,7 +9,7 @@ package icbm.explosion.model.tiles;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class ModelMissileClaw extends ModelBase
+public class ModelMissileAssemblerClaw extends ModelBase
 {
 	// fields
 	ModelRenderer baseCouple;
@@ -24,7 +24,7 @@ public class ModelMissileClaw extends ModelBase
 	ModelRenderer fingerLowerD;
 	ModelRenderer fingerUpperD;
 
-	public ModelMissileClaw(int space)
+	public ModelMissileAssemblerClaw(int space)
 	{
 		textureWidth = 512;
 		textureHeight = 512;
