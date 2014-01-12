@@ -49,8 +49,6 @@ public class TaskManager
     public void addTask(Task task)
     {
         task.taskManager = this;
-        task.world = this.tileEntity.worldObj;
-        task.tileEntity = this.tileEntity;
         this.tasks.add(task);
     }
 

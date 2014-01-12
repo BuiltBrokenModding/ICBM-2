@@ -14,22 +14,22 @@ public class TaskSearchTarget extends Task
     {
         super.onUpdateTask();
 
-        if (this.tileEntity.getTarget() == null || !this.tileEntity.isValidTarget(this.tileEntity.getTarget()))
+        if (this.sentry().getTarget() == null || !this.sentry().isValidTarget(this.sentry().getTarget()))
         {
-            AxisAlignedBB bounds = this.tileEntity.getTargetingBox();
+            AxisAlignedBB bounds = this.sentry().getTargetingBox();
 
-            List<Entity> entities = this.tileEntity.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+            List<Entity> entities = this.world().getEntitiesWithinAABB(Entity.class, bounds);
             Entity currentTarget = null;
 
             if (currentTarget == null)
             {
-                double smallestDis = this.tileEntity.maxTargetRange;
-                final Vector3 center = this.tileEntity.pos();
+                double smallestDis = this.sentry().maxTargetRange;
+                final Vector3 center = this.sentry().pos();
                 for (Entity entity : entities)
                 {
                     final double distance = center.distance(entity);
 
-                    if (this.tileEntity.isValidTarget(entity) && distance <= smallestDis)
+                    if (this.sentry().isValidTarget(entity) && distance <= smallestDis)
                     {
                         currentTarget = entity;
                         smallestDis = distance;
@@ -39,20 +39,16 @@ public class TaskSearchTarget extends Task
 
             if (currentTarget != null)
             {
-                this.tileEntity.cancelRotation();
-                this.tileEntity.setTarget(currentTarget);
+                this.sentry().cancelRotation();
+                this.sentry().setTarget(currentTarget);
                 return false;
             }
-            else if (this.tileEntity.lastRotateTick > this.world.rand.nextInt(30) + 10)
+            else if (this.sentry().lastRotateTick > this.world().rand.nextInt(30) + 10)
             {
-                this.tileEntity.rotateTo(this.world.rand.nextInt(360) - 180, this.world.rand.nextInt(30) - 10);
+                this.sentry().rotateTo(this.world().rand.nextInt(360) - 180, this.world().rand.nextInt(30) - 10);
             }
 
             return true;
-        }
-        else
-        {
-            this.taskManager.addTask(new TaskKillTarget());
         }
 
         return false;

@@ -10,9 +10,6 @@ public abstract class Task
 {
     /** The amount of ticks this command has been running for. */
     protected int ticks = 0;
-
-    public World world;
-    public TileAutoTurret tileEntity;
     public TaskManager taskManager;
 
     /** Called by the TaskManager to propagate tick updates
@@ -37,5 +34,15 @@ public abstract class Task
     public int getTickInterval()
     {
         return 1;
+    }
+
+    public World world()
+    {
+        return this.sentry().worldObj;
+    }
+    
+    public TileAutoTurret sentry()
+    {
+        return this.taskManager.tileEntity;
     }
 }

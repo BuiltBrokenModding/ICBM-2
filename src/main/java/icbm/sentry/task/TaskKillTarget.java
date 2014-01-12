@@ -9,22 +9,22 @@ public class TaskKillTarget extends TaskSearchTarget
     {
         super.onUpdateTask();
 
-        if (this.tileEntity instanceof IAutoSentry)
+        if (this.sentry() instanceof IAutoSentry)
         {
-            if (!this.tileEntity.isValidTarget(this.tileEntity.getTarget()))
+            if (!this.sentry().isValidTarget(this.sentry().getTarget()))
             {
-                this.tileEntity.setTarget(null);
-                this.tileEntity.cancelRotation();
+                this.sentry().setTarget(null);
+                this.sentry().cancelRotation();
                 return false;
             }
-            else if (this.tileEntity.canActivateWeapon())
+            else if (this.sentry().canActivateWeapon())
             {
-                this.tileEntity.onWeaponActivated();
+                this.sentry().onWeaponActivated();
             }
             else
             {
-                float[] rotations = this.tileEntity.lookHelper.getDeltaRotations(this.tileEntity.getTargetPosition());
-                this.tileEntity.rotateTo(rotations[0], rotations[1]);
+                float[] rotations = this.sentry().lookHelper.getDeltaRotations(this.sentry().getTargetPosition());
+                this.sentry().rotateTo(rotations[0], rotations[1]);
             }
         }
 
