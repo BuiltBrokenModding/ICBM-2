@@ -19,6 +19,7 @@ public abstract class TileMountableTurret extends TileTurret implements IBlockAc
     public TileMountableTurret()
     {
         this.enableRotationHelper = false;
+        this.getPitchServo().setLimits(-60, 60);
     }
 
     @Override
