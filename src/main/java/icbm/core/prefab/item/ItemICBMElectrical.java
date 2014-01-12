@@ -13,7 +13,7 @@ public abstract class ItemICBMElectrical extends ItemElectric implements IEnergy
 {
     public ItemICBMElectrical(int id, String name)
     {
-        super(Settings.CONFIGURATION.getItem("name", id).getInt(id));
+        super(Settings.CONFIGURATION.getItem(name, id).getInt(id));
         this.setUnlocalizedName(Reference.PREFIX + name);
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
         this.setTextureName(Reference.PREFIX + name);

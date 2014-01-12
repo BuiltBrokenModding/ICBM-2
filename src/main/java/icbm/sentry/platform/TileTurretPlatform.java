@@ -37,7 +37,7 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
 
     public TileTurretPlatform()
     {
-        this.energy = new EnergyStorageHandler(0);
+        this.energy = new EnergyStorageHandler(10000);
     }
 
     public void updateEnergyHandler()
