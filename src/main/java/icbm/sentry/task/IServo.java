@@ -1,6 +1,5 @@
 package icbm.sentry.task;
 
-import com.builtbroken.common.Pair;
 
 /** @author Calclavia */
 public interface IServo
@@ -11,9 +10,10 @@ public interface IServo
 
     /** @param rotation */
     void setRotation(float rotation);
-
-    /** @return */
-    Pair<Float, Float> getLimits();
+    
+    float lowerLimit();
+    
+    float upperLimit();
 
     /** @param upperLimit
      * @param lowerLimit */

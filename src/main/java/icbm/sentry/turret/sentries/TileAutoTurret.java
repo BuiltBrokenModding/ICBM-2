@@ -119,7 +119,7 @@ public abstract class TileAutoTurret extends TileTurret implements IAutoSentry
                 {
                     float[] rotations = this.lookHelper.getDeltaRotations(new Vector3(entity).translate(new Vector3(0, entity.getEyeHeight(), 0)));
 
-                    if ((rotations[1] <= this.getPitchServo().getLimits().left() && rotations[1] >= this.getPitchServo().getLimits().right()) || this.allowFreePitch)
+                    if ((rotations[1] <= this.getPitchServo().upperLimit() && rotations[1] >= this.getPitchServo().lowerLimit()) || this.allowFreePitch)
                     {
                         if (this.lookHelper.canEntityBeSeen(entity))
                         {

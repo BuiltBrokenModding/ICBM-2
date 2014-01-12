@@ -71,13 +71,13 @@ public class RotationHelper implements ISaveObj, IPacketLoad
                 actualYaw = targetRotation;
             }
             actualYaw = MathUtility.clampAngleTo360(actualYaw);
-            if (actualYaw > servo.getLimits().left())
+            if (actualYaw > servo.upperLimit())
             {
-                actualYaw = servo.getLimits().left();
+                actualYaw = servo.upperLimit();
             }
-            else if (actualYaw < servo.getLimits().right())
+            else if (actualYaw < servo.lowerLimit())
             {
-                actualYaw = servo.getLimits().right();
+                actualYaw = servo.lowerLimit();
             }
             servo.setRotation(actualYaw);
         }

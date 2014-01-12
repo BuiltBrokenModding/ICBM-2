@@ -19,7 +19,7 @@ public abstract class TileMountableTurret extends TileTurret implements IBlockAc
     public TileMountableTurret()
     {
         this.enableRotationHelper = false;
-        this.getPitchServo().setLimits(-60, 60);
+        this.getPitchServo().setLimits(60, -60);
     }
 
     @Override
@@ -38,13 +38,13 @@ public abstract class TileMountableTurret extends TileTurret implements IBlockAc
         {
             EntityPlayer mountedPlayer = (EntityPlayer) this.entityFake.riddenByEntity;
 
-            if (mountedPlayer.rotationPitch > this.getPitchServo().getLimits().left())
+            if (mountedPlayer.rotationPitch > this.getPitchServo().upperLimit())
             {
-                mountedPlayer.rotationPitch = this.getPitchServo().getLimits().left();
+                mountedPlayer.rotationPitch = this.getPitchServo().upperLimit();
             }
-            if (mountedPlayer.rotationPitch < this.getPitchServo().getLimits().right())
+            if (mountedPlayer.rotationPitch < this.getPitchServo().lowerLimit())
             {
-                mountedPlayer.rotationPitch = this.getPitchServo().getLimits().right();
+                mountedPlayer.rotationPitch = this.getPitchServo().lowerLimit();
             }
             this.getPitchServo().setRotation(mountedPlayer.rotationPitch);
             this.getYawServo().setRotation(mountedPlayer.rotationYaw);

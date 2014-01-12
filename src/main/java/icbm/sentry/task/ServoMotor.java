@@ -1,15 +1,15 @@
 package icbm.sentry.task;
 
-import com.builtbroken.common.Pair;
 
 public class ServoMotor implements IServo
 {
     private float rotation;
-    private Pair<Float, Float> limits;
+    private float lowerLimit;
+    private float upperLimit;
 
     public ServoMotor(float upperLimit, float lowerLimit)
     {
-        this.limits = new Pair<Float, Float>(upperLimit, lowerLimit);
+        this.setLimits(upperLimit, lowerLimit);
     }
 
     @Override
@@ -24,16 +24,24 @@ public class ServoMotor implements IServo
         this.rotation = rotation;
     }
 
-    @Override
-    public Pair<Float, Float> getLimits()
-    {
-        return this.limits;
-    }
 
     @Override
     public void setLimits(float upperLimit, float lowerLimit)
     {
-        this.limits = new Pair<Float, Float>(upperLimit, upperLimit);
+        this.lowerLimit = lowerLimit;
+        this.upperLimit = upperLimit;
+    }
+
+    @Override
+    public float lowerLimit()
+    {
+        return this.lowerLimit;
+    }
+
+    @Override
+    public float upperLimit()
+    {
+        return this.upperLimit;
     }
 
 }
