@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
+import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.access.ISpecialAccess;
 
 public class BlockTurretPlatform extends BlockICBM
@@ -45,9 +46,9 @@ public class BlockTurretPlatform extends BlockICBM
         {
             TileEntity ent = world.getBlockTileEntity(x, y, z);
 
-            if (ent instanceof ISpecialAccess)
+            if (ent instanceof IProfileContainer)
             {
-                ((ISpecialAccess) ent).setUserAccess(((EntityPlayer) entity).username, ((ISpecialAccess) ent).getOwnerGroup(), true);
+                ((IProfileContainer) ent).getAccessProfile().setUserAccess(((EntityPlayer) entity).username, ((IProfileContainer) ent).getAccessProfile().getOwnerGroup(), true);
             }
         }
     }

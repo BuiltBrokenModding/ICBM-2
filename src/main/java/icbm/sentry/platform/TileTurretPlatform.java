@@ -19,18 +19,21 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.access.AccessProfile;
+import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.terminal.TileTerminal;
 
 /** Turret Platform
  * 
  * @author Calclavia */
-public class TileTurretPlatform extends TileTerminal implements IInventory
+public class TileTurretPlatform extends TileTerminal implements IInventory, IProfileContainer
 {
     /** The turret linked to this platform. */
     private TileTurret cachedTurret = null;
     /** The start index of the upgrade slots for the turret. */
     public static final int UPGRADE_START_INDEX = 12;
     private static final int TURRET_UPGADE_SLOTS = 3;
+    protected AccessProfile accessProfile;
 
     /** The first 12 slots are for ammunition. The last 4 slots are for upgrades. */
     public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
@@ -38,18 +41,6 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
     public TileTurretPlatform()
     {
         this.energy = new EnergyStorageHandler(10000);
-    }
-
-    public void updateEnergyHandler()
-    {
-        if (this.getTurret() != null)
-        {
-            this.energy.setCapacity(this.getTurret().getJoulesPerTick());
-        }
-        else
-        {
-            this.energy.setCapacity(0);
-        }
     }
 
     @Override
@@ -86,8 +77,6 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
             {
                 this.cachedTurret = null;
             }
-
-            this.updateEnergyHandler();
         }
 
         return this.cachedTurret;
@@ -240,6 +229,8 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
                 this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
             }
         }
+        if (nbt.hasKey("accessProfile"))
+            this.setAccessProfile(new AccessProfile(nbt.getCompoundTag("accessProfile")));
     }
 
     @Override
@@ -261,6 +252,9 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
         }
 
         nbt.setTag("Items", itemTag);
+        NBTTagCompound accessTag = new NBTTagCompound();
+        this.getAccessProfile().save(accessTag);
+        nbt.setCompoundTag("accessProfile", accessTag);
     }
 
     @Override
@@ -434,6 +428,28 @@ public class TileTurretPlatform extends TileTerminal implements IInventory
     public boolean isFunctioning()
     {
         return this.energy.getEnergy() > 0;
+    }
+
+    @Override
+    public AccessProfile getAccessProfile()
+    {
+        if (this.accessProfile == null)
+        {
+            this.setAccessProfile(new AccessProfile().generateNew("default", this));
+        }
+        return accessProfile;
+    }
+
+    @Override
+    public void setAccessProfile(AccessProfile profile)
+    {
+        this.accessProfile = profile;
+    }
+
+    @Override
+    public boolean canAccess(String username)
+    {
+        return accessProfile.getUserAccess(username) != null;
     }
 
 }
