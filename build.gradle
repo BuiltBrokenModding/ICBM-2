@@ -68,16 +68,12 @@ jar {
 }
 
 repositories {
-    maven { url 'file://var/www/maven/' }
-	
-	ivy {
-			name 'CB FS'
-			artifactPattern "http://files.minecraftforge.net/[module]/[module]-dev-[revision].[ext]"
+    maven {
+		name 'Calclavia Maven'
+		url 'http://calclavia.com/maven'
 	}
 }
 dependencies {
-    compile 'universalelectricity:Universal-Electricity:3.0.+:dev'
-    compile 'calclaviacore:calclavia-core:1.1.+:dev'
-	compile name: 'CodeChickenLib', version: "1.6.4-1.0.0.49", ext: 'jar'
-	compile name: 'ForgeMultipart', version: "1.6.4-1.0.0.233", ext: 'jar'
+	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
+	compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
 }
