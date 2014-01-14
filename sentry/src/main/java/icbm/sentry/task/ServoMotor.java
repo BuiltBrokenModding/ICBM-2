@@ -1,5 +1,7 @@
 package icbm.sentry.task;
 
+import icbm.api.sentry.IServo;
+
 
 public class ServoMotor implements IServo
 {

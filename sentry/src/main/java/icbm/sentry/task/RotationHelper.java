@@ -1,6 +1,7 @@
 package icbm.sentry.task;
 
 import icbm.api.sentry.IGyroMotor;
+import icbm.api.sentry.IServo;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

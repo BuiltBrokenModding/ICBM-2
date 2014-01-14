@@ -1,5 +1,6 @@
 package icbm.sentry.turret;
 
+import icbm.api.sentry.IServo;
 import icbm.api.sentry.IWeaponSystem;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
@@ -7,7 +8,6 @@ import icbm.sentry.damage.EntityTileDamagable;
 import icbm.sentry.damage.IHealthTile;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.platform.TileTurretPlatform;
-import icbm.sentry.task.IServo;
 import icbm.sentry.task.LookHelper;
 import icbm.sentry.task.RotationHelper;
 import icbm.sentry.task.ServoMotor;

@@ -1,4 +1,4 @@
-package icbm.sentry.task;
+package icbm.api.sentry;
 
 
 /** @author Calclavia */
