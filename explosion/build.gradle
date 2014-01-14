@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+ext.buildProps = file "build.properties"
+
+buildProps.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+
+version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
+group = "icbm"
+archivesBaseName = "ICBM"
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+minecraft {
+    version = "${config.version.minecraft}-${config.version.forge}"
+	
+	replaceIn "Reference.java"
+	replace "@MAJOR@", config.version.mod.major
+	replace "@MINOR@", config.version.mod.minor
+	replace "@REVIS@", config.version.mod.revis
+	replace "@BUILD@", System.getenv("BUILD_NUMBER")
+}
+
+if (System.getenv("BUILD_NUMBER") != null)
+    version += ".${System.getenv("BUILD_NUMBER")}"
+
+
+processResources {
+	from 'build.properties'
+}
+
+jar {
+    dependsOn copyBuildXml
+    classifier = 'explosion'
+    destinationDir = file 'output'
+}
+
+repositories {
+    maven {
+		name 'Calclavia Maven'
+		url 'http://calclavia.com/maven'
+	}
+}
+dependencies {
+	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
+	compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
+}
