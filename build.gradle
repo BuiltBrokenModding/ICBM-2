@@ -32,7 +32,7 @@ minecraft {
     replace "@MAJOR@", rootProject.config.version.mod.major
     replace "@MINOR@", rootProject.config.version.mod.minor
     replace "@REVIS@", rootProject.config.version.mod.revis
-    replace "@BUILD@", rootProject.System.getenv("BUILD_NUMBER")
+    replace "@BUILD@", System.getenv("BUILD_NUMBER")
 }
  
 allprojects {
