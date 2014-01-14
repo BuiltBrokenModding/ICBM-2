@@ -8,8 +8,8 @@ import java.io.IOException;
 
 import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.network.IPacketLoad;
-import calclavia.lib.utility.ISaveObj;
 import calclavia.lib.utility.MathUtility;
+import calclavia.lib.utility.nbt.ISaveObj;
 
 import com.google.common.io.ByteArrayDataInput;
 
