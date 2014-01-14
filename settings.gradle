@@ -1,3 +1,1 @@
-include 'explosion'
-include 'contraption'
-include 'sentry'
+include 'explosion', 'contraption', 'sentry'
