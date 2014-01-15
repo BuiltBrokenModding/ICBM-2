@@ -284,8 +284,6 @@ public class ICBMExplosion extends ICBMCore
     {
         super.postInit(event);
 
-        ItemStack remoteDetonator = CompatibilityModule.getItemWithCharge(new ItemStack(itemRemoteDetonator), 0);
-
         /** Add all Recipes */
         // Rocket Launcher
         GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
@@ -294,7 +292,7 @@ public class ICBMExplosion extends ICBMCore
         // Remote
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRemoteDetonator), new Object[] { "?@@", "@#$", "@@@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.redstone, '#', UniversalRecipe.CIRCUIT_T2.get(), '$', Block.stoneButton }));
         // Laser Designator
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemLaserDesignator), new Object[] { "!  ", " ? ", "  @", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRemoteDetonator), 0), '?', UniversalRecipe.CIRCUIT_T3.get(), '!', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0) }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemLaserDesignator), new Object[] { "!  ", " ? ", "  @", '@', itemRemoteDetonator, '?', UniversalRecipe.CIRCUIT_T3.get(), '!', itemRadarGun }));
         // Defuser
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombDefuser), new Object[] { "I  ", " W ", "  C", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', UniversalRecipe.WRENCH.get(), 'I', UniversalRecipe.WIRE.get() }));
         // Missile Launcher Platform
