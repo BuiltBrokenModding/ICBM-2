@@ -74,12 +74,6 @@ subprojects {
     dependencies {
         compile rootProject
     }
-    
-    rootProject.tasks.reobf {
-        reobf(tasks.jar) { spec ->
-            spec.classpath = sourceSets.main.compileClasspath
-        }
-    }
 }
  
 processResources {
@@ -91,4 +85,15 @@ task copyBuildXml(type: Copy) {
     into 'output'
 }
  
-build.dependsOn  "copyBuildXml"
+task apiZip(type: Zip) {
+    classifier = 'api'
+    from sourceSets*.allSource
+    include 'icbm/api/**'
+    destinationDir = file 'output'
+}
+ 
+artifacts {
+    archives apiZip
+}
+ 
+build.dependsOn "apiZip", "copyBuildXml"
