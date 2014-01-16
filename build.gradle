@@ -64,7 +64,7 @@ allprojects {
     
     jar {
         dependsOn ":copyBuildXml"
-        destinationDir = file 'output'
+        destinationDir = 'output'
     }
 }
  
@@ -94,12 +94,6 @@ task apiZip(type: Zip) {
  
 artifacts {
     archives apiZip
-}
-
-task copyBuilds(type: Copy) {
-    from projectDir
-    include '**/output/*.jar'
-    into 'output'
 }
 
 build.dependsOn "apiZip", "copyBuildXml", "apiZip"
