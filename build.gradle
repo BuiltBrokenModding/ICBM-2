@@ -13,7 +13,7 @@ buildscript {
  
 apply plugin: 'forge'
 apply plugin: 'maven'
-
+ 
 ext.buildProps = file "build.properties"
  
 buildProps.withReader {
@@ -95,12 +95,16 @@ task apiZip(type: Zip) {
 artifacts {
     archives apiZip
 }
-
+ 
 task copyBuilds(type: Copy) {
   dependsOn "reobf"
+  
+  doLast {
   from projectDir
   include '**/output/*.jar'
   into 'output'
+  }
 }
-
-build.dependsOn "apiZip", "copyBuildXML", "copyBuilds"
+ 
+build.dependsOn "apiZip", "copyBuildXML"
+tasks.build.dependsOn "copyBuilds"
