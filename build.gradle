@@ -91,15 +91,4 @@ task copyBuildXml(type: Copy) {
     into 'output'
 }
  
-task apiZip(type: Zip) {
-    classifier = 'api'
-    from sourceSets*.allSource
-    include 'icbm/api/**'
-    destinationDir = file 'output'
-}
- 
-artifacts {
-    archives apiZip
-}
- 
-build.dependsOn "apiZip", "copyBuildXml"
+build.dependsOn  "copyBuildXml"
