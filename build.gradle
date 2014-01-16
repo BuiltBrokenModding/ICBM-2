@@ -95,10 +95,10 @@ task apiZip(type: Zip) {
 artifacts {
     archives apiZip
 }
- 
+
 task copyBuilds(type: Copy) {
-    from '.'
-    include '**/output/*'
+    from projectDir
+    include '**/output/*.jar'
     into 'output'
 }
 
