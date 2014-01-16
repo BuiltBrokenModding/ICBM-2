@@ -96,9 +96,7 @@ artifacts {
     archives apiZip
 }
 
-task copyBuilds(type: Copy) {
-  dependsOn "reobf"
-  
+task copyBuilds(type: Copy) {  
   doLast {
 	  from projectDir
 	  include '**/output/*.jar'
