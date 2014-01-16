@@ -97,7 +97,7 @@ artifacts {
 }
 
 task copyBuilds(type: Copy) {
-  dependsOn "apiZip"
+  dependsOn "reobf"
   
   doLast {
 	  from projectDir
@@ -106,4 +106,4 @@ task copyBuilds(type: Copy) {
   }
 }
 
-tasks.build.dependsOn "apiZip", "copyBuildXML", "apiZip", "copyBuilds"
+build.dependsOn "apiZip", "copyBuildXML", "apiZip", "copyBuilds"
