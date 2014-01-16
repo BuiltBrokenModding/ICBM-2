@@ -97,7 +97,7 @@ artifacts {
 }
  
 task copyBuilds(type: Copy) {
-    from '/'
+    from '.'
     include '**/output/*'
     into 'output'
 }
