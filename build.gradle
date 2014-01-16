@@ -101,20 +101,12 @@ import net.minecraftforge.gradle.common.Constants
 import net.minecraftforge.gradle.delayed.*
 
 task createChangelog(type: ChangelogTask) {
-        def jobName = "${System.getenv().JOB_NAME}"
-        def buildNumber = "${System.getenv().BUILD_NUMBER}"
-
-        setServerRoot(new DelayedString(project, 'http://ci.calclavia.com/'))
-        setJobName(new DelayedString(project, jobName.toString()));
-    setAuthName(new DelayedString(project, 'console_script'));
-    setAuthPassword(new DelayedString(project, '6895021cac35782643aba56893b5328b'));
-    setTargetBuild({buildNumber.toString()});
-    setOutput(new DelayedFile(project, 'build/libs/' + jobName + '-changelog-' + "${project.version}" + '.txt'));
 }
 
  
 task copyBuilds(type: Copy) {
-    from '**/output/*'
+    from '/'
+    include '**/output/*'
     into 'output'
 }
 
