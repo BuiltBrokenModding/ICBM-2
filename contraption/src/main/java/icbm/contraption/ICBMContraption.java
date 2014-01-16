@@ -5,7 +5,7 @@ import icbm.contraption.block.BlockCamouflage;
 import icbm.contraption.block.BlockConcrete;
 import icbm.contraption.block.BlockGlassButton;
 import icbm.contraption.block.BlockGlassPressurePlate;
-import icbm.contraption.block.BlockProcimityDetector;
+import icbm.contraption.block.BlockProximityDetector;
 import icbm.contraption.block.BlockReinforcedGlass;
 import icbm.contraption.block.BlockSpikes;
 import icbm.core.CreativeTabICBM;
@@ -67,7 +67,7 @@ public class ICBMContraption extends ICBMCore
         // Blocks
         blockGlassPlate = new BlockGlassPressurePlate(Settings.CONFIGURATION.getBlock("Glass Pressure Plate", Settings.getNextBlockID()).getInt());
         blockGlassButton = new BlockGlassButton(Settings.CONFIGURATION.getBlock("Glass Button", Settings.getNextBlockID()).getInt());
-        blockProximityDetector = new BlockProcimityDetector(Settings.getNextBlockID());
+        blockProximityDetector = new BlockProximityDetector(Settings.getNextBlockID());
         blockSpikes = new BlockSpikes(Settings.getNextBlockID());
         blockCamo = new BlockCamouflage(Settings.getNextBlockID());
         blockConcrete = new BlockConcrete(Settings.getNextBlockID());
