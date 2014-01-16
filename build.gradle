@@ -104,10 +104,10 @@ task createChangelog(type: ChangelogTask) {
         def jobName = "${System.getenv().JOB_NAME}"
         def buildNumber = "${System.getenv().BUILD_NUMBER}"
 
-        setServerRoot(new DelayedString(project, 'http://ci.jenkins.minecraftforge.net/'))
+        setServerRoot(new DelayedString(project, 'http://ci.calclavia.com/'))
         setJobName(new DelayedString(project, jobName.toString()));
     setAuthName(new DelayedString(project, 'console_script'));
-    setAuthPassword(new DelayedString(project, 'dc6d48ca20a474beeac280a9a16a926e'));
+    setAuthPassword(new DelayedString(project, '6895021cac35782643aba56893b5328b'));
     setTargetBuild({buildNumber.toString()});
     setOutput(new DelayedFile(project, 'build/libs/' + jobName + '-changelog-' + "${project.version}" + '.txt'));
 }
@@ -118,4 +118,4 @@ task copyBuilds(type: Copy) {
     into 'output'
 }
 
-build.dependsOn "apiZip", "copyBuildXml", "apiZip"
+build.dependsOn "apiZip", "copyBuildXml", "createChangelog", "apiZip"
