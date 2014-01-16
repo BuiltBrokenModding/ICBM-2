@@ -101,7 +101,7 @@ task copyBuilds(type: Copy) {
   
   doLast {
 	  from projectDir
-	  include '**/output/*.jar
+	  include '**/output/*.jar'
 	  into 'output'
   }
 }
