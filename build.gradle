@@ -13,7 +13,7 @@ buildscript {
  
 apply plugin: 'forge'
 apply plugin: 'maven'
- 
+
 ext.buildProps = file "build.properties"
  
 buildProps.withReader {
@@ -95,14 +95,6 @@ task apiZip(type: Zip) {
 artifacts {
     archives apiZip
 }
-
-import net.minecraftforge.gradle.tasks.dev.ChangelogTask
-import net.minecraftforge.gradle.common.Constants
-import net.minecraftforge.gradle.delayed.*
-
-task createChangelog(type: ChangelogTask) {
-}
-
  
 task copyBuilds(type: Copy) {
     from '/'
@@ -110,4 +102,4 @@ task copyBuilds(type: Copy) {
     into 'output'
 }
 
-build.dependsOn "apiZip", "copyBuildXml", "createChangelog", "apiZip"
+build.dependsOn "apiZip", "copyBuildXml", "apiZip"
