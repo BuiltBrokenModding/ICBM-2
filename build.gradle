@@ -118,4 +118,4 @@ task copyBuilds(type: Copy) {
     into 'output'
 }
 
-build.dependsOn "apiZip", "copyBuildXml", "createChangelog", "apiZip"
+build.dependsOn "apiZip", "copyBuildXml", "apiZip"
