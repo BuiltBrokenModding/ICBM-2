@@ -106,4 +106,4 @@ task copyBuilds(type: Copy) {
   }
 }
 
-build.dependsOn "apiZip, "copyBuildXML", "apiZip", "copyBuilds"
+build.dependsOn "apiZip", "copyBuildXML", "apiZip", "copyBuilds"
