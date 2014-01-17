@@ -81,10 +81,6 @@ allprojects {
 			}
 		}
 	}
-
-	repositories {
-		maven { url 'http://calclavia.com/maven' }
-	}
 }
  
 subprojects {
@@ -93,13 +89,12 @@ subprojects {
     dependencies {
         compile rootProject
     }
-    /*
+    
     rootProject.tasks.reobf {
         reobf(tasks.jar) { spec ->
             spec.classpath = sourceSets.main.compileClasspath
         }
     }
-	*/
 }
  
 processResources {
