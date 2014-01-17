@@ -19,7 +19,7 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
 
     public TileTurretPlatform()
     {
-        this.invSlots = 20;
+        this.maxSlots = 20;
     }
 
     @Override
