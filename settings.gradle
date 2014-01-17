@@ -1,2 +1,2 @@
-rootProject.name = 'ICBM'
+rootProject.name = 'core'
 include 'explosion', 'contraption', 'sentry'
