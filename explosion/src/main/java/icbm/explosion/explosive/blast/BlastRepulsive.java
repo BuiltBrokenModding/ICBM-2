@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.vector.Region3;
 
-public class BlastRepulsive extends ExplosionBase
+public class BlastRepulsive extends Blast
 {
     private int checkBanJing = 16;
     protected float nengLiang = 10F;

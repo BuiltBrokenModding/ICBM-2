@@ -3,7 +3,7 @@ package icbm.explosion.explosive.blast;
 import icbm.Reference;
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion.IThreadCallBack;
 import icbm.explosion.missile.BlockExplosive;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
 
-public class BlastSonic extends ExplosionBase
+public class BlastSonic extends Blast
 {
     private float nengLiang;
     private ThreadLargeExplosion thread;
@@ -40,7 +40,7 @@ public class BlastSonic extends ExplosionBase
         this.nengLiang = nengLiang;
     }
 
-    public ExplosionBase setShockWave()
+    public Blast setShockWave()
     {
         this.hasShockWave = true;
         return this;

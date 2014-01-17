@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.core.prefab.render.ModelICBM;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.model.tiles.MDiLei;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlastMine extends ExplosionBase
+public class BlastMine extends Blast
 {
     public BlastMine(World world, Entity entity, double x, double y, double z, float size)
     {

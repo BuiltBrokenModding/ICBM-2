@@ -25,7 +25,7 @@ import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class ExplosionBase extends Explosion implements IExplosion
+public abstract class Blast extends Explosion implements IExplosion
 {
     public World worldObj;
     protected Vector3 position;
@@ -34,7 +34,7 @@ public abstract class ExplosionBase extends Explosion implements IExplosion
     /** The amount of times the explosion has been called */
     protected int callCount = 0;
 
-    public ExplosionBase(World world, Entity entity, double x, double y, double z, float size)
+    public Blast(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
         this.worldObj = world;

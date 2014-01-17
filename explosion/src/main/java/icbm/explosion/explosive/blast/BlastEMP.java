@@ -8,7 +8,7 @@ import icbm.api.RadarRegistry;
 import icbm.api.explosion.IEMPBlock;
 import icbm.api.explosion.IEMPItem;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;
@@ -32,7 +32,7 @@ import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.item.IEnergyItem;
 import universalelectricity.api.vector.Vector3;
 
-public class BlastEMP extends ExplosionBase
+public class BlastEMP extends Blast
 {
     private boolean effectEntities = false;
     private boolean effectBlocks = false;

@@ -1,12 +1,12 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.explosion.EntityFragments;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlastShrapnel extends ExplosionBase
+public class BlastShrapnel extends Blast
 {
     private boolean isExplosive = false;
     private boolean isAnvil = false;

@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import universalelectricity.api.vector.Vector3;
 
-public class BlastNuclear extends ExplosionBase
+public class BlastNuclear extends Blast
 {
     public static boolean POLLUTIVE_NUCLEAR = true;
 

@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.core.ICBMCore;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -12,7 +12,7 @@ import universalelectricity.api.vector.Vector3;
 /** Creates radiation spawning
  * 
  * @author Calclavia */
-public class BlastRot extends ExplosionBase
+public class BlastRot extends Blast
 {
     private ThreadLargeExplosion thread;
     private float nengLiang;

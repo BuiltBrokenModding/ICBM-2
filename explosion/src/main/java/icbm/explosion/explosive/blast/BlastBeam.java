@@ -2,7 +2,7 @@ package icbm.explosion.explosive.blast;
 
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.EntityLightBeam;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadExplosion;
 import icbm.explosion.explosive.thread.ThreadSky;
 
@@ -18,7 +18,7 @@ import universalelectricity.api.vector.Vector3;
 /** Used by Exothermic and Endothermic explosions.
  * 
  * @author Calclavia */
-public abstract class BlastBeam extends ExplosionBase
+public abstract class BlastBeam extends Blast
 {
     protected ThreadExplosion thread;
     protected Set<EntityFlyingBlock> feiBlocks = new HashSet<EntityFlyingBlock>();

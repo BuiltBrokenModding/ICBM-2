@@ -5,7 +5,7 @@ import icbm.api.explosion.IExplosiveIgnore;
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
 
-public class BlastRedmatter extends ExplosionBase
+public class BlastRedmatter extends Blast
 {
     private int maxTakeBlocks = 5;
 

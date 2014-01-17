@@ -1,13 +1,13 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
-public class BlastFire extends ExplosionBase
+public class BlastFire extends Blast
 {
     public BlastFire(World world, Entity entity, double x, double y, double z, float size)
     {

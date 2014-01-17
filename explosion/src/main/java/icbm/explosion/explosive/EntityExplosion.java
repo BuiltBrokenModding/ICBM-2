@@ -20,7 +20,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
  * @author Calclavia */
 public class EntityExplosion extends Entity implements IEntityAdditionalSpawnData
 {
-    public ExplosionBase baoZha;
+    public Blast baoZha;
 
     private boolean endExplosion = false;
 
@@ -35,7 +35,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         this.ticksExisted = 0;
     }
 
-    public EntityExplosion(ExplosionBase baoZha)
+    public EntityExplosion(Blast baoZha)
     {
         this(baoZha.worldObj);
         this.baoZha = baoZha;
@@ -150,7 +150,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
             {
                 Class clazz = Class.forName(baoZhaNBT.getString("class"));
                 Constructor constructor = clazz.getConstructor(World.class, Entity.class, double.class, double.class, double.class, float.class);
-                this.baoZha = (ExplosionBase) constructor.newInstance(this.worldObj, null, this.posX, this.posY, this.posZ, 0);
+                this.baoZha = (Blast) constructor.newInstance(this.worldObj, null, this.posX, this.posY, this.posZ, 0);
             }
 
             this.baoZha.readFromNBT(baoZhaNBT);

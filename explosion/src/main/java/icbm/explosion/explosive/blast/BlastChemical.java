@@ -2,7 +2,7 @@ package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.potion.CustomPotionEffect;
 
-public class BlastChemical extends ExplosionBase
+public class BlastChemical extends Blast
 {
     private static final int CHECK_BAN_JING = 16;
     private static final float NENG_LIANG = 10F;

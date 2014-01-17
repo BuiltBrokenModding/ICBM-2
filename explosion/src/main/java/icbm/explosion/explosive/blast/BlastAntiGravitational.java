@@ -2,7 +2,7 @@ package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
 import icbm.explosion.EntityFlyingBlock;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadSmallExplosion;
 
 import java.util.HashSet;
@@ -16,7 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
-public class BlastAntiGravitational extends ExplosionBase
+public class BlastAntiGravitational extends Blast
 {
     protected ThreadSmallExplosion thread;
     protected Set<EntityFlyingBlock> feiBlocks = new HashSet<EntityFlyingBlock>();

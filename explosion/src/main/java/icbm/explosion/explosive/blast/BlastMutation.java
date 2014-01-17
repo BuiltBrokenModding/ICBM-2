@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class BlastMutation extends ExplosionBase
+public class BlastMutation extends Blast
 {
     public BlastMutation(World world, Entity entity, double x, double y, double z, float size)
     {

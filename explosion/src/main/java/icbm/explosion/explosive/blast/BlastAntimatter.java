@@ -2,13 +2,13 @@ package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.explosive.ExplosionBase;
+import icbm.explosion.explosive.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
-public class BlastAntimatter extends ExplosionBase
+public class BlastAntimatter extends Blast
 {
     private boolean destroyBedrock;
 
