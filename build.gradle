@@ -13,7 +13,7 @@ buildscript {
  
 apply plugin: 'forge'
 apply plugin: 'maven'
-
+ 
 ext.buildProps = file "build.properties"
  
 buildProps.withReader {
@@ -32,7 +32,7 @@ minecraft {
     replace "@MAJOR@", rootProject.config.version.mod.major
     replace "@MINOR@", rootProject.config.version.mod.minor
     replace "@REVIS@", rootProject.config.version.mod.revis
-    replace "@BUILD@", System.getenv("BUILD_NUMBER")
+    replace "@BUILD@", "${System.getenv().BUILD_NUMBER}"
 }
  
 allprojects {
@@ -64,7 +64,7 @@ allprojects {
     
     jar {
         dependsOn ":copyBuildXml"
-        destinationDir = file '${projectDir}/output'
+        destinationDir = file (rootProject.getRootDir().getPath() + '/output')
     }
 }
  
@@ -74,6 +74,13 @@ subprojects {
     dependencies {
         compile rootProject
     }
+    /*
+    rootProject.tasks.reobf {
+        reobf(tasks.jar) { spec ->
+            spec.classpath = sourceSets.main.compileClasspath
+        }
+    }
+	*/
 }
  
 processResources {
@@ -95,11 +102,5 @@ task apiZip(type: Zip) {
 artifacts {
     archives apiZip
 }
-
-task copyBuilds(type: Copy) {
-    from projectDir
-    include '**/output/*.jar'
-    into 'output'
-}
-
-build.dependsOn "apiZip", "copyBuildXml", "apiZip"
+ 
+build.dependsOn "apiZip", "copyBuildXml"
