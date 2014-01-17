@@ -1,9 +1,8 @@
 package icbm.explosion.items;
 
-import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import icbm.api.explosion.ExplosiveType;
 import icbm.core.prefab.item.ItemICBMElectrical;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;

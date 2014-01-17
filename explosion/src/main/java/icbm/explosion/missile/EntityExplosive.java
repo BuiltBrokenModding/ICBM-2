@@ -1,9 +1,9 @@
 package icbm.explosion.missile;
 
+import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
-import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;

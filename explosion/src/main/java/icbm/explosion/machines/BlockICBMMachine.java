@@ -1,7 +1,6 @@
 package icbm.explosion.machines;
 
 import icbm.api.ITier;
-import icbm.core.ICBMCore;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.BlockRenderHandler;
@@ -19,6 +18,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
+import calclavia.components.CalclaviaLoader;
 import calclavia.lib.multiblock.link.IBlockActivate;
 import calclavia.lib.multiblock.link.IMultiBlock;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
@@ -107,7 +107,7 @@ public class BlockICBMMachine extends BlockICBM
 
         if (tileEntity instanceof IMultiBlock)
         {
-            ICBMCore.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
+			CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
         }
     }
 
@@ -262,7 +262,7 @@ public class BlockICBMMachine extends BlockICBM
 
             if (tileEntity instanceof IMultiBlock)
             {
-                ICBMCore.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+            	CalclaviaLoader.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
             }
         }
 

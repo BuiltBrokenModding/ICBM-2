@@ -4,8 +4,8 @@ import icbm.Reference;
 import icbm.api.explosion.IExplosiveIgnore;
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.explosive.Blast;
+import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;

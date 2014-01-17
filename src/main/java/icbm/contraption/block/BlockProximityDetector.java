@@ -1,6 +1,6 @@
 package icbm.contraption.block;
 
-import icbm.contraption.ICBMContraption;
+import icbm.core.ICBMCore;
 import icbm.core.prefab.BlockICBM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -28,7 +28,7 @@ public class BlockProximityDetector extends BlockICBM
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
 	{
-		par5EntityPlayer.openGui(ICBMContraption.instance, 0, par1World, x, y, z);
+		par5EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par1World, x, y, z);
 		return true;
 	}
 

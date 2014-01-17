@@ -81,9 +81,9 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ICBMExplosion.NAME, name = ICBMExplosion.NAME, version = Reference.VERSION, dependencies = "after:ICBM|Sentry;after:AtomicScience", useMetadata = true)
+@Mod(modid = ICBMExplosion.NAME, name = ICBMExplosion.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM;after:ICBM|Sentry")
 @NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
-public class ICBMExplosion extends ICBMCore
+public class ICBMExplosion
 {
 	public static final String NAME = Reference.NAME + "|Explosion";
 	public static final String CHANNEL = Reference.NAME + "|E";
@@ -121,11 +121,9 @@ public class ICBMExplosion extends ICBMCore
 
 	public static boolean CREEPER_DROP_SULFER = true, CREEPER_BLOW_UP_IN_FIRE = true;
 
-	@Override
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		super.preInit(event);
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(proxy);
@@ -277,16 +275,12 @@ public class ICBMExplosion extends ICBMCore
 	@EventHandler
 	public void load(FMLInitializationEvent evt)
 	{
-		super.init(evt);
 		ICBMCore.setModMetadata(NAME, metadata);
 	}
 
-	@Override
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		super.postInit(event);
-
 		/** Add all Recipes */
 		// Rocket Launcher
 		GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
@@ -451,9 +445,4 @@ public class ICBMExplosion extends ICBMCore
 		}
 	}
 
-	@Override
-	protected String getChannel()
-	{
-		return CHANNEL;
-	}
 }

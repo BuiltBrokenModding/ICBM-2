@@ -1,6 +1,17 @@
 package icbm.core;
 
 import icbm.Reference;
+import icbm.contraption.ItemAntidote;
+import icbm.contraption.ItemBlockSpikes;
+import icbm.contraption.ItemSignalDisrupter;
+import icbm.contraption.ItemTracker;
+import icbm.contraption.block.BlockCamouflage;
+import icbm.contraption.block.BlockConcrete;
+import icbm.contraption.block.BlockGlassButton;
+import icbm.contraption.block.BlockGlassPressurePlate;
+import icbm.contraption.block.BlockProximityDetector;
+import icbm.contraption.block.BlockReinforcedGlass;
+import icbm.contraption.block.BlockSpikes;
 import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.Arrays;
@@ -18,140 +29,205 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
-import calclavia.lib.multiblock.link.BlockMulti;
-import calclavia.lib.multiblock.link.TileMultiBlockPart;
+import universalelectricity.api.item.ItemElectric;
+import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
 import calclavia.lib.ore.OreGenBase;
 import calclavia.lib.ore.OreGenerator;
+import calclavia.lib.prefab.item.ItemBlockHolder;
 import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-/** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
+/**
+ * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
- * @author Calclavia */
+ * @author Calclavia
+ */
+@Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:AtomicScience")
+@NetworkMod(channels = Reference.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 @ModstatInfo(prefix = "icbm", name = Reference.NAME, version = Reference.VERSION)
-public class ICBMCore
+public final class ICBMCore
 {
-    public static final ICBMCore INSTANCE = new ICBMCore();
+	@Instance(Reference.NAME)
+	public static ICBMCore INSTANCE;
 
-    public static BlockMulti blockMulti;
-    public static Block blockSulfurOre, blockRadioactive;
+	@Metadata(Reference.NAME)
+	public static ModMetadata metadata;
 
-    public static Item itemSulfurDust, itemPoisonPowder;
+	@SidedProxy(clientSide = "icbm.core.ClientProxy", serverSide = "icbm.core.CommonProxy")
+	public static CommonProxy proxy;
 
-    public static OreGenBase sulfureOreGenData;
+	// Blocks
+	public static Block blockGlassPlate, blockGlassButton, blockProximityDetector, blockSpikes,
+			blockCamo, blockConcrete, blockReinforcedGlass;
 
-    private static boolean isPreInit, isInit, isPostInit;
+	// Items
+	public static Item itemAntidote;
+	public static ItemElectric itemSignalDisrupter;
+	public static ItemElectric itemTracker;
 
-    public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
+	public static Block blockSulfurOre, blockRadioactive;
 
-    public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
-    public static final PacketPlayerItem PACKET_ITEM = new PacketPlayerItem(Reference.CHANNEL);
+	public static Item itemSulfurDust, itemPoisonPowder;
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        if (!isPreInit)
-        {
-            Modstats.instance().getReporter().registerMod(INSTANCE);
-            MinecraftForge.EVENT_BUS.register(INSTANCE);
+	public static OreGenBase sulfurGenerator;
 
-            LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
+	private static boolean isPreInit, isInit, isPostInit;
 
-            Settings.initiate();
-            Settings.CONFIGURATION.load();
+	public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
 
-            // BLOCKS
-            blockSulfurOre = new BlockSulfureOre(Settings.CONFIGURATION.getBlock("sulfureOre", Settings.getNextBlockID()).getInt());
-            blockMulti = new BlockMulti(Settings.CONFIGURATION.getBlock("mulitBlock", Settings.getNextBlockID()).getInt()).setPacketType(PACKET_TILE);
+	public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
+	public static final PacketPlayerItem PACKET_ITEM = new PacketPlayerItem(Reference.CHANNEL);
 
-            // Items
-            itemPoisonPowder = new ItemICBMBase(Settings.CONFIGURATION.getItem("itemPoisonPowder", Settings.getNextItemID()).getInt(), "poisonPowder");
-            itemSulfurDust = new ItemICBMBase(Settings.CONFIGURATION.getItem("itemSulfurDust", Settings.getNextItemID()).getInt(), "sulfur");
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event)
+	{
+		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 
-            // -- Registering Blocks
-            GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");
-            GameRegistry.registerBlock(blockMulti, "blockMulti");
+		Modstats.instance().getReporter().registerMod(INSTANCE);
+		MinecraftForge.EVENT_BUS.register(INSTANCE);
 
-            sulfureOreGenData = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
+		LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
 
-            /** Check for existence of radioactive block. If it does not exist, then create it. */
-            if (OreDictionary.getOres("blockRadioactive").size() > 0)
-            {
-                blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
-                LOGGER.fine("Detected radioative block from another mod, utilizing it.");
-            }
-            else
-            {
-                blockRadioactive = Block.mycelium;
-            }
+		Settings.initiate();
+		Settings.CONFIGURATION.load();
 
-            /** Decrease Obsidian Resistance */
-            Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
-            LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
+		// Blocks
+		blockSulfurOre = new BlockSulfureOre(Settings.CONFIGURATION.getBlock("sulfureOre", Settings.getNextBlockID()).getInt());
+		blockGlassPlate = new BlockGlassPressurePlate(Settings.CONFIGURATION.getBlock("Glass Pressure Plate", Settings.getNextBlockID()).getInt());
+		blockGlassButton = new BlockGlassButton(Settings.CONFIGURATION.getBlock("Glass Button", Settings.getNextBlockID()).getInt());
+		blockProximityDetector = new BlockProximityDetector(Settings.getNextBlockID());
+		blockSpikes = new BlockSpikes(Settings.getNextBlockID());
+		blockCamo = new BlockCamouflage(Settings.getNextBlockID());
+		blockConcrete = new BlockConcrete(Settings.getNextBlockID());
+		blockReinforcedGlass = new BlockReinforcedGlass(Settings.getNextBlockID());
 
-            Settings.CONFIGURATION.save();
+		// ITEMS
+		itemPoisonPowder = new ItemICBMBase(Settings.CONFIGURATION.getItem("itemPoisonPowder", Settings.getNextItemID()).getInt(), "poisonPowder");
+		itemSulfurDust = new ItemICBMBase(Settings.CONFIGURATION.getItem("itemSulfurDust", Settings.getNextItemID()).getInt(), "sulfur");
+		itemAntidote = new ItemAntidote(Settings.CONFIGURATION.getItem("ItemAntidote", Settings.getNextItemID()).getInt());
+		itemSignalDisrupter = new ItemSignalDisrupter(Settings.CONFIGURATION.getItem("ItemSignalDisrupter", Settings.getNextItemID() + 9).getInt());
+		itemTracker = new ItemTracker(Settings.CONFIGURATION.getItem("ItemTracker", Settings.getNextItemID()).getInt());
 
-            OreDictionary.registerOre("dustSulfur", itemSulfurDust);
-            OreGenerator.addOre(sulfureOreGenData);
+		sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
-            GameRegistry.registerTileEntity(TileMultiBlockPart.class, "ICBMTileEntityMultiBlockPart");
+		/** Check for existence of radioactive block. If it does not exist, then create it. */
+		if (OreDictionary.getOres("blockRadioactive").size() > 0)
+		{
+			blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
+			LOGGER.fine("Detected radioative block from another mod, utilizing it.");
+		}
+		else
+		{
+			blockRadioactive = Block.mycelium;
+		}
 
-            isPreInit = true;
-        }
-    }
+		/** Decrease Obsidian Resistance */
+		Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+		LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        if (!isInit)
-        {
-            isInit = true;
-        }
-    }
+		OreDictionary.registerOre("dustSulfur", itemSulfurDust);
+		OreGenerator.addOre(sulfurGenerator);
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        if (!isPostInit)
-        {
-            /** LOAD. */
+		Settings.CONFIGURATION.save();
 
-            // Sulfur
-            GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
+		CreativeTabICBM.itemStack = new ItemStack(blockProximityDetector);
 
-            GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
+		// -- Registering Blocks
+		GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");
+		GameRegistry.registerBlock(blockGlassPlate, "blockGlassPlate");
+		GameRegistry.registerBlock(blockGlassButton, "blockGlassButton");
+		GameRegistry.registerBlock(blockProximityDetector, "blockProximityDetector");
+		GameRegistry.registerBlock(blockCamo, "blockCamo");
+		GameRegistry.registerBlock(blockReinforcedGlass, "blockReinforcedGlass");
+		GameRegistry.registerBlock(blockSpikes, ItemBlockSpikes.class, "blockSpikes");
+		GameRegistry.registerBlock(blockConcrete, ItemBlockHolder.class, "blockConcrete");
 
-            // Poison Powder
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
+		proxy.preInit();
+	}
 
-            isPostInit = true;
-        }
-    }
+	@EventHandler
+	public void init(FMLInitializationEvent event)
+	{
+		ICBMCore.setModMetadata(Reference.NAME, metadata);
+	}
 
-    public static void setModMetadata(String id, ModMetadata metadata)
-    {
-        metadata.modId = id;
-        metadata.name = Reference.NAME;
-        metadata.description = "ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!";
-        metadata.url = "http://www.calclavia.com/icbm/";
-        metadata.logoFile = "/icbm_logo.png";
-        metadata.version = Reference.VERSION;
-        metadata.authorList = Arrays.asList(new String[] { "Calclavia" });
-        metadata.credits = "Please visit the website.";
-        metadata.autogenerated = false;
-    }
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event)
+	{
 
-    protected String getChannel()
-    {
-        return null;
-    }
+		/** LOAD. */
+
+		// Sulfur
+		GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
+
+		// Poison Powder
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
+		/** Add all Recipes */
+		// Spikes
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
+		GameRegistry.addRecipe(new ItemStack(blockSpikes, 1, 1), new Object[] { "E", "S", 'E', ICBMCore.itemPoisonPowder, 'S', blockSpikes });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 1, 2), new Object[] { "E", "S", 'E', "dustSulfur", 'S', blockSpikes }));
+
+		// Camouflage
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCamo, 12), new Object[] { "WGW", "G G", "WGW", 'G', Block.vine, 'W', Block.cloth }));
+
+		// Tracker
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemTracker), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', "circuitBasic", 'B', "battery", 'S', Item.ingotIron }));
+
+		// Glass Pressure Plate
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGlassPlate, 1, 0), new Object[] { "##", '#', Block.glass }));
+
+		// Glass Button
+		GameRegistry.addRecipe(new ItemStack(blockGlassButton, 2), new Object[] { "G", "G", 'G', Block.glass });
+
+		// Proximity Detector
+		GameRegistry.addRecipe(new ShapedOreRecipe(blockProximityDetector, new Object[] { "SSS", "S?S", "SSS", 'S', Item.ingotIron, '?', itemTracker }));
+
+		// Signal Disrupter
+		GameRegistry.addRecipe(new ShapedOreRecipe(itemSignalDisrupter, new Object[] { "WWW", "SCS", "SSS", 'S', Item.ingotIron, 'C', "circuitBasic", 'W', "wireCopper" }));
+
+		// Antidote
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
+
+		// Concrete
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 0), 'O', Block.obsidian }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 1), 'O', Item.ingotIron }));
+
+		// Reinforced Glass
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
+
+		proxy.init();
+	}
+
+	public static void setModMetadata(String id, ModMetadata metadata)
+	{
+		metadata.modId = id;
+		metadata.name = Reference.NAME;
+		metadata.description = "ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!";
+		metadata.url = "http://www.calclavia.com/icbm/";
+		metadata.logoFile = "/icbm_logo.png";
+		metadata.version = Reference.VERSION;
+		metadata.authorList = Arrays.asList(new String[] { "Calclavia" });
+		metadata.credits = "Please visit the website.";
+		metadata.autogenerated = false;
+	}
 }

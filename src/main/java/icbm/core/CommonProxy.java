@@ -1,4 +1,4 @@
-package icbm.contraption;
+package icbm.core;
 
 import icbm.contraption.block.TileCamouflage;
 import icbm.contraption.block.TileDetector;

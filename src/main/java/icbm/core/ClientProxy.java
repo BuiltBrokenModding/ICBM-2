@@ -1,10 +1,9 @@
-package icbm.contraption;
+package icbm.core;
 
 import icbm.api.IItemFrequency;
 import icbm.contraption.block.TileDetector;
 import icbm.contraption.gui.GuiDectector;
 import icbm.contraption.gui.GuiTracker;
-import icbm.core.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

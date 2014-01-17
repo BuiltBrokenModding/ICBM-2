@@ -1,6 +1,7 @@
 package icbm.contraption;
 
 import icbm.api.ITracker;
+import icbm.core.ICBMCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -20,7 +21,7 @@ public class TextureGenZhongQi extends TextureAtlasSprite
 
     public TextureGenZhongQi()
     {
-        super(ICBMContraption.itemTracker.getUnlocalizedName().replace("item.", ""));
+		super(ICBMCore.itemTracker.getUnlocalizedName().replace("item.", ""));
     }
 
     @Override

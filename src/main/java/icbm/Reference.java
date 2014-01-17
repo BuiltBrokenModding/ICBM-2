@@ -22,7 +22,7 @@ public class Reference
     public static final String MODEL_PATH = TEXTURE_PATH + "models/";
     public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
     public static final String ITEM_PATH = TEXTURE_PATH + "items/";
-    public static final String LANGUAGE_PATH = ASSETS_PATH + "yuyan/";
+    public static final String LANGUAGE_PATH = ASSETS_PATH + "languages/";
     public static final String[] LANGUAGES = new String[] { "en_US", "zh_CN", "es_ES", "de_DE" };
 
 }
