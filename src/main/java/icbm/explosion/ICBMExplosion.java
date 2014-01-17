@@ -414,8 +414,9 @@ public class ICBMExplosion
 	{
 		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) != null && evt.explosion instanceof Explosive)
 		{
-			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getFlagWorld(evt.world).containsValue(((Explosive) evt.explosion).flagName, "true", new Vector3(evt.x, evt.y, evt.z)))
+			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getFlagWorld(evt.world).containsValue(((Explosive) evt.explosion).flagName, "false", new Vector3(evt.x, evt.y, evt.z)))
 			{
+				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
 				evt.setCanceled(true);
 			}
 		}
@@ -426,8 +427,9 @@ public class ICBMExplosion
 	{
 		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) != null && evt.iExplosion instanceof Explosive)
 		{
-			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getFlagWorld(evt.world).containsValue(((Explosive) evt.iExplosion).flagName, "true", new Vector3(evt.x, evt.y, evt.z)))
+			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getFlagWorld(evt.world).containsValue(((Explosive) evt.iExplosion).flagName, "false", new Vector3(evt.x, evt.y, evt.z)))
 			{
+				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
 				evt.setCanceled(true);
 			}
 		}
@@ -438,8 +440,9 @@ public class ICBMExplosion
 	{
 		if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME) != null && evt.iExplosion instanceof Explosive)
 		{
-			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getFlagWorld(evt.world).containsValue(((Explosive) evt.iExplosion).flagName, "true", new Vector3(evt.x, evt.y, evt.z)))
+			if (FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).getFlagWorld(evt.world).containsValue(((Explosive) evt.iExplosion).flagName, "false", new Vector3(evt.x, evt.y, evt.z)))
 			{
+				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
 				evt.setCanceled(true);
 			}
 		}

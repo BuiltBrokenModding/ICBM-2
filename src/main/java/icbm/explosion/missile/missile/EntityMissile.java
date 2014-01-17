@@ -296,7 +296,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(worldObj, posX, posY, posZ, ExplosiveType.AIR, ExplosiveRegistry.get(explosiveID));
 			MinecraftForge.EVENT_BUS.post(evt);
 
-			if (!evt.isCanceled())
+			if (evt.isCanceled())
 			{
 				if (this.feiXingTick >= 0)
 				{

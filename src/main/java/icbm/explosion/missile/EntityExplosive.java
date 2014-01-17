@@ -78,7 +78,7 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
 			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(worldObj, posX, posY, posZ, ExplosiveType.BLOCK, ExplosiveRegistry.get(explosiveID));
 			MinecraftForge.EVENT_BUS.post(evt);
 
-			if (!evt.isCanceled())
+			if (evt.isCanceled())
 			{
 				ICBMExplosion.blockExplosive.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
 				this.setDead();
