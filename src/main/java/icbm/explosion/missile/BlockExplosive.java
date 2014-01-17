@@ -142,7 +142,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 			ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, x, y, z, ExplosiveType.BLOCK, ExplosiveRegistry.get(explosiveID));
 			MinecraftForge.EVENT_BUS.post(evt);
 
-			if (!evt.isCanceled())
+			if (evt.isCanceled())
 			{
 				this.dropBlockAsItem(world, x, y, z, explosiveID, 0);
 				world.setBlock(x, y, z, 0, 0, 2);
