@@ -13,7 +13,8 @@ buildscript {
  
 apply plugin: 'forge'
 apply plugin: 'maven'
- 
+apply plugin: 'maven-publish'
+
 ext.buildProps = file "build.properties"
  
 buildProps.withReader {
@@ -63,9 +64,27 @@ allprojects {
     }
     
     jar {
+		classifier = '${project.name}'
         dependsOn ":copyBuildXml"
         destinationDir = file (rootProject.getRootDir().getPath() + '/output')
     }
+	
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				artifact jar
+			}
+		}
+		repositories {
+			maven {
+				url "file://var/www/maven"
+			}
+		}
+	}
+
+	repositories {
+		maven { url 'http://calclavia.com/maven' }
+	}
 }
  
 subprojects {
