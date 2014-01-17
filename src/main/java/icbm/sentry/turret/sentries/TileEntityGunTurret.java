@@ -22,10 +22,7 @@ public class TileEntityGunTurret extends TileAutoTurret
         return 200;
     }
 
-    public void playFiringSound()
-    {
-        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "machinegun", 5F, 1F);
-    }
+   
 
     @Override
     public Vector3 pos()

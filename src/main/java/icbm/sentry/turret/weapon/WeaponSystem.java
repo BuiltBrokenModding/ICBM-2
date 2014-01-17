@@ -1,6 +1,7 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.api.sentry.IWeaponPlatform;
+import icbm.api.sentry.IWeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import universalelectricity.api.vector.VectorWorld;
@@ -8,7 +9,7 @@ import universalelectricity.api.vector.VectorWorld;
 /** Modular way of dealing with weapon systems in a way works with different object types
  * 
  * @author DarkGuardsman */
-public class WeaponSystem
+public class WeaponSystem implements IWeaponSystem
 {
     /** Inventory to pull ammo from */
     protected IInventory inventory;
