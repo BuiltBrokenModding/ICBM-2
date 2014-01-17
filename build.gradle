@@ -64,7 +64,7 @@ allprojects {
     }
     
     jar {
-		classifier = '${project.name}'
+		classifier = project.name
         dependsOn ":copyBuildXml"
         destinationDir = file (rootProject.getRootDir().getPath() + '/output')
     }
@@ -88,7 +88,7 @@ allprojects {
 }
  
 subprojects {
-    archivesBaseName = "ICBM-${project.name}"
+    archivesBaseName = "ICBM"
     
     dependencies {
         compile rootProject
