@@ -1,46 +1,25 @@
 package icbm.sentry.platform;
 
-import icbm.core.ICBMCore;
-import icbm.sentry.ITurretUpgrade;
-import icbm.sentry.ProjectileType;
-import icbm.sentry.interfaces.IAmmunition;
-import icbm.sentry.turret.ItemAmmo.AmmoType;
-import icbm.sentry.turret.TileTurret;
-import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.packet.Packet;
+import icbm.sentry.interfaces.ISentry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
-import universalelectricity.api.energy.EnergyStorageHandler;
+import universalelectricity.api.electricity.IVoltageInput;
+import universalelectricity.api.energy.IEnergyInterface;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.access.AccessProfile;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.terminal.TileTerminal;
+import calclavia.lib.prefab.tile.TileExternalInventory;
 
 /** Turret Platform
  * 
- * @author Calclavia */
-public class TileTurretPlatform extends TileTerminal implements IInventory, IProfileContainer
+ * @author DarkGuardsman */
+public class TileTurretPlatform extends TileExternalInventory implements IEnergyInterface, IVoltageInput
 {
-    /** The turret linked to this platform. */
-    private TileTurret cachedTurret = null;
-    /** The start index of the upgrade slots for the turret. */
-    public static final int UPGRADE_START_INDEX = 12;
-    private static final int TURRET_UPGADE_SLOTS = 3;
-    protected AccessProfile accessProfile;
-
-    /** The first 12 slots are for ammunition. The last 4 slots are for upgrades. */
-    public ItemStack[] containingItems = new ItemStack[UPGRADE_START_INDEX + 4];
+    private long voltage = 120;
+    private ISentry[] sentries = new ISentry[6];
 
     public TileTurretPlatform()
     {
-        this.energy = new EnergyStorageHandler(10000);
+        this.invSlots = 20;
     }
 
     @Override
@@ -51,302 +30,45 @@ public class TileTurretPlatform extends TileTerminal implements IInventory, IPro
         /** Consume electrical items. */
         if (!this.worldObj.isRemote)
         {
-            for (int i = 0; i < UPGRADE_START_INDEX; i++)
+            for (int i = 0; i < this.getSizeInventory(); i++)
             {
-                if (this.getEnergy(ForgeDirection.UNKNOWN) >= this.getEnergyCapacity(ForgeDirection.UNKNOWN))
+                if (this.getStackInSlot(i) != null && CompatibilityModule.isHandler(this.getStackInSlot(i).getClass()))
                 {
-                    break;
-                }
-                this.setEnergy(ForgeDirection.UNKNOWN, this.getEnergy(ForgeDirection.UNKNOWN) + CompatibilityModule.dischargeItem(this.getStackInSlot(1), Math.min(1000, this.getEnergyCapacity(ForgeDirection.UNKNOWN) - this.energy.getEnergy()), true));
-            }
-        }
-    }
-
-    /** Gets the turret instance linked to this platform */
-    public TileTurret getTurret()
-    {
-        if (this.cachedTurret == null || this.cachedTurret.isInvalid() || !(new Vector3(this.cachedTurret).equals(new Vector3(this).modifyPositionFromSide(this.getTurretDirection()))))
-        {
-            TileEntity tileEntity = new Vector3(this).modifyPositionFromSide(this.getTurretDirection()).getTileEntity(this.worldObj);
-
-            if (tileEntity instanceof TileTurret)
-            {
-                this.cachedTurret = (TileTurret) tileEntity;
-            }
-            else
-            {
-                this.cachedTurret = null;
-            }
-        }
-
-        return this.cachedTurret;
-    }
-
-    /** if a sentry is spawned above the stand it is removed
-     * 
-     * @return */
-    public boolean destroyTurret()
-    {
-        TileEntity ent = this.worldObj.getBlockTileEntity(this.xCoord + this.getTurretDirection().offsetX, this.yCoord + this.getTurretDirection().offsetY, this.zCoord + this.getTurretDirection().offsetZ);
-
-        if (ent instanceof TileTurret)
-        {
-            this.cachedTurret = null;
-            ((TileTurret) ent).destroy(false);
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean destroy(boolean doExplosion)
-    {
-        if (doExplosion)
-        {
-            this.worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 2f, true);
-        }
-
-        if (!this.worldObj.isRemote)
-        {
-            this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
-        }
-
-        return this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
-    }
-
-    @Override
-    public String getInvName()
-    {
-        return this.getBlockType().getLocalizedName();
-    }
-
-    public ItemStack hasAmmunition(ProjectileType projectileType)
-    {
-        for (int i = 0; i < TileTurretPlatform.UPGRADE_START_INDEX; i++)
-        {
-            ItemStack itemStack = this.containingItems[i];
-
-            if (itemStack != null)
-            {
-                Item item = Item.itemsList[itemStack.itemID];
-
-                if (item instanceof IAmmunition && ((IAmmunition) item).getType(itemStack) == projectileType)
-                {
-                    return itemStack;
+                    long charge = CompatibilityModule.dischargeItem(this.getStackInSlot(i), Integer.MAX_VALUE, false);
+                    CompatibilityModule.dischargeItem(this.getStackInSlot(i), this.onReceiveEnergy(ForgeDirection.UNKNOWN, charge, true), true);
                 }
             }
         }
-
-        return null;
     }
 
-    public boolean useAmmunition(ItemStack ammoStack)
+    public void refresh()
     {
-        if (ammoStack != null)
+        this.sentries = new ISentry[6];
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            if (ammoStack.getItemDamage() == AmmoType.BULLETINF.ordinal())
+            TileEntity ent = new Vector3(this).modifyPositionFromSide(direction).getTileEntity(this.worldObj);
+            if (ent instanceof ISentry)
             {
-                return true;
-            }
-
-            for (int i = 0; i < TileTurretPlatform.UPGRADE_START_INDEX; i++)
-            {
-                ItemStack itemStack = this.containingItems[i];
-
-                if (itemStack != null)
+                this.sentries[direction.ordinal()] = (ISentry) ent;
+                if (ent instanceof IVoltageInput && ((IVoltageInput) ent).getVoltageInput(direction.getOpposite()) > voltage)
                 {
-                    if (itemStack.isItemEqual(ammoStack))
-                    {
-                        this.decrStackSize(i, 1);
-                        return true;
-                    }
+                    voltage = ((IVoltageInput) ent).getVoltageInput(direction.getOpposite());
                 }
             }
         }
-        return false;
-    }
-
-    /** Gets the change for the upgrade type 100% = 1.0 */
-    public int getUpgradeCount(TurretUpgradeType type)
-    {
-        int count = 0;
-
-        for (int i = UPGRADE_START_INDEX; i < UPGRADE_START_INDEX + TURRET_UPGADE_SLOTS; i++)
-        {
-            ItemStack itemStack = this.getStackInSlot(i);
-
-            if (itemStack != null)
-            {
-                if (itemStack.getItem() instanceof ITurretUpgrade && ((ITurretUpgrade) itemStack.getItem()).isFunctional(itemStack))
-                {
-                    if (((ITurretUpgrade) itemStack.getItem()).getType(itemStack) == type)
-                    {
-                        count++;
-                    }
-                }
-            }
-        }
-
-        return count;
-    }
-
-    public void damageUpgrade(TurretUpgradeType collector)
-    {
-        for (int i = UPGRADE_START_INDEX; i < UPGRADE_START_INDEX + TURRET_UPGADE_SLOTS; i++)
-        {
-            ItemStack itemStack = this.getStackInSlot(i);
-
-            if (itemStack != null)
-            {
-                if (itemStack.getItem() instanceof ITurretUpgrade && ((ITurretUpgrade) itemStack.getItem()).isFunctional(itemStack))
-                {
-                    if (((ITurretUpgrade) itemStack.getItem()).damageUpgrade(itemStack, 1))
-                    {
-                        this.setInventorySlotContents(i, null);
-                    }
-                }
-            }
-        }
-
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public long getVoltageInput(ForgeDirection direction)
     {
-        super.readFromNBT(nbt);
-
-        // Inventory
-        NBTTagList var2 = nbt.getTagList("Items");
-        this.containingItems = new ItemStack[this.getSizeInventory()];
-
-        for (int var3 = 0; var3 < var2.tagCount(); ++var3)
-        {
-            NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
-            byte var5 = var4.getByte("Slot");
-
-            if (var5 >= 0 && var5 < this.containingItems.length)
-            {
-                this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
-            }
-        }
-        if (nbt.hasKey("accessProfile"))
-            this.setAccessProfile(new AccessProfile(nbt.getCompoundTag("accessProfile")));
+        return this.voltage;
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void onWrongVoltage(ForgeDirection direction, long voltage)
     {
-        super.writeToNBT(nbt);
+        // TODO Auto-generated method stub
 
-        // Inventory
-        NBTTagList itemTag = new NBTTagList();
-        for (int slots = 0; slots < this.containingItems.length; ++slots)
-        {
-            if (this.containingItems[slots] != null)
-            {
-                NBTTagCompound itemNbtData = new NBTTagCompound();
-                itemNbtData.setByte("Slot", (byte) slots);
-                this.containingItems[slots].writeToNBT(itemNbtData);
-                itemTag.appendTag(itemNbtData);
-            }
-        }
-
-        nbt.setTag("Items", itemTag);
-        NBTTagCompound accessTag = new NBTTagCompound();
-        this.getAccessProfile().save(accessTag);
-        nbt.setCompoundTag("accessProfile", accessTag);
-    }
-
-    @Override
-    public int getSizeInventory()
-    {
-        return this.containingItems.length;
-    }
-
-    /** Returns the stack in slot i */
-    @Override
-    public ItemStack getStackInSlot(int par1)
-    {
-        return this.containingItems[par1];
-    }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int par1)
-    {
-        if (this.containingItems[par1] != null)
-        {
-            ItemStack var2 = this.containingItems[par1];
-            this.containingItems[par1] = null;
-            return var2;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    @Override
-    public ItemStack decrStackSize(int par1, int par2)
-    {
-        if (this.containingItems[par1] != null)
-        {
-            ItemStack var3;
-
-            if (this.containingItems[par1].stackSize <= par2)
-            {
-                var3 = this.containingItems[par1];
-                this.containingItems[par1] = null;
-                return var3;
-            }
-            else
-            {
-                var3 = this.containingItems[par1].splitStack(par2);
-
-                if (this.containingItems[par1].stackSize == 0)
-                {
-                    this.containingItems[par1] = null;
-                }
-
-                return var3;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    @Override
-    public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
-    {
-        this.containingItems[par1] = par2ItemStack;
-
-        if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
-        {
-            par2ItemStack.stackSize = this.getInventoryStackLimit();
-        }
-    }
-
-    @Override
-    public int getInventoryStackLimit()
-    {
-        return 64;
-    }
-
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
-    {
-        return true;
-    }
-
-    @Override
-    public void openChest()
-    {
-    }
-
-    @Override
-    public void closeChest()
-    {
     }
 
     @Override
@@ -356,100 +78,26 @@ public class TileTurretPlatform extends TileTerminal implements IInventory, IPro
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive)
     {
-        return true;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
-    {
-        if (slotID < UPGRADE_START_INDEX && itemStack.getItem() instanceof IAmmunition)
+        long actual = 0;
+        long left = receive;
+        for (int i = 0; i < 6; i++)
         {
-            return true;
-        }
-
-        return false;
-    }
-
-    /** @return True on successful drop. */
-    public boolean addStackToInventory(ItemStack itemStack)
-    {
-        for (int i = 0; i < UPGRADE_START_INDEX; i++)
-        {
-            ItemStack checkStack = this.getStackInSlot(i);
-
-            if (itemStack.stackSize <= 0)
+            ISentry sentry = this.sentries[i];
+            if (CompatibilityModule.isHandler(sentry))
             {
-                return true;
-            }
-
-            if (checkStack == null)
-            {
-                this.setInventorySlotContents(i, itemStack);
-                return true;
-            }
-            else if (checkStack.isItemEqual(itemStack))
-            {
-                int inputStack = Math.min(checkStack.stackSize + itemStack.stackSize, checkStack.getMaxStackSize()) - checkStack.stackSize;
-                itemStack.stackSize -= inputStack;
-                checkStack.stackSize += inputStack;
-                this.setInventorySlotContents(i, checkStack);
+                long in = CompatibilityModule.receiveEnergy(sentry, ForgeDirection.getOrientation(i).getOpposite(), left, doReceive);
+                actual += in;
+                left -= in;
             }
         }
-
-        return false;
-    }
-
-    /** Deploy direction of the sentry */
-    public ForgeDirection getTurretDirection()
-    {
-        return ForgeDirection.UP;
+        return actual;
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract)
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, this.getPacketData(0).toArray());
+        return 0;
     }
-
-    @Override
-    public Packet getTerminalPacket()
-    {
-        return ICBMCore.PACKET_TILE.getPacket(this, this.getPacketData(1).toArray());
-    }
-
-    @Override
-    public Packet getCommandPacket(String username, String cmdInput)
-    {
-        return ICBMCore.PACKET_TILE.getPacket(this, this.getPacketData(2).toArray());
-    }
-
-    public boolean isFunctioning()
-    {
-        return this.energy.getEnergy() > 0;
-    }
-
-    @Override
-    public AccessProfile getAccessProfile()
-    {
-        if (this.accessProfile == null)
-        {
-            this.setAccessProfile(new AccessProfile().generateNew("default", this));
-        }
-        return accessProfile;
-    }
-
-    @Override
-    public void setAccessProfile(AccessProfile profile)
-    {
-        this.accessProfile = profile;
-    }
-
-    @Override
-    public boolean canAccess(String username)
-    {
-        return accessProfile.getUserAccess(username) != null;
-    }
-
 }

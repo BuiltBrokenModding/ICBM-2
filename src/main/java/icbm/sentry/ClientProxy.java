@@ -1,10 +1,6 @@
 package icbm.sentry;
 
 import icbm.core.prefab.EmptyRenderer;
-import icbm.sentry.gui.GuiPlatformAccess;
-import icbm.sentry.gui.GuiPlatformSlots;
-import icbm.sentry.gui.GuiPlatformTerminal;
-import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.render.BlockRenderingHandler;
 import icbm.sentry.render.FXBeam;
 import icbm.sentry.render.RenderAAGun;
@@ -17,7 +13,6 @@ import icbm.sentry.turret.sentries.TileEntityAAGun;
 import icbm.sentry.turret.sentries.TileEntityGunTurret;
 import icbm.sentry.turret.sentries.TileEntityLaserGun;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -50,20 +45,6 @@ public class ClientProxy extends CommonProxy
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-
-        if (tileEntity != null)
-        {
-            switch (ID)
-            {
-                case GUI_PLATFORM_ID:
-                    return new GuiPlatformSlots(player.inventory, ((TileTurretPlatform) tileEntity));
-                case GUI_PLATFORM_TERMINAL_ID:
-                    return new GuiPlatformTerminal(player.inventory, ((TileTurretPlatform) tileEntity));
-                case GUI_PLATFORM_ACCESS_ID:
-                    return new GuiPlatformAccess(player.inventory, ((TileTurretPlatform) tileEntity));
-            }
-        }
 
         return null;
     }

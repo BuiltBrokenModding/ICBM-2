@@ -40,50 +40,6 @@ public class BlockTurretPlatform extends BlockICBM
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack)
-    {
-        if (entity instanceof EntityPlayer && !world.isRemote)
-        {
-            TileEntity ent = world.getBlockTileEntity(x, y, z);
-
-            if (ent instanceof IProfileContainer)
-            {
-                ((IProfileContainer) ent).getAccessProfile().setUserAccess(((EntityPlayer) entity).username, ((IProfileContainer) ent).getAccessProfile().getOwnerGroup(), true);
-            }
-        }
-    }
-
-    @Override
-    public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-    {
-        /** Only allow the platform to be open if there is a turret installed with it. */
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-
-        if (tileEntity instanceof TileTurretPlatform)
-        {
-            if (player.getCurrentEquippedItem() != null)
-            {
-                if (side == ((TileTurretPlatform) tileEntity).getTurretDirection().ordinal() && player.getCurrentEquippedItem().itemID == ICBMSentry.blockTurret.blockID)
-                {
-                    return false;
-                }
-            }
-
-            if (((TileTurretPlatform) tileEntity).getTurret() != null)
-            {
-                if (!world.isRemote)
-                {
-                    player.openGui(ICBMSentry.instance, CommonProxy.GUI_PLATFORM_ID, world, x, y, z);
-                }
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World var1)
     {
         return new TileTurretPlatform();

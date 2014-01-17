@@ -41,49 +41,6 @@ public class TileRailGun extends TileMountableTurret implements IRedstoneRecepto
         this.getPitchServo().setLimits(60, -60);
     }
 
-    @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
-
-        if (this.getPlatform() != null)
-        {
-            if (this.redstonePowerOn)
-            {
-                this.tryActivateWeapon();
-            }
-
-            if (this.gunChargingTicks > 0)
-            {
-                this.gunChargingTicks++;
-
-                if (this.gunChargingTicks >= this.getFireDelay())
-                {
-                    this.onFire();
-                    this.gunChargingTicks = 0;
-                }
-            }
-
-            if (this.worldObj.isRemote && this.endTicks-- > 0)
-            {
-                MovingObjectPosition objectMouseOver = this.rayTrace(2000);
-
-                if (objectMouseOver != null && objectMouseOver.hitVec != null)
-                {
-                    this.drawParticleStreamTo(new Vector3(objectMouseOver.hitVec));
-                }
-            }
-        }
-    }
-
-    public void tryActivateWeapon()
-    {
-        if (this.canActivateWeapon() && this.gunChargingTicks == 0)
-        {
-            this.onWeaponActivated();
-        }
-    }
-
     @SuppressWarnings("unchecked")
     public void onFire()
     {
@@ -169,59 +126,6 @@ public class TileRailGun extends TileMountableTurret implements IRedstoneRecepto
     public long getFiringRequest()
     {
         return 10000;
-    }
-
-    @Override
-    public void onWeaponActivated()
-    {
-        super.onWeaponActivated();
-        this.gunChargingTicks = 1;
-        this.redstonePowerOn = false;
-        this.isAntimatter = false;
-        ItemStack ammoStack = this.getPlatform().hasAmmunition(ProjectileType.RAILGUN);
-
-        if (ammoStack != null)
-        {
-            if (ammoStack.equals(ICBMSentry.antimatterBullet) && this.getPlatform().useAmmunition(ammoStack))
-            {
-                this.isAntimatter = true;
-            }
-            else
-            {
-                this.getPlatform().useAmmunition(ammoStack);
-            }
-        }
-
-        // TODO: Somehow this energy request method does not work.
-        // this.getPlatform().provideElectricity(this.getFiringRequest(), true);
-        this.getPlatform().setEnergy(ForgeDirection.UNKNOWN, 0);
-
-        this.explosionSize = 5f;
-        this.explosionDepth = 5;
-
-        if (this.isAntimatter)
-        {
-            this.explosionSize = 8f;
-            this.explosionDepth = 10;
-        }
-
-        this.playFiringSound();
-    }
-
-    public boolean canActivateWeapon()
-    {
-        if (this.getPlatform() != null)
-        {
-            if (this.getPlatform().hasAmmunition(ProjectileType.RAILGUN) != null)
-            {
-                if (this.getPlatform().energy.getEnergy() >= this.getFiringRequest())
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     @Override

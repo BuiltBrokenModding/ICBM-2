@@ -1,6 +1,5 @@
 package icbm.sentry;
 
-import icbm.sentry.platform.ContainerTurretPlatform;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.mount.TileRailGun;
 import icbm.sentry.turret.sentries.TileEntityAAGun;
@@ -37,17 +36,6 @@ public class CommonProxy implements IGuiHandler
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-
-        if (tileEntity != null)
-        {
-            switch (ID)
-            {
-                case GUI_PLATFORM_ID:
-                    return new ContainerTurretPlatform(player.inventory, ((TileTurretPlatform) tileEntity));
-            }
-        }
-
         return null;
     }
 

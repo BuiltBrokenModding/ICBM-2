@@ -15,6 +15,7 @@ import icbm.sentry.task.ServoMotor;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
@@ -108,6 +109,16 @@ public abstract class TileTurret extends TileICBM implements IPacketReceiver, IS
         }
         if (this.enableRotationHelper)
             this.rotationHelper.updateRotation(this.getRotationSpeed());
+    }
+
+    public void fireOn(Entity entity)
+    {
+        this.fireOn(new Vector3(entity));
+    }
+
+    public void fireOn(Vector3 vec)
+    {
+
     }
 
     @Override
@@ -223,7 +234,7 @@ public abstract class TileTurret extends TileICBM implements IPacketReceiver, IS
     /** is this sentry currently operating */
     public boolean isRunning()
     {
-        return this.getPlatform() != null && this.getPlatform().isFunctioning() && this.isAlive();
+        return this.getPlatform() != null && this.isAlive();
     }
 
     /** get the turrets control platform */
@@ -243,30 +254,6 @@ public abstract class TileTurret extends TileICBM implements IPacketReceiver, IS
 
     }
 
-    /** Removes the sentry when called and optional creates a small local explosion
-     * 
-     * @param doExplosion - True too create a small local explosion */
-    public void destroy(boolean doExplosion)
-    {
-        if (doExplosion)
-        {
-            if (!this.isInvalid())
-            {
-                this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
-                this.worldObj.createExplosion(this.getDamageEntity(), this.xCoord, this.yCoord, this.zCoord, 2f, true);
-            }
-            else
-            {
-                this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
-            }
-        }
-        else if (!this.worldObj.isRemote)
-        {
-            this.getBlockType().dropBlockAsItem(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata(), 0);
-            this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, 0);
-        }
-    }
-
     /** Gets the number of barrels this sentry has */
     public int getBarrels()
     {
@@ -283,16 +270,6 @@ public abstract class TileTurret extends TileICBM implements IPacketReceiver, IS
     public VectorWorld getAimingDirection()
     {
         return new VectorWorld(this.worldObj, this.pos().add(Vector3.scale(new Vector3(this.getYawServo().getRotation(), this.getPitchServo().getRotation()), 1)));
-    }
-
-    public void onWeaponActivated()
-    {
-        this.tickSinceFired += this.getFireDelay();
-    }
-
-    public int getFireDelay()
-    {
-        return this.baseFiringDelay;
     }
 
     /*
@@ -355,11 +332,7 @@ public abstract class TileTurret extends TileICBM implements IPacketReceiver, IS
         {
             this.health -= amount;
 
-            if (this.health <= 0)
-            {
-                this.destroy(true);
-            }
-            else
+            if (this.health >= 0)
             {
                 PacketHandler.sendPacketToClients(this.getStatsPacket(), this.worldObj, new Vector3(this), 100);
             }
@@ -459,6 +432,12 @@ public abstract class TileTurret extends TileICBM implements IPacketReceiver, IS
     public Vector3 pos()
     {
         return Vector3.fromCenter(this);
+    }
+
+    public boolean canUse(String groupUserNode, EntityPlayer player)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

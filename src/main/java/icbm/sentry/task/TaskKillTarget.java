@@ -1,6 +1,5 @@
 package icbm.sentry.task;
 
-import icbm.sentry.interfaces.IAutoSentry;
 
 public class TaskKillTarget extends TaskSearchTarget
 {
@@ -9,23 +8,20 @@ public class TaskKillTarget extends TaskSearchTarget
     {
         super.onUpdateTask();
 
-        if (this.sentry() instanceof IAutoSentry)
+        if (!this.sentry().isValidTarget(this.sentry().getTarget()))
         {
-            if (!this.sentry().isValidTarget(this.sentry().getTarget()))
-            {
-                this.sentry().setTarget(null);
-                this.sentry().cancelRotation();
-                return false;
-            }
-            else if (this.sentry().canActivateWeapon())
-            {
-                this.sentry().onWeaponActivated();
-            }
-            else
-            {
-                float[] rotations = this.sentry().lookHelper.getDeltaRotations(this.sentry().getTargetPosition());
-                this.sentry().rotateTo(rotations[0], rotations[1]);
-            }
+            this.sentry().setTarget(null);
+            this.sentry().cancelRotation();
+            return false;
+        }
+        else if (this.sentry().lookHelper.canEntityBeSeen(this.sentry().getTarget()))
+        {
+            this.sentry().fireOn(this.sentry().getTarget());
+        }
+        else
+        {
+            float[] rotations = this.sentry().lookHelper.getDeltaRotations(this.sentry().getTargetPosition());
+            this.sentry().rotateTo(rotations[0], rotations[1]);
         }
 
         return true;

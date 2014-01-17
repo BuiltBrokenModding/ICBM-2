@@ -15,15 +15,15 @@ public abstract class RenderTurret extends RenderTaggedTile
     {
         EntityPlayer player = this.getPlayer();
 
-        if (tileEntity.getPlatform() != null)
+        if (tileEntity != null)
         {
 
-            if (tileEntity.getPlatform().canUse(Nodes.GROUP_USER_NODE, player))
+            if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
             {
                 this.bindTexture(TEXTURE_FILE);
                 return;
             }
-            else if (tileEntity.getPlatform().canUse(Nodes.GROUP_USER_NODE, player))
+            else if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
             {
                 this.bindTexture(TEXTURE_FILE_FRIENDLY);
                 return;

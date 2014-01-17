@@ -128,26 +128,9 @@ public class BlockTurret extends BlockICBM
 
         if (tileEntity instanceof TileTurret)
         {
-            if (this.canBlockStay(world, x, y, z))
+            if (!this.canBlockStay(world, x, y, z))
             {
-                if (tileEntity instanceof IRedstoneReceptor)
-                {
-                    if (world.isBlockIndirectlyGettingPowered(x, y, z))
-                    {
-                        ((IRedstoneReceptor) tileEntity).onPowerOn();
-                    }
-                    else
-                    {
-                        ((IRedstoneReceptor) tileEntity).onPowerOff();
-                    }
-                }
-            }
-            else
-            {
-                if (tileEntity != null)
-                {
-                    ((TileTurret) tileEntity).destroy(false);
-                }
+                this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 1);
             }
         }
     }
