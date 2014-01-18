@@ -14,9 +14,9 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.vector.Vector3;
 import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.link.IBlockActivate;
-import calclavia.lib.multiblock.link.IMultiBlock;
-import calclavia.lib.multiblock.link.TileMultiBlockPart;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.multiblock.fake.IMultiBlock;
+import calclavia.lib.multiblock.fake.TileMultiBlockPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

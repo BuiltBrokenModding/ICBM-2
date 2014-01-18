@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.link.IBlockActivate;
+import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.PacketHandler;
 
 /** Mountable Turret

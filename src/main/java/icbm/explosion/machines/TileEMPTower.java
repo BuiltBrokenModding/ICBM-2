@@ -15,8 +15,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.link.IBlockActivate;
-import calclavia.lib.multiblock.link.IMultiBlock;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
 import com.google.common.io.ByteArrayDataInput;

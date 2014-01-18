@@ -23,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
-import calclavia.lib.multiblock.link.IBlockActivate;
+import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
 import cpw.mods.fml.relauncher.Side;

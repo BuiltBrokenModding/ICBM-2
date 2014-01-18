@@ -13,7 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.link.IMultiBlock;
+import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
 /** Railgun
