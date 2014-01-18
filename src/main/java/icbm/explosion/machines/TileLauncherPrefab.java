@@ -3,6 +3,7 @@ package icbm.explosion.machines;
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
 import icbm.core.prefab.TileFrequency;
+import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
@@ -17,13 +18,13 @@ public abstract class TileLauncherPrefab extends TileFrequency implements ILaunc
 	public void initiate()
 	{
 		super.initiate();
-		MissileLauncherRegistry.register(this);
+		FrequencyGrid.instance().register(this);
 	}
 
 	@Override
 	public void invalidate()
 	{
-		MissileLauncherRegistry.unregister(this);
+		FrequencyGrid.instance().unregister(this);
 		super.invalidate();
 	}
 

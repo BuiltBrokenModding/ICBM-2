@@ -1,20 +1,20 @@
 package icbm.explosion.items;
 
 import icbm.Reference;
+import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.EntityLightBeam;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.machines.MissileLauncherRegistry;
-import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileLauncherPrefab;
+import icbm.explosion.machines.TileLauncherScreen;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
+import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,7 +23,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.utility.LanguageUtility;
@@ -142,23 +141,25 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 	 * player hand and update it's contents.
 	 */
 	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+	public void onUpdate(ItemStack itemStack, World world, Entity par3Entity, int par4, boolean par5)
 	{
-		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+		super.onUpdate(itemStack, world, par3Entity, par4, par5);
 
-		if (!par2World.isRemote)
+		if (!world.isRemote)
 		{
 			List<TileLauncherPrefab> connectedLaunchers = new ArrayList<TileLauncherPrefab>();
 
-			if (this.getLauncherCountDown(par1ItemStack) > 0 || this.getLauncherCount(par1ItemStack) > 0)
+			if (this.getLauncherCountDown(itemStack) > 0 || this.getLauncherCount(itemStack) > 0)
 			{
 				Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
-				HashSet<TileLauncherPrefab> launchers = MissileLauncherRegistry.naFaSheQiInArea(new Vector2(position.x - ItemLaserDesignator.BAN_JING, position.z - ItemLaserDesignator.BAN_JING), new Vector2(position.x + ItemLaserDesignator.BAN_JING, position.z + ItemLaserDesignator.BAN_JING));
 
-				for (TileLauncherPrefab missileLauncher : launchers)
+				for (IBlockFrequency blockFrequency : FrequencyGrid.instance().get(world, position, ItemLaserDesignator.BAN_JING, this.getFrequency(itemStack)))
 				{
-					if (missileLauncher != null && missileLauncher.getFrequency() == this.getFrequency(par1ItemStack))
+					if (blockFrequency instanceof TileLauncherPrefab)
 					{
+						// Do airstrike!
+						TileLauncherPrefab missileLauncher = (TileLauncherPrefab) blockFrequency;
+
 						if (missileLauncher.canLaunch())
 						{
 							connectedLaunchers.add(missileLauncher);
@@ -167,39 +168,39 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 				}
 			}
 
-			if (this.getLauncherCountDown(par1ItemStack) > 0 && connectedLaunchers.size() > 0)
+			if (this.getLauncherCountDown(itemStack) > 0 && connectedLaunchers.size() > 0)
 			{
-				if (this.getLauncherCountDown(par1ItemStack) % 20 == 0)
+				if (this.getLauncherCountDown(itemStack) % 20 == 0)
 				{
-					((EntityPlayer) par3Entity).addChatMessage(LanguageUtility.getLocal("message.designator.callTime") + " " + (int) Math.floor(this.getLauncherCountDown(par1ItemStack) / 20));
+					((EntityPlayer) par3Entity).addChatMessage(LanguageUtility.getLocal("message.designator.callTime") + " " + (int) Math.floor(this.getLauncherCountDown(itemStack) / 20));
 				}
 
-				if (this.getLauncherCountDown(par1ItemStack) == 1)
+				if (this.getLauncherCountDown(itemStack) == 1)
 				{
-					this.setLauncherCount(par1ItemStack, connectedLaunchers.size());
-					this.setLauncherDelay(par1ItemStack, 0);
+					this.setLauncherCount(itemStack, connectedLaunchers.size());
+					this.setLauncherDelay(itemStack, 0);
 					((EntityPlayer) par3Entity).addChatMessage(LanguageUtility.getLocal("message.designator.blast"));
 				}
 
-				this.setLauncherCountDown(par1ItemStack, this.getLauncherCountDown(par1ItemStack) - 1);
+				this.setLauncherCountDown(itemStack, this.getLauncherCountDown(itemStack) - 1);
 			}
 
-			if (this.getLauncherCount(par1ItemStack) > 0 && this.getLauncherCount(par1ItemStack) <= connectedLaunchers.size() && connectedLaunchers.size() > 0)
+			if (this.getLauncherCount(itemStack) > 0 && this.getLauncherCount(itemStack) <= connectedLaunchers.size() && connectedLaunchers.size() > 0)
 			{
 				// Launch a missile every two seconds from different launchers
-				if (this.getLauncherDelay(par1ItemStack) % 40 == 0)
+				if (this.getLauncherDelay(itemStack) % 40 == 0)
 				{
-					connectedLaunchers.get(this.getLauncherCount(par1ItemStack) - 1).launch();
-					this.setLauncherCount(par1ItemStack, this.getLauncherCount(par1ItemStack) - 1);
+					connectedLaunchers.get(this.getLauncherCount(itemStack) - 1).launch();
+					this.setLauncherCount(itemStack, this.getLauncherCount(itemStack) - 1);
 				}
 
-				if (this.getLauncherCount(par1ItemStack) == 0)
+				if (this.getLauncherCount(itemStack) == 0)
 				{
-					this.setLauncherDelay(par1ItemStack, 0);
+					this.setLauncherDelay(itemStack, 0);
 					connectedLaunchers.clear();
 				}
 
-				this.setLauncherDelay(par1ItemStack, this.getLauncherDelay(par1ItemStack) + 1);
+				this.setLauncherDelay(itemStack, this.getLauncherDelay(itemStack) + 1);
 			}
 		}
 	}
@@ -244,73 +245,63 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 	 * world, entityPlayer
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer player)
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World world, EntityPlayer player)
 	{
-		if (par2World.isRemote)
+		if (world.isRemote)
 		{
 			MovingObjectPosition objectMouseOver = player.rayTrace(BAN_JING * 2, 1);
 
 			if (objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
 			{
-				// Check for short-fused TNT. If
-				// there is a short fused TNT,
-				// then blow it up.
-				int blockId = par2World.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-				int blockMetadata = par2World.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+				int blockId = world.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+				int blockMetadata = world.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 
 				if (this.getLauncherCountDown(par1ItemStack) > 0)
 				{
 					return par1ItemStack;
 				}
 
-				// Prevents calling air strike if
-				// the user is trying to set the
-				// frequency of the remote.
+				/*
+				 * Prevents calling air strike if the user is trying to set the frequency of the
+				 * remote.
+				 */
 				if (blockId == ICBMExplosion.blockMachine.blockID)
 				{
 					return par1ItemStack;
 				}
 				else
 				{
-					// Update the
-					// airStrikeFrequency
 					int airStrikeFreq = this.getFrequency(par1ItemStack);
 
-					// Check if it is possible to
-					// do an air strike. If so, do
-					// one.
+					// Check if it is possible to do an air strike.
 					if (airStrikeFreq > 0)
 					{
 						if (this.getEnergy(par1ItemStack) >= YONG_DIAN_LIANG)
 						{
 							Vector3 position = new Vector3(player.posX, player.posY, player.posZ);
-							HashSet<TileLauncherPrefab> launchers = MissileLauncherRegistry.naFaSheQiInArea(new Vector2(position.x - ItemLaserDesignator.BAN_JING, position.z - ItemLaserDesignator.BAN_JING), new Vector2(position.x + ItemLaserDesignator.BAN_JING, position.z + ItemLaserDesignator.BAN_JING));
 
 							boolean doAirStrike = false;
 							int errorCount = 0;
-System.out.println(launchers.size());
-							for (TileLauncherPrefab missileLauncher : launchers)
+
+							for (IBlockFrequency blockFrequency : FrequencyGrid.instance().get(world, position, ItemLaserDesignator.BAN_JING, airStrikeFreq))
 							{
-								if (missileLauncher != null && missileLauncher.getFrequency() == airStrikeFreq)
+								if (blockFrequency instanceof TileLauncherPrefab)
 								{
-									if (missileLauncher instanceof TileCruiseLauncher)
-									{
-										missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
-										PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, missileLauncher.getTarget().intX(), missileLauncher.getTarget().intY(), missileLauncher.getTarget().intZ()));
-									}
-									else
-									{
+									// Do airstrike!
+									TileLauncherPrefab missileLauncher = (TileLauncherPrefab) blockFrequency;
 
-										double previousY = 0;
+									double yHit = objectMouseOver.blockY;
 
+									if (missileLauncher instanceof TileLauncherScreen)
+									{
 										if (missileLauncher.getTarget() != null)
-										{
-											previousY = missileLauncher.getTarget().y;
-										}
-
-										missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, previousY, objectMouseOver.blockZ));
-										PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, missileLauncher.getTarget().intX(), missileLauncher.getTarget().intY(), missileLauncher.getTarget().intZ()));
+											yHit = missileLauncher.getTarget().y;
+										else
+											yHit = 0;
 									}
+
+									missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, yHit, objectMouseOver.blockZ));
+									PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, missileLauncher.getTarget().intX(), missileLauncher.getTarget().intY(), missileLauncher.getTarget().intZ()));
 
 									if (missileLauncher.canLaunch())
 									{
