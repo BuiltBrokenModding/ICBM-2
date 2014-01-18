@@ -17,13 +17,13 @@ public abstract class TileLauncherPrefab extends TileFrequency implements ILaunc
 	public void initiate()
 	{
 		super.initiate();
-		MissileLauncherRegistry.registerLauncher(this);
+		MissileLauncherRegistry.register(this);
 	}
 
 	@Override
 	public void invalidate()
 	{
-		MissileLauncherRegistry.unregisterLauncher(this);
+		MissileLauncherRegistry.unregister(this);
 		super.invalidate();
 	}
 
