@@ -1,30 +1,23 @@
 package icbm.sentry.turret.sentries;
 
-import icbm.api.sentry.IAATarget;
 import icbm.core.ICBMCore;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.ProjectileType;
-import icbm.sentry.damage.TileDamageSource;
-import icbm.sentry.interfaces.IAmmunition;
 import icbm.sentry.interfaces.IAutoSentry;
 import icbm.sentry.task.TaskKillTarget;
 import icbm.sentry.task.TaskManager;
 import icbm.sentry.task.TaskSearchTarget;
 import icbm.sentry.turret.TileTurret;
-import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 
 import java.io.IOException;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatMessageComponent;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.PacketHandler;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -32,7 +25,7 @@ import com.google.common.io.ByteArrayDataInput;
 /** Extend this class for all turrets that are automatic.
  * 
  * @author Rseifert */
-public abstract class TileAutoTurret extends TileTurret implements IAutoSentry
+public abstract class TileAutoTurret extends TileTurret implements IAutoSentry, IBlockActivate
 {
     /** CURRENT TARGET TO ATTACK */
     public Entity target;
@@ -171,5 +164,16 @@ public abstract class TileAutoTurret extends TileTurret implements IAutoSentry
         }
 
         return null;
+    }
+
+    @Override
+    public boolean onActivated(EntityPlayer entityPlayer)
+    {
+        if (entityPlayer != null)
+        {
+            entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Sentries are indev and don't currently have a functioning GUI"));
+            return true;
+        }
+        return false;
     }
 }

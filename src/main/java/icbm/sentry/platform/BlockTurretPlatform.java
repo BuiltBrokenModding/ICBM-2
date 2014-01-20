@@ -16,12 +16,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.access.ISpecialAccess;
 
+/** @author DarkGuardsman */
 public class BlockTurretPlatform extends BlockICBM
 {
     public BlockTurretPlatform(int id)
@@ -37,6 +39,17 @@ public class BlockTurretPlatform extends BlockICBM
     public Icon getIcon(int side, int metadata)
     {
         return side == 0 ? this.iconBottom : (side == 1 ? this.iconTop : this.iconSide);
+    }
+
+    @Override
+    public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    {
+        if(entityPlayer != null)
+        {
+            entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Sentries are indev and don't currently have a functioning GUI"));
+            return true;
+        }
+        return false;
     }
 
     @Override
