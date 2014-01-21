@@ -196,9 +196,9 @@ public class BlastNuclear extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
-        return 4184000 * this.nengLiang;
+        return (long) (41840000 * this.nengLiang);
     }
 
     @Override

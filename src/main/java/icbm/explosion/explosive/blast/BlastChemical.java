@@ -138,7 +138,7 @@ public class BlastChemical extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 20;
     }

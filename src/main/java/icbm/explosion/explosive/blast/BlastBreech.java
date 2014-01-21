@@ -59,7 +59,7 @@ public class BlastBreech extends BlastRepulsive
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return (super.getEnergy() * this.depth) / 2;
     }

@@ -205,7 +205,7 @@ public class BlastRepulsive extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 418000;
     }

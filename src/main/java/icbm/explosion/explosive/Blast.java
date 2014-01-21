@@ -136,7 +136,7 @@ public abstract class Blast extends Explosion implements IExplosion
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 0;
     }

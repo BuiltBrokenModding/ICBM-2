@@ -56,7 +56,7 @@ public class BlastMutation extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 50;
     }

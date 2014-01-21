@@ -68,7 +68,7 @@ public class BlastRegen extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 0;
     }

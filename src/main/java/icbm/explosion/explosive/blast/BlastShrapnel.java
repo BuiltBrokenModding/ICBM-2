@@ -65,7 +65,7 @@ public class BlastShrapnel extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 1000;
     }

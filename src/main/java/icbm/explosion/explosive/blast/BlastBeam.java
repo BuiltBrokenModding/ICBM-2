@@ -151,7 +151,7 @@ public abstract class BlastBeam extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 10000;
     }

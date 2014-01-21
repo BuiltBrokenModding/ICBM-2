@@ -109,7 +109,7 @@ public class BlastRot extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 100;
     }

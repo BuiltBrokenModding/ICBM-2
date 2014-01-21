@@ -218,7 +218,7 @@ public class BlastSonic extends Blast
     }
 
     @Override
-    public float getEnergy()
+    public long getEnergy()
     {
         return 3000;
     }
