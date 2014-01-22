@@ -769,18 +769,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	}
 
 	@Override
-	public void destroyCraft()
-	{
-		this.normalExplode();
-	}
-
-	@Override
-	public int doDamage(int damage)
-	{
-		return -1;
-	}
-
-	@Override
 	public boolean canBeTargeted(Object turret)
 	{
 		return this.getTicksInAir() > 0;

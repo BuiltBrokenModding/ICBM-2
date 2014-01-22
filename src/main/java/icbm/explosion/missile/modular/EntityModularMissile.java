@@ -61,19 +61,6 @@ public class EntityModularMissile extends Entity implements IMissileLockable, IE
     }
 
     @Override
-    public void destroyCraft()
-    {
-        this.explode();
-    }
-
-    @Override
-    public int doDamage(int damage)
-    {
-        currentHealt -= damage;
-        return (int) this.currentHealt;
-    }
-
-    @Override
     public boolean canBeTargeted(Object entity)
     {
         // TODO later add radar damping modular to decrease targeting chance at higher ranges

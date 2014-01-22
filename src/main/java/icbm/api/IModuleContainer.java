@@ -1,4 +1,6 @@
-package icbm.api.sentry;
+package icbm.api;
+
+import icbm.api.sentry.IICBMModule;
 
 import java.util.List;
 

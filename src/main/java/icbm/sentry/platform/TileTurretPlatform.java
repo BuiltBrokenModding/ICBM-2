@@ -1,6 +1,6 @@
 package icbm.sentry.platform;
 
-import icbm.sentry.interfaces.ISentry;
+import icbm.api.sentry.ISentryTile;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
@@ -15,7 +15,7 @@ import calclavia.lib.prefab.tile.TileExternalInventory;
 public class TileTurretPlatform extends TileExternalInventory implements IEnergyInterface, IVoltageInput
 {
     private long voltage = 120;
-    private ISentry[] sentries = new ISentry[6];
+    private ISentryTile[] sentries = new ISentryTile[6];
 
     public TileTurretPlatform()
     {
@@ -43,13 +43,13 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
 
     public void refresh()
     {
-        this.sentries = new ISentry[6];
+        this.sentries = new ISentryTile[6];
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
             TileEntity ent = new Vector3(this).modifyPositionFromSide(direction).getTileEntity(this.worldObj);
-            if (ent instanceof ISentry)
+            if (ent instanceof ISentryTile)
             {
-                this.sentries[direction.ordinal()] = (ISentry) ent;
+                this.sentries[direction.ordinal()] = (ISentryTile) ent;
                 if (ent instanceof IVoltageInput && ((IVoltageInput) ent).getVoltageInput(direction.getOpposite()) > voltage)
                 {
                     voltage = ((IVoltageInput) ent).getVoltageInput(direction.getOpposite());
@@ -84,7 +84,7 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
         long left = receive;
         for (int i = 0; i < 6; i++)
         {
-            ISentry sentry = this.sentries[i];
+            ISentryTile sentry = this.sentries[i];
             if (CompatibilityModule.isHandler(sentry))
             {
                 long in = CompatibilityModule.receiveEnergy(sentry, ForgeDirection.getOrientation(i).getOpposite(), left, doReceive);

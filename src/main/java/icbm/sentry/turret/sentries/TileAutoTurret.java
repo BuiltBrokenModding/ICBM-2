@@ -1,8 +1,8 @@
 package icbm.sentry.turret.sentries;
 
+import icbm.api.sentry.IAutoSentry;
 import icbm.core.ICBMCore;
 import icbm.sentry.ProjectileType;
-import icbm.sentry.interfaces.IAutoSentry;
 import icbm.sentry.task.TaskKillTarget;
 import icbm.sentry.task.TaskManager;
 import icbm.sentry.task.TaskSearchTarget;

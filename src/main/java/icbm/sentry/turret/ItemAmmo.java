@@ -1,9 +1,9 @@
 package icbm.sentry.turret;
 
 import icbm.Reference;
+import icbm.api.sentry.IAmmunition;
 import icbm.core.prefab.item.ItemICBMBase;
 import icbm.sentry.ProjectileType;
-import icbm.sentry.interfaces.IAmmunition;
 
 import java.util.List;
 

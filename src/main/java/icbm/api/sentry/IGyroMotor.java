@@ -1,14 +1,13 @@
 package icbm.api.sentry;
 
-
-/** @author Calclavia */
+/** Applied to devices that have both a yaw and pitch rotation.
+ * 
+ * @author Darkguardsman */
 public interface IGyroMotor
 {
-
-    /** @return */
+    /** Gets the servo instance that deals with yaw axis */
     IServo getYawServo();
 
-    /** @return */
+    /** Gets the servo instance that deals with pitch axis */
     IServo getPitchServo();
-
 }

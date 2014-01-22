@@ -1,22 +1,22 @@
 package icbm.sentry.turret.sentries;
 
-import universalelectricity.api.vector.Vector3;
-import icbm.api.sentry.IWeaponPlatform;
+import icbm.api.sentry.ISentry;
 import icbm.api.sentry.IWeaponSystem;
 import icbm.sentry.turret.TileTurret;
+import universalelectricity.api.vector.Vector3;
 
 /** Module way to deal with sentry guns
  * 
  * @author DarkGuardsman */
-public class Sentry implements IWeaponPlatform
+public class Sentry implements ISentry
 {
     private IWeaponSystem[] weaponSystems = new IWeaponSystem[1];
     protected int health = 100;
-    protected int ammoSlots = 4;
     protected long energyPerTick = 1;
     protected long energyMax = 1000;
     protected long voltage = 240;
-    protected Vector3 aimOffset;
+    protected Vector3 aimOffset = new Vector3(1, 0, 0);
+    protected Vector3 getCenterOffset = new Vector3(0.5, 0.5, 0.5);
 
     protected TileTurret turret;
 
@@ -54,11 +54,6 @@ public class Sentry implements IWeaponPlatform
         return this.health;
     }
 
-    public int getAmmoSlots()
-    {
-        return this.ammoSlots;
-    }
-
     public long getEnergyPerTick()
     {
         return this.energyPerTick;
@@ -79,8 +74,15 @@ public class Sentry implements IWeaponPlatform
 
     }
 
+    /** Offset from center of were the barrel ends */
     public Vector3 getAimOffset()
     {
         return this.aimOffset;
+    }
+
+    /** Offset from the block's corrds were the center actualy is */
+    public Vector3 getCenterOffset()
+    {
+        return this.getCenterOffset;
     }
 }

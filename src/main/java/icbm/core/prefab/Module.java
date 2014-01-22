@@ -1,8 +1,8 @@
 package icbm.core.prefab;
 
+import icbm.api.IModuleContainer;
 import icbm.api.ITier;
 import icbm.api.sentry.IICBMModule;
-import icbm.api.sentry.IModuleContainer;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** Prefab for ICBM module parts uses in the creation, modification, or design of a more complex

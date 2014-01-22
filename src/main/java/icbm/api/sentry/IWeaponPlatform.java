@@ -1,6 +1,6 @@
 package icbm.api.sentry;
 
-/** @author Calclavia */
+/** @author Darkguardsman */
 public interface IWeaponPlatform
 {
 

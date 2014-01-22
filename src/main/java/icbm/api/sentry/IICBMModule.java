@@ -1,5 +1,7 @@
 package icbm.api.sentry;
 
+import icbm.api.IModuleContainer;
+
 /** Interface design to say this object is a peace that can be used to modify or construct a large
  * object.
  * 

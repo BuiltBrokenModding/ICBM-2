@@ -1,9 +1,9 @@
 package icbm.sentry.turret;
 
+import icbm.api.sentry.ISentryTile;
 import icbm.api.sentry.IServo;
 import icbm.api.sentry.IWeaponSystem;
 import icbm.core.ICBMCore;
-import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.task.LookHelper;
 import icbm.sentry.task.RotationHelper;
 import icbm.sentry.task.ServoMotor;
@@ -24,7 +24,7 @@ import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 
 /** @author Darkguardsman */
-public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IExternalInventory, ISentry
+public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IExternalInventory, ISentryTile
 {
     /** Profile that control access properties for users */
     protected AccessProfile accessProfile;
@@ -189,9 +189,14 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         return null;
     }
 
-    @Override
-    public Vector3 getAimOffset()
+    public Sentry getSentry()
     {
-        return sentry.getAimOffset();
+        return this.sentry;
+    }
+
+    public EntityTileDamagable getDamageEntity()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -1,6 +1,5 @@
-package icbm.sentry.damage;
+package icbm.sentry.turret;
 
-import icbm.sentry.turret.TileTurret;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -28,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author DarkGuardsman */
 public class EntityTileDamagable extends EntityLiving implements IEntityAdditionalSpawnData
 {
-    private TileTurret host;
+    private TileSentry host;
 
     public EntityTileDamagable(World par1World)
     {
@@ -37,7 +36,7 @@ public class EntityTileDamagable extends EntityLiving implements IEntityAddition
         this.setSize(1.1F, 1.1F);
     }
 
-    public EntityTileDamagable(TileTurret host)
+    public EntityTileDamagable(TileSentry host)
     {
         this(host.worldObj);
         this.setPosition(host.xCoord + 0.5, host.yCoord, host.zCoord + 0.5);

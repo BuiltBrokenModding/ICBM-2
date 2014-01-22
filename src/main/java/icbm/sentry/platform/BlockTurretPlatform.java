@@ -1,10 +1,10 @@
 package icbm.sentry.platform;
 
+import icbm.api.sentry.IAmmunition;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.CommonProxy;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.interfaces.IAmmunition;
 
 import java.util.Random;
 

@@ -13,10 +13,13 @@ public class LookHelper
 {
     public static final int PITCH_DISPLACEMENT = 0;
     private TileSentry sentry;
+    private Vector3 center;
 
     public LookHelper(TileSentry tileSentry)
     {
         this.sentry = tileSentry;
+        this.center = new Vector3(this.sentry);
+        this.center.add(this.sentry.sentry)
     }
 
     /** Adjusts the turret target to look at a specific location. */
@@ -25,15 +28,15 @@ public class LookHelper
         this.sentry.rotateTo(getYaw(sentry.getAimingDirection(), target), getPitch(sentry.getAimingDirection(), target));
     }
 
-    public float[] getDeltaRotations(Vector3 target)
-    {
-        return new float[] { getYaw(sentry.getAimingDirection(), target), getPitch(sentry.getAimingDirection(), target) };
-    }
-
     /** Tells the turret to look at a location using an entity */
     public void lookAtEntity(Entity entity)
     {
         this.lookAt(Vector3.translate(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0)));
+    }
+
+    public float[] getDeltaRotations(Vector3 target)
+    {
+        return new float[] { getYaw(sentry.getAimingDirection(), target), getPitch(sentry.getAimingDirection(), target) };
     }
 
     /** checks to see if the sentry is looking the target location

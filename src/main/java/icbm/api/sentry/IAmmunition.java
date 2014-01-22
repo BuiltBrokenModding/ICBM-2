@@ -1,4 +1,4 @@
-package icbm.sentry.interfaces;
+package icbm.api.sentry;
 
 import icbm.sentry.ProjectileType;
 import net.minecraft.item.ItemStack;

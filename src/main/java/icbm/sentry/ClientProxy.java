@@ -1,22 +1,12 @@
 package icbm.sentry;
 
 import icbm.core.prefab.EmptyRenderer;
-import icbm.sentry.render.BlockRenderingHandler;
 import icbm.sentry.render.FXBeam;
-import icbm.sentry.render.RenderAAGun;
-import icbm.sentry.render.RenderGunTurret;
-import icbm.sentry.render.RenderLaserTurret;
-import icbm.sentry.render.RenderRailGun;
 import icbm.sentry.turret.mount.EntityMountPoint;
-import icbm.sentry.turret.mount.TileRailGun;
-import icbm.sentry.turret.sentries.TileEntityAAGun;
-import icbm.sentry.turret.sentries.TileEntityGunTurret;
-import icbm.sentry.turret.sentries.TileEntityLaserGun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
@@ -33,13 +23,8 @@ public class ClientProxy extends CommonProxy
         super.init();
 
         /** TileEntities */
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGunTurret.class, new RenderGunTurret());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAAGun.class, new RenderAAGun());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileRailGun.class, new RenderRailGun());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserGun.class, new RenderLaserTurret());
-
         RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new EmptyRenderer());
-        RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
+        //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
     }
 
     @Override

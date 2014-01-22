@@ -1,12 +1,8 @@
 package icbm.sentry;
 
 import icbm.sentry.platform.TileTurretPlatform;
-import icbm.sentry.turret.mount.TileRailGun;
-import icbm.sentry.turret.sentries.TileEntityAAGun;
-import icbm.sentry.turret.sentries.TileEntityGunTurret;
-import icbm.sentry.turret.sentries.TileEntityLaserGun;
+import icbm.sentry.turret.TileSentry;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -21,10 +17,7 @@ public class CommonProxy implements IGuiHandler
 
     public void init()
     {
-        GameRegistry.registerTileEntity(TileEntityGunTurret.class, "ICBMGunTurret");
-        GameRegistry.registerTileEntity(TileEntityAAGun.class, "ICBMAATurret");
-        GameRegistry.registerTileEntity(TileRailGun.class, "ICBMRailgun");
-        GameRegistry.registerTileEntity(TileEntityLaserGun.class, "ICBMLeiSheF");
+        GameRegistry.registerTileEntity(TileSentry.class, "ICBMSentryGun");
         GameRegistry.registerTileEntity(TileTurretPlatform.class, "ICBMPlatform");
     }
 
