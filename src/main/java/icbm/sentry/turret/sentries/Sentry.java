@@ -1,5 +1,6 @@
 package icbm.sentry.turret.sentries;
 
+import universalelectricity.api.vector.Vector3;
 import icbm.api.sentry.IWeaponPlatform;
 import icbm.api.sentry.IWeaponSystem;
 import icbm.sentry.turret.TileTurret;
@@ -15,6 +16,7 @@ public class Sentry implements IWeaponPlatform
     protected long energyPerTick = 1;
     protected long energyMax = 1000;
     protected long voltage = 240;
+    protected Vector3 aimOffset;
 
     protected TileTurret turret;
 
@@ -75,5 +77,10 @@ public class Sentry implements IWeaponPlatform
     public void playFiringSound()
     {
 
+    }
+
+    public Vector3 getAimOffset()
+    {
+        return this.aimOffset;
     }
 }

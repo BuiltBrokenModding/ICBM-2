@@ -1,5 +1,6 @@
 package icbm.sentry.task;
 
+import icbm.sentry.turret.TileSentry;
 import icbm.sentry.turret.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -11,11 +12,11 @@ import universalelectricity.api.vector.Vector3;
 public class LookHelper
 {
     public static final int PITCH_DISPLACEMENT = 0;
-    private TileTurret sentry;
+    private TileSentry sentry;
 
-    public LookHelper(TileTurret turret)
+    public LookHelper(TileSentry tileSentry)
     {
-        this.sentry = turret;
+        this.sentry = tileSentry;
     }
 
     /** Adjusts the turret target to look at a specific location. */
@@ -90,29 +91,13 @@ public class LookHelper
 
     /** does a ray trace to the Entity to see if the turret can see it */
     public boolean canPositionBeSeen(Vector3 target)
-    {/*
-     * float rotationYaw = getYaw (this.sentry.getCenter(), target); float rotationPitch =
-     * getPitch(this .sentry.getCenter(), target); MovingObjectPosition mop = CalculationHelper.
-     * doCustomRayTrace (this.sentry.worldObj, this.sentry.getMuzzle(), rotationYaw, rotationPitch,
-     * true, this. sentry.getCenter().distanceTo (target));
-     * if (mop != null) { if (mop.hitVec != null) { return new Vector3(mop.hitVec ).round(
-     * ).equals(target.round()); } } else {System.out.println ("TRUE"); return true; }
-     * return false;
-     */
+    {
         return this.sentry.worldObj.clip(this.sentry.getAimingDirection().toVec3(), target.toVec3()) == null;
     }
 
     public boolean canEntityBeSeen(Entity entity)
     {
         Vector3 target = Vector3.translate(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0));
-        /*
-         * float rotationYaw = getYaw(this.sentry.getCenter(), target); float rotationPitch =
-         * getPitch(this.sentry.getCenter(), target); MovingObjectPosition mop =
-         * CalculationHelper.doCustomRayTrace(this.sentry.worldObj, this.sentry.getCenter(),
-         * rotationYaw, rotationPitch, true, this.sentry.getCenter().distanceTo(target));
-         * if (mop != null ) {System.out.println(mop.hitVec); return entity.equals(mop.entityHit); }
-         * return false;
-         */
         return this.canPositionBeSeen(target);
     }
 }
