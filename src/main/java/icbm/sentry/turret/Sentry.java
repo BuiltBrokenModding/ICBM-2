@@ -1,10 +1,12 @@
 package icbm.sentry.turret;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEntityEnergyContainer;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.utility.nbt.ISaveObj;
+import calclavia.lib.utility.nbt.SaveManager;
 
 /** Module way to deal with sentry guns
  * 
@@ -86,6 +88,7 @@ public class Sentry implements IEntityEnergyContainer, ISaveObj
     @Override
     public void save(NBTTagCompound nbt)
     {
+        nbt.setString("id", SaveManager.getID(this.getClass()));
         if (this.energy != null)
             this.energy.writeToNBT(nbt);
         if (this.maxHealth > 0)
@@ -102,4 +105,23 @@ public class Sentry implements IEntityEnergyContainer, ISaveObj
 
     }
 
+    public World world()
+    {
+        return this.host.worldObj;
+    }
+
+    public double x()
+    {
+        return this.host.xCoord;
+    }
+
+    public double y()
+    {
+        return this.host.yCoord;
+    }
+
+    public double z()
+    {
+        return this.host.zCoord;
+    }
 }

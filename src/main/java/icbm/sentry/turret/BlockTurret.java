@@ -153,7 +153,7 @@ public class BlockTurret extends BlockICBM
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List list)
     {
-        for (Entry<String, Sentry> entry : SentryRegistry.getMap().entrySet())
+        for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getMap().entrySet())
         {
             if (entry.getValue() != null)
             {

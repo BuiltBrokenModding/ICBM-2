@@ -1,7 +1,6 @@
 package icbm.sentry.turret;
 
 import icbm.api.sentry.IGyroMotor;
-import icbm.api.sentry.IServo;
 import icbm.core.ICBMCore;
 import icbm.sentry.turret.mount.MountedSentry;
 import icbm.sentry.turret.sentries.AutoSentry;
@@ -158,6 +157,9 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.readFromNBT(nbt);
         this.getInventory().load(nbt);
+        NBTTagCompound tag = new NBTTagCompound();
+        this.getSentry().save(tag);
+        nbt.setCompoundTag("sentry", tag);;
     }
 
     @Override
@@ -165,6 +167,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
+        this.sentry = SentryRegistry.build(nbt.getCompoundTag("sentry"));
     }
 
     @Override
