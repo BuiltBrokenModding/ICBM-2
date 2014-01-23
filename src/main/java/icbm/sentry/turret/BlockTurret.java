@@ -1,8 +1,6 @@
 package icbm.sentry.turret;
 
 import icbm.Reference;
-import icbm.api.sentry.ISentry;
-import icbm.api.sentry.SentryRegistry;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
@@ -154,7 +152,7 @@ public class BlockTurret extends BlockICBM
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List list)
     {
-        for (Entry<String, ISentry> entry : SentryRegistry.getMap().entrySet())
+        for (Entry<String, Sentry> entry : SentryRegistry.getMap().entrySet())
         {
             if (entry.getValue() != null)
             {

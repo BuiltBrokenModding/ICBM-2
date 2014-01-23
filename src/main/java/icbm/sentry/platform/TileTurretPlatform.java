@@ -1,6 +1,6 @@
 package icbm.sentry.platform;
 
-import icbm.api.sentry.ISentryTile;
+import icbm.sentry.turret.TileSentry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
@@ -15,7 +15,7 @@ import calclavia.lib.prefab.tile.TileExternalInventory;
 public class TileTurretPlatform extends TileExternalInventory implements IEnergyInterface, IVoltageInput
 {
     private long voltage = 120;
-    private ISentryTile[] sentries = new ISentryTile[6];
+    private TileSentry[] sentries = new TileSentry[6];
 
     public TileTurretPlatform()
     {
@@ -43,13 +43,13 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
 
     public void refresh()
     {
-        this.sentries = new ISentryTile[6];
+        this.sentries = new ISentryHost[6];
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
             TileEntity ent = new Vector3(this).modifyPositionFromSide(direction).getTileEntity(this.worldObj);
-            if (ent instanceof ISentryTile)
+            if (ent instanceof ISentryHost)
             {
-                this.sentries[direction.ordinal()] = (ISentryTile) ent;
+                this.sentries[direction.ordinal()] = (ISentryHost) ent;
                 if (ent instanceof IVoltageInput && ((IVoltageInput) ent).getVoltageInput(direction.getOpposite()) > voltage)
                 {
                     voltage = ((IVoltageInput) ent).getVoltageInput(direction.getOpposite());
@@ -84,7 +84,7 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
         long left = receive;
         for (int i = 0; i < 6; i++)
         {
-            ISentryTile sentry = this.sentries[i];
+            ISentryHost sentry = this.sentries[i];
             if (CompatibilityModule.isHandler(sentry))
             {
                 long in = CompatibilityModule.receiveEnergy(sentry, ForgeDirection.getOrientation(i).getOpposite(), left, doReceive);

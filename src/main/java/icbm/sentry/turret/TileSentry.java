@@ -1,22 +1,21 @@
 package icbm.sentry.turret;
 
-import icbm.api.sentry.ISentryTile;
+import icbm.api.sentry.IGyroMotor;
 import icbm.api.sentry.IServo;
-import icbm.api.sentry.IWeaponSystem;
 import icbm.core.ICBMCore;
 import icbm.sentry.task.LookHelper;
 import icbm.sentry.task.RotationHelper;
 import icbm.sentry.task.ServoMotor;
-import icbm.sentry.turret.sentries.Sentry;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.Vector3;
 import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
+import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.terminal.TileTerminal;
 import calclavia.lib.utility.inventory.ExternalInventory;
@@ -24,7 +23,7 @@ import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 
 /** @author Darkguardsman */
-public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IExternalInventory, ISentryTile
+public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
 {
     /** Profile that control access properties for users */
     protected AccessProfile accessProfile;
@@ -49,16 +48,6 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         lookHelper = new LookHelper(this);
         this.yawMotor = new ServoMotor(360, 0);
         this.pitchMotor = new ServoMotor(35, -35);
-    }
-
-    public void loadSentry(Sentry sentry)
-    {
-        this.sentry = sentry;
-        if (sentry != null)
-        {
-            this.energy.setCapacity(sentry.getEnergyCapacity());
-            this.energy.setMaxExtract(sentry.getEnergyPerTick());
-        }
     }
 
     @Override
@@ -146,47 +135,15 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public IWeaponSystem[] getWeaponSystems()
-    {
-        return this.sentry.getWeaponSystems();
-    }
-
-    @Override
-    public boolean canSupportWeaponSystem(int slot, IWeaponSystem system)
-    {
-        return this.sentry.canSupportWeaponSystem(slot, system);
-    }
-
-    @Override
-    public boolean addWeaponSystem(int slot, IWeaponSystem system)
-    {
-        return this.sentry.addWeaponSystem(slot, system);
-    }
-
-    @Override
-    public boolean removeWeaponSystem(int slot, IWeaponSystem system)
-    {
-        return this.sentry.removeWeaponSystem(slot, system);
-    }
-
-    @Override
     public IServo getYawServo()
     {
-        return null;
+        return this.yawMotor;
     }
 
     @Override
     public IServo getPitchServo()
     {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public TileEntity getPlatform()
-    {
-        // TODO Auto-generated method stub
-        return null;
+        return this.pitchMotor;
     }
 
     public Sentry getSentry()
@@ -198,5 +155,16 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public boolean onActivated(EntityPlayer entityPlayer)
+    {
+        if (entityPlayer != null)
+        {
+            entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Sentries are indev and don't currently have a functioning GUI"));
+            return true;
+        }
+        return false;
     }
 }

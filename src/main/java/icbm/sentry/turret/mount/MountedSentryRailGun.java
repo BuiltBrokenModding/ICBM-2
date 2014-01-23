@@ -1,17 +1,14 @@
 package icbm.sentry.turret.mount;
 
 import icbm.Reference;
-import icbm.sentry.ICBMSentry;
-import icbm.sentry.ProjectileType;
+import icbm.sentry.turret.TileSentry;
 
 import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
@@ -19,7 +16,7 @@ import calclavia.lib.prefab.tile.IRedstoneReceptor;
 /** Railgun
  * 
  * @author Calclavia */
-public class TileRailGun extends TileMountableTurret implements IRedstoneReceptor, IMultiBlock
+public class MountedSentryRailGun extends MountedSentry implements IRedstoneReceptor, IMultiBlock
 {
     private int gunChargingTicks = 0;
 
@@ -34,17 +31,16 @@ public class TileRailGun extends TileMountableTurret implements IRedstoneRecepto
     /** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
     private int endTicks = 0;
 
-    public TileRailGun()
+    public MountedSentryRailGun(TileSentry sentry)
     {
-        this.baseFiringDelay = 80;
-        this.minFiringDelay = 50;
-        this.getPitchServo().setLimits(60, -60);
+        super(sentry);
+        this.host.getPitchServo().setLimits(60, -60);
     }
 
     @SuppressWarnings("unchecked")
     public void onFire()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.host.worldObj.isRemote)
         {
             while (this.explosionDepth > 0)
             {
@@ -96,19 +92,13 @@ public class TileRailGun extends TileMountableTurret implements IRedstoneRecepto
 
     public void playFiringSound()
     {
-        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "railgun", 5F, 1F);
+        this.host.worldObj.playSoundEffect(this.host.xCoord, this.host.yCoord, this.host.zCoord, Reference.PREFIX + "railgun", 5F, 1F);
     }
 
     @Override
     public Vector3[] getMultiBlockVectors()
     {
         return new Vector3[] { new Vector3(0, 1, 0) };
-    }
-
-    @Override
-    public Vector3 pos()
-    {
-        return new Vector3(this).add(new Vector3(0.5, 1.5, 0.5));
     }
 
     @Override
@@ -127,11 +117,4 @@ public class TileRailGun extends TileMountableTurret implements IRedstoneRecepto
     {
         return 10000;
     }
-
-    @Override
-    public int getMaxHealth()
-    {
-        return 450;
-    }
-
 }
