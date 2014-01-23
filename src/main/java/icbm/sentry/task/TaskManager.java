@@ -1,7 +1,6 @@
 package icbm.sentry.task;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.turret.sentries.TileAutoTurret;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,12 +3,9 @@ package icbm.sentry.platform;
 import icbm.api.sentry.IAmmunition;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
-import icbm.sentry.CommonProxy;
-import icbm.sentry.ICBMSentry;
 
 import java.util.Random;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -20,8 +17,6 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.access.ISpecialAccess;
 
 /** @author DarkGuardsman */
 public class BlockTurretPlatform extends BlockICBM

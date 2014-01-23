@@ -1,6 +1,5 @@
 package icbm.sentry.task;
 
-import icbm.sentry.turret.sentries.TileAutoTurret;
 import net.minecraft.world.World;
 
 /** An AI Commands that is used by TileEntities with AI.

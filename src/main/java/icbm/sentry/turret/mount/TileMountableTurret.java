@@ -1,6 +1,5 @@
 package icbm.sentry.turret.mount;
 
-import icbm.sentry.turret.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;

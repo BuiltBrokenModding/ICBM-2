@@ -1,6 +1,5 @@
 package icbm.sentry.render;
 
-import icbm.sentry.turret.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import calclavia.lib.access.Nodes;
