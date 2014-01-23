@@ -15,7 +15,7 @@ public class Sentry implements IEntityEnergyContainer, ISaveObj
 {
     protected Vector3 aimOffset = new Vector3(1, 0, 0);
     protected Vector3 centerOffset = new Vector3(0.5, 0.5, 0.5);
-    protected TileSentry host;
+    public TileSentry host;
     protected float health = 0;
     protected float maxHealth = -1;
     protected EnergyStorageHandler energy;
