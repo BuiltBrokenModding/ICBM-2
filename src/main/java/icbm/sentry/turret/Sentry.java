@@ -101,4 +101,5 @@ public class Sentry implements IEntityEnergyContainer, ISaveObj
         this.health = nbt.getFloat("Health");
 
     }
+
 }

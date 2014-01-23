@@ -20,4 +20,5 @@ public interface IServo
 
     /** Sets both the upper and lower limit of the servo */
     void setLimits(float upperLimit, float lowerLimit);
+    
 }

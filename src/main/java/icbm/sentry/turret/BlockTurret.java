@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,7 +45,7 @@ public class BlockTurret extends BlockICBM
         TileEntity ent = world.getBlockTileEntity(x, y, z);
         if (ent instanceof TileSentry)
         {
-            EntityTileDamagable dEnt = ((TileSentry) ent).getDamageEntity();
+            Entity dEnt = ((TileSentry) ent).getFakeEntity();
             if (dEnt != null)
             {
                 this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);

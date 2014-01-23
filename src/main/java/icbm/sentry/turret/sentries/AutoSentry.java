@@ -13,6 +13,11 @@ public class AutoSentry extends Sentry
         super(host);
     }
 
+    public boolean updateAI()
+    {
+        return true;
+    }
+
     public void setTarget(Entity target)
     {
         this.target = target;

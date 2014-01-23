@@ -6,10 +6,9 @@ import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.turret.BlockTurret;
-import icbm.sentry.turret.EntityTileDamagable;
+import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.ItemAmmo;
 import icbm.sentry.turret.ItemBlockTurret;
-import icbm.sentry.turret.mount.EntityMountPoint;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.block.Block;
@@ -82,11 +81,9 @@ public class ICBMSentry
 		GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class, "ICBMTurret");
 		GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
 
-		EntityRegistry.registerGlobalEntityID(EntityMountPoint.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityMountPoint.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
-		EntityRegistry.registerGlobalEntityID(EntityTileDamagable.class, "ICBMFakeTile", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityTileDamagable.class, "ICBMFakeTile", ENTITY_ID_PREFIX + 8, this, 50, 5, true);
-
+		EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
+		
 		CreativeTabICBM.itemStack = new ItemStack(blockTurret);
 
 		proxy.preInit();

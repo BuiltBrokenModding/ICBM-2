@@ -43,13 +43,13 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
 
     public void refresh()
     {
-        this.sentries = new ISentryHost[6];
+        this.sentries = new TileSentry[6];
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity ent = new Vector3(this).modifyPositionFromSide(direction).getTileEntity(this.worldObj);
-            if (ent instanceof ISentryHost)
+            TileEntity ent = new Vector3(this).translate(direction).getTileEntity(this.worldObj);
+            if (ent instanceof TileSentry)
             {
-                this.sentries[direction.ordinal()] = (ISentryHost) ent;
+                this.sentries[direction.ordinal()] = (TileSentry) ent;
                 if (ent instanceof IVoltageInput && ((IVoltageInput) ent).getVoltageInput(direction.getOpposite()) > voltage)
                 {
                     voltage = ((IVoltageInput) ent).getVoltageInput(direction.getOpposite());
@@ -84,7 +84,7 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
         long left = receive;
         for (int i = 0; i < 6; i++)
         {
-            ISentryHost sentry = this.sentries[i];
+            TileSentry sentry = this.sentries[i];
             if (CompatibilityModule.isHandler(sentry))
             {
                 long in = CompatibilityModule.receiveEnergy(sentry, ForgeDirection.getOrientation(i).getOpposite(), left, doReceive);

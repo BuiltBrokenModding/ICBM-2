@@ -1,4 +1,4 @@
-package icbm.sentry.task;
+package icbm.sentry.turret;
 
 import icbm.api.sentry.IGyroMotor;
 import icbm.api.sentry.IServo;

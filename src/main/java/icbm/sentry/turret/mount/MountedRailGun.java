@@ -16,7 +16,7 @@ import calclavia.lib.prefab.tile.IRedstoneReceptor;
 /** Railgun
  * 
  * @author Calclavia */
-public class MountedSentryRailGun extends MountedSentry implements IRedstoneReceptor, IMultiBlock
+public class MountedRailGun extends MountedSentry implements IRedstoneReceptor, IMultiBlock
 {
     private int gunChargingTicks = 0;
 
@@ -31,7 +31,7 @@ public class MountedSentryRailGun extends MountedSentry implements IRedstoneRece
     /** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
     private int endTicks = 0;
 
-    public MountedSentryRailGun(TileSentry sentry)
+    public MountedRailGun(TileSentry sentry)
     {
         super(sentry);
         this.host.getPitchServo().setLimits(60, -60);

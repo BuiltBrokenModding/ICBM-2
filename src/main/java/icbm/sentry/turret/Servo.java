@@ -1,15 +1,15 @@
-package icbm.sentry.task;
+package icbm.sentry.turret;
 
 import icbm.api.sentry.IServo;
 
 
-public class ServoMotor implements IServo
+public class Servo implements IServo
 {
     private float rotation;
     private float lowerLimit;
     private float upperLimit;
 
-    public ServoMotor(float upperLimit, float lowerLimit)
+    public Servo(float upperLimit, float lowerLimit)
     {
         this.setLimits(upperLimit, lowerLimit);
     }

@@ -2,7 +2,7 @@ package icbm.sentry;
 
 import icbm.core.prefab.EmptyRenderer;
 import icbm.sentry.render.FXBeam;
-import icbm.sentry.turret.mount.EntityMountPoint;
+import icbm.sentry.turret.EntitySentryFake;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
@@ -23,7 +23,7 @@ public class ClientProxy extends CommonProxy
         super.init();
 
         /** TileEntities */
-        RenderingRegistry.registerEntityRenderingHandler(EntityMountPoint.class, new EmptyRenderer());
+        RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
     }
 

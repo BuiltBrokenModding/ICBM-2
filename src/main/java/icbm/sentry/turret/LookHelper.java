@@ -1,10 +1,9 @@
-package icbm.sentry.task;
+package icbm.sentry.turret;
 
-import icbm.sentry.turret.TileSentry;
-import icbm.sentry.turret.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
 /** Rotation always in degrees.
  * 
@@ -13,19 +12,25 @@ public class LookHelper
 {
     public static final int PITCH_DISPLACEMENT = 0;
     private TileSentry sentry;
-    private Vector3 center;
+    private VectorWorld center;
 
     public LookHelper(TileSentry tileSentry)
     {
         this.sentry = tileSentry;
-        this.center = new Vector3(this.sentry);
-        this.center.add(this.sentry.sentry)
+        this.update();
+    }
+
+    public void update()
+    {
+        this.center = new VectorWorld(this.sentry);
+        this.center.add(this.sentry.getSentry().getCenterOffset());
     }
 
     /** Adjusts the turret target to look at a specific location. */
     public void lookAt(Vector3 target)
     {
-        this.sentry.rotateTo(getYaw(sentry.getAimingDirection(), target), getPitch(sentry.getAimingDirection(), target));
+        this.sentry.getYawServo().setTargetRotation(getYaw(center, target));
+        this.sentry.getPitchServo().setTargetRotation(getPitch(center, target));
     }
 
     /** Tells the turret to look at a location using an entity */
@@ -36,7 +41,7 @@ public class LookHelper
 
     public float[] getDeltaRotations(Vector3 target)
     {
-        return new float[] { getYaw(sentry.getAimingDirection(), target), getPitch(sentry.getAimingDirection(), target) };
+        return new float[] { getYaw(center, target), getPitch(center, target) };
     }
 
     /** checks to see if the sentry is looking the target location
@@ -46,8 +51,8 @@ public class LookHelper
      * @return true if its with in error range */
     public boolean isLookingAt(Vector3 target, float allowedError)
     {
-        float yaw = getYaw(sentry.pos(), target);
-        float pitch = getPitch(sentry.pos(), target);
+        float yaw = getYaw(center, target);
+        float pitch = getPitch(center, target);
 
         if (Math.abs(getAngleDif(sentry.getYawServo().getRotation(), yaw)) <= allowedError)
         {
@@ -95,7 +100,7 @@ public class LookHelper
     /** does a ray trace to the Entity to see if the turret can see it */
     public boolean canPositionBeSeen(Vector3 target)
     {
-        return this.sentry.worldObj.clip(this.sentry.getAimingDirection().toVec3(), target.toVec3()) == null;
+        return this.sentry.worldObj.clip(center.toVec3(), target.toVec3()) == null;
     }
 
     public boolean canEntityBeSeen(Entity entity)
