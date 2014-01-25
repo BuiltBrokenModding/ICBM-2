@@ -24,8 +24,6 @@ buildProps.withReader {
 version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
 group = "icbm"
 archivesBaseName = "ICBM"
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
 
 minecraft {
     version = "${config.version.minecraft}-${config.version.forge}"

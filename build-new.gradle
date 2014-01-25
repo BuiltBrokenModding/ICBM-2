@@ -40,8 +40,6 @@ allprojects {
     apply plugin: 'java'
     
     version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
     
     if (System.getenv("BUILD_NUMBER") != null)
         version += ".${System.getenv("BUILD_NUMBER")}"
