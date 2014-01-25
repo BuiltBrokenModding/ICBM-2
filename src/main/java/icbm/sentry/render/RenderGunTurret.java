@@ -2,6 +2,7 @@ package icbm.sentry.render;
 
 import icbm.Reference;
 import icbm.sentry.models.ModelSentryCannon;
+import icbm.sentry.turret.TileSentry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -27,14 +28,13 @@ public class RenderGunTurret extends RenderTurret
     {
         super.renderTileEntityAt(t, x, y, z, f);
 
-        if (t instanceof TileTurret)
+        if (t instanceof TileSentry)
         {
-            TileTurret tileEntity = (TileTurret) t;
             GL11.glPushMatrix();
             GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
 
-            this.setTextureBaseOnState(tileEntity);
-            render(tileEntity.getYawServo().getRotation(), tileEntity.getPitchServo().getRotation());
+            this.setTextureBaseOnState((TileSentry) t);
+            render(((TileSentry) t).getYawServo().getRotation(), ((TileSentry) t).getPitchServo().getRotation());
 
             GL11.glPopMatrix();
         }

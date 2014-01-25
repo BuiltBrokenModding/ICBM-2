@@ -2,6 +2,7 @@ package icbm.sentry.render;
 
 import icbm.Reference;
 import icbm.sentry.models.ModelRailgun;
+import icbm.sentry.turret.TileSentry;
 import icbm.sentry.turret.mount.MountedRailGun;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -22,17 +23,15 @@ public class RenderRailGun extends RenderTaggedTile
     {
         super.renderTileEntityAt(t, x, y, z, f);
 
-        if (t instanceof MountedRailGun)
+        if (t instanceof TileSentry)
         {
-            MountedRailGun tileEntity = (MountedRailGun) t;
-
             GL11.glPushMatrix();
             GL11.glTranslatef((float) x + 0.5F, (float) y + 2.2F, (float) z + 0.5F);
             GL11.glScalef(1.5f, 1.5f, 1.5f);
             this.bindTexture(TEXTURE);
             GL11.glRotatef(180F, 0F, 0F, 1F);
             GL11.glRotatef(180F, 0F, 1F, 0F);
-            MODEL.render((float) Math.toRadians(tileEntity.getYawServo().getRotation()), (float) Math.toRadians(tileEntity.getPitchServo().getRotation()), 0.0625F);
+            MODEL.render((float) Math.toRadians(((TileSentry) t).getYawServo().getRotation()), (float) Math.toRadians(((TileSentry) t).getPitchServo().getRotation()), 0.0625F);
             GL11.glPopMatrix();
         }
     }

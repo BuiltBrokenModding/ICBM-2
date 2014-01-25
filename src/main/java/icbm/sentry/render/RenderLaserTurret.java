@@ -2,6 +2,7 @@ package icbm.sentry.render;
 
 import icbm.Reference;
 import icbm.sentry.models.ModelLaserTurret;
+import icbm.sentry.turret.TileSentry;
 import icbm.sentry.turret.sentries.AutoSentryTwinLaser;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -28,14 +29,13 @@ public class RenderLaserTurret extends RenderTurret
     {
         super.renderTileEntityAt(t, x, y, z, f);
 
-        if (t instanceof AutoSentryTwinLaser)
+        if (t instanceof TileSentry)
         {
-            AutoSentryTwinLaser tileEntity = (AutoSentryTwinLaser) t;
             GL11.glPushMatrix();
             GL11.glTranslatef((float) x + 0.5f, (float) y + 1.5f, (float) z + 0.5f);
 
-            this.setTextureBaseOnState(tileEntity);
-            render(tileEntity.getYawServo().getRotation(), tileEntity.getPitchServo().getRotation(), tileEntity.barrelRotation);
+            this.setTextureBaseOnState((TileSentry) t);
+            render(((TileSentry) t).getYawServo().getRotation(), ((TileSentry) t).getPitchServo().getRotation(), 0);
 
             GL11.glPopMatrix();
         }
