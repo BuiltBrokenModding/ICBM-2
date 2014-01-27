@@ -3,6 +3,7 @@ package icbm.contraption.gui;
 import icbm.Reference;
 import icbm.api.IItemFrequency;
 import icbm.core.ICBMCore;
+import icbm.core.prefab.render.GuiICBM;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,12 +11,11 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.gui.GuiBase;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GuiTracker extends GuiBase
+public class GuiTracker extends GuiICBM
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
@@ -76,7 +76,7 @@ public class GuiTracker extends GuiBase
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
-    protected void drawForegroundLayer(int var2, int var3, float var1)
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.tracker.freq"), 62, 6, 4210752);
         this.fontRenderer.drawString(LanguageUtility.getLocal("gui.tracker.freq") + ":", 15, 52, 4210752);
@@ -85,7 +85,7 @@ public class GuiTracker extends GuiBase
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */
     @Override
-    protected void drawBackgroundLayer(int var2, int var3, float var1)
+    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
     {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 
