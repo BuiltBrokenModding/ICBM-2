@@ -38,7 +38,7 @@ public class Sentry implements IEnergyContainer, ISaveObj
 
 	public boolean canFire()
 	{
-		return true;
+		return false;
 		//return !this.energy.isEmpty();
 	}
 

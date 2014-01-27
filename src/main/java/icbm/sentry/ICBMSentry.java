@@ -9,6 +9,7 @@ import icbm.sentry.turret.BlockTurret;
 import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.ItemAmmo;
 import icbm.sentry.turret.ItemBlockTurret;
+import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.block.Block;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.network.PacketHandler;
+import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -63,6 +65,7 @@ public class ICBMSentry
 	{
 		NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
+		SaveManager.registerClass("Sentry", Sentry.class);
 
 		Settings.CONFIGURATION.load();
 
