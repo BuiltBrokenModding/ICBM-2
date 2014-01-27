@@ -1,4 +1,4 @@
-package icbm.sentry.turret.sentry;
+package icbm.sentry.turret.sentryHandlers;
 
 import icbm.core.ICBMCore;
 import icbm.sentry.turret.TileSentry;

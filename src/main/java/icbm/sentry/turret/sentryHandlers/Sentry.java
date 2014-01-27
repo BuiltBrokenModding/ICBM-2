@@ -1,4 +1,4 @@
-package icbm.sentry.turret.sentry;
+package icbm.sentry.turret.sentryHandlers;
 
 import icbm.sentry.turret.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;

@@ -1,7 +1,7 @@
 package icbm.sentry.turret.mount;
 
 import icbm.sentry.turret.TileSentry;
-import icbm.sentry.turret.sentry.Sentry;
+import icbm.sentry.turret.sentryHandlers.Sentry;
 import universalelectricity.api.vector.Vector3;
 
 /** Fake entity this sentry uses for mounting the player in position */
