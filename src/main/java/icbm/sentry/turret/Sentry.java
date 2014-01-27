@@ -38,12 +38,13 @@ public class Sentry implements IEnergyContainer, ISaveObj
 
 	public boolean canFire()
 	{
-		return false;
-		//return !this.energy.isEmpty();
+		return host.hasWorldObj();
 	}
 
 	public boolean fireWeapon(Vector3 target)
 	{
+		
+		
 		return false;
 	}
 

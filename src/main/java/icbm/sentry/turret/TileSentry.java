@@ -230,9 +230,10 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
                         }
                         return true;
                     }
-                    this.mount(entityPlayer);
+                    
                 }
-            }
+                this.mount(entityPlayer);
+            }     
 
             return true;
         }
@@ -241,11 +242,14 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     public void mount(EntityPlayer entityPlayer)
     {
+    	
         if (!this.worldObj.isRemote)
         {
             entityPlayer.rotationYaw = this.getYawServo().getRotation();
             entityPlayer.rotationPitch = this.getPitchServo().getRotation();
             entityPlayer.mountEntity(this.sentryEntity);
+            
+            
         }
     }
 

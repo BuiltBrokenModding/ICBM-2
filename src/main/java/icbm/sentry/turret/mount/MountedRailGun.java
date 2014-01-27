@@ -2,13 +2,6 @@ package icbm.sentry.turret.mount;
 
 import icbm.Reference;
 import icbm.sentry.turret.TileSentry;
-
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 

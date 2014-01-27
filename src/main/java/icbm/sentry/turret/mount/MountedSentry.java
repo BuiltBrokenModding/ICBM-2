@@ -4,9 +4,9 @@ import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.TileSentry;
 import universalelectricity.api.vector.Vector3;
 
+/** Fake entity this sentry uses for mounting the player in position */
 public class MountedSentry extends Sentry
 {
-    /** Fake entity this sentry uses for mounting the player in position */
     protected Vector3 riderOffset = new Vector3(0.5, 1.2, 0.5);
 
     public MountedSentry(TileSentry host)
