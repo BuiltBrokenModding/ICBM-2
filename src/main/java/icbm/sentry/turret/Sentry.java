@@ -44,8 +44,7 @@ public class Sentry implements IEnergyContainer, ISaveObj
 
 	public boolean fireWeapon(Vector3 target)
 	{
-		this.aimOffset = this.host.lookHelper.lookAt(target);
-		
+		return false;
 	}
 
 	public void fireWeaponClient(Vector3 target)
