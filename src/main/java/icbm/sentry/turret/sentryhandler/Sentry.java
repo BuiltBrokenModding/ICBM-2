@@ -1,4 +1,4 @@
-package icbm.sentry.turret.sentryHandlers;
+package icbm.sentry.turret.sentryhandler;
 
 import icbm.sentry.turret.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,8 +20,8 @@ public class Sentry implements IEnergyContainer, ISaveObj
 	protected Vector3 aimOffset;
 	protected Vector3 centerOffset;
 	public TileSentry host;
-	protected float health = 0;
-	protected float maxHealth = -1;
+	protected float health;
+	protected float maxHealth;
 	protected EnergyStorageHandler energy;
 
 	public Sentry(TileSentry host)
@@ -30,6 +30,8 @@ public class Sentry implements IEnergyContainer, ISaveObj
 		this.centerOffset = new Vector3(0.5, 0.5, 0.5);
 		this.host = host;
 		this.energy = new EnergyStorageHandler(1000);
+		this.maxHealth = -1;
+		this.health = 1000;
 	}
 
 	public void update()
@@ -44,11 +46,14 @@ public class Sentry implements IEnergyContainer, ISaveObj
 
 	public boolean fireWeapon(Vector3 target)
 	{
+		if (host.worldObj.isRemote)
+			fireWeaponClient(target);
 		
 		
 		return false;
 	}
 
+	/** visual rendering here */
 	public void fireWeaponClient(Vector3 target)
 	{
 		// TODO Auto-generated method stub

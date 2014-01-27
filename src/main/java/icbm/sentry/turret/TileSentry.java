@@ -3,9 +3,9 @@ package icbm.sentry.turret;
 import icbm.api.sentry.IGyroMotor;
 import icbm.core.ICBMCore;
 import icbm.sentry.turret.modules.AutoSentry;
-import icbm.sentry.turret.mount.MountedSentry;
-import icbm.sentry.turret.sentryHandlers.EntitySentryFake;
-import icbm.sentry.turret.sentryHandlers.Sentry;
+import icbm.sentry.turret.sentryhandler.EntitySentryFake;
+import icbm.sentry.turret.sentryhandler.Sentry;
+import icbm.sentry.turret.sentryhandler.mount.MountedSentry;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -74,7 +74,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
                 this.sentryEntity = new EntitySentryFake(this, true);
                 this.worldObj.spawnEntityInWorld(this.sentryEntity);
             }
-            //TODO set up handling for non-player entities
+            //TODO set up handling for non-player entities, low Priority
             if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
             {
                 EntityPlayer mountedPlayer = (EntityPlayer) this.sentryEntity.riddenByEntity;
@@ -224,7 +224,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             if (!entityPlayer.isSneaking())
             {
             	//if (this.getSentry() instanceof MountedSentry)
-                if (this.sentryEntity != null)
+                if (this.getSentry() instanceof MountedSentry && this.sentryEntity != null)
                 {
                     if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
                     {
@@ -251,9 +251,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         {
             entityPlayer.rotationYaw = this.getYawServo().getRotation();
             entityPlayer.rotationPitch = this.getPitchServo().getRotation();
-            EntityPig ent = new EntityPig(worldObj);
             
-            entityPlayer.mountEntity(ent);
+            entityPlayer.mountEntity(this.sentryEntity);
             
             
         }

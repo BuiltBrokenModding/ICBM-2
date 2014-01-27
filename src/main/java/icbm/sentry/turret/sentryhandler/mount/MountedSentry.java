@@ -1,10 +1,10 @@
-package icbm.sentry.turret.mount;
+package icbm.sentry.turret.sentryhandler.mount;
 
 import icbm.sentry.turret.TileSentry;
-import icbm.sentry.turret.sentryHandlers.Sentry;
+import icbm.sentry.turret.sentryhandler.Sentry;
 import universalelectricity.api.vector.Vector3;
 
-/** Fake entity this sentry uses for mounting the player in position */
+/** Fake Manager? this sentry uses for mounting the player in position */
 public class MountedSentry extends Sentry
 {
     protected Vector3 riderOffset = new Vector3(0.5, 1.2, 0.5);

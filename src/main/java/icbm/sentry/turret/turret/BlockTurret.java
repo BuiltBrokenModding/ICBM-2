@@ -6,7 +6,7 @@ import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.TileSentry;
-import icbm.sentry.turret.sentryHandlers.Sentry;
+import icbm.sentry.turret.sentryhandler.Sentry;
 
 import java.util.List;
 import java.util.Map.Entry;

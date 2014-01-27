@@ -1,13 +1,14 @@
-package icbm.sentry.turret.sentryHandlers;
+package icbm.sentry.turret.sentryhandler;
 
 import icbm.core.ICBMCore;
 import icbm.sentry.turret.TileSentry;
-import icbm.sentry.turret.mount.MountedSentry;
+import icbm.sentry.turret.sentryhandler.mount.MountedSentry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIControlledByPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -34,11 +35,11 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
 
     public EntitySentryFake(TileSentry controller, boolean sit)
     {
-        super(controller.worldObj);
-        this.isImmuneToFire = true;
+    	super(controller.worldObj);
+    	this.isImmuneToFire = true;
         this.setPosition(controller.xCoord, controller.yCoord, controller.zCoord);
         this.sentryHost = controller;
-        this.shouldSit = sit;
+        this.shouldSit = sit;        
     }
 
     @Override
