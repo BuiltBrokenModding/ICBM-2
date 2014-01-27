@@ -35,7 +35,7 @@ import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
 import calclavia.lib.ore.OreGenBase;
 import calclavia.lib.ore.OreGenerator;
-import calclavia.lib.prefab.item.ItemBlockHolder;
+import calclavia.lib.prefab.item.ItemBlockMetadata;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -153,7 +153,7 @@ public final class ICBMCore
 		GameRegistry.registerBlock(blockCamo, "blockCamo");
 		GameRegistry.registerBlock(blockReinforcedGlass, "blockReinforcedGlass");
 		GameRegistry.registerBlock(blockSpikes, ItemBlockSpikes.class, "blockSpikes");
-		GameRegistry.registerBlock(blockConcrete, ItemBlockHolder.class, "blockConcrete");
+		GameRegistry.registerBlock(blockConcrete, ItemBlockMetadata.class, "blockConcrete");
 
 		proxy.preInit();
 	}
