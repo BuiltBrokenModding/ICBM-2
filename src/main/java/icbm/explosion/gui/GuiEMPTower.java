@@ -98,7 +98,7 @@ public class GuiEMPTower extends GuiICBM
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
-    protected void drawForegroundLayer(int var2, int var3, float var1)
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.empTower.name"), 65, 6, 4210752);
 
@@ -142,7 +142,7 @@ public class GuiEMPTower extends GuiICBM
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */
     @Override
-    protected void drawBackgroundLayer(int var2, int var3, float var1)
+    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
     {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 

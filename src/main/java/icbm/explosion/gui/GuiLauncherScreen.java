@@ -149,7 +149,7 @@ public class GuiLauncherScreen extends GuiICBM
 
 	/** Draw the foreground layer for the GuiContainer (everything in front of the items) */
 	@Override
-	public void drawForegroundLayer(int var2, int var3, float var1)
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		this.tFX.drawTextBox();
 		this.tFZ.drawTextBox();
@@ -196,7 +196,7 @@ public class GuiLauncherScreen extends GuiICBM
 	}
 
 	@Override
-	protected void drawBackgroundLayer(int var2, int var3, float var1)
+	protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
 	{
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

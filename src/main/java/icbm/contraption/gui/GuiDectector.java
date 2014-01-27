@@ -168,7 +168,7 @@ public class GuiDectector extends GuiICBM
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
-    protected void drawForegroundLayer(int var2, int var3, float var1)
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.detector.name"), 48, 6, 4210752);
 
