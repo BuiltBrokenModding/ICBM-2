@@ -2,6 +2,7 @@ package icbm.explosion.items;
 
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
+import icbm.core.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
@@ -65,7 +66,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 								if (daoDan != null && !evt.isCanceled())
 								{
 									// Limit the missile to tier two.
-									if (daoDan.getTier() <= 2 && daoDan.isCruise())
+									if (daoDan.getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && daoDan.isCruise())
 									{
 										double dist = 5000;
 										Vector3 diDian = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
