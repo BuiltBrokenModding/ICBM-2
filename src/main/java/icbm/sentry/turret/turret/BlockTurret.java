@@ -1,9 +1,12 @@
-package icbm.sentry.turret;
+package icbm.sentry.turret.turret;
 
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.turret.SentryRegistry;
+import icbm.sentry.turret.TileSentry;
+import icbm.sentry.turret.sentry.Sentry;
 
 import java.util.List;
 import java.util.Map.Entry;

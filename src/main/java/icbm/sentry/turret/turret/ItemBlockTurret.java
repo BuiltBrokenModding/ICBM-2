@@ -1,4 +1,4 @@
-package icbm.sentry.turret;
+package icbm.sentry.turret.turret;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;

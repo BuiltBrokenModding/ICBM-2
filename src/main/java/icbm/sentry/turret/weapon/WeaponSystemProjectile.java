@@ -1,7 +1,7 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.api.sentry.IAmmunition;
-import icbm.sentry.turret.Sentry;
+import icbm.sentry.turret.sentry.Sentry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 

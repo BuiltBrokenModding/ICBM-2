@@ -1,6 +1,6 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.sentry.turret.Sentry;
+import icbm.sentry.turret.sentry.Sentry;
 
 import java.util.List;
 

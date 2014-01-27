@@ -1,5 +1,7 @@
 package icbm.sentry.turret;
 
+import icbm.sentry.turret.sentry.Sentry;
+
 import java.util.HashMap;
 import java.util.Map.Entry;
 

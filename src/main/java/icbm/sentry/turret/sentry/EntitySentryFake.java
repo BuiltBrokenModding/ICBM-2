@@ -1,6 +1,7 @@
-package icbm.sentry.turret;
+package icbm.sentry.turret.sentry;
 
 import icbm.core.ICBMCore;
+import icbm.sentry.turret.TileSentry;
 import icbm.sentry.turret.mount.MountedSentry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

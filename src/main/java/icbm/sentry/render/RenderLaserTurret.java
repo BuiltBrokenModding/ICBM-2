@@ -3,7 +3,7 @@ package icbm.sentry.render;
 import icbm.Reference;
 import icbm.sentry.models.ModelLaserTurret;
 import icbm.sentry.turret.TileSentry;
-import icbm.sentry.turret.sentries.AutoSentryTwinLaser;
+import icbm.sentry.turret.modules.AutoSentryTwinLaser;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 

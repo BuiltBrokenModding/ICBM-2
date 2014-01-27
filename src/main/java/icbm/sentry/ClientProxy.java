@@ -2,7 +2,7 @@ package icbm.sentry;
 
 import icbm.core.prefab.EmptyRenderer;
 import icbm.sentry.render.FXBeam;
-import icbm.sentry.turret.EntitySentryFake;
+import icbm.sentry.turret.sentry.EntitySentryFake;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;

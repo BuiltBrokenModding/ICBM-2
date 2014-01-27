@@ -1,5 +1,6 @@
-package icbm.sentry.turret;
+package icbm.sentry.turret.sentry;
 
+import icbm.sentry.turret.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;

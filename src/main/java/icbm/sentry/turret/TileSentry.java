@@ -2,8 +2,11 @@ package icbm.sentry.turret;
 
 import icbm.api.sentry.IGyroMotor;
 import icbm.core.ICBMCore;
+import icbm.sentry.turret.modules.AutoSentry;
 import icbm.sentry.turret.mount.MountedSentry;
-import icbm.sentry.turret.sentries.AutoSentry;
+import icbm.sentry.turret.sentry.EntitySentryFake;
+import icbm.sentry.turret.sentry.Sentry;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -220,7 +223,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
             if (!entityPlayer.isSneaking())
             {
-                if (this.getSentry() instanceof MountedSentry && this.sentryEntity != null)
+            	//if (this.getSentry() instanceof MountedSentry)
+                if (this.sentryEntity != null)
                 {
                     if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
                     {
@@ -247,10 +251,13 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         {
             entityPlayer.rotationYaw = this.getYawServo().getRotation();
             entityPlayer.rotationPitch = this.getPitchServo().getRotation();
-            entityPlayer.mountEntity(this.sentryEntity);
+            EntityPig ent = new EntityPig(worldObj);
+            
+            entityPlayer.mountEntity(ent);
             
             
         }
+        this.sentry = new MountedSentry(this);
     }
 
     public EntitySentryFake getFakeEntity()
