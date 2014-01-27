@@ -49,14 +49,20 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
-        lookHelper = new LookHelper(this);
-        this.yawMotor = new AutoServo(360, 0, 5);
+        this.sentry = new Sentry(this);
+    }
+    
+    @Override
+    public void initiate() {
+    	super.initiate();
+    	this.yawMotor = new AutoServo(360, 0, 5);
         this.pitchMotor = new AutoServo(35, -35, 5);
+        this.lookHelper = new LookHelper(this);
     }
 
     @Override
     public void updateEntity()
-    {
+    {    	
         super.updateEntity();
         if (this.getSentry() instanceof MountedSentry)
         {

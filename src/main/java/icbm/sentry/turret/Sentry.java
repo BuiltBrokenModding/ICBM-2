@@ -16,8 +16,8 @@ import calclavia.lib.utility.nbt.SaveManager;
  */
 public class Sentry implements IEnergyContainer, ISaveObj
 {
-	protected Vector3 aimOffset = new Vector3(1, 0, 0);
-	protected Vector3 centerOffset = new Vector3(0.5, 0.5, 0.5);
+	protected Vector3 aimOffset;
+	protected Vector3 centerOffset;
 	public TileSentry host;
 	protected float health = 0;
 	protected float maxHealth = -1;
@@ -25,6 +25,8 @@ public class Sentry implements IEnergyContainer, ISaveObj
 
 	public Sentry(TileSentry host)
 	{
+		this.aimOffset = new Vector3(1, 0, 0);
+		this.centerOffset = new Vector3(0.5, 0.5, 0.5);
 		this.host = host;
 		this.energy = new EnergyStorageHandler(1000);
 	}
@@ -36,12 +38,14 @@ public class Sentry implements IEnergyContainer, ISaveObj
 
 	public boolean canFire()
 	{
-		return false;
+		return true;
+		//return !this.energy.isEmpty();
 	}
 
 	public boolean fireWeapon(Vector3 target)
 	{
-		return false;
+		this.aimOffset = this.host.lookHelper.lookAt(target);
+		
 	}
 
 	public void fireWeaponClient(Vector3 target)
