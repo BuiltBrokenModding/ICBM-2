@@ -262,6 +262,10 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
             {
                 missileID = this.getStackInSlot(0).getItemDamage();
             }
+            else
+            {
+                missileID = -1;
+            }
         }
         this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
@@ -367,13 +371,11 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
     @Override
     public void openChest()
-    {
-    }
+    {}
 
     @Override
     public void closeChest()
-    {
-    }
+    {}
 
     @Override
     public AxisAlignedBB getRenderBoundingBox()
