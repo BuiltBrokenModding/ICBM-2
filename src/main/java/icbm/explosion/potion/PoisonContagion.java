@@ -17,11 +17,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 
-public class PChuanRanDu extends ICBMPotion
+public class PoisonContagion extends ICBMPotion
 {
-    public static PChuanRanDu INSTANCE;
+    public static PoisonContagion INSTANCE;
 
-    public PChuanRanDu(int id, boolean isBadEffect, int color, String name)
+    public PoisonContagion(int id, boolean isBadEffect, int color, String name)
     {
         super(id, isBadEffect, color, name);
         this.setIconIndex(6, 0);

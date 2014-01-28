@@ -31,9 +31,9 @@ import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.modular.BlockMissileAssembler;
 import icbm.explosion.missile.modular.ItemBlockMissileTable;
-import icbm.explosion.potion.PChuanRanDu;
-import icbm.explosion.potion.PDaDu;
-import icbm.explosion.potion.PDongShang;
+import icbm.explosion.potion.PoisonContagion;
+import icbm.explosion.potion.PoisonToxin;
+import icbm.explosion.potion.PoisonFrostBite;
 
 import java.util.List;
 
@@ -146,9 +146,9 @@ public class ICBMExplosion
 		itemBombCart = new ItemBombCart(Settings.getNextItemID());
 
 		/** Potion Effects */
-		PDaDu.INSTANCE = new PDaDu(22, true, 5149489, "toxin");
-		PChuanRanDu.INSTANCE = new PChuanRanDu(23, false, 5149489, "virus");
-		PDongShang.INSTANCE = new PDongShang(24, false, 5149489, "frostBite");
+		PoisonToxin.INSTANCE = new PoisonToxin(24, true, 5149489, "toxin");
+		PoisonContagion.INSTANCE = new PoisonContagion(25, false, 5149489, "virus");
+		PoisonFrostBite.INSTANCE = new PoisonFrostBite(26, false, 5149489, "frostBite");
 
 		CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
 		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperBoomInFire", true).getBoolean(true);

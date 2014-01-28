@@ -1,7 +1,7 @@
 package icbm.explosion;
 
-import icbm.explosion.potion.PChuanRanDu;
-import icbm.explosion.potion.PDaDu;
+import icbm.explosion.potion.PoisonContagion;
+import icbm.explosion.potion.PoisonToxin;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import universalelectricity.api.vector.Vector3;
@@ -23,12 +23,12 @@ public class ContagiousPoison extends Poison
     {
         if (this.isContagious)
         {
-            entity.addPotionEffect(new CustomPotionEffect(PChuanRanDu.INSTANCE.getId(), 45 * 20, amplifier, null));
+            entity.addPotionEffect(new CustomPotionEffect(PoisonContagion.INSTANCE.getId(), 45 * 20, amplifier, null));
             entity.addPotionEffect(new CustomPotionEffect(Potion.blindness.id, 15 * 20, amplifier));
         }
         else
         {
-            entity.addPotionEffect(new CustomPotionEffect(PDaDu.INSTANCE.getId(), 30 * 20, amplifier, null));
+            entity.addPotionEffect(new CustomPotionEffect(PoisonToxin.INSTANCE.getId(), 30 * 20, amplifier, null));
             entity.addPotionEffect(new CustomPotionEffect(Potion.confusion.id, 30 * 20, amplifier));
         }
 

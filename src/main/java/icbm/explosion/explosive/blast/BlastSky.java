@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.explosion.potion.PDongShang;
+import icbm.explosion.potion.PoisonFrostBite;
 
 import java.util.Iterator;
 import java.util.List;
@@ -52,7 +52,7 @@ public class BlastSky extends BlastBeam
                 while (it.hasNext())
                 {
                     EntityLiving entity = it.next();
-                    entity.addPotionEffect(new CustomPotionEffect(PDongShang.INSTANCE.getId(), 60 * 20, 1, null));
+                    entity.addPotionEffect(new CustomPotionEffect(PoisonFrostBite.INSTANCE.getId(), 60 * 20, 1, null));
                     entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 2));
                     entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 120 * 20, 2));
                     entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120 * 20, 4));

@@ -30,7 +30,7 @@ import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.MissilePlayerHandler;
 import icbm.explosion.missile.modular.TileMissileAssembler;
-import icbm.explosion.potion.PDongShang;
+import icbm.explosion.potion.PoisonFrostBite;
 import icbm.explosion.render.entity.RenderEntityBlock;
 import icbm.explosion.render.entity.RenderEntityExplosive;
 import icbm.explosion.render.entity.RenderExplosion;
@@ -261,7 +261,7 @@ public class ClientProxy extends CommonProxy
     {
         if (evt.entity instanceof EntityLivingBase)
         {
-            if (evt.entity.getActivePotionEffect(PDongShang.INSTANCE) != null)
+            if (evt.entity.getActivePotionEffect(PoisonFrostBite.INSTANCE) != null)
             {
                 try
                 {

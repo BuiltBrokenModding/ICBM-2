@@ -5,11 +5,11 @@ import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.DamageSource;
 
-public class PDaDu extends ICBMPotion
+public class PoisonToxin extends ICBMPotion
 {
-    public static PDaDu INSTANCE;
+    public static PoisonToxin INSTANCE;
 
-    public PDaDu(int id, boolean isBadEffect, int color, String name)
+    public PoisonToxin(int id, boolean isBadEffect, int color, String name)
     {
         super(id, isBadEffect, color, name);
         this.setIconIndex(6, 0);

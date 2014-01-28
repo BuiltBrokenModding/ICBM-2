@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 
-public class PDongShang extends ICBMPotion
+public class PoisonFrostBite extends ICBMPotion
 {
-    public static PDongShang INSTANCE;
+    public static PoisonFrostBite INSTANCE;
 
-    public PDongShang(int id, boolean isBadEffect, int color, String name)
+    public PoisonFrostBite(int id, boolean isBadEffect, int color, String name)
     {
         super(id, isBadEffect, color, name);
         this.setIconIndex(6, 0);
