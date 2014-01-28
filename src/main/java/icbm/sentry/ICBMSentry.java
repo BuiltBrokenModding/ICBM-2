@@ -115,11 +115,12 @@ public class ICBMSentry
 		GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
 
 		SentryRegistry.registerSentry("mountedSentry", MountedSentry.class);
-		SentryRegistry.registerSentry("autoSentry", AutoSentry.class);
-		SentryRegistry.registerSentry("autoSentryAA", AutoSentryAntiAir.class);
-		SentryRegistry.registerSentry("autoSentryClassic", AutoSentryClassic.class);
-		SentryRegistry.registerSentry("autoSentryLaser", AutoSentryTwinLaser.class);
 		SentryRegistry.registerSentry("MountedRailGun", MountedRailGun.class);
+		SentryRegistry.registerSentry("autoSentryAA", AutoSentryAntiAir.class);
+		SentryRegistry.registerSentry("autoSentryLaser", AutoSentryTwinLaser.class);
+//		SentryRegistry.registerSentry("autoSentryClassic", AutoSentryClassic.class);
+//		SentryRegistry.registerSentry("autoSentry", AutoSentry.class);
+		
 		
 		// Turret Platform
 		// GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC",
