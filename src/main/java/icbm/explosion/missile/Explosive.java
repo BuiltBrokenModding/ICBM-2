@@ -22,7 +22,7 @@ import icbm.explosion.missile.ex.ExRepulsive;
 import icbm.explosion.missile.ex.ExSMine;
 import icbm.explosion.missile.ex.ExShrapnel;
 import icbm.explosion.missile.ex.ExSonic;
-import icbm.explosion.missile.missile.DYuanZiFenZhiDan;
+import icbm.explosion.missile.missile.MissileNuclearCluster;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.missile.missile.MissileAnti;
 import icbm.explosion.missile.missile.MissileCluster;
@@ -118,7 +118,7 @@ public abstract class Explosive implements IExplosive
         homing = (Missile) ExplosiveRegistry.register(new MissileHoming("homing", 1));
         antiBallistic = (Missile) ExplosiveRegistry.register(new MissileAnti("antiBallistic", 2));
         cluster = (Missile) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
-        nuclearCluster = (Missile) ExplosiveRegistry.register(new DYuanZiFenZhiDan("nuclearCluster", 3));
+        nuclearCluster = (Missile) ExplosiveRegistry.register(new MissileNuclearCluster("nuclearCluster", 3));
 
         Settings.CONFIGURATION.save();
         registered = true;
@@ -142,9 +142,9 @@ public abstract class Explosive implements IExplosive
     protected boolean hasMinecart;
     protected boolean hasMissile;
 
-    protected Explosive(String mingZi, int tier)
+    protected Explosive(String name, int tier)
     {
-        this.nameID = mingZi;
+        this.nameID = name;
         this.tier = tier;
         this.fuseTime = 100;
 

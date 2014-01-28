@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMHuanYuan extends ModelICBM
+public class ModelRegenMissile extends ModelICBM
 {
     // fields
     ModelRenderer MAIN_MODULE;
@@ -42,7 +42,7 @@ public class MMHuanYuan extends ModelICBM
     ModelRenderer Shape8;
     ModelRenderer Shape9;
 
-    public MMHuanYuan()
+    public ModelRegenMissile()
     {
         textureWidth = 128;
         textureHeight = 128;

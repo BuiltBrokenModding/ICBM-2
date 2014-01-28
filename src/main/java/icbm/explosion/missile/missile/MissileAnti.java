@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.api.IMissileLockable;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRepulsive;
-import icbm.explosion.model.missiles.MMFanDan;
+import icbm.explosion.model.missiles.ModelAntiMissileMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -92,6 +92,6 @@ public class MissileAnti extends MissileBase
     @Override
     public ModelICBM getMissileModel()
     {
-        return new MMFanDan();
+        return new ModelAntiMissileMissile();
     }
 }

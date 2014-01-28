@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMHuo extends ModelICBM
+public class ModelIncendiaryMissile extends ModelICBM
 {
     // fields
     ModelRenderer MAIN_MISSILE_MODULE;
@@ -27,7 +27,7 @@ public class MMHuo extends ModelICBM
     ModelRenderer WARHEAD_5;
     ModelRenderer WARHEAD_6;
 
-    public MMHuo()
+    public ModelIncendiaryMissile()
     {
         textureWidth = 128;
         textureHeight = 128;

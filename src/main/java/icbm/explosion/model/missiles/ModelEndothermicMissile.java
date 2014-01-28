@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMDianCi extends ModelICBM
+public class ModelEndothermicMissile extends ModelICBM
 {
     // fields
     ModelRenderer MAIN_MODULE;
@@ -32,15 +32,14 @@ public class MMDianCi extends ModelICBM
     ModelRenderer WING_4B;
     ModelRenderer WING_4A;
     ModelRenderer TOP;
-    ModelRenderer BASE;
-    ModelRenderer MAIN_COIL;
-    ModelRenderer COIL_1;
-    ModelRenderer COIL_2;
-    ModelRenderer COIL_3;
-    ModelRenderer COIL_4;
-    ModelRenderer WARHEAD;
+    ModelRenderer Shape1;
+    ModelRenderer Shape1a;
+    ModelRenderer Shape1b;
+    ModelRenderer Shape1c;
+    ModelRenderer Shape1d;
+    ModelRenderer Shape1e;
 
-    public MMDianCi()
+    public ModelEndothermicMissile()
     {
         textureWidth = 128;
         textureHeight = 128;
@@ -177,48 +176,42 @@ public class MMDianCi extends ModelICBM
         TOP.setTextureSize(128, 128);
         TOP.mirror = true;
         setRotation(TOP, 0F, 0F, 0F);
-        BASE = new ModelRenderer(this, 64, 92);
-        BASE.addBox(-6F, 0F, -6F, 12, 1, 12);
-        BASE.setRotationPoint(0F, -65F, 0F);
-        BASE.setTextureSize(128, 128);
-        BASE.mirror = true;
-        setRotation(BASE, 0F, 0F, 0F);
-        MAIN_COIL = new ModelRenderer(this, 64, 107);
-        MAIN_COIL.addBox(-3F, 0F, -3F, 6, 10, 6);
-        MAIN_COIL.setRotationPoint(0F, -75F, 0F);
-        MAIN_COIL.setTextureSize(128, 128);
-        MAIN_COIL.mirror = true;
-        setRotation(MAIN_COIL, 0F, 0F, 0F);
-        COIL_1 = new ModelRenderer(this, 90, 107);
-        COIL_1.addBox(3F, 0F, -5F, 2, 8, 2);
-        COIL_1.setRotationPoint(0F, -73F, 0F);
-        COIL_1.setTextureSize(128, 128);
-        COIL_1.mirror = true;
-        setRotation(COIL_1, 0F, 0F, 0F);
-        COIL_2 = new ModelRenderer(this, 90, 107);
-        COIL_2.addBox(-5F, 0F, 3F, 2, 8, 2);
-        COIL_2.setRotationPoint(0F, -73F, 0F);
-        COIL_2.setTextureSize(128, 128);
-        COIL_2.mirror = true;
-        setRotation(COIL_2, 0F, 0F, 0F);
-        COIL_3 = new ModelRenderer(this, 90, 107);
-        COIL_3.addBox(-5F, 0F, -5F, 2, 8, 2);
-        COIL_3.setRotationPoint(0F, -73F, 0F);
-        COIL_3.setTextureSize(128, 128);
-        COIL_3.mirror = true;
-        setRotation(COIL_3, 0F, 0F, 0F);
-        COIL_4 = new ModelRenderer(this, 90, 107);
-        COIL_4.addBox(3F, 0F, 3F, 2, 8, 2);
-        COIL_4.setRotationPoint(0F, -73F, 0F);
-        COIL_4.setTextureSize(128, 128);
-        COIL_4.mirror = true;
-        setRotation(COIL_4, 0F, 0F, 0F);
-        WARHEAD = new ModelRenderer(this, 100, 107);
-        WARHEAD.addBox(-1F, -4F, -1F, 2, 4, 2);
-        WARHEAD.setRotationPoint(0F, -75F, 0F);
-        WARHEAD.setTextureSize(128, 128);
-        WARHEAD.mirror = true;
-        setRotation(WARHEAD, 0F, 0F, 0F);
+        Shape1 = new ModelRenderer(this, 108, 92);
+        Shape1.addBox(0F, 0F, 0F, 2, 6, 2);
+        Shape1.setRotationPoint(-4F, -70F, -4F);
+        Shape1.setTextureSize(128, 128);
+        Shape1.mirror = true;
+        setRotation(Shape1, 0F, 0F, 0F);
+        Shape1a = new ModelRenderer(this, 108, 92);
+        Shape1a.addBox(0F, 0F, 0F, 2, 6, 2);
+        Shape1a.setRotationPoint(-4F, -70F, 2F);
+        Shape1a.setTextureSize(128, 128);
+        Shape1a.mirror = true;
+        setRotation(Shape1a, 0F, 0F, 0F);
+        Shape1b = new ModelRenderer(this, 108, 92);
+        Shape1b.addBox(0F, 0F, 0F, 2, 6, 2);
+        Shape1b.setRotationPoint(2F, -70F, -4F);
+        Shape1b.setTextureSize(128, 128);
+        Shape1b.mirror = true;
+        setRotation(Shape1b, 0F, 0F, 0F);
+        Shape1c = new ModelRenderer(this, 108, 92);
+        Shape1c.addBox(0F, 0F, 0F, 2, 6, 2);
+        Shape1c.setRotationPoint(2F, -70F, 2F);
+        Shape1c.setTextureSize(128, 128);
+        Shape1c.mirror = true;
+        setRotation(Shape1c, 0F, 0F, 0F);
+        Shape1d = new ModelRenderer(this, 64, 92);
+        Shape1d.addBox(0F, 0F, 0F, 6, 10, 6);
+        Shape1d.setRotationPoint(-3F, -74F, -3F);
+        Shape1d.setTextureSize(128, 128);
+        Shape1d.mirror = true;
+        setRotation(Shape1d, 0F, 0F, 0F);
+        Shape1e = new ModelRenderer(this, 90, 92);
+        Shape1e.addBox(0F, 0F, 0F, 4, 6, 4);
+        Shape1e.setRotationPoint(-2F, -80F, -2F);
+        Shape1e.setTextureSize(128, 128);
+        Shape1e.mirror = true;
+        setRotation(Shape1e, 0F, 0F, 0F);
     }
 
     @Override
@@ -255,13 +248,12 @@ public class MMDianCi extends ModelICBM
         WING_4B.render(f5);
         WING_4A.render(f5);
         TOP.render(f5);
-        BASE.render(f5);
-        MAIN_COIL.render(f5);
-        COIL_1.render(f5);
-        COIL_2.render(f5);
-        COIL_3.render(f5);
-        COIL_4.render(f5);
-        WARHEAD.render(f5);
+        Shape1.render(f5);
+        Shape1a.render(f5);
+        Shape1b.render(f5);
+        Shape1c.render(f5);
+        Shape1d.render(f5);
+        Shape1e.render(f5);
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z)

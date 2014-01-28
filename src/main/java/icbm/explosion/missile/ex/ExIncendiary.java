@@ -4,7 +4,7 @@ import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastFire;
 import icbm.explosion.missile.missile.Missile;
-import icbm.explosion.model.missiles.MMHuo;
+import icbm.explosion.model.missiles.ModelIncendiaryMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -43,13 +43,13 @@ public class ExIncendiary extends Missile
     @SideOnly(Side.CLIENT)
     public ModelICBM getMuoXing()
     {
-        return new MMHuo();
+        return new ModelIncendiaryMissile();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public ModelICBM getMissileModel()
     {
-        return new MMHuo();
+        return new ModelIncendiaryMissile();
     }
 }

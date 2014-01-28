@@ -7,9 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
-public class DYuanZiFenZhiDan extends MissileCluster
+public class MissileNuclearCluster extends MissileCluster
 {
-    public DYuanZiFenZhiDan(String mingZi, int tier)
+    public MissileNuclearCluster(String mingZi, int tier)
     {
         super(mingZi, tier);
         this.hasBlock = false;

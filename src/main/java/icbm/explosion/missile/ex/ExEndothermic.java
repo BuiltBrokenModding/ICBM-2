@@ -4,7 +4,7 @@ import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastSky;
 import icbm.explosion.missile.missile.Missile;
-import icbm.explosion.model.missiles.MMBingDan;
+import icbm.explosion.model.missiles.ModelEndothermicMissile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -36,6 +36,6 @@ public class ExEndothermic extends Missile
     @Override
     public ModelICBM getMissileModel()
     {
-        return new MMBingDan();
+        return new ModelEndothermicMissile();
     }
 }

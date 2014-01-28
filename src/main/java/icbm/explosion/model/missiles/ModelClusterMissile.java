@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMFenZiDan extends ModelICBM
+public class ModelClusterMissile extends ModelICBM
 {
     // fields
     ModelRenderer Shape1;
@@ -42,7 +42,7 @@ public class MMFenZiDan extends ModelICBM
     ModelRenderer Shape8a;
     ModelRenderer Shape8;
 
-    public MMFenZiDan()
+    public ModelClusterMissile()
     {
         textureWidth = 128;
         textureHeight = 128;

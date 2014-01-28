@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MMFanDan extends ModelICBM
+public class ModelAntiMissileMissile extends ModelICBM
 {
     // fields
     ModelRenderer Shape1;
@@ -39,7 +39,7 @@ public class MMFanDan extends ModelICBM
     ModelRenderer Shape8c;
     ModelRenderer Shape8d;
 
-    public MMFanDan()
+    public ModelAntiMissileMissile()
     {
         textureWidth = 128;
         textureHeight = 128;

@@ -6,7 +6,7 @@ import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastAntimatter;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.missile.Missile;
-import icbm.explosion.model.missiles.MMFanWuSu;
+import icbm.explosion.model.missiles.ModelAnitmatterMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -54,6 +54,6 @@ public class ExAntimatter extends Missile
     @Override
     public ModelICBM getMissileModel()
     {
-        return new MMFanWuSu();
+        return new ModelAnitmatterMissile();
     }
 }

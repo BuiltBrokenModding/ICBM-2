@@ -3,7 +3,7 @@ package icbm.explosion.missile.missile;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.missile.missile.EntityMissile.MissileType;
-import icbm.explosion.model.missiles.MMFenZiDan;
+import icbm.explosion.model.missiles.ModelClusterMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
@@ -62,6 +62,6 @@ public class MissileCluster extends MissileBase
     @Override
     public ModelICBM getMissileModel()
     {
-        return new MMFenZiDan();
+        return new ModelClusterMissile();
     }
 }
