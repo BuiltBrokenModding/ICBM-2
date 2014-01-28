@@ -42,7 +42,7 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
+    public void setBlockBoundsBasedOnState (IBlockAccess world, int x, int y, int z)
     {
         TileEntity ent = world.getBlockTileEntity(x, y, z);
         if (ent instanceof TileSentry)
@@ -61,13 +61,13 @@ public class BlockTurret extends BlockICBM
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerIcons (IconRegister iconRegister)
     {
         this.blockIcon = iconRegister.registerIcon(Reference.PREFIX + "machine");
     }
 
     @Override
-    public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    public boolean onUseWrench (World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -80,7 +80,7 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    public boolean onMachineActivated (World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
     {
         /** Checks the TileEntity if it can activate. If not, then try to activate the turret
          * platform below it. */
@@ -103,7 +103,7 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int side)
+    public void onNeighborBlockChange (World world, int x, int y, int z, int side)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -117,57 +117,61 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int meta)
+    public TileEntity createTileEntity (World world, int meta)
     {
-        return new TileSentry();        
+        return new TileSentry();
 
     }
 
     @Override
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean renderAsNormalBlock()
+    public boolean isOpaqueCube ()
     {
         return false;
     }
 
     @Override
-    public int damageDropped(int metadata)
+    public boolean renderAsNormalBlock ()
+    {
+        return false;
+    }
+
+    @Override
+    public int damageDropped (int metadata)
     {
         return metadata;
     }
-    
 
     @Override
-    public boolean canPlaceBlockAt(World world, int x, int y, int z)
+    public boolean canPlaceBlockAt (World world, int x, int y, int z)
     {
         return super.canPlaceBlockAt(world, x, y, z) && this.canBlockStay(world, x, y, z);
     }
 
     @Override
-    public boolean canBlockStay(World world, int x, int y, int z)
+    public boolean canBlockStay (World world, int x, int y, int z)
     {
         return world.getBlockId(x, y - 1, z) == ICBMSentry.blockPlatform.blockID;
     }
 
     @Override
-    public void getSubBlocks(int id, CreativeTabs par2CreativeTabs, List list)
+    public void getSubBlocks (int id, CreativeTabs par2CreativeTabs, List list)
     {
-        int i = 0;
-        for (Class<? extends Sentry> clazz : SentryRegistry.getSentryList()) {
+        for (Class<? extends Sentry> clazz : SentryRegistry.getSentryList())
+        {
+            
+        }
+
+        for (Class<? extends Sentry> clazz : SentryRegistry.getSentryList())
+        {
             if (clazz != null)
             {
-                ItemStack stack = new ItemStack(id, 1, i);
+                ItemStack stack = new ItemStack(this);
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setString("sentryID", clazz.getSimpleName());
                 list.add(stack);
-                i++;
+
             }
         }
-        
+
     }
 }
