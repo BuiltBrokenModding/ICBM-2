@@ -1,5 +1,6 @@
 package icbm.sentry.turret;
 
+import icbm.sentry.turret.tiles.TileSentry;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;

@@ -1,7 +1,7 @@
 package icbm.sentry.turret.modules;
 
 import icbm.Reference;
-import icbm.sentry.turret.TileSentry;
+import icbm.sentry.turret.tiles.TileSentry;
 import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.

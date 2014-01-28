@@ -5,8 +5,8 @@ import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.SentryRegistry;
-import icbm.sentry.turret.TileSentry;
 import icbm.sentry.turret.sentryhandler.Sentry;
+import icbm.sentry.turret.tiles.TileSentry;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -120,7 +120,10 @@ public class BlockTurret extends BlockICBM
     @Override
     public TileEntity createTileEntity(World world, int meta)
     {
-        return new TileSentry();
+        return new TileSentry(meta);
+        
+        
+        
     }
 
     @Override
@@ -140,6 +143,7 @@ public class BlockTurret extends BlockICBM
     {
         return metadata;
     }
+    
 
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
@@ -166,5 +170,6 @@ public class BlockTurret extends BlockICBM
                 list.add(stack);
             }
         }
+        
     }
 }

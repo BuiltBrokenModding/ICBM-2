@@ -2,7 +2,7 @@ package icbm.sentry.turret.modules;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.turret.TileSentry;
+import icbm.sentry.turret.tiles.TileSentry;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
 

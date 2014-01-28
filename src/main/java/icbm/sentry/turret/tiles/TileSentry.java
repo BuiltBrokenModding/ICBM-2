@@ -1,8 +1,12 @@
-package icbm.sentry.turret;
+package icbm.sentry.turret.tiles;
 
 import icbm.api.sentry.IGyroMotor;
 import icbm.core.ICBMCore;
+import icbm.sentry.turret.AutoServo;
+import icbm.sentry.turret.LookHelper;
+import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.modules.AutoSentry;
+import icbm.sentry.turret.modules.AutoSentryClassic;
 import icbm.sentry.turret.sentryhandler.EntitySentryFake;
 import icbm.sentry.turret.sentryhandler.Sentry;
 import icbm.sentry.turret.sentryhandler.mount.MountedSentry;
@@ -48,28 +52,30 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     public EntitySentryFake sentryEntity;
 
-    public TileSentry()
+    public TileSentry(int sentryID)
     {
+    	super();
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
-        this.sentry = new Sentry(this);
+        this.sentry = getSentryForID(sentryID);
     }
-    
+
     @Override
-    public void initiate() {
-    	super.initiate();
-    	this.yawMotor = new AutoServo(360, 0, 5);
+    public void initiate ()
+    {
+        super.initiate();
+        this.yawMotor = new AutoServo(360, 0, 5);
         this.pitchMotor = new AutoServo(35, -35, 5);
         this.lookHelper = new LookHelper(this);
     }
 
     @Override
-    public void updateEntity()
-    {    	
+    public void updateEntity ()
+    {
         super.updateEntity();
         if (this.getSentry() instanceof MountedSentry)
         {
-            if (this.sentryEntity == null || this.sentryEntity.isDead)
+            if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
             {
                 this.sentryEntity = new EntitySentryFake(this, true);
                 this.worldObj.spawnEntityInWorld(this.sentryEntity);
@@ -105,7 +111,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public AccessProfile getAccessProfile()
+    public AccessProfile getAccessProfile ()
     {
         if (this.accessProfile == null)
         {
@@ -115,64 +121,65 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void setAccessProfile(AccessProfile profile)
+    public void setAccessProfile (AccessProfile profile)
     {
         this.accessProfile = profile;
     }
 
     @Override
-    public boolean canAccess(String username)
+    public boolean canAccess (String username)
     {
         return accessProfile.getUserAccess(username) != null;
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public Packet getDescriptionPacket ()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(NBT_PACKET_ID, this, this.getPacketData(0).toArray());
     }
 
     @Override
-    public Packet getTerminalPacket()
+    public Packet getTerminalPacket ()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(TERMINAL_PACKET_ID, this, this.getPacketData(1).toArray());
     }
 
     @Override
-    public Packet getCommandPacket(String username, String cmdInput)
+    public Packet getCommandPacket (String username, String cmdInput)
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(COMMAND_PACKET_ID, this, username, cmdInput);
     }
 
-    public Packet getRotationPacket()
+    public Packet getRotationPacket ()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
 
     @Override
-    public ForgeDirection getDirection()
+    public ForgeDirection getDirection ()
     {
         return ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
-    public void setDirection(ForgeDirection direection)
+    public void setDirection (ForgeDirection direection)
     {
 
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readFromNBT (NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
         this.getInventory().load(nbt);
         NBTTagCompound tag = new NBTTagCompound();
         this.getSentry().save(tag);
-        nbt.setCompoundTag("sentry", tag);;
+        nbt.setCompoundTag("sentry", tag);
+        ;
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void writeToNBT (NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
@@ -180,42 +187,42 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public IExternalInventoryBox getInventory()
+    public IExternalInventoryBox getInventory ()
     {
         return this.inventory;
     }
 
     @Override
-    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
+    public boolean canStore (ItemStack stack, int slot, ForgeDirection side)
     {
         return false;
     }
 
     @Override
-    public boolean canRemove(ItemStack stack, int slot, ForgeDirection side)
+    public boolean canRemove (ItemStack stack, int slot, ForgeDirection side)
     {
         return false;
     }
 
     @Override
-    public AutoServo getYawServo()
+    public AutoServo getYawServo ()
     {
         return this.yawMotor;
     }
 
     @Override
-    public AutoServo getPitchServo()
+    public AutoServo getPitchServo ()
     {
         return this.pitchMotor;
     }
 
-    public Sentry getSentry()
+    public Sentry getSentry ()
     {
         return this.sentry;
     }
 
     @Override
-    public boolean onActivated(EntityPlayer entityPlayer)
+    public boolean onActivated (EntityPlayer entityPlayer)
     {
         if (entityPlayer != null)
         {
@@ -233,38 +240,52 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
                         }
                         return true;
                     }
-                    
+                    this.mount(entityPlayer);
                 }
-                this.mount(entityPlayer);
-            }     
+
+            }
 
             return true;
         }
         return false;
     }
 
-    public void mount(EntityPlayer entityPlayer)
+    public void mount (EntityPlayer entityPlayer)
     {
-    	
         if (!this.worldObj.isRemote)
         {
             entityPlayer.rotationYaw = this.getYawServo().getRotation();
             entityPlayer.rotationPitch = this.getPitchServo().getRotation();
-            
-            //entityPlayer.mountEntity(this.sentryEntity);
-            
-            
+            System.out.println(this.sentryEntity);
+            entityPlayer.mountEntity(this.sentryEntity);
+
         }
-        this.sentry = new MountedSentry(this);
+
     }
 
-    public EntitySentryFake getFakeEntity()
+    public EntitySentryFake getFakeEntity ()
     {
         return this.sentryEntity;
     }
 
-    public void setFakeEntity(EntitySentryFake entitySentryFake)
+    public void setFakeEntity (EntitySentryFake entitySentryFake)
     {
         this.sentryEntity = entitySentryFake;
+    }
+
+    private Sentry getSentryForID (int id)
+    {
+        switch (id)
+        {
+        case 0:
+            return new MountedSentry(this);
+        case 1:
+            return new AutoSentry(this);
+        default:
+            break;
+        }
+        
+        return null;
+
     }
 }

@@ -1,6 +1,6 @@
 package icbm.sentry.turret.sentryhandler;
 
-import icbm.sentry.turret.TileSentry;
+import icbm.sentry.turret.tiles.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -15,7 +15,7 @@ import calclavia.lib.utility.nbt.SaveManager;
  * 
  * @author DarkGuardsman
  */
-public class Sentry implements IEnergyContainer, ISaveObj
+public abstract class Sentry implements IEnergyContainer, ISaveObj
 {
 	protected Vector3 aimOffset;
 	protected Vector3 centerOffset;
@@ -31,7 +31,7 @@ public class Sentry implements IEnergyContainer, ISaveObj
 		this.host = host;
 		this.energy = new EnergyStorageHandler(1000);
 		this.maxHealth = -1;
-		this.health = 1000;
+		this.health = 0;
 	}
 
 	public void update()

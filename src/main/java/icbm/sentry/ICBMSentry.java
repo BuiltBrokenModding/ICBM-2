@@ -6,8 +6,15 @@ import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.turret.ItemAmmo;
+import icbm.sentry.turret.SentryRegistry;
+import icbm.sentry.turret.modules.AutoSentry;
+import icbm.sentry.turret.modules.AutoSentryAntiAir;
+import icbm.sentry.turret.modules.AutoSentryClassic;
+import icbm.sentry.turret.modules.AutoSentryTwinLaser;
 import icbm.sentry.turret.sentryhandler.EntitySentryFake;
 import icbm.sentry.turret.sentryhandler.Sentry;
+import icbm.sentry.turret.sentryhandler.mount.MountedRailGun;
+import icbm.sentry.turret.sentryhandler.mount.MountedSentry;
 import icbm.sentry.turret.turret.BlockTurret;
 import icbm.sentry.turret.turret.ItemBlockTurret;
 import icbm.sentry.turret.upgrades.ItemSentryUpgrade;
@@ -83,7 +90,7 @@ public class ICBMSentry
 		GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class, "ICBMTurret");
 		GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
 
-		EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMFake", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
 		
 		CreativeTabICBM.itemStack = new ItemStack(blockTurret);
@@ -107,6 +114,13 @@ public class ICBMSentry
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B", 'D', Item.diamond, 'B', conventionalBullet }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
 
+		SentryRegistry.registerSentry("mountedSentry", MountedSentry.class);
+		SentryRegistry.registerSentry("autoSentry", AutoSentry.class);
+		SentryRegistry.registerSentry("autoSentryAA", AutoSentryAntiAir.class);
+		SentryRegistry.registerSentry("autoSentryClassic", AutoSentryClassic.class);
+		SentryRegistry.registerSentry("autoSentryLaser", AutoSentryTwinLaser.class);
+		SentryRegistry.registerSentry("MountedRailGun", MountedRailGun.class);
+		
 		// Turret Platform
 		// GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC",
 		// "SAS", 'P', Block.pistonBase, 'A', UniversalRecipe.BATTERY.get(), 'S',

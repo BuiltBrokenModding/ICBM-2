@@ -1,7 +1,7 @@
 package icbm.sentry;
 
 import icbm.sentry.platform.TileTurretPlatform;
-import icbm.sentry.turret.TileSentry;
+import icbm.sentry.turret.tiles.TileSentry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
