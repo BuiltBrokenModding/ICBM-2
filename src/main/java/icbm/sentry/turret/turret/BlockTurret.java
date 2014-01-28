@@ -30,7 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /** Block turret is a class used by all turrets. Each type of turret will have a different tile
  * entity.
  * 
- * @author Calclavia */
+ * @author Calclavia, tgame14 */
 public class BlockTurret extends BlockICBM
 {
 
@@ -121,9 +121,7 @@ public class BlockTurret extends BlockICBM
     public TileEntity createTileEntity(World world, int meta)
     {
         return new TileSentry(meta);
-        
-        
-        
+
     }
 
     @Override
@@ -160,14 +158,23 @@ public class BlockTurret extends BlockICBM
     @Override
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List list)
     {
-        for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getMap().entrySet())
-        {
-            if (entry.getValue() != null)
+//        for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getMap().entrySet())
+//        {
+//            if (entry.getValue() != null)
+//            {
+//                ItemStack stack = new ItemStack(this);
+//                stack.setTagCompound(new NBTTagCompound());
+//                stack.getTagCompound().setString("sentryID", entry.getKey());
+//                list.add(stack);
+//            }
+//        }
+        
+        for (Class<? extends Sentry> clazz : SentryRegistry.getSentryList()) {
+            if (clazz != null)
             {
                 ItemStack stack = new ItemStack(this);
                 stack.setTagCompound(new NBTTagCompound());
-                stack.getTagCompound().setString("sentryID", entry.getKey());
-                list.add(stack);
+                stack.getTagCompound().setString("sentryID", clazz.getSimpleName());
             }
         }
         
