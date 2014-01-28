@@ -54,7 +54,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     public TileSentry(int sentryID)
     {
-    	super();
+        super();
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
         this.sentry = getSentryForID(sentryID);
@@ -75,13 +75,17 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super.updateEntity();
         if (this.getSentry() instanceof MountedSentry)
         {
+            boolean flag = false;
             if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
             {
                 this.sentryEntity = new EntitySentryFake(this, true);
                 this.worldObj.spawnEntityInWorld(this.sentryEntity);
+                flag = true;
+
             }
+            
             //TODO set up handling for non-player entities, low Priority
-            if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
+            if (flag && this.sentryEntity.riddenByEntity instanceof EntityPlayer)
             {
                 EntityPlayer mountedPlayer = (EntityPlayer) this.sentryEntity.riddenByEntity;
 
@@ -284,7 +288,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         default:
             break;
         }
-        
+
         return null;
 
     }
