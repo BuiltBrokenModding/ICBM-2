@@ -1,16 +1,21 @@
 package icbm.core;
 
-import icbm.core.prefab.BlockICBM;
+import icbm.Reference;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
-public class BlockSulfureOre extends BlockICBM
+public class BlockSulfureOre extends Block
 {
     public BlockSulfureOre(int id)
     {
-        super(id, "oreSulfur", Material.rock);
+        super(Settings.CONFIGURATION.getBlock("oreSulfur", id).getInt(id), Material.rock);
+        this.setUnlocalizedName(Reference.PREFIX + "oreSulfur");
+        this.setTextureName(Reference.PREFIX + "oreSulfur");
+        this.setCreativeTab(CreativeTabs.tabBlock);
         this.setHardness(3.0f);
     }
 
