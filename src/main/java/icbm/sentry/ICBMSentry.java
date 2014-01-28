@@ -65,7 +65,6 @@ public class ICBMSentry
 	{
 		NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
-		SaveManager.registerClass("Sentry", Sentry.class);
 
 		Settings.CONFIGURATION.load();
 
