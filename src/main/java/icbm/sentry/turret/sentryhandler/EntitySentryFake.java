@@ -32,14 +32,21 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
 {
     private TileSentry sentryHost;
     private boolean shouldSit = false;
+    private float health;
+    private float maxHealth;
 
     public EntitySentryFake(TileSentry controller, boolean sit)
     {
     	super(controller.worldObj);
+    	System.out.println(controller);
     	this.isImmuneToFire = true;
         this.setPosition(controller.xCoord, controller.yCoord, controller.zCoord);
         this.sentryHost = controller;
-        this.shouldSit = sit;        
+        this.shouldSit = sit;
+        
+        this.health = 0F;
+        this.maxHealth = 100F;
+        
     }
 
     @Override
@@ -148,8 +155,8 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
             offset.rotate(this.sentryHost.getYawServo().getRotation(), this.sentryHost.getPitchServo().getRotation());
             vec.add(offset);
             this.riddenByEntity.setPosition(vec.x, vec.y, vec.z);
-            //this.riddenByEntity.rotationYaw = this.sentryHost.getYawServo().getRotation();
-            //this.riddenByEntity.rotationPitch = this.sentryHost.getPitchServo().getRotation();
+            this.riddenByEntity.rotationYaw = this.sentryHost.getYawServo().getRotation();
+            this.riddenByEntity.rotationPitch = this.sentryHost.getPitchServo().getRotation();
         }
     }
 
@@ -230,6 +237,11 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
             }
         }
         return false;
+    }
+    
+    @Override
+    public void setHealth(float par1) {
+    	this.health = par1;
     }
 
 }

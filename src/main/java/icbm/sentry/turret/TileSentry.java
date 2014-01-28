@@ -223,7 +223,6 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
             if (!entityPlayer.isSneaking())
             {
-            	//if (this.getSentry() instanceof MountedSentry)
                 if (this.getSentry() instanceof MountedSentry && this.sentryEntity != null)
                 {
                     if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
@@ -252,7 +251,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             entityPlayer.rotationYaw = this.getYawServo().getRotation();
             entityPlayer.rotationPitch = this.getPitchServo().getRotation();
             
-            entityPlayer.mountEntity(this.sentryEntity);
+            //entityPlayer.mountEntity(this.sentryEntity);
             
             
         }
