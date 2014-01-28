@@ -101,7 +101,6 @@ public class Sentry implements IEnergyContainer, ISaveObj
 	@Override
 	public void save(NBTTagCompound nbt)
 	{
-		nbt.setString("id", SaveManager.getID(this.getClass()));
 		if (this.energy != null)
 			this.energy.writeToNBT(nbt);
 		if (this.maxHealth > 0)
