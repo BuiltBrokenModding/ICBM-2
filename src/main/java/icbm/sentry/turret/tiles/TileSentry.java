@@ -32,7 +32,7 @@ import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 
 /** @author Darkguardsman, tgame14 */
-public abstract class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
+public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
 {
     protected static final int ROTATION_PACKET_ID = 3;
 
@@ -76,18 +76,10 @@ public abstract class TileSentry extends TileTerminal implements IProfileContain
     public void updateEntity ()
     {
         super.updateEntity();
-        if (this.getSentry() instanceof MountedSentry)
-        {
-            this.mountableSentry();
-        }
-
-        if (this.getSentry() instanceof AutoSentry)
-        {
-            this.autoSentry();
-        }
+        
     }
 
-    private void mountableSentry ()
+    protected void mountableSentry ()
     {
         boolean flag = false;
         if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
@@ -116,7 +108,7 @@ public abstract class TileSentry extends TileTerminal implements IProfileContain
         }
     }
 
-    private void autoSentry ()
+    protected void autoSentry ()
     {
 
         float prevYaw = this.getYawServo().getRotation();
