@@ -14,14 +14,14 @@ public class ItemBlockTurret extends ItemBlock
     }
 
     @Override
-    public int getMetadata(int par1)
+    public int getMetadata(int meta)
     {
-        return 0;
+        return meta;
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack par1ItemStack)
+    public String getUnlocalizedName(ItemStack itemstack)
     {
-        return this.getUnlocalizedName() + "." + par1ItemStack.getItemDamage();
+        return this.getUnlocalizedName() + "." + itemstack.getItemDamage();
     }
 }

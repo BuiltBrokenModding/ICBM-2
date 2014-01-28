@@ -34,12 +34,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockTurret extends BlockICBM
 {
 
-    public BlockTurret(int par1)
+    public BlockTurret(int id)
     {
-        super(par1, "turret", UniversalElectricity.machine);
+        super(id, "turret", UniversalElectricity.machine);
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
         this.setHardness(100f);
         this.setResistance(50f);
+    }
+    
+    @Override
+    public String getUnlocalizedName ()
+    {
+        // TODO Auto-generated method stub
+        return super.getUnlocalizedName();
     }
 
     @Override
@@ -156,25 +163,17 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List list)
+    public void getSubBlocks(int id, CreativeTabs par2CreativeTabs, List list)
     {
-//        for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getMap().entrySet())
-//        {
-//            if (entry.getValue() != null)
-//            {
-//                ItemStack stack = new ItemStack(this);
-//                stack.setTagCompound(new NBTTagCompound());
-//                stack.getTagCompound().setString("sentryID", entry.getKey());
-//                list.add(stack);
-//            }
-//        }
-        
+        int i = 0;
         for (Class<? extends Sentry> clazz : SentryRegistry.getSentryList()) {
             if (clazz != null)
             {
-                ItemStack stack = new ItemStack(this);
+                ItemStack stack = new ItemStack(id, 1, i);
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setString("sentryID", clazz.getSimpleName());
+                list.add(stack);
+                i++;
             }
         }
         
