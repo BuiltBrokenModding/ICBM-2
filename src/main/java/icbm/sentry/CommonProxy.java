@@ -1,7 +1,10 @@
 package icbm.sentry;
 
 import icbm.sentry.platform.TileTurretPlatform;
+import icbm.sentry.turret.tiles.TileAutoSentryAA;
+import icbm.sentry.turret.tiles.TileAutoSentryLaser;
 import icbm.sentry.turret.tiles.TileSentry;
+import icbm.sentry.turret.tiles.TileSentryGun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
@@ -17,8 +20,12 @@ public class CommonProxy implements IGuiHandler
 
     public void init()
     {
-        GameRegistry.registerTileEntity(TileSentry.class, "ICBMSentryGun");
+        //GameRegistry.registerTileEntity(TileSentry.class, "ICBMSentryGun");
         GameRegistry.registerTileEntity(TileTurretPlatform.class, "ICBMPlatform");
+        GameRegistry.registerTileEntity(TileAutoSentryAA.class, "ICBMAASentry");
+        GameRegistry.registerTileEntity(TileAutoSentryLaser.class, "ICBMLazorSentry");
+        GameRegistry.registerTileEntity(TileSentryGun.class, "ICBMSentryGun");
+        
     }
 
     public void preInit()

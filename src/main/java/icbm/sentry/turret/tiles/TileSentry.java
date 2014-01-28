@@ -32,7 +32,7 @@ import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 
 /** @author Darkguardsman, tgame14 */
-public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
+public abstract class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
 {
     protected static final int ROTATION_PACKET_ID = 3;
 

@@ -2,9 +2,16 @@ package icbm.sentry;
 
 import icbm.core.prefab.EmptyRenderer;
 import icbm.sentry.render.FXBeam;
+import icbm.sentry.render.RenderAAGun;
 import icbm.sentry.render.RenderGunTurret;
+import icbm.sentry.render.RenderLaserTurret;
+import icbm.sentry.render.RenderRailGun;
 import icbm.sentry.turret.sentryhandler.EntitySentryFake;
+import icbm.sentry.turret.tiles.TileAutoSentryAA;
+import icbm.sentry.turret.tiles.TileAutoSentryLaser;
 import icbm.sentry.turret.tiles.TileSentry;
+import icbm.sentry.turret.tiles.TileSentryGun;
+import icbm.sentry.turret.tiles.TileSentryRailgun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
@@ -28,7 +35,11 @@ public class ClientProxy extends CommonProxy
         /** TileEntities */
         RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileSentry.class, new RenderGunTurret());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSentryGun.class, new RenderGunTurret());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileAutoSentryAA.class, new RenderAAGun());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileAutoSentryLaser.class, new RenderLaserTurret());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSentryRailgun.class, new RenderRailGun());
+        
     }
 
     @Override

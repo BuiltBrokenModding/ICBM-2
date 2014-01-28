@@ -5,8 +5,16 @@ import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.SentryRegistry;
+import icbm.sentry.turret.modules.AutoSentryAntiAir;
+import icbm.sentry.turret.modules.AutoSentryTwinLaser;
 import icbm.sentry.turret.sentryhandler.Sentry;
+import icbm.sentry.turret.sentryhandler.mount.MountedRailGun;
+import icbm.sentry.turret.sentryhandler.mount.MountedSentry;
+import icbm.sentry.turret.tiles.TileAutoSentryAA;
+import icbm.sentry.turret.tiles.TileAutoSentryLaser;
 import icbm.sentry.turret.tiles.TileSentry;
+import icbm.sentry.turret.tiles.TileSentryGun;
+import icbm.sentry.turret.tiles.TileSentryRailgun;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -120,7 +128,20 @@ public class BlockTurret extends BlockICBM
     @Override
     public TileEntity createTileEntity(World world, int meta)
     {
-        return new TileSentry();
+        switch (meta)
+        {
+        case 0:
+            return new TileSentryGun();
+        case 1:
+            return new TileSentryRailgun();
+        case 2:
+            return new TileAutoSentryAA();
+        case 3:
+            return new TileAutoSentryLaser();
+        default:
+            return null;
+        }
+        
 
     }
 
