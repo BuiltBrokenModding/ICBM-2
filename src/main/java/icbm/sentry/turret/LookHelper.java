@@ -24,6 +24,8 @@ public class LookHelper
     public void update()
     {
         this.center = new VectorWorld(this.sentry);
+        System.out.println(this.sentry.getSentry());
+        System.out.println(this.sentry.getSentry().getCenterOffset());
         this.center.add(this.sentry.getSentry().getCenterOffset());
     }
 

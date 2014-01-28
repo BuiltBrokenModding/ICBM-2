@@ -13,7 +13,7 @@ import calclavia.lib.utility.nbt.SaveManager;
 /**
  * Module way to deal with sentry guns
  * 
- * @author DarkGuardsman
+ * @author DarkGuardsman, tgame14
  */
 public abstract class Sentry implements IEnergyContainer, ISaveObj
 {
@@ -21,8 +21,9 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
 	protected Vector3 centerOffset;
 	public TileSentry host;
 	protected float health;
-	protected float maxHealth;
 	protected EnergyStorageHandler energy;
+	
+	protected static float maxHealth = -1;
 
 	public Sentry(TileSentry host)
 	{
@@ -30,7 +31,6 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
 		this.centerOffset = new Vector3(0.5, 0.5, 0.5);
 		this.host = host;
 		this.energy = new EnergyStorageHandler(1000);
-		this.maxHealth = -1;
 		this.health = 0;
 	}
 

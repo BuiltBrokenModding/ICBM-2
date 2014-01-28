@@ -41,13 +41,6 @@ public class BlockTurret extends BlockICBM
         this.setHardness(100f);
         this.setResistance(50f);
     }
-    
-    @Override
-    public String getUnlocalizedName ()
-    {
-        // TODO Auto-generated method stub
-        return super.getUnlocalizedName();
-    }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
@@ -127,7 +120,7 @@ public class BlockTurret extends BlockICBM
     @Override
     public TileEntity createTileEntity(World world, int meta)
     {
-        return new TileSentry(meta);
+        return new TileSentry();
 
     }
 
