@@ -9,6 +9,7 @@ import icbm.sentry.turret.sentryhandler.Sentry;
 import icbm.sentry.turret.tiles.TileSentry;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -156,20 +157,13 @@ public class BlockTurret extends BlockICBM
     @Override
     public void getSubBlocks (int id, CreativeTabs par2CreativeTabs, List list)
     {
-        for (Class<? extends Sentry> clazz : SentryRegistry.getSentryList())
+        for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getSentryMap().entrySet())
         {
-            
-        }
-
-        for (Class<? extends Sentry> clazz : SentryRegistry.getSentryList())
-        {
-            if (clazz != null)
+            if (entry.getKey() != null)
             {
                 ItemStack stack = new ItemStack(this);
                 stack.setTagCompound(new NBTTagCompound());
-                stack.getTagCompound().setString("sentryID", clazz.getSimpleName());
-                list.add(stack);
-
+                stack.getTagCompound().setString("SentryID", entry.getKey());
             }
         }
 

@@ -14,24 +14,29 @@ import calclavia.lib.utility.nbt.SaveManager;
 /** @author Darkguardsman, tgame14 */
 public class SentryRegistry
 {
-    private static LinkedList<Class<? extends Sentry>> sentryList = new LinkedList<Class<? extends Sentry>>();
+    private static HashMap<String, Class<? extends Sentry>> sentryMap = new HashMap<String, Class<? extends Sentry>>();
 
     public static void registerSentry (String key, Class<? extends Sentry> sentry)
     {
-        synchronized (sentryList)
+        synchronized (sentryMap)
         {
-            if (!sentryList.contains(sentry))
+            if (!sentryMap.containsKey(key))
             {
-                sentryList.add(sentry);
+                sentryMap.put(key, sentry);
                 SaveManager.registerClass(key, sentry);
             }
 
         }
     }
 
-    public static List<Class<? extends Sentry>> getSentryList ()
+    public static HashMap<String, Class<? extends Sentry>> getSentryMap()
     {
-        return sentryList;
+        return sentryMap;
+    }
+    
+    public static Class<? extends Sentry> getSentryForKey(String key)
+    {
+        return sentryMap.get(key);
     }
 
     public static Sentry build (NBTTagCompound compoundTag)
