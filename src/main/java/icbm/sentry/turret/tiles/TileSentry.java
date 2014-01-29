@@ -145,7 +145,9 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     @Override
     public Packet getDescriptionPacket ()
     {
-        return ICBMCore.PACKET_TILE.getPacketWithID(NBT_PACKET_ID, this, this.getPacketData(0).toArray());
+        NBTTagCompound tag = new NBTTagCompound();
+        this.writeToNBT(tag);
+        return ICBMCore.PACKET_TILE.getPacketWithID(NBT_PACKET_ID, this, tag);
     }
 
     @Override
