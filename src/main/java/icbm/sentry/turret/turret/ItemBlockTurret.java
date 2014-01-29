@@ -24,14 +24,7 @@ public class ItemBlockTurret extends ItemBlock
     @Override
     public String getUnlocalizedName(ItemStack itemstack)
     {
-        return this.getUnlocalizedName() + "." + itemstack.getTagCompound().getString("SentryID");
-    }
-    
-    @Override
-    public boolean placeBlockAt (ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
-    {
-        // TODO Auto-generated method stub
-        return super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata);
+        return super.getUnlocalizedName() + "." + itemstack.getTagCompound().getString("SentryID");
     }
     
     

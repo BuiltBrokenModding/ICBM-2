@@ -68,8 +68,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super.initiate();
         this.yawMotor = new AutoServo(360, 0, 5);
         this.pitchMotor = new AutoServo(35, -35, 5);
-        this.sentry = getSentryForMetadata(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-        this.lookHelper = new LookHelper(this);
+        
     }
 
     @Override
@@ -192,12 +191,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     @Override
     public void writeToNBT (NBTTagCompound nbt)
-    {
-        if (nbt.hasKey("SentryID"))
-        {
-            
-        }
-        
+    {       
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
         this.sentry = SentryRegistry.build(nbt.getCompoundTag("sentry"));
@@ -289,23 +283,4 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         this.sentryEntity = entitySentryFake;
     }
 
-    private Sentry getSentryForMetadata (int id)
-    {
-        switch (id)
-        {
-        case 0:
-            return new MountedSentry(this);
-        case 1:
-            return new MountedRailGun(this);
-        case 2:
-            return new AutoSentryAntiAir(this);
-        case 3:
-            return new AutoSentryTwinLaser(this);
-        default:
-            break;
-        }
-
-        return null;
-
-    }
 }
