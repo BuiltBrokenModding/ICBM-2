@@ -183,15 +183,21 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.readFromNBT(nbt);
         this.getInventory().load(nbt);
+        
         NBTTagCompound tag = new NBTTagCompound();
         this.getSentry().save(tag);
         nbt.setCompoundTag("sentry", tag);
-        ;
+        
     }
 
     @Override
     public void writeToNBT (NBTTagCompound nbt)
     {
+        if (nbt.hasKey("SentryID"))
+        {
+            
+        }
+        
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
         this.sentry = SentryRegistry.build(nbt.getCompoundTag("sentry"));

@@ -123,7 +123,7 @@ public class BlockTurret extends BlockICBM
         return new TileSentry();
 
     }
-
+    
     @Override
     public boolean isOpaqueCube ()
     {
@@ -139,7 +139,7 @@ public class BlockTurret extends BlockICBM
     @Override
     public int damageDropped (int metadata)
     {
-        return metadata;
+        return 0;
     }
 
     @Override
@@ -162,8 +162,9 @@ public class BlockTurret extends BlockICBM
             if (entry.getKey() != null)
             {
                 ItemStack stack = new ItemStack(this);
-                stack.setTagCompound(new NBTTagCompound());
+                stack.setTagCompound(new NBTTagCompound("sentry"));
                 stack.getTagCompound().setString("SentryID", entry.getKey());
+                list.add(stack);
             }
         }
 
