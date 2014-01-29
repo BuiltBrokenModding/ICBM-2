@@ -28,7 +28,7 @@ public abstract class GuiICBM extends GuiContainerBase
 
 	public GuiICBM(TileEntity tileEntity)
 	{
-		this();
+		super(new ContainerDummy(tileEntity));
 		this.tileEntity = tileEntity;
 	}
 
