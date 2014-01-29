@@ -1,27 +1,29 @@
 package icbm.sentry.render;
 
 import icbm.sentry.turret.tiles.TileSentry;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class SentryRenderingHandler extends RenderTurret
+public class SentryRenderingHandler extends TileEntitySpecialRenderer
 {
     private RenderTurret renderer;
 
-    private boolean ticked;
 
     public SentryRenderingHandler()
     {
         super();
-        this.ticked = false;
+        this.renderer = null;
     }
 
     @Override
     public void renderTileEntityAt (TileEntity t, double x, double y, double z, float f)
     {
-        if (!this.ticked)
-            this.renderer = getRendererForTile(t);
+        if(renderer == null) {
+            getRendererForTile(t);
+            return;
+        }
         
-        this.renderer.renderTileEntityAt(t, x, y, z, f);
+        renderer.renderTileEntityAt(t, x, y, z, f);
 
     }
     
@@ -33,9 +35,13 @@ public class SentryRenderingHandler extends RenderTurret
         if (tile instanceof TileSentry)
         {
             sentry = (TileSentry) tile;
+            if (sentry.getSentry() == null)
+                return null;
 
             switch (sentry.getSentry().getSentryType())
             {
+            case VOID:
+                return null;
             case AA:
                 return new RenderAAGun();
             case CLASSIC:

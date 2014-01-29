@@ -178,9 +178,9 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void readFromNBT (NBTTagCompound nbt)
+    public void writeToNBT (NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.writeToNBT(nbt);
         this.getInventory().load(nbt);
         
         NBTTagCompound tag = new NBTTagCompound();
@@ -190,9 +190,9 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void writeToNBT (NBTTagCompound nbt)
+    public void readFromNBT (NBTTagCompound nbt)
     {       
-        super.writeToNBT(nbt);
+        super.readFromNBT(nbt);
         this.getInventory().save(nbt);
         this.sentry = SentryRegistry.build(nbt.getCompoundTag("sentry"));
     }

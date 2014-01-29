@@ -140,5 +140,9 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
 		return this.host.zCoord;
 	}
 	
-	public abstract Modules getSentryType();
+	// Safety code for a failing renderer
+	public Modules getSentryType()
+	{
+	    return Modules.VOID;
+	}
 }
