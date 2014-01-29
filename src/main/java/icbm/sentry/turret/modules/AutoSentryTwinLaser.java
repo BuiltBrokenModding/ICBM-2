@@ -41,4 +41,10 @@ public class AutoSentryTwinLaser extends AutoSentry
         ICBMSentry.proxy.renderBeam(this.host.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.host.getYawServo().getRotation() + 6, this.host.getPitchServo().getRotation() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
         this.barrelRotationVelocity += 1;
     }
+
+    @Override
+    public Modules getSentryType ()
+    {
+        return Modules.LASER;
+    }
 }

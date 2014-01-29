@@ -20,4 +20,10 @@ public class AutoSentryAntiAir extends AutoSentry
     {
         this.host.worldObj.playSoundEffect(this.host.xCoord, this.host.yCoord, this.host.zCoord, Reference.PREFIX + "aagun", 5F, 1F);
     }
+
+    @Override
+    public Modules getSentryType ()
+    {
+        return Modules.AA;
+    }
 }

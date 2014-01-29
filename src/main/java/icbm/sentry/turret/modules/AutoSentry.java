@@ -4,7 +4,7 @@ import icbm.sentry.turret.sentryhandler.Sentry;
 import icbm.sentry.turret.tiles.TileSentry;
 import net.minecraft.entity.Entity;
 
-public class AutoSentry extends Sentry
+public abstract class AutoSentry extends Sentry
 {
     protected Entity target;
 

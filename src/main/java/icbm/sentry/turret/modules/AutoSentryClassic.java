@@ -10,4 +10,11 @@ public class AutoSentryClassic extends AutoSentry
         this.maxHealth = 200;
         this.centerOffset.y = 0.65;
     }
+
+    @Override
+    public Modules getSentryType ()
+    {
+        return Modules.CLASSIC;
+    }
+    
 }

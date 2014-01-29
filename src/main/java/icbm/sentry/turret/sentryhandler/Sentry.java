@@ -1,6 +1,7 @@
 package icbm.sentry.turret.sentryhandler;
 
 import icbm.sentry.turret.LookHelper;
+import icbm.sentry.turret.modules.Modules;
 import icbm.sentry.turret.tiles.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -9,7 +10,6 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.utility.nbt.ISaveObj;
-import calclavia.lib.utility.nbt.SaveManager;
 
 /**
  * Module way to deal with sentry guns
@@ -139,4 +139,6 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
 	{
 		return this.host.zCoord;
 	}
+	
+	public abstract Modules getSentryType();
 }
