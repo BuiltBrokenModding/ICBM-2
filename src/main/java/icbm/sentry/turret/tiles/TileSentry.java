@@ -68,14 +68,14 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super.initiate();
         this.yawMotor = new AutoServo(360, 0, 5);
         this.pitchMotor = new AutoServo(35, -35, 5);
-        
+
     }
 
     @Override
     public void updateEntity ()
     {
         super.updateEntity();
-        
+
     }
 
     protected void mountableSentry ()
@@ -184,16 +184,18 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.writeToNBT(nbt);
         this.getInventory().load(nbt);
-        
-        NBTTagCompound tag = new NBTTagCompound();
-        this.getSentry().save(tag);
-        nbt.setCompoundTag("sentry", tag);
-        
+
+        if (this.sentry != null)
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            this.getSentry().save(tag);
+            nbt.setCompoundTag("sentry", tag);
+        }
     }
 
     @Override
     public void readFromNBT (NBTTagCompound nbt)
-    {       
+    {
         super.readFromNBT(nbt);
         this.getInventory().save(nbt);
         this.sentry = SentryRegistry.build(nbt.getCompoundTag("sentry"));
