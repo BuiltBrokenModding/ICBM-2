@@ -123,7 +123,7 @@ public class BlockTurret extends BlockICBM
         return new TileSentry();
 
     }
-    
+
     @Override
     public boolean isOpaqueCube ()
     {
@@ -157,16 +157,38 @@ public class BlockTurret extends BlockICBM
     @Override
     public void getSubBlocks (int id, CreativeTabs par2CreativeTabs, List list)
     {
-        for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getSentryMap().entrySet())
+        for (Entry<Integer, Class<? extends Sentry>> entry : SentryRegistry.getSentryMap().entrySet())
         {
             if (entry.getKey() != null)
             {
                 ItemStack stack = new ItemStack(this);
-                stack.setTagCompound(new NBTTagCompound("sentry"));
-                stack.getTagCompound().setString("SentryID", entry.getKey());
+                NBTTagCompound nbt = new NBTTagCompound();
+                //nbt.setString("id", entry.getKey().toString());
+                nbt.setInteger("ModuleID", entry.getKey());
+                stack.setTagCompound(nbt);
                 list.add(stack);
             }
         }
 
     }
+
+    @Override
+    public void onBlockPreDestroy (World par1World, int par2, int par3, int par4, int par5)
+    {
+        // TODO Auto-generated method stub
+        super.onBlockPreDestroy(par1World, par2, par3, par4, par5);
+    }
+
+    @Override
+    protected void dropBlockAsItem_do (World world, int x, int y, int z, ItemStack stack)
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null)
+            tile.writeToNBT(tag);
+
+        stack.setTagCompound(tag);
+        super.dropBlockAsItem_do(world, x, y, z, stack);
+    }
+
 }

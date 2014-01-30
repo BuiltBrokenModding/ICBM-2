@@ -55,8 +55,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     private static float[] yawData = { 360F, 0F, 5F };
     private static float[] pitchData = { 35F, -35F, 5F };
-    
-    private Modules clientModuleType = Modules.VOID;
+
+    private Modules clientModuleType;
 
     public EntitySentryFake sentryEntity;
 
@@ -65,7 +65,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super();
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
-        
+        this.clientModuleType = Modules.VOID;
+
     }
 
     @Override
@@ -82,6 +83,11 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.updateEntity();
 
+        if (worldObj.isRemote)
+            System.out.println("client:" + this.clientModuleType);
+        else
+            System.out.println("server: " + this.clientModuleType);
+        System.out.println(this.getSentry());
     }
 
     protected void mountableSentryLoop ()
@@ -152,8 +158,10 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public Packet getDescriptionPacket ()
     {
         Integer sentryOrdinal = Modules.VOID.ordinal();
+        System.out.println(this.getSentry());
         if (this.getSentry() != null)
             sentryOrdinal = this.getSentry().getSentryType().ordinal();
+        System.out.println("desc packet: " + sentryOrdinal);
 
         return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, sentryOrdinal, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
@@ -189,8 +197,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         {
             if (id == DESCRIPTION_PACKET_ID)
             {
-                
-                this.setClientSentryTypeFromID(data.readInt());
+
+                //this.setClientSentryTypeFromID(data.readInt());
                 this.getYawServo().setRotation(data.readFloat());
                 this.getPitchServo().setRotation(data.readFloat());
                 return true;
@@ -224,43 +232,58 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
-        nbt.setInteger("ModuleID", this.clientModuleType.ordinal());
-        
+
         if (this.sentry != null)
         {
             NBTTagCompound tag = new NBTTagCompound();
             this.getSentry().save(tag);
-            nbt.setCompoundTag("sentry", tag);
+            nbt.setCompoundTag("sentryTile", tag);
+            System.out.println("Saved Sentry");
         }
+
+        nbt.setInteger("ModuleID", this.clientModuleType.ordinal());
+        System.out.println("write nbt ordinal" + this.clientModuleType.ordinal());
     }
 
     @Override
     public void readFromNBT (NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
+
         this.getInventory().load(nbt);
-        this.setClientSentryTypeFromID(nbt.getInteger("ModuleID"));
-        this.sentry = SentryRegistry.build(nbt.getCompoundTag("sentry"));
+        Integer key = nbt.getInteger("ModuleID");
+        if (this.sentry == null)
+            this.sentry = SentryRegistry.create(key, this);
+        else
+            this.sentry.load(nbt);
+        this.clientModuleType = this.setClientSentryTypeFromID(key);
     }
-    
-    public Modules getClientSentryType()
+
+    public Modules getClientSentryType ()
     {
         return this.clientModuleType;
     }
-    
-    private void setClientSentryTypeFromID (int ordinal)
+
+    private Modules setClientSentryTypeFromID (int ordinal)
     {
+        System.out.println("AA: " + Modules.AA.ordinal());
         if (Modules.AA.ordinal() == ordinal)
-            this.clientModuleType = Modules.AA;
+            return Modules.AA;
 
-        else if (Modules.CLASSIC.ordinal() == ordinal)
-            this.clientModuleType = Modules.CLASSIC;
+        System.out.println("CLASSIC: " + Modules.CLASSIC.ordinal());
+        if (Modules.CLASSIC.ordinal() == ordinal)
+            return Modules.CLASSIC;
 
-        else if (Modules.LASER.ordinal() == ordinal)
-            this.clientModuleType = Modules.LASER;
+        System.out.println("LASER: " + Modules.LASER.ordinal());
+        if (Modules.LASER.ordinal() == ordinal)
+            return Modules.LASER;
 
-        else if (Modules.RAILGUN.ordinal() == ordinal)
-            this.clientModuleType = Modules.RAILGUN;
+        System.out.println("RAILGUN: " + Modules.RAILGUN.ordinal());
+        if (Modules.RAILGUN.ordinal() == ordinal)
+            return Modules.RAILGUN;
+
+        System.out.println("Returning void");
+        return Modules.VOID;
     }
 
     @Override

@@ -11,6 +11,7 @@ import icbm.sentry.turret.modules.AutoSentry;
 import icbm.sentry.turret.modules.AutoSentryAntiAir;
 import icbm.sentry.turret.modules.AutoSentryClassic;
 import icbm.sentry.turret.modules.AutoSentryTwinLaser;
+import icbm.sentry.turret.modules.Modules;
 import icbm.sentry.turret.modules.mount.MountedRailGun;
 import icbm.sentry.turret.modules.mount.MountedSentry;
 import icbm.sentry.turret.sentryhandler.EntitySentryFake;
@@ -114,13 +115,10 @@ public class ICBMSentry
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B", 'D', Item.diamond, 'B', conventionalBullet }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
 
-		SentryRegistry.registerSentry("mountedSentry", MountedSentry.class);
-		SentryRegistry.registerSentry("MountedRailGun", MountedRailGun.class);
-		SentryRegistry.registerSentry("autoSentryAA", AutoSentryAntiAir.class);
-		SentryRegistry.registerSentry("autoSentryLaser", AutoSentryTwinLaser.class);
-//		SentryRegistry.registerSentry("autoSentryClassic", AutoSentryClassic.class);
-//		SentryRegistry.registerSentry("autoSentry", AutoSentry.class);
-		
+		SentryRegistry.registerSentry(Modules.CLASSIC.ordinal(), AutoSentryClassic.class);
+		SentryRegistry.registerSentry(Modules.RAILGUN.ordinal(), MountedRailGun.class);
+		SentryRegistry.registerSentry(Modules.AA.ordinal(), AutoSentryAntiAir.class);
+		SentryRegistry.registerSentry(Modules.LASER.ordinal(), AutoSentryTwinLaser.class);
 		
 		// Turret Platform
 		// GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC",
