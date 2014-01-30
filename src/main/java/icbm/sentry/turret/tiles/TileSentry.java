@@ -35,6 +35,7 @@ import calclavia.lib.utility.inventory.IExternalInventoryBox;
 public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
 {
     protected static final int ROTATION_PACKET_ID = 3;
+    protected static final int SENTRY_TYPE_PACKET_ID = 4;
 
     /** Profile that control access properties for users */
     protected AccessProfile accessProfile;
@@ -78,7 +79,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     }
 
-    protected void mountableSentry ()
+    protected void mountableSentryLoop ()
     {
         boolean flag = false;
         if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
@@ -107,7 +108,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         }
     }
 
-    protected void autoSentry ()
+    protected void autoSentryLoop ()
     {
 
         float prevYaw = this.getYawServo().getRotation();
@@ -165,6 +166,11 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public Packet getRotationPacket ()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
+    }
+
+    public Packet getSentryTypePacket ()
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(SENTRY_TYPE_PACKET_ID, this, this.getSentry().getSentryType());
     }
 
     @Override
