@@ -5,15 +5,9 @@ import icbm.core.ICBMCore;
 import icbm.sentry.turret.AutoServo;
 import icbm.sentry.turret.LookHelper;
 import icbm.sentry.turret.SentryRegistry;
-import icbm.sentry.turret.modules.AutoSentry;
-import icbm.sentry.turret.modules.AutoSentryAntiAir;
-import icbm.sentry.turret.modules.AutoSentryClassic;
-import icbm.sentry.turret.modules.AutoSentryTwinLaser;
-import icbm.sentry.turret.modules.mount.MountedRailGun;
 import icbm.sentry.turret.modules.mount.MountedSentry;
 import icbm.sentry.turret.sentryhandler.EntitySentryFake;
 import icbm.sentry.turret.sentryhandler.Sentry;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,11 +25,14 @@ import calclavia.lib.utility.inventory.ExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 
+import com.google.common.io.ByteArrayDataInput;
+
 /** @author Darkguardsman, tgame14 */
 public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
 {
     protected static final int ROTATION_PACKET_ID = 3;
     protected static final int SENTRY_TYPE_PACKET_ID = 4;
+    protected static final int DESCRIPTION_PACKET_ID = 5;
 
     /** Profile that control access properties for users */
     protected AccessProfile accessProfile;
@@ -64,7 +61,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void initiate ()
+    public void initiate()
     {
         super.initiate();
         this.yawMotor = new AutoServo(360, 0, 5);
@@ -73,13 +70,13 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void updateEntity ()
+    public void updateEntity()
     {
         super.updateEntity();
 
     }
 
-    protected void mountableSentryLoop ()
+    protected void mountableSentryLoop()
     {
         boolean flag = false;
         if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
@@ -108,7 +105,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         }
     }
 
-    protected void autoSentryLoop ()
+    protected void autoSentryLoop()
     {
 
         float prevYaw = this.getYawServo().getRotation();
@@ -122,7 +119,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public AccessProfile getAccessProfile ()
+    public AccessProfile getAccessProfile()
     {
         if (this.accessProfile == null)
         {
@@ -132,19 +129,24 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void setAccessProfile (AccessProfile profile)
+    public void setAccessProfile(AccessProfile profile)
     {
         this.accessProfile = profile;
     }
 
     @Override
-    public boolean canAccess (String username)
+    public boolean canAccess(String username)
     {
         return accessProfile.getUserAccess(username) != null;
     }
 
     @Override
-    public Packet getDescriptionPacket ()
+    public Packet getDescriptionPacket()
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, this.getSentry().getSentryType().ordinal(), this.getYawServo().getRotation(), this.getPitchServo().getRotation());
+    }
+
+    public Packet getNBTPacket()
     {
         NBTTagCompound tag = new NBTTagCompound();
         this.writeToNBT(tag);
@@ -152,41 +154,70 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public Packet getTerminalPacket ()
+    public Packet getTerminalPacket()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(TERMINAL_PACKET_ID, this, this.getPacketData(1).toArray());
     }
 
     @Override
-    public Packet getCommandPacket (String username, String cmdInput)
+    public Packet getCommandPacket(String username, String cmdInput)
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(COMMAND_PACKET_ID, this, username, cmdInput);
     }
 
-    public Packet getRotationPacket ()
+    public Packet getRotationPacket()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
 
-    public Packet getSentryTypePacket ()
+    public Packet getSentryTypePacket()
     {
-        return ICBMCore.PACKET_TILE.getPacketWithID(SENTRY_TYPE_PACKET_ID, this, this.getSentry().getSentryType());
+        return ICBMCore.PACKET_TILE.getPacketWithID(SENTRY_TYPE_PACKET_ID, this, this.getSentry().getSentryType().ordinal());
     }
 
     @Override
-    public ForgeDirection getDirection ()
+    public boolean onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    {
+        if (!super.onReceivePacket(id, data, player, extra))
+        {
+            if (id == DESCRIPTION_PACKET_ID)
+            {
+                int sentryType = data.readInt();
+                this.getYawServo().setRotation(data.readFloat());
+                this.getPitchServo().setRotation(data.readFloat());
+                return true;
+            }
+            if (id == ROTATION_PACKET_ID)
+            {
+                this.getYawServo().setRotation(data.readFloat());
+                this.getPitchServo().setRotation(data.readFloat());
+                return true;
+            }
+            if (id == SENTRY_TYPE_PACKET_ID)
+            {
+                //TODO apply sentry type to client
+                int sentryType = data.readInt();
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public ForgeDirection getDirection()
     {
         return ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
-    public void setDirection (ForgeDirection direection)
+    public void setDirection(ForgeDirection direection)
     {
 
     }
 
     @Override
-    public void writeToNBT (NBTTagCompound nbt)
+    public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
         this.getInventory().load(nbt);
@@ -200,7 +231,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void readFromNBT (NBTTagCompound nbt)
+    public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
         this.getInventory().save(nbt);
@@ -208,42 +239,42 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public IExternalInventoryBox getInventory ()
+    public IExternalInventoryBox getInventory()
     {
         return this.inventory;
     }
 
     @Override
-    public boolean canStore (ItemStack stack, int slot, ForgeDirection side)
+    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
     {
         return false;
     }
 
     @Override
-    public boolean canRemove (ItemStack stack, int slot, ForgeDirection side)
+    public boolean canRemove(ItemStack stack, int slot, ForgeDirection side)
     {
         return false;
     }
 
     @Override
-    public AutoServo getYawServo ()
+    public AutoServo getYawServo()
     {
         return this.yawMotor;
     }
 
     @Override
-    public AutoServo getPitchServo ()
+    public AutoServo getPitchServo()
     {
         return this.pitchMotor;
     }
 
-    public Sentry getSentry ()
+    public Sentry getSentry()
     {
         return this.sentry;
     }
 
     @Override
-    public boolean onActivated (EntityPlayer entityPlayer)
+    public boolean onActivated(EntityPlayer entityPlayer)
     {
         if (entityPlayer != null)
         {
@@ -271,7 +302,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         return false;
     }
 
-    public void mount (EntityPlayer entityPlayer)
+    public void mount(EntityPlayer entityPlayer)
     {
         if (!this.worldObj.isRemote)
         {
@@ -283,12 +314,12 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     }
 
-    public EntitySentryFake getFakeEntity ()
+    public EntitySentryFake getFakeEntity()
     {
         return this.sentryEntity;
     }
 
-    public void setFakeEntity (EntitySentryFake entitySentryFake)
+    public void setFakeEntity(EntitySentryFake entitySentryFake)
     {
         this.sentryEntity = entitySentryFake;
     }
