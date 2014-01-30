@@ -18,131 +18,151 @@ import calclavia.lib.utility.nbt.ISaveObj;
  */
 public abstract class Sentry implements IEnergyContainer, ISaveObj
 {
-	protected Vector3 aimOffset;
-	protected Vector3 centerOffset;
-	public TileSentry host;
-	protected float health;
-	protected EnergyStorageHandler energy;
-	protected LookHelper lookHelper;
-	
-	protected static float maxHealth = -1;
+    protected Vector3 aimOffset;
+    protected Vector3 centerOffset;
+    public TileSentry host;
+    protected float health;
+    protected EnergyStorageHandler energy;
+    protected LookHelper lookHelper;
+    private Modules clientSentryType;
 
-	public Sentry(TileSentry host)
-	{
-		this.aimOffset = new Vector3(1, 0, 0);
-		this.centerOffset = new Vector3(0.5, 0.5, 0.5);
-		this.host = host;
-		this.energy = new EnergyStorageHandler(1000);
-		this.health = 0;
-		this.lookHelper = new LookHelper(host);
-	}
+    protected static float maxHealth = -1;
 
-	public void update()
-	{
+    public Sentry(TileSentry host)
+    {
+        this.aimOffset = new Vector3(1, 0, 0);
+        this.centerOffset = new Vector3(0.5, 0.5, 0.5);
+        this.host = host;
+        this.energy = new EnergyStorageHandler(1000);
+        this.health = 0;
+        this.lookHelper = new LookHelper(host);
+    }
 
-	}
+    public void update ()
+    {
 
-	public boolean canFire()
-	{
-		return host.hasWorldObj();
-	}
+    }
 
-	public boolean fireWeapon(Vector3 target)
-	{
-		if (host.worldObj.isRemote)
-			fireWeaponClient(target);
-		
-		
-		return false;
-	}
+    public boolean canFire ()
+    {
+        return host.hasWorldObj();
+    }
 
-	/** visual rendering here */
-	public void fireWeaponClient(Vector3 target)
-	{
-		// TODO Auto-generated method stub
+    public boolean fireWeapon (Vector3 target)
+    {
+        if (host.worldObj.isRemote)
+            fireWeaponClient(target);
 
-	}
+        return false;
+    }
 
-	public Vector3 getAimOffset()
-	{
-		return this.aimOffset;
-	}
+    /** visual rendering here */
+    public void fireWeaponClient (Vector3 target)
+    {
+        // TODO Auto-generated method stub
 
-	public Vector3 getCenterOffset()
-	{
-		return this.centerOffset;
-	}
+    }
 
-	public float getHealth()
-	{
-		return this.health;
-	}
+    public Vector3 getAimOffset ()
+    {
+        return this.aimOffset;
+    }
 
-	public float getMaxHealth()
-	{
-		return this.maxHealth;
-	}
+    public Vector3 getCenterOffset ()
+    {
+        return this.centerOffset;
+    }
 
-	@Override
-	public void setEnergy(ForgeDirection dir, long energy)
-	{
-		this.energy.setEnergy(energy);
-	}
+    public float getHealth ()
+    {
+        return this.health;
+    }
 
-	@Override
-	public long getEnergy(ForgeDirection dir)
-	{
-		return this.energy.getEnergy();
-	}
+    public float getMaxHealth ()
+    {
+        return this.maxHealth;
+    }
 
-	@Override
-	public long getEnergyCapacity(ForgeDirection dir)
-	{
-		return this.energy.getEnergyCapacity();
-	}
+    @Override
+    public void setEnergy (ForgeDirection dir, long energy)
+    {
+        this.energy.setEnergy(energy);
+    }
 
-	@Override
-	public void save(NBTTagCompound nbt)
-	{
-		if (this.energy != null)
-			this.energy.writeToNBT(nbt);
-		if (this.maxHealth > 0)
-			nbt.setFloat("Health", this.health);
+    @Override
+    public long getEnergy (ForgeDirection dir)
+    {
+        return this.energy.getEnergy();
+    }
 
-	}
+    @Override
+    public long getEnergyCapacity (ForgeDirection dir)
+    {
+        return this.energy.getEnergyCapacity();
+    }
 
-	@Override
-	public void load(NBTTagCompound nbt)
-	{
-		if (this.energy != null)
-			this.energy.readFromNBT(nbt);
-		this.health = nbt.getFloat("Health");
+    @Override
+    public void save (NBTTagCompound nbt)
+    {
+        if (this.energy != null)
+            this.energy.writeToNBT(nbt);
+        if (this.maxHealth > 0)
+            nbt.setFloat("Health", this.health);
 
-	}
+    }
 
-	public World world()
-	{
-		return this.host.worldObj;
-	}
+    @Override
+    public void load (NBTTagCompound nbt)
+    {
+        if (this.energy != null)
+            this.energy.readFromNBT(nbt);
+        this.health = nbt.getFloat("Health");
 
-	public double x()
-	{
-		return this.host.xCoord;
-	}
+    }
 
-	public double y()
-	{
-		return this.host.yCoord;
-	}
+    public World world ()
+    {
+        return this.host.worldObj;
+    }
 
-	public double z()
-	{
-		return this.host.zCoord;
-	}
-	
-	// Safety code for a failing renderer
-	public Modules getSentryType()
-	{
-	    return Modules.VOID;
-	}
+    public double x ()
+    {
+        return this.host.xCoord;
+    }
+
+    public double y ()
+    {
+        return this.host.yCoord;
+    }
+
+    public double z ()
+    {
+        return this.host.zCoord;
+    }
+
+    // Safety code for a failing renderer
+    public Modules getSentryType ()
+    {
+        return Modules.VOID;
+    }
+    
+    public Modules getClientSentryType ()
+    {
+        return this.clientSentryType;
+    }
+
+    public void setClientSentryType (int ordinal)
+    {
+        if (Modules.AA.ordinal() == ordinal)
+            this.clientSentryType = Modules.AA;
+
+        else if (Modules.CLASSIC.ordinal() == ordinal)
+            this.clientSentryType = Modules.CLASSIC;
+
+        else if (Modules.LASER.ordinal() == ordinal)
+            this.clientSentryType = Modules.LASER;
+
+        else if (Modules.RAILGUN.ordinal() == ordinal)
+            this.clientSentryType = Modules.RAILGUN;
+    }
 }

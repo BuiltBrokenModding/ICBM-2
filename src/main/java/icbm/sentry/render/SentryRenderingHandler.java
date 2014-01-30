@@ -41,7 +41,7 @@ public class SentryRenderingHandler extends TileEntitySpecialRenderer
             if (sentry.getSentry() == null)
                 return null;
 
-            switch (sentry.getSentry().getSentryType())
+            switch (sentry.getSentry().getClientSentryType())
             {
             case VOID:
                 return null;
