@@ -31,6 +31,7 @@ public class SentryRenderingHandler extends TileEntitySpecialRenderer
 
     private RenderTurret getRendererForTile (TileEntity tile)
     {       
+        System.out.println("rend");
         
         
         TileSentry sentry = null;
@@ -38,10 +39,15 @@ public class SentryRenderingHandler extends TileEntitySpecialRenderer
         {
             
             sentry = (TileSentry) tile;
-            if (sentry.getSentry() == null)
-                return null;
-
-            switch (sentry.getSentry().getClientSentryType())
+            if (sentry == null)
+                System.out.println("tile is null");
+            if (sentry.getClientSentryType() == null)
+                System.out.println("type is null");
+            
+            //System.out.println(sentry.getClientSentryType());
+                
+            
+            switch (sentry.getClientSentryType())
             {
             case VOID:
                 return null;

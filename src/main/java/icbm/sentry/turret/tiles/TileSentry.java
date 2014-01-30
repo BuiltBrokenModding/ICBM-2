@@ -55,6 +55,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     private static float[] yawData = { 360F, 0F, 5F };
     private static float[] pitchData = { 35F, -35F, 5F };
+    
+    private Modules clientModuleType = Modules.VOID;
 
     public EntitySentryFake sentryEntity;
 
@@ -63,6 +65,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super();
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
+        
     }
 
     @Override
@@ -186,7 +189,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         {
             if (id == DESCRIPTION_PACKET_ID)
             {
-                int sentryType = data.readInt();
+                
+                this.setClientSentryTypeFromID(data.readInt());
                 this.getYawServo().setRotation(data.readFloat());
                 this.getPitchServo().setRotation(data.readFloat());
                 return true;
@@ -219,8 +223,9 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public void writeToNBT (NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        this.getInventory().load(nbt);
-
+        this.getInventory().save(nbt);
+        nbt.setInteger("ModuleID", this.clientModuleType.ordinal());
+        
         if (this.sentry != null)
         {
             NBTTagCompound tag = new NBTTagCompound();
@@ -233,8 +238,29 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public void readFromNBT (NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        this.getInventory().save(nbt);
+        this.getInventory().load(nbt);
+        this.setClientSentryTypeFromID(nbt.getInteger("ModuleID"));
         this.sentry = SentryRegistry.build(nbt.getCompoundTag("sentry"));
+    }
+    
+    public Modules getClientSentryType()
+    {
+        return this.clientModuleType;
+    }
+    
+    private void setClientSentryTypeFromID (int ordinal)
+    {
+        if (Modules.AA.ordinal() == ordinal)
+            this.clientModuleType = Modules.AA;
+
+        else if (Modules.CLASSIC.ordinal() == ordinal)
+            this.clientModuleType = Modules.CLASSIC;
+
+        else if (Modules.LASER.ordinal() == ordinal)
+            this.clientModuleType = Modules.LASER;
+
+        else if (Modules.RAILGUN.ordinal() == ordinal)
+            this.clientModuleType = Modules.RAILGUN;
     }
 
     @Override
@@ -258,12 +284,16 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     @Override
     public AutoServo getYawServo ()
     {
+        if (this.yawMotor == null)
+            this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
         return this.yawMotor;
     }
 
     @Override
     public AutoServo getPitchServo ()
     {
+        if (this.pitchMotor == null)
+            this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
         return this.pitchMotor;
     }
 
