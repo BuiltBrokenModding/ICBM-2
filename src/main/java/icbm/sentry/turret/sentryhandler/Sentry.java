@@ -108,6 +108,7 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
             this.energy.writeToNBT(nbt);
         if (this.maxHealth > 0)
             nbt.setFloat("Health", this.health);
+        nbt.setInteger("ModuleID", this.getSentryType().ordinal());
 
     }
 
@@ -117,6 +118,8 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
         if (this.energy != null)
             this.energy.readFromNBT(nbt);
         this.health = nbt.getFloat("Health");
+        
+        this.setClientSentryTypeFromID(nbt.getInteger("ModuleID"));
 
     }
 
@@ -140,7 +143,7 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
         return this.host.zCoord;
     }
 
-    // Safety code for a failing renderer
+    
     public Modules getSentryType ()
     {
         return Modules.VOID;
@@ -151,7 +154,7 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
         return this.clientSentryType;
     }
 
-    public void setClientSentryType (int ordinal)
+    public void setClientSentryTypeFromID (int ordinal)
     {
         if (Modules.AA.ordinal() == ordinal)
             this.clientSentryType = Modules.AA;

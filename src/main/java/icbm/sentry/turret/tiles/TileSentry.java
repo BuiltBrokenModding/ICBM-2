@@ -16,6 +16,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
+import universalelectricity.api.vector.Vector3;
 import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.multiblock.fake.IBlockActivate;
@@ -52,6 +53,9 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     /** Pitch servo rotation */
     public AutoServo pitchMotor;
 
+    private static float[] yawData = { 360F, 0F, 5F };
+    private static float[] pitchData = { 35F, -35F, 5F };
+
     public EntitySentryFake sentryEntity;
 
     public TileSentry()
@@ -65,8 +69,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public void initiate ()
     {
         super.initiate();
-        this.yawMotor = new AutoServo(360, 0, 5);
-        this.pitchMotor = new AutoServo(35, -35, 5);
+        this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
+        this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
 
     }
 
@@ -175,11 +179,6 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
 
-    public Packet getSentryTypePacket ()
-    {
-        return ICBMCore.PACKET_TILE.getPacketWithID(SENTRY_TYPE_PACKET_ID, this, this.getSentry().getSentryType().ordinal());
-    }
-
     @Override
     public boolean onReceivePacket (int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
     {
@@ -198,14 +197,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
                 this.getPitchServo().setRotation(data.readFloat());
                 return true;
             }
-            if (id == SENTRY_TYPE_PACKET_ID)
-            {
-                //TODO apply sentry type to client
-                int sentryType = data.readInt();
-                this.sentry.setClientSentryType(sentryType);
 
-                return true;
-            }
             return false;
         }
         return true;
