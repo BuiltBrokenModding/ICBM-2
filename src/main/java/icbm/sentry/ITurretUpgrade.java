@@ -1,6 +1,6 @@
 package icbm.sentry;
 
-import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
+import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.item.ItemStack;
 
 /** Applied to classes that extends Item.class and are designed to upgrade sentries or turrets */

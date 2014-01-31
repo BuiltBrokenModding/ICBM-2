@@ -1,4 +1,4 @@
-package icbm.sentry.turret;
+package icbm.sentry.turret.items;
 
 import icbm.Reference;
 import icbm.api.sentry.IAmmunition;

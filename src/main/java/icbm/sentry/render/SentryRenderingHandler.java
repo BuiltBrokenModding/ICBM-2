@@ -8,7 +8,6 @@ public class SentryRenderingHandler extends TileEntitySpecialRenderer
 {
     private RenderTurret renderer;
 
-
     public SentryRenderingHandler()
     {
         super();
@@ -16,53 +15,48 @@ public class SentryRenderingHandler extends TileEntitySpecialRenderer
     }
 
     @Override
-    public void renderTileEntityAt (TileEntity t, double x, double y, double z, float f)
+    public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
     {
-        if(renderer == null) {
+        if (renderer == null)
+        {
             getRendererForTile(t);
             return;
         }
-        
         renderer.renderTileEntityAt(t, x, y, z, f);
-
     }
-    
-    
 
-    private RenderTurret getRendererForTile (TileEntity tile)
-    {       
+    private RenderTurret getRendererForTile(TileEntity tile)
+    {
         //System.out.println("rend");
-        
-        
+
         TileSentry sentry = null;
         if (tile instanceof TileSentry)
         {
-            
+
             sentry = (TileSentry) tile;
             if (sentry == null)
                 System.out.println("tile is null");
             if (sentry.getClientSentryType() == null)
                 System.out.println("type is null");
-            
+
             //System.out.println(sentry.getClientSentryType());
-                
-            
+
             switch (sentry.getClientSentryType())
             {
-            case VOID:
-                return null;
-            case AA:
-                return new RenderAAGun();
-            case CLASSIC:
-                return new RenderGunTurret();
-            case LASER:
-                return new RenderLaserTurret();
-            case RAILGUN:
-                return new RenderLaserTurret();
-            default:
-                break;
+                case VOID:
+                    return null;
+                case AA:
+                    return new RenderAAGun();
+                case CLASSIC:
+                    return new RenderGunTurret();
+                case LASER:
+                    return new RenderLaserTurret();
+                case RAILGUN:
+                    return new RenderLaserTurret();
+                default:
+                    break;
             }
-            
+
         }
         return null;
     }

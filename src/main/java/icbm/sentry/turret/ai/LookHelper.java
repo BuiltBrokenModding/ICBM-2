@@ -1,4 +1,4 @@
-package icbm.sentry.turret;
+package icbm.sentry.turret.ai;
 
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.entity.Entity;

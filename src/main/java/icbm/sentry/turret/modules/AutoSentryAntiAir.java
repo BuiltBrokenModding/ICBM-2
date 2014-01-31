@@ -1,6 +1,7 @@
 package icbm.sentry.turret.modules;
 
 import icbm.Reference;
+import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileSentry;
 import universalelectricity.api.vector.Vector3;
 
@@ -22,8 +23,8 @@ public class AutoSentryAntiAir extends AutoSentry
     }
 
     @Override
-    public Modules getSentryType ()
+    public SentryTypes getSentryType ()
     {
-        return Modules.AA;
+        return SentryTypes.AA;
     }
 }

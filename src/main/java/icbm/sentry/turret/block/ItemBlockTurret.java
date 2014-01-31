@@ -25,7 +25,7 @@ public class ItemBlockTurret extends ItemBlock
     @Override
     public String getUnlocalizedName (ItemStack itemstack)
     {
-        return super.getUnlocalizedName() + itemstack.getTagCompound().getInteger("ModuleID");
+        return "Sentry Gun";
     }
 
     @Override

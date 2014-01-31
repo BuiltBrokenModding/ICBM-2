@@ -1,5 +1,6 @@
 package icbm.sentry.turret.modules;
 
+import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileSentry;
 
 public class AutoSentryClassic extends AutoSentry
@@ -12,9 +13,9 @@ public class AutoSentryClassic extends AutoSentry
     }
 
     @Override
-    public Modules getSentryType ()
+    public SentryTypes getSentryType ()
     {
-        return Modules.CLASSIC;
+        return SentryTypes.CLASSIC;
     }
     
 }

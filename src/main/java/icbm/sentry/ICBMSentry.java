@@ -7,18 +7,18 @@ import icbm.core.Settings;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.EntitySentryFake;
-import icbm.sentry.turret.ItemAmmo;
 import icbm.sentry.turret.SentryRegistry;
+import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.BlockTurret;
 import icbm.sentry.turret.block.ItemBlockTurret;
 import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.items.ItemAmmo;
+import icbm.sentry.turret.items.ItemSentryUpgrade;
+import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
 import icbm.sentry.turret.modules.AutoSentryAntiAir;
 import icbm.sentry.turret.modules.AutoSentryClassic;
 import icbm.sentry.turret.modules.AutoSentryTwinLaser;
-import icbm.sentry.turret.modules.Modules;
 import icbm.sentry.turret.modules.mount.MountedRailGun;
-import icbm.sentry.turret.upgrades.ItemSentryUpgrade;
-import icbm.sentry.turret.upgrades.ItemSentryUpgrade.TurretUpgradeType;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -71,7 +71,9 @@ public class ICBMSentry
     {
         NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
         MinecraftForge.EVENT_BUS.register(this);
-
+        
+        SentryTypes.load();
+        
         Settings.CONFIGURATION.load();
 
         blockTurret = ICBMCore.contentRegistry.createBlock("BlockTurret", BlockTurret.class, ItemBlockTurret.class, TileSentry.class, false);
@@ -95,6 +97,8 @@ public class ICBMSentry
         CreativeTabICBM.itemStack = new ItemStack(blockTurret);
 
         proxy.preInit();
+
+        
     }
 
     @EventHandler
@@ -112,11 +116,6 @@ public class ICBMSentry
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 1), new Object[] { "SBS", "SGS", "SSS", 'B', Item.ingotIron, 'G', Item.gunpowder, 'S', bulletShell.copy() }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B", 'D', Item.diamond, 'B', conventionalBullet }));
         GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
-
-        SentryRegistry.registerSentry(Modules.CLASSIC.ordinal(), AutoSentryClassic.class);
-        SentryRegistry.registerSentry(Modules.RAILGUN.ordinal(), MountedRailGun.class);
-        SentryRegistry.registerSentry(Modules.AA.ordinal(), AutoSentryAntiAir.class);
-        SentryRegistry.registerSentry(Modules.LASER.ordinal(), AutoSentryTwinLaser.class);
 
         // Turret Platform
         // GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC",

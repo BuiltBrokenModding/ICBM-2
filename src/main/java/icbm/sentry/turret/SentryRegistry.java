@@ -6,35 +6,43 @@ import java.util.HashMap;
 import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.utility.nbt.SaveManager;
 
-/** Registry for sentry classes
+/** This is the main registry for all sentry object. Sentries should be registered using string names
+ * to prevent conflict. This class will later be moved to the API so that other mods can generate
+ * sentries.
  * 
- * @author Darkguardsman, tgame14 */
+ * @author Darkguardsman */
 public class SentryRegistry
 {
-    private static HashMap<Integer, Class<? extends Sentry>> sentryMap = new HashMap<Integer, Class<? extends Sentry>>();
+    private static HashMap<String, Class<? extends Sentry>> sentryMap = new HashMap<String, Class<? extends Sentry>>();
 
-    public static void registerSentry(Integer key, Class<? extends Sentry> sentry)
+    public static void registerSentry(String key, Class<? extends Sentry> sentry)
     {
         synchronized (sentryMap)
         {
             if (!sentryMap.containsKey(key))
             {
                 sentryMap.put(key, sentry);
+                SaveManager.registerClass("Sentry-" + key, sentry);
             }
-
         }
     }
 
-    public static HashMap<Integer, Class<? extends Sentry>> getSentryMap()
+    /** Gets teh sentry map */
+    public static HashMap<String, Class<? extends Sentry>> getSentryMap()
     {
         return sentryMap;
     }
 
+    /** Grabs the class that links back the sentry id */
     public static Class<? extends Sentry> getSentryForKey(String key)
     {
         return sentryMap.get(key);
     }
 
+    /** Builds a sentry from a save using the SaveManager
+     * 
+     * @param compoundTag - NBT save
+     * @return new Sentry instance or null if it failed */
     public static Sentry build(NBTTagCompound compoundTag)
     {
         Object object = SaveManager.createAndLoad(compoundTag);

@@ -1,4 +1,4 @@
-package icbm.sentry.turret.upgrades;
+package icbm.sentry.turret.items;
 
 import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;

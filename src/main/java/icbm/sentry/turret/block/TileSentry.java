@@ -2,10 +2,10 @@ package icbm.sentry.turret.block;
 
 import icbm.core.ICBMCore;
 import icbm.sentry.turret.EntitySentryFake;
-import icbm.sentry.turret.LookHelper;
 import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
-import icbm.sentry.turret.modules.Modules;
+import icbm.sentry.turret.SentryTypes;
+import icbm.sentry.turret.ai.LookHelper;
 import icbm.sentry.turret.modules.mount.MountedSentry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -56,7 +56,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     private static float[] yawData = { 360F, 0F, 5F };
     private static float[] pitchData = { 35F, -35F, 5F };
 
-    private Modules clientModuleType;
+    private SentryTypes clientModuleType;
 
     public EntitySentryFake sentryEntity;
 
@@ -65,7 +65,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super();
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
-        this.clientModuleType = Modules.VOID;
+        this.clientModuleType = SentryTypes.VOID;
 
     }
 
@@ -157,7 +157,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     @Override
     public Packet getDescriptionPacket ()
     {
-        Integer sentryOrdinal = Modules.VOID.ordinal();
+        Integer sentryOrdinal = SentryTypes.VOID.ordinal();
         System.out.println(this.getSentry());
         if (this.getSentry() != null)
             sentryOrdinal = this.getSentry().getSentryType().ordinal();
@@ -259,31 +259,31 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         this.clientModuleType = this.setClientSentryTypeFromID(key);
     }
 
-    public Modules getClientSentryType ()
+    public SentryTypes getClientSentryType ()
     {
         return this.clientModuleType;
     }
 
-    private Modules setClientSentryTypeFromID (int ordinal)
+    private SentryTypes setClientSentryTypeFromID (int ordinal)
     {
-        System.out.println("AA: " + Modules.AA.ordinal());
-        if (Modules.AA.ordinal() == ordinal)
-            return Modules.AA;
+        System.out.println("AA: " + SentryTypes.AA.ordinal());
+        if (SentryTypes.AA.ordinal() == ordinal)
+            return SentryTypes.AA;
 
-        System.out.println("CLASSIC: " + Modules.CLASSIC.ordinal());
-        if (Modules.CLASSIC.ordinal() == ordinal)
-            return Modules.CLASSIC;
+        System.out.println("CLASSIC: " + SentryTypes.CLASSIC.ordinal());
+        if (SentryTypes.CLASSIC.ordinal() == ordinal)
+            return SentryTypes.CLASSIC;
 
-        System.out.println("LASER: " + Modules.LASER.ordinal());
-        if (Modules.LASER.ordinal() == ordinal)
-            return Modules.LASER;
+        System.out.println("LASER: " + SentryTypes.LASER.ordinal());
+        if (SentryTypes.LASER.ordinal() == ordinal)
+            return SentryTypes.LASER;
 
-        System.out.println("RAILGUN: " + Modules.RAILGUN.ordinal());
-        if (Modules.RAILGUN.ordinal() == ordinal)
-            return Modules.RAILGUN;
+        System.out.println("RAILGUN: " + SentryTypes.RAILGUN.ordinal());
+        if (SentryTypes.RAILGUN.ordinal() == ordinal)
+            return SentryTypes.RAILGUN;
 
         System.out.println("Returning void");
-        return Modules.VOID;
+        return SentryTypes.VOID;
     }
 
     @Override

@@ -2,6 +2,7 @@ package icbm.sentry.turret.modules;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
@@ -43,8 +44,8 @@ public class AutoSentryTwinLaser extends AutoSentry
     }
 
     @Override
-    public Modules getSentryType ()
+    public SentryTypes getSentryType ()
     {
-        return Modules.LASER;
+        return SentryTypes.LASER;
     }
 }

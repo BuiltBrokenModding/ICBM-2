@@ -1,8 +1,8 @@
 package icbm.sentry.turret.modules.mount;
 
 import icbm.Reference;
+import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileSentry;
-import icbm.sentry.turret.modules.Modules;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 
@@ -53,8 +53,8 @@ public class MountedRailGun extends MountedSentry implements IMultiBlock
     }
     
     @Override
-    public Modules getSentryType ()
+    public SentryTypes getSentryType ()
     {
-        return Modules.RAILGUN;
+        return SentryTypes.RAILGUN;
     }
 }

@@ -20,9 +20,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import universalelectricity.api.UniversalElectricity;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -42,7 +42,7 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void setBlockBoundsBasedOnState (IBlockAccess world, int x, int y, int z)
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         TileEntity ent = world.getBlockTileEntity(x, y, z);
         if (ent instanceof TileSentry)
@@ -61,13 +61,13 @@ public class BlockTurret extends BlockICBM
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons (IconRegister iconRegister)
+    public void registerIcons(IconRegister iconRegister)
     {
         this.blockIcon = iconRegister.registerIcon(Reference.PREFIX + "machine");
     }
 
     @Override
-    public boolean onUseWrench (World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -80,7 +80,7 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public boolean onMachineActivated (World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
     {
         /** Checks the TileEntity if it can activate. If not, then try to activate the turret
          * platform below it. */
@@ -103,7 +103,7 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void onNeighborBlockChange (World world, int x, int y, int z, int side)
+    public void onNeighborBlockChange(World world, int x, int y, int z, int side)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
@@ -117,53 +117,54 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public TileEntity createTileEntity (World world, int meta)
+    public TileEntity createTileEntity(World world, int meta)
     {
         return new TileSentry();
 
     }
 
     @Override
-    public boolean isOpaqueCube ()
+    public boolean isOpaqueCube()
     {
         return false;
     }
 
     @Override
-    public boolean renderAsNormalBlock ()
+    public boolean renderAsNormalBlock()
     {
         return false;
     }
 
     @Override
-    public int damageDropped (int metadata)
+    public int damageDropped(int metadata)
     {
         return 0;
     }
 
     @Override
-    public boolean canPlaceBlockAt (World world, int x, int y, int z)
+    public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
         return super.canPlaceBlockAt(world, x, y, z) && this.canBlockStay(world, x, y, z);
     }
 
     @Override
-    public boolean canBlockStay (World world, int x, int y, int z)
+    public boolean canBlockStay(World world, int x, int y, int z)
     {
         return world.getBlockId(x, y - 1, z) == ICBMSentry.blockPlatform.blockID;
     }
 
     @Override
-    public void getSubBlocks (int id, CreativeTabs par2CreativeTabs, List list)
+    public void getSubBlocks(int id, CreativeTabs par2CreativeTabs, List list)
     {
-        for (Entry<Integer, Class<? extends Sentry>> entry : SentryRegistry.getSentryMap().entrySet())
+        System.out.println("\n\n\nAdding Sentries for creative tab");
+        for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getSentryMap().entrySet())
         {
-            if (entry.getKey() != null)
+            if (entry.getValue() != null)
             {
+                System.out.println("\t\t\tAdding Sentry:" + entry.getKey());
                 ItemStack stack = new ItemStack(this);
                 NBTTagCompound nbt = new NBTTagCompound();
-                //nbt.setString("id", entry.getKey().toString());
-                nbt.setInteger("ModuleID", entry.getKey());
+                nbt.setString("id", SaveManager.getID(entry.getValue()));
                 stack.setTagCompound(nbt);
                 list.add(stack);
             }
@@ -172,15 +173,16 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void onBlockPreDestroy (World par1World, int par2, int par3, int par4, int par5)
+    public void onBlockPreDestroy(World par1World, int par2, int par3, int par4, int par5)
     {
         // TODO Auto-generated method stub
         super.onBlockPreDestroy(par1World, par2, par3, par4, par5);
     }
 
     @Override
-    protected void dropBlockAsItem_do (World world, int x, int y, int z, ItemStack stack)
+    protected void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack stack)
     {
+        //TODO correct this as its most likely going to error out for tile location
         NBTTagCompound tag = new NBTTagCompound();
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null)
