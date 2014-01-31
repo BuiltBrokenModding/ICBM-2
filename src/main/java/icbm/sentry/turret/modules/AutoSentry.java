@@ -1,7 +1,7 @@
 package icbm.sentry.turret.modules;
 
-import icbm.sentry.turret.sentryhandler.Sentry;
-import icbm.sentry.turret.tiles.TileSentry;
+import icbm.sentry.turret.Sentry;
+import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.entity.Entity;
 
 public abstract class AutoSentry extends Sentry

@@ -1,6 +1,6 @@
 package icbm.sentry.render;
 
-import icbm.sentry.turret.tiles.TileSentry;
+import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 

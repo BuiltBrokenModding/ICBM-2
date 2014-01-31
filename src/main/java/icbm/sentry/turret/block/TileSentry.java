@@ -1,14 +1,12 @@
-package icbm.sentry.turret.tiles;
+package icbm.sentry.turret.block;
 
-import icbm.api.sentry.IGyroMotor;
 import icbm.core.ICBMCore;
-import icbm.sentry.turret.AutoServo;
+import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.LookHelper;
+import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.modules.Modules;
 import icbm.sentry.turret.modules.mount.MountedSentry;
-import icbm.sentry.turret.sentryhandler.EntitySentryFake;
-import icbm.sentry.turret.sentryhandler.Sentry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,6 +19,8 @@ import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.AutoServo;
+import calclavia.lib.prefab.IGyroMotor;
 import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.terminal.TileTerminal;
 import calclavia.lib.utility.inventory.ExternalInventory;

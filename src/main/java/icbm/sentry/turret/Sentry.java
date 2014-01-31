@@ -1,8 +1,7 @@
-package icbm.sentry.turret.sentryhandler;
+package icbm.sentry.turret;
 
-import icbm.sentry.turret.LookHelper;
+import icbm.sentry.turret.block.TileSentry;
 import icbm.sentry.turret.modules.Modules;
-import icbm.sentry.turret.tiles.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;

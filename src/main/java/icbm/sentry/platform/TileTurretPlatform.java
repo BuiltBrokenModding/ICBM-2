@@ -1,6 +1,6 @@
 package icbm.sentry.platform;
 
-import icbm.sentry.turret.tiles.TileSentry;
+import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;

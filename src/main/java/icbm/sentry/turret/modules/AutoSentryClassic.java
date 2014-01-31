@@ -1,6 +1,6 @@
 package icbm.sentry.turret.modules;
 
-import icbm.sentry.turret.tiles.TileSentry;
+import icbm.sentry.turret.block.TileSentry;
 
 public class AutoSentryClassic extends AutoSentry
 {

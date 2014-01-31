@@ -1,12 +1,10 @@
 package icbm.sentry.turret;
 
-import icbm.sentry.turret.sentryhandler.Sentry;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 import net.minecraft.nbt.NBTTagCompound;
-import scala.tools.nsc.transform.Constructors;
 import calclavia.lib.utility.nbt.SaveManager;
 
 /** @author Darkguardsman, tgame14 */
