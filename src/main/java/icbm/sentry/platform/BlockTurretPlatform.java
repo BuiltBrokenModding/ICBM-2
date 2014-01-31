@@ -21,9 +21,9 @@ import universalelectricity.api.UniversalElectricity;
 /** @author DarkGuardsman */
 public class BlockTurretPlatform extends BlockICBM
 {
-    public BlockTurretPlatform(int id)
+    public BlockTurretPlatform()
     {
-        super(id, "turretPlatform", UniversalElectricity.machine);
+        super("turretPlatform");
         this.setHardness(100f);
         this.setResistance(50f);
         this.setCreativeTab(CreativeTabICBM.INSTANCE);

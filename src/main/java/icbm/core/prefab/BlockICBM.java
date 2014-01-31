@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.UniversalElectricity;
 import calclavia.lib.prefab.block.BlockTile;
 import calclavia.lib.prefab.tile.IRedstoneProvider;
 import cpw.mods.fml.relauncher.Side;
@@ -18,6 +19,16 @@ public class BlockICBM extends BlockTile
 {
     protected Icon iconTop, iconSide, iconBottom;
     protected boolean requireSidedTextures = false;
+
+    public BlockICBM(String name)
+    {
+        this(name, UniversalElectricity.machine);
+    }
+
+    public BlockICBM(String name, Material material)
+    {
+        this(Settings.getNextBlockID(), name, material);
+    }
 
     public BlockICBM(int id, String name, Material material)
     {

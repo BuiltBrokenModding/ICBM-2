@@ -33,9 +33,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockTurret extends BlockICBM
 {
 
-    public BlockTurret(int id)
+    public BlockTurret()
     {
-        super(id, "turret", UniversalElectricity.machine);
+        super("turret");
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
         this.setHardness(100f);
         this.setResistance(50f);
