@@ -3,12 +3,12 @@ package icbm.sentry.render;
 import icbm.Reference;
 import icbm.sentry.models.ModelRailgun;
 import icbm.sentry.turret.block.TileSentry;
-import icbm.sentry.turret.modules.mount.MountedRailGun;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import calclavia.lib.render.RenderTaggedTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
