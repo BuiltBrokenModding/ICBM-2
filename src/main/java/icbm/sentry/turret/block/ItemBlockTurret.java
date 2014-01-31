@@ -1,6 +1,5 @@
 package icbm.sentry.turret.block;
 
-import icbm.sentry.turret.modules.Modules;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;

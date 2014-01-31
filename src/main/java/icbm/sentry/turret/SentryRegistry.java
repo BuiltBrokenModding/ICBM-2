@@ -1,18 +1,19 @@
 package icbm.sentry.turret;
 
-
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.utility.nbt.SaveManager;
 
-/** @author Darkguardsman, tgame14 */
+/** Registry for sentry classes
+ * 
+ * @author Darkguardsman, tgame14 */
 public class SentryRegistry
 {
     private static HashMap<Integer, Class<? extends Sentry>> sentryMap = new HashMap<Integer, Class<? extends Sentry>>();
 
-    public static void registerSentry (Integer key, Class<? extends Sentry> sentry)
+    public static void registerSentry(Integer key, Class<? extends Sentry> sentry)
     {
         synchronized (sentryMap)
         {
@@ -24,17 +25,17 @@ public class SentryRegistry
         }
     }
 
-    public static HashMap<Integer, Class<? extends Sentry>> getSentryMap ()
+    public static HashMap<Integer, Class<? extends Sentry>> getSentryMap()
     {
         return sentryMap;
     }
 
-    public static Class<? extends Sentry> getSentryForKey (String key)
+    public static Class<? extends Sentry> getSentryForKey(String key)
     {
         return sentryMap.get(key);
     }
 
-    public static Sentry build (NBTTagCompound compoundTag)
+    public static Sentry build(NBTTagCompound compoundTag)
     {
         Object object = SaveManager.createAndLoad(compoundTag);
         if (object instanceof Sentry)
@@ -44,7 +45,7 @@ public class SentryRegistry
         return null;
     }
 
-    public static Sentry create (Integer key, Object... Args)
+    public static Sentry create(Integer key, Object... Args)
     {
         Object obj = null;
         Sentry s = null;
