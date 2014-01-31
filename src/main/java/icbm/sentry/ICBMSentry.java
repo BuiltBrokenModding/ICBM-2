@@ -71,25 +71,20 @@ public class ICBMSentry
     {
         NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
         MinecraftForge.EVENT_BUS.register(this);
-        
-        SentryTypes.load();
-        
+
         Settings.CONFIGURATION.load();
+        SentryTypes.load();
 
         blockTurret = ICBMCore.contentRegistry.createBlock("BlockTurret", BlockTurret.class, ItemBlockTurret.class, TileSentry.class, false);
         blockPlatform = ICBMCore.contentRegistry.createBlock("BlockTurretPlatform", BlockTurretPlatform.class, null, TileTurretPlatform.class, false);
 
-        itemAmmo = new ItemAmmo(ITEM_ID_PREFIX + 1);
-        itemUpgrade = new ItemSentryUpgrade(ITEM_ID_PREFIX + 2);
-        Settings.CONFIGURATION.save();
+        itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
+        itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
 
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
         railgunBullet = new ItemStack(itemAmmo, 1, 2);
         antimatterBullet = new ItemStack(itemAmmo, 1, 3);
-
-        GameRegistry.registerBlock(blockTurret, ItemBlockTurret.class, "ICBMTurret");
-        GameRegistry.registerBlock(blockPlatform, "ICBMPlatform");
 
         EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
@@ -97,8 +92,8 @@ public class ICBMSentry
         CreativeTabICBM.itemStack = new ItemStack(blockTurret);
 
         proxy.preInit();
+        Settings.CONFIGURATION.save();
 
-        
     }
 
     @EventHandler
