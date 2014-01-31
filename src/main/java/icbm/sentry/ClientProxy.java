@@ -1,7 +1,7 @@
 package icbm.sentry;
 
+import calclavia.lib.render.FxLaser;
 import icbm.core.prefab.EmptyRenderer;
-import icbm.sentry.render.FXBeam;
 import icbm.sentry.render.SentryRenderingHandler;
 import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.block.TileSentry;
@@ -11,7 +11,6 @@ import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ClientProxy extends CommonProxy
 {
@@ -30,7 +29,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
         ClientRegistry.bindTileEntitySpecialRenderer(TileSentry.class, new SentryRenderingHandler());
-        
+
     }
 
     @Override
@@ -43,6 +42,6 @@ public class ClientProxy extends CommonProxy
     @Override
     public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
     {
-        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXBeam(world, position, target, red, green, blue, age));
+        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxLaser(world, position, target, red, green, blue, age));
     }
 }
