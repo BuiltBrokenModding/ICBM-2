@@ -156,12 +156,10 @@ public class BlockTurret extends BlockICBM
     @Override
     public void getSubBlocks(int id, CreativeTabs par2CreativeTabs, List list)
     {
-        System.out.println("\n\n\nAdding Sentries for creative tab");
         for (Entry<String, Class<? extends Sentry>> entry : SentryRegistry.getSentryMap().entrySet())
         {
             if (entry.getValue() != null)
             {
-                System.out.println("\t\t\tAdding Sentry:" + entry.getKey());
                 ItemStack stack = new ItemStack(this);
                 NBTTagCompound nbt = new NBTTagCompound();
                 nbt.setString("id", SaveManager.getID(entry.getValue()));
