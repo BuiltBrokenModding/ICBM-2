@@ -1,15 +1,16 @@
 package icbm.sentry.turret.block;
 
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.utility.nbt.SaveManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
-
-import java.util.List;
-import java.util.Map.Entry;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,11 +21,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.prefab.block.BlockAdvanced;
-import calclavia.lib.utility.nbt.SaveManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Map.Entry;
 
 /** Block turret is a class used by all turrets. Each type of turret will have a different tile
  * entity.
@@ -162,7 +161,9 @@ public class BlockTurret extends BlockICBM
             {
                 ItemStack stack = new ItemStack(this);
                 NBTTagCompound nbt = new NBTTagCompound();
-                nbt.setString("id", SaveManager.getID(entry.getValue()));
+                NBTTagCompound tag = new NBTTagCompound();
+                tag.setString("id", SaveManager.getID(entry.getValue()));
+                nbt.setCompoundTag("sentyTile", tag);
                 stack.setTagCompound(nbt);
                 list.add(stack);
             }

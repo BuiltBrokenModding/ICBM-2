@@ -13,6 +13,7 @@ import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 import com.google.common.io.ByteArrayDataInput;
 import icbm.core.ICBMCore;
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
@@ -83,6 +84,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     }
 
+    // TODO Move this to Sentry object update loop
+    @Deprecated
     protected void mountableSentryLoop ()
     {
         boolean flag = false;
@@ -91,6 +94,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             this.sentryEntity = new EntitySentryFake(this, true);
             this.worldObj.spawnEntityInWorld(this.sentryEntity);
             flag = true;
+        }
 
             //TODO set up handling for non-player entities, low Priority
             if (flag && this.sentryEntity.riddenByEntity instanceof EntityPlayer)
@@ -110,8 +114,9 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             }
 
         }
-    }
 
+    //TODO Move to AutoSentry Update Loo
+    @Deprecated
     protected void autoSentryLoop ()
     {
 
@@ -151,10 +156,10 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public Packet getDescriptionPacket ()
     {
         Integer sentryOrdinal = SentryTypes.VOID.ordinal();
-        System.out.println(this.getSentry());
         if (this.getSentry() != null)
             sentryOrdinal = this.getSentry().getSentryType().ordinal();
-        System.out.println("desc packet: " + sentryOrdinal);
+        else
+            ICBMSentry.LOGGER.warning("Failed to send Sentry data through Descriptive packet");
 
         return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, sentryOrdinal, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
@@ -191,7 +196,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             if (id == DESCRIPTION_PACKET_ID)
             {
 
-                //this.setClientSentryTypeFromID(data.readInt());
+                this.clientModuleType = SentryTypes.get(data.readInt());
                 this.getYawServo().setRotation(data.readFloat());
                 this.getPitchServo().setRotation(data.readFloat());
                 return true;
@@ -231,11 +236,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             NBTTagCompound tag = new NBTTagCompound();
             this.getSentry().save(tag);
             nbt.setCompoundTag("sentryTile", tag);
-            System.out.println("Saved Sentry");
         }
-
-        nbt.setInteger("ModuleID", this.clientModuleType.ordinal());
-        System.out.println("write nbt ordinal" + this.clientModuleType.ordinal());
     }
 
     @Override
@@ -244,12 +245,12 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super.readFromNBT(nbt);
 
         this.getInventory().load(nbt);
-        String sentryKey = nbt.getString("id");
+        NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
         if (this.sentry == null)
-            this.sentry = SentryRegistry.build(nbt);
+            this.sentry = SentryRegistry.build(tag);
         else
             this.sentry.load(nbt);
-        this.clientModuleType = SentryTypes.get(sentryKey);
+        this.clientModuleType = SentryTypes.get(tag.getString("id"));
     }
 
     public SentryTypes getClientSentryType ()

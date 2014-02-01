@@ -1,30 +1,7 @@
 package icbm.sentry;
 
-import icbm.Reference;
-import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMCore;
-import icbm.core.Settings;
-import icbm.sentry.platform.BlockTurretPlatform;
-import icbm.sentry.platform.TileTurretPlatform;
-import icbm.sentry.turret.EntitySentryFake;
-import icbm.sentry.turret.SentryRegistry;
-import icbm.sentry.turret.SentryTypes;
-import icbm.sentry.turret.block.BlockTurret;
-import icbm.sentry.turret.block.ItemBlockTurret;
-import icbm.sentry.turret.block.TileSentry;
-import icbm.sentry.turret.items.ItemAmmo;
-import icbm.sentry.turret.items.ItemSentryUpgrade;
-import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
-import icbm.sentry.turret.modules.AutoSentryAntiAir;
-import icbm.sentry.turret.modules.AutoSentryClassic;
-import icbm.sentry.turret.modules.AutoSentryTwinLaser;
-import icbm.sentry.turret.modules.mount.MountedRailGun;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.network.PacketHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -38,6 +15,27 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import icbm.Reference;
+import icbm.core.CreativeTabICBM;
+import icbm.core.ICBMCore;
+import icbm.core.Settings;
+import icbm.sentry.platform.BlockTurretPlatform;
+import icbm.sentry.platform.TileTurretPlatform;
+import icbm.sentry.turret.EntitySentryFake;
+import icbm.sentry.turret.SentryTypes;
+import icbm.sentry.turret.block.BlockTurret;
+import icbm.sentry.turret.block.ItemBlockTurret;
+import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.items.ItemAmmo;
+import icbm.sentry.turret.items.ItemSentryUpgrade;
+import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import java.util.logging.Logger;
 
 @Mod(modid = ICBMSentry.NAME, name = ICBMSentry.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM")
 @NetworkMod(channels = { Reference.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
@@ -62,6 +60,14 @@ public class ICBMSentry
 
     public static Item itemAmmo;
     public static Item itemUpgrade;
+
+    /** A Logger that mimics the FML Logger */
+    public static Logger LOGGER = Logger.getLogger(ICBMSentry.NAME);
+
+    public ICBMSentry()
+    {
+        LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+    }
 
     /** ItemStack helpers. Do not modify theses. */
     public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
