@@ -121,7 +121,7 @@ public class SentryRegistry
 
             if (clazz == null)
             {
-                ICBMSentry.LOGGER.severe("Attempted Sentry for construction is not registered");
+                //ICBMSentry.LOGGER.severe("Attempted Sentry for construction is not registered");
                 return null;
             }
 

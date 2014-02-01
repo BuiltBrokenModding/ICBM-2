@@ -33,7 +33,6 @@ public class RenderTileSentry extends RenderTaggedTile
                 sentryRender.render(((TileSentry) t).getDirection(), (TileSentry) t, ((TileSentry) t).getYawServo().getRotation(), ((TileSentry) t).getPitchServo().getRotation());
                 GL11.glPopMatrix();
             }
-            ICBMSentry.LOGGER.info("Rendering tile Sentry");
         }
     }
 
