@@ -13,6 +13,12 @@ public abstract class AutoSentry extends Sentry
         super(host);
     }
 
+    @Override
+    public void updateLoop ()
+    {
+
+    }
+
     public boolean updateAI()
     {
         return true;

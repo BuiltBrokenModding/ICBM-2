@@ -3,7 +3,9 @@ package icbm.sentry.turret;
 import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.render.SentryRenderer;
+import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.lang.reflect.Constructor;
@@ -103,7 +105,53 @@ public class SentryRegistry
         return null;
     }
 
-    /** Marked for Removal, will be replaced with SentryRegistry.build() */
+    /**
+     * @param id the key of the Sentry class used in SentryRegistry.registerSentry()
+     * @param host the tile the Sentry is created for
+     * @return the Sentry module for the given id and tile, or null if the sentry isn't registered or an error occured wen constructing
+     */
+    public static Sentry constructSentry(String id, TileSentry host)
+    {
+        Object candidate = null;
+        Sentry sentryModule = null;
+
+        try
+        {
+            Class<? extends Sentry> clazz = SaveManager.getClass(id);
+
+            if (clazz == null)
+            {
+                ICBMSentry.LOGGER.severe("Attempted Sentry for construction is not registered");
+                return null;
+            }
+
+            Constructor[] constructors = clazz.getConstructors();
+
+                for (Constructor constructor : constructors)
+                {
+                    if (constructor.getParameterTypes().length == 1)
+                    {
+                        candidate = constructor.newInstance(host);
+                        break;
+                    }
+
+                    if (candidate instanceof Sentry)
+                        sentryModule = (Sentry) candidate;
+                    else
+                        ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
+                }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return sentryModule;
+
+
+    }
+
+    /** Marked for Removal, will be replaced with SentryRegistry.constructSentry() */
     @Deprecated
     public static Sentry create(Integer key, Object... Args)
     {

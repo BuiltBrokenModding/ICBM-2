@@ -55,8 +55,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     private static float[] yawData = { 360F, 0F, 5F };
     private static float[] pitchData = { 35F, -35F, 5F };
 
-    private SentryTypes clientModuleType;
-
+    private SentryTypes ClientSentryType;
     public EntitySentryFake sentryEntity;
 
     public TileSentry()
@@ -64,7 +63,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super();
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
-        this.clientModuleType = SentryTypes.VOID;
+        this.ClientSentryType = SentryTypes.VOID;
 
     }
 
@@ -81,6 +80,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public void updateEntity ()
     {
         super.updateEntity();
+        if (this.getSentry() != null)
+            this.getSentry().updateLoop();
 
     }
 
@@ -96,24 +97,24 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             flag = true;
         }
 
-            //TODO set up handling for non-player entities, low Priority
-            if (flag && this.sentryEntity.riddenByEntity instanceof EntityPlayer)
+        //TODO set up handling for non-player entities, low Priority
+        if (flag && this.sentryEntity.riddenByEntity instanceof EntityPlayer)
+        {
+            EntityPlayer mountedPlayer = (EntityPlayer) this.sentryEntity.riddenByEntity;
+
+            if (mountedPlayer.rotationPitch > this.getPitchServo().upperLimit())
             {
-                EntityPlayer mountedPlayer = (EntityPlayer) this.sentryEntity.riddenByEntity;
-
-                if (mountedPlayer.rotationPitch > this.getPitchServo().upperLimit())
-                {
-                    mountedPlayer.rotationPitch = this.getPitchServo().upperLimit();
-                }
-                if (mountedPlayer.rotationPitch < this.getPitchServo().lowerLimit())
-                {
-                    mountedPlayer.rotationPitch = this.getPitchServo().lowerLimit();
-                }
-                this.getPitchServo().setRotation(mountedPlayer.rotationPitch);
-                this.getYawServo().setRotation(mountedPlayer.rotationYaw);
+                mountedPlayer.rotationPitch = this.getPitchServo().upperLimit();
             }
-
+            if (mountedPlayer.rotationPitch < this.getPitchServo().lowerLimit())
+            {
+                mountedPlayer.rotationPitch = this.getPitchServo().lowerLimit();
+            }
+            this.getPitchServo().setRotation(mountedPlayer.rotationPitch);
+            this.getYawServo().setRotation(mountedPlayer.rotationYaw);
         }
+
+    }
 
     //TODO Move to AutoSentry Update Loo
     @Deprecated
@@ -196,7 +197,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             if (id == DESCRIPTION_PACKET_ID)
             {
 
-                this.clientModuleType = SentryTypes.get(data.readInt());
+                this.ClientSentryType = SentryTypes.get(data.readInt());
                 this.getYawServo().setRotation(data.readFloat());
                 this.getPitchServo().setRotation(data.readFloat());
                 return true;
@@ -243,19 +244,21 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public void readFromNBT (NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-
         this.getInventory().load(nbt);
         NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
-        if (this.sentry == null)
-            this.sentry = SentryRegistry.build(tag);
-        else
+
+        if (!this.worldObj.isRemote && this.sentry == null)
+            this.sentry = SentryRegistry.constructSentry(tag.getString("id"), this);
+
+        else if (this.sentry != null)
             this.sentry.load(nbt);
-        this.clientModuleType = SentryTypes.get(tag.getString("id"));
+
+        this.ClientSentryType = SentryTypes.get(tag.getString("id"));
     }
 
     public SentryTypes getClientSentryType ()
     {
-        return this.clientModuleType;
+        return this.ClientSentryType;
     }
 
     @Override

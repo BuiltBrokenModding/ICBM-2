@@ -20,9 +20,9 @@ public class AutoSentryTwinLaser extends AutoSentry
     }
 
     @Override
-    public void update()
+    public void updateLoop()
     {
-        super.update();
+        super.updateLoop();
         if (this.host.worldObj.isRemote)
         {
             this.barrelRotation = MathHelper.wrapAngleTo180_float(this.barrelRotation + this.barrelRotationVelocity);

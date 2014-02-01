@@ -1,6 +1,7 @@
 package icbm.sentry.turret;
 
-import icbm.sentry.turret.ai.LookHelper;
+import calclavia.lib.utility.nbt.ISaveObj;
+import calclavia.lib.utility.nbt.SaveManager;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -8,8 +9,6 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.nbt.ISaveObj;
-import calclavia.lib.utility.nbt.SaveManager;
 
 /**
  * Modular way to deal with sentry guns
@@ -35,10 +34,7 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
         this.health = 0;
     }
 
-    public void update ()
-    {
-
-    }
+    public abstract void updateLoop ();
 
     public boolean canFire ()
     {
@@ -101,11 +97,12 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
     @Override
     public void save (NBTTagCompound nbt)
     {
-        nbt.setString("id", SaveManager.getID(this.getClass()));
+        NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
+        tag.setString("id", SaveManager.getID(this.getClass()));
         if (this.energy != null)
             this.energy.writeToNBT(nbt);
         if (this.maxHealth > 0)
-            nbt.setFloat("Health", this.health);
+            tag.setFloat("Health", this.health);
 
     }
 
