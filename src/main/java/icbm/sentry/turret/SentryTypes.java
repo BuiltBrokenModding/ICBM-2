@@ -23,6 +23,11 @@ public enum SentryTypes
         this.id = id;
     }
 
+    public final String getId()
+    {
+        return this.id;
+    }
+
     public static final SentryTypes[] VALID_SENTRIES = { AA, CLASSIC, LASER, RAILGUN };
 
     public static SentryTypes get(int id)

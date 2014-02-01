@@ -71,9 +71,9 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
         return this.health;
     }
 
-    public float getMaxHealth ()
+    public static float getMaxHealth ()
     {
-        return this.maxHealth;
+        return maxHealth;
     }
 
     @Override

@@ -107,7 +107,8 @@ public class SentryRegistry
     /**
      * @param id the key of the Sentry class used in SentryRegistry.registerSentry()
      * @param args arguments the Sentry requires
-     * @return the Sentry module for the given id and tile, or null if the sentry isn't registered or an error occured wen constructing
+     * @return the Sentry object for the given id and tile,
+     * or null if the sentry isn't registered or an error occurred when constructing.
      */
     public static Sentry constructSentry(String id, Object... args)
     {

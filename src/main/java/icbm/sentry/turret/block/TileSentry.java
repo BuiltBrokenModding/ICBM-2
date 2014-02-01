@@ -54,7 +54,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     private static float[] yawData = { 360F, 0F, 5F };
     private static float[] pitchData = { 35F, -35F, 5F };
-    private String unlocalizedName;
+    private String unlocalizedName = "";
+    private String SaveManagerSentryKey;
 
     private SentryTypes ClientSentryType;
     public EntitySentryFake sentryEntity;
@@ -224,7 +225,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     @Override
     public void setDirection (ForgeDirection direction)
     {
-
+        this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 
     @Override
@@ -248,15 +249,16 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super.readFromNBT(nbt);
         this.getInventory().load(nbt);
         NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
+        this.SaveManagerSentryKey = tag.getString("id");
 
         if (!this.worldObj.isRemote && this.sentry == null)
-            this.sentry = SentryRegistry.constructSentry(tag.getString("id"), this);
+            this.sentry = SentryRegistry.constructSentry(this.SaveManagerSentryKey, this);
 
         else if (this.sentry != null)
-            this.sentry.load(nbt);
+            this.sentry.load(tag);
 
         this.unlocalizedName = nbt.getString("unlocalizedName");
-        this.ClientSentryType = SentryTypes.get(tag.getString("id"));
+        this.ClientSentryType = SentryTypes.get(this.unlocalizedName);
     }
 
     public SentryTypes getClientSentryType ()
@@ -300,6 +302,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     public Sentry getSentry ()
     {
+        if (this.sentry == null)
+            this.sentry = SentryRegistry.constructSentry(this.SaveManagerSentryKey, this);
         return this.sentry;
     }
 

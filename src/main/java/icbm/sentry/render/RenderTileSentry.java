@@ -5,12 +5,13 @@ import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.tileentity.TileEntity;
 
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import calclavia.lib.render.RenderTaggedTile;
 
 /** Container class for most sentry gun renders of 1^3. Other sentries might need a more custom
- * render aproch if they become to complex or large
+ * render approach if they become to complex or large
  * 
  * @author DarkGuardsman */
 public class RenderTileSentry extends RenderTaggedTile
@@ -32,7 +33,13 @@ public class RenderTileSentry extends RenderTaggedTile
                 sentryRender.render(((TileSentry) t).getDirection(), (TileSentry) t, ((TileSentry) t).getYawServo().getRotation(), ((TileSentry) t).getPitchServo().getRotation());
                 GL11.glPopMatrix();
             }
+            ICBMSentry.LOGGER.info("Rendering tile Sentry");
         }
-        ICBMSentry.LOGGER.info("Rendering tile Sentry");
+    }
+
+    @Override
+    protected void bindTexture (ResourceLocation par1ResourceLocation)
+    {
+        super.bindTexture(par1ResourceLocation);
     }
 }
