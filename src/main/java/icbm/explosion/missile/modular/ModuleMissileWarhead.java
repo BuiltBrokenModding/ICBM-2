@@ -2,6 +2,7 @@ package icbm.explosion.missile.modular;
 
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
+import icbm.api.sentry.IModuleContainer;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** @author DarkGuardsman */
@@ -47,9 +48,27 @@ public class ModuleMissileWarhead extends ModuleMissileBase implements IExplosiv
     }
 
     @Override
+    public void init (IModuleContainer missile)
+    {
+
+    }
+
+    @Override
     public String getOreName()
     {
         return "MissileWarhead";
+    }
+
+    @Override
+    public boolean canBeUsedIn (IModuleContainer container)
+    {
+        return false;
+    }
+
+    @Override
+    public void update (IModuleContainer container)
+    {
+
     }
 
 }

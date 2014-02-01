@@ -768,7 +768,19 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 		return this.feiXingTick > 0;
 	}
 
-	@Override
+    @Override
+    public void destroyCraft ()
+    {
+        
+    }
+
+    @Override
+    public int doDamage (int damage)
+    {
+        return 0;
+    }
+
+    @Override
 	public boolean canBeTargeted(Object turret)
 	{
 		return this.getTicksInAir() > 0;
