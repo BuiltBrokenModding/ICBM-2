@@ -54,6 +54,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     private static float[] yawData = { 360F, 0F, 5F };
     private static float[] pitchData = { 35F, -35F, 5F };
+    private String unlocalizedName;
 
     private SentryTypes ClientSentryType;
     public EntitySentryFake sentryEntity;
@@ -238,6 +239,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             this.getSentry().save(tag);
             nbt.setCompoundTag("sentryTile", tag);
         }
+        nbt.setString("unlocalizedName", this.unlocalizedName);
     }
 
     @Override
@@ -253,6 +255,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         else if (this.sentry != null)
             this.sentry.load(nbt);
 
+        this.unlocalizedName = nbt.getString("unlocalizedName");
         this.ClientSentryType = SentryTypes.get(tag.getString("id"));
     }
 

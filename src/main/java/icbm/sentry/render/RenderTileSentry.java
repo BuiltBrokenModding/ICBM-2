@@ -1,5 +1,6 @@
 package icbm.sentry.render;
 
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +15,7 @@ import calclavia.lib.render.RenderTaggedTile;
  * @author DarkGuardsman */
 public class RenderTileSentry extends RenderTaggedTile
 {
-    //TODO later on we will want to pass most rendering/positioning to the model as the gun will not render correctly without complex translation. 
+    //TODO later on we will want to pass most rendering/positioning to the model as the gun will not render correctly without complex translation.
     //The only thing this class should end up doing is basic translation and rotation.
     @Override
     public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
@@ -32,5 +33,6 @@ public class RenderTileSentry extends RenderTaggedTile
                 GL11.glPopMatrix();
             }
         }
+        ICBMSentry.LOGGER.info("Rendering tile Sentry");
     }
 }

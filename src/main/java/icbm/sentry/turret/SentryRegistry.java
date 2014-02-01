@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.render.SentryRenderer;
-import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.lang.reflect.Constructor;
@@ -107,17 +106,17 @@ public class SentryRegistry
 
     /**
      * @param id the key of the Sentry class used in SentryRegistry.registerSentry()
-     * @param host the tile the Sentry is created for
+     * @param args arguments the Sentry requires
      * @return the Sentry module for the given id and tile, or null if the sentry isn't registered or an error occured wen constructing
      */
-    public static Sentry constructSentry(String id, TileSentry host)
+    public static Sentry constructSentry(String id, Object... args)
     {
         Object candidate = null;
         Sentry sentryModule = null;
 
         try
         {
-            Class<? extends Sentry> clazz = SaveManager.getClass(id);
+            Class clazz = SaveManager.getClass(id);
 
             if (clazz == null)
             {
@@ -129,17 +128,17 @@ public class SentryRegistry
 
                 for (Constructor constructor : constructors)
                 {
-                    if (constructor.getParameterTypes().length == 1)
+                    if (constructor.getParameterTypes().length == args.length)
                     {
-                        candidate = constructor.newInstance(host);
+                        candidate = constructor.newInstance(args);
                         break;
                     }
-
+                }
                     if (candidate instanceof Sentry)
                         sentryModule = (Sentry) candidate;
                     else
                         ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
-                }
+
         }
         catch (Exception e)
         {

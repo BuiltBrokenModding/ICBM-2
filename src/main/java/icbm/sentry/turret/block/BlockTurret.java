@@ -3,6 +3,7 @@ package icbm.sentry.turret.block;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.utility.nbt.SaveManager;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
@@ -15,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -180,16 +182,35 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    protected void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack stack)
+    public void breakBlock (World world, int x, int y, int z, int par5, int par6)
     {
-        //TODO correct this as its most likely going to error out for tile location
+        ItemStack droppedStack = new ItemStack(this);
         NBTTagCompound tag = new NBTTagCompound();
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null)
             tile.writeToNBT(tag);
 
-        stack.setTagCompound(tag);
-        super.dropBlockAsItem_do(world, x, y, z, stack);
+        droppedStack.setTagCompound(tag);
+
+        if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
+        {
+            float f = 0.7F;
+            double d0 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            double d1 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            double d2 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            EntityItem entityitem = new EntityItem(world, (double)x + d0, (double)y + d1, (double)z + d2, droppedStack);
+            entityitem.delayBeforeCanPickup = 10;
+            world.spawnEntityInWorld(entityitem);
+
+        }
+        super.breakBlock(world, x, y, z, par5, par6);
+    }
+
+    /* to cancel the vanilla method of dropping the itemEntity */
+    @Override
+    protected void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack stack)
+    {
+
     }
 
 }
