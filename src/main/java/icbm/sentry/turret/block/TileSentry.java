@@ -1,5 +1,17 @@
 package icbm.sentry.turret.block;
 
+import calclavia.lib.access.AccessProfile;
+import calclavia.lib.access.IProfileContainer;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.AutoServo;
+import calclavia.lib.prefab.IGyroMotor;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.terminal.TileTerminal;
+import calclavia.lib.utility.inventory.ExternalInventory;
+import calclavia.lib.utility.inventory.IExternalInventory;
+import calclavia.lib.utility.inventory.IExternalInventoryBox;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.core.ICBMCore;
 import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.Sentry;
@@ -14,20 +26,6 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.Vector3;
-import calclavia.lib.access.AccessProfile;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.prefab.AutoServo;
-import calclavia.lib.prefab.IGyroMotor;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.terminal.TileTerminal;
-import calclavia.lib.utility.inventory.ExternalInventory;
-import calclavia.lib.utility.inventory.IExternalInventory;
-import calclavia.lib.utility.inventory.IExternalInventoryBox;
-
-import com.google.common.io.ByteArrayDataInput;
 
 /** @author Darkguardsman, tgame14 */
 public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
@@ -83,11 +81,6 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.updateEntity();
 
-        if (worldObj.isRemote)
-            System.out.println("client:" + this.clientModuleType);
-        else
-            System.out.println("server: " + this.clientModuleType);
-        System.out.println(this.getSentry());
     }
 
     protected void mountableSentryLoop ()
@@ -222,7 +215,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void setDirection (ForgeDirection direection)
+    public void setDirection (ForgeDirection direction)
     {
 
     }
@@ -251,39 +244,17 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super.readFromNBT(nbt);
 
         this.getInventory().load(nbt);
-        Integer key = nbt.getInteger("ModuleID");
+        String sentryKey = nbt.getString("id");
         if (this.sentry == null)
-            this.sentry = SentryRegistry.create(key, this);
+            this.sentry = SentryRegistry.build(nbt);
         else
             this.sentry.load(nbt);
-        this.clientModuleType = this.setClientSentryTypeFromID(key);
+        this.clientModuleType = SentryTypes.get(sentryKey);
     }
 
     public SentryTypes getClientSentryType ()
     {
         return this.clientModuleType;
-    }
-
-    private SentryTypes setClientSentryTypeFromID (int ordinal)
-    {
-        System.out.println("AA: " + SentryTypes.AA.ordinal());
-        if (SentryTypes.AA.ordinal() == ordinal)
-            return SentryTypes.AA;
-
-        System.out.println("CLASSIC: " + SentryTypes.CLASSIC.ordinal());
-        if (SentryTypes.CLASSIC.ordinal() == ordinal)
-            return SentryTypes.CLASSIC;
-
-        System.out.println("LASER: " + SentryTypes.LASER.ordinal());
-        if (SentryTypes.LASER.ordinal() == ordinal)
-            return SentryTypes.LASER;
-
-        System.out.println("RAILGUN: " + SentryTypes.RAILGUN.ordinal());
-        if (SentryTypes.RAILGUN.ordinal() == ordinal)
-            return SentryTypes.RAILGUN;
-
-        System.out.println("Returning void");
-        return SentryTypes.VOID;
     }
 
     @Override

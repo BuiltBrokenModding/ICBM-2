@@ -23,12 +23,24 @@ public enum SentryTypes
         this.id = id;
     }
 
+    public static final SentryTypes[] VALID_SENTRIES = { AA, CLASSIC, LASER, RAILGUN };
+
     public static SentryTypes get(int id)
     {
-        if (id >= 0 && id < SentryTypes.values().length)
-            return SentryTypes.values()[id];
+        if (id >= 0 && id < SentryTypes.VALID_SENTRIES.length)
+            return SentryTypes.VALID_SENTRIES[id];
         else
             return SentryTypes.VOID;
+    }
+
+    /** get the SentryType for the SaveManager registered ID */
+    public static SentryTypes get(String id)
+    {
+        for (SentryTypes type : SentryTypes.VALID_SENTRIES)
+            if (id.endsWith(type.id))
+                return type;
+
+        return SentryTypes.VOID;
     }
 
     /** Called to load sentry types into sentry registry */

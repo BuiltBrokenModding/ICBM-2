@@ -1,14 +1,13 @@
 package icbm.sentry.turret;
 
-import icbm.sentry.render.SentryRenderer;
-
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-
-import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import icbm.sentry.render.SentryRenderer;
+import net.minecraft.nbt.NBTTagCompound;
+
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
 
 /** This is the main registry for all sentry object. Sentries should be registered using string names
  * to prevent conflict. This class will later be moved to the API so that other mods can generate
@@ -22,11 +21,12 @@ public class SentryRegistry
     @SideOnly(Side.CLIENT)
     private static HashMap<Class<? extends Sentry>, SentryRenderer> sentryRenderMap;
 
+    // TODO Fix SaveManager to handle the Tile argument
     /** Registers a sentry to be handled by ICBM
      * 
      * @param key - ID the sentry goes by, should be unique, will be registered with save manager
      * prefixed by 'Sentry-'
-     * @param sentry - class file that extends Sentry.class and has a no parm constructor */
+     * @param sentry - class file that extends Sentry.class and has a no param constructor */
     public static void registerSentry(String key, Class<? extends Sentry> sentry)
     {
         synchronized (sentryMap)
@@ -103,6 +103,8 @@ public class SentryRegistry
         return null;
     }
 
+    /** Marked for Removal, will be replaced with SentryRegistry.build() */
+    @Deprecated
     public static Sentry create(Integer key, Object... Args)
     {
         Object obj = null;
