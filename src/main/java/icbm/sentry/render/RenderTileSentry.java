@@ -1,14 +1,12 @@
 package icbm.sentry.render;
 
+import calclavia.lib.render.RenderTaggedTile;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.tileentity.TileEntity;
-
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-
-import calclavia.lib.render.RenderTaggedTile;
 
 /** Container class for most sentry gun renders of 1^3. Other sentries might need a more custom
  * render approach if they become to complex or large
@@ -16,13 +14,17 @@ import calclavia.lib.render.RenderTaggedTile;
  * @author DarkGuardsman */
 public class RenderTileSentry extends RenderTaggedTile
 {
+
     //TODO later on we will want to pass most rendering/positioning to the model as the gun will not render correctly without complex translation.
     //The only thing this class should end up doing is basic translation and rotation.
     @Override
     public void renderTileEntityAt(TileEntity t, double x, double y, double z, float f)
     {
+        ICBMSentry.LOGGER.info("Pre Render: " + ((TileSentry) t).getSentry());
         if (t instanceof TileSentry)
         {
+            ICBMSentry.LOGGER.info("rendering: " + ((TileSentry) t).getSentry());
+
             SentryRenderer sentryRender = SentryRegistry.getRenderFor(((TileSentry) t).getSentry());
             if (sentryRender != null)
             {

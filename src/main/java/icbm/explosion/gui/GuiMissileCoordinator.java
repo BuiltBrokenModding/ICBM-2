@@ -1,5 +1,6 @@
 package icbm.explosion.gui;
 
+import calclavia.lib.utility.LanguageUtility;
 import icbm.core.prefab.render.GuiICBMContainer;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.machines.TileMissileCoordinator;
@@ -10,7 +11,6 @@ import net.minecraft.util.MathHelper;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.LanguageUtility;
 
 public class GuiMissileCoordinator extends GuiICBMContainer
 {

@@ -1,5 +1,6 @@
 package icbm.sentry.platform;
 
+import calclavia.lib.prefab.tile.TileExternalInventory;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -7,7 +8,6 @@ import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.electricity.IVoltageInput;
 import universalelectricity.api.energy.IEnergyInterface;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.tile.TileExternalInventory;
 
 /** Turret Platform
  * 

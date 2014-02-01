@@ -1,15 +1,15 @@
 package icbm.explosion.machines;
 
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.api.IMissile;
 import icbm.api.ITier;
 import icbm.api.LauncherType;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,12 +18,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 
-import com.google.common.io.ByteArrayDataInput;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This tile entity is for the screen of the missile launcher

@@ -118,7 +118,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     }
 
-    //TODO Move to AutoSentry Update Loo
+    //TODO Move to AutoSentry Update Loop
     @Deprecated
     protected void autoSentryLoop ()
     {
@@ -234,12 +234,14 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
 
+        NBTTagCompound tag = new NBTTagCompound();
+
         if (this.sentry != null)
-        {
-            NBTTagCompound tag = new NBTTagCompound();
             this.getSentry().save(tag);
-            nbt.setCompoundTag("sentryTile", tag);
-        }
+
+        tag.setString("id", this.SaveManagerSentryKey);
+        nbt.setCompoundTag("sentryTile", tag);
+
         nbt.setString("unlocalizedName", this.unlocalizedName);
     }
 
@@ -251,11 +253,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
         this.SaveManagerSentryKey = tag.getString("id");
 
-        if (!this.worldObj.isRemote && this.sentry == null)
-            this.sentry = SentryRegistry.constructSentry(this.SaveManagerSentryKey, this);
-
-        else if (this.sentry != null)
-            this.sentry.load(tag);
+        this.getSentry().load(nbt);
 
         this.unlocalizedName = nbt.getString("unlocalizedName");
         this.ClientSentryType = SentryTypes.get(this.unlocalizedName);
@@ -303,7 +301,11 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public Sentry getSentry ()
     {
         if (this.sentry == null)
+        {
+            ICBMSentry.LOGGER.warning("Reforming Sentry= " + this.SaveManagerSentryKey);
             this.sentry = SentryRegistry.constructSentry(this.SaveManagerSentryKey, this);
+            System.out.println(this.sentry);
+        }
         return this.sentry;
     }
 

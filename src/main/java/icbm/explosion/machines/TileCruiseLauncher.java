@@ -1,5 +1,9 @@
 package icbm.explosion.machines;
 
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
@@ -12,9 +16,6 @@ import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.missile.Missile;
-
-import java.io.IOException;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -27,11 +28,8 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
-import com.google.common.io.ByteArrayDataInput;
+import java.io.IOException;
 
 public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActivate, IInventory, ILauncherContainer, IPacketReceiver
 {

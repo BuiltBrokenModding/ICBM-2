@@ -3,9 +3,6 @@ package icbm.sentry.platform;
 import icbm.api.sentry.IAmmunition;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
-
-import java.util.Random;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -16,7 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import universalelectricity.api.UniversalElectricity;
+
+import java.util.Random;
 
 /** @author DarkGuardsman */
 public class BlockTurretPlatform extends BlockICBM

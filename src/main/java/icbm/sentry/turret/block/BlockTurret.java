@@ -3,7 +3,6 @@ package icbm.sentry.turret.block;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.utility.nbt.SaveManager;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;

@@ -1,5 +1,11 @@
 package icbm.explosion.missile.modular;
 
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.multiblock.fake.IMultiBlock;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.api.ITier;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
@@ -16,13 +22,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier, IRotatable, IPacketReceiver, IInventory, IBlockActivate
 {

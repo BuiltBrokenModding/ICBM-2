@@ -1,5 +1,6 @@
 package icbm.explosion.explosive.blast;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import icbm.explosion.explosive.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -8,7 +9,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderServer;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class BlastRegen extends Blast
 {

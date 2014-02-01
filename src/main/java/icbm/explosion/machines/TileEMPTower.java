@@ -1,25 +1,23 @@
 package icbm.explosion.machines;
 
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.multiblock.fake.IMultiBlock;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.Reference;
 import icbm.api.RadarRegistry;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.blast.BlastEMP;
-
-import java.io.IOException;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
-import com.google.common.io.ByteArrayDataInput;
+import java.io.IOException;
 
 public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneReceptor, IBlockActivate
 {

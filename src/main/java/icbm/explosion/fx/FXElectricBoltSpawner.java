@@ -1,11 +1,11 @@
 package icbm.explosion.fx;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+
+import java.util.Random;
 
 /** A spawner used to spawn in multiple electrical bolts for a specific duration. */
 public class FXElectricBoltSpawner extends EntityFX

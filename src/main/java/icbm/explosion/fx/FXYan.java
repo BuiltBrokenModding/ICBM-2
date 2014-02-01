@@ -1,10 +1,10 @@
 package icbm.explosion.fx;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class FXYan extends EntitySmokeFX

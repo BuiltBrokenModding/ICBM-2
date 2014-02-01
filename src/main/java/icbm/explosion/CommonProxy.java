@@ -1,31 +1,24 @@
 package icbm.explosion;
 
+import calclavia.lib.gui.ContainerDummy;
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import icbm.explosion.container.ContainerCruiseLauncher;
 import icbm.explosion.container.ContainerLauncher;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.container.ContainerMissileTable;
-import icbm.explosion.machines.TileCruiseLauncher;
-import icbm.explosion.machines.TileEMPTower;
-import icbm.explosion.machines.TileEntitySupportFrame;
-import icbm.explosion.machines.TileLauncherBase;
-import icbm.explosion.machines.TileLauncherScreen;
-import icbm.explosion.machines.TileMissileCoordinator;
-import icbm.explosion.machines.TileRadarStation;
+import icbm.explosion.machines.*;
 import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.modular.TileMissileAssembler;
-
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.gui.ContainerDummy;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
+
+import java.util.List;
 
 /**
  * ICBM Explosion Module Common Proxy

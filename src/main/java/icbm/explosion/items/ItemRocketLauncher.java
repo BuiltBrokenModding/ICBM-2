@@ -1,5 +1,6 @@
 package icbm.explosion.items;
 
+import calclavia.lib.utility.LanguageUtility;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
 import icbm.core.Settings;
@@ -15,7 +16,6 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.LanguageUtility;
 
 /**
  * Rocket Launcher

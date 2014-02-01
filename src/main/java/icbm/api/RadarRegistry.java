@@ -1,15 +1,11 @@
 package icbm.api;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
+
+import java.util.*;
 
 /**
  * This class allows you to register TileEntities and Entities to be detectable by the ICBM radar.

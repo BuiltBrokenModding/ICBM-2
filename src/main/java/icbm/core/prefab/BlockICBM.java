@@ -1,5 +1,9 @@
 package icbm.core.prefab;
 
+import calclavia.lib.prefab.block.BlockTile;
+import calclavia.lib.prefab.tile.IRedstoneProvider;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
 import icbm.core.Settings;
@@ -10,10 +14,6 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
-import calclavia.lib.prefab.block.BlockTile;
-import calclavia.lib.prefab.tile.IRedstoneProvider;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockICBM extends BlockTile
 {

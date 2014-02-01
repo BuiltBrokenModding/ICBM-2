@@ -1,5 +1,8 @@
 package icbm.explosion.missile;
 
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.tile.IRotatable;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ICBMCore;
@@ -11,10 +14,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class TileExplosive extends TileEntity implements IExplosiveContainer, IPacketReceiver, IRotatable
 {

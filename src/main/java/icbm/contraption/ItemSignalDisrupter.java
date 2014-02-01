@@ -1,20 +1,18 @@
 package icbm.contraption;
 
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.api.IItemFrequency;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
-
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
-import com.google.common.io.ByteArrayDataInput;
+import java.util.List;
 
 public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {

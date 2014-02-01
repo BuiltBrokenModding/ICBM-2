@@ -1,5 +1,8 @@
 package icbm.explosion.gui;
 
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.explosion.container.ContainerCruiseLauncher;
@@ -9,15 +12,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
 import org.lwjgl.opengl.GL11;
-
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiCruiseLauncher extends GuiContainer
 {

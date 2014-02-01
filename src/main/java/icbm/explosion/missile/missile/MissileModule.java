@@ -1,12 +1,12 @@
 package icbm.explosion.missile.missile;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.IMissile;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.model.missiles.MMYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class MissileModule extends MissileBase
 {

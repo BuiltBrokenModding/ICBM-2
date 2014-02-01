@@ -1,11 +1,8 @@
 package icbm.explosion.explosive.blast;
 
+import calclavia.lib.prefab.potion.CustomPotionEffect;
 import icbm.Reference;
 import icbm.explosion.potion.PoisonFrostBite;
-
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -14,7 +11,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.potion.CustomPotionEffect;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class BlastSky extends BlastBeam
 {

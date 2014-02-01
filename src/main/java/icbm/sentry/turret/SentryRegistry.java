@@ -147,37 +147,6 @@ public class SentryRegistry
         }
 
         return sentryModule;
-
-
-    }
-
-    /** Marked for Removal, will be replaced with SentryRegistry.constructSentry() */
-    @Deprecated
-    public static Sentry create(Integer key, Object... Args)
-    {
-        Object obj = null;
-        Sentry s = null;
-
-        try
-        {
-            Class<? extends Sentry> clazz = sentryMap.get(key);
-
-            Constructor<?>[] cons = clazz.getConstructors();
-            for (Constructor con : cons)
-            {
-                if (con.getParameterTypes().length == Args.length)
-                    obj = con.newInstance(Args);
-            }
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        if (obj instanceof Sentry)
-            s = (Sentry) obj;
-        return s;
     }
 
 }

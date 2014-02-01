@@ -1,13 +1,12 @@
 package icbm.explosion.missile;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import icbm.explosion.missile.missile.Missile;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 
 public class ExplosiveRegistry
 {

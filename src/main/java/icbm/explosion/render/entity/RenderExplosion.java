@@ -1,23 +1,20 @@
 package icbm.explosion.render.entity;
 
+import calclavia.lib.render.RenderUtility;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.explosive.blast.BlastRedmatter;
-
-import java.util.Random;
-
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
-import calclavia.lib.render.RenderUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class RenderExplosion extends Render

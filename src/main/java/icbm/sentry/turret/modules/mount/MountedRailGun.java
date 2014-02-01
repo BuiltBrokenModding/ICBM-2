@@ -1,10 +1,10 @@
 package icbm.sentry.turret.modules.mount;
 
+import calclavia.lib.multiblock.fake.IMultiBlock;
 import icbm.Reference;
 import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileSentry;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IMultiBlock;
 
 /** Railgun
  * 

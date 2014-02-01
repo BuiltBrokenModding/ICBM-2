@@ -1,12 +1,12 @@
 package icbm.explosion;
 
-import java.util.EnumSet;
-
+import cpw.mods.fml.common.ITickHandler;
+import cpw.mods.fml.common.TickType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.TickType;
+
+import java.util.EnumSet;
 
 public class TickHandler implements ITickHandler
 {

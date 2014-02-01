@@ -1,20 +1,18 @@
 package icbm.explosion.gui;
 
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.render.GuiICBM;
 import icbm.explosion.machines.TileLauncherScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiLauncherScreen extends GuiICBM
 {

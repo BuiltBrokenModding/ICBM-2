@@ -1,14 +1,15 @@
 package icbm.explosion.items;
 
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
+import com.google.common.io.ByteArrayDataInput;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileLauncherPrefab;
 import icbm.explosion.machines.TileLauncherScreen;
-
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,12 +17,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
+import java.util.List;
 
 public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
 {

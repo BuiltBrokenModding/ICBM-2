@@ -1,5 +1,8 @@
 package icbm.explosion.render.tile;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.missile.ExplosiveRegistry;
@@ -7,19 +10,13 @@ import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.missile.modular.TileMissileAssembler;
 import icbm.explosion.model.tiles.ModelMissileAssemblerClaw;
 import icbm.explosion.model.tiles.ModelMissileAssemblerPanel;
-
-import java.util.HashMap;
-
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.HashMap;
 
 @SideOnly(Side.CLIENT)
 public class RenderMissileAssembler extends TileEntitySpecialRenderer

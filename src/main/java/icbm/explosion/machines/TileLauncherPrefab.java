@@ -1,5 +1,9 @@
 package icbm.explosion.machines;
 
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
+import dan200.computer.api.IPeripheral;
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
 import icbm.core.prefab.TileFrequency;
@@ -7,10 +11,6 @@ import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 
 public abstract class TileLauncherPrefab extends TileFrequency implements ILauncherController, IPeripheral, IRedstoneReceptor
 {

@@ -1,5 +1,11 @@
 package icbm.explosion.missile.modular;
 
+import calclavia.components.CalclaviaLoader;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.multiblock.fake.IMultiBlock;
+import calclavia.lib.multiblock.fake.TileMultiBlockPart;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.BlockRenderHandler;
@@ -13,12 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.vector.Vector3;
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.multiblock.fake.TileMultiBlockPart;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Multi-block table use to hold a missile prototype while the player is working on the design.

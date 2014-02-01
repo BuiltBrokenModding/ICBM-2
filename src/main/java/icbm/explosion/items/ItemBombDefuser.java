@@ -1,12 +1,10 @@
 package icbm.explosion.items;
 
+import calclavia.lib.utility.LanguageUtility;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.missile.EntityExplosive;
-
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -14,7 +12,8 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import calclavia.lib.utility.LanguageUtility;
+
+import java.util.Random;
 
 //Explosive Defuser
 public class ItemBombDefuser extends ItemICBMElectrical

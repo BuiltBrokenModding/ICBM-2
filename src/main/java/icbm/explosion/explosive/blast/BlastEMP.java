@@ -10,9 +10,6 @@ import icbm.api.explosion.IEMPItem;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.Blast;
 import icbm.explosion.missile.EntityExplosive;
-
-import java.util.List;
-
 import mffs.api.IForceFieldBlock;
 import mffs.api.fortron.IFortronStorage;
 import net.minecraft.block.Block;
@@ -31,6 +28,8 @@ import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.item.IEnergyItem;
 import universalelectricity.api.vector.Vector3;
+
+import java.util.List;
 
 public class BlastEMP extends Blast
 {

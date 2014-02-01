@@ -1,16 +1,12 @@
 package icbm.core.prefab.render;
 
-import icbm.Reference;
-import icbm.core.ICBMCore;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import calclavia.lib.gui.ContainerDummy;
 import calclavia.lib.gui.GuiContainerBase;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
+import icbm.Reference;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public abstract class GuiICBM extends GuiContainerBase
 {

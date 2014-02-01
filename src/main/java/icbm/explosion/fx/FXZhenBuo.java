@@ -1,16 +1,14 @@
 package icbm.explosion.fx;
 
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.Sphere;
-
-import universalelectricity.api.vector.Vector3;
 import calclavia.lib.render.RenderUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.Sphere;
+import universalelectricity.api.vector.Vector3;
 
 @SideOnly(Side.CLIENT)
 public class FXZhenBuo extends EntityFX

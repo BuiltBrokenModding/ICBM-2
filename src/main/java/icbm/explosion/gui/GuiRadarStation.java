@@ -1,31 +1,28 @@
 package icbm.explosion.gui;
 
+import calclavia.lib.prefab.vector.Region2;
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.render.GuiICBM;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.TileRadarStation;
 import icbm.explosion.missile.missile.EntityMissile;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector2;
-import calclavia.lib.prefab.vector.Region2;
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiRadarStation extends GuiICBM
 {

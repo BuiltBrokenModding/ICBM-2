@@ -1,21 +1,19 @@
 package icbm.core.prefab;
 
-import java.io.IOException;
-import java.util.HashSet;
-
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.tile.IPlayerUsing;
+import calclavia.lib.prefab.tile.TileElectrical;
+import com.google.common.io.ByteArrayDataInput;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.electricity.IVoltageInput;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IPlayerUsing;
-import calclavia.lib.prefab.tile.TileElectrical;
 
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
+import java.io.IOException;
+import java.util.HashSet;
 
 /** @author Calclavia */
 public abstract class TileICBM extends TileElectrical implements IPlayerUsing, IVoltageInput, IPacketReceiver

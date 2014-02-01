@@ -1,11 +1,11 @@
 package icbm.sentry.turret.items;
 
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;
 import icbm.sentry.ITurretUpgrade;
-
-import java.util.List;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,9 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import universalelectricity.api.energy.UnitDisplay;
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 {

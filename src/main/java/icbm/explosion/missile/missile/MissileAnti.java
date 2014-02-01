@@ -1,5 +1,7 @@
 package icbm.explosion.missile.missile;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.api.IMissileLockable;
 import icbm.core.prefab.render.ModelICBM;
@@ -9,8 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /** Antiballistic missile.
  * 

@@ -1,5 +1,8 @@
 package icbm.explosion.missile.missile;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import icbm.Reference;
 import icbm.api.ILauncherContainer;
 import icbm.api.IMissile;
@@ -16,9 +19,6 @@ import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.missile.ExplosiveRegistry;
-
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
@@ -38,10 +38,7 @@ import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import java.util.Random;
 
 public class EntityMissile extends Entity implements IChunkLoadHandler, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
 {
@@ -768,7 +765,19 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 		return this.feiXingTick > 0;
 	}
 
-	@Override
+    @Override
+    public void destroyCraft ()
+    {
+
+    }
+
+    @Override
+    public int doDamage (int damage)
+    {
+        return 0;
+    }
+
+    @Override
 	public boolean canBeTargeted(Object turret)
 	{
 		return this.getTicksInAir() > 0;

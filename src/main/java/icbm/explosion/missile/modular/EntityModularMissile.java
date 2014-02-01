@@ -1,5 +1,8 @@
 package icbm.explosion.missile.modular;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import icbm.api.ILauncherContainer;
 import icbm.api.IMissile;
 import icbm.api.IMissileLockable;
@@ -10,11 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityModularMissile extends Entity implements IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
 {
@@ -58,6 +56,18 @@ public class EntityModularMissile extends Entity implements IMissileLockable, IE
 
         this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
         this.setRotation(yaw, pitch);
+    }
+
+    @Override
+    public void destroyCraft ()
+    {
+
+    }
+
+    @Override
+    public int doDamage (int damage)
+    {
+        return 0;
     }
 
     @Override

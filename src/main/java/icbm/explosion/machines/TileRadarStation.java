@@ -1,5 +1,18 @@
 package icbm.explosion.machines;
 
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.prefab.tile.IRedstoneProvider;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
+import com.google.common.io.ByteArrayDataInput;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
+import dan200.computer.api.IPeripheral;
 import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
 import icbm.api.IRadarDetectable;
@@ -9,13 +22,6 @@ import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.prefab.TileFrequency;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.missile.EntityMissile;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,21 +38,8 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.prefab.block.BlockAdvanced;
-import calclavia.lib.prefab.tile.IRedstoneProvider;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
+import java.util.*;
 
 public class TileRadarStation extends TileFrequency implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IPeripheral, IBlockFrequency, IBlockActivate, IRotatable
 {
