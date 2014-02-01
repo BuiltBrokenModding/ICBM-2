@@ -771,7 +771,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     @Override
     public void destroyCraft ()
     {
-
+        
     }
 
     @Override
