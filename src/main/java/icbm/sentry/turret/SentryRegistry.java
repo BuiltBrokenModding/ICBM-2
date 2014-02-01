@@ -6,7 +6,6 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +20,7 @@ public class SentryRegistry
     private static HashMap<String, Class<? extends Sentry>> sentryMap = new HashMap<String, Class<? extends Sentry>>();
 
     @SideOnly(Side.CLIENT)
-    private static HashMap<Class<? extends Sentry>, SentryRenderer> sentryRenderMap = new HashMap<Class<? extends Sentry>, SentryRenderer>();
+    private static HashMap<Class<? extends Sentry>, SentryRenderer> sentryRenderMap;
 
     /** Registers a sentry to be handled by ICBM
      * 
@@ -47,6 +46,10 @@ public class SentryRegistry
     @SideOnly(Side.CLIENT)
     public static void registerSentryRenderer(Class<? extends Sentry> sentry, SentryRenderer render)
     {
+        if (sentryRenderMap == null)
+        {
+            sentryRenderMap = new HashMap<Class<? extends Sentry>, SentryRenderer>();
+        }
         synchronized (sentryRenderMap)
         {
             if (!sentryRenderMap.containsKey(sentry))
