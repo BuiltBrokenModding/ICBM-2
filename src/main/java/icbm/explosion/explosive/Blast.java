@@ -1,7 +1,5 @@
 package icbm.explosion.explosive;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.explosion.ExplosionEvent.DoExplosionEvent;
 import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
 import icbm.api.explosion.ExplosionEvent.PostExplosionEvent;
@@ -9,16 +7,23 @@ import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.api.explosion.IExplosion;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.missile.missile.EntityMissile;
+
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.List;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class Blast extends Explosion implements IExplosion
 {

@@ -1,7 +1,5 @@
 package icbm.explosion.gui;
 
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.client.FMLClientHandler;
 import icbm.Reference;
 import icbm.explosion.container.ContainerLauncher;
 import icbm.explosion.machines.TileLauncherBase;
@@ -9,7 +7,11 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
+
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class GuiLauncherBase extends GuiContainer
 {

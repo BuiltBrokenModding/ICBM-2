@@ -1,22 +1,5 @@
 package icbm.explosion;
 
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.recipe.RecipeUtility;
-import calclavia.lib.recipe.UniversalRecipe;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 import icbm.Reference;
 import icbm.api.ExplosiveHelper;
 import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
@@ -29,18 +12,31 @@ import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.cart.ItemBombCart;
 import icbm.explosion.explosive.EntityExplosion;
-import icbm.explosion.items.*;
+import icbm.explosion.items.ItemBombDefuser;
+import icbm.explosion.items.ItemLaserDesignator;
+import icbm.explosion.items.ItemRadarGun;
+import icbm.explosion.items.ItemRemoteDetonator;
+import icbm.explosion.items.ItemRocketLauncher;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.BlockICBMMachine.MachineData;
 import icbm.explosion.machines.ItemBlockMachine;
-import icbm.explosion.missile.*;
+import icbm.explosion.missile.BlockExplosive;
+import icbm.explosion.missile.EntityExplosive;
+import icbm.explosion.missile.EntityGrenade;
+import icbm.explosion.missile.Explosive;
+import icbm.explosion.missile.ExplosiveRegistry;
+import icbm.explosion.missile.ItemBlockExplosive;
+import icbm.explosion.missile.ItemGrenade;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.modular.BlockMissileAssembler;
 import icbm.explosion.missile.modular.ItemBlockMissileTable;
 import icbm.explosion.potion.PoisonContagion;
-import icbm.explosion.potion.PoisonFrostBite;
 import icbm.explosion.potion.PoisonToxin;
+import icbm.explosion.potion.PoisonFrostBite;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRailBase;
@@ -67,8 +63,23 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.item.ItemElectric;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.List;
+import calclavia.lib.flag.FlagRegistry;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.recipe.RecipeUtility;
+import calclavia.lib.recipe.UniversalRecipe;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ICBMExplosion.NAME, name = ICBMExplosion.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM;after:ICBM|Sentry")
 @NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)

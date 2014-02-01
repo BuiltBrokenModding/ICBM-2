@@ -1,16 +1,17 @@
 package icbm.explosion.explosive.blast;
 
-import calclavia.lib.prefab.vector.Region3;
 import icbm.explosion.explosive.Blast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.ArrayList;
-import java.util.List;
+import calclavia.lib.prefab.vector.Region3;
 
 public class BlastRepulsive extends Blast
 {

@@ -1,12 +1,12 @@
 package icbm.explosion;
 
-import calclavia.lib.prefab.poison.Poison;
-import calclavia.lib.prefab.potion.CustomPotionEffect;
 import icbm.explosion.potion.PoisonContagion;
 import icbm.explosion.potion.PoisonToxin;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.prefab.poison.Poison;
+import calclavia.lib.prefab.potion.CustomPotionEffect;
 
 public class ContagiousPoison extends Poison
 {

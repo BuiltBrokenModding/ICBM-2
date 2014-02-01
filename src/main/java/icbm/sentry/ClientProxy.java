@@ -1,11 +1,11 @@
 package icbm.sentry;
 
-import calclavia.lib.render.FxLaser;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import icbm.core.prefab.EmptyRenderer;
-import icbm.sentry.render.*;
+import icbm.sentry.render.SentryRenderAAGun;
+import icbm.sentry.render.SentryRenderGunTurret;
+import icbm.sentry.render.SentryRenderLaserTurret;
+import icbm.sentry.render.SentryRenderRailGun;
+import icbm.sentry.render.RenderTileSentry;
 import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.block.TileSentry;
@@ -16,6 +16,10 @@ import icbm.sentry.turret.modules.mount.MountedRailGun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.render.FxLaser;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {

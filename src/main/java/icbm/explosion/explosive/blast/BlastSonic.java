@@ -9,6 +9,10 @@ import icbm.explosion.explosive.thread.ThreadLargeExplosion.IThreadCallBack;
 import icbm.explosion.missile.BlockExplosive;
 import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
+
+import java.util.Iterator;
+import java.util.List;
+
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
@@ -18,9 +22,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.Iterator;
-import java.util.List;
 
 public class BlastSonic extends Blast
 {

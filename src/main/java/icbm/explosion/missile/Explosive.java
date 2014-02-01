@@ -1,15 +1,33 @@
 package icbm.explosion.missile;
 
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.explosion.IExplosive;
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.ex.*;
-import icbm.explosion.missile.missile.*;
+import icbm.explosion.missile.ex.ExAntiGravitational;
+import icbm.explosion.missile.ex.ExAntimatter;
+import icbm.explosion.missile.ex.ExBreaching;
+import icbm.explosion.missile.ex.ExChemical;
+import icbm.explosion.missile.ex.ExCondensed;
+import icbm.explosion.missile.ex.ExDebilitation;
+import icbm.explosion.missile.ex.ExEMP;
+import icbm.explosion.missile.ex.ExEnder;
+import icbm.explosion.missile.ex.ExEndothermic;
+import icbm.explosion.missile.ex.ExExothermic;
+import icbm.explosion.missile.ex.ExIncendiary;
+import icbm.explosion.missile.ex.ExNuclear;
+import icbm.explosion.missile.ex.ExRedMatter;
+import icbm.explosion.missile.ex.ExRejuvenation;
+import icbm.explosion.missile.ex.ExRepulsive;
+import icbm.explosion.missile.ex.ExSMine;
+import icbm.explosion.missile.ex.ExShrapnel;
+import icbm.explosion.missile.ex.ExSonic;
+import icbm.explosion.missile.missile.MissileNuclearCluster;
+import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.missile.missile.MissileAnti;
+import icbm.explosion.missile.missile.MissileCluster;
+import icbm.explosion.missile.missile.MissileHoming;
+import icbm.explosion.missile.missile.MissileModule;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,6 +35,10 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.flag.FlagRegistry;
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /** The explosive registry class. Used to register explosions. */
 public abstract class Explosive implements IExplosive

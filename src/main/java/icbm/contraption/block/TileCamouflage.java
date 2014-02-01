@@ -1,14 +1,15 @@
 package icbm.contraption.block;
 
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.network.PacketHandler;
-import com.google.common.io.ByteArrayDataInput;
 import icbm.core.ICBMCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.network.PacketHandler;
+
+import com.google.common.io.ByteArrayDataInput;
 
 public class TileCamouflage extends TileEntity implements IPacketReceiver
 {

@@ -1,13 +1,13 @@
 package icbm.contraption.block;
 
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRedstoneProvider;
-import com.google.common.io.ByteArrayDataInput;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 import icbm.contraption.ItemSignalDisrupter;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileFrequency;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,10 +18,13 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.electricity.IVoltageInput;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.tile.IRedstoneProvider;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 public class TileDetector extends TileFrequency implements IRedstoneProvider, IPacketReceiver, IVoltageInput
 {

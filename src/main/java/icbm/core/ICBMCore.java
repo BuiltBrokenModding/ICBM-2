@@ -1,5 +1,35 @@
 package icbm.core;
 
+import icbm.Reference;
+import icbm.contraption.ItemAntidote;
+import icbm.contraption.ItemBlockSpikes;
+import icbm.contraption.ItemSignalDisrupter;
+import icbm.contraption.ItemTracker;
+import icbm.contraption.block.BlockCamouflage;
+import icbm.contraption.block.BlockConcrete;
+import icbm.contraption.block.BlockGlassButton;
+import icbm.contraption.block.BlockGlassPressurePlate;
+import icbm.contraption.block.BlockProximityDetector;
+import icbm.contraption.block.BlockReinforcedGlass;
+import icbm.contraption.block.BlockSpikes;
+import icbm.core.prefab.item.ItemICBMBase;
+
+import java.util.Arrays;
+import java.util.logging.Logger;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import org.modstats.ModstatInfo;
+import org.modstats.Modstats;
+
+import universalelectricity.api.item.ItemElectric;
 import calclavia.lib.content.ContentRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
@@ -20,27 +50,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import icbm.Reference;
-import icbm.contraption.ItemAntidote;
-import icbm.contraption.ItemBlockSpikes;
-import icbm.contraption.ItemSignalDisrupter;
-import icbm.contraption.ItemTracker;
-import icbm.contraption.block.*;
-import icbm.core.prefab.item.ItemICBMBase;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-import org.modstats.ModstatInfo;
-import org.modstats.Modstats;
-import universalelectricity.api.item.ItemElectric;
-
-import java.util.Arrays;
-import java.util.logging.Logger;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 

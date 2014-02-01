@@ -1,13 +1,13 @@
 package icbm.contraption.block;
 
-import atomicscience.api.IAntiPoisonBlock;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import atomicscience.api.IAntiPoisonBlock;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockReinforcedGlass extends BlockICBM implements IAntiPoisonBlock
 {

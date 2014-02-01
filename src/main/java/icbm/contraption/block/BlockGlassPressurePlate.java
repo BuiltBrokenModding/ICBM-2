@@ -2,12 +2,13 @@ package icbm.contraption.block;
 
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
+
+import java.util.Random;
+
 import net.minecraft.block.BlockPressurePlate;
 import net.minecraft.block.EnumMobType;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class BlockGlassPressurePlate extends BlockPressurePlate
 {

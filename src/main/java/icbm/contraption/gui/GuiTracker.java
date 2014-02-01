@@ -1,8 +1,5 @@
 package icbm.contraption.gui;
 
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import icbm.Reference;
 import icbm.api.IItemFrequency;
 import icbm.core.ICBMCore;
@@ -11,7 +8,12 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiTracker extends GuiICBM
 {

@@ -5,14 +5,15 @@ import icbm.explosion.EntityLightBeam;
 import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadExplosion;
 import icbm.explosion.explosive.thread.ThreadSky;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /** Used by Exothermic and Endothermic explosions.
  * 

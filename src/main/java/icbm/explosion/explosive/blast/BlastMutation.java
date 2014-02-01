@@ -1,6 +1,9 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.explosion.explosive.Blast;
+
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -9,8 +12,6 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class BlastMutation extends Blast
 {

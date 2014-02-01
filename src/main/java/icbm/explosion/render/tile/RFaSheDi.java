@@ -1,15 +1,22 @@
 package icbm.explosion.render.tile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.explosion.machines.TileLauncherBase;
-import icbm.explosion.model.tiles.*;
+import icbm.explosion.model.tiles.MFaSheDi0;
+import icbm.explosion.model.tiles.MFaSheDi1;
+import icbm.explosion.model.tiles.MFaSheDi2;
+import icbm.explosion.model.tiles.MFaSheDiRail0;
+import icbm.explosion.model.tiles.MFaSheDiRail1;
+import icbm.explosion.model.tiles.MFaSheDiRail2;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
+
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RFaSheDi extends TileEntitySpecialRenderer

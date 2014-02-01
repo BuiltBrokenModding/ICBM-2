@@ -3,6 +3,9 @@ package icbm.explosion;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.explosive.blast.BlastEMP;
 import icbm.explosion.missile.missile.EntityMissile;
+
+import java.util.List;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -11,8 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatMessageComponent;
-
-import java.util.List;
 
 public class ICBMCommand extends CommandBase
 {

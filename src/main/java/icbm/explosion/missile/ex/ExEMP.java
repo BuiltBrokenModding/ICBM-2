@@ -1,9 +1,5 @@
 package icbm.explosion.missile.ex;
 
-import calclavia.lib.recipe.RecipeUtility;
-import calclavia.lib.recipe.UniversalRecipe;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastEMP;
@@ -13,6 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import calclavia.lib.recipe.RecipeUtility;
+import calclavia.lib.recipe.UniversalRecipe;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExEMP extends Missile
 {

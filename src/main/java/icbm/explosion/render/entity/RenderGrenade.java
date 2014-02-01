@@ -1,8 +1,5 @@
 package icbm.explosion.render.entity;
 
-import calclavia.lib.render.RenderUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.EntityGrenade;
 import net.minecraft.client.renderer.Tessellator;
@@ -11,8 +8,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import calclavia.lib.render.RenderUtility;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderGrenade extends Render

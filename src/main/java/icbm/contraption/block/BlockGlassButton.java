@@ -1,13 +1,14 @@
 package icbm.contraption.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.core.CreativeTabICBM;
-import net.minecraft.block.BlockButton;
-import net.minecraft.client.renderer.texture.IconRegister;
 
 import java.util.Random;
+
+import net.minecraft.block.BlockButton;
+import net.minecraft.client.renderer.texture.IconRegister;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockGlassButton extends BlockButton
 {

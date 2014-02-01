@@ -4,16 +4,17 @@ import icbm.Reference;
 import icbm.explosion.EntityFlyingBlock;
 import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadSmallExplosion;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class BlastAntiGravitational extends Blast
 {

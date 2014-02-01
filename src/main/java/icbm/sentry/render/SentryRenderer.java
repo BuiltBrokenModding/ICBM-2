@@ -1,10 +1,10 @@
 package icbm.sentry.render;
 
-import calclavia.lib.access.Nodes;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
+import calclavia.lib.access.Nodes;
 
 /** Container class used to call rendering for a sentry
  * 

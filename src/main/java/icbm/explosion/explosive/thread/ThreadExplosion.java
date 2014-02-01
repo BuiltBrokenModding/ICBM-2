@@ -1,10 +1,10 @@
 package icbm.explosion.explosive.thread;
 
+import java.util.HashSet;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.HashSet;
 
 public abstract class ThreadExplosion extends Thread
 {

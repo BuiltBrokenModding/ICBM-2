@@ -1,7 +1,5 @@
 package icbm.explosion.missile.missile;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.ITracker;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRepulsive;
@@ -13,6 +11,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class MissileHoming extends MissileBase
 {

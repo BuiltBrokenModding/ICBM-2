@@ -1,13 +1,5 @@
 package icbm.explosion.machines;
 
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.prefab.tile.TileAdvanced;
-import calclavia.lib.utility.LanguageUtility;
-import com.google.common.io.ByteArrayDataInput;
 import icbm.api.ILauncherContainer;
 import icbm.api.ILauncherController;
 import icbm.api.IMissile;
@@ -34,6 +26,15 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorHelper;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.multiblock.fake.IMultiBlock;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.prefab.tile.TileAdvanced;
+import calclavia.lib.utility.LanguageUtility;
+
+import com.google.common.io.ByteArrayDataInput;
 
 /**
  * This tile entity is for the base of the missile launcher

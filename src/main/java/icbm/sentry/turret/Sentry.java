@@ -1,6 +1,7 @@
 package icbm.sentry.turret;
 
 import calclavia.lib.utility.nbt.ISaveObj;
+import calclavia.lib.utility.nbt.SaveManager;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -97,11 +98,11 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
     public void save (NBTTagCompound nbt)
     {
         NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
-        if (maxHealth > 0)
-            tag.setFloat("Health", this.health);
-
+        tag.setString("id", SaveManager.getID(this.getClass()));
         if (this.energy != null)
             this.energy.writeToNBT(nbt);
+        if (this.maxHealth > 0)
+            tag.setFloat("Health", this.health);
 
     }
 
@@ -137,7 +138,7 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
     
     public SentryTypes getSentryType ()
     {
-        return host.getClientSentryType();
+        return SentryTypes.VOID;
     }
 
 }

@@ -1,9 +1,5 @@
 package icbm.explosion.items;
 
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
-import com.google.common.io.ByteArrayDataInput;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import icbm.Reference;
 import icbm.api.IBlockFrequency;
 import icbm.api.IItemFrequency;
@@ -14,6 +10,10 @@ import icbm.explosion.EntityLightBeam;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileLauncherPrefab;
 import icbm.explosion.machines.TileLauncherScreen;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,9 +24,12 @@ import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.utility.LanguageUtility;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {

@@ -1,17 +1,13 @@
 package icbm.explosion.machines;
 
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.api.ITier;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.BlockRenderHandler;
+
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,9 +18,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
-
-import java.util.List;
-import java.util.Random;
+import calclavia.components.CalclaviaLoader;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.multiblock.fake.IMultiBlock;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockICBMMachine extends BlockICBM
 {

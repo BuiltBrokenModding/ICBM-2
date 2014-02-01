@@ -1,10 +1,5 @@
 package icbm.explosion.machines;
 
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
-import com.google.common.io.ByteArrayDataInput;
 import icbm.Reference;
 import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
@@ -15,6 +10,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.network.IPacketReceiver;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.utility.LanguageUtility;
+
+import com.google.common.io.ByteArrayDataInput;
 
 /** Missile Coordinator
  * 

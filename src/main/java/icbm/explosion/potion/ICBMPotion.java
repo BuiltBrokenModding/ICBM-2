@@ -1,7 +1,7 @@
 package icbm.explosion.potion;
 
-import calclavia.lib.prefab.potion.CustomPotion;
 import icbm.core.Settings;
+import calclavia.lib.prefab.potion.CustomPotion;
 
 public abstract class ICBMPotion extends CustomPotion
 {
