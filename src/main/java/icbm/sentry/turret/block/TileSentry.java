@@ -233,8 +233,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
-
-        this.getSentry().save(nbt);
+        if (this.getSentry() != null)
+            this.getSentry().save(nbt);
 
         nbt.setString("unlocalizedName", this.unlocalizedName);
     }
@@ -246,8 +246,8 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         this.getInventory().load(nbt);
         NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
         this.SaveManagerSentryKey = tag.getString("id");
-
-        this.getSentry().load(nbt);
+        if (this.getSentry() != null)
+            this.getSentry().load(nbt);
 
         this.unlocalizedName = nbt.getString("unlocalizedName");
         this.ClientSentryType = SentryTypes.get(this.unlocalizedName);
