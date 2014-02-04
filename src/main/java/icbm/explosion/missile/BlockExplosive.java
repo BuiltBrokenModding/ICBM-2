@@ -15,6 +15,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import calclavia.lib.utility.WrenchUtility;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -338,7 +339,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 				BlockExplosive.yinZha(world, x, y, z, explosiveID, 0);
 				return true;
 			}
-			else if (this.isUsableWrench(entityPlayer, entityPlayer.getCurrentEquippedItem(), x, y, z))
+			else if (WrenchUtility.isUsableWrench(entityPlayer, entityPlayer.getCurrentEquippedItem(), x, y, z))
 			{
 				byte change = 3;
 

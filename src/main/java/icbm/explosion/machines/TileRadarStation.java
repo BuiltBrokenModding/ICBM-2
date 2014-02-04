@@ -35,10 +35,10 @@ import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.network.PacketHandler;
-import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.prefab.tile.IRedstoneProvider;
 import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.utility.LanguageUtility;
+import calclavia.lib.utility.WrenchUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -447,7 +447,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 	{
 		if (entityPlayer.inventory.getCurrentItem() != null)
 		{
-			if (((BlockAdvanced) this.getBlockType()).isUsableWrench(entityPlayer, entityPlayer.inventory.getCurrentItem(), this.xCoord, this.yCoord, this.zCoord))
+			if (WrenchUtility.isUsableWrench(entityPlayer, entityPlayer.inventory.getCurrentItem(), this.xCoord, this.yCoord, this.zCoord))
 			{
 				if (!this.worldObj.isRemote)
 				{
