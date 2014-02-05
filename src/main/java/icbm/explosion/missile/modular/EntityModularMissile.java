@@ -60,7 +60,6 @@ public class EntityModularMissile extends Entity implements IMissileLockable, IE
         this.setRotation(yaw, pitch);
     }
 
-    @Override
     public void destroyCraft ()
     {
 

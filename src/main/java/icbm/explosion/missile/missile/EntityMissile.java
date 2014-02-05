@@ -767,7 +767,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 		return ExplosiveRegistry.get(this.explosiveID);
 	}
 
-	@Override
 	public boolean canLock(IMissile missile)
 	{
 		return this.feiXingTick > 0;
