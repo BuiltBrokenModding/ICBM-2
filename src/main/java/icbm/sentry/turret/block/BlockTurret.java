@@ -176,13 +176,6 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void onBlockPreDestroy(World par1World, int par2, int par3, int par4, int par5)
-    {
-        // TODO Auto-generated method stub
-        super.onBlockPreDestroy(par1World, par2, par3, par4, par5);
-    }
-
-    @Override
     public void breakBlock (World world, int x, int y, int z, int par5, int par6)
     {
         ItemStack droppedStack = new ItemStack(this);
