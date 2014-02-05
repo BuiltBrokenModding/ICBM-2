@@ -16,7 +16,7 @@ public class AutoSentryTwinLaser extends AutoSentry
     public AutoSentryTwinLaser(TileSentry host)
     {
         super(host);
-        this.maxHealth = 50;
+        maxHealth = 50;
     }
 
     @Override

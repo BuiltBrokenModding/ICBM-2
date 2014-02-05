@@ -135,7 +135,8 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	 *
 	 * @param explosiveId - Explosive ID
 	 * @param startPos - Starting Position
-	 * @param targetVector - Target Position
+	 * @param yaw - The yaw of the missle
+     * @param pitch - the pitch of the missle
 	 */
 	public EntityMissile(World world, Vector3 startPos, int explosiveId, float yaw, float pitch)
 	{
@@ -218,7 +219,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	/**
 	 * Recalculates required parabolic path for the missile.
 	 *
-	 * @param target
 	 */
 	public void jiSuan()
 	{
