@@ -1,20 +1,18 @@
-package icbm.sentry.render;
+package icbm.sentry.turret.block;
 
-import icbm.sentry.ICBMSentry;
+import calclavia.lib.render.RenderTaggedTile;
+import icbm.sentry.render.SentryRenderer;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.tileentity.TileEntity;
-
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.render.RenderTaggedTile;
-
 /** Container class for most sentry gun renders of 1^3. Other sentries might need a more custom
  * render approach if they become to complex or large
- * 
+ *
  * @author DarkGuardsman */
-public class RenderTileSentry extends RenderTaggedTile
+public class RenderSentry extends RenderTaggedTile
 {
     //TODO later on we will want to pass most rendering/positioning to the model as the gun will not render correctly without complex translation.
     //The only thing this class should end up doing is basic translation and rotation.

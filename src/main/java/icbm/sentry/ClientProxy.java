@@ -5,10 +5,8 @@ import icbm.sentry.render.SentryRenderAAGun;
 import icbm.sentry.render.SentryRenderGunTurret;
 import icbm.sentry.render.SentryRenderLaserTurret;
 import icbm.sentry.render.SentryRenderRailGun;
-import icbm.sentry.render.RenderTileSentry;
 import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.SentryRegistry;
-import icbm.sentry.turret.block.TileSentry;
 import icbm.sentry.turret.modules.AutoSentryAntiAir;
 import icbm.sentry.turret.modules.AutoSentryClassic;
 import icbm.sentry.turret.modules.AutoSentryTwinLaser;
@@ -18,7 +16,6 @@ import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.render.FxLaser;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
@@ -37,7 +34,7 @@ public class ClientProxy extends CommonProxy
         /** TileEntities */
         RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileSentry.class, new RenderTileSentry());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileSentry.class, new RenderSentry());
 
         //Sentry render registry TODO find a way to automate
         SentryRegistry.registerSentryRenderer(AutoSentryAntiAir.class, new SentryRenderAAGun());

@@ -1,5 +1,6 @@
 package icbm.sentry.platform;
 
+import calclavia.lib.content.BlockInfo;
 import icbm.api.sentry.IAmmunition;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
@@ -19,6 +20,7 @@ import net.minecraft.world.World;
 import universalelectricity.api.UniversalElectricity;
 
 /** @author DarkGuardsman */
+@BlockInfo(tileEntity = TileTurretPlatform.class)
 public class BlockTurretPlatform extends BlockICBM
 {
     public BlockTurretPlatform(int id)

@@ -17,8 +17,6 @@ public class CommonProxy implements IGuiHandler
 
     public void init()
     {
-        GameRegistry.registerTileEntity(TileSentry.class, "ICBMSentryGun");
-        GameRegistry.registerTileEntity(TileTurretPlatform.class, "ICBMSentryPlatform");
         
         
     }

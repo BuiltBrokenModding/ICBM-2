@@ -2,6 +2,7 @@ package icbm.sentry.turret.block;
 
 import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
+import calclavia.lib.content.BlockInfo;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.prefab.AutoServo;
@@ -24,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
