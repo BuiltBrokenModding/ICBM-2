@@ -30,7 +30,9 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-/** @author Darkguardsman, tgame14 */
+/** Tile container for sentries
+ * 
+ * @author Darkguardsman, tgame14 */
 public class TileSentry extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate
 {
     protected static final int ROTATION_PACKET_ID = 3;
@@ -54,12 +56,11 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     /** Pitch servo rotation */
     public AutoServo pitchMotor;
 
-    private static float[] yawData = { 360F, 0F, 5F };
-    private static float[] pitchData = { 35F, -35F, 5F };
+    private float[] yawData = { 360F, 0F, 5F };
+    private float[] pitchData = { 35F, -35F, 5F };
     private String unlocalizedName = "";
     private String SaveManagerSentryKey;
 
-    private SentryTypes ClientSentryType;
     public EntitySentryFake sentryEntity;
 
     public TileSentry()
@@ -67,12 +68,11 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         super();
         this.inventory = new ExternalInventory(this, 8);
         this.energy = new EnergyStorageHandler(1000);
-        this.ClientSentryType = SentryTypes.VOID;
 
     }
 
     @Override
-    public void initiate ()
+    public void initiate()
     {
         super.initiate();
         this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
@@ -81,7 +81,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void updateEntity ()
+    public void updateEntity()
     {
         super.updateEntity();
         if (this.getSentry() != null)
@@ -91,7 +91,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     // TODO Move this to Sentry object update loop
     @Deprecated
-    protected void mountableSentryLoop ()
+    protected void mountableSentryLoop()
     {
         boolean flag = false;
         if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
@@ -122,7 +122,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     //TODO Move to AutoSentry Update Loo
     @Deprecated
-    protected void autoSentryLoop ()
+    protected void autoSentryLoop()
     {
 
         float prevYaw = this.getYawServo().getRotation();
@@ -136,7 +136,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public AccessProfile getAccessProfile ()
+    public AccessProfile getAccessProfile()
     {
         if (this.accessProfile == null)
         {
@@ -146,30 +146,25 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void setAccessProfile (AccessProfile profile)
+    public void setAccessProfile(AccessProfile profile)
     {
         this.accessProfile = profile;
     }
 
     @Override
-    public boolean canAccess (String username)
+    public boolean canAccess(String username)
     {
         return accessProfile.getUserAccess(username) != null;
     }
 
     @Override
-    public Packet getDescriptionPacket ()
+    public Packet getDescriptionPacket()
     {
-        Integer sentryOrdinal = SentryTypes.VOID.ordinal();
-        if (this.getSentry() != null)
-            sentryOrdinal = this.getSentry().getSentryType().ordinal();
-        else
-            ICBMSentry.LOGGER.warning("Failed to send Sentry data through Descriptive packet");
 
-        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, sentryOrdinal, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
+        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, (this.getSentry() != null ? SentryRegistry.getKeyForSentry(this.getSentry()) : "null"), this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
 
-    public Packet getNBTPacket ()
+    public Packet getNBTPacket()
     {
         NBTTagCompound tag = new NBTTagCompound();
         this.writeToNBT(tag);
@@ -177,31 +172,30 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public Packet getTerminalPacket ()
+    public Packet getTerminalPacket()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(TERMINAL_PACKET_ID, this, this.getPacketData(1).toArray());
     }
 
     @Override
-    public Packet getCommandPacket (String username, String cmdInput)
+    public Packet getCommandPacket(String username, String cmdInput)
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(COMMAND_PACKET_ID, this, username, cmdInput);
     }
 
-    public Packet getRotationPacket ()
+    public Packet getRotationPacket()
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
     }
 
     @Override
-    public boolean onReceivePacket (int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public boolean onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
     {
         if (!super.onReceivePacket(id, data, player, extra))
         {
             if (id == DESCRIPTION_PACKET_ID)
             {
-
-                this.ClientSentryType = SentryTypes.get(data.readInt());
+                this.sentry = SentryRegistry.build(data.readUTF(), this);
                 this.getYawServo().setRotation(data.readFloat());
                 this.getPitchServo().setRotation(data.readFloat());
                 return true;
@@ -219,67 +213,72 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public ForgeDirection getDirection ()
+    public ForgeDirection getDirection()
     {
         return ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
-    public void setDirection (ForgeDirection direction)
+    public void setDirection(ForgeDirection direction)
     {
         this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 
     @Override
-    public void writeToNBT (NBTTagCompound nbt)
+    public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
         this.getInventory().save(nbt);
+
         if (this.getSentry() != null)
-            this.getSentry().save(nbt);
+        {
+            NBTTagCompound sentrySave = new NBTTagCompound();
+            this.getSentry().save(sentrySave);
+            nbt.setTag("sentryTile", sentrySave);
+        }
 
         nbt.setString("unlocalizedName", this.unlocalizedName);
     }
 
     @Override
-    public void readFromNBT (NBTTagCompound nbt)
+    public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
         this.getInventory().load(nbt);
-        NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
-        this.SaveManagerSentryKey = tag.getString("id");
-        if (this.getSentry() != null)
-            this.getSentry().load(nbt);
+        if (nbt.hasKey("sentryTile"))
+        {
+            NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
+            this.SaveManagerSentryKey = tag.getString("id");
+            this.sentry = SentryRegistry.build(tag);
+            if (this.getSentry() != null)
+            {
+                this.getSentry().load(nbt);
+            }
+        }
 
         this.unlocalizedName = nbt.getString("unlocalizedName");
-        this.ClientSentryType = SentryTypes.get(this.unlocalizedName);
-    }
-
-    public SentryTypes getClientSentryType ()
-    {
-        return this.ClientSentryType;
     }
 
     @Override
-    public IExternalInventoryBox getInventory ()
+    public IExternalInventoryBox getInventory()
     {
         return this.inventory;
     }
 
     @Override
-    public boolean canStore (ItemStack stack, int slot, ForgeDirection side)
+    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
     {
         return false;
     }
 
     @Override
-    public boolean canRemove (ItemStack stack, int slot, ForgeDirection side)
+    public boolean canRemove(ItemStack stack, int slot, ForgeDirection side)
     {
         return false;
     }
 
     @Override
-    public AutoServo getYawServo ()
+    public AutoServo getYawServo()
     {
         if (this.yawMotor == null)
             this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
@@ -287,14 +286,14 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public AutoServo getPitchServo ()
+    public AutoServo getPitchServo()
     {
         if (this.pitchMotor == null)
             this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
         return this.pitchMotor;
     }
 
-    public Sentry getSentry ()
+    public Sentry getSentry()
     {
         if (this.sentry == null)
             this.sentry = SentryRegistry.constructSentry(this.SaveManagerSentryKey, this);
@@ -302,7 +301,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public boolean onActivated (EntityPlayer entityPlayer)
+    public boolean onActivated(EntityPlayer entityPlayer)
     {
         if (entityPlayer != null)
         {
@@ -330,7 +329,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         return false;
     }
 
-    public void mount (EntityPlayer entityPlayer)
+    public void mount(EntityPlayer entityPlayer)
     {
         if (!this.worldObj.isRemote)
         {
@@ -342,12 +341,12 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
 
     }
 
-    public EntitySentryFake getFakeEntity ()
+    public EntitySentryFake getFakeEntity()
     {
         return this.sentryEntity;
     }
 
-    public void setFakeEntity (EntitySentryFake entitySentryFake)
+    public void setFakeEntity(EntitySentryFake entitySentryFake)
     {
         this.sentryEntity = entitySentryFake;
     }

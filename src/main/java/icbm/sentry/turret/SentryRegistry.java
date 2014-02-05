@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class SentryRegistry
 {
     private static HashMap<String, Class<? extends Sentry>> sentryMap = new HashMap<String, Class<? extends Sentry>>();
-
+    private static HashMap<Class<? extends Sentry>, String> sentryMapRev = new HashMap<Class<? extends Sentry>, String>();
     @SideOnly(Side.CLIENT)
     private static HashMap<Class<? extends Sentry>, SentryRenderer> sentryRenderMap;
 
@@ -35,6 +35,7 @@ public class SentryRegistry
             if (!sentryMap.containsKey(key))
             {
                 sentryMap.put(key, sentry);
+                sentryMapRev.put(sentry, key);
                 SaveManager.registerClass("Sentry-" + key, sentry);
             }
         }
@@ -90,6 +91,11 @@ public class SentryRegistry
         return sentryMap.get(key);
     }
 
+    public static String getKeyForSentry(Sentry sentry)
+    {
+        return sentryMapRev.get(sentry.getClass());
+    }
+
     /** Builds a sentry from a save using the SaveManager
      * 
      * @param compoundTag - NBT save
@@ -104,12 +110,43 @@ public class SentryRegistry
         return null;
     }
 
-    /**
-     * @param id the key of the Sentry class used in SentryRegistry.registerSentry()
+    public static Sentry build(String sentryKey, Object... args)
+    {
+        Object candidate = null;
+        Sentry sentryModule = null;
+        try
+        {
+            Class clazz = sentryMap.get(sentryKey);
+            if (clazz == null)
+            {
+                return null;
+            }
+            Constructor[] constructors = clazz.getConstructors();
+
+            for (Constructor constructor : constructors)
+            {
+                if (constructor.getParameterTypes().length == args.length)
+                {
+                    candidate = constructor.newInstance(args);
+                    break;
+                }
+            }
+            if (candidate instanceof Sentry)
+                sentryModule = (Sentry) candidate;
+            else
+                ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return sentryModule;
+    }
+
+    /** @param id the key of the Sentry class used in SentryRegistry.registerSentry()
      * @param args arguments the Sentry requires
-     * @return the Sentry object for the given id and tile,
-     * or null if the sentry isn't registered or an error occurred when constructing.
-     */
+     * @return the Sentry object for the given id and tile, or null if the sentry isn't registered
+     * or an error occurred when constructing. */
     public static Sentry constructSentry(String id, Object... args)
     {
         Object candidate = null;
@@ -127,18 +164,18 @@ public class SentryRegistry
 
             Constructor[] constructors = clazz.getConstructors();
 
-                for (Constructor constructor : constructors)
+            for (Constructor constructor : constructors)
+            {
+                if (constructor.getParameterTypes().length == args.length)
                 {
-                    if (constructor.getParameterTypes().length == args.length)
-                    {
-                        candidate = constructor.newInstance(args);
-                        break;
-                    }
+                    candidate = constructor.newInstance(args);
+                    break;
                 }
-                    if (candidate instanceof Sentry)
-                        sentryModule = (Sentry) candidate;
-                    else
-                        ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
+            }
+            if (candidate instanceof Sentry)
+                sentryModule = (Sentry) candidate;
+            else
+                ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
 
         }
         catch (Exception e)
@@ -147,7 +184,6 @@ public class SentryRegistry
         }
 
         return sentryModule;
-
 
     }
 

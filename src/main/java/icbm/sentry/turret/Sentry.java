@@ -97,12 +97,11 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
     @Override
     public void save (NBTTagCompound nbt)
     {
-        NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
-        tag.setString("id", SaveManager.getID(this.getClass()));
+        nbt.setString("id", SaveManager.getID(this.getClass()));
         if (this.energy != null)
             this.energy.writeToNBT(nbt);
         if (this.maxHealth > 0)
-            tag.setFloat("Health", this.health);
+            nbt.setFloat("Health", this.health);
 
     }
 
