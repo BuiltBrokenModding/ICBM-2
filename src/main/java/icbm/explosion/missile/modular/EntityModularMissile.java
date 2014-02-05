@@ -32,7 +32,7 @@ public class EntityModularMissile extends Entity implements IMissileLockable, IE
     }
 
     /** Spawns a traditional missile and cruise missiles
-     * 
+     *
      * @param explosiveId - Explosive ID
      * @param startPos - Starting Position
      * @param launcherPos - Missile Launcher Position */
@@ -58,6 +58,12 @@ public class EntityModularMissile extends Entity implements IMissileLockable, IE
 
         this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
         this.setRotation(yaw, pitch);
+    }
+
+    @Override
+    public void destroyCraft ()
+    {
+
     }
 
     @Override

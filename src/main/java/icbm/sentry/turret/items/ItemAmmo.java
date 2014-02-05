@@ -39,9 +39,9 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
 
     public static final Icon[] ICONS = new Icon[AmmoType.values().length];
 
-    public ItemAmmo()
+    public ItemAmmo(int id)
     {
-        super("ammunition");
+        super(id, "ammunition");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
