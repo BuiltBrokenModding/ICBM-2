@@ -20,6 +20,14 @@ public class BlockICBM extends BlockTile
     protected Icon iconTop, iconSide, iconBottom;
     protected boolean requireSidedTextures = false;
 
+    public BlockICBM(int id, String name)
+    {
+        super(id, UniversalElectricity.machine);
+        this.setUnlocalizedName(Reference.PREFIX + name);
+        this.setTextureName(Reference.PREFIX + name);
+        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+    }
+
     public BlockICBM(String name)
     {
         this(name, UniversalElectricity.machine);
@@ -32,7 +40,7 @@ public class BlockICBM extends BlockTile
 
     public BlockICBM(int id, String name, Material material)
     {
-        super(Settings.CONFIGURATION.getBlock(name, id).getInt(id), material);
+        super(id, material);
         setUnlocalizedName(Reference.PREFIX + name);
         setTextureName(Reference.PREFIX + name);
         setCreativeTab(CreativeTabICBM.INSTANCE);

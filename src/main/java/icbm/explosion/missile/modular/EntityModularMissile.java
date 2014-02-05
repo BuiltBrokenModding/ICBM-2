@@ -61,6 +61,12 @@ public class EntityModularMissile extends Entity implements IMissileLockable, IE
     }
 
     @Override
+    public void destroyCraft ()
+    {
+
+    }
+
+    @Override
     public boolean canBeTargeted(Object entity)
     {
         // TODO later add radar damping modular to decrease targeting chance at higher ranges
