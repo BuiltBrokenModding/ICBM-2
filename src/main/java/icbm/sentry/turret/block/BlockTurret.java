@@ -34,9 +34,9 @@ import java.util.Map.Entry;
 public class BlockTurret extends BlockICBM
 {
 
-    public BlockTurret(int id)
+    public BlockTurret()
     {
-        super(id, "turret");
+        super("turret");
         this.setCreativeTab(CreativeTabICBM.INSTANCE);
         this.setHardness(100f);
         this.setResistance(50f);

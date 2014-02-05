@@ -25,26 +25,17 @@ public class BlockICBM extends BlockTile
         this(name, UniversalElectricity.machine);
     }
 
-    // TODO turn over to Content registry
-    @Deprecated
     public BlockICBM(String name, Material material)
     {
         this(Settings.getNextBlockID(), name, material);
     }
 
-    @Deprecated
     public BlockICBM(int id, String name, Material material)
     {
         super(Settings.CONFIGURATION.getBlock(name, id).getInt(id), material);
         setUnlocalizedName(Reference.PREFIX + name);
         setTextureName(Reference.PREFIX + name);
         setCreativeTab(CreativeTabICBM.INSTANCE);
-    }
-
-    public BlockICBM(int id, String name)
-    {
-        super(id, UniversalElectricity.machine);
-        setUnlocalizedName(Reference.PREFIX + name);
     }
 
     @Override

@@ -22,9 +22,9 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 
     public static final Icon[] ICONS = new Icon[TurretUpgradeType.values().length];
 
-    public ItemSentryUpgrade(int id)
+    public ItemSentryUpgrade()
     {
-        super(id, "turretUpgrades");
+        super("turretUpgrades");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
