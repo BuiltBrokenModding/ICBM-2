@@ -1,10 +1,8 @@
 package icbm.sentry.turret.block;
 
 import calclavia.lib.render.RenderTaggedTile;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.render.SentryRenderer;
 import icbm.sentry.turret.SentryRegistry;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;

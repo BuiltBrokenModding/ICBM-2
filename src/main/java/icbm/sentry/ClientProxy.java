@@ -37,7 +37,7 @@ public class ClientProxy extends CommonProxy
         /** TileEntities */
         RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileSentry.class, new RenderSentry());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileSentry.class, new RenderSentry());
 
         //Sentry render registry TODO find a way to automate
         SentryRegistry.registerSentryRenderer(AutoSentryAntiAir.class, new SentryRenderAAGun());
