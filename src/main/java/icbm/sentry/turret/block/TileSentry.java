@@ -249,7 +249,10 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
         {
             NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
             this.SaveManagerSentryKey = tag.getString("id");
-            this.sentry = SentryRegistry.build(tag);
+            //this.sentry = SentryRegistry.build(tag);
+            //As I Explained, the Save Manager cant be used here since the Sentries take a constructor. and will fail.
+            //Using the method i supplied Keeps it compatible with SaveManager structure and successfully constructs the sentry.
+            this.sentry = SentryRegistry.constructSentry(this.SaveManagerSentryKey, this);
             if (this.getSentry() != null)
             {
                 this.getSentry().load(nbt);
