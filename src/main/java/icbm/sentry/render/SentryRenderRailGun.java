@@ -25,8 +25,9 @@ public class SentryRenderRailGun extends SentryRenderer
     @Override
     public void render(ForgeDirection side, TileSentry tile, float yaw, float pitch)
     {
+        GL11.glTranslatef(0.5f, 2.2f, 0.5f);
+        GL11.glScalef(1.5f, 1.5f, 1.5f);
         GL11.glRotatef(180F, 0F, 0F, 1F);
-        GL11.glRotatef(180F, 0F, 1F, 0F);
         MODEL.render((float) Math.toRadians(yaw), (float) Math.toRadians(pitch), 0.0625F);
     }
 

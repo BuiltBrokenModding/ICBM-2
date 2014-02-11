@@ -81,8 +81,8 @@ public class ICBMSentry
         Settings.CONFIGURATION.load();
         SentryTypes.load();
 
-        blockTurret = ICBMCore.contentRegistry.createBlock("BlockTurret", BlockTurret.class, ItemBlockTurret.class, null, false);
-        blockPlatform = ICBMCore.contentRegistry.createBlock("BlockTurretPlatform", BlockTurretPlatform.class, null, null, false);
+        blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class);
+        blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
 
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);

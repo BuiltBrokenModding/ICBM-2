@@ -305,7 +305,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         if (entityPlayer != null)
         {
-            entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("[Debug]Sentry: " + (this.getSentry() == null ? "null" : SentryRegistry.getKeyForSentry(this.getSentry()))));
+            entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("[Debug]"+(this.worldObj.isRemote ? "Client  ": "Server")+" Sentry: " + (this.getSentry() == null ? "null" : SentryRegistry.getKeyForSentry(this.getSentry()))));
             if (!entityPlayer.isSneaking())
             {
                 if (this.getSentry() instanceof MountedSentry && this.sentryEntity != null)
