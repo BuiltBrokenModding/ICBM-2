@@ -10,11 +10,9 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
 
-/**
- * Modular way to deal with sentry guns
+/** Modular way to deal with sentry guns
  * 
- * @author DarkGuardsman, tgame14
- */
+ * @author DarkGuardsman, tgame14 */
 public abstract class Sentry implements IEnergyContainer, ISaveObj
 {
     protected Vector3 aimOffset;
@@ -34,14 +32,14 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
         this.health = 0;
     }
 
-    public abstract void updateLoop ();
+    public abstract void updateLoop();
 
-    public boolean canFire ()
+    public boolean canFire()
     {
         return host.hasWorldObj();
     }
 
-    public boolean fireWeapon (Vector3 target)
+    public boolean fireWeapon(Vector3 target)
     {
         if (host.worldObj.isRemote)
             fireWeaponClient(target);
@@ -50,52 +48,52 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
     }
 
     /** visual rendering here */
-    public void fireWeaponClient (Vector3 target)
+    public void fireWeaponClient(Vector3 target)
     {
         // TODO Auto-generated method stub
 
     }
 
-    public Vector3 getAimOffset ()
+    public Vector3 getAimOffset()
     {
         return this.aimOffset;
     }
 
-    public Vector3 getCenterOffset ()
+    public Vector3 getCenterOffset()
     {
         return this.centerOffset;
     }
 
-    public float getHealth ()
+    public float getHealth()
     {
         return this.health;
     }
 
-    public static float getMaxHealth ()
+    public static float getMaxHealth()
     {
         return maxHealth;
     }
 
     @Override
-    public void setEnergy (ForgeDirection dir, long energy)
+    public void setEnergy(ForgeDirection dir, long energy)
     {
         this.energy.setEnergy(energy);
     }
 
     @Override
-    public long getEnergy (ForgeDirection dir)
+    public long getEnergy(ForgeDirection dir)
     {
         return this.energy.getEnergy();
     }
 
     @Override
-    public long getEnergyCapacity (ForgeDirection dir)
+    public long getEnergyCapacity(ForgeDirection dir)
     {
         return this.energy.getEnergyCapacity();
     }
 
     @Override
-    public void save (NBTTagCompound nbt)
+    public void save(NBTTagCompound nbt)
     {
         nbt.setString("id", SaveManager.getID(this.getClass()));
         if (this.energy != null)
@@ -106,7 +104,7 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
     }
 
     @Override
-    public void load (NBTTagCompound nbt)
+    public void load(NBTTagCompound nbt)
     {
         if (this.energy != null)
             this.energy.readFromNBT(nbt);
@@ -114,30 +112,31 @@ public abstract class Sentry implements IEnergyContainer, ISaveObj
 
     }
 
-    public World world ()
+    public World world()
     {
         return this.host.worldObj;
     }
 
-    public double x ()
+    public double x()
     {
         return this.host.xCoord;
     }
 
-    public double y ()
+    public double y()
     {
         return this.host.yCoord;
     }
 
-    public double z ()
+    public double z()
     {
         return this.host.zCoord;
     }
 
-    
-    public SentryTypes getSentryType ()
+    @Override
+    public String toString()
     {
-        return SentryTypes.VOID;
+        String id = SentryRegistry.getKeyForSentry(this);
+        return "[Sentry]ID: " + (id != null ? id : "Not Registered") + "  Has TileSentry: " + (this.host != null ? "Yes" : "No");
     }
 
 }

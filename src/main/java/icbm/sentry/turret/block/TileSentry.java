@@ -12,7 +12,9 @@ import calclavia.lib.terminal.TileTerminal;
 import calclavia.lib.utility.inventory.ExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
+
 import com.google.common.io.ByteArrayDataInput;
+
 import icbm.core.ICBMCore;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.EntitySentryFake;
@@ -29,6 +31,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
+import universalelectricity.api.vector.Vector3;
 
 /** Tile container for sentries
  * 
@@ -84,27 +87,29 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     public void updateEntity()
     {
         super.updateEntity();
+        float prevYaw = this.getYawServo().getRotation();
+        float prevPitch = this.getPitchServo().getRotation();
+        if (this.ticks % 5 == 0)
+        {
+            System.out.println("\n[TileSentry] Update Check, Side: " + (this.worldObj.isRemote ? "Client" : "Server") + "\n  Sentry: " + (this.getSentry() != null ? this.getSentry().toString() : "Null"));
+        }
         if (this.getSentry() != null)
         {
             this.getSentry().updateLoop();
             if (!(this.getSentry() instanceof MountedSentry))
             {
-                //TODO change mountable sentry to limit rider rotation, then use servos for rotation updates
-                float prevYaw = this.getYawServo().getRotation();
-                float prevPitch = this.getPitchServo().getRotation();
                 this.yawMotor.update();
                 this.pitchMotor.update();
-                if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
-                {
-                    PacketHandler.sendPacketToClients(this.getRotationPacket());
-                }
             }
             else
             {
                 this.mountableSentryLoop();
             }
         }
-
+        if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
+        {
+            PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
+        }
     }
 
     //Do not move this to the sentry class as it is only usable by the tile, 

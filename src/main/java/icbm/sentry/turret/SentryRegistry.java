@@ -38,6 +38,8 @@ public class SentryRegistry
                 sentryMap.put(key, sentry);
                 sentryMapRev.put(sentry, key);
                 SaveManager.registerClass("Sentry-" + key, sentry);
+                System.out.println("[SentryRegistry]Registering Sentry . Sentry: " + sentry.getName() + "  ID: " + key + " Save-ID: Sentry-" + key);
+
             }
         }
     }
@@ -57,6 +59,7 @@ public class SentryRegistry
         {
             if (!sentryRenderMap.containsKey(sentry))
             {
+                System.out.println("[SentryRegistry]Registering Sentry Renderer. Sentry: " + sentry.getName() + "  Renderer: " + render.getClass().getName());
                 sentryRenderMap.put(sentry, render);
             }
         }

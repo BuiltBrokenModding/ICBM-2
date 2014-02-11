@@ -26,10 +26,4 @@ public class MountedSentry extends Sentry
         return this.riderOffset;
     }
 
-    @Override
-    public SentryTypes getSentryType ()
-    {
-        return SentryTypes.CLASSIC;
-    }
-
 }

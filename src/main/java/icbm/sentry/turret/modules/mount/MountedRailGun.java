@@ -51,10 +51,4 @@ public class MountedRailGun extends MountedSentry implements IMultiBlock
     {
         return new Vector3[] { new Vector3(0, 1, 0) };
     }
-    
-    @Override
-    public SentryTypes getSentryType ()
-    {
-        return SentryTypes.RAILGUN;
-    }
 }
