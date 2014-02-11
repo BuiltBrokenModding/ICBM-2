@@ -178,12 +178,6 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
     }
 
     @Override
-    protected void entityInit ()
-    {
-
-    }
-
-    @Override
     protected boolean canTriggerWalking ()
     {
         return false;
