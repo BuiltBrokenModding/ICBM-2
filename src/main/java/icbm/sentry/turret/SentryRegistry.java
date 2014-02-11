@@ -1,5 +1,6 @@
 package icbm.sentry.turret;
 
+import calclavia.lib.utility.ReflectionHelper;
 import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -66,14 +67,10 @@ public class SentryRegistry
     {
         if (sentry != null)
         {
-            Class clazz = sentry.getClass();
+            Class<?> clazz = sentry.getClass();
             if (sentryRenderMap.containsKey(clazz))
             {
                 return sentryRenderMap.get(sentry.getClass());
-            }
-            else
-            {
-                //TODO cycle threw list checking if clazz is applicable to X class
             }
         }
         return null;
@@ -96,13 +93,16 @@ public class SentryRegistry
         return sentryMapRev.get(sentry.getClass());
     }
 
-    /** Builds a sentry from a save using the SaveManager
+    /** Builds a sentry from a save using the SaveManager. This assumes that the sentries save ID was
+     * saved to the NBTTagCompound. If it was not then use the other construct method followed by
+     * calling the load method.
      * 
      * @param compoundTag - NBT save
+     * @param args - args that will be passed into the sentry's class constructor
      * @return new Sentry instance or null if it failed */
-    public static Sentry build(NBTTagCompound compoundTag)
+    public static Sentry constructSentry(NBTTagCompound compoundTag, Object... args)
     {
-        Object object = SaveManager.createAndLoad(compoundTag);
+        Object object = SaveManager.createAndLoad(compoundTag, args);
         if (object instanceof Sentry)
         {
             return (Sentry) object;
@@ -110,73 +110,37 @@ public class SentryRegistry
         return null;
     }
 
-    public static Sentry build(String sentryKey, Object... args)
-    {
-        Object candidate = null;
-        Sentry sentryModule = null;
-        try
-        {
-            Class clazz = sentryMap.get(sentryKey);
-            if (clazz == null)
-            {
-                return null;
-            }
-            Constructor[] constructors = clazz.getConstructors();
-
-            for (Constructor constructor : constructors)
-            {
-                if (constructor.getParameterTypes().length == args.length)
-                {
-                    candidate = constructor.newInstance(args);
-                    break;
-                }
-            }
-            if (candidate instanceof Sentry)
-                sentryModule = (Sentry) candidate;
-            else
-                ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return sentryModule;
-    }
-
-    /** @param id the key of the Sentry class used in SentryRegistry.registerSentry()
-     * @param args arguments the Sentry requires
-     * @return the Sentry object for the given id and tile, or null if the sentry isn't registered
-     * or an error occurred when constructing. */
-    public static Sentry constructSentry(String id, Object... args)
+    /** Builds a new sentry instance from the given sentry ID and argument. Sentry ID must be
+     * registered to a class, and the args must match a constructor in the registered class.
+     * 
+     * @param sentryID the key of the Sentry class used in SentryRegistry.registerSentry()
+     * @param args arguments the Sentry's class constructor requires
+     * @return the Sentry object for the given id and tile, or null it failed to create the sentry */
+    public static Sentry constructSentry(String sentryID, Object... args)
     {
         Object candidate = null;
         Sentry sentryModule = null;
 
         try
         {
-            Class clazz = SaveManager.getClass(id);
+            Class clazz = SaveManager.getClass(sentryID);
 
-            if (clazz == null)
+            if (clazz != null)
             {
-                //ICBMSentry.LOGGER.severe("Attempted Sentry for construction is not registered");
-                return null;
-            }
-
-            Constructor[] constructors = clazz.getConstructors();
-
-            for (Constructor constructor : constructors)
-            {
-                if (constructor.getParameterTypes().length == args.length)
+                Constructor<?> con = ReflectionHelper.getConstructorWithArgs(clazz, args);
+                if (con != null)
                 {
-                    candidate = constructor.newInstance(args);
-                    break;
+                    candidate = con.newInstance(args);
+                }
+                if (candidate instanceof Sentry)
+                {
+                    sentryModule = (Sentry) candidate;
+                }
+                else
+                {
+                    ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
                 }
             }
-            if (candidate instanceof Sentry)
-                sentryModule = (Sentry) candidate;
-            else
-                ICBMSentry.LOGGER.severe("construction of Sentry failed, an unexpected Object was created");
-
         }
         catch (Exception e)
         {
