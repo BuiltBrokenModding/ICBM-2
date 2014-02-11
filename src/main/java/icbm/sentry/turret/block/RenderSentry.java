@@ -23,7 +23,7 @@ public class RenderSentry extends RenderTaggedTile
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f)
     {
         super.renderTileEntityAt(tile, x, y, z, f);
-        //System.out.println("\nSentryRenderer: Tick update");
+        System.out.println("\nSentryRenderer: Tick update");
         if (tile instanceof TileSentry)
         {
 
@@ -32,7 +32,7 @@ public class RenderSentry extends RenderTaggedTile
             {
                 sentryRender = backup_render;
             }
-            //System.out.println("Sentry: " + ((TileSentry) tile).getSentry() + " Renderer: " + sentryRender.getClass().getName());
+            System.out.println("Sentry: " + ((TileSentry) tile).getSentry() + " Renderer: " + sentryRender.getClass().getName());
             GL11.glPushMatrix();
             GL11.glTranslatef((float) x, (float) y, (float) z);
             GL11.glScalef(1f, 1f, 1f);

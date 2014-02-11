@@ -85,12 +85,32 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         super.updateEntity();
         if (this.getSentry() != null)
+        {
             this.getSentry().updateLoop();
+            if (!(this.getSentry() instanceof MountedSentry))
+            {
+                //TODO change mountable sentry to limit rider rotation, then use servos for rotation updates
+                float prevYaw = this.getYawServo().getRotation();
+                float prevPitch = this.getPitchServo().getRotation();
+                this.yawMotor.update();
+                this.pitchMotor.update();
+                if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
+                {
+                    PacketHandler.sendPacketToClients(this.getRotationPacket());
+                }
+            }
+            else
+            {
+                this.mountableSentryLoop();
+            }
+        }
 
     }
 
-    // TODO Move this to Sentry object update loop
-    @Deprecated
+    //Do not move this to the sentry class as it is only usable by the tile, 
+    //if the sentry is using an entity container it will handle the rider different
+    //Each sentry container needs to handle most of the logic on its own
+    //The sentry is more or less just a template for how the container will make the sentry function
     protected void mountableSentryLoop()
     {
         boolean flag = false;
@@ -118,21 +138,6 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
             this.getYawServo().setRotation(mountedPlayer.rotationYaw);
         }
 
-    }
-
-    //TODO Move to AutoSentry Update Loo
-    @Deprecated
-    protected void autoSentryLoop()
-    {
-
-        float prevYaw = this.getYawServo().getRotation();
-        float prevPitch = this.getPitchServo().getRotation();
-        this.yawMotor.update();
-        this.pitchMotor.update();
-        if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
-        {
-            PacketHandler.sendPacketToClients(this.getRotationPacket());
-        }
     }
 
     @Override
@@ -305,7 +310,7 @@ public class TileSentry extends TileTerminal implements IProfileContainer, IRota
     {
         if (entityPlayer != null)
         {
-            entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("[Debug]"+(this.worldObj.isRemote ? "Client  ": "Server")+" Sentry: " + (this.getSentry() == null ? "null" : SentryRegistry.getKeyForSentry(this.getSentry()))));
+            entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("[Debug]" + (this.worldObj.isRemote ? "Client  " : "Server") + " Sentry: " + (this.getSentry() == null ? "null" : SentryRegistry.getKeyForSentry(this.getSentry()))));
             if (!entityPlayer.isSneaking())
             {
                 if (this.getSentry() instanceof MountedSentry && this.sentryEntity != null)
