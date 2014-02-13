@@ -1,4 +1,4 @@
-package icbm.sentry;
+package icbm.api.sentry;
 
 /** Used by sentries to tell what type of projectile its using
  * 

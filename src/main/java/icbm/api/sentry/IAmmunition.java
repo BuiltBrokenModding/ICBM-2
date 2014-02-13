@@ -1,6 +1,5 @@
 package icbm.api.sentry;
 
-import icbm.sentry.ProjectileType;
 import net.minecraft.item.ItemStack;
 
 public interface IAmmunition
