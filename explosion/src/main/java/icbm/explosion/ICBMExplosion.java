@@ -81,17 +81,18 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ICBMExplosion.NAME, name = ICBMExplosion.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM;after:ICBM|Sentry")
+@Mod(modid = ICBMExplosion.ID, name = ICBMExplosion.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM;after:ICBM|Sentry")
 @NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMExplosion
 {
-	public static final String NAME = Reference.NAME + "|Explosion";
+	public static final String NAME = Reference.NAME + " Explosion";
+	public static final String ID = Reference.NAME + "|Explosion";
 	public static final String CHANNEL = Reference.NAME + "|E";
 
-	@Instance(NAME)
+	@Instance(ID)
 	public static ICBMExplosion instance;
 
-	@Metadata(NAME)
+	@Metadata(ID)
 	public static ModMetadata metadata;
 
 	@SidedProxy(clientSide = "icbm.explosion.ClientProxy", serverSide = "icbm.explosion.CommonProxy")
@@ -275,7 +276,7 @@ public class ICBMExplosion
 	@EventHandler
 	public void load(FMLInitializationEvent evt)
 	{
-		ICBMCore.setModMetadata(NAME, metadata);
+		Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
 	}
 
 	@EventHandler
