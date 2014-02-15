@@ -10,11 +10,6 @@ import net.minecraft.item.Item;
  * @author DarkGuardsman */
 public class ItemICBMBase extends Item
 {
-    public ItemICBMBase(String name)
-    {
-        this(Settings.getNextItemID(), name);
-    }
-
     public ItemICBMBase(int id, String name)
     {
         super(id);
