@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 
 public class ItemMissile extends ItemICBMBase
 {
-    public ItemMissile(int id, String name)
+    public ItemMissile(int id)
     {
-        super(id, name);
+        super(id, "missile");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);

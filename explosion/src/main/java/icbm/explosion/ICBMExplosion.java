@@ -108,11 +108,11 @@ public class ICBMExplosion
 	// Items
 	public static Item itemMissile;
 
-	public static ItemElectric itemBombDefuser;
-	public static ItemElectric itemRadarGun;
-	public static ItemElectric itemRemoteDetonator;
-	public static ItemElectric itemLaserDesignator;
-	public static ItemElectric itemRocketLauncher;
+	public static Item itemBombDefuser;
+	public static Item itemRadarGun;
+	public static Item itemRemoteDetonator;
+	public static Item itemLaserDesignator;
+	public static Item itemRocketLauncher;
 
 	public static Item itemGrenade;
 	public static Item itemBombCart;
@@ -130,21 +130,21 @@ public class ICBMExplosion
 		MinecraftForge.EVENT_BUS.register(proxy);
 
 		
-		blockExplosive = new BlockExplosive(Settings.getNextBlockID());
-		blockMachine = new BlockICBMMachine(Settings.getNextBlockID());
-		blockMissileAssembler = new BlockMissileAssembler(Settings.getNextBlockID());
+		blockExplosive = ICBMCore.contentRegistry.createBlock(BlockExplosive.class);
+		blockMachine = ICBMCore.contentRegistry.createBlock(BlockICBMMachine.class);
+		blockMissileAssembler = ICBMCore.contentRegistry.createBlock(BlockMissileAssembler.class);
 
 		// ITEMS
-		itemMissile = new ItemMissile(Settings.getNextItemID(), "missile");
+		itemMissile = ICBMCore.contentRegistry.createItem(ItemMissile.class);
 
-		itemBombDefuser = new ItemBombDefuser(Settings.getNextItemID());
-		itemRadarGun = new ItemRadarGun(Settings.getNextItemID());
-		itemRemoteDetonator = new ItemRemoteDetonator(Settings.getNextItemID());
-		itemLaserDesignator = new ItemLaserDesignator(Settings.getNextItemID());
-		itemRocketLauncher = new ItemRocketLauncher(Settings.getNextItemID());
+		itemBombDefuser = ICBMCore.contentRegistry.createItem(ItemBombDefuser.class);
+		itemRadarGun = ICBMCore.contentRegistry.createItem(ItemRadarGun.class);
+		itemRemoteDetonator = ICBMCore.contentRegistry.createItem(ItemRemoteDetonator.class);
+		itemLaserDesignator = ICBMCore.contentRegistry.createItem(ItemLaserDesignator.class);
+		itemRocketLauncher = ICBMCore.contentRegistry.createItem(ItemRocketLauncher.class);
 
-		itemGrenade = new ItemGrenade(Settings.getNextItemID());
-		itemBombCart = new ItemBombCart(Settings.getNextItemID());
+		itemGrenade = ICBMCore.contentRegistry.createItem(ItemGrenade.class);
+		itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
 
 		/** Potion Effects */
 		PoisonToxin.INSTANCE = new PoisonToxin(24, true, 5149489, "toxin");
