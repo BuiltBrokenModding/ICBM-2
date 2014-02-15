@@ -5,6 +5,7 @@ import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
 
+import universalelectricity.api.vector.Vector3;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -24,6 +26,7 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
     public ItemTracker(int id)
     {
         super(id, "tracker");
+        FlagRegistry.registerFlag("ban_Tracker");
     }
 
     @SideOnly(Side.CLIENT)
@@ -125,15 +128,23 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
     {
         if (!player.worldObj.isRemote)
         {
-            if (this.getEnergy(itemStack) > ENERGY_PER_TICK)
+            boolean flag_ban = FlagRegistry.getModFlag().getFlagWorld(player.worldObj).containsValue("ban_Tracker", "true", new Vector3(entity));
+            if (!flag_ban)
             {
-                setTrackingEntity(itemStack, entity);
-                player.addChatMessage(LanguageUtility.getLocal("message.tracker.nowtrack") + " " + entity.getEntityName());
-                return true;
+                if (this.getEnergy(itemStack) > ENERGY_PER_TICK)
+                {
+                    setTrackingEntity(itemStack, entity);
+                    player.addChatMessage(LanguageUtility.getLocal("message.tracker.nowtrack") + " " + entity.getEntityName());
+                    return true;
+                }
+                else
+                {
+                    player.addChatMessage(LanguageUtility.getLocal("message.tracker.nopower"));
+                }
             }
             else
             {
-                player.addChatMessage(LanguageUtility.getLocal("message.tracker.nopower"));
+                player.addChatMessage(LanguageUtility.getLocal("message.tracker.banned"));
             }
         }
 

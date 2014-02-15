@@ -31,6 +31,7 @@ import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
 import calclavia.lib.content.ContentRegistry;
+import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
@@ -120,6 +121,7 @@ public final class ICBMCore
         itemAntidote = ICBMCore.contentRegistry.createItem("ItemAntidote", ItemAntidote.class);
         itemSignalDisrupter = ICBMCore.contentRegistry.createItem("ItemSignalDisrupter", ItemSignalDisrupter.class);
         itemTracker = ICBMCore.contentRegistry.createItem("ItemTracker", ItemTracker.class);
+        
 
         sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
