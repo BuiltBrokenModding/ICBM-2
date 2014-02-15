@@ -1,5 +1,6 @@
 package icbm.sentry.render;
 
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -38,15 +39,19 @@ public abstract class SentryRenderer
     {
         if (tileEntity != null && player != null)
         {
+            //ICBMSentry.LOGGER.info("Getting sentry Texture:");
             if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
             {
+                //ICBMSentry.LOGGER.info("Returning default Texture:");
                 return TEXTURE_FILE;
             }
             else if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
             {
+                //ICBMSentry.LOGGER.info("Returning Friendly Texture:");
                 return TEXTURE_FILE_FRIENDLY;
             }
         }
+        //ICBMSentry.LOGGER.info("Returning Hostile Texture:");
         return TEXTURE_FILE_HOSTILE;
     }
 }

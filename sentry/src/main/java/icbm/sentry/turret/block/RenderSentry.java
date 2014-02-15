@@ -1,6 +1,7 @@
 package icbm.sentry.turret.block;
 
 import calclavia.lib.render.RenderTaggedTile;
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.render.SentryRenderGunTurret;
 import icbm.sentry.render.SentryRenderer;
 import icbm.sentry.turret.SentryRegistry;
@@ -22,8 +23,9 @@ public class RenderSentry extends RenderTaggedTile
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f)
     {
+        // Seems like TESR is not even spawning for tile entity.
+        ICBMSentry.LOGGER.info("TESR Rendering");
         super.renderTileEntityAt(tile, x, y, z, f);
-        System.out.println("\nSentryRenderer: Tick update");
         if (tile instanceof TileSentry)
         {
 
