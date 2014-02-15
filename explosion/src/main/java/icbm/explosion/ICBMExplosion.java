@@ -128,6 +128,7 @@ public class ICBMExplosion
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(proxy);
+		FlagRegistry.registerFlag("ban_ICBM");
 
 		
 		blockExplosive = ICBMCore.contentRegistry.createBlock(BlockExplosive.class);
@@ -415,7 +416,7 @@ public class ICBMExplosion
 	{
 		if (FlagRegistry.getModFlag() != null && evt.explosion instanceof Explosive)
 		{
-			if (FlagRegistry.getModFlag().getFlagWorld(evt.world).containsValue(((Explosive) evt.explosion).flagName, "false", new Vector3(evt.x, evt.y, evt.z)))
+			if (((Explosive)evt.explosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
 			{
 				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
 				evt.setCanceled(true);
@@ -428,7 +429,7 @@ public class ICBMExplosion
 	{
 		if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
 		{
-			if (FlagRegistry.getModFlag().getFlagWorld(evt.world).containsValue(((Explosive) evt.iExplosion).flagName, "false", new Vector3(evt.x, evt.y, evt.z)))
+			if (((Explosive)evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
 			{
 				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
 				evt.setCanceled(true);
@@ -441,7 +442,7 @@ public class ICBMExplosion
 	{
 		if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
 		{
-			if (FlagRegistry.getModFlag().getFlagWorld(evt.world).containsValue(((Explosive) evt.iExplosion).flagName, "false", new Vector3(evt.x, evt.y, evt.z)))
+			if (((Explosive)evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
 			{
 				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
 				evt.setCanceled(true);

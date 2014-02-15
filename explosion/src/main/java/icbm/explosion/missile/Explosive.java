@@ -324,4 +324,19 @@ public abstract class Explosive implements IExplosive
     }
 
     public abstract void doCreateExplosion(World world, double x, double y, double z, Entity entity);
+
+    /** Checks if the explosive is banned in an area
+     * 
+     * @param world - world to check in
+     * @param x - coord
+     * @param y - coord
+     * @param z- coord
+     * @return true if it is banned */
+    public boolean isBannedInRegion(World world, double x, double y, double z)
+    {
+        boolean flag_all = FlagRegistry.getModFlag().getFlagWorld(world).containsValue("ban_ICBM", "true", new Vector3(x, y, z));
+        boolean flag_missile = FlagRegistry.getModFlag().getFlagWorld(world).containsValue(this.flagName, "true", new Vector3(x, y, z));
+
+        return flag_all || flag_missile;
+    }
 }

@@ -115,8 +115,8 @@ public final class ICBMCore
         blockReinforcedGlass = ICBMCore.contentRegistry.createBlock(BlockReinforcedGlass.class);
 
         // ITEMS
-        itemPoisonPowder = ICBMCore.contentRegistry.createItem("itemPoisonPowder", ItemPoisonPowder.class);
-        itemSulfurDust = ICBMCore.contentRegistry.createItem("itemSulfurDust", ItemSulfureDust.class);
+        itemPoisonPowder = ICBMCore.contentRegistry.createItem("ItemPoisonPowder", ItemPoisonPowder.class);
+        itemSulfurDust = ICBMCore.contentRegistry.createItem("ItemSulfurDust", ItemSulfureDust.class);
         itemAntidote = ICBMCore.contentRegistry.createItem("ItemAntidote", ItemAntidote.class);
         itemSignalDisrupter = ICBMCore.contentRegistry.createItem("ItemSignalDisrupter", ItemSignalDisrupter.class);
         itemTracker = ICBMCore.contentRegistry.createItem("ItemTracker", ItemTracker.class);
