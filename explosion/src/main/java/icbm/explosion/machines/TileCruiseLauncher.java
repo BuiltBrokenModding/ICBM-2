@@ -525,7 +525,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return INFINITE_EXTENT_AABB;
+        return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord, zCoord - 1, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
     @Override
@@ -538,6 +538,12 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     public void closeChest()
     {
 
+    }
+
+    @Override
+    public int[] getMissileSlots()
+    {
+        return new int[] { 0 };
     }
 
 }

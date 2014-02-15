@@ -32,6 +32,7 @@ import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.prefab.tile.TileAdvanced;
+import calclavia.lib.prefab.tile.TileExternalInventory;
 import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -39,7 +40,7 @@ import com.google.common.io.ByteArrayDataInput;
 /** This tile entity is for the base of the missile launcher
  * 
  * @author Calclavia */
-public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IInventory, IBlockActivate
+public class TileLauncherBase extends TileExternalInventory implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IBlockActivate
 {
     // The missile that this launcher is holding
     public IMissile missile = null;
@@ -47,91 +48,12 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     // The connected missile launcher frame
     public TileEntitySupportFrame supportFrame = null;
 
-    private ItemStack[] containingItems = new ItemStack[1];
-
     // The tier of this launcher base
     private int tier = 0;
 
-    private byte facingDirection = 3;
+    private ForgeDirection facingDirection = ForgeDirection.NORTH;
 
     private boolean packetGengXin = true;
-
-    /** Returns the number of slots in the inventory. */
-    @Override
-    public int getSizeInventory()
-    {
-        return this.containingItems.length;
-    }
-
-    /** Returns the stack in slot i */
-    @Override
-    public ItemStack getStackInSlot(int par1)
-    {
-        return this.containingItems[par1];
-    }
-
-    /** Decrease the size of the stack in slot (first int arg) by the amount of the second int arg.
-     * Returns the new stack. */
-    @Override
-    public ItemStack decrStackSize(int par1, int par2)
-    {
-        if (this.containingItems[par1] != null)
-        {
-            ItemStack var3;
-
-            if (this.containingItems[par1].stackSize <= par2)
-            {
-                var3 = this.containingItems[par1];
-                this.containingItems[par1] = null;
-                return var3;
-            }
-            else
-            {
-                var3 = this.containingItems[par1].splitStack(par2);
-
-                if (this.containingItems[par1].stackSize == 0)
-                {
-                    this.containingItems[par1] = null;
-                }
-
-                return var3;
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /** When some containers are closed they call this on each slot, then drop whatever it returns as
-     * an EntityItem - like when you close a workbench GUI. */
-    @Override
-    public ItemStack getStackInSlotOnClosing(int par1)
-    {
-        if (this.containingItems[par1] != null)
-        {
-            ItemStack var2 = this.containingItems[par1];
-            this.containingItems[par1] = null;
-            return var2;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /** Sets the given item stack to the specified slot in the inventory (can be crafting or armor
-     * sections). */
-    @Override
-    public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
-    {
-        this.containingItems[par1] = par2ItemStack;
-
-        if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
-        {
-            par2ItemStack.stackSize = this.getInventoryStackLimit();
-        }
-    }
 
     /** Returns the name of the inventory. */
     @Override
@@ -152,7 +74,7 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
             for (byte i = 2; i < 6; i++)
             {
                 Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-                position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+                position.translate(ForgeDirection.getOrientation(i));
 
                 TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
 
@@ -199,7 +121,7 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
         try
         {
 
-            this.facingDirection = data.readByte();
+            this.facingDirection = ForgeDirection.getOrientation(data.readByte());
             this.tier = data.readInt();
         }
         catch (Exception e)
@@ -212,11 +134,11 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     {
         if (!this.worldObj.isRemote)
         {
-            if (this.containingItems[0] != null)
+            if (this.getStackInSlot(0) != null)
             {
-                if (this.containingItems[0].getItem() instanceof ItemMissile)
+                if (this.getStackInSlot(0).getItem() instanceof ItemMissile)
                 {
-                    int explosiveID = this.containingItems[0].getItemDamage();
+                    int explosiveID = this.getStackInSlot(0).getItemDamage();
 
                     if (ExplosiveRegistry.get(explosiveID) instanceof Missile)
                     {
@@ -340,24 +262,8 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-
-        NBTTagList var2 = nbt.getTagList("Items");
-
         this.tier = nbt.getInteger("tier");
-        this.facingDirection = nbt.getByte("facingDirection");
-
-        this.containingItems = new ItemStack[this.getSizeInventory()];
-
-        for (int var3 = 0; var3 < var2.tagCount(); ++var3)
-        {
-            NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
-            byte var5 = var4.getByte("Slot");
-
-            if (var5 >= 0 && var5 < this.containingItems.length)
-            {
-                this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
-            }
-        }
+        this.facingDirection = ForgeDirection.getOrientation(nbt.getByte("facingDirection"));
     }
 
     /** Writes a tile entity to NBT. */
@@ -365,49 +271,8 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-
         nbt.setInteger("tier", this.tier);
-        nbt.setByte("facingDirection", this.facingDirection);
-
-        NBTTagList var2 = new NBTTagList();
-
-        for (int var3 = 0; var3 < this.containingItems.length; ++var3)
-        {
-            if (this.containingItems[var3] != null)
-            {
-                NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte) var3);
-                this.containingItems[var3].writeToNBT(var4);
-                var2.appendTag(var4);
-            }
-        }
-
-        nbt.setTag("Items", var2);
-    }
-
-    /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
-     * extended. *Isn't this more of a set than a get?* */
-    @Override
-    public int getInventoryStackLimit()
-    {
-        return 1;
-    }
-
-    /** Do not make give this method the name canInteractWith because it clashes with Container */
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
-    {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
-    }
-
-    @Override
-    public void openChest()
-    {
-    }
-
-    @Override
-    public void closeChest()
-    {
+        nbt.setByte("facingDirection", (byte) this.facingDirection.ordinal());
     }
 
     @Override
@@ -450,7 +315,7 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
         else if (this.getStackInSlot(0) != null)
         {
             player.inventory.setInventorySlotContents(player.inventory.currentItem, this.getStackInSlot(0));
-            this.setInventorySlotContents(0, null);            
+            this.setInventorySlotContents(0, null);
             return true;
         }
 
@@ -471,7 +336,7 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     @Override
     public Vector3[] getMultiBlockVectors()
     {
-        if (this.facingDirection == 3 || this.facingDirection == 2)
+        if (this.facingDirection == ForgeDirection.SOUTH || this.facingDirection == ForgeDirection.NORTH)
         {
             return new Vector3[] { new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0), new Vector3(-1, 0, 0), new Vector3(-1, 1, 0), new Vector3(-1, 2, 0) };
         }
@@ -484,13 +349,13 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     @Override
     public ForgeDirection getDirection()
     {
-        return ForgeDirection.getOrientation(this.facingDirection);
+        return this.facingDirection;
     }
 
     @Override
     public void setDirection(ForgeDirection facingDirection)
     {
-        this.facingDirection = (byte) facingDirection.ordinal();
+        this.facingDirection = facingDirection;
     }
 
     @Override
@@ -500,15 +365,9 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
     {
-        return true;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
-    {
-        return itemStack.getItem() instanceof ItemMissile;
+        return slot == 0 && stack.getItem() instanceof ItemMissile;
     }
 
     @Override
@@ -528,7 +387,7 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
     {
         for (byte i = 2; i < 6; i++)
         {
-            Vector3 position = new Vector3(this).modifyPositionFromSide(ForgeDirection.getOrientation(i));
+            Vector3 position = new Vector3(this).translate(ForgeDirection.getOrientation(i));
 
             TileEntity tileEntity = position.getTileEntity(this.worldObj);
 
@@ -541,4 +400,9 @@ public class TileLauncherBase extends TileAdvanced implements IPacketReceiver, I
         return null;
     }
 
+    @Override
+    public int[] getMissileSlots()
+    {
+        return new int[]{0};
+    }
 }
