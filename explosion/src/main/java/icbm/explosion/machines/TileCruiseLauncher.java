@@ -435,18 +435,38 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 	}
 
 	@Override
-	public boolean onActivated(EntityPlayer entityPlayer)
+	public boolean onActivated(EntityPlayer player)
 	{
-		if (this.isItemValidForSlot(0, entityPlayer.inventory.getCurrentItem()))
-		{
-			this.setInventorySlotContents(0, entityPlayer.inventory.getCurrentItem());
-			entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, null);
-			return true;
-		}
+        if (player.inventory.getCurrentItem() != null)
+        {
+            if (player.inventory.getCurrentItem().getItem() instanceof ItemMissile)
+            {
+                if (this.getStackInSlot(0) == null)
+                {
 
-		entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+                    this.setInventorySlotContents(0, player.inventory.getCurrentItem());
+                    if (!player.capabilities.isCreativeMode)
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                    return true;
+                }
+                else
+                {
+                    ItemStack player_held = player.inventory.getCurrentItem();
+                    if (!player.capabilities.isCreativeMode)
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, this.getStackInSlot(0));
+                    this.setInventorySlotContents(0, player_held);
+                    return true;
+                }
+            }
+        }
+        else if (this.getStackInSlot(0) != null)
+        {
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, this.getStackInSlot(0));
+            this.setInventorySlotContents(0, null);            
+            return true;
+        }
 
-		return true;
+        return true;
 	}
 
 	@Override
