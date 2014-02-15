@@ -77,8 +77,6 @@ public class ICBMSentry
 	{
 		NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
-
-		Settings.CONFIGURATION.load();
 		SentryTypes.load();
 
 		blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class);
@@ -98,7 +96,6 @@ public class ICBMSentry
 		CreativeTabICBM.itemStack = new ItemStack(blockTurret);
 
 		proxy.preInit();
-		Settings.CONFIGURATION.save();
 
 	}
 

@@ -143,7 +143,7 @@ public final class ICBMCore
 		OreDictionary.registerOre("dustSulfur", itemSulfurDust);
 		OreGenerator.addOre(sulfurGenerator);
 
-		Settings.CONFIGURATION.save();
+		
 
 		CreativeTabICBM.itemStack = new ItemStack(blockProximityDetector);
 
@@ -169,7 +169,7 @@ public final class ICBMCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-
+	    Settings.CONFIGURATION.save();
 		/** LOAD. */
 
 		// Sulfur

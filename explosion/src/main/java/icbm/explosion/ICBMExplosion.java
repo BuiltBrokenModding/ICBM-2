@@ -129,7 +129,7 @@ public class ICBMExplosion
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(proxy);
 
-		Settings.CONFIGURATION.load();
+		
 		blockExplosive = new BlockExplosive(Settings.getNextBlockID());
 		blockMachine = new BlockICBMMachine(Settings.getNextBlockID());
 		blockMissileAssembler = new BlockMissileAssembler(Settings.getNextBlockID());
@@ -152,9 +152,9 @@ public class ICBMExplosion
 		PoisonFrostBite.INSTANCE = new PoisonFrostBite(26, false, 5149489, "frostBite");
 
 		CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
-		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperBoomInFire", true).getBoolean(true);
+		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperExplosionInFire", true).getBoolean(true);
 
-		Settings.CONFIGURATION.save();
+
 
 		CreativeTabICBM.itemStack = new ItemStack(blockExplosive);
 
