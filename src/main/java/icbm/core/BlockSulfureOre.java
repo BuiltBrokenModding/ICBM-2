@@ -8,6 +8,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
+/** World generated block
+ * 
+ * @author Calcalvia */
 public class BlockSulfureOre extends Block
 {
     public BlockSulfureOre(int id)
@@ -20,26 +23,20 @@ public class BlockSulfureOre extends Block
     }
 
     @Override
-    public int idDropped(int par1, Random par2Random, int par3)
+    public int idDropped(int id, Random rand, int meta)
     {
         return ICBMCore.itemSulfurDust.itemID;
     }
 
     @Override
-    public int quantityDropped(Random par1Random)
+    public int quantityDropped(Random rand)
     {
-        return 3 + par1Random.nextInt(3);
+        return 3 + rand.nextInt(3);
     }
 
     @Override
-    public int quantityDroppedWithBonus(int par1, Random par2Random)
+    public int quantityDroppedWithBonus(int drop, Random rand)
     {
-        return this.quantityDropped(par2Random) + par2Random.nextInt(par1 + 1);
-    }
-
-    @Override
-    public boolean hasTileEntity(int metadata)
-    {
-        return false;
+        return this.quantityDropped(rand) + rand.nextInt(drop + 1);
     }
 }
