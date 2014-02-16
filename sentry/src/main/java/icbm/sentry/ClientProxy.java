@@ -11,7 +11,7 @@ import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.modules.TurretAntiAir;
 import icbm.sentry.turret.modules.TurretGun;
 import icbm.sentry.turret.modules.TurretLaser;
-import icbm.sentry.turret.modules.mount.MountedRailgun;
+import icbm.sentry.turret.modules.mount.MountedRailGun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -43,7 +43,7 @@ public class ClientProxy extends CommonProxy
         SentryRegistry.registerSentryRenderer(TurretAntiAir.class, new SentryRenderAAGun());
         SentryRegistry.registerSentryRenderer(TurretGun.class, new SentryRenderGunTurret());
         SentryRegistry.registerSentryRenderer(TurretLaser.class, new SentryRenderLaserTurret());
-        SentryRegistry.registerSentryRenderer(MountedRailgun.class, new SentryRenderRailGun());
+        SentryRegistry.registerSentryRenderer(MountedRailGun.class, new SentryRenderRailGun());
 
         GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
         {

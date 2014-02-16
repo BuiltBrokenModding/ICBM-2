@@ -9,7 +9,7 @@ import calclavia.lib.multiblock.fake.IMultiBlock;
 /** Railgun
  * 
  * @author Calclavia */
-public class MountedRailgun extends MountedSentry implements IMultiBlock
+public class MountedRailGun extends MountedSentry implements IMultiBlock
 {
     private int gunChargingTicks = 0;
 
@@ -24,7 +24,7 @@ public class MountedRailgun extends MountedSentry implements IMultiBlock
     /** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
     private int endTicks = 0;
 
-    public MountedRailgun(TileTurret sentry)
+    public MountedRailGun(TileTurret sentry)
     {
         super(sentry);
         this.host.getPitchServo().setLimits(60, -60);

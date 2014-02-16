@@ -3,7 +3,7 @@ package icbm.sentry.turret;
 import icbm.sentry.turret.modules.TurretAntiAir;
 import icbm.sentry.turret.modules.TurretGun;
 import icbm.sentry.turret.modules.TurretLaser;
-import icbm.sentry.turret.modules.mount.MountedRailgun;
+import icbm.sentry.turret.modules.mount.MountedRailGun;
 import calclavia.lib.utility.LanguageUtility;
 
 /** Enum of all sentries created by ICBM */
@@ -12,7 +12,7 @@ public enum SentryTypes
     GUN_TURRET(TurretGun.class),
     LASER_TURRET(TurretLaser.class),
     ANTI_AIRCRAFT_TURRET(TurretAntiAir.class),
-    RAILGUN(MountedRailgun.class);
+    RAILGUN(MountedRailGun.class);
 
     private final Class<? extends Sentry> clazz;
     private final String id;

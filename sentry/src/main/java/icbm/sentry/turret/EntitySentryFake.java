@@ -30,7 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @Author DarkGuardsman
  */
-public class EntitySentryFake extends EntityLiving implements IEntityAdditionalSpawnData
+public class EntitySentryFake extends EntityLiving
 {
     private TileTurret sentryHost;
     private boolean shouldSit = false;
@@ -74,42 +74,6 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
     public String getEntityName ()
     {
         return "Seat";
-    }
-
-    @Override
-    public void writeSpawnData (ByteArrayDataOutput data)
-    {
-        if (this.sentryHost != null)
-        {
-            data.writeInt(this.sentryHost.xCoord);
-            data.writeInt(this.sentryHost.yCoord);
-            data.writeInt(this.sentryHost.zCoord);
-        }
-        else
-        {
-            ICBMCore.LOGGER.severe("Failed to send ridable turret packet!");
-        }
-
-        data.writeBoolean(this.shouldSit);
-    }
-
-    @Override
-    public void readSpawnData (ByteArrayDataInput data)
-    {
-        try
-        {
-            TileEntity entity = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
-            if (entity instanceof TileTurret)
-            {
-                this.sentryHost = (TileTurret) entity;
-            }
-            this.shouldSit = data.readBoolean();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     /** Called to update the entity's position/logic. */
