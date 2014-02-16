@@ -2,7 +2,7 @@ package icbm.sentry.turret.modules;
 
 import icbm.Reference;
 import icbm.sentry.turret.SentryTypes;
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.
@@ -10,7 +10,7 @@ import universalelectricity.api.vector.Vector3;
  * @author DarkGaurdsman */
 public class TurretAntiAir extends AutoSentry
 {
-    public TurretAntiAir(TileSentry host)
+    public TurretAntiAir(TileTurret host)
     {
         super(host);
         this.centerOffset.y = 0.75;

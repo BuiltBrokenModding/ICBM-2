@@ -1,14 +1,14 @@
 package icbm.sentry.turret.modules;
 
 import icbm.sentry.turret.Sentry;
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
 
 public abstract class AutoSentry extends Sentry
 {
     protected Entity target;
 
-    public AutoSentry(TileSentry host)
+    public AutoSentry(TileTurret host)
     {
         super(host);
     }

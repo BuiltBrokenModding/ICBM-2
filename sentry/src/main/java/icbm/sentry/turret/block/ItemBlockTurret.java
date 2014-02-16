@@ -4,6 +4,7 @@ import icbm.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -34,8 +35,10 @@ public class ItemBlockTurret extends ItemBlock
 	{
 		boolean flag = super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata);
 
+		NBTTagCompound nbt = (NBTTagCompound) stack.getTagCompound().copy();
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		tile.readFromNBT(stack.getTagCompound());
+		tile.writeToNBT(nbt);
+		tile.readFromNBT(nbt);
 
 		return flag;
 	}

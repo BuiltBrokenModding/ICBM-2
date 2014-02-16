@@ -3,7 +3,7 @@ package icbm.sentry.turret.modules;
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.SentryTypes;
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
 
@@ -13,7 +13,7 @@ public class TurretLaser extends AutoSentry
     public float barrelRotation;
     public float barrelRotationVelocity;
 
-    public TurretLaser(TileSentry host)
+    public TurretLaser(TileTurret host)
     {
         super(host);
         maxHealth = 50;

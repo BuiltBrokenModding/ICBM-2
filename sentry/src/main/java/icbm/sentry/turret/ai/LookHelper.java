@@ -1,6 +1,6 @@
 package icbm.sentry.turret.ai;
 
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
@@ -12,10 +12,10 @@ import universalelectricity.api.vector.VectorWorld;
 public class LookHelper
 {
     public static final int PITCH_DISPLACEMENT = 0;
-    private TileSentry sentry;
+    private TileTurret sentry;
     private VectorWorld center;
 
-    public LookHelper(TileSentry tileSentry)
+    public LookHelper(TileTurret tileSentry)
     {
         this.sentry = tileSentry;
         this.update();

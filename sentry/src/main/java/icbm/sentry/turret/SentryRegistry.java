@@ -79,6 +79,7 @@ public class SentryRegistry
 		if (sentry != null)
 		{
 			Class<?> clazz = sentry.getClass();
+			
 			if (sentryRenderMap.containsKey(clazz))
 			{
 				return sentryRenderMap.get(sentry.getClass());

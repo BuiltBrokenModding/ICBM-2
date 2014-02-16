@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.modules.mount.MountedSentry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -32,12 +32,12 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class EntitySentryFake extends EntityLiving implements IEntityAdditionalSpawnData
 {
-    private TileSentry sentryHost;
+    private TileTurret sentryHost;
     private boolean shouldSit = false;
     private float health;
     private final float maxHealth;
 
-    public EntitySentryFake(TileSentry controller, boolean sit)
+    public EntitySentryFake(TileTurret controller, boolean sit)
     {
         super(controller.worldObj);
         this.isImmuneToFire = true;
@@ -99,9 +99,9 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
         try
         {
             TileEntity entity = this.worldObj.getBlockTileEntity(data.readInt(), data.readInt(), data.readInt());
-            if (entity instanceof TileSentry)
+            if (entity instanceof TileTurret)
             {
-                this.sentryHost = (TileSentry) entity;
+                this.sentryHost = (TileTurret) entity;
             }
             this.shouldSit = data.readBoolean();
         }
@@ -126,10 +126,10 @@ public class EntitySentryFake extends EntityLiving implements IEntityAdditionalS
             return;
         }
 
-        if (this.sentryHost instanceof TileSentry)
+        if (this.sentryHost instanceof TileTurret)
         {
-            if (((TileSentry) this.sentryHost).getSentry() instanceof MountedSentry)
-                ((TileSentry) this.sentryHost).setFakeEntity(this);
+            if (((TileTurret) this.sentryHost).getSentry() instanceof MountedSentry)
+                ((TileTurret) this.sentryHost).setFakeEntity(this);
         }
 
         if (this.worldObj.isRemote && this.riddenByEntity != null)

@@ -2,7 +2,7 @@ package icbm.sentry.turret.modules.mount;
 
 import icbm.Reference;
 import icbm.sentry.turret.SentryTypes;
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 
@@ -24,7 +24,7 @@ public class MountedRailgun extends MountedSentry implements IMultiBlock
     /** A counter used client side for the smoke and streaming effects of the Railgun after a shot. */
     private int endTicks = 0;
 
-    public MountedRailgun(TileSentry sentry)
+    public MountedRailgun(TileTurret sentry)
     {
         super(sentry);
         this.host.getPitchServo().setLimits(60, -60);

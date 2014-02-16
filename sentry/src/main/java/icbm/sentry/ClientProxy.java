@@ -50,7 +50,9 @@ public class ClientProxy extends CommonProxy
 			@Override
 			public void renderInventoryItem(ItemStack itemStack)
 			{
-				SentryRegistry.getRenderFor(SentryRegistry.getSentryForKey(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"))).renderInventoryItem(itemStack);
+				Class<? extends Sentry> sentry = SentryRegistry.getSentryForKey(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
+				if (sentry != null)
+					SentryRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
 			}
 		});
 	}

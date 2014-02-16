@@ -1,6 +1,6 @@
 package icbm.sentry.render;
 
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
@@ -35,9 +35,9 @@ public abstract class SentryRenderer implements ISimpleItemRenderer
 	 * @param yaw - yaw of the gun/turret
 	 * @param pitch - pitch of the gun/turret
 	 */
-	public abstract void render(ForgeDirection side, TileSentry tile, float yaw, float pitch);
+	public abstract void render(ForgeDirection side, TileTurret tile, float yaw, float pitch);
 
-	public ResourceLocation getTexture(EntityPlayer player, TileSentry tileEntity)
+	public ResourceLocation getTexture(EntityPlayer player, TileTurret tileEntity)
 	{
 		if (tileEntity != null && player != null)
 		{

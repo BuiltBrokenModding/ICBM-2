@@ -1,7 +1,24 @@
 package icbm.sentry;
 
+import icbm.Reference;
+import icbm.core.CreativeTabICBM;
+import icbm.core.ICBMCore;
+import icbm.core.Settings;
+import icbm.sentry.platform.BlockTurretPlatform;
+import icbm.sentry.turret.EntitySentryFake;
+import icbm.sentry.turret.SentryTypes;
+import icbm.sentry.turret.block.BlockTurret;
+import icbm.sentry.turret.block.ItemBlockTurret;
+import icbm.sentry.turret.block.TileTurret;
+import icbm.sentry.turret.items.ItemAmmo;
+import icbm.sentry.turret.items.ItemSentryUpgrade;
+import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.network.PacketHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -15,25 +32,6 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import icbm.Reference;
-import icbm.core.CreativeTabICBM;
-import icbm.core.ICBMCore;
-import icbm.core.Settings;
-import icbm.sentry.platform.BlockTurretPlatform;
-import icbm.sentry.turret.EntitySentryFake;
-import icbm.sentry.turret.SentryTypes;
-import icbm.sentry.turret.block.BlockTurret;
-import icbm.sentry.turret.block.ItemBlockTurret;
-import icbm.sentry.turret.items.ItemAmmo;
-import icbm.sentry.turret.items.ItemSentryUpgrade;
-import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-
-import java.util.logging.Logger;
 
 @Mod(modid = ICBMSentry.ID, name = ICBMSentry.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM")
 @NetworkMod(channels = { Reference.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
@@ -70,7 +68,7 @@ public class ICBMSentry
 		MinecraftForge.EVENT_BUS.register(this);
 		SentryTypes.load();
 
-		blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class);
+		blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
 		blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
 
 		itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);

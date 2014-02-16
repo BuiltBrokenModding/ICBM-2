@@ -2,7 +2,7 @@ package icbm.sentry.render;
 
 import icbm.Reference;
 import icbm.sentry.models.ModelRailgun;
-import icbm.sentry.turret.block.TileSentry;
+import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -25,7 +25,7 @@ public class SentryRenderRailGun extends SentryRenderer
 	}
 
 	@Override
-	public void render(ForgeDirection side, TileSentry tile, float yaw, float pitch)
+	public void render(ForgeDirection side, TileTurret tile, float yaw, float pitch)
 	{
 		GL11.glTranslatef(0.5f, 2.2f, 0.5f);
 		GL11.glScalef(1.5f, 1.5f, 1.5f);
