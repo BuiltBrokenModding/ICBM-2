@@ -25,48 +25,48 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-	@Override
-	public void preInit()
-	{
-		super.preInit();
-	}
+    @Override
+    public void preInit()
+    {
+        super.preInit();
+    }
 
-	@Override
-	public void init()
-	{
-		super.init();
+    @Override
+    public void init()
+    {
+        super.init();
 
-		/** TileEntities */
-		RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
+        /** TileEntities */
+        RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
 
-		// Sentry render registry TODO find a way to automate
-		SentryRegistry.registerSentryRenderer(TurretAntiAir.class, new SentryRenderAAGun());
-		SentryRegistry.registerSentryRenderer(TurretGun.class, new SentryRenderGunTurret());
-		SentryRegistry.registerSentryRenderer(TurretLaser.class, new SentryRenderLaserTurret());
-		SentryRegistry.registerSentryRenderer(MountedRailgun.class, new SentryRenderRailGun());
+        // Sentry render registry TODO find a way to automate
+        SentryRegistry.registerSentryRenderer(TurretAntiAir.class, new SentryRenderAAGun());
+        SentryRegistry.registerSentryRenderer(TurretGun.class, new SentryRenderGunTurret());
+        SentryRegistry.registerSentryRenderer(TurretLaser.class, new SentryRenderLaserTurret());
+        SentryRegistry.registerSentryRenderer(MountedRailgun.class, new SentryRenderRailGun());
 
-		GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
-		{
-			@Override
-			public void renderInventoryItem(ItemStack itemStack)
-			{
-				Class<? extends Sentry> sentry = SentryRegistry.getSentryForKey(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
-				if (sentry != null)
-					SentryRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
-			}
-		});
-	}
+        GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
+        {
+            @Override
+            public void renderInventoryItem(ItemStack itemStack)
+            {
+                Class<? extends Sentry> sentry = SentryRegistry.getSentryForKey(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
+                if (sentry != null)
+                    SentryRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
+            }
+        });
+    }
 
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
-	{
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
-	{
-		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxLaser(world, position, target, red, green, blue, age));
-	}
+    @Override
+    public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+    {
+        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxLaser(world, position, target, red, green, blue, age));
+    }
 }

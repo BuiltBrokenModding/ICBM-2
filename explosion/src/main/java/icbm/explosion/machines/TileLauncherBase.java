@@ -112,7 +112,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, this.facingDirection, this.tier);
+        return ICBMCore.PACKET_TILE.getPacket(this, (byte)this.facingDirection.ordinal(), this.tier);
     }
 
     @Override
