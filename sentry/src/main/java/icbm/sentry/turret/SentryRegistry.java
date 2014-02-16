@@ -84,7 +84,14 @@ public class SentryRegistry
 				return sentryRenderMap.get(sentry.getClass());
 			}
 		}
+
 		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static SentryRenderer getRenderFor(Class<? extends Sentry> sentry)
+	{
+		return sentryRenderMap.get(sentry);
 	}
 
 	/** Gets teh sentry map */

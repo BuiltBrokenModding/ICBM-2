@@ -10,6 +10,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
+import calclavia.lib.render.RenderUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -35,6 +36,9 @@ public class SentryRenderRailGun extends SentryRenderer
 	@Override
 	public void renderInventoryItem(ItemStack itemStack)
 	{
-
+		RenderUtility.bind(textureNeutral);
+		GL11.glTranslatef(0.5f, 1.35f, 0.7f);
+		GL11.glRotatef(180F, 0F, 0F, 1F);
+		MODEL.render(0, 0, 0.0625F);
 	}
 }

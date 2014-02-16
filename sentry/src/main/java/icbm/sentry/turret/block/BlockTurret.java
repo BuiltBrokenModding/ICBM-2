@@ -162,14 +162,14 @@ public class BlockTurret extends BlockICBM
             if (entry.getValue() != null)
             {
                 ItemStack stack = new ItemStack(this);
-                NBTTagCompound item_nbt = new NBTTagCompound();
+                NBTTagCompound itemNbt = new NBTTagCompound();
                 NBTTagCompound sentry_nbt = new NBTTagCompound();
                 
-                item_nbt.setString("unlocalizedName", entry.getKey());
+                itemNbt.setString("unlocalizedName", entry.getKey());
                 sentry_nbt.setString("id", SaveManager.getID(entry.getValue()));
-                item_nbt.setCompoundTag("sentryTile", sentry_nbt);
+                itemNbt.setCompoundTag("sentryTile", sentry_nbt);
                 
-                stack.setTagCompound(item_nbt);
+                stack.setTagCompound(itemNbt);
                 list.add(stack);
             }
         }

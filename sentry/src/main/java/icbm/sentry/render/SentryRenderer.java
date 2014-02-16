@@ -14,15 +14,15 @@ import calclavia.lib.render.item.ISimpleItemRenderer;
  */
 public abstract class SentryRenderer implements ISimpleItemRenderer
 {
-	public ResourceLocation TEXTURE_FILE;
-	public ResourceLocation TEXTURE_FILE_FRIENDLY;
-	public ResourceLocation TEXTURE_FILE_HOSTILE;
+	public ResourceLocation textureNeutral;
+	public ResourceLocation textureFriendly;
+	public ResourceLocation textureHostile;
 
 	public SentryRenderer(ResourceLocation texture)
 	{
-		this.TEXTURE_FILE = texture;
-		this.TEXTURE_FILE_FRIENDLY = texture;
-		this.TEXTURE_FILE_HOSTILE = texture;
+		this.textureNeutral = texture;
+		this.textureFriendly = texture;
+		this.textureHostile = texture;
 	}
 
 	/**
@@ -45,15 +45,15 @@ public abstract class SentryRenderer implements ISimpleItemRenderer
 			if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
 			{
 				// ICBMSentry.LOGGER.info("Returning default Texture:");
-				return TEXTURE_FILE;
+				return textureNeutral;
 			}
 			else if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
 			{
 				// ICBMSentry.LOGGER.info("Returning Friendly Texture:");
-				return TEXTURE_FILE_FRIENDLY;
+				return textureFriendly;
 			}
 		}
 		// ICBMSentry.LOGGER.info("Returning Hostile Texture:");
-		return TEXTURE_FILE_HOSTILE;
+		return textureHostile;
 	}
 }
