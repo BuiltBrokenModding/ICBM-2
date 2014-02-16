@@ -24,10 +24,10 @@ public class WeaponSystemProjectile extends WeaponSystem
      * @return true if all rounds were consumed */
     public boolean consumeAmmo(int count, boolean doConsume)
     {
-        if (count > 0)
+        if (count > 0 && sentry.getHost() instanceof IInventory)
         {
             //TODO add a way to restrict this to a set range of slots
-            IInventory inv = sentry.host.getInventory();
+            IInventory inv = ((IInventory) sentry.host);
             //0-4 are upgrade slots for the sentry, 5-8 are ammo slots
             int consumeCount = 0;
             for (int slot = 5; slot < inv.getSizeInventory(); slot++)

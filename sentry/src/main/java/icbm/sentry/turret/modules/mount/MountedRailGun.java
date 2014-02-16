@@ -27,7 +27,7 @@ public class MountedRailGun extends MountedSentry implements IMultiBlock
     public MountedRailGun(TileTurret sentry)
     {
         super(sentry);
-        this.host.getPitchServo().setLimits(60, -60);
+        //this.host.getPitchServo().setLimits(60, -60);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,7 +43,7 @@ public class MountedRailGun extends MountedSentry implements IMultiBlock
 
     public void playFiringSound()
     {
-        this.host.worldObj.playSoundEffect(this.host.xCoord, this.host.yCoord, this.host.zCoord, Reference.PREFIX + "railgun", 5F, 1F);
+        this.world().playSoundEffect(this.x(), this.y(), this.z(), Reference.PREFIX + "railgun", 5F, 1F);
     }
 
     @Override

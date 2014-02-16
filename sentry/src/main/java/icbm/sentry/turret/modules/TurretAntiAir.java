@@ -19,6 +19,6 @@ public class TurretAntiAir extends AutoSentry
     @Override
     public void fireWeaponClient(Vector3 target)
     {
-        this.host.worldObj.playSoundEffect(this.host.xCoord, this.host.yCoord, this.host.zCoord, Reference.PREFIX + "aagun", 5F, 1F);
+        this.world().playSoundEffect(this.x(), this.host.y(), this.host.z(), Reference.PREFIX + "aagun", 5F, 1F);
     }
 }

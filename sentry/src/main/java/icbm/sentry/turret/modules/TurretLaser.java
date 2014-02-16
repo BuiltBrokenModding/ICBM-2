@@ -23,7 +23,7 @@ public class TurretLaser extends AutoSentry
     public void updateLoop()
     {
         super.updateLoop();
-        if (this.host.worldObj.isRemote)
+        if (this.world().isRemote)
         {
             this.barrelRotation = MathHelper.wrapAngleTo180_float(this.barrelRotation + this.barrelRotationVelocity);
             this.barrelRotationVelocity = Math.max(this.barrelRotationVelocity - 0.1f, 0);
@@ -32,14 +32,14 @@ public class TurretLaser extends AutoSentry
 
     public void playFiringSound()
     {
-        this.host.worldObj.playSoundEffect(this.host.xCoord, this.host.yCoord, this.host.zCoord, Reference.PREFIX + "lasershot", 5F, 1F - (this.host.worldObj.rand.nextFloat() * 0.2f));
+        this.world().playSoundEffect(this.x(), this.y(), this.z(), Reference.PREFIX + "lasershot", 5F, 1F - (this.world().rand.nextFloat() * 0.2f));
     }
 
     public void renderShot(Vector3 target)
     {
-        Vector3 center = new Vector3(this.host.xCoord, this.host.yCoord, this.host.zCoord).add(this.centerOffset);
-        ICBMSentry.proxy.renderBeam(this.host.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.host.getYawServo().getRotation() - 6, this.host.getPitchServo().getRotation() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
-        ICBMSentry.proxy.renderBeam(this.host.worldObj, Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.host.getYawServo().getRotation() + 6, this.host.getPitchServo().getRotation() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
+        Vector3 center = new Vector3(this.x(), this.y(), this.z()).add(this.centerOffset);
+        ICBMSentry.proxy.renderBeam(this.world(), Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.getHost().yaw() - 6, this.getHost().pitch() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
+        ICBMSentry.proxy.renderBeam(this.world(), Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.getHost().yaw() + 6, this.getHost().pitch() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
         this.barrelRotationVelocity += 1;
     }
 }

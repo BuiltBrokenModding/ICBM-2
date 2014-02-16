@@ -10,6 +10,7 @@ import icbm.Reference;
 import icbm.core.CreativeTabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
 import net.minecraft.block.Block;
@@ -170,7 +171,7 @@ public class BlockTurret extends BlockICBM
 				NBTTagCompound sentry_nbt = new NBTTagCompound();
 
 				itemNbt.setString("unlocalizedName", entry.getKey());
-				sentry_nbt.setString("sentryID", SaveManager.getID(entry.getValue()));
+				sentry_nbt.setString(ISentry.SENTRY_SAVE_ID, SaveManager.getID(entry.getValue()));
 				itemNbt.setCompoundTag("sentryTile", sentry_nbt);
 
 				stack.setTagCompound(itemNbt);
