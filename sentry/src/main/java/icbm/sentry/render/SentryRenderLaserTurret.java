@@ -3,6 +3,7 @@ package icbm.sentry.render;
 import icbm.Reference;
 import icbm.sentry.models.ModelLaserTurret;
 import icbm.sentry.turret.block.TileSentry;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -39,9 +40,8 @@ public class SentryRenderLaserTurret extends SentryRenderer
     }
 
     @Override
-    public void renderItem()
+    public 	void renderInventoryItem(ItemStack itemStack)
     {
-        // TODO Auto-generated method stub
-
+        
     }
 }

@@ -3,6 +3,7 @@ package icbm.sentry.render;
 import icbm.Reference;
 import icbm.sentry.models.ModelAATurret;
 import icbm.sentry.turret.block.TileSentry;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
@@ -40,9 +41,8 @@ public class SentryRenderAAGun extends SentryRenderer
     }
 
     @Override
-    public void renderItem()
+    public 	void renderInventoryItem(ItemStack itemStack)
     {
-        // TODO Auto-generated method stub
         
     }
 }

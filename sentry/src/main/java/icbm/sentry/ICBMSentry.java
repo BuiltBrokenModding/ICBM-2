@@ -60,14 +60,6 @@ public class ICBMSentry
 	public static Item itemAmmo;
 	public static Item itemUpgrade;
 
-	/** A Logger that mimics the FML Logger */
-	public static Logger LOGGER = Logger.getLogger(ICBMSentry.ID);
-
-	public ICBMSentry()
-	{
-		LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
-	}
-
 	/** ItemStack helpers. Do not modify theses. */
 	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
 
