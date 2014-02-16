@@ -6,6 +6,8 @@ import icbm.sentry.render.SentryRenderer;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
+import com.google.common.collect.HashBiMap;
+
 import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.utility.ReflectionHelper;
 import calclavia.lib.utility.nbt.SaveManager;
@@ -21,8 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class SentryRegistry
 {
-	private static HashMap<String, Class<? extends Sentry>> sentryMap = new HashMap<String, Class<? extends Sentry>>();
-	private static HashMap<Class<? extends Sentry>, String> sentryMapRev = new HashMap<Class<? extends Sentry>, String>();
+	private static HashBiMap<String, Class<? extends Sentry>> sentryMap = HashBiMap.create();
+
 	@SideOnly(Side.CLIENT)
 	private static HashMap<Class<? extends Sentry>, SentryRenderer> sentryRenderMap;
 
@@ -41,7 +43,6 @@ public class SentryRegistry
 			if (!sentryMap.containsKey(key))
 			{
 				sentryMap.put(key, sentry);
-				sentryMapRev.put(sentry, key);
 				SaveManager.registerClass("Sentry-" + key, sentry);
 				System.out.println("[SentryRegistry]Registering Sentry . Sentry: " + sentry.getName() + "  ID: " + key + " Save-ID: Sentry-" + key);
 
@@ -87,7 +88,7 @@ public class SentryRegistry
 	}
 
 	/** Gets teh sentry map */
-	public static HashMap<String, Class<? extends Sentry>> getSentryMap()
+	public static HashBiMap<String, Class<? extends Sentry>> getSentryMap()
 	{
 		return sentryMap;
 	}
@@ -100,7 +101,7 @@ public class SentryRegistry
 
 	public static String getKeyForSentry(Sentry sentry)
 	{
-		return sentryMapRev.get(sentry.getClass());
+		return sentryMap.inverse().get(sentry.getClass());
 	}
 
 	/**
