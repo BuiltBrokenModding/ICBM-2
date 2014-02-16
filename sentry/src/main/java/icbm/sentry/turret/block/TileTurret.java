@@ -186,7 +186,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, (this.getSentry() != null ? SentryRegistry.getKeyForSentry(this.getSentry()) : "null"), this.getYawServo().getRotation(), this.getPitchServo().getRotation());
+        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, this.yaw(), this.pitch());
     }
 
     public Packet getNBTPacket()
@@ -259,7 +259,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         {
             NBTTagCompound sentrySave = new NBTTagCompound();
             this.getSentry().save(sentrySave);
-            nbt.setTag("sentryTile", sentrySave);
+            nbt.setTag(ISentry.SENTRY_OBJECT_SAVE, sentrySave);
         }
 
         nbt.setString("unlocalizedName", this.unlocalizedName);
@@ -272,9 +272,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
         this.getInventory().load(nbt);
 
-        if (nbt.hasKey("sentryTile"))
+        if (nbt.hasKey(ISentry.SENTRY_OBJECT_SAVE))
         {
-            NBTTagCompound tag = nbt.getCompoundTag("sentryTile");
+            NBTTagCompound tag = nbt.getCompoundTag(ISentry.SENTRY_OBJECT_SAVE);
             saveManagerSentryKey = tag.getString(ISentry.SENTRY_SAVE_ID);
             sentry = SentryRegistry.constructSentry(saveManagerSentryKey, this);
 

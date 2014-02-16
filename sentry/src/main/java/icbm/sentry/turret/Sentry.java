@@ -100,8 +100,6 @@ public abstract class Sentry implements IEnergyContainer, ISentry
         nbt.setString(ISentry.SENTRY_SAVE_ID, SaveManager.getID(this.getClass()));
         if (this.energy != null)
             this.energy.writeToNBT(nbt);
-        if (this.maxHealth > 0)
-            nbt.setFloat("Health", this.health);
 
     }
 
@@ -110,7 +108,6 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     {
         if (this.energy != null)
             this.energy.readFromNBT(nbt);
-        this.health = nbt.getFloat("Health");
 
     }
 
