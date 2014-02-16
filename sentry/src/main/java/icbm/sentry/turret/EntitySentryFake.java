@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -34,27 +35,19 @@ public class EntitySentryFake extends EntityLiving
 {
     private TileTurret sentryHost;
     private boolean shouldSit = false;
-    private float health;
-    private final float maxHealth;
+    
+    public EntitySentryFake(World world)
+    {
+        super(world);
+    }
 
     public EntitySentryFake(TileTurret controller, boolean sit)
     {
-        super(controller.worldObj);
+        this(controller.worldObj);
         this.isImmuneToFire = true;
         this.setPosition(controller.xCoord, controller.yCoord, controller.zCoord);
         this.sentryHost = controller;
         this.shouldSit = sit;
-
-        this.maxHealth = 100F;
-        this.health = this.maxHealth;
-
-    }
-
-    @Override
-    protected void applyEntityAttributes ()
-    {
-        super.applyEntityAttributes();
-        //this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(this.getMaxHealth());
     }
 
     @Override
