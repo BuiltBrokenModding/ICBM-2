@@ -27,7 +27,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     protected Vector3 centerOffset;
     protected float health;
     protected EnergyStorageHandler energy;
-    protected List<Entity> entityList;
+    protected List<?> entityList;
     protected double range;
 
     public Sentry (TileTurret host)
@@ -160,7 +160,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
         this.entityList = world().getEntitiesWithinAABB(EntityLivingBase.class, boundingBox);
     }
 
-    public List<Entity> getEntityList()
+    public List<?> getEntityList()
     {
         if(this.entityList.isEmpty())
             scan();

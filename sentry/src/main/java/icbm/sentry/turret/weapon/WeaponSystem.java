@@ -35,31 +35,4 @@ public abstract class WeaponSystem
     {
         this.fire((VectorWorld) new Vector3(entity).translate(0, entity.getEyeHeight(), 0));
     }
-
-    public void scan ()
-    {
-        AxisAlignedBB boundingBox = AxisAlignedBB.getBoundingBox(this.sentry.x() - this.range, this.sentry.y() - this.range, this.sentry.z() - this.range, this.sentry.x() + this.range, this.sentry.y() + this.range, this.sentry.z() + this.range);
-        World world = this.sentry.world();
-        this.entityList = world.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox);
-        if (this.entityList.isEmpty())
-            return;
-
-    }
-
-    public List<Entity> getEntityList ()
-    {
-        if (this.entityList == null)
-            scan();
-        return this.entityList;
-    }
-
-    public double getRange()
-    {
-        return this.range;
-    }
-
-    public void setRange(double newRange)
-    {
-        this.range = newRange;
-    }
 }

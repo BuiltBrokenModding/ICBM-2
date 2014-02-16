@@ -1,6 +1,5 @@
 package icbm.sentry.turret.block;
 
-import calclavia.lib.content.BlockInfo;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.utility.nbt.SaveManager;

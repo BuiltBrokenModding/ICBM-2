@@ -1,18 +1,15 @@
 package icbm.sentry.render;
 
+import calclavia.lib.render.RenderUtility;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.sentry.models.ModelRailgun;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
-
 import org.lwjgl.opengl.GL11;
-
-import calclavia.lib.render.RenderUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class SentryRenderRailGun extends SentryRenderer
