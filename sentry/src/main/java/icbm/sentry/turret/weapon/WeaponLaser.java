@@ -17,6 +17,6 @@ public class WeaponLaser extends WeaponSystem
     @Override
     public void fire (VectorWorld target)
     {
-        
+
     }
 }

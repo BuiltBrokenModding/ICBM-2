@@ -4,12 +4,19 @@ import icbm.api.sentry.IAmmunition;
 import icbm.sentry.turret.Sentry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import universalelectricity.api.vector.VectorWorld;
 
 public class WeaponSystemProjectile extends WeaponSystem
 {
     public WeaponSystemProjectile(Sentry sentry)
     {
         super(sentry);
+    }
+
+    @Override
+    public void fire (VectorWorld target)
+    {
+
     }
 
     public boolean isAmmo(ItemStack stack)
