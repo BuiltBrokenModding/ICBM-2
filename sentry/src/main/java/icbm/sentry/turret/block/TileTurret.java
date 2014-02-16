@@ -80,6 +80,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
     }
 
+    //TODO remove these later
+    boolean flip_pitch;
+
     @Override
     public void updateEntity()
     {
@@ -92,8 +95,26 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
             this.getSentry().updateLoop();
             if (!(this.getSentry() instanceof MountedSentry))
             {
-                this.yawMotor.update();
-                this.pitchMotor.update();
+                if (this.ticks % 10 == 0)
+                {
+                    if (flip_pitch)
+                    {
+                        if (this.getPitchServo().getRotation() < this.getPitchServo().upperLimit())
+                            this.getPitchServo().setTargetRotation(this.getPitchServo().getRotation() + 10);
+                        else
+                            flip_pitch = true;
+                    }
+                    else
+                    {
+                        if (!flip_pitch && this.getPitchServo().getRotation() > this.getPitchServo().lowerLimit())
+                            this.getPitchServo().setTargetRotation(this.getPitchServo().getRotation() - 10);
+                        else
+                            flip_pitch = false;
+                    }
+                    this.getYawServo().update();
+                    this.getPitchServo().update();
+                }
+
             }
             else
             {
