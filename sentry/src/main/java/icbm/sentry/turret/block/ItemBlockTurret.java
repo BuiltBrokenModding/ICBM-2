@@ -1,5 +1,6 @@
 package icbm.sentry.turret.block;
 
+import icbm.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -25,7 +26,7 @@ public class ItemBlockTurret extends ItemBlock
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack)
 	{
-		return itemstack.getTagCompound().getString("unlocalizedName");
+		return "tile." + Reference.PREFIX + "turret." + itemstack.getTagCompound().getString("unlocalizedName");
 	}
 
 	@Override

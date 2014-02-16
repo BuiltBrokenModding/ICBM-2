@@ -3,9 +3,9 @@ package icbm.sentry.turret.modules;
 import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileSentry;
 
-public class AutoSentryClassic extends AutoSentry
+public class TurretGun extends AutoSentry
 {
-    public AutoSentryClassic(TileSentry host)
+    public TurretGun(TileSentry host)
     {
         super(host);
         maxHealth = 200;

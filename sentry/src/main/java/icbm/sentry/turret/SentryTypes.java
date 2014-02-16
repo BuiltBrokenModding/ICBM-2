@@ -1,23 +1,24 @@
 package icbm.sentry.turret;
 
-import icbm.sentry.turret.modules.AutoSentryAntiAir;
-import icbm.sentry.turret.modules.AutoSentryClassic;
-import icbm.sentry.turret.modules.AutoSentryTwinLaser;
-import icbm.sentry.turret.modules.mount.MountedRailGun;
+import calclavia.lib.utility.LanguageUtility;
+import icbm.sentry.turret.modules.TurretAntiAir;
+import icbm.sentry.turret.modules.TurretGun;
+import icbm.sentry.turret.modules.TurretLaser;
+import icbm.sentry.turret.modules.mount.MountedRailgun;
 
 /** Enum of all sentries created by ICBM */
 public enum SentryTypes
 {
-	AA("AutoAntiAir", AutoSentryAntiAir.class), CLASSIC("AutoGun", AutoSentryClassic.class),
-	LASER("AutoLaser", AutoSentryTwinLaser.class), RAILGUN("MountedRail", MountedRailGun.class);
+	GUN_TURRET(TurretGun.class), LASER_TURRET(TurretLaser.class),
+	ANTI_AIRCRAFT_TURRET(TurretAntiAir.class), RAILGUN(MountedRailgun.class);
 
 	private final Class<? extends Sentry> clazz;
 	private final String id;
 
-	private SentryTypes(String id, Class<? extends Sentry> clazz)
+	private SentryTypes(Class<? extends Sentry> clazz)
 	{
 		this.clazz = clazz;
-		this.id = id;
+		this.id = LanguageUtility.toCamelCase(name());
 	}
 
 	public final String getId()
@@ -25,20 +26,18 @@ public enum SentryTypes
 		return this.id;
 	}
 
-	public static final SentryTypes[] VALID_SENTRIES = { AA, CLASSIC, LASER, RAILGUN };
-
 	public static SentryTypes get(int id)
 	{
-		if (id >= 0 && id < SentryTypes.VALID_SENTRIES.length)
-			return SentryTypes.VALID_SENTRIES[id];
-		else
-			return null;
+		if (id >= 0 && id < SentryTypes.values().length)
+			return SentryTypes.values()[id];
+
+		return null;
 	}
 
 	/** get the SentryType for the SaveManager registered ID */
 	public static SentryTypes get(String id)
 	{
-		for (SentryTypes type : SentryTypes.VALID_SENTRIES)
+		for (SentryTypes type : SentryTypes.values())
 			if (id.endsWith(type.id))
 				return type;
 

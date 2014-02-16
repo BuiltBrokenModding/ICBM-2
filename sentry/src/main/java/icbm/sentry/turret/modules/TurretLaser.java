@@ -7,13 +7,13 @@ import icbm.sentry.turret.block.TileSentry;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
 
-public class AutoSentryTwinLaser extends AutoSentry
+public class TurretLaser extends AutoSentry
 {
     /** Laser turret spins its barrels every shot. */
     public float barrelRotation;
     public float barrelRotationVelocity;
 
-    public AutoSentryTwinLaser(TileSentry host)
+    public TurretLaser(TileSentry host)
     {
         super(host);
         maxHealth = 50;
