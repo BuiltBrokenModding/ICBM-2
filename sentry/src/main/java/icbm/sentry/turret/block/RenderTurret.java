@@ -26,7 +26,8 @@ public class RenderTurret extends RenderTaggedTile
 
         if (tile instanceof TileTurret)
         {
-            SentryRenderer sentryRender = SentryRegistry.getRenderFor(((TileTurret) tile).getSentry());
+            TileTurret tileTurret = (TileTurret) tile;
+            SentryRenderer sentryRender = SentryRegistry.getRenderFor(tileTurret.getSentry());
             if (sentryRender == null)
             {
                 sentryRender = backup_render;
@@ -37,8 +38,8 @@ public class RenderTurret extends RenderTaggedTile
                 GL11.glTranslatef((float) x, (float) y, (float) z);
                 GL11.glScalef(1f, 1f, 1f);
 
-                RenderUtility.bind(sentryRender.getTexture(getPlayer(), (TileTurret) tile));
-                sentryRender.render(((TileTurret) tile).getDirection(), (TileTurret) tile, ((TileTurret) tile).getYawServo().getRotation(), ((TileTurret) tile).getPitchServo().getRotation());
+                RenderUtility.bind(sentryRender.getTexture(getPlayer(), tileTurret));
+                sentryRender.render(tileTurret.getDirection(), tileTurret, tileTurret.yaw(), tileTurret.pitch());
 
                 GL11.glPopMatrix();
             }
