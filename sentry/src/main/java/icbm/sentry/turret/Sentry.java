@@ -1,107 +1,112 @@
 package icbm.sentry.turret;
 
-import calclavia.lib.utility.nbt.SaveManager;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.List;
+import calclavia.lib.utility.nbt.SaveManager;
 
 /** Modular way to deal with sentry guns
- *
+ * 
  * @author DarkGuardsman, tgame14 */
 public abstract class Sentry implements IEnergyContainer, ISentry
 {
-    protected static float maxHealth = -1;
+    //TODO: implement a property system used by MC entities to support any number of settings a sentry can have
+    protected float maxHealth = -1;
     public ISentryContainer host;
     protected Vector3 aimOffset;
     protected Vector3 centerOffset;
     protected float health;
     protected EnergyStorageHandler energy;
-    protected List<?> entityList;
     protected double range;
 
-    public Sentry (TileTurret host)
+    public Sentry(TileTurret host)
     {
         this.aimOffset = new Vector3(1, 0, 0);
-        this.centerOffset = new Vector3(0.5, 0.5, 0.5);
+        this.centerOffset = new Vector3(0, 0.5, 0);
         this.host = host;
         this.energy = new EnergyStorageHandler(1000);
         this.health = 0;
         this.range = 32.0;
     }
 
-    public static float getMaxHealth ()
+    public float getMaxHealth()
     {
         return maxHealth;
     }
 
-    public abstract void updateLoop ();
+    public void updateEntity()
+    {
 
-    public boolean canFire ()
+    }
+
+    public boolean canFire()
     {
         return true;
     }
 
-    public boolean fireWeapon (Vector3 target)
+    public boolean fireWeapon(Vector3 target)
     {
         if (world().isRemote)
+        {
             fireWeaponClient(target);
-
+        }
+        else
+        {
+            //Call weapon system
+        }
         return false;
     }
 
     /** visual rendering here */
-    public void fireWeaponClient (Vector3 target)
+    public void fireWeaponClient(Vector3 target)
     {
         // TODO Auto-generated method stub
 
     }
 
-    public Vector3 getAimOffset ()
+    /** Offset from the center offset to were the end of the barrel should be at */
+    public Vector3 getAimOffset()
     {
         return this.aimOffset;
     }
 
-    public Vector3 getCenterOffset ()
+    /** Offset from host location to were the sentries center is located */
+    public Vector3 getCenterOffset()
     {
         return this.centerOffset;
     }
 
-    public float getHealth ()
+    public float getHealth()
     {
         return this.health;
     }
 
     @Override
-    public void setEnergy (ForgeDirection dir, long energy)
+    public void setEnergy(ForgeDirection dir, long energy)
     {
         this.energy.setEnergy(energy);
     }
 
     @Override
-    public long getEnergy (ForgeDirection dir)
+    public long getEnergy(ForgeDirection dir)
     {
         return this.energy.getEnergy();
     }
 
     @Override
-    public long getEnergyCapacity (ForgeDirection dir)
+    public long getEnergyCapacity(ForgeDirection dir)
     {
         return this.energy.getEnergyCapacity();
     }
 
     @Override
-    public void save (NBTTagCompound nbt)
+    public void save(NBTTagCompound nbt)
     {
         nbt.setString(ISentry.SENTRY_SAVE_ID, SaveManager.getID(this.getClass()));
         if (this.energy != null)
@@ -110,61 +115,54 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     }
 
     @Override
-    public void load (NBTTagCompound nbt)
+    public void load(NBTTagCompound nbt)
     {
         if (this.energy != null)
             this.energy.readFromNBT(nbt);
 
     }
 
-    public ISentryContainer getHost ()
+    public ISentryContainer getHost()
     {
         return this.host;
     }
 
-    public World world ()
+    public World world()
     {
         return this.getHost().world();
     }
 
-    public double x ()
+    public double x()
     {
         return this.getHost().x();
     }
 
-    public double y ()
+    public double y()
     {
         return this.getHost().y();
     }
 
-    public double z ()
+    public double z()
     {
         return this.getHost().z();
     }
 
     @Override
-    public String toString ()
+    public boolean automated()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean mountable()
+    {
+        return false;
+    }
+
+    @Override
+    public String toString()
     {
         String id = SentryRegistry.getKeyForSentry(this);
-        return "[Sentry]ID: " + (id != null ? id : "Not Registered") + "  Has TileSentry: " + (this.host != null ? "Yes" : "No");
+        return "[Sentry]ID: " + (id != null ? id : "unknown") + "   " + super.toString();
     }
-
-    /// *** AI MANAGEMENT *** ///
-
-    /**
-     * Scans the Nearby range for entities, later the lookHelper will find them.
-     */
-    public void scan ()
-    {
-        AxisAlignedBB boundingBox = AxisAlignedBB.getBoundingBox(this.x() - this.range, this.y() - this.range, this.z() - this.range, this.x() + this.range, this.y() + this.range, this.z() + this.range);
-        this.entityList = world().getEntitiesWithinAABB(EntityLivingBase.class, boundingBox);
-    }
-
-    public List<?> getEntityList()
-    {
-        if(this.entityList.isEmpty())
-            scan();
-        return this.entityList;
-    }
-
 }

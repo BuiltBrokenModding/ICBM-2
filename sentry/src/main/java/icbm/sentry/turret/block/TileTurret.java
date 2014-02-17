@@ -85,7 +85,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
         if (this.getSentry() != null)
         {
-            this.getSentry().updateLoop();
+            this.getSentry().updateEntity();
             if (!(this.getSentry() instanceof MountedSentry))
             {
                 // TODO Add AI here now that rotation seems to work.

@@ -20,9 +20,9 @@ public class TurretLaser extends AutoSentry
     }
 
     @Override
-    public void updateLoop()
+    public void updateEntity()
     {
-        super.updateLoop();
+        super.updateEntity();
         if (this.world().isRemote)
         {
             this.barrelRotation = MathHelper.wrapAngleTo180_float(this.barrelRotation + this.barrelRotationVelocity);

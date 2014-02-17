@@ -15,15 +15,15 @@ public class MountedSentry extends Sentry
         super(host);
     }
 
-    @Override
-    public void updateLoop ()
-    {
-
-    }
-
     public Vector3 getRiderOffset()
     {
         return this.riderOffset;
+    }
+
+    @Override
+    public boolean mountable()
+    {
+        return true;
     }
 
 }
