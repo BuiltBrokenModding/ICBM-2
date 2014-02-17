@@ -46,31 +46,37 @@ public class BlastRedmatter extends Blast
         // Try to find and grab some blocks to orbit
         if (!this.worldObj.isRemote)
         {
-            Vector3 currentPos;
-            int blockID;
-            int metadata;
-            double dist;
+            Vector3 currentPos = new Vector3();
+            int blockID = -1;
+            int metadata = -1;
+            double dist = -1;
             int takenBlocks = 0;
+            Block block = null;
 
+            /** Block removal loop */
             loop:
-            for (int r = 1; r < this.getRadius(); r++)
+            for (int radius = 1; radius < this.getRadius(); radius++)
             {
-                for (int x = -r; x < r; x++)
+                for (int xCoord = -radius; xCoord < radius; xCoord++)
                 {
-                    for (int y = -r; y < r; y++)
+                    for (int yCoord = -radius; yCoord < radius; yCoord++)
                     {
-                        for (int z = -r; z < r; z++)
+                        for (int zCoord = -radius; zCoord < radius; zCoord++)
                         {
-                            dist = MathHelper.sqrt_double((x * x + y * y + z * z));
+                            currentPos.x = position.x + xCoord;
+                            currentPos.y = position.y + yCoord;
+                            currentPos.z = position.z + zCoord;
 
-                            if (dist > r || dist < r - 2)
+                            dist = MathHelper.sqrt_double((xCoord * xCoord + yCoord * yCoord + zCoord * zCoord));
+
+                            if (dist > radius || dist < radius - 2)
                                 continue;
 
-                            currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
-                            blockID = this.worldObj.getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-                            Block block = Block.blocksList[blockID];
+                            blockID = currentPos.getBlockID(this.worldObj);
+                            metadata = currentPos.getBlockMetadata(this.worldObj);
+                            block = Block.blocksList[blockID];
 
-                            if (block != null)
+                            if (block != null && block.getBlockHardness(this.worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ()) >= 0)
                             {
                                 if (block instanceof IForceFieldBlock)
                                 {
@@ -78,20 +84,8 @@ public class BlastRedmatter extends Blast
                                     continue;
                                 }
 
-                                if (block.getBlockHardness(this.worldObj, currentPos.intX(), currentPos.intY(), currentPos.intZ()) <= -1)
-                                    continue;
-
-                                metadata = this.worldObj.getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
-
-                                int notify = 2;
-
-                                if (block instanceof BlockFluid)
-                                {
-                                    notify = 0;
-                                }
-
-                                this.worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, notify);
-
+                                this.worldObj.setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, block instanceof BlockFluid ? 0 : 2);
+                                //TODO: render fluid streams
                                 if (block instanceof BlockFluid || block instanceof IFluidBlock)
                                     continue;
 
@@ -115,7 +109,7 @@ public class BlastRedmatter extends Blast
             }
         }
 
-        // Make the blocks controlled by this red matter orbit around it
+        /** Entity orbital removal & movement loop */
         float radius = this.getRadius() + this.getRadius() / 2;
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
         List<Entity> allEntities = this.worldObj.getEntitiesWithinAABB(Entity.class, bounds);

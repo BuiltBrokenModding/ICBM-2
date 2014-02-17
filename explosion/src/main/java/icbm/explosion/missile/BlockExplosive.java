@@ -163,7 +163,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 		for (byte i = 0; i < 6; i++)
 		{
 			Vector3 position = new Vector3(x, y, z);
-			position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+			position.translate(ForgeDirection.getOrientation(i));
 
 			int blockId = position.getBlockID(world);
 
