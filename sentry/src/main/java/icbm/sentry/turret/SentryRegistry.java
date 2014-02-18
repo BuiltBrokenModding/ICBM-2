@@ -44,7 +44,6 @@ public class SentryRegistry
 			{
 				sentryMap.put(key, sentry);
 				SaveManager.registerClass("Sentry-" + key, sentry);
-				System.out.println("[SentryRegistry]Registering Sentry . Sentry: " + sentry.getName() + "  ID: " + key + " Save-ID: Sentry-" + key);
 
 			}
 		}
@@ -79,7 +78,7 @@ public class SentryRegistry
 		if (sentry != null)
 		{
 			Class<?> clazz = sentry.getClass();
-			
+
 			if (sentryRenderMap.containsKey(clazz))
 			{
 				return sentryRenderMap.get(sentry.getClass());

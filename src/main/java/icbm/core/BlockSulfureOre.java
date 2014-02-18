@@ -15,7 +15,7 @@ public class BlockSulfureOre extends Block
 {
     public BlockSulfureOre(int id)
     {
-        super(Settings.CONFIGURATION.getBlock("oreSulfur", id).getInt(id), Material.rock);
+        super(id, Material.rock);
         this.setUnlocalizedName(Reference.PREFIX + "oreSulfur");
         this.setTextureName(Reference.PREFIX + "oreSulfur");
         this.setCreativeTab(CreativeTabs.tabBlock);
