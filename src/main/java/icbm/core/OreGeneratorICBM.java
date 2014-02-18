@@ -65,7 +65,7 @@ public class OreGeneratorICBM extends OreGenReplace
 
 			ForgeDirection dir = ForgeDirection.values()[rand.nextInt(6)];
 
-			position.modifyPositionFromSide(dir);
+			position.translate(dir);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class OreGeneratorICBM extends OreGenReplace
 
 			ForgeDirection s = ForgeDirection.values()[side];
 
-			position.modifyPositionFromSide(s);
+			position.translate(s);
 
 			if (world.blockExists(position.intX(), position.intY(), position.intZ()))
 			{

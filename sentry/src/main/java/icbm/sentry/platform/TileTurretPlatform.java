@@ -72,7 +72,7 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
     }
 
     @Override
-    public boolean canConnect(ForgeDirection direction)
+    public boolean canConnect(ForgeDirection direction, Object source)
     {
         return true;
     }

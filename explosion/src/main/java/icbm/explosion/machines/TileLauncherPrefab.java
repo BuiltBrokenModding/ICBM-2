@@ -31,12 +31,6 @@ public abstract class TileLauncherPrefab extends TileFrequency implements ILaunc
 	protected Vector3 targetPos = null;
 
 	@Override
-	public boolean canConnect(ForgeDirection direction)
-	{
-		return true;
-	}
-
-	@Override
 	public Vector3 getTarget()
 	{
 		if (this.targetPos == null)

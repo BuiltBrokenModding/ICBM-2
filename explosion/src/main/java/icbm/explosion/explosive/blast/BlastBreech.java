@@ -33,11 +33,11 @@ public class BlastBreech extends BlastRepulsive
 
             if (this.exploder instanceof IRotatable)
             {
-                difference.modifyPositionFromSide(((IRotatable) this.exploder).getDirection());
+                difference.translate(((IRotatable) this.exploder).getDirection());
             }
             else
             {
-                difference.modifyPositionFromSide(ForgeDirection.DOWN);
+                difference.translate(ForgeDirection.DOWN);
             }
 
             this.worldObj.playSoundEffect(position.x, position.y, position.z, "random.explode", 5.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);

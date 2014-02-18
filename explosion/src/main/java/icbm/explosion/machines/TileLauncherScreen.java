@@ -64,7 +64,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 			for (byte i = 2; i < 6; i++)
 			{
 				Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-				position.modifyPositionFromSide(ForgeDirection.getOrientation(i));
+				position.translate(ForgeDirection.getOrientation(i));
 
 				TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
 
