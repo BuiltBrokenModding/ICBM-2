@@ -1,7 +1,7 @@
 package icbm.sentry;
 
 import icbm.Reference;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.sentry.platform.BlockTurretPlatform;
@@ -83,7 +83,7 @@ public class ICBMSentry
 		EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
 
-		CreativeTabICBM.itemStack = new ItemStack(blockTurret);
+		TabICBM.itemStack = new ItemStack(blockTurret);
 
 		proxy.preInit();
 

@@ -1,6 +1,6 @@
 package icbm.contraption.block;
 
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class BlockSpikes extends BlockICBM
     {
         super(id, "spikes", Material.cactus);
         this.setHardness(1.0F);
-        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+        this.setCreativeTab(TabICBM.INSTANCE);
     }
 
     @SideOnly(Side.CLIENT)

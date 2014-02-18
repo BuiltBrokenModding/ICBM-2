@@ -1,6 +1,6 @@
 package icbm.contraption.block;
 
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
@@ -15,7 +15,7 @@ public class BlockReinforcedGlass extends BlockICBM implements IAntiPoisonBlock
     {
         super(id, "glassReinforced", Material.glass);
         this.setResistance(48);
-        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+        this.setCreativeTab(TabICBM.INSTANCE);
     }
 
     /** Returns which pass should this block be rendered on. 0 for solids and 1 for alpha */

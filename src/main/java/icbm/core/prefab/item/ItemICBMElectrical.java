@@ -1,7 +1,7 @@
 package icbm.core.prefab.item;
 
 import icbm.Reference;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.Settings;
 import universalelectricity.api.UniversalClass;
 import universalelectricity.api.item.IEnergyItem;
@@ -15,7 +15,7 @@ public abstract class ItemICBMElectrical extends ItemElectric implements IEnergy
     {
         super(Settings.CONFIGURATION.getItem(name, id).getInt(id));
         this.setUnlocalizedName(Reference.PREFIX + name);
-        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+        this.setCreativeTab(TabICBM.INSTANCE);
         this.setTextureName(Reference.PREFIX + name);
     }
 

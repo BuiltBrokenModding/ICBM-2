@@ -2,7 +2,7 @@ package icbm.sentry.platform;
 
 import calclavia.lib.content.BlockInfo;
 import icbm.api.sentry.IAmmunition;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 
@@ -29,7 +29,7 @@ public class BlockTurretPlatform extends BlockICBM
         super(id, "turretPlatform");
         this.setHardness(100f);
         this.setResistance(50f);
-        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+        this.setCreativeTab(TabICBM.INSTANCE);
         this.requireSidedTextures = true;
     }
 

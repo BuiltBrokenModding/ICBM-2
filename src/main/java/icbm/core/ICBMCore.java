@@ -14,7 +14,6 @@ import icbm.contraption.block.BlockGlassPressurePlate;
 import icbm.contraption.block.BlockProximityDetector;
 import icbm.contraption.block.BlockReinforcedGlass;
 import icbm.contraption.block.BlockSpikes;
-import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.logging.Logger;
 
@@ -31,7 +30,6 @@ import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
 import calclavia.lib.content.ContentRegistry;
-import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
@@ -93,7 +91,7 @@ public final class ICBMCore
 	public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
 	public static final PacketPlayerItem PACKET_ITEM = new PacketPlayerItem(Reference.CHANNEL);
 
-	public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME);
+	public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -145,7 +143,7 @@ public final class ICBMCore
 		OreDictionary.registerOre("dustSulfur", itemSulfurDust);
 		OreGenerator.addOre(sulfurGenerator);
 
-		CreativeTabICBM.itemStack = new ItemStack(blockProximityDetector);
+		TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
 		// -- Registering Blocks
 		GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");

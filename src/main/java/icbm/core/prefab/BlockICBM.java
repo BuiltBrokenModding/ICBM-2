@@ -1,7 +1,7 @@
 package icbm.core.prefab;
 
 import icbm.Reference;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.Settings;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -25,7 +25,7 @@ public class BlockICBM extends BlockTile
         super(id, UniversalElectricity.machine);
         this.setUnlocalizedName(Reference.PREFIX + name);
         this.setTextureName(Reference.PREFIX + name);
-        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+        this.setCreativeTab(TabICBM.INSTANCE);
     }
 
     public BlockICBM(String name)
@@ -43,7 +43,7 @@ public class BlockICBM extends BlockTile
         super(id, material);
         setUnlocalizedName(Reference.PREFIX + name);
         setTextureName(Reference.PREFIX + name);
-        setCreativeTab(CreativeTabICBM.INSTANCE);
+        setCreativeTab(TabICBM.INSTANCE);
     }
 
     @Override

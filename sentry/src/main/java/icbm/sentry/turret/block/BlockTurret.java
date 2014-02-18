@@ -6,7 +6,7 @@ import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ISentry;
@@ -38,7 +38,7 @@ public class BlockTurret extends BlockICBM
 	public BlockTurret(int id)
 	{
 		super(id, "turret");
-		this.setCreativeTab(CreativeTabICBM.INSTANCE);
+		this.setCreativeTab(TabICBM.INSTANCE);
 		this.setHardness(100f);
 		this.setResistance(50f);
 	}

@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.api.ICamouflageMaterial;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.render.tile.RenderBombBlock;
 
@@ -53,7 +53,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 		super(id, "explosives", Material.tnt);
 		this.setHardness(0.0F);
 		this.setStepSound(soundGrassFootstep);
-		this.setCreativeTab(CreativeTabICBM.INSTANCE);
+		this.setCreativeTab(TabICBM.INSTANCE);
 	}
 
 	/** gets the way this piston should face for that entity that placed it. */

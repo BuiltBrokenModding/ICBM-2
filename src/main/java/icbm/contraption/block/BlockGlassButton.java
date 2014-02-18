@@ -1,7 +1,7 @@
 package icbm.contraption.block;
 
 import icbm.Reference;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 
 import java.util.Random;
 
@@ -18,7 +18,7 @@ public class BlockGlassButton extends BlockButton
         this.setTickRandomly(true);
         this.setUnlocalizedName(Reference.PREFIX + "glassButton");
         this.setStepSound(soundGlassFootstep);
-        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+        this.setCreativeTab(TabICBM.INSTANCE);
     }
 
     @SideOnly(Side.CLIENT)

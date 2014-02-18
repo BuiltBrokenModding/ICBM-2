@@ -4,13 +4,13 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class CreativeTabICBM extends CreativeTabs
+public class TabICBM extends CreativeTabs
 {
-    public static final CreativeTabICBM INSTANCE = new CreativeTabICBM();
+    public static final TabICBM INSTANCE = new TabICBM();
 
     public static ItemStack itemStack;
 
-    public CreativeTabICBM()
+    public TabICBM()
     {
         super(CreativeTabs.getNextID(), "ICBM");
     }

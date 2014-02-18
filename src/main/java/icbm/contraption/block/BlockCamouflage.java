@@ -1,7 +1,7 @@
 package icbm.contraption.block;
 
 import icbm.api.ICamouflageMaterial;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -21,7 +21,7 @@ public class BlockCamouflage extends BlockICBM
         this.setHardness(0.3F);
         this.setResistance(1F);
         this.setStepSound(Block.soundClothFootstep);
-        this.setCreativeTab(CreativeTabICBM.INSTANCE);
+        this.setCreativeTab(TabICBM.INSTANCE);
     }
 
     /** Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z,

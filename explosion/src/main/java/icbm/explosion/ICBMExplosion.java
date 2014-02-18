@@ -5,7 +5,7 @@ import icbm.api.ExplosiveHelper;
 import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
-import icbm.core.CreativeTabICBM;
+import icbm.core.TabICBM;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.implement.IChunkLoadHandler;
@@ -157,7 +157,7 @@ public class ICBMExplosion
 
 
 
-		CreativeTabICBM.itemStack = new ItemStack(blockExplosive);
+		TabICBM.itemStack = new ItemStack(blockExplosive);
 
 		/** Dispenser Handler */
 		BlockDispenser.dispenseBehaviorRegistry.putObject(itemGrenade, new IBehaviorDispenseItem()
