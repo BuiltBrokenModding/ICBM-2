@@ -11,5 +11,10 @@ public class TurretGun extends AutoSentry
         maxHealth = 200;
         this.centerOffset.y = 0.65;
     }
-    
+
+    @Override
+    public boolean fire ()
+    {
+        return false;
+    }
 }

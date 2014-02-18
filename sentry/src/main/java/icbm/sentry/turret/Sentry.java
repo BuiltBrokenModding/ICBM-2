@@ -1,5 +1,6 @@
 package icbm.sentry.turret;
 
+import calclavia.lib.utility.nbt.SaveManager;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
@@ -9,7 +10,6 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.nbt.SaveManager;
 
 /** Modular way to deal with sentry guns
  * 

@@ -1,5 +1,17 @@
 package icbm.sentry.turret.block;
 
+import calclavia.lib.access.AccessProfile;
+import calclavia.lib.access.IProfileContainer;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.AutoServo;
+import calclavia.lib.prefab.IGyroMotor;
+import calclavia.lib.prefab.tile.IRotatable;
+import calclavia.lib.terminal.TileTerminal;
+import calclavia.lib.utility.inventory.ExternalInventory;
+import calclavia.lib.utility.inventory.IExternalInventory;
+import calclavia.lib.utility.inventory.IExternalInventoryBox;
+import com.google.common.io.ByteArrayDataInput;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
@@ -12,25 +24,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.util.AABBPool;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.access.AccessProfile;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.prefab.AutoServo;
-import calclavia.lib.prefab.IGyroMotor;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.terminal.TileTerminal;
-import calclavia.lib.utility.inventory.ExternalInventory;
-import calclavia.lib.utility.inventory.IExternalInventory;
-import calclavia.lib.utility.inventory.IExternalInventoryBox;
-
-import com.google.common.io.ByteArrayDataInput;
 
 /** Tile container for sentries
  *
@@ -124,13 +122,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
     }
 
-    // Do not move this to the sentry class as it is only usable by the tile,
-    // if the sentry is using an entity container it will handle the rider different
-    // Each sentry container needs to handle most of the logic on its own
-    // The sentry is more or less just a template for how the container will make the sentry
-    // function
-
-    // understood -tgame14
     protected void mountableSentryLoop ()
     {
         boolean flag = false;

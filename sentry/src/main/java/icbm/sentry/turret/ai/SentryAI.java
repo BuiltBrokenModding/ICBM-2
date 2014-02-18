@@ -2,19 +2,19 @@ package icbm.sentry.turret.ai;
 
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import universalelectricity.api.vector.VectorWorld;
 import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /** AI for the sentry objects
  * 
@@ -38,13 +38,21 @@ public class SentryAI
             if (target == null)
             {
                 target = findTarget(container.getSentry(), null, 100);
+                return;
             }
             //TODO: if target &&  not facing, update rotation
-            if (target != null)
+            else
             {
                 //TODO get position of sentry and of target. Then check if delta angle is +-2.3 degrees
-                
+
+                MovingObjectPosition endTarget = this.container.getSentry().getAimOffset().rayTraceEntities(this.container.world(), Vector3.fromCenter(this.target));
+                if (endTarget != null)
+                {
+                    // Assuming the Vec3 Ray tracing includes the current pitch and angle given to the Sentry obj
+                    this.container.getSentry().fire();
+                }
                 //TODO: if target && aimed at target && can fire, fire weapon
+                // -- Might be able to split of Ability to fire to the Sentry obj itself? have the AI only fire commands.
             }
             
         }
@@ -108,9 +116,9 @@ public class SentryAI
             double distanceB = this.location.distance(entityB);
             if(Math.abs(distanceA - distanceB) < 1.5)
             {
-                float heathA = entityA.getHealth();
-                float heathB = entityA.getHealth();
-                return heathA < heathB ? -1 : (heathA > heathB ? 1 : 0);
+                float healthA = entityA.getHealth();
+                float healthB = entityB.getHealth();
+                return healthA < healthB ? -1 : (healthA > healthB ? 1 : 0);
             }
             return distanceA < distanceB ? -1 : (distanceA > distanceB ? 1 : 0);
         }

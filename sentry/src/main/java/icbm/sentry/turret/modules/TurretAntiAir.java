@@ -21,4 +21,10 @@ public class TurretAntiAir extends AutoSentry
     {
         this.world().playSoundEffect(this.x(), this.host.y(), this.host.z(), Reference.PREFIX + "aagun", 5F, 1F);
     }
+
+    @Override
+    public boolean fire ()
+    {
+        return false;
+    }
 }

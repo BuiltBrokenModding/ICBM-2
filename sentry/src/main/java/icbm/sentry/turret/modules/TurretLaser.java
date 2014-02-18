@@ -42,4 +42,10 @@ public class TurretLaser extends AutoSentry
         ICBMSentry.proxy.renderBeam(this.world(), Vector3.translate(center, Vector3.getDeltaPositionFromRotation(this.getHost().yaw() + 6, this.getHost().pitch() * 1.4f).scale(1.2)), target, 1, 0.4f, 0.4f, 5);
         this.barrelRotationVelocity += 1;
     }
+
+    @Override
+    public boolean fire ()
+    {
+        return false;
+    }
 }

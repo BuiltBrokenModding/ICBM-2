@@ -2,6 +2,7 @@ package icbm.sentry.interfaces;
 
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.utility.nbt.ISaveObj;
+import universalelectricity.api.vector.VectorWorld;
 
 /** Interface applied to all sentry objects. Any sentry that uses this must have a constructor that
  * contains ISentryContainer parameter
@@ -29,4 +30,8 @@ public interface ISentry extends ISaveObj
 
     /** Offset from host location to were the sentries center is located */
     public Vector3 getCenterOffset();
+
+    /** Fire the weapon system on called if successful (has ammo)
+     * @return if successful at firing the bullet */
+    public boolean fire();
 }

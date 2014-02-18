@@ -26,4 +26,10 @@ public class MountedSentry extends Sentry
         return true;
     }
 
+    @Override
+    public boolean fire ()
+    {
+        return false;
+    }
+
 }
