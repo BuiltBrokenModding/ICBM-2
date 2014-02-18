@@ -37,18 +37,18 @@ public class SentryAI
             //Find target if we have none
             if (target == null)
             {
-                target = findTarget(container.getSentry(), null, 100);
+                target = findTarget(container.getSentry(), new EntityCombatSelector(container), 100);
                 return;
             }
             //if we have a target start doing rotation, and line of sight checks
             if (target != null)
-            {               
+            {
                 Vector3 barrel = new Vector3();
                 barrel.add(this.container.getSentry().getCenterOffset());
                 barrel.add(this.container.getSentry().getAimOffset());
                 barrel.rotate(this.container.yaw(), this.container.pitch());
                 barrel.add(new Vector3(container.x(), container.y(), container.z()));
-                
+
                 MovingObjectPosition endTarget = barrel.rayTrace(this.container.world(), Vector3.fromCenter(this.target), true);
                 //This ray trace is just for line of sight
                 if (endTarget != null && endTarget.typeOfHit == EnumMovingObjectType.ENTITY)
@@ -57,7 +57,7 @@ public class SentryAI
                     double deltaYaw = barrel.getAngle(new Vector3(target));
                     double deltaPitch = barrel.getAngle(new Vector3(target));
                     //TODO get position of sentry and of target. Then check if delta angle is +-2.3 degrees
-                    
+
                     this.container.getSentry().fire();
                 }
                 //TODO: if target && aimed at target && can fire, fire weapon
@@ -90,22 +90,6 @@ public class SentryAI
     {
         //TODO apply ray trace to target
         //TODO filter out mob bosses to prevent cheating in boss fights
-        if (entity instanceof EntityPlayer)
-        {
-            if (((EntityPlayer) entity).capabilities.isCreativeMode)
-            {
-                return false;
-            }
-            //TODO using the access system check if the target is friendly
-        }
-        if (entity instanceof IAnimals)
-        {
-            return false;
-        }
-        if (entity instanceof INpc)
-        {
-            return false;
-        }
         return true;
     }
 
