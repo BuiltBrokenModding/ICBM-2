@@ -39,7 +39,7 @@ public class LookHelper
     /** Tells the turret to look at a location using an entity */
     public void lookAtEntity(Entity entity)
     {
-        this.lookAt(Vector3.translate(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0)));
+        this.lookAt(new Vector3(entity));
     }
 
     public float[] getDeltaRotations(Vector3 target)

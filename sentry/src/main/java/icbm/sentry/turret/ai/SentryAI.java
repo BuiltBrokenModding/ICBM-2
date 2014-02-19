@@ -84,6 +84,8 @@ public class SentryAI
             this.rotationTimer = 10;
             System.out.println(this.target);
         }
+        else
+            lookHelper.lookAt(new Vector3(this.container.x(), this.container.y() + 50, this.container.z()));
     }
 
     @SuppressWarnings("unchecked")
