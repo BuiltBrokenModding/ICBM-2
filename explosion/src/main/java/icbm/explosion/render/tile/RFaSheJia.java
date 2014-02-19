@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileEntitySupportFrame;
+import icbm.explosion.machines.TileLauncherFrame;
 import icbm.explosion.model.tiles.MFaSheJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +22,7 @@ public class RFaSheJia extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity var1, double x, double y, double z, float var8)
     {
-        TileEntitySupportFrame tileEntity = (TileEntitySupportFrame) var1;
+        TileLauncherFrame tileEntity = (TileLauncherFrame) var1;
 
         if (tileEntity != null && tileEntity.worldObj != null)
         {

@@ -1,5 +1,8 @@
 package icbm.explosion.missile.modular;
 
+import java.util.Random;
+
+import icbm.Reference;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.BlockRenderHandler;
@@ -31,6 +34,7 @@ public class BlockMissileAssembler extends BlockICBM
 	public BlockMissileAssembler(int id)
 	{
 		super(id, "missileAssembler", UniversalElectricity.machine);
+		setTextureName(Reference.PREFIX + "machine");
 	}
 
 	@Override
@@ -223,6 +227,12 @@ public class BlockMissileAssembler extends BlockICBM
 		}
 
 		return false;
+	}
+
+	@Override
+	public int quantityDropped(Random par1Random)
+	{
+		return 0;
 	}
 
 	@Override

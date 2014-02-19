@@ -5,7 +5,7 @@ import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.container.ContainerMissileTable;
 import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileEMPTower;
-import icbm.explosion.machines.TileEntitySupportFrame;
+import icbm.explosion.machines.TileLauncherFrame;
 import icbm.explosion.machines.TileLauncherBase;
 import icbm.explosion.machines.TileLauncherScreen;
 import icbm.explosion.machines.TileMissileCoordinator;
@@ -42,7 +42,7 @@ public class CommonProxy implements IGuiHandler
 		GameRegistry.registerTileEntity(TileCruiseLauncher.class, "ICBMXiaoFaSheQi");
 		GameRegistry.registerTileEntity(TileLauncherBase.class, "ICBMFaSheDi");
 		GameRegistry.registerTileEntity(TileLauncherScreen.class, "ICBMFaSheShiMuo");
-		GameRegistry.registerTileEntity(TileEntitySupportFrame.class, "ICBMFaSheJia");
+		GameRegistry.registerTileEntity(TileLauncherFrame.class, "ICBMFaSheJia");
 		GameRegistry.registerTileEntity(TileRadarStation.class, "ICBMLeiDaTai");
 		GameRegistry.registerTileEntity(TileEMPTower.class, "ICBMDianCiQi");
 		GameRegistry.registerTileEntity(TileMissileCoordinator.class, "ICBMYinDaoQi");

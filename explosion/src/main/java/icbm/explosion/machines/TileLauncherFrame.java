@@ -18,7 +18,7 @@ import com.google.common.io.ByteArrayDataInput;
 /** This tile entity is for the screen of the missile launcher
  * 
  * @author Calclavia */
-public class TileEntitySupportFrame extends TileAdvanced implements IPacketReceiver, ITier, IMultiBlock, IRotatable
+public class TileLauncherFrame extends TileAdvanced implements IPacketReceiver, ITier, IMultiBlock, IRotatable
 {
     // The tier of this screen
     private int tier = 0;

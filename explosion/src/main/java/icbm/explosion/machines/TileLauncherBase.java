@@ -46,7 +46,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     public IMissile missile = null;
 
     // The connected missile launcher frame
-    public TileEntitySupportFrame supportFrame = null;
+    public TileLauncherFrame supportFrame = null;
 
     // The tier of this launcher base
     private int tier = 0;
@@ -78,9 +78,9 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
 
                 TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
 
-                if (tileEntity instanceof TileEntitySupportFrame)
+                if (tileEntity instanceof TileLauncherFrame)
                 {
-                    this.supportFrame = (TileEntitySupportFrame) tileEntity;
+                    this.supportFrame = (TileLauncherFrame) tileEntity;
                     this.supportFrame.setDirection(VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
                 }
             }

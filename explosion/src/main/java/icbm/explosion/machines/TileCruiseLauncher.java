@@ -51,7 +51,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 	{
 		super();
 		this.targetPos = new Vector3();
-		this.energy = new EnergyStorageHandler(200000);
+		this.energy = new EnergyStorageHandler(100000000);
 	}
 
 	/** Returns the number of slots in the inventory. */

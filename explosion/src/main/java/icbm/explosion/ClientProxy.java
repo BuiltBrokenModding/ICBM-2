@@ -18,7 +18,7 @@ import icbm.explosion.gui.GuiMissileTable;
 import icbm.explosion.gui.GuiRadarStation;
 import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileEMPTower;
-import icbm.explosion.machines.TileEntitySupportFrame;
+import icbm.explosion.machines.TileLauncherFrame;
 import icbm.explosion.machines.TileLauncherBase;
 import icbm.explosion.machines.TileLauncherScreen;
 import icbm.explosion.machines.TileMissileCoordinator;
@@ -117,7 +117,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileCruiseLauncher.class, new RenderCruiseLauncher());
         ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RFaSheDi());
         ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RFaSheShiMuo());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySupportFrame.class, new RFaSheJia());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RFaSheJia());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRadarStation.class, new RenderRadarStation());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMissileCoordinator.class, new RenderMissileCoordinator());
