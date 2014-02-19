@@ -155,7 +155,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 					if (blockFrequency instanceof TileLauncherPrefab)
 					{
 						TileLauncherPrefab faSheQi = (TileLauncherPrefab) blockFrequency;
-						
+
 						if (new Vector3(this).distance(new Vector3(faSheQi)) < this.alarmRange && faSheQi.getFrequency() == this.getFrequency())
 						{
 							if (faSheQi instanceof TileLauncherScreen)
@@ -174,18 +174,19 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 		}
 		else
 		{
-			if (this.detectedEntities.size() > 0)
+			if (detectedEntities.size() > 0)
 			{
-				this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+				worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 			}
 
-			this.detectedEntities.clear();
-			this.detectedTiles.clear();
+			incomingMissiles.clear();
+			detectedEntities.clear();
+			detectedTiles.clear();
 		}
 
-		if (this.ticks % 40 == 0)
+		if (ticks % 40 == 0)
 		{
-			this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+			worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
 		}
 	}
 
@@ -382,35 +383,33 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 	@Override
 	public boolean isPoweringTo(ForgeDirection side)
 	{
-		if (this.energy.getEnergy() > 0)
+		if (incomingMissiles.size() > 0)
 		{
-			if (this.incomingMissiles.size() > 0)
+			if (this.emitAll)
+				return true;
+
+			for (EntityMissile incomingMissile : this.incomingMissiles)
 			{
-				if (this.emitAll)
-					return true;
+				Vector2 position = new Vector3(incomingMissile).toVector2();
+				ForgeDirection missileTravelDirection = ForgeDirection.UNKNOWN;
+				double closest = -1;
 
-				for (EntityMissile daoDan : this.incomingMissiles)
+				for (int i = 2; i < 6; i++)
 				{
-					Vector2 position = new Vector3(daoDan).toVector2();
-					ForgeDirection daoDanFangXiang = ForgeDirection.UNKNOWN;
-					double closest = -1;
+					double dist = Vector2.distance(position, new Vector2(this.xCoord + ForgeDirection.getOrientation(i).offsetX, this.zCoord + ForgeDirection.getOrientation(i).offsetZ));
 
-					for (int i = 2; i < 6; i++)
+					if (dist < closest || closest < 0)
 					{
-						double dist = Vector2.distance(position, new Vector2(this.xCoord + ForgeDirection.getOrientation(i).offsetX, this.zCoord + ForgeDirection.getOrientation(i).offsetZ));
-
-						if (dist < closest || closest < 0)
-						{
-							daoDanFangXiang = ForgeDirection.getOrientation(i);
-							closest = dist;
-						}
+						missileTravelDirection = ForgeDirection.getOrientation(i);
+						closest = dist;
 					}
-
-					if (daoDanFangXiang.getOpposite() == side)
-						return true;
 				}
+
+				if (missileTravelDirection.getOpposite() == side)
+					return true;
 			}
 		}
+
 		return false;
 	}
 

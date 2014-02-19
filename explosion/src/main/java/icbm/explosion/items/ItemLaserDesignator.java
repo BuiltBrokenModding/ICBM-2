@@ -35,7 +35,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
     public static final int BAN_JING = Settings.DAO_DAN_ZUI_YUAN;
-    public static final int YONG_DIAN_LIANG = 6000;
+    public static final int YONG_DIAN_LIANG = 8000;
 
     public ItemLaserDesignator(int id)
     {
