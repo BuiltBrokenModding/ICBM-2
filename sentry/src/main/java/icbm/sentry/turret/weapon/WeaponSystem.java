@@ -28,11 +28,11 @@ public abstract class WeaponSystem
     }
 
     /** Fire the weapon at a location */
-    public abstract void fire (VectorWorld target);
+    public abstract void fire (Vector3 target);
 
     /** Fire the weapon at an entity. */
     public void fire (Entity entity)
     {
-        this.fire((VectorWorld) new Vector3(entity).translate(0, entity.getEyeHeight(), 0));
+        this.fire(new Vector3(entity).translate(0, entity.getEyeHeight(), 0));
     }
 }

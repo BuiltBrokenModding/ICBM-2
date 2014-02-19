@@ -65,7 +65,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+    public  void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
     {
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxLaser(world, position, target, red, green, blue, age));
     }

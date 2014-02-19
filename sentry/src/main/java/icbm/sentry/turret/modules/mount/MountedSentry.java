@@ -1,7 +1,6 @@
 package icbm.sentry.turret.modules.mount;
 
 import icbm.sentry.turret.Sentry;
-import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileTurret;
 import universalelectricity.api.vector.Vector3;
 
@@ -27,7 +26,7 @@ public class MountedSentry extends Sentry
     }
 
     @Override
-    public boolean fire ()
+    public boolean fire (Vector3 vector3)
     {
         return false;
     }

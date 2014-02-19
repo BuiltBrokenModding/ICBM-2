@@ -2,7 +2,6 @@ package icbm.sentry.turret.modules;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.vector.Vector3;
@@ -44,7 +43,7 @@ public class TurretLaser extends AutoSentry
     }
 
     @Override
-    public boolean fire ()
+    public boolean fire (Vector3 vector3)
     {
         return false;
     }

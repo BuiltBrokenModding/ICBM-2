@@ -58,7 +58,7 @@ public class SentryAI
                     double deltaPitch = barrel.getAngle(new Vector3(target));
                     //TODO get position of sentry and of target. Then check if delta angle is +-2.3 degrees
 
-                    this.container.getSentry().fire();
+                    this.container.getSentry().fire(new Vector3(endTarget));
                 }
                 //TODO: if target && aimed at target && can fire, fire weapon
                 // -- Might be able to split of Ability to fire to the Sentry obj itself? have the AI only fire commands.

@@ -1,7 +1,7 @@
 package icbm.sentry.turret.modules;
 
-import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileTurret;
+import universalelectricity.api.vector.Vector3;
 
 public class TurretGun extends AutoSentry
 {
@@ -13,7 +13,7 @@ public class TurretGun extends AutoSentry
     }
 
     @Override
-    public boolean fire ()
+    public boolean fire (Vector3 vector3)
     {
         return false;
     }

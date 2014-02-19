@@ -32,6 +32,7 @@ public interface ISentry extends ISaveObj
     public Vector3 getCenterOffset();
 
     /** Fire the weapon system on called if successful (has ammo)
-     * @return if successful at firing the bullet */
-    public boolean fire();
+     * @return if successful at firing the bullet
+     * @param vector3*/
+    public boolean fire (Vector3 vector3);
 }

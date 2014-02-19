@@ -1,10 +1,11 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.api.sentry.IAmmunition;
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Sentry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import universalelectricity.api.vector.VectorWorld;
+import universalelectricity.api.vector.Vector3;
 
 public class WeaponSystemProjectile extends WeaponSystem
 {
@@ -14,10 +15,18 @@ public class WeaponSystemProjectile extends WeaponSystem
     }
 
     @Override
-    public void fire (VectorWorld target)
+    public void fire (Vector3 target)
     {
+        Vector3 barrel = new Vector3();
+        barrel.add(this.sentry.getAimOffset());
+        barrel.add(this.sentry.getCenterOffset());
+        barrel.rotate(this.sentry.host.yaw(), this.sentry.host.pitch());
+        barrel.add(new Vector3(sentry.host.x(), sentry.host.y(), sentry.host.z()));
+
+        ICBMSentry.proxy.renderBeam(this.sentry.world(), barrel, target, 1F, 1F, 1F, 10);
 
     }
+
 
     public boolean isAmmo(ItemStack stack)
     {
