@@ -24,7 +24,6 @@ public class WeaponSystemProjectile extends WeaponSystem
         barrel.add(new Vector3(sentry.host.x(), sentry.host.y(), sentry.host.z()));
 
         ICBMSentry.proxy.renderBeam(this.sentry.world(), barrel, target, 1F, 1F, 1F, 10);
-        //TODO Damage target
 
     }
 

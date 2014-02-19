@@ -22,9 +22,6 @@ public abstract class WeaponSystem
     protected double range;
     protected List<Entity> entityList;
 
-    /** The Damage source to use for turret fire */
-    public DamageSource TURRET_DAMAGE = new DamageSource("Sentry Bullets").setProjectile();
-
     public WeaponSystem (Sentry sentry)
     {
         this.sentry = sentry;

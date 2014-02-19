@@ -1,6 +1,7 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.sentry.turret.Sentry;
+import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 
 /**
@@ -15,7 +16,7 @@ public class WeaponLaser extends WeaponSystem
     }
 
     @Override
-    public void fire (VectorWorld target)
+    public void fire (Vector3 target)
     {
 
     }

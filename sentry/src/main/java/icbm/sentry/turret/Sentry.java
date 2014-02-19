@@ -161,12 +161,6 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     }
 
     @Override
-    public void setTarget (Entity target)
-    {
-        this.tar
-    }
-
-    @Override
     public String toString()
     {
         String id = SentryRegistry.getKeyForSentry(this);

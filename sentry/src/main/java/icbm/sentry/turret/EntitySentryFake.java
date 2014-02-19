@@ -27,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Entity that fakes being the sentry gun so that the player can ride the
- * sentry. This entity aslo handles most damage interaction with other entities.
+ * sentry. This entity also handles most damage interaction with other entities.
  * 
  * @Author DarkGuardsman
  */

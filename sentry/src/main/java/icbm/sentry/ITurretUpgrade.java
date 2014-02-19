@@ -19,7 +19,7 @@ public interface ITurretUpgrade
     /** Damages the item when used in the sentry. Its optional to damage the item however if you do
      * its suggest to use NBT.
      * 
-     * @param itemStack - itemStack
+     * @param item - itemStack
      * @param damage
      * @return True if the item is destroyed */
     public boolean damageUpgrade(ItemStack item, int damage);

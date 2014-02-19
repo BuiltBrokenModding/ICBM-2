@@ -19,10 +19,4 @@ public class WeaponLargeRailGun extends WeaponSystemProjectile
         super(sentry);
     }
 
-    @Override
-    public void fire(VectorWorld target)
-    {
-
-    }
-
 }

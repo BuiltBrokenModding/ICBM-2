@@ -61,8 +61,6 @@ public class SentryAI
                     this.container.getSentry().fire(new Vector3(endTarget));
                     this.target.attackEntityFrom(TurretDamageSource.TurretProjectile, 1.0F);
                 }
-                //TODO: if target && aimed at target && can fire, fire weapon
-                // -- Might be able to split of Ability to fire to the Sentry obj itself? have the AI only fire commands.
             }
 
         }
