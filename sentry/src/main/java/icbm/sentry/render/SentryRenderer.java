@@ -37,17 +37,17 @@ public abstract class SentryRenderer implements ISimpleItemRenderer
 	 */
 	public abstract void render(ForgeDirection side, TileTurret tile, float yaw, float pitch);
 
-	public ResourceLocation getTexture(EntityPlayer player, TileTurret tileEntity)
+	public ResourceLocation getTexture(EntityPlayer player, TileTurret tile)
 	{
-		if (tileEntity != null && player != null)
+		if (tile != null && player != null)
 		{
 			// ICBMSentry.LOGGER.info("Getting sentry Texture:");
-			if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
+			if (tile.canUse(Nodes.GROUP_USER_NODE, player))
 			{
 				// ICBMSentry.LOGGER.info("Returning default Texture:");
 				return textureNeutral;
 			}
-			else if (tileEntity.canUse(Nodes.GROUP_USER_NODE, player))
+			else if (tile.canUse(Nodes.GROUP_OWNER_NODE, player))
 			{
 				// ICBMSentry.LOGGER.info("Returning Friendly Texture:");
 				return textureFriendly;

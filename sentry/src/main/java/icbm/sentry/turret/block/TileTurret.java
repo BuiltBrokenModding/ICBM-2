@@ -404,4 +404,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         return this.getPitchServo().getRotation();
     }
 
+    @Override
+    public boolean canUse (String node, EntityPlayer player)
+    {
+        return this.getAccessProfile().getOwnerGroup().isMemeber(player.username);
+    }
 }

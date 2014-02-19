@@ -2,6 +2,7 @@ package icbm.sentry.turret.block;
 
 import calclavia.lib.access.AccessGroup;
 import calclavia.lib.access.AccessUser;
+import calclavia.lib.access.Nodes;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.utility.nbt.SaveManager;
@@ -220,8 +221,7 @@ public class BlockTurret extends BlockICBM
             {
                 EntityPlayer player = (EntityPlayer) entity;
 
-                AccessGroup admin = new AccessGroup("admin", new AccessUser(player));
-                tile.getAccessProfile().addGroup(admin);
+                tile.getAccessProfile().getOwnerGroup().addMemeber(new AccessUser(player.username));
 
             }
         }
