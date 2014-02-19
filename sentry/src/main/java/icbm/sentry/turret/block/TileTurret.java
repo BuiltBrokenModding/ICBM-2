@@ -252,7 +252,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
             this.getSentry().save(sentrySave);
             nbt.setCompoundTag(ISentry.SENTRY_OBJECT_SAVE, sentrySave);
         }
-        ICBMSentry.LOGGER.info("TileTurret: " + this.unlocalizedName);
         nbt.setString("unlocalizedName", this.unlocalizedName);
     }
 
@@ -262,8 +261,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         super.readFromNBT(nbt);
 
         this.unlocalizedName = nbt.getString("unlocalizedName");
-        ICBMSentry.LOGGER.info("ReadNBTTile: " + this.unlocalizedName);
-        ICBMSentry.LOGGER.info("ReadNBTTileOriginal: " + nbt.getString("unlocalizedName"));
         this.getInventory().load(nbt);
 
         if (nbt.hasKey(ISentry.SENTRY_OBJECT_SAVE))

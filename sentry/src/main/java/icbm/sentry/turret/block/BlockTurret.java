@@ -174,8 +174,6 @@ public class BlockTurret extends BlockICBM
                 NBTTagCompound sentry_nbt = new NBTTagCompound();
 
                 itemNbt.setString("unlocalizedName", entry.getKey());
-                ICBMSentry.LOGGER.info("nbt read: " + itemNbt.getString("unlocalizedName"));
-                ICBMSentry.LOGGER.info("test: " + entry.getKey());
                 sentry_nbt.setString(ISentry.SENTRY_SAVE_ID, SaveManager.getID(entry.getValue()));
                 itemNbt.setCompoundTag(ISentry.SENTRY_OBJECT_SAVE, sentry_nbt);
 
