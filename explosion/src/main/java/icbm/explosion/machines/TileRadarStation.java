@@ -477,7 +477,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
 	{
-		if (this.energy.checkExtract())
+		if (!this.energy.checkExtract())
 		{
 			throw new Exception("Radar has insufficient electricity!");
 		}
