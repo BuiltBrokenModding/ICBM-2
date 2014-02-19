@@ -15,6 +15,8 @@ public class TurretDamageSource extends DamageSource
         super(source);
     }
 
+    /** used by the gun, AA sentry */
     public static DamageSource TurretProjectile = new TurretDamageSource("TurretProjectile").setProjectile();
-    public static DamageSource TurretLaser = new TurretDamageSource("TurretLaser").setFireDamage();
+    /** used by the laser sentry */
+    public static DamageSource TurretLaser = new TurretDamageSource("TurretLaser");
 }
