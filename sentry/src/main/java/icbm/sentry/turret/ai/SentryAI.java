@@ -25,10 +25,12 @@ public class SentryAI
 {
     private ISentryContainer container;
     private EntityLivingBase target = null;
+    private EntityCombatSelector selector;
 
     public SentryAI(ISentryContainer container)
     {
         this.container = container;
+        this.selector = new EntityCombatSelector(this.container);
     }
 
     public void update()
@@ -39,6 +41,7 @@ public class SentryAI
             if (target == null)
             {
                 target = findTarget(container.getSentry(), new EntityCombatSelector(container), 100);
+
                 return;
             }
             //if we have a target start doing rotation, and line of sight checks
@@ -84,7 +87,9 @@ public class SentryAI
         return null;
     }
 
-    /** Does some basic checks on the target to make sure it can be shot at without issues */
+    /** Does some basic checks on the target to make sure it can be shot at without issues
+     * deprecated as there is a seperate scanner for this now */
+    @Deprecated
     protected boolean isValidTarget(EntityLivingBase entity)
     {
         //TODO apply ray trace to target

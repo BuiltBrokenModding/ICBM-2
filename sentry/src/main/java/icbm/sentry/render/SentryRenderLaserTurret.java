@@ -32,11 +32,11 @@ public class SentryRenderLaserTurret extends SentryRenderer
 		GL11.glScalef(1.2f, 1.2f, 1.2f);
 		GL11.glRotatef(180F, 0F, 0F, 1F);
 		// Render base yaw rotation
-		// GL11.glRotatef(yaw, 0F, 1F, 0F);
+		GL11.glRotatef(yaw, 0F, 1F, 0F);
 		MODEL.renderYaw(0.0625F);
 		// Render gun pitch rotation
-		// GL11.glRotatef(pitch, 1F, 0F, 0F);
-		MODEL.renderYawPitch(0.0625F, 0);
+		GL11.glRotatef(pitch, 1F, 0F, 0F);
+		MODEL.renderYawPitch(0.0625F, (float) Math.toRadians(pitch));
 
 	}
 
