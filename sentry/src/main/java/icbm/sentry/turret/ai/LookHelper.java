@@ -32,8 +32,6 @@ public class LookHelper
     {
         this.tileTurret.getYawServo().setTargetRotation(getYaw(center, target));
         this.tileTurret.getPitchServo().setTargetRotation(getPitch(center, target));
-        System.out.println("LookHelper yaw: " + this.tileTurret.getYawServo().getRotation());
-        System.out.println("lookHelper pitch: " + this.tileTurret.getPitchServo().getRotation());
     }
 
     /** Tells the turret to look at a location using an entity */

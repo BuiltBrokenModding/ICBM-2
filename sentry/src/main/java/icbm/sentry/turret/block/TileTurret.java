@@ -295,7 +295,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	@Override
 	public AutoServo getYawServo()
 	{
-        System.out.println("yaw:" + this.yawMotor.getRotation());
 		if (this.yawMotor == null)
 			this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
 		return this.yawMotor;
@@ -304,7 +303,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	@Override
 	public AutoServo getPitchServo()
 	{
-        System.out.println("pitch: " + this.pitchMotor.getRotation());
 		if (this.pitchMotor == null)
 			this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
 		return this.pitchMotor;

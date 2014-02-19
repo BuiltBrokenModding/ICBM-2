@@ -66,8 +66,6 @@ public class SentryAI
 
                 if (this.rotationTimer <= 0)
                 {
-                    System.out.println("rotation: " + this.rotationTimer);
-                    System.out.println("Yaw: " + this.container.yaw() + " Pitch: " + this.container.pitch());
                     this.rotationTimer = 60;
                     aimToTarget(lookHelper);
                 }
@@ -82,7 +80,6 @@ public class SentryAI
         {
             lookHelper.lookAtEntity(this.target);
             this.rotationTimer = 10;
-            System.out.println(this.target);
         }
         else
             lookHelper.lookAt(new Vector3(this.container.x(), this.container.y() + 50, this.container.z()));
