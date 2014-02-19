@@ -13,6 +13,7 @@ import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 import com.google.common.io.ByteArrayDataInput;
 import icbm.core.ICBMCore;
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.EntitySentryFake;
@@ -55,7 +56,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     boolean flip_pitch;
     private static float[] yawData = { 360F, 0F, 5F };
     private static float[] pitchData = { 35F, -35F, 5F };
-    private String unlocalizedName = "";
+    private String unlocalizedName;
     private String saveManagerSentryKey;
 
     public TileTurret ()
@@ -251,7 +252,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
             this.getSentry().save(sentrySave);
             nbt.setCompoundTag(ISentry.SENTRY_OBJECT_SAVE, sentrySave);
         }
-
+        ICBMSentry.LOGGER.info("TileTurret: " + this.unlocalizedName);
         nbt.setString("unlocalizedName", this.unlocalizedName);
     }
 
@@ -260,6 +261,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     {
         super.readFromNBT(nbt);
 
+        this.unlocalizedName = nbt.getString("unlocalizedName");
+        ICBMSentry.LOGGER.info("ReadNBTTile: " + this.unlocalizedName);
+        ICBMSentry.LOGGER.info("ReadNBTTileOriginal: " + nbt.getString("unlocalizedName"));
         this.getInventory().load(nbt);
 
         if (nbt.hasKey(ISentry.SENTRY_OBJECT_SAVE))
@@ -274,7 +278,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
             }
         }
 
-        this.unlocalizedName = nbt.getString("unlocalizedName");
     }
 
     @Override

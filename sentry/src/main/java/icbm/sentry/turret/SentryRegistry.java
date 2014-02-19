@@ -94,7 +94,7 @@ public class SentryRegistry
 		return sentryRenderMap.get(sentry);
 	}
 
-	/** Gets teh sentry map */
+	/** Gets the sentry map */
 	public static HashBiMap<String, Class<? extends Sentry>> getSentryMap()
 	{
 		return sentryMap;

@@ -35,10 +35,9 @@ public class ItemBlockTurret extends ItemBlock
 	{
 		boolean flag = super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata);
 
-		NBTTagCompound nbt = (NBTTagCompound) stack.getTagCompound().copy();
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		tile.writeToNBT(nbt);
-		tile.readFromNBT(nbt);
+		// tile.writeToNBT(nbt); kills the point.
+        tile.readFromNBT(stack.getTagCompound());
 
 		return flag;
 	}

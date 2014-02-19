@@ -1,5 +1,6 @@
 package icbm.sentry;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import icbm.Reference;
 import icbm.core.TabICBM;
 import icbm.core.ICBMCore;
@@ -34,6 +35,8 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
+import java.util.logging.Logger;
+
 @Mod(modid = ICBMSentry.ID, name = ICBMSentry.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM")
 @NetworkMod(channels = { Reference.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMSentry
@@ -61,6 +64,13 @@ public class ICBMSentry
 
 	/** ItemStack helpers. Do not modify theses. */
 	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
+
+    public static Logger LOGGER = Logger.getLogger("ICBMSentry");
+
+    public ICBMSentry()
+    {
+        LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+    }
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
