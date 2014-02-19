@@ -12,28 +12,26 @@ import universalelectricity.api.vector.VectorWorld;
 public class LookHelper
 {
     public static final int PITCH_DISPLACEMENT = 0;
-    private TileTurret sentry;
+    private TileTurret tileTurret;
     private VectorWorld center;
 
     public LookHelper(TileTurret tileSentry)
     {
-        this.sentry = tileSentry;
+        this.tileTurret = tileSentry;
         this.update();
     }
 
     public void update()
     {
-        this.center = new VectorWorld(this.sentry);
-        System.out.println(this.sentry.getSentry());
-        System.out.println(this.sentry.getSentry().getCenterOffset());
-        this.center.add(this.sentry.getSentry().getCenterOffset());
+        this.center = new VectorWorld(this.tileTurret);
+        this.center.add(this.tileTurret.getSentry().getCenterOffset());
     }
 
     /** Adjusts the turret target to look at a specific location. */
     public void lookAt(Vector3 target)
     {
-        this.sentry.getYawServo().setTargetRotation(getYaw(center, target));
-        this.sentry.getPitchServo().setTargetRotation(getPitch(center, target));
+        this.tileTurret.getYawServo().setTargetRotation(getYaw(center, target));
+        this.tileTurret.getPitchServo().setTargetRotation(getPitch(center, target));
     }
 
     /** Tells the turret to look at a location using an entity */
@@ -47,19 +45,19 @@ public class LookHelper
         return new float[] { getYaw(center, target), getPitch(center, target) };
     }
 
-    /** checks to see if the sentry is looking the target location
+    /** checks to see if the tileTurret is looking the target location
      * 
      * @param target - xyz target
-     * @param allowedError - amount these sentry can be off in degrees from target
+     * @param allowedError - amount these tileTurret can be off in degrees from target
      * @return true if its with in error range */
     public boolean isLookingAt(Vector3 target, float allowedError)
     {
         float yaw = getYaw(center, target);
         float pitch = getPitch(center, target);
 
-        if (Math.abs(getAngleDif(sentry.getYawServo().getRotation(), yaw)) <= allowedError)
+        if (Math.abs(getAngleDif(tileTurret.getYawServo().getRotation(), yaw)) <= allowedError)
         {
-            if (Math.abs(getAngleDif(sentry.getPitchServo().getRotation(), pitch)) <= allowedError)
+            if (Math.abs(getAngleDif(tileTurret.getPitchServo().getRotation(), pitch)) <= allowedError)
             {
                 return true;
             }
@@ -68,10 +66,10 @@ public class LookHelper
         return false;
     }
 
-    /** checks to see if the sentry is looking the the entity
+    /** checks to see if the tileTurret is looking the the entity
      * 
      * @param entity - entity be used for the location
-     * @param allowedError - amount these sentry can be off in degrees from target
+     * @param allowedError - amount these tileTurret can be off in degrees from target
      * @return true if its with in error range */
     public boolean isLookingAt(Entity entity, float allowedError)
     {
@@ -103,7 +101,7 @@ public class LookHelper
     /** does a ray trace to the Entity to see if the turret can see it */
     public boolean canPositionBeSeen(Vector3 target)
     {
-        return this.sentry.worldObj.clip(center.toVec3(), target.toVec3()) == null;
+        return this.tileTurret.worldObj.clip(center.toVec3(), target.toVec3()) == null;
     }
 
     public boolean canEntityBeSeen(Entity entity)

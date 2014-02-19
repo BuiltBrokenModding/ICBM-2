@@ -20,6 +20,7 @@ import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.ai.LookHelper;
+import icbm.sentry.turret.ai.SentryAI;
 import icbm.sentry.turret.modules.mount.MountedSentry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -54,8 +55,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	protected IExternalInventoryBox inventory;
 	/** Sentry instance used to define the visuals and weapons of the sentry */
 	protected Sentry sentry;
-	// TODO remove these later
-	boolean flip_pitch;
+
+    protected SentryAI sentryAI;
+
 	private static float[] yawData = { 360F, 0F, 5F };
 	private static float[] pitchData = { 35F, -35F, 5F };
 	private String unlocalizedName = "err";
@@ -66,7 +68,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		super();
 		this.inventory = new ExternalInventory(this, 8);
 		this.energy = new EnergyStorageHandler(1000);
-
 	}
 
 	@Override
@@ -75,6 +76,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		super.initiate();
 		this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
 		this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
+        this.lookHelper = new LookHelper(this);
+        this.sentryAI = new SentryAI(this, this.lookHelper);
 	}
 
 	@Override
@@ -87,11 +90,16 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		if (this.getSentry() != null)
 		{
 			this.getSentry().updateEntity();
+            this.sentryAI.update();
+
+
+
+
 			if (!(this.getSentry() instanceof MountedSentry))
 			{
 				// TODO Add AI here now that rotation seems to work.
 
-				if (this.ticks % 10 == 0)
+				/*if (this.ticks % 10 == 0)
 				{
 					if (flip_pitch)
 					{
@@ -109,7 +117,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 					}
 					this.getYawServo().update();
 					this.getPitchServo().update();
-				}
+				}*/
 
 			}
 			else
@@ -124,6 +132,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
 	}
 
+    /** will be moved to SentryAI */
+    @Deprecated
 	protected void mountableSentryLoop()
 	{
 		boolean flag = false;
@@ -246,6 +256,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	{
 		super.writeToNBT(nbt);
 		this.getInventory().save(nbt);
+        NBTTagCompound perm_tag = new NBTTagCompound();
+        this.getAccessProfile().save(perm_tag);
+        nbt.setCompoundTag("permissions", perm_tag);
 
 		if (this.getSentry() != null)
 		{
@@ -265,6 +278,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
 		this.unlocalizedName = nbt.getString("unlocalizedName");
 		this.getInventory().load(nbt);
+        this.getAccessProfile().load(nbt.getCompoundTag("permissions"));
 
 		if (nbt.hasKey(ISentry.SENTRY_OBJECT_SAVE))
 		{
