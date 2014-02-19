@@ -1,16 +1,20 @@
 package icbm.sentry.turret;
 
 import icbm.core.ICBMCore;
+import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.render.SentryRenderer;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
-import com.google.common.collect.HashBiMap;
-
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.utility.ReflectionHelper;
 import calclavia.lib.utility.nbt.SaveManager;
+
+import com.google.common.collect.HashBiMap;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -101,14 +105,19 @@ public class SentryRegistry
 	}
 
 	/** Grabs the class that links back the sentry id */
-	public static Class<? extends Sentry> getSentryForKey(String key)
+	public static Class<? extends Sentry> getSentry(String id)
 	{
-		return sentryMap.get(key);
+		return sentryMap.get(id);
 	}
 
-	public static String getKeyForSentry(Sentry sentry)
+	public static String getID(Sentry sentry)
 	{
 		return sentryMap.inverse().get(sentry.getClass());
+	}
+
+	public static String getID(Class<? extends Sentry> sentry)
+	{
+		return sentryMap.inverse().get(sentry);
 	}
 
 	/**
@@ -173,4 +182,17 @@ public class SentryRegistry
 
 	}
 
+	public static ItemStack getItemStack(Class<? extends Sentry> sentry)
+	{
+		ItemStack stack = new ItemStack(ICBMSentry.blockTurret);
+		NBTTagCompound itemNbt = new NBTTagCompound();
+		NBTTagCompound sentry_nbt = new NBTTagCompound();
+
+		itemNbt.setString("unlocalizedName", getID(sentry));
+		sentry_nbt.setString(ISentry.SENTRY_SAVE_ID, SaveManager.getID(sentry));
+		itemNbt.setCompoundTag(ISentry.SENTRY_OBJECT_SAVE, sentry_nbt);
+
+		stack.setTagCompound(itemNbt);
+		return stack;
+	}
 }
