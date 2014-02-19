@@ -92,47 +92,24 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 			this.getSentry().updateEntity();
             this.sentryAI.update(this.lookHelper);
 
-
-
-
 			if (!(this.getSentry() instanceof MountedSentry))
 			{
-				// TODO Add AI here now that rotation seems to work.
 
-				/*if (this.ticks % 10 == 0)
-				{
-					if (flip_pitch)
-					{
-						if (this.getPitchServo().getRotation() < this.getPitchServo().upperLimit())
-							this.getPitchServo().setTargetRotation(this.getPitchServo().getRotation() + 10);
-						else
-							flip_pitch = true;
-					}
-					else
-					{
-						if (this.getPitchServo().getRotation() > this.getPitchServo().lowerLimit())
-							this.getPitchServo().setTargetRotation(this.getPitchServo().getRotation() - 10);
-						else
-							flip_pitch = false;
-					}
-					this.getYawServo().update();
-					this.getPitchServo().update();
-				}*/
-
-			}
+            }
 			else
 			{
 				this.mountableSentryLoop();
 			}
 		}
+
+        this.getYawServo().update();
+        this.getPitchServo().update();
+
 		if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
 		{
             lookHelper.update();
 			PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
 		}
-        this.getYawServo().update();
-        this.getPitchServo().update();
-
 	}
 
     /** will be moved to SentryAI */

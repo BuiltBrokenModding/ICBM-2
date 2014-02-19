@@ -36,4 +36,6 @@ public interface ISentry extends ISaveObj
      * @return if successful at firing the bullet
      * @param vector3*/
     public boolean fire (Vector3 vector3);
+
+    public int getRange ();
 }

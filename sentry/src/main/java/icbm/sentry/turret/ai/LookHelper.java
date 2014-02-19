@@ -81,16 +81,22 @@ public class LookHelper
     /** Gets the pitch angle between the two points */
     public static float getPitch(Vector3 position, Vector3 target)
     {
-        Vector3 difference = target.clone().difference(target);
-        double verticleDistance = MathHelper.sqrt_double(difference.x * difference.x + difference.z * difference.z);
-        return -MathHelper.wrapAngleTo180_float((float) (Math.atan2(difference.y, verticleDistance) * 180.0D / Math.PI) + PITCH_DISPLACEMENT);
+        Vector3 difference = position.difference(target);
+
+        double flatDist = Math.hypot(difference.x, difference.z);
+        float pitch = (float) (Math.toDegrees(Math.atan(difference.y / flatDist))) + PITCH_DISPLACEMENT;
+        //System.out.println(pitch + " calculated pitch angle");
+        return pitch;
     }
 
     /** Gets the rotation yaw between the two points in angles */
     public static float getYaw(Vector3 position, Vector3 target)
     {
-        Vector3 difference = target.clone().difference(target);
-        return MathHelper.wrapAngleTo180_float((float) (Math.atan2(difference.z, difference.x) * 180.0D / Math.PI) - 90.0F);
+        Vector3 difference = position.difference(target);
+        float yaw = (float) Math.toDegrees(Math.atan(difference.z / difference.x)) - 90.0F;
+        //System.out.println(yaw + " yaw angle");
+        return yaw;
+
     }
 
     /** gets the difference in degrees between the two angles */
@@ -110,5 +116,10 @@ public class LookHelper
     {
         Vector3 target = Vector3.translate(new Vector3(entity), new Vector3(0, entity.getEyeHeight(), 0));
         return this.canPositionBeSeen(target);
+    }
+
+    public VectorWorld getCenter()
+    {
+        return this.center;
     }
 }

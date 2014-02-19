@@ -29,7 +29,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 	protected Vector3 centerOffset;
 	protected float health;
 	protected EnergyStorageHandler energy;
-	protected double range;
+	protected int range;
 
 	public Sentry(TileTurret host)
 	{
@@ -38,7 +38,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 		this.host = host;
 		this.energy = new EnergyStorageHandler(1000);
 		this.health = 0;
-		this.range = 32.0;
+		this.range = 32;
 	}
 
 	public float getMaxHealth()
@@ -165,7 +165,13 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 		return false;
 	}
 
-	@Override
+    @Override
+    public int getRange ()
+    {
+        return this.range;
+    }
+
+    @Override
 	public String toString()
 	{
 		String id = SentryRegistry.getID(this);

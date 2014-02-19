@@ -41,46 +41,39 @@ public class SentryAI
     {
         if (container != null && container.getSentry() != null && container.getSentry().automated())
         {
-            //Find target if we have none
-            if (target == null)
-            {
-                this.target = findTarget(container.getSentry(), new EntityCombatSelector(container), 100);
-                this.rotationTimer--;
-                return;
-            }
+            // Need to scan for target as Caching them causes new ones to be ignored
+            this.target = findTarget(container.getSentry(), this.selector, this.container.getSentry().getRange());
             this.rotationTimer--;
-            //if we have a target start doing rotation, and line of sight checks
+
             if (target != null)
             {
+                //if we have a target start doing rotation, and line of sight checks
+
                 Vector3 barrel = new Vector3();
                 barrel.add(this.container.getSentry().getCenterOffset());
                 barrel.add(this.container.getSentry().getAimOffset());
                 barrel.rotate(this.container.yaw(), this.container.pitch());
                 barrel.add(new Vector3(container.x(), container.y(), container.z()));
 
-//                MovingObjectPosition endTarget = barrel.rayTrace(this.container.world(), Vector3.fromCenter(this.target), true);
-//                //This ray trace is just for line of sight
                 if (lookHelper.isLookingAt(target, 1.0F))
                 {
                     //TODO change getAngle out for the correct version
                     double deltaYaw = barrel.getAngle(new Vector3(target));
                     double deltaPitch = barrel.getAngle(new Vector3(target));
-                    //TODO get position of sentry and of target. Then check if delta angle is +-2.3 degrees
                     this.container.getSentry().fire(new Vector3(target));
                     this.target.attackEntityFrom(TurretDamageSource.TurretProjectile, 1.0F);
                 }
 
-                else if (this.rotationTimer <= 0)
+                if (this.rotationTimer <= 0)
                 {
                     System.out.println("rotation: " + this.rotationTimer);
                     System.out.println("Yaw: " + this.container.yaw() + " Pitch: " + this.container.pitch());
-
+                    this.rotationTimer = 60;
                     aimToTarget(lookHelper);
-                    this.rotationTimer = rnd.nextInt(60);
                 }
             }
-
         }
+
     }
 
     public void aimToTarget (LookHelper lookHelper)
@@ -89,9 +82,8 @@ public class SentryAI
         {
             lookHelper.lookAtEntity(this.target);
             this.rotationTimer = 10;
+            System.out.println(this.target);
         }
-        else
-            lookHelper.lookAt(new Vector3(this.container.x() + (rnd.nextInt(100) - 50), this.container.y() + (rnd.nextInt(30) - 15), this.container.z() + (rnd.nextInt(100) - 50)));
     }
 
     @SuppressWarnings("unchecked")
@@ -112,12 +104,9 @@ public class SentryAI
         return null;
     }
 
-    /** Does some basic checks on the target to make sure it can be shot at without issues
-     * deprecated as there is a seperate scanner for this now */
-    @Deprecated
+    /** Does some basic checks on the target to make sure it can be shot at without issues */
     protected boolean isValidTarget (EntityLivingBase entity)
     {
-        //TODO apply ray trace to target
         //TODO filter out mob bosses to prevent cheating in boss fights
         return true;
     }
