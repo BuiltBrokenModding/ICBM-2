@@ -249,7 +249,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         {
             NBTTagCompound sentrySave = new NBTTagCompound();
             this.getSentry().save(sentrySave);
-            nbt.setTag(ISentry.SENTRY_OBJECT_SAVE, sentrySave);
+            nbt.setCompoundTag(ISentry.SENTRY_OBJECT_SAVE, sentrySave);
         }
 
         nbt.setString("unlocalizedName", this.unlocalizedName);
@@ -265,8 +265,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         if (nbt.hasKey(ISentry.SENTRY_OBJECT_SAVE))
         {
             NBTTagCompound tag = nbt.getCompoundTag(ISentry.SENTRY_OBJECT_SAVE);
-            saveManagerSentryKey = tag.getString(ISentry.SENTRY_SAVE_ID);
-            sentry = SentryRegistry.constructSentry(saveManagerSentryKey, this);
+            this.saveManagerSentryKey = tag.getString(ISentry.SENTRY_SAVE_ID);
+            this.sentry = SentryRegistry.constructSentry(saveManagerSentryKey, this);
 
             if (this.getSentry() != null)
             {
