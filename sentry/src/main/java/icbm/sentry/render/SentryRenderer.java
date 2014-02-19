@@ -41,19 +41,14 @@ public abstract class SentryRenderer implements ISimpleItemRenderer
 	{
 		if (tile != null && player != null)
 		{
-			// ICBMSentry.LOGGER.info("Getting sentry Texture:");
+            if(tile.getAccessProfile().getOwnerGroup().isMemeber(player.username))
+                return this.textureFriendly;
+
 			if (tile.canUse(Nodes.GROUP_USER_NODE, player))
 			{
-				// ICBMSentry.LOGGER.info("Returning default Texture:");
 				return textureNeutral;
 			}
-			else if (tile.canUse(Nodes.GROUP_OWNER_NODE, player))
-			{
-				// ICBMSentry.LOGGER.info("Returning Friendly Texture:");
-				return textureFriendly;
-			}
 		}
-		// ICBMSentry.LOGGER.info("Returning Hostile Texture:");
 		return textureHostile;
 	}
 }
