@@ -2,6 +2,7 @@ package icbm.sentry.turret.ai;
 
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
+import icbm.sentry.turret.weapon.TurretDamageSource;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.INpc;
@@ -57,8 +58,8 @@ public class SentryAI
                     double deltaYaw = barrel.getAngle(new Vector3(target));
                     double deltaPitch = barrel.getAngle(new Vector3(target));
                     //TODO get position of sentry and of target. Then check if delta angle is +-2.3 degrees
-
                     this.container.getSentry().fire(new Vector3(endTarget));
+                    this.target.attackEntityFrom(TurretDamageSource.TurretProjectile, 1.0F);
                 }
                 //TODO: if target && aimed at target && can fire, fire weapon
                 // -- Might be able to split of Ability to fire to the Sentry obj itself? have the AI only fire commands.

@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AABBPool;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -20,6 +21,9 @@ public abstract class WeaponSystem
     protected Sentry sentry;
     protected double range;
     protected List<Entity> entityList;
+
+    /** The Damage source to use for turret fire */
+    public DamageSource TURRET_DAMAGE = new DamageSource("Sentry Bullets").setProjectile();
 
     public WeaponSystem (Sentry sentry)
     {

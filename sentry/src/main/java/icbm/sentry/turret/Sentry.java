@@ -4,6 +4,7 @@ import calclavia.lib.utility.nbt.SaveManager;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -157,6 +158,12 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     public boolean mountable()
     {
         return false;
+    }
+
+    @Override
+    public void setTarget (Entity target)
+    {
+        this.tar
     }
 
     @Override

@@ -1,5 +1,6 @@
 package icbm.sentry.interfaces;
 
+import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.utility.nbt.ISaveObj;
 import universalelectricity.api.vector.VectorWorld;
