@@ -28,18 +28,16 @@ public class SentryAI
     private ISentryContainer container;
     private EntityLivingBase target = null;
     private EntityCombatSelector selector;
-    private LookHelper lookHelper;
     private int rotationTimer;
 
-    public SentryAI (ISentryContainer container, LookHelper rotationManager)
+    public SentryAI (ISentryContainer container)
     {
         this.container = container;
         this.selector = new EntityCombatSelector(this.container);
-        this.lookHelper = rotationManager;
         this.rotationTimer = rnd.nextInt(60);
     }
 
-    public void update ()
+    public void update (LookHelper lookHelper)
     {
         if (container != null && container.getSentry() != null && container.getSentry().automated())
         {
@@ -62,7 +60,7 @@ public class SentryAI
 
 //                MovingObjectPosition endTarget = barrel.rayTrace(this.container.world(), Vector3.fromCenter(this.target), true);
 //                //This ray trace is just for line of sight
-                if (this.lookHelper.isLookingAt(target, 1.0F))
+                if (lookHelper.isLookingAt(target, 1.0F))
                 {
                     //TODO change getAngle out for the correct version
                     double deltaYaw = barrel.getAngle(new Vector3(target));
@@ -76,24 +74,24 @@ public class SentryAI
                 {
                     System.out.println("rotation: " + this.rotationTimer);
                     System.out.println("Yaw: " + this.container.yaw() + " Pitch: " + this.container.pitch());
-                    aimToTarget();
+
+                    aimToTarget(lookHelper);
                     this.rotationTimer = rnd.nextInt(60);
                 }
             }
 
         }
-        this.lookHelper.update();
     }
 
-    public void aimToTarget ()
+    public void aimToTarget (LookHelper lookHelper)
     {
         if (this.target != null)
         {
-            this.lookHelper.lookAtEntity(this.target);
+            lookHelper.lookAtEntity(this.target);
             this.rotationTimer = 10;
         }
         else
-            this.lookHelper.lookAt(new Vector3(this.container.x() + (rnd.nextInt(100) - 50), this.container.y() + (rnd.nextInt(30) - 15), this.container.z() + (rnd.nextInt(100) - 50)));
+            lookHelper.lookAt(new Vector3(this.container.x() + (rnd.nextInt(100) - 50), this.container.y() + (rnd.nextInt(30) - 15), this.container.z() + (rnd.nextInt(100) - 50)));
     }
 
     @SuppressWarnings("unchecked")
