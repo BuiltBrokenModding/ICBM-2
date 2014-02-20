@@ -1,11 +1,13 @@
 package icbm.sentry.turret.ai;
 
-import calclavia.lib.utility.MathUtility;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
+import calclavia.lib.prefab.IServo;
+import calclavia.lib.prefab.Servo;
+import calclavia.lib.utility.MathUtility;
 
 /** Rotation always in degrees.
  * 
@@ -37,6 +39,30 @@ public class LookHelper
     public float[] getDeltaRotations(Vector3 target)
     {
         return new float[] { getYaw(getCenter(), target), getPitch(getCenter(), target) };
+    }
+
+    public boolean isTargetInBounds(Entity target)
+    {
+        return isTargetInBounds(Vector3.fromCenter(target));
+    }
+
+    public boolean isTargetInBounds(Vector3 target)
+    {
+        return isTargetInBounds(this.getCenter(), target, this.tileTurret.getYawServo(), this.tileTurret.getPitchServo());
+    }
+
+    public static boolean isTargetInBounds(Vector3 start, Vector3 target, IServo yawServo, IServo pitchServo)
+    {
+        float yaw = getYaw(start, target);
+        float pitch = getPitch(start, target);
+        if (yaw > yawServo.lowerLimit() && yaw < yawServo.upperLimit())
+        {
+            if (pitch > pitchServo.lowerLimit() && pitch < pitchServo.upperLimit())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** checks to see if the tileTurret is looking the target location
@@ -100,14 +126,19 @@ public class LookHelper
     }
 
     /** does a ray trace to the Entity to see if the turret can see it */
-    public boolean canPositionBeSeen(Vector3 target)
+    public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
     {
-        return this.tileTurret.worldObj.clip(getCenter().toVec3(), target.toVec3()) == null;
+        return world.clip(center.toVec3(), target.toVec3()) == null;
     }
 
     public boolean canEntityBeSeen(Entity entity)
     {
-        return this.canPositionBeSeen(Vector3.fromCenter(entity));
+        return canEntityBeSeen(this.getCenter(), entity);
+    }
+
+    public static boolean canEntityBeSeen(Vector3 center, Entity entity)
+    {
+        return canPositionBeSeen(entity.worldObj, center, Vector3.fromCenter(entity));
     }
 
     public VectorWorld getCenter()

@@ -91,20 +91,16 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
         if (this.getSentry() != null)
         {
-            //this.getSentry().updateEntity();
-            // this.sentryAI.update(this.lookHelper);
-            EntityPlayer player = this.world().getClosestPlayer(this.x(), this.y(), this.z(), 30);
-            if (player != null)
-                this.lookHelper.lookAt(Vector3.fromCenter(player));
-
+            this.getSentry().updateEntity();
+            this.sentryAI.update(this.lookHelper);
         }
 
         this.getYawServo().update();
         this.getPitchServo().update();
 
+        //TODO check to make sure rotation has changed more then 1 degree so avoid sending too many packets
         if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
         {
-            //lookHelper.update();
             PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
         }
     }

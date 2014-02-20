@@ -1,12 +1,13 @@
 package icbm.sentry.interfaces;
 
+import calclavia.lib.prefab.IGyroMotor;
 import universalelectricity.api.vector.Vector3;
 import net.minecraft.world.World;
 
 /** Used to interact with any container object that can host a sentry
  * 
  * @author Darkguardsman */
-public interface ISentryContainer
+public interface ISentryContainer extends IGyroMotor
 {
     /** Gets the sentry hosted by this container */
     public ISentry getSentry();
