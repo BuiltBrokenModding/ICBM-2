@@ -30,11 +30,7 @@ public class TurretAntiAir extends AutoSentry
     @Override
     public boolean fire (Vector3 target)
     {
-        if (this.energy.isEmpty() || false /* code for after Stable to allow power takeup */)
-            return false;
-
-        this.weaponSystem.fire(target);
-        this.target.attackEntityFrom(TurretDamageSource.TurretProjectile, 1.0F);
+        this.weaponSystem.fire(target);       
         return true;
     }
 }

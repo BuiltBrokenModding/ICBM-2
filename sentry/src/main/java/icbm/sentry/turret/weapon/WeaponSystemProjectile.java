@@ -3,30 +3,40 @@ package icbm.sentry.turret.weapon;
 import icbm.api.sentry.IAmmunition;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Sentry;
+import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.Vector3;
 
+/** Basic projectile weapon system design more to be used as a prefab. By default it acts like a hand
+ * gun with low hit chance and damage.
+ * 
+ * @author DarkGuardsman, tgame14 */
 public class WeaponSystemProjectile extends WeaponSystem
 {
+    protected float inaccuracy = 0.1f;
     public WeaponSystemProjectile(Sentry sentry)
     {
         super(sentry);
     }
 
     @Override
-    public void fire (Vector3 target)
+    public void fire(Vector3 target)
     {
-        Vector3 barrel = new Vector3();
-        barrel.add(this.sentry.getAimOffset());
-        barrel.add(this.sentry.getCenterOffset());
-        barrel.rotate(this.sentry.host.yaw(), this.sentry.host.pitch());
-        barrel.add(new Vector3(sentry.host.x(), sentry.host.y(), sentry.host.z()));
-
-        ICBMSentry.proxy.renderBeam(this.sentry.world(), barrel, target, 1F, 1F, 1F, 10);
-
+        //TODO: implement accuracy by randomly off setting the target location by 0.2-1.0xyz
+        super.fire(target);
     }
 
+   
+    public void onHitEntity(Entity entity)
+    {
+        if (entity != null)
+        {
+            entity.attackEntityFrom(TurretDamageSource.TurretProjectile, 5.0F);
+        }
+    }
 
     public boolean isAmmo(ItemStack stack)
     {
@@ -43,7 +53,7 @@ public class WeaponSystemProjectile extends WeaponSystem
         if (count > 0 && sentry.getHost() instanceof IInventory)
         {
             //TODO add a way to restrict this to a set range of slots
-            IInventory inv = ((IInventory) sentry.host);
+            IInventory inv = ((IInventory) sentry.getHost());
             //0-4 are upgrade slots for the sentry, 5-8 are ammo slots
             int consumeCount = 0;
             for (int slot = 5; slot < inv.getSizeInventory(); slot++)

@@ -24,17 +24,16 @@ import java.util.Random;
  * @author DarkGuardsman */
 public class SentryAI
 {
-    Random rnd = new Random();
     private ISentryContainer container;
     private EntityLivingBase target = null;
-    private EntitySelectorSentry selector;
-    private int rotationTimer = 0;
-    private int targetCoolDown = 0;
+    private EntitySelectorSentry entitySelector;
+    private int rotationDelayTimer = 0;
+    private int targetLostTimer = 0;
 
     public SentryAI(ISentryContainer container)
     {
         this.container = container;
-        this.selector = new EntitySelectorSentry(this.container);
+        this.entitySelector = new EntitySelectorSentry(this.container);
     }
 
     public void update(LookHelper lookHelper)
@@ -44,7 +43,7 @@ public class SentryAI
             //Only get new target if the current is missing or it will switch targets each update
             if (target == null)
             {
-                this.target = findTarget(container.getSentry(), this.selector, this.container.getSentry().getRange());
+                this.target = findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange());
             }
             //If we have a target start aiming logic
             if (target != null)
@@ -56,7 +55,6 @@ public class SentryAI
 
                 if (lookHelper.canEntityBeSeen(this.target))
                 {
-                    targetCoolDown = 0;
                     if (lookHelper.isLookingAt(this.target, 1.0F))
                     {
                         this.container.getSentry().fire(this.target);
@@ -65,37 +63,33 @@ public class SentryAI
                     {
                         lookHelper.lookAtEntity(this.target);
                     }
+                    targetLostTimer = 0;
                 }
                 else
                 {
                     //Drop the target after 2 seconds of no sight
-                    targetCoolDown++;
-                    if (targetCoolDown >= 40)
+                    if (targetLostTimer >= 40)
                     {
                         target = null;
                     }
+                    targetLostTimer++;
                 }
             }
             else
             {
                 //Only start random rotation after a second of no target
-                if (targetCoolDown >= 20)
+                if (targetLostTimer >= 20)
                 {
-                    if (this.rotationTimer >= 10)
+                    if (this.rotationDelayTimer >= 10)
                     {
-                        this.rotationTimer = 0;
+                        this.rotationDelayTimer = 0;
                         //lookHelper.lookAt(new Vector3(this.container.x(), this.container.y(), this.container.z()));
                         //TODO change the yaw rotation randomly
+                        //Tip world().rand instead of making a new random object
                     }
-                    else
-                    {
-                        this.rotationTimer++;
-                    }
+                    this.rotationDelayTimer++;
                 }
-                else
-                {
-                    targetCoolDown++;
-                }
+                targetLostTimer++;
             }
         }
 
@@ -106,24 +100,7 @@ public class SentryAI
     {
         List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z, container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z).expand(range, range, range), targetSelector);
         Collections.sort(list, new ComparatorClosestEntity(new VectorWorld(container.world(), container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z)));
-        if (list != null && !list.isEmpty())
-        {
-            for (EntityLivingBase entity : list)
-            {
-                if (isValidTarget(entity))
-                {
-                    return entity;
-                }
-            }
-        }
-        return null;
-    }
-
-    /** Does some basic checks on the target to make sure it can be shot at without issues */
-    protected boolean isValidTarget(EntityLivingBase entity)
-    {
-        //TODO filter out mob bosses to prevent cheating in boss fights
-        return true;
+        return list != null && !list.isEmpty() ? list.get(0) : null;
     }
 
     //TODO: add options to this for reversing the targeting filter

@@ -134,27 +134,28 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 
     }
 
+    @Override
     public ISentryContainer getHost()
     {
         return this.host;
     }
 
-    public World world()
+    protected World world()
     {
         return this.getHost().world();
     }
 
-    public double x()
+    protected double x()
     {
         return this.getHost().x();
     }
 
-    public double y()
+    protected double y()
     {
         return this.getHost().y();
     }
 
-    public double z()
+    protected double z()
     {
         return this.getHost().z();
     }
