@@ -18,6 +18,7 @@ public interface ISentry extends ISaveObj
      * should contain the sentry id and other data used to recreate the sentry from a save */
     public static final String SENTRY_OBJECT_SAVE = "sentryTile";
 
+    /** Gets the object that is hosting the sentry. Should only return TileEntity or Entity. */
     public ISentryContainer getHost();
 
     /** When not mounted by an entity can the sentry operate on its own */
@@ -25,17 +26,24 @@ public interface ISentry extends ISaveObj
 
     /** can the sentry be mounted by an entity */
     public boolean mountable();
-    
+
     /** Offset from the center offset to were the end of the barrel should be at */
     public Vector3 getAimOffset();
 
     /** Offset from host location to were the sentries center is located */
     public Vector3 getCenterOffset();
 
-    /** Fire the weapon system on called if successful (has ammo)
-     * @return if successful at firing the bullet
-     * @param vector3*/
-    public boolean fire (Vector3 vector3);
+    /** Triggers the sentry to fire its weapon system at a location
+     * 
+     * @return if the weapon activated without error
+     * @param target - Vector3 location to fire the weapon at */
+    public boolean fire(Vector3 target);
 
-    public int getRange ();
+    /** Triggers the sentry to fire its weapon system at an entity
+     * 
+     * @return if the weapon activated without error
+     * @param target - Entity to fire the weapon at */
+    public boolean fire(Entity target);
+
+    public int getRange();
 }

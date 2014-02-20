@@ -20,35 +20,32 @@ import java.util.List;
 import java.util.Random;
 
 /** AI for the sentry objects
- *
+ * 
  * @author DarkGuardsman */
 public class SentryAI
 {
     Random rnd = new Random();
     private ISentryContainer container;
     private EntityLivingBase target = null;
-    private EntityCombatSelector selector;
+    private EntitySelectorSentry selector;
     private int rotationTimer;
 
-    public SentryAI (ISentryContainer container)
+    public SentryAI(ISentryContainer container)
     {
         this.container = container;
-        this.selector = new EntityCombatSelector(this.container);
+        this.selector = new EntitySelectorSentry(this.container);
         this.rotationTimer = rnd.nextInt(60);
     }
 
-    public void update (LookHelper lookHelper)
+    public void update(LookHelper lookHelper)
     {
         if (container != null && container.getSentry() != null && container.getSentry().automated())
         {
-            // Need to scan for target as Caching them causes new ones to be ignored
             this.target = findTarget(container.getSentry(), this.selector, this.container.getSentry().getRange());
             this.rotationTimer--;
 
             if (target != null)
             {
-                //if we have a target start doing rotation, and line of sight checks
-
                 Vector3 barrel = new Vector3();
                 barrel.add(this.container.getSentry().getCenterOffset());
                 barrel.add(this.container.getSentry().getAimOffset());
@@ -60,8 +57,9 @@ public class SentryAI
                     //TODO change getAngle out for the correct version
                     double deltaYaw = barrel.getAngle(new Vector3(target));
                     double deltaPitch = barrel.getAngle(new Vector3(target));
-                    this.container.getSentry().fire(new Vector3(target));
-                    this.target.attackEntityFrom(TurretDamageSource.TurretProjectile, 1.0F);
+                    //Provide the entity if possible so that things like guided missile will work later down the road
+                    this.container.getSentry().fire(target);
+                    //this.target.attackEntityFrom(TurretDamageSource.TurretProjectile, 1.0F);
                 }
 
                 if (this.rotationTimer <= 0)
@@ -74,7 +72,7 @@ public class SentryAI
 
     }
 
-    public void aimToTarget (LookHelper lookHelper)
+    public void aimToTarget(LookHelper lookHelper)
     {
         if (this.target != null)
         {
@@ -86,7 +84,7 @@ public class SentryAI
     }
 
     @SuppressWarnings("unchecked")
-    protected EntityLivingBase findTarget (ISentry sentry, IEntitySelector targetSelector, int range)
+    protected EntityLivingBase findTarget(ISentry sentry, IEntitySelector targetSelector, int range)
     {
         List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z, container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z).expand(range, range, range), targetSelector);
         Collections.sort(list, new ComparatorClosestEntity(new VectorWorld(container.world(), container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z)));
@@ -104,7 +102,7 @@ public class SentryAI
     }
 
     /** Does some basic checks on the target to make sure it can be shot at without issues */
-    protected boolean isValidTarget (EntityLivingBase entity)
+    protected boolean isValidTarget(EntityLivingBase entity)
     {
         //TODO filter out mob bosses to prevent cheating in boss fights
         return true;
@@ -115,12 +113,12 @@ public class SentryAI
     {
         private final VectorWorld location;
 
-        public ComparatorClosestEntity (VectorWorld location)
+        public ComparatorClosestEntity(VectorWorld location)
         {
             this.location = location;
         }
 
-        public int compare (EntityLivingBase entityA, EntityLivingBase entityB)
+        public int compare(EntityLivingBase entityA, EntityLivingBase entityB)
         {
             double distanceA = this.location.distance(entityA);
             double distanceB = this.location.distance(entityB);
