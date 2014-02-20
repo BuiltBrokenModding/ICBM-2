@@ -28,58 +28,77 @@ public class SentryAI
     private ISentryContainer container;
     private EntityLivingBase target = null;
     private EntitySelectorSentry selector;
-    private int rotationTimer;
+    private int rotationTimer = 0;
+    private int targetCoolDown = 0;
 
     public SentryAI(ISentryContainer container)
     {
         this.container = container;
         this.selector = new EntitySelectorSentry(this.container);
-        this.rotationTimer = rnd.nextInt(60);
     }
 
     public void update(LookHelper lookHelper)
     {
         if (container != null && container.getSentry() != null && container.getSentry().automated())
         {
-            this.target = findTarget(container.getSentry(), this.selector, this.container.getSentry().getRange());
-            this.rotationTimer--;
-
+            //Only get new target if the current is missing or it will switch targets each update
+            if (target == null)
+            {
+                this.target = findTarget(container.getSentry(), this.selector, this.container.getSentry().getRange());
+            }
+            //If we have a target start aiming logic
             if (target != null)
             {
-                Vector3 barrel = new Vector3();
-                barrel.add(this.container.getSentry().getCenterOffset());
+                Vector3 barrel = this.container.getSentry().getCenterOffset();
                 barrel.add(this.container.getSentry().getAimOffset());
                 barrel.rotate(this.container.yaw(), this.container.pitch());
-                barrel.add(new Vector3(container.x(), container.y(), container.z()));
-                //TODO add a cruder version of the ray trace check to the target selector to avoid returning hidden targets
-                if (lookHelper.isLookingAt(target, 1.0F))
-                {
-                    //TODO change getAngle out for the correct version
-                    double deltaYaw = barrel.getAngle(new Vector3(target));
-                    double deltaPitch = barrel.getAngle(new Vector3(target));
-                    //TODO check too see if the barrel is aligned with the target
-                    this.container.getSentry().fire(target);
-                }
+                barrel.add(new Vector3(this.container.x(), this.container.y(), this.container.z()));
 
-                if (this.rotationTimer <= 0)
+                if (lookHelper.canEntityBeSeen(this.target))
                 {
-                    this.rotationTimer = 60;
-                    aimToTarget(lookHelper);
+                    targetCoolDown = 0;
+                    if (lookHelper.isLookingAt(this.target, 1.0F))
+                    {
+                        this.container.getSentry().fire(this.target);
+                    }
+                    else
+                    {
+                        lookHelper.lookAtEntity(this.target);
+                    }
+                }
+                else
+                {
+                    //Drop the target after 2 seconds of no sight
+                    targetCoolDown++;
+                    if (targetCoolDown >= 40)
+                    {
+                        target = null;
+                    }
+                }
+            }
+            else
+            {
+                //Only start random rotation after a second of no target
+                if (targetCoolDown >= 20)
+                {
+                    if (this.rotationTimer >= 10)
+                    {
+                        this.rotationTimer = 0;
+                        //lookHelper.lookAt(new Vector3(this.container.x(), this.container.y(), this.container.z()));
+                        //TODO change the yaw rotation randomly
+                    }
+                    else
+                    {
+                        this.rotationTimer++;
+                    }
+                }
+                else
+                {
+                    targetCoolDown++;
                 }
             }
         }
 
-    }
-
-    public void aimToTarget(LookHelper lookHelper)
-    {
-        if (this.target != null)
-        {
-            lookHelper.lookAtEntity(this.target);
-            this.rotationTimer = 10;
-        }
-        else
-            lookHelper.lookAt(new Vector3(this.container.x(), this.container.y() + 50, this.container.z()));
     }
 
     @SuppressWarnings("unchecked")
