@@ -16,6 +16,12 @@ public class WeaponLaser extends WeaponSystemProjectile
     }
 
     @Override
+    public void fire(Entity entity)
+    {
+        this.onHitEntity(entity);
+    }
+
+    @Override
     public void onHitEntity(Entity entity)
     {
         if (entity != null)

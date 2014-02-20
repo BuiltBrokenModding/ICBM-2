@@ -55,7 +55,7 @@ public class LookHelper
         {
             //if (pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
             //{
-                return true;
+            return true;
             //}
         }
         return false;
@@ -129,7 +129,7 @@ public class LookHelper
 
     public boolean canEntityBeSeen(Entity entity)
     {
-        return canEntityBeSeen(this.getCenter(), entity);
+        return canEntityBeSeen(this.getCenter().translate(Vector3.getDeltaPositionFromRotation(getYaw(this.getCenter(), Vector3.fromCenter(entity)), getPitch(this.getCenter(), Vector3.fromCenter(entity)))).scale(2), entity);
     }
 
     public static boolean canEntityBeSeen(Vector3 center, Entity entity)

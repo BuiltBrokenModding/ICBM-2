@@ -76,7 +76,7 @@ public class SentryAI
                 {
                     System.out.println("\t[SentryAI]Debug: Sight on target lost");
                     //Drop the target after 2 seconds of no sight
-                    if (targetLostTimer >= 40)
+                    if (targetLostTimer >= 20)
                     {
                         sentry().setTarget(null);
                     }

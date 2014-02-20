@@ -77,8 +77,9 @@ public class EntitySelectorSentry implements IEntitySelector
                         return false;
                     }
                 }
+                return true;
             }
-            return true;
+
         }
         return false;
     }

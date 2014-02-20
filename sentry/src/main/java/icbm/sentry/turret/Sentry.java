@@ -74,9 +74,13 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     @Override
     public boolean fire(Entity target)
     {
-        if (target != null)
+        if (canFire())
         {
-            return this.fire(new Vector3(target));
+            if (this.getHost().world().isRemote)
+                this.weaponSystem.renderClient(Vector3.fromCenter(target));
+            else
+                this.weaponSystem.fire(target);
+            return true;
         }
         return false;
     }
