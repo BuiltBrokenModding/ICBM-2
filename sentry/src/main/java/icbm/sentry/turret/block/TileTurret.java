@@ -96,7 +96,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
             EntityPlayer player = this.world().getClosestPlayer(this.x(), this.y(), this.z(), 30);
             if (player != null)
                 this.lookHelper.lookAt(Vector3.fromCenter(player));
-            System.out.println("[DebugSentryTile]Actual Yaw: " + this.getYawServo().getRotation());
 
         }
 
