@@ -1,5 +1,7 @@
 package icbm.sentry.turret.weapon;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ISentry;
 import net.minecraft.entity.Entity;
@@ -34,7 +36,6 @@ public abstract class WeaponSystem
         extend.scale(traceLimit > 0 ? traceLimit : defaultTraceTrange);
         extend.translate(sentry.getHost().x(), sentry.getHost().y(), sentry.getHost().z());
         extend.translate(sentry.getCenterOffset());
-
         this.fire(extend);
     }
 
@@ -42,12 +43,7 @@ public abstract class WeaponSystem
     public void fire(Vector3 target)
     {
         Vector3 hit = target.clone();
-        Vector3 barrel = this.sentry.getCenterOffset();
-        barrel.add(this.sentry.getAimOffset());
-        barrel.rotate(this.sentry.getHost().yaw(), this.sentry.getHost().pitch());
-        barrel.add(new Vector3(sentry.getHost().x(), sentry.getHost().y(), sentry.getHost().z()));
-
-        MovingObjectPosition endTarget = barrel.rayTrace(sentry.getHost().world(), hit, true);
+        MovingObjectPosition endTarget = getBarrelEnd().rayTrace(sentry.getHost().world(), hit, true);
 
         if (endTarget != null)
         {
@@ -61,13 +57,28 @@ public abstract class WeaponSystem
                 onHitBlock(hit);
             }
         }
-        ICBMSentry.proxy.renderBeam(sentry.getHost().world(), barrel, hit, 1F, 1F, 1F, 10);
     }
 
     /** Fires the weapon at an entity. */
     public void fire(Entity entity)
     {
-        this.fire(new Vector3(entity).translate(0, entity.getEyeHeight(), 0));
+        this.fire(Vector3.fromCenter(entity));
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void renderClient(Vector3 hit)
+    {
+        ICBMSentry.proxy.renderBeam(sentry.getHost().world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
+    }
+
+    /** Gets the current end point for the barrel in the world */
+    protected Vector3 getBarrelEnd()
+    {
+        Vector3 barrel = this.sentry.getCenterOffset();
+        barrel.translate(this.sentry.getAimOffset());
+        barrel.rotate(this.sentry.getHost().yaw(), this.sentry.getHost().pitch());
+        barrel.translate(new Vector3(sentry.getHost().x(), sentry.getHost().y(), sentry.getHost().z()));
+        return barrel;
     }
 
     /** Called when the weapon hits an entity */

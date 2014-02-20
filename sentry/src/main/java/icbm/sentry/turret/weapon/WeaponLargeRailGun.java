@@ -14,9 +14,9 @@ import universalelectricity.api.vector.VectorWorld;
 public class WeaponLargeRailGun extends WeaponSystemProjectile
 {
 
-    public WeaponLargeRailGun(Sentry sentry)
+    public WeaponLargeRailGun(Sentry sentry, float damage)
     {
-        super(sentry);
+        super(sentry, damage);
     }
 
 }

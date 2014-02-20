@@ -21,9 +21,6 @@ public interface ISentry extends ISaveObj
     /** Gets the object that is hosting the sentry. Should only return TileEntity or Entity. */
     public ISentryContainer getHost();
 
-    /** When not mounted by an entity can the sentry operate on its own */
-    public boolean automated();
-
     /** can the sentry be mounted by an entity */
     public boolean mountable();
 

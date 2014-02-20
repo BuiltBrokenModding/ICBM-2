@@ -5,6 +5,7 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
+import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,16 +28,17 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     protected Vector3 centerOffset;
     protected float health;
     protected EnergyStorageHandler energy;
-    protected int range;
+    protected int range = 60;
+    //TODO change out weapon system var for an interface and registry system
+    protected WeaponSystem weaponSystem;
 
-    public Sentry(TileTurret host)
+    public Sentry(ISentryContainer host)
     {
-        this.aimOffset = new Vector3(1, 0, 0);
-        this.centerOffset = new Vector3(0, 0.5, 0);
         this.host = host;
+        this.aimOffset = new Vector3(1, 0, 0);
+        this.centerOffset = new Vector3(0, 0, 0);
         this.energy = new EnergyStorageHandler(1000);
-        this.health = 0;
-        this.range = 32;
+
     }
 
     public float getMaxHealth()
@@ -51,15 +53,19 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 
     public boolean canFire()
     {
+        //TODO do ammo check
         return true;
     }
 
     @Override
     public boolean fire(Vector3 target)
     {
-        if (world().isRemote)
+        if (canFire())
         {
-            this.fireWeaponClient(target);
+            if (this.getHost().world().isRemote)
+                this.weaponSystem.renderClient(target);
+            else
+                this.weaponSystem.fire(target);
             return true;
         }
         return false;
@@ -73,13 +79,6 @@ public abstract class Sentry implements IEnergyContainer, ISentry
             return this.fire(new Vector3(target));
         }
         return false;
-    }
-
-    /** visual rendering here */
-    public void fireWeaponClient(Vector3 target)
-    {
-        // TODO Auto-generated method stub
-
     }
 
     /** Offset from the center offset to were the end of the barrel should be at */
@@ -158,12 +157,6 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     protected double z()
     {
         return this.getHost().z();
-    }
-
-    @Override
-    public boolean automated()
-    {
-        return false;
     }
 
     @Override

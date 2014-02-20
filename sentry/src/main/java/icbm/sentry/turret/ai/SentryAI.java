@@ -1,23 +1,18 @@
 package icbm.sentry.turret.ai;
 
+import icbm.sentry.interfaces.IAutoSentry;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
-import icbm.sentry.turret.weapon.TurretDamageSource;
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.INpc;
-import net.minecraft.entity.passive.IAnimals;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
+
+import net.minecraft.command.IEntitySelector;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.AxisAlignedBB;
+import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
 /** AI for the sentry objects
  * 
@@ -25,7 +20,6 @@ import java.util.Random;
 public class SentryAI
 {
     private ISentryContainer container;
-    private EntityLivingBase target = null;
     private EntitySelectorSentry entitySelector;
     private int rotationDelayTimer = 0;
     private int targetLostTimer = 0;
@@ -36,32 +30,41 @@ public class SentryAI
         this.entitySelector = new EntitySelectorSentry(this.container);
     }
 
+    public IAutoSentry sentry()
+    {
+        if (container != null && container.getSentry() != null && container.getSentry() instanceof IAutoSentry)
+        {
+            return (IAutoSentry) container.getSentry();
+        }
+        return null;
+    }
+
     public void update(LookHelper lookHelper)
     {
-        if (container != null && container.getSentry() != null && container.getSentry().automated())
+        if (sentry() != null)
         {
             //Only get new target if the current is missing or it will switch targets each update
-            if (target == null)
+            if (sentry().getTarget() == null)
             {
-                this.target = findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange());
+                sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange()));
             }
             //If we have a target start aiming logic
-            if (target != null)
+            if (sentry().getTarget() != null)
             {
                 Vector3 barrel = this.container.getSentry().getCenterOffset();
                 barrel.add(this.container.getSentry().getAimOffset());
                 barrel.rotate(this.container.yaw(), this.container.pitch());
                 barrel.add(new Vector3(this.container.x(), this.container.y(), this.container.z()));
 
-                if (lookHelper.canEntityBeSeen(this.target))
+                if (lookHelper.canEntityBeSeen(sentry().getTarget()))
                 {
-                    if (lookHelper.isLookingAt(this.target, 1.0F))
+                    if (lookHelper.isLookingAt(sentry().getTarget(), 1.0F))
                     {
-                        this.container.getSentry().fire(this.target);
+                        this.container.getSentry().fire(sentry().getTarget());
                     }
                     else
                     {
-                        lookHelper.lookAtEntity(this.target);
+                        lookHelper.lookAtEntity(sentry().getTarget());
                     }
                     targetLostTimer = 0;
                 }
@@ -70,7 +73,7 @@ public class SentryAI
                     //Drop the target after 2 seconds of no sight
                     if (targetLostTimer >= 40)
                     {
-                        target = null;
+                        sentry().setTarget(null);
                     }
                     targetLostTimer++;
                 }

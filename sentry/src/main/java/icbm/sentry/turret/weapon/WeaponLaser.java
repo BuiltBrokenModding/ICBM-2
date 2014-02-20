@@ -1,23 +1,40 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.sentry.turret.Sentry;
+import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.ISentry;
+import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * @since 16/02/14
- * @author tgame14
- */
-public class WeaponLaser extends WeaponSystem
+/** @author DarkGuardsman */
+public class WeaponLaser extends WeaponSystemProjectile
 {
-    public WeaponLaser (Sentry sentry)
+    public WeaponLaser(ISentry sentry, float damage)
     {
-        super(sentry);
+        super(sentry, damage);
     }
 
     @Override
-    public void fire (Vector3 target)
+    public void onHitEntity(Entity entity)
     {
+        if (entity != null)
+        {
+            super.onHitEntity(entity);
+            entity.setFire(5);
+        }
+    }
 
+    @Override
+    public void onHitBlock(Vector3 block)
+    {
+        //TODO if the laser hits the same block for 5 sec destroy
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void renderClient(Vector3 hit)
+    {
+        ICBMSentry.proxy.renderBeam(sentry.getHost().world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
     }
 }

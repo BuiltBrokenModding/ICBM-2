@@ -2,10 +2,12 @@ package icbm.sentry.turret.weapon;
 
 import icbm.api.sentry.IAmmunition;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.turret.Sentry;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.Vector3;
@@ -17,24 +19,32 @@ import universalelectricity.api.vector.Vector3;
 public class WeaponSystemProjectile extends WeaponSystem
 {
     protected float inaccuracy = 0.1f;
-    public WeaponSystemProjectile(Sentry sentry)
+    protected float damage = 5f;
+    protected DamageSource damageSource = TurretDamageSource.TurretProjectile;
+
+    public WeaponSystemProjectile(ISentry sentry, float damage)
     {
         super(sentry);
+        this.damage = damage;
     }
 
     @Override
     public void fire(Vector3 target)
     {
-        //TODO: implement accuracy by randomly off setting the target location by 0.2-1.0xyz
-        super.fire(target);
+        super.fire(target.clone().translate(getInaccuracy(), getInaccuracy(), getInaccuracy()));
     }
 
-   
+    private float getInaccuracy()
+    {
+        return sentry.getHost().world().rand.nextFloat() * inaccuracy;
+    }
+
+    @Override
     public void onHitEntity(Entity entity)
     {
         if (entity != null)
         {
-            entity.attackEntityFrom(TurretDamageSource.TurretProjectile, 5.0F);
+            entity.attackEntityFrom(damageSource, damage);
         }
     }
 
