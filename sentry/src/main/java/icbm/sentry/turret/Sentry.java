@@ -36,7 +36,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     {
         this.host = host;
         this.aimOffset = new Vector3(1, 0, 0);
-        this.centerOffset = new Vector3(0, 0, 0);
+        this.centerOffset = new Vector3();
         this.energy = new EnergyStorageHandler(1000);
 
     }

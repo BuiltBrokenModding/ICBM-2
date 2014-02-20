@@ -1,12 +1,15 @@
 package icbm.sentry.turret.ai;
 
+import calclavia.lib.access.IProfileContainer;
 import icbm.sentry.interfaces.ISentryContainer;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityOwnable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -54,11 +57,20 @@ public class EntitySelectorSentry implements IEntitySelector
 
     /** Checks if the sentry finds the entity friendly */
     public boolean isFriendly(Entity entity)
-    {
+    { //TODO check if the entity is owned by a player
         if (entity instanceof EntityPlayer)
         {
-            //TODO call back to access system to check if player is friendly
-            //TODO check if the entity is owned by a player
+            if (this.drone instanceof IProfileContainer)
+            {
+                return ((IProfileContainer) this.drone).canAccess(((EntityPlayer) entity).username);
+            }
+        }
+        else if (entity instanceof EntityTameable)
+        {
+            if (this.drone instanceof EntityOwnable)
+            {
+                return ((IProfileContainer) this.drone).canAccess(((EntityOwnable) entity).getOwnerName());
+            }
         }
         return false;
     }

@@ -155,7 +155,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public boolean canAccess(String username)
     {
-        return accessProfile.getUserAccess(username) != null;
+        return this.getAccessProfile().getUserAccess(username) != null;
     }
 
     @Override

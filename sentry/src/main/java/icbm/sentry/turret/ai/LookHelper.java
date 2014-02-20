@@ -121,20 +121,24 @@ public class LookHelper
         return (float) Math.max(angleOne, angleTwo) - Math.min(angleOne, angleTwo);
     }
 
-    /** does a ray trace to the Entity to see if the turret can see it */
-    public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
-    {
-        return center.rayTraceBlocks(world, target, true) == null;
-    }
-
     public boolean canEntityBeSeen(Entity entity)
     {
-        return canEntityBeSeen(this.getCenter().translate(Vector3.getDeltaPositionFromRotation(getYaw(this.getCenter(), Vector3.fromCenter(entity)), getPitch(this.getCenter(), Vector3.fromCenter(entity)))).scale(2), entity);
+        Vector3 c = this.getCenter();
+        Vector3 e = Vector3.fromCenter(entity);
+        Vector3 t = c.clone().translate(new Vector3(getYaw(c, e), getPitch(c, e)).scale(2));
+        System.out.println("[LookHelper]Center: " + c.toString() + " Entity:" + e.toString() + " Tran:" + t.toString());
+        return canPositionBeSeen(entity.worldObj, t, e);
     }
 
     public static boolean canEntityBeSeen(Vector3 center, Entity entity)
     {
         return canPositionBeSeen(entity.worldObj, center, Vector3.fromCenter(entity));
+    }
+
+    /** does a ray trace to the Entity to see if the turret can see it */
+    public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
+    {
+        return center.rayTraceBlocks(world, target, true) == null;
     }
 
     public VectorWorld getCenter()
