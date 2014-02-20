@@ -1,5 +1,6 @@
 package icbm.sentry.turret.ai;
 
+import calclavia.lib.utility.MathUtility;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -73,17 +74,7 @@ public class LookHelper
     public static float getPitch(Vector3 position, Vector3 target)
     {
         double pitchRadians = getPitchRadians(position, target);
-        double pitch = (float) Math.toDegrees(pitchRadians);
-        System.out.println("[DebugLookHelper] Pitch: " + pitchRadians + " As Degrees: " + pitch);
-        while (pitch > 360 || pitch < 0)
-        {
-            if (pitch > 360)
-                pitch -= 360;
-            else
-                pitch += 360;
-        }
-
-        return (float) pitch;
+        return (float) MathUtility.clampAngleTo360(-Math.toDegrees(pitchRadians));
     }
 
     public static double getPitchRadians(Vector3 position, Vector3 target)
@@ -96,15 +87,8 @@ public class LookHelper
     public static float getYaw(Vector3 position, Vector3 target)
     {
         double yawRadians = getYawRadians(position, target);
-        double yaw = Math.toDegrees(yawRadians);
+        double yaw = MathUtility.clampAngleTo360(Math.toDegrees(yawRadians));
         System.out.println("[DebugLookHelper] Yaw: " + yawRadians + " As Degrees: " + yaw);
-        while (yaw > 360 || yaw < 0)
-        {
-            if (yaw > 360)
-                yaw -= 360;
-            else
-                yaw += 360;
-        }
         return (float) yaw;
 
     }
@@ -136,6 +120,6 @@ public class LookHelper
 
     public VectorWorld getCenter()
     {
-        return new VectorWorld(tileTurret.getWorldObj(), new Vector3(tileTurret.x(), tileTurret.y(), tileTurret.x()).translate(this.tileTurret.getSentry().getCenterOffset()));
+        return new VectorWorld(tileTurret.getWorldObj(), new Vector3(tileTurret.x(), tileTurret.y(), tileTurret.z()).translate(this.tileTurret.getSentry().getCenterOffset()));
     }
 }

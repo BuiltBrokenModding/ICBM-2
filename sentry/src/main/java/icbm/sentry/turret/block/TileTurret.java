@@ -11,7 +11,9 @@ import calclavia.lib.terminal.TileTerminal;
 import calclavia.lib.utility.inventory.ExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
+
 import com.google.common.io.ByteArrayDataInput;
+
 import icbm.core.ICBMCore;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ISentry;
@@ -79,6 +81,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         this.sentryAI = new SentryAI(this);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void updateEntity()
     {
@@ -90,7 +93,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         {
             //this.getSentry().updateEntity();
             // this.sentryAI.update(this.lookHelper);
-            this.lookHelper.lookAt(new Vector3(this.x(), this.y(), this.z()).translate(this.getSentry().getCenterOffset()).translate(-10, 0, 0));
+            EntityPlayer player = this.world().getClosestPlayer(this.x(), this.y(), this.z(), 30);
+            if (player != null)
+                this.lookHelper.lookAt(Vector3.fromCenter(player));
 
         }
 
