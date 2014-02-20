@@ -66,7 +66,7 @@ public class EntitySelectorSentry implements IEntitySelector
     /** Checks if the target is valid for being attacked */
     public boolean isValid(Entity entity)
     {
-        if (entity instanceof EntityLivingBase && !isFriendly(entity) && isValid(entity))
+        if (entity instanceof EntityLivingBase)
         {
             if (entity.isEntityAlive() && !entity.isInvisible())
             {
