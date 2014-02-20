@@ -59,11 +59,8 @@ public abstract class Sentry implements IEnergyContainer, ISentry
     {
         if (world().isRemote)
         {
-            fireWeaponClient(target);
-        }
-        else
-        {
-            // Call weapon system
+            this.fireWeaponClient(target);
+            return true;
         }
         return false;
     }

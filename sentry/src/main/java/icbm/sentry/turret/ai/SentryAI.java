@@ -51,15 +51,14 @@ public class SentryAI
                 barrel.add(this.container.getSentry().getAimOffset());
                 barrel.rotate(this.container.yaw(), this.container.pitch());
                 barrel.add(new Vector3(container.x(), container.y(), container.z()));
-
+                //TODO add a cruder version of the ray trace check to the target selector to avoid returning hidden targets
                 if (lookHelper.isLookingAt(target, 1.0F))
                 {
                     //TODO change getAngle out for the correct version
                     double deltaYaw = barrel.getAngle(new Vector3(target));
                     double deltaPitch = barrel.getAngle(new Vector3(target));
-                    //Provide the entity if possible so that things like guided missile will work later down the road
+                    //TODO check too see if the barrel is aligned with the target
                     this.container.getSentry().fire(target);
-                    //this.target.attackEntityFrom(TurretDamageSource.TurretProjectile, 1.0F);
                 }
 
                 if (this.rotationTimer <= 0)
