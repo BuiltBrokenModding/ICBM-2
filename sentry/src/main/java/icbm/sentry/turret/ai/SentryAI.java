@@ -76,7 +76,7 @@ public class SentryAI
                 {
                     System.out.println("\t[SentryAI]Debug: Sight on target lost");
                     //Drop the target after 2 seconds of no sight
-                    if (targetLostTimer >= 20)
+                    if (targetLostTimer >= 100)
                     {
                         sentry().setTarget(null);
                     }
@@ -85,10 +85,11 @@ public class SentryAI
             }
             else
             {
-                System.out.println("\t[SentryAI]Debug: Target not found");
+                System.out.println("\t[SentryAI]Debug: No Target Selected");
                 //Only start random rotation after a second of no target
                 if (targetLostTimer >= 20)
                 {
+                    sentry().setTarget(null);
                     if (this.rotationDelayTimer >= 10)
                     {
                         this.rotationDelayTimer = 0;
