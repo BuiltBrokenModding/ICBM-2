@@ -7,6 +7,7 @@ import icbm.sentry.render.SentryRenderGunTurret;
 import icbm.sentry.render.SentryRenderer;
 import icbm.sentry.turret.SentryRegistry;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -39,7 +40,7 @@ public class RenderTurret extends RenderTaggedTile
                 GL11.glScalef(1f, 1f, 1f);
 
                 RenderUtility.bind(sentryRender.getTexture(getPlayer(), tileTurret));
-                sentryRender.render(tileTurret.getDirection(), tileTurret, tileTurret.yaw(), tileTurret.pitch());
+                sentryRender.render(tileTurret.getDirection(), tileTurret, MathHelper.wrapAngleTo180_float(tileTurret.yaw()), MathHelper.wrapAngleTo180_float(tileTurret.pitch()));
 
                 GL11.glPopMatrix();
             }
