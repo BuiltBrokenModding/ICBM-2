@@ -29,6 +29,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
+import calclavia.components.CalclaviaLoader;
 import calclavia.lib.content.ContentRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
@@ -105,6 +106,8 @@ public final class ICBMCore
 
 		Settings.initiate();
 		Settings.CONFIGURATION.load();
+
+		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
 		// Blocks
 		blockSulfurOre = contentRegistry.createBlock(BlockSulfureOre.class);
