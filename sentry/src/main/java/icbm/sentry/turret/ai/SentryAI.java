@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.command.IEntitySelector;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.vector.Vector3;
@@ -20,13 +21,14 @@ import universalelectricity.api.vector.VectorWorld;
 public class SentryAI
 {
     private ISentryContainer container;
-    private EntitySelectorSentry entitySelector;
+    private IEntitySelector entitySelector;
     private int rotationDelayTimer = 0;
     private int targetLostTimer = 0;
 
     public SentryAI(ISentryContainer container)
     {
         this.container = container;
+        //TODO get selector from sentry at a later date
         this.entitySelector = new EntitySelectorSentry(this.container);
     }
 
@@ -43,40 +45,36 @@ public class SentryAI
     {
         if (sentry() != null)
         {
-            System.out.println("[SentryAI]Debug: Update tick \n");
+            System.out.println(" \n[SentryAI]Debug: Update tick");
             //Only get new target if the current is missing or it will switch targets each update
             if (sentry().getTarget() == null)
             {
-                System.out.println("[SentryAI]Debug: Searching for target");
+                System.out.println("\t[SentryAI]Debug: Searching for target");
                 sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange()));
             }
             //If we have a target start aiming logic
-            if (sentry().getTarget() != null)
+            if (this.isValidTarget(sentry().getTarget(), true))
             {
-                System.out.println("[SentryAI]Debug: Targeting");
-                Vector3 barrel = this.container.getSentry().getCenterOffset();
-                barrel.add(this.container.getSentry().getAimOffset());
-                barrel.rotate(this.container.yaw(), this.container.pitch());
-                barrel.add(new Vector3(this.container.x(), this.container.y(), this.container.z()));
+                System.out.println("\t[SentryAI]Debug: Targeting");
 
                 if (lookHelper.canEntityBeSeen(sentry().getTarget()) && lookHelper.isTargetInBounds(sentry().getTarget()))
                 {
-                    System.out.println("[SentryAI]Debug: Target can be seen");
-                    if (lookHelper.isLookingAt(sentry().getTarget(), 1.0F))
+                    System.out.println("\t[SentryAI]Debug: Target can be seen");
+                    if (lookHelper.isLookingAt(sentry().getTarget(), 3))
                     {
-                        System.out.println("[SentryAI]Debug: Target locked and firing weapon");
+                        System.out.println("\t[SentryAI]Debug: Target locked and firing weapon");
                         this.container.getSentry().fire(sentry().getTarget());
                     }
                     else
                     {
-                        System.out.println("[SentryAI]Debug: Powering servos to aim at target");
+                        System.out.println("\t[SentryAI]Debug: Powering servos to aim at target");
                         lookHelper.lookAtEntity(sentry().getTarget());
                     }
                     targetLostTimer = 0;
                 }
                 else
                 {
-                    System.out.println("[SentryAI]Debug: No Target");
+                    System.out.println("\t[SentryAI]Debug: Sight on target lost");
                     //Drop the target after 2 seconds of no sight
                     if (targetLostTimer >= 40)
                     {
@@ -87,6 +85,7 @@ public class SentryAI
             }
             else
             {
+                System.out.println("\t[SentryAI]Debug: Target not found");
                 //Only start random rotation after a second of no target
                 if (targetLostTimer >= 20)
                 {
@@ -108,22 +107,45 @@ public class SentryAI
     @SuppressWarnings("unchecked")
     protected EntityLivingBase findTarget(ISentry sentry, IEntitySelector targetSelector, int range)
     {
+        System.out.println("\t\t[SentryAI]Debug: Target selector update");
         List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z, container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z).expand(range, range, range), targetSelector);
         Collections.sort(list, new ComparatorClosestEntity(new VectorWorld(container.world(), container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z)));
         if (list != null && !list.isEmpty())
         {
-            Vector3 centerPoint = new Vector3(sentry.getHost().x(), sentry.getHost().y(), sentry.getHost().z()).add(sentry.getCenterOffset());
+            System.out.println("\t\t[SentryAI]Debug: " + list.size() + " Possible Targets");
+
             for (EntityLivingBase entity : list)
             {
-                boolean flag_bounds = LookHelper.isTargetInBounds(centerPoint, Vector3.fromCenter(entity), sentry.getHost().getYawServo(), sentry.getHost().getPitchServo());
-                boolean flag_sight = LookHelper.canEntityBeSeen(centerPoint, entity);
-                if (flag_bounds && flag_sight)
+                if (isValidTarget(entity, false))
                 {
                     return entity;
                 }
             }
         }
         return null;
+    }
+
+    public boolean isValidTarget(Entity entity, boolean skip_sight)
+    {
+        if (this.entitySelector.isEntityApplicable(entity))
+        {
+            if (!skip_sight)
+            {
+                Vector3 centerPoint = LookHelper.getCenter(this.container);
+                boolean flag_bounds = LookHelper.isTargetInBounds(centerPoint, Vector3.fromCenter(entity), this.container.getYawServo(), this.container.getPitchServo());
+                boolean flag_sight = LookHelper.canEntityBeSeen(centerPoint, entity);
+
+                if (flag_bounds && flag_sight)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     //TODO: add options to this for reversing the targeting filter

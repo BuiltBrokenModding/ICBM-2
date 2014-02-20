@@ -60,7 +60,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     protected SentryAI sentryAI;
 
     private static float[] yawData = { 360F, 0F, 5F };
-    private static float[] pitchData = { 35F, -35F, 5F };
+    private static float[] pitchData = { 55F, -55F, 5F };
     private String unlocalizedName = "err";
     private String saveManagerSentryKey;
 

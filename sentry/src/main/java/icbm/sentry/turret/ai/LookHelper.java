@@ -1,5 +1,6 @@
 package icbm.sentry.turret.ai;
 
+import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -36,11 +37,6 @@ public class LookHelper
         this.lookAt(new Vector3(entity));
     }
 
-    public float[] getDeltaRotations(Vector3 target)
-    {
-        return new float[] { getYaw(getCenter(), target), getPitch(getCenter(), target) };
-    }
-
     public boolean isTargetInBounds(Entity target)
     {
         return isTargetInBounds(Vector3.fromCenter(target));
@@ -55,12 +51,12 @@ public class LookHelper
     {
         float yaw = getYaw(start, target);
         float pitch = getPitch(start, target);
-        if (yaw > yawServo.lowerLimit() && yaw < yawServo.upperLimit())
+        if (yaw >= yawServo.lowerLimit() && yaw <= yawServo.upperLimit())
         {
-            if (pitch > pitchServo.lowerLimit() && pitch < pitchServo.upperLimit())
-            {
+            //if (pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
+            //{
                 return true;
-            }
+            //}
         }
         return false;
     }
@@ -128,7 +124,7 @@ public class LookHelper
     /** does a ray trace to the Entity to see if the turret can see it */
     public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
     {
-        return world.clip(center.toVec3(), target.toVec3()) == null;
+        return center.rayTraceBlocks(world, target, true) == null;
     }
 
     public boolean canEntityBeSeen(Entity entity)
@@ -143,6 +139,11 @@ public class LookHelper
 
     public VectorWorld getCenter()
     {
-        return new VectorWorld(tileTurret.getWorldObj(), new Vector3(tileTurret.x(), tileTurret.y(), tileTurret.z()).translate(this.tileTurret.getSentry().getCenterOffset()));
+        return getCenter(this.tileTurret);
+    }
+
+    public static VectorWorld getCenter(ISentryContainer container)
+    {
+        return new VectorWorld(container.world(), new Vector3(container.x(), container.y(), container.z()).translate(container.getSentry().getCenterOffset()));
     }
 }
