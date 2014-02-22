@@ -95,6 +95,10 @@ public class SentryAI
                         //lookHelper.lookAt(new Vector3(this.container.x(), this.container.y(), this.container.z()));
                         //TODO change the yaw rotation randomly
                         //Tip world().rand instead of making a new random object
+
+                        Vector3 location = new Vector3(this.container.x(), this.container.y(), this.container.z());
+                        location.add(new Vector3(this.container.world().rand.nextInt(60) - 30, 0, this.container.world().rand.nextInt(60) - 30));
+                        lookHelper.lookAt(location);
                     }
                     this.rotationDelayTimer++;
                 }

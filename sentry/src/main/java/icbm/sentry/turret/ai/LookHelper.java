@@ -3,6 +3,8 @@ package icbm.sentry.turret.ai;
 import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -39,7 +41,7 @@ public class LookHelper
 
     public boolean isTargetInBounds(Entity target)
     {
-        return isTargetInBounds(Vector3.fromCenter(target));
+        return isTargetInBounds(new Vector3(target));
     }
 
     public boolean isTargetInBounds(Vector3 target)
@@ -138,7 +140,11 @@ public class LookHelper
     /** does a ray trace to the Entity to see if the turret can see it */
     public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
     {
-        return center.rayTraceBlocks(world, target, true) == null;
+        MovingObjectPosition hitTarget = center.rayTrace(world, target, true);
+
+        if (hitTarget.typeOfHit == EnumMovingObjectType.ENTITY)
+            return true;
+        return false;
     }
 
     public VectorWorld getCenter()
