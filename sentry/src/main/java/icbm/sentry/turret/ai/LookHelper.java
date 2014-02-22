@@ -114,7 +114,7 @@ public class LookHelper
     public static double getYawRadians(Vector3 position, Vector3 target)
     {
         Vector3 d = position.difference(target);
-        return Math.atan2(d.z, d.x) - Math.toRadians(90);
+        return Math.atan2(d.z, d.x) - (Math.PI / 2);
     }
 
     /** gets the difference in degrees between the two angles */
@@ -141,10 +141,7 @@ public class LookHelper
     public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
     {
         MovingObjectPosition hitTarget = center.rayTrace(world, target, true);
-
-        if (hitTarget.typeOfHit == EnumMovingObjectType.ENTITY)
-            return true;
-        return false;
+        return hitTarget != null && hitTarget.typeOfHit == EnumMovingObjectType.ENTITY;
     }
 
     public VectorWorld getCenter()
