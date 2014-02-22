@@ -3,11 +3,6 @@ package icbm.sentry.turret.ai;
 import icbm.sentry.interfaces.IAutoSentry;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,8 +10,12 @@ import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /** AI for the sentry objects
- * 
+ *
  * @author DarkGuardsman */
 public class SentryAI
 {
@@ -25,14 +24,14 @@ public class SentryAI
     private int rotationDelayTimer = 0;
     private int targetLostTimer = 0;
 
-    public SentryAI(ISentryContainer container)
+    public SentryAI (ISentryContainer container)
     {
         this.container = container;
         //TODO get selector from sentry at a later date
         this.entitySelector = new EntitySelectorSentry(this.container);
     }
 
-    public IAutoSentry sentry()
+    public IAutoSentry sentry ()
     {
         if (container != null && container.getSentry() != null && container.getSentry() instanceof IAutoSentry)
         {
@@ -41,7 +40,7 @@ public class SentryAI
         return null;
     }
 
-    public void update(LookHelper lookHelper)
+    public void update (LookHelper lookHelper)
     {
         if (sentry() != null)
         {
@@ -50,41 +49,36 @@ public class SentryAI
             if (sentry().getTarget() == null)
             {
                 System.out.println("\t[SentryAI]Debug: Searching for target");
-                sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange()));
+                sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange(), lookHelper));
             }
             //If we have a target start aiming logic
-            if (this.isValidTarget(sentry().getTarget(), true))
+            if (this.isValidTarget(sentry().getTarget(), true, lookHelper))
             {
                 System.out.println("\t[SentryAI]Debug: Targeting");
-
-                if (lookHelper.canEntityBeSeen(sentry().getTarget()) && lookHelper.isTargetInBounds(sentry().getTarget()))
+                // If Target is valid, It can be already seen.
+                System.out.println("\t[SentryAI]Debug: Target can be seen");
+                if (lookHelper.isLookingAt(sentry().getTarget(), 3))
                 {
-                    System.out.println("\t[SentryAI]Debug: Target can be seen");
-                    if (lookHelper.isLookingAt(sentry().getTarget(), 3))
-                    {
-                        System.out.println("\t[SentryAI]Debug: Target locked and firing weapon");
-                        this.container.getSentry().fire(sentry().getTarget());
-                    }
-                    else
-                    {
-                        System.out.println("\t[SentryAI]Debug: Powering servos to aim at target");
-                        lookHelper.lookAtEntity(sentry().getTarget());
-                    }
-                    targetLostTimer = 0;
+                    System.out.println("\t[SentryAI]Debug: Target locked and firing weapon");
+                    this.container.getSentry().fire(sentry().getTarget());
                 }
                 else
                 {
-                    System.out.println("\t[SentryAI]Debug: Sight on target lost");
-                    //Drop the target after 2 seconds of no sight
-                    if (targetLostTimer >= 100)
-                    {
-                        sentry().setTarget(null);
-                    }
-                    targetLostTimer++;
+                    System.out.println("\t[SentryAI]Debug: Powering servos to aim at target");
+                    lookHelper.lookAtEntity(sentry().getTarget());
                 }
+                targetLostTimer = 0;
             }
             else
             {
+                System.out.println("\t[SentryAI]Debug: Sight on target lost");
+                //Drop the target after 2 seconds of no sight
+                if (targetLostTimer >= 100)
+                {
+                    sentry().setTarget(null);
+                }
+                targetLostTimer++;
+
                 System.out.println("\t[SentryAI]Debug: No Target Selected");
                 //Only start random rotation after a second of no target
                 if (targetLostTimer >= 20)
@@ -92,12 +86,8 @@ public class SentryAI
                     if (this.rotationDelayTimer >= 10)
                     {
                         this.rotationDelayTimer = 0;
-                        //lookHelper.lookAt(new Vector3(this.container.x(), this.container.y(), this.container.z()));
-                        //TODO change the yaw rotation randomly
-                        //Tip world().rand instead of making a new random object
-
                         Vector3 location = new Vector3(this.container.x(), this.container.y(), this.container.z());
-                        location.add(new Vector3(this.container.world().rand.nextInt(60) - 30, 0, this.container.world().rand.nextInt(60) - 30));
+                        location.add(new Vector3(this.container.world().rand.nextInt(40) - 20, 0, this.container.world().rand.nextInt(40) - 20));
                         lookHelper.lookAt(location);
                     }
                     this.rotationDelayTimer++;
@@ -109,7 +99,7 @@ public class SentryAI
     }
 
     @SuppressWarnings("unchecked")
-    protected EntityLivingBase findTarget(ISentry sentry, IEntitySelector targetSelector, int range)
+    protected EntityLivingBase findTarget (ISentry sentry, IEntitySelector targetSelector, int range, LookHelper lookHelper)
     {
         System.out.println("\t\t[SentryAI]Debug: Target selector update");
         List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z, container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z).expand(range, range, range), targetSelector);
@@ -120,7 +110,7 @@ public class SentryAI
 
             for (EntityLivingBase entity : list)
             {
-                if (isValidTarget(entity, false))
+                if (isValidTarget(entity, false, lookHelper))
                 {
                     return entity;
                 }
@@ -129,7 +119,7 @@ public class SentryAI
         return null;
     }
 
-    public boolean isValidTarget(Entity entity, boolean skip_sight)
+    public boolean isValidTarget (Entity entity, boolean skip_sight, LookHelper lookHelper)
     {
         if (this.entitySelector.isEntityApplicable(entity))
         {
@@ -137,7 +127,7 @@ public class SentryAI
             {
                 Vector3 centerPoint = LookHelper.getCenter(this.container);
                 boolean flag_bounds = LookHelper.isTargetInBounds(centerPoint, Vector3.fromCenter(entity), this.container.getYawServo(), this.container.getPitchServo());
-                boolean flag_sight = LookHelper.canEntityBeSeen(centerPoint, entity);
+                boolean flag_sight = lookHelper.isLookingAt(entity, 5F);
 
                 if (flag_bounds && flag_sight)
                 {
@@ -157,12 +147,12 @@ public class SentryAI
     {
         private final VectorWorld location;
 
-        public ComparatorClosestEntity(VectorWorld location)
+        public ComparatorClosestEntity (VectorWorld location)
         {
             this.location = location;
         }
 
-        public int compare(EntityLivingBase entityA, EntityLivingBase entityB)
+        public int compare (EntityLivingBase entityA, EntityLivingBase entityB)
         {
             double distanceA = this.location.distance(entityA);
             double distanceB = this.location.distance(entityB);

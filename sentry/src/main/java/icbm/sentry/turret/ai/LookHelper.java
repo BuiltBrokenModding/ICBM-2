@@ -55,10 +55,10 @@ public class LookHelper
         float pitch = getPitch(start, target);
         if (yaw >= yawServo.lowerLimit() && yaw <= yawServo.upperLimit())
         {
-            //if (pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
-            //{
+            if (pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
+            {
             return true;
-            //}
+            }
         }
         return false;
     }
@@ -100,7 +100,7 @@ public class LookHelper
     public static double getPitchRadians(Vector3 position, Vector3 target)
     {
         Vector3 d = position.difference(target);
-        return Math.atan2(Math.sqrt(d.z * d.z + d.x * d.x), d.y) - Math.toRadians(90);
+        return Math.atan2(Math.hypot(d.z, d.x), d.y) - (Math.PI / 2);
     }
 
     /** Gets the rotation yaw between the two points in angles */
@@ -120,13 +120,13 @@ public class LookHelper
     /** gets the difference in degrees between the two angles */
     public static float getAngleDif(float angleOne, float angleTwo)
     {
-        return (float) Math.max(angleOne, angleTwo) - Math.min(angleOne, angleTwo);
+        return (float) Math.abs(angleOne - angleTwo);
     }
 
     public boolean canEntityBeSeen(Entity entity)
     {
         Vector3 c = this.getCenter();
-        Vector3 e = Vector3.fromCenter(entity);
+        Vector3 e = new Vector3(entity);
         Vector3 t = c.clone().translate(new Vector3(getYaw(c, e), getPitch(c, e)));
         System.out.println("[LookHelper]Center: " + c.toString() + " Entity:" + e.toString() + " Tran:" + t.toString());
         return canPositionBeSeen(entity.worldObj, t, e);
@@ -134,7 +134,7 @@ public class LookHelper
 
     public static boolean canEntityBeSeen(Vector3 center, Entity entity)
     {
-        return canPositionBeSeen(entity.worldObj, center, Vector3.fromCenter(entity));
+        return canPositionBeSeen(entity.worldObj, center, new Vector3(entity));
     }
 
     /** does a ray trace to the Entity to see if the turret can see it */
