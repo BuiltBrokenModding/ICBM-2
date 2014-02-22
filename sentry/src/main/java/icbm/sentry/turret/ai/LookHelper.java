@@ -127,7 +127,7 @@ public class LookHelper
     {
         Vector3 c = this.getCenter();
         Vector3 e = Vector3.fromCenter(entity);
-        Vector3 t = c.clone().translate(new Vector3(getYaw(c, e), getPitch(c, e)).scale(2));
+        Vector3 t = c.clone().translate(new Vector3(getYaw(c, e), getPitch(c, e)));
         System.out.println("[LookHelper]Center: " + c.toString() + " Entity:" + e.toString() + " Tran:" + t.toString());
         return canPositionBeSeen(entity.worldObj, t, e);
     }
