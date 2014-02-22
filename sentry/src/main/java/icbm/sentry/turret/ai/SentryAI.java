@@ -52,10 +52,8 @@ public class SentryAI
                 sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange(), lookHelper));
             }
             //If we have a target start aiming logic
-            if (this.isValidTarget(sentry().getTarget(), true, lookHelper))
+            if (sentry().getTarget() != null && this.isValidTarget(sentry().getTarget(), true, lookHelper))
             {
-                System.out.println("\t[SentryAI]Debug: Targeting");
-                // If Target is valid, It can be already seen.
                 System.out.println("\t[SentryAI]Debug: Target can be seen");
                 if (lookHelper.isLookingAt(sentry().getTarget(), 3))
                 {

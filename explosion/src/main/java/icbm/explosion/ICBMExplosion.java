@@ -148,9 +148,9 @@ public class ICBMExplosion
 		itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
 
 		/** Potion Effects */
-		PoisonToxin.INSTANCE = new PoisonToxin(24, true, 5149489, "toxin");
-		PoisonContagion.INSTANCE = new PoisonContagion(25, false, 5149489, "virus");
-		PoisonFrostBite.INSTANCE = new PoisonFrostBite(26, false, 5149489, "frostBite");
+		PoisonToxin.INSTANCE = new PoisonToxin(88, true, 5149489, "toxin");
+		PoisonContagion.INSTANCE = new PoisonContagion(89, false, 5149489, "virus");
+		PoisonFrostBite.INSTANCE = new PoisonFrostBite(90, false, 5149489, "frostBite");
 
 		CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
 		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperExplosionInFire", true).getBoolean(true);
