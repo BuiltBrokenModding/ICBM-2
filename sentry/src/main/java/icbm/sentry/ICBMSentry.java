@@ -72,7 +72,7 @@ public class ICBMSentry implements IMod
 
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
+		NetworkRegistry.instance().registerGuiHandler(ICBMCore.INSTANCE, ICBMSentry.proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 		SentryTypes.load();
 

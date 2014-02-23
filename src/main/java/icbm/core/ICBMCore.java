@@ -153,16 +153,6 @@ public final class ICBMCore
 
 		TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
-		// -- Registering Blocks
-		GameRegistry.registerBlock(blockSulfurOre, "blockSulferOre");
-		GameRegistry.registerBlock(blockGlassPlate, "blockGlassPlate");
-		GameRegistry.registerBlock(blockGlassButton, "blockGlassButton");
-		GameRegistry.registerBlock(blockProximityDetector, "blockProximityDetector");
-		GameRegistry.registerBlock(blockCamo, "blockCamo");
-		GameRegistry.registerBlock(blockReinforcedGlass, "blockReinforcedGlass");
-		GameRegistry.registerBlock(blockSpikes, ItemBlockSpikes.class, "blockSpikes");
-		GameRegistry.registerBlock(blockConcrete, ItemBlockMetadata.class, "blockConcrete");
-
 		proxy.preInit();
         LOGGER.info("Calling preinit for submodules");
         ProxyHandler.preInit(event);
