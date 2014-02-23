@@ -17,6 +17,7 @@ import icbm.contraption.block.BlockSpikes;
 
 import java.util.logging.Logger;
 
+import icbm.sentry.ICBMSentry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -106,6 +107,10 @@ public final class ICBMCore
 
 		Settings.initiate();
 		Settings.CONFIGURATION.load();
+
+        String submodCategory = "Sub_Modules";
+
+        ProxyHandler.applyModules(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
 
 		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 

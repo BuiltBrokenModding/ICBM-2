@@ -2,6 +2,7 @@ package icbm.sentry.platform;
 
 import calclavia.lib.content.BlockInfo;
 import icbm.api.sentry.IAmmunition;
+import icbm.core.ICBMCore;
 import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
@@ -46,7 +47,7 @@ public class BlockTurretPlatform extends BlockICBM
 		{
 			if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID)
 			{
-				entityPlayer.openGui(ICBMSentry.instance, 0, world, x, y, z);
+				entityPlayer.openGui(ICBMCore.INSTANCE, 0, world, x, y, z);
 				return true;
 			}
 		}

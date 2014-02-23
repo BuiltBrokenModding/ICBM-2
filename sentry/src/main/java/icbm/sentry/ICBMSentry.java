@@ -1,10 +1,20 @@
 package icbm.sentry;
 
+import calclavia.lib.modproxy.IMod;
+import calclavia.lib.recipe.UniversalRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import icbm.Reference;
-import icbm.core.TabICBM;
 import icbm.core.ICBMCore;
-import icbm.core.Settings;
+import icbm.core.TabICBM;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.SentryRegistry;
@@ -24,38 +34,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.recipe.UniversalRecipe;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 import java.util.logging.Logger;
 
-@Mod(modid = ICBMSentry.ID, name = ICBMSentry.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM")
-@NetworkMod(channels = { Reference.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
-public class ICBMSentry
+//@Mod(modid = ICBMSentry.ID, name = ICBMSentry.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM")
+//@NetworkMod(channels = { Reference.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
+public class ICBMSentry implements IMod
 {
 	public static final String NAME = Reference.NAME + " Sentry";
 	public static final String ID = Reference.NAME + "|Sentry";
 	@SidedProxy(clientSide = "icbm.sentry.ClientProxy", serverSide = "icbm.sentry.CommonProxy")
 	public static CommonProxy proxy;
 
-	@Instance(ID)
-	public static ICBMSentry instance;
-
-	@Metadata(ID)
-	public static ModMetadata metadata;
+	//@Metadata(ID)
+	//public static ModMetadata metadata;
 
 	public static final int BLOCK_ID_PREFIX = 3517;
 	public static final int ITEM_ID_PREFIX = 20948;
@@ -107,7 +99,7 @@ public class ICBMSentry
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
+		//Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
 	}
 
 	@EventHandler

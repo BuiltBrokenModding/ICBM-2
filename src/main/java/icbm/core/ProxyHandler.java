@@ -31,31 +31,34 @@ public class ProxyHandler
     private static List<IIntegrationProxy> compatModulesList = new LinkedList<IIntegrationProxy>();
     private static LoadPhase phase = LoadPhase.PRELAUNCH;
 
-    public static void registerModules ()
-    {
-
-    }
-
-    private void applyModules (Class<?> clazz, boolean load) throws IllegalAccessException, InstantiationException
+    public static void applyModules (Class<?> clazz, boolean load)
     {
         if (clazz.isAssignableFrom(IMod.class))
         {
-            if (clazz.isAssignableFrom(IIntegrationProxy.class))
+            try
             {
-                IIntegrationProxy proxy = (IIntegrationProxy) clazz.newInstance();
-                if (Loader.isModLoaded(proxy.modId()))
-                    compatModulesList.add(proxy);
-            }
+                if (clazz.isAssignableFrom(IIntegrationProxy.class))
+                {
+                    IIntegrationProxy proxy = (IIntegrationProxy) clazz.newInstance();
+                    if (Loader.isModLoaded(proxy.modId()))
+                        compatModulesList.add(proxy);
+                }
 
-            else
+                else
+                {
+                    submodList.add((IMod) clazz.newInstance());
+                }
+            }
+            catch (Exception ex)
             {
-                submodList.add((IMod) clazz.newInstance());
+                ICBMCore.LOGGER.severe("Exception thrown when registering sub modules");
+                ex.printStackTrace();
             }
         }
     }
 
     /** Call for modules late or as already existing modules, DO NOT CALL FOR REGISTERED Proxies! */
-    public void applyModules (IIntegrationProxy module)
+    public static void applyModules (IIntegrationProxy module)
     {
         boolean registered = false;
 
@@ -89,7 +92,7 @@ public class ProxyHandler
         }
     }
 
-    public void preInit (FMLPreInitializationEvent event)
+    public static void preInit (FMLPreInitializationEvent event)
     {
         phase = LoadPhase.PREINIT;
 
@@ -105,7 +108,7 @@ public class ProxyHandler
 
     }
 
-    public void init (FMLInitializationEvent event)
+    public static void init (FMLInitializationEvent event)
     {
         phase = LoadPhase.INIT;
 
@@ -120,7 +123,7 @@ public class ProxyHandler
         }
     }
 
-    public void postInit (FMLPostInitializationEvent event)
+    public static void postInit (FMLPostInitializationEvent event)
     {
         phase = LoadPhase.POSTINIT;
 
