@@ -58,19 +58,19 @@ public class ExplosiveRegistry
         return zhaPinMap.values();
     }
 
-    public static Collection<Missile> getAllDaoDan()
+    public static Collection<Missile> getAllMissles ()
     {
-        Collection<Missile> daoDans = new HashSet<Missile>();
+        Collection<Missile> missiles = new HashSet<Missile>();
 
         for (Explosive zhaPin : zhaPinMap.values())
         {
             if (zhaPin instanceof Missile)
             {
-                daoDans.add((Missile) zhaPin);
+                missiles.add((Missile) zhaPin);
             }
         }
 
-        return daoDans;
+        return missiles;
     }
 
     public static HashMap<Integer, Explosive> getAll()

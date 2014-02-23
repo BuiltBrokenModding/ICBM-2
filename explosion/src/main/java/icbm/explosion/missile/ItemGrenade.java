@@ -1,5 +1,6 @@
 package icbm.explosion.missile;
 
+import calclavia.lib.utility.LanguageUtility;
 import icbm.Reference;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
@@ -118,6 +119,13 @@ public class ItemGrenade extends ItemICBMBase
     public String getUnlocalizedName()
     {
         return "icbm.grenade";
+    }
+
+    @Override
+    public void addInformation (ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    {
+        int explosiveTier = ExplosiveRegistry.get(par1ItemStack.getItemDamage()).getTier();
+        par3List.add(LanguageUtility.getLocal("info.misc.tier") + ": " + explosiveTier);
     }
 
     @SideOnly(Side.CLIENT)

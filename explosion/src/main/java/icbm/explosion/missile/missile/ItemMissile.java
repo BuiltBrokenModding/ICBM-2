@@ -42,7 +42,7 @@ public class ItemMissile extends ItemICBMBase
     @Override
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (Explosive zhaPin : ExplosiveRegistry.getAllDaoDan())
+        for (Explosive zhaPin : ExplosiveRegistry.getAllMissles())
         {
             if (zhaPin.hasMissileForm())
             {
