@@ -11,9 +11,9 @@ import net.minecraft.creativetab.CreativeTabs;
 /** World generated block
  * 
  * @author Calcalvia */
-public class BlockSulfureOre extends Block
+public class BlockSulfurOre extends Block
 {
-    public BlockSulfureOre(int id)
+    public BlockSulfurOre(int id)
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Reference.PREFIX + "oreSulfur");

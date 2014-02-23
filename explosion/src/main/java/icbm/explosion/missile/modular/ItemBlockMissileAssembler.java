@@ -10,10 +10,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 /** @author DarkGuardsman */
-public class ItemBlockMissileTable extends ItemBlock
+public class ItemBlockMissileAssembler extends ItemBlock
 {
-
-    public ItemBlockMissileTable(int par1)
+    public ItemBlockMissileAssembler(int par1)
     {
         super(par1);
     }

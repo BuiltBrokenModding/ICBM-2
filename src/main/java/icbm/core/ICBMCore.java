@@ -5,7 +5,7 @@ import icbm.contraption.ItemAntidote;
 import icbm.contraption.ItemBlockSpikes;
 import icbm.contraption.ItemPoisonPowder;
 import icbm.contraption.ItemSignalDisrupter;
-import icbm.contraption.ItemSulfureDust;
+import icbm.contraption.ItemSulfurDust;
 import icbm.contraption.ItemTracker;
 import icbm.contraption.block.BlockCamouflage;
 import icbm.contraption.block.BlockConcrete;
@@ -108,28 +108,28 @@ public final class ICBMCore
 		Settings.initiate();
 		Settings.CONFIGURATION.load();
 
-        String submodCategory = "Sub_Modules";
+		String submodCategory = "Sub_Modules";
 
-        ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
+		ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
 
 		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
 		// Blocks
-		blockSulfurOre = contentRegistry.createBlock(BlockSulfureOre.class);
+		blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);
 		blockGlassPlate = contentRegistry.createBlock(BlockGlassPressurePlate.class);
 		blockGlassButton = contentRegistry.createBlock(BlockGlassButton.class);
 		blockProximityDetector = contentRegistry.createBlock(BlockProximityDetector.class);
-		blockSpikes = contentRegistry.createBlock(BlockSpikes.class);
+		blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
 		blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
-		blockConcrete = contentRegistry.createBlock(BlockConcrete.class);
-		blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class);
+		blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
+		blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
 
 		// ITEMS
-		itemPoisonPowder = contentRegistry.createItem("ItemPoisonPowder", ItemPoisonPowder.class);
-		itemSulfurDust = contentRegistry.createItem("ItemSulfurDust", ItemSulfureDust.class);
-		itemAntidote = contentRegistry.createItem("ItemAntidote", ItemAntidote.class);
-		itemSignalDisrupter = contentRegistry.createItem("ItemSignalDisrupter", ItemSignalDisrupter.class);
-		itemTracker = contentRegistry.createItem("ItemTracker", ItemTracker.class);
+		itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
+		itemSulfurDust = contentRegistry.createItem(ItemSulfurDust.class);
+		itemAntidote = contentRegistry.createItem(ItemAntidote.class);
+		itemSignalDisrupter = contentRegistry.createItem(ItemSignalDisrupter.class);
+		itemTracker = contentRegistry.createItem(ItemTracker.class);
 
 		sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
@@ -154,15 +154,15 @@ public final class ICBMCore
 		TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
 		proxy.preInit();
-        LOGGER.info("Calling preinit for submodules");
-        ProxyHandler.preInit(event);
+		LOGGER.info("Calling preinit for submodules");
+		ProxyHandler.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
-        ProxyHandler.init(event);
+		ProxyHandler.init(event);
 	}
 
 	@EventHandler
@@ -217,6 +217,6 @@ public final class ICBMCore
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
 		proxy.init();
-        ProxyHandler.postInit(event);
+		ProxyHandler.postInit(event);
 	}
 }

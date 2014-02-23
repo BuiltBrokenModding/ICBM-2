@@ -2,10 +2,10 @@ package icbm.contraption;
 
 import icbm.core.prefab.item.ItemICBMBase;
 
-public class ItemSulfureDust extends ItemICBMBase
+public class ItemSulfurDust extends ItemICBMBase
 {
 
-    public ItemSulfureDust(int id)
+    public ItemSulfurDust(int id)
     {
         super(id, "sulfur");
     }

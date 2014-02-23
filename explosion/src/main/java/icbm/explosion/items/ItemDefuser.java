@@ -17,11 +17,11 @@ import net.minecraft.util.DamageSource;
 import calclavia.lib.utility.LanguageUtility;
 
 //Explosive Defuser
-public class ItemBombDefuser extends ItemICBMElectrical
+public class ItemDefuser extends ItemICBMElectrical
 {
     private static final int YONG_DIAN_LIANG = 2000;
 
-    public ItemBombDefuser(int id)
+    public ItemDefuser(int id)
     {
         super(id, "defuser");
     }
