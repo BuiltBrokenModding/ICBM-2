@@ -1,5 +1,6 @@
 package icbm.explosion.missile.missile;
 
+import calclavia.lib.utility.LanguageUtility;
 import icbm.core.prefab.item.ItemICBMBase;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.ExplosiveRegistry;
@@ -7,6 +8,7 @@ import icbm.explosion.missile.ExplosiveRegistry;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class ItemMissile extends ItemICBMBase
@@ -47,5 +49,14 @@ public class ItemMissile extends ItemICBMBase
                 par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
             }
         }
+    }
+
+    @Override
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean bool)
+    {
+        int tierdata = ExplosiveRegistry.get(stack.getItemDamage()).getTier();
+        list.add(LanguageUtility.getLocal("info.misc.tier") + ": " + tierdata);
+
+
     }
 }
