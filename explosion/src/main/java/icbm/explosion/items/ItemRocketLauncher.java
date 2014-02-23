@@ -25,7 +25,7 @@ import calclavia.lib.utility.LanguageUtility;
 
 public class ItemRocketLauncher extends ItemICBMElectrical
 {
-	private static final int ENERGY = 8000;
+	private static final int ENERGY = 1000000;
 
 	public ItemRocketLauncher(int par1)
 	{
@@ -106,12 +106,12 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 	@Override
 	public long getVoltage(ItemStack itemStack)
 	{
-		return 400;
+		return 1000;
 	}
 
 	@Override
 	public long getEnergyCapacity(ItemStack theItem)
 	{
-		return 200000;
+		return ENERGY * 16;
 	}
 }
