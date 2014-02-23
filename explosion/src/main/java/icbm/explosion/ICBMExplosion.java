@@ -264,11 +264,6 @@ public class ICBMExplosion
 			}
 		});
 
-		// -- Registering Blocks
-		GameRegistry.registerBlock(blockExplosive, ItemBlockExplosive.class, "bZhaDan");
-		GameRegistry.registerBlock(blockMachine, ItemBlockMachine.class, "bJiQi");
-		GameRegistry.registerBlock(blockMissileAssembler, ItemBlockMissileTable.class, "blockMissileTable");
-
 		ExplosiveHelper.explosionManager = ExplosiveRegistry.class;
 
 		proxy.preInit();
