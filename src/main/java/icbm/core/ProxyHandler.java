@@ -10,6 +10,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * the Class that handles the submods of All ICBM
@@ -31,34 +33,46 @@ public class ProxyHandler
     private static List<IIntegrationProxy> compatModulesList = new LinkedList<IIntegrationProxy>();
     private static LoadPhase phase = LoadPhase.PRELAUNCH;
 
-    public static void applyModules (Class<?> clazz, boolean load)
+    public static void applyModule (Class<?> clazz, boolean load)
     {
-        if (clazz.isAssignableFrom(IMod.class))
+        ICBMCore.LOGGER.info("Attempting to register submodule: " + clazz.getSimpleName() + " Load?" + load);
+        IMod submodule = null;
+        try
         {
-            try
-            {
-                if (clazz.isAssignableFrom(IIntegrationProxy.class))
+            Object module = clazz.newInstance();
+            if (module instanceof IMod)
+                submodule = (IMod) module;
+        }
+        catch (Exception e)
+        {
+            ICBMCore.LOGGER.info("An exception was thrown when registering a submodule, report to Authors");
+            e.printStackTrace();
+        }
+
+        if (load && submodule != null)
+        {
+
+                if (submodule instanceof IIntegrationProxy)
                 {
-                    IIntegrationProxy proxy = (IIntegrationProxy) clazz.newInstance();
+                    IIntegrationProxy proxy = (IIntegrationProxy) submodule;
                     if (Loader.isModLoaded(proxy.modId()))
+                    {
                         compatModulesList.add(proxy);
+                        ICBMCore.LOGGER.info("Registering compatibility plugin for: " + proxy.modId());
+                    }
                 }
 
                 else
                 {
-                    submodList.add((IMod) clazz.newInstance());
+                    submodList.add(submodule);
+                    ICBMCore.LOGGER.info("Registering submod: " + clazz.getSimpleName());
                 }
-            }
-            catch (Exception ex)
-            {
-                ICBMCore.LOGGER.severe("Exception thrown when registering sub modules");
-                ex.printStackTrace();
-            }
+
         }
     }
 
     /** Call for modules late or as already existing modules, DO NOT CALL FOR REGISTERED Proxies! */
-    public static void applyModules (IIntegrationProxy module)
+    public static void applyModule (IIntegrationProxy module)
     {
         boolean registered = false;
 
@@ -106,6 +120,8 @@ public class ProxyHandler
             proxy.preInit();
         }
 
+        System.out.println("submod list: " + submodList);
+
     }
 
     public static void init (FMLInitializationEvent event)
@@ -138,6 +154,7 @@ public class ProxyHandler
         }
 
         phase = LoadPhase.DONE;
+        System.out.println("submod list: " + submodList);
     }
 
 }

@@ -67,9 +67,9 @@ public class ICBMSentry implements IMod
     public ICBMSentry()
     {
         LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
+        LOGGER.info("ICBM Sentry submodule loading");
     }
 
-	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		NetworkRegistry.instance().registerGuiHandler(this, ICBMSentry.proxy);
@@ -88,7 +88,7 @@ public class ICBMSentry implements IMod
 		antimatterBullet = new ItemStack(itemAmmo, 1, 3);
 
 		EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, ICBMCore.INSTANCE, 50, 5, true);
 
 		TabICBM.itemStack = new ItemStack(blockTurret);
 
@@ -96,13 +96,11 @@ public class ICBMSentry implements IMod
 
 	}
 
-	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		//Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
 	}
 
-	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		// Shell
