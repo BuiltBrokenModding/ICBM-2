@@ -54,10 +54,9 @@ public class BlastNuclear extends Blast
         if (!this.worldObj.isRemote)
         {
             this.thread = new ThreadLargeExplosion(this.worldObj, this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
-            if (thread != null)
-            {
-                this.thread.start();
-            }
+
+            this.thread.start();
+
         }
         else if (this.spawnMoreParticles && ICBMExplosion.proxy.isGaoQing())
         {

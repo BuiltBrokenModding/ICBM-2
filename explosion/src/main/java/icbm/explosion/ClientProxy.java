@@ -175,28 +175,28 @@ public class ClientProxy extends CommonProxy
     {
         EntityFX fx = null;
 
-        if (name == "smoke")
+        if (name.equals("smoke"))
         {
             fx = new FXYan(world, position, red, green, blue, scale, distance);
         }
-        else if (name == "missile_smoke")
+        else if (name.equals("missile_smoke"))
         {
             fx = (new FXYan(world, position, red, green, blue, scale, distance)).setAge(100);
         }
-        else if (name == "portal")
+        else if (name.equals("portal"))
         {
             fx = new FXEnderPortalPartical(world, position, red, green, blue, scale, distance);
         }
-        else if (name == "antimatter")
+        else if (name.equals("antimatter"))
         {
             fx = new FXAntimatterPartical(world, position, red, green, blue, scale, distance);
         }
-        else if (name == "digging")
+        else if (name.equals("digging"))
         {
             fx = new EntityDiggingFX(world, position.x, position.y, position.z, motionX, motionY, motionZ, Block.blocksList[(int) red], 0, (int) green);
             fx.multipleParticleScaleBy(blue);
         }
-        else if (name == "shockwave")
+        else if (name.equals("shockwave"))
         {
             fx = new FXZhenBuo(world, position, red, green, blue, scale, distance);
         }
