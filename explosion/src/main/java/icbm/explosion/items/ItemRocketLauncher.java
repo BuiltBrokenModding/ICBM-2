@@ -17,6 +17,8 @@ import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.utility.LanguageUtility;
 
+import java.util.List;
+
 /**
  * Rocket Launcher
  * 
@@ -114,4 +116,10 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 	{
 		return ENERGY * 16;
 	}
+
+    @Override
+    public void addInformation (ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
+    {
+        list.add(LanguageUtility.getLocal("info.rocketlauncher.start") + " " + Settings.MAX_ROCKET_LAUCNHER_TIER + " " + LanguageUtility.getLocal("info.rocketlauncher.end"));
+    }
 }
