@@ -57,29 +57,34 @@ public class SentryAI
             //If we have a target start aiming logic
             if (sentry().getTarget() != null && this.isValidTarget(sentry().getTarget(), false))
             {
-                System.out.println("\t[SentryAI]Debug: Target can be seen");
-                if (lookHelper.isLookingAt(sentry().getTarget(), 3))
+                if (lookHelper.canEntityBeSeen(sentry().getTarget()))
                 {
-                    System.out.println("\t[SentryAI]Debug: Target locked and firing weapon");
-                    this.container.getSentry().fire(sentry().getTarget());
+                    System.out.println("\t[SentryAI]Debug: Target can be seen");
+                    if (lookHelper.isLookingAt(sentry().getTarget(), 3))
+                    {
+                        System.out.println("\t[SentryAI]Debug: Target locked and firing weapon");
+                        this.container.getSentry().fire(sentry().getTarget());
+                    }
+                    else
+                    {
+                        System.out.println("\t[SentryAI]Debug: Powering servos to aim at target");
+                        lookHelper.lookAtEntity(sentry().getTarget());
+                    }
+                    targetLostTimer = 0;
                 }
                 else
                 {
-                    System.out.println("\t[SentryAI]Debug: Powering servos to aim at target");
-                    lookHelper.lookAtEntity(sentry().getTarget());
+                    System.out.println("\t[SentryAI]Debug: Sight on target lost");
+                    //Drop the target after 2 seconds of no sight
+                    if (targetLostTimer >= 100)
+                    {
+                        sentry().setTarget(null);
+                    }
+                    targetLostTimer++;
                 }
-                targetLostTimer = 0;
             }
             else
             {
-                System.out.println("\t[SentryAI]Debug: Sight on target lost");
-                //Drop the target after 2 seconds of no sight
-                if (targetLostTimer >= 100)
-                {
-                    sentry().setTarget(null);
-                }
-                targetLostTimer++;
-
                 System.out.println("\t[SentryAI]Debug: No Target Selected");
                 //Only start random rotation after a second of no target
                 if (targetLostTimer >= 20)
@@ -103,8 +108,8 @@ public class SentryAI
     protected EntityLivingBase findTarget(ISentry sentry, IEntitySelector targetSelector, int range)
     {
         System.out.println("\t\t[SentryAI]Debug: Target selector update");
-        List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z, container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z).expand(range, range, range), targetSelector);
-        Collections.sort(list, new ComparatorClosestEntity(new VectorWorld(container.world(), container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z)));
+        List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(range, range, range), targetSelector);
+        Collections.sort(list, new ComparatorClosestEntity(lookHelper.getCenter()));
         if (list != null && !list.isEmpty())
         {
             System.out.println("\t\t[SentryAI]Debug: " + list.size() + " Possible Targets");

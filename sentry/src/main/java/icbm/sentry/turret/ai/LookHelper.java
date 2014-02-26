@@ -51,7 +51,7 @@ public class LookHelper
         float pitch = getPitch(start, target);
         if (yaw >= yawServo.lowerLimit() && yaw <= yawServo.upperLimit())
         {
-            if (pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
+            if (true || pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
             {
                 return true;
             }
