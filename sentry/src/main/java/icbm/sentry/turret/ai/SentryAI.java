@@ -81,7 +81,7 @@ public class SentryAI
                 //Only start random rotation after a second of no target
                 if (targetLostTimer >= 20)
                 {
-                    if (this.rotationDelayTimer >= 10)
+                    if (this.rotationDelayTimer >= 100)
                     {
                         this.rotationDelayTimer = 0;
                         Vector3 location = new Vector3(this.container.x(), this.container.y(), this.container.z());
