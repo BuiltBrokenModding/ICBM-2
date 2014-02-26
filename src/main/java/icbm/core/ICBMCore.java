@@ -108,7 +108,8 @@ public final class ICBMCore
 
 		String submodCategory = "Sub_Modules";
 
-	//	ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
+		// ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory,
+		// ICBMSentry.class.getSimpleName(), false).getBoolean(false));
 
 		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
@@ -153,14 +154,12 @@ public final class ICBMCore
 
 		proxy.preInit();
 		LOGGER.info("Calling preinit for submodules");
-		ProxyHandler.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
-		ProxyHandler.init(event);
 	}
 
 	@EventHandler
@@ -215,6 +214,5 @@ public final class ICBMCore
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
 		proxy.init();
-		ProxyHandler.postInit(event);
 	}
 }
