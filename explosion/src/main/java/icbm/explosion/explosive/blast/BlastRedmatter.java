@@ -7,9 +7,6 @@ import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.missile.EntityExplosive;
-
-import java.util.List;
-
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
@@ -22,9 +19,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
 
+import java.util.List;
+
 public class BlastRedmatter extends Blast
 {
     private int maxTakeBlocks = 5;
+    public static int MAX_LIFESPAN = 3600; // 3 minutes
+    public static boolean DO_DESPAWN = true;
 
     public BlastRedmatter(World world, Entity entity, double x, double y, double z, float size)
     {
@@ -43,6 +44,12 @@ public class BlastRedmatter extends Blast
     @Override
     public void doExplode()
     {
+        // TODO: How the hell do you disable the Explosion from going on?? that's the only line missing, setting the holding entity dead causes an NPE
+        if (DO_DESPAWN && callCount >= MAX_LIFESPAN)
+        {
+            this.postExplode();
+        }
+        
         // Try to find and grab some blocks to orbit
         if (!this.worldObj.isRemote)
         {
@@ -223,7 +230,7 @@ public class BlastRedmatter extends Blast
             {
                 if (entity instanceof EntityExplosion)
                 {
-                    if (((EntityExplosion) entity).baoZha instanceof BlastAntimatter || ((EntityExplosion) entity).baoZha instanceof BlastRedmatter)
+                    if (((EntityExplosion) entity).blast instanceof BlastAntimatter || ((EntityExplosion) entity).blast instanceof BlastRedmatter)
                     {
                         this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 

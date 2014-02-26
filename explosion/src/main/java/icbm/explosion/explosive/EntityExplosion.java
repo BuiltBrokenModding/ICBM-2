@@ -20,7 +20,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
  * @author Calclavia */
 public class EntityExplosion extends Entity implements IEntityAdditionalSpawnData
 {
-    public Blast baoZha;
+    public Blast blast;
 
     private boolean endExplosion = false;
 
@@ -35,11 +35,11 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         this.ticksExisted = 0;
     }
 
-    public EntityExplosion(Blast baoZha)
+    public EntityExplosion(Blast blast)
     {
-        this(baoZha.worldObj);
-        this.baoZha = baoZha;
-        this.setPosition(baoZha.position.x, baoZha.position.y, baoZha.position.z);
+        this(blast.worldObj);
+        this.blast = blast;
+        this.setPosition(blast.position.x, blast.position.y, blast.position.z);
     }
 
     @Override
@@ -100,34 +100,34 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
     @Override
     public void onUpdate()
     {
-        if (this.baoZha == null)
+        if (this.blast == null)
         {
             this.setDead();
             ICBMCore.LOGGER.severe("Procedural explosion ended due to null! This is a bug!");
             return;
         }
 
-        this.baoZha.controller = this;
-        this.baoZha.position = new Vector3(this);
+        this.blast.controller = this;
+        this.blast.position = new Vector3(this);
 
-        if (this.baoZha.isMovable() && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))
+        if (this.blast.isMovable() && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))
         {
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
         }
 
         if (this.ticksExisted == 1)
         {
-            this.baoZha.preExplode();
+            this.blast.preExplode();
         }
-        else if (this.ticksExisted % this.baoZha.proceduralInterval() == 0)
+        else if (this.ticksExisted % this.blast.proceduralInterval() == 0)
         {
             if (!this.endExplosion)
             {
-                this.baoZha.onExplode();
+                this.blast.onExplode();
             }
             else
             {
-                this.baoZha.postExplode();
+                this.blast.postExplode();
                 this.setDead();
             }
         }
@@ -144,16 +144,16 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
     {
         try
         {
-            NBTTagCompound baoZhaNBT = nbt.getCompoundTag("baoZha");
+            NBTTagCompound baoZhaNBT = nbt.getCompoundTag("blast");
 
-            if (this.baoZha == null)
+            if (this.blast == null)
             {
                 Class clazz = Class.forName(baoZhaNBT.getString("class"));
                 Constructor constructor = clazz.getConstructor(World.class, Entity.class, double.class, double.class, double.class, float.class);
-                this.baoZha = (Blast) constructor.newInstance(this.worldObj, null, this.posX, this.posY, this.posZ, 0);
+                this.blast = (Blast) constructor.newInstance(this.worldObj, null, this.posX, this.posY, this.posZ, 0);
             }
 
-            this.baoZha.readFromNBT(baoZhaNBT);
+            this.blast.readFromNBT(baoZhaNBT);
         }
         catch (Exception e)
         {
@@ -167,9 +167,9 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         NBTTagCompound baoZhaNBT = new NBTTagCompound();
-        baoZhaNBT.setString("class", this.baoZha.getClass().getCanonicalName());
-        this.baoZha.writeToNBT(baoZhaNBT);
-        nbt.setCompoundTag("baoZha", baoZhaNBT);
+        baoZhaNBT.setString("class", this.blast.getClass().getCanonicalName());
+        this.blast.writeToNBT(baoZhaNBT);
+        nbt.setCompoundTag("blast", baoZhaNBT);
     }
 
     @Override

@@ -31,10 +31,10 @@ public class RenderExplosion extends Render
     {
         EntityExplosion eZhaPin = (EntityExplosion) entity;
 
-        if (eZhaPin.baoZha != null)
+        if (eZhaPin.blast != null)
         {
             // RedM atter Render
-            if (eZhaPin.baoZha instanceof BlastRedmatter)
+            if (eZhaPin.blast instanceof BlastRedmatter)
             {
                 Tessellator tessellator = Tessellator.instance;
 
@@ -152,13 +152,13 @@ public class RenderExplosion extends Render
             }
             else
             {
-                if (eZhaPin.baoZha.getRenderModel() != null && eZhaPin.baoZha.getRenderResource() != null)
+                if (eZhaPin.blast.getRenderModel() != null && eZhaPin.blast.getRenderResource() != null)
                 {
                     GL11.glPushMatrix();
                     GL11.glTranslatef((float) x, (float) y + 1F, (float) z);
                     GL11.glRotatef(eZhaPin.rotationPitch, 0.0F, 0.0F, 1.0F);
-                    this.bindTexture(eZhaPin.baoZha.getRenderResource());
-                    eZhaPin.baoZha.getRenderModel().render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
+                    this.bindTexture(eZhaPin.blast.getRenderResource());
+                    eZhaPin.blast.getRenderModel().render(eZhaPin, (float) x, (float) y, (float) z, par8, par9, 0.0625F);
                     GL11.glPopMatrix();
                 }
             }

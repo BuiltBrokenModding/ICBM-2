@@ -12,6 +12,7 @@ import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.cart.ItemBombCart;
 import icbm.explosion.explosive.EntityExplosion;
+import icbm.explosion.explosive.blast.BlastRedmatter;
 import icbm.explosion.items.ItemDefuser;
 import icbm.explosion.items.ItemLaserDesignator;
 import icbm.explosion.items.ItemRadarGun;
@@ -153,6 +154,9 @@ public class ICBMExplosion
 
 		CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
 		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperExplosionInFire", true).getBoolean(true);
+
+        BlastRedmatter.DO_DESPAWN = Settings.CONFIGURATION.get("Features", "Despawn redmatter", true).getBoolean(true);
+        BlastRedmatter.MAX_LIFESPAN = Settings.CONFIGURATION.get("Features", "redmatter Despawn time", 100).getInt();
 
 		TabICBM.itemStack = new ItemStack(blockExplosive);
 
