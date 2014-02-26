@@ -78,7 +78,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
         this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
         this.lookHelper = new LookHelper(this);
-        this.sentryAI = new SentryAI(this);
+        this.sentryAI = new SentryAI(this, this.lookHelper);
     }
 
     @SuppressWarnings("deprecation")
@@ -92,7 +92,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         if (this.getSentry() != null)
         {
             this.getSentry().updateEntity();
-            this.sentryAI.update(this.lookHelper);
+            this.sentryAI.update();
         }
 
         this.getYawServo().update();

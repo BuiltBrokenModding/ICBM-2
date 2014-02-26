@@ -3,6 +3,11 @@ package icbm.sentry.turret.ai;
 import icbm.sentry.interfaces.IAutoSentry;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,12 +15,8 @@ import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 /** AI for the sentry objects
- *
+ * 
  * @author DarkGuardsman */
 public class SentryAI
 {
@@ -23,15 +24,17 @@ public class SentryAI
     private IEntitySelector entitySelector;
     private int rotationDelayTimer = 0;
     private int targetLostTimer = 0;
+    private LookHelper lookHelper;
 
-    public SentryAI (ISentryContainer container)
+    public SentryAI(ISentryContainer container, LookHelper lookHelper)
     {
         this.container = container;
+        this.lookHelper = lookHelper;
         //TODO get selector from sentry at a later date
         this.entitySelector = new EntitySelectorSentry(this.container);
     }
 
-    public IAutoSentry sentry ()
+    public IAutoSentry sentry()
     {
         if (container != null && container.getSentry() != null && container.getSentry() instanceof IAutoSentry)
         {
@@ -40,7 +43,7 @@ public class SentryAI
         return null;
     }
 
-    public void update (LookHelper lookHelper)
+    public void update()
     {
         if (sentry() != null)
         {
@@ -49,10 +52,10 @@ public class SentryAI
             if (sentry().getTarget() == null)
             {
                 System.out.println("\t[SentryAI]Debug: Searching for target");
-                sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange(), lookHelper));
+                sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange()));
             }
             //If we have a target start aiming logic
-            if (sentry().getTarget() != null && this.isValidTarget(sentry().getTarget(), true, lookHelper))
+            if (sentry().getTarget() != null && this.isValidTarget(sentry().getTarget(), false))
             {
                 System.out.println("\t[SentryAI]Debug: Target can be seen");
                 if (lookHelper.isLookingAt(sentry().getTarget(), 3))
@@ -97,7 +100,7 @@ public class SentryAI
     }
 
     @SuppressWarnings("unchecked")
-    protected EntityLivingBase findTarget (ISentry sentry, IEntitySelector targetSelector, int range, LookHelper lookHelper)
+    protected EntityLivingBase findTarget(ISentry sentry, IEntitySelector targetSelector, int range)
     {
         System.out.println("\t\t[SentryAI]Debug: Target selector update");
         List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z, container.x() + sentry.getCenterOffset().x, container.y() + sentry.getCenterOffset().y, container.z() + sentry.getCenterOffset().z).expand(range, range, range), targetSelector);
@@ -108,7 +111,7 @@ public class SentryAI
 
             for (EntityLivingBase entity : list)
             {
-                if (isValidTarget(entity, false, lookHelper))
+                if (isValidTarget(entity, false))
                 {
                     return entity;
                 }
@@ -117,15 +120,14 @@ public class SentryAI
         return null;
     }
 
-    public boolean isValidTarget (Entity entity, boolean skip_sight, LookHelper lookHelper)
+    public boolean isValidTarget(Entity entity, boolean skip_sight)
     {
         if (this.entitySelector.isEntityApplicable(entity))
         {
             if (!skip_sight)
             {
-                Vector3 centerPoint = LookHelper.getCenter(this.container);
-                boolean flag_bounds = LookHelper.isTargetInBounds(centerPoint, Vector3.fromCenter(entity), this.container.getYawServo(), this.container.getPitchServo());
-                boolean flag_sight = lookHelper.isLookingAt(entity, 5F);
+                boolean flag_bounds = lookHelper.isTargetInBounds(entity);
+                boolean flag_sight = lookHelper.canEntityBeSeen(entity);
 
                 if (flag_bounds && flag_sight)
                 {
@@ -145,12 +147,12 @@ public class SentryAI
     {
         private final VectorWorld location;
 
-        public ComparatorClosestEntity (VectorWorld location)
+        public ComparatorClosestEntity(VectorWorld location)
         {
             this.location = location;
         }
 
-        public int compare (EntityLivingBase entityA, EntityLivingBase entityB)
+        public int compare(EntityLivingBase entityA, EntityLivingBase entityB)
         {
             double distanceA = this.location.distance(entityA);
             double distanceB = this.location.distance(entityB);

@@ -9,13 +9,11 @@ import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 import calclavia.lib.prefab.IServo;
-import calclavia.lib.prefab.Servo;
 import calclavia.lib.utility.MathUtility;
 
 /** Rotation always in degrees.
  * 
  * @author Calclavia, DarkGuardsman */
-@Deprecated
 //Look helper will be parted out during 1.7 update. Some method will moved to a math helper, and rest to AI handlers 
 public class LookHelper
 {
@@ -36,12 +34,12 @@ public class LookHelper
     /** Tells the turret to look at a location using an entity */
     public void lookAtEntity(Entity entity)
     {
-        this.lookAt(new Vector3(entity));
+        this.lookAt(Vector3.fromCenter(entity));
     }
 
     public boolean isTargetInBounds(Entity target)
     {
-        return isTargetInBounds(new Vector3(target));
+        return isTargetInBounds(Vector3.fromCenter(target));
     }
 
     public boolean isTargetInBounds(Vector3 target)
@@ -57,7 +55,7 @@ public class LookHelper
         {
             if (pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
             {
-            return true;
+                return true;
             }
         }
         return false;
@@ -125,23 +123,33 @@ public class LookHelper
 
     public boolean canEntityBeSeen(Entity entity)
     {
-        Vector3 c = this.getCenter();
-        Vector3 e = new Vector3(entity);
-        Vector3 t = c.clone().translate(new Vector3(getYaw(c, e), getPitch(c, e)));
-        System.out.println("[LookHelper]Center: " + c.toString() + " Entity:" + e.toString() + " Tran:" + t.toString());
-        return canPositionBeSeen(entity.worldObj, t, e);
+        Vector3 s = this.getCenterRayStart();
+        for (int i = 0; i < 3; i++)
+            entity.worldObj.spawnParticle("smoke", s.x, s.y, s.z, 0, .3, 0);
+        return canPositionBeSeen(entity.worldObj, s, Vector3.fromCenter(entity));
     }
 
     public static boolean canEntityBeSeen(Vector3 center, Entity entity)
     {
-        return canPositionBeSeen(entity.worldObj, center, new Vector3(entity));
+        //TODO: if raytrace fails ray trace to feet and then head
+        return canPositionBeSeen(entity.worldObj, center, Vector3.fromCenter(entity));
     }
 
     /** does a ray trace to the Entity to see if the turret can see it */
     public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
     {
-        MovingObjectPosition hitTarget = center.rayTrace(world, target, true);
-        return hitTarget != null && hitTarget.typeOfHit == EnumMovingObjectType.ENTITY;
+        MovingObjectPosition hitTarget = center.rayTrace(world, target, false);
+        return hitTarget != null && hitTarget.typeOfHit != EnumMovingObjectType.TILE;
+    }
+
+    public VectorWorld getCenterRayStart()
+    {
+        return getCenter(this.tileTurret);
+    }
+
+    public static VectorWorld getCenterRayStart(ISentryContainer container)
+    {
+        return new VectorWorld(container.world(), getCenter(container).translate(new Vector3(container.yaw(), container.pitch())));
     }
 
     public VectorWorld getCenter()
