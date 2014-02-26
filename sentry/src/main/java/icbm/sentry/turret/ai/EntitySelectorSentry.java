@@ -57,7 +57,7 @@ public class EntitySelectorSentry implements IEntitySelector
 
     /** Checks if the sentry finds the entity friendly */
     public boolean isFriendly(Entity entity)
-    { //TODO check if the entity is owned by a player
+    { 
         if (entity instanceof EntityPlayer)
         {
             if (this.drone instanceof IProfileContainer)

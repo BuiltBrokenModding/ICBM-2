@@ -44,7 +44,7 @@ public class GuiTurretPlatform extends GuiContainerBase
 		
 		this.mc.renderEngine.bindTexture(TERMINAL_TEXTURE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		drawTexturedModalRect(this.containerWidth, this.containerHeight, 0, 0, this.xSize, this.ySize);
+		//drawTexturedModalRect(this.containerWidth, this.containerHeight, 0, 0, this.xSize, this.ySize);
 
 		for (int xSlot = 0; xSlot < 4; xSlot++)
 			for (int ySlot = 0; ySlot < 5; ySlot++)
