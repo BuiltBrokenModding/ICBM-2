@@ -30,6 +30,7 @@ import calclavia.lib.network.PacketHandler;
 import calclavia.lib.recipe.UniversalRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
@@ -66,14 +67,7 @@ public class ICBMSentry
 	/** ItemStack helpers. Do not modify theses. */
 	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
 
-	public static Logger LOGGER = Logger.getLogger("ICBMSentry");
-
-	public ICBMSentry()
-	{
-		LOGGER.setParent(FMLCommonHandler.instance().getFMLLogger());
-		LOGGER.info("ICBM Sentry submodule loading");
-	}
-
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		NetworkRegistry.instance().registerGuiHandler(ICBMCore.INSTANCE, ICBMSentry.proxy);
@@ -100,11 +94,13 @@ public class ICBMSentry
 
 	}
 
+	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
 	}
 
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		// Shell
