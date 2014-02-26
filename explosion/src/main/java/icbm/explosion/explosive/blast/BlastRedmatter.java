@@ -49,7 +49,7 @@ public class BlastRedmatter extends Blast
         {
             this.postExplode();
         }
-        
+
         // Try to find and grab some blocks to orbit
         if (!this.worldObj.isRemote)
         {

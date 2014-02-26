@@ -156,7 +156,7 @@ public class ICBMExplosion
 		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperExplosionInFire", true).getBoolean(true);
 
         BlastRedmatter.DO_DESPAWN = Settings.CONFIGURATION.get("Features", "Despawn redmatter", true).getBoolean(true);
-        BlastRedmatter.MAX_LIFESPAN = Settings.CONFIGURATION.get("Features", "redmatter Despawn time", 100).getInt();
+        BlastRedmatter.MAX_LIFESPAN = Settings.CONFIGURATION.get("Features", "redmatter Despawn time (in ticks)", 3600).getInt();
 
 		TabICBM.itemStack = new ItemStack(blockExplosive);
 
