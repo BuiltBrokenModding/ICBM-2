@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+       classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
     }
 }
  
@@ -35,10 +35,10 @@ minecraft {
     replace "@REVIS@", rootProject.config.version.mod.revis
     replace "@BUILD@", "${System.getenv().BUILD_NUMBER}"
 }
- 
+
+subprojects*.apply plugin: 'java'
+
 allprojects {
-    apply plugin: 'java'
-    
     version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
     
     if (System.getenv("BUILD_NUMBER") != null)
@@ -89,13 +89,12 @@ subprojects {
     }
     
     rootProject.tasks.reobf {
-		reobf.setUseRetroGuard(true)
         reobf(tasks.jar) { spec ->
             spec.classpath = sourceSets.main.compileClasspath
         }
     }
 }
- 
+
 processResources {
 	from 'build.properties'
 }
