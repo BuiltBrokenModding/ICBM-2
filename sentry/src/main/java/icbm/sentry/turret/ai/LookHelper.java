@@ -3,9 +3,7 @@ package icbm.sentry.turret.ai;
 import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 import calclavia.lib.prefab.IServo;
@@ -123,33 +121,40 @@ public class LookHelper
 
     public boolean canEntityBeSeen(Entity entity)
     {
-        Vector3 s = this.getCenterRayStart();
-        for (int i = 0; i < 3; i++)
-            entity.worldObj.spawnParticle("smoke", s.x, s.y, s.z, 0, .3, 0);
-        return canPositionBeSeen(entity.worldObj, s, Vector3.fromCenter(entity));
+        return canEntityBeSeen(entity, true);
+    }
+
+    public boolean canEntityBeSeen(Entity entity, boolean sight)
+    {
+        if (sight)
+        {
+            double z = Math.sin(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
+            double x = Math.cos(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
+            double y = Math.sin(-Math.toRadians(getPitch(getCenter(), Vector3.fromCenter(entity))));
+            return canEntityBeSeen(this.getCenter().translate(x, y, z), entity);
+        }
+
+        return canEntityBeSeen(this.getCenterRayStart(), entity);
     }
 
     public static boolean canEntityBeSeen(Vector3 center, Entity entity)
     {
-        //TODO: if raytrace fails ray trace to feet and then head
-        return canPositionBeSeen(entity.worldObj, center, Vector3.fromCenter(entity));
-    }
+        MovingObjectPosition hitTarget = center.rayTrace(entity.worldObj, Vector3.fromCenter(entity), false);
 
-    /** does a ray trace to the Entity to see if the turret can see it */
-    public static boolean canPositionBeSeen(World world, Vector3 center, Vector3 target)
-    {
-        MovingObjectPosition hitTarget = center.rayTrace(world, target, false);
-        return hitTarget != null && hitTarget.typeOfHit != EnumMovingObjectType.TILE;
+        return hitTarget != null && hitTarget.entityHit == entity;
     }
 
     public VectorWorld getCenterRayStart()
     {
-        return getCenter(this.tileTurret);
+        return getCenterRayStart(this.tileTurret);
     }
 
     public static VectorWorld getCenterRayStart(ISentryContainer container)
     {
-        return new VectorWorld(container.world(), getCenter(container).translate(new Vector3(container.yaw(), container.pitch())));
+        double z = Math.sin(Math.toRadians(container.yaw() - 90));
+        double x = Math.cos(Math.toRadians(container.yaw() - 90));
+        double y = Math.sin(-Math.toRadians(container.pitch()));
+        return new VectorWorld(container.world(), getCenter(container).translate(x, y, z));
     }
 
     public VectorWorld getCenter()
