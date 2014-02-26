@@ -109,7 +109,7 @@ public final class ICBMCore
 
 		String submodCategory = "Sub_Modules";
 
-        ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
+        //ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
 
 		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
