@@ -1,0 +1,103 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+sourceSets {
+	main {
+		java {
+			srcDirs 'src/main/java', 'explosion/src/main/java', 'sentry/src/main/java'
+		}
+	}
+}
+
+ext.buildProps = file "build.properties"
+
+buildProps.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+
+version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
+group = "icbm"
+archivesBaseName = "ICBM"
+
+minecraft {
+    version = "${config.version.minecraft}-${config.version.forge}"
+	
+	replaceIn "Reference.java"
+	replace "@MAJOR@", config.version.mod.major
+	replace "@MINOR@", config.version.mod.minor
+	replace "@REVIS@", config.version.mod.revis
+	replace "@BUILD@", System.getenv("BUILD_NUMBER")
+}
+
+if (System.getenv("BUILD_NUMBER") != null)
+    version += ".${System.getenv("BUILD_NUMBER")}"
+
+
+processResources {
+	from 'build.properties'
+}
+
+task copyBuildXml(type: Copy) {
+    from 'build.properties'
+    into 'output'
+}
+
+task apiZip(type: Zip) {
+    classifier = 'api'
+    from sourceSets*.allSource
+    include 'icbm/api/**'
+    destinationDir = file 'output'
+}
+
+artifacts {
+    archives apiZip
+}
+
+jar {
+    dependsOn copyBuildXml
+    classifier = ''
+    destinationDir = file 'output'
+}
+
+repositories {
+    maven {
+		name 'Calclavia Maven'
+		url 'http://calclavia.com/maven'
+	}
+}
+dependencies {
+	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
+	compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
+}
+
+import net.minecraftforge.gradle.tasks.dev.ChangelogTask
+import net.minecraftforge.gradle.common.Constants
+import net.minecraftforge.gradle.delayed.*
+
+task createChangelog(type: ChangelogTask) {
+    def jobName = "${System.getenv().JOB_NAME}"
+    def buildNumber = "${System.getenv().BUILD_NUMBER}"
+    jobName.replaceAll(' ','%20')
+    setServerRoot(new DelayedString(project, 'http://ci.calclavia.com/'))
+    setJobName(new DelayedString(project, jobName.toString()));
+    setAuthName(new DelayedString(project, 'console_script'));
+    setAuthPassword(new DelayedString(project, '625d2ac53190be3422faa0c474fb299b'));
+    setTargetBuild({buildNumber.toString()});
+    setOutput(new DelayedFile(project, 'output/' + jobName + "-${project.version}" + '-changelog' + '.txt'));
+}
+
+build.dependsOn "createChangelog"
