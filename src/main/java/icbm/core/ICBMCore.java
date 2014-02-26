@@ -16,6 +16,7 @@ import icbm.contraption.block.BlockSpikes;
 
 import java.util.logging.Logger;
 
+import icbm.sentry.ICBMSentry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -108,8 +109,7 @@ public final class ICBMCore
 
 		String submodCategory = "Sub_Modules";
 
-		// ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory,
-		// ICBMSentry.class.getSimpleName(), false).getBoolean(false));
+        ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
 
 		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
@@ -154,12 +154,15 @@ public final class ICBMCore
 
 		proxy.preInit();
 		LOGGER.info("Calling preinit for submodules");
+        ProxyHandler.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
+        LOGGER.info("Calling init for submodules");
+        ProxyHandler.init(event);
 	}
 
 	@EventHandler
@@ -214,5 +217,8 @@ public final class ICBMCore
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
 		proxy.init();
+
+        LOGGER.info("Calling postInit for submodules");
+        ProxyHandler.postInit(event);
 	}
 }
