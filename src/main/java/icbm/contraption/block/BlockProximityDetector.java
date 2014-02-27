@@ -37,9 +37,9 @@ public class BlockProximityDetector extends BlockICBM
 	{
 		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TileDetector)
+		if (tileEntity instanceof TileProximityDetector)
 		{
-			((TileDetector) tileEntity).isInverted = !((TileDetector) tileEntity).isInverted;
+			((TileProximityDetector) tileEntity).isInverted = !((TileProximityDetector) tileEntity).isInverted;
 			return true;
 		}
 
@@ -61,6 +61,6 @@ public class BlockProximityDetector extends BlockICBM
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
-		return new TileDetector();
+		return new TileProximityDetector();
 	}
 }

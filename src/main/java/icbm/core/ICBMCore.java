@@ -13,6 +13,7 @@ import icbm.contraption.block.BlockGlassPressurePlate;
 import icbm.contraption.block.BlockProximityDetector;
 import icbm.contraption.block.BlockReinforcedGlass;
 import icbm.contraption.block.BlockSpikes;
+import icbm.contraption.block.TileProximityDetector;
 
 import java.util.logging.Logger;
 
@@ -109,7 +110,8 @@ public final class ICBMCore
 
 		String submodCategory = "Sub_Modules";
 
-        //ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory, ICBMSentry.class.getSimpleName(), false).getBoolean(false));
+		// ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory,
+		// ICBMSentry.class.getSimpleName(), false).getBoolean(false));
 
 		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
@@ -117,7 +119,7 @@ public final class ICBMCore
 		blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);
 		blockGlassPlate = contentRegistry.createBlock(BlockGlassPressurePlate.class);
 		blockGlassButton = contentRegistry.createBlock(BlockGlassButton.class);
-		blockProximityDetector = contentRegistry.createBlock(BlockProximityDetector.class);
+		blockProximityDetector = contentRegistry.createTile(BlockProximityDetector.class, TileProximityDetector.class);
 		blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
 		blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
 		blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
@@ -154,15 +156,15 @@ public final class ICBMCore
 
 		proxy.preInit();
 		LOGGER.info("Calling preinit for submodules");
-        ProxyHandler.preInit(event);
+		ProxyHandler.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
-        LOGGER.info("Calling init for submodules");
-        ProxyHandler.init(event);
+		LOGGER.info("Calling init for submodules");
+		ProxyHandler.init(event);
 	}
 
 	@EventHandler
@@ -218,7 +220,7 @@ public final class ICBMCore
 
 		proxy.init();
 
-        LOGGER.info("Calling postInit for submodules");
-        ProxyHandler.postInit(event);
+		LOGGER.info("Calling postInit for submodules");
+		ProxyHandler.postInit(event);
 	}
 }

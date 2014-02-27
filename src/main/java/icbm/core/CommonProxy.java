@@ -2,7 +2,7 @@ package icbm.core;
 
 import icbm.api.IItemFrequency;
 import icbm.contraption.block.TileCamouflage;
-import icbm.contraption.block.TileDetector;
+import icbm.contraption.block.TileProximityDetector;
 import icbm.contraption.gui.GuiTracker;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -19,8 +19,6 @@ public class CommonProxy implements IGuiHandler
 
 	public void init()
 	{
-		GameRegistry.registerTileEntity(TileCamouflage.class, "ICBMYinXin");
-		GameRegistry.registerTileEntity(TileDetector.class, "ICBMYinGanQi");
 	}
 
 	@Override
@@ -34,7 +32,7 @@ public class CommonProxy implements IGuiHandler
 	{
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-		if (tileEntity instanceof TileDetector)
+		if (tileEntity instanceof TileProximityDetector)
 		{
 			return new ContainerDummy(player, tileEntity);
 		}

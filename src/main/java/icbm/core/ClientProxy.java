@@ -1,7 +1,7 @@
 package icbm.core;
 
 import icbm.api.IItemFrequency;
-import icbm.contraption.block.TileDetector;
+import icbm.contraption.block.TileProximityDetector;
 import icbm.contraption.gui.GuiDectector;
 import icbm.contraption.gui.GuiTracker;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,9 +26,9 @@ public class ClientProxy extends CommonProxy
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileDetector)
+        if (tileEntity instanceof TileProximityDetector)
         {
-            return new GuiDectector((TileDetector) tileEntity);
+            return new GuiDectector((TileProximityDetector) tileEntity);
         }
         else if (entityPlayer.inventory.getCurrentItem() != null && entityPlayer.inventory.getCurrentItem().getItem() instanceof IItemFrequency)
         {

@@ -26,7 +26,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TileDetector extends TileFrequency implements IRedstoneProvider, IPacketReceiver, IVoltageInput
+public class TileProximityDetector extends TileFrequency implements IRedstoneProvider, IPacketReceiver, IVoltageInput
 {
     private static final int MAX_DISTANCE = 30;
 
@@ -45,7 +45,7 @@ public class TileDetector extends TileFrequency implements IRedstoneProvider, IP
 
     public boolean isInverted = false;
 
-    public TileDetector()
+    public TileProximityDetector()
     {
         this.energy = new EnergyStorageHandler(200, 100);
     }
