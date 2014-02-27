@@ -5,6 +5,8 @@ import calclavia.lib.access.AccessUser;
 import calclavia.lib.access.Nodes;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.prefab.item.ItemBlockSaved;
+import calclavia.lib.utility.inventory.InventoryUtility;
 import calclavia.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,6 +32,8 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Map.Entry;
+
+import universalelectricity.api.vector.Vector3;
 
 /**
  * Block turret is a class used by all turrets. Each type of turret will have a different tile
@@ -172,25 +176,7 @@ public class BlockTurret extends BlockICBM
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
 	{
-		ItemStack droppedStack = new ItemStack(this);
-		NBTTagCompound tag = new NBTTagCompound();
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		if (tile != null)
-			tile.writeToNBT(tag);
-
-		droppedStack.setTagCompound(tag);
-
-		if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
-		{
-			float f = 0.7F;
-			double d0 = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-			double d1 = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-			double d2 = (double) (world.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-			EntityItem entityitem = new EntityItem(world, (double) x + d0, (double) y + d1, (double) z + d2, droppedStack);
-			entityitem.delayBeforeCanPickup = 10;
-			world.spawnEntityInWorld(entityitem);
-
-		}
+		ItemBlockSaved.dropBlockWithNBT(this, world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
 
