@@ -3,7 +3,7 @@ package icbm.core;
 import icbm.api.IItemFrequency;
 import icbm.contraption.block.TileProximityDetector;
 import icbm.contraption.gui.GuiProximityDetector;
-import icbm.contraption.gui.GuiTracker;
+import icbm.contraption.gui.GuiFrequency;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -32,7 +32,7 @@ public class ClientProxy extends CommonProxy
         }
         else if (entityPlayer.inventory.getCurrentItem() != null && entityPlayer.inventory.getCurrentItem().getItem() instanceof IItemFrequency)
         {
-            return new GuiTracker(entityPlayer, entityPlayer.inventory.getCurrentItem());
+            return new GuiFrequency(entityPlayer, entityPlayer.inventory.getCurrentItem());
         }
 
         return null;

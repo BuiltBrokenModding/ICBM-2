@@ -3,7 +3,7 @@ package icbm.core;
 import icbm.api.IItemFrequency;
 import icbm.contraption.block.TileCamouflage;
 import icbm.contraption.block.TileProximityDetector;
-import icbm.contraption.gui.GuiTracker;
+import icbm.contraption.gui.GuiFrequency;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
