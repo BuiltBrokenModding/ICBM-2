@@ -26,20 +26,22 @@ public class BlockProximityDetector extends BlockICBM
 	}
 
 	@Override
-	public boolean onMachineActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
+	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		par5EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par1World, x, y, z);
+		player.openGui(ICBMCore.INSTANCE, 0, world, x, y, z);
 		return true;
 	}
 
 	@Override
-	public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ)
+	public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		TileEntity tileEntity = par1World.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
 		if (tileEntity instanceof TileProximityDetector)
 		{
 			((TileProximityDetector) tileEntity).isInverted = !((TileProximityDetector) tileEntity).isInverted;
+			if (!world.isRemote)
+				player.addChatMessage("Proximity Detector Inversion: " + ((TileProximityDetector) tileEntity).isInverted);
 			return true;
 		}
 
