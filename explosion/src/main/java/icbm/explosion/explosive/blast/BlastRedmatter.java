@@ -42,9 +42,29 @@ public class BlastRedmatter extends Blast
     }
 
     @Override
+    protected void doPostExplode ()
+    {
+        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.explosionX - this.explosionSize, this.explosionY - this.explosionSize, this.explosionZ - this.explosionSize, this.explosionX + this.explosionSize, this.explosionY + this.explosionSize, this.explosionZ + this.explosionSize);
+        List<?> list = this.worldObj.getEntitiesWithinAABB(EntityExplosion.class, bounds);
+        System.out.println("post Explode");
+        for (Object obj : list)
+        {
+            if (obj instanceof EntityExplosion)
+            {
+                EntityExplosion explosion = (EntityExplosion) obj;
+
+                if(explosion.blast instanceof BlastRedmatter)
+                {
+                    explosion.setDead();
+                }
+            }
+        }
+
+    }
+
+    @Override
     public void doExplode()
     {
-        // TODO: How the hell do you disable the Explosion from going on?? that's the only line missing, setting the holding entity dead causes an NPE
         if (DO_DESPAWN && callCount >= MAX_LIFESPAN)
         {
             this.postExplode();
