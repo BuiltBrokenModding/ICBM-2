@@ -18,9 +18,6 @@ import icbm.sentry.turret.modules.TurretAntiAir;
 import icbm.sentry.turret.modules.TurretGun;
 import icbm.sentry.turret.modules.TurretLaser;
 import icbm.sentry.turret.modules.mount.MountedRailGun;
-
-import java.util.logging.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,9 +25,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.recipe.UniversalRecipe;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
@@ -48,6 +45,10 @@ public class ICBMSentry
 {
 	public static final String NAME = Reference.NAME + " Sentry";
 	public static final String ID = Reference.NAME + "|Sentry";
+
+	@Instance(ID)
+	public static ICBMSentry INSTANCE;
+
 	@SidedProxy(clientSide = "icbm.sentry.ClientProxy", serverSide = "icbm.sentry.CommonProxy")
 	public static CommonProxy proxy;
 
@@ -70,7 +71,7 @@ public class ICBMSentry
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		NetworkRegistry.instance().registerGuiHandler(ICBMCore.INSTANCE, ICBMSentry.proxy);
+		NetworkRegistry.instance().registerGuiHandler(INSTANCE, proxy);
 		MinecraftForge.EVENT_BUS.register(this);
 		SentryTypes.load();
 
@@ -86,7 +87,7 @@ public class ICBMSentry
 		antimatterBullet = new ItemStack(itemAmmo, 1, 3);
 
 		EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, ICBMCore.INSTANCE, 50, 5, true);
+		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, INSTANCE, 50, 5, true);
 
 		TabICBM.itemStack = new ItemStack(blockTurret);
 

@@ -108,8 +108,7 @@ public final class ICBMCore
 		Settings.initiate();
 		Settings.CONFIGURATION.load();
 
-		String submodCategory = "Sub_Modules";
-
+		// String submodCategory = "Sub_Modules";
 		// ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory,
 		// ICBMSentry.class.getSimpleName(), false).getBoolean(false));
 
