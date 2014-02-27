@@ -34,6 +34,7 @@ public class GuiLauncherScreen extends GuiICBM
 	{
 		super(tileEntity);
 		this.tileEntity = tileEntity;
+		ySize = 166;
 	}
 
 	/** Adds the buttons (and other controls) to the screen in question. */

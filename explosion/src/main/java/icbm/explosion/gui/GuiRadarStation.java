@@ -59,7 +59,8 @@ public class GuiRadarStation extends GuiICBM
 	{
 		this.tileEntity = tileEntity;
 		mouseOverCoords = new Vector2(this.tileEntity.xCoord, this.tileEntity.zCoord);
-		this.xSize = 256;
+		ySize = 166;
+		xSize = 256;
 		radarCenter = new Vector2(this.containerPosX + this.xSize / 3 - 14, this.containerPosY + this.ySize / 2 + 4);
 		radarMapRadius = TileRadarStation.MAX_DETECTION_RANGE / 63.8F;
 	}

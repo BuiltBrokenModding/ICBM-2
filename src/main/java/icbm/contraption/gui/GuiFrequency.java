@@ -31,6 +31,7 @@ public class GuiFrequency extends GuiICBM
 	{
 		this.player = player;
 		this.itemStack = par1ItemStack;
+		this.ySize = 166;
 	}
 
 	/** Adds the buttons (and other controls) to the screen in question. */
