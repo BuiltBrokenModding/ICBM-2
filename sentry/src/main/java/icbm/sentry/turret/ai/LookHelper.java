@@ -128,20 +128,21 @@ public class LookHelper
     {
         if (sight)
         {
-            double z = Math.sin(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
-            double x = Math.cos(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
-            double y = Math.sin(-Math.toRadians(getPitch(getCenter(), Vector3.fromCenter(entity))));
-            return canEntityBeSeen(this.getCenter().translate(x, y, z), entity);
+//            double z = Math.sin(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
+//            double x = Math.cos(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
+//            double y = Math.sin(-Math.toRadians(getPitch(getCenter(), Vector3.fromCenter(entity))));
+//            return canEntityBeSeen(this.getCenter().translate(x, y, z), entity);
         }
+        return canEntityBeSeen(this.getCenter(), entity);
 
-        return canEntityBeSeen(this.getCenterRayStart(), entity);
+//        return canEntityBeSeen(this.getCenterRayStart(), entity);
     }
 
     public static boolean canEntityBeSeen(Vector3 center, Entity entity)
     {
-        MovingObjectPosition hitTarget = center.rayTrace(entity.worldObj, Vector3.fromCenter(entity), false);
+        MovingObjectPosition hitTarget = center.rayTrace(entity.worldObj, new Vector3(entity), false);
 
-        return hitTarget != null && hitTarget.entityHit == entity;
+        return hitTarget != null && entity.equals(hitTarget.entityHit);
     }
 
     public VectorWorld getCenterRayStart()

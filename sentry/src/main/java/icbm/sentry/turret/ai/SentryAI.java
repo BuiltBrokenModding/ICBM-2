@@ -57,7 +57,7 @@ public class SentryAI
             //If we have a target start aiming logic
             if (sentry().getTarget() != null && this.isValidTarget(sentry().getTarget(), false))
             {
-                if (lookHelper.canEntityBeSeen(sentry().getTarget()))
+                if (lookHelper.canEntityBeSeen(sentry().getTarget()) || true) //temporary disabling entity vision check
                 {
                     System.out.println("\t[SentryAI]Debug: Target can be seen");
                     if (lookHelper.isLookingAt(sentry().getTarget(), 3))
@@ -133,11 +133,9 @@ public class SentryAI
             {
                 boolean flag_bounds = lookHelper.isTargetInBounds(entity);
                 boolean flag_sight = lookHelper.canEntityBeSeen(entity);
+                System.out.println("[SentryAI]Debug: target in bounds?" + flag_bounds + " Target can be seen? " + flag_sight);
 
-                if (flag_bounds && flag_sight)
-                {
-                    return true;
-                }
+                return flag_bounds /*&& flag_sight*/; // Temporary sight check disabled
             }
             else
             {
