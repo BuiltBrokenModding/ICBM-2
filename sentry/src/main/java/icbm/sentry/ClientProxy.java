@@ -3,7 +3,7 @@ package icbm.sentry;
 import icbm.core.prefab.EmptyRenderer;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.GuiTurretPlatform;
-import icbm.sentry.render.SentryRenderAAGun;
+import icbm.sentry.render.SentryRenderAATurret;
 import icbm.sentry.render.SentryRenderGunTurret;
 import icbm.sentry.render.SentryRenderLaserTurret;
 import icbm.sentry.render.SentryRenderRailGun;
@@ -43,7 +43,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
 
 		// Sentry render registry TODO find a way to automate
-		SentryRegistry.registerSentryRenderer(TurretAntiAir.class, new SentryRenderAAGun());
+		SentryRegistry.registerSentryRenderer(TurretAntiAir.class, new SentryRenderAATurret());
 		SentryRegistry.registerSentryRenderer(TurretGun.class, new SentryRenderGunTurret());
 		SentryRegistry.registerSentryRenderer(TurretLaser.class, new SentryRenderLaserTurret());
 		SentryRegistry.registerSentryRenderer(MountedRailGun.class, new SentryRenderRailGun());
