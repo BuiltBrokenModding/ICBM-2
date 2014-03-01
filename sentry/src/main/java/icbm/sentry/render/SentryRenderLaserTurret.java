@@ -34,16 +34,14 @@ public class SentryRenderLaserTurret extends SentryRenderer
 		String[] spinParts = new String[] { "l2", "l3", "l4", "l5", "r2", "r3", "r4", "r5" };
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
-
 		// Render base yaw rotation
 		GL11.glRotatef(yaw, 0, 1, 0);
 		MODEL.renderAllExcept(ArrayUtils.addAll(pitchParts, spinParts));
-
 		// Render gun pitch rotation
 		GL11.glRotatef(pitch, 1, 0, 0);
 		MODEL.renderOnly(pitchParts);
 		// TODO: These parts are supposed to spin when a shot is fired!
-		GL11.glRotatef(pitch, 0, 0, 1);
+		// GL11.glRotatef(pitch, 0, 0, 1);
 		MODEL.renderOnly(spinParts);
 		GL11.glPopMatrix();
 	}

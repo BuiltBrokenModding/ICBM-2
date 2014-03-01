@@ -11,6 +11,7 @@ import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -49,6 +50,20 @@ public class SentryAI
 	{
 		if (sentry() != null)
 		{
+			//Used to debug and force the sentry to look at player to make correct model rotation adjustments.
+			/*
+			List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(10, 10, 10), null);
+			Collections.sort(list, new ComparatorClosestEntity(lookHelper.getCenter()));
+
+			for (EntityLivingBase entity : list)
+			{
+				if (entity instanceof EntityPlayer)
+				{
+					lookHelper.lookAtEntity(entity);
+					return;
+				}
+			}*/
+
 			System.out.println(" \n[SentryAI]Debug: Update tick");
 			// Only get new target if the current is missing or it will switch targets each update
 			if (sentry().getTarget() == null)
@@ -56,9 +71,10 @@ public class SentryAI
 				System.out.println("\t[SentryAI]Debug: Searching for target");
 				sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange()));
 			}
+
 			// If we have a target start aiming logic
 			if (sentry().getTarget() != null && this.isValidTarget(sentry().getTarget(), false))
-			{ 
+			{
 				// temporary disabling
 				// entity vision
 				// check
@@ -90,20 +106,20 @@ public class SentryAI
 			}
 			else
 			{
-				System.out.println("\t[SentryAI]Debug: No Target Selected");
+				System.out.println("\t[SentryAI]Debug: No Target Selected. Wandering.");
 				// Only start random rotation after a second of no target
 				if (targetLostTimer >= 20)
 				{
-					if (this.rotationDelayTimer >= 100)
+					if (rotationDelayTimer >= 100)
 					{
-						this.rotationDelayTimer = 0;
+						rotationDelayTimer = 0;
 						Vector3 location = new Vector3(this.container.x(), this.container.y(), this.container.z());
 						location.add(new Vector3(this.container.world().rand.nextInt(40) - 20, 0, this.container.world().rand.nextInt(40) - 20));
 						lookHelper.lookAt(location);
 					}
 
 					sentry().setTarget(null);
-					this.rotationDelayTimer++;
+					rotationDelayTimer++;
 				}
 
 				targetLostTimer++;
@@ -112,24 +128,22 @@ public class SentryAI
 
 	}
 
-	@SuppressWarnings("unchecked")
 	protected EntityLivingBase findTarget(ISentry sentry, IEntitySelector targetSelector, int range)
 	{
 		System.out.println("\t\t[SentryAI]Debug: Target selector update");
 		List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(range, range, range), targetSelector);
 		Collections.sort(list, new ComparatorClosestEntity(lookHelper.getCenter()));
-		if (list != null && !list.isEmpty())
-		{
-			System.out.println("\t\t[SentryAI]Debug: " + list.size() + " Possible Targets");
 
-			for (EntityLivingBase entity : list)
+		System.out.println("\t\t[SentryAI]Debug: " + list.size() + " Possible Targets");
+
+		for (EntityLivingBase entity : list)
+		{
+			if (isValidTarget(entity, false))
 			{
-				if (isValidTarget(entity, false))
-				{
-					return entity;
-				}
+				return entity;
 			}
 		}
+
 		return null;
 	}
 
@@ -167,12 +181,14 @@ public class SentryAI
 		{
 			double distanceA = this.location.distance(entityA);
 			double distanceB = this.location.distance(entityB);
+
 			if (Math.abs(distanceA - distanceB) < 1.5)
 			{
 				float healthA = entityA.getHealth();
 				float healthB = entityB.getHealth();
 				return healthA < healthB ? -1 : (healthA > healthB ? 1 : 0);
 			}
+
 			return distanceA < distanceB ? -1 : (distanceA > distanceB ? 1 : 0);
 		}
 	}
