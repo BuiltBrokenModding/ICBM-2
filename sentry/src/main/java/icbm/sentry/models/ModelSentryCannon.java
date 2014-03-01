@@ -198,6 +198,9 @@ public class ModelSentryCannon extends ModelBase
         AmmoBox.render(f5);
 
     }
+	String[] pitchParts = new String[] { "BaseYawR", "BaseYawRPlate", "RightBrace", "RightBraceF",
+	                             "RightBraceF2", "LeftBrace", "LeftBraceF", "FrontPlate", "SideDecor"
+	                           ,  "midPlate", "LowerHat", "BatteryPack", "MiddleWire", "BatWire", "HatWire", "lEar1", "lEar2", "rEar1", "rEar2" };
 
     /** Renders the yaw and pitch rotation part
      * 

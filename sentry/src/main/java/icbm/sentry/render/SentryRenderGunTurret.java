@@ -5,8 +5,11 @@ import icbm.sentry.models.ModelSentryCannon;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.ForgeDirection;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
 import calclavia.lib.render.RenderUtility;
@@ -16,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SentryRenderGunTurret extends SentryRenderer
 {
-	public static final ModelSentryCannon MODEL = new ModelSentryCannon();
+	public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "turret_gun.tcn");
 
 	public SentryRenderGunTurret()
 	{
@@ -28,15 +31,16 @@ public class SentryRenderGunTurret extends SentryRenderer
 	@Override
 	public void render(ForgeDirection side, TileTurret tile, float yaw, float pitch)
 	{
-		GL11.glTranslatef(0.5f, 2.2f, 0.5f);
-		GL11.glScalef(1.5f, 1.5f, 1.5f);
-		GL11.glRotatef(180F, 0F, 0F, 1F);
-		//Render base yaw rotation
-		GL11.glRotatef(yaw, 0F, 1F, 0F);
-		MODEL.renderYaw(0.0625F);
+		String[] yawOnly = new String[] { "BaseYawR", "BaseYawRPlate", "RightBrace", "RightBraceF", "RightBraceF2", "LeftBrace", "LeftBraceF", "FrontPlate", "SideDecor", "midPlate", "AmmoBox" };
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+		// Render base yaw rotation
+		GL11.glRotatef(yaw, 0, 1, 0);
+		MODEL.renderOnly(yawOnly);
 		// Render gun pitch rotation
-		GL11.glRotatef(pitch, 1F, 0F, 0F);
-		MODEL.renderYawPitch(0.0625F);
+		GL11.glRotatef(pitch, 1, 0, 0);
+		MODEL.renderAllExcept(yawOnly);
+		GL11.glPopMatrix();
 
 	}
 
@@ -44,9 +48,7 @@ public class SentryRenderGunTurret extends SentryRenderer
 	public void renderInventoryItem(ItemStack itemStack)
 	{
 		RenderUtility.bind(textureNeutral);
-		GL11.glTranslatef(0.5f, 1.3f, 0.5f);
-		GL11.glRotatef(180F, 0F, 0F, 1F);
-		MODEL.renderYaw(0.0625F);
-		MODEL.renderYawPitch(0.0625F);
+		GL11.glTranslatef(0.5f, 0.5f, 0.6f);
+		MODEL.renderAll();
 	}
 }
