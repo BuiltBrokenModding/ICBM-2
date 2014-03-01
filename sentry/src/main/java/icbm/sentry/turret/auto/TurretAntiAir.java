@@ -1,4 +1,4 @@
-package icbm.sentry.turret.modules;
+package icbm.sentry.turret.auto;
 
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponSystemProjectile;

@@ -23,7 +23,7 @@ import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.ai.LookHelper;
 import icbm.sentry.turret.ai.SentryAI;
-import icbm.sentry.turret.modules.mount.MountedSentry;
+import icbm.sentry.turret.mount.MountedSentry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

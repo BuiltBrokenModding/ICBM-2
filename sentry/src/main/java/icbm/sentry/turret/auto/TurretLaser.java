@@ -1,4 +1,4 @@
-package icbm.sentry.turret.modules;
+package icbm.sentry.turret.auto;
 
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponTwinLaser;
@@ -14,13 +14,14 @@ public class TurretLaser extends AutoSentry
     {
         super(host);
         maxHealth = 50;
-        this.weaponSystem = new WeaponTwinLaser(this, 15);
+        weaponSystem = new WeaponTwinLaser(this, 15);
     }
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
+        
         if (this.world().isRemote)
         {
             this.barrelRotation = MathHelper.wrapAngleTo180_float(this.barrelRotation + this.barrelRotationVelocity);
