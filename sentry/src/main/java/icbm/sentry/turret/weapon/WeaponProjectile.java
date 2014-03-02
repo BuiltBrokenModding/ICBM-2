@@ -1,7 +1,7 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.api.sentry.IAmmunition;
-import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -20,7 +20,7 @@ public class WeaponProjectile extends WeaponSystem
 	protected float damage = 5f;
 	protected DamageSource damageSource = TurretDamageSource.TurretProjectile;
 
-	public WeaponProjectile(ITurret sentry, float damage)
+	public WeaponProjectile(Turret sentry, float damage)
 	{
 		super(sentry);
 		this.damage = damage;
@@ -34,7 +34,7 @@ public class WeaponProjectile extends WeaponSystem
 
 	private float getInaccuracy()
 	{
-		return sentry.getHost().world().rand.nextFloat() * inaccuracy;
+		return turret.getHost().world().rand.nextFloat() * inaccuracy;
 	}
 
 	@Override
@@ -60,10 +60,10 @@ public class WeaponProjectile extends WeaponSystem
 	 */
 	public boolean consumeAmmo(int count, boolean doConsume)
 	{
-		if (count > 0 && sentry.getHost() instanceof IInventory)
+		if (count > 0 && turret.getHost() instanceof IInventory)
 		{
 			// TODO add a way to restrict this to a set range of slots
-			IInventory inv = ((IInventory) sentry.getHost());
+			IInventory inv = ((IInventory) turret.getHost());
 			// 0-4 are upgrade slots for the sentry, 5-8 are ammo slots
 			int consumeCount = 0;
 			for (int slot = 5; slot < inv.getSizeInventory(); slot++)

@@ -14,17 +14,17 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderRailGun extends TurretRenderer
+public class RenderRailgun extends TurretRenderer
 {
 	public static final ModelRailgun MODEL = new ModelRailgun();
 
-	public RenderRailGun()
+	public RenderRailgun()
 	{
 		super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "railgun.png"));
 	}
 
 	@Override
-	public void render(ForgeDirection side, TileTurret tile, float yaw, float pitch)
+	public void render(ForgeDirection side, TileTurret tile, double yaw, double pitch)
 	{
 		GL11.glTranslatef(0.5f, 2.2f, 0.5f);
 		GL11.glScalef(1.5f, 1.5f, 1.5f);

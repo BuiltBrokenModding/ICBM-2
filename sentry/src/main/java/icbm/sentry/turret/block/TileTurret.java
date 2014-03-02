@@ -1,14 +1,13 @@
 package icbm.sentry.turret.block;
 
 import icbm.core.ICBMCore;
-import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
-import icbm.sentry.turret.ai.LookManager;
-import icbm.sentry.turret.ai.TurretAI;
-import icbm.sentry.turret.mount.MountedSentry;
+import icbm.sentry.turret.ai.EulerServo;
+import icbm.sentry.turret.mount.MountedTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,8 +21,6 @@ import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.PacketHandler;
-import calclavia.lib.prefab.AutoServo;
-import calclavia.lib.prefab.IGyroMotor;
 import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.terminal.TileTerminal;
 import calclavia.lib.utility.inventory.ExternalInventory;
@@ -40,31 +37,22 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Darkguardsman, tgame14
  */
-public class TileTurret extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate, ITurretProvider
+public class TileTurret extends TileTerminal implements IProfileContainer, IRotatable, IExternalInventory, IBlockActivate, ITurretProvider
 {
 	protected static final int ROTATION_PACKET_ID = 3;
 	protected static final int SENTRY_TYPE_PACKET_ID = 4;
 	protected static final int DESCRIPTION_PACKET_ID = 5;
 	protected static final int FIRING_EVENT_PACKET_ID = 6;
-	
+
 	/** TURRET AIM & ROTATION HELPER */
-	public LookManager lookHelper;
-	/** Yaw servo rotation */
-	public AutoServo yawMotor;
-	/** Pitch servo rotation */
-	public AutoServo pitchMotor;
 	public EntityMountableDummy sentryEntity;
 	/** Profile that control access properties for users */
 	protected AccessProfile accessProfile;
 	/** Sentries inventory used for upgrades and ammo */
 	protected IExternalInventoryBox inventory;
 	/** Sentry instance used to define the visuals and weapons of the sentry */
-	protected Turret sentry;
+	protected Turret turret;
 
-	protected TurretAI sentryAI;
-
-	private static float[] yawData = { 180, -180, 5F };
-	private static float[] pitchData = { 40, -40, 5F };
 	private String unlocalizedName = "err";
 	private String saveManagerSentryKey;
 
@@ -76,71 +64,25 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	}
 
 	@Override
-	public void initiate()
-	{
-		super.initiate();
-		this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
-		this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
-		this.lookHelper = new LookManager(this);
-		this.sentryAI = new TurretAI(this, this.lookHelper);
-	}
-
-	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
-		float prevYaw = this.getYawServo().getRotation();
-		float prevPitch = this.getPitchServo().getRotation();
+		EulerServo prevServo = getTurret().getServo();
 
-		if (!worldObj.isRemote && getTurret() != null)
+		if (getTurret() != null)
 		{
 			getTurret().update();
-			sentryAI.update();
-
-			getYawServo().update();
-			getPitchServo().update();
 		}
 
 		// TODO Instead of sending the current rotation, send the target because the client can
 		// "rotate itself". -- Calclavia
 		if (!worldObj.isRemote)
 		{
-			if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
+		//	if (!prevServo.equals(getTurret().getServo()))
 			{
 				PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
 			}
 		}
-	}
-
-	/** will be moved to SentryAI */
-	@Deprecated
-	protected void mountableSentryLoop()
-	{
-		boolean flag = false;
-		if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
-		{
-			this.sentryEntity = new EntityMountableDummy(this, true);
-			this.worldObj.spawnEntityInWorld(this.sentryEntity);
-			flag = true;
-		}
-
-		// TODO set up handling for non-player entities, low Priority
-		if (flag && this.sentryEntity.riddenByEntity instanceof EntityPlayer)
-		{
-			EntityPlayer mountedPlayer = (EntityPlayer) this.sentryEntity.riddenByEntity;
-
-			if (mountedPlayer.rotationPitch > this.getPitchServo().upperLimit())
-			{
-				mountedPlayer.rotationPitch = this.getPitchServo().upperLimit();
-			}
-			if (mountedPlayer.rotationPitch < this.getPitchServo().lowerLimit())
-			{
-				mountedPlayer.rotationPitch = this.getPitchServo().lowerLimit();
-			}
-			this.getPitchServo().setRotation(mountedPlayer.rotationPitch);
-			this.getYawServo().setRotation(mountedPlayer.rotationYaw);
-		}
-
 	}
 
 	@Override
@@ -168,7 +110,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, this.yaw(), this.pitch());
+		return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, getTurret().getServo().yaw, getTurret().getServo().pitch);
 	}
 
 	public Packet getNBTPacket()
@@ -192,7 +134,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
 	public Packet getRotationPacket()
 	{
-		return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, this.getYawServo().getRotation(), this.getPitchServo().getRotation());
+		return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, getTurret().getServo().yaw, getTurret().getServo().pitch);
 	}
 
 	@Override
@@ -208,15 +150,15 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		{
 			if (id == DESCRIPTION_PACKET_ID)
 			{
-				sentry = TurretRegistry.constructSentry(data.readUTF(), this);
-				getYawServo().setRotation(data.readFloat());
-				getPitchServo().setRotation(data.readFloat());
+				turret = TurretRegistry.constructSentry(data.readUTF(), this);
+				getTurret().getServo().yaw = data.readDouble();
+				getTurret().getServo().pitch = data.readDouble();
 				return true;
 			}
 			if (id == ROTATION_PACKET_ID)
 			{
-				getYawServo().setRotation(data.readFloat());
-				getPitchServo().setRotation(data.readFloat());
+				getTurret().getServo().yaw = data.readDouble();
+				getTurret().getServo().pitch = data.readDouble();
 				return true;
 			}
 			if (id == FIRING_EVENT_PACKET_ID)
@@ -275,7 +217,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		{
 			NBTTagCompound tag = nbt.getCompoundTag(ITurret.SENTRY_OBJECT_SAVE);
 			this.saveManagerSentryKey = tag.getString(ITurret.SENTRY_SAVE_ID);
-			this.sentry = TurretRegistry.constructSentry(saveManagerSentryKey, this);
+			this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
 
 			if (this.getTurret() != null)
 			{
@@ -303,27 +245,11 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		return false;
 	}
 
-	@Override
-	public AutoServo getYawServo()
-	{
-		if (this.yawMotor == null)
-			this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
-		return this.yawMotor;
-	}
-
-	@Override
-	public AutoServo getPitchServo()
-	{
-		if (this.pitchMotor == null)
-			this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
-		return this.pitchMotor;
-	}
-
 	public Turret getTurret()
 	{
-		if (this.sentry == null)
-			this.sentry = TurretRegistry.constructSentry(saveManagerSentryKey, this);
-		return this.sentry;
+		if (this.turret == null)
+			this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
+		return this.turret;
 	}
 
 	@Override
@@ -333,7 +259,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		{
 			if (!entityPlayer.isSneaking())
 			{
-				if (this.getTurret() instanceof MountedSentry && this.sentryEntity != null)
+				if (this.getTurret() instanceof MountedTurret && this.sentryEntity != null)
 				{
 					if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
 					{
@@ -358,8 +284,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	{
 		if (!this.worldObj.isRemote)
 		{
-			entityPlayer.rotationYaw = this.getYawServo().getRotation();
-			entityPlayer.rotationPitch = this.getPitchServo().getRotation();
+			entityPlayer.rotationYaw = (float) getTurret().getServo().yaw;
+			entityPlayer.rotationPitch = (float) getTurret().getServo().pitch;
 			entityPlayer.mountEntity(this.sentryEntity);
 		}
 	}
@@ -383,31 +309,19 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	@Override
 	public double x()
 	{
-		return this.xCoord + 0.5;
+		return xCoord + 0.5;
 	}
 
 	@Override
 	public double y()
 	{
-		return this.yCoord + 0.5;
+		return yCoord + 0.5;
 	}
 
 	@Override
 	public double z()
 	{
-		return this.zCoord + 0.5;
-	}
-
-	@Override
-	public float yaw()
-	{
-		return this.getYawServo().getRotation();
-	}
-
-	@Override
-	public float pitch()
-	{
-		return this.getPitchServo().getRotation();
+		return zCoord + 0.5;
 	}
 
 	@Override

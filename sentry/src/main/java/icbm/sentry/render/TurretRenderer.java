@@ -35,14 +35,14 @@ public abstract class TurretRenderer implements ISimpleItemRenderer
 	 * @param yaw - yaw of the gun/turret
 	 * @param pitch - pitch of the gun/turret
 	 */
-	public abstract void render(ForgeDirection side, TileTurret tile, float yaw, float pitch);
+	public abstract void render(ForgeDirection side, TileTurret tile, double yaw, double pitch);
 
 	public ResourceLocation getTexture(EntityPlayer player, TileTurret tile)
 	{
 		if (tile != null && player != null)
 		{
-            if(tile.getAccessProfile().getOwnerGroup().isMemeber(player.username))
-                return this.textureFriendly;
+			if (tile.getAccessProfile().getOwnerGroup().isMemeber(player.username))
+				return this.textureFriendly;
 
 			if (tile.canUse(Nodes.GROUP_USER_NODE, player))
 			{

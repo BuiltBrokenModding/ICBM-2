@@ -6,7 +6,7 @@ import icbm.sentry.platform.gui.GuiTurretPlatform;
 import icbm.sentry.render.RenderAATurret;
 import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.RenderLaserTurret;
-import icbm.sentry.render.RenderRailGun;
+import icbm.sentry.render.RenderRailgun;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
@@ -46,7 +46,7 @@ public class ClientProxy extends CommonProxy
 		TurretRegistry.registerSentryRenderer(TurretAntiAir.class, new RenderAATurret());
 		TurretRegistry.registerSentryRenderer(TurretGun.class, new RenderGunTurret());
 		TurretRegistry.registerSentryRenderer(TurretLaser.class, new RenderLaserTurret());
-		TurretRegistry.registerSentryRenderer(MountedRailGun.class, new RenderRailGun());
+		TurretRegistry.registerSentryRenderer(MountedRailGun.class, new RenderRailgun());
 
 		GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
 		{

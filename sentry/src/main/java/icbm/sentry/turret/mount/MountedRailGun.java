@@ -8,7 +8,7 @@ import calclavia.lib.multiblock.fake.IMultiBlock;
 /** Railgun
  * 
  * @author Calclavia */
-public class MountedRailGun extends MountedSentry implements IMultiBlock
+public class MountedRailGun extends MountedTurret implements IMultiBlock
 {
     private int gunChargingTicks = 0;
 

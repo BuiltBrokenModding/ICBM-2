@@ -28,20 +28,20 @@ public class RenderLaserTurret extends TurretRenderer
 	}
 
 	@Override
-	public void render(ForgeDirection side, TileTurret sentry, float yaw, float pitch)
+	public void render(ForgeDirection side, TileTurret sentry, double yaw, double pitch)
 	{
 		String[] pitchParts = new String[] { "body", "bodyTop", "bodyRight", "leftBarrel", "rightBarrel", "l1", "r1", "lCap", "rCap", "Hat", "LowerHat", "BatteryPack", "MiddleWire", "BatWire", "HatWire", "lEar1", "lEar2", "rEar1", "rEar2" };
 		String[] spinParts = new String[] { "l2", "l3", "l4", "l5", "r2", "r3", "r4", "r5" };
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
 		// Render base yaw rotation
-		GL11.glRotatef(yaw, 0, 1, 0);
+		GL11.glRotated(yaw, 0, 1, 0);
 		MODEL.renderAllExcept(ArrayUtils.addAll(pitchParts, spinParts));
 		// Render gun pitch rotation
-		GL11.glRotatef(pitch, 1, 0, 0);
+		GL11.glRotated(pitch, 1, 0, 0);
 		MODEL.renderOnly(pitchParts);
 		// TODO: These parts are supposed to spin when a shot is fired!
-		//GL11.glRotatef(((SentryLaser) sentry.getSentry()).barrelRotation, 0, 0, 1);
+		// GL11.glRotatef(((SentryLaser) sentry.getSentry()).barrelRotation, 0, 0, 1);
 		MODEL.renderOnly(spinParts);
 		GL11.glPopMatrix();
 	}

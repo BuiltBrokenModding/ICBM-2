@@ -27,16 +27,16 @@ public class RenderGunTurret extends TurretRenderer
 	}
 
 	@Override
-	public void render(ForgeDirection side, TileTurret tile, float yaw, float pitch)
+	public void render(ForgeDirection side, TileTurret tile, double yaw, double pitch)
 	{
 		String[] yawOnly = new String[] { "BaseYawR", "BaseYawRPlate", "RightBrace", "RightBraceF", "RightBraceF2", "LeftBrace", "LeftBraceF", "FrontPlate", "SideDecor", "midPlate", "AmmoBox" };
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
 		// Render base yaw rotation
-		GL11.glRotatef(yaw, 0, 1, 0);
+		GL11.glRotated(yaw, 0, 1, 0);
 		MODEL.renderOnly(yawOnly);
 		// Render gun pitch rotation
-		GL11.glRotatef(pitch, 1, 0, 0);
+		GL11.glRotated(pitch, 1, 0, 0);
 		MODEL.renderAllExcept(yawOnly);
 		GL11.glPopMatrix();
 

@@ -12,6 +12,11 @@ public class EulerServo extends EulerAngle
 	private EulerAngle targetAngle = new EulerAngle();
 	private double rotationSpeed;
 
+	public EulerServo(float rotationSpeed)
+	{
+		this(new EulerAngle(), rotationSpeed);
+	}
+
 	public EulerServo(EulerAngle angle, float rotationSpeed)
 	{
 		super(angle);
@@ -54,7 +59,7 @@ public class EulerServo extends EulerAngle
 			currentAngle = targetAngle;
 		}
 
-		currentAngle = MathUtility.clampAngleTo180(currentAngle);
+		currentAngle = clampAngleTo180(currentAngle);
 
 		if (currentAngle > upperLimit)
 		{
@@ -71,5 +76,14 @@ public class EulerServo extends EulerAngle
 	public void setTargetRotation(EulerAngle targetRotation)
 	{
 		this.targetAngle = targetRotation;
+	}
+
+	public boolean isWithinLimit(EulerAngle compare)
+	{
+		for (int i = 0; i < compare.toArray().length; i++)
+			if (compare.toArray()[i] > upperLimit.toArray()[i] || compare.toArray()[i] < lowerLimit.toArray()[i])
+				return false;
+
+		return true;
 	}
 }

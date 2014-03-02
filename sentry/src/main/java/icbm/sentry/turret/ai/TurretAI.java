@@ -1,8 +1,9 @@
 package icbm.sentry.turret.ai;
 
 import icbm.sentry.interfaces.IAutoTurret;
-import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.turret.Turret;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,7 +12,10 @@ import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import universalelectricity.api.vector.EulerAngle;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 
@@ -22,12 +26,11 @@ import universalelectricity.api.vector.VectorWorld;
  */
 public class TurretAI
 {
-	private ITurretProvider container;
+	private Turret turret;
 	private IEntitySelector entitySelector;
 	private int rotationDelayTimer = 0;
 	private int targetLostTimer = 0;
 	private int ticks = 0;
-	private LookManager lookHelper;
 
 	public static final boolean debugMode = true;
 
@@ -37,19 +40,18 @@ public class TurretAI
 			System.out.println("[Sentry AI] " + str);
 	}
 
-	public TurretAI(ITurretProvider container, LookManager lookHelper)
+	public TurretAI(Turret turret)
 	{
-		this.container = container;
-		this.lookHelper = lookHelper;
+		this.turret = turret;
 		// TODO get selector from sentry at a later date
-		this.entitySelector = new TurretEntitySelector(this.container);
+		this.entitySelector = new TurretEntitySelector(this.turret);
 	}
 
 	public IAutoTurret sentry()
 	{
-		if (container != null && container.getTurret() != null && container.getTurret() instanceof IAutoTurret)
+		if (turret != null && turret != null && turret instanceof IAutoTurret)
 		{
-			return (IAutoTurret) container.getTurret();
+			return (IAutoTurret) turret;
 		}
 		return null;
 	}
@@ -62,17 +64,20 @@ public class TurretAI
 		{
 			// Used to debug and force the sentry to look at player to make correct model rotation
 			// adjustments.
-			/**
-			List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(10, 10, 10), null);
-
-			for (EntityLivingBase entity : list)
-			{
-				if (entity instanceof EntityPlayer)
-				{
-					lookHelper.lookAtEntity(entity);
-					return;
-				}
-			}*/
+			/*
+			 * List<EntityLivingBase> list =
+			 * turret.world().selectEntitiesWithinAABB(EntityLivingBase.class,
+			 * AxisAlignedBB.getBoundingBox(getCenter().x, getCenter().y, getCenter().z,
+			 * getCenter().x, getCenter().y, getCenter().z).expand(10, 10, 10), null);
+			 * for (EntityLivingBase entity : list)
+			 * {
+			 * if (entity instanceof EntityPlayer)
+			 * {
+			 * lookAtEntity(entity);
+			 * return;
+			 * }
+			 * }
+			 */
 
 			// debug(" \nUpdate tick");
 
@@ -80,25 +85,26 @@ public class TurretAI
 			if (sentry().getTarget() == null && ticks % 20 == 0)
 			{
 				debug("\tSearching for target");
-				sentry().setTarget(findTarget(container.getTurret(), this.entitySelector, this.container.getTurret().getRange()));
+				sentry().setTarget(findTarget(turret, this.entitySelector, this.turret.getRange()));
 			}
 
 			// If we have a target start aiming logic
 			if (sentry().getTarget() != null && isValidTarget(sentry().getTarget(), false))
 			{
-				if (lookHelper.canEntityBeSeen(sentry().getTarget()))
+				if (canEntityBeSeen(sentry().getTarget()))
 				{
 					debug("\tTarget can be seen");
-					if (lookHelper.isLookingAt(sentry().getTarget(), 3))
+					if (isLookingAt(sentry().getTarget(), 3))
 					{
 						debug("\tTarget locked and firing weapon");
-						this.container.getTurret().fire(sentry().getTarget());
+						turret.fire(sentry().getTarget());
 					}
 					else
 					{
 						debug("\tPowering servos to aim at target");
-						lookHelper.lookAtEntity(sentry().getTarget());
+						lookAtEntity(sentry().getTarget());
 					}
+
 					targetLostTimer = 0;
 				}
 				else
@@ -109,6 +115,7 @@ public class TurretAI
 					{
 						sentry().setTarget(null);
 					}
+
 					targetLostTimer++;
 				}
 			}
@@ -121,9 +128,9 @@ public class TurretAI
 					{
 						debug("\tNo Target Selected. Wandering.");
 						rotationDelayTimer = 0;
-						Vector3 location = new Vector3(this.container.x(), this.container.y(), this.container.z());
-						location.add(new Vector3(this.container.world().rand.nextInt(40) - 20, 0, this.container.world().rand.nextInt(40) - 20));
-						lookHelper.lookAt(location);
+						Vector3 location = new Vector3(this.turret.x(), this.turret.y(), this.turret.z());
+						location.add(new Vector3(this.turret.world().rand.nextInt(40) - 20, 0, this.turret.world().rand.nextInt(40) - 20));
+						lookAt(location);
 					}
 
 					sentry().setTarget(null);
@@ -139,8 +146,8 @@ public class TurretAI
 	protected EntityLivingBase findTarget(ITurret sentry, IEntitySelector targetSelector, int range)
 	{
 		debug("\t\tTarget selector update");
-		List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(range, range, range), targetSelector);
-		Collections.sort(list, new ComparatorOptimalTarget(lookHelper.getCenter()));
+		List<EntityLivingBase> list = turret.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(getCenter().x, getCenter().y, getCenter().z, getCenter().x, getCenter().y, getCenter().z).expand(range, range, range), targetSelector);
+		Collections.sort(list, new ComparatorOptimalTarget(getCenter()));
 
 		debug("\t\t" + list.size() + " possible targets within " + range);
 
@@ -161,13 +168,13 @@ public class TurretAI
 		{
 			if (!skipSight)
 			{
-				boolean flag_bounds = lookHelper.isTargetInBounds(entity);
+				boolean isInBounds = isTargetInBounds(entity);
 
-				if (flag_bounds)
+				if (isInBounds)
 				{
-					boolean flag_sight = lookHelper.canEntityBeSeen(entity);
-					debug("\t\tisValidTarget: Within bounds?" + flag_bounds + " Can be seen? " + flag_sight);
-					return flag_sight;
+					boolean canSee = canEntityBeSeen(entity);
+					debug("\t\tisValidTarget: Within bounds?" + isInBounds + " Can be seen? " + canSee);
+					return canSee;
 				}
 			}
 			else
@@ -205,4 +212,91 @@ public class TurretAI
 		}
 	}
 
+	/** Adjusts the turret target to look at a specific location. */
+	public void lookAt(Vector3 target)
+	{
+		turret.getServo().setTargetRotation(getCenter().toAngle(target));
+	}
+
+	/** Tells the turret to look at a location using an entity */
+	public void lookAtEntity(Entity entity)
+	{
+		lookAt(Vector3.fromCenter(entity));
+	}
+
+	/**
+	 * Checks to see if target is within the range of the turret.
+	 * 
+	 * @param target
+	 * @return
+	 */
+	public boolean isTargetInBounds(Entity target)
+	{
+		return isTargetInBounds(Vector3.fromCenter(target));
+	}
+
+	public boolean isTargetInBounds(Vector3 target)
+	{
+		return isTargetInBounds(this.getCenter(), target);
+	}
+
+	public boolean isTargetInBounds(Vector3 start, Vector3 target)
+	{
+		EulerAngle angle = start.toAngle(target);
+		return turret.getServo().isWithinLimit(angle);
+	}
+
+	/**
+	 * checks to see if the tileTurret is looking the target location
+	 * 
+	 * @param target - xyz target
+	 * @param allowedError - amount these tileTurret can be off in degrees from target
+	 * @return true if its with in error range
+	 */
+	public boolean isLookingAt(Vector3 target, float allowedError)
+	{
+		EulerAngle targetAngle = getCenter().toAngle(target);
+		return turret.getServo().isWithin(targetAngle, allowedError);
+	}
+
+	/**
+	 * Checks to see if the tileTurret is looking the the entity
+	 * 
+	 * @param entity - entity be used for the location
+	 * @param allowedError - amount these tileTurret can be off in degrees from target
+	 * @return true if its with in error range
+	 */
+	public boolean isLookingAt(Entity entity, float allowedError)
+	{
+		return isLookingAt(Vector3.fromCenter(entity), allowedError);
+	}
+
+	/**
+	 * Translates the aim offset "out of the turret block" to prevent the turret itself from block
+	 * the ray trace.
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	public boolean canEntityBeSeen(Entity entity)
+	{
+		Vector3 traceStart = getCenter().translate(turret.getAimOffset());
+		return canEntityBeSeen(traceStart, entity);
+	}
+
+	public boolean canEntityBeSeen(Vector3 traceStart, Entity entity)
+	{
+		MovingObjectPosition hitTarget = traceStart.clone().rayTrace(entity.worldObj, Vector3.fromCenter(entity), false);
+		return hitTarget != null && entity.equals(hitTarget.entityHit);
+	}
+
+	public VectorWorld getCenter()
+	{
+		return turret.getAbsoluteCenter();
+	}
+
+	public static VectorWorld getCenter(ITurretProvider container)
+	{
+		return new VectorWorld(container.world(), new Vector3(container.x(), container.y(), container.z()).translate(container.getTurret().getCenterOffset()));
+	}
 }

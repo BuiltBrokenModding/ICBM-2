@@ -1,7 +1,9 @@
 package icbm.sentry.turret;
 
-import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.turret.ai.EulerServo;
+import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,6 +12,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 import calclavia.lib.utility.nbt.SaveManager;
 
 /**
@@ -19,16 +22,27 @@ import calclavia.lib.utility.nbt.SaveManager;
  */
 public abstract class Turret implements IEnergyContainer, ITurret
 {
-	// TODO: implement a property system used by MC entities to support any number of settings a
-	// sentry can have
-	protected float maxHealth = -1;
+	/**
+	 * TODO: Implement a property system used by MC entities to support any number of settings a
+	 * turrets can have.
+	 * Turret object references.
+	 */
+	protected EulerServo servo;
+	protected TurretAI ai;
 	public final ITurretProvider host;
+
+	/**
+	 * Turret Attributes
+	 */
 	protected Vector3 aimOffset = new Vector3();
 	protected Vector3 centerOffset = new Vector3();
 	protected float barrelLength = 1;
+	protected float maxHealth = -1;
 	protected float health;
-	protected EnergyStorageHandler energy;
 	protected int range = 10;
+
+	protected EnergyStorageHandler energy;
+
 	// TODO: change out weapon system var for an interface and registry system
 	protected WeaponSystem weaponSystem;
 
@@ -36,6 +50,8 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	{
 		this.host = host;
 		energy = new EnergyStorageHandler(1000);
+		servo = new EulerServo(5);
+		ai = new TurretAI(this);
 	}
 
 	public float getMaxHealth()
@@ -45,7 +61,11 @@ public abstract class Turret implements IEnergyContainer, ITurret
 
 	public void update()
 	{
-
+		if (!world().isRemote)
+		{
+			ai.update();
+			servo.update();
+		}
 	}
 
 	public boolean canFire()
@@ -101,7 +121,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	 */
 	public Vector3 getAimOffset()
 	{
-		return new Vector3(getHost().yaw(), getHost().pitch()).scale(barrelLength).translate(aimOffset);
+		return new Vector3(getServo()).scale(barrelLength).translate(aimOffset);
 	}
 
 	/** Offset from host location to were the sentries center is located */
@@ -139,7 +159,6 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		nbt.setString(ITurret.SENTRY_SAVE_ID, SaveManager.getID(this.getClass()));
 		if (this.energy != null)
 			this.energy.writeToNBT(nbt);
-
 	}
 
 	@Override
@@ -147,7 +166,6 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	{
 		if (this.energy != null)
 			this.energy.readFromNBT(nbt);
-
 	}
 
 	@Override
@@ -156,29 +174,39 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		return this.host;
 	}
 
-	protected World world()
+	public World world()
 	{
-		return this.getHost().world();
+		return getHost().world();
 	}
 
-	protected double x()
+	public double x()
 	{
-		return this.getHost().x();
+		return getHost().x();
 	}
 
-	protected double y()
+	public double y()
 	{
-		return this.getHost().y();
+		return getHost().y();
 	}
 
-	protected double z()
+	public double z()
 	{
-		return this.getHost().z();
+		return getHost().z();
 	}
 
-	protected Vector3 getPosition()
+	protected VectorWorld getPosition()
 	{
-		return new Vector3(x(), y(), z());
+		return new VectorWorld(world(), x(), y(), z());
+	}
+
+	public VectorWorld getAbsoluteCenter()
+	{
+		return (VectorWorld) getPosition().translate(getCenterOffset());
+	}
+
+	public EulerServo getServo()
+	{
+		return servo;
 	}
 
 	@Override
@@ -197,7 +225,6 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	public String toString()
 	{
 		String id = TurretRegistry.getID(this);
-		return "[Sentry]ID: " + (id != null ? id : "unknown") + "   " + super.toString();
+		return "[Turret] ID: " + (id != null ? id : "unknown") + "   " + super.toString();
 	}
-
 }

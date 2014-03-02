@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.mount.MountedSentry;
+import icbm.sentry.turret.mount.MountedTurret;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -24,163 +24,163 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class EntityMountableDummy extends EntityLiving
 {
-    private TileTurret sentryHost;
-    private boolean shouldSit = false;
-    
-    public EntityMountableDummy(World world)
-    {
-        super(world);
-    }
+	private TileTurret turretProvider;
+	private boolean shouldSit = false;
 
-    public EntityMountableDummy(TileTurret controller, boolean sit)
-    {
-        this(controller.worldObj);
-        this.isImmuneToFire = true;
-        this.setPosition(controller.xCoord, controller.yCoord, controller.zCoord);
-        this.sentryHost = controller;
-        this.shouldSit = sit;
-    }
+	public EntityMountableDummy(World world)
+	{
+		super(world);
+	}
 
-    @Override
-    public boolean attackEntityFrom (DamageSource source, float amount)
-    {
-        return true;
+	public EntityMountableDummy(TileTurret controller, boolean sit)
+	{
+		this(controller.worldObj);
+		this.isImmuneToFire = true;
+		this.setPosition(controller.xCoord, controller.yCoord, controller.zCoord);
+		this.turretProvider = controller;
+		this.shouldSit = sit;
+	}
 
-    }
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		return true;
 
-    @Override
-    public boolean isPotionApplicable (PotionEffect par1PotionEffect)
-    {
-        return false;
-    }
+	}
 
-    @Override
-    public String getEntityName ()
-    {
-        return "Seat";
-    }
+	@Override
+	public boolean isPotionApplicable(PotionEffect par1PotionEffect)
+	{
+		return false;
+	}
 
-    /** Called to update the entity's position/logic. */
-    @Override
-    public void onUpdate ()
-    {
-        if (this.ridingEntity != null && this.ridingEntity.isDead)
-        {
-            this.ridingEntity = null;
-        }
-        if (this.sentryHost == null || this.sentryHost.isInvalid())
-        {
-            this.setDead();
-            return;
-        }
+	@Override
+	public String getEntityName()
+	{
+		return "Seat";
+	}
 
-        if (this.sentryHost instanceof TileTurret)
-        {
-            if (((TileTurret) this.sentryHost).getTurret() instanceof MountedSentry)
-                ((TileTurret) this.sentryHost).setFakeEntity(this);
-        }
+	/** Called to update the entity's position/logic. */
+	@Override
+	public void onUpdate()
+	{
+		if (this.ridingEntity != null && this.ridingEntity.isDead)
+		{
+			this.ridingEntity = null;
+		}
+		if (this.turretProvider == null || this.turretProvider.isInvalid())
+		{
+			this.setDead();
+			return;
+		}
 
-        if (this.worldObj.isRemote && this.riddenByEntity != null)
-        {
-            this.riddenByEntity.updateRiderPosition();
-        }
-        // TODO adjust for center of sentry
-        this.setPosition(this.sentryHost.xCoord + 0.5, this.sentryHost.yCoord, this.sentryHost.zCoord + 0.5);
-    }
+		if (this.turretProvider instanceof TileTurret)
+		{
+			if (((TileTurret) this.turretProvider).getTurret() instanceof MountedTurret)
+				((TileTurret) this.turretProvider).setFakeEntity(this);
+		}
 
-    @Override
-    public void updateRiderPosition ()
-    {
-        // TODO cache this value and only update it when the yaw || pitch
-        // changes
-        if (this.riddenByEntity != null)
-        {
-            Vector3 vec = new Vector3(this.sentryHost);
-            Vector3 offset = new Vector3(0, 0, 1);
-            vec.translate(this.sentryHost.getTurret().getCenterOffset());
-            if (this.sentryHost.getTurret() instanceof MountedSentry)
-            {
-                offset = ((MountedSentry) this.sentryHost.getTurret()).getRiderOffset();
-            }
-            offset.rotate(this.sentryHost.getYawServo().getRotation(), this.sentryHost.getPitchServo().getRotation());
-            vec.add(offset);
-            this.riddenByEntity.setPosition(vec.x, vec.y, vec.z);
-            this.riddenByEntity.rotationYaw = this.sentryHost.getYawServo().getRotation();
-            this.riddenByEntity.rotationPitch = this.sentryHost.getPitchServo().getRotation();
-        }
-    }
+		if (this.worldObj.isRemote && this.riddenByEntity != null)
+		{
+			this.riddenByEntity.updateRiderPosition();
+		}
+		// TODO adjust for center of sentry
+		this.setPosition(this.turretProvider.xCoord + 0.5, this.turretProvider.yCoord, this.turretProvider.zCoord + 0.5);
+	}
 
-    @Override
-    public double getMountedYOffset ()
-    {
-        if (this.sentryHost.getTurret() instanceof MountedSentry)
-            return ((MountedSentry) this.sentryHost.getTurret()).getRiderOffset().y;
-        else
-            return -0.5;
-    }
+	@Override
+	public void updateRiderPosition()
+	{
+		// TODO cache this value and only update it when the yaw || pitch
+		// changes
+		if (this.riddenByEntity != null)
+		{
+			Vector3 vec = new Vector3(this.turretProvider);
+			Vector3 offset = new Vector3(0, 0, 1);
+			vec.translate(this.turretProvider.getTurret().getCenterOffset());
+			if (this.turretProvider.getTurret() instanceof MountedTurret)
+			{
+				offset = ((MountedTurret) this.turretProvider.getTurret()).getRiderOffset();
+			}
+			offset.rotate(turretProvider.getTurret().getServo().yaw, turretProvider.getTurret().getServo().pitch);
+			vec.add(offset);
+			this.riddenByEntity.setPosition(vec.x, vec.y, vec.z);
+			this.riddenByEntity.rotationYaw = (float) turretProvider.getTurret().getServo().yaw;
+			this.riddenByEntity.rotationPitch = (float) turretProvider.getTurret().getServo().pitch;
+		}
+	}
 
-    @Override
-    public boolean shouldRiderSit ()
-    {
-        return this.shouldSit;
-    }
+	@Override
+	public double getMountedYOffset()
+	{
+		if (this.turretProvider.getTurret() instanceof MountedTurret)
+			return ((MountedTurret) this.turretProvider.getTurret()).getRiderOffset().y;
+		else
+			return -0.5;
+	}
 
-    @Override
-    protected boolean canTriggerWalking ()
-    {
-        return false;
-    }
+	@Override
+	public boolean shouldRiderSit()
+	{
+		return this.shouldSit;
+	}
 
-    @Override
-    public AxisAlignedBB getCollisionBox (Entity par1Entity)
-    {
-        return AxisAlignedBB.getBoundingBox(this.posX - .6, this.posY - .6, this.posZ - .6, this.posX + .6, this.posY + .6, this.posZ + .6);
-    }
+	@Override
+	protected boolean canTriggerWalking()
+	{
+		return false;
+	}
 
-    @Override
-    public boolean canBeCollidedWith ()
-    {
-        return true;
-    }
+	@Override
+	public AxisAlignedBB getCollisionBox(Entity par1Entity)
+	{
+		return AxisAlignedBB.getBoundingBox(this.posX - .6, this.posY - .6, this.posZ - .6, this.posX + .6, this.posY + .6, this.posZ + .6);
+	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean isInRangeToRenderVec3D (Vec3 par1Vec3)
-    {
-        return false;
-    }
+	@Override
+	public boolean canBeCollidedWith()
+	{
+		return true;
+	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean isInRangeToRenderDist (double par1)
-    {
-        return false;
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean isInRangeToRenderVec3D(Vec3 par1Vec3)
+	{
+		return false;
+	}
 
-    @Override
-    public void setVelocity (double par1, double par3, double par5)
-    {
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean isInRangeToRenderDist(double par1)
+	{
+		return false;
+	}
 
-    }
+	@Override
+	public void setVelocity(double par1, double par3, double par5)
+	{
 
-    @Override
-    public boolean isInsideOfMaterial (Material par1Material)
-    {
-        return false;
-    }
+	}
 
-    @Override
-    public boolean interact (EntityPlayer player)
-    {
-        if (this.sentryHost != null && player != null)
-        {
-            Block block = Block.blocksList[this.worldObj.getBlockId(this.sentryHost.xCoord, this.sentryHost.yCoord, this.sentryHost.zCoord)];
-            if (block != null)
-            {
-                return block.onBlockActivated(this.sentryHost.worldObj, this.sentryHost.xCoord, this.sentryHost.yCoord, this.sentryHost.zCoord, player, 0, 0, 0, 0);
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean isInsideOfMaterial(Material par1Material)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean interact(EntityPlayer player)
+	{
+		if (this.turretProvider != null && player != null)
+		{
+			Block block = Block.blocksList[this.worldObj.getBlockId(this.turretProvider.xCoord, this.turretProvider.yCoord, this.turretProvider.zCoord)];
+			if (block != null)
+			{
+				return block.onBlockActivated(this.turretProvider.worldObj, this.turretProvider.xCoord, this.turretProvider.yCoord, this.turretProvider.zCoord, player, 0, 0, 0, 0);
+			}
+		}
+		return false;
+	}
 
 }
