@@ -4,31 +4,11 @@ import icbm.sentry.interfaces.ISentryContainer;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MovingObjectPosition;
+import universalelectricity.api.vector.EulerAngle;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 import calclavia.lib.prefab.IServo;
-import calclavia.lib.utility.MathUtility;
 
-/**
- * Rotation always in degrees.
- * 
- * DEFINITIONS:
- * 
- * Yaw:
- * 0 Degrees - Looking at NORTH
- * 90 - Looking at WEST
- * 180 - Looking at SOUTH
- * 270 - Looking at EAST
- * 
- * Pitch:
- * 0 Degrees - Looking straight forward towards the horizon.
- * 90 Degrees - Looking straight up to the sky.
- * -90 Degrees - Looking straight down to the void.
- * 
- * Make sure all models are use the Techne Model loader, they will naturally follow this rule.
- * 
- * @author Calclavia, DarkGuardsman
- */
 // Look helper will be parted out during 1.7 update. Some method will moved to a math helper, and
 // rest to AI handlers
 public class LookHelper
@@ -43,14 +23,15 @@ public class LookHelper
 	/** Adjusts the turret target to look at a specific location. */
 	public void lookAt(Vector3 target)
 	{
-		this.tileTurret.getYawServo().setTargetRotation(getYaw(getCenter(), target));
-		this.tileTurret.getPitchServo().setTargetRotation(getPitch(getCenter(), target));
+		EulerAngle angle = getCenter().toAngle(target);
+		this.tileTurret.getYawServo().setTargetRotation((float) angle.yaw);
+		this.tileTurret.getPitchServo().setTargetRotation((float) angle.pitch);
 	}
 
 	/** Tells the turret to look at a location using an entity */
 	public void lookAtEntity(Entity entity)
 	{
-		this.lookAt(Vector3.fromCenter(entity));
+		lookAt(Vector3.fromCenter(entity));
 	}
 
 	public boolean isTargetInBounds(Entity target)
@@ -65,12 +46,11 @@ public class LookHelper
 
 	public static boolean isTargetInBounds(Vector3 start, Vector3 target, IServo yawServo, IServo pitchServo)
 	{
-		float yaw = getYaw(start, target);
-		float pitch = getPitch(start, target);
+		EulerAngle angle = start.toAngle(target);
 
-		if (yaw >= yawServo.lowerLimit() && yaw <= yawServo.upperLimit())
+		if (angle.yaw >= yawServo.lowerLimit() && angle.yaw <= yawServo.upperLimit())
 		{
-			if (true || pitch >= pitchServo.lowerLimit() && pitch <= pitchServo.upperLimit())
+			if (angle.pitch >= pitchServo.lowerLimit() && angle.pitch <= pitchServo.upperLimit())
 			{
 				return true;
 			}
@@ -88,9 +68,11 @@ public class LookHelper
 	 */
 	public boolean isLookingAt(Vector3 target, float allowedError)
 	{
-		if (Math.abs(getAngleDif(tileTurret.getYawServo().getRotation(), getYaw(getCenter(), target))) <= allowedError)
+		EulerAngle angle = getCenter().toAngle(target);
+
+		if (Math.abs(getAngleDif(tileTurret.getYawServo().getRotation(), (float) angle.yaw)) <= allowedError)
 		{
-			if (Math.abs(getAngleDif(tileTurret.getPitchServo().getRotation(), getPitch(getCenter(), target))) <= allowedError)
+			if (Math.abs(getAngleDif(tileTurret.getPitchServo().getRotation(), (float) angle.pitch)) <= allowedError)
 			{
 				return true;
 			}
@@ -108,32 +90,6 @@ public class LookHelper
 	public boolean isLookingAt(Entity entity, float allowedError)
 	{
 		return this.isLookingAt(Vector3.fromCenter(entity), allowedError);
-	}
-
-	/** Gets the pitch angle between the two points */
-	public static float getPitch(Vector3 position, Vector3 target)
-	{
-		double pitchRadians = getPitchRadians(position, target);
-		return (float) MathUtility.clampAngleTo180(Math.toDegrees(pitchRadians));
-	}
-
-	public static double getPitchRadians(Vector3 position, Vector3 target)
-	{
-		Vector3 d = position.difference(target);
-		return -Math.atan2(d.y, Math.hypot(d.z, d.x));
-	}
-
-	/** Gets the rotation yaw between the two points in angles */
-	public static float getYaw(Vector3 position, Vector3 target)
-	{
-		double yawRadians = getYawRadians(position, target);
-		return (float) MathUtility.clampAngleTo180(Math.toDegrees(yawRadians));
-	}
-
-	public static double getYawRadians(Vector3 position, Vector3 target)
-	{
-		Vector3 d = position.difference(target);
-		return Math.atan2(d.x,d.z);
 	}
 
 	/** gets the difference in degrees between the two angles */
