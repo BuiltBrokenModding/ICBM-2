@@ -18,6 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderAATurret extends TurretRenderer
 {
 	public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "turret_aa.tcn");
+	public static final String[] yawOnly = { "cannonRight", " cannonFaceRight", " cannonBarrelTopRight", " cannonBarrelBotRight", " cannonCapTopRight", " cannonCapBotRight", " cannonInFaceRight", " cannonBarrelCouple", " cannonBarrelNeck", " cannonCapBotLeft", " cannonCapTopLeft", " cannonFaceLeft", " cannonLeft", " cannonInFaceLeft", " cannonBarrelNeckLeft", " cannonBarrelBotLeft", " cannonBarrelCoupleLeft", " cannonBarrelTopLeft " };
 
 	public RenderAATurret()
 	{
@@ -29,7 +30,6 @@ public class RenderAATurret extends TurretRenderer
 	@Override
 	public void render(ForgeDirection side, TileTurret tile, double yaw, double pitch)
 	{
-		String[] yawOnly = { "cannonRight", " cannonFaceRight", " cannonBarrelTopRight", " cannonBarrelBotRight", " cannonCapTopRight", " cannonCapBotRight", " cannonInFaceRight", " cannonBarrelCouple", " cannonBarrelNeck", " cannonCapBotLeft", " cannonCapTopLeft", " cannonFaceLeft", " cannonLeft", " cannonInFaceLeft", " cannonBarrelNeckLeft", " cannonBarrelBotLeft", " cannonBarrelCoupleLeft", " cannonBarrelTopLeft " };
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
 		GL11.glScalef(0.9f, 0.9f, 0.9f);

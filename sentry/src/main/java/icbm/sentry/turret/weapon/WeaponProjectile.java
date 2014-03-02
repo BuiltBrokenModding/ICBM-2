@@ -1,16 +1,14 @@
 package icbm.sentry.turret.weapon;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import icbm.Reference;
+import calclavia.lib.utility.inventory.InventoryUtility;
 import icbm.api.sentry.IAmmunition;
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
+import icbm.sentry.turret.items.ItemAmmo.AmmoType;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
 /**
@@ -19,22 +17,23 @@ import universalelectricity.api.vector.Vector3;
  * 
  * @author DarkGuardsman, tgame14
  */
-public class WeaponProjectile extends WeaponSystem
+public class WeaponProjectile extends WeaponDamage
 {
 	protected float inaccuracy = 0.1f;
-	protected float damage = 5f;
-	protected DamageSource damageSource = TurretDamageSource.TurretProjectile;
+	private int ammoAmount;
 
-	public WeaponProjectile(Turret sentry, float damage)
+	public WeaponProjectile(Turret sentry, int ammoAmount, float damage)
 	{
-		super(sentry);
-		this.damage = damage;
+		super(sentry, TurretDamageSource.turretProjectile, damage);
+		this.ammoAmount = ammoAmount;
 	}
 
 	@Override
 	public void fire(Vector3 target)
 	{
 		super.fire(target.clone().translate(getInaccuracy(), getInaccuracy(), getInaccuracy()));
+		consumeAmmo(ammoAmount, true);
+		InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), new ItemStack(ICBMSentry.itemAmmo, 1, AmmoType.SHELL.ordinal()));
 	}
 
 	private float getInaccuracy()
@@ -42,18 +41,15 @@ public class WeaponProjectile extends WeaponSystem
 		return turret.getHost().world().rand.nextFloat() * inaccuracy;
 	}
 
-	@Override
-	public void onHitEntity(Entity entity)
-	{
-		if (entity != null)
-		{
-			entity.attackEntityFrom(damageSource, damage);
-		}
-	}
-
 	public boolean isAmmo(ItemStack stack)
 	{
-		return stack != null && stack.getItem() instanceof IAmmunition;
+		return stack.getItem() instanceof IAmmunition;
+	}
+
+	@Override
+	public boolean canFire()
+	{
+		return consumeAmmo(ammoAmount, false);
 	}
 
 	/**
@@ -65,30 +61,36 @@ public class WeaponProjectile extends WeaponSystem
 	 */
 	public boolean consumeAmmo(int count, boolean doConsume)
 	{
-		if (count > 0 && turret.getHost() instanceof IInventory)
+		int consumeCount = 0;
+		int need = count;
+		IInventory inv = turret.getHost().getInventory();
+
+		if (count > 0 && inv != null)
 		{
-			// TODO add a way to restrict this to a set range of slots
-			IInventory inv = ((IInventory) turret.getHost());
-			// 0-4 are upgrade slots for the sentry, 5-8 are ammo slots
-			int consumeCount = 0;
-			for (int slot = 5; slot < inv.getSizeInventory(); slot++)
+			for (int slot = 0; slot < inv.getSizeInventory(); slot++)
 			{
-				ItemStack stack = inv.getStackInSlot(slot);
-				if (isAmmo(stack))
+				ItemStack itemStack = inv.getStackInSlot(slot);
+
+				if (itemStack != null && isAmmo(itemStack))
 				{
-					if (stack.stackSize >= count)
+					if (itemStack.stackSize >= need)
 					{
 						if (doConsume)
-							stack.stackSize -= count;
+							itemStack.stackSize -= need;
 						return true;
 					}
 					else
 					{
-
+						int consume = need - itemStack.stackSize;
+						itemStack.stackSize -= consume;
+						need -= consume;
 					}
+
+					consumeCount += itemStack.stackSize;
 				}
 			}
 		}
-		return false;
+
+		return consumeCount >= count;
 	}
 }

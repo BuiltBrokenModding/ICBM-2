@@ -3,6 +3,7 @@ package icbm.sentry.turret.block;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -48,39 +50,32 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	public EntityMountableDummy sentryEntity;
 	/** Profile that control access properties for users */
 	protected AccessProfile accessProfile;
-	/** Sentries inventory used for upgrades and ammo */
-	protected IExternalInventoryBox inventory;
 	/** Sentry instance used to define the visuals and weapons of the sentry */
 	protected Turret turret;
 
 	private String unlocalizedName = "err";
 	private String saveManagerSentryKey;
 
-	public TileTurret()
-	{
-		super();
-		this.inventory = new ExternalInventory(this, 8);
-		this.energy = new EnergyStorageHandler(1000);
-	}
-
 	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
-		EulerServo prevServo = (EulerServo) getTurret().getServo().clone();
 
 		if (getTurret() != null)
 		{
+			EulerServo prevServo = (EulerServo) getTurret().getServo().clone();
 			getTurret().update();
-		}
 
-		// TODO: Instead of sending the current rotation, send the target because the client can
-		// "rotate itself". -- Calclavia
-		if (!worldObj.isRemote)
-		{
-			if (!prevServo.equals(getTurret().getServo()))
+			/*
+			 * TODO: Instead of sending the current rotation, send the target because the client can
+			 * "rotate itself". -- Calclavia
+			 */
+			if (!worldObj.isRemote)
 			{
-				PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
+				if (!prevServo.equals(getTurret().getServo()))
+				{
+					PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
+				}
 			}
 		}
 	}
@@ -188,7 +183,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		this.getInventory().save(nbt);
 		NBTTagCompound perm_tag = new NBTTagCompound();
 		this.getAccessProfile().save(perm_tag);
 		nbt.setCompoundTag("permissions", perm_tag);
@@ -208,9 +202,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-
 		this.unlocalizedName = nbt.getString("unlocalizedName");
-		this.getInventory().load(nbt);
 		this.getAccessProfile().load(nbt.getCompoundTag("permissions"));
 
 		if (nbt.hasKey(ITurret.SENTRY_OBJECT_SAVE))
@@ -230,7 +222,14 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	@Override
 	public IExternalInventoryBox getInventory()
 	{
-		return this.inventory;
+		TileEntity tile = worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord);
+
+		if (tile instanceof TileTurretPlatform)
+		{
+			return ((TileTurretPlatform) tile).getInventory();
+		}
+
+		return null;
 	}
 
 	@Override
@@ -249,6 +248,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	{
 		if (this.turret == null)
 			this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
+
 		return this.turret;
 	}
 

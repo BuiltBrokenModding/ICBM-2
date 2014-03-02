@@ -30,7 +30,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	public final ITurretProvider host;
 	protected EulerServo servo;
 	protected TurretAI ai;
-	protected EnergyStorageHandler energy;
+	public EnergyStorageHandler energy;
 
 	/**
 	 * Turret Attributes
@@ -49,7 +49,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	public Turret(ITurretProvider host)
 	{
 		this.host = host;
-		energy = new EnergyStorageHandler(1000);
+		energy = new EnergyStorageHandler(10000);
 		servo = new EulerServo(5);
 		ai = new TurretAI(this);
 	}
@@ -73,7 +73,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 
 	public boolean canFire()
 	{
-		return cooldown == 0;
+		return cooldown == 0 && energy.isFull() && weaponSystem.canFire();
 	}
 
 	@Override
@@ -88,6 +88,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		{
 			getHost().sendFireEventToClient(target);
 			weaponSystem.fire(target);
+			energy.setEnergy(0);
 			cooldown = maxCooldown;
 			return true;
 		}

@@ -4,16 +4,17 @@ import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.DamageSource;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** @author DarkGuardsman */
-public class WeaponLaser extends WeaponProjectile
+public class WeaponLaser extends WeaponDamage
 {
 	public WeaponLaser(Turret sentry, float damage)
 	{
-		super(sentry, damage);
+		super(sentry, TurretDamageSource.turretLaser, damage);
 	}
 
 	@Override

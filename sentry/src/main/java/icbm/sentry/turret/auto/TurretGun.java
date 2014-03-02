@@ -1,8 +1,12 @@
 package icbm.sentry.turret.auto;
 
+import net.minecraft.item.ItemStack;
+import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import icbm.Reference;
+import icbm.api.sentry.IAmmunition;
 import icbm.sentry.turret.block.TileTurret;
+import icbm.sentry.turret.items.ItemAmmo.AmmoType;
 import icbm.sentry.turret.weapon.WeaponProjectile;
 
 /** @author DarkGuardsman */
@@ -11,8 +15,14 @@ public class TurretGun extends TurretAuto
 	public TurretGun(TileTurret host)
 	{
 		super(host);
-		weaponSystem = new WeaponProjectile(this, 10)
+		weaponSystem = new WeaponProjectile(this, 1, 10)
 		{
+			@Override
+			public boolean isAmmo(ItemStack stack)
+			{
+				return stack.getItem() instanceof IAmmunition && stack.getItemDamage() == AmmoType.BULLET.ordinal();
+			}
+
 			@Override
 			public void fire(Vector3 target)
 			{

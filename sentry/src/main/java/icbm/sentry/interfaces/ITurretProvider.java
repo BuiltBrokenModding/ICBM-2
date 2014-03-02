@@ -1,6 +1,7 @@
 package icbm.sentry.interfaces;
 
 import universalelectricity.api.vector.Vector3;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.world.World;
 
 /**
@@ -22,4 +23,6 @@ public interface ITurretProvider
 	public double z();
 
 	public void sendFireEventToClient(Vector3 target);
+
+	public IInventory getInventory();
 }

@@ -19,6 +19,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderLaserTurret extends TurretRenderer
 {
 	public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "turret_laser.tcn");
+	public static final String[] pitchParts = new String[] { "body", "bodyTop", "bodyRight", "leftBarrel", "rightBarrel", "l1", "r1", "lCap", "rCap", "Hat", "LowerHat", "BatteryPack", "MiddleWire", "BatWire", "HatWire", "lEar1", "lEar2", "rEar1", "rEar2" };
+	public static final String[] spinParts = new String[] { "l2", "l3", "l4", "l5", "r2", "r3", "r4", "r5" };
 
 	public RenderLaserTurret()
 	{
@@ -30,8 +32,6 @@ public class RenderLaserTurret extends TurretRenderer
 	@Override
 	public void render(ForgeDirection side, TileTurret sentry, double yaw, double pitch)
 	{
-		String[] pitchParts = new String[] { "body", "bodyTop", "bodyRight", "leftBarrel", "rightBarrel", "l1", "r1", "lCap", "rCap", "Hat", "LowerHat", "BatteryPack", "MiddleWire", "BatWire", "HatWire", "lEar1", "lEar2", "rEar1", "rEar2" };
-		String[] spinParts = new String[] { "l2", "l3", "l4", "l5", "r2", "r3", "r4", "r5" };
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
 		// Render base yaw rotation

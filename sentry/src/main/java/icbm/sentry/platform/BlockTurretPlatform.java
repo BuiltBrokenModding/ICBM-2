@@ -45,7 +45,7 @@ public class BlockTurretPlatform extends BlockICBM
 		{
 			if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID)
 			{
-				entityPlayer.openGui(ICBMCore.INSTANCE, 0, world, x, y, z);
+				entityPlayer.openGui(ICBMSentry.INSTANCE, 0, world, x, y, z);
 				return true;
 			}
 		}

@@ -110,4 +110,14 @@ public abstract class WeaponSystem
 	{
 
 	}
+
+	/**
+	 * Ammunition check
+	 * 
+	 * @return
+	 */
+	public boolean canFire()
+	{
+		return true;
+	}
 }

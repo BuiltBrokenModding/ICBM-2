@@ -18,6 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderGunTurret extends TurretRenderer
 {
 	public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "turret_gun.tcn");
+	public static final String[] yawOnly = new String[] { "BaseYawR", "BaseYawRPlate", "RightBrace", "RightBraceF", "RightBraceF2", "LeftBrace", "LeftBraceF", "FrontPlate", "SideDecor", "midPlate", "AmmoBox" };
 
 	public RenderGunTurret()
 	{
@@ -29,7 +30,6 @@ public class RenderGunTurret extends TurretRenderer
 	@Override
 	public void render(ForgeDirection side, TileTurret tile, double yaw, double pitch)
 	{
-		String[] yawOnly = new String[] { "BaseYawR", "BaseYawRPlate", "RightBrace", "RightBraceF", "RightBraceF2", "LeftBrace", "LeftBraceF", "FrontPlate", "SideDecor", "midPlate", "AmmoBox" };
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
 		// Render base yaw rotation

@@ -4,24 +4,22 @@ import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
-import universalelectricity.api.electricity.IVoltageInput;
-import universalelectricity.api.energy.IEnergyInterface;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.tile.TileExternalInventory;
+import calclavia.lib.prefab.tile.TileElectricalInventory;
 
 /**
  * Turret Platform
  * 
  * @author DarkGuardsman
  */
-public class TileTurretPlatform extends TileExternalInventory implements IEnergyInterface, IVoltageInput
+public class TileTurretPlatform extends TileElectricalInventory
 {
-	private long voltage = 500;
-	private TileTurret[] sentries = new TileTurret[6];
+	private TileTurret[] turrets = new TileTurret[6];
 
 	public TileTurretPlatform()
 	{
-		this.maxSlots = 20;
+		super();
+		maxSlots = 20;
 	}
 
 	@Override
@@ -41,38 +39,22 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
 				}
 			}
 		}
-	}
 
-	public void refresh()
-	{
-		this.sentries = new TileTurret[6];
+		// TODO: Not good idea to constantly check.
+		turrets = new TileTurret[6];
 
-		for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+		for (int i = 0; i < 6; i++)
 		{
-			TileEntity ent = new Vector3(this).translate(direction).getTileEntity(this.worldObj);
-			if (ent instanceof TileTurret)
-			{
-				this.sentries[direction.ordinal()] = (TileTurret) ent;
+			TileEntity checkTile = new Vector3(this).translate(ForgeDirection.getOrientation(i)).getTileEntity(worldObj);
 
-				if (ent instanceof IVoltageInput && ((IVoltageInput) ent).getVoltageInput(direction.getOpposite()) > voltage)
-				{
-					voltage = ((IVoltageInput) ent).getVoltageInput(direction.getOpposite());
-				}
-			}
+			if (checkTile instanceof TileTurret)
+				turrets[i] = (TileTurret) checkTile;
 		}
 	}
 
-	@Override
-	public long getVoltageInput(ForgeDirection direction)
+	public TileTurret getTurret(ForgeDirection side)
 	{
-		return this.voltage;
-	}
-
-	@Override
-	public void onWrongVoltage(ForgeDirection direction, long voltage)
-	{
-		// TODO Auto-generated method stub
-
+		return turrets[side.ordinal()];
 	}
 
 	@Override
@@ -84,22 +66,22 @@ public class TileTurretPlatform extends TileExternalInventory implements IEnergy
 	@Override
 	public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive)
 	{
-		long actual = 0;
-		long left = receive;
+		long used = 0;
+		long remain = receive;
 
 		for (int i = 0; i < 6; i++)
 		{
-			TileTurret sentry = this.sentries[i];
+			TileTurret turret = this.turrets[i];
 
-			if (CompatibilityModule.isHandler(sentry))
+			if (turret != null && turret.getTurret() != null)
 			{
-				long in = CompatibilityModule.receiveEnergy(sentry, ForgeDirection.getOrientation(i).getOpposite(), left, doReceive);
-				actual += in;
-				left -= in;
+				long added = turret.getTurret().energy.receiveEnergy(remain, doReceive);
+				used += added;
+				remain -= added;
 			}
 		}
 
-		return actual;
+		return used;
 	}
 
 	@Override

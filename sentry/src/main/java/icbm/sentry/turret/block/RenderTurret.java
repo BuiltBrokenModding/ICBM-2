@@ -30,10 +30,12 @@ public class RenderTurret extends RenderTaggedTile
 		{
 			TileTurret tileTurret = (TileTurret) tile;
 			TurretRenderer sentryRender = TurretRegistry.getRenderFor(tileTurret.getTurret());
+
 			if (sentryRender == null)
 			{
 				sentryRender = backup_render;
 			}
+
 			if (sentryRender != null)
 			{
 				GL11.glPushMatrix();
@@ -42,7 +44,7 @@ public class RenderTurret extends RenderTaggedTile
 
 				RenderUtility.bind(sentryRender.getTexture(getPlayer(), tileTurret));
 
-				if (sentryRender != null)
+				if (tileTurret.getTurret() != null)
 					sentryRender.render(tileTurret.getDirection(), tileTurret, tileTurret.getTurret().getServo().yaw, tileTurret.getTurret().getServo().pitch);
 
 				GL11.glPopMatrix();

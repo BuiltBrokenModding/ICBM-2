@@ -1,5 +1,6 @@
 package icbm.sentry.turret.auto;
 
+import universalelectricity.api.energy.EnergyStorageHandler;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponTwinLaser;
 import net.minecraft.util.MathHelper;
@@ -13,6 +14,7 @@ public class TurretLaser extends TurretAuto
 	public TurretLaser(TileTurret host)
 	{
 		super(host);
+		energy = new EnergyStorageHandler(100000);
 		maxHealth = 50;
 		weaponSystem = new WeaponTwinLaser(this, 5);
 		barrelLength = 1.2f;
