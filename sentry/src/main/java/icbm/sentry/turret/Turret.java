@@ -27,24 +27,22 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	 * turrets can have.
 	 * Turret object references.
 	 */
+	public final ITurretProvider host;
 	protected EulerServo servo;
 	protected TurretAI ai;
-	public final ITurretProvider host;
+	protected EnergyStorageHandler energy;
 
 	/**
 	 * Turret Attributes
+	 * TODO: change out weapon system var for an interface and registry system
 	 */
+	protected WeaponSystem weaponSystem;
 	protected Vector3 aimOffset = new Vector3();
 	protected Vector3 centerOffset = new Vector3();
 	protected float barrelLength = 1;
 	protected float maxHealth = -1;
 	protected float health;
 	protected int range = 10;
-
-	protected EnergyStorageHandler energy;
-
-	// TODO: change out weapon system var for an interface and registry system
-	protected WeaponSystem weaponSystem;
 
 	public Turret(ITurretProvider host)
 	{

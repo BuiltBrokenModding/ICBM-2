@@ -74,7 +74,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 			getTurret().update();
 		}
 
-		// TODO Instead of sending the current rotation, send the target because the client can
+		// TODO: Instead of sending the current rotation, send the target because the client can
 		// "rotate itself". -- Calclavia
 		if (!worldObj.isRemote)
 		{
