@@ -14,6 +14,8 @@ import calclavia.lib.utility.inventory.IExternalInventoryBox;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import icbm.core.ICBMCore;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ISentry;
@@ -28,6 +30,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -329,7 +332,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	{
 		if (entityPlayer != null)
 		{
-			entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("[Debug]" + (this.worldObj.isRemote ? "Client  " : "Server") + " Sentry: " + (this.getSentry() == null ? "null" : SentryRegistry.getID(this.getSentry()))));
 			if (!entityPlayer.isSneaking())
 			{
 				if (this.getSentry() instanceof MountedSentry && this.sentryEntity != null)
@@ -342,7 +344,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 						}
 						return true;
 					}
-					this.mount(entityPlayer);
+
+					mount(entityPlayer);
 				}
 
 			}
@@ -359,9 +362,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 			entityPlayer.rotationYaw = this.getYawServo().getRotation();
 			entityPlayer.rotationPitch = this.getPitchServo().getRotation();
 			entityPlayer.mountEntity(this.sentryEntity);
-
 		}
-
 	}
 
 	public EntitySentryFake getFakeEntity()
@@ -414,6 +415,12 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	public boolean canUse(String node, EntityPlayer player)
 	{
 		return this.getAccessProfile().getOwnerGroup().isMemeber(player.username);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox()
+	{
+		return AxisAlignedBB.getAABBPool().getAABB(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
 	}
 
 }

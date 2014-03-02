@@ -24,9 +24,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -193,9 +195,14 @@ public class BlockTurret extends BlockICBM
 				EntityPlayer player = (EntityPlayer) entity;
 
 				tile.getAccessProfile().getOwnerGroup().addMemeber(new AccessUser(player.username));
-
 			}
 		}
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	{
+		return ItemBlockSaved.getItemStackWithNBT(this, world, x, y, z);
 	}
 
 	/* to cancel the vanilla method of dropping the itemEntity */
