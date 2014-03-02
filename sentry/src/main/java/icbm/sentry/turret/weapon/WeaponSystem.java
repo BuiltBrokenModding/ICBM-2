@@ -5,6 +5,7 @@ import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -67,20 +68,35 @@ public abstract class WeaponSystem
 		this.fire(Vector3.fromCenter(entity));
 	}
 
-	@SideOnly(Side.CLIENT)
-	public void renderClient(Vector3 hit)
+	public void fireClient(Vector3 hit)
 	{
-		ICBMSentry.proxy.renderBeam(turret.getHost().world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
+		drawParticleStreamTo(turret.world(), getBarrelEnd(), hit);
+	}
+
+	/**
+	 * Draws a particle stream towards a location.
+	 * 
+	 * @author Based on MachineMuse
+	 */
+	public void drawParticleStreamTo(World world, Vector3 start, Vector3 target)
+	{
+		Vector3 direction = start.toAngle(target).toVector();
+		double scale = 0.02;
+		Vector3 currentPoint = start.clone();
+		Vector3 difference = target.clone().difference(start);
+		double magnitude = difference.getMagnitude();
+
+		while (currentPoint.distance(target) > scale)
+		{
+			world.spawnParticle("townaura", currentPoint.x, currentPoint.y, currentPoint.z, 0.0D, 0.0D, 0.0D);
+			currentPoint.add(difference.clone().scale(scale));
+		}
 	}
 
 	/** Gets the current end point for the barrel in the world */
 	protected Vector3 getBarrelEnd()
 	{
-		Vector3 barrel = this.turret.getCenterOffset();
-		barrel.translate(this.turret.getAimOffset());
-		barrel.rotate(this.turret.getServo().yaw, this.turret.getServo().pitch);
-		barrel.translate(new Vector3(turret.getHost().x(), turret.getHost().y(), turret.getHost().z()));
-		return barrel;
+		return turret.getAbsoluteCenter().translate(turret.getAimOffset());
 	}
 
 	/** Called when the weapon hits an entity */

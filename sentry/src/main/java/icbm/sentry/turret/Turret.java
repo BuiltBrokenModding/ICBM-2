@@ -81,7 +81,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	{
 		if (getHost().world().isRemote)
 		{
-			weaponSystem.renderClient(target);
+			weaponSystem.fireClient(target);
 			return true;
 		}
 		else if (canFire())

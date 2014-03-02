@@ -1,5 +1,6 @@
 package icbm.sentry.turret.weapon;
 
+import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
@@ -11,36 +12,36 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class WeaponLaser extends WeaponProjectile
 {
 	public WeaponLaser(Turret sentry, float damage)
-    {
-        super(sentry, damage);
-    }
+	{
+		super(sentry, damage);
+	}
 
-    @Override
-    public void fire(Entity entity)
-    {
-        this.onHitEntity(entity);
-    }
+	@Override
+	public void fire(Entity entity)
+	{
+		this.onHitEntity(entity);
+	}
 
-    @Override
-    public void onHitEntity(Entity entity)
-    {
-        if (entity != null)
-        {
-            super.onHitEntity(entity);
-            entity.setFire(5);
-        }
-    }
+	@Override
+	public void onHitEntity(Entity entity)
+	{
+		if (entity != null)
+		{
+			super.onHitEntity(entity);
+			entity.setFire(5);
+		}
+	}
 
-    @Override
-    public void onHitBlock(Vector3 block)
-    {
-        //TODO if the laser hits the same block for 5 sec destroy
-    }
+	@Override
+	public void fire(Vector3 target)
+	{
+		turret.getHost().world().playSoundEffect(turret.getHost().x(), turret.getHost().y(), turret.getHost().z(), Reference.PREFIX + "lasershot", 5F, 1F - (turret.getHost().world().rand.nextFloat() * 0.2f));
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void renderClient(Vector3 hit)
-    {
-        ICBMSentry.proxy.renderBeam(turret.getHost().world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void fireClient(Vector3 hit)
+	{
+		ICBMSentry.proxy.renderBeam(turret.getHost().world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
+	}
 }

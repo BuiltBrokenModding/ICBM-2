@@ -2,6 +2,7 @@ package icbm.sentry.turret.weapon;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import icbm.Reference;
 import icbm.api.sentry.IAmmunition;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
@@ -90,31 +91,4 @@ public class WeaponProjectile extends WeaponSystem
 		}
 		return false;
 	}
-
-	@SideOnly(Side.CLIENT)
-	public void renderClient(Vector3 hit)
-	{
-		drawParticleStreamTo(turret.world(), turret.getAbsoluteCenter().translate(turret.getAimOffset()), hit);
-	}
-
-	/**
-	 * Draws a particle stream towards a location.
-	 * 
-	 * @author Based on MachineMuse
-	 */
-	public void drawParticleStreamTo(World world, Vector3 start, Vector3 target)
-	{
-		Vector3 direction = start.toAngle(target).toVector();
-		double scale = 0.02;
-		Vector3 currentPoint = start.clone();
-		Vector3 difference = target.clone().difference(start);
-		double magnitude = difference.getMagnitude();
-
-		while (currentPoint.distance(target) > scale)
-		{
-			world.spawnParticle("townaura", currentPoint.x, currentPoint.y, currentPoint.z, 0.0D, 0.0D, 0.0D);
-			currentPoint.add(difference.clone().scale(scale));
-		}
-	}
-
 }
