@@ -7,6 +7,7 @@ import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.List;
 
+import calclavia.lib.utility.inventory.InventoryUtility;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -34,6 +35,18 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
             this.iconName = iconName;
             this.type = type;
             this.consume = consume;
+        }
+
+        public static AmmoType get(ItemStack itemStack)
+        {
+            if (itemStack != null && itemStack.getItem() instanceof ItemAmmo)
+            {
+                if (itemStack.getItemDamage() < AmmoType.values().length)
+                {
+                    return AmmoType.values()[itemStack.getItemDamage()];
+                }
+            }
+            return null;
         }
     }
 
@@ -122,8 +135,29 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     }
 
     @Override
-    public int getDamage()
+    public float getDamage()
     {
         return 8;
+    }
+
+    @Override
+    public ItemStack onConsumed(ItemStack itemStack)
+    {
+        AmmoType type = AmmoType.get(itemStack);
+        if (type != null)
+        {
+            if(type.consume)
+            {
+                return InventoryUtility.decrStackSize(itemStack, 1);
+            }
+        }
+        return itemStack;
+    }
+
+    @Override
+    public ItemStack getShell(ItemStack itemStack)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

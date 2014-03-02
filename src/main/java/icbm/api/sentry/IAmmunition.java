@@ -15,8 +15,17 @@ public interface IAmmunition
      * @return what is left of the stack after action. Return entire stack if nothing happens */
     public ItemStack onDroppedIntoWorld(ItemStack itemStack);
 
+    /** Called when the ammo is consumed, modify the stack to show it has been consumed, null if
+     * fully consumed */
+    public ItemStack onConsumed(ItemStack itemStack);
+
+    /** Gets the item stack that is the shell for the ammo */
+    public ItemStack getShell(ItemStack itemStack);
+
+    /** Type of project only used to restrict ammo use */
     public ProjectileType getType(ItemStack itemStack);
 
-    public int getDamage();
+    /** Gets the damage this ammo item should do when fired */
+    public float getDamage();
 
 }
