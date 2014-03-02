@@ -6,14 +6,14 @@ import icbm.sentry.platform.gui.GuiTurretPlatform;
 import icbm.sentry.render.RenderAATurret;
 import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.RenderLaserTurret;
-import icbm.sentry.render.RenderRailgun2;
+import icbm.sentry.render.RenderRailgun;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.auto.TurretAntiAir;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
-import icbm.sentry.turret.mount.MountedRailgun2;
+import icbm.sentry.turret.mount.MountedRailgun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -46,7 +46,7 @@ public class ClientProxy extends CommonProxy
 		TurretRegistry.registerSentryRenderer(TurretAntiAir.class, new RenderAATurret());
 		TurretRegistry.registerSentryRenderer(TurretGun.class, new RenderGunTurret());
 		TurretRegistry.registerSentryRenderer(TurretLaser.class, new RenderLaserTurret());
-		TurretRegistry.registerSentryRenderer(MountedRailgun2.class, new RenderRailgun2());
+		TurretRegistry.registerSentryRenderer(MountedRailgun.class, new RenderRailgun());
 
 		GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
 		{

@@ -14,11 +14,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderRailgun2 extends TurretRenderer
+public class RenderRailgun extends TurretRenderer
 {
 	public static final ModelRailgun MODEL = new ModelRailgun();
 
-	public RenderRailgun2()
+	public RenderRailgun()
 	{
 		super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "railgun.png"));
 	}
