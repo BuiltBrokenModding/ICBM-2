@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import universalelectricity.api.vector.Vector3;
 import icbm.Reference;
 import icbm.api.sentry.IAmmunition;
+import icbm.api.sentry.ProjectileType;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.items.ItemAmmo.AmmoType;
 import icbm.sentry.turret.weapon.WeaponProjectile;
@@ -23,7 +24,7 @@ public class TurretAntiAir extends TurretAuto
 			@Override
 			public boolean isAmmo(ItemStack stack)
 			{
-				return stack.getItem() instanceof IAmmunition && stack.getItemDamage() == AmmoType.BULLET.ordinal();
+				return super.isAmmo(stack) && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.CONVENTIONAL;
 			}
 
 			@Override
