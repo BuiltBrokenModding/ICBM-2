@@ -1,5 +1,6 @@
 package icbm.sentry.turret.block;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
@@ -45,6 +46,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	protected static final int SENTRY_TYPE_PACKET_ID = 4;
 	protected static final int DESCRIPTION_PACKET_ID = 5;
 	protected static final int FIRING_EVENT_PACKET_ID = 6;
+    protected static final int ENERGY_PACKET_ID = 7;
 
 	/** TURRET AIM & ROTATION HELPER */
 	public EntityMountableDummy sentryEntity;
@@ -56,6 +58,13 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	private String unlocalizedName = "err";
 	private String saveManagerSentryKey;
 
+    private long turretEnergy;
+
+    public TileTurret()
+    {
+
+    }
+
 	@Override
 	public void updateEntity()
 	{
@@ -63,6 +72,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
 		if (getTurret() != null)
 		{
+            long prevEnergy = getTurret().energy.getEnergy();
 			EulerServo prevServo = (EulerServo) getTurret().getServo().clone();
 			getTurret().update();
 
@@ -76,8 +86,15 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 				{
 					PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
 				}
+
+                if (!(prevEnergy == getTurret().energy.getEnergy()))
+                {
+                    System.out.println("Packet update");
+                    PacketHandler.sendPacketToClients(this.getEnergyPacket(getTurret().energy.getEnergy()));
+                }
 			}
 		}
+        
 	}
 
 	@Override
@@ -138,6 +155,11 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), new Vector3(this), 100);
 	}
 
+    public Packet getEnergyPacket(long newEnergy)
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, newEnergy);
+    }
+
 	@Override
 	public boolean onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
 	{
@@ -161,6 +183,11 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 				getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
 				return true;
 			}
+
+            if (id == ENERGY_PACKET_ID)
+            {
+                getTurret().energy.setEnergy(data.readLong());
+            }
 
 			return false;
 		}
