@@ -86,7 +86,12 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
                 {
                     PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
                 }
-                //TODO if GUI is open send desc packet to user containing access list, energy level, etc
+
+                if (!(prevEnergy == getTurret().energy.getEnergy()))
+                {
+                    System.out.println("Packet update");
+                    PacketHandler.sendPacketToClients(this.getEnergyPacket(getTurret().energy.getEnergy()));
+                }
             }
         }
 
@@ -117,7 +122,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, getTurret().getServo().yaw, getTurret().getServo().pitch, getTurret().energy.getEnergy());
+        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, getTurret().getServo().yaw, getTurret().getServo().pitch);
     }
 
     public Packet getNBTPacket()
@@ -150,6 +155,11 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), new Vector3(this), 100);
     }
 
+    public Packet getEnergyPacket(long newEnergy)
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, newEnergy);
+    }
+
     @Override
     public boolean onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
     {
@@ -160,7 +170,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
                 turret = TurretRegistry.constructSentry(data.readUTF(), this);
                 getTurret().getServo().yaw = data.readDouble();
                 getTurret().getServo().pitch = data.readDouble();
-                getTurret().energy.setEnergy(data.readLong());
                 return true;
             }
             if (id == ROTATION_PACKET_ID)
@@ -174,6 +183,12 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
                 getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
                 return true;
             }
+
+            if (id == ENERGY_PACKET_ID)
+            {
+                getTurret().energy.setEnergy(data.readLong());
+            }
+
             return false;
         }
         return true;
