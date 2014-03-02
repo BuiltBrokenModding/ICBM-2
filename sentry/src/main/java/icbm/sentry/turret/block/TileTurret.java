@@ -35,28 +35,26 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * TurretProvider tile to host turret objects.
+/** TurretProvider tile to host turret objects.
  * 
- * @author Darkguardsman, tgame14
- */
+ * @author Darkguardsman, tgame14 */
 public class TileTurret extends TileTerminal implements IProfileContainer, IRotatable, IExternalInventory, IBlockActivate, ITurretProvider
 {
-	protected static final int ROTATION_PACKET_ID = 3;
-	protected static final int SENTRY_TYPE_PACKET_ID = 4;
-	protected static final int DESCRIPTION_PACKET_ID = 5;
-	protected static final int FIRING_EVENT_PACKET_ID = 6;
+    protected static final int ROTATION_PACKET_ID = 3;
+    protected static final int SENTRY_TYPE_PACKET_ID = 4;
+    protected static final int DESCRIPTION_PACKET_ID = 5;
+    protected static final int FIRING_EVENT_PACKET_ID = 6;
     protected static final int ENERGY_PACKET_ID = 7;
 
-	/** TURRET AIM & ROTATION HELPER */
-	public EntityMountableDummy sentryEntity;
-	/** Profile that control access properties for users */
-	protected AccessProfile accessProfile;
-	/** Sentry instance used to define the visuals and weapons of the sentry */
-	protected Turret turret;
+    /** TURRET AIM & ROTATION HELPER */
+    public EntityMountableDummy sentryEntity;
+    /** Profile that control access properties for users */
+    protected AccessProfile accessProfile;
+    /** Sentry instance used to define the visuals and weapons of the sentry */
+    protected Turret turret;
 
-	private String unlocalizedName = "err";
-	private String saveManagerSentryKey;
+    private String unlocalizedName = "err";
+    private String saveManagerSentryKey;
 
     private long turretEnergy;
 
@@ -65,302 +63,305 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
     }
 
-	@Override
-	public void updateEntity()
-	{
-		super.updateEntity();
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
 
-		if (getTurret() != null)
-		{
+        if (getTurret() != null)
+        {
             long prevEnergy = getTurret().energy.getEnergy();
-			EulerServo prevServo = (EulerServo) getTurret().getServo().clone();
-			getTurret().update();
+            EulerServo prevServo = (EulerServo) getTurret().getServo().clone();
+            getTurret().update();
 
-			/*
-			 * TODO: Instead of sending the current rotation, send the target because the client can
-			 * "rotate itself". -- Calclavia
-			 */
-			if (!worldObj.isRemote)
-			{
-				if (!prevServo.equals(getTurret().getServo()))
-				{
-					PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
-				}
+            /*
+             * TODO: Instead of sending the current rotation, send the target because the client can
+             * "rotate itself". -- Calclavia
+             * 
+             * From DarkGuardsman: That will work just send the entity ID but still send the rotation every few ticks as it will not update correctly
+             */
+            if (!worldObj.isRemote)
+            {
+                if (!prevServo.equals(getTurret().getServo()))
+                {
+                    PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
+                }
 
                 if (!(prevEnergy == getTurret().energy.getEnergy()))
                 {
                     System.out.println("Packet update");
                     PacketHandler.sendPacketToClients(this.getEnergyPacket(getTurret().energy.getEnergy()));
                 }
-			}
-		}
-        
-	}
+            }
+        }
 
-	@Override
-	public AccessProfile getAccessProfile()
-	{
-		if (this.accessProfile == null)
-		{
-			this.setAccessProfile(new AccessProfile().generateNew("default", this));
-		}
-		return accessProfile;
-	}
+    }
 
-	@Override
-	public void setAccessProfile(AccessProfile profile)
-	{
-		this.accessProfile = profile;
-	}
+    @Override
+    public AccessProfile getAccessProfile()
+    {
+        if (this.accessProfile == null)
+        {
+            this.setAccessProfile(new AccessProfile().generateNew("default", this));
+        }
+        return accessProfile;
+    }
 
-	@Override
-	public boolean canAccess(String username)
-	{
-		return this.getAccessProfile().getUserAccess(username) != null;
-	}
+    @Override
+    public void setAccessProfile(AccessProfile profile)
+    {
+        this.accessProfile = profile;
+    }
 
-	@Override
-	public Packet getDescriptionPacket()
-	{
-		return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, getTurret().getServo().yaw, getTurret().getServo().pitch);
-	}
+    @Override
+    public boolean canAccess(String username)
+    {
+        return this.getAccessProfile().getUserAccess(username) != null;
+    }
 
-	public Packet getNBTPacket()
-	{
-		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
-		return ICBMCore.PACKET_TILE.getPacketWithID(NBT_PACKET_ID, this, tag);
-	}
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, getTurret().getServo().yaw, getTurret().getServo().pitch);
+    }
 
-	@Override
-	public Packet getTerminalPacket()
-	{
-		return ICBMCore.PACKET_TILE.getPacketWithID(TERMINAL_PACKET_ID, this, this.getPacketData(1).toArray());
-	}
+    public Packet getNBTPacket()
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        this.writeToNBT(tag);
+        return ICBMCore.PACKET_TILE.getPacketWithID(NBT_PACKET_ID, this, tag);
+    }
 
-	@Override
-	public Packet getCommandPacket(String username, String cmdInput)
-	{
-		return ICBMCore.PACKET_TILE.getPacketWithID(COMMAND_PACKET_ID, this, username, cmdInput);
-	}
+    @Override
+    public Packet getTerminalPacket()
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(TERMINAL_PACKET_ID, this, this.getPacketData(1).toArray());
+    }
 
-	public Packet getRotationPacket()
-	{
-		return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, getTurret().getServo().yaw, getTurret().getServo().pitch);
-	}
+    @Override
+    public Packet getCommandPacket(String username, String cmdInput)
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(COMMAND_PACKET_ID, this, username, cmdInput);
+    }
 
-	@Override
-	public void sendFireEventToClient(Vector3 target)
-	{
-		PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), new Vector3(this), 100);
-	}
+    public Packet getRotationPacket()
+    {
+        return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, getTurret().getServo().yaw, getTurret().getServo().pitch);
+    }
+
+    @Override
+    public void sendFireEventToClient(Vector3 target)
+    {
+        PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), new Vector3(this), 100);
+    }
 
     public Packet getEnergyPacket(long newEnergy)
     {
         return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, newEnergy);
     }
 
-	@Override
-	public boolean onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
-	{
-		if (!super.onReceivePacket(id, data, player, extra))
-		{
-			if (id == DESCRIPTION_PACKET_ID)
-			{
-				turret = TurretRegistry.constructSentry(data.readUTF(), this);
-				getTurret().getServo().yaw = data.readDouble();
-				getTurret().getServo().pitch = data.readDouble();
-				return true;
-			}
-			if (id == ROTATION_PACKET_ID)
-			{
-				getTurret().getServo().yaw = data.readDouble();
-				getTurret().getServo().pitch = data.readDouble();
-				return true;
-			}
-			if (id == FIRING_EVENT_PACKET_ID)
-			{
-				getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
-				return true;
-			}
+    @Override
+    public boolean onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    {
+        if (!super.onReceivePacket(id, data, player, extra))
+        {
+            if (id == DESCRIPTION_PACKET_ID)
+            {
+                turret = TurretRegistry.constructSentry(data.readUTF(), this);
+                getTurret().getServo().yaw = data.readDouble();
+                getTurret().getServo().pitch = data.readDouble();
+                return true;
+            }
+            if (id == ROTATION_PACKET_ID)
+            {
+                getTurret().getServo().yaw = data.readDouble();
+                getTurret().getServo().pitch = data.readDouble();
+                return true;
+            }
+            if (id == FIRING_EVENT_PACKET_ID)
+            {
+                getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
+                return true;
+            }
 
             if (id == ENERGY_PACKET_ID)
             {
                 getTurret().energy.setEnergy(data.readLong());
             }
 
-			return false;
-		}
-		return true;
-	}
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public ForgeDirection getDirection()
-	{
-		return ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-	}
+    @Override
+    public ForgeDirection getDirection()
+    {
+        return ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    }
 
-	@Override
-	public void setDirection(ForgeDirection direction)
-	{
-		this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
-	}
+    @Override
+    public void setDirection(ForgeDirection direction)
+    {
+        this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    }
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
-		super.writeToNBT(nbt);
-		NBTTagCompound perm_tag = new NBTTagCompound();
-		this.getAccessProfile().save(perm_tag);
-		nbt.setCompoundTag("permissions", perm_tag);
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        NBTTagCompound perm_tag = new NBTTagCompound();
+        this.getAccessProfile().save(perm_tag);
+        nbt.setCompoundTag("permissions", perm_tag);
 
-		if (this.getTurret() != null)
-		{
-			NBTTagCompound sentrySave = new NBTTagCompound();
-			this.getTurret().save(sentrySave);
-			nbt.setCompoundTag(ITurret.SENTRY_OBJECT_SAVE, sentrySave);
-		}
+        if (this.getTurret() != null)
+        {
+            NBTTagCompound sentrySave = new NBTTagCompound();
+            this.getTurret().save(sentrySave);
+            nbt.setCompoundTag(ITurret.SENTRY_OBJECT_SAVE, sentrySave);
+        }
 
-		if (unlocalizedName != null && !unlocalizedName.isEmpty())
-			nbt.setString("unlocalizedName", unlocalizedName);
-	}
+        if (unlocalizedName != null && !unlocalizedName.isEmpty())
+            nbt.setString("unlocalizedName", unlocalizedName);
+    }
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		super.readFromNBT(nbt);
-		this.unlocalizedName = nbt.getString("unlocalizedName");
-		this.getAccessProfile().load(nbt.getCompoundTag("permissions"));
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        this.unlocalizedName = nbt.getString("unlocalizedName");
+        if (nbt.hasKey("permissions"))
+            this.setAccessProfile(new AccessProfile((nbt.getCompoundTag("permissions"))));
 
-		if (nbt.hasKey(ITurret.SENTRY_OBJECT_SAVE))
-		{
-			NBTTagCompound tag = nbt.getCompoundTag(ITurret.SENTRY_OBJECT_SAVE);
-			this.saveManagerSentryKey = tag.getString(ITurret.SENTRY_SAVE_ID);
-			this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
+        if (nbt.hasKey(ITurret.SENTRY_OBJECT_SAVE))
+        {
+            NBTTagCompound tag = nbt.getCompoundTag(ITurret.SENTRY_OBJECT_SAVE);
+            this.saveManagerSentryKey = tag.getString(ITurret.SENTRY_SAVE_ID);
+            this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
 
-			if (this.getTurret() != null)
-			{
-				this.getTurret().load(nbt);
-			}
-		}
+            if (this.getTurret() != null)
+            {
+                this.getTurret().load(nbt);
+            }
+        }
 
-	}
+    }
 
-	@Override
-	public IExternalInventoryBox getInventory()
-	{
-		TileEntity tile = worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord);
+    @Override
+    public IExternalInventoryBox getInventory()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord);
 
-		if (tile instanceof TileTurretPlatform)
-		{
-			return ((TileTurretPlatform) tile).getInventory();
-		}
+        if (tile instanceof TileTurretPlatform)
+        {
+            return ((TileTurretPlatform) tile).getInventory();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
-	{
-		return false;
-	}
+    @Override
+    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
+    {
+        return false;
+    }
 
-	@Override
-	public boolean canRemove(ItemStack stack, int slot, ForgeDirection side)
-	{
-		return false;
-	}
+    @Override
+    public boolean canRemove(ItemStack stack, int slot, ForgeDirection side)
+    {
+        return false;
+    }
 
-	public Turret getTurret()
-	{
-		if (this.turret == null)
-			this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
+    public Turret getTurret()
+    {
+        if (this.turret == null)
+            this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
 
-		return this.turret;
-	}
+        return this.turret;
+    }
 
-	@Override
-	public boolean onActivated(EntityPlayer entityPlayer)
-	{
-		if (entityPlayer != null)
-		{
-			if (!entityPlayer.isSneaking())
-			{
-				if (this.getTurret() instanceof MountedTurret && this.sentryEntity != null)
-				{
-					if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
-					{
-						if (!this.worldObj.isRemote)
-						{
-							PacketHandler.sendPacketToClients(this.getRotationPacket());
-						}
-						return true;
-					}
+    @Override
+    public boolean onActivated(EntityPlayer entityPlayer)
+    {
+        if (entityPlayer != null)
+        {
+            if (!entityPlayer.isSneaking())
+            {
+                if (this.getTurret() instanceof MountedTurret && this.sentryEntity != null)
+                {
+                    if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
+                    {
+                        if (!this.worldObj.isRemote)
+                        {
+                            PacketHandler.sendPacketToClients(this.getRotationPacket());
+                        }
+                        return true;
+                    }
 
-					mount(entityPlayer);
-				}
+                    mount(entityPlayer);
+                }
 
-			}
+            }
 
-			return true;
-		}
-		return false;
-	}
+            return true;
+        }
+        return false;
+    }
 
-	public void mount(EntityPlayer entityPlayer)
-	{
-		if (!this.worldObj.isRemote)
-		{
-			entityPlayer.rotationYaw = (float) getTurret().getServo().yaw;
-			entityPlayer.rotationPitch = (float) getTurret().getServo().pitch;
-			entityPlayer.mountEntity(this.sentryEntity);
-		}
-	}
+    public void mount(EntityPlayer entityPlayer)
+    {
+        if (!this.worldObj.isRemote)
+        {
+            entityPlayer.rotationYaw = (float) getTurret().getServo().yaw;
+            entityPlayer.rotationPitch = (float) getTurret().getServo().pitch;
+            entityPlayer.mountEntity(this.sentryEntity);
+        }
+    }
 
-	public EntityMountableDummy getFakeEntity()
-	{
-		return this.sentryEntity;
-	}
+    public EntityMountableDummy getFakeEntity()
+    {
+        return this.sentryEntity;
+    }
 
-	public void setFakeEntity(EntityMountableDummy entitySentryFake)
-	{
-		this.sentryEntity = entitySentryFake;
-	}
+    public void setFakeEntity(EntityMountableDummy entitySentryFake)
+    {
+        this.sentryEntity = entitySentryFake;
+    }
 
-	@Override
-	public World world()
-	{
-		return this.getWorldObj();
-	}
+    @Override
+    public World world()
+    {
+        return this.getWorldObj();
+    }
 
-	@Override
-	public double x()
-	{
-		return xCoord + 0.5;
-	}
+    @Override
+    public double x()
+    {
+        return xCoord + 0.5;
+    }
 
-	@Override
-	public double y()
-	{
-		return yCoord + 0.5;
-	}
+    @Override
+    public double y()
+    {
+        return yCoord + 0.5;
+    }
 
-	@Override
-	public double z()
-	{
-		return zCoord + 0.5;
-	}
+    @Override
+    public double z()
+    {
+        return zCoord + 0.5;
+    }
 
-	@Override
-	public boolean canUse(String node, EntityPlayer player)
-	{
-		return this.getAccessProfile().getOwnerGroup().isMemeber(player.username);
-	}
+    @Override
+    public boolean canUse(String node, EntityPlayer player)
+    {
+        return this.getAccessProfile().getOwnerGroup().isMemeber(player.username);
+    }
 
-	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getRenderBoundingBox()
-	{
-		return AxisAlignedBB.getAABBPool().getAABB(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
-	}
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return AxisAlignedBB.getAABBPool().getAABB(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
+    }
 
 }
