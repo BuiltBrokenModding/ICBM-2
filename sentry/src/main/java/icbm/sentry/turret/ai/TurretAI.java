@@ -4,6 +4,7 @@ import icbm.sentry.interfaces.IAutoTurret;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.Turret;
+import icbm.sentry.turret.auto.TurretAuto;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,7 +13,6 @@ import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.EulerAngle;
@@ -47,15 +47,18 @@ public class TurretAI
 		this.entitySelector = new TurretEntitySelector(this.turret);
 	}
 
-	public IAutoTurret sentry()
+	public TurretAuto sentry()
 	{
 		if (turret != null && turret != null && turret instanceof IAutoTurret)
 		{
-			return (IAutoTurret) turret;
+			return (TurretAuto) turret;
 		}
 		return null;
 	}
 
+	/**
+	 * This update should only be called server side.
+	 */
 	public void update()
 	{
 		ticks++;
@@ -67,8 +70,10 @@ public class TurretAI
 			/*
 			 * List<EntityLivingBase> list =
 			 * turret.world().selectEntitiesWithinAABB(EntityLivingBase.class,
-			 * AxisAlignedBB.getBoundingBox(getCenter().x, getCenter().y, getCenter().z,
-			 * getCenter().x, getCenter().y, getCenter().z).expand(10, 10, 10), null);
+			 * AxisAlignedBB.getBoundingBox(turret.getAbsoluteCenter().x,
+			 * turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z,
+			 * turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y,
+			 * turret.getAbsoluteCenter().z).expand(10, 10, 10), null);
 			 * for (EntityLivingBase entity : list)
 			 * {
 			 * if (entity instanceof EntityPlayer)
@@ -79,8 +84,6 @@ public class TurretAI
 			 * }
 			 */
 
-			// debug(" \nUpdate tick");
-
 			// Only get new target if the current is missing or it will switch targets each update
 			if (sentry().getTarget() == null && ticks % 20 == 0)
 			{
@@ -89,34 +92,35 @@ public class TurretAI
 			}
 
 			// If we have a target start aiming logic
-			if (sentry().getTarget() != null && isValidTarget(sentry().getTarget(), false))
+			if (sentry().getTarget() != null)
 			{
-				if (canEntityBeSeen(sentry().getTarget()))
+				if (sentry().canFire() && isValidTarget(sentry().getTarget(), false))
 				{
-					debug("\tTarget can be seen");
-					if (isLookingAt(sentry().getTarget(), 3))
+					if (canEntityBeSeen(sentry().getTarget()))
 					{
-						debug("\tTarget locked and firing weapon");
-						turret.fire(sentry().getTarget());
+						debug("\tTarget can be seen");
+						if (isLookingAt(sentry().getTarget(), 3))
+						{
+							debug("\tTarget locked and firing weapon");
+							turret.fire(sentry().getTarget());
+						}
+						else
+						{
+							debug("\tPowering servos to aim at target");
+							lookAtEntity(sentry().getTarget());
+						}
+
+						targetLostTimer = 0;
 					}
 					else
 					{
-						debug("\tPowering servos to aim at target");
-						lookAtEntity(sentry().getTarget());
-					}
+						debug("\tSight on target lost");
+						// Drop the target after 2 seconds of no sight
+						if (targetLostTimer >= 100)
+							sentry().setTarget(null);
 
-					targetLostTimer = 0;
-				}
-				else
-				{
-					debug("\tSight on target lost");
-					// Drop the target after 2 seconds of no sight
-					if (targetLostTimer >= 100)
-					{
-						sentry().setTarget(null);
+						targetLostTimer++;
 					}
-
-					targetLostTimer++;
 				}
 			}
 			else
@@ -146,8 +150,8 @@ public class TurretAI
 	protected EntityLivingBase findTarget(ITurret sentry, IEntitySelector targetSelector, int range)
 	{
 		debug("\t\tTarget selector update");
-		List<EntityLivingBase> list = turret.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(getCenter().x, getCenter().y, getCenter().z, getCenter().x, getCenter().y, getCenter().z).expand(range, range, range), targetSelector);
-		Collections.sort(list, new ComparatorOptimalTarget(getCenter()));
+		List<EntityLivingBase> list = turret.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z, turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z).expand(range, range, range), targetSelector);
+		Collections.sort(list, new ComparatorOptimalTarget(turret.getAbsoluteCenter()));
 
 		debug("\t\t" + list.size() + " possible targets within " + range);
 
@@ -215,7 +219,7 @@ public class TurretAI
 	/** Adjusts the turret target to look at a specific location. */
 	public void lookAt(Vector3 target)
 	{
-		turret.getServo().setTargetRotation(getCenter().toAngle(target));
+		turret.getServo().setTargetRotation(turret.getAbsoluteCenter().toAngle(target));
 	}
 
 	/** Tells the turret to look at a location using an entity */
@@ -237,7 +241,7 @@ public class TurretAI
 
 	public boolean isTargetInBounds(Vector3 target)
 	{
-		return isTargetInBounds(this.getCenter(), target);
+		return isTargetInBounds(this.turret.getAbsoluteCenter(), target);
 	}
 
 	public boolean isTargetInBounds(Vector3 start, Vector3 target)
@@ -255,7 +259,7 @@ public class TurretAI
 	 */
 	public boolean isLookingAt(Vector3 target, float allowedError)
 	{
-		EulerAngle targetAngle = getCenter().toAngle(target);
+		EulerAngle targetAngle = turret.getAbsoluteCenter().toAngle(target);
 		return turret.getServo().isWithin(targetAngle, allowedError);
 	}
 
@@ -280,7 +284,7 @@ public class TurretAI
 	 */
 	public boolean canEntityBeSeen(Entity entity)
 	{
-		Vector3 traceStart = getCenter().translate(turret.getAimOffset());
+		Vector3 traceStart = turret.getAbsoluteCenter().translate(turret.getAimOffset());
 		return canEntityBeSeen(traceStart, entity);
 	}
 
@@ -288,15 +292,5 @@ public class TurretAI
 	{
 		MovingObjectPosition hitTarget = traceStart.clone().rayTrace(entity.worldObj, Vector3.fromCenter(entity), false);
 		return hitTarget != null && entity.equals(hitTarget.entityHit);
-	}
-
-	public VectorWorld getCenter()
-	{
-		return turret.getAbsoluteCenter();
-	}
-
-	public static VectorWorld getCenter(ITurretProvider container)
-	{
-		return new VectorWorld(container.world(), new Vector3(container.x(), container.y(), container.z()).translate(container.getTurret().getCenterOffset()));
 	}
 }

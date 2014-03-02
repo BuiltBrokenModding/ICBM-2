@@ -43,6 +43,8 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	protected float maxHealth = -1;
 	protected float health;
 	protected int range = 10;
+	protected int maxCooldown = 20;
+	private int cooldown = 0;
 
 	public Turret(ITurretProvider host)
 	{
@@ -64,29 +66,29 @@ public abstract class Turret implements IEnergyContainer, ITurret
 			ai.update();
 			servo.update();
 		}
+
+		if (cooldown > 0)
+			cooldown--;
 	}
 
 	public boolean canFire()
 	{
-		// TODO do ammo check
-		return true;
+		return cooldown == 0;
 	}
 
 	@Override
 	public boolean fire(Vector3 target)
 	{
-		if (canFire())
+		if (getHost().world().isRemote)
 		{
-			if (getHost().world().isRemote)
-			{
-				weaponSystem.renderClient(target);
-			}
-			else
-			{
-				getHost().sendFireEventToClient(target);
-				weaponSystem.fire(target);
-			}
-
+			weaponSystem.renderClient(target);
+			return true;
+		}
+		else if (canFire())
+		{
+			getHost().sendFireEventToClient(target);
+			weaponSystem.fire(target);
+			cooldown = maxCooldown;
 			return true;
 		}
 
@@ -96,21 +98,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	@Override
 	public boolean fire(Entity target)
 	{
-		if (canFire())
-		{
-			if (getHost().world().isRemote)
-			{
-				weaponSystem.renderClient(Vector3.fromCenter(target));
-			}
-			else
-			{
-				getHost().sendFireEventToClient(Vector3.fromCenter(target));
-				weaponSystem.fire(target);
-			}
-
-			return true;
-		}
-		return false;
+		return fire(Vector3.fromCenter(target));
 	}
 
 	/**
