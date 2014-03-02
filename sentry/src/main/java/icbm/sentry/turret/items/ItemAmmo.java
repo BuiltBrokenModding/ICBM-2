@@ -159,7 +159,7 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     @Override
     public int getAmmoCount(ItemStack itemStack)
     {
-        if (AmmoType.get(itemStack) != AmmoType.BULLETINF)
+        if (AmmoType.get(itemStack) == AmmoType.BULLETINF)
         {
             return Integer.MAX_VALUE;
         }
