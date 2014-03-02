@@ -98,7 +98,20 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	@Override
 	public boolean fire(Entity target)
 	{
-		return fire(Vector3.fromCenter(target));
+	    if (getHost().world().isRemote)
+        {
+            weaponSystem.fireClient(Vector3.fromCenter(target));
+            return true;
+        }
+        else if (canFire())
+        {
+            getHost().sendFireEventToClient(Vector3.fromCenter(target));
+            weaponSystem.fire(target);
+            energy.setEnergy(0);
+            cooldown = maxCooldown;
+            return true;
+        }
+	    return false;
 	}
 
 	/**
