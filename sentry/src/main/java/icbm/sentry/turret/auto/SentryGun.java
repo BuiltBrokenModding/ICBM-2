@@ -5,12 +5,13 @@ import icbm.sentry.turret.weapon.WeaponSystemProjectile;
 import universalelectricity.api.vector.Vector3;
 
 /** @author DarkGuardsman */
-public class TurretGun extends SentryAuto
+public class SentryGun extends SentryAuto
 {
-    public TurretGun(TileTurret host)
-    {
-        super(host);
-        this.weaponSystem = new WeaponSystemProjectile(this, 5);
-        this.centerOffset.y = 0.65;
-    }
+	public SentryGun(TileTurret host)
+	{
+		super(host);
+		weaponSystem = new WeaponSystemProjectile(this, 5);
+		centerOffset.y = 0.65;
+		range = 20;
+	}
 }

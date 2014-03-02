@@ -90,20 +90,23 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		float prevYaw = this.getYawServo().getRotation();
 		float prevPitch = this.getPitchServo().getRotation();
 
-		if (this.getSentry() != null)
+		if (!worldObj.isRemote && getSentry() != null)
 		{
 			getSentry().updateEntity();
 			sentryAI.update();
+
+			getYawServo().update();
+			getPitchServo().update();
 		}
 
-		this.getYawServo().update();
-		this.getPitchServo().update();
-
-		// TODO check to make sure rotation has changed more then 1 degree so avoid sending too many
-		// packets
-		if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
+		// TODO Instead of sending the current rotation, send the target because the client can
+		// "rotate itself". -- Calclavia
+		if (!worldObj.isRemote)
 		{
-			PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
+			if (prevYaw != this.getYawServo().getRotation() || prevPitch != this.getPitchServo().getRotation())
+			{
+				PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
+			}
 		}
 	}
 

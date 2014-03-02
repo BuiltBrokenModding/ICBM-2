@@ -9,7 +9,7 @@ import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.auto.TurretAntiAir;
-import icbm.sentry.turret.auto.TurretGun;
+import icbm.sentry.turret.auto.SentryGun;
 import icbm.sentry.turret.auto.SentryLaser;
 import icbm.sentry.turret.block.BlockTurret;
 import icbm.sentry.turret.block.ItemBlockTurret;
@@ -115,7 +115,7 @@ public class ICBMSentry
 		GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', UniversalRecipe.BATTERY.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', Block.chest, 'B', UniversalRecipe.CIRCUIT_T1.get() }));
 
 		// Gun Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(TurretGun.class), new Object[] { "SSS", "CS ", 'C', UniversalRecipe.CIRCUIT_T1.get(), 'S', UniversalRecipe.PRIMARY_METAL.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(SentryGun.class), new Object[] { "SSS", "CS ", 'C', UniversalRecipe.CIRCUIT_T1.get(), 'S', UniversalRecipe.PRIMARY_METAL.get() }));
 		// Railgun
 		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(MountedRailGun.class), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get(), 'G', new ItemStack(blockTurret, 1, 0) }));
 		// AA Turret

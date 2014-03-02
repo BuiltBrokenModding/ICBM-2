@@ -27,9 +27,10 @@ public class SentryAI
 	private IEntitySelector entitySelector;
 	private int rotationDelayTimer = 0;
 	private int targetLostTimer = 0;
+	private int ticks = 0;
 	private LookHelper lookHelper;
 
-	public static final boolean debugMode = false;
+	public static final boolean debugMode = true;
 
 	public static void debug(String str)
 	{
@@ -56,30 +57,28 @@ public class SentryAI
 
 	public void update()
 	{
+		ticks++;
+
 		if (sentry() != null)
 		{
 			// Used to debug and force the sentry to look at player to make correct model rotation
 			// adjustments.
-			/*
-			 * List<EntityLivingBase> list =
-			 * container.world().selectEntitiesWithinAABB(EntityLivingBase.class,
-			 * AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y,
-			 * lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y,
-			 * lookHelper.getCenter().z).expand(10, 10, 10), null);
-			 * Collections.sort(list, new ComparatorClosestEntity(lookHelper.getCenter()));
-			 * for (EntityLivingBase entity : list)
-			 * {
-			 * if (entity instanceof EntityPlayer)
-			 * {
-			 * lookHelper.lookAtEntity(entity);
-			 * return;
-			 * }
-			 * }
-			 */
+			/**
+			List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(10, 10, 10), null);
 
-			debug(" \nUpdate tick");
+			for (EntityLivingBase entity : list)
+			{
+				if (entity instanceof EntityPlayer)
+				{
+					lookHelper.lookAtEntity(entity);
+					return;
+				}
+			}*/
+
+			// debug(" \nUpdate tick");
+
 			// Only get new target if the current is missing or it will switch targets each update
-			if (sentry().getTarget() == null)
+			if (sentry().getTarget() == null && ticks % 20 == 0)
 			{
 				debug("\tSearching for target");
 				sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange()));
@@ -116,12 +115,12 @@ public class SentryAI
 			}
 			else
 			{
-				debug("\tNo Target Selected. Wandering.");
 				// Only start random rotation after a second of no target
 				if (targetLostTimer >= 20)
 				{
-					if (rotationDelayTimer >= 100)
+					if (rotationDelayTimer >= 60)
 					{
+						debug("\tNo Target Selected. Wandering.");
 						rotationDelayTimer = 0;
 						Vector3 location = new Vector3(this.container.x(), this.container.y(), this.container.z());
 						location.add(new Vector3(this.container.world().rand.nextInt(40) - 20, 0, this.container.world().rand.nextInt(40) - 20));
@@ -144,7 +143,7 @@ public class SentryAI
 		List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(range, range, range), targetSelector);
 		Collections.sort(list, new ComparatorOptimalTarget(lookHelper.getCenter()));
 
-		debug("\t\t" + list.size() + " possible targets within "+range);
+		debug("\t\t" + list.size() + " possible targets within " + range);
 
 		for (EntityLivingBase entity : list)
 		{
@@ -181,7 +180,7 @@ public class SentryAI
 		return false;
 	}
 
-	// TODO: add options to this for reversing the targeting filter
+	// TODO: Add options to this for reversing the targeting filter
 	public static class ComparatorOptimalTarget implements Comparator<EntityLivingBase>
 	{
 		private final VectorWorld location;

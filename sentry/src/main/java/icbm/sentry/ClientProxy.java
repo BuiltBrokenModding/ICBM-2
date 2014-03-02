@@ -11,7 +11,7 @@ import icbm.sentry.turret.EntitySentryFake;
 import icbm.sentry.turret.Sentry;
 import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.auto.TurretAntiAir;
-import icbm.sentry.turret.auto.TurretGun;
+import icbm.sentry.turret.auto.SentryGun;
 import icbm.sentry.turret.auto.SentryLaser;
 import icbm.sentry.turret.mount.MountedRailGun;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +44,7 @@ public class ClientProxy extends CommonProxy
 
 		// Sentry render registry TODO find a way to automate
 		SentryRegistry.registerSentryRenderer(TurretAntiAir.class, new SentryRenderAATurret());
-		SentryRegistry.registerSentryRenderer(TurretGun.class, new SentryRenderGunTurret());
+		SentryRegistry.registerSentryRenderer(SentryGun.class, new SentryRenderGunTurret());
 		SentryRegistry.registerSentryRenderer(SentryLaser.class, new SentryRenderLaserTurret());
 		SentryRegistry.registerSentryRenderer(MountedRailGun.class, new SentryRenderRailGun());
 

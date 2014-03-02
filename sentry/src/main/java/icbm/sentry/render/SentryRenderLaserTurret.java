@@ -1,6 +1,7 @@
 package icbm.sentry.render;
 
 import icbm.Reference;
+import icbm.sentry.turret.auto.SentryLaser;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -41,7 +42,7 @@ public class SentryRenderLaserTurret extends SentryRenderer
 		GL11.glRotatef(pitch, 1, 0, 0);
 		MODEL.renderOnly(pitchParts);
 		// TODO: These parts are supposed to spin when a shot is fired!
-		// GL11.glRotatef(pitch, 0, 0, 1);
+		//GL11.glRotatef(((SentryLaser) sentry.getSentry()).barrelRotation, 0, 0, 1);
 		MODEL.renderOnly(spinParts);
 		GL11.glPopMatrix();
 	}
