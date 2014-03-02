@@ -1,20 +1,16 @@
 package icbm.sentry.turret;
 
-import calclavia.lib.utility.nbt.SaveManager;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ISentry;
 import icbm.sentry.interfaces.ISentryContainer;
-import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
-import universalelectricity.api.vector.EulerAngle;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.utility.nbt.SaveManager;
 
 /**
  * Modular way to deal with sentry guns
@@ -67,12 +63,19 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 	{
 		if (canFire())
 		{
-			if (this.getHost().world().isRemote)
-				this.weaponSystem.renderClient(target);
+			if (getHost().world().isRemote)
+			{
+				weaponSystem.renderClient(target);
+			}
 			else
-				this.weaponSystem.fire(target);
+			{
+				getHost().sendFireEventToClient(target);
+				weaponSystem.fire(target);
+			}
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -81,10 +84,16 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 	{
 		if (canFire())
 		{
-			if (this.getHost().world().isRemote)
-				this.weaponSystem.renderClient(Vector3.fromCenter(target));
+			if (getHost().world().isRemote)
+			{
+				weaponSystem.renderClient(Vector3.fromCenter(target));
+			}
 			else
-				this.weaponSystem.fire(target);
+			{
+				getHost().sendFireEventToClient(Vector3.fromCenter(target));
+				weaponSystem.fire(target);
+			}
+
 			return true;
 		}
 		return false;

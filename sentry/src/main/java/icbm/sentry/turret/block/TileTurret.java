@@ -206,20 +206,20 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		{
 			if (id == DESCRIPTION_PACKET_ID)
 			{
-				this.sentry = SentryRegistry.constructSentry(data.readUTF(), this);
-				this.getYawServo().setRotation(data.readFloat());
-				this.getPitchServo().setRotation(data.readFloat());
+				sentry = SentryRegistry.constructSentry(data.readUTF(), this);
+				getYawServo().setRotation(data.readFloat());
+				getPitchServo().setRotation(data.readFloat());
 				return true;
 			}
 			if (id == ROTATION_PACKET_ID)
 			{
-				this.getYawServo().setRotation(data.readFloat());
-				this.getPitchServo().setRotation(data.readFloat());
+				getYawServo().setRotation(data.readFloat());
+				getPitchServo().setRotation(data.readFloat());
 				return true;
 			}
 			if (id == FIRING_EVENT_PACKET_ID)
 			{
-				this.getSentry().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
+				getSentry().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
 				return true;
 			}
 
