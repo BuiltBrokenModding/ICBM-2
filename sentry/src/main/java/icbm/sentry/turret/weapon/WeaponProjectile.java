@@ -40,7 +40,7 @@ public class WeaponProjectile extends WeaponDamage
 
     public boolean isAmmo(ItemStack stack)
     {
-        return stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.CONVENTIONAL;
+        return stack != null && stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.CONVENTIONAL;
     }
 
     @Override
@@ -66,22 +66,23 @@ public class WeaponProjectile extends WeaponDamage
             {
                 ItemStack itemStack = inv.getStackInSlot(slot);
 
-                if (itemStack != null && isAmmo(itemStack))
+                if (isAmmo(itemStack))
                 {
-                    if (itemStack.stackSize >= need)
+                    IAmmunition ammo = (IAmmunition) itemStack.getItem();
+                    if (ammo.getAmmoCount(itemStack) >= need)
                     {
                         if (doConsume)
-                            itemStack.stackSize -= need;
+                            ammo.consumeAmmo(itemStack, need);
                         return true;
                     }
                     else
                     {
-                        int consume = need - itemStack.stackSize;
-                        itemStack.stackSize -= consume;
+                        int consume = need - ammo.getAmmoCount(itemStack);
+                        if (doConsume)
+                            ammo.consumeAmmo(itemStack, consume);
                         need -= consume;
                     }
-
-                    consumeCount += itemStack.stackSize;
+                    consumeCount += ammo.getAmmoCount(itemStack);
                 }
             }
         }

@@ -7,12 +7,12 @@ import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.List;
 
-import calclavia.lib.utility.inventory.InventoryUtility;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import calclavia.lib.utility.inventory.InventoryUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -99,18 +99,13 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     }
 
     @Override
-    public boolean canDrop(int meta)
-    {
-        if (meta == AmmoType.BULLETINF.ordinal())
-        {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public ItemStack onDroppedIntoWorld(ItemStack stack)
     {
+        AmmoType type = AmmoType.get(stack);
+        if (type == AmmoType.BULLETINF)
+        {
+            return null;
+        }
         return stack;
     }
 
@@ -141,23 +136,33 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     }
 
     @Override
-    public ItemStack onConsumed(ItemStack itemStack)
+    public ItemStack consumeAmmo(ItemStack itemStack, int count)
     {
         AmmoType type = AmmoType.get(itemStack);
         if (type != null)
         {
-            if(type.consume)
+            if (type.consume)
             {
-                return InventoryUtility.decrStackSize(itemStack, 1);
+                return InventoryUtility.decrStackSize(itemStack, count);
             }
         }
         return itemStack;
     }
 
     @Override
-    public ItemStack getShell(ItemStack itemStack)
+    public ItemStack getShell(ItemStack itemStack, int count)
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public int getAmmoCount(ItemStack itemStack)
+    {
+        if (AmmoType.get(itemStack) != AmmoType.BULLETINF)
+        {
+            return Integer.MAX_VALUE;
+        }
+        return itemStack.stackSize;
     }
 }
