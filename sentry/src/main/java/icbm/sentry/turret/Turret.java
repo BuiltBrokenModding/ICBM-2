@@ -28,7 +28,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	 * Turret object references.
 	 */
 	public final ITurretProvider host;
-	protected EulerServo servo;
+	private EulerServo servo;
 	protected TurretAI ai;
 	public EnergyStorageHandler energy;
 
@@ -49,8 +49,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	public Turret(ITurretProvider host)
 	{
 		this.host = host;
-		energy = new EnergyStorageHandler(10000);
-		servo = new EulerServo(5);
+		energy = new EnergyStorageHandler(10000);		
 		ai = new TurretAI(this);
 	}
 
@@ -193,6 +192,10 @@ public abstract class Turret implements IEnergyContainer, ITurret
 
 	public EulerServo getServo()
 	{
+	    if(servo  == null)
+	    {
+	        servo = new EulerServo(5);
+	    }
 		return servo;
 	}
 

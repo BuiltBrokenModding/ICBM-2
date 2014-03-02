@@ -20,7 +20,7 @@ public class TurretGun extends TurretAuto
 			@Override
 			public boolean isAmmo(ItemStack stack)
 			{
-				return stack.getItem() instanceof IAmmunition && stack.getItemDamage() == AmmoType.BULLET.ordinal();
+				return super.isAmmo(stack) && stack.getItemDamage() == AmmoType.BULLET.ordinal();
 			}
 
 			@Override

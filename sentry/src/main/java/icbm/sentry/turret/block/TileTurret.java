@@ -8,6 +8,7 @@ import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
+import icbm.sentry.turret.TurretType;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.mount.MountedTurret;
 import net.minecraft.entity.player.EntityPlayer;
@@ -122,6 +123,10 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public Packet getDescriptionPacket()
     {
+        if (saveManagerSentryKey == null)
+        {
+            this.saveManagerSentryKey = TurretType.GUN_TURRET.getId();
+        }
         return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, getTurret().getServo().yaw, getTurret().getServo().pitch);
     }
 
@@ -243,6 +248,10 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
             {
                 this.getTurret().load(nbt);
             }
+        }
+        else
+        {
+            this.saveManagerSentryKey = TurretType.GUN_TURRET.getId();
         }
 
     }
