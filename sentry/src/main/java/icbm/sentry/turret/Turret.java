@@ -22,10 +22,10 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	// TODO: implement a property system used by MC entities to support any number of settings a
 	// sentry can have
 	protected float maxHealth = -1;
-	public ITurretProvider host;
-	protected Vector3 aimOffset;
-	protected float barrelLength;
-	protected Vector3 centerOffset;
+	public final ITurretProvider host;
+	protected Vector3 aimOffset = new Vector3();
+	protected Vector3 centerOffset = new Vector3();
+	protected float barrelLength = 1;
 	protected float health;
 	protected EnergyStorageHandler energy;
 	protected int range = 10;
@@ -35,9 +35,6 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	public Turret(ITurretProvider host)
 	{
 		this.host = host;
-		aimOffset = new Vector3();
-		centerOffset = new Vector3();
-		barrelLength = 1;
 		energy = new EnergyStorageHandler(1000);
 	}
 
@@ -104,7 +101,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	 */
 	public Vector3 getAimOffset()
 	{
-		return new Vector3(getHost().yaw(), getHost().pitch()).scale(barrelLength);
+		return new Vector3(getHost().yaw(), getHost().pitch()).scale(barrelLength).translate(aimOffset);
 	}
 
 	/** Offset from host location to were the sentries center is located */
