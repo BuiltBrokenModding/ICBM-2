@@ -1,5 +1,7 @@
 package icbm.sentry.turret.block;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.ITurret;
@@ -123,11 +125,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public Packet getDescriptionPacket()
     {
-        if (saveManagerSentryKey == null)
-        {
-            this.saveManagerSentryKey = TurretType.GUN_TURRET.getId();
-        }
-        return ICBMCore.PACKET_TILE.getPacketWithID(DESCRIPTION_PACKET_ID, this, saveManagerSentryKey, getTurret().getServo().yaw, getTurret().getServo().pitch);
+        return this.getNBTPacket();
     }
 
     public Packet getNBTPacket()
