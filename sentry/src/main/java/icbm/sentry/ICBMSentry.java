@@ -10,7 +10,7 @@ import icbm.sentry.turret.SentryRegistry;
 import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.auto.TurretAntiAir;
 import icbm.sentry.turret.auto.TurretGun;
-import icbm.sentry.turret.auto.TurretLaser;
+import icbm.sentry.turret.auto.SentryLaser;
 import icbm.sentry.turret.block.BlockTurret;
 import icbm.sentry.turret.block.ItemBlockTurret;
 import icbm.sentry.turret.block.TileTurret;
@@ -121,7 +121,7 @@ public class ICBMSentry
 		// AA Turret
 		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(TurretAntiAir.class), new Object[] { "DDS", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T2.get(), 'G', new ItemStack(blockTurret, 1, 0) }));
 		// Laser Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(TurretLaser.class), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'D', Block.glass, 'G', Block.glass }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(SentryLaser.class), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'D', Block.glass, 'G', Block.glass }));
 
 		// Upgrades
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));

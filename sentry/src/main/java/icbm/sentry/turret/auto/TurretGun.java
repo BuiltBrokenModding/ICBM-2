@@ -5,7 +5,7 @@ import icbm.sentry.turret.weapon.WeaponSystemProjectile;
 import universalelectricity.api.vector.Vector3;
 
 /** @author DarkGuardsman */
-public class TurretGun extends AutoSentry
+public class TurretGun extends SentryAuto
 {
     public TurretGun(TileTurret host)
     {

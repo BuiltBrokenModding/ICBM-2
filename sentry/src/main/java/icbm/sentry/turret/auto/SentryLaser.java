@@ -7,13 +7,13 @@ import icbm.sentry.turret.weapon.WeaponTwinLaser;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TurretLaser extends AutoSentry
+public class SentryLaser extends SentryAuto
 {
 	/** Laser turret spins its barrels every shot. */
 	public float barrelRotation;
 	public float barrelRotationVelocity;
 
-	public TurretLaser(TileTurret host)
+	public SentryLaser(TileTurret host)
 	{
 		super(host);
 		maxHealth = 50;

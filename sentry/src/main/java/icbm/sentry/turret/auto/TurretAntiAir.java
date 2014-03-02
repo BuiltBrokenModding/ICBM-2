@@ -6,7 +6,7 @@ import icbm.sentry.turret.weapon.WeaponSystemProjectile;
 /** AA Turret, shoots down missiles and planes.
  * 
  * @author DarkGaurdsman */
-public class TurretAntiAir extends AutoSentry
+public class TurretAntiAir extends SentryAuto
 {
     public TurretAntiAir(TileTurret host)
     {

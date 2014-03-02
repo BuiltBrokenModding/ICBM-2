@@ -8,11 +8,11 @@ import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
 
 /** A Class that functions as the AI of automatic sentries */
-public abstract class AutoSentry extends Sentry implements IAutoSentry
+public abstract class SentryAuto extends Sentry implements IAutoSentry
 {
     protected Entity target;
 
-    public AutoSentry(ISentryContainer host)
+    public SentryAuto(ISentryContainer host)
     {
         super(host);
     }
