@@ -100,33 +100,13 @@ public class LookHelper
 
 	public boolean canEntityBeSeen(Entity entity)
 	{
-		return canEntityBeSeen(entity, true);
+		Vector3 traceStart = getCenter().translate(tileTurret.getSentry().getAimOffset());
+		return canEntityBeSeen(traceStart, entity);
 	}
 
-	public boolean canEntityBeSeen(Entity entity, boolean sight)
+	public boolean canEntityBeSeen(Vector3 traceStart, Entity entity)
 	{
-		if (sight)
-		{
-			// TODO: This translates the raytrace outwards, avoiding the current block from being
-			// accounted in the trace.
-			/*
-			 * double z = Math.sin(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
-			 * double x = Math.cos(Math.toRadians(getYaw(getCenter(), Vector3.fromCenter(entity))));
-			 * double y = Math.sin(-Math.toRadians(getPitch(getCenter(),
-			 * Vector3.fromCenter(entity))));
-			 * return canEntityBeSeen(getCenter().translate(new Vector3(getYaw(getCenter(),
-			 * Vector3.fromCenter(entity)), getPitch(getCenter(), Vector3.fromCenter(entity)))),
-			 * entity);
-			 */}
-
-		return canEntityBeSeen(getCenter(), entity);
-
-		// return canEntityBeSeen(this.getCenterRayStart(), entity);
-	}
-
-	public static boolean canEntityBeSeen(Vector3 center, Entity entity)
-	{
-		MovingObjectPosition hitTarget = center.clone().rayTrace(entity.worldObj, new Vector3(entity), false);
+		MovingObjectPosition hitTarget = traceStart.clone().rayTrace(entity.worldObj, Vector3.fromCenter(entity), false);
 		return hitTarget != null && entity.equals(hitTarget.entityHit);
 	}
 

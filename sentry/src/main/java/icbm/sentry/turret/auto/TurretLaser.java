@@ -19,6 +19,7 @@ public class TurretLaser extends AutoSentry
 		maxHealth = 50;
 		weaponSystem = new WeaponTwinLaser(this, 15);
 		barrelLength = 1.2f;
+		range = 30;
 	}
 
 	@Override
@@ -26,9 +27,15 @@ public class TurretLaser extends AutoSentry
 	{
 		super.updateEntity();
 
-		Vector3 aim = new Vector3(this.getHost().x(), this.getHost().y(), this.getHost().z()).add(getAimOffset());
-		getHost().world().spawnParticle("smoke", aim.x, aim.y, aim.z, 0, 0, 0);
-
+		/**
+		 * Use to calibrate barrel length
+		 * 
+		 * <pre>
+		 * Vector3 aim = new Vector3(this.getHost().x(), this.getHost().y(), this.getHost().z()).add(getAimOffset());
+		 * getHost().world().spawnParticle("smoke", aim.x, aim.y, aim.z, 0, 0, 0);
+		 * </pre>
+		 */
+		
 		if (this.world().isRemote)
 		{
 			this.barrelRotation = MathHelper.wrapAngleTo180_float(this.barrelRotation + this.barrelRotationVelocity);

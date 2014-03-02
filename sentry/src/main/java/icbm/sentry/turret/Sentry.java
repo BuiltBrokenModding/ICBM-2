@@ -32,7 +32,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 	protected Vector3 centerOffset;
 	protected float health;
 	protected EnergyStorageHandler energy;
-	protected int range = 60;
+	protected int range = 10;
 	// TODO change out weapon system var for an interface and registry system
 	protected WeaponSystem weaponSystem;
 
