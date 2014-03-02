@@ -1,8 +1,5 @@
 package icbm.sentry.turret.ai;
 
-import calclavia.lib.prefab.IServo;
-import calclavia.lib.utility.MathUtility;
-import calclavia.lib.utility.RotationManager;
 import universalelectricity.api.vector.EulerAngle;
 
 public class EulerServo extends EulerAngle
@@ -12,12 +9,12 @@ public class EulerServo extends EulerAngle
 	private EulerAngle targetAngle = new EulerAngle();
 	private double rotationSpeed;
 
-	public EulerServo(float rotationSpeed)
+	public EulerServo(double rotationSpeed)
 	{
 		this(new EulerAngle(), rotationSpeed);
 	}
 
-	public EulerServo(EulerAngle angle, float rotationSpeed)
+	public EulerServo(EulerAngle angle, double rotationSpeed)
 	{
 		super(angle);
 		this.rotationSpeed = rotationSpeed;
@@ -85,5 +82,11 @@ public class EulerServo extends EulerAngle
 				return false;
 
 		return true;
+	}
+
+	@Override
+	public EulerServo clone()
+	{
+		return new EulerServo(this, rotationSpeed);
 	}
 }

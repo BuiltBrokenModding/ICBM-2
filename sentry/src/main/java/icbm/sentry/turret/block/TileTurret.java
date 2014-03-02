@@ -67,7 +67,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 	public void updateEntity()
 	{
 		super.updateEntity();
-		EulerServo prevServo = getTurret().getServo();
+		EulerServo prevServo = (EulerServo) getTurret().getServo().clone();
 
 		if (getTurret() != null)
 		{
@@ -78,7 +78,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		// "rotate itself". -- Calclavia
 		if (!worldObj.isRemote)
 		{
-		//	if (!prevServo.equals(getTurret().getServo()))
+			if (!prevServo.equals(getTurret().getServo()))
 			{
 				PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
 			}

@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class WeaponSystem
 {
 	protected Turret turret;
-	protected float defaultTraceTrange = 100;
+	protected float defaultTraceRange = 100;
 
 	public WeaponSystem(Turret sentry)
 	{
@@ -35,7 +35,7 @@ public abstract class WeaponSystem
 	{
 		Vector3 extend = turret.getAimOffset().clone();
 		extend.rotate(turret.getServo().yaw, turret.getServo().pitch);
-		extend.scale(traceLimit > 0 ? traceLimit : defaultTraceTrange);
+		extend.scale(traceLimit > 0 ? traceLimit : defaultTraceRange);
 		extend.translate(turret.getHost().x(), turret.getHost().y(), turret.getHost().z());
 		extend.translate(turret.getCenterOffset());
 		this.fire(extend);
