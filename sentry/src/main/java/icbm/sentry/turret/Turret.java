@@ -113,7 +113,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	/** Offset from host location to were the sentries center is located */
 	public Vector3 getCenterOffset()
 	{
-		return this.centerOffset;
+		return centerOffset.clone();
 	}
 
 	public float getHealth()
@@ -180,7 +180,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		return getHost().z();
 	}
 
-	protected VectorWorld getPosition()
+	public VectorWorld getPosition()
 	{
 		return new VectorWorld(world(), x(), y(), z());
 	}

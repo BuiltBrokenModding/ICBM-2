@@ -41,7 +41,10 @@ public class RenderTurret extends RenderTaggedTile
 				GL11.glScalef(1f, 1f, 1f);
 
 				RenderUtility.bind(sentryRender.getTexture(getPlayer(), tileTurret));
-				sentryRender.render(tileTurret.getDirection(), tileTurret, tileTurret.getTurret().getServo().yaw, tileTurret.getTurret().getServo().pitch);
+
+				if (sentryRender != null)
+					sentryRender.render(tileTurret.getDirection(), tileTurret, tileTurret.getTurret().getServo().yaw, tileTurret.getTurret().getServo().pitch);
+
 				GL11.glPopMatrix();
 			}
 		}

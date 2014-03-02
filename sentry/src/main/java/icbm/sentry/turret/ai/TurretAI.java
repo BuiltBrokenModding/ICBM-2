@@ -32,7 +32,7 @@ public class TurretAI
 	private int targetLostTimer = 0;
 	private int ticks = 0;
 
-	public static final boolean debugMode = true;
+	public static final boolean debugMode = false;
 
 	public static void debug(String str)
 	{
@@ -92,9 +92,9 @@ public class TurretAI
 			}
 
 			// If we have a target start aiming logic
-			if (sentry().getTarget() != null)
+			if (sentry().getTarget() != null && isValidTarget(sentry().getTarget(), false))
 			{
-				if (sentry().canFire() && isValidTarget(sentry().getTarget(), false))
+				if (sentry().canFire())
 				{
 					if (canEntityBeSeen(sentry().getTarget()))
 					{
@@ -149,8 +149,9 @@ public class TurretAI
 
 	protected EntityLivingBase findTarget(ITurret sentry, IEntitySelector targetSelector, int range)
 	{
-		debug("\t\tTarget selector update");
-		List<EntityLivingBase> list = turret.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z, turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z).expand(range, range, range), targetSelector);
+		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z, turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z).expand(range, range, range);
+		debug("\t\tTarget selector update: " + aabb);
+		List<EntityLivingBase> list = turret.world().selectEntitiesWithinAABB(EntityLivingBase.class, aabb, targetSelector);
 		Collections.sort(list, new ComparatorOptimalTarget(turret.getAbsoluteCenter()));
 
 		debug("\t\t" + list.size() + " possible targets within " + range);

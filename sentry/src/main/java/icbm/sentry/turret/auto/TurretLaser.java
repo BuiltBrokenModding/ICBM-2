@@ -14,9 +14,10 @@ public class TurretLaser extends TurretAuto
 	{
 		super(host);
 		maxHealth = 50;
-		weaponSystem = new WeaponTwinLaser(this, 15);
+		weaponSystem = new WeaponTwinLaser(this, 5);
 		barrelLength = 1.2f;
 		range = 15;
+		maxCooldown = 15;
 	}
 
 	@Override
