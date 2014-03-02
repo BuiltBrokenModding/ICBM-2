@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import calclavia.lib.gui.GuiContainerBase;
+import calclavia.lib.render.EnumColor;
 
 public class GuiTurretPlatform extends GuiContainerBase
 {
@@ -37,7 +38,11 @@ public class GuiTurretPlatform extends GuiContainerBase
 
 		if (turret != null)
 		{
-			renderUniversalDisplay(110, 122, turret.getTurret().energy.getEnergy(), mouseX, mouseY, Unit.VOLTAGE);
+			fontRenderer.drawString("Position: " + ForgeDirection.UP, 8, 20, 4210752);
+			fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Energy", 8, 30, 4210752);
+			renderUniversalDisplay(8, 40, turret.getTurret().energy.getEnergy(), mouseX, mouseY, Unit.JOULES);
+			fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Required Energy", 8, 50, 4210752);
+			renderUniversalDisplay(8, 60, turret.getTurret().energy.getEnergyCapacity(), mouseX, mouseY, Unit.JOULES);
 		}
 	}
 
