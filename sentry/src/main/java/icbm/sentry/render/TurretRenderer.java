@@ -12,13 +12,13 @@ import calclavia.lib.render.item.ISimpleItemRenderer;
  * 
  * @author DarkGuardsman
  */
-public abstract class SentryRenderer implements ISimpleItemRenderer
+public abstract class TurretRenderer implements ISimpleItemRenderer
 {
 	public ResourceLocation textureNeutral;
 	public ResourceLocation textureFriendly;
 	public ResourceLocation textureHostile;
 
-	public SentryRenderer(ResourceLocation texture)
+	public TurretRenderer(ResourceLocation texture)
 	{
 		this.textureNeutral = texture;
 		this.textureFriendly = texture;

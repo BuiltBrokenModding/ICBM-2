@@ -1,23 +1,23 @@
 package icbm.sentry.turret.weapon;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.interfaces.ISentry;
+import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.Vector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /** Modular way of dealing with weapon systems in a way works with different object types
  * 
  * @author DarkGuardsman, tgame14 */
 public abstract class WeaponSystem
 {
-    protected ISentry sentry;
+    protected ITurret sentry;
     protected float defaultTraceTrange = 100;
 
-    public WeaponSystem(ISentry sentry)
+    public WeaponSystem(ITurret sentry)
     {
         this.sentry = sentry;
     }

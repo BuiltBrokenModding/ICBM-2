@@ -1,7 +1,6 @@
 package icbm.sentry.render;
 
 import icbm.Reference;
-import icbm.sentry.turret.auto.SentryLaser;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,11 +16,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class SentryRenderLaserTurret extends SentryRenderer
+public class RenderLaserTurret extends TurretRenderer
 {
 	public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "turret_laser.tcn");
 
-	public SentryRenderLaserTurret()
+	public RenderLaserTurret()
 	{
 		super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "laser_turret_neutral.png"));
 		textureFriendly = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "laser_turret_friendly.png");

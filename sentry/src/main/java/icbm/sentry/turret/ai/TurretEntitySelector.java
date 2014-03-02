@@ -1,7 +1,6 @@
 package icbm.sentry.turret.ai;
 
-import calclavia.lib.access.IProfileContainer;
-import icbm.sentry.interfaces.ISentryContainer;
+import icbm.sentry.interfaces.ITurretProvider;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
@@ -12,16 +11,17 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import calclavia.lib.access.IProfileContainer;
 
 /** Basic entity selector used by sentry guns to find valid targets
  * 
  * @author DarkGuardsman */
-public class EntitySelectorSentry implements IEntitySelector
+public class TurretEntitySelector implements IEntitySelector
 {
-    ISentryContainer drone;
+    ITurretProvider drone;
     boolean monsters = true, animals = false, npcs = false, players = false, flying = false;
 
-    public EntitySelectorSentry(ISentryContainer drone)
+    public TurretEntitySelector(ITurretProvider drone)
     {
         this.drone = drone;
     }

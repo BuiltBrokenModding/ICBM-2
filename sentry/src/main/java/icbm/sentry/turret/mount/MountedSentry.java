@@ -1,11 +1,11 @@
 package icbm.sentry.turret.mount;
 
-import icbm.sentry.turret.Sentry;
+import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.block.TileTurret;
 import universalelectricity.api.vector.Vector3;
 
 /** this sentry uses for mounting the player in position */
-public class MountedSentry extends Sentry
+public class MountedSentry extends Turret
 {
     protected Vector3 riderOffset = new Vector3(0.5, 1.2, 0.5);
 

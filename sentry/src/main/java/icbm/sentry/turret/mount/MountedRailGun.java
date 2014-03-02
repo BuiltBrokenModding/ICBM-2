@@ -1,7 +1,6 @@
 package icbm.sentry.turret.mount;
 
 import icbm.Reference;
-import icbm.sentry.turret.SentryTypes;
 import icbm.sentry.turret.block.TileTurret;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;

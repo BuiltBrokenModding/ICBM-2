@@ -1,16 +1,15 @@
 package icbm.sentry.turret.block;
 
-import calclavia.lib.render.RenderTaggedTile;
-import calclavia.lib.render.RenderUtility;
-import icbm.sentry.ICBMSentry;
-import icbm.sentry.render.SentryRenderGunTurret;
-import icbm.sentry.render.SentryRenderer;
-import icbm.sentry.turret.SentryRegistry;
+import icbm.sentry.render.RenderGunTurret;
+import icbm.sentry.render.TurretRenderer;
+import icbm.sentry.turret.TurretRegistry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+
+import calclavia.lib.render.RenderTaggedTile;
+import calclavia.lib.render.RenderUtility;
 
 /** Container class for most sentry gun renders of 1^3. Other sentries might need a more custom
  * render approach if they become to complex or large
@@ -18,7 +17,7 @@ import org.lwjgl.opengl.GL11;
  * @author DarkGuardsman */
 public class RenderTurret extends RenderTaggedTile
 {
-    private static final SentryRenderer backup_render = new SentryRenderGunTurret();
+    private static final TurretRenderer backup_render = new RenderGunTurret();
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f)
@@ -28,7 +27,7 @@ public class RenderTurret extends RenderTaggedTile
         if (tile instanceof TileTurret)
         {
             TileTurret tileTurret = (TileTurret) tile;
-            SentryRenderer sentryRender = SentryRegistry.getRenderFor(tileTurret.getSentry());
+            TurretRenderer sentryRender = TurretRegistry.getRenderFor(tileTurret.getTurret());
             if (sentryRender == null)
             {
                 sentryRender = backup_render;

@@ -5,12 +5,12 @@ import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.TabICBM;
 import icbm.sentry.platform.BlockTurretPlatform;
-import icbm.sentry.turret.EntitySentryFake;
-import icbm.sentry.turret.SentryRegistry;
-import icbm.sentry.turret.SentryTypes;
+import icbm.sentry.turret.EntityMountableDummy;
+import icbm.sentry.turret.TurretRegistry;
+import icbm.sentry.turret.TurretType;
 import icbm.sentry.turret.auto.TurretAntiAir;
-import icbm.sentry.turret.auto.SentryGun;
-import icbm.sentry.turret.auto.SentryLaser;
+import icbm.sentry.turret.auto.TurretGun;
+import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.block.BlockTurret;
 import icbm.sentry.turret.block.ItemBlockTurret;
 import icbm.sentry.turret.block.TileTurret;
@@ -73,7 +73,7 @@ public class ICBMSentry
 	{
 		NetworkRegistry.instance().registerGuiHandler(INSTANCE, proxy);
 		MinecraftForge.EVENT_BUS.register(this);
-		SentryTypes.load();
+		TurretType.load();
 
 		blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
 		blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
@@ -86,8 +86,8 @@ public class ICBMSentry
 		railgunBullet = new ItemStack(itemAmmo, 1, 2);
 		antimatterBullet = new ItemStack(itemAmmo, 1, 3);
 
-		EntityRegistry.registerGlobalEntityID(EntitySentryFake.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntitySentryFake.class, "ICBMFake", ENTITY_ID_PREFIX + 7, INSTANCE, 50, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityMountableDummy.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityMountableDummy.class, "ICBMFake", ENTITY_ID_PREFIX + 7, INSTANCE, 50, 5, true);
 
 		TabICBM.itemStack = new ItemStack(blockTurret);
 
@@ -115,13 +115,13 @@ public class ICBMSentry
 		GameRegistry.addRecipe(new ShapedOreRecipe(blockPlatform, new Object[] { "SPS", "CBC", "SAS", 'P', Block.pistonBase, 'A', UniversalRecipe.BATTERY.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', Block.chest, 'B', UniversalRecipe.CIRCUIT_T1.get() }));
 
 		// Gun Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(SentryGun.class), new Object[] { "SSS", "CS ", 'C', UniversalRecipe.CIRCUIT_T1.get(), 'S', UniversalRecipe.PRIMARY_METAL.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretGun.class), new Object[] { "SSS", "CS ", 'C', UniversalRecipe.CIRCUIT_T1.get(), 'S', UniversalRecipe.PRIMARY_METAL.get() }));
 		// Railgun
-		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(MountedRailGun.class), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get(), 'G', new ItemStack(blockTurret, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(MountedRailGun.class), new Object[] { "DDD", "CS ", "GS ", 'D', Item.diamond, 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get(), 'G', new ItemStack(blockTurret, 1, 0) }));
 		// AA Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(TurretAntiAir.class), new Object[] { "DDS", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T2.get(), 'G', new ItemStack(blockTurret, 1, 0) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretAntiAir.class), new Object[] { "DDS", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T2.get(), 'G', new ItemStack(blockTurret, 1, 0) }));
 		// Laser Turret
-		GameRegistry.addRecipe(new ShapedOreRecipe(SentryRegistry.getItemStack(SentryLaser.class), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'D', Block.glass, 'G', Block.glass }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretLaser.class), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'D', Block.glass, 'G', Block.glass }));
 
 		// Upgrades
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));

@@ -1,25 +1,26 @@
 package icbm.sentry.turret.auto;
 
-import icbm.sentry.interfaces.IAutoSentry;
-import icbm.sentry.interfaces.ISentryContainer;
-import icbm.sentry.turret.Sentry;
+import icbm.sentry.interfaces.IAutoTurret;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
-import universalelectricity.api.vector.Vector3;
 
-/** A Class that functions as the AI of automatic sentries */
-public abstract class SentryAuto extends Sentry implements IAutoSentry
+/**
+ * A Class that functions as the AI of automatic turrets.
+ */
+public abstract class TurretAuto extends Turret implements IAutoTurret
 {
 	protected Entity target;
 
-	public SentryAuto(ISentryContainer host)
+	public TurretAuto(ITurretProvider host)
 	{
 		super(host);
 	}
 
 	@Override
-	public void updateEntity()
+	public void update()
 	{
-		super.updateEntity();
+		super.update();
 
 		// Vector3 aim = new Vector3(this.getHost().x(), this.getHost().y(),
 		// this.getHost().z()).add(getAimOffset());
@@ -37,5 +38,4 @@ public abstract class SentryAuto extends Sentry implements IAutoSentry
 	{
 		return this.target;
 	}
-
 }

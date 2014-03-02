@@ -1,16 +1,16 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.interfaces.ISentry;
+import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** @author DarkGuardsman */
-public class WeaponLaser extends WeaponSystemProjectile
+public class WeaponLaser extends WeaponProjectile
 {
-    public WeaponLaser(ISentry sentry, float damage)
+    public WeaponLaser(ITurret sentry, float damage)
     {
         super(sentry, damage);
     }

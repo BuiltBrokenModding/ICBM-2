@@ -1,12 +1,12 @@
 package icbm.sentry.platform.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import icbm.Reference;
 import icbm.sentry.platform.TileTurretPlatform;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+
+import org.lwjgl.opengl.GL11;
+
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import calclavia.lib.gui.GuiContainerBase;
 

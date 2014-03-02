@@ -1,27 +1,18 @@
 package icbm.sentry.turret;
 
-import icbm.core.ICBMCore;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.mount.MountedSentry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIControlledByPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,17 +22,17 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @Author DarkGuardsman
  */
-public class EntitySentryFake extends EntityLiving
+public class EntityMountableDummy extends EntityLiving
 {
     private TileTurret sentryHost;
     private boolean shouldSit = false;
     
-    public EntitySentryFake(World world)
+    public EntityMountableDummy(World world)
     {
         super(world);
     }
 
-    public EntitySentryFake(TileTurret controller, boolean sit)
+    public EntityMountableDummy(TileTurret controller, boolean sit)
     {
         this(controller.worldObj);
         this.isImmuneToFire = true;
@@ -85,7 +76,7 @@ public class EntitySentryFake extends EntityLiving
 
         if (this.sentryHost instanceof TileTurret)
         {
-            if (((TileTurret) this.sentryHost).getSentry() instanceof MountedSentry)
+            if (((TileTurret) this.sentryHost).getTurret() instanceof MountedSentry)
                 ((TileTurret) this.sentryHost).setFakeEntity(this);
         }
 
@@ -106,10 +97,10 @@ public class EntitySentryFake extends EntityLiving
         {
             Vector3 vec = new Vector3(this.sentryHost);
             Vector3 offset = new Vector3(0, 0, 1);
-            vec.translate(this.sentryHost.getSentry().getCenterOffset());
-            if (this.sentryHost.getSentry() instanceof MountedSentry)
+            vec.translate(this.sentryHost.getTurret().getCenterOffset());
+            if (this.sentryHost.getTurret() instanceof MountedSentry)
             {
-                offset = ((MountedSentry) this.sentryHost.getSentry()).getRiderOffset();
+                offset = ((MountedSentry) this.sentryHost.getTurret()).getRiderOffset();
             }
             offset.rotate(this.sentryHost.getYawServo().getRotation(), this.sentryHost.getPitchServo().getRotation());
             vec.add(offset);
@@ -122,8 +113,8 @@ public class EntitySentryFake extends EntityLiving
     @Override
     public double getMountedYOffset ()
     {
-        if (this.sentryHost.getSentry() instanceof MountedSentry)
-            return ((MountedSentry) this.sentryHost.getSentry()).getRiderOffset().y;
+        if (this.sentryHost.getTurret() instanceof MountedSentry)
+            return ((MountedSentry) this.sentryHost.getTurret()).getRiderOffset().y;
         else
             return -0.5;
     }

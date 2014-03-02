@@ -1,19 +1,16 @@
 package icbm.sentry.turret.auto;
 
-import universalelectricity.api.vector.Vector3;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponTwinLaser;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 
-public class SentryLaser extends SentryAuto
+public class TurretLaser extends TurretAuto
 {
 	/** Laser turret spins its barrels every shot. */
 	public float barrelRotation;
 	public float barrelRotationVelocity;
 
-	public SentryLaser(TileTurret host)
+	public TurretLaser(TileTurret host)
 	{
 		super(host);
 		maxHealth = 50;
@@ -23,9 +20,9 @@ public class SentryLaser extends SentryAuto
 	}
 
 	@Override
-	public void updateEntity()
+	public void update()
 	{
-		super.updateEntity();
+		super.update();
 
 		if (this.world().isRemote)
 		{

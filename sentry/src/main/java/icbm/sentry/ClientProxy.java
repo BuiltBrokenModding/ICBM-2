@@ -3,16 +3,16 @@ package icbm.sentry;
 import icbm.core.prefab.EmptyRenderer;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.GuiTurretPlatform;
-import icbm.sentry.render.SentryRenderAATurret;
-import icbm.sentry.render.SentryRenderGunTurret;
-import icbm.sentry.render.SentryRenderLaserTurret;
-import icbm.sentry.render.SentryRenderRailGun;
-import icbm.sentry.turret.EntitySentryFake;
-import icbm.sentry.turret.Sentry;
-import icbm.sentry.turret.SentryRegistry;
+import icbm.sentry.render.RenderAATurret;
+import icbm.sentry.render.RenderGunTurret;
+import icbm.sentry.render.RenderLaserTurret;
+import icbm.sentry.render.RenderRailGun;
+import icbm.sentry.turret.EntityMountableDummy;
+import icbm.sentry.turret.Turret;
+import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.auto.TurretAntiAir;
-import icbm.sentry.turret.auto.SentryGun;
-import icbm.sentry.turret.auto.SentryLaser;
+import icbm.sentry.turret.auto.TurretGun;
+import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.mount.MountedRailGun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -40,22 +40,22 @@ public class ClientProxy extends CommonProxy
 		super.init();
 
 		/** TileEntities */
-		RenderingRegistry.registerEntityRenderingHandler(EntitySentryFake.class, new EmptyRenderer());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMountableDummy.class, new EmptyRenderer());
 
 		// Sentry render registry TODO find a way to automate
-		SentryRegistry.registerSentryRenderer(TurretAntiAir.class, new SentryRenderAATurret());
-		SentryRegistry.registerSentryRenderer(SentryGun.class, new SentryRenderGunTurret());
-		SentryRegistry.registerSentryRenderer(SentryLaser.class, new SentryRenderLaserTurret());
-		SentryRegistry.registerSentryRenderer(MountedRailGun.class, new SentryRenderRailGun());
+		TurretRegistry.registerSentryRenderer(TurretAntiAir.class, new RenderAATurret());
+		TurretRegistry.registerSentryRenderer(TurretGun.class, new RenderGunTurret());
+		TurretRegistry.registerSentryRenderer(TurretLaser.class, new RenderLaserTurret());
+		TurretRegistry.registerSentryRenderer(MountedRailGun.class, new RenderRailGun());
 
 		GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
 		{
 			@Override
 			public void renderInventoryItem(ItemStack itemStack)
 			{
-				Class<? extends Sentry> sentry = SentryRegistry.getSentry(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
+				Class<? extends Turret> sentry = TurretRegistry.getSentry(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
 				if (sentry != null)
-					SentryRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
+					TurretRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
 			}
 		});
 	}

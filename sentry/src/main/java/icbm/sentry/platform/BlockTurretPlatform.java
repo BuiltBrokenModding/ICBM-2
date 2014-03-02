@@ -1,6 +1,5 @@
 package icbm.sentry.platform;
 
-import calclavia.lib.content.BlockInfo;
 import icbm.api.sentry.IAmmunition;
 import icbm.core.ICBMCore;
 import icbm.core.TabICBM;
@@ -16,10 +15,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import universalelectricity.api.UniversalElectricity;
+import calclavia.lib.content.BlockInfo;
 
 /** @author DarkGuardsman */
 @BlockInfo(tileEntity = "icbm.sentry.platform.TileTurretPlatform")

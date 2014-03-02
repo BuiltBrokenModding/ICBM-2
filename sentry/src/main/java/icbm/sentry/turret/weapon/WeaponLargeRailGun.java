@@ -1,20 +1,11 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.sentry.turret.Sentry;
+import icbm.sentry.turret.Turret;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
-
-public class WeaponLargeRailGun extends WeaponSystemProjectile
+public class WeaponLargeRailGun extends WeaponProjectile
 {
 
-    public WeaponLargeRailGun(Sentry sentry, float damage)
+    public WeaponLargeRailGun(Turret sentry, float damage)
     {
         super(sentry, damage);
     }

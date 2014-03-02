@@ -1,41 +1,31 @@
 package icbm.sentry.turret.block;
 
-import calclavia.lib.access.AccessGroup;
-import calclavia.lib.access.AccessUser;
-import calclavia.lib.access.Nodes;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.prefab.block.BlockAdvanced;
-import calclavia.lib.prefab.item.ItemBlockSaved;
-import calclavia.lib.utility.inventory.InventoryUtility;
-import calclavia.lib.utility.nbt.SaveManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
 import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.interfaces.ISentry;
-import icbm.sentry.turret.Sentry;
-import icbm.sentry.turret.SentryRegistry;
+import icbm.sentry.turret.Turret;
+import icbm.sentry.turret.TurretRegistry;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.List;
-import java.util.Map.Entry;
-
-import universalelectricity.api.vector.Vector3;
+import calclavia.lib.access.AccessUser;
+import calclavia.lib.multiblock.fake.IBlockActivate;
+import calclavia.lib.prefab.block.BlockAdvanced;
+import calclavia.lib.prefab.item.ItemBlockSaved;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Block turret is a class used by all turrets. Each type of turret will have a different tile
@@ -171,8 +161,8 @@ public class BlockTurret extends BlockICBM
 	@Override
 	public void getSubBlocks(int id, CreativeTabs creativeTab, List list)
 	{
-		for (Class<? extends Sentry> sentry : SentryRegistry.getSentryMap().values())
-			list.add(SentryRegistry.getItemStack(sentry));
+		for (Class<? extends Turret> sentry : TurretRegistry.getSentryMap().values())
+			list.add(TurretRegistry.getItemStack(sentry));
 	}
 
 	@Override

@@ -1,5 +1,23 @@
 package icbm.sentry.turret.block;
 
+import icbm.core.ICBMCore;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.turret.EntityMountableDummy;
+import icbm.sentry.turret.Turret;
+import icbm.sentry.turret.TurretRegistry;
+import icbm.sentry.turret.ai.LookManager;
+import icbm.sentry.turret.ai.TurretAI;
+import icbm.sentry.turret.mount.MountedSentry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.energy.EnergyStorageHandler;
+import universalelectricity.api.vector.Vector3;
 import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.multiblock.fake.IBlockActivate;
@@ -16,53 +34,34 @@ import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import icbm.core.ICBMCore;
-import icbm.sentry.ICBMSentry;
-import icbm.sentry.interfaces.ISentry;
-import icbm.sentry.interfaces.ISentryContainer;
-import icbm.sentry.turret.EntitySentryFake;
-import icbm.sentry.turret.Sentry;
-import icbm.sentry.turret.SentryRegistry;
-import icbm.sentry.turret.ai.LookHelper;
-import icbm.sentry.turret.ai.SentryAI;
-import icbm.sentry.turret.mount.MountedSentry;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.Vector3;
 
 /**
- * Tile container for sentries
+ * TurretProvider tile to host turret objects.
  * 
  * @author Darkguardsman, tgame14
  */
-public class TileTurret extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate, ISentryContainer
+public class TileTurret extends TileTerminal implements IProfileContainer, IRotatable, IGyroMotor, IExternalInventory, IBlockActivate, ITurretProvider
 {
 	protected static final int ROTATION_PACKET_ID = 3;
 	protected static final int SENTRY_TYPE_PACKET_ID = 4;
 	protected static final int DESCRIPTION_PACKET_ID = 5;
 	protected static final int FIRING_EVENT_PACKET_ID = 6;
+	
 	/** TURRET AIM & ROTATION HELPER */
-	public LookHelper lookHelper;
+	public LookManager lookHelper;
 	/** Yaw servo rotation */
 	public AutoServo yawMotor;
 	/** Pitch servo rotation */
 	public AutoServo pitchMotor;
-	public EntitySentryFake sentryEntity;
+	public EntityMountableDummy sentryEntity;
 	/** Profile that control access properties for users */
 	protected AccessProfile accessProfile;
 	/** Sentries inventory used for upgrades and ammo */
 	protected IExternalInventoryBox inventory;
 	/** Sentry instance used to define the visuals and weapons of the sentry */
-	protected Sentry sentry;
+	protected Turret sentry;
 
-	protected SentryAI sentryAI;
+	protected TurretAI sentryAI;
 
 	private static float[] yawData = { 180, -180, 5F };
 	private static float[] pitchData = { 40, -40, 5F };
@@ -82,8 +81,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		super.initiate();
 		this.yawMotor = new AutoServo(yawData[0], yawData[1], yawData[2]);
 		this.pitchMotor = new AutoServo(pitchData[0], pitchData[1], pitchData[2]);
-		this.lookHelper = new LookHelper(this);
-		this.sentryAI = new SentryAI(this, this.lookHelper);
+		this.lookHelper = new LookManager(this);
+		this.sentryAI = new TurretAI(this, this.lookHelper);
 	}
 
 	@Override
@@ -93,9 +92,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		float prevYaw = this.getYawServo().getRotation();
 		float prevPitch = this.getPitchServo().getRotation();
 
-		if (!worldObj.isRemote && getSentry() != null)
+		if (!worldObj.isRemote && getTurret() != null)
 		{
-			getSentry().updateEntity();
+			getTurret().update();
 			sentryAI.update();
 
 			getYawServo().update();
@@ -120,7 +119,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		boolean flag = false;
 		if (this.hasWorldObj() && (this.sentryEntity == null || this.sentryEntity.isDead))
 		{
-			this.sentryEntity = new EntitySentryFake(this, true);
+			this.sentryEntity = new EntityMountableDummy(this, true);
 			this.worldObj.spawnEntityInWorld(this.sentryEntity);
 			flag = true;
 		}
@@ -209,7 +208,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		{
 			if (id == DESCRIPTION_PACKET_ID)
 			{
-				sentry = SentryRegistry.constructSentry(data.readUTF(), this);
+				sentry = TurretRegistry.constructSentry(data.readUTF(), this);
 				getYawServo().setRotation(data.readFloat());
 				getPitchServo().setRotation(data.readFloat());
 				return true;
@@ -222,7 +221,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 			}
 			if (id == FIRING_EVENT_PACKET_ID)
 			{
-				getSentry().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
+				getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
 				return true;
 			}
 
@@ -252,11 +251,11 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		this.getAccessProfile().save(perm_tag);
 		nbt.setCompoundTag("permissions", perm_tag);
 
-		if (this.getSentry() != null)
+		if (this.getTurret() != null)
 		{
 			NBTTagCompound sentrySave = new NBTTagCompound();
-			this.getSentry().save(sentrySave);
-			nbt.setCompoundTag(ISentry.SENTRY_OBJECT_SAVE, sentrySave);
+			this.getTurret().save(sentrySave);
+			nbt.setCompoundTag(ITurret.SENTRY_OBJECT_SAVE, sentrySave);
 		}
 
 		if (unlocalizedName != null && !unlocalizedName.isEmpty())
@@ -272,15 +271,15 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		this.getInventory().load(nbt);
 		this.getAccessProfile().load(nbt.getCompoundTag("permissions"));
 
-		if (nbt.hasKey(ISentry.SENTRY_OBJECT_SAVE))
+		if (nbt.hasKey(ITurret.SENTRY_OBJECT_SAVE))
 		{
-			NBTTagCompound tag = nbt.getCompoundTag(ISentry.SENTRY_OBJECT_SAVE);
-			this.saveManagerSentryKey = tag.getString(ISentry.SENTRY_SAVE_ID);
-			this.sentry = SentryRegistry.constructSentry(saveManagerSentryKey, this);
+			NBTTagCompound tag = nbt.getCompoundTag(ITurret.SENTRY_OBJECT_SAVE);
+			this.saveManagerSentryKey = tag.getString(ITurret.SENTRY_SAVE_ID);
+			this.sentry = TurretRegistry.constructSentry(saveManagerSentryKey, this);
 
-			if (this.getSentry() != null)
+			if (this.getTurret() != null)
 			{
-				this.getSentry().load(nbt);
+				this.getTurret().load(nbt);
 			}
 		}
 
@@ -320,10 +319,10 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		return this.pitchMotor;
 	}
 
-	public Sentry getSentry()
+	public Turret getTurret()
 	{
 		if (this.sentry == null)
-			this.sentry = SentryRegistry.constructSentry(saveManagerSentryKey, this);
+			this.sentry = TurretRegistry.constructSentry(saveManagerSentryKey, this);
 		return this.sentry;
 	}
 
@@ -334,7 +333,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		{
 			if (!entityPlayer.isSneaking())
 			{
-				if (this.getSentry() instanceof MountedSentry && this.sentryEntity != null)
+				if (this.getTurret() instanceof MountedSentry && this.sentryEntity != null)
 				{
 					if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
 					{
@@ -365,12 +364,12 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 		}
 	}
 
-	public EntitySentryFake getFakeEntity()
+	public EntityMountableDummy getFakeEntity()
 	{
 		return this.sentryEntity;
 	}
 
-	public void setFakeEntity(EntitySentryFake entitySentryFake)
+	public void setFakeEntity(EntityMountableDummy entitySentryFake)
 	{
 		this.sentryEntity = entitySentryFake;
 	}

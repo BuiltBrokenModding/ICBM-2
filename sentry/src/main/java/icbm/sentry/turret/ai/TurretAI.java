@@ -1,8 +1,8 @@
 package icbm.sentry.turret.ai;
 
-import icbm.sentry.interfaces.IAutoSentry;
-import icbm.sentry.interfaces.ISentry;
-import icbm.sentry.interfaces.ISentryContainer;
+import icbm.sentry.interfaces.IAutoTurret;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.interfaces.ITurret;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,7 +11,6 @@ import java.util.List;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -19,16 +18,16 @@ import universalelectricity.api.vector.VectorWorld;
 /**
  * AI for the sentry objects
  * 
- * @author DarkGuardsman
+ * @author DarkGuardsman, Calclavia, Tgame14
  */
-public class SentryAI
+public class TurretAI
 {
-	private ISentryContainer container;
+	private ITurretProvider container;
 	private IEntitySelector entitySelector;
 	private int rotationDelayTimer = 0;
 	private int targetLostTimer = 0;
 	private int ticks = 0;
-	private LookHelper lookHelper;
+	private LookManager lookHelper;
 
 	public static final boolean debugMode = true;
 
@@ -38,19 +37,19 @@ public class SentryAI
 			System.out.println("[Sentry AI] " + str);
 	}
 
-	public SentryAI(ISentryContainer container, LookHelper lookHelper)
+	public TurretAI(ITurretProvider container, LookManager lookHelper)
 	{
 		this.container = container;
 		this.lookHelper = lookHelper;
 		// TODO get selector from sentry at a later date
-		this.entitySelector = new EntitySelectorSentry(this.container);
+		this.entitySelector = new TurretEntitySelector(this.container);
 	}
 
-	public IAutoSentry sentry()
+	public IAutoTurret sentry()
 	{
-		if (container != null && container.getSentry() != null && container.getSentry() instanceof IAutoSentry)
+		if (container != null && container.getTurret() != null && container.getTurret() instanceof IAutoTurret)
 		{
-			return (IAutoSentry) container.getSentry();
+			return (IAutoTurret) container.getTurret();
 		}
 		return null;
 	}
@@ -81,7 +80,7 @@ public class SentryAI
 			if (sentry().getTarget() == null && ticks % 20 == 0)
 			{
 				debug("\tSearching for target");
-				sentry().setTarget(findTarget(container.getSentry(), this.entitySelector, this.container.getSentry().getRange()));
+				sentry().setTarget(findTarget(container.getTurret(), this.entitySelector, this.container.getTurret().getRange()));
 			}
 
 			// If we have a target start aiming logic
@@ -93,7 +92,7 @@ public class SentryAI
 					if (lookHelper.isLookingAt(sentry().getTarget(), 3))
 					{
 						debug("\tTarget locked and firing weapon");
-						this.container.getSentry().fire(sentry().getTarget());
+						this.container.getTurret().fire(sentry().getTarget());
 					}
 					else
 					{
@@ -137,7 +136,7 @@ public class SentryAI
 
 	}
 
-	protected EntityLivingBase findTarget(ISentry sentry, IEntitySelector targetSelector, int range)
+	protected EntityLivingBase findTarget(ITurret sentry, IEntitySelector targetSelector, int range)
 	{
 		debug("\t\tTarget selector update");
 		List<EntityLivingBase> list = container.world().selectEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z, lookHelper.getCenter().x, lookHelper.getCenter().y, lookHelper.getCenter().z).expand(range, range, range), targetSelector);

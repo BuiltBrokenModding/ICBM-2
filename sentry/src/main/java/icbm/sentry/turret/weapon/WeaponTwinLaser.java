@@ -2,7 +2,7 @@ package icbm.sentry.turret.weapon;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.interfaces.ISentry;
+import icbm.sentry.interfaces.ITurret;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class WeaponTwinLaser extends WeaponLaser
 {
-	public WeaponTwinLaser(ISentry sentry, float damage)
+	public WeaponTwinLaser(ITurret sentry, float damage)
 	{
 		super(sentry, damage);
 	}

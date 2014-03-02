@@ -2,7 +2,7 @@ package icbm.sentry.interfaces;
 
 import net.minecraft.entity.Entity;
 
-public interface IAutoSentry extends ISentry
+public interface IAutoTurret extends ITurret
 {
     public void setTarget(Entity target);
 

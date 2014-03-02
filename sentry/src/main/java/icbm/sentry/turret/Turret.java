@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
-import icbm.sentry.interfaces.ISentry;
-import icbm.sentry.interfaces.ISentryContainer;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,29 +17,28 @@ import calclavia.lib.utility.nbt.SaveManager;
  * 
  * @author DarkGuardsman, tgame14
  */
-public abstract class Sentry implements IEnergyContainer, ISentry
+public abstract class Turret implements IEnergyContainer, ITurret
 {
 	// TODO: implement a property system used by MC entities to support any number of settings a
 	// sentry can have
 	protected float maxHealth = -1;
-	public ISentryContainer host;
+	public ITurretProvider host;
 	protected Vector3 aimOffset;
 	protected float barrelLength;
 	protected Vector3 centerOffset;
 	protected float health;
 	protected EnergyStorageHandler energy;
 	protected int range = 10;
-	// TODO change out weapon system var for an interface and registry system
+	// TODO: change out weapon system var for an interface and registry system
 	protected WeaponSystem weaponSystem;
 
-	public Sentry(ISentryContainer host)
+	public Turret(ITurretProvider host)
 	{
 		this.host = host;
 		aimOffset = new Vector3();
 		centerOffset = new Vector3();
 		barrelLength = 1;
 		energy = new EnergyStorageHandler(1000);
-
 	}
 
 	public float getMaxHealth()
@@ -47,7 +46,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 		return maxHealth;
 	}
 
-	public void updateEntity()
+	public void update()
 	{
 
 	}
@@ -140,7 +139,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 	@Override
 	public void save(NBTTagCompound nbt)
 	{
-		nbt.setString(ISentry.SENTRY_SAVE_ID, SaveManager.getID(this.getClass()));
+		nbt.setString(ITurret.SENTRY_SAVE_ID, SaveManager.getID(this.getClass()));
 		if (this.energy != null)
 			this.energy.writeToNBT(nbt);
 
@@ -155,7 +154,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 	}
 
 	@Override
-	public ISentryContainer getHost()
+	public ITurretProvider getHost()
 	{
 		return this.host;
 	}
@@ -200,7 +199,7 @@ public abstract class Sentry implements IEnergyContainer, ISentry
 	@Override
 	public String toString()
 	{
-		String id = SentryRegistry.getID(this);
+		String id = TurretRegistry.getID(this);
 		return "[Sentry]ID: " + (id != null ? id : "unknown") + "   " + super.toString();
 	}
 

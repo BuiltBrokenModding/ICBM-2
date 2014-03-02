@@ -1,6 +1,6 @@
 package icbm.sentry.turret.ai;
 
-import icbm.sentry.interfaces.ISentryContainer;
+import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MovingObjectPosition;
@@ -9,13 +9,17 @@ import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 import calclavia.lib.prefab.IServo;
 
-// Look helper will be parted out during 1.7 update. Some method will moved to a math helper, and
-// rest to AI handlers
-public class LookHelper
+/**
+ * Look helper will be parted out during 1.7 update. Some method will moved to a math helper, and
+ * rest to AI handlers
+ * 
+ * @author DarkCow, Calclavia
+ */
+public class LookManager
 {
 	private TileTurret tileTurret;
 
-	public LookHelper(TileTurret tileSentry)
+	public LookManager(TileTurret tileSentry)
 	{
 		this.tileTurret = tileSentry;
 	}
@@ -100,7 +104,7 @@ public class LookHelper
 
 	public boolean canEntityBeSeen(Entity entity)
 	{
-		Vector3 traceStart = getCenter().translate(tileTurret.getSentry().getAimOffset());
+		Vector3 traceStart = getCenter().translate(tileTurret.getTurret().getAimOffset());
 		return canEntityBeSeen(traceStart, entity);
 	}
 
@@ -115,7 +119,7 @@ public class LookHelper
 		return getCenterRayStart(this.tileTurret);
 	}
 
-	public static VectorWorld getCenterRayStart(ISentryContainer container)
+	public static VectorWorld getCenterRayStart(ITurretProvider container)
 	{
 		double z = Math.sin(Math.toRadians(container.yaw() - 90));
 		double x = Math.cos(Math.toRadians(container.yaw() - 90));
@@ -128,8 +132,8 @@ public class LookHelper
 		return getCenter(this.tileTurret);
 	}
 
-	public static VectorWorld getCenter(ISentryContainer container)
+	public static VectorWorld getCenter(ITurretProvider container)
 	{
-		return new VectorWorld(container.world(), new Vector3(container.x(), container.y(), container.z()).translate(container.getSentry().getCenterOffset()));
+		return new VectorWorld(container.world(), new Vector3(container.x(), container.y(), container.z()).translate(container.getTurret().getCenterOffset()));
 	}
 }

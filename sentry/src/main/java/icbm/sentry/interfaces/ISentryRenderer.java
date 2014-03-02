@@ -9,7 +9,7 @@ import net.minecraftforge.common.ForgeDirection;
  * @author Darkguardsman */
 public interface ISentryRenderer
 {
-    public void render(ForgeDirection side, ISentryContainer container, float yaw, float pitch);
+    public void render(ForgeDirection side, ITurretProvider container, float yaw, float pitch);
 
-    public ResourceLocation getTexture(EntityPlayer player, ISentryContainer container);
+    public ResourceLocation getTexture(EntityPlayer player, ITurretProvider container);
 }
