@@ -72,14 +72,14 @@ public class WeaponProjectile extends WeaponDamage
                     if (ammo.getAmmoCount(itemStack) >= need)
                     {
                         if (doConsume)
-                            ammo.consumeAmmo(itemStack, need);
+                            inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, need));
                         return true;
                     }
                     else
                     {
                         int consume = need - ammo.getAmmoCount(itemStack);
                         if (doConsume)
-                            ammo.consumeAmmo(itemStack, consume);
+                            inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, consume));
                         need -= consume;
                     }
                     consumeCount += ammo.getAmmoCount(itemStack);
