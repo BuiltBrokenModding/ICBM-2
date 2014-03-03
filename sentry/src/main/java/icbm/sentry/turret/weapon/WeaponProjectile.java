@@ -30,7 +30,6 @@ public class WeaponProjectile extends WeaponDamage
     {
         super.fire(target.clone().translate(getInaccuracy(), getInaccuracy(), getInaccuracy()));
         consumeAmmo(ammoAmount, true);
-        InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), new ItemStack(ICBMSentry.itemAmmo, 1, AmmoType.SHELL.ordinal()));
     }
 
     private float getInaccuracy()
@@ -72,14 +71,21 @@ public class WeaponProjectile extends WeaponDamage
                     if (ammo.getAmmoCount(itemStack) >= need)
                     {
                         if (doConsume)
+                        {
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, need));
+                            InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
+                        }
                         return true;
                     }
                     else
                     {
                         int consume = need - ammo.getAmmoCount(itemStack);
                         if (doConsume)
+                        {
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, consume));
+                            InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack,consume));
+                            
+                        }
                         need -= consume;
                     }
                     consumeCount += ammo.getAmmoCount(itemStack);
