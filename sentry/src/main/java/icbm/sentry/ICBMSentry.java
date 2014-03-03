@@ -8,6 +8,7 @@ import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.TurretType;
+import icbm.sentry.turret.ai.TurretEntitySelector;
 import icbm.sentry.turret.auto.TurretAntiAir;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
@@ -90,6 +91,9 @@ public class ICBMSentry
 		EntityRegistry.registerModEntity(EntityMountableDummy.class, "ICBMFake", ENTITY_ID_PREFIX + 7, INSTANCE, 50, 5, true);
 
 		TabICBM.itemStack = new ItemStack(blockTurret);
+
+        String sentryFeatures = "Sentry_Features";
+        TurretEntitySelector.bosses = Settings.CONFIGURATION.get(sentryFeatures, "TurretShootsBosses", TurretEntitySelector.bosses).getBoolean(TurretEntitySelector.bosses);
 
 		proxy.preInit();
 

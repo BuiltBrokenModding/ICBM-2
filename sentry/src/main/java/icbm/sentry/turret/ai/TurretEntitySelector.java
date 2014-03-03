@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityOwnable;
 import net.minecraft.entity.INpc;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.IAnimals;
@@ -23,7 +24,7 @@ import calclavia.lib.access.IProfileContainer;
 public class TurretEntitySelector implements IEntitySelector
 {
 	ITurretProvider turretProvider;
-	boolean monsters = true, animals = false, npcs = false, players = false, flying = false;
+	public static boolean monsters = true, animals = false, npcs = false, players = false, flying = false, bosses = false;
 
 	public TurretEntitySelector(ITurret turret)
 	{
@@ -39,6 +40,10 @@ public class TurretEntitySelector implements IEntitySelector
 			{
                 return turretProvider.getTurret() instanceof TurretAntiAir || flying;
 			}
+            else if (entity instanceof IBossDisplayData)
+            {
+                return bosses;
+            }
 			else if (entity instanceof EntityPlayer)
 			{
 				return players;
