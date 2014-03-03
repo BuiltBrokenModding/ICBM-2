@@ -25,7 +25,7 @@ import icbm.sentry.turret.weapon.WeaponProjectile;
  */
 public class TurretAntiAir extends TurretAuto
 {
-    private static Class<? extends EntityLiving>[] vanillaFlight = new Class[] { EntityWither.class, EntityGhast.class, EntityBlaze.class, EntityDragon.class };
+    private static Class<? extends EntityLiving>[] vanillaFlight = new Class[] { EntityWither.class, EntityGhast.class, EntityBlaze.class };
 
 	public TurretAntiAir(TileTurret host)
 	{
