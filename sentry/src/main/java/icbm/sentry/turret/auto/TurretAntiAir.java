@@ -1,7 +1,13 @@
 package icbm.sentry.turret.auto;
 
 import icbm.api.sentry.IAATarget;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.item.ItemStack;
 import universalelectricity.api.vector.Vector3;
@@ -19,6 +25,8 @@ import icbm.sentry.turret.weapon.WeaponProjectile;
  */
 public class TurretAntiAir extends TurretAuto
 {
+    private static Class<? extends EntityLiving>[] vanillaFlight = new Class[] { EntityWither.class, EntityBat.class, EntityGhast.class, EntityBlaze.class, EntityDragon.class };
+
 	public TurretAntiAir(TileTurret host)
 	{
 		super(host);
@@ -43,8 +51,18 @@ public class TurretAntiAir extends TurretAuto
     @Override
     public boolean canFire ()
     {
-        if (this.target instanceof IAATarget || this.target instanceof EntityWither || this.target instanceof EntityBat)
+        if (this.target instanceof IAATarget || isVanillaFlier(this.target))
             return super.canFire();
+        return false;
+    }
+
+    private static boolean isVanillaFlier (Entity target)
+    {
+        for (Class<? extends EntityLiving> entityClass : vanillaFlight)
+        {
+            if (entityClass.isInstance(target))
+                return true;
+        }
         return false;
     }
 }
