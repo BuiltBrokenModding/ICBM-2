@@ -2,6 +2,7 @@ package icbm.sentry.turret.ai;
 
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.turret.auto.TurretAntiAir;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
@@ -36,7 +37,7 @@ public class TurretEntitySelector implements IEntitySelector
 		{
 			if (entity instanceof EntityFlying)
 			{
-				return flying;
+                return turretProvider.getTurret() instanceof TurretAntiAir || flying;
 			}
 			else if (entity instanceof EntityPlayer)
 			{

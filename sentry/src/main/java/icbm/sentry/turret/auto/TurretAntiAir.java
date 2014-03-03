@@ -25,7 +25,6 @@ import icbm.sentry.turret.weapon.WeaponProjectile;
  */
 public class TurretAntiAir extends TurretAuto
 {
-    private static Class<? extends EntityLiving>[] vanillaFlight = new Class[] { EntityWither.class, EntityGhast.class, EntityBlaze.class };
 
 	public TurretAntiAir(TileTurret host)
 	{
@@ -48,21 +47,4 @@ public class TurretAntiAir extends TurretAuto
 		this.centerOffset.y = 0.75;
 	}
 
-    @Override
-    public boolean canFire ()
-    {
-        if (this.target instanceof IAATarget || isVanillaFlier(this.target))
-            return super.canFire();
-        return false;
-    }
-
-    private static boolean isVanillaFlier (Entity target)
-    {
-        for (Class<? extends EntityLiving> entityClass : vanillaFlight)
-        {
-            if (entityClass.isInstance(target))
-                return true;
-        }
-        return false;
-    }
 }
