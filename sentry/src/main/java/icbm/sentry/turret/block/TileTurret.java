@@ -56,13 +56,15 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     /** Sentry instance used to define the visuals and weapons of the sentry */
     protected Turret turret;
 
-    private String unlocalizedName = "err";
+    private String unlocalizedName;
     private String saveManagerSentryKey;
 
-    private long turretEnergy;
+    private long turretPrevEnergy;
 
     public TileTurret()
     {
+        this.unlocalizedName = "err";
+        this.turretPrevEnergy = 0;
 
     }
 
@@ -73,8 +75,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
         if (getTurret() != null)
         {
-            long prevEnergy = getTurret().energy.getEnergy();
-            EulerServo prevServo = (EulerServo) getTurret().getServo().clone();
+            EulerServo prevServo = getTurret().getServo().clone();
+
             getTurret().update();
 
             /*
@@ -90,10 +92,10 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
                     PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
                 }
 
-                if (!(prevEnergy == getTurret().energy.getEnergy()))
+                if (this.turretPrevEnergy != getTurret().energy.getEnergy())
                 {
-                    System.out.println("Packet update");
-                    PacketHandler.sendPacketToClients(this.getEnergyPacket(getTurret().energy.getEnergy()));
+                    PacketHandler.sendPacketToClients(this.getEnergyPacket(getTurret().energy.getEnergy()), this.getWorldObj());
+                    this.turretPrevEnergy = getTurret().energy.getEnergy();
                 }
             }
         }
