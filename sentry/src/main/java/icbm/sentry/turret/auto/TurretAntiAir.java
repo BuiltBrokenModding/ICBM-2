@@ -1,5 +1,8 @@
 package icbm.sentry.turret.auto;
 
+import icbm.api.sentry.IAATarget;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.item.ItemStack;
 import universalelectricity.api.vector.Vector3;
 import icbm.Reference;
@@ -36,4 +39,12 @@ public class TurretAntiAir extends TurretAuto
 		};
 		this.centerOffset.y = 0.75;
 	}
+
+    @Override
+    public boolean canFire ()
+    {
+        if (this.target instanceof IAATarget || this.target instanceof EntityWither || this.target instanceof EntityBat)
+            return super.canFire();
+        return false;
+    }
 }

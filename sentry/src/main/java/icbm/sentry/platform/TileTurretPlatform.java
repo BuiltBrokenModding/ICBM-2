@@ -1,5 +1,6 @@
 package icbm.sentry.platform;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
