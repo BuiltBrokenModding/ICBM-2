@@ -1,12 +1,11 @@
 package icbm.sentry.platform;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+import calclavia.lib.prefab.tile.TileElectricalInventory;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.tile.TileElectricalInventory;
 
 /**
  * Turret Platform
