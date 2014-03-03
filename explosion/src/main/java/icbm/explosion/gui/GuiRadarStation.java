@@ -22,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector2;
-import calclavia.lib.prefab.vector.Region2;
+import calclavia.lib.prefab.vector.Rectangle;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -233,7 +233,7 @@ public class GuiRadarStation extends GuiICBM
 				Vector2 maxPosition = position.clone();
 				maxPosition.add(range);
 
-				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
+				if (new Rectangle(minPosition, maxPosition).isIn(this.mousePosition))
 				{
 					this.info = entity.getEntityName();
 
@@ -266,7 +266,7 @@ public class GuiRadarStation extends GuiICBM
 				Vector2 maxPosition = position.clone();
 				maxPosition.add(range);
 
-				if (new Region2(minPosition, maxPosition).isIn(this.mousePosition))
+				if (new Rectangle(minPosition, maxPosition).isIn(this.mousePosition))
 				{
 					if (jiQi.getBlockType() != null)
 					{
