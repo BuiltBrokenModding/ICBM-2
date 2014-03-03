@@ -152,7 +152,11 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     @Override
     public ItemStack getShell(ItemStack itemStack, int count)
     {
-        // TODO Auto-generated method stub
+        AmmoType type = AmmoType.get(itemStack);
+        if (type != AmmoType.SHELL && type != AmmoType.BULLETINF)
+        {
+            return new ItemStack(this, count, AmmoType.SHELL.ordinal());
+        }
         return null;
     }
 
