@@ -1,5 +1,7 @@
 package icbm.sentry.turret.ai;
 
+import icbm.core.ICBMCore;
+import icbm.core.Settings;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.auto.TurretAntiAir;
@@ -25,6 +27,17 @@ public class TurretEntitySelector implements IEntitySelector
 {
 	ITurretProvider turretProvider;
 	public static boolean monsters = true, animals = false, npcs = false, players = false, flying = false, bosses = false;
+
+    public static void configTurretTargeting()
+    {
+        String sentryFeatures = "Sentry_AI_Targeting";
+        monsters = Settings.CONFIGURATION.get(sentryFeatures, "Mobs", monsters, "Preferably left as default, these options are for configuring Sentry AI Targeting, as which entities Sentries will target.").getBoolean(monsters);
+        animals = Settings.CONFIGURATION.get(sentryFeatures, "PassiveAnimals", animals).getBoolean(animals);
+        npcs = Settings.CONFIGURATION.get(sentryFeatures, "NPCs", npcs).getBoolean(npcs);
+        players = Settings.CONFIGURATION.get(sentryFeatures, "Players", players).getBoolean(players);
+        //flying = Settings.CONFIGURATION.get(sentryFeatures, "flyingMobs", flying).getBoolean(flying); maybe also allow this to be configured?
+        bosses = Settings.CONFIGURATION.get(sentryFeatures, "Bosses", bosses).getBoolean(bosses);
+    }
 
 	public TurretEntitySelector(ITurret turret)
 	{

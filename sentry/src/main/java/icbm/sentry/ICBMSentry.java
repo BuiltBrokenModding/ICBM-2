@@ -92,8 +92,7 @@ public class ICBMSentry
 
 		TabICBM.itemStack = new ItemStack(blockTurret);
 
-        String sentryFeatures = "Sentry_Features";
-        TurretEntitySelector.bosses = Settings.CONFIGURATION.get(sentryFeatures, "TurretShootsBosses", TurretEntitySelector.bosses).getBoolean(TurretEntitySelector.bosses);
+        TurretEntitySelector.configTurretTargeting();
 
 		proxy.preInit();
 
