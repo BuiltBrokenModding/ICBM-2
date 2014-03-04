@@ -21,6 +21,7 @@ public class WeaponLaser extends WeaponDamage
 	public void fire(Entity entity)
 	{
 		this.onHitEntity(entity);
+        turret.getHost().world().playSoundEffect(turret.getHost().x(), turret.getHost().y(), turret.getHost().z(), Reference.PREFIX + "lasershot", 5F, 1F - (turret.getHost().world().rand.nextFloat() * 0.2f));
 	}
 
 	@Override
@@ -36,7 +37,9 @@ public class WeaponLaser extends WeaponDamage
 	@Override
 	public void fire(Vector3 target)
 	{
-		turret.getHost().world().playSoundEffect(turret.getHost().x(), turret.getHost().y(), turret.getHost().z(), Reference.PREFIX + "lasershot", 5F, 1F - (turret.getHost().world().rand.nextFloat() * 0.2f));
+        /**
+         * placeholder code to not accidentially call a traveling bullet style fire. --tgame14
+         */
 	}
 
 	@Override
