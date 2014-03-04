@@ -41,10 +41,10 @@ public abstract class TurretRenderer implements ISimpleItemRenderer
 	{
 		if (tile != null && player != null)
 		{
-			if (tile.getAccessProfile().getOwnerGroup().isMemeber(player.username))
+			if (tile.canUse(Nodes.GROUP_ADMIN_NODE, player) || tile.canUse(Nodes.GROUP_OWNER_NODE, player))
 				return this.textureFriendly;
 
-			if (tile.canUse(Nodes.GROUP_USER_NODE, player))
+			if (tile.canAccess(player.username))
 			{
 				return textureNeutral;
 			}

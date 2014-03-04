@@ -171,10 +171,14 @@ public class BlockTurret extends BlockICBM
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
     {
-        TileEntity te = world.getBlockTileEntity(x, y, z);
-        if (te instanceof TileTurret && entity instanceof EntityPlayer)
+        if (!world.isRemote)
         {
-            ((TileTurret) te).getAccessProfile().getOwnerGroup().addMemeber(new AccessUser(((EntityPlayer) entity).username));
+            TileEntity te = world.getBlockTileEntity(x, y, z);
+            if (te instanceof TileTurret && entity instanceof EntityPlayer)
+            {
+                ((TileTurret) te).getAccessProfile().setUserAccess(((EntityPlayer) entity).username, ((TileTurret) te).getAccessProfile().getOwnerGroup(), false);
+                ((TileTurret) te).onProfileChange();
+            }
         }
     }
 
