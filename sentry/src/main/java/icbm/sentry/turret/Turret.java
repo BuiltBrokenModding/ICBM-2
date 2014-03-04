@@ -63,7 +63,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		if (!world().isRemote)
 		{
 			ai.update();
-			servo.update();
+			this.getServo().update();
 		}
 
 		if (cooldown > 0)
