@@ -1,8 +1,5 @@
 package icbm.sentry.turret.block;
 
-import java.util.ArrayList;
-
-import cpw.mods.fml.common.FMLCommonHandler;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
@@ -21,7 +18,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
@@ -29,12 +25,12 @@ import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.prefab.tile.IRotatable;
 import calclavia.lib.terminal.TileTerminal;
-import calclavia.lib.utility.inventory.ExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 
 import com.google.common.io.ByteArrayDataInput;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -48,6 +44,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     protected static final int DESCRIPTION_PACKET_ID = 5;
     protected static final int FIRING_EVENT_PACKET_ID = 6;
     protected static final int ENERGY_PACKET_ID = 7;
+    protected static final int PROFILE_PACKET_ID = 8;
 
     /** TURRET AIM & ROTATION HELPER */
     public EntityMountableDummy sentryEntity;
@@ -75,26 +72,17 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
         if (getTurret() != null)
         {
-            EulerServo prevServo = getTurret().getServo().clone();
-
             getTurret().update();
 
-            /*
-             * TODO: Instead of sending the current rotation, send the target because the client can
-             * "rotate itself". -- Calclavia
-             * 
-             * From DarkGuardsman: That will work just send the entity ID but still send the rotation every few ticks as it will not update correctly
-             */
             if (!worldObj.isRemote)
             {
-                if (!prevServo.equals(getTurret().getServo()))
+                if (getTurret().getServo().hasChanged)
                 {
-                    PacketHandler.sendPacketToClients(this.getRotationPacket(), this.getWorldObj(), new Vector3(this), 60);
+                    PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 60, worldObj.provider.dimensionId, this.getRotationPacket());
                 }
-
                 if (this.turretPrevEnergy != getTurret().energy.getEnergy())
                 {
-                    PacketHandler.sendPacketToClients(this.getEnergyPacket(getTurret().energy.getEnergy()), this.getWorldObj());
+                    PacketHandler.sendPacketToClients(this.getEnergyPacket(), this.getWorldObj());
                     this.turretPrevEnergy = getTurret().energy.getEnergy();
                 }
             }
@@ -116,12 +104,22 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public void setAccessProfile(AccessProfile profile)
     {
         this.accessProfile = profile;
+        if (profile != null)
+        {
+            profile.addContainer(this);
+        }
     }
 
     @Override
     public boolean canAccess(String username)
     {
         return this.getAccessProfile().getUserAccess(username) != null;
+    }
+
+    @Override
+    public void onProfileChange()
+    {
+        PacketHandler.sendPacketToClients(this.getProfilePacket(), worldObj, new Vector3(this), 60);
     }
 
     @Override
@@ -154,15 +152,22 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         return ICBMCore.PACKET_TILE.getPacketWithID(ROTATION_PACKET_ID, this, getTurret().getServo().yaw, getTurret().getServo().pitch);
     }
 
+    public Packet getProfilePacket()
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        this.getAccessProfile().save(tag);
+        return ICBMCore.PACKET_TILE.getPacketWithID(PROFILE_PACKET_ID, this, tag);
+    }
+
     @Override
     public void sendFireEventToClient(Vector3 target)
     {
         PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), new Vector3(this), 100);
     }
 
-    public Packet getEnergyPacket(long newEnergy)
+    public Packet getEnergyPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, newEnergy);
+        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, getTurret().energy.getEnergy());
     }
 
     @Override
@@ -170,31 +175,46 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     {
         if (!super.onReceivePacket(id, data, player, extra))
         {
-            if (id == DESCRIPTION_PACKET_ID)
+            try
             {
-                turret = TurretRegistry.constructSentry(data.readUTF(), this);
-                getTurret().getServo().yaw = data.readDouble();
-                getTurret().getServo().pitch = data.readDouble();
-                return true;
-            }
-            if (id == ROTATION_PACKET_ID)
-            {
-                getTurret().getServo().yaw = data.readDouble();
-                getTurret().getServo().pitch = data.readDouble();
-                return true;
-            }
-            if (id == FIRING_EVENT_PACKET_ID)
-            {
-                getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
-                return true;
-            }
+                if (id == DESCRIPTION_PACKET_ID)
+                {
+                    turret = TurretRegistry.constructSentry(data.readUTF(), this);
+                    getTurret().getServo().yaw = data.readDouble();
+                    getTurret().getServo().pitch = data.readDouble();
+                    return true;
+                }
+                if (id == ROTATION_PACKET_ID)
+                {
+                    getTurret().getServo().yaw = data.readDouble();
+                    getTurret().getServo().pitch = data.readDouble();
+                    return true;
+                }
+                if (id == FIRING_EVENT_PACKET_ID)
+                {
+                    getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
+                    return true;
+                }
 
-            if (id == ENERGY_PACKET_ID)
-            {
-                getTurret().energy.setEnergy(data.readLong());
-            }
+                if (id == ENERGY_PACKET_ID)
+                {
+                    getTurret().energy.setEnergy(data.readLong());
+                    return true;
+                }
 
-            return false;
+                if (id == PROFILE_PACKET_ID)
+                {
+                    this.getAccessProfile().load(PacketHandler.readNBTTagCompound(data));
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                return true;
+            }
         }
         return true;
     }
