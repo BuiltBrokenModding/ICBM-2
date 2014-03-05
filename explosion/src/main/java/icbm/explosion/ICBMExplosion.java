@@ -1,5 +1,6 @@
 package icbm.explosion;
 
+import cpw.mods.fml.common.Loader;
 import icbm.Reference;
 import icbm.api.ExplosiveHelper;
 import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
@@ -59,6 +60,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.api.CompatibilityModule;
@@ -322,7 +324,10 @@ public class ICBMExplosion
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
 		// Add all explosive recipes.
-		for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+        if (!Loader.isModLoaded("AtomicScience"))
+            OreDictionary.registerOre("antimatterGram", Item.diamond);
+        
+        for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
 		{
 			zhaPin.init();
 			// Missile
