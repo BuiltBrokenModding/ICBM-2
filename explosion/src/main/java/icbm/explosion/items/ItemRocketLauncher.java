@@ -120,6 +120,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
     @Override
     public void addInformation (ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
     {
-        list.add(LanguageUtility.getLocal("info.rocketlauncher.start") + " " + Settings.MAX_ROCKET_LAUCNHER_TIER + " " + LanguageUtility.getLocal("info.rocketlauncher.end"));
+        String str = LanguageUtility.getLocal("info.rocketlauncher.tooltip").replaceAll("%s", String.valueOf(Settings.MAX_ROCKET_LAUCNHER_TIER));
+        list.add(str);
     }
 }
