@@ -84,6 +84,18 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
+    public boolean onSneakUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (!world.isRemote && tile instanceof TileTurret)
+        {
+            if (((TileTurret) tile).canUse(Nodes.GROUP_ADMIN_NODE, entityPlayer) || ((TileTurret) tile).canUse(Nodes.GROUP_OWNER_NODE, entityPlayer))
+                InventoryUtility.dropBlockAsItem(world, x, y, z, true);
+        }
+        return true;
+    }
+
+    @Override
     public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
     {
         /** Checks the TileEntity if it can activate. If not, then try to activate the turret
@@ -175,18 +187,6 @@ public class BlockTurret extends BlockICBM
                 ((TileTurret) te).onProfileChange();
             }
         }
-    }
-
-    @Override
-    public boolean onSneakUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
-    {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (!world.isRemote && tile instanceof TileTurret)
-        {
-            if (((TileTurret) tile).canUse(Nodes.GROUP_ADMIN_NODE, entityPlayer) || ((TileTurret) tile).canUse(Nodes.GROUP_OWNER_NODE, entityPlayer))
-                InventoryUtility.dropBlockAsItem(world, x, y, z, true);
-        }
-        return true;
     }
 
     @Override
