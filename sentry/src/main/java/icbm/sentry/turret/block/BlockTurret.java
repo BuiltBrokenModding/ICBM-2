@@ -7,6 +7,7 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -20,10 +21,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import calclavia.lib.access.AccessUser;
+import calclavia.lib.access.Nodes;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.block.BlockAdvanced;
 import calclavia.lib.prefab.item.ItemBlockSaved;
+import calclavia.lib.utility.inventory.InventoryUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -113,7 +115,7 @@ public class BlockTurret extends BlockICBM
         {
             if (!canBlockStay(world, x, y, z))
             {
-                world.setBlockToAir(x, y, z);
+                InventoryUtility.dropBlockAsItem(world, x, y, z, true);
             }
         }
     }
@@ -162,13 +164,6 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, int par5, int par6)
-    {
-        ItemBlockSaved.dropBlockWithNBT(this, world, x, y, z);
-        super.breakBlock(world, x, y, z, par5, par6);
-    }
-
-    @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
     {
         if (!world.isRemote)
@@ -183,16 +178,29 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
+    public boolean onSneakUseWrench(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (!world.isRemote && tile instanceof TileTurret)
+        {
+            if (((TileTurret) tile).canUse(Nodes.GROUP_ADMIN_NODE, entityPlayer) || ((TileTurret) tile).canUse(Nodes.GROUP_OWNER_NODE, entityPlayer))
+                InventoryUtility.dropBlockAsItem(world, x, y, z, true);
+        }
+        return true;
+    }
+
+    @Override
+    public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
+    {
+        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        ret.add(ItemBlockSaved.getItemStackWithNBT(this, world, x, y, z));
+        return ret;
+    }
+
+    @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
         return ItemBlockSaved.getItemStackWithNBT(this, world, x, y, z);
-    }
-
-    /* to cancel the vanilla method of dropping the itemEntity */
-    @Override
-    protected void dropBlockAsItem_do(World world, int x, int y, int z, ItemStack stack)
-    {
-
     }
 
     @Override
