@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.render.FxLaser;
+import calclavia.lib.render.fx.FxLaser;
 import calclavia.lib.render.item.GlobalItemRenderer;
 import calclavia.lib.render.item.ISimpleItemRenderer;
 import calclavia.lib.utility.nbt.NBTUtility;

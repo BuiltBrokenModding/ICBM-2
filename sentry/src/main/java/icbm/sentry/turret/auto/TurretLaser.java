@@ -16,7 +16,7 @@ public class TurretLaser extends TurretAuto
 		super(host);
 		energy = new EnergyStorageHandler(100000);
 		maxHealth = 50;
-		weaponSystem = new WeaponTwinLaser(this, 5);
+		weaponSystem = new WeaponTwinLaser(this, 3);
 		barrelLength = 1.2f;
 		range = 15;
 		maxCooldown = 15;
