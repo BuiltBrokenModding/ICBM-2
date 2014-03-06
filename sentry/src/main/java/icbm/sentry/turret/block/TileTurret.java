@@ -309,24 +309,38 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         return this.turret;
     }
 
+    /**
+     * temp
+     * @param str
+     */
+    private static void debug(String str)
+    {
+        ICBMCore.LOGGER.warning(str);
+    }
+
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
     {
         if (entityPlayer != null)
         {
+            debug("\t right clicked, player is nonNull");
             if (!entityPlayer.isSneaking())
             {
-                if (this.getTurret() instanceof MountedTurret && this.sentryEntity != null)
+                debug("right clicked, player is not sneaking");
+                debug("is mountable " + (this.getTurret() instanceof MountedTurret));
+                debug("is fake entity " + (this.getFakeEntity() != null));
+                if (this.getTurret() instanceof MountedTurret && this.getFakeEntity() != null)
                 {
-                    if (this.sentryEntity.riddenByEntity instanceof EntityPlayer)
+                    debug("\t right clicked, turret is mountable and fake entity exists");
+                    if (this.getFakeEntity().riddenByEntity instanceof EntityPlayer)
                     {
+                        debug("right clicked, fake entity ridden by other entity");
                         if (!this.worldObj.isRemote)
                         {
                             PacketHandler.sendPacketToClients(this.getRotationPacket());
                         }
                         return true;
                     }
-
                     mount(entityPlayer);
                 }
 
@@ -339,16 +353,20 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
     public void mount(EntityPlayer entityPlayer)
     {
+        debug("mounting...");
         if (!this.worldObj.isRemote)
         {
+            debug("mounting on server");
             entityPlayer.rotationYaw = (float) getTurret().getServo().yaw;
             entityPlayer.rotationPitch = (float) getTurret().getServo().pitch;
-            entityPlayer.mountEntity(this.sentryEntity);
+            entityPlayer.mountEntity(this.getFakeEntity());
         }
     }
 
     public EntityMountableDummy getFakeEntity()
     {
+        if (this.sentryEntity == null)
+            this.setFakeEntity(new EntityMountableDummy(this, true));
         return this.sentryEntity;
     }
 
