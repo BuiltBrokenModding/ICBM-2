@@ -315,7 +315,8 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
      */
     private static void debug(String str)
     {
-        ICBMCore.LOGGER.warning(str);
+        if (false)
+            ICBMCore.LOGGER.warning(str);
     }
 
     @Override
