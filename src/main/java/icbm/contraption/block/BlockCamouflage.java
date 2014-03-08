@@ -14,7 +14,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-@BlockInfo(tileEntity = "icbm.contraption.TileCamouflage")
+@BlockInfo(tileEntity = "icbm.contraption.block.TileCamouflage")
 public class BlockCamouflage extends BlockICBM
 {
     public BlockCamouflage(int id)
