@@ -46,7 +46,7 @@ public class BlastRedmatter extends Blast
     {
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.explosionX - this.explosionSize, this.explosionY - this.explosionSize, this.explosionZ - this.explosionSize, this.explosionX + this.explosionSize, this.explosionY + this.explosionSize, this.explosionZ + this.explosionSize);
         List<?> list = this.worldObj.getEntitiesWithinAABB(EntityExplosion.class, bounds);
-        System.out.println("post Explode");
+
         for (Object obj : list)
         {
             if (obj instanceof EntityExplosion)

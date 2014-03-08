@@ -13,7 +13,7 @@ import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.auto.TurretAntiAir;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
-import icbm.sentry.turret.mount.MountedRailgun;
+import icbm.sentry.turret.mounted.MountedRailgun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

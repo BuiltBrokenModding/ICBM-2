@@ -1,8 +1,9 @@
 package icbm.sentry.interfaces;
 
-import universalelectricity.api.vector.Vector3;
+import icbm.sentry.turret.EntityMountableDummy;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.Vector3;
 
 /**
  * Implement this on any object that hosts a turret.
@@ -23,6 +24,8 @@ public interface ITurretProvider
 	public double z();
 
 	public void sendFireEventToClient(Vector3 target);
+
+	public EntityMountableDummy getFakeEntity();
 
 	public IInventory getInventory();
 }

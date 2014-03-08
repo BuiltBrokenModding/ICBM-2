@@ -18,7 +18,7 @@ import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.items.ItemAmmo;
 import icbm.sentry.turret.items.ItemSentryUpgrade;
 import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
-import icbm.sentry.turret.mount.MountedRailgun;
+import icbm.sentry.turret.mounted.MountedRailgun;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

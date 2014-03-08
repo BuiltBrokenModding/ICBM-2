@@ -1,7 +1,7 @@
 package icbm.sentry.turret;
 
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.mount.MountedTurret;
+import icbm.sentry.turret.mounted.TurretMounted;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -25,27 +25,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityMountableDummy extends EntityLiving
 {
 	private TileTurret turretProvider;
-	private boolean shouldSit = false;
 
 	public EntityMountableDummy(World world)
 	{
 		super(world);
 	}
 
-	public EntityMountableDummy(TileTurret controller, boolean sit)
+	public EntityMountableDummy(TileTurret controller)
 	{
 		this(controller.worldObj);
 		this.isImmuneToFire = true;
-		this.setPosition(controller.xCoord, controller.yCoord, controller.zCoord);
+		this.setPosition(controller.xCoord + 0.5, controller.yCoord + 0.5, controller.zCoord + 0.5);
 		this.turretProvider = controller;
-		this.shouldSit = sit;
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		return true;
-
 	}
 
 	@Override
@@ -76,7 +73,7 @@ public class EntityMountableDummy extends EntityLiving
 
 		if (this.turretProvider instanceof TileTurret)
 		{
-			if (((TileTurret) this.turretProvider).getTurret() instanceof MountedTurret)
+			if (((TileTurret) this.turretProvider).getTurret() instanceof TurretMounted)
 				((TileTurret) this.turretProvider).setFakeEntity(this);
 		}
 
@@ -84,37 +81,51 @@ public class EntityMountableDummy extends EntityLiving
 		{
 			this.riddenByEntity.updateRiderPosition();
 		}
+
 		// TODO adjust for center of sentry
 		this.setPosition(this.turretProvider.xCoord + 0.5, this.turretProvider.yCoord, this.turretProvider.zCoord + 0.5);
 	}
 
 	@Override
+	public void updateRidden()
+	{
+		super.updateRidden();
+	}
+
+	@Override
 	public void updateRiderPosition()
 	{
-		// TODO cache this value and only update it when the yaw || pitch
-		// changes
-		if (this.riddenByEntity != null)
-		{
-			Vector3 vec = new Vector3(this.turretProvider);
-			Vector3 offset = new Vector3(0, 0, 1);
-			vec.translate(this.turretProvider.getTurret().getCenterOffset());
-			if (this.turretProvider.getTurret() instanceof MountedTurret)
-			{
-				offset = ((MountedTurret) this.turretProvider.getTurret()).getRiderOffset();
-			}
-			offset.rotate(turretProvider.getTurret().getServo().yaw, turretProvider.getTurret().getServo().pitch);
-			vec.add(offset);
-			this.riddenByEntity.setPosition(vec.x, vec.y, vec.z);
-			this.riddenByEntity.rotationYaw = (float) turretProvider.getTurret().getServo().yaw;
-			this.riddenByEntity.rotationPitch = (float) turretProvider.getTurret().getServo().pitch;
-		}
+		super.updateRiderPosition();/*
+									 * // TODO cache this value and only update it when the yaw ||
+									 * pitch changes
+									 * if (this.riddenByEntity != null)
+									 * {System.out.println("TEST");
+									 * Vector3 vec = new Vector3(this.turretProvider);
+									 * Vector3 offset = new Vector3(0, 0, 1);
+									 * vec.translate(this.turretProvider.getTurret().getCenterOffset(
+									 * ));
+									 * if (this.turretProvider.getTurret() instanceof TurretMounted)
+									 * {
+									 * offset = ((TurretMounted)
+									 * this.turretProvider.getTurret()).getRiderOffset();
+									 * }
+									 * offset.rotate(turretProvider.getTurret().getServo().yaw,
+									 * turretProvider.getTurret().getServo().pitch);
+									 * vec.add(offset);
+									 * this.riddenByEntity.setPosition(vec.x, vec.y, vec.z);
+									 * this.riddenByEntity.rotationYaw = (float)
+									 * turretProvider.getTurret().getServo().yaw;
+									 * this.riddenByEntity.rotationPitch = (float)
+									 * turretProvider.getTurret().getServo().pitch;
+									 * }
+									 */
 	}
 
 	@Override
 	public double getMountedYOffset()
 	{
-		if (this.turretProvider.getTurret() instanceof MountedTurret)
-			return ((MountedTurret) this.turretProvider.getTurret()).getRiderOffset().y;
+		if (this.turretProvider.getTurret() instanceof TurretMounted)
+			return ((TurretMounted) this.turretProvider.getTurret()).getRiderOffset().y;
 		else
 			return -0.5;
 	}
@@ -122,7 +133,7 @@ public class EntityMountableDummy extends EntityLiving
 	@Override
 	public boolean shouldRiderSit()
 	{
-		return this.shouldSit;
+		return true;
 	}
 
 	@Override
@@ -175,6 +186,7 @@ public class EntityMountableDummy extends EntityLiving
 		if (this.turretProvider != null && player != null)
 		{
 			Block block = Block.blocksList[this.worldObj.getBlockId(this.turretProvider.xCoord, this.turretProvider.yCoord, this.turretProvider.zCoord)];
+
 			if (block != null)
 			{
 				return block.onBlockActivated(this.turretProvider.worldObj, this.turretProvider.xCoord, this.turretProvider.yCoord, this.turretProvider.zCoord, player, 0, 0, 0, 0);

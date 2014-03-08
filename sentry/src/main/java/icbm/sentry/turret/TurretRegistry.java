@@ -48,7 +48,6 @@ public class TurretRegistry
 			{
 				sentryMap.put(key, sentry);
 				SaveManager.registerClass("Sentry-" + key, sentry);
-
 			}
 		}
 	}
@@ -159,17 +158,19 @@ public class TurretRegistry
 			if (clazz != null)
 			{
 				Constructor<?> con = ReflectionHelper.getConstructorWithArgs(clazz, args);
+
 				if (con != null)
 				{
 					candidate = con.newInstance(args);
 				}
+
 				if (candidate instanceof Turret)
 				{
 					sentryModule = (Turret) candidate;
 				}
 				else
 				{
-					ICBMCore.LOGGER.severe("Construction of Sentry failed, an unexpected Object was created");
+					ICBMCore.LOGGER.severe("Construction of turret '" + sentryID + "' failed, an unexpected object '" + con + "' was created");
 				}
 			}
 		}

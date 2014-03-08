@@ -3,7 +3,7 @@ package icbm.sentry.turret;
 import icbm.sentry.turret.auto.TurretAntiAir;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
-import icbm.sentry.turret.mount.MountedRailgun;
+import icbm.sentry.turret.mounted.MountedRailgun;
 import calclavia.lib.utility.LanguageUtility;
 
 /** Enum of all sentries created by ICBM */
