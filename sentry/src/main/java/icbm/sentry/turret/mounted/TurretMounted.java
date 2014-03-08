@@ -10,7 +10,7 @@ import universalelectricity.api.vector.Vector3;
 /** this sentry uses for mounting the player in position */
 public abstract class TurretMounted extends Turret
 {
-	protected Vector3 riderOffset = new Vector3(0.5, 1.2, 0.5);
+	protected Vector3 riderOffset = new Vector3();
 
 	public TurretMounted(ITurretProvider turretProvider)
 	{

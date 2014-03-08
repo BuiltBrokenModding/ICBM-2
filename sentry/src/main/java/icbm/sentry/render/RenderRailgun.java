@@ -29,6 +29,7 @@ public class RenderRailgun extends TurretRenderer
 	public void render(ForgeDirection side, TileTurret tile, double yaw, double pitch)
 	{
 		GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+		GL11.glScalef(1.5f, 1.5f, 1.5f);
 		MODEL.renderOnly("BASE", "NECK");
 		GL11.glRotated(yaw, 0, 1, 0);
 		MODEL.renderOnly("SUPPORT 1 (ROTATES)", "SUPPORT 2 (ROTATES)", "SUPPORT PLATFORM (ROTATES)");

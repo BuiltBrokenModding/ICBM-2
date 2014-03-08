@@ -23,7 +23,6 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 {
 	private int powerUpTicks = -1;
 
-	private boolean redstonePowerOn = false;
 	/** Is current ammo antimatter */
 	private boolean isAntimatter;
 
@@ -35,6 +34,8 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 	public MountedRailgun(TileTurret turretProvider)
 	{
 		super(turretProvider);
+		riderOffset = new Vector3(0, 0.2, 0);
+		explosionSize = 5;
 
 		weaponSystem = new WeaponProjectile(this, 1, 0)
 		{
@@ -54,6 +55,15 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 
 		if (!world().isRemote)
 		{
+			if (world().isBlockIndirectlyGettingPowered((int) getHost().x(), (int) getHost().y(), (int) getHost().z()))
+			{
+				System.out.println("TEST");
+
+				if (canFire())
+				{
+				}
+			}
+
 			if (powerUpTicks >= 0)
 			{
 				powerUpTicks++;

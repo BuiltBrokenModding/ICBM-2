@@ -49,7 +49,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	public Turret(ITurretProvider host)
 	{
 		this.host = host;
-		energy = new EnergyStorageHandler(10000);		
+		energy = new EnergyStorageHandler(10000);
 		ai = new TurretAI(this);
 	}
 
@@ -61,10 +61,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	public void update()
 	{
 		if (!world().isRemote)
-		{
-			ai.update();
-			this.getServo().update();
-		}
+			getServo().update();
 
 		if (cooldown > 0)
 			cooldown--;
@@ -98,20 +95,20 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	@Override
 	public boolean fire(Entity target)
 	{
-	    if (getHost().world().isRemote)
-        {
-            weaponSystem.fireClient(Vector3.fromCenter(target));
-            return true;
-        }
-        else if (canFire())
-        {
-            getHost().sendFireEventToClient(Vector3.fromCenter(target));
-            weaponSystem.fire(target);
-            energy.setEnergy(0);
-            cooldown = maxCooldown;
-            return true;
-        }
-	    return false;
+		if (getHost().world().isRemote)
+		{
+			weaponSystem.fireClient(Vector3.fromCenter(target));
+			return true;
+		}
+		else if (canFire())
+		{
+			getHost().sendFireEventToClient(Vector3.fromCenter(target));
+			weaponSystem.fire(target);
+			energy.setEnergy(0);
+			cooldown = maxCooldown;
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -205,10 +202,10 @@ public abstract class Turret implements IEnergyContainer, ITurret
 
 	public EulerServo getServo()
 	{
-	    if(servo  == null)
-	    {
-	        servo = new EulerServo(5);
-	    }
+		if (servo == null)
+		{
+			servo = new EulerServo(5);
+		}
 		return servo;
 	}
 

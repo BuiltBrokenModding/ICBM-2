@@ -22,9 +22,8 @@ public abstract class TurretAuto extends Turret implements IAutoTurret
 	{
 		super.update();
 
-		// Vector3 aim = new Vector3(this.getHost().x(), this.getHost().y(),
-		// this.getHost().z()).add(getAimOffset());
-		// getHost().world().spawnParticle("smoke", aim.x, aim.y, aim.z, 0, 0, 0);
+		if (!world().isRemote)
+			ai.update();
 	}
 
 	@Override
