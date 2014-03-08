@@ -32,11 +32,11 @@ public class MissileCluster extends MissileBase
                     Vector3 position = new Vector3(missileObj);
                     EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), 0);
                     clusterMissile.missileType = MissileType.CruiseMissile;
-                    clusterMissile.baoHuShiJian = 20;
+                    clusterMissile.protectionTime = 20;
                     clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6)));
                     missileObj.worldObj.spawnEntityInWorld(clusterMissile);
                 }
-                missileObj.baoHuShiJian = 20;
+                missileObj.protectionTime = 20;
                 missileObj.daoDanCount++;
             }
             else

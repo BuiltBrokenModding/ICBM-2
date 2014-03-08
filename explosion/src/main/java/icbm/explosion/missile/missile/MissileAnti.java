@@ -66,8 +66,8 @@ public class MissileAnti extends MissileBase
         }
         else
         {
-            missileObj.motionX = missileObj.xXiangCha / missileObj.missileFlightTime;
-            missileObj.motionZ = missileObj.zXiangCha / missileObj.missileFlightTime;
+            missileObj.motionX = missileObj.deltaPathX / missileObj.missileFlightTime;
+            missileObj.motionZ = missileObj.deltaPathZ / missileObj.missileFlightTime;
 
             if (missileObj.didTargetLockBefore == true)
             {

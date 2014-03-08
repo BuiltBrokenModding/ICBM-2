@@ -28,7 +28,7 @@ public class MissileHoming extends MissileBase
         if (!missileObj.worldObj.isRemote)
         {
             WorldServer worldServer = (WorldServer) missileObj.worldObj;
-            Entity trackingEntity = worldServer.getEntityByID(missileObj.genZongE);
+            Entity trackingEntity = worldServer.getEntityByID(missileObj.trackingVar);
 
             if (trackingEntity != null)
             {
@@ -48,7 +48,7 @@ public class MissileHoming extends MissileBase
         if (missileObj.feiXingTick > missileObj.missileFlightTime / 2 && missileObj.missileType == MissileType.missile)
         {
             WorldServer worldServer = (WorldServer) missileObj.worldObj;
-            Entity trackingEntity = worldServer.getEntityByID(missileObj.genZongE);
+            Entity trackingEntity = worldServer.getEntityByID(missileObj.trackingVar);
 
             if (trackingEntity != null)
             {
@@ -61,22 +61,22 @@ public class MissileHoming extends MissileBase
 
                 missileObj.missileType = MissileType.CruiseMissile;
 
-                missileObj.xXiangCha = missileObj.targetVector.x - missileObj.posX;
-                missileObj.yXiangCha = missileObj.targetVector.y - missileObj.posY;
-                missileObj.zXiangCha = missileObj.targetVector.z - missileObj.posZ;
+                missileObj.deltaPathX = missileObj.targetVector.x - missileObj.posX;
+                missileObj.deltaPathY = missileObj.targetVector.y - missileObj.posY;
+                missileObj.deltaPathZ = missileObj.targetVector.z - missileObj.posZ;
 
-                missileObj.diShangJuLi = Vector2.distance(missileObj.startPos.toVector2(), missileObj.targetVector.toVector2());
-                missileObj.tianGao = 150 + (int) (missileObj.diShangJuLi * 1.8);
-                missileObj.missileFlightTime = (float) Math.max(100, 2.4 * missileObj.diShangJuLi);
+                missileObj.flatDistance = Vector2.distance(missileObj.startPos.toVector2(), missileObj.targetVector.toVector2());
+                missileObj.tianGao = 150 + (int) (missileObj.flatDistance * 1.8);
+                missileObj.missileFlightTime = (float) Math.max(100, 2.4 * missileObj.flatDistance);
                 missileObj.acceleration = (float) missileObj.tianGao * 2 / (missileObj.missileFlightTime * missileObj.missileFlightTime);
 
                 if (missileObj.xiaoDanMotion.equals(new Vector3()) || missileObj.xiaoDanMotion == null)
                 {
                     float suDu = 0.3f;
                     missileObj.xiaoDanMotion = new Vector3();
-                    missileObj.xiaoDanMotion.x = missileObj.xXiangCha / (missileObj.missileFlightTime * suDu);
-                    missileObj.xiaoDanMotion.y = missileObj.yXiangCha / (missileObj.missileFlightTime * suDu);
-                    missileObj.xiaoDanMotion.z = missileObj.zXiangCha / (missileObj.missileFlightTime * suDu);
+                    missileObj.xiaoDanMotion.x = missileObj.deltaPathX / (missileObj.missileFlightTime * suDu);
+                    missileObj.xiaoDanMotion.y = missileObj.deltaPathY / (missileObj.missileFlightTime * suDu);
+                    missileObj.xiaoDanMotion.z = missileObj.deltaPathZ / (missileObj.missileFlightTime * suDu);
                 }
             }
         }
@@ -95,9 +95,9 @@ public class MissileHoming extends MissileBase
 
                     if (trackingEntity != null)
                     {
-                        if (missileObj.genZongE != trackingEntity.entityId)
+                        if (missileObj.trackingVar != trackingEntity.entityId)
                         {
-                            missileObj.genZongE = trackingEntity.entityId;
+                            missileObj.trackingVar = trackingEntity.entityId;
                             entityPlayer.addChatMessage("Missile target locked to: " + trackingEntity.getEntityName());
 
                             if (missileObj.getLauncher() != null && missileObj.getLauncher().getController() != null)

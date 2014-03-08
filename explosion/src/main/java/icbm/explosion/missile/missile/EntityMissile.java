@@ -40,11 +40,14 @@ import universalelectricity.api.vector.Vector3;
 
 import java.util.Random;
 
+/** @Author - Calclavia */
 public class EntityMissile extends Entity implements IChunkLoadHandler, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
 {
     public enum MissileType
     {
-        missile, CruiseMissile, HUO_JIAN
+        missile,
+        CruiseMissile,
+        LAUNCHER
     }
 
     public static final float JIA_KUAI_SU_DU = 0.012F;
@@ -59,17 +62,17 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     public int baoZhaGaoDu = 0;
     public int feiXingTick = -1;
     // Difference
-    public double xXiangCha;
-    public double yXiangCha;
-    public double zXiangCha;
+    public double deltaPathX;
+    public double deltaPathY;
+    public double deltaPathZ;
     // Flat Distance
-    public double diShangJuLi;
+    public double flatDistance;
     // The flight time in ticks
     public float missileFlightTime;
     // Acceleration
     public float acceleration;
     // Protection Time
-    public int baoHuShiJian = 2;
+    public int protectionTime = 2;
 
     private Ticket chunkTicket;
 
@@ -78,7 +81,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     // Has this missile lock it's target before?
     public boolean didTargetLockBefore = false;
     // Tracking
-    public int genZongE = -1;
+    public int trackingVar = -1;
     // For cluster missile
     public int daoDanCount = 0;
 
@@ -109,13 +112,11 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
         this.shengYin = this.worldObj != null ? ICBMExplosion.proxy.getDaoDanShengYin(this) : null;
     }
 
-    /**
-     * Spawns a traditional missile and cruise missiles
-     *
+    /** Spawns a traditional missile and cruise missiles
+     * 
      * @param explosiveId - Explosive ID
      * @param startPos - Starting Position
-     * @param launcherPos - Missile Launcher Position
-     */
+     * @param launcherPos - Missile Launcher Position */
     public EntityMissile(World world, Vector3 startPos, Vector3 launcherPos, int explosiveId)
     {
         this(world);
@@ -127,21 +128,19 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
         this.setRotation(0, 90);
     }
 
-    /**
-     * For rocket launchers
-     *
+    /** For rocket launchers
+     * 
      * @param explosiveId - Explosive ID
      * @param startPos - Starting Position
      * @param yaw - The yaw of the missle
-     * @param pitch - the pitch of the missle
-     */
+     * @param pitch - the pitch of the missle */
     public EntityMissile(World world, Vector3 startPos, int explosiveId, float yaw, float pitch)
     {
         this(world);
         this.explosiveID = explosiveId;
         this.launcherPos = this.startPos = startPos;
-        this.missileType = MissileType.HUO_JIAN;
-        this.baoHuShiJian = 10;
+        this.missileType = MissileType.LAUNCHER;
+        this.protectionTime = 10;
 
         this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
         this.setRotation(yaw, pitch);
@@ -199,7 +198,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
         this.baoZhaGaoDu = this.targetVector.intY();
         ((Missile) ExplosiveRegistry.get(this.explosiveID)).launch(this);
         this.feiXingTick = 0;
-        this.jiSuan();
+        this.recalculatePath();
         this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         // TODO add an event system here
         RadarRegistry.register(this);
@@ -213,32 +212,24 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
         this.launch(target);
     }
 
-    /**
-     * Recalculates required parabolic path for the missile.
-     <<<<<<< HEAD
-     *
-     =======
-     *
-     * @param target
-    >>>>>>> parent of 9c71ae5... Fixed ICBM incompatibility with content Registry
-     */
-    public void jiSuan()
+    /** Recalculates required parabolic path for the missile Registry */
+    public void recalculatePath()
     {
         if (this.targetVector != null)
         {
             // Calculate the distance difference of the missile
-            this.xXiangCha = this.targetVector.x - this.startPos.x;
-            this.yXiangCha = this.targetVector.y - this.startPos.y;
-            this.zXiangCha = this.targetVector.z - this.startPos.z;
+            this.deltaPathX = this.targetVector.x - this.startPos.x;
+            this.deltaPathY = this.targetVector.y - this.startPos.y;
+            this.deltaPathZ = this.targetVector.z - this.startPos.z;
 
             // TODO: Calculate parabola and relative out the height.
             // Calculate the power required to reach the target co-ordinates
             // Ground Displacement
-            this.diShangJuLi = Vector2.distance(this.startPos.toVector2(), this.targetVector.toVector2());
+            this.flatDistance = Vector2.distance(this.startPos.toVector2(), this.targetVector.toVector2());
             // Parabolic Height
-            this.tianGao = 160 + (int) (this.diShangJuLi * 3);
+            this.tianGao = 160 + (int) (this.flatDistance * 3);
             // Flight time
-            this.missileFlightTime = (float) Math.max(100, 2 * this.diShangJuLi) - this.feiXingTick;
+            this.missileFlightTime = (float) Math.max(100, 2 * this.flatDistance) - this.feiXingTick;
             // Acceleration
             this.acceleration = (float) this.tianGao * 2 / (this.missileFlightTime * this.missileFlightTime);
         }
@@ -344,11 +335,11 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 
             if (!this.worldObj.isRemote)
             {
-                if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.HUO_JIAN)
+                if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.LAUNCHER)
                 {
                     if (this.feiXingTick == 0 && this.xiaoDanMotion != null)
                     {
-                        this.xiaoDanMotion = new Vector3(this.xXiangCha / (missileFlightTime * 0.3), this.yXiangCha / (missileFlightTime * 0.3), this.zXiangCha / (missileFlightTime * 0.3));
+                        this.xiaoDanMotion = new Vector3(this.deltaPathX / (missileFlightTime * 0.3), this.deltaPathY / (missileFlightTime * 0.3), this.deltaPathZ / (missileFlightTime * 0.3));
                         this.motionX = this.xiaoDanMotion.x;
                         this.motionY = this.xiaoDanMotion.y;
                         this.motionZ = this.xiaoDanMotion.z;
@@ -363,7 +354,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 
                     Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
 
-                    if (this.baoHuShiJian <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
+                    if (this.protectionTime <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
                     {
                         this.explode();
                         return;
@@ -385,8 +376,8 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
                         if (this.qiFeiGaoDu <= 0)
                         {
                             this.motionY = this.acceleration * (this.missileFlightTime / 2);
-                            this.motionX = this.xXiangCha / missileFlightTime;
-                            this.motionZ = this.zXiangCha / missileFlightTime;
+                            this.motionX = this.deltaPathX / missileFlightTime;
+                            this.motionZ = this.deltaPathZ / missileFlightTime;
                         }
                     }
                     else
@@ -435,10 +426,10 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
             this.lastTickPosZ = this.posZ;
 
             this.spawnMissileSmoke();
-            this.baoHuShiJian--;
+            this.protectionTime--;
             this.feiXingTick++;
         }
-        else if (this.missileType != MissileType.HUO_JIAN)
+        else if (this.missileType != MissileType.LAUNCHER)
         {
             // Check to find the launcher in which this missile belongs in.
             ILauncherContainer launcher = this.getLauncher();
@@ -561,7 +552,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     public AxisAlignedBB getCollisionBox(Entity entity)
     {
         // Make sure the entity is not an item
-        if (!(entity instanceof EntityItem) && entity != this.riddenByEntity && this.baoHuShiJian <= 0)
+        if (!(entity instanceof EntityItem) && entity != this.riddenByEntity && this.protectionTime <= 0)
         {
             if (entity instanceof EntityMissile)
             {
@@ -584,7 +575,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
         {
             for (int i = 0; i < t; i++)
             {
-                if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.HUO_JIAN)
+                if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.LAUNCHER)
                 {
                     guJiDiDian.x += this.xiaoDanMotion.x;
                     guJiDiDian.y += this.xiaoDanMotion.y;
@@ -764,14 +755,10 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
         return ExplosiveRegistry.get(this.explosiveID);
     }
 
+    @Override
     public boolean canLock(IMissile missile)
     {
         return this.feiXingTick > 0;
-    }
-
-    public void destroyCraft ()
-    {
-
     }
 
     @Override
