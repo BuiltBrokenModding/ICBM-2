@@ -88,7 +88,7 @@ public class BlastEMP extends Blast
 							}
 							else if (block instanceof IEMPBlock)
 							{
-								((IEMPBlock) block).onEMP(worldObj, searchPosition, this);
+								((IEMPBlock) block).onEMP(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), this);
 							}
 						}
 

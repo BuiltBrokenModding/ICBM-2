@@ -1,7 +1,6 @@
 package icbm.api.explosion;
 
 import net.minecraft.world.World;
-import universalelectricity.api.vector.Vector3;
 
 /** Applied to all blocks that has a custom reaction to EMPs. Blocks not TileEntities.
  * 
@@ -13,5 +12,5 @@ public interface IEMPBlock
      * @param world - The world object.
      * @param position - The position.
      * @param empExplosive - The explosion */
-    public void onEMP(World world, Vector3 position, IExplosion empExplosive);
+    public void onEMP(World world, int x, int y, int z, IExplosion empExplosive);
 }
