@@ -23,7 +23,11 @@ public abstract class TurretAuto extends Turret implements IAutoTurret
 		super.update();
 
 		if (!world().isRemote)
+		{
 			ai.update();
+			getServo().update();
+		}
+
 	}
 
 	@Override

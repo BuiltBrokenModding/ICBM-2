@@ -31,6 +31,7 @@ public abstract class TurretMounted extends Turret
 				EntityPlayer mountedPlayer = (EntityPlayer) sentryEntity.riddenByEntity;
 				getServo().yaw = -mountedPlayer.rotationYaw + 180;
 				getServo().pitch = -mountedPlayer.rotationPitch;
+				getServo().update();
 			}
 		}
 	}

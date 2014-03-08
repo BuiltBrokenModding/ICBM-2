@@ -31,6 +31,7 @@ public class EulerServo extends EulerAngle
     public void update()
     {
         this.hasChanged = false;
+        
         for (int i = 0; i < toArray().length; i++)
         {
             if(updateAngle(i))

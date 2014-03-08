@@ -44,7 +44,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	protected float health;
 	protected int range = 10;
 	protected int maxCooldown = 20;
-	private int cooldown = 0;
+	protected int cooldown = 0;
 
 	public Turret(ITurretProvider host)
 	{
@@ -60,9 +60,6 @@ public abstract class Turret implements IEnergyContainer, ITurret
 
 	public void update()
 	{
-		if (!world().isRemote)
-			getServo().update();
-
 		if (cooldown > 0)
 			cooldown--;
 	}
@@ -155,6 +152,9 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		nbt.setString(ITurret.SENTRY_SAVE_ID, SaveManager.getID(this.getClass()));
 		if (this.energy != null)
 			this.energy.writeToNBT(nbt);
+		nbt.setDouble("yaw", getServo().yaw);
+		nbt.setDouble("pitch", getServo().pitch);
+		System.out.println(getServo().yaw);
 	}
 
 	@Override
@@ -162,12 +162,15 @@ public abstract class Turret implements IEnergyContainer, ITurret
 	{
 		if (this.energy != null)
 			this.energy.readFromNBT(nbt);
+		getServo().yaw = nbt.getDouble("yaw");
+		getServo().pitch = nbt.getDouble("pitch");
+		getServo().hasChanged = true;
 	}
 
 	@Override
 	public ITurretProvider getHost()
 	{
-		return this.host;
+		return host;
 	}
 
 	public World world()
@@ -206,6 +209,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		{
 			servo = new EulerServo(5);
 		}
+
 		return servo;
 	}
 

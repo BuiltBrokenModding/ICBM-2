@@ -22,9 +22,9 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     {
         SHELL("bulletShell", ProjectileType.UNKNOWN, true),
         BULLET("bullet", ProjectileType.CONVENTIONAL, true),
-        BULLETRAIL("bulletRailgun", ProjectileType.RAILGUN, true),
-        BULLETANTI("bulletAntimatter", ProjectileType.RAILGUN, true),
-        BULLETINF("bulletInfinite", ProjectileType.CONVENTIONAL, false);
+        BULLET_RAIL("bulletRailgun", ProjectileType.RAILGUN, true),
+        BULLET_ANTIMATTER("bulletAntimatter", ProjectileType.RAILGUN, true),
+        BULLET_INFINITE("bulletInfinite", ProjectileType.CONVENTIONAL, false);
 
         public String iconName;
         public ProjectileType type;
@@ -102,7 +102,7 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     public ItemStack onDroppedIntoWorld(ItemStack stack)
     {
         AmmoType type = AmmoType.get(stack);
-        if (type == AmmoType.BULLETINF)
+        if (type == AmmoType.BULLET_INFINITE)
         {
             return null;
         }
@@ -112,7 +112,7 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     @Override
     public int getEntityLifespan(ItemStack itemStack, World world)
     {
-        if (itemStack != null && itemStack.getItemDamage() == AmmoType.BULLETINF.ordinal())
+        if (itemStack != null && itemStack.getItemDamage() == AmmoType.BULLET_INFINITE.ordinal())
         {
             return 40;
         }
@@ -153,7 +153,7 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     public ItemStack getShell(ItemStack itemStack, int count)
     {
         AmmoType type = AmmoType.get(itemStack);
-        if (type != AmmoType.SHELL && type != AmmoType.BULLETINF)
+        if (type != AmmoType.SHELL && type != AmmoType.BULLET_INFINITE)
         {
             return new ItemStack(this, count, AmmoType.SHELL.ordinal());
         }
@@ -163,7 +163,7 @@ public class ItemAmmo extends ItemICBMBase implements IAmmunition
     @Override
     public int getAmmoCount(ItemStack itemStack)
     {
-        if (AmmoType.get(itemStack) == AmmoType.BULLETINF)
+        if (AmmoType.get(itemStack) == AmmoType.BULLET_INFINITE)
         {
             return Integer.MAX_VALUE;
         }

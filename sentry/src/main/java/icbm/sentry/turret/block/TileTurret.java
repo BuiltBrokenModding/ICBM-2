@@ -268,7 +268,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
 			if (this.getTurret() != null)
 			{
-				this.getTurret().load(nbt);
+				this.getTurret().load(tag);
 			}
 		}
 		else

@@ -1,15 +1,19 @@
 package icbm.sentry.turret.mounted;
 
 import icbm.Reference;
+import icbm.api.sentry.IAmmunition;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.sentry.turret.block.TileTurret;
+import icbm.sentry.turret.items.ItemAmmo.AmmoType;
 import icbm.sentry.turret.weapon.WeaponProjectile;
 
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
+import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.prefab.vector.Cuboid;
@@ -34,11 +38,18 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 	public MountedRailgun(TileTurret turretProvider)
 	{
 		super(turretProvider);
+		energy = new EnergyStorageHandler(1000000000);
 		riderOffset = new Vector3(0, 0.2, 0);
 		explosionSize = 5;
 
 		weaponSystem = new WeaponProjectile(this, 1, 0)
 		{
+			@Override
+			public boolean isAmmo(ItemStack stack)
+			{
+				return stack.getItem() instanceof IAmmunition && (stack.getItemDamage() == AmmoType.BULLET_RAIL.ordinal() || stack.getItemDamage() == AmmoType.BULLET_ANTIMATTER.ordinal());
+			}
+
 			@Override
 			public void fire(Vector3 target)
 			{
@@ -55,12 +66,11 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 
 		if (!world().isRemote)
 		{
-			if (world().isBlockIndirectlyGettingPowered((int) getHost().x(), (int) getHost().y(), (int) getHost().z()))
+			if (world().isBlockIndirectlyGettingPowered((int) getHost().x(), (int) getHost().y() - 1, (int) getHost().z()))
 			{
-				System.out.println("TEST");
-
 				if (canFire())
 				{
+					powerUpTicks = 0;
 				}
 			}
 
@@ -71,14 +81,14 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 				if (powerUpTicks >= 70)
 				{
 					int explosionDepth = 10;
-
+					Vector3 hit = null;
 					while (explosionDepth > 0)
 					{
 						MovingObjectPosition objectMouseOver = ai.rayTrace(2000);
 
 						if (objectMouseOver != null)
 						{
-							Vector3 hit = new Vector3(objectMouseOver.hitVec);
+							hit = new Vector3(objectMouseOver.hitVec);
 
 							/**
 							 * Kill all active explosives with antimatter.
@@ -108,6 +118,9 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 
 						explosionDepth--;
 					}
+
+					if (hit != null)
+						fire(hit);
 
 					this.powerUpTicks = -1;
 				}
