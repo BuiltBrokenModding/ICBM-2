@@ -1,6 +1,7 @@
-package icbm.explosion.cart;
+package icbm.sentry.turret.cart;
 
 import icbm.core.prefab.item.ItemICBMBase;
+import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.ExplosiveRegistry;
 
@@ -15,11 +16,11 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBombCart extends ItemICBMBase
+public class ItemGunCart extends ItemICBMBase
 {
-    public ItemBombCart(int id)
+    public ItemGunCart(int id)
     {
-        super(id, "minecart");
+        super(id, "guncart");
         this.setMaxStackSize(1);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
@@ -29,7 +30,7 @@ public class ItemBombCart extends ItemICBMBase
      * one of those. Return True if something happen and false if it don't. This is for ITEMS, not
      * BLOCKS */
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int par7, float par8, float par9, float par10)
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10)
     {
         int var11 = world.getBlockId(x, y, z);
 
@@ -37,7 +38,7 @@ public class ItemBombCart extends ItemICBMBase
         {
             if (!world.isRemote)
             {
-                world.spawnEntityInWorld(new EntityBombCart(world, x + 0.5F, y + 0.5F, z + 0.5F, itemStack.getItemDamage()));
+                world.spawnEntityInWorld(new EntityTurretCart(world, x + 0.5F, y + 0.5F, z + 0.5F));
             }
 
             --itemStack.stackSize;
@@ -65,19 +66,6 @@ public class ItemBombCart extends ItemICBMBase
     @Override
     public String getUnlocalizedName(ItemStack itemstack)
     {
-        return "icbm.minecart." + ExplosiveRegistry.get(itemstack.getItemDamage()).getUnlocalizedName();
-    }
-
-    @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
-        for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
-        {
-            if (zhaPin.hasMinecartForm())
-            {
-                par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
-
-            }
-        }
+        return "icbm.minecart.sentry";
     }
 }

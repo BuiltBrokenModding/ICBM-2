@@ -20,7 +20,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityBombCart extends EntityMinecartTNT implements IExplosiveContainer, IEntityAdditionalSpawnData
 {
-    public int haoMa = 0;
+    public int explosiveID = 0;
     public NBTTagCompound nbtData = new NBTTagCompound();
 
     public EntityBombCart(World par1World)
@@ -31,19 +31,19 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     public EntityBombCart(World par1World, double x, double y, double z, int explosiveID)
     {
         super(par1World, x, y, z);
-        this.haoMa = explosiveID;
+        this.explosiveID = explosiveID;
     }
 
     @Override
     public void writeSpawnData(ByteArrayDataOutput data)
     {
-        data.writeInt(this.haoMa);
+        data.writeInt(this.explosiveID);
     }
 
     @Override
     public void readSpawnData(ByteArrayDataInput data)
     {
-        this.haoMa = data.readInt();
+        this.explosiveID = data.readInt();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
 
         if (!par1DamageSource.isExplosion())
         {
-            this.entityDropItem(new ItemStack(ICBMExplosion.blockExplosive, 1, this.haoMa), 0.0F);
+            this.entityDropItem(new ItemStack(ICBMExplosion.blockExplosive, 1, this.explosiveID), 0.0F);
         }
 
         if (par1DamageSource.isFireDamage() || par1DamageSource.isExplosion() || d0 >= 0.009999999776482582D)
@@ -97,14 +97,14 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     @Override
     public ItemStack getCartItem()
     {
-        return new ItemStack(ICBMExplosion.itemBombCart, 1, this.haoMa);
+        return new ItemStack(ICBMExplosion.itemBombCart, 1, this.explosiveID);
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        nbt.setInteger("haoMa", this.haoMa);
+        nbt.setInteger("haoMa", this.explosiveID);
         this.nbtData = nbt.getCompoundTag("data");
 
     }
@@ -113,7 +113,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
-        this.haoMa = nbt.getInteger("haoMa");
+        this.explosiveID = nbt.getInteger("haoMa");
         nbt.setTag("data", this.nbtData);
 
     }
@@ -121,7 +121,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     @Override
     public IExplosive getExplosiveType()
     {
-        return ExplosiveRegistry.get(this.haoMa);
+        return ExplosiveRegistry.get(this.explosiveID);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     @Override
     public int getDefaultDisplayTileData()
     {
-        return this.haoMa;
+        return this.explosiveID;
     }
 
     @Override
