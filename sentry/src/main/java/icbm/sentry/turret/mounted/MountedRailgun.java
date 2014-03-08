@@ -48,7 +48,8 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 			@Override
 			public boolean isAmmo(ItemStack stack)
 			{
-				return stack.getItem() instanceof IAmmunition && (stack.getItemDamage() == AmmoType.BULLET_RAIL.ordinal() || stack.getItemDamage() == AmmoType.BULLET_ANTIMATTER.ordinal());
+
+				return stack != null && stack.getItem() instanceof IAmmunition && (stack.getItemDamage() == AmmoType.BULLET_RAIL.ordinal() || stack.getItemDamage() == AmmoType.BULLET_ANTIMATTER.ordinal());
 			}
 
 			@Override
