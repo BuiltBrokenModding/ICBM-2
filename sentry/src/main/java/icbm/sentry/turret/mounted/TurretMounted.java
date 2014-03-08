@@ -33,7 +33,20 @@ public abstract class TurretMounted extends Turret
 				getServo().pitch = -mountedPlayer.rotationPitch;
 				getServo().update();
 			}
+
+			if (world().isBlockIndirectlyGettingPowered((int) getHost().x(), (int) getHost().y() - 1, (int) getHost().z()))
+			{
+				if (canFire())
+				{
+					tryFire();
+				}
+			}
 		}
+	}
+
+	public void tryFire()
+	{
+
 	}
 
 	public Vector3 getRiderOffset()

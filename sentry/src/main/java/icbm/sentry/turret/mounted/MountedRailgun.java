@@ -38,9 +38,10 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 	public MountedRailgun(TileTurret turretProvider)
 	{
 		super(turretProvider);
-		energy = new EnergyStorageHandler(1000000000);
+		energy = new EnergyStorageHandler(10000000000L);
 		riderOffset = new Vector3(0, 0.2, 0);
 		explosionSize = 5;
+		maxCooldown = 20 * 10;
 
 		weaponSystem = new WeaponProjectile(this, 1, 0)
 		{
@@ -53,10 +54,15 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 			@Override
 			public void fire(Vector3 target)
 			{
-				powerUpTicks = 0;
 				consumeAmmo(ammoAmount, true);
 			}
 		};
+	}
+
+	@Override
+	public boolean canFire()
+	{
+		return super.canFire() && powerUpTicks == -1;
 	}
 
 	@Override
@@ -66,15 +72,7 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 
 		if (!world().isRemote)
 		{
-			if (world().isBlockIndirectlyGettingPowered((int) getHost().x(), (int) getHost().y() - 1, (int) getHost().z()))
-			{
-				if (canFire())
-				{
-					powerUpTicks = 0;
-				}
-			}
-
-			if (powerUpTicks >= 0)
+			if (powerUpTicks >= 0 && super.canFire())
 			{
 				powerUpTicks++;
 
@@ -82,6 +80,7 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 				{
 					int explosionDepth = 10;
 					Vector3 hit = null;
+
 					while (explosionDepth > 0)
 					{
 						MovingObjectPosition objectMouseOver = ai.rayTrace(2000);
@@ -119,23 +118,29 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 						explosionDepth--;
 					}
 
-					if (hit != null)
-						fire(hit);
-
-					this.powerUpTicks = -1;
+					powerUpTicks = -1;
+					fire(hit);
+					cooldown = maxCooldown;
 				}
 			}
 		}
 	}
 
+	@Override
+	public void tryFire()
+	{
+		powerUpTicks = 0;
+		playFiringSound();
+	}
+
 	public void renderShot(Vector3 target)
 	{
-		this.endTicks = 20;
+		endTicks = 20;
 	}
 
 	public void playFiringSound()
 	{
-		this.world().playSoundEffect(this.x(), this.y(), this.z(), Reference.PREFIX + "railgun", 5F, 1F);
+		world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "railgun", 5F, 0.9f + world().rand.nextFloat() * 0.2f);
 	}
 
 	@Override

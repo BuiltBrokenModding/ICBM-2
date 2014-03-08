@@ -79,7 +79,8 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		}
 		else if (canFire())
 		{
-			getHost().sendFireEventToClient(target);
+			if (target != null)
+				getHost().sendFireEventToClient(target);
 			weaponSystem.fire(target);
 			energy.setEnergy(0);
 			cooldown = maxCooldown;
@@ -99,7 +100,8 @@ public abstract class Turret implements IEnergyContainer, ITurret
 		}
 		else if (canFire())
 		{
-			getHost().sendFireEventToClient(Vector3.fromCenter(target));
+			if (target != null)
+				getHost().sendFireEventToClient(Vector3.fromCenter(target));
 			weaponSystem.fire(target);
 			energy.setEnergy(0);
 			cooldown = maxCooldown;
@@ -154,7 +156,6 @@ public abstract class Turret implements IEnergyContainer, ITurret
 			this.energy.writeToNBT(nbt);
 		nbt.setDouble("yaw", getServo().yaw);
 		nbt.setDouble("pitch", getServo().pitch);
-		System.out.println(getServo().yaw);
 	}
 
 	@Override
