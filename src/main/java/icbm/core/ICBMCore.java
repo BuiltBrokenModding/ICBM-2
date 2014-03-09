@@ -1,5 +1,6 @@
 package icbm.core;
 
+import calclavia.lib.configurable.ConfigHandler;
 import calclavia.lib.recipe.UniversalRecipe;
 import icbm.Reference;
 import icbm.contraption.ItemAntidote;
@@ -115,7 +116,7 @@ public final class ICBMCore
 
 		LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
 
-		Settings.initiate();
+		//Settings.initiate();
 		Settings.CONFIGURATION.load();
 
 		// String submodCategory = "Sub_Modules";
@@ -179,7 +180,16 @@ public final class ICBMCore
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		Settings.CONFIGURATION.save();
+        try
+        {
+            ConfigHandler.configure(Settings.CONFIGURATION, "icbm");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        Settings.CONFIGURATION.save();
 		/** LOAD. */
 
 		// Sulfur
