@@ -14,6 +14,8 @@ public class TurretAntiAirSelector extends TurretEntitySelector
     public TurretAntiAirSelector(ITurret turret)
     {
         super(turret);
+        this.target_mobs = false;
+        this.target_players = false;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class TurretAntiAirSelector extends TurretEntitySelector
         //launcher is in area of protection to preven friendly fire
         if (entity instanceof IMissile && ((IMissile)entity).getTicksInAir() > 5)
         {
-
+            return true;
         }
         return super.isEntityApplicable(entity);
     }

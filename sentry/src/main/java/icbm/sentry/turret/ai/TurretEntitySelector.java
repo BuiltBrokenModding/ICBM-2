@@ -31,12 +31,12 @@ public class TurretEntitySelector implements IEntitySelector
     public static boolean target_flying_global = true;
     public static boolean target_boss_global = false;
 
-    private boolean target_mobs = true;
-    private boolean target_animals = false;
-    private boolean target_npcs = false;
-    private boolean target_players = true;
-    private boolean target_flying = true;
-    private boolean target_boss = false;
+    protected boolean target_mobs = true;
+    protected boolean target_animals = false;
+    protected boolean target_npcs = false;
+    protected boolean target_players = true;
+    protected boolean target_flying = true;
+    protected boolean target_boss = false;
 
     public static void configTurretTargeting()
     {
