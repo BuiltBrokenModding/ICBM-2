@@ -15,7 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatMessageComponent;
 
-public class ICBMCommand extends CommandBase
+public class CommandICBM extends CommandBase
 {
     @Override
     public String getCommandName()

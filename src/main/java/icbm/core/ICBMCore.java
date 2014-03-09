@@ -15,11 +15,16 @@ import icbm.contraption.block.BlockProximityDetector;
 import icbm.contraption.block.BlockReinforcedGlass;
 import icbm.contraption.block.BlockSpikes;
 import icbm.contraption.block.TileProximityDetector;
+import icbm.explosion.CommandICBM;
 
 import java.util.logging.Logger;
 
+import javax.activation.CommandInfo;
+
 import icbm.sentry.ICBMSentry;
 import net.minecraft.block.Block;
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
@@ -33,6 +38,8 @@ import org.modstats.Modstats;
 
 import calclavia.components.CalclaviaLoader;
 import calclavia.lib.content.ContentRegistry;
+import calclavia.lib.flag.CommandFlag;
+import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
@@ -44,11 +51,13 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -222,5 +231,14 @@ public final class ICBMCore
 
 		LOGGER.info("Calling postInit for submodules");
 		ProxyHandler.postInit(event);
+	}
+
+	@EventHandler
+	public void serverStarting(FMLServerStartingEvent event)
+	{
+		// Setup command
+		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
+		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
+		serverCommandManager.registerCommand(new CommandICBM());
 	}
 }
