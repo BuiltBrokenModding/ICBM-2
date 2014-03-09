@@ -27,7 +27,6 @@ import universalelectricity.api.vector.VectorWorld;
 public class TurretAI
 {
 	private Turret turret;
-	private IEntitySelector entitySelector;
 	private int rotationDelayTimer = 0;
 	private int targetLostTimer = 0;
 	private int ticks = 0;
@@ -43,8 +42,6 @@ public class TurretAI
 	public TurretAI(Turret turret)
 	{
 		this.turret = turret;
-		// TODO Get selector from sentry at a later date
-		this.entitySelector = new TurretEntitySelector(this.turret);
 	}
 
 	public TurretAuto turret()
@@ -68,7 +65,7 @@ public class TurretAI
 			if (turret().getTarget() == null && ticks % 20 == 0)
 			{
 				debug("\tSearching for target");
-				turret().setTarget(findTarget(turret, this.entitySelector, this.turret.getRange()));
+				turret().setTarget(findTarget(turret(), turret().getEntitySelector(), this.turret().getRange()));
 			}
 
 			// If we have a target start aiming logic
@@ -82,7 +79,7 @@ public class TurretAI
 						if (isLookingAt(turret().getTarget(), 3))
 						{
 							debug("\tTarget locked and firing weapon");
-							turret.fire(turret().getTarget());
+							turret().fire(turret().getTarget());
 						}
 						else
 						{
@@ -112,8 +109,8 @@ public class TurretAI
 					{
 						debug("\tNo Target Selected. Wandering.");
 						rotationDelayTimer = 0;
-						Vector3 location = new Vector3(this.turret.x(), this.turret.y(), this.turret.z());
-						location.add(new Vector3(this.turret.world().rand.nextInt(40) - 20, 0, this.turret.world().rand.nextInt(40) - 20));
+						Vector3 location = new Vector3(this.turret().x(), this.turret().y(), this.turret().z());
+						location.add(new Vector3(this.turret().world().rand.nextInt(40) - 20, 0, this.turret().world().rand.nextInt(40) - 20));
 						lookAt(location);
 					}
 
@@ -129,9 +126,9 @@ public class TurretAI
 
 	protected EntityLivingBase findTarget(ITurret sentry, IEntitySelector targetSelector, int range)
 	{
-		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z, turret.getAbsoluteCenter().x, turret.getAbsoluteCenter().y, turret.getAbsoluteCenter().z).expand(range, range, range);
-		List<EntityLivingBase> list = turret.world().selectEntitiesWithinAABB(EntityLivingBase.class, aabb, targetSelector);
-		Collections.sort(list, new ComparatorOptimalTarget(turret.getAbsoluteCenter()));
+		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret().getAbsoluteCenter().x, turret().getAbsoluteCenter().y, turret().getAbsoluteCenter().z, turret().getAbsoluteCenter().x, turret().getAbsoluteCenter().y, turret().getAbsoluteCenter().z).expand(range, range, range);
+		List<EntityLivingBase> list = turret().world().selectEntitiesWithinAABB(EntityLivingBase.class, aabb, targetSelector);
+		Collections.sort(list, new ComparatorOptimalTarget(turret().getAbsoluteCenter()));
 		for (EntityLivingBase entity : list)
 		{
 			if (isValidTarget(entity, false))
@@ -145,7 +142,7 @@ public class TurretAI
 
 	public boolean isValidTarget(Entity entity, boolean skipSight)
 	{
-		if (this.entitySelector.isEntityApplicable(entity))
+		if (turret().getEntitySelector().isEntityApplicable(entity))
 		{
 			return skipSight || isTargetInBounds(entity) && canEntityBeSeen(entity);
 		}
@@ -181,7 +178,7 @@ public class TurretAI
 	/** Adjusts the turret target to look at a specific location. */
 	public void lookAt(Vector3 target)
 	{
-		turret.getServo().setTargetRotation(turret.getAbsoluteCenter().toAngle(target));
+		turret().getServo().setTargetRotation(turret().getAbsoluteCenter().toAngle(target));
 	}
 
 	/** Tells the turret to look at a location using an entity */
@@ -203,13 +200,13 @@ public class TurretAI
 
 	public boolean isTargetInBounds(Vector3 target)
 	{
-		return isTargetInBounds(this.turret.getAbsoluteCenter(), target);
+		return isTargetInBounds(this.turret().getAbsoluteCenter(), target);
 	}
 
 	public boolean isTargetInBounds(Vector3 start, Vector3 target)
 	{
 		EulerAngle angle = start.toAngle(target);
-		return turret.getServo().isWithinLimit(angle);
+		return turret().getServo().isWithinLimit(angle);
 	}
 
 	/**
@@ -221,8 +218,8 @@ public class TurretAI
 	 */
 	public boolean isLookingAt(Vector3 target, float allowedError)
 	{
-		EulerAngle targetAngle = turret.getAbsoluteCenter().toAngle(target);
-		return turret.getServo().isWithin(targetAngle, allowedError);
+		EulerAngle targetAngle = turret().getAbsoluteCenter().toAngle(target);
+		return turret().getServo().isWithin(targetAngle, allowedError);
 	}
 
 	/**
@@ -246,7 +243,7 @@ public class TurretAI
 	 */
 	public boolean canEntityBeSeen(Entity entity)
 	{
-		Vector3 traceStart = turret.getAbsoluteCenter().translate(turret.getAimOffset());
+		Vector3 traceStart = turret().getAbsoluteCenter().translate(turret().getAimOffset());
 		return canEntityBeSeen(traceStart, entity);
 	}
 
@@ -258,8 +255,8 @@ public class TurretAI
 
 	public MovingObjectPosition rayTrace(double distance)
 	{
-		Vector3 reach = new Vector3(turret.getServo()).scale(distance);
-		MovingObjectPosition hitTarget = turret.getAbsoluteCenter().translate(turret.getAimOffset()).rayTrace(turret.world(), reach, false);
+		Vector3 reach = new Vector3(turret().getServo()).scale(distance);
+		MovingObjectPosition hitTarget = turret().getAbsoluteCenter().translate(turret().getAimOffset()).rayTrace(turret().world(), reach, false);
 		return hitTarget;
 	}
 }
