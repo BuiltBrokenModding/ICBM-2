@@ -325,7 +325,7 @@ public class ICBMExplosion
 
 		// Add all explosive recipes.
 		if (!Loader.isModLoaded("AtomicScience"))
-			OreDictionary.registerOre("antimatterGram", Item.diamond);
+			OreDictionary.registerOre("antimatterGram", new ItemStack(397, 1, 1));
 
 		for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
 		{
