@@ -1,6 +1,7 @@
 package icbm.explosion;
 
 import calclavia.lib.configurable.Config;
+import cpw.mods.fml.common.*;
 import icbm.Reference;
 import icbm.api.ExplosiveHelper;
 import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
@@ -70,13 +71,9 @@ import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.recipe.RecipeUtility;
 import calclavia.lib.recipe.UniversalRecipe;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -130,6 +127,7 @@ public class ICBMExplosion
     public static boolean CREEPER_BLOW_UP_IN_FIRE = true;
 
 	@EventHandler
+    @Optional.Method(modid = ID)
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
@@ -271,12 +269,14 @@ public class ICBMExplosion
 	}
 
 	@EventHandler
+    @Optional.Method(modid = ID)
 	public void load(FMLInitializationEvent evt)
 	{
 		Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
 	}
 
 	@EventHandler
+    @Optional.Method(modid = ID)
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		/** Add all Recipes */

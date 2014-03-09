@@ -1,5 +1,6 @@
 package icbm.sentry;
 
+import cpw.mods.fml.common.Optional;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
@@ -70,6 +71,7 @@ public class ICBMSentry
 	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
 
 	@EventHandler
+    @Optional.Method(modid = ID)
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		NetworkRegistry.instance().registerGuiHandler(INSTANCE, proxy);
@@ -99,12 +101,14 @@ public class ICBMSentry
 	}
 
 	@EventHandler
+    @Optional.Method(modid = ID)
 	public void init(FMLInitializationEvent event)
 	{
 		Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
 	}
 
 	@EventHandler
+    @Optional.Method(modid = ID)
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		// Shell

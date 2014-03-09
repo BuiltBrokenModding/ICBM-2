@@ -1,28 +1,35 @@
 package icbm.core;
 
+import calclavia.components.CalclaviaLoader;
 import calclavia.lib.configurable.ConfigHandler;
+import calclavia.lib.content.ContentRegistry;
+import calclavia.lib.network.PacketHandler;
+import calclavia.lib.network.PacketPlayerItem;
+import calclavia.lib.network.PacketTile;
+import calclavia.lib.ore.OreGenBase;
+import calclavia.lib.ore.OreGenerator;
+import calclavia.lib.prefab.item.ItemBlockMetadata;
 import calclavia.lib.recipe.UniversalRecipe;
+import calclavia.lib.utility.LanguageUtility;
+import calclavia.lib.utility.ModUtility;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import icbm.Reference;
-import icbm.contraption.ItemAntidote;
-import icbm.contraption.ItemPoisonPowder;
-import icbm.contraption.ItemSignalDisrupter;
-import icbm.contraption.ItemSulfurDust;
-import icbm.contraption.ItemTracker;
-import icbm.contraption.block.BlockCamouflage;
-import icbm.contraption.block.BlockConcrete;
-import icbm.contraption.block.BlockGlassButton;
-import icbm.contraption.block.BlockGlassPressurePlate;
-import icbm.contraption.block.BlockProximityDetector;
-import icbm.contraption.block.BlockReinforcedGlass;
-import icbm.contraption.block.BlockSpikes;
-import icbm.contraption.block.TileProximityDetector;
+import icbm.contraption.*;
+import icbm.contraption.block.*;
 import icbm.explosion.CommandICBM;
-
-import java.util.logging.Logger;
-
-import javax.activation.CommandInfo;
-
-import icbm.sentry.ICBMSentry;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -33,35 +40,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.content.ContentRegistry;
-import calclavia.lib.flag.CommandFlag;
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.network.PacketPlayerItem;
-import calclavia.lib.network.PacketTile;
-import calclavia.lib.ore.OreGenBase;
-import calclavia.lib.ore.OreGenerator;
-import calclavia.lib.prefab.item.ItemBlockMetadata;
-import calclavia.lib.utility.LanguageUtility;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.logging.Logger;
 
 /**
  * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
@@ -106,9 +88,16 @@ public final class ICBMCore
 
 	public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
+    public ICBMCore()
+    {
+        ModUtility.removeMod("ICBM|Sentry", Settings.CONFIGURATION.get("Child_Mods", "Enable_Sentry", false).getBoolean(false));
+        ModUtility.removeMod("ICBM|Explosion", Settings.CONFIGURATION.get("Child_Mods", "Enable_Explosion", false).getBoolean(false));
+    }
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 
 		Modstats.instance().getReporter().registerMod(INSTANCE);
