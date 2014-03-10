@@ -1,5 +1,6 @@
 package icbm.explosion.explosive.blast;
 
+import calclavia.lib.configurable.Config;
 import icbm.Reference;
 import icbm.api.explosion.IExplosiveIgnore;
 import icbm.explosion.EntityFlyingBlock;
@@ -24,7 +25,9 @@ import java.util.List;
 public class BlastRedmatter extends Blast
 {
     private int maxTakeBlocks = 5;
+    @Config(category = "Features", key = "RedMatter Life Span in ticks")
     public static int MAX_LIFESPAN = 3600; // 3 minutes
+    @Config(category = "Features", key = "RedMatter despawn")
     public static boolean DO_DESPAWN = true;
 
     public BlastRedmatter(World world, Entity entity, double x, double y, double z, float size)

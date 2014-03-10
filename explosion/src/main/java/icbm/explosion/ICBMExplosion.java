@@ -1,5 +1,6 @@
 package icbm.explosion;
 
+import calclavia.lib.configurable.Config;
 import icbm.Reference;
 import icbm.api.ExplosiveHelper;
 import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
@@ -123,7 +124,10 @@ public class ICBMExplosion
 	public static final ContagiousPoison DU_DU = new ContagiousPoison("Chemical", 1, false);
 	public static final ContagiousPoison DU_CHUAN_RAN = new ContagiousPoison("Contagious", 1, true);
 
-	public static boolean CREEPER_DROP_SULFER = true, CREEPER_BLOW_UP_IN_FIRE = true;
+    @Config(key = "Creepers Drop Sulfur", category = "Extras")
+	public static boolean CREEPER_DROP_SULFER = true;
+    @Config(key = "Creepers Blow up in Fire", category = "Extras")
+    public static boolean CREEPER_BLOW_UP_IN_FIRE = true;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -150,15 +154,9 @@ public class ICBMExplosion
 		itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
 
 		/** Potion Effects */
-		PoisonToxin.INSTANCE = new PoisonToxin(88, true, 5149489, "toxin");
-		PoisonContagion.INSTANCE = new PoisonContagion(89, false, 5149489, "virus");
-		PoisonFrostBite.INSTANCE = new PoisonFrostBite(90, false, 5149489, "frostBite");
-
-		CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
-		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperExplosionInFire", true).getBoolean(true);
-
-		BlastRedmatter.DO_DESPAWN = Settings.CONFIGURATION.get("Features", "Despawn redmatter", false).getBoolean(false);
-		BlastRedmatter.MAX_LIFESPAN = Settings.CONFIGURATION.get("Features", "redmatter Despawn time (in ticks)", 3600).getInt();
+		PoisonToxin.INSTANCE = new PoisonToxin(210, true, 5149489, "toxin");
+		PoisonContagion.INSTANCE = new PoisonContagion(211, false, 5149489, "virus");
+		PoisonFrostBite.INSTANCE = new PoisonFrostBite(212, false, 5149489, "frostBite");
 
 		TabICBM.itemStack = new ItemStack(blockExplosive);
 
@@ -325,7 +323,7 @@ public class ICBMExplosion
 
 		// Add all explosive recipes.
 		if (!Loader.isModLoaded("AtomicScience"))
-			OreDictionary.registerOre("antimatterGram", Item.diamond);
+			OreDictionary.registerOre("antimatterGram", new ItemStack(397, 1, 1));
 
 		for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
 		{

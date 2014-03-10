@@ -1,5 +1,6 @@
 package icbm.core;
 
+import calclavia.lib.configurable.Config;
 import icbm.Reference;
 
 import java.io.File;
@@ -34,13 +35,20 @@ public class Settings
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "ICBM.cfg"));
 
 	/** Should ICBM use external fuel? **/
+    @Config(key = "Use Fuel", category = Configuration.CATEGORY_GENERAL)
 	public static boolean USE_FUEL = true;
+    @Config(key = "Allow Chunk Loading", category = Configuration.CATEGORY_GENERAL)
 	public static boolean LOAD_CHUNKS = true;
+    @Config(key = "Max Missile Distance", category = Configuration.CATEGORY_GENERAL)
 	public static int DAO_DAN_ZUI_YUAN = 10000;
+    @Config(key = "Antimatter Explosion Size", category = Configuration.CATEGORY_GENERAL)
 	public static int ANTIMATTER_SIZE = 55;
+    @Config(key = "Antimatter Destroy Bedrock", category = Configuration.CATEGORY_GENERAL)
 	public static boolean DESTROY_BEDROCK = true;
+    @Config(key = "Max Tier the Rocket Launcher can Fire", category = Configuration.CATEGORY_GENERAL)
 	public static int MAX_ROCKET_LAUCNHER_TIER = 2;
 
+    @Deprecated
 	public static void initiate()
 	{
 		CONFIGURATION.load();
