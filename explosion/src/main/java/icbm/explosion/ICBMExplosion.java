@@ -1,14 +1,13 @@
 package icbm.explosion;
 
-import cpw.mods.fml.common.Loader;
 import icbm.Reference;
 import icbm.api.ExplosiveHelper;
 import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
-import icbm.core.TabICBM;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
+import icbm.core.TabICBM;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.cart.EntityBombCart;
 import icbm.explosion.cart.ItemBombCart;
@@ -34,8 +33,8 @@ import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.modular.BlockMissileAssembler;
 import icbm.explosion.missile.modular.ItemBlockMissileAssembler;
 import icbm.explosion.potion.PoisonContagion;
-import icbm.explosion.potion.PoisonToxin;
 import icbm.explosion.potion.PoisonFrostBite;
+import icbm.explosion.potion.PoisonToxin;
 
 import java.util.List;
 
@@ -51,6 +50,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
@@ -64,12 +64,12 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.api.CompatibilityModule;
-import universalelectricity.api.item.ItemElectric;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.recipe.RecipeUtility;
 import calclavia.lib.recipe.UniversalRecipe;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -157,8 +157,8 @@ public class ICBMExplosion
 		CREEPER_DROP_SULFER = Settings.CONFIGURATION.get("Extras", "CreeperSulferDrop", true).getBoolean(true);
 		CREEPER_BLOW_UP_IN_FIRE = Settings.CONFIGURATION.get("Extras", "CreeperExplosionInFire", true).getBoolean(true);
 
-        BlastRedmatter.DO_DESPAWN = Settings.CONFIGURATION.get("Features", "Despawn redmatter", false).getBoolean(false);
-        BlastRedmatter.MAX_LIFESPAN = Settings.CONFIGURATION.get("Features", "redmatter Despawn time (in ticks)", 3600).getInt();
+		BlastRedmatter.DO_DESPAWN = Settings.CONFIGURATION.get("Features", "Despawn redmatter", false).getBoolean(false);
+		BlastRedmatter.MAX_LIFESPAN = Settings.CONFIGURATION.get("Features", "redmatter Despawn time (in ticks)", 3600).getInt();
 
 		TabICBM.itemStack = new ItemStack(blockExplosive);
 
@@ -324,10 +324,10 @@ public class ICBMExplosion
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
 		// Add all explosive recipes.
-        if (!Loader.isModLoaded("AtomicScience"))
-            OreDictionary.registerOre("antimatterGram", Item.diamond);
-        
-        for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+		if (!Loader.isModLoaded("AtomicScience"))
+			OreDictionary.registerOre("antimatterGram", Item.diamond);
+
+		for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
 		{
 			zhaPin.init();
 			// Missile

@@ -66,9 +66,9 @@ public class MissileHoming extends MissileBase
                 missileObj.deltaPathZ = missileObj.targetVector.z - missileObj.posZ;
 
                 missileObj.flatDistance = Vector2.distance(missileObj.startPos.toVector2(), missileObj.targetVector.toVector2());
-                missileObj.tianGao = 150 + (int) (missileObj.flatDistance * 1.8);
+                missileObj.maxHeight = 150 + (int) (missileObj.flatDistance * 1.8);
                 missileObj.missileFlightTime = (float) Math.max(100, 2.4 * missileObj.flatDistance);
-                missileObj.acceleration = (float) missileObj.tianGao * 2 / (missileObj.missileFlightTime * missileObj.missileFlightTime);
+                missileObj.acceleration = (float) missileObj.maxHeight * 2 / (missileObj.missileFlightTime * missileObj.missileFlightTime);
 
                 if (missileObj.xiaoDanMotion.equals(new Vector3()) || missileObj.xiaoDanMotion == null)
                 {
