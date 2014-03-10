@@ -51,9 +51,9 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 	public BlockExplosive(int id)
 	{
 		super(id, "explosives", Material.tnt);
-		this.setHardness(0.0F);
-		this.setStepSound(soundGrassFootstep);
-		this.setCreativeTab(TabICBM.INSTANCE);
+		setHardness(0.0F);
+		setStepSound(soundGrassFootstep);
+		setCreativeTab(TabICBM.INSTANCE);
 	}
 
 	/** gets the way this piston should face for that entity that placed it. */
@@ -184,7 +184,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 	public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
 	{
 		int explosiveID = ((TileExplosive) par1IBlockAccess.getBlockTileEntity(x, y, z)).haoMa;
-		return this.getIcon(side, explosiveID);
+		return getIcon(side, explosiveID);
 	}
 
 	@Override

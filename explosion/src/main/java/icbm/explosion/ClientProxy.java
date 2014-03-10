@@ -37,7 +37,7 @@ import icbm.explosion.render.entity.RenderGrenade;
 import icbm.explosion.render.entity.RenderLightBeam;
 import icbm.explosion.render.entity.RenderMissile;
 import icbm.explosion.render.entity.RenderShrapnel;
-import icbm.explosion.render.item.RenderItemLauncher;
+import icbm.explosion.render.item.RenderRocketLauncher;
 import icbm.explosion.render.item.RenderItemMissile;
 import icbm.explosion.render.tile.BlockRenderHandler;
 import icbm.explosion.render.tile.RFaSheDi;
@@ -99,7 +99,7 @@ public class ClientProxy extends CommonProxy
     {
         super.init();
 
-        MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemRocketLauncher.itemID, new RenderItemLauncher());
+        MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemRocketLauncher.itemID, new RenderRocketLauncher());
         MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemMissile.itemID, new RenderItemMissile());
 
         RenderingRegistry.registerBlockHandler(new RenderBombBlock());
