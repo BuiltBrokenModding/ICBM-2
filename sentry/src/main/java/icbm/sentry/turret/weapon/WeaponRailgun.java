@@ -75,7 +75,6 @@ public class WeaponRailgun extends WeaponProjectile
     @Override
     public void fire(Vector3 target)
     {
-        System.out.println("weapon railgun fire event");
         super.fire(target);
         this.turret.world().playSoundEffect(this.turret.x(), this.turret.y(), this.turret.z(), Reference.PREFIX + "railgun", 5F, 0.9f + this.turret.world().rand.nextFloat() * 0.2f);
     }

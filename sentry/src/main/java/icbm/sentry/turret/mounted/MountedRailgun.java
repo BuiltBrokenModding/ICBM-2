@@ -23,12 +23,6 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
     }
 
     @Override
-    public boolean canFire()
-    {
-        return super.canFire() && powerUpTicks == -1;
-    }
-
-    @Override
     public void update()
     {
         super.update();
@@ -43,7 +37,6 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
     @Override
     public void fire()
     {
-        System.out.println("Railgun fire called");
         super.fire();
         powerUpTicks = -1;
     }

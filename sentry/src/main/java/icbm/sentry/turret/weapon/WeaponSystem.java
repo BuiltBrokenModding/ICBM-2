@@ -56,7 +56,7 @@ public abstract class WeaponSystem
 			}
 			else if (endTarget.typeOfHit == EnumMovingObjectType.TILE)
 			{
-				onHitBlock(new Vector3(endTarget));
+				onHitBlock(new Vector3(endTarget.hitVec));
 			}
 		}
 	}

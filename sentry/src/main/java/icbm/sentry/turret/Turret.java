@@ -71,6 +71,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
         }
         else if (canFire())
         {
+            System.out.println("Turret on fire");
             if (target != null)
                 getHost().sendFireEventToClient(target);
             weaponSystem.fire(target);
