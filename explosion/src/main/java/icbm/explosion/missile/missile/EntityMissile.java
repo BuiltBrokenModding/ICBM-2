@@ -147,7 +147,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 		this.explosiveID = explosiveId;
 		this.launcherPos = this.startPos = startPos;
 		this.missileType = MissileType.LAUNCHER;
-		this.protectionTime = 10;
+		this.protectionTime = 0;
 
 		this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
 		this.setRotation(yaw, pitch);
@@ -246,6 +246,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	public void entityInit()
 	{
 		this.dataWatcher.addObject(16, -1);
+		this.dataWatcher.addObject(17, 0);
 		this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMExplosion.instance, this.worldObj, Type.ENTITY));
 	}
 
@@ -322,32 +323,43 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 			}
 		}
 
-		if (this.setNormalExplode)
-		{
-			this.normalExplode();
-			return;
-		}
-
-		if (this.setExplode)
-		{
-			this.explode();
-			return;
-		}
-
 		try
 		{
 			if (this.worldObj.isRemote)
 			{
 				this.feiXingTick = this.dataWatcher.getWatchableObjectInt(16);
+				int status = this.dataWatcher.getWatchableObjectInt(17);
+
+				switch (status)
+				{
+					case 1:
+						setNormalExplode = true;
+						break;
+					case 2:
+						setExplode = true;
+						break;
+				}
 			}
 			else
 			{
-				this.dataWatcher.updateObject(16, this.feiXingTick);
+				this.dataWatcher.updateObject(16, feiXingTick);
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+
+		if (setNormalExplode)
+		{
+			normalExplode();
+			return;
+		}
+
+		if (setExplode)
+		{
+			explode();
+			return;
 		}
 
 		if (this.feiXingTick >= 0)
@@ -377,7 +389,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 
 					if (this.protectionTime <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
 					{
-						this.explode();
+						setExplode();
 						return;
 					}
 
@@ -572,6 +584,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	@Override
 	public AxisAlignedBB getCollisionBox(Entity entity)
 	{
+		System.out.println(entity);
 		// Make sure the entity is not an item
 		if (!(entity instanceof EntityItem) && entity != this.riddenByEntity && this.protectionTime <= 0)
 		{
@@ -619,13 +632,15 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	@Override
 	public void setNormalExplode()
 	{
-		this.setNormalExplode = true;
+		setNormalExplode = true;
+		dataWatcher.updateObject(17, 1);
 	}
 
 	@Override
 	public void setExplode()
 	{
-		this.setExplode = true;
+		setExplode = true;
+		dataWatcher.updateObject(17, 2);
 	}
 
 	@Override
@@ -671,7 +686,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 				ICBMCore.LOGGER.info(this.getEntityName() + " (" + this.entityId + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
 			}
 
-			this.setDead();
+			setDead();
 
 		}
 		catch (Exception e)
@@ -686,14 +701,14 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	{
 		if (!this.isExpoding)
 		{
-			this.isExpoding = true;
+			isExpoding = true;
 
 			if (!this.worldObj.isRemote)
 			{
-				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
+				worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
 			}
 
-			this.setDead();
+			setDead();
 		}
 	}
 
