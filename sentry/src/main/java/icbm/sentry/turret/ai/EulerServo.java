@@ -21,6 +21,16 @@ public class EulerServo extends EulerAngle
         this.rotationSpeed = rotationSpeed;
     }
 
+    public double getRotationSpeed()
+    {
+        return rotationSpeed;
+    }
+
+    public void setRotationSpeed(double speed)
+    {
+        this.rotationSpeed = speed;
+    }
+
     public EulerServo setLimit(EulerAngle upperLimit, EulerAngle lowerLimit)
     {
         this.upperLimit = upperLimit;
@@ -31,10 +41,10 @@ public class EulerServo extends EulerAngle
     public void update()
     {
         this.hasChanged = false;
-        
+
         for (int i = 0; i < toArray().length; i++)
         {
-            if(updateAngle(i))
+            if (updateAngle(i))
             {
                 this.hasChanged = true;
             }

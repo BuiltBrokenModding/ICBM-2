@@ -31,7 +31,7 @@ public class DamageUtility
                     return false;
                 }
             }
-            return damage > 0;
+            return source != null && damage > 0;
         }
         return false;
     }
@@ -59,6 +59,7 @@ public class DamageUtility
         return false;
     }
 
+    /** Checks if the entity is an entity made of metal, or is a machine in nature. */
     public static boolean isMachine(Entity entity)
     {
         if (entity instanceof IMissile)

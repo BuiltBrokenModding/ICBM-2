@@ -1,5 +1,6 @@
 package icbm.sentry.turret.auto;
 
+import net.minecraft.entity.Entity;
 import icbm.Reference;
 import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
@@ -11,7 +12,6 @@ import universalelectricity.api.vector.Vector3;
  * @author DarkGaurdsman */
 public class TurretAntiAir extends TurretAuto
 {
-
     public TurretAntiAir(TileTurret host)
     {
         super(host);
@@ -30,4 +30,17 @@ public class TurretAntiAir extends TurretAuto
         selector = new TurretAntiAirSelector(this);
     }
 
+    @Override
+    public void setTarget(Entity target)
+    {
+        super.setTarget(target);
+        if (this.target != null)
+        {
+            this.getServo().setRotationSpeed(20);
+        }
+        else
+        {
+            this.getServo().setRotationSpeed(5);
+        }
+    }
 }
