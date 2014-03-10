@@ -1,6 +1,7 @@
 package icbm.sentry.turret.ai;
 
 import icbm.api.IMissile;
+import icbm.api.sentry.IAATarget;
 import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
 
@@ -20,11 +21,12 @@ public class TurretAntiAirSelector extends TurretEntitySelector
 
     @Override
     public boolean isEntityApplicable(Entity entity)
-    {
-        //TODO: Check missile for impact with in area of protection up to + 200 of sentry max range.
-        //If missile does not impact area then don't shoot at it, as well check if 
-        //launcher is in area of protection to preven friendly fire
-        if (entity instanceof IMissile)
+    {      
+        if (entity instanceof IAATarget)
+        {
+            return ((IAATarget) entity).canBeTargeted(this.turretProvider.getTurret());
+        }
+        else if (entity instanceof IMissile)
         {
             return true;
         }
@@ -34,9 +36,16 @@ public class TurretAntiAirSelector extends TurretEntitySelector
     @Override
     public boolean isValid(Entity entity)
     {
-        if (entity instanceof IMissile)
+        if (entity instanceof IAATarget)
         {
-            return true;
+            return ((IAATarget) entity).canBeTargeted(this.turretProvider.getTurret());
+        }
+        else if (entity instanceof IMissile)
+        {
+            //TODO: Check missile for impact with in area of protection up to + 200 of sentry max range.
+            //If missile does not impact area then don't shoot at it, as well check if 
+            //launcher is in area of protection to prevent friendly fire
+            return ((IMissile) entity).getTicksInAir() > 5;
         }
         return super.isValid(entity);
     }
