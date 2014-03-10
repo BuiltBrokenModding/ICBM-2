@@ -239,5 +239,6 @@ public final class ICBMCore
 		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
 		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
 		serverCommandManager.registerCommand(new CommandICBM());
+        
 	}
 }
