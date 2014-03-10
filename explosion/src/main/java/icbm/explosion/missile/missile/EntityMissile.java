@@ -1,9 +1,5 @@
 package icbm.explosion.missile.missile;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import icbm.Reference;
 import icbm.api.ILauncherContainer;
 import icbm.api.IMissile;
@@ -20,6 +16,11 @@ import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.missile.ExplosiveRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
@@ -39,7 +40,10 @@ import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 
-import java.util.Random;
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 /** @Author - Calclavia */
 public class EntityMissile extends Entity implements IChunkLoadHandler, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
@@ -264,15 +268,25 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 		}
 	}
 
+	final List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
+
 	public void updateLoadChunk(int newChunkX, int newChunkZ)
 	{
 		if (!this.worldObj.isRemote && Settings.LOAD_CHUNKS && this.chunkTicket != null)
 		{
-			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(newChunkX, newChunkZ));
-			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
-			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
-			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
-			ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+			for (ChunkCoordIntPair chunk : loadedChunks)
+				ForgeChunkManager.unforceChunk(chunkTicket, chunk);
+
+			loadedChunks.clear();
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+
+			for (ChunkCoordIntPair chunk : loadedChunks)
+				ForgeChunkManager.forceChunk(chunkTicket, chunk);
+
 		}
 	}
 
