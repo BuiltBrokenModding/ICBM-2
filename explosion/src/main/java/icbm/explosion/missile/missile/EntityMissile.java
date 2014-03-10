@@ -82,7 +82,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
     public float acceleration;
     //Hp
     public float damage = 0;
-    public float max_damage = 100;
+    public float max_damage = 10;
     // Protection Time
     public int protectionTime = 2;
 
