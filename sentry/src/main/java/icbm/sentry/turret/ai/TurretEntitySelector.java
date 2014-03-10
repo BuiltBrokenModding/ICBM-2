@@ -1,5 +1,6 @@
 package icbm.sentry.turret.ai;
 
+import icbm.core.DamageUtility;
 import icbm.core.Settings;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
@@ -117,19 +118,9 @@ public class TurretEntitySelector implements IEntitySelector
     /** Checks if the target is valid for being attacked */
     public boolean isValid(Entity entity)
     {
-        if (entity instanceof EntityLivingBase)
+        if (DamageUtility.canDamage(entity))
         {
-            if (entity.isEntityAlive() && !entity.isInvisible())
-            {
-                if (entity instanceof EntityPlayer)
-                {
-                    if (((EntityPlayer) entity).capabilities.isCreativeMode)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
+            return !entity.isInvisible();
         }
         return false;
     }

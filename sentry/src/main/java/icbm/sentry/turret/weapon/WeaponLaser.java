@@ -38,7 +38,7 @@ public class WeaponLaser extends WeaponDamage
 	public void fire(Vector3 target)
 	{
         /**
-         * placeholder code to not accidentially call a traveling bullet style fire. --tgame14
+         * placeholder code to not accidentally call a traveling bullet style fire. --tgame14
          */
 	}
 
