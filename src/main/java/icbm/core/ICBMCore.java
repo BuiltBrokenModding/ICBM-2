@@ -90,8 +90,8 @@ public final class ICBMCore
 
     public ICBMCore()
     {
-        ModUtility.removeMod("ICBM|Sentry", Settings.CONFIGURATION.get("Child_Mods", "Enable_Sentry", false).getBoolean(false));
-        ModUtility.removeMod("ICBM|Explosion", Settings.CONFIGURATION.get("Child_Mods", "Enable_Explosion", false).getBoolean(false));
+        ModUtility.removeMod("ICBM|Sentry", Settings.CONFIGURATION.get("Child_Mods", "Disable_Sentry", false).getBoolean(false));
+        ModUtility.removeMod("ICBM|Explosion", Settings.CONFIGURATION.get("Child_Mods", "Disable_Explosion", false).getBoolean(false));
     }
 
 	@EventHandler
