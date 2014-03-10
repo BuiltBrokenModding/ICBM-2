@@ -49,33 +49,18 @@ public class RenderRocketLauncher implements IItemRenderer
 		}
 		else if (type == ItemRenderType.EQUIPPED)
 		{
-
-			/** Check to see if we should do a first person render or not. */
-			boolean isThisEntity = false;
-			boolean isFirstPerson = Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
-
-			if (data != null)
-			{
-				if (data.length >= 2)
-				{
-					isThisEntity = data[1] == Minecraft.getMinecraft().renderViewEntity;
-				}
-			}
-
-			if (isThisEntity && isFirstPerson)
-			{
-				GL11.glTranslatef(0, 2f, 0);
-				GL11.glRotatef(180, 0, 0, 1);
-				GL11.glRotatef(20, 0, 1, 0);
-			}
-			else
-			{
-				float scale = 2f;
-				GL11.glScalef(scale, scale, scale);
-				GL11.glRotatef(-105, 0, 0, 1);
-				GL11.glRotatef(-75, 0, 1, 0);
-				GL11.glTranslatef(0.1f, -0.9f, 0.6f);
-			}
+			float scale = 2f;
+			GL11.glScalef(scale, scale, scale);
+			GL11.glRotatef(-105, 0, 0, 1);
+			GL11.glRotatef(-75, 0, 1, 0);
+			GL11.glTranslatef(0.1f, -0.9f, 0.6f);
+		}
+		else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
+		{
+			GL11.glTranslatef(0, 3.2f, 0.8f);
+			GL11.glRotatef(180, 0, 0, 1);
+			GL11.glRotatef(40, 0, 1, 0);
+			GL11.glScaled(1.5, 1.5, 1.5);
 		}
 		else if (type == ItemRenderType.ENTITY)
 		{
