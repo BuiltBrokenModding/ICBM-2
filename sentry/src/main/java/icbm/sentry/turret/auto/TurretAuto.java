@@ -26,7 +26,7 @@ public abstract class TurretAuto extends Turret implements IAutoTurret
 
         if (!world().isRemote)
         {
-            ai.update();
+            getAi().update();
             getServo().update();
         }
 
