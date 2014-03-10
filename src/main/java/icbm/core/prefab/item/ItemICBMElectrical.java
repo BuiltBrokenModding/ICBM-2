@@ -1,8 +1,8 @@
 package icbm.core.prefab.item;
 
 import icbm.Reference;
-import icbm.core.TabICBM;
 import icbm.core.Settings;
+import icbm.core.TabICBM;
 import universalelectricity.api.UniversalClass;
 import universalelectricity.api.item.IEnergyItem;
 import universalelectricity.api.item.IVoltageItem;

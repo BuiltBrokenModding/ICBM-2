@@ -1,6 +1,5 @@
 package icbm.explosion.missile.missile;
 
-import calclavia.lib.utility.LanguageUtility;
 import icbm.core.prefab.item.ItemICBMBase;
 import icbm.explosion.missile.Explosive;
 import icbm.explosion.missile.ExplosiveRegistry;
@@ -10,6 +9,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import calclavia.lib.utility.LanguageUtility;
 
 public class ItemMissile extends ItemICBMBase
 {

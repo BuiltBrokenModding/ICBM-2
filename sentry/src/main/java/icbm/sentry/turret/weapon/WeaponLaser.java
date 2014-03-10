@@ -4,7 +4,6 @@ import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.DamageSource;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

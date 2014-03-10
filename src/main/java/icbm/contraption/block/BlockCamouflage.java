@@ -1,6 +1,5 @@
 package icbm.contraption.block;
 
-import calclavia.lib.content.BlockInfo;
 import icbm.api.ICamouflageMaterial;
 import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
@@ -13,6 +12,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import calclavia.lib.content.BlockInfo;
 
 @BlockInfo(tileEntity = "icbm.contraption.block.TileCamouflage")
 public class BlockCamouflage extends BlockICBM

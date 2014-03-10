@@ -1,10 +1,10 @@
 package icbm.sentry.turret.auto;
 
-import net.minecraft.entity.Entity;
 import icbm.Reference;
 import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponConventional;
+import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.

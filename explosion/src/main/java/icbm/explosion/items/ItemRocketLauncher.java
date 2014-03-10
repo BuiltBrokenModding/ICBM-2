@@ -6,9 +6,11 @@ import icbm.core.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.missile.EntityMissile.MissileType;
 import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.missile.Missile;
+
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -17,8 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.utility.LanguageUtility;
-
-import java.util.List;
 
 /**
  * Rocket Launcher

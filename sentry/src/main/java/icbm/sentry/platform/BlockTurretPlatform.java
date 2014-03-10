@@ -1,7 +1,6 @@
 package icbm.sentry.platform;
 
 import icbm.api.sentry.IAmmunition;
-import icbm.core.ICBMCore;
 import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;

@@ -7,7 +7,6 @@ import icbm.sentry.interfaces.ITurretProvider;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityOwnable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.boss.IBossDisplayData;

@@ -4,7 +4,6 @@ import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.TurretRenderer;
 import icbm.sentry.turret.TurretRegistry;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 
 import org.lwjgl.opengl.GL11;
 

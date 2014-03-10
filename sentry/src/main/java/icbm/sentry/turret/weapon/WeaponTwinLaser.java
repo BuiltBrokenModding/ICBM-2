@@ -1,11 +1,8 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
 import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Double barreled version of the laser

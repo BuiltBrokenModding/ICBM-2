@@ -1,20 +1,19 @@
 package icbm.sentry.turret.weapon;
 
-import java.util.List;
-
-import calclavia.lib.prefab.vector.Cuboid;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.api.vector.Vector3;
 import icbm.Reference;
 import icbm.api.sentry.IAmmunition;
 import icbm.api.sentry.ProjectileType;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.sentry.turret.Turret;
-import icbm.sentry.turret.items.ItemAmmo.AmmoType;
+
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import universalelectricity.api.vector.Vector3;
+import calclavia.lib.prefab.vector.Cuboid;
 
 /** High powered electro magnetic cannon designed to throw a small metal object up to sonic speeds
  * 

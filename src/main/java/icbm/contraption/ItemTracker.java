@@ -5,7 +5,6 @@ import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
 
-import universalelectricity.api.vector.Vector3;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
@@ -13,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.Vector3;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;

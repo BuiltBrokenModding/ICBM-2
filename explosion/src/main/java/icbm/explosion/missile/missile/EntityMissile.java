@@ -40,7 +40,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.MinecraftForge;
-import scala.collection.Set;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 

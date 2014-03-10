@@ -1,6 +1,5 @@
 package icbm.explosion.explosive.blast;
 
-import calclavia.lib.configurable.Config;
 import icbm.Reference;
 import icbm.api.explosion.IExplosiveIgnore;
 import icbm.explosion.EntityFlyingBlock;
@@ -8,6 +7,9 @@ import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.EntityExplosion;
 import icbm.explosion.missile.EntityExplosive;
+
+import java.util.List;
+
 import mffs.api.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
@@ -19,8 +21,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
-
-import java.util.List;
+import calclavia.lib.configurable.Config;
 
 public class BlastRedmatter extends Blast
 {

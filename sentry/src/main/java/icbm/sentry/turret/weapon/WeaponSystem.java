@@ -1,14 +1,11 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Modular way of dealing with weapon systems in a way works with different object types

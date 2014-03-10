@@ -1,6 +1,5 @@
 package icbm.explosion.missile;
 
-import calclavia.lib.utility.LanguageUtility;
 import icbm.Reference;
 import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import icbm.api.explosion.ExplosiveType;
@@ -17,6 +16,7 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

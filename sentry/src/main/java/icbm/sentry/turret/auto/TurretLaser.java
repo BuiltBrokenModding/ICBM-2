@@ -1,9 +1,9 @@
 package icbm.sentry.turret.auto;
 
-import universalelectricity.api.energy.EnergyStorageHandler;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponTwinLaser;
 import net.minecraft.util.MathHelper;
+import universalelectricity.api.energy.EnergyStorageHandler;
 
 public class TurretLaser extends TurretAuto
 {

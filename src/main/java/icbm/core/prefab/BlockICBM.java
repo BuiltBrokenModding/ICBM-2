@@ -1,8 +1,8 @@
 package icbm.core.prefab;
 
 import icbm.Reference;
-import icbm.core.TabICBM;
 import icbm.core.Settings;
+import icbm.core.TabICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;

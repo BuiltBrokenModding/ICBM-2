@@ -2,7 +2,6 @@ package icbm.core.prefab.item;
 
 import icbm.Reference;
 import icbm.core.TabICBM;
-import icbm.core.Settings;
 import net.minecraft.item.Item;
 
 /** Prefab for ICBM items that sets the creative tab, texture name, and translation name

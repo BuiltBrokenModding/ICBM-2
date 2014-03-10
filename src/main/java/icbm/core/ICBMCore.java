@@ -1,5 +1,37 @@
 package icbm.core;
 
+import icbm.Reference;
+import icbm.contraption.ItemAntidote;
+import icbm.contraption.ItemPoisonPowder;
+import icbm.contraption.ItemSignalDisrupter;
+import icbm.contraption.ItemSulfurDust;
+import icbm.contraption.ItemTracker;
+import icbm.contraption.block.BlockCamouflage;
+import icbm.contraption.block.BlockConcrete;
+import icbm.contraption.block.BlockGlassButton;
+import icbm.contraption.block.BlockGlassPressurePlate;
+import icbm.contraption.block.BlockProximityDetector;
+import icbm.contraption.block.BlockReinforcedGlass;
+import icbm.contraption.block.BlockSpikes;
+import icbm.contraption.block.TileProximityDetector;
+import icbm.explosion.CommandICBM;
+
+import java.util.logging.Logger;
+
+import net.minecraft.block.Block;
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.ServerCommandManager;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import org.modstats.ModstatInfo;
+import org.modstats.Modstats;
+
 import calclavia.components.CalclaviaLoader;
 import calclavia.lib.configurable.ConfigHandler;
 import calclavia.lib.content.ContentRegistry;
@@ -26,24 +58,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import icbm.Reference;
-import icbm.contraption.*;
-import icbm.contraption.block.*;
-import icbm.explosion.CommandICBM;
-import net.minecraft.block.Block;
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-import org.modstats.ModstatInfo;
-import org.modstats.Modstats;
-
-import java.util.logging.Logger;
 
 /**
  * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.

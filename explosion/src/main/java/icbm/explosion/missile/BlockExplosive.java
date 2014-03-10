@@ -15,7 +15,6 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import calclavia.lib.utility.WrenchUtility;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -38,6 +37,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorHelper;
+import calclavia.lib.utility.WrenchUtility;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

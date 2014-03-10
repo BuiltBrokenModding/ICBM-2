@@ -1,6 +1,5 @@
 package icbm.sentry;
 
-import cpw.mods.fml.common.Optional;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
@@ -32,6 +31,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;

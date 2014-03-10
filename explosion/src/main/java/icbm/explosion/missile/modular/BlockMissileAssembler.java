@@ -1,11 +1,12 @@
 package icbm.explosion.missile.modular;
 
-import java.util.Random;
-
 import icbm.Reference;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.render.tile.BlockRenderHandler;
+
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

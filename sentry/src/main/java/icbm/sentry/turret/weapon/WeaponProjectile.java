@@ -1,12 +1,11 @@
 package icbm.sentry.turret.weapon;
 
-import java.util.Random;
-
 import icbm.api.sentry.IAmmunition;
 import icbm.api.sentry.ProjectileType;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;
-import icbm.sentry.turret.items.ItemAmmo.AmmoType;
+
+import java.util.Random;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import universalelectricity.api.vector.Vector3;

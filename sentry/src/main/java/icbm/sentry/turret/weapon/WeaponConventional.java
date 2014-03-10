@@ -1,9 +1,9 @@
 package icbm.sentry.turret.weapon;
 
-import net.minecraft.item.ItemStack;
 import icbm.api.sentry.IAmmunition;
 import icbm.api.sentry.ProjectileType;
 import icbm.sentry.turret.Turret;
+import net.minecraft.item.ItemStack;
 
 /** @author DarkGuardsman */
 public class WeaponConventional extends WeaponProjectile

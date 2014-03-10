@@ -1,15 +1,12 @@
 package icbm.core;
 
 import icbm.api.IItemFrequency;
-import icbm.contraption.block.TileCamouflage;
 import icbm.contraption.block.TileProximityDetector;
-import icbm.contraption.gui.GuiFrequency;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import calclavia.lib.gui.ContainerDummy;
 import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy implements IGuiHandler
 {

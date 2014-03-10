@@ -1,7 +1,6 @@
 package icbm.sentry.render;
 
 import icbm.Reference;
-import icbm.sentry.models.ModelRailgun;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

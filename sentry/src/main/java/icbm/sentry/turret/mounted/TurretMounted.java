@@ -5,7 +5,6 @@ import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.api.vector.EulerAngle;
 import universalelectricity.api.vector.Vector3;
 
 /** this sentry uses for mounting the player in position */
