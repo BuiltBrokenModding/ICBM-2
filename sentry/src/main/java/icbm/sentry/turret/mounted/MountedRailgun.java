@@ -32,20 +32,24 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
     public void update()
     {
         super.update();
-        if (!world().isRemote && powerUpTicks != -1 && powerUpTicks++ >= 70)
+        if (!world().isRemote && powerUpTicks >= 0)
         {
-            fire();
+            powerUpTicks++;
+            if (powerUpTicks++ >= 70)
+                fire();
         }
     }
 
+    @Override
     public void fire()
     {
+        System.out.println("Railgun fire called");
         super.fire();
         powerUpTicks = -1;
     }
 
     @Override
-    public void tryFire()
+    public void onRedstone()
     {
         powerUpTicks = 0;
     }

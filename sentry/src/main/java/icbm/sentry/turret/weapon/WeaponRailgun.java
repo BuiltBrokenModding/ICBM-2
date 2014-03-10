@@ -4,6 +4,7 @@ import java.util.List;
 
 import calclavia.lib.prefab.vector.Cuboid;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
@@ -30,44 +31,38 @@ public class WeaponRailgun extends WeaponProjectile
         super(sentry, 1, damage);
     }
 
-    public void fire(boolean isAntimatter)
+    @Override
+    public void onHitEntity(Entity entity)
     {
-        this.turret.world().playSoundEffect(this.turret.x(), this.turret.y(), this.turret.z(), Reference.PREFIX + "railgun", 5F, 0.9f + this.turret.world().rand.nextFloat() * 0.2f);
-        
-        int explosionDepth = 10;
-        Vector3 hit = null;
-        //TODO: Change this to create a mini explosion instead of creating its own
-        while (explosionDepth > 0)
+        super.onHitEntity(entity);
+        this.onHitBlock(Vector3.fromCenter(entity));
+    }
+
+    @SuppressWarnings("unused")
+    @Override
+    public void onHitBlock(Vector3 hit)
+    {
+        System.out.println("weapon railgun on hit block");
+        int size = 10;
+        /** Kill all active explosives with antimatter. */
+        if (false)
         {
-            MovingObjectPosition objectMouseOver = this.turret.getAi().rayTrace(2000);
+            AxisAlignedBB bounds = new Cuboid().expand(50).translate(hit).toAABB();
+            List<EntityExplosion> entities = this.turret.world().getEntitiesWithinAABB(EntityExplosion.class, bounds);
 
-            if (objectMouseOver != null)
+            for (EntityExplosion entity : entities)
             {
-                hit = new Vector3(objectMouseOver.hitVec);
-
-                /** Kill all active explosives with antimatter. */
-                if (isAntimatter)
-                {
-                    int radius = 50;
-                    AxisAlignedBB bounds = new Cuboid().expand(radius).translate(hit).toAABB();
-                    List<EntityExplosion> entities = this.turret.world().getEntitiesWithinAABB(EntityExplosion.class, bounds);
-
-                    for (EntityExplosion entity : entities)
-                    {
-                        entity.endExplosion();
-                    }
-                }
-                Block block = Block.blocksList[hit.getBlockID(this.turret.world())];
-                if (block != null && block.blockResistance >= 0)
-                {
-                    hit.setBlock(this.turret.world(), 0);
-                }
-
-                // TODO: Fix this null.
-                this.turret.world().newExplosion(null, hit.x, hit.y, hit.z, 10, true, true);
+                entity.endExplosion();
             }
-
-            explosionDepth--;
+            size = 20;
+        }
+        // TODO: Fix this null.
+        this.turret.world().newExplosion((Entity)null, hit.x, hit.y, hit.z, size, true, true);
+        
+        Block block = Block.blocksList[this.turret.world().getBlockId(hit.intX(), hit.intY(), hit.intZ())];
+        if(block != null && block.getBlockHardness(this.turret.world(), hit.intX(), hit.intY(), hit.intZ()) >= 0)
+        {
+            this.turret.world().setBlockToAir(hit.intX(), hit.intY(), hit.intZ());
         }
     }
 
@@ -80,6 +75,8 @@ public class WeaponRailgun extends WeaponProjectile
     @Override
     public void fire(Vector3 target)
     {
-        consumeAmmo(ammoAmount, true);
+        System.out.println("weapon railgun fire event");
+        super.fire(target);
+        this.turret.world().playSoundEffect(this.turret.x(), this.turret.y(), this.turret.z(), Reference.PREFIX + "railgun", 5F, 0.9f + this.turret.world().rand.nextFloat() * 0.2f);
     }
 }

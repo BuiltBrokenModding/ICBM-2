@@ -44,20 +44,19 @@ public abstract class WeaponSystem
 
 	/** Fires the weapon at a location */
 	public void fire(Vector3 target)
-	{
+	{	    
 		Vector3 hit = target.clone();
 		MovingObjectPosition endTarget = getBarrelEnd().rayTrace(turret.getHost().world(), hit, true);
 
 		if (endTarget != null)
 		{
-			hit = new Vector3(endTarget);
 			if (endTarget.typeOfHit == EnumMovingObjectType.ENTITY)
 			{
 				onHitEntity(endTarget.entityHit);
 			}
 			else if (endTarget.typeOfHit == EnumMovingObjectType.TILE)
 			{
-				onHitBlock(hit);
+				onHitBlock(new Vector3(endTarget));
 			}
 		}
 	}

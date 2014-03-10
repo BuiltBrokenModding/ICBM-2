@@ -39,7 +39,7 @@ public abstract class TurretMounted extends Turret
             {
                 if (canFire())
                 {
-                    tryFire();
+                    onRedstone();
                 }
             }
         }
@@ -48,17 +48,17 @@ public abstract class TurretMounted extends Turret
     public void fire()
     {
         Vector3 start = this.getAbsoluteCenter().translate(this.getAimOffset());
-        Vector3 end = this.getAbsoluteCenter().translate(this.getAimOffset().scale(500));
+        Vector3 end = this.getAbsoluteCenter().translate(new Vector3(getServo()).scale(500).translate(aimOffset));
         MovingObjectPosition endTarget = start.rayTrace(world(), end, true);
         Vector3 hit = end;
         if (endTarget != null)
         {
-            hit = new Vector3(endTarget);
+            hit = new Vector3(endTarget.hitVec);
         }
         fire(hit);
     }
 
-    public void tryFire()
+    public void onRedstone()
     {
 
     }
