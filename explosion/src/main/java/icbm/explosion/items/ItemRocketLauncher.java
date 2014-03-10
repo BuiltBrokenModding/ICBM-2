@@ -78,13 +78,14 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 
 										EntityMissile entityMissile = new EntityMissile(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
 										world.spawnEntityInWorld(entityMissile);
-										
-										if(player.isSneaking())
+
+										if (player.isSneaking())
 										{
 											player.mountEntity(entityMissile);
 											player.setSneaking(false);
 										}
-										
+
+										entityMissile.ignore(player);
 										entityMissile.launch(muBiao);
 
 										if (!player.capabilities.isCreativeMode)
@@ -124,10 +125,10 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 		return ENERGY * 16;
 	}
 
-    @Override
-    public void addInformation (ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
-    {
-        String str = LanguageUtility.getLocal("info.rocketlauncher.tooltip").replaceAll("%s", String.valueOf(Settings.MAX_ROCKET_LAUCNHER_TIER));
-        list.add(str);
-    }
+	@Override
+	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
+	{
+		String str = LanguageUtility.getLocal("info.rocketlauncher.tooltip").replaceAll("%s", String.valueOf(Settings.MAX_ROCKET_LAUCNHER_TIER));
+		list.add(str);
+	}
 }

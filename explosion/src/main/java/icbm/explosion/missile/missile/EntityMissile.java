@@ -18,6 +18,7 @@ import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.missile.ExplosiveRegistry;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -37,6 +38,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.MinecraftForge;
+import scala.collection.Set;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 
@@ -99,6 +101,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	public Vector3 xiaoDanMotion = new Vector3();
 
 	private double qiFeiGaoDu = 3;
+
+	// Used for the rocket launcher preventing the players from killing themselves.
+	private final HashSet<Entity> ignoreEntity = new HashSet<Entity>();
 
 	// Client side
 	protected final IUpdatePlayerListBox shengYin;
@@ -217,6 +222,12 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	{
 		this.qiFeiGaoDu = height;
 		this.launch(target);
+	}
+
+	public EntityMissile ignore(Entity entity)
+	{
+		ignoreEntity.add(entity);
+		return this;
 	}
 
 	/** Recalculates required parabolic path for the missile Registry */
@@ -580,11 +591,12 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	}
 
 	/** Checks to see if and entity is touching the missile. If so, blow up! */
-
 	@Override
 	public AxisAlignedBB getCollisionBox(Entity entity)
 	{
-		System.out.println(entity);
+		if (ignoreEntity.contains(entity))
+			return null;
+
 		// Make sure the entity is not an item
 		if (!(entity instanceof EntityItem) && entity != this.riddenByEntity && this.protectionTime <= 0)
 		{
