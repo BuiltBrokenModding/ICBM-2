@@ -24,11 +24,21 @@ public class TurretAntiAirSelector extends TurretEntitySelector
         //TODO: Check missile for impact with in area of protection up to + 200 of sentry max range.
         //If missile does not impact area then don't shoot at it, as well check if 
         //launcher is in area of protection to preven friendly fire
-        if (entity instanceof IMissile && ((IMissile)entity).getTicksInAir() > 5)
+        if (entity instanceof IMissile)
         {
             return true;
         }
         return super.isEntityApplicable(entity);
+    }
+
+    @Override
+    public boolean isValid(Entity entity)
+    {
+        if (entity instanceof IMissile)
+        {
+            return true;
+        }
+        return super.isValid(entity);
     }
 
 }
