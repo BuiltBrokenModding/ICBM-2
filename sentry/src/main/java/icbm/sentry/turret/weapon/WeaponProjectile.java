@@ -47,10 +47,10 @@ public class WeaponProjectile extends WeaponDamage
         }
         return offset;
     }
-
+  
     public boolean isAmmo(ItemStack stack)
     {
-        return stack != null && stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.CONVENTIONAL;
+        return stack != null && stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) != ProjectileType.UNKNOWN;
     }
 
     @Override

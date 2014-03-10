@@ -47,7 +47,6 @@ public abstract class WeaponSystem
 	{	    
 		Vector3 hit = target.clone();
 		MovingObjectPosition endTarget = getBarrelEnd().rayTrace(turret.getHost().world(), hit, true);
-
 		if (endTarget != null)
 		{
 			if (endTarget.typeOfHit == EnumMovingObjectType.ENTITY)

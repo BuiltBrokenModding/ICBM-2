@@ -42,7 +42,6 @@ public class WeaponRailgun extends WeaponProjectile
     @Override
     public void onHitBlock(Vector3 hit)
     {
-        System.out.println("weapon railgun on hit block");
         int size = 10;
         /** Kill all active explosives with antimatter. */
         if (false)
@@ -69,7 +68,7 @@ public class WeaponRailgun extends WeaponProjectile
     @Override
     public boolean isAmmo(ItemStack stack)
     {
-        return stack != null && stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.RAILGUN;
+        return super.isAmmo(stack) && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.RAILGUN;
     }
 
     @Override
