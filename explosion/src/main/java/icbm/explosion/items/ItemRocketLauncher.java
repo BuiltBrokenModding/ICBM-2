@@ -76,9 +76,16 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 										Vector3 kaiShiDiDian = Vector3.translate(diDian, Vector3.scale(kan, 1.1));
 										Vector3 muBiao = Vector3.translate(diDian, Vector3.scale(kan, 100));
 
-										EntityMissile eDaoDan = new EntityMissile(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
-										world.spawnEntityInWorld(eDaoDan);
-										eDaoDan.launch(muBiao);
+										EntityMissile entityMissile = new EntityMissile(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
+										world.spawnEntityInWorld(entityMissile);
+										
+										if(player.isSneaking())
+										{
+											player.mountEntity(entityMissile);
+											player.setSneaking(false);
+										}
+										
+										entityMissile.launch(muBiao);
 
 										if (!player.capabilities.isCreativeMode)
 										{
