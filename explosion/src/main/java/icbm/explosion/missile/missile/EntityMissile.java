@@ -561,14 +561,14 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	{
 		if (this.missileFlightTime <= 0 && this.missileType == MissileType.missile)
 		{
-			return this.height;
+			return height;
 		}
 		else if (this.missileType == MissileType.CruiseMissile)
 		{
-			return this.height * 0.1;
+			return height / 10;
 		}
 
-		return this.height / 2 + this.motionY;
+		return height / 2 + motionY;
 	}
 
 	private void spawnMissileSmoke()

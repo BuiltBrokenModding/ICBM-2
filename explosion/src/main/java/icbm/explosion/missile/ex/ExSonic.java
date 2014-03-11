@@ -18,49 +18,49 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExSonic extends Missile
 {
-    public ExSonic(String mingZi, int tier)
-    {
-        super(mingZi, tier);
-    }
+	public ExSonic(String mingZi, int tier)
+	{
+		super(mingZi, tier);
+	}
 
-    @Override
-    public void init()
-    {
-        if (this.getTier() == 3)
-        {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "S S", " S ", 'S', Explosive.sonic.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
-        }
-        else
-        {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', Explosive.replsive.getItemStack(), '?', Block.music, '@', UniversalRecipe.SECONDARY_METAL.get() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
-        }
-    }
+	@Override
+	public void init()
+	{
+		if (this.getTier() == 3)
+		{
+			RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { " S ", "S S", " S ", 'S', Explosive.sonic.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+		}
+		else
+		{
+			RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@?@", "?R?", "@?@", 'R', Explosive.replsive.getItemStack(), '?', Block.music, '@', UniversalRecipe.SECONDARY_METAL.get() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+		}
+	}
 
-    @Override
-    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
-    {
-        if (this.getTier() == 3)
-        {
-            new BlastSonic(world, entity, x, y, z, 15, 30).setShockWave().explode();
-        }
-        else
-        {
-            new BlastSonic(world, entity, x, y, z, 10, 25).explode();
-        }
-    }
+	@Override
+	public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+	{
+		if (this.getTier() == 3)
+		{
+			new BlastSonic(world, entity, x, y, z, 20, 35).setShockWave().explode();
+		}
+		else
+		{
+			new BlastSonic(world, entity, x, y, z, 15, 30).explode();
+		}
+	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        if (this.getTier() == 3)
-        {
-            return new MMChaoShengBuo();
-        }
-        else
-        {
-            return new MMShengBuo();
-        }
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public ModelICBM getMissileModel()
+	{
+		if (this.getTier() == 3)
+		{
+			return new MMChaoShengBuo();
+		}
+		else
+		{
+			return new MMShengBuo();
+		}
+	}
 
 }
