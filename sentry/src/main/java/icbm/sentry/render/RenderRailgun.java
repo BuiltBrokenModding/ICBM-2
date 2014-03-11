@@ -22,7 +22,7 @@ public class RenderRailgun extends TurretRenderer
 
 	public RenderRailgun()
 	{
-		super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "railgun.png"));
+		super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX + "turret_railgun.png"));
 	}
 
 	@Override

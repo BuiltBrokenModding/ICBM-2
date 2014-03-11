@@ -2,11 +2,11 @@ package icbm.explosion.render.item;
 
 import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.model.tiles.MShouFaSheQi;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -17,9 +17,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderRocketLauncher implements IItemRenderer
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "rocket_launcher.png");
-
-	public static final MShouFaSheQi MODEL = new MShouFaSheQi();
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX + "rocketLauncher.png");
+	private static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "rocketLauncher.tcn");
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type)
@@ -42,33 +41,31 @@ public class RenderRocketLauncher implements IItemRenderer
 
 		if (type == ItemRenderType.INVENTORY)
 		{
-			GL11.glTranslatef(0, 1.5f, 0);
-			GL11.glRotatef(180, 0, 0, 1);
-			GL11.glScalef(0.8f, 1f, 0.8f);
-			GL11.glTranslatef(0, 0.3f, 0);
+			GL11.glTranslatef(-0.1f, 0.1f, 0f);
+			GL11.glRotatef(90, 0, 1, 0);
+			GL11.glScalef(0.75f, 0.75f, 0.75f);
 		}
 		else if (type == ItemRenderType.EQUIPPED)
 		{
-			float scale = 2f;
-			GL11.glScalef(scale, scale, scale);
-			GL11.glRotatef(-105, 0, 0, 1);
-			GL11.glRotatef(-75, 0, 1, 0);
-			GL11.glTranslatef(0.1f, -0.9f, 0.6f);
+			GL11.glRotatef(-75, 1, 0, 0);
+			GL11.glRotatef(30, 0, 0, 1);
+			GL11.glRotatef(20, 0, 1, 0);
+			GL11.glTranslatef(0.2f, -0.1f, -0f);
+			GL11.glScalef(2, 2, 2);
 		}
 		else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
 		{
-			GL11.glTranslatef(0, 3.2f, 0.8f);
-			GL11.glRotatef(180, 0, 0, 1);
-			GL11.glRotatef(40, 0, 1, 0);
-			GL11.glScaled(1.5, 1.5, 1.5);
+			GL11.glTranslatef(-0.4f, 1.3f, 1f);
+			GL11.glRotatef(-30, 0, 1, 0);
+			GL11.glRotatef(13, 1, 0, 0);
+			GL11.glScaled(1.8f, 1.8f, 1.8f);
 		}
 		else if (type == ItemRenderType.ENTITY)
 		{
-			GL11.glTranslatef(0, -0.5f, 0);
-			GL11.glScalef(0.7f, 0.7f, 0.7f);
+			GL11.glTranslatef(0, 0.3f, 0);
 		}
 
-		MODEL.render(0.0625F);
+		MODEL.renderAll();
 
 		GL11.glPopMatrix();
 	}
