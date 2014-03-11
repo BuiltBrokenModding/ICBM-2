@@ -43,7 +43,6 @@ public class WeaponRailgun extends WeaponProjectile
 	@Override
 	public void onHitBlock(Vector3 hit)
 	{
-		System.out.println("HIT " + hit);
 		int size = 10;
 
 		/** Kill all active explosives with antimatter. */
