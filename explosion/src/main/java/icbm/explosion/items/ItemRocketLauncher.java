@@ -73,10 +73,11 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 										double dist = 5000;
 										Vector3 diDian = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
 										Vector3 kan = new Vector3(player.getLook(1));
-										Vector3 kaiShiDiDian = Vector3.translate(diDian, Vector3.scale(kan, 1.1));
+										Vector3 start = Vector3.translate(diDian, Vector3.scale(kan, 1.1));
 										Vector3 muBiao = Vector3.translate(diDian, Vector3.scale(kan, 100));
 
-										EntityMissile entityMissile = new EntityMissile(world, kaiShiDiDian, daoDan.getID(), player.rotationYaw, player.rotationPitch);
+										//TOD: Fix this rotation when we use the proper model loader.
+										EntityMissile entityMissile = new EntityMissile(world, start, daoDan.getID(), -player.rotationYaw, -player.rotationPitch);
 										world.spawnEntityInWorld(entityMissile);
 
 										if (player.isSneaking())
