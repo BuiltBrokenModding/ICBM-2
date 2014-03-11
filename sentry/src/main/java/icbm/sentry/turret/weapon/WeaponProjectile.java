@@ -36,7 +36,7 @@ public class WeaponProjectile extends WeaponDamage
         consumeAmmo(ammoAmount, true);
     }
 
-    private double getInaccuracy(double distance)
+    protected double getInaccuracy(double distance)
     {
         Random rand = turret.getHost().world().rand;
         double offset = distance * (rand.nextFloat() - rand.nextFloat()) * inaccuracy;

@@ -15,65 +15,78 @@ import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.vector.Cuboid;
 
-/** High powered electro magnetic cannon designed to throw a small metal object up to sonic speeds
+/**
+ * High powered electro magnetic cannon designed to throw a small metal object up to sonic speeds
  * 
- * @author Darkguardsman */
+ * @author Darkguardsman
+ */
 public class WeaponRailgun extends WeaponProjectile
 {
-    public WeaponRailgun(Turret sentry)
-    {
-        this(sentry, 100);
-    }
+	public WeaponRailgun(Turret sentry)
+	{
+		this(sentry, 100);
+	}
 
-    public WeaponRailgun(Turret sentry, float damage)
-    {
-        super(sentry, 1, damage);
-    }
+	public WeaponRailgun(Turret sentry, float damage)
+	{
+		super(sentry, 1, damage);
+	}
 
-    @Override
-    public void onHitEntity(Entity entity)
-    {
-        super.onHitEntity(entity);
-        this.onHitBlock(Vector3.fromCenter(entity));
-    }
+	@Override
+	public void onHitEntity(Entity entity)
+	{
+		super.onHitEntity(entity);
+		onHitBlock(Vector3.fromCenter(entity));
+	}
 
-    @SuppressWarnings("unused")
-    @Override
-    public void onHitBlock(Vector3 hit)
-    {
-        int size = 10;
-        /** Kill all active explosives with antimatter. */
-        if (false)
-        {
-            AxisAlignedBB bounds = new Cuboid().expand(50).translate(hit).toAABB();
-            List<EntityExplosion> entities = this.turret.world().getEntitiesWithinAABB(EntityExplosion.class, bounds);
+	@SuppressWarnings("unused")
+	@Override
+	public void onHitBlock(Vector3 hit)
+	{
+		System.out.println("HIT " + hit);
+		int size = 10;
 
-            for (EntityExplosion entity : entities)
-            {
-                entity.endExplosion();
-            }
-            size = 20;
-        }
-        // TODO: Fix this null.
-        this.turret.world().newExplosion((Entity)null, hit.x, hit.y, hit.z, size, true, true);
-        
-        Block block = Block.blocksList[this.turret.world().getBlockId(hit.intX(), hit.intY(), hit.intZ())];
-        if(block != null && block.getBlockHardness(this.turret.world(), hit.intX(), hit.intY(), hit.intZ()) >= 0)
-        {
-            this.turret.world().setBlockToAir(hit.intX(), hit.intY(), hit.intZ());
-        }
-    }
+		/** Kill all active explosives with antimatter. */
+		if (false)
+		{
+			AxisAlignedBB bounds = new Cuboid().expand(50).translate(hit).toAABB();
+			List<EntityExplosion> entities = this.turret.world().getEntitiesWithinAABB(EntityExplosion.class, bounds);
 
-    @Override
-    public boolean isAmmo(ItemStack stack)
-    {
-        return super.isAmmo(stack) && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.RAILGUN;
-    }
+			for (EntityExplosion entity : entities)
+			{
+				entity.endExplosion();
+			}
+			size = 20;
+		}
 
-    @Override
-    public void fire(Vector3 target)
-    {
-        super.fire(target);
-        this.turret.world().playSoundEffect(this.turret.x(), this.turret.y(), this.turret.z(), Reference.PREFIX + "railgun", 5F, 0.9f + this.turret.world().rand.nextFloat() * 0.2f);
-    }
+		// TODO: Fix this null.
+		this.turret.world().newExplosion((Entity) null, hit.x, hit.y, hit.z, size, true, true);
+
+		Block block = Block.blocksList[this.turret.world().getBlockId(hit.intX(), hit.intY(), hit.intZ())];
+		if (block != null && block.getBlockHardness(this.turret.world(), hit.intX(), hit.intY(), hit.intZ()) >= 0)
+		{
+			this.turret.world().setBlockToAir(hit.intX(), hit.intY(), hit.intZ());
+		}
+	}
+
+	@Override
+	public boolean isAmmo(ItemStack stack)
+	{
+		return super.isAmmo(stack) && ((IAmmunition) stack.getItem()).getType(stack) == ProjectileType.RAILGUN;
+	}
+
+	@Override
+	public void fire(Vector3 target)
+	{
+		double d = target.distance(this.turret.getAbsoluteCenter());
+		Vector3 normalized = target.clone().subtract(turret.getAbsoluteCenter()).normalize();
+		target.translate(normalized.scale(8));
+
+		for (int i = 0; i < 5; i++)
+		{
+			doFire(target.clone().translate(getInaccuracy(d), getInaccuracy(d), getInaccuracy(d)));
+		}
+
+		consumeAmmo(ammoAmount, true);
+	}
 }

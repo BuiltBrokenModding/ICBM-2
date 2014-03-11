@@ -41,7 +41,18 @@ public abstract class WeaponSystem
 
 	/** Fires the weapon at a location */
 	public void fire(Vector3 target)
-	{	    
+	{
+		doFire(target);
+	}
+
+	/** Fires the weapon at an entity. */
+	public void fire(Entity entity)
+	{
+		fire(Vector3.fromCenter(entity));
+	}
+
+	public void doFire(Vector3 target)
+	{
 		Vector3 hit = target.clone();
 		MovingObjectPosition endTarget = getBarrelEnd().rayTrace(turret.getHost().world(), hit, true);
 		if (endTarget != null)
@@ -55,12 +66,6 @@ public abstract class WeaponSystem
 				onHitBlock(new Vector3(endTarget.hitVec));
 			}
 		}
-	}
-
-	/** Fires the weapon at an entity. */
-	public void fire(Entity entity)
-	{
-		this.fire(Vector3.fromCenter(entity));
 	}
 
 	public void fireClient(Vector3 hit)
