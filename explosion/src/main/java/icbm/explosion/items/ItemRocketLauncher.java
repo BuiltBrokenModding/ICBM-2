@@ -6,6 +6,7 @@ import icbm.core.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.EntityMissile;
+import icbm.explosion.missile.missile.EntityMissile.MissileType;
 import icbm.explosion.missile.missile.ItemMissile;
 import icbm.explosion.missile.missile.Missile;
 import net.minecraft.entity.player.EntityPlayer;

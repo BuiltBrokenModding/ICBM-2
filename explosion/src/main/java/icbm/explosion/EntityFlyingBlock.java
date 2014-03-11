@@ -69,14 +69,18 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
 		data.writeInt(this.blockID);
 		data.writeInt(this.metadata);
 		data.writeFloat(this.gravity);
+		data.writeFloat(yawChange);
+		data.writeFloat(pitchChange);
 	}
 
 	@Override
 	public void readSpawnData(ByteArrayDataInput data)
 	{
-		this.blockID = data.readInt();
-		this.metadata = data.readInt();
-		this.gravity = data.readFloat();
+		blockID = data.readInt();
+		metadata = data.readInt();
+		gravity = data.readFloat();
+		yawChange = data.readFloat();
+		pitchChange = data.readFloat();
 	}
 
 	@Override
