@@ -25,7 +25,7 @@ public class TurretAntiAir extends TurretAuto
             }
         };
         this.centerOffset.y = 0.75;
-        this.range = 150;
+        this.range = 200;
         this.maxCooldown = 5;
         selector = new TurretAntiAirSelector(this);
     }
