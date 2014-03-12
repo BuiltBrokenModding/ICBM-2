@@ -87,11 +87,12 @@ public class WeaponProjectile extends WeaponDamage
                     {
                         if (doConsume)
                         {
+                            ItemStack eject = ammo.getShell(itemStack, need);
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, need));
                             if (this.turret.upgrade_count.containsKey(TurretUpgradeType.COLLECTOR.iconName) && this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
-                                InventoryUtility.putStackInInventory(inv, itemStack, ForgeDirection.UNKNOWN.ordinal(), true);
-                            else
-                                InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
+                                eject = InventoryUtility.putStackInInventory(inv, eject, ForgeDirection.UNKNOWN.ordinal(), true);
+                            if (eject != null)
+                                InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), eject);
                         }
                         return true;
                     }
@@ -100,11 +101,12 @@ public class WeaponProjectile extends WeaponDamage
                         int consume = need - ammo.getAmmoCount(itemStack);
                         if (doConsume)
                         {
+                            ItemStack eject = ammo.getShell(itemStack, need);
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, consume));
                             if (this.turret.upgrade_count.containsKey(TurretUpgradeType.COLLECTOR.iconName) && this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
-                                InventoryUtility.putStackInInventory(inv, itemStack, ForgeDirection.UNKNOWN.ordinal(), true);
-                            else
-                                InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
+                                eject = InventoryUtility.putStackInInventory(inv, eject, ForgeDirection.UNKNOWN.ordinal(), true);
+                            if (eject != null)
+                                InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), eject);
 
                         }
                         need -= consume;

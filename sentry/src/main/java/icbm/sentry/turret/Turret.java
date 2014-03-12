@@ -46,6 +46,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected int range = 10;
     protected int maxCooldown = 20;
     protected int cooldown = 0;
+    protected long ticks = 0;
 
     public HashMap<String, Integer> upgrade_count = new HashMap<String, Integer>();
 
@@ -61,8 +62,23 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         return maxHealth;
     }
 
+    public void init()
+    {
+        this.updateUpgrades();
+    }
+
     public void update()
     {
+        if (ticks == 0)
+        {
+            this.init();
+        }
+        ticks++;
+        if (ticks >= Long.MAX_VALUE - 10)
+        {
+            ticks = 1;
+        }
+        
         if (cooldown > 0)
             cooldown--;
     }
@@ -261,7 +277,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         {
             if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof ITurretUpgrade)
             {
-                String id = ((ITurretUpgrade)inv.getStackInSlot(slot).getItem()).getType(inv.getStackInSlot(slot));
+                String id = ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getType(inv.getStackInSlot(slot));
                 if (!this.upgrade_count.containsKey(id))
                 {
                     this.upgrade_count.put(id, 0);
