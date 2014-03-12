@@ -1,10 +1,10 @@
 package icbm.sentry.platform.gui;
 
 import icbm.Reference;
+import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.weapon.IEnergyWeapon;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;

@@ -1,4 +1,4 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.interfaces;
 
 import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.Vector3;

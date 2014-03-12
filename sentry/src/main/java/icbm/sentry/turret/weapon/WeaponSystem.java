@@ -1,5 +1,6 @@
 package icbm.sentry.turret.weapon;
 
+import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumMovingObjectType;

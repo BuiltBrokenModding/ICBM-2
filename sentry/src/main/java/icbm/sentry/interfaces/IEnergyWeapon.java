@@ -1,4 +1,4 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.interfaces;
 
 /** Applied to weapon systems that need energy
  * 

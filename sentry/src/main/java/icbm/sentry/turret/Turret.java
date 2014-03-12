@@ -1,12 +1,12 @@
 package icbm.sentry.turret;
 
+import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.interfaces.IWeaponProvider;
+import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
-import icbm.sentry.turret.weapon.IEnergyWeapon;
-import icbm.sentry.turret.weapon.IWeaponSystem;
 import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,14 +61,14 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
     public boolean canFire()
     {
-        if (this.weaponSystem instanceof IEnergyWeapon)
+        if (this.getWeaponSystem() instanceof IEnergyWeapon)
         {
             if (energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), false) < ((IEnergyWeapon) this.weaponSystem).getEnergyPerShot())
             {
                 return false;
             }
         }
-        return cooldown == 0 && weaponSystem.canFire();
+        return cooldown == 0 && this.getWeaponSystem().canFire();
     }
 
     @Override
@@ -76,17 +76,17 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     {
         if (getHost().world().isRemote)
         {
-            weaponSystem.fireClient(target);
+            this.getWeaponSystem().fireClient(target);
             return true;
         }
         else if (canFire())
         {
             if (target != null)
                 getHost().sendFireEventToClient(target);
-            weaponSystem.fire(target);
-            if (this.weaponSystem instanceof IEnergyWeapon)
+            this.getWeaponSystem().fire(target);
+            if (this.getWeaponSystem() instanceof IEnergyWeapon)
             {
-                energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), true);
+                energy.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
             }
             cooldown = maxCooldown;
             return true;
@@ -100,17 +100,17 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     {
         if (getHost().world().isRemote)
         {
-            weaponSystem.fireClient(Vector3.fromCenter(target));
+            this.getWeaponSystem().fireClient(Vector3.fromCenter(target));
             return true;
         }
         else if (canFire())
         {
             if (target != null)
                 getHost().sendFireEventToClient(Vector3.fromCenter(target));
-            weaponSystem.fire(target);
-            if (this.weaponSystem instanceof IEnergyWeapon)
+            this.getWeaponSystem().fire(target);
+            if (this.getWeaponSystem() instanceof IEnergyWeapon)
             {
-                energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), true);
+                energy.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
             }
             cooldown = maxCooldown;
             return true;

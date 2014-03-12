@@ -3,6 +3,7 @@ package icbm.sentry.turret.weapon;
 import icbm.api.sentry.IAmmunition;
 import icbm.api.sentry.ProjectileType;
 import icbm.explosion.explosive.EntityExplosion;
+import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.turret.Turret;
 
 import java.util.List;

@@ -2,6 +2,7 @@ package icbm.sentry.turret.weapon;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.Vector3;
