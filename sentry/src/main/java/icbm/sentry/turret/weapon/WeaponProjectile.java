@@ -88,7 +88,7 @@ public class WeaponProjectile extends WeaponDamage
                         if (doConsume)
                         {
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, need));
-                            if (this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
+                            if (this.turret.upgrade_count.containsKey(TurretUpgradeType.COLLECTOR.iconName) && this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
                                 InventoryUtility.putStackInInventory(inv, itemStack, ForgeDirection.UNKNOWN.ordinal(), true);
                             else
                                 InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
@@ -101,7 +101,7 @@ public class WeaponProjectile extends WeaponDamage
                         if (doConsume)
                         {
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, consume));
-                            if (this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
+                            if (this.turret.upgrade_count.containsKey(TurretUpgradeType.COLLECTOR.iconName) && this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
                                 InventoryUtility.putStackInInventory(inv, itemStack, ForgeDirection.UNKNOWN.ordinal(), true);
                             else
                                 InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
