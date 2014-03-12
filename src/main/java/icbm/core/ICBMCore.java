@@ -7,6 +7,7 @@ import icbm.contraption.ItemSignalDisrupter;
 import icbm.contraption.ItemSulfurDust;
 import icbm.contraption.ItemTracker;
 import icbm.contraption.block.BlockCamouflage;
+import icbm.contraption.block.BlockCombatRail;
 import icbm.contraption.block.BlockConcrete;
 import icbm.contraption.block.BlockGlassButton;
 import icbm.contraption.block.BlockGlassPressurePlate;
@@ -79,7 +80,7 @@ public final class ICBMCore
     public static Item itemSignalDisrupter;
     public static Item itemTracker;
 
-    public static Block blockSulfurOre, blockRadioactive;
+    public static Block blockSulfurOre, blockRadioactive, blockCombatRail;
 
     public static Item itemSulfurDust, itemPoisonPowder;
 
@@ -129,6 +130,7 @@ public final class ICBMCore
         blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
         blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
+        blockCombatRail = contentRegistry.createBlock(BlockCombatRail.class);
 
         // ITEMS
         itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
@@ -228,6 +230,9 @@ public final class ICBMCore
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 0), 'O', Block.obsidian }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 1), 'O', Item.ingotIron }));
+
+        //Reinforced rails
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCombatRail, 16, 0), new Object[] { "C C", "CIC", "C C", 'I', new ItemStack(blockConcrete, 1, 0), 'C', Item.ingotIron }));
 
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
