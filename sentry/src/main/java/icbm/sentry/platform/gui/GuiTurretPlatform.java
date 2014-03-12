@@ -60,7 +60,10 @@ public class GuiTurretPlatform extends GuiContainerBase
 		// this.ySize);
 
 		for (int xSlot = 0; xSlot < 4; xSlot++)
-			for (int ySlot = 0; ySlot < 5; ySlot++)
+			for (int ySlot = 0; ySlot < 3; ySlot++)
 				this.drawSlot(95 + 18 * xSlot - 1, 18 + 18 * ySlot - 1);
+		
+		for (int xSlot = 0; xSlot < 4; xSlot++)
+                this.drawSlot(95 + 18 * xSlot - 1, 89);
 	}
 }
