@@ -82,7 +82,7 @@ allprojects {
 }
  
 subprojects {
-    archivesBaseName = "ICBM"
+    archivesBaseName = "${System.getenv().JOB_NAME}"
     
     dependencies {
         compile rootProject

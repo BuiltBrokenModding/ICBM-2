@@ -71,7 +71,7 @@ public class ICBMSentry
 	public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
 
 	@EventHandler
-    @Optional.Method(modid = ID)
+	// @Optional.Method(modid = ID)
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		NetworkRegistry.instance().registerGuiHandler(INSTANCE, proxy);
@@ -94,21 +94,21 @@ public class ICBMSentry
 
 		TabICBM.itemStack = new ItemStack(blockTurret);
 
-        TurretEntitySelector.configTurretTargeting();
+		TurretEntitySelector.configTurretTargeting();
 
 		proxy.preInit();
 
 	}
 
 	@EventHandler
-    @Optional.Method(modid = ID)
+	// @Optional.Method(modid = ID)
 	public void init(FMLInitializationEvent event)
 	{
 		Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
 	}
 
 	@EventHandler
-    @Optional.Method(modid = ID)
+	// @Optional.Method(modid = ID)
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		// Shell

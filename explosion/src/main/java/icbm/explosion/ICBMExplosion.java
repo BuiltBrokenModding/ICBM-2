@@ -92,377 +92,377 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMExplosion
 {
-    public static final String NAME = Reference.NAME + " Explosion";
-    public static final String ID = Reference.NAME + "|Explosion";
-    public static final String CHANNEL = Reference.NAME + "|E";
+	public static final String NAME = Reference.NAME + " Explosion";
+	public static final String ID = Reference.NAME + "|Explosion";
+	public static final String CHANNEL = Reference.NAME + "|E";
 
-    @Instance(ID)
-    public static ICBMExplosion instance;
+	@Instance(ID)
+	public static ICBMExplosion instance;
 
-    @Metadata(ID)
-    public static ModMetadata metadata;
+	@Metadata(ID)
+	public static ModMetadata metadata;
 
-    @SidedProxy(clientSide = "icbm.explosion.ClientProxy", serverSide = "icbm.explosion.CommonProxy")
-    public static CommonProxy proxy;
-    public static Item Du;
-    public static final int ENTITY_ID_PREFIX = 50;
+	@SidedProxy(clientSide = "icbm.explosion.ClientProxy", serverSide = "icbm.explosion.CommonProxy")
+	public static CommonProxy proxy;
+	public static Item Du;
+	public static final int ENTITY_ID_PREFIX = 50;
 
-    /** Settings and Configurations */
-    // Blocks
-    public static Block blockExplosive;
-    public static Block blockMachine;
-    public static Block blockMissileAssembler;
-    // Items
-    public static Item itemMissile;
+	/** Settings and Configurations */
+	// Blocks
+	public static Block blockExplosive;
+	public static Block blockMachine;
+	public static Block blockMissileAssembler;
+	// Items
+	public static Item itemMissile;
 
-    public static Item itemDefuser;
-    public static Item itemRadarGun;
-    public static Item itemRemoteDetonator;
-    public static Item itemLaserDesignator;
-    public static Item itemRocketLauncher;
+	public static Item itemDefuser;
+	public static Item itemRadarGun;
+	public static Item itemRemoteDetonator;
+	public static Item itemLaserDesignator;
+	public static Item itemRocketLauncher;
 
-    public static Item itemGrenade;
-    public static Item itemBombCart;
+	public static Item itemGrenade;
+	public static Item itemBombCart;
 
-    public static final ContagiousPoison DU_DU = new ContagiousPoison("Chemical", 1, false);
-    public static final ContagiousPoison DU_CHUAN_RAN = new ContagiousPoison("Contagious", 1, true);
+	public static final ContagiousPoison DU_DU = new ContagiousPoison("Chemical", 1, false);
+	public static final ContagiousPoison DU_CHUAN_RAN = new ContagiousPoison("Contagious", 1, true);
 
-    @Config(key = "Creepers Drop Sulfur", category = "Extras")
-    public static boolean CREEPER_DROP_SULFER = true;
-    @Config(key = "Creepers Blow up in Fire", category = "Extras")
-    public static boolean CREEPER_BLOW_UP_IN_FIRE = true;
+	@Config(key = "Creepers Drop Sulfur", category = "Extras")
+	public static boolean CREEPER_DROP_SULFER = true;
+	@Config(key = "Creepers Blow up in Fire", category = "Extras")
+	public static boolean CREEPER_BLOW_UP_IN_FIRE = true;
 
-    @EventHandler
-    @Optional.Method(modid = ID)
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        NetworkRegistry.instance().registerGuiHandler(this, proxy);
-        MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(proxy);
-        FlagRegistry.registerFlag("ban_ICBM");
+	@EventHandler
+	// @Optional.Method(modid = ID)
+	public void preInit(FMLPreInitializationEvent event)
+	{
+		NetworkRegistry.instance().registerGuiHandler(this, proxy);
+		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(proxy);
+		FlagRegistry.registerFlag("ban_ICBM");
 
-        blockExplosive = ICBMCore.contentRegistry.createBlock(BlockExplosive.class, ItemBlockExplosive.class);
-        blockMachine = ICBMCore.contentRegistry.createBlock(BlockICBMMachine.class, ItemBlockMachine.class);
-        blockMissileAssembler = ICBMCore.contentRegistry.createBlock(BlockMissileAssembler.class, ItemBlockMissileAssembler.class);
+		blockExplosive = ICBMCore.contentRegistry.createBlock(BlockExplosive.class, ItemBlockExplosive.class);
+		blockMachine = ICBMCore.contentRegistry.createBlock(BlockICBMMachine.class, ItemBlockMachine.class);
+		blockMissileAssembler = ICBMCore.contentRegistry.createBlock(BlockMissileAssembler.class, ItemBlockMissileAssembler.class);
 
-        // ITEMS
-        itemMissile = ICBMCore.contentRegistry.createItem(ItemMissile.class);
+		// ITEMS
+		itemMissile = ICBMCore.contentRegistry.createItem(ItemMissile.class);
 
-        itemDefuser = ICBMCore.contentRegistry.createItem(ItemDefuser.class);
-        itemRadarGun = ICBMCore.contentRegistry.createItem(ItemRadarGun.class);
-        itemRemoteDetonator = ICBMCore.contentRegistry.createItem(ItemRemoteDetonator.class);
-        itemLaserDesignator = ICBMCore.contentRegistry.createItem(ItemLaserDesignator.class);
-        itemRocketLauncher = ICBMCore.contentRegistry.createItem(ItemRocketLauncher.class);
+		itemDefuser = ICBMCore.contentRegistry.createItem(ItemDefuser.class);
+		itemRadarGun = ICBMCore.contentRegistry.createItem(ItemRadarGun.class);
+		itemRemoteDetonator = ICBMCore.contentRegistry.createItem(ItemRemoteDetonator.class);
+		itemLaserDesignator = ICBMCore.contentRegistry.createItem(ItemLaserDesignator.class);
+		itemRocketLauncher = ICBMCore.contentRegistry.createItem(ItemRocketLauncher.class);
 
-        itemGrenade = ICBMCore.contentRegistry.createItem(ItemGrenade.class);
-        itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
+		itemGrenade = ICBMCore.contentRegistry.createItem(ItemGrenade.class);
+		itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
 
-        /** Potion Effects */
-        PoisonToxin.INSTANCE = new PoisonToxin(210, true, 5149489, "toxin");
-        PoisonContagion.INSTANCE = new PoisonContagion(211, false, 5149489, "virus");
-        PoisonFrostBite.INSTANCE = new PoisonFrostBite(212, false, 5149489, "frostBite");
+		/** Potion Effects */
+		PoisonToxin.INSTANCE = new PoisonToxin(210, true, 5149489, "toxin");
+		PoisonContagion.INSTANCE = new PoisonContagion(211, false, 5149489, "virus");
+		PoisonFrostBite.INSTANCE = new PoisonFrostBite(212, false, 5149489, "frostBite");
 
-        TabICBM.itemStack = new ItemStack(blockExplosive);
+		TabICBM.itemStack = new ItemStack(blockExplosive);
 
-        /** Dispenser Handler */
-        BlockDispenser.dispenseBehaviorRegistry.putObject(itemGrenade, new IBehaviorDispenseItem()
-        {
-            @Override
-            public ItemStack dispense(IBlockSource blockSource, ItemStack itemStack)
-            {
-                World world = blockSource.getWorld();
+		/** Dispenser Handler */
+		BlockDispenser.dispenseBehaviorRegistry.putObject(itemGrenade, new IBehaviorDispenseItem()
+		{
+			@Override
+			public ItemStack dispense(IBlockSource blockSource, ItemStack itemStack)
+			{
+				World world = blockSource.getWorld();
 
-                if (!world.isRemote)
-                {
-                    int x = blockSource.getXInt();
-                    int y = blockSource.getYInt();
-                    int z = blockSource.getZInt();
-                    EnumFacing enumFacing = EnumFacing.getFront(blockSource.getBlockMetadata());
+				if (!world.isRemote)
+				{
+					int x = blockSource.getXInt();
+					int y = blockSource.getYInt();
+					int z = blockSource.getZInt();
+					EnumFacing enumFacing = EnumFacing.getFront(blockSource.getBlockMetadata());
 
-                    EntityGrenade entity = new EntityGrenade(world, new Vector3(x, y, z), itemStack.getItemDamage());
-                    entity.setThrowableHeading(enumFacing.getFrontOffsetX(), 0.10000000149011612D, enumFacing.getFrontOffsetZ(), 0.5F, 1.0F);
-                    world.spawnEntityInWorld(entity);
-                }
+					EntityGrenade entity = new EntityGrenade(world, new Vector3(x, y, z), itemStack.getItemDamage());
+					entity.setThrowableHeading(enumFacing.getFrontOffsetX(), 0.10000000149011612D, enumFacing.getFrontOffsetZ(), 0.5F, 1.0F);
+					world.spawnEntityInWorld(entity);
+				}
 
-                itemStack.stackSize--;
-                return itemStack;
-            }
-        });
+				itemStack.stackSize--;
+				return itemStack;
+			}
+		});
 
-        BlockDispenser.dispenseBehaviorRegistry.putObject(itemBombCart, new IBehaviorDispenseItem()
-        {
-            private final BehaviorDefaultDispenseItem defaultItemDispenseBehavior = new BehaviorDefaultDispenseItem();
+		BlockDispenser.dispenseBehaviorRegistry.putObject(itemBombCart, new IBehaviorDispenseItem()
+		{
+			private final BehaviorDefaultDispenseItem defaultItemDispenseBehavior = new BehaviorDefaultDispenseItem();
 
-            @Override
-            public ItemStack dispense(IBlockSource blockSource, ItemStack itemStack)
-            {
-                World world = blockSource.getWorld();
+			@Override
+			public ItemStack dispense(IBlockSource blockSource, ItemStack itemStack)
+			{
+				World world = blockSource.getWorld();
 
-                if (!world.isRemote)
-                {
-                    int x = blockSource.getXInt();
-                    int y = blockSource.getYInt();
-                    int z = blockSource.getZInt();
+				if (!world.isRemote)
+				{
+					int x = blockSource.getXInt();
+					int y = blockSource.getYInt();
+					int z = blockSource.getZInt();
 
-                    EnumFacing var3 = EnumFacing.getFront(blockSource.getBlockMetadata());
-                    World var4 = blockSource.getWorld();
-                    double var5 = blockSource.getX() + var3.getFrontOffsetX() * 1.125F;
-                    double var7 = blockSource.getY();
-                    double var9 = blockSource.getZ() + var3.getFrontOffsetZ() * 1.125F;
-                    int var11 = blockSource.getXInt() + var3.getFrontOffsetX();
-                    int var12 = blockSource.getYInt();
-                    int var13 = blockSource.getZInt() + var3.getFrontOffsetZ();
-                    int var14 = var4.getBlockId(var11, var12, var13);
-                    double var15;
+					EnumFacing var3 = EnumFacing.getFront(blockSource.getBlockMetadata());
+					World var4 = blockSource.getWorld();
+					double var5 = blockSource.getX() + var3.getFrontOffsetX() * 1.125F;
+					double var7 = blockSource.getY();
+					double var9 = blockSource.getZ() + var3.getFrontOffsetZ() * 1.125F;
+					int var11 = blockSource.getXInt() + var3.getFrontOffsetX();
+					int var12 = blockSource.getYInt();
+					int var13 = blockSource.getZInt() + var3.getFrontOffsetZ();
+					int var14 = var4.getBlockId(var11, var12, var13);
+					double var15;
 
-                    if (BlockRailBase.isRailBlock(var14))
-                    {
-                        var15 = 0.0D;
-                    }
-                    else
-                    {
-                        if (var14 != 0 || !BlockRailBase.isRailBlock(var4.getBlockId(var11, var12 - 1, var13)))
-                        {
-                            return this.defaultItemDispenseBehavior.dispense(blockSource, itemStack);
-                        }
+					if (BlockRailBase.isRailBlock(var14))
+					{
+						var15 = 0.0D;
+					}
+					else
+					{
+						if (var14 != 0 || !BlockRailBase.isRailBlock(var4.getBlockId(var11, var12 - 1, var13)))
+						{
+							return this.defaultItemDispenseBehavior.dispense(blockSource, itemStack);
+						}
 
-                        var15 = -1.0D;
-                    }
+						var15 = -1.0D;
+					}
 
-                    EntityBombCart var22 = new EntityBombCart(world, var5, var7 + var15, var9, itemStack.getItemDamage());
-                    world.spawnEntityInWorld(var22);
-                    world.playAuxSFX(1000, x, y, z, 0);
-                }
+					EntityBombCart var22 = new EntityBombCart(world, var5, var7 + var15, var9, itemStack.getItemDamage());
+					world.spawnEntityInWorld(var22);
+					world.playAuxSFX(1000, x, y, z, 0);
+				}
 
-                itemStack.stackSize--;
-                return itemStack;
-            }
-        });
+				itemStack.stackSize--;
+				return itemStack;
+			}
+		});
 
-        /** Chunk loading handler. */
-        ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback()
-        {
-            @Override
-            public void ticketsLoaded(List<Ticket> tickets, World world)
-            {
-                for (Ticket ticket : tickets)
-                {
-                    if (ticket.getEntity() instanceof IChunkLoadHandler)
-                    {
-                        ((IChunkLoadHandler) ticket.getEntity()).chunkLoaderInit(ticket);
-                    }
-                    else
-                    {
-                        if (ticket.getModData() != null)
-                        {
-                            Vector3 position = new Vector3(ticket.getModData());
+		/** Chunk loading handler. */
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback()
+		{
+			@Override
+			public void ticketsLoaded(List<Ticket> tickets, World world)
+			{
+				for (Ticket ticket : tickets)
+				{
+					if (ticket.getEntity() instanceof IChunkLoadHandler)
+					{
+						((IChunkLoadHandler) ticket.getEntity()).chunkLoaderInit(ticket);
+					}
+					else
+					{
+						if (ticket.getModData() != null)
+						{
+							Vector3 position = new Vector3(ticket.getModData());
 
-                            TileEntity tileEntity = position.getTileEntity(ticket.world);
+							TileEntity tileEntity = position.getTileEntity(ticket.world);
 
-                            if (tileEntity instanceof IChunkLoadHandler)
-                            {
-                                ((IChunkLoadHandler) tileEntity).chunkLoaderInit(ticket);
-                            }
-                        }
-                    }
-                }
-            }
-        });
+							if (tileEntity instanceof IChunkLoadHandler)
+							{
+								((IChunkLoadHandler) tileEntity).chunkLoaderInit(ticket);
+							}
+						}
+					}
+				}
+			}
+		});
 
-        ExplosiveHelper.explosionManager = ExplosiveRegistry.class;
+		ExplosiveHelper.explosionManager = ExplosiveRegistry.class;
 
-        proxy.preInit();
-    }
+		proxy.preInit();
+	}
 
-    @EventHandler
-    @Optional.Method(modid = ID)
-    public void load(FMLInitializationEvent evt)
-    {
-        Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
-    }
+	@EventHandler
+	// @Optional.Method(modid = ID)
+	public void load(FMLInitializationEvent evt)
+	{
+		Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
+	}
 
-    @EventHandler
-    @Optional.Method(modid = ID)
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        /** Add all Recipes */
-        // Rocket Launcher
-        GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
-        // Radar Gun
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRadarGun), new Object[] { "@#!", " $!", "  !", '@', Block.glass, '!', UniversalRecipe.PRIMARY_METAL.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '$', Block.stoneButton }));
-        // Remote
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRemoteDetonator), new Object[] { "?@@", "@#$", "@@@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.redstone, '#', UniversalRecipe.CIRCUIT_T2.get(), '$', Block.stoneButton }));
-        // Laser Designator
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemLaserDesignator), new Object[] { "!  ", " ? ", "  @", '@', itemRemoteDetonator, '?', UniversalRecipe.CIRCUIT_T3.get(), '!', itemRadarGun }));
-        // Defuser
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDefuser), new Object[] { "I  ", " W ", "  C", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', UniversalRecipe.WRENCH.get(), 'I', UniversalRecipe.WIRE.get() }));
-        // Missile Launcher Platform
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 0), new Object[] { "! !", "!C!", "!!!", '!', UniversalRecipe.SECONDARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T1.get() }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 1), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 0), '!', UniversalRecipe.PRIMARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T2.get() }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 1), '!', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get() }));
-        // Missile Launcher Panel
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T1.get(), '!', Block.glass, '?', UniversalRecipe.WIRE.get() }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 4), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T2.get(), '!', UniversalRecipe.PRIMARY_METAL.get(), '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 3) }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 5), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T3.get(), '!', Item.ingotGold, '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 4) }));
-        // Missile Launcher Support Frame
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 6), new Object[] { "! !", "!!!", "! !", '!', UniversalRecipe.SECONDARY_METAL.get() }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 7), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_METAL.get(), '@', new ItemStack(blockMachine, 1, 6) }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 8), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_PLATE.get(), '@', new ItemStack(blockMachine, 1, 7) }));
-        // Radar Station
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Item.ingotGold }));
-        // EMP Tower
-        RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipe.PRIMARY_PLATE.get(), '!', UniversalRecipe.CIRCUIT_T3.get(), '@', UniversalRecipe.BATTERY_BOX.get(), '#', UniversalRecipe.MOTOR.get(), 'W', UniversalRecipe.WIRE.get() }), "EMP Tower", Settings.CONFIGURATION, true);
-        // Cruise Launcher
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipe.PRIMARY_PLATE.get(), '!', new ItemStack(blockMachine, 1, 2), '?', new ItemStack(blockMachine, 1, 8) }));
-        // Missile Coordinator
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 12), new Object[] { "R R", "SCS", "SSS", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'R', itemRemoteDetonator }));
-        // Missile module
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.flintAndSteel, '#', UniversalRecipe.CIRCUIT_T1.get() }));
-        // Homing
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.homing.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.SECONDARY_METAL.get() }));
-        // Anti-ballistic
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.antiBallistic.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', new ItemStack(blockExplosive, 1, 0), '!', UniversalRecipe.CIRCUIT_T1.get() }));
-        // Cluster
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.cluster.getID()), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', Explosive.fragmentation.getItemStack(), '!', new ItemStack(itemMissile, 1, 0) }));
-        // Nuclear Cluster
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
+	@EventHandler
+	// @Optional.Method(modid = ID)
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		/** Add all Recipes */
+		// Rocket Launcher
+		GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Block.stoneButton, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
+		// Radar Gun
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRadarGun), new Object[] { "@#!", " $!", "  !", '@', Block.glass, '!', UniversalRecipe.PRIMARY_METAL.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '$', Block.stoneButton }));
+		// Remote
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRemoteDetonator), new Object[] { "?@@", "@#$", "@@@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.redstone, '#', UniversalRecipe.CIRCUIT_T2.get(), '$', Block.stoneButton }));
+		// Laser Designator
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemLaserDesignator), new Object[] { "!  ", " ? ", "  @", '@', itemRemoteDetonator, '?', UniversalRecipe.CIRCUIT_T3.get(), '!', itemRadarGun }));
+		// Defuser
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDefuser), new Object[] { "I  ", " W ", "  C", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', UniversalRecipe.WRENCH.get(), 'I', UniversalRecipe.WIRE.get() }));
+		// Missile Launcher Platform
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 0), new Object[] { "! !", "!C!", "!!!", '!', UniversalRecipe.SECONDARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T1.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 1), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 0), '!', UniversalRecipe.PRIMARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T2.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 1), '!', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get() }));
+		// Missile Launcher Panel
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T1.get(), '!', Block.glass, '?', UniversalRecipe.WIRE.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 4), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T2.get(), '!', UniversalRecipe.PRIMARY_METAL.get(), '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 3) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 5), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T3.get(), '!', Item.ingotGold, '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 4) }));
+		// Missile Launcher Support Frame
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 6), new Object[] { "! !", "!!!", "! !", '!', UniversalRecipe.SECONDARY_METAL.get() }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 7), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_METAL.get(), '@', new ItemStack(blockMachine, 1, 6) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 8), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_PLATE.get(), '@', new ItemStack(blockMachine, 1, 7) }));
+		// Radar Station
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Item.ingotGold }));
+		// EMP Tower
+		RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipe.PRIMARY_PLATE.get(), '!', UniversalRecipe.CIRCUIT_T3.get(), '@', UniversalRecipe.BATTERY_BOX.get(), '#', UniversalRecipe.MOTOR.get(), 'W', UniversalRecipe.WIRE.get() }), "EMP Tower", Settings.CONFIGURATION, true);
+		// Cruise Launcher
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 11), new Object[] { "?! ", "@@@", '@', UniversalRecipe.PRIMARY_PLATE.get(), '!', new ItemStack(blockMachine, 1, 2), '?', new ItemStack(blockMachine, 1, 8) }));
+		// Missile Coordinator
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 12), new Object[] { "R R", "SCS", "SSS", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'R', itemRemoteDetonator }));
+		// Missile module
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new Object[] { " @ ", "@#@", "@?@", '@', UniversalRecipe.PRIMARY_METAL.get(), '?', Item.flintAndSteel, '#', UniversalRecipe.CIRCUIT_T1.get() }));
+		// Homing
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.homing.getID()), new Object[] { " B ", " C ", "BMB", 'M', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.SECONDARY_METAL.get() }));
+		// Anti-ballistic
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.antiBallistic.getID()), new Object[] { "!", "?", "@", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', new ItemStack(blockExplosive, 1, 0), '!', UniversalRecipe.CIRCUIT_T1.get() }));
+		// Cluster
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.cluster.getID()), new Object[] { " ! ", " ? ", "!@!", '@', new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), '?', Explosive.fragmentation.getItemStack(), '!', new ItemStack(itemMissile, 1, 0) }));
+		// Nuclear Cluster
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
-        // Add all explosive recipes.
-        if (!Loader.isModLoaded("AtomicScience"))
-            OreDictionary.registerOre("antimatterGram", new ItemStack(397, 1, 1));
+		// Add all explosive recipes.
+		if (!Loader.isModLoaded("AtomicScience"))
+			OreDictionary.registerOre("antimatterGram", new ItemStack(397, 1, 1));
 
-        for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
-        {
-            zhaPin.init();
-            // Missile
-            RecipeUtility.addRecipe(new ShapelessOreRecipe(new ItemStack(itemMissile, 1, zhaPin.getID()), new Object[] { new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new ItemStack(blockExplosive, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", Settings.CONFIGURATION, true);
-            if (zhaPin.getTier() < 2)
-            {
-                // Grenade
-                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemGrenade, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(blockExplosive, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
-            }
-            if (zhaPin.getTier() < 3)
-            {
-                // Minecart
-                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
-            }
-        }
+		for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+		{
+			zhaPin.init();
+			// Missile
+			RecipeUtility.addRecipe(new ShapelessOreRecipe(new ItemStack(itemMissile, 1, zhaPin.getID()), new Object[] { new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new ItemStack(blockExplosive, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", Settings.CONFIGURATION, true);
+			if (zhaPin.getTier() < 2)
+			{
+				// Grenade
+				RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemGrenade, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(blockExplosive, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
+			}
+			if (zhaPin.getTier() < 3)
+			{
+				// Minecart
+				RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
+			}
+		}
 
-        EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityLightBeam.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityBombCart.class, "ICBMChe", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityLightBeam.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerGlobalEntityID(EntityBombCart.class, "ICBMChe", EntityRegistry.findGlobalUniqueEntityId());
 
-        EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
-        EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 1, this, 500, 1, true);
-        EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
-        EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX + 3, this, 50, 15, true);
-        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);
-        EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", ENTITY_ID_PREFIX + 5, this, 40, 8, true);
-        EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
-        EntityRegistry.registerModEntity(EntityBombCart.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
+		EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 1, this, 500, 1, true);
+		EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
+		EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX + 3, this, 50, 15, true);
+		EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);
+		EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", ENTITY_ID_PREFIX + 5, this, 40, 8, true);
+		EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
+		EntityRegistry.registerModEntity(EntityBombCart.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
 
-        proxy.init();
-    }
+		proxy.init();
+	}
 
-    @ForgeSubscribe
-    public void enteringChunk(EnteringChunk evt)
-    {
-        if (evt.entity instanceof EntityMissile)
-        {
-            ((EntityMissile) evt.entity).updateLoadChunk(evt.newChunkX, evt.newChunkZ);
-        }
-    }
+	@ForgeSubscribe
+	public void enteringChunk(EnteringChunk evt)
+	{
+		if (evt.entity instanceof EntityMissile)
+		{
+			((EntityMissile) evt.entity).updateLoadChunk(evt.newChunkX, evt.newChunkZ);
+		}
+	}
 
-    @ForgeSubscribe
-    public void creeperDeathEvent(LivingDeathEvent evt)
-    {
-        if (evt.entityLiving instanceof EntityCreeper)
-        {
-            if (CREEPER_BLOW_UP_IN_FIRE)
-            {
-                if (evt.source == DamageSource.onFire || evt.source == DamageSource.inFire)
-                {
-                    evt.setCanceled(true);
-                    boolean flag = evt.entityLiving.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+	@ForgeSubscribe
+	public void creeperDeathEvent(LivingDeathEvent evt)
+	{
+		if (evt.entityLiving instanceof EntityCreeper)
+		{
+			if (CREEPER_BLOW_UP_IN_FIRE)
+			{
+				if (evt.source == DamageSource.onFire || evt.source == DamageSource.inFire)
+				{
+					evt.setCanceled(true);
+					boolean flag = evt.entityLiving.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 
-                    if (((EntityCreeper) evt.entityLiving).getPowered())
-                    {
-                        evt.entityLiving.worldObj.createExplosion(evt.entityLiving, evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ, 6f, flag);
-                    }
-                    else
-                    {
-                        evt.entityLiving.worldObj.createExplosion(evt.entityLiving, evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ, 3f, flag);
-                    }
+					if (((EntityCreeper) evt.entityLiving).getPowered())
+					{
+						evt.entityLiving.worldObj.createExplosion(evt.entityLiving, evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ, 6f, flag);
+					}
+					else
+					{
+						evt.entityLiving.worldObj.createExplosion(evt.entityLiving, evt.entityLiving.posX, evt.entityLiving.posY, evt.entityLiving.posZ, 3f, flag);
+					}
 
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 
-    @ForgeSubscribe
-    public void creeperDropEvent(LivingDropsEvent evt)
-    {
-        if (evt.entityLiving instanceof EntityCreeper)
-        {
-            if (CREEPER_DROP_SULFER)
-            {
-                evt.entityLiving.dropItem(ICBMCore.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
-            }
-        }
-    }
+	@ForgeSubscribe
+	public void creeperDropEvent(LivingDropsEvent evt)
+	{
+		if (evt.entityLiving instanceof EntityCreeper)
+		{
+			if (CREEPER_DROP_SULFER)
+			{
+				evt.entityLiving.dropItem(ICBMCore.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
+			}
+		}
+	}
 
-    @ForgeSubscribe
-    public void preDetonationEvent(ExplosivePreDetonationEvent evt)
-    {
-        if (FlagRegistry.getModFlag() != null && evt.explosion instanceof Explosive)
-        {
-            if (((Explosive) evt.explosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
-            {
-                ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
-                evt.setCanceled(true);
-            }
-        }
-    }
+	@ForgeSubscribe
+	public void preDetonationEvent(ExplosivePreDetonationEvent evt)
+	{
+		if (FlagRegistry.getModFlag() != null && evt.explosion instanceof Explosive)
+		{
+			if (((Explosive) evt.explosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
+			{
+				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
+				evt.setCanceled(true);
+			}
+		}
+	}
 
-    @ForgeSubscribe
-    public void preConstructionEvent(ExplosionConstructionEvent evt)
-    {
-        if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
-        {
-            if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
-            {
-                ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
-                evt.setCanceled(true);
-            }
-        }
-    }
+	@ForgeSubscribe
+	public void preConstructionEvent(ExplosionConstructionEvent evt)
+	{
+		if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
+		{
+			if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
+			{
+				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
+				evt.setCanceled(true);
+			}
+		}
+	}
 
-    @ForgeSubscribe
-    public void preExplosionEvent(PreExplosionEvent evt)
-    {
-        if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
-        {
-            if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
-            {
-                ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
-                evt.setCanceled(true);
-            }
-        }
-    }
+	@ForgeSubscribe
+	public void preExplosionEvent(PreExplosionEvent evt)
+	{
+		if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
+		{
+			if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
+			{
+				ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
+				evt.setCanceled(true);
+			}
+		}
+	}
 
-    @EventHandler
-    public void serverStarting(FMLServerStartingEvent event)
-    {
-        // Setup command
-        ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
-        ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
-        serverCommandManager.registerCommand(new CommandICBM());
+	@EventHandler
+	public void serverStarting(FMLServerStartingEvent event)
+	{
+		// Setup command
+		ICommandManager commandManager = FMLCommonHandler.instance().getMinecraftServerInstance().getCommandManager();
+		ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
+		serverCommandManager.registerCommand(new CommandICBM());
 
-    }
+	}
 
 }

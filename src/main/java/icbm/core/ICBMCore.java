@@ -55,192 +55,191 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-/** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
+/**
+ * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
- * @author Calclavia */
+ * @author Calclavia
+ */
 @Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:AtomicScience;required-after:CalclaviaCore")
 @NetworkMod(channels = Reference.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 @ModstatInfo(prefix = "icbm", name = Reference.NAME, version = Reference.VERSION)
 public final class ICBMCore
 {
-    @Instance(Reference.NAME)
-    public static ICBMCore INSTANCE;
+	@Instance(Reference.NAME)
+	public static ICBMCore INSTANCE;
 
-    @Metadata(Reference.NAME)
-    public static ModMetadata metadata;
+	@Metadata(Reference.NAME)
+	public static ModMetadata metadata;
 
-    @SidedProxy(clientSide = "icbm.core.ClientProxy", serverSide = "icbm.core.CommonProxy")
-    public static CommonProxy proxy;
+	@SidedProxy(clientSide = "icbm.core.ClientProxy", serverSide = "icbm.core.CommonProxy")
+	public static CommonProxy proxy;
 
-    // Blocks
-    public static Block blockGlassPlate, blockGlassButton, blockProximityDetector, blockSpikes, blockCamo, blockConcrete, blockReinforcedGlass;
+	// Blocks
+	public static Block blockGlassPlate, blockGlassButton, blockProximityDetector, blockSpikes,
+			blockCamo, blockConcrete, blockReinforcedGlass;
 
-    // Items
-    public static Item itemAntidote;
-    public static Item itemSignalDisrupter;
-    public static Item itemTracker;
+	// Items
+	public static Item itemAntidote;
+	public static Item itemSignalDisrupter;
+	public static Item itemTracker;
 
-    public static Block blockSulfurOre, blockRadioactive, blockCombatRail;
+	public static Block blockSulfurOre, blockRadioactive, blockCombatRail;
 
-    public static Item itemSulfurDust, itemPoisonPowder;
+	public static Item itemSulfurDust, itemPoisonPowder;
 
-    public static OreGenBase sulfurGenerator;
+	public static OreGenBase sulfurGenerator;
 
-    private static boolean isPreInit, isInit, isPostInit;
+	private static boolean isPreInit, isInit, isPostInit;
 
-    public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
+	public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
 
-    public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
-    public static final PacketPlayerItem PACKET_ITEM = new PacketPlayerItem(Reference.CHANNEL);
+	public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
+	public static final PacketPlayerItem PACKET_ITEM = new PacketPlayerItem(Reference.CHANNEL);
 
-    public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
+	public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
-    public ICBMCore()
-    {
-        ModUtility.removeMod("ICBM|Sentry", Settings.CONFIGURATION.get("Child_Mods", "Disable_Sentry", false).getBoolean(false));
-        ModUtility.removeMod("ICBM|Explosion", Settings.CONFIGURATION.get("Child_Mods", "Disable_Explosion", false).getBoolean(false));
-    }
+	public ICBMCore()
+	{
+		// ModUtility.removeMod("ICBM|Sentry", Settings.CONFIGURATION.get("Child_Mods",
+		// "Disable_Sentry", false).getBoolean(false));
+		// ModUtility.removeMod("ICBM|Explosion", Settings.CONFIGURATION.get("Child_Mods",
+		// "Disable_Explosion", false).getBoolean(false));
+	}
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event)
+	{
+		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 
-        NetworkRegistry.instance().registerGuiHandler(this, proxy);
+		Modstats.instance().getReporter().registerMod(INSTANCE);
+		MinecraftForge.EVENT_BUS.register(INSTANCE);
 
-        Modstats.instance().getReporter().registerMod(INSTANCE);
-        MinecraftForge.EVENT_BUS.register(INSTANCE);
+		LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
 
-        LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
+		Settings.CONFIGURATION.load();
 
-        //Settings.initiate();
-        Settings.CONFIGURATION.load();
+		CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
-        // String submodCategory = "Sub_Modules";
-        // ProxyHandler.applyModule(ICBMSentry.class, Settings.CONFIGURATION.get(submodCategory,
-        // ICBMSentry.class.getSimpleName(), false).getBoolean(false));
+		// Blocks
+		blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);
+		blockGlassPlate = contentRegistry.createBlock(BlockGlassPressurePlate.class);
+		blockGlassButton = contentRegistry.createBlock(BlockGlassButton.class);
+		blockProximityDetector = contentRegistry.createTile(BlockProximityDetector.class, TileProximityDetector.class);
+		blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
+		blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
+		blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
+		blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
+		blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
 
-        CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
+		// ITEMS
+		itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
+		itemSulfurDust = contentRegistry.createItem(ItemSulfurDust.class);
+		itemAntidote = contentRegistry.createItem(ItemAntidote.class);
+		itemSignalDisrupter = contentRegistry.createItem(ItemSignalDisrupter.class);
+		itemTracker = contentRegistry.createItem(ItemTracker.class);
 
-        // Blocks
-        blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);
-        blockGlassPlate = contentRegistry.createBlock(BlockGlassPressurePlate.class);
-        blockGlassButton = contentRegistry.createBlock(BlockGlassButton.class);
-        blockProximityDetector = contentRegistry.createTile(BlockProximityDetector.class, TileProximityDetector.class);
-        blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
-        blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
-        blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
-        blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
-        blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
+		sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
-        // ITEMS
-        itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
-        itemSulfurDust = contentRegistry.createItem(ItemSulfurDust.class);
-        itemAntidote = contentRegistry.createItem(ItemAntidote.class);
-        itemSignalDisrupter = contentRegistry.createItem(ItemSignalDisrupter.class);
-        itemTracker = contentRegistry.createItem(ItemTracker.class);
+		/** Check for existence of radioactive block. If it does not exist, then create it. */
+		if (OreDictionary.getOres("blockRadioactive").size() > 0)
+		{
+			blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
+			LOGGER.fine("Detected radioative block from another mod, utilizing it.");
+		}
+		else
+		{
+			blockRadioactive = Block.mycelium;
+		}
 
-        sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
+		/** Decrease Obsidian Resistance */
+		Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+		LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-        /** Check for existence of radioactive block. If it does not exist, then create it. */
-        if (OreDictionary.getOres("blockRadioactive").size() > 0)
-        {
-            blockRadioactive = Block.blocksList[OreDictionary.getOres("blockRadioactive").get(0).itemID];
-            LOGGER.fine("Detected radioative block from another mod, utilizing it.");
-        }
-        else
-        {
-            blockRadioactive = Block.mycelium;
-        }
+		OreDictionary.registerOre("dustSulfur", itemSulfurDust);
+		OreGenerator.addOre(sulfurGenerator);
 
-        /** Decrease Obsidian Resistance */
-        Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
-        LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
+		TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
-        OreDictionary.registerOre("dustSulfur", itemSulfurDust);
-        OreGenerator.addOre(sulfurGenerator);
+		proxy.preInit();
+		LOGGER.info("Calling preinit for submodules");
+		ProxyHandler.preInit(event);
+	}
 
-        TabICBM.itemStack = new ItemStack(blockProximityDetector);
+	@EventHandler
+	public void init(FMLInitializationEvent event)
+	{
+		Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
+		LOGGER.info("Calling init for submodules");
+		ProxyHandler.init(event);
+	}
 
-        proxy.preInit();
-        LOGGER.info("Calling preinit for submodules");
-        ProxyHandler.preInit(event);
-    }
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		try
+		{
+			ConfigHandler.configure(Settings.CONFIGURATION, "icbm");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
-        LOGGER.info("Calling init for submodules");
-        ProxyHandler.init(event);
-    }
+		Settings.CONFIGURATION.save();
+		/** LOAD. */
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        try
-        {
-            ConfigHandler.configure(Settings.CONFIGURATION, "icbm");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+		// Sulfur
+		GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
 
-        Settings.CONFIGURATION.save();
-        /** LOAD. */
+		GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
 
-        // Sulfur
-        GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
+		// Poison Powder
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
+		/** Add all Recipes */
+		// Spikes
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
+		GameRegistry.addRecipe(new ItemStack(blockSpikes, 1, 1), new Object[] { "E", "S", 'E', itemPoisonPowder, 'S', blockSpikes });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 1, 2), new Object[] { "E", "S", 'E', itemSulfurDust, 'S', blockSpikes }));
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
+		// Camouflage
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCamo, 12), new Object[] { "WGW", "G G", "WGW", 'G', Block.vine, 'W', Block.cloth }));
 
-        // Poison Powder
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Item.spiderEye, Item.rottenFlesh }));
-        /** Add all Recipes */
-        // Spikes
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 6), new Object[] { "CCC", "BBB", 'C', Block.cactus, 'B', Item.ingotIron }));
-        GameRegistry.addRecipe(new ItemStack(blockSpikes, 1, 1), new Object[] { "E", "S", 'E', itemPoisonPowder, 'S', blockSpikes });
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 1, 2), new Object[] { "E", "S", 'E', itemSulfurDust, 'S', blockSpikes }));
+		// Tracker
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemTracker), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.BATTERY.get(), 'S', Item.ingotIron }));
 
-        // Camouflage
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCamo, 12), new Object[] { "WGW", "G G", "WGW", 'G', Block.vine, 'W', Block.cloth }));
+		// Glass Pressure Plate
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGlassPlate, 1, 0), new Object[] { "##", '#', Block.glass }));
 
-        // Tracker
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemTracker), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.BATTERY.get(), 'S', Item.ingotIron }));
+		// Glass Button
+		GameRegistry.addRecipe(new ItemStack(blockGlassButton, 2), new Object[] { "G", "G", 'G', Block.glass });
 
-        // Glass Pressure Plate
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGlassPlate, 1, 0), new Object[] { "##", '#', Block.glass }));
+		// Proximity Detector
+		GameRegistry.addRecipe(new ShapedOreRecipe(blockProximityDetector, new Object[] { "SSS", "S?S", "SSS", 'S', Item.ingotIron, '?', itemTracker }));
 
-        // Glass Button
-        GameRegistry.addRecipe(new ItemStack(blockGlassButton, 2), new Object[] { "G", "G", 'G', Block.glass });
+		// Signal Disrupter
+		GameRegistry.addRecipe(new ShapedOreRecipe(itemSignalDisrupter, new Object[] { "WWW", "SCS", "SSS", 'S', Item.ingotIron, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', UniversalRecipe.WIRE.get() }));
 
-        // Proximity Detector
-        GameRegistry.addRecipe(new ShapedOreRecipe(blockProximityDetector, new Object[] { "SSS", "S?S", "SSS", 'S', Item.ingotIron, '?', itemTracker }));
+		// Antidote
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
 
-        // Signal Disrupter
-        GameRegistry.addRecipe(new ShapedOreRecipe(itemSignalDisrupter, new Object[] { "WWW", "SCS", "SSS", 'S', Item.ingotIron, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', UniversalRecipe.WIRE.get() }));
+		// Concrete
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 0), 'O', Block.obsidian }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 1), 'O', Item.ingotIron }));
 
-        // Antidote
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote, 6), new Object[] { "@@@", "@@@", "@@@", '@', Item.pumpkinSeeds }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote), new Object[] { "@@@", "@@@", "@@@", '@', Item.seeds }));
+		// Reinforced rails
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCombatRail, 16, 0), new Object[] { "C C", "CIC", "C C", 'I', new ItemStack(blockConcrete, 1, 0), 'C', Item.ingotIron }));
 
-        // Concrete
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Block.gravel, 'S', Block.sand, 'W', Item.bucketWater }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 1), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 0), 'O', Block.obsidian }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 2), new Object[] { "COC", "OCO", "COC", 'C', new ItemStack(blockConcrete, 1, 1), 'O', Item.ingotIron }));
+		// Reinforced Glass
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-        //Reinforced rails
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCombatRail, 16, 0), new Object[] { "C C", "CIC", "C C", 'I', new ItemStack(blockConcrete, 1, 0), 'C', Item.ingotIron }));
+		proxy.init();
 
-        // Reinforced Glass
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
-
-        proxy.init();
-
-        LOGGER.info("Calling postInit for submodules");
-        ProxyHandler.postInit(event);
-    }
+		LOGGER.info("Calling postInit for submodules");
+		ProxyHandler.postInit(event);
+	}
 
 }
