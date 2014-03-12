@@ -412,9 +412,17 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         return this.getAccessProfile().getUserAccess(player.username).hasNode(node);
     }
 
+    @Override
+    public void onInventoryChanged()
+    {
+        super.onInventoryChanged();
+        this.getTurret().updateUpgrades();
+    }
+
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {
+        //TODO: change this based on model size
         return AxisAlignedBB.getAABBPool().getAABB(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
     }
 

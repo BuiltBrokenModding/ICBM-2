@@ -3,12 +3,18 @@ package icbm.sentry.turret;
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.interfaces.ITurretUpgrade;
 import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.weapon.WeaponSystem;
+
+import java.util.HashMap;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -40,6 +46,8 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected int range = 10;
     protected int maxCooldown = 20;
     protected int cooldown = 0;
+
+    public HashMap<String, Integer> upgrade_count = new HashMap<String, Integer>();
 
     public Turret(ITurretProvider host)
     {
@@ -242,5 +250,24 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     public IWeaponSystem getWeaponSystem()
     {
         return this.weaponSystem;
+    }
+
+    public void updateUpgrades()
+    {
+        //TODO: change to only scan upgrade slots
+        IInventory inv = this.getHost().getInventory();
+        this.upgrade_count.clear();
+        for (int slot = 0; slot < inv.getSizeInventory(); slot++)
+        {
+            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof ITurretUpgrade)
+            {
+                String id = ((ITurretUpgrade)inv.getStackInSlot(slot).getItem()).getType(inv.getStackInSlot(slot));
+                if (!this.upgrade_count.containsKey(id))
+                {
+                    this.upgrade_count.put(id, 0);
+                }
+                this.upgrade_count.put(id, this.upgrade_count.get(id) + inv.getStackInSlot(slot).stackSize);
+            }
+        }
     }
 }

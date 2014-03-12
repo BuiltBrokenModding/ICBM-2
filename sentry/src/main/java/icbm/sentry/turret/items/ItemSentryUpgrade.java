@@ -118,9 +118,9 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 	}
 
 	@Override
-	public TurretUpgradeType getType(ItemStack itemstack)
+	public String getType(ItemStack itemstack)
 	{
-		return TurretUpgradeType.values()[itemstack.getItemDamage()];
+		return TurretUpgradeType.values()[itemstack.getItemDamage()].iconName;
 	}
 
 	public static enum TurretUpgradeType
