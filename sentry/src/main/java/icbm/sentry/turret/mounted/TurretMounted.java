@@ -1,14 +1,17 @@
 package icbm.sentry.turret.mounted;
 
+import icbm.sentry.interfaces.IMountedTurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.Vector3;
 
 /** this sentry uses for mounting the player in position */
-public abstract class TurretMounted extends Turret
+public abstract class TurretMounted extends Turret implements IMountedTurret
 {
     protected Vector3 riderOffset = new Vector3();
 
@@ -68,8 +71,8 @@ public abstract class TurretMounted extends Turret
     }
 
     @Override
-    public boolean mountable()
+    public boolean canMount(Entity entity)
     {
-        return true;
+        return entity instanceof EntityLivingBase;
     }
 }

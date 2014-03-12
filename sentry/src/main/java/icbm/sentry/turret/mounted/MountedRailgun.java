@@ -1,5 +1,6 @@
 package icbm.sentry.turret.mounted;
 
+import net.minecraft.entity.Entity;
 import icbm.Reference;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponRailgun;
@@ -60,5 +61,5 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
 	public Vector3[] getMultiBlockVectors()
 	{
 		return new Vector3[] { new Vector3(0, 1, 0) };
-	}
+	}   
 }

@@ -2,9 +2,11 @@ package icbm.sentry.turret;
 
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.weapon.IEnergyWeapon;
+import icbm.sentry.turret.weapon.IWeaponSystem;
 import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +21,7 @@ import calclavia.lib.utility.nbt.SaveManager;
 /** Modular way to deal with sentry guns
  * 
  * @author DarkGuardsman, tgame14 */
-public abstract class Turret implements IEnergyContainer, ITurret
+public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvider
 {
     /** TODO: Implement a property system used by MC entities to support any number of settings a
      * turrets can have. Turret object references. */
@@ -61,7 +63,7 @@ public abstract class Turret implements IEnergyContainer, ITurret
     {
         if (this.weaponSystem instanceof IEnergyWeapon)
         {
-            if(energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), false) < ((IEnergyWeapon) this.weaponSystem).getEnergyPerShot())
+            if (energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), false) < ((IEnergyWeapon) this.weaponSystem).getEnergyPerShot())
             {
                 return false;
             }
@@ -219,12 +221,6 @@ public abstract class Turret implements IEnergyContainer, ITurret
     }
 
     @Override
-    public boolean mountable()
-    {
-        return false;
-    }
-
-    @Override
     public int getRange()
     {
         return this.range;
@@ -240,5 +236,11 @@ public abstract class Turret implements IEnergyContainer, ITurret
     public TurretAI getAi()
     {
         return ai;
+    }
+
+    @Override
+    public IWeaponSystem getWeaponSystem()
+    {
+        return this.weaponSystem;
     }
 }
