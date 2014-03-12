@@ -38,7 +38,8 @@ public class GuiTurretPlatform extends GuiContainerBase
 
 		if (turret != null)
 		{
-			fontRenderer.drawString("Position: " + ForgeDirection.UP, 8, 20, 4210752);
+		    //TODO: re-add when rotation is implemented for sentries
+			//fontRenderer.drawString("Position: " + ForgeDirection.UP, 8, 20, 4210752);
 			fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Energy", 8, 30, 4210752);
 			renderUniversalDisplay(8, 40, turret.getTurret().energy.getEnergy(), mouseX, mouseY, Unit.JOULES);
 			fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Required Energy", 8, 50, 4210752);
