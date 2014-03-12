@@ -2,12 +2,17 @@ package icbm.sentry.turret.weapon;
 
 import icbm.api.sentry.IAmmunition;
 import icbm.api.sentry.ProjectileType;
+import icbm.sentry.interfaces.ITurretUpgrade;
 import icbm.sentry.turret.Turret;
+import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.utility.inventory.InventoryUtility;
 
@@ -46,7 +51,7 @@ public class WeaponProjectile extends WeaponDamage
         }
         return offset;
     }
-  
+
     public boolean isAmmo(ItemStack stack)
     {
         return stack != null && stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) != ProjectileType.UNKNOWN;
@@ -83,7 +88,10 @@ public class WeaponProjectile extends WeaponDamage
                         if (doConsume)
                         {
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, need));
-                            InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
+                            if (this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
+                                InventoryUtility.putStackInInventory(inv, itemStack, ForgeDirection.UNKNOWN.ordinal(), true);
+                            else
+                                InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
                         }
                         return true;
                     }
@@ -93,7 +101,10 @@ public class WeaponProjectile extends WeaponDamage
                         if (doConsume)
                         {
                             inv.setInventorySlotContents(slot, ammo.consumeAmmo(itemStack, consume));
-                            InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, consume));
+                            if (this.turret.upgrade_count.get(TurretUpgradeType.COLLECTOR.iconName) > 0)
+                                InventoryUtility.putStackInInventory(inv, itemStack, ForgeDirection.UNKNOWN.ordinal(), true);
+                            else
+                                InventoryUtility.dropItemStack(turret.world(), turret.getPosition(), ammo.getShell(itemStack, need));
 
                         }
                         need -= consume;
