@@ -23,10 +23,4 @@ public class SlotTurretAmmo extends Slot
     {
         return compareStack != null && (compareStack.getItem() instanceof IAmmunition || CompatibilityModule.isHandler(compareStack.getItem()));
     }
-
-    @Override
-    public int getSlotStackLimit()
-    {
-        return 1;
-    }
 }
