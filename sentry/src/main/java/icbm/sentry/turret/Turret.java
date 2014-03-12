@@ -4,6 +4,7 @@ import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
+import icbm.sentry.turret.weapon.IEnergyWeapon;
 import icbm.sentry.turret.weapon.WeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -58,7 +59,14 @@ public abstract class Turret implements IEnergyContainer, ITurret
 
     public boolean canFire()
     {
-        return cooldown == 0 && energy.isFull() && weaponSystem.canFire();
+        if (this.weaponSystem instanceof IEnergyWeapon)
+        {
+            if(energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), false) < ((IEnergyWeapon) this.weaponSystem).getEnergyPerShot())
+            {
+                return false;
+            }
+        }
+        return cooldown == 0 && weaponSystem.canFire();
     }
 
     @Override
@@ -74,7 +82,10 @@ public abstract class Turret implements IEnergyContainer, ITurret
             if (target != null)
                 getHost().sendFireEventToClient(target);
             weaponSystem.fire(target);
-            energy.setEnergy(0);
+            if (this.weaponSystem instanceof IEnergyWeapon)
+            {
+                energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), true);
+            }
             cooldown = maxCooldown;
             return true;
         }
@@ -95,7 +106,10 @@ public abstract class Turret implements IEnergyContainer, ITurret
             if (target != null)
                 getHost().sendFireEventToClient(Vector3.fromCenter(target));
             weaponSystem.fire(target);
-            energy.setEnergy(0);
+            if (this.weaponSystem instanceof IEnergyWeapon)
+            {
+                energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), true);
+            }
             cooldown = maxCooldown;
             return true;
         }
