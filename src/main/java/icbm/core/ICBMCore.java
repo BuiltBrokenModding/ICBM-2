@@ -7,7 +7,7 @@ import icbm.contraption.ItemSignalDisrupter;
 import icbm.contraption.ItemSulfurDust;
 import icbm.contraption.ItemTracker;
 import icbm.contraption.block.BlockCamouflage;
-import icbm.contraption.block.BlockCombatRail;
+import icbm.contraption.block.BlockReinforcedRail;
 import icbm.contraption.block.BlockConcrete;
 import icbm.contraption.block.BlockGlassButton;
 import icbm.contraption.block.BlockGlassPressurePlate;
@@ -130,7 +130,7 @@ public final class ICBMCore
         blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
         blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
-        blockCombatRail = contentRegistry.createBlock(BlockCombatRail.class);
+        blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
 
         // ITEMS
         itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
