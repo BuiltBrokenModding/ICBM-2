@@ -7,81 +7,112 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+       classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
     }
 }
-
+ 
 apply plugin: 'forge'
-
-sourceSets {
-	main {
-		java {
-			srcDirs 'src/main/java', 'explosion/src/main/java', 'sentry/src/main/java'
-		}
-	}
-}
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 ext.buildProps = file "build.properties"
-
+ 
 buildProps.withReader {
     def prop = new Properties()
     prop.load(it)
     ext.config = new ConfigSlurper().parse prop
 }
-
-version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
+ 
 group = "icbm"
 archivesBaseName = "${System.getenv().JOB_NAME}"
-
+ 
 minecraft {
-    version = "${config.version.minecraft}-${config.version.forge}"
-	
-	replaceIn "Reference.java"
-	replace "@MAJOR@", config.version.mod.major
-	replace "@MINOR@", config.version.mod.minor
-	replace "@REVIS@", config.version.mod.revis
-	replace "@BUILD@", System.getenv("BUILD_NUMBER")
+    version = "${rootProject.config.version.minecraft}-${rootProject.config.version.forge}"
+    
+    replaceIn "Reference.java"
+    replace "@MAJOR@", rootProject.config.version.mod.major
+    replace "@MINOR@", rootProject.config.version.mod.minor
+    replace "@REVIS@", rootProject.config.version.mod.revis
+    replace "@BUILD@", "${System.getenv().BUILD_NUMBER}"
 }
 
-if (System.getenv("BUILD_NUMBER") != null)
-    version += ".${System.getenv("BUILD_NUMBER")}"
+subprojects*.apply plugin: 'java'
 
+allprojects {
+    version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
+    
+    if (System.getenv("BUILD_NUMBER") != null)
+        version += ".${System.getenv("BUILD_NUMBER")}"
+        
+    repositories {
+        maven {
+            name 'Calclavia Maven'
+            url 'http://calclavia.com/maven'
+        }
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        mavenCentral()
+    }
+    
+    dependencies {
+        compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${rootProject.config.version.universalelectricity}", classifier: "dev"
+        compile group: 'calclaviacore', name: 'calclavia-core', version: "${rootProject.config.version.calclaviacore}", classifier: "dev"
+    }
+    
+    jar {
+		classifier = project.name
+        dependsOn ":copyBuildXml"
+        destinationDir = file (rootProject.getRootDir().getPath() + '/output')
+    }
+	
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				artifact jar
+			}
+		}
+		repositories {
+			maven {
+				url "file://var/www/maven"
+			}
+		}
+	}
+}
+ 
+subprojects {
+    archivesBaseName = "ICBM"
+    
+    dependencies {
+        compile rootProject
+    }
+    
+    rootProject.tasks.reobf {
+        reobf(tasks.jar) { spec ->
+            spec.classpath = sourceSets.main.compileClasspath
+        }
+    }
+}
 
 processResources {
 	from 'build.properties'
 }
-
+ 
 task copyBuildXml(type: Copy) {
     from 'build.properties'
     into 'output'
 }
-
+ 
 task apiZip(type: Zip) {
     classifier = 'api'
     from sourceSets*.allSource
     include 'icbm/api/**'
     destinationDir = file 'output'
 }
-
+ 
 artifacts {
     archives apiZip
-}
-
-jar {
-    dependsOn copyBuildXml
-    classifier = ''
-    destinationDir = file 'output'
-}
-
-repositories {
-    maven {
-		name 'Calclavia Maven'
-		url 'http://calclavia.com/maven'
-	}
-}
-dependencies {
-	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
-	compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
 }
 
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
@@ -91,7 +122,7 @@ import net.minecraftforge.gradle.delayed.*
 task createChangelog(type: ChangelogTask) {
     def jobName = "${System.getenv().JOB_NAME}"
     def buildNumber = "${System.getenv().BUILD_NUMBER}"
-    jobName.replaceAll(' ','%20')
+    
     setServerRoot(new DelayedString(project, 'http://ci.calclavia.com/'))
     setJobName(new DelayedString(project, jobName.toString()));
     setAuthName(new DelayedString(project, 'console_script'));
@@ -100,4 +131,4 @@ task createChangelog(type: ChangelogTask) {
     setOutput(new DelayedFile(project, 'output/' + jobName + "-${project.version}" + '-changelog' + '.txt'));
 }
 
-build.dependsOn "createChangelog"
+build.dependsOn "apiZip", "copyBuildXml", "createChangelog"
