@@ -1,7 +1,7 @@
 package icbm.sentry.turret.ai;
 
 import calclavia.api.icbm.IMissile;
-import calclavia.api.icbm.sentry.IAATarget;
+import calclavia.api.icbm.ITarget;
 import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
 
@@ -22,9 +22,9 @@ public class TurretAntiAirSelector extends TurretEntitySelector
     @Override
     public boolean isEntityApplicable(Entity entity)
     {      
-        if (entity instanceof IAATarget)
+        if (entity instanceof ITarget)
         {
-            return ((IAATarget) entity).canBeTargeted(this.turretProvider.getTurret());
+            return ((ITarget) entity).canBeTargeted(this.turretProvider.getTurret());
         }
         else if (entity instanceof IMissile)
         {
@@ -36,9 +36,9 @@ public class TurretAntiAirSelector extends TurretEntitySelector
     @Override
     public boolean isValid(Entity entity)
     {
-        if (entity instanceof IAATarget)
+        if (entity instanceof ITarget)
         {
-            return ((IAATarget) entity).canBeTargeted(this.turretProvider.getTurret());
+            return ((ITarget) entity).canBeTargeted(this.turretProvider.getTurret());
         }
         else if (entity instanceof IMissile)
         {

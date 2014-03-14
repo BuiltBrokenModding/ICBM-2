@@ -36,12 +36,12 @@ import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.ILauncherContainer;
 import calclavia.api.icbm.IMissile;
 import calclavia.api.icbm.IMissileLockable;
+import calclavia.api.icbm.ITarget;
 import calclavia.api.icbm.RadarRegistry;
 import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.api.icbm.explosion.IExplosive;
 import calclavia.api.icbm.explosion.IExplosiveContainer;
 import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.sentry.IAATarget;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -49,7 +49,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 /** @Author - Calclavia */
-public class EntityMissile extends Entity implements IChunkLoadHandler, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
+public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, ITarget
 {
 	public enum MissileType
 	{
@@ -814,12 +814,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	}
 
 	@Override
-	public boolean canLock(IMissile missile)
-	{
-		return this.feiXingTick > 0;
-	}
-
-	@Override
 	public boolean attackEntityFrom(DamageSource source, float damage)
 	{
 		if (DamageUtility.canHarm(this, source, damage))
@@ -838,11 +832,19 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IMissile
 	public boolean canBeTargeted(Object turret)
 	{
 		return this.getTicksInAir() > 0;
-	}
+	} 
+	
+	@Override
+    public TargetType getType()
+    {
+        return TargetType.MISSILE;
+    }
 
 	@Override
 	public NBTTagCompound getTagCompound()
 	{
 		return this.nbtData;
 	}
+
+  
 }
