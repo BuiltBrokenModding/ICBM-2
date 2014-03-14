@@ -1,6 +1,5 @@
 package icbm.explosion.missile.missile;
 
-import calclavia.api.icbm.IMissileLockable;
 import icbm.Reference;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRepulsive;
@@ -9,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.ITarget;
+import calclavia.api.icbm.ITarget.TargetType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -38,9 +39,12 @@ public class MissileAnti extends MissileBase
                 return;
             }
 
-            if (missileObj.lockedTarget instanceof IMissileLockable)
+            if (missileObj.lockedTarget instanceof ITarget && ((ITarget) missileObj.lockedTarget).getType() == TargetType.MISSILE)
             {
-                guJiDiDian = ((IMissileLockable) missileObj.lockedTarget).getPredictedPosition(4);
+                if (((ITarget) missileObj.lockedTarget).canBeTargeted(this))
+                {
+                    guJiDiDian = ((ITarget) missileObj.lockedTarget).getPredictedPosition(4);
+                }
             }
 
             missileObj.motionX = (guJiDiDian.x - missileObj.posX) * (0.3F);
@@ -52,11 +56,11 @@ public class MissileAnti extends MissileBase
 
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(missileObj.posX - ABMRange, missileObj.posY - ABMRange, missileObj.posZ - ABMRange, missileObj.posX + ABMRange, missileObj.posY + ABMRange, missileObj.posZ + ABMRange);
         // TODO: Check if this works.
-        Entity nearestEntity = missileObj.worldObj.findNearestEntityWithinAABB(IMissileLockable.class, bounds, missileObj);
+        Entity nearestEntity = missileObj.worldObj.findNearestEntityWithinAABB(ITarget.class, bounds, missileObj);
 
-        if (nearestEntity instanceof IMissileLockable)
+        if (nearestEntity instanceof ITarget && ((ITarget) nearestEntity).getType() == TargetType.MISSILE)
         {
-            if (((IMissileLockable) nearestEntity).canLock(missileObj))
+            if (((ITarget) nearestEntity).canBeTargeted(this))
             {
                 // Lock target onto missileObj missile
                 missileObj.lockedTarget = nearestEntity;
