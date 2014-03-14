@@ -4,7 +4,7 @@ import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastChemical;
-import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.missiles.MMDuQi;
 import icbm.explosion.model.missiles.MMGanRanDu;
 import net.minecraft.entity.Entity;

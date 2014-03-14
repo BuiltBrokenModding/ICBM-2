@@ -2,8 +2,8 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
+import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastMine;
-import icbm.explosion.missile.Explosive;
 import icbm.explosion.model.tiles.MDiLei;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

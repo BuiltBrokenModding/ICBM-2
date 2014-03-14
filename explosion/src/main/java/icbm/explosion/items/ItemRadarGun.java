@@ -4,8 +4,8 @@ import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileCruiseLauncher;
-import icbm.explosion.machines.TileLauncherPrefab;
-import icbm.explosion.machines.TileLauncherScreen;
+import icbm.explosion.machines.launcher.TileLauncherPrefab;
+import icbm.explosion.machines.launcher.TileLauncherScreen;
 
 import java.util.List;
 

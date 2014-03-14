@@ -1,7 +1,7 @@
 package icbm.explosion.potion;
 
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.Explosive;
+import icbm.explosion.explosive.Explosive;
 
 import java.util.List;
 

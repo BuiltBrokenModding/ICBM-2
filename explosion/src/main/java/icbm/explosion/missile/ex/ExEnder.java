@@ -2,11 +2,11 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
+import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.explosive.Explosive;
+import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.explosive.blast.BlastEnderman;
-import icbm.explosion.missile.Explosive;
-import icbm.explosion.missile.TileExplosive;
-import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.missiles.MMWan;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

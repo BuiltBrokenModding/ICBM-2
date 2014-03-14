@@ -1,9 +1,9 @@
 package icbm.explosion.render.entity;
 
 import icbm.core.prefab.render.ModelICBM;
-import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.missile.EntityMissile.MissileType;
-import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.entities.EntityMissile.MissileType;
+import icbm.explosion.missile.types.Missile;
 
 import java.util.HashMap;
 

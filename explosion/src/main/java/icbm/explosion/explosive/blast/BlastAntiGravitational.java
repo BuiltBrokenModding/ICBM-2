@@ -1,8 +1,7 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.explosion.EntityFlyingBlock;
-import icbm.explosion.explosive.Blast;
+import icbm.explosion.entities.EntityFlyingBlock;
 import icbm.explosion.explosive.thread.ThreadSmallExplosion;
 
 import java.util.HashSet;

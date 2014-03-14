@@ -2,10 +2,11 @@ package icbm.explosion.machines;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.ExplosiveRegistry;
-import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.missile.ItemMissile;
-import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.explosive.ExplosiveRegistry;
+import icbm.explosion.items.ItemMissile;
+import icbm.explosion.machines.launcher.TileLauncherPrefab;
+import icbm.explosion.missile.types.Missile;
 
 import java.io.IOException;
 

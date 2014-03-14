@@ -1,6 +1,6 @@
 package icbm.explosion.render.entity;
 
-import icbm.explosion.EntityLightBeam;
+import icbm.explosion.entities.EntityLightBeam;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;

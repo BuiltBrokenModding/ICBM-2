@@ -2,9 +2,9 @@ package icbm.explosion.render.tile;
 
 import icbm.Reference;
 import icbm.core.ICBMCore;
-import icbm.explosion.missile.Explosive;
-import icbm.explosion.missile.ExplosiveRegistry;
-import icbm.explosion.missile.TileExplosive;
+import icbm.explosion.explosive.Explosive;
+import icbm.explosion.explosive.ExplosiveRegistry;
+import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.model.tiles.MDiLei;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

@@ -3,8 +3,8 @@ package icbm.explosion.items;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.Explosive;
-import icbm.explosion.missile.TileExplosive;
+import icbm.explosion.explosive.Explosive;
+import icbm.explosion.explosive.TileExplosive;
 
 import java.util.List;
 

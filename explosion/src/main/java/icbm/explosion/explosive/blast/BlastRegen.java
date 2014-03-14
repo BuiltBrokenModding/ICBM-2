@@ -1,6 +1,5 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.explosion.explosive.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

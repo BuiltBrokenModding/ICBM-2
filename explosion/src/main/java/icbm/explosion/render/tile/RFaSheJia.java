@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileLauncherFrame;
+import icbm.explosion.machines.launcher.TileLauncherFrame;
 import icbm.explosion.model.tiles.MFaSheJia;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

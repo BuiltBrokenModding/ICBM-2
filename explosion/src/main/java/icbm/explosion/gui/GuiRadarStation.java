@@ -3,9 +3,9 @@ package icbm.explosion.gui;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.render.GuiICBM;
+import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.TileRadarStation;
-import icbm.explosion.missile.missile.EntityMissile;
 
 import java.util.ArrayList;
 import java.util.List;

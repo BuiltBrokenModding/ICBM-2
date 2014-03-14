@@ -3,7 +3,7 @@ package icbm.explosion.missile.ex;
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.blast.BlastRegen;
-import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.missiles.ModelRegenMissile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

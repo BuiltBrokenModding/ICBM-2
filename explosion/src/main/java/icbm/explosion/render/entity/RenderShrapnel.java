@@ -1,7 +1,7 @@
 package icbm.explosion.render.entity;
 
 import icbm.Reference;
-import icbm.explosion.EntityFragments;
+import icbm.explosion.entities.EntityFragments;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;

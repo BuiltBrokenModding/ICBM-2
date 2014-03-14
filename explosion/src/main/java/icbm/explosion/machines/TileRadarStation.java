@@ -4,7 +4,9 @@ import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.prefab.TileFrequency;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.missile.EntityMissile;
+import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.machines.launcher.TileLauncherPrefab;
+import icbm.explosion.machines.launcher.TileLauncherScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;

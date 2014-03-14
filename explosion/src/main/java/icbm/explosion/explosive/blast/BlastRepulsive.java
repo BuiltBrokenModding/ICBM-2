@@ -1,7 +1,5 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.explosion.explosive.Blast;
-
 import java.util.ArrayList;
 import java.util.List;
 

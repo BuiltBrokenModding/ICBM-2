@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.explosion.missile.Explosive;
+import icbm.explosion.explosive.Explosive;
 import icbm.explosion.missile.ex.ExExothermic;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

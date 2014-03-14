@@ -2,8 +2,8 @@ package icbm.explosion.items;
 
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.cart.EntityBombCart;
-import icbm.explosion.missile.EntityExplosive;
+import icbm.explosion.entities.EntityBombCart;
+import icbm.explosion.entities.EntityExplosive;
 
 import java.util.Random;
 

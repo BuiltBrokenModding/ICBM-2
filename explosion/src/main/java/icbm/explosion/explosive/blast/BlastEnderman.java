@@ -2,7 +2,6 @@ package icbm.explosion.explosive.blast;
 
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.Blast;
 
 import java.util.List;
 

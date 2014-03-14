@@ -2,10 +2,9 @@ package icbm.explosion.items;
 
 import icbm.core.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
-import icbm.explosion.missile.ExplosiveRegistry;
-import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.missile.ItemMissile;
-import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.explosive.ExplosiveRegistry;
+import icbm.explosion.missile.types.Missile;
 
 import java.util.List;
 

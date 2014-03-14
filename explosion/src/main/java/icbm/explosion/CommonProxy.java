@@ -3,16 +3,16 @@ package icbm.explosion;
 import icbm.explosion.container.ContainerCruiseLauncher;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.container.ContainerMissileTable;
+import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileEMPTower;
-import icbm.explosion.machines.TileLauncherBase;
-import icbm.explosion.machines.TileLauncherFrame;
-import icbm.explosion.machines.TileLauncherScreen;
+import icbm.explosion.machines.TileMissileAssembler;
 import icbm.explosion.machines.TileMissileCoordinator;
 import icbm.explosion.machines.TileRadarStation;
-import icbm.explosion.missile.TileExplosive;
-import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.table.TileMissileAssembler;
+import icbm.explosion.machines.launcher.TileLauncherBase;
+import icbm.explosion.machines.launcher.TileLauncherFrame;
+import icbm.explosion.machines.launcher.TileLauncherScreen;
 
 import java.util.List;
 

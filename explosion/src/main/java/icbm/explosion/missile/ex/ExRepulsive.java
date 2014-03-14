@@ -2,9 +2,9 @@ package icbm.explosion.missile.ex;
 
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
+import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastRepulsive;
-import icbm.explosion.missile.Explosive;
-import icbm.explosion.missile.missile.Missile;
+import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.missiles.MMLa;
 import icbm.explosion.model.missiles.MMTui;
 import net.minecraft.entity.Entity;

@@ -1,7 +1,7 @@
 package icbm.explosion.render.entity;
 
 import icbm.Reference;
-import icbm.explosion.explosive.EntityExplosion;
+import icbm.explosion.entities.EntityExplosion;
 import icbm.explosion.explosive.blast.BlastRedmatter;
 
 import java.util.Random;

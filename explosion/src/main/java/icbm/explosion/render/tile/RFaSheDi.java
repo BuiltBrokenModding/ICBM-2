@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.machines.TileLauncherBase;
+import icbm.explosion.machines.launcher.TileLauncherBase;
 import icbm.explosion.model.tiles.MFaSheDi0;
 import icbm.explosion.model.tiles.MFaSheDi1;
 import icbm.explosion.model.tiles.MFaSheDi2;

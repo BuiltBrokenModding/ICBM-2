@@ -4,8 +4,7 @@ import ic2.api.item.ISpecialElectricItem;
 import ic2.api.tile.IEnergyStorage;
 import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.Blast;
-import icbm.explosion.missile.EntityExplosive;
+import icbm.explosion.entities.EntityExplosive;
 
 import java.util.List;
 

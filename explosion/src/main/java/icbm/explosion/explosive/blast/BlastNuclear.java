@@ -4,7 +4,6 @@ import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.explosive.Blast;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

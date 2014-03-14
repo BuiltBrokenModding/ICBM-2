@@ -1,7 +1,6 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.core.prefab.render.ModelICBM;
-import icbm.explosion.explosive.Blast;
 import icbm.explosion.model.tiles.MDiLei;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
