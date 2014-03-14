@@ -43,5 +43,5 @@ public interface ITurret extends ISaveObj
      * @param target - Entity to fire the weapon at */
     public boolean fire(Entity target);
 
-    public int getRange();
+    public double getRange();
 }

@@ -45,8 +45,8 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected float barrelLength = 1;
     protected float maxHealth = -1;
     protected float health;
-    protected int default_target_range = 30;
-    protected int target_range = 30;
+    protected double default_target_range = 30;
+    protected double target_range = 30;
     protected int maxCooldown = 20;
     protected int cooldown = 0;
     protected long ticks = 0;
@@ -248,7 +248,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     }
 
     @Override
-    public int getRange()
+    public double getRange()
     {
         return this.default_target_range;
     }

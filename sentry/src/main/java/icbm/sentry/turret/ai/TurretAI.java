@@ -121,9 +121,9 @@ public class TurretAI
 
     }
 
-    protected Entity findTarget(ITurret sentry, IEntitySelector targetSelector, int range)
+    protected Entity findTarget(ITurret sentry, IEntitySelector targetSelector, double target_range)
     {
-        AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret().getAbsoluteCenter().x, turret().getAbsoluteCenter().y, turret().getAbsoluteCenter().z, turret().getAbsoluteCenter().x, turret().getAbsoluteCenter().y, turret().getAbsoluteCenter().z).expand(range, range, range);
+        AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret().getAbsoluteCenter().x, turret().getAbsoluteCenter().y, turret().getAbsoluteCenter().z, turret().getAbsoluteCenter().x, turret().getAbsoluteCenter().y, turret().getAbsoluteCenter().z).expand(target_range, target_range, target_range);
         List<Entity> list = turret().world().selectEntitiesWithinAABB(Entity.class, aabb, targetSelector);
         Collections.sort(list, new ComparatorOptimalTarget(turret().getAbsoluteCenter()));
         for (Entity entity : list)
