@@ -43,7 +43,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected float barrelLength = 1;
     protected float maxHealth = -1;
     protected float health;
-    protected int range = 10;
+    protected int range = 30;
     protected int maxCooldown = 20;
     protected int cooldown = 0;
     protected long ticks = 0;
