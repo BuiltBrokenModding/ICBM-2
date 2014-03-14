@@ -21,7 +21,7 @@ public class TurretGun extends TurretAuto
             }
         };
         centerOffset.y = 0.27;
-        range = 40;
+        default_target_range = 40;
         maxCooldown = 30;
         barrelLength = 0.7f;
     }

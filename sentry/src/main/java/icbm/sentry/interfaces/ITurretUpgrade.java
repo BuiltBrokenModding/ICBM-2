@@ -1,5 +1,7 @@
 package icbm.sentry.interfaces;
 
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 
 /** Applied to classes that extends Item.class and are designed to upgrade sentries or turrets */
@@ -9,20 +11,13 @@ public interface ITurretUpgrade
     public static final String SHELL_COLLECTOR = "shell_collector";
     public static final String TARGET_RANGE = "target_range";
 
-    /** Gets the type of the object using a string name
+    /** Gets the type of the object using a string name.
      * 
      * @return Empty list or list containing string types */
-    public String getType(ItemStack itemStack);
+    public void getTypes(List<String> types, ItemStack itemStack);
 
-    /** Damages the item when used in the sentry. Its optional to damage the item however if you do
-     * its suggest to use NBT.
-     * 
-     * @param item - itemStack
-     * @param damage
-     * @return True if the item is destroyed */
-    public boolean damageUpgrade(ItemStack item, int damage);
-
-    /** Check to see if the upgrade still works. Used in the case that the item was damaged and can
-     * no longer work. */
-    public boolean isFunctional(ItemStack item);
+    /** Gets how effective the upgrade is on a scale of neg 1.0 - pos 1.0. Zero having no effect, pos
+     * having a good effect, neg having a bad effect. Types that have no percentage effect will
+     * ignore this method. For example shell collectors either work or don't work.  */
+    public double getUpgradeEfficiance(ItemStack itemStack, String type);
 }

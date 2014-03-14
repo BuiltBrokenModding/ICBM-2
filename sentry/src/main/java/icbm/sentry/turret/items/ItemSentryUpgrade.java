@@ -27,8 +27,6 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
         super(id, "turretUpgrades");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
-        this.setMaxStackSize(1);
-
     }
 
     @Override
@@ -50,40 +48,6 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
             par3List.add("\u00a7cDamage: " + (UnitDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
 
         }
-    }
-
-    @Override
-    public boolean damageUpgrade(ItemStack itemStack, int damage)
-    {
-        if (itemStack.getItem() instanceof ItemSentryUpgrade)
-        {
-            if (itemStack.getTagCompound() == null)
-            {
-                itemStack.setTagCompound(new NBTTagCompound());
-            }
-
-            damage = damage + itemStack.getTagCompound().getInteger("upgradeDamage");
-            if (damage > TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))
-            {
-                itemStack.getTagCompound().setBoolean("broken", true);
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isFunctional(ItemStack item)
-    {
-        if (item.getTagCompound() == null)
-        {
-            item.setTagCompound(new NBTTagCompound());
-        }
-        int damage = item.getTagCompound().getInteger("upgradeDamage");
-        if (item.getTagCompound().getBoolean("broken") || damage > TurretUpgradeType.getMaxUses(item.getItemDamage()))
-        {
-            item.getTagCompound().setBoolean("broken", true);
-        }
-        return false;
     }
 
     @Override
@@ -118,32 +82,45 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
     }
 
     @Override
-    public String getType(ItemStack itemstack)
+    public void getTypes(List<String> types, ItemStack itemstack)
     {
-        return TurretUpgradeType.values()[itemstack.getItemDamage()].getUpgradeName();
+        types.add(TurretUpgradeType.values()[itemstack.getItemDamage()].getUpgradeName());
+    }
+
+    @Override
+    public double getUpgradeEfficiance(ItemStack itemstack, String type)
+    {
+        return TurretUpgradeType.values()[itemstack.getItemDamage()].bonus;
     }
 
     public static enum TurretUpgradeType
     {
-        RANGE("targetCard", ITurretUpgrade.TARGET_RANGE, 5000, LanguageUtility.getLocal("info.upgrade.range")),
-        COLLECTOR("shellCollector", ITurretUpgrade.SHELL_COLLECTOR, 1000, LanguageUtility.getLocal("info.upgrade.collect"));
+        RANGE("targetCard", ITurretUpgrade.TARGET_RANGE, 0.25D, 5000, LanguageUtility.getLocal("info.upgrade.range")),
+        COLLECTOR("shellCollector", ITurretUpgrade.SHELL_COLLECTOR, 0D, 1000, LanguageUtility.getLocal("info.upgrade.collect"));
 
-        public String iconName;
-        public String details = LanguageUtility.getLocal("info.upgrade.sentry");
-        public int maxUses = 1000;
+        public final String iconName;
+        public final String details;
+        public final int maxUses;
         private final String upgradeName;
+        private final double bonus;
 
-        private TurretUpgradeType(String name, String upgradeName, int maxDamage, String de)
+        private TurretUpgradeType(String name, String upgradeName, double bonus, int maxDamage, String de)
         {
             this.iconName = name;
             this.maxUses = maxDamage;
             this.details = de;
             this.upgradeName = upgradeName;
+            this.bonus = bonus;
         }
 
         public String getUpgradeName()
         {
             return upgradeName;
+        }
+
+        public double getBonus()
+        {
+            return bonus;
         }
 
         public static int getMaxUses(int meta)

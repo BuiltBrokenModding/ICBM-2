@@ -10,7 +10,9 @@ import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.weapon.WeaponSystem;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
@@ -43,12 +45,13 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected float barrelLength = 1;
     protected float maxHealth = -1;
     protected float health;
-    protected int range = 30;
+    protected int default_target_range = 30;
+    protected int target_range = 30;
     protected int maxCooldown = 20;
     protected int cooldown = 0;
     protected long ticks = 0;
 
-    public HashMap<String, Integer> upgrade_count = new HashMap<String, Integer>();
+    public HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
 
     public Turret(ITurretProvider host)
     {
@@ -78,7 +81,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         {
             ticks = 1;
         }
-        
+
         if (cooldown > 0)
             cooldown--;
     }
@@ -247,7 +250,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     @Override
     public int getRange()
     {
-        return this.range;
+        return this.default_target_range;
     }
 
     @Override
@@ -277,12 +280,16 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         {
             if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof ITurretUpgrade)
             {
-                String id = ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getType(inv.getStackInSlot(slot));
-                if (!this.upgrade_count.containsKey(id))
+                List<String> id_list = new ArrayList<String>();
+                ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getTypes(id_list, inv.getStackInSlot(slot));
+                for (String id : id_list)
                 {
-                    this.upgrade_count.put(id, 0);
+                    if (!this.upgrade_count.containsKey(id))
+                    {
+                        this.upgrade_count.put(id, 0.0);
+                    }
+                    this.upgrade_count.put(id, this.upgrade_count.get(id) + ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getUpgradeEfficiance(inv.getStackInSlot(slot), id));
                 }
-                this.upgrade_count.put(id, this.upgrade_count.get(id) + inv.getStackInSlot(slot).stackSize);
             }
         }
     }

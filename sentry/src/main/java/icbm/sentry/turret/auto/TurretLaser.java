@@ -18,7 +18,7 @@ public class TurretLaser extends TurretAuto
 		maxHealth = 50;
 		weaponSystem = new WeaponTwinLaser(this, 3);
 		barrelLength = 1.2f;
-		range = 50;
+		default_target_range = 50;
 		maxCooldown = 15;
 	}
 
