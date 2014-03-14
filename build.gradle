@@ -104,7 +104,6 @@ task copyBuildXml(type: Copy) {
     into 'output'
 }
 
-
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
 import net.minecraftforge.gradle.common.Constants
 import net.minecraftforge.gradle.delayed.*
@@ -121,4 +120,4 @@ task createChangelog(type: ChangelogTask) {
     setOutput(new DelayedFile(project, 'output/' + jobName + "-${project.version}" + '-changelog' + '.txt'));
 }
 
-build.dependsOn "apiZip", "copyBuildXml", "createChangelog"
+build.dependsOn "copyBuildXml", "createChangelog"
