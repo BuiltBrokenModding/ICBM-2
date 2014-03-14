@@ -1,6 +1,12 @@
 package icbm.explosion.missile.missile;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import icbm.Reference;
+import icbm.api.IMissile;
+import icbm.api.IMissileLockable;
+import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.DamageUtility;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
@@ -8,12 +14,6 @@ import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.missile.ExplosiveRegistry;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
@@ -33,20 +33,11 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ILauncherContainer;
-import calclavia.api.icbm.IMissile;
-import calclavia.api.icbm.IMissileLockable;
-import calclavia.api.icbm.RadarRegistry;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.api.icbm.explosion.IExplosive;
-import calclavia.api.icbm.explosion.IExplosiveContainer;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.sentry.IAATarget;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 
 /** @Author - Calclavia */
 public class EntityMissile extends Entity implements IChunkLoadHandler, IMissileLockable, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, IAATarget
