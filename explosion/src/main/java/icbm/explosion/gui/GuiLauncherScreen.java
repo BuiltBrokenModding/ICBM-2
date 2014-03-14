@@ -21,11 +21,11 @@ public class GuiLauncherScreen extends GuiICBM
 	public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "gui_empty.png");
 
 	private TileLauncherScreen tileEntity;
-	private GuiTextField tFX;
-	private GuiTextField tFY;
-	private GuiTextField tFZ;
-	private GuiTextField tFFreq;
-	private GuiTextField tFGaoDu;
+	private GuiTextField target_xCoord_field;
+	private GuiTextField target_yCoord_field;
+	private GuiTextField target_zCoord_field;
+	private GuiTextField target_freq_field;
+	private GuiTextField target_height_field;
 
 	private int containerWidth;
 	private int containerHeight;
@@ -42,32 +42,32 @@ public class GuiLauncherScreen extends GuiICBM
 	public void initGui()
 	{
 		super.initGui();
-		this.tFX = new GuiTextField(fontRenderer, 110, 37, 45, 12);
-		this.tFZ = new GuiTextField(fontRenderer, 110, 52, 45, 12);
-		this.tFY = new GuiTextField(fontRenderer, 110, 67, 45, 12);
-		this.tFGaoDu = new GuiTextField(fontRenderer, 110, 82, 45, 12);
-		this.tFFreq = new GuiTextField(fontRenderer, 110, 97, 45, 12);
+		this.target_xCoord_field = new GuiTextField(fontRenderer, 110, 37, 45, 12);
+		this.target_zCoord_field = new GuiTextField(fontRenderer, 110, 52, 45, 12);
+		this.target_yCoord_field = new GuiTextField(fontRenderer, 110, 67, 45, 12);
+		this.target_height_field = new GuiTextField(fontRenderer, 110, 82, 45, 12);
+		this.target_freq_field = new GuiTextField(fontRenderer, 110, 97, 45, 12);
 
-		this.tFFreq.setMaxStringLength(4);
-		this.tFX.setMaxStringLength(6);
-		this.tFZ.setMaxStringLength(6);
-		this.tFY.setMaxStringLength(3);
-		this.tFGaoDu.setMaxStringLength(3);
+		this.target_freq_field.setMaxStringLength(4);
+		this.target_xCoord_field.setMaxStringLength(6);
+		this.target_zCoord_field.setMaxStringLength(6);
+		this.target_yCoord_field.setMaxStringLength(3);
+		this.target_height_field.setMaxStringLength(3);
 
-		this.tFFreq.setText(this.tileEntity.getFrequency() + "");
-		this.tFGaoDu.setText(this.tileEntity.gaoDu + "");
+		this.target_freq_field.setText(this.tileEntity.getFrequency() + "");
+		this.target_height_field.setText(this.tileEntity.gaoDu + "");
 
 		if (this.tileEntity.getTarget() == null)
 		{
-			this.tFX.setText(Math.round(this.tileEntity.xCoord) + "");
-			this.tFZ.setText(Math.round(this.tileEntity.zCoord) + "");
-			this.tFY.setText("0");
+			this.target_xCoord_field.setText(Math.round(this.tileEntity.xCoord) + "");
+			this.target_zCoord_field.setText(Math.round(this.tileEntity.zCoord) + "");
+			this.target_yCoord_field.setText("0");
 		}
 		else
 		{
-			this.tFX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-			this.tFZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-			this.tFY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+			this.target_xCoord_field.setText(Math.round(this.tileEntity.getTarget().x) + "");
+			this.target_zCoord_field.setText(Math.round(this.tileEntity.getTarget().z) + "");
+			this.target_yCoord_field.setText(Math.round(this.tileEntity.getTarget().y) + "");
 		}
 	}
 
@@ -76,23 +76,23 @@ public class GuiLauncherScreen extends GuiICBM
 	public void keyTyped(char par1, int par2)
 	{
 		super.keyTyped(par1, par2);
-		this.tFX.textboxKeyTyped(par1, par2);
-		this.tFZ.textboxKeyTyped(par1, par2);
+		this.target_xCoord_field.textboxKeyTyped(par1, par2);
+		this.target_zCoord_field.textboxKeyTyped(par1, par2);
 
 		if (tileEntity.getTier() >= 1)
 		{
-			this.tFY.textboxKeyTyped(par1, par2);
-			this.tFGaoDu.textboxKeyTyped(par1, par2);
+			this.target_yCoord_field.textboxKeyTyped(par1, par2);
+			this.target_height_field.textboxKeyTyped(par1, par2);
 
 			if (tileEntity.getTier() > 1)
 			{
-				this.tFFreq.textboxKeyTyped(par1, par2);
+				this.target_freq_field.textboxKeyTyped(par1, par2);
 			}
 		}
 
 		try
 		{
-			Vector3 newTarget = new Vector3(Integer.parseInt(this.tFX.getText()), Math.max(Integer.parseInt(this.tFY.getText()), 0), Integer.parseInt(this.tFZ.getText()));
+			Vector3 newTarget = new Vector3(Integer.parseInt(this.target_xCoord_field.getText()), Math.max(Integer.parseInt(this.target_yCoord_field.getText()), 0), Integer.parseInt(this.target_zCoord_field.getText()));
 
 			this.tileEntity.setTarget(newTarget);
 			PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.getTarget().intX(), this.tileEntity.getTarget().intY(), this.tileEntity.getTarget().intZ()));
@@ -104,7 +104,7 @@ public class GuiLauncherScreen extends GuiICBM
 
 		try
 		{
-			short newFrequency = (short) Math.max(Short.parseShort(this.tFFreq.getText()), 0);
+			short newFrequency = (short) Math.max(Short.parseShort(this.target_freq_field.getText()), 0);
 
 			this.tileEntity.setFrequency(newFrequency);
 			PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 1, this.tileEntity.getFrequency()));
@@ -116,7 +116,7 @@ public class GuiLauncherScreen extends GuiICBM
 
 		try
 		{
-			short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.tFGaoDu.getText()), Short.MAX_VALUE), 3);
+			short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.target_height_field.getText()), Short.MAX_VALUE), 3);
 
 			this.tileEntity.gaoDu = newGaoDu;
 			PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.gaoDu));
@@ -132,17 +132,17 @@ public class GuiLauncherScreen extends GuiICBM
 	public void mouseClicked(int par1, int par2, int par3)
 	{
 		super.mouseClicked(par1, par2, par3);
-		this.tFX.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
-		this.tFZ.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+		this.target_xCoord_field.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+		this.target_zCoord_field.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
 
 		if (tileEntity.getTier() >= 1)
 		{
-			this.tFY.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
-			this.tFGaoDu.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+			this.target_yCoord_field.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+			this.target_height_field.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
 
 			if (tileEntity.getTier() > 1)
 			{
-				this.tFFreq.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+				this.target_freq_field.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
 			}
 		}
 
@@ -152,21 +152,21 @@ public class GuiLauncherScreen extends GuiICBM
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		this.tFX.drawTextBox();
-		this.tFZ.drawTextBox();
+		this.target_xCoord_field.drawTextBox();
+		this.target_zCoord_field.drawTextBox();
 
 		// Draw the air detonation GUI
 		if (tileEntity.getTier() >= 1)
 		{
-			this.tFY.drawTextBox();
+			this.target_yCoord_field.drawTextBox();
 			this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.detHeight"), 12, 68, 4210752);
 
-			this.tFGaoDu.drawTextBox();
+			this.target_height_field.drawTextBox();
 			this.fontRenderer.drawString(LanguageUtility.getLocal("gui.launcherScreen.lockHeight"), 12, 83, 4210752);
 
 			if (tileEntity.getTier() > 1)
 			{
-				this.tFFreq.drawTextBox();
+				this.target_freq_field.drawTextBox();
 				this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.freq"), 12, 98, 4210752);
 			}
 		}
@@ -212,17 +212,17 @@ public class GuiLauncherScreen extends GuiICBM
 	{
 		super.updateScreen();
 
-		if (!this.tFX.isFocused())
-			this.tFX.setText(Math.round(this.tileEntity.getTarget().x) + "");
-		if (!this.tFZ.isFocused())
-			this.tFZ.setText(Math.round(this.tileEntity.getTarget().z) + "");
-		if (!this.tFY.isFocused())
-			this.tFY.setText(Math.round(this.tileEntity.getTarget().y) + "");
+		if (!this.target_xCoord_field.isFocused())
+			this.target_xCoord_field.setText(Math.round(this.tileEntity.getTarget().x) + "");
+		if (!this.target_zCoord_field.isFocused())
+			this.target_zCoord_field.setText(Math.round(this.tileEntity.getTarget().z) + "");
+		if (!this.target_yCoord_field.isFocused())
+			this.target_yCoord_field.setText(Math.round(this.tileEntity.getTarget().y) + "");
 
-		if (!this.tFGaoDu.isFocused())
-			this.tFGaoDu.setText(this.tileEntity.gaoDu + "");
+		if (!this.target_height_field.isFocused())
+			this.target_height_field.setText(this.tileEntity.gaoDu + "");
 
-		if (!this.tFFreq.isFocused())
-			this.tFFreq.setText(this.tileEntity.getFrequency() + "");
+		if (!this.target_freq_field.isFocused())
+			this.target_freq_field.setText(this.tileEntity.getFrequency() + "");
 	}
 }
