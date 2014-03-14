@@ -292,5 +292,9 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
                 }
             }
         }
+        if (this.upgrade_count.containsKey(ITurretUpgrade.TARGET_RANGE))
+        {
+            this.target_range = this.default_target_range + (this.default_target_range * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
+        }
     }
 }
