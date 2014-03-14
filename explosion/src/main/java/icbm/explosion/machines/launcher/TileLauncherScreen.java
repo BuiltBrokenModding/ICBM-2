@@ -324,12 +324,12 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 		switch (this.getTier())
 		{
 			case 0:
-				return 500000000;
+				return 50000;
 			case 1:
-				return 800000000;
+				return 80000;
 		}
 
-		return 1000000000;
+		return 100000;
 	}
 
 	@Override

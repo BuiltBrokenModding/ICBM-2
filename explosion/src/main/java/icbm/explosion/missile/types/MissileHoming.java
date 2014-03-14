@@ -46,7 +46,7 @@ public class MissileHoming extends MissileBase
     @Override
     public void update(EntityMissile missileObj)
     {
-        if (missileObj.feiXingTick > missileObj.missileFlightTime / 2 && missileObj.missileType == MissileType.missile)
+        if (missileObj.feiXingTick > missileObj.missileFlightTime / 2 && missileObj.missileType == MissileType.MISSILE)
         {
             WorldServer worldServer = (WorldServer) missileObj.worldObj;
             Entity trackingEntity = worldServer.getEntityByID(missileObj.trackingVar);

@@ -53,7 +53,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 {
 	public enum MissileType
 	{
-		missile, CruiseMissile, LAUNCHER
+		MISSILE, CruiseMissile, LAUNCHER
 	}
 
 	public static final float JIA_KUAI_SU_DU = 0.012F;
@@ -100,7 +100,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 	private boolean setNormalExplode;
 
 	// Missile Type
-	public MissileType missileType = MissileType.missile;
+	public MissileType missileType = MissileType.MISSILE;
 
 	public Vector3 xiaoDanMotion = new Vector3();
 
@@ -558,7 +558,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 	@Override
 	public double getMountedYOffset()
 	{
-		if (this.missileFlightTime <= 0 && this.missileType == MissileType.missile)
+		if (this.missileFlightTime <= 0 && this.missileType == MissileType.MISSILE)
 		{
 			return height;
 		}
