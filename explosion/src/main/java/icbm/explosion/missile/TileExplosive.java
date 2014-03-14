@@ -1,7 +1,5 @@
 package icbm.explosion.missile;
 
-import icbm.api.explosion.IExplosive;
-import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.items.ItemRemoteDetonator;
@@ -11,6 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import calclavia.api.icbm.explosion.IExplosive;
+import calclavia.api.icbm.explosion.IExplosiveContainer;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.tile.IRotatable;
 

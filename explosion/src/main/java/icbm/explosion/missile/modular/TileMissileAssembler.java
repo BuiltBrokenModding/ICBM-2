@@ -1,6 +1,5 @@
 package icbm.explosion.missile.modular;
 
-import icbm.api.ITier;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
@@ -16,6 +15,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.ITier;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.network.IPacketReceiver;

@@ -1,8 +1,6 @@
 package icbm.explosion.missile;
 
 import icbm.Reference;
-import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import icbm.api.explosion.ExplosiveType;
 import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.List;
@@ -16,6 +14,8 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import calclavia.api.icbm.explosion.ExplosiveType;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

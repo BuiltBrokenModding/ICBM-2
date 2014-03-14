@@ -1,9 +1,6 @@
 package icbm.explosion.missile;
 
 import icbm.Reference;
-import icbm.api.ICamouflageMaterial;
-import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import icbm.api.explosion.ExplosiveType;
 import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.render.tile.RenderBombBlock;
@@ -37,6 +34,9 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorHelper;
+import calclavia.api.icbm.ICamouflageMaterial;
+import calclavia.api.icbm.explosion.ExplosiveType;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import calclavia.lib.utility.WrenchUtility;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;

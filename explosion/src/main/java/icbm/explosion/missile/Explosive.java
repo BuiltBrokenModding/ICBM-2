@@ -1,6 +1,5 @@
 package icbm.explosion.missile;
 
-import icbm.api.explosion.IExplosive;
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.ICBMExplosion;
@@ -35,6 +34,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.explosion.IExplosive;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;

@@ -1,6 +1,5 @@
 package icbm.sentry.platform;
 
-import icbm.api.sentry.IAmmunition;
 import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
@@ -16,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.lib.content.BlockInfo;
 
 /** @author DarkGuardsman */

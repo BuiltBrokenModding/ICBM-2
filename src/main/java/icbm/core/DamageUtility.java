@@ -1,6 +1,6 @@
 package icbm.core;
 
-import icbm.api.IMissile;
+import calclavia.api.icbm.IMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;

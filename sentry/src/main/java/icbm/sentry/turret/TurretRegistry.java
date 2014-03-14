@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import calclavia.lib.utility.ReflectionHelper;
+import calclavia.lib.utility.ReflectionUtility;
 import calclavia.lib.utility.nbt.SaveManager;
 
 import com.google.common.collect.HashBiMap;
@@ -157,7 +157,7 @@ public class TurretRegistry
 
 			if (clazz != null)
 			{
-				Constructor<?> con = ReflectionHelper.getConstructorWithArgs(clazz, args);
+				Constructor<?> con = ReflectionUtility.getConstructorWithArgs(clazz, args);
 
 				if (con != null)
 				{

@@ -1,6 +1,5 @@
 package icbm.explosion.explosive;
 
-import icbm.api.explosion.IEntityExplosion;
 import icbm.core.ICBMCore;
 
 import java.lang.reflect.Constructor;
@@ -9,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.explosion.IEntityExplosion;
 import calclavia.lib.network.PacketHandler;
 
 import com.google.common.io.ByteArrayDataInput;

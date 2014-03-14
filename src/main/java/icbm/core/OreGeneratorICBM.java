@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.ore.OreGenReplace;
+import calclavia.lib.prefab.ore.OreGenReplace;
 
 /** @author CovertJaguar, Modified by Calclavia */
 

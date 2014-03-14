@@ -1,6 +1,6 @@
 package icbm.explosion.machines;
 
-import icbm.api.ITier;
+import calclavia.api.icbm.ITier;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;

@@ -1,7 +1,6 @@
 package icbm.explosion.machines;
 
 import icbm.Reference;
-import icbm.api.RadarRegistry;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
@@ -15,6 +14,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.RadarRegistry;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;

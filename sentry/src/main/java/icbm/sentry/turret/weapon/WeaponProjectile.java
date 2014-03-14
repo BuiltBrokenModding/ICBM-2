@@ -1,7 +1,5 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.api.sentry.IAmmunition;
-import icbm.api.sentry.ProjectileType;
 import icbm.sentry.interfaces.ITurretUpgrade;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
@@ -14,6 +12,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.sentry.IAmmunition;
+import calclavia.api.icbm.sentry.ProjectileType;
 import calclavia.lib.utility.inventory.InventoryUtility;
 
 /** Basic projectile weapon system design more to be used as a prefab. By default it acts like a hand

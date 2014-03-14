@@ -1,6 +1,6 @@
 package icbm.core.prefab;
 
-import icbm.api.IBlockFrequency;
+import calclavia.api.icbm.IBlockFrequency;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class TileFrequency extends TileICBM implements IBlockFrequency

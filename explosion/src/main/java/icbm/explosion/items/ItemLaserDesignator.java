@@ -1,8 +1,6 @@
 package icbm.explosion.items;
 
 import icbm.Reference;
-import icbm.api.IBlockFrequency;
-import icbm.api.IItemFrequency;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
@@ -14,7 +12,6 @@ import icbm.explosion.machines.TileLauncherScreen;
 import java.util.ArrayList;
 import java.util.List;
 
-import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,6 +22,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.api.item.ItemElectric;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.IBlockFrequency;
+import calclavia.api.icbm.IItemFrequency;
+import calclavia.api.mffs.fortron.FrequencyGrid;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.utility.LanguageUtility;
 

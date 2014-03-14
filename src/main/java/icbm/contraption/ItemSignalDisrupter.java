@@ -1,6 +1,5 @@
 package icbm.contraption;
 
-import icbm.api.IItemFrequency;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 
@@ -11,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import calclavia.api.icbm.IItemFrequency;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.utility.LanguageUtility;
 

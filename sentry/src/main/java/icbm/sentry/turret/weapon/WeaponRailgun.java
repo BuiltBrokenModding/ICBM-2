@@ -1,8 +1,5 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.api.explosion.IEntityExplosion;
-import icbm.api.sentry.IAmmunition;
-import icbm.api.sentry.ProjectileType;
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.turret.Turret;
 
@@ -13,6 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.explosion.IEntityExplosion;
+import calclavia.api.icbm.sentry.IAmmunition;
+import calclavia.api.icbm.sentry.ProjectileType;
 import calclavia.lib.prefab.vector.Cuboid;
 
 /**

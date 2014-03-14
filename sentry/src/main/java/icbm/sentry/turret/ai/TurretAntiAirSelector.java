@@ -1,7 +1,7 @@
 package icbm.sentry.turret.ai;
 
-import icbm.api.IMissile;
-import icbm.api.sentry.IAATarget;
+import calclavia.api.icbm.IMissile;
+import calclavia.api.icbm.sentry.IAATarget;
 import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
 

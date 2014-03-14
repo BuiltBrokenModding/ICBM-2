@@ -1,9 +1,5 @@
 package icbm.explosion.machines;
 
-import icbm.api.IBlockFrequency;
-import icbm.api.IItemFrequency;
-import icbm.api.IRadarDetectable;
-import icbm.api.RadarRegistry;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.prefab.TileFrequency;
@@ -16,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -32,6 +27,11 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.IBlockFrequency;
+import calclavia.api.icbm.IItemFrequency;
+import calclavia.api.icbm.IRadarDetectable;
+import calclavia.api.icbm.RadarRegistry;
+import calclavia.api.mffs.fortron.FrequencyGrid;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.network.PacketHandler;

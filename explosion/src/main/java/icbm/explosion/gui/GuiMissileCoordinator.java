@@ -3,13 +3,13 @@ package icbm.explosion.gui;
 import icbm.core.prefab.render.GuiICBMContainer;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.machines.TileMissileCoordinator;
-import mffs.api.card.ICoordLink;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.mffs.card.ICoordLink;
 import calclavia.lib.utility.LanguageUtility;
 
 public class GuiMissileCoordinator extends GuiICBMContainer

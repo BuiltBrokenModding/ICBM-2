@@ -1,7 +1,7 @@
 package icbm.sentry.platform.gui;
 
+import calclavia.api.icbm.sentry.IAmmunition;
 import universalelectricity.api.CompatibilityModule;
-import icbm.api.sentry.IAmmunition;
 import icbm.sentry.interfaces.ITurretUpgrade;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

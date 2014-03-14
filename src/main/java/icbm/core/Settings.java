@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import net.minecraftforge.common.Configuration;
-import calclavia.lib.configurable.Config;
+import calclavia.lib.config.Config;
 import calclavia.lib.content.IDManager;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModMetadata;

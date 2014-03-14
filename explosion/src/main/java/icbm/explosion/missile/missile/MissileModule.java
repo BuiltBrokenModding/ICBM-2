@@ -1,6 +1,6 @@
 package icbm.explosion.missile.missile;
 
-import icbm.api.IMissile;
+import calclavia.api.icbm.IMissile;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.model.missiles.MMYaSuo;
 import net.minecraft.entity.Entity;

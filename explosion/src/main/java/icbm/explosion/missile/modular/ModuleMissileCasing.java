@@ -1,6 +1,6 @@
 package icbm.explosion.missile.modular;
 
-import icbm.api.explosion.IMissileModule.IMissileBody;
+import calclavia.api.icbm.explosion.IMissileModule.IMissileBody;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** @author DarkGuardsman */

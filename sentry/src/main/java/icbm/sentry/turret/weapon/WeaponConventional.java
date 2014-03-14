@@ -1,7 +1,7 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.api.sentry.IAmmunition;
-import icbm.api.sentry.ProjectileType;
+import calclavia.api.icbm.sentry.IAmmunition;
+import calclavia.api.icbm.sentry.ProjectileType;
 import icbm.sentry.turret.Turret;
 import net.minecraft.item.ItemStack;
 

@@ -1,6 +1,6 @@
 package icbm.core;
 
-import icbm.api.IItemFrequency;
+import calclavia.api.icbm.IItemFrequency;
 import icbm.contraption.block.TileProximityDetector;
 import icbm.contraption.gui.GuiFrequency;
 import icbm.contraption.gui.GuiProximityDetector;

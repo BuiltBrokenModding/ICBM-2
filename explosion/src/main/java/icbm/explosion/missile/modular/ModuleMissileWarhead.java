@@ -1,7 +1,7 @@
 package icbm.explosion.missile.modular;
 
-import icbm.api.explosion.IExplosive;
-import icbm.api.explosion.IExplosiveContainer;
+import calclavia.api.icbm.explosion.IExplosive;
+import calclavia.api.icbm.explosion.IExplosiveContainer;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** @author DarkGuardsman */

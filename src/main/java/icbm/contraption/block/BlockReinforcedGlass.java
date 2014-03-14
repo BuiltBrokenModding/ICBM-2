@@ -1,11 +1,11 @@
 package icbm.contraption.block;
 
+import calclavia.api.atomicscience.IAntiPoisonBlock;
 import icbm.core.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import atomicscience.api.IAntiPoisonBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

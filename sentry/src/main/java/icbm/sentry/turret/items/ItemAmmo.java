@@ -1,8 +1,6 @@
 package icbm.sentry.turret.items;
 
 import icbm.Reference;
-import icbm.api.sentry.IAmmunition;
-import icbm.api.sentry.ProjectileType;
 import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.List;
@@ -12,6 +10,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import calclavia.api.icbm.sentry.IAmmunition;
+import calclavia.api.icbm.sentry.ProjectileType;
 import calclavia.lib.utility.inventory.InventoryUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

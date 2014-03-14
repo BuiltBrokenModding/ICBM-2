@@ -1,8 +1,5 @@
 package icbm.explosion.machines;
 
-import icbm.api.IMissile;
-import icbm.api.ITier;
-import icbm.api.LauncherType;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 
@@ -18,6 +15,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.IMissile;
+import calclavia.api.icbm.ITier;
+import calclavia.api.icbm.LauncherType;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.prefab.tile.IRotatable;

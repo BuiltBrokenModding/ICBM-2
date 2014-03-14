@@ -22,8 +22,8 @@ import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.terminal.TileTerminal;
 import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.terminal.TileTerminal;
 import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.IExternalInventoryBox;
 

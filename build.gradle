@@ -103,17 +103,7 @@ task copyBuildXml(type: Copy) {
     from 'build.properties'
     into 'output'
 }
- 
-task apiZip(type: Zip) {
-    classifier = 'api'
-    from sourceSets*.allSource
-    include 'icbm/api/**'
-    destinationDir = file 'output'
-}
- 
-artifacts {
-    archives apiZip
-}
+
 
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
 import net.minecraftforge.gradle.common.Constants

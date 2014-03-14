@@ -1,12 +1,12 @@
 package icbm.explosion.potion;
 
-import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import icbm.api.explosion.ExplosiveType;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.Explosive;
 
 import java.util.List;
 
+import calclavia.api.icbm.explosion.ExplosiveType;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;

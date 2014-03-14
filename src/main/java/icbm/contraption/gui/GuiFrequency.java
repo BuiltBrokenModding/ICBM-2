@@ -1,7 +1,6 @@
 package icbm.contraption.gui;
 
 import icbm.Reference;
-import icbm.api.IItemFrequency;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.render.GuiICBM;
 import net.minecraft.client.gui.GuiTextField;
@@ -11,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import calclavia.api.icbm.IItemFrequency;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;

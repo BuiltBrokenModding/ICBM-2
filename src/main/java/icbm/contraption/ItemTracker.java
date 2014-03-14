@@ -1,6 +1,5 @@
 package icbm.contraption;
 
-import icbm.api.ITracker;
 import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
@@ -13,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.ITracker;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;

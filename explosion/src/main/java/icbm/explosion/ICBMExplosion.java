@@ -1,10 +1,6 @@
 package icbm.explosion;
 
 import icbm.Reference;
-import icbm.api.ExplosiveHelper;
-import icbm.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
-import icbm.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import icbm.api.explosion.ExplosionEvent.PreExplosionEvent;
 import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.TabICBM;
@@ -65,7 +61,11 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.configurable.Config;
+import calclavia.api.icbm.ExplosiveHelper;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosionConstructionEvent;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import calclavia.api.icbm.explosion.ExplosionEvent.PreExplosionEvent;
+import calclavia.lib.config.Config;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.recipe.RecipeUtility;
