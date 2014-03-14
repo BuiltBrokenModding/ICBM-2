@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.explosion.container.ContainerMissileTable;
-import icbm.explosion.missile.modular.TileMissileAssembler;
+import icbm.explosion.missile.table.TileMissileAssembler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;

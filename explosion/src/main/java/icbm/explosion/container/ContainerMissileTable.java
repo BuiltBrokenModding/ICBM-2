@@ -2,7 +2,7 @@ package icbm.explosion.container;
 
 import icbm.core.prefab.ContainerBase;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.modular.TileMissileAssembler;
+import icbm.explosion.missile.table.TileMissileAssembler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

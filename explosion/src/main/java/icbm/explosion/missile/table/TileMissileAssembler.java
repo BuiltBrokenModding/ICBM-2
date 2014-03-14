@@ -1,4 +1,4 @@
-package icbm.explosion.missile.modular;
+package icbm.explosion.missile.table;
 
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;

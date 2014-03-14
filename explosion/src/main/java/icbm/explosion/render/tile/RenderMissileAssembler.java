@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.missile.ExplosiveRegistry;
 import icbm.explosion.missile.missile.Missile;
-import icbm.explosion.missile.modular.TileMissileAssembler;
+import icbm.explosion.missile.table.TileMissileAssembler;
 import icbm.explosion.model.tiles.ModelMissileAssemblerClaw;
 import icbm.explosion.model.tiles.ModelMissileAssemblerPanel;
 

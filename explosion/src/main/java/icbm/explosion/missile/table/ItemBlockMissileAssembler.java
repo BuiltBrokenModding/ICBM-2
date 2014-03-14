@@ -1,4 +1,4 @@
-package icbm.explosion.missile.modular;
+package icbm.explosion.missile.table;
 
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.entity.player.EntityPlayer;

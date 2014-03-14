@@ -12,7 +12,7 @@ import icbm.explosion.machines.TileMissileCoordinator;
 import icbm.explosion.machines.TileRadarStation;
 import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
-import icbm.explosion.missile.modular.TileMissileAssembler;
+import icbm.explosion.missile.table.TileMissileAssembler;
 
 import java.util.List;
 
