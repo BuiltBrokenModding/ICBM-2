@@ -45,7 +45,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
                 itemStack.setTagCompound(new NBTTagCompound());
             }
             par3List.addAll(LanguageUtility.splitStringPerWord(TurretUpgradeType.getDescription(itemStack.getItemDamage()), 4));
-            par3List.add("\u00a7cDamage: " + (UnitDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
+            //par3List.add("\u00a7cDamage: " + (UnitDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
 
         }
     }
@@ -95,19 +95,17 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 
     public static enum TurretUpgradeType
     {
-        RANGE("targetCard", ITurretUpgrade.TARGET_RANGE, 0.25D, 5000, LanguageUtility.getLocal("info.upgrade.range")),
-        COLLECTOR("shellCollector", ITurretUpgrade.SHELL_COLLECTOR, 0D, 1000, LanguageUtility.getLocal("info.upgrade.collect"));
+        RANGE("targetCard", ITurretUpgrade.TARGET_RANGE, 0.25, LanguageUtility.getLocal("info.upgrade.range")),
+        COLLECTOR("shellCollector", ITurretUpgrade.SHELL_COLLECTOR, 1, LanguageUtility.getLocal("info.upgrade.collect"));
 
         public final String iconName;
         public final String details;
-        public final int maxUses;
         private final String upgradeName;
         private final double bonus;
 
-        private TurretUpgradeType(String name, String upgradeName, double bonus, int maxDamage, String de)
+        private TurretUpgradeType(String name, String upgradeName, double bonus, String de)
         {
             this.iconName = name;
-            this.maxUses = maxDamage;
             this.details = de;
             this.upgradeName = upgradeName;
             this.bonus = bonus;
@@ -121,15 +119,6 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
         public double getBonus()
         {
             return bonus;
-        }
-
-        public static int getMaxUses(int meta)
-        {
-            if (meta < values().length)
-            {
-                return values()[meta].maxUses;
-            }
-            return 1000;
         }
 
         public static String getDescription(int meta)

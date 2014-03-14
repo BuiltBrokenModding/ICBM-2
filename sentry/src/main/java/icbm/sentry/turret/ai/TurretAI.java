@@ -165,10 +165,10 @@ public class TurretAI
             {
                 float healthA = entityA instanceof EntityLivingBase ? ((EntityLivingBase) entityA).getHealth() : 0;
                 float healthB = entityB instanceof EntityLivingBase ? ((EntityLivingBase) entityB).getHealth() : 0;
-                return healthA < healthB ? -1 : (healthA > healthB ? 1 : 0);
+                return healthA < healthB ? -1 : (healthA != healthB ? 1 : 0);
             }
 
-            return distanceA < distanceB ? -1 : (distanceA > distanceB ? 1 : 0);
+            return distanceA < distanceB ? -1 : (distanceA != distanceB ? 1 : 0);
         }
     }
 

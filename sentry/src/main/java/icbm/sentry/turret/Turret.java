@@ -250,7 +250,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     @Override
     public double getRange()
     {
-        return this.default_target_range;
+        return this.target_range;
     }
 
     @Override
@@ -275,23 +275,30 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     {
         //TODO: change to only scan upgrade slots
         IInventory inv = this.getHost().getInventory();
+        
+        //Reset
         this.upgrade_count.clear();
+        this.target_range = this.default_target_range;
+
+        //Update upgrade count
         for (int slot = 0; slot < inv.getSizeInventory(); slot++)
         {
             if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof ITurretUpgrade)
             {
-                List<String> id_list = new ArrayList<String>();
+                final List<String> id_list = new ArrayList<String>();
                 ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getTypes(id_list, inv.getStackInSlot(slot));
                 for (String id : id_list)
                 {
                     if (!this.upgrade_count.containsKey(id))
                     {
-                        this.upgrade_count.put(id, 0.0);
+                        this.upgrade_count.put(id, 0.0D);
                     }
                     this.upgrade_count.put(id, this.upgrade_count.get(id) + ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getUpgradeEfficiance(inv.getStackInSlot(slot), id));
                 }
             }
         }
+
+        //Apply upgrades to traits
         if (this.upgrade_count.containsKey(ITurretUpgrade.TARGET_RANGE))
         {
             this.target_range = this.default_target_range + (this.default_target_range * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
