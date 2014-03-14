@@ -30,9 +30,6 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Calclavia */
 public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActivate, ITier, IRotatable, IPacketReceiver
 {
-    // Is the block powered by redstone?
-    private boolean isPowered = false;
-
     // The rotation of this missile component
     private byte fangXiang = 3;
 
@@ -84,9 +81,8 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
             }
         }
 
-        if (isPowered)
+        if (this.ticks % 100 == 0 && this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
         {
-            isPowered = false;
             this.launch();
         }
 
@@ -276,18 +272,6 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     public long getVoltageInput(ForgeDirection dir)
     {
         return super.getVoltageInput(dir) * (this.getTier() + 1);
-    }
-
-    @Override
-    public void onPowerOn()
-    {
-        this.isPowered = true;
-    }
-
-    @Override
-    public void onPowerOff()
-    {
-        this.isPowered = false;
     }
 
     @Override

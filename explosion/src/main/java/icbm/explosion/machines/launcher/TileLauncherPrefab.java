@@ -11,7 +11,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TileLauncherPrefab extends TileFrequency implements ILauncherController, IPeripheral, IRedstoneReceptor
+public abstract class TileLauncherPrefab extends TileFrequency implements ILauncherController, IPeripheral
 {
 	@Override
 	public void initiate()
