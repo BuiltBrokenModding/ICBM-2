@@ -34,9 +34,9 @@ public class GuiUserAccess extends GuiICBMContainer implements IScroll
     /** Limit page number that can be scrolled to */
     private int pageLimit = 0;
     /** Current tile being accessed */
-    private TileEntity tileEntity;
+    public TileEntity tileEntity;
     /** Player accessing the gui */
-    private EntityPlayer player;
+    public EntityPlayer player;
 
     public GuiUserAccess(EntityPlayer player, TileEntity tileEntity)
     {

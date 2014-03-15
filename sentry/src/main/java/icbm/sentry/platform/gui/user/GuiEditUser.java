@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import calclavia.lib.access.AccessUser;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 /** Gui for editing the group and access of the user. Should should the user's name, then the group
  * bellow that with a scroll buttons to cycle threw the groups. Bellow that it should show the
@@ -29,13 +30,21 @@ public class GuiEditUser extends GuiICBMContainer
         super(return_gui.inventorySlots);
         this.return_gui = return_gui;
         this.user = user;
+
     }
 
     @Override
     public void initGui()
     {
         super.initGui();
+        //TODO implement back button to return user to calling gui
+    }
 
+    @Override
+    public void onGuiClosed()
+    {
+        super.onGuiClosed();
+        FMLCommonHandler.instance().showGuiScreen(return_gui);
     }
 
     @Override
