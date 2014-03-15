@@ -5,7 +5,7 @@ import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -21,9 +21,9 @@ public class GuiTurretPlatform extends GuiContainerBase
 
     private TileTurretPlatform tile;
 
-    public GuiTurretPlatform(InventoryPlayer par1InventoryPlayer, TileTurretPlatform tile)
+    public GuiTurretPlatform(EntityPlayer player, TileTurretPlatform tile)
     {
-        super(new ContainerTurretPlatform(par1InventoryPlayer, tile));
+        super(new ContainerTurretPlatform(player.inventory, tile));
         this.tile = tile;
     }
 

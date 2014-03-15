@@ -42,7 +42,21 @@ public class BlockTurretPlatform extends BlockICBM
     {
         if (entityPlayer != null)
         {
-            if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID)
+            if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID && side != 0 && side != 1)
+            {
+                entityPlayer.openGui(ICBMSentry.INSTANCE, 0, world, x, y, z);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onSneakMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    {
+        if (entityPlayer != null)
+        {
+            if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID && side != 0 && side != 1)
             {
                 entityPlayer.openGui(ICBMSentry.INSTANCE, 0, world, x, y, z);
                 return true;
@@ -80,7 +94,7 @@ public class BlockTurretPlatform extends BlockICBM
                         {
                             itemStack = ((IAmmunition) item).onDroppedIntoWorld(itemStack.copy());
                         }
-                        
+
                         //Stack can go null on ammo onDrop call
                         if (itemStack != null)
                         {

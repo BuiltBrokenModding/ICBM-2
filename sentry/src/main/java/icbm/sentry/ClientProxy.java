@@ -3,6 +3,7 @@ package icbm.sentry;
 import icbm.core.prefab.EmptyRenderer;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.GuiTurretPlatform;
+import icbm.sentry.platform.gui.user.GuiUserAccess;
 import icbm.sentry.render.RenderAATurret;
 import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.RenderLaserTurret;
@@ -28,54 +29,57 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
-	@Override
-	public void preInit()
-	{
-		super.preInit();
-	}
+    @Override
+    public void preInit()
+    {
+        super.preInit();
+    }
 
-	@Override
-	public void init()
-	{
-		super.init();
+    @Override
+    public void init()
+    {
+        super.init();
 
-		/** TileEntities */
-		RenderingRegistry.registerEntityRenderingHandler(EntityMountableDummy.class, new EmptyRenderer());
+        /** TileEntities */
+        RenderingRegistry.registerEntityRenderingHandler(EntityMountableDummy.class, new EmptyRenderer());
 
-		// Sentry render registry TODO find a way to automate
-		TurretRegistry.registerSentryRenderer(TurretAntiAir.class, new RenderAATurret());
-		TurretRegistry.registerSentryRenderer(TurretGun.class, new RenderGunTurret());
-		TurretRegistry.registerSentryRenderer(TurretLaser.class, new RenderLaserTurret());
-		TurretRegistry.registerSentryRenderer(MountedRailgun.class, new RenderRailgun());
+        // Sentry render registry TODO find a way to automate
+        TurretRegistry.registerSentryRenderer(TurretAntiAir.class, new RenderAATurret());
+        TurretRegistry.registerSentryRenderer(TurretGun.class, new RenderGunTurret());
+        TurretRegistry.registerSentryRenderer(TurretLaser.class, new RenderLaserTurret());
+        TurretRegistry.registerSentryRenderer(MountedRailgun.class, new RenderRailgun());
 
-		GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
-		{
-			@Override
-			public void renderInventoryItem(ItemStack itemStack)
-			{
-				Class<? extends Turret> sentry = TurretRegistry.getSentry(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
-				if (sentry != null)
-					TurretRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
-			}
-		});
-	}
+        GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
+        {
+            @Override
+            public void renderInventoryItem(ItemStack itemStack)
+            {
+                Class<? extends Turret> sentry = TurretRegistry.getSentry(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
+                if (sentry != null)
+                    TurretRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
+            }
+        });
+    }
 
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
-	{
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-		if (tile instanceof TileTurretPlatform)
-		{
-			return new GuiTurretPlatform(player.inventory, (TileTurretPlatform) tile);
-		}
+        if (tile instanceof TileTurretPlatform)
+        {
+            if (ID == 0)
+                return new GuiTurretPlatform(player, (TileTurretPlatform) tile);
+            else if(ID == 1)
+                return new GuiUserAccess(player, tile);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
-	{
-		FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxLaser(world, position, target, red, green, blue, age));
-	}
+    @Override
+    public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+    {
+        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxLaser(world, position, target, red, green, blue, age));
+    }
 }
