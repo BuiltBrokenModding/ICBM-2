@@ -42,7 +42,7 @@ public class BlockTurretPlatform extends BlockICBM
     {
         if (entityPlayer != null)
         {
-            if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID && side != 0 && side != 1)
+            if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID || side != 0 && side != 1)
             {
                 entityPlayer.openGui(ICBMSentry.INSTANCE, 0, world, x, y, z);
                 return true;
@@ -56,7 +56,7 @@ public class BlockTurretPlatform extends BlockICBM
     {
         if (entityPlayer != null)
         {
-            if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID && side != 0 && side != 1)
+            if (entityPlayer.inventory.getCurrentItem() == null || entityPlayer.inventory.getCurrentItem().itemID != ICBMSentry.blockTurret.blockID || side != 0 && side != 1)
             {
                 entityPlayer.openGui(ICBMSentry.INSTANCE, 0, world, x, y, z);
                 return true;
