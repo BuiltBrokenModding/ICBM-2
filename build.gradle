@@ -21,6 +21,8 @@ sourceSets {
 	}
 }
 
+def ENV = System.getenv()
+
 ext.buildProps = file "build.properties"
 
 buildProps.withReader {
@@ -81,7 +83,10 @@ repositories {
 }
 dependencies {
 	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
-	compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
+    if (ENV.JOB_NAME == "ICBM Development")
+        compile group: 'calclaviacore', name: 'calclavia-core-development', version: "${config.version.calclaviacore}", classifier: "dev"
+    else
+        compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
 }
 
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
