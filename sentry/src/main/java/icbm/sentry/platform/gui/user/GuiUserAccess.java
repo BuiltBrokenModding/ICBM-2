@@ -1,7 +1,5 @@
 package icbm.sentry.platform.gui.user;
 
-import icbm.core.prefab.render.GuiICBMContainer;
-
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
@@ -10,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import calclavia.lib.access.AccessUser;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.gui.ContainerDummy;
+import calclavia.lib.gui.GuiContainerBase;
 import calclavia.lib.prefab.terminal.IScroll;
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -18,7 +17,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
  * Grayed out for the users the current user has no access to edit.
  * 
  * @author DarkGuardsman */
-public class GuiUserAccess extends GuiICBMContainer implements IScroll
+public class GuiUserAccess extends GuiContainerBase implements IScroll
 {
     private GuiButton[] user_list_buttons = new GuiButton[5];
     private GuiButton scroll_down_button;
