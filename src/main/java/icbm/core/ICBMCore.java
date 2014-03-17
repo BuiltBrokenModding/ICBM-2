@@ -1,37 +1,5 @@
 package icbm.core;
 
-import icbm.Reference;
-import icbm.contraption.ItemAntidote;
-import icbm.contraption.ItemPoisonPowder;
-import icbm.contraption.ItemSignalDisrupter;
-import icbm.contraption.ItemSulfurDust;
-import icbm.contraption.ItemTracker;
-import icbm.contraption.block.BlockCamouflage;
-import icbm.contraption.block.BlockConcrete;
-import icbm.contraption.block.BlockGlassButton;
-import icbm.contraption.block.BlockGlassPressurePlate;
-import icbm.contraption.block.BlockProximityDetector;
-import icbm.contraption.block.BlockReinforcedGlass;
-import icbm.contraption.block.BlockSpikes;
-import icbm.contraption.block.TileProximityDetector;
-import icbm.explosion.CommandICBM;
-
-import java.util.logging.Logger;
-
-import net.minecraft.block.Block;
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-
-import org.modstats.ModstatInfo;
-import org.modstats.Modstats;
-
 import calclavia.components.CalclaviaLoader;
 import calclavia.lib.configurable.ConfigHandler;
 import calclavia.lib.content.ContentRegistry;
@@ -58,6 +26,24 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import icbm.Reference;
+import icbm.contraption.*;
+import icbm.contraption.block.*;
+import icbm.explosion.CommandICBM;
+import net.minecraft.block.Block;
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.ServerCommandManager;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+import org.modstats.ModstatInfo;
+import org.modstats.Modstats;
+
+import java.util.logging.Logger;
 
 /**
  * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
@@ -215,6 +201,7 @@ public final class ICBMCore
 
 		// Tracker
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemTracker), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.BATTERY.get(), 'S', Item.ingotIron }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemTracker), new Object[] { " Z ", "SBS", "SCS", 'Z', Item.compass, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', Item.enderPearl, 'S', Item.ingotIron }));
 
 		// Glass Pressure Plate
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGlassPlate, 1, 0), new Object[] { "##", '#', Block.glass }));
@@ -223,7 +210,7 @@ public final class ICBMCore
 		GameRegistry.addRecipe(new ItemStack(blockGlassButton, 2), new Object[] { "G", "G", 'G', Block.glass });
 
 		// Proximity Detector
-		GameRegistry.addRecipe(new ShapedOreRecipe(blockProximityDetector, new Object[] { "SSS", "S?S", "SSS", 'S', Item.ingotIron, '?', itemTracker }));
+    	GameRegistry.addRecipe(new ShapedOreRecipe(blockProximityDetector, new Object[] { "SSS", "S?S", "SSS", 'S', Item.ingotIron, '?', itemTracker }));
 
 		// Signal Disrupter
 		GameRegistry.addRecipe(new ShapedOreRecipe(itemSignalDisrupter, new Object[] { "WWW", "SCS", "SSS", 'S', Item.ingotIron, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', UniversalRecipe.WIRE.get() }));
