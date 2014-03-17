@@ -1,5 +1,6 @@
 package icbm.explosion.missile.ex;
 
+import calclavia.api.mffs.card.ICoordLink;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.core.Settings;
 import icbm.core.prefab.render.ModelICBM;
@@ -9,7 +10,6 @@ import icbm.explosion.missile.TileExplosive;
 import icbm.explosion.missile.missile.EntityMissile;
 import icbm.explosion.missile.missile.Missile;
 import icbm.explosion.model.missiles.MMWan;
-import mffs.api.card.ICoordLink;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

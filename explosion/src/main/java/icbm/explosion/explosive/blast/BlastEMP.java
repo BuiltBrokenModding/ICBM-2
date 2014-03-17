@@ -1,5 +1,7 @@
 package icbm.explosion.explosive.blast;
 
+import calclavia.api.mffs.IForceFieldBlock;
+import calclavia.api.mffs.fortron.IFortronStorage;
 import ic2.api.item.ISpecialElectricItem;
 import ic2.api.tile.IEnergyStorage;
 import icbm.Reference;
@@ -13,8 +15,6 @@ import icbm.explosion.missile.EntityExplosive;
 
 import java.util.List;
 
-import mffs.api.IForceFieldBlock;
-import mffs.api.fortron.IFortronStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

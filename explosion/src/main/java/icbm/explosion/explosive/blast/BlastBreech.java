@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import mffs.api.IForceFieldBlock;
+import calclavia.api.mffs.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;

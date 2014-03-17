@@ -63,7 +63,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.configurable.Config;
+import calclavia.lib.config.Config;
 import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.recipe.RecipeUtility;

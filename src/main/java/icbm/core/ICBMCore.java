@@ -1,14 +1,14 @@
 package icbm.core;
 
 import calclavia.components.CalclaviaLoader;
-import calclavia.lib.configurable.ConfigHandler;
+import calclavia.lib.config.ConfigHandler;
 import calclavia.lib.content.ContentRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
-import calclavia.lib.ore.OreGenBase;
-import calclavia.lib.ore.OreGenerator;
 import calclavia.lib.prefab.item.ItemBlockMetadata;
+import calclavia.lib.prefab.ore.OreGenBase;
+import calclavia.lib.prefab.ore.OreGenerator;
 import calclavia.lib.recipe.UniversalRecipe;
 import calclavia.lib.utility.LanguageUtility;
 import calclavia.lib.utility.ModUtility;

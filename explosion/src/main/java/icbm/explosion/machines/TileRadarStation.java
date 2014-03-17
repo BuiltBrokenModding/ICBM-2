@@ -1,6 +1,7 @@
 package icbm.explosion.machines;
 
-import icbm.api.IBlockFrequency;
+import calclavia.api.icbm.IBlockFrequency;
+import calclavia.api.mffs.fortron.FrequencyGrid;
 import icbm.api.IItemFrequency;
 import icbm.api.IRadarDetectable;
 import icbm.api.RadarRegistry;
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

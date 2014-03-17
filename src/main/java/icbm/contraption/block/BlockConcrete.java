@@ -1,5 +1,6 @@
 package icbm.contraption.block;
 
+import calclavia.api.atomicscience.IAntiPoisonBlock;
 import icbm.core.prefab.BlockICBM;
 
 import java.util.List;
@@ -11,7 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import atomicscience.api.IAntiPoisonBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

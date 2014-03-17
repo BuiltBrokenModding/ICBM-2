@@ -1,9 +1,10 @@
 package icbm.explosion.machines;
 
+import calclavia.api.icbm.IBlockFrequency;
+import calclavia.api.mffs.fortron.FrequencyGrid;
 import icbm.api.ILauncherController;
 import icbm.api.LauncherType;
 import icbm.core.prefab.TileFrequency;
-import mffs.api.fortron.FrequencyGrid;
 import net.minecraft.nbt.NBTTagCompound;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
@@ -11,7 +12,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 
-public abstract class TileLauncherPrefab extends TileFrequency implements ILauncherController, IPeripheral, IRedstoneReceptor
+public abstract class TileLauncherPrefab extends TileFrequency implements ILauncherController, IPeripheral, IRedstoneReceptor, IBlockFrequency
 {
 	@Override
 	public void initiate()
@@ -23,7 +24,7 @@ public abstract class TileLauncherPrefab extends TileFrequency implements ILaunc
 	@Override
 	public void invalidate()
 	{
-		FrequencyGrid.instance().unregister(this);
+		FrequencyGrid.instance().unregister((IBlockFrequency) this);
 		super.invalidate();
 	}
 
