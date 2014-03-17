@@ -44,7 +44,7 @@ public class GuiEditUser extends GuiICBMContainer
     public void onGuiClosed()
     {
         super.onGuiClosed();
-        FMLCommonHandler.instance().showGuiScreen(return_gui);
+        //FMLCommonHandler.instance().showGuiScreen(return_gui);
     }
 
     @Override

@@ -119,6 +119,17 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
+    public boolean onSneakMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ)
+    {
+        if (entityPlayer != null)
+        {
+            entityPlayer.openGui(ICBMSentry.INSTANCE, 1, world, x, y, z);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, int side)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);

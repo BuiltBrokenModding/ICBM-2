@@ -1,12 +1,13 @@
 package icbm.sentry;
 
-import calclavia.lib.gui.ContainerDummy;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.ContainerTurretPlatform;
+import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.gui.ContainerDummy;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler
@@ -35,7 +36,10 @@ public class CommonProxy implements IGuiHandler
         {
             if (ID == 0)
                 return new ContainerTurretPlatform(player.inventory, (TileTurretPlatform) tile);
-            else if(ID == 1)
+        }
+        if (tile instanceof TileTurret)
+        {
+            if (ID == 1)
                 return new ContainerDummy(player, tile);
         }
 

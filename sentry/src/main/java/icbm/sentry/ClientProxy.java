@@ -14,6 +14,7 @@ import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.auto.TurretAntiAir;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
+import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.mounted.MountedRailgun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -70,7 +71,10 @@ public class ClientProxy extends CommonProxy
         {
             if (ID == 0)
                 return new GuiTurretPlatform(player, (TileTurretPlatform) tile);
-            else if(ID == 1)
+        }
+        if (tile instanceof TileTurret)
+        {
+            if (ID == 1)
                 return new GuiUserAccess(player, tile);
         }
 
