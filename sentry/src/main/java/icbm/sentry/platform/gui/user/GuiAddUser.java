@@ -1,5 +1,10 @@
 package icbm.sentry.platform.gui.user;
 
+import icbm.sentry.turret.block.TileTurret;
+import calclavia.lib.access.IProfileContainer;
+import calclavia.lib.prefab.terminal.ITerminal;
+import calclavia.lib.prefab.terminal.TileTerminal;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 
@@ -32,6 +37,21 @@ public class GuiAddUser extends GuiAccessGuiComponent
             super.keyTyped(par1, par2);
         else
             this.username_field.textboxKeyTyped(par1, par2);
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button)
+    {
+        super.actionPerformed(button);
+        if (button == addUser_button)
+        {
+            if (return_gui.tileEntity instanceof TileTerminal)
+            {
+                ((TileTerminal) return_gui.tileEntity).sendCommandToServer(return_gui.player, "users add " + username_field.getText());
+                FMLCommonHandler.instance().showGuiScreen(return_gui);
+            }
+
+        }
     }
 
     @Override

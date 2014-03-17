@@ -8,21 +8,22 @@ import cpw.mods.fml.common.FMLCommonHandler;
 /** @author DarkGuardsman */
 public class GuiAccessGuiComponent extends GuiContainerBase
 {
-    private GuiButton back_button;
+    protected GuiButton back_button;
 
-    private GuiUserAccess return_gui;
+    protected GuiUserAccess return_gui;
 
     public GuiAccessGuiComponent(GuiUserAccess return_gui)
     {
         super(return_gui.inventorySlots);
         this.return_gui = return_gui;
+        this.baseTexture = Calclavia.GUI_EMPTY_FILE;
     }
 
     @Override
     public void initGui()
     {
         super.initGui();
-        back_button = new GuiButton(0, this.guiLeft + 10, this.guiTop + 20, 50, 20, "BACK");
+        back_button = new GuiButtonNextPage(0, this.guiLeft + 10, this.guiTop + 20, false);
         this.buttonList.add(back_button);
     }
 

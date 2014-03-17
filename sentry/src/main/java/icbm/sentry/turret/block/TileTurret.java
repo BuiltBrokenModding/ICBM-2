@@ -44,6 +44,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     protected static final int FIRING_EVENT_PACKET_ID = 6;
     protected static final int ENERGY_PACKET_ID = 7;
     protected static final int PROFILE_PACKET_ID = 8;
+    protected static final int PROFILE_ADD_USER_PACKET_ID = 9;
 
     /** TURRET AIM & ROTATION HELPER */
     public EntityMountableDummy sentryEntity;

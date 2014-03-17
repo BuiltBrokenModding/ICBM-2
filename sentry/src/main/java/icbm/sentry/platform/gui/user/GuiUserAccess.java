@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import calclavia.lib.Calclavia;
 import calclavia.lib.access.AccessUser;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.gui.ContainerDummy;
@@ -42,6 +43,7 @@ public class GuiUserAccess extends GuiContainerBase implements IScroll
         super(new ContainerDummy(player, tileEntity));
         this.tileEntity = tileEntity;
         this.player = player;
+        this.baseTexture = Calclavia.GUI_EMPTY_FILE;
     }
 
     @Override
