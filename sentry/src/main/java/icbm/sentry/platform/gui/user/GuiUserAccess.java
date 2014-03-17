@@ -68,9 +68,9 @@ public class GuiUserAccess extends GuiICBMContainer implements IScroll
             user_list_buttons[i].enabled = false;
             this.buttonList.add(user_list_buttons[i]);
         }
-        
+
         this.scroll(0);
-        this.loadPage(this.currentPage);      
+        this.loadPage(this.currentPage);
     }
 
     /** Loads an array of users and buttons that will be displayed as a page */
@@ -130,7 +130,7 @@ public class GuiUserAccess extends GuiICBMContainer implements IScroll
             }
             else
             {
-                //TODO open add user dialog
+                FMLCommonHandler.instance().showGuiScreen(new GuiAddUser(this));
             }
         }
     }

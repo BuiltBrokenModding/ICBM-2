@@ -104,7 +104,10 @@ public class BlockTurret extends BlockICBM
 
         if (tileEntity instanceof IBlockActivate)
         {
-            return ((IBlockActivate) tileEntity).onActivated(entityPlayer);
+            if (((IBlockActivate) tileEntity).onActivated(entityPlayer))
+            {
+                return true;
+            }
         }
 
         int id = world.getBlockId(x, y - 1, z);
