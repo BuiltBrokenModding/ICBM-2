@@ -1,7 +1,5 @@
 package icbm.sentry.platform.gui.user;
 
-import icbm.core.prefab.render.GuiICBMContainer;
-import calclavia.lib.access.AccessUser;
 
 /** Gui for editing the group and access of the user. Should should the user's name, then the group
  * bellow that with a scroll buttons to cycle threw the groups. Bellow that it should show the
@@ -11,34 +9,10 @@ import calclavia.lib.access.AccessUser;
  * settings.
  * 
  * @author DarkGuardsman */
-public class GuiAddUser extends GuiICBMContainer
+public class GuiAddUser extends GuiAccessGuiComponent
 {
-    private GuiUserAccess return_gui;
-
     public GuiAddUser(GuiUserAccess return_gui)
     {
-        super(return_gui.inventorySlots);
-        this.return_gui = return_gui;
-
-    }
-
-    @Override
-    public void initGui()
-    {
-        super.initGui();
-        //TODO implement back button to return user to calling gui
-    }
-
-    @Override
-    public void onGuiClosed()
-    {
-        super.onGuiClosed();
-        //FMLCommonHandler.instance().showGuiScreen(return_gui);
-    }
-
-    @Override
-    protected void drawGuiContainerForegroundLayer(int x, int y)
-    {
-        //this.fontRenderer.drawString("\u00a77" + user.getName(), (int) (this.containerWidth / 2 - 7 * 2.5), 4, 4210752);
+        super(return_gui);
     }
 }

@@ -1,14 +1,6 @@
 package icbm.sentry.platform.gui.user;
 
-import icbm.Reference;
-import icbm.core.prefab.render.GuiICBMContainer;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import calclavia.lib.access.AccessUser;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 /** Gui for editing the group and access of the user. Should should the user's name, then the group
  * bellow that with a scroll buttons to cycle threw the groups. Bellow that it should show the
@@ -18,31 +10,14 @@ import cpw.mods.fml.common.FMLCommonHandler;
  * settings.
  * 
  * @author DarkGuardsman */
-public class GuiEditUser extends GuiICBMContainer
+public class GuiEditUser extends GuiAccessGuiComponent
 {
-    private GuiUserAccess return_gui;
     private AccessUser user;
 
     public GuiEditUser(GuiUserAccess return_gui, AccessUser user)
     {
-        super(return_gui.inventorySlots);
-        this.return_gui = return_gui;
-        this.user = user;
+        super(return_gui);
 
-    }
-
-    @Override
-    public void initGui()
-    {
-        super.initGui();
-        //TODO implement back button to return user to calling gui
-    }
-
-    @Override
-    public void onGuiClosed()
-    {
-        super.onGuiClosed();
-        //FMLCommonHandler.instance().showGuiScreen(return_gui);
     }
 
     @Override
