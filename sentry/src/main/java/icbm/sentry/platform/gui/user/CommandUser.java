@@ -1,6 +1,8 @@
 package icbm.sentry.platform.gui.user;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +12,9 @@ import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.prefab.terminal.ITerminal;
 import calclavia.lib.prefab.terminal.ITerminalCommand;
 
+/** Command used to modify the access profile of a tile
+ * 
+ * @author DarkGuardsman */
 public class CommandUser implements ITerminalCommand
 {
     @Override
@@ -19,7 +24,7 @@ public class CommandUser implements ITerminalCommand
     }
 
     @Override
-    public boolean called(EntityPlayer player, ITerminal terminal, String[] args)
+    public List<String> called(EntityPlayer player, ITerminal terminal, String[] args)
     {
         if (args[0].equalsIgnoreCase(this.getCommandName()) && args.length > 1 && args[1] != null)
         {
@@ -28,7 +33,8 @@ public class CommandUser implements ITerminalCommand
                 IProfileContainer container = (IProfileContainer) terminal;
                 AccessProfile profile = container.getAccessProfile();
                 String sub_command = args[1];
-                
+                List<String> output_to_console = new ArrayList<String>();
+
                 //Remove User
                 if (sub_command.equalsIgnoreCase("remove") && args.length > 2)
                 {
@@ -37,21 +43,19 @@ public class CommandUser implements ITerminalCommand
                     {
                         if (container.getAccessProfile().setUserAccess(username, null, false))
                         {
-                            terminal.addToConsole("Removed: " + username);
-                            return true;
+                            output_to_console.add("Removed: " + username);
                         }
                         else
                         {
-                            terminal.addToConsole(" User not found.");
-                            return true;
+                            output_to_console.add(" User not found.");
                         }
                     }
                     else
                     {
-                        terminal.addToConsole("Invalid username.");
-                        return true;
+                        output_to_console.add("Invalid username.");
                     }
                 }
+                else
                 //Add user
                 if (sub_command.equalsIgnoreCase("add") && args.length > 2 && args[2] != null)
                 {
@@ -61,27 +65,27 @@ public class CommandUser implements ITerminalCommand
                         String username = args[3];
                         if (group.isMemeber(username))
                         {
-                            terminal.addToConsole("User already exists.");
+                            output_to_console.add("User already exists.");
                         }
                         else if (container.getAccessProfile().setUserAccess(username, group, true))
                         {
-                            terminal.addToConsole("Added: " + username + " to group " + group.getName());
+                            output_to_console.add("Added: " + username + " to group " + group.getName());
                         }
                         else
                         {
-                            terminal.addToConsole("Invalid username.");
+                            output_to_console.add("Invalid username.");
                         }
                     }
                     else
                     {
-                        terminal.addToConsole("Invalid group.");
+                        output_to_console.add("Invalid group.");
                     }
-                    return true;
+                    return output_to_console;
                 }
-                return false;
+                return null;
             }
         }
-        return false;
+        return null;
     }
 
     @Override
