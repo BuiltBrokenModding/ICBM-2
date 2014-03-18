@@ -8,12 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import calclavia.api.mffs.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.mffs.IForceFieldBlock;
 
 public class BlastAntiGravitational extends Blast
 {

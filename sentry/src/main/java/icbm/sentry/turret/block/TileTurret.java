@@ -1,5 +1,6 @@
 package icbm.sentry.turret.block;
 
+import calclavia.lib.prefab.terminal.TileTerminal;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;

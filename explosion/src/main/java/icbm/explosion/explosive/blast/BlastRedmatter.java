@@ -45,7 +45,7 @@ public class BlastRedmatter extends Blast
     }
 
     @Override
-    protected void doPostExplode ()
+    protected void doPostExplode()
     {
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.explosionX - this.explosionSize, this.explosionY - this.explosionSize, this.explosionZ - this.explosionSize, this.explosionX + this.explosionSize, this.explosionY + this.explosionSize, this.explosionZ + this.explosionSize);
         List<?> list = this.worldObj.getEntitiesWithinAABB(EntityExplosion.class, bounds);
@@ -56,7 +56,7 @@ public class BlastRedmatter extends Blast
             {
                 EntityExplosion explosion = (EntityExplosion) obj;
 
-                if(explosion.blast instanceof BlastRedmatter)
+                if (explosion.blast instanceof BlastRedmatter)
                 {
                     explosion.setDead();
                 }

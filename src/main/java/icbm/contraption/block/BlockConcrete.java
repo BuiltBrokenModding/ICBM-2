@@ -1,5 +1,6 @@
 package icbm.contraption.block;
 
+import calclavia.api.atomicscience.IAntiPoisonBlock;
 import icbm.core.prefab.BlockICBM;
 
 import java.util.List;

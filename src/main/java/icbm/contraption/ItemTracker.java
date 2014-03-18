@@ -52,6 +52,14 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
         {
             par3List.add(LanguageUtility.getLocal("info.tracker.tracking") + " " + trackingEntity.getEntityName());
         }
+
+        par3List.add(LanguageUtility.getLocal("info.tracker.tooltip"));
+
+        if (par2EntityPlayer.username.equalsIgnoreCase("Biffa2001"))
+        {
+            par3List.add("");
+            par3List.add("psst use me biffa!!");
+        }
     }
 
     @Override
@@ -162,4 +170,5 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
     {
         return 100000;
     }
+
 }

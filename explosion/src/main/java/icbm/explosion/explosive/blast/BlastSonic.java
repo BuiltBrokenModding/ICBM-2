@@ -12,7 +12,6 @@ import icbm.explosion.explosive.thread.ThreadLargeExplosion.IThreadCallBack;
 import java.util.Iterator;
 import java.util.List;
 
-import calclavia.api.mffs.IForceFieldBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;
@@ -21,6 +20,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.mffs.IForceFieldBlock;
 
 public class BlastSonic extends Blast
 {

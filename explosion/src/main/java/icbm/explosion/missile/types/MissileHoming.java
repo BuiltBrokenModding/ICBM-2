@@ -53,7 +53,7 @@ public class MissileHoming extends MissileBase
 
             if (trackingEntity != null)
             {
-                if (trackingEntity == missileObj)
+                if (trackingEntity.equals(missileObj))
                 {
                     missileObj.setExplode();
                 }

@@ -1,12 +1,9 @@
 package icbm.sentry.platform.gui.user;
 
-import icbm.sentry.turret.block.TileTurret;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.prefab.terminal.ITerminal;
-import calclavia.lib.prefab.terminal.TileTerminal;
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import calclavia.lib.prefab.terminal.TileTerminal;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 /** @author DarkGuardsman */
 public class GuiAddUser extends GuiAccessGuiComponent
