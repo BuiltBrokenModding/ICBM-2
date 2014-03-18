@@ -15,7 +15,7 @@ import calclavia.lib.prefab.terminal.ITerminalCommand;
 /** Command used to modify the access profile of a tile
  * 
  * @author DarkGuardsman */
-public class CommandUser implements ITerminalCommand
+public class TerminalCMDUser implements ITerminalCommand
 {
     @Override
     public String getCommandName()

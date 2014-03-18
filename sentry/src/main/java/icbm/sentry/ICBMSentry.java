@@ -5,7 +5,7 @@ import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.TabICBM;
 import icbm.sentry.platform.BlockTurretPlatform;
-import icbm.sentry.platform.gui.user.CommandUser;
+import icbm.sentry.platform.gui.user.TerminalCMDUser;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.TurretType;
@@ -102,7 +102,7 @@ public class ICBMSentry
         TurretEntitySelector.configTurretTargeting();
 
         proxy.preInit();
-        CommandRegistry.register(new CommandUser(), null);
+        CommandRegistry.register(new TerminalCMDUser(), null);
     }
 
     @EventHandler
