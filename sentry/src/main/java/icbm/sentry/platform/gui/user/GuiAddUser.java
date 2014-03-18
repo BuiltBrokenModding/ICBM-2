@@ -9,6 +9,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 public class GuiAddUser extends GuiAccessGuiComponent
 {
     private GuiTextField username_field;
+    private GuiTextField group_field;
     private GuiButton addUser_button;
 
     public GuiAddUser(GuiUserAccess return_gui)
@@ -21,8 +22,9 @@ public class GuiAddUser extends GuiAccessGuiComponent
     {
         super.initGui();
         this.username_field = new GuiTextField(fontRenderer, 20, 60, 100, 20);
+        this.group_field = new GuiTextField(fontRenderer, 20, 80, 100, 20);
 
-        addUser_button = new GuiButton(0, this.guiLeft + 10, this.guiTop + 80, 50, 20, "ADD");
+        addUser_button = new GuiButton(0, this.guiLeft + 10, this.guiTop + 120, 50, 20, "ADD");
         this.buttonList.add(addUser_button);
 
     }
@@ -30,10 +32,13 @@ public class GuiAddUser extends GuiAccessGuiComponent
     @Override
     public void keyTyped(char par1, int par2)
     {
-        if (!username_field.isFocused())
+        if (!username_field.isFocused() && !group_field.isFocused())
             super.keyTyped(par1, par2);
         else
+        {
             this.username_field.textboxKeyTyped(par1, par2);
+            this.group_field.textboxKeyTyped(par1, par2);
+        }
     }
 
     @Override
@@ -44,7 +49,7 @@ public class GuiAddUser extends GuiAccessGuiComponent
         {
             if (return_gui.tileEntity instanceof TileTerminal)
             {
-                ((TileTerminal) return_gui.tileEntity).sendCommandToServer(return_gui.player, "users add " + username_field.getText());
+                ((TileTerminal) return_gui.tileEntity).sendCommandToServer(return_gui.player, "users add " + group_field.getText() + " " + username_field.getText());
                 FMLCommonHandler.instance().showGuiScreen(return_gui);
             }
 
@@ -56,6 +61,7 @@ public class GuiAddUser extends GuiAccessGuiComponent
     {
         super.mouseClicked(par1, par2, par3);
         this.username_field.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
+        this.group_field.mouseClicked(par1 - containerWidth, par2 - containerHeight, par3);
     }
 
     @Override
@@ -64,5 +70,6 @@ public class GuiAddUser extends GuiAccessGuiComponent
         super.drawGuiContainerForegroundLayer(x, y);
         this.fontRenderer.drawString("\u00a77Add New User", 52, 6, 4210752);
         this.username_field.drawTextBox();
+        this.group_field.drawTextBox();
     }
 }
