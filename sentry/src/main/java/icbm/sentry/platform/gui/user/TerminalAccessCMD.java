@@ -115,17 +115,20 @@ public class TerminalAccessCMD implements ITerminalCommand
             {
                 if (args.length >= 2)
                 {
-                    if (args[1] != null && args[1].equalsIgnoreCase("add"))
+                    if (args[1] != null && args[1].equalsIgnoreCase("user"))
                     {
-                        return Nodes.GROUP_ADD_USER_NODE;
-                    }
-                    if (args[1] != null && args[1].equalsIgnoreCase("remove"))
-                    {
-                        return Nodes.GROUP_REMOVE_USER_NODE;
-                    }
-                    if (args[1] != null && args[1].equalsIgnoreCase("list"))
-                    {
-                        return "group.list.user";
+                        if (args[2] != null && args[2].equalsIgnoreCase("add"))
+                        {
+                            return Nodes.GROUP_ADD_USER;
+                        }
+                        if (args[2] != null && args[2].equalsIgnoreCase("remove"))
+                        {
+                            return Nodes.GROUP_REMOVE_USER;
+                        }
+                        if (args[2] != null && args[2].equalsIgnoreCase("list"))
+                        {
+                            return "group.user.list";
+                        }
                     }
                 }
                 return "users";

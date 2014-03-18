@@ -18,9 +18,8 @@ public class SlotTurret extends SlotSpecific
     {
         if (this.inventory instanceof ITerminal)
         {
-            return ((ITerminal) this.inventory).canUse(Nodes.INV_TAKE_NODE, entityPlayer);
+            return ((ITerminal) this.inventory).canUse(Nodes.INV_TAKE, entityPlayer);
         }
-
         return false;
     }
 }

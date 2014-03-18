@@ -89,7 +89,7 @@ public class BlockTurret extends BlockICBM
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (!world.isRemote && tile instanceof TileTurret)
         {
-            if (((TileTurret) tile).canUse(Nodes.GROUP_ADMIN_NODE, entityPlayer) || ((TileTurret) tile).canUse(Nodes.GROUP_OWNER_NODE, entityPlayer))
+            if (((TileTurret) tile).canUse(Nodes.PROFILE_ADMIN, entityPlayer) || ((TileTurret) tile).canUse(Nodes.PROFILE_OWNER, entityPlayer))
                 InventoryUtility.dropBlockAsItem(world, x, y, z, true);
         }
         return true;
