@@ -21,7 +21,7 @@ public class CommandUser implements ITerminalCommand
     @Override
     public boolean called(EntityPlayer player, ITerminal terminal, String[] args)
     {
-        if (args[0].equalsIgnoreCase("users") && args.length > 1 && args[1] != null)
+        if (args[0].equalsIgnoreCase(this.getCommandName()) && args.length > 1 && args[1] != null)
         {
             if (terminal instanceof IProfileContainer)
             {

@@ -47,12 +47,14 @@ public class GuiAddUser extends GuiAccessGuiComponent
         super.actionPerformed(button);
         if (button == addUser_button)
         {
+            System.out.println("Add User button clicked");
             if (return_gui.tileEntity instanceof TileTerminal)
             {
-                ((TileTerminal) return_gui.tileEntity).sendCommandToServer(return_gui.player, "users add " + group_field.getText() + " " + username_field.getText());
+                String command = "users add " + group_field.getText() + " " + username_field.getText();
+                System.out.println("Command: " + command);
+                ((TileTerminal) return_gui.tileEntity).sendCommandToServer(return_gui.player, command);
                 FMLCommonHandler.instance().showGuiScreen(return_gui);
             }
-
         }
     }
 

@@ -5,6 +5,7 @@ import icbm.core.ICBMCore;
 import icbm.core.Settings;
 import icbm.core.TabICBM;
 import icbm.sentry.platform.BlockTurretPlatform;
+import icbm.sentry.platform.gui.user.CommandUser;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.TurretType;
@@ -25,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.terminal.CommandRegistry;
 import calclavia.lib.recipe.UniversalRecipe;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -97,7 +99,7 @@ public class ICBMSentry
 		TurretEntitySelector.configTurretTargeting();
 
 		proxy.preInit();
-
+		CommandRegistry.register(new CommandUser(), null);
 	}
 
 	@EventHandler
