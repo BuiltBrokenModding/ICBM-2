@@ -180,37 +180,39 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         {
             try
             {
-                if (id == DESCRIPTION_PACKET_ID)
+                if (this.worldObj.isRemote)
                 {
-                    turret = TurretRegistry.constructSentry(data.readUTF(), this);
-                    getTurret().getServo().yaw = data.readDouble();
-                    getTurret().getServo().pitch = data.readDouble();
-                    return true;
-                }
-                if (id == ROTATION_PACKET_ID)
-                {
-                    getTurret().getServo().yaw = data.readDouble();
-                    getTurret().getServo().pitch = data.readDouble();
-                    return true;
-                }
-                if (id == FIRING_EVENT_PACKET_ID)
-                {
-                    getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
-                    return true;
-                }
+                    if (id == DESCRIPTION_PACKET_ID)
+                    {
+                        turret = TurretRegistry.constructSentry(data.readUTF(), this);
+                        getTurret().getServo().yaw = data.readDouble();
+                        getTurret().getServo().pitch = data.readDouble();
+                        return true;
+                    }
+                    if (id == ROTATION_PACKET_ID)
+                    {
+                        getTurret().getServo().yaw = data.readDouble();
+                        getTurret().getServo().pitch = data.readDouble();
+                        return true;
+                    }
+                    if (id == FIRING_EVENT_PACKET_ID)
+                    {
+                        getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
+                        return true;
+                    }
 
-                if (id == ENERGY_PACKET_ID)
-                {
-                    getTurret().energy.setEnergy(data.readLong());
-                    return true;
-                }
+                    if (id == ENERGY_PACKET_ID)
+                    {
+                        getTurret().energy.setEnergy(data.readLong());
+                        return true;
+                    }
 
-                if (id == PROFILE_PACKET_ID)
-                {
-                    this.getAccessProfile().load(PacketHandler.readNBTTagCompound(data));
-                    return true;
+                    if (id == PROFILE_PACKET_ID)
+                    {
+                        this.getAccessProfile().load(PacketHandler.readNBTTagCompound(data));
+                        return true;
+                    }
                 }
-
                 return false;
             }
             catch (Exception e)

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -141,5 +142,11 @@ public class CommandSentry extends CommandBase
     public int getRequiredPermissionLevel()
     {
         return 0;
+    }
+
+    @Override
+    public int compareTo(Object par1Obj)
+    {
+        return this.compareTo((ICommand) par1Obj);
     }
 }
