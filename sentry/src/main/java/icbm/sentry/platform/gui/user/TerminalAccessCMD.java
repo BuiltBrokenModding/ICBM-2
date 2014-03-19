@@ -63,13 +63,17 @@ public class TerminalAccessCMD implements ITerminalCommand
                         String username = args[3];
                         if (username != null)
                         {
-                            if (profile.setUserAccess(username, null, false))
+                            if (username.equalsIgnoreCase(player.username))
+                            {
+                                output_to_console.add("You can not remove yourself");
+                            }
+                            else if (profile.setUserAccess(username, null, false))
                             {
                                 output_to_console.add("Removed: " + username);
                             }
                             else
                             {
-                                output_to_console.add(" User not found.");
+                                output_to_console.add("User not found.");
                             }
                         }
                         else
@@ -92,7 +96,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                             }
                             else if (profile.setUserAccess(username, group, true))
                             {
-                                output_to_console.add("Added: '" + username + "' to group '" + group.getName()+"'");
+                                output_to_console.add("Added: '" + username + "' to group '" + group.getName() + "'");
                             }
                             else
                             {
