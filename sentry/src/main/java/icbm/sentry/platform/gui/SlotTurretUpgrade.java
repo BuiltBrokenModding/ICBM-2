@@ -30,14 +30,4 @@ public class SlotTurretUpgrade extends Slot
     {
         return 1;
     }
-
-    @Override
-    public boolean canTakeStack(EntityPlayer entityPlayer)
-    {
-        if (this.inventory instanceof ITerminal)
-        {
-            return ((ITerminal) this.inventory).canUse(Nodes.INV_TAKE, entityPlayer);
-        }
-        return false;
-    }
 }

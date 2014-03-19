@@ -26,14 +26,4 @@ public class SlotTurretAmmo extends Slot
     {
         return compareStack != null && (compareStack.getItem() instanceof IAmmunition || CompatibilityModule.isHandler(compareStack.getItem()));
     }
-    
-    @Override
-    public boolean canTakeStack(EntityPlayer entityPlayer)
-    {
-        if (this.inventory instanceof ITerminal)
-        {
-            return ((ITerminal) this.inventory).canUse(Nodes.INV_TAKE, entityPlayer);
-        }
-        return false;
-    }
 }
