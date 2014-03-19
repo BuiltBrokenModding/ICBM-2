@@ -7,6 +7,7 @@ import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import calclavia.lib.access.AccessGroup;
 import calclavia.lib.access.AccessProfile;
+import calclavia.lib.access.AccessUser;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.access.Nodes;
 import calclavia.lib.prefab.terminal.ITerminal;
@@ -39,14 +40,29 @@ public class TerminalAccessCMD implements ITerminalCommand
                 if (command != null && command.equalsIgnoreCase("user"))
                 {
                     String user_sub_command = args[2];
-
+                    if (user_sub_command.equalsIgnoreCase("list") && args.length > 3)
+                    {
+                        output_to_console.add("Listing users for access profile " + profile.getName());
+                        output_to_console.add("-------------------------------------");
+                        for (AccessGroup group : profile.getGroups())
+                        {
+                            output_to_console.add("--Group: " + group.getName());
+                            for (AccessUser user : group.getMembers())
+                            {
+                                output_to_console.add("      --" + user.getName());
+                            }
+                            output_to_console.add(" ");
+                        }
+                        output_to_console.add("-------------------------------------");
+                    }
+                    else
                     //Remove User
                     if (user_sub_command.equalsIgnoreCase("remove") && args.length > 3)
                     {
                         String username = args[3];
                         if (username != null)
                         {
-                            if (container.getAccessProfile().setUserAccess(username, null, false))
+                            if (profile.setUserAccess(username, null, false))
                             {
                                 output_to_console.add("Removed: " + username);
                             }
@@ -64,7 +80,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                     //Add user
                     if (user_sub_command.equalsIgnoreCase("add") && args.length > 3 && args[3] != null)
                     {
-                        AccessGroup group = container.getAccessProfile().getGroup(args[3]);
+                        AccessGroup group = profile.getGroup(args[3]);
                         if (group != null && args.length > 4)
                         {
                             String username = args[4];
@@ -72,7 +88,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                             {
                                 output_to_console.add("User already exists.");
                             }
-                            else if (container.getAccessProfile().setUserAccess(username, group, true))
+                            else if (profile.setUserAccess(username, group, true))
                             {
                                 output_to_console.add("Added: " + username + " to group " + group.getName());
                             }
