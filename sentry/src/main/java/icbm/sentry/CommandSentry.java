@@ -65,7 +65,7 @@ public class CommandSentry extends CommandBase
                             {
                                 for (String output : out)
                                 {
-                                    sender.sendChatToPlayer(ChatMessageComponent.createFromText("" + out));
+                                    sender.sendChatToPlayer(ChatMessageComponent.createFromText(output));
                                 }
                             }
                             else

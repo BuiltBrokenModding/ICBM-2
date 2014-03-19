@@ -40,7 +40,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                 if (command != null && command.equalsIgnoreCase("user"))
                 {
                     String user_sub_command = args[2];
-                    if (user_sub_command.equalsIgnoreCase("list") && args.length > 3)
+                    if (user_sub_command.equalsIgnoreCase("list"))
                     {
                         output_to_console.add("Listing users for access profile " + profile.getName());
                         output_to_console.add("-------------------------------------");
@@ -54,6 +54,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                             output_to_console.add(" ");
                         }
                         output_to_console.add("-------------------------------------");
+                        return output_to_console;
                     }
                     else
                     //Remove User
@@ -75,6 +76,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                         {
                             output_to_console.add("Invalid username.");
                         }
+                        return output_to_console;
                     }
                     else
                     //Add user
@@ -86,15 +88,15 @@ public class TerminalAccessCMD implements ITerminalCommand
                             String username = args[4];
                             if (group.isMemeber(username))
                             {
-                                output_to_console.add("User already exists.");
+                                output_to_console.add("User is already a member of the group.");
                             }
                             else if (profile.setUserAccess(username, group, true))
                             {
-                                output_to_console.add("Added: " + username + " to group " + group.getName());
+                                output_to_console.add("Added: '" + username + "' to group '" + group.getName()+"'");
                             }
                             else
                             {
-                                output_to_console.add("Invalid username.");
+                                output_to_console.add("Error adding user to group");
                             }
                         }
                         else
