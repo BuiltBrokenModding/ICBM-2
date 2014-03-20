@@ -246,6 +246,31 @@ public class TerminalAccessCMD implements ITerminalCommand
                             }
                             return output_to_console;
                         }
+                        else if (group_sub_command.equalsIgnoreCase("nodes"))
+                        {
+                            if (args.length > 3 && args[3] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[3]);
+                                if (group != null)
+                                {
+                                    //TODO sort list making it easier to view
+                                    output_to_console.add("Listing all nodes in " + group.getName());
+                                    for (String node : group.getNodes())
+                                    {
+                                        output_to_console.add("--" + node);
+                                    }
+                                }
+                                else
+                                {
+                                    output_to_console.add("Group not found");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group name");
+                            }
+                            return output_to_console;
+                        }
                     }
                     else
                     {
