@@ -58,41 +58,108 @@ public class TerminalAccessCMD implements ITerminalCommand
                 }
                 else if (command != null && command.equalsIgnoreCase("group"))
                 {
-                    String group_sub_command = args[2];
-                    if (group_sub_command.equalsIgnoreCase("list"))
+                    if (args.length > 2 && args[2] != null)
                     {
-                        output_to_console.add("Listing groups " + profile.getName());
-                        output_to_console.add("-------------------------------------");
-                        for (AccessGroup group : profile.getGroups())
+                        String group_sub_command = args[2];
+                        if (group_sub_command.equalsIgnoreCase("list"))
                         {
-                            output_to_console.add("--" + group.getName() + (group.getExtendGroup() != null ? " extends " + group.getExtendGroup().getName() : ""));
+                            output_to_console.add("Listing groups " + profile.getName());
+                            output_to_console.add("-------------------------------------");
+                            for (AccessGroup group : profile.getGroups())
+                            {
+                                output_to_console.add("--" + group.getName() + (group.getExtendGroup() != null ? " extends " + group.getExtendGroup().getName() : ""));
+                            }
+                            output_to_console.add("-------------------------------------");
+                            return output_to_console;
                         }
-                        output_to_console.add("-------------------------------------");
-                        return output_to_console;
+                        else if (group_sub_command.equalsIgnoreCase("create"))
+                        {
+                            if (args.length > 3 && args[3] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[3]);
+                                if (group != null)
+                                {
+                                    output_to_console.add("Group with that name already exists");
+                                }
+                                else
+                                {
+                                    group = new AccessGroup(args[3]);
+                                    profile.getGroups().add(group);
+                                    if (args.length > 4 && args[4] != null)
+                                    {
+                                        AccessGroup extendGroup = profile.getGroup(args[4]);
+                                        if (extendGroup != null)
+                                        {
+                                            group.setToExtend(extendGroup);
+                                        }
+                                        else
+                                        {
+                                            output_to_console.add("Unable to find group to extend");
+                                        }
+                                    }
+                                    output_to_console.add("Group created");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group name");
+                            }
+                            return output_to_console;
+                        }
+                        else if (group_sub_command.equalsIgnoreCase("del"))
+                        {
+                            if (args.length > 3 && args[3] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[3]);
+                                if (group != null)
+                                {
+                                    if (args.length > 4)
+                                    {
+                                        AccessGroup moveGroup = profile.getGroup(args[4]);
+                                        if (moveGroup != null)
+                                        {
+                                            moveGroup.addMemebers(group.getMembers());
+                                            group.getMembers().clear();
+                                            output_to_console.add("Users move to '" + moveGroup.getName() + "'");
+                                        }
+                                        else
+                                        {
+                                            output_to_console.add("Invalid group to move users into");
+                                        }
+                                    }
+                                    profile.getGroups().remove(group);
+                                    output_to_console.add("Group removed and destroyed");
+                                }
+                                else
+                                {
+                                    output_to_console.add("No group found");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group name");
+                            }
+                            return output_to_console;
+                        }
+                        else if (group_sub_command.equalsIgnoreCase("gset"))
+                        {
+                            output_to_console.add("Not implemented");
+                            return output_to_console;
+                        }
+                        else if (group_sub_command.equalsIgnoreCase("addnode"))
+                        {
+                            output_to_console.add("Not implemented");
+                            return output_to_console;
+                        }
+                        else if (group_sub_command.equalsIgnoreCase("removenode"))
+                        {
+                            output_to_console.add("Not implemented");
+                            return output_to_console;
+                        }
                     }
-                    else if (group_sub_command.equalsIgnoreCase("create"))
+                    else
                     {
-                        output_to_console.add("Not implemented");
-                        return output_to_console;
-                    }
-                    else if (group_sub_command.equalsIgnoreCase("del"))
-                    {
-                        output_to_console.add("Not implemented");
-                        return output_to_console;
-                    }
-                    else if (group_sub_command.equalsIgnoreCase("gset"))
-                    {
-                        output_to_console.add("Not implemented");
-                        return output_to_console;
-                    }
-                    else if (group_sub_command.equalsIgnoreCase("addnode"))
-                    {
-                        output_to_console.add("Not implemented");
-                        return output_to_console;
-                    }
-                    else if (group_sub_command.equalsIgnoreCase("removenode"))
-                    {
-                        output_to_console.add("Not implemented");
+                        output_to_console.add("To few args");
                         return output_to_console;
                     }
                 }
