@@ -145,7 +145,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                         {
                             if (args.length > 3 && args[3] != null)
                             {
-                                AccessGroup group = profile.getGroup(args[4]);
+                                AccessGroup group = profile.getGroup(args[3]);
                                 if (group != null)
                                 {
                                     if (args.length > 4 && args[4] != null)
@@ -180,7 +180,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                         {
                             if (args.length > 3 && args[3] != null)
                             {
-                                AccessGroup group = profile.getGroup(args[4]);
+                                AccessGroup group = profile.getGroup(args[3]);
                                 if (group != null)
                                 {
                                     if (args.length > 4 && args[4] != null)
