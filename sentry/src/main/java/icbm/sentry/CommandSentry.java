@@ -40,7 +40,6 @@ public class CommandSentry extends CommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args)
     {
-        System.out.println("Sentry command called");
         if (args != null && args.length > 0 && args[0] != null)
         {
             if (args[0].equalsIgnoreCase("help"))
