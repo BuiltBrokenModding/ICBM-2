@@ -213,13 +213,43 @@ public class TerminalAccessCMD implements ITerminalCommand
                         }
                         else if (group_sub_command.equalsIgnoreCase("removenode"))
                         {
-                            output_to_console.add("Not implemented");
+                            if (args.length > 3 && args[3] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[3]);
+                                if (group != null)
+                                {
+                                    if (args.length > 4 && args[4] != null)
+                                    {
+                                        if (group.hasNode(args[4]))
+                                        {
+                                            group.removeNode(args[4]);
+                                            output_to_console.add("Node removed");
+                                        }
+                                        else
+                                        {
+                                            output_to_console.add("Node not found");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        output_to_console.add("Provide a permission node to remove from the group");
+                                    }
+                                }
+                                else
+                                {
+                                    output_to_console.add("Unable to find group");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group name");
+                            }
                             return output_to_console;
                         }
                     }
                     else
                     {
-                        output_to_console.add("To few args");
+                        output_to_console.add("Too few arguments");
                         return output_to_console;
                     }
                 }
