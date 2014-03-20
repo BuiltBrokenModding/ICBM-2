@@ -37,7 +37,19 @@ public class TerminalAccessCMD implements ITerminalCommand
                 AccessProfile profile = container.getAccessProfile();
                 List<String> output_to_console = new ArrayList<String>();
 
-                if (command != null && command.equalsIgnoreCase("user"))
+                if (command != null && command.equalsIgnoreCase("help"))
+                {
+                    output_to_console.add("Listing commands");
+                    output_to_console.add("-------------------------------------");
+                    output_to_console.add("/access user list - lists all users");
+                    output_to_console.add("/access user add [group] [username] - adds a user to the group");
+                    output_to_console.add("/access user remove [username] - removes a user");
+                    output_to_console.add("/access user gset [username] [group] - sets t user's group");
+                    //output_to_console.add("/access group");
+                    output_to_console.add("-------------------------------------");
+                    return output_to_console;
+                }
+                else if (command != null && command.equalsIgnoreCase("user"))
                 {
                     String user_sub_command = args[2];
                     if (user_sub_command.equalsIgnoreCase("list"))
@@ -108,6 +120,42 @@ public class TerminalAccessCMD implements ITerminalCommand
                             output_to_console.add("Invalid group.");
                         }
                         return output_to_console;
+                    }
+                    else if (user_sub_command.equalsIgnoreCase("gset"))
+                    {
+                        if (args.length > 3 && args[3] != null)
+                        {
+                            if (args.length > 4 && args[4] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[4]);
+                                if (group.isMemeber(args[3]))
+                                {
+                                    output_to_console.add("User is already a member of the group.");
+                                }
+                                else
+                                {
+                                    AccessUser user = profile.getUserAccess(args[3]);
+                                    if (user != null && user.getGroup() != null)
+                                    {
+                                        user.getGroup().removeMemeber(user);
+                                        user.setGroup(group);
+                                        output_to_console.add("Added: '" + args[3] + "' to group '" + group.getName() + "'");
+                                    }
+                                    else
+                                    {
+                                        output_to_console.add("Invalid user");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group");
+                            }
+                        }
+                        else
+                        {
+                            output_to_console.add("Missing username");
+                        }
                     }
                     return null;
                 }
