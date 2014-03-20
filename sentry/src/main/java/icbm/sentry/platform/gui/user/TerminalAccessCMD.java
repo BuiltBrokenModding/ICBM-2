@@ -287,10 +287,10 @@ public class TerminalAccessCMD implements ITerminalCommand
                         output_to_console.add("-------------------------------------");
                         for (AccessGroup group : profile.getGroups())
                         {
-                            output_to_console.add("--Group: " + group.getName());
+                            output_to_console.add("Group: " + group.getName());
                             for (AccessUser user : group.getMembers())
                             {
-                                output_to_console.add("      --" + user.getName());
+                                output_to_console.add("    " + user.getName());
                             }
                             output_to_console.add(" ");
                         }
