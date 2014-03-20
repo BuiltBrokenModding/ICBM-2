@@ -45,9 +45,24 @@ public class TerminalAccessCMD implements ITerminalCommand
                     output_to_console.add("/access user add [group] [username] - adds a user to the group");
                     output_to_console.add("/access user remove [username] - removes a user");
                     output_to_console.add("/access user gset [username] [group] - sets t user's group");
-                    //output_to_console.add("/access group");
+                    output_to_console.add("/access group");
                     output_to_console.add("-------------------------------------");
                     return output_to_console;
+                }
+                else if (command != null && command.equalsIgnoreCase("group"))
+                {
+                    String group_sub_command = args[2];
+                    if (group_sub_command.equalsIgnoreCase("list"))
+                    {
+                        output_to_console.add("Listing groups " + profile.getName());
+                        output_to_console.add("-------------------------------------");
+                        for (AccessGroup group : profile.getGroups())
+                        {
+                            output_to_console.add("--" + group.getName() + (group.getExtendGroup() != null ? " extends " + group.getExtendGroup().getName() : ""));
+                        }
+                        output_to_console.add("-------------------------------------");
+                        return output_to_console;
+                    }
                 }
                 else if (command != null && command.equalsIgnoreCase("user"))
                 {
@@ -120,7 +135,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                             output_to_console.add("Invalid group.");
                         }
                         return output_to_console;
-                    }
+                    }//Set group
                     else if (user_sub_command.equalsIgnoreCase("gset"))
                     {
                         if (args.length > 3 && args[3] != null)
@@ -156,6 +171,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                         {
                             output_to_console.add("Missing username");
                         }
+                        return output_to_console;
                     }
                     return null;
                 }
