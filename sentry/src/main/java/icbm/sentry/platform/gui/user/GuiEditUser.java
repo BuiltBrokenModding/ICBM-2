@@ -10,6 +10,7 @@ public class GuiEditUser extends GuiAccessGuiComponent
     public GuiEditUser(GuiUserAccess return_gui, AccessUser user)
     {
         super(return_gui);
+        this.user = user;
     }
 
     @Override

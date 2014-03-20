@@ -125,9 +125,10 @@ public class GuiUserAccess extends GuiContainerBase implements IScroll
         }
         else if (button.id > SCROLL_DOWN_BUTTON_ID && button.id < (user_list_buttons.length + SCROLL_DOWN_BUTTON_ID + 1))
         {
-            if (this.loadedUsers[button.id - (SCROLL_DOWN_BUTTON_ID + 1)] != null)
+            AccessUser user = this.loadedUsers[button.id - (SCROLL_DOWN_BUTTON_ID + 1)];
+            if (user != null)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiEditUser(this, this.loadedUsers[button.id - (SCROLL_DOWN_BUTTON_ID + 1)]));
+                FMLCommonHandler.instance().showGuiScreen(new GuiEditUser(this, user));
             }
             else
             {
