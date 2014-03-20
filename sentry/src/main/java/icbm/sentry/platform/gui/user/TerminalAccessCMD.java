@@ -84,7 +84,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                     }
                     else
                     //Add user
-                    if (user_sub_command.equalsIgnoreCase("add") && args.length > 3 && args[3] != null)
+                    if (user_sub_command.equalsIgnoreCase("add") && args.length > 3)
                     {
                         AccessGroup group = profile.getGroup(args[3]);
                         if (group != null && args.length > 4)
