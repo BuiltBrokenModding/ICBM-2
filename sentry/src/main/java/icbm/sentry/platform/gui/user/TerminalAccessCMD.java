@@ -143,7 +143,37 @@ public class TerminalAccessCMD implements ITerminalCommand
                         }
                         else if (group_sub_command.equalsIgnoreCase("gset"))
                         {
-                            output_to_console.add("Not implemented");
+                            if (args.length > 3 && args[3] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[4]);
+                                if (group != null)
+                                {
+                                    if (args.length > 4 && args[4] != null)
+                                    {
+                                        AccessGroup extendGroup = profile.getGroup(args[4]);
+                                        if (extendGroup != null)
+                                        {
+                                            group.setToExtend(extendGroup);
+                                        }
+                                        else
+                                        {
+                                            output_to_console.add("Unable to find group to extend");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        output_to_console.add("Missing name of the group to extend");
+                                    }
+                                }
+                                else
+                                {
+                                    output_to_console.add("Unable to find group");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group name");
+                            }
                             return output_to_console;
                         }
                         else if (group_sub_command.equalsIgnoreCase("addnode"))
