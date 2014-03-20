@@ -45,7 +45,14 @@ public class TerminalAccessCMD implements ITerminalCommand
                     output_to_console.add("/access user add [group] [username] - adds a user to the group");
                     output_to_console.add("/access user remove [username] - removes a user");
                     output_to_console.add("/access user gset [username] [group] - sets t user's group");
-                    output_to_console.add("/access group");
+                    output_to_console.add("/access user addnode [username] [node] - adds a permission node to the user");
+                    output_to_console.add("/access user removenode [username] [node] - removes a permission node from a user");
+                    output_to_console.add("/access group list");
+                    output_to_console.add("/access group create [group] <extend> - creates a new group, optional group to extend");
+                    output_to_console.add("/access group del [group] <move_group> - removes a group, optional group to move users to");
+                    output_to_console.add("/access group gset [group] [extend] - sets the group to extend another group");
+                    output_to_console.add("/access group addnode [group] [node] - adds a permission node to the group");
+                    output_to_console.add("/access group removenode [group] [node] - removes a permission node from a group");
                     output_to_console.add("-------------------------------------");
                     return output_to_console;
                 }
@@ -61,6 +68,31 @@ public class TerminalAccessCMD implements ITerminalCommand
                             output_to_console.add("--" + group.getName() + (group.getExtendGroup() != null ? " extends " + group.getExtendGroup().getName() : ""));
                         }
                         output_to_console.add("-------------------------------------");
+                        return output_to_console;
+                    }
+                    else if (group_sub_command.equalsIgnoreCase("create"))
+                    {
+                        output_to_console.add("Not implemented");
+                        return output_to_console;
+                    }
+                    else if (group_sub_command.equalsIgnoreCase("del"))
+                    {
+                        output_to_console.add("Not implemented");
+                        return output_to_console;
+                    }
+                    else if (group_sub_command.equalsIgnoreCase("gset"))
+                    {
+                        output_to_console.add("Not implemented");
+                        return output_to_console;
+                    }
+                    else if (group_sub_command.equalsIgnoreCase("addnode"))
+                    {
+                        output_to_console.add("Not implemented");
+                        return output_to_console;
+                    }
+                    else if (group_sub_command.equalsIgnoreCase("removenode"))
+                    {
+                        output_to_console.add("Not implemented");
                         return output_to_console;
                     }
                 }
@@ -171,6 +203,16 @@ public class TerminalAccessCMD implements ITerminalCommand
                         {
                             output_to_console.add("Missing username");
                         }
+                        return output_to_console;
+                    }
+                    else if (user_sub_command.equalsIgnoreCase("addnode"))
+                    {
+                        output_to_console.add("Not implemented");
+                        return output_to_console;
+                    }
+                    else if (user_sub_command.equalsIgnoreCase("removenode"))
+                    {
+                        output_to_console.add("Not implemented");
                         return output_to_console;
                     }
                     return null;
