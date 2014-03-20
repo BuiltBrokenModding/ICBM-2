@@ -178,7 +178,37 @@ public class TerminalAccessCMD implements ITerminalCommand
                         }
                         else if (group_sub_command.equalsIgnoreCase("addnode"))
                         {
-                            output_to_console.add("Not implemented");
+                            if (args.length > 3 && args[3] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[4]);
+                                if (group != null)
+                                {
+                                    if (args.length > 4 && args[4] != null)
+                                    {
+                                        if (!group.hasNode(args[4]))
+                                        {
+                                            group.addNode(args[4]);
+                                            output_to_console.add("Node added");
+                                        }
+                                        else
+                                        {
+                                            output_to_console.add("Node already added, or include in super group");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        output_to_console.add("Provide a permission node to add to the group");
+                                    }
+                                }
+                                else
+                                {
+                                    output_to_console.add("Unable to find group");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group name");
+                            }
                             return output_to_console;
                         }
                         else if (group_sub_command.equalsIgnoreCase("removenode"))
