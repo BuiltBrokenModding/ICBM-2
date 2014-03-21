@@ -1,5 +1,6 @@
 package icbm.core;
 
+import calclavia.lib.modproxy.ProxyHandler;
 import icbm.Reference;
 import icbm.contraption.ItemAntidote;
 import icbm.contraption.ItemPoisonPowder;
@@ -94,8 +95,11 @@ public final class ICBMCore
 
     public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
+    private ProxyHandler modproxy;
+
     public ICBMCore()
     {
+        this.modproxy = new ProxyHandler();
         // ModUtility.removeMod("ICBM|Sentry", Settings.CONFIGURATION.get("Child_Mods",
         // "Disable_Sentry", false).getBoolean(false));
         // ModUtility.removeMod("ICBM|Explosion", Settings.CONFIGURATION.get("Child_Mods",
@@ -158,7 +162,7 @@ public final class ICBMCore
 
         proxy.preInit();
         LOGGER.info("Calling preinit for submodules");
-        ICBMProxyHandler.preInit(event);
+        modproxy.preInit();
     }
 
     @EventHandler
@@ -166,7 +170,7 @@ public final class ICBMCore
     {
         Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
         LOGGER.info("Calling init for submodules");
-        ICBMProxyHandler.init(event);
+        modproxy.init();
     }
 
     @EventHandler
@@ -236,7 +240,7 @@ public final class ICBMCore
         proxy.init();
 
         LOGGER.info("Calling postInit for submodules");
-        ICBMProxyHandler.postInit(event);
+        modproxy.postInit();
     }
 
 }
