@@ -28,10 +28,10 @@ public class GuiAddUser extends GuiAccessGuiComponent
         this.username_field = new GuiTextField(fontRenderer, 30, 60, 120, 20);
         this.group_field = new GuiTextField(fontRenderer, 30, 100, 120, 20);
 
-        addUser_button = new GuiButton(0, this.guiLeft + 40, this.guiTop + 150, 50, 20, "ADD");
+        addUser_button = new GuiButton(1, this.guiLeft + 40, this.guiTop + 150, 50, 20, "ADD");
         this.buttonList.add(addUser_button);
 
-        clear_button = new GuiButton(1, this.guiLeft + 95, this.guiTop + 150, 50, 20, "CLEAR");
+        clear_button = new GuiButton(2, this.guiLeft + 95, this.guiTop + 150, 50, 20, "CLEAR");
         this.buttonList.add(clear_button);
 
     }
