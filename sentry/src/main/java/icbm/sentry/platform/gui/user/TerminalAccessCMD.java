@@ -335,7 +335,7 @@ public class TerminalAccessCMD implements ITerminalCommand
                             {
                                 output_to_console.add("User is already a member of the group.");
                             }
-                            else if (profile.setUserAccess(username, group, true))
+                            else if (profile.setUserAccess(username, group))
                             {
                                 output_to_console.add("Added: '" + username + "' to group '" + group.getName() + "'");
                             }

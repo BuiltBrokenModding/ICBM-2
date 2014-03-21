@@ -197,7 +197,7 @@ public class BlockTurret extends BlockICBM
             TileEntity te = world.getBlockTileEntity(x, y, z);
             if (te instanceof TileTurret && entity instanceof EntityPlayer)
             {
-                ((TileTurret) te).getAccessProfile().setUserAccess(((EntityPlayer) entity).username, ((TileTurret) te).getAccessProfile().getOwnerGroup(), false);
+                ((TileTurret) te).getAccessProfile().setUserAccess(((EntityPlayer) entity).username, ((TileTurret) te).getAccessProfile().getOwnerGroup());
                 ((TileTurret) te).onProfileChange();
             }
         }
