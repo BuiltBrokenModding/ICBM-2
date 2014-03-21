@@ -68,7 +68,7 @@ public class GuiAddUser extends GuiAccessGuiComponent
                     this.error_lineTwo = "  Group field is empty";
                     return;
                 }
-                String command = "users add " + group_field.getText() + " " + username_field.getText();
+                String command = "access user add " + group_field.getText() + " " + username_field.getText();
                 ((TileTerminal) return_gui.tileEntity).sendCommandToServer(return_gui.player, command);
                 FMLCommonHandler.instance().showGuiScreen(return_gui);
             }
