@@ -158,7 +158,7 @@ public final class ICBMCore
 
         proxy.preInit();
         LOGGER.info("Calling preinit for submodules");
-        ProxyHandler.preInit(event);
+        ICBMProxyHandler.preInit(event);
     }
 
     @EventHandler
@@ -166,7 +166,7 @@ public final class ICBMCore
     {
         Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
         LOGGER.info("Calling init for submodules");
-        ProxyHandler.init(event);
+        ICBMProxyHandler.init(event);
     }
 
     @EventHandler
@@ -236,7 +236,7 @@ public final class ICBMCore
         proxy.init();
 
         LOGGER.info("Calling postInit for submodules");
-        ProxyHandler.postInit(event);
+        ICBMProxyHandler.postInit(event);
     }
 
 }
