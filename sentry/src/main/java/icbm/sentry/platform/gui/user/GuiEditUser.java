@@ -3,6 +3,7 @@ package icbm.sentry.platform.gui.user;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiYesNo;
 import calclavia.lib.access.AccessUser;
 import calclavia.lib.prefab.terminal.TileTerminal;
 
@@ -12,13 +13,13 @@ public class GuiEditUser extends GuiAccessGuiComponent
     private AccessUser user;
 
     private GuiButton remove_button;
-    
+
     public GuiEditUser(GuiUserAccess return_gui, AccessUser user)
     {
         super(return_gui);
         this.user = user;
     }
-    
+
     @Override
     public void initGui()
     {
@@ -28,12 +29,27 @@ public class GuiEditUser extends GuiAccessGuiComponent
         this.buttonList.add(remove_button);
 
     }
-    
+
     @Override
     protected void actionPerformed(GuiButton button)
     {
         super.actionPerformed(button);
         if (button == remove_button)
+        {
+            FMLCommonHandler.instance().showGuiScreen(new GuiYesNo(this, "Remove User", "Do you want to remove this user", 0)
+            {
+                public boolean doesGuiPauseGame()
+                {
+                    return false;
+                }
+            });
+        }
+    }
+
+    @Override
+    public void confirmClicked(boolean yes, int choice)
+    {
+        if (choice == 0 && yes)
         {
             if (return_gui.tileEntity instanceof TileTerminal)
             {
@@ -41,6 +57,10 @@ public class GuiEditUser extends GuiAccessGuiComponent
                 ((TileTerminal) return_gui.tileEntity).sendCommandToServer(return_gui.player, command);
                 FMLCommonHandler.instance().showGuiScreen(return_gui);
             }
+        }
+        else
+        {
+            FMLCommonHandler.instance().showGuiScreen(this);
         }
     }
 
