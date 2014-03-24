@@ -1,9 +1,6 @@
 package icbm.sentry.turret.weapon;
 
-import icbm.sentry.turret.Turret;
-
-import java.util.Random;
-
+import icbm.sentry.interfaces.ITurret;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
@@ -17,7 +14,7 @@ public class WeaponGun extends WeaponDamage
     protected float min_range = 1;
     protected float max_range = 100;
 
-    public WeaponGun(Turret sentry, int ammoAmount, float damage)
+    public WeaponGun(ITurret sentry, int ammoAmount, float damage)
     {
         super(sentry, TurretDamageSource.turretProjectile, damage);
         this.itemsConsumedPerShot = ammoAmount;

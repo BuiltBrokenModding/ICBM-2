@@ -36,15 +36,6 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
     /** called each tick by the host to update the sentry */
     public void update();
 
-    /** Gets the Tile or Entity that is hosting the sentry */
-    public ITurretProvider getHost();
-
-    /** Offset from the center offset to were the end of the barrel should be at */
-    public Vector3 getWeaponOffset();
-
-    /** Gets the position of the sentry from its center point */
-    public Vector3 fromCenter();
-
     /** Triggers the turret to fire at a location
      * 
      * @param target - IVector3 location, this can be a spot or an object
@@ -62,6 +53,15 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
 
     /** Called when the hosts inventory has changed */
     public void onInventoryChanged();
+
+    /** Gets the Tile or Entity that is hosting the sentry */
+    public ITurretProvider getHost();
+
+    /** Offset from the center offset to were the end of the barrel should be at */
+    public Vector3 getWeaponOffset();
+
+    /** Gets the position of the sentry from its center point */
+    public Vector3 fromCenter();
 
     /** Map of upgrades and how much effect they have on the sentry */
     public HashMap<String, Double> upgrades();

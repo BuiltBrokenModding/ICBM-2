@@ -3,7 +3,7 @@ package icbm.sentry.turret.weapon;
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.IEnergyWeapon;
-import icbm.sentry.turret.Turret;
+import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.IVector3;
 import cpw.mods.fml.relauncher.Side;
@@ -14,13 +14,13 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
 {
     private long energyCost = 10000;
 
-    public WeaponLaser(Turret sentry, float damage, long energy)
+    public WeaponLaser(ITurret sentry, float damage, long energy)
     {
         this(sentry, damage);
         this.energyCost = energy;
     }
 
-    public WeaponLaser(Turret sentry, float damage)
+    public WeaponLaser(ITurret sentry, float damage)
     {
         super(sentry, TurretDamageSource.turretLaser, damage);
     }

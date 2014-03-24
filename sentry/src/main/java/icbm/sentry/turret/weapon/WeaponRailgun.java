@@ -1,7 +1,7 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.sentry.interfaces.IEnergyWeapon;
-import icbm.sentry.turret.Turret;
+import icbm.sentry.interfaces.ITurret;
 
 import java.util.List;
 
@@ -23,17 +23,17 @@ public class WeaponRailgun extends WeaponGun implements IEnergyWeapon
 {
     private long energyCost = 1000000;
 
-    public WeaponRailgun(Turret sentry)
+    public WeaponRailgun(ITurret sentry)
     {
         this(sentry, 100);
     }
 
-    public WeaponRailgun(Turret sentry, float damage)
+    public WeaponRailgun(ITurret sentry, float damage)
     {
         super(sentry, 1, damage);
     }
 
-    public WeaponRailgun(Turret sentry, float damage, long energy)
+    public WeaponRailgun(ITurret sentry, float damage, long energy)
     {
         this(sentry, damage);
         this.energyCost = energy;

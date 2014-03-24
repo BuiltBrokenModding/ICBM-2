@@ -1,12 +1,11 @@
 package icbm.sentry.turret.weapon;
 
-import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.Vector3;
-import icbm.sentry.turret.Turret;
-import net.minecraft.entity.Entity;
+import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import universalelectricity.api.vector.IVector3;
+import universalelectricity.api.vector.Vector3;
 
 /** Weapon system that functions just like a bow
  * 
@@ -14,12 +13,12 @@ import net.minecraft.item.ItemStack;
 public class WeaponBow extends WeaponGun
 {
 
-    public WeaponBow(Turret sentry, int ammoAmount)
+    public WeaponBow(ITurret sentry, int ammoAmount)
     {
         super(sentry, ammoAmount, 0);
     }
 
-    public WeaponBow(Turret sentry)
+    public WeaponBow(ITurret sentry)
     {
         this(sentry, 1);
     }

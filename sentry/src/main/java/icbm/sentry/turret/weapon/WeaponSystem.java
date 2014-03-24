@@ -29,7 +29,7 @@ import calclavia.lib.utility.inventory.InventoryUtility;
 public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRotation
 {
     //Location of the weapon system
-    private VectorWorld host_vector = null;
+    private IVectorWorld host_vector = null;
     private Entity host_entity = null;
     private TileEntity host_tile = null;
 
@@ -39,7 +39,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     protected Vector3 aimOffset = new Vector3();
     protected IInventory ammoBay = null;
 
-    public WeaponSystem(VectorWorld pos)
+    public WeaponSystem(IVectorWorld pos)
     {
         this.host_vector = pos;
     }
@@ -59,30 +59,6 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         if (entity instanceof IInventory)
         {
             ammoBay = (IInventory) entity;
-        }
-    }
-
-    public WeaponSystem(ITurret turret)
-    {
-        if (turret instanceof Entity)
-        {
-            this.host_entity = (Entity) turret;
-        }
-        else if (turret instanceof TileEntity)
-        {
-            this.host_tile = (TileEntity) turret;
-        }
-        else if (turret.getHost() instanceof Entity)
-        {
-            this.host_entity = (Entity) turret.getHost();
-        }
-        else if (turret.getHost() instanceof TileEntity)
-        {
-            this.host_tile = (TileEntity) turret.getHost();
-        }
-        else
-        {
-            throw new IllegalArgumentException("Failed to create WeaponSystem, could not define a host location or type");
         }
     }
 
@@ -109,7 +85,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         else if (host_tile != null)
             return host_tile.getWorldObj();
         else
-            return host_vector.world;
+            return host_vector.world();
     }
 
     @Override
@@ -120,7 +96,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         else if (host_tile != null)
             return host_tile.xCoord + 0.5;
         else
-            return this.host_vector.x;
+            return this.host_vector.x();
     }
 
     @Override
@@ -131,7 +107,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         else if (host_tile != null)
             return host_tile.yCoord + 0.5;
         else
-            return this.host_vector.y;
+            return this.host_vector.y();
     }
 
     @Override
@@ -142,7 +118,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         else if (host_tile != null)
             return host_tile.zCoord + 0.5;
         else
-            return this.host_vector.z;
+            return this.host_vector.z();
     }
 
     @Override
@@ -342,27 +318,30 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
 
     public ITurret turret()
     {
-        if (this.host_entity instanceof ITurret)
+        if (asTurret(this.host_entity) != null)
         {
-            return (ITurret) this.host_entity;
+            return asTurret(this.host_entity);
         }
-        if (this.host_entity instanceof ITurretProvider)
+        else if (asTurret(this.host_tile) != null)
         {
-            if (((ITurretProvider) this.host_entity).getTurret() != null)
-            {
-                return ((ITurretProvider) this.host_entity).getTurret();
-            }
+            return asTurret(this.host_tile);
         }
-        if (this.host_tile instanceof ITurret)
+        else if (asTurret(this.host_vector) != null)
         {
-            return (ITurret) this.host_tile;
+            return asTurret(this.host_vector);
         }
-        if (this.host_tile instanceof ITurretProvider)
+        return null;
+    }
+
+    public ITurret asTurret(Object object)
+    {
+        if (object instanceof ITurret)
         {
-            if (((ITurretProvider) this.host_tile).getTurret() != null)
-            {
-                return ((ITurretProvider) this.host_tile).getTurret();
-            }
+            return (ITurret) object;
+        }
+        if (object instanceof ITurretProvider)
+        {
+            return ((ITurretProvider) object).getTurret();
         }
         return null;
     }
