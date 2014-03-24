@@ -1,6 +1,7 @@
 package icbm.sentry.turret.weapon;
 
 import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.turret.Turret;
 import net.minecraft.item.ItemStack;
 import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.api.icbm.sentry.ProjectileType;
@@ -10,9 +11,10 @@ import calclavia.api.icbm.sentry.ProjectileType;
  * @author DarkGuardsman */
 public class WeaponConventional extends WeaponGun
 {
-    public WeaponConventional(ITurret sentry, int ammoAmount, float damage)
+    public WeaponConventional(Turret sentry, int ammoAmount, float damage)
     {
         super(sentry, ammoAmount, damage);
+        this.ammoBay = sentry.getHost().getInventory();
     }
 
     @Override

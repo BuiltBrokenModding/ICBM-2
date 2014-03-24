@@ -89,6 +89,8 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
     public boolean canFire()
     {
+        boolean cooldown_flag = cooldown <= 0;
+        boolean fire_flag = this.getWeaponSystem().canFire();
         if (this.getWeaponSystem() instanceof IEnergyWeapon)
         {
             if (energy.extractEnergy(((IEnergyWeapon) this.weaponSystem).getEnergyPerShot(), false) < ((IEnergyWeapon) this.weaponSystem).getEnergyPerShot())
@@ -96,7 +98,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
                 return false;
             }
         }
-        return cooldown == 0 && this.getWeaponSystem().canFire();
+        return cooldown_flag && fire_flag;
     }
 
     @Override

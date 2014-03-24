@@ -35,13 +35,24 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
 
     //Properties
     protected float rayTraceLimit = 100;
-    protected int itemsConsumedPerShot = 1;
+    protected int itemsConsumedPerShot = 0;
     protected Vector3 aimOffset = new Vector3();
     protected IInventory ammoBay = null;
 
     public WeaponSystem(IVectorWorld pos)
     {
         this.host_vector = pos;
+        if (pos instanceof IInventory)
+        {
+            ammoBay = (IInventory) pos;
+        }
+        else if (asTurret(pos) != null)
+        {
+            if (asTurret(pos).getHost() instanceof IInventory)
+            {
+                ammoBay = (IInventory) asTurret(pos).getHost();
+            }
+        }
     }
 
     public WeaponSystem(TileEntity tile)
@@ -230,7 +241,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     @Override
     public boolean canFire()
     {
-        return consumeAmmo(itemsConsumedPerShot, false);
+        return itemsConsumedPerShot <= 0 || consumeAmmo(itemsConsumedPerShot, false);
     }
 
     /** Used to consume ammo or check if ammo can be consumed
@@ -251,8 +262,12 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
 
                 if (isAmmo(itemStack))
                 {
-                    IAmmunition ammo = (IAmmunition) itemStack.getItem();
-                    if (ammo.getAmmoCount(itemStack) >= need)
+                    int ammo_count = itemStack.stackSize;
+
+                    if (itemStack.getItem() instanceof IAmmunition)
+                        ammo_count = ((IAmmunition) itemStack.getItem()).getAmmoCount(itemStack);
+
+                    if (ammo_count >= need)
                     {
                         if (doConsume)
                         {
@@ -262,14 +277,14 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
                     }
                     else
                     {
-                        int consume = need - ammo.getAmmoCount(itemStack);
+                        int consume = need - (need - ammo_count);
                         if (doConsume)
                         {
                             ammoBay.setInventorySlotContents(slot, this.doConsumeAmmo(itemStack, consume));
                         }
                         need -= consume;
                     }
-                    consumeCount += ammo.getAmmoCount(itemStack);
+                    consumeCount += ammo_count;
                 }
             }
         }

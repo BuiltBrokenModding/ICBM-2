@@ -10,7 +10,7 @@ import universalelectricity.api.vector.Vector3;
  * @author DarkGuardsman, tgame14, Calclavia */
 public class WeaponGun extends WeaponDamage
 {
-    protected float inaccuracy = 0.0005f;
+    protected float inaccuracy = 0.00005f;
     protected float min_range = 1;
     protected float max_range = 100;
 
