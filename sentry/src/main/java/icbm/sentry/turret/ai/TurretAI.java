@@ -28,7 +28,7 @@ public class TurretAI
     private int targetLostTimer = 0;
     private int ticks = 0;
 
-    public static final boolean debugMode = true;
+    public static final boolean debugMode = false;
 
     public static void debug(String str)
     {
@@ -68,7 +68,6 @@ public class TurretAI
             // If we have a target start aiming logic
             if (turret().getTarget() != null && isValidTarget(turret().getTarget(), false))
             {
-
                 if (canEntityBeSeen(turret().getTarget()))
                 {
                     debug("\tTarget can be seen");
