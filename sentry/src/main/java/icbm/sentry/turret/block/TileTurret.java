@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.access.AccessProfile;
 import calclavia.lib.access.IProfileContainer;
@@ -163,7 +164,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void sendFireEventToClient(Vector3 target)
+    public void sendFireEventToClient(IVector3 target)
     {
         PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), new Vector3(this), 100);
     }

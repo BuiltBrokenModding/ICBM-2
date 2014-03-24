@@ -1,5 +1,6 @@
 package icbm.sentry.turret.auto;
 
+import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponTwinLaser;
 import net.minecraft.util.MathHelper;
@@ -15,10 +16,10 @@ public class TurretLaser extends TurretAuto
 	{
 		super(host);
 		energy = new EnergyStorageHandler(100000);
-		maxHealth = 50;
+		this.traits.put(ITurret.SEARCH_RANGE_TRAIT, 50.0);
+		this.traits.put(ITurret.MAX_HEALTH_TRAIT, 50.0);
 		weaponSystem = new WeaponTwinLaser(this, 3);
 		barrelLength = 1.2f;
-		default_target_range = 50;
 		maxCooldown = 15;
 	}
 

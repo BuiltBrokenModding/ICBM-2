@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 import calclavia.lib.utility.nbt.SaveManager;
@@ -92,7 +93,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     }
 
     @Override
-    public boolean fire(Vector3 target)
+    public boolean fire(IVector3 target)
     {
         if (getHost().world().isRemote)
         {
@@ -195,24 +196,46 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         return host;
     }
 
+    @Override
     public World world()
     {
         return getHost().world();
     }
 
+    @Override
     public double x()
     {
         return getHost().x();
     }
 
+    @Override
     public double y()
     {
         return getHost().y();
     }
 
+    @Override
     public double z()
     {
         return getHost().z();
+    }
+
+    @Override
+    public double yaw()
+    {
+        return getServo().yaw;
+    }
+
+    @Override
+    public double pitch()
+    {
+        return getServo().pitch;
+    }
+
+    @Override
+    public double roll()
+    {
+        return getServo().roll;
     }
 
     public VectorWorld getPosition()
@@ -231,14 +254,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         {
             servo = new EulerServo(5);
         }
-
         return servo;
-    }
-
-    @Override
-    public double getRange()
-    {
-        return this.target_range;
     }
 
     @Override

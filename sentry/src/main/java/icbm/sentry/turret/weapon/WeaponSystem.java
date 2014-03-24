@@ -12,9 +12,9 @@ import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
-import calclavia.api.IPos;
 import calclavia.api.IRotation;
 import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.api.icbm.sentry.ProjectileType;
@@ -25,7 +25,7 @@ import calclavia.lib.utility.inventory.InventoryUtility;
  * tile, or world location.
  * 
  * @author DarkGuardsman */
-public abstract class WeaponSystem implements IWeaponSystem, IPos, IRotation
+public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRotation
 {
     //Location of the weapon system
     private VectorWorld host_vector = null;
@@ -142,6 +142,34 @@ public abstract class WeaponSystem implements IWeaponSystem, IPos, IRotation
             return host_tile.zCoord + 0.5;
         else
             return this.host_vector.z;
+    }
+
+    @Override
+    public double yaw()
+    {
+        if (turret() != null)
+            return turret().yaw();
+        else if (host_entity != null)
+            return host_entity.rotationYaw;
+        else
+            return 0.0;
+    }
+
+    @Override
+    public double pitch()
+    {
+        if (turret() != null)
+            return turret().pitch();
+        else if (host_entity != null)
+            return host_entity.rotationPitch;
+        else
+            return 0.0;
+    }
+
+    @Override
+    public double roll()
+    {
+        return 0.0;
     }
 
     @Override

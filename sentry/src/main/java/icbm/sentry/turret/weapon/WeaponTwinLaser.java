@@ -19,7 +19,7 @@ public class WeaponTwinLaser extends WeaponLaser
 	public void fireClient(Vector3 hit)
 	{
 		Vector3 center = new Vector3(x(), y(), z());
-		ICBMSentry.proxy.renderBeam(world(), Vector3.translate(center, new Vector3(turret.getServo().yaw - 6, turret.getServo().pitch * 1.4f).scale(1.2)), hit, 1, 0.4f, 0.4f, 10);
-		ICBMSentry.proxy.renderBeam(world(), Vector3.translate(center, new Vector3(turret.getServo().yaw + 6, turret.getServo().pitch * 1.4f).scale(1.2)), hit, 1, 0.4f, 0.4f, 10);
+		ICBMSentry.proxy.renderBeam(world(), Vector3.translate(center, new Vector3(yaw() - 6, pitch() * 1.4f).scale(1.2)), hit, 1, 0.4f, 0.4f, 10);
+		ICBMSentry.proxy.renderBeam(world(), Vector3.translate(center, new Vector3(yaw() + 6, pitch() * 1.4f).scale(1.2)), hit, 1, 0.4f, 0.4f, 10);
 	}
 }
