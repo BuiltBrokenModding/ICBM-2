@@ -6,6 +6,7 @@ import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.gui.ContainerDummy;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -58,7 +59,7 @@ public class CommonProxy implements IGuiHandler
 
     }
 
-    public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+    public void renderBeam(World world, IVector3 position, IVector3 hit, float red, float green, float blue, int age)
     {
 
     }

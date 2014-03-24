@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.render.fx.FxLaser;
 import calclavia.lib.render.item.GlobalItemRenderer;
@@ -82,7 +83,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void renderBeam(World world, Vector3 position, Vector3 target, float red, float green, float blue, int age)
+    public void renderBeam(World world, IVector3 position, IVector3 target, float red, float green, float blue, int age)
     {
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FxLaser(world, position, target, red, green, blue, age));
     }
