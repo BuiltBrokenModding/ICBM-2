@@ -316,8 +316,28 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     }
 
     @Override
+    public double getUpgradeEffect(String upgrade)
+    {
+        if (this.upgrades().containsKey(upgrade))
+        {
+            return this.upgrades().get(upgrade);
+        }
+        return 0.0;
+    }
+
+    @Override
     public HashMap<String, Double> traits()
     {
         return this.traits;
+    }
+    
+    @Override
+    public double getTrait(String trait)
+    {
+        if (this.traits().containsKey(trait))
+        {
+            return this.traits().get(trait);
+        }
+        return 0.0;
     }
 }

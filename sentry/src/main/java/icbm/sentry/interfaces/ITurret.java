@@ -53,6 +53,13 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
     /** Map of upgrades and how much effect they have on the sentry */
     public HashMap<String, Double> upgrades();
 
+    /** Gets the effective value of the upgrade type. This value is a percent bonus that is applied
+     * to the sentry. */
+    public double getUpgradeEffect(String upgrade);
+
     /** Map of main traits applied to the sentry */
     public HashMap<String, Double> traits();
+
+    /** Gets the current value of the trait */
+    public double getTrait(String trait);
 }
