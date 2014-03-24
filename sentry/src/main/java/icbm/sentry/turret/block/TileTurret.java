@@ -311,7 +311,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public Turret getTurret()
     {
         if (this.turret == null)
-            this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
+            this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, (ITurretProvider)this);
 
         return this.turret;
     }

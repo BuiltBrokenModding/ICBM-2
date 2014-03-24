@@ -19,6 +19,7 @@ import universalelectricity.api.vector.VectorWorld;
 import calclavia.api.IRotation;
 import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.api.icbm.sentry.ProjectileType;
+import calclavia.lib.utility.inventory.IExternalInventory;
 import calclavia.lib.utility.inventory.InventoryUtility;
 
 /** Modular system designed to handle all weapon related firing, and impact for an object. Requires
@@ -37,40 +38,21 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     protected float rayTraceLimit = 100;
     protected int itemsConsumedPerShot = 0;
     protected Vector3 aimOffset = new Vector3();
-    protected IInventory ammoBay = null;
+    protected IInventory inventory = null;
 
     public WeaponSystem(IVectorWorld pos)
     {
         this.host_vector = pos;
-        if (pos instanceof IInventory)
-        {
-            ammoBay = (IInventory) pos;
-        }
-        else if (asTurret(pos) != null)
-        {
-            if (asTurret(pos).getHost() instanceof IInventory)
-            {
-                ammoBay = (IInventory) asTurret(pos).getHost();
-            }
-        }
     }
 
     public WeaponSystem(TileEntity tile)
     {
         this.host_tile = tile;
-        if (tile instanceof IInventory)
-        {
-            ammoBay = (IInventory) tile;
-        }
     }
 
     public WeaponSystem(Entity entity)
     {
         this.host_entity = entity;
-        if (entity instanceof IInventory)
-        {
-            ammoBay = (IInventory) entity;
-        }
     }
 
     public void setHost(VectorWorld placement)
@@ -254,11 +236,11 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         int consumeCount = 0;
         int need = count;
 
-        if (count > 0 && ammoBay != null)
+        if (count > 0 && getAmmoBay() != null)
         {
-            for (int slot = 0; slot < ammoBay.getSizeInventory(); slot++)
+            for (int slot = 0; slot < getAmmoBay().getSizeInventory(); slot++)
             {
-                ItemStack itemStack = ammoBay.getStackInSlot(slot);
+                ItemStack itemStack = getAmmoBay().getStackInSlot(slot);
 
                 if (isAmmo(itemStack))
                 {
@@ -271,7 +253,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
                     {
                         if (doConsume)
                         {
-                            ammoBay.setInventorySlotContents(slot, this.doConsumeAmmo(itemStack, need));
+                            getAmmoBay().setInventorySlotContents(slot, this.doConsumeAmmo(itemStack, need));
                         }
                         return true;
                     }
@@ -280,7 +262,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
                         int consume = need - (need - ammo_count);
                         if (doConsume)
                         {
-                            ammoBay.setInventorySlotContents(slot, this.doConsumeAmmo(itemStack, consume));
+                            getAmmoBay().setInventorySlotContents(slot, this.doConsumeAmmo(itemStack, consume));
                         }
                         need -= consume;
                     }
@@ -317,7 +299,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
                 if (turret() != null && shell != null)
                 {
                     if (turret().upgrades().containsKey(ITurretUpgrade.SHELL_COLLECTOR))
-                        shell = InventoryUtility.putStackInInventory(ammoBay, shell, ForgeDirection.UNKNOWN.ordinal(), true);
+                        shell = InventoryUtility.putStackInInventory(getAmmoBay(), shell, ForgeDirection.UNKNOWN.ordinal(), true);
                     if (shell != null)
                         InventoryUtility.dropItemStack(world(), x(), y(), z(), shell, 5, 0);
                 }
@@ -348,6 +330,26 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         return null;
     }
 
+    public IInventory getAmmoBay()
+    {
+        if (this.inventory == null)
+        {
+            if (asInv(this.host_entity) != null)
+            {
+                this.inventory = asInv(this.host_entity);
+            }
+            else if (asInv(this.host_tile) != null)
+            {
+                this.inventory = asInv(this.host_tile);
+            }
+            else if (asInv(this.host_vector) != null)
+            {
+                this.inventory = asInv(this.host_vector);
+            }
+        }
+        return this.inventory;
+    }
+
     public ITurret asTurret(Object object)
     {
         if (object instanceof ITurret)
@@ -357,6 +359,26 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         if (object instanceof ITurretProvider)
         {
             return ((ITurretProvider) object).getTurret();
+        }
+        return null;
+    }
+
+    public IInventory asInv(Object object)
+    {
+        if (object instanceof IInventory)
+        {
+            return (IInventory) object;
+        }
+        if (asTurret(object) != null)
+        {
+            if (asTurret(object).getHost() instanceof IExternalInventory)
+            {
+                return ((IExternalInventory) asTurret(object).getHost()).getInventory();
+            }
+            if (asTurret(object).getHost() instanceof IInventory)
+            {
+                return (IInventory) asTurret(object).getHost();
+            }
         }
         return null;
     }
