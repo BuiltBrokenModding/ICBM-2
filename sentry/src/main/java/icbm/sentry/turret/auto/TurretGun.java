@@ -1,6 +1,7 @@
 package icbm.sentry.turret.auto;
 
 import icbm.Reference;
+import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponConventional;
 import universalelectricity.api.vector.IVector3;
@@ -22,8 +23,9 @@ public class TurretGun extends TurretAuto
             }
         };
         centerOffset.y = 0.27;
-        default_target_range = 40;
+        applyTrait(ITurret.SEARCH_RANGE_TRAIT, 40.0);
+        applyTrait(ITurret.MAX_HEALTH_TRAIT, 50.0);
         maxCooldown = 30;
-        barrelLength = 0.7f;
+        barrelLength = 1f;
     }
 }

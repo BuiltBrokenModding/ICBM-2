@@ -28,7 +28,7 @@ public class TurretAI
     private int targetLostTimer = 0;
     private int ticks = 0;
 
-    public static final boolean debugMode = false;
+    public static final boolean debugMode = true;
 
     public static void debug(String str)
     {
@@ -59,49 +59,57 @@ public class TurretAI
         if (turret() != null)
         {
             // Only get new target if the current is missing or it will switch targets each update
-            if (turret().getTarget() == null && ticks % 20 == 0)
+            if (turret().getTarget() == null)
             {
-                debug("\tSearching for target");
+                debug("\tSearching for target within " + (int) this.turret().getTrait(ITurret.SEARCH_RANGE_TRAIT) + " blocks");
                 turret().setTarget(findTarget(turret(), turret().getEntitySelector(), this.turret().getTrait(ITurret.SEARCH_RANGE_TRAIT)));
             }
 
             // If we have a target start aiming logic
             if (turret().getTarget() != null && isValidTarget(turret().getTarget(), false))
             {
-                if (turret().canFire())
+
+                if (canEntityBeSeen(turret().getTarget()))
                 {
-                    if (canEntityBeSeen(turret().getTarget()))
+                    debug("\tTarget can be seen");
+                    if (isLookingAt(turret().getTarget(), 3))
                     {
-                        debug("\tTarget can be seen");
-                        if (isLookingAt(turret().getTarget(), 3))
+                        if (turret().canFire())
                         {
                             debug("\tTarget locked and firing weapon");
                             turret().fire(turret().getTarget());
                         }
                         else
                         {
-                            debug("\tPowering servos to aim at target");
-                            lookAtEntity(turret().getTarget());
+                            debug("\tTarget locked but weapon is not ready");
                         }
-
-                        targetLostTimer = 0;
                     }
                     else
                     {
-                        debug("\tSight on target lost");
-                        // Drop the target after 2 seconds of no sight
-                        if (targetLostTimer >= 100)
-                            turret().setTarget(null);
-
-                        targetLostTimer++;
+                        debug("\tPowering servos to aim at target");
+                        lookAtEntity(turret().getTarget());
                     }
+
+                    targetLostTimer = 0;
                 }
+                else
+                {
+                    debug("\tSight on target lost");
+                    // Drop the target after 2 seconds of no sight
+                    if (targetLostTimer >= 100)
+                        turret().setTarget(null);
+
+                    targetLostTimer++;
+                }
+
             }
             else
             {
+                debug("\tInvalid or null target");
                 // Only start random rotation after a second of no target
                 if (targetLostTimer >= 20)
                 {
+                    debug("\tTarget market as lost, resetting target");
                     if (rotationDelayTimer >= 60)
                     {
                         debug("\tNo Target Selected. Wandering.");
@@ -126,10 +134,13 @@ public class TurretAI
         AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret().fromCenter().x, turret().fromCenter().y, turret().fromCenter().z, turret().fromCenter().x, turret().fromCenter().y, turret().fromCenter().z).expand(target_range, target_range, target_range);
         List<Entity> list = turret().world().selectEntitiesWithinAABB(Entity.class, aabb, targetSelector);
         Collections.sort(list, new ComparatorOptimalTarget(turret().fromCenter()));
+        debug("\t" + list.size() + "targets in range ");
         for (Entity entity : list)
         {
+            debug("\t\tNext target " + entity.toString());
             if (isValidTarget(entity, false))
             {
+                debug("\t\t\tValid");
                 return entity;
             }
         }
@@ -141,7 +152,10 @@ public class TurretAI
     {
         if (turret().getEntitySelector().isEntityApplicable(entity))
         {
-            return skipSight || isTargetInBounds(entity) && canEntityBeSeen(entity);
+            boolean bound_flag = isTargetInBounds(entity);
+            boolean sight_flag = canEntityBeSeen(entity);
+            debug("\t\tEntity: " + entity.toString() + " Sight: " + sight_flag + " Bounds:" + bound_flag);
+            return skipSight || bound_flag && sight_flag;
         }
         return false;
     }
@@ -160,14 +174,6 @@ public class TurretAI
         {
             double distanceA = this.location.distance(entityA);
             double distanceB = this.location.distance(entityB);
-
-            if (Math.abs(distanceA - distanceB) < 1.5)
-            {
-                float healthA = entityA instanceof EntityLivingBase ? ((EntityLivingBase) entityA).getHealth() : 0;
-                float healthB = entityB instanceof EntityLivingBase ? ((EntityLivingBase) entityB).getHealth() : 0;
-                return healthA < healthB ? -1 : (healthA != healthB ? 1 : 0);
-            }
-
             return distanceA < distanceB ? -1 : (distanceA != distanceB ? 1 : 0);
         }
     }

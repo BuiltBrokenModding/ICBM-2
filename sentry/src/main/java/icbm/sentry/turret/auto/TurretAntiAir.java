@@ -1,6 +1,7 @@
 package icbm.sentry.turret.auto;
 
 import icbm.Reference;
+import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponConventional;
@@ -26,7 +27,8 @@ public class TurretAntiAir extends TurretAuto
             }
         };
         this.centerOffset.y = 0.75;
-        this.default_target_range = 200;
+        applyTrait(ITurret.SEARCH_RANGE_TRAIT, 200.0);
+        applyTrait(ITurret.MAX_HEALTH_TRAIT, 70.0);
         this.maxCooldown = 5;
         selector = new TurretAntiAirSelector(this);
     }

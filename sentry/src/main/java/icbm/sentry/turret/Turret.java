@@ -43,8 +43,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected Vector3 aimOffset = new Vector3();
     protected Vector3 centerOffset = new Vector3();
     protected float barrelLength = 1;
-    protected double default_target_range = 30;
-    protected double target_range = 30;
     protected int maxCooldown = 20;
     protected int cooldown = 0;
     protected long ticks = 0;
@@ -300,7 +298,8 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
         //Reset
         this.upgrade_count.clear();
-        this.target_range = this.default_target_range;
+        this.traits.clear();
+        this.traits.putAll(this.traits_default);
 
         //Update upgrade count
         for (int slot = 0; slot < inv.getSizeInventory(); slot++)
@@ -321,9 +320,9 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         }
 
         //Apply upgrades to traits
-        if (this.upgrade_count.containsKey(ITurretUpgrade.TARGET_RANGE))
+        if (this.upgrade_count.containsKey(ITurretUpgrade.TARGET_RANGE) && this.traits.containsKey(ITurret.SEARCH_RANGE_TRAIT))
         {
-            this.target_range = this.default_target_range + (this.default_target_range * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
+            double range = this.traits.get(ITurret.SEARCH_RANGE_TRAIT) + (this.traits.get(ITurret.SEARCH_RANGE_TRAIT) * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
         }
     }
 
