@@ -21,7 +21,7 @@ public class TurretAntiAir extends TurretAuto
             public void fire(Vector3 target)
             {
                 super.fire(target);
-                turret.getHost().world().playSoundEffect(turret.getHost().x(), turret.getHost().y(), turret.getHost().z(), Reference.PREFIX + "aagun", 5F, 1F - (turret.getHost().world().rand.nextFloat() * 0.2f));
+                world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "aagun", 5F, 1F - (world().rand.nextFloat() * 0.2f));
             }
         };
         this.centerOffset.y = 0.75;

@@ -1,14 +1,15 @@
 package icbm.sentry.turret.weapon;
 
-import calclavia.api.icbm.sentry.IAmmunition;
-import calclavia.api.icbm.sentry.ProjectileType;
 import icbm.sentry.turret.Turret;
 import net.minecraft.item.ItemStack;
+import calclavia.api.icbm.sentry.IAmmunition;
+import calclavia.api.icbm.sentry.ProjectileType;
 
-/** @author DarkGuardsman */
-public class WeaponConventional extends WeaponProjectile
+/** Conventional bullet driven weapon system that are commonly used and known.
+ * 
+ * @author DarkGuardsman */
+public class WeaponConventional extends WeaponGun
 {
-
     public WeaponConventional(Turret sentry, int ammoAmount, float damage)
     {
         super(sentry, ammoAmount, damage);

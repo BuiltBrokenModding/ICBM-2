@@ -29,7 +29,7 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
     public void fire(Entity entity)
     {
         this.onHitEntity(entity);
-        turret.getHost().world().playSoundEffect(turret.getHost().x(), turret.getHost().y(), turret.getHost().z(), Reference.PREFIX + "lasershot", 5F, 1F - (turret.getHost().world().rand.nextFloat() * 0.2f));
+        world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "lasershot", 5F, 1F - (world().rand.nextFloat() * 0.2f));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
     @SideOnly(Side.CLIENT)
     public void fireClient(Vector3 hit)
     {
-        ICBMSentry.proxy.renderBeam(turret.getHost().world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
+        ICBMSentry.proxy.renderBeam(world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
     }
 
     @Override

@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 /** Weapon system that functions just like a bow
  * 
  * @author DarkGuardsman */
-public class WeaponBow extends WeaponProjectile
+public class WeaponBow extends WeaponGun
 {
 
     public WeaponBow(Turret sentry, int ammoAmount)
@@ -26,11 +26,11 @@ public class WeaponBow extends WeaponProjectile
     @Override
     public void fire(Vector3 target)
     {
-        consumeAmmo(ammoAmount, true);
+        consumeAmmo(itemsConsumedPerShot, true);
         Vector3 end = this.getBarrelEnd();
-        EntityArrow arrow = new EntityArrow(turret.world(), end.x, end.y, end.z);
+        EntityArrow arrow = new EntityArrow(world(), end.x, end.y, end.z);
         arrow.setThrowableHeading(target.x, target.y, target.z, 1.1f, 6f);
-        turret.world().spawnEntityInWorld(arrow);
+        world().spawnEntityInWorld(arrow);
     }
 
     @Override

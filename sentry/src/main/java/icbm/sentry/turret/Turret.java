@@ -16,7 +16,6 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -43,8 +42,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected Vector3 aimOffset = new Vector3();
     protected Vector3 centerOffset = new Vector3();
     protected float barrelLength = 1;
-    protected float maxHealth = -1;
-    protected float health;
     protected double default_target_range = 30;
     protected double target_range = 30;
     protected int maxCooldown = 20;
@@ -52,17 +49,13 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected long ticks = 0;
 
     public HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
+    public HashMap<String, Double> traits = new HashMap<String, Double>();
 
     public Turret(ITurretProvider host)
     {
         this.host = host;
         energy = new EnergyStorageHandler(10000);
         this.ai = new TurretAI(this);
-    }
-
-    public float getMaxHealth()
-    {
-        return maxHealth;
     }
 
     public void init()
@@ -158,11 +151,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         return centerOffset.clone();
     }
 
-    public float getHealth()
-    {
-        return this.health;
-    }
-
     @Override
     public void setEnergy(ForgeDirection dir, long energy)
     {
@@ -184,7 +172,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     @Override
     public void save(NBTTagCompound nbt)
     {
-        nbt.setString(ITurret.SENTRY_SAVE_ID, SaveManager.getID(this.getClass()));
+        nbt.setString(ITurret.SENTRY_TYPE_SAVE_ID, SaveManager.getID(this.getClass()));
         if (this.energy != null)
             this.energy.writeToNBT(nbt);
         nbt.setDouble("yaw", getServo().yaw);
@@ -275,7 +263,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     {
         //TODO: change to only scan upgrade slots
         IInventory inv = this.getHost().getInventory();
-        
+
         //Reset
         this.upgrade_count.clear();
         this.target_range = this.default_target_range;
@@ -303,5 +291,17 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         {
             this.target_range = this.default_target_range + (this.default_target_range * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
         }
+    }
+
+    @Override
+    public HashMap<String, Double> upgrades()
+    {
+        return this.upgrade_count;
+    }
+
+    @Override
+    public HashMap<String, Double> traits()
+    {
+        return this.traits;
     }
 }

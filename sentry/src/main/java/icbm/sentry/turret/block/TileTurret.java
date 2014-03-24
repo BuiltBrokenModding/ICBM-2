@@ -266,7 +266,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         if (nbt.hasKey(ITurret.SENTRY_OBJECT_SAVE))
         {
             NBTTagCompound tag = nbt.getCompoundTag(ITurret.SENTRY_OBJECT_SAVE);
-            this.saveManagerSentryKey = tag.getString(ITurret.SENTRY_SAVE_ID);
+            this.saveManagerSentryKey = tag.getString(ITurret.SENTRY_TYPE_SAVE_ID);
             this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, this);
 
             if (this.getTurret() != null)

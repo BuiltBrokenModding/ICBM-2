@@ -180,7 +180,7 @@ public class TurretRegistry
         NBTTagCompound sentry_nbt = new NBTTagCompound();
 
         itemNbt.setString("unlocalizedName", getID(sentry));
-        sentry_nbt.setString(ITurret.SENTRY_SAVE_ID, SaveManager.getID(sentry));
+        sentry_nbt.setString(ITurret.SENTRY_TYPE_SAVE_ID, SaveManager.getID(sentry));
         itemNbt.setCompoundTag(ITurret.SENTRY_OBJECT_SAVE, sentry_nbt);
 
         stack.setTagCompound(itemNbt);

@@ -18,7 +18,7 @@ import calclavia.lib.prefab.vector.Cuboid;
 /** High powered electro magnetic cannon designed to throw a small metal object up to sonic speeds
  * 
  * @author Darkguardsman */
-public class WeaponRailgun extends WeaponProjectile implements IEnergyWeapon
+public class WeaponRailgun extends WeaponGun implements IEnergyWeapon
 {
     private long energyCost = 1000000;
 
@@ -55,7 +55,7 @@ public class WeaponRailgun extends WeaponProjectile implements IEnergyWeapon
         if (false)
         {
             AxisAlignedBB bounds = new Cuboid().expand(50).translate(hit).toAABB();
-            List<IEntityExplosion> entities = this.turret.world().getEntitiesWithinAABB(IEntityExplosion.class, bounds);
+            List<IEntityExplosion> entities = world().getEntitiesWithinAABB(IEntityExplosion.class, bounds);
 
             for (IEntityExplosion entity : entities)
             {
@@ -65,20 +65,19 @@ public class WeaponRailgun extends WeaponProjectile implements IEnergyWeapon
         }
 
         // TODO: Fix this null.
-        this.turret.world().newExplosion((Entity) null, hit.x, hit.y, hit.z, size, true, true);
+        world().newExplosion((Entity) null, hit.x, hit.y, hit.z, size, true, true);
 
-        Block block = Block.blocksList[this.turret.world().getBlockId(hit.intX(), hit.intY(), hit.intZ())];
+        Block block = Block.blocksList[world().getBlockId(hit.intX(), hit.intY(), hit.intZ())];
         if (block != null)
         {
-            if (block.getBlockHardness(this.turret.world(), hit.intX(), hit.intY(), hit.intZ()) >= 0)
+            if (block.getBlockHardness(world(), hit.intX(), hit.intY(), hit.intZ()) >= 0)
             {
                 return;
             }
-            else if (block.getBlockHardness(this.turret.world(), hit.intX(), hit.intY(), hit.intZ()) < 100000)
+            else if (block.getBlockHardness(world(), hit.intX(), hit.intY(), hit.intZ()) < 100000)
             {
-                this.turret.world().setBlockToAir(hit.intX(), hit.intY(), hit.intZ());
+                world().setBlockToAir(hit.intX(), hit.intY(), hit.intZ());
             }
-
         }
     }
 
@@ -101,7 +100,7 @@ public class WeaponRailgun extends WeaponProjectile implements IEnergyWeapon
             doFire(target.clone().translate(getInaccuracy(d), getInaccuracy(d), getInaccuracy(d)));
         }
 
-        consumeAmmo(ammoAmount, true);
+        consumeAmmo(itemsConsumedPerShot, true);
     }
 
     @Override

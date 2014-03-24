@@ -1,24 +1,147 @@
 package icbm.sentry.turret.weapon;
 
+import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.interfaces.ITurretUpgrade;
 import icbm.sentry.interfaces.IWeaponSystem;
-import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
+import calclavia.api.IPos;
+import calclavia.api.IRotation;
+import calclavia.api.icbm.sentry.IAmmunition;
+import calclavia.api.icbm.sentry.ProjectileType;
+import calclavia.lib.utility.inventory.InventoryUtility;
 
-/** Modular way of dealing with weapon systems in a way works with different object types
+/** Modular system designed to handle all weapon related firing, and impact for an object. Requires
+ * that it be constructed with a defined location. This location can be provided by using an entity,
+ * tile, or world location.
  * 
- * @author DarkGuardsman, tgame14 */
-public abstract class WeaponSystem implements IWeaponSystem
+ * @author DarkGuardsman */
+public abstract class WeaponSystem implements IWeaponSystem, IPos, IRotation
 {
-    protected Turret turret;
-    protected float defaultTraceRange = 100;
+    //Location of the weapon system
+    private VectorWorld host_vector = null;
+    private Entity host_entity = null;
+    private TileEntity host_tile = null;
 
-    public WeaponSystem(Turret sentry)
+    //Properties
+    protected float rayTraceLimit = 100;
+    protected int itemsConsumedPerShot = 1;
+    protected Vector3 aimOffset = new Vector3();
+    protected IInventory ammoBay = null;
+
+    public WeaponSystem(VectorWorld pos)
     {
-        this.turret = sentry;
+        this.host_vector = pos;
+    }
+
+    public WeaponSystem(TileEntity tile)
+    {
+        this.host_tile = tile;
+        if (tile instanceof IInventory)
+        {
+            ammoBay = (IInventory) tile;
+        }
+    }
+
+    public WeaponSystem(Entity entity)
+    {
+        this.host_entity = entity;
+        if (entity instanceof IInventory)
+        {
+            ammoBay = (IInventory) entity;
+        }
+    }
+
+    public WeaponSystem(ITurret turret)
+    {
+        if (turret instanceof Entity)
+        {
+            this.host_entity = (Entity) turret;
+        }
+        else if (turret instanceof TileEntity)
+        {
+            this.host_tile = (TileEntity) turret;
+        }
+        else if (turret.getHost() instanceof Entity)
+        {
+            this.host_entity = (Entity) turret.getHost();
+        }
+        else if (turret.getHost() instanceof TileEntity)
+        {
+            this.host_tile = (TileEntity) turret.getHost();
+        }
+        else
+        {
+            throw new IllegalArgumentException("Failed to create WeaponSystem, could not define a host location or type");
+        }
+    }
+
+    public void setHost(VectorWorld placement)
+    {
+        this.host_vector = placement;
+    }
+
+    public void setHost(TileEntity host)
+    {
+        this.host_tile = host;
+    }
+
+    public void setHost(Entity host)
+    {
+        this.host_entity = host;
+    }
+
+    @Override
+    public World world()
+    {
+        if (host_entity != null)
+            return host_entity.worldObj;
+        else if (host_tile != null)
+            return host_tile.getWorldObj();
+        else
+            return host_vector.world;
+    }
+
+    @Override
+    public double x()
+    {
+        if (host_entity != null)
+            return host_entity.posX;
+        else if (host_tile != null)
+            return host_tile.xCoord + 0.5;
+        else
+            return this.host_vector.x;
+    }
+
+    @Override
+    public double y()
+    {
+        if (host_entity != null)
+            return host_entity.posY;
+        else if (host_tile != null)
+            return host_tile.yCoord + 0.5;
+        else
+            return this.host_vector.y;
+    }
+
+    @Override
+    public double z()
+    {
+        if (host_entity != null)
+            return host_entity.posZ;
+        else if (host_tile != null)
+            return host_tile.zCoord + 0.5;
+        else
+            return this.host_vector.z;
     }
 
     @Override
@@ -37,7 +160,7 @@ public abstract class WeaponSystem implements IWeaponSystem
     protected void doFire(Vector3 target)
     {
         Vector3 hit = target.clone();
-        MovingObjectPosition endTarget = getBarrelEnd().rayTrace(turret.getHost().world(), hit, true);
+        MovingObjectPosition endTarget = getBarrelEnd().rayTrace(world(), hit, true);
         if (endTarget != null)
         {
             if (endTarget.typeOfHit == EnumMovingObjectType.ENTITY)
@@ -54,7 +177,7 @@ public abstract class WeaponSystem implements IWeaponSystem
     @Override
     public void fireClient(Vector3 hit)
     {
-        drawParticleStreamTo(turret.world(), getBarrelEnd(), hit);
+        drawParticleStreamTo(world(), getBarrelEnd(), hit);
     }
 
     /** Draws a particle stream towards a location.
@@ -78,7 +201,7 @@ public abstract class WeaponSystem implements IWeaponSystem
     /** Gets the current end point for the barrel in the world */
     protected Vector3 getBarrelEnd()
     {
-        return turret.getAbsoluteCenter().translate(turret.getAimOffset());
+        return new Vector3(x(), y(), z()).translate(this.aimOffset);
     }
 
     /** Called when the weapon hits an entity */
@@ -93,9 +216,125 @@ public abstract class WeaponSystem implements IWeaponSystem
 
     }
 
+    /** Checked to see if the ItemStack is ammo for the weapon */
+    public boolean isAmmo(ItemStack stack)
+    {
+        return stack != null && stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) != ProjectileType.UNKNOWN;
+    }
+
     @Override
     public boolean canFire()
     {
-        return true;
+        return consumeAmmo(itemsConsumedPerShot, false);
+    }
+
+    /** Used to consume ammo or check if ammo can be consumed
+     * 
+     * @param count - number of items to consume
+     * @param doConsume - true items will be consumed
+     * @return true if all rounds were consumed */
+    public boolean consumeAmmo(int count, boolean doConsume)
+    {
+        int consumeCount = 0;
+        int need = count;
+
+        if (count > 0 && ammoBay != null)
+        {
+            for (int slot = 0; slot < ammoBay.getSizeInventory(); slot++)
+            {
+                ItemStack itemStack = ammoBay.getStackInSlot(slot);
+
+                if (isAmmo(itemStack))
+                {
+                    IAmmunition ammo = (IAmmunition) itemStack.getItem();
+                    if (ammo.getAmmoCount(itemStack) >= need)
+                    {
+                        if (doConsume)
+                        {
+                            ammoBay.setInventorySlotContents(slot, this.doConsumeAmmo(itemStack, need));
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        int consume = need - ammo.getAmmoCount(itemStack);
+                        if (doConsume)
+                        {
+                            ammoBay.setInventorySlotContents(slot, this.doConsumeAmmo(itemStack, consume));
+                        }
+                        need -= consume;
+                    }
+                    consumeCount += ammo.getAmmoCount(itemStack);
+                }
+            }
+        }
+
+        return consumeCount >= count;
+    }
+
+    /** Internal method for handle what happens when ammo is consumed
+     * 
+     * @return ItemStack that goes back into the inventory after removing a few rounds of ammo from
+     * it */
+    protected ItemStack doConsumeAmmo(ItemStack stack, int sum)
+    {
+        if (stack != null && sum > 0)
+        {
+            if (!(stack.getItem() instanceof IAmmunition))
+            {
+                ItemStack splitStack = stack.splitStack(sum);
+                if (stack != null && stack.stackSize > 0)
+                {
+                    return splitStack;
+                }
+            }
+            else
+            {
+                IAmmunition ammo = (IAmmunition) stack.getItem();
+                ItemStack shell = ammo.getShell(stack, sum);
+                ItemStack ammo_left = ammo.consumeAmmo(stack, sum);
+
+                if (turret() != null && shell != null)
+                {
+                    if (turret().upgrades().containsKey(ITurretUpgrade.SHELL_COLLECTOR))
+                        shell = InventoryUtility.putStackInInventory(ammoBay, shell, ForgeDirection.UNKNOWN.ordinal(), true);
+                    if (shell != null)
+                        InventoryUtility.dropItemStack(world(), x(), y(), z(), shell, 5, 0);
+                }
+                if (ammo_left != null && ammo_left.stackSize > 0)
+                {
+                    return ammo_left;
+                }
+                return null;
+            }
+        }
+        return stack;
+    }
+
+    public ITurret turret()
+    {
+        if (this.host_entity instanceof ITurret)
+        {
+            return (ITurret) this.host_entity;
+        }
+        if (this.host_entity instanceof ITurretProvider)
+        {
+            if (((ITurretProvider) this.host_entity).getTurret() != null)
+            {
+                return ((ITurretProvider) this.host_entity).getTurret();
+            }
+        }
+        if (this.host_tile instanceof ITurret)
+        {
+            return (ITurret) this.host_tile;
+        }
+        if (this.host_tile instanceof ITurretProvider)
+        {
+            if (((ITurretProvider) this.host_tile).getTurret() != null)
+            {
+                return ((ITurretProvider) this.host_tile).getTurret();
+            }
+        }
+        return null;
     }
 }
