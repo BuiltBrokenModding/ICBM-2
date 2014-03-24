@@ -4,6 +4,7 @@ import icbm.sentry.turret.Turret;
 
 import java.util.Random;
 
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
 /** Basic projectile weapon system design more to be used as a prefab. By default it acts like a hand
@@ -23,10 +24,11 @@ public class WeaponGun extends WeaponDamage
     }
 
     @Override
-    public void fire(Vector3 target)
+    public void fire(IVector3 t)
     {
-        double d = target.distance(turret().getAbsoluteCenter());
-        super.fire(target.clone().translate(getInaccuracy(d), getInaccuracy(d), getInaccuracy(d)));
+        Vector3 target = new Vector3(t);
+        double d = target.distance(turret());
+        super.fire(target.translate(getInaccuracy(d), getInaccuracy(d), getInaccuracy(d)));
         consumeAmmo(itemsConsumedPerShot, true);
     }
 

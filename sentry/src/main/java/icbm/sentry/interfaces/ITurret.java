@@ -10,7 +10,9 @@ import calclavia.api.IRotation;
 import calclavia.lib.utility.nbt.ISaveObj;
 
 /** *WIP* Interface applied to all sentry objects. Any sentry that uses this must have a constructor
- * that contains ISentryContainer parameter
+ * that contains ISentryContainer parameter. As well a good bit of ICBM sentry functionality depends
+ * on some common traits. These traits are a replacement for contains a dozen plus getters/setters.
+ * To use or set the traits simple create a hashmap with the values.
  * 
  * @author DarkGaurdsman */
 public interface ITurret extends ISaveObj, IVectorWorld, IRotation
@@ -24,6 +26,8 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
 
     //Sentry traits constants *WIP*
     public static final String SEARCH_RANGE_TRAIT = "ai.search.range";
+    public static final String SEARCH_RANGE_LOW_LIMIT_TRAIT = "ai.search.range.min";
+    public static final String SEARCH_RANGE_HIGH_LIMIT_TRAIT = "ai.search.range.max";
     public static final String HEALTH_TRAIT = "body.health";
     public static final String MAX_HEALTH_TRAIT = "body.health.max";
     public static final String ROTATION_SPEED_TRAIT = "body.rotation";
@@ -36,7 +40,10 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
     public ITurretProvider getHost();
 
     /** Offset from the center offset to were the end of the barrel should be at */
-    public Vector3 getAimOffset();
+    public Vector3 getWeaponOffset();
+
+    /** Gets the position of the sentry from its center point */
+    public Vector3 fromCenter();
 
     /** Triggers the turret to fire at a location
      * 
@@ -49,6 +56,12 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
      * @param target - Entity, does not imply living object
      * @return true if everything passed threw correctly */
     public boolean fire(Entity target);
+
+    /** Called when a user changes the settings for the sentry */
+    public void onSettingsChanged();
+
+    /** Called when the hosts inventory has changed */
+    public void onInventoryChanged();
 
     /** Map of upgrades and how much effect they have on the sentry */
     public HashMap<String, Double> upgrades();

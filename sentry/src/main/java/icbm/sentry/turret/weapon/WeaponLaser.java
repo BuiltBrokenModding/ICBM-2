@@ -5,7 +5,7 @@ import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
-import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.IVector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -43,14 +43,14 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
     }
 
     @Override
-    public void fire(Vector3 target)
+    public void fire(IVector3 target)
     {
         /** placeholder code to not accidentally call a traveling bullet style fire. --tgame14 */
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void fireClient(Vector3 hit)
+    public void fireClient(IVector3 hit)
     {
         ICBMSentry.proxy.renderBeam(world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
     }

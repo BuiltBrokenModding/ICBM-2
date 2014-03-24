@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.explosion.IEntityExplosion;
 import calclavia.api.icbm.sentry.IAmmunition;
@@ -88,10 +89,11 @@ public class WeaponRailgun extends WeaponGun implements IEnergyWeapon
     }
 
     @Override
-    public void fire(Vector3 target)
+    public void fire(IVector3 t)
     {
-        double d = target.distance(this.turret.getAbsoluteCenter());
-        Vector3 normalized = target.clone().subtract(turret.getAbsoluteCenter()).normalize();
+        Vector3 target = new Vector3(t);
+        double d = target.distance(turret().fromCenter());
+        Vector3 normalized = target.clone().subtract(turret().fromCenter()).normalize();
         target.translate(normalized.scale(8));
 
         //Loops several times to allow it to punch threw several blocks

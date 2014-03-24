@@ -49,8 +49,9 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     protected int cooldown = 0;
     protected long ticks = 0;
 
-    public HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
-    public HashMap<String, Double> traits = new HashMap<String, Double>();
+    private final HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
+    private final HashMap<String, Double> traits_default = new HashMap<String, Double>();
+    private final HashMap<String, Double> traits = new HashMap<String, Double>();
 
     public Turret(ITurretProvider host)
     {
@@ -61,7 +62,8 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
     public void init()
     {
-        this.updateUpgrades();
+        this.traits.putAll(traits_default);
+        this.onInventoryChanged();
     }
 
     public void update()
@@ -78,6 +80,13 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
         if (cooldown > 0)
             cooldown--;
+    }
+
+    /** Applies a trait to a sentry, prevents addition after first update */
+    public void applyTrait(String name, double value)
+    {
+        if (this.ticks == 0)
+            this.traits_default.put(name, value);
     }
 
     public boolean canFire()
@@ -141,7 +150,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
     /** Offset from the center offset to were the end of the barrel should be at. This is RELATIVE to
      * the center! */
-    public Vector3 getAimOffset()
+    public Vector3 getWeaponOffset()
     {
         return new Vector3(getServo()).scale(barrelLength).translate(aimOffset);
     }
@@ -243,7 +252,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         return new VectorWorld(world(), x(), y(), z());
     }
 
-    public VectorWorld getAbsoluteCenter()
+    public VectorWorld fromCenter()
     {
         return (VectorWorld) getPosition().translate(getCenterOffset());
     }
@@ -275,7 +284,16 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         return this.weaponSystem;
     }
 
-    public void updateUpgrades()
+    @Override
+    public void onSettingsChanged()
+    {
+        //TODO when GUI settings are implemented update sentry traits here
+        //TODO when range settings are implemented confuse the sentry if max_limit range is set higher than AI max range.
+        //Possible effect for confusion are targeting allies past he max range
+    }
+
+    @Override
+    public void onInventoryChanged()
     {
         //TODO: change to only scan upgrade slots
         IInventory inv = this.getHost().getInventory();
@@ -330,7 +348,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     {
         return this.traits;
     }
-    
+
     @Override
     public double getTrait(String trait)
     {

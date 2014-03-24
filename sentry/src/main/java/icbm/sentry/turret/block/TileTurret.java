@@ -423,7 +423,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public void onInventoryChanged()
     {
         super.onInventoryChanged();
-        this.getTurret().updateUpgrades();
+        this.getTurret().onInventoryChanged();
     }
 
     @SideOnly(Side.CLIENT)

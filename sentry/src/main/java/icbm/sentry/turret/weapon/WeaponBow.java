@@ -1,5 +1,6 @@
 package icbm.sentry.turret.weapon;
 
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import icbm.sentry.turret.Turret;
 import net.minecraft.entity.Entity;
@@ -24,12 +25,12 @@ public class WeaponBow extends WeaponGun
     }
 
     @Override
-    public void fire(Vector3 target)
+    public void fire(IVector3 target)
     {
         consumeAmmo(itemsConsumedPerShot, true);
         Vector3 end = this.getBarrelEnd();
         EntityArrow arrow = new EntityArrow(world(), end.x, end.y, end.z);
-        arrow.setThrowableHeading(target.x, target.y, target.z, 1.1f, 6f);
+        arrow.setThrowableHeading(target.x(), target.y(), target.z(), 1.1f, 6f);
         world().spawnEntityInWorld(arrow);
     }
 
@@ -40,7 +41,7 @@ public class WeaponBow extends WeaponGun
     }
 
     @Override
-    public void fireClient(Vector3 hit)
+    public void fireClient(IVector3 hit)
     {
 
     }

@@ -114,7 +114,7 @@ public class EntityMountableDummy extends EntityLiving
 	{
 		if (riddenByEntity != null)
 		{
-			Vector3 setPosition = new Vector3(turretProvider.getTurret().getAbsoluteCenter());
+			Vector3 setPosition = new Vector3(turretProvider.getTurret().fromCenter());
 			Vector3 offset = new Vector3(0, getMountedYOffset() + riddenByEntity.getYOffset(), -0.5);
 			offset.rotate(-turretProvider.getTurret().getServo().yaw + 180);
 			setPosition.add(offset);

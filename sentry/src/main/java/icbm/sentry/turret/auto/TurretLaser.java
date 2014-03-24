@@ -16,9 +16,11 @@ public class TurretLaser extends TurretAuto
 	{
 		super(host);
 		energy = new EnergyStorageHandler(100000);
-		this.traits.put(ITurret.SEARCH_RANGE_TRAIT, 50.0);
-		this.traits.put(ITurret.MAX_HEALTH_TRAIT, 50.0);
 		weaponSystem = new WeaponTwinLaser(this, 3);
+		
+		applyTrait(ITurret.SEARCH_RANGE_TRAIT, 50.0);
+		applyTrait(ITurret.MAX_HEALTH_TRAIT, 50.0);
+		
 		barrelLength = 1.2f;
 		maxCooldown = 15;
 	}

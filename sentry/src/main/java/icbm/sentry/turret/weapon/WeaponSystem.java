@@ -12,6 +12,7 @@ import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -173,7 +174,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     }
 
     @Override
-    public void fire(Vector3 target)
+    public void fire(IVector3 target)
     {
         doFire(target);
     }
@@ -185,9 +186,9 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     }
 
     /** Internal version of fire(Vector3) allowing repeat fire events */
-    protected void doFire(Vector3 target)
+    protected void doFire(IVector3 target)
     {
-        Vector3 hit = target.clone();
+        Vector3 hit = new Vector3(target);
         MovingObjectPosition endTarget = getBarrelEnd().rayTrace(world(), hit, true);
         if (endTarget != null)
         {
@@ -203,7 +204,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     }
 
     @Override
-    public void fireClient(Vector3 hit)
+    public void fireClient(IVector3 hit)
     {
         drawParticleStreamTo(world(), getBarrelEnd(), hit);
     }
@@ -211,15 +212,15 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     /** Draws a particle stream towards a location.
      * 
      * @author Based on MachineMuse */
-    public void drawParticleStreamTo(World world, Vector3 start, Vector3 target)
+    public void drawParticleStreamTo(World world, Vector3 start, IVector3 hit)
     {
-        Vector3 direction = start.toAngle(target).toVector();
+        Vector3 direction = start.toAngle(hit).toVector();
         double scale = 0.02;
         Vector3 currentPoint = start.clone();
-        Vector3 difference = target.clone().difference(start);
+        Vector3 difference = new Vector3(hit).difference(start);
         double magnitude = difference.getMagnitude();
 
-        while (currentPoint.distance(target) > scale)
+        while (currentPoint.distance(hit) > scale)
         {
             world.spawnParticle("townaura", currentPoint.x, currentPoint.y, currentPoint.z, 0.0D, 0.0D, 0.0D);
             currentPoint.add(difference.clone().scale(scale));

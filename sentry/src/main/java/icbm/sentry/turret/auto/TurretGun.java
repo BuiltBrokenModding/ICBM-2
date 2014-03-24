@@ -3,6 +3,7 @@ package icbm.sentry.turret.auto;
 import icbm.Reference;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponConventional;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
 /** @author DarkGuardsman */
@@ -14,7 +15,7 @@ public class TurretGun extends TurretAuto
         weaponSystem = new WeaponConventional(this, 1, 10)
         {
             @Override
-            public void fire(Vector3 target)
+            public void fire(IVector3 target)
             {
                 super.fire(target);
                 world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "machinegun", 5F, 1F - (world().rand.nextFloat() * 0.2f));

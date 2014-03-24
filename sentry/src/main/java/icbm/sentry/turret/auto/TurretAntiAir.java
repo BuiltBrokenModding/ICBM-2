@@ -5,6 +5,7 @@ import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.WeaponConventional;
 import net.minecraft.entity.Entity;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.
@@ -18,7 +19,7 @@ public class TurretAntiAir extends TurretAuto
         this.weaponSystem = new WeaponConventional(this, 1, 10)
         {
             @Override
-            public void fire(Vector3 target)
+            public void fire(IVector3 target)
             {
                 super.fire(target);
                 world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "aagun", 5F, 1F - (world().rand.nextFloat() * 0.2f));

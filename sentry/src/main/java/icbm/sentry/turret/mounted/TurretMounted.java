@@ -49,8 +49,8 @@ public abstract class TurretMounted extends Turret implements IMountedTurret
 
     public void fire()
     {
-        Vector3 start = this.getAbsoluteCenter().translate(this.getAimOffset());
-        Vector3 end = this.getAbsoluteCenter().translate(new Vector3(getServo()).scale(500).translate(aimOffset));
+        Vector3 start = this.fromCenter().translate(this.getWeaponOffset());
+        Vector3 end = this.fromCenter().translate(new Vector3(getServo()).scale(500).translate(aimOffset));
         MovingObjectPosition endTarget = start.rayTrace(world(), end, true);
         Vector3 hit = end;
         if (endTarget != null)
