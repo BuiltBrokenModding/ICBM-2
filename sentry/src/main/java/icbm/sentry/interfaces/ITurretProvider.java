@@ -3,6 +3,7 @@ package icbm.sentry.interfaces;
 import icbm.sentry.turret.EntityMountableDummy;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
 /**
@@ -23,7 +24,7 @@ public interface ITurretProvider
 
 	public double z();
 
-	public void sendFireEventToClient(Vector3 target);
+	public void sendFireEventToClient(IVector3 target);
 
 	public EntityMountableDummy getFakeEntity();
 
