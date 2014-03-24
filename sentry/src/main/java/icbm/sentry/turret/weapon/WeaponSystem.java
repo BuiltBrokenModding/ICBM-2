@@ -199,6 +199,10 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     /** Gets the current end point for the barrel in the world */
     protected Vector3 getBarrelEnd()
     {
+        if(turret() != null)
+        {
+            return new Vector3(x(), y(), z()).translate(turret().getWeaponOffset());
+        }
         return new Vector3(x(), y(), z()).translate(this.aimOffset);
     }
 
