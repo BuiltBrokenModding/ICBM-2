@@ -42,9 +42,11 @@ public abstract class WeaponThrowable extends WeaponSystem
         IProjectile projectile = this.getProjectileEntity(world(), end.x(), end.y(), end.z());
         if (projectile instanceof Entity)
         {
-            projectile.setThrowableHeading(target.x(), target.y(), target.z(), this.getVelocity(), this.getSpread());
+            Vector3 offset = new Vector3(-Math.sin(yaw()) * Math.cos(pitch()), Math.sin(pitch()), -Math.cos(yaw()) * Math.cos(pitch()));
+            projectile.setThrowableHeading(offset.x(), offset.y(), offset.z(), this.getVelocity(), this.getSpread());
             world().spawnEntityInWorld((Entity) projectile);
-        }
+            this.consumeAmmo(this.itemsConsumedPerShot, true);
+        }        
     }
 
     @Override

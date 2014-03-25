@@ -64,6 +64,14 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
     public void update()
     {
+
+        tick();
+        if (cooldown > 0)
+            cooldown--;
+    }
+
+    public void tick()
+    {
         if (ticks == 0)
         {
             this.init();
@@ -73,9 +81,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         {
             ticks = 1;
         }
-
-        if (cooldown > 0)
-            cooldown--;
     }
 
     /** Applies a trait to a sentry, prevents addition after first update */

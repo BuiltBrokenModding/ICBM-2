@@ -276,7 +276,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         {
             if (!(stack.getItem() instanceof IAmmunition))
             {
-                ItemStack splitStack = stack.splitStack(sum);
+                ItemStack splitStack = stack.splitStack(stack.stackSize - 1);
                 if (stack != null && stack.stackSize > 0)
                 {
                     return splitStack;

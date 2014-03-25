@@ -2,6 +2,7 @@ package icbm.sentry.turret.auto;
 
 import icbm.sentry.interfaces.IAutoTurret;
 import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.ai.TurretEntitySelector;
 import net.minecraft.command.IEntitySelector;
