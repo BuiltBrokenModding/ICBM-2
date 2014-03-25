@@ -14,7 +14,7 @@ import net.minecraftforge.common.ForgeDirection;
 import calclavia.api.icbm.ICamouflageMaterial;
 import calclavia.lib.content.BlockInfo;
 
-@BlockInfo(tileEntity = "icbm.contraption.block.TileCamouflage")
+@BlockInfo(tileEntity = "icbm.core.blocks.TileCamouflage")
 public class BlockCamouflage extends BlockICBM
 {
     public BlockCamouflage(int id)
