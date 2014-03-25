@@ -60,6 +60,6 @@ public class WeaponBow extends WeaponThrowable
     @Override
     protected float getVelocity()
     {
-        return 2F;
+        return 6F;
     }
 }
