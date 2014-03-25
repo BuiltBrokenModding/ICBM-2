@@ -14,11 +14,6 @@ import icbm.explosion.entities.EntityLightBeam;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.fx.FXAntimatterPartical;
-import icbm.explosion.fx.FXElectricBolt;
-import icbm.explosion.fx.FXElectricBoltSpawner;
-import icbm.explosion.fx.FXEnderPortalPartical;
-import icbm.explosion.fx.FXYan;
-import icbm.explosion.fx.FXZhenBuo;
 import icbm.explosion.gui.GuiCruiseLauncher;
 import icbm.explosion.gui.GuiEMPTower;
 import icbm.explosion.gui.GuiLauncherScreen;
@@ -77,6 +72,11 @@ import org.lwjgl.opengl.GL11;
 
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.render.RenderUtility;
+import calclavia.lib.render.fx.FXElectricBolt;
+import calclavia.lib.render.fx.FXElectricBoltSpawner;
+import calclavia.lib.render.fx.FXEnderPortalPartical;
+import calclavia.lib.render.fx.FXShockWave;
+import calclavia.lib.render.fx.FXSmoke;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -178,11 +178,11 @@ public class ClientProxy extends CommonProxy
 
         if (name.equals("smoke"))
         {
-            fx = new FXYan(world, position, red, green, blue, scale, distance);
+            fx = new FXSmoke(world, position, red, green, blue, scale, distance);
         }
         else if (name.equals("missile_smoke"))
         {
-            fx = (new FXYan(world, position, red, green, blue, scale, distance)).setAge(100);
+            fx = (new FXSmoke(world, position, red, green, blue, scale, distance)).setAge(100);
         }
         else if (name.equals("portal"))
         {
@@ -199,7 +199,7 @@ public class ClientProxy extends CommonProxy
         }
         else if (name.equals("shockwave"))
         {
-            fx = new FXZhenBuo(world, position, red, green, blue, scale, distance);
+            fx = new FXShockWave(world, position, red, green, blue, scale, distance);
         }
 
         if (fx != null)
