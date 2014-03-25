@@ -60,6 +60,7 @@ public class WeaponBow extends WeaponThrowable
     @Override
     protected float getVelocity()
     {
+        //TODO buff velocity as range increases
         return 6F;
     }
 }
