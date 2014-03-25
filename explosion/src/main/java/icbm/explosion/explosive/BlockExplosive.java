@@ -208,7 +208,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 	public void registerIcons(IconRegister iconRegister)
 	{
 		/** Register every single texture for all explosives. */
-		for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+		for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
 		{
 			ICON_TOP[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_top");
 			ICON_SIDE[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_side");
@@ -434,7 +434,7 @@ public class BlockExplosive extends BlockICBM implements ICamouflageMaterial
 	@Override
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+		for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
 		{
 			if (zhaPin.hasBlockForm())
 			{

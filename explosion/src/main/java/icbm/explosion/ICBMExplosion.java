@@ -279,9 +279,25 @@ public class ICBMExplosion
 
     @EventHandler
     // @Optional.Method(modid = ID)
-    public void load(FMLInitializationEvent evt)
+    public void init(FMLInitializationEvent evt)
     {
         Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
+        
+        EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerGlobalEntityID(EntityLightBeam.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerGlobalEntityID(EntityBombCart.class, "ICBMChe", EntityRegistry.findGlobalUniqueEntityId());
+
+        EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
+        EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 1, this, 500, 1, true);
+        EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
+        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);       
+        EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
+        EntityRegistry.registerModEntity(EntityBombCart.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
+
+        proxy.init();
     }
 
     @EventHandler
@@ -334,38 +350,22 @@ public class ICBMExplosion
         if (!Loader.isModLoaded("AtomicScience"))
             OreDictionary.registerOre("antimatterGram", new ItemStack(397, 1, 1));
 
-        for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+        for (Explosive explosive : ExplosiveRegistry.getExplosives())
         {
-            zhaPin.init();
+            explosive.init();
             // Missile
-            RecipeUtility.addRecipe(new ShapelessOreRecipe(new ItemStack(itemMissile, 1, zhaPin.getID()), new Object[] { new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new ItemStack(blockExplosive, 1, zhaPin.getID()) }), zhaPin.getUnlocalizedName() + " Missile", Settings.CONFIGURATION, true);
-            if (zhaPin.getTier() < 2)
+            RecipeUtility.addRecipe(new ShapelessOreRecipe(new ItemStack(itemMissile, 1, explosive.getID()), new Object[] { new ItemStack(itemMissile, 1, Explosive.missileModule.getID()), new ItemStack(blockExplosive, 1, explosive.getID()) }), explosive.getUnlocalizedName() + " Missile", Settings.CONFIGURATION, true);
+            if (explosive.getTier() < 2)
             {
                 // Grenade
-                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemGrenade, 1, zhaPin.getID()), new Object[] { "?", "@", '@', new ItemStack(blockExplosive, 1, zhaPin.getID()), '?', Item.silk }), zhaPin.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
+                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemGrenade, 1, explosive.getID()), new Object[] { "?", "@", '@', new ItemStack(blockExplosive, 1, explosive.getID()), '?', Item.silk }), explosive.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
             }
-            if (zhaPin.getTier() < 3)
+            if (explosive.getTier() < 3)
             {
                 // Minecart
-                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, zhaPin.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, zhaPin.getID()), '@', Item.minecartEmpty }), zhaPin.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
+                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, explosive.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, explosive.getID()), '@', Item.minecartEmpty }), explosive.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
             }
-        }
-
-        EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityLightBeam.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityGrenade.class, "ICBMGrenade", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityBombCart.class, "ICBMChe", EntityRegistry.findGlobalUniqueEntityId());
-
-        EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
-        EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 1, this, 500, 1, true);
-        EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
-        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);       
-        EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
-        EntityRegistry.registerModEntity(EntityBombCart.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
-
-        proxy.init();
+        }     
     }
 
     @ForgeSubscribe

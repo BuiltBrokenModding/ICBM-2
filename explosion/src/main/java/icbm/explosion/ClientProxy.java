@@ -43,9 +43,9 @@ import icbm.explosion.render.entity.RenderMissile;
 import icbm.explosion.render.item.RenderItemMissile;
 import icbm.explosion.render.item.RenderRocketLauncher;
 import icbm.explosion.render.tile.BlockRenderHandler;
-import icbm.explosion.render.tile.RFaSheDi;
-import icbm.explosion.render.tile.RFaSheJia;
-import icbm.explosion.render.tile.RFaSheShiMuo;
+import icbm.explosion.render.tile.RenderLauncherBase;
+import icbm.explosion.render.tile.RenderLauncherFrame;
+import icbm.explosion.render.tile.RenderLauncherScreen;
 import icbm.explosion.render.tile.RenderBombBlock;
 import icbm.explosion.render.tile.RenderCruiseLauncher;
 import icbm.explosion.render.tile.RenderEmpTower;
@@ -116,9 +116,9 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileCruiseLauncher.class, new RenderCruiseLauncher());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RFaSheDi());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RFaSheShiMuo());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RFaSheJia());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RenderLauncherBase());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RenderLauncherScreen());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RenderLauncherFrame());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRadarStation.class, new RenderRadarStation());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMissileCoordinator.class, new RenderMissileCoordinator());

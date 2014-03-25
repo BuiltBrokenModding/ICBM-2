@@ -53,7 +53,7 @@ public class ExplosiveRegistry
         return zhaPinIDs.get(haoMa);
     }
 
-    public static Collection<Explosive> getAllZhaPin()
+    public static Collection<Explosive> getExplosives()
     {
         return zhaPinMap.values();
     }

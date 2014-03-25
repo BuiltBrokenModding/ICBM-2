@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RFaSheJia extends TileEntitySpecialRenderer
+public class RenderLauncherFrame extends TileEntitySpecialRenderer
 {
     public static final MFaSheJia MODEL = new MFaSheJia();
     public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "launcher_0.png");

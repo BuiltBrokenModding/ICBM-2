@@ -72,7 +72,7 @@ public class ItemBombCart extends ItemICBMBase
     @Override
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+        for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
         {
             if (zhaPin.hasMinecartForm())
             {

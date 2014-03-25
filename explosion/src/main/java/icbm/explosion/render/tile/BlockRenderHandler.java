@@ -47,26 +47,26 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 
                 if (tier == 0)
                 {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFaSheDi.TEXTURE_FILE_0);
-                    RFaSheDi.modelBase0.render(0.0625F);
-                    RFaSheDi.modelRail0.render(0.0625F);
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherBase.TEXTURE_FILE_0);
+                    RenderLauncherBase.modelBase0.render(0.0625F);
+                    RenderLauncherBase.modelRail0.render(0.0625F);
                 }
                 else if (tier == 1)
                 {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFaSheDi.TEXTURE_FILE_1);
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherBase.TEXTURE_FILE_1);
 
-                    RFaSheDi.modelBase1.render(0.0625F);
-                    RFaSheDi.modelRail1.render(0.0625F);
+                    RenderLauncherBase.modelBase1.render(0.0625F);
+                    RenderLauncherBase.modelRail1.render(0.0625F);
                     GL11.glRotatef(180F, 0F, 180F, 1.0F);
-                    RFaSheDi.modelRail1.render(0.0625F);
+                    RenderLauncherBase.modelRail1.render(0.0625F);
                 }
                 else if (tier == 2)
                 {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFaSheDi.TEXTURE_FILE_2);
-                    RFaSheDi.modelBase2.render(0.0625F);
-                    RFaSheDi.modelRail2.render(0.0625F);
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherBase.TEXTURE_FILE_2);
+                    RenderLauncherBase.modelBase2.render(0.0625F);
+                    RenderLauncherBase.modelRail2.render(0.0625F);
                     GL11.glRotatef(180F, 0F, 180F, 1.0F);
-                    RFaSheDi.modelRail2.render(0.0625F);
+                    RenderLauncherBase.modelRail2.render(0.0625F);
                 }
             }
             else if (metadata < MachineData.LauncherScreen.ordinal() * 3 + 3)
@@ -78,18 +78,18 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
 
                 if (tier == 0)
                 {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFaSheShiMuo.TEXTURE_FILE_0);
-                    RFaSheShiMuo.model0.render(0.0625F);
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherScreen.TEXTURE_FILE_0);
+                    RenderLauncherScreen.model0.render(0.0625F);
                 }
                 else if (tier == 1)
                 {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFaSheShiMuo.TEXTURE_FILE_1);
-                    RFaSheShiMuo.model1.render(0.0625F);
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherScreen.TEXTURE_FILE_1);
+                    RenderLauncherScreen.model1.render(0.0625F);
                 }
                 else if (tier == 2)
                 {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFaSheShiMuo.TEXTURE_FILE_2);
-                    RFaSheShiMuo.model2.render(0.0625F);
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherScreen.TEXTURE_FILE_2);
+                    RenderLauncherScreen.model2.render(0.0625F);
                 }
             }
             else if (metadata < MachineData.LauncherFrame.ordinal() * 3 + 3)
@@ -99,9 +99,9 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
                 GL11.glRotatef(180f, 0f, 0f, 1f);
                 GL11.glScalef(0.8f, 0.4f, 0.8f);
 
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RFaSheJia.TEXTURE_FILE);
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherFrame.TEXTURE_FILE);
 
-                RFaSheJia.MODEL.render(0.0625F);
+                RenderLauncherFrame.MODEL.render(0.0625F);
             }
             else if (metadata == MachineData.RadarStation.ordinal() + 6)
             {

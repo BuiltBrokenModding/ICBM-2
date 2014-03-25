@@ -170,15 +170,6 @@ public final class ICBMCore
         proxy.preInit();
         LOGGER.info("Calling preinit for submodules");
         modproxy.preInit();
-        
-
-        EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
-        
-        EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", 0, this, 50, 15, true);
-        EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
-
-        
     }
 
     @EventHandler
@@ -186,6 +177,12 @@ public final class ICBMCore
     {
         Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
         LOGGER.info("Calling init for submodules");
+        
+        EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
+        
+        EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", 0, this, 50, 15, true);
+        EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
         modproxy.init();
     }
 

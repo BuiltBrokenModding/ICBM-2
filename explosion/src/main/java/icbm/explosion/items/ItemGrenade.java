@@ -135,7 +135,7 @@ public class ItemGrenade extends ItemICBMBase
     @Override
     public void registerIcons(IconRegister iconRegister)
     {
-        for (int i = 0; i < ExplosiveRegistry.getAllZhaPin().size(); i++)
+        for (int i = 0; i < ExplosiveRegistry.getExplosives().size(); i++)
         {
             ICONS[i] = iconRegister.registerIcon(Reference.PREFIX + "grenade_" + ExplosiveRegistry.get(i).getUnlocalizedName());
         }
@@ -150,7 +150,7 @@ public class ItemGrenade extends ItemICBMBase
     @Override
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (Explosive zhaPin : ExplosiveRegistry.getAllZhaPin())
+        for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
         {
             if (zhaPin.hasGrenadeForm())
             {

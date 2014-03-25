@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RFaSheDi extends TileEntitySpecialRenderer
+public class RenderLauncherBase extends TileEntitySpecialRenderer
 {
     public static final ResourceLocation TEXTURE_FILE_0 = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "launcher_0.png");
     public static final ResourceLocation TEXTURE_FILE_1 = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "launcher_1.png");
