@@ -1,10 +1,10 @@
 package icbm.explosion.explosive.blast;
 
+import icbm.EntityFlyingBlock;
 import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityExplosion;
 import icbm.explosion.entities.EntityExplosive;
-import icbm.explosion.entities.EntityFlyingBlock;
 
 import java.util.List;
 

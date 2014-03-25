@@ -1,8 +1,8 @@
 package icbm.explosion.explosive.blast;
 
+import icbm.EntityFlyingBlock;
 import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.entities.EntityFlyingBlock;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.BlockExplosive;
 import icbm.explosion.explosive.TileExplosive;

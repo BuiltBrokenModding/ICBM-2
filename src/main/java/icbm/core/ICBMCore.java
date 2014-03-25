@@ -1,6 +1,8 @@
 package icbm.core;
 
 import calclavia.lib.modproxy.ProxyHandler;
+import icbm.EntityFlyingBlock;
+import icbm.EntityFragments;
 import icbm.Reference;
 import icbm.contraption.ItemAntidote;
 import icbm.contraption.ItemPoisonPowder;
@@ -53,6 +55,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
@@ -163,6 +166,15 @@ public final class ICBMCore
         proxy.preInit();
         LOGGER.info("Calling preinit for submodules");
         modproxy.preInit();
+        
+
+        EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
+        
+        EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", 0, this, 50, 15, true);
+        EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
+
+        
     }
 
     @EventHandler

@@ -1,4 +1,4 @@
-package icbm.explosion.entities;
+package icbm;
 
 import java.util.ArrayList;
 import java.util.Iterator;
