@@ -5,6 +5,7 @@ import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.GuiTurretPlatform;
 import icbm.sentry.platform.gui.user.GuiUserAccess;
 import icbm.sentry.render.RenderAATurret;
+import icbm.sentry.render.RenderCrossBowTurret;
 import icbm.sentry.render.RenderGunTurret;
 import icbm.sentry.render.RenderLaserTurret;
 import icbm.sentry.render.RenderRailgun;
@@ -12,6 +13,7 @@ import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.auto.TurretAntiAir;
+import icbm.sentry.turret.auto.TurretAutoBow;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.block.TileTurret;
@@ -21,7 +23,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.Vector3;
 import calclavia.lib.render.fx.FxLaser;
 import calclavia.lib.render.item.GlobalItemRenderer;
 import calclavia.lib.render.item.ISimpleItemRenderer;
@@ -50,6 +51,7 @@ public class ClientProxy extends CommonProxy
         TurretRegistry.registerSentryRenderer(TurretGun.class, new RenderGunTurret());
         TurretRegistry.registerSentryRenderer(TurretLaser.class, new RenderLaserTurret());
         TurretRegistry.registerSentryRenderer(MountedRailgun.class, new RenderRailgun());
+        TurretRegistry.registerSentryRenderer(TurretAutoBow.class, new RenderCrossBowTurret());
 
         GlobalItemRenderer.register(ICBMSentry.blockTurret.blockID, new ISimpleItemRenderer()
         {

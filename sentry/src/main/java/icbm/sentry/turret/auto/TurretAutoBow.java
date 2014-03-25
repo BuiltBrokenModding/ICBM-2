@@ -2,6 +2,7 @@ package icbm.sentry.turret.auto;
 
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.types.WeaponBow;
 
 /** Automated cross bow like sentry
@@ -9,7 +10,7 @@ import icbm.sentry.turret.weapon.types.WeaponBow;
  * @author DarkGuardsman */
 public class TurretAutoBow extends TurretAuto
 {
-    public TurretAutoBow(ITurretProvider host)
+    public TurretAutoBow(TileTurret host)
     {
         super(host);
         this.weaponSystem = new WeaponBow(this);
@@ -18,5 +19,4 @@ public class TurretAutoBow extends TurretAuto
         maxCooldown = 30;
         barrelLength = 1f;
     }
-
 }
