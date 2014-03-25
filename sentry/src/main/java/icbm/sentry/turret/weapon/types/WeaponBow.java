@@ -19,18 +19,21 @@ public class WeaponBow extends WeaponThrowable
     {
         super(loc);
         this.itemsConsumedPerShot = 1;
+        this.soundEffect = "random.bow";
     }
 
     public WeaponBow(Entity entity)
     {
         super(entity);
         this.itemsConsumedPerShot = 1;
+        this.soundEffect = "random.bow";
     }
 
     public WeaponBow(TileEntity tile)
     {
         super(tile);
         this.itemsConsumedPerShot = 1;
+        this.soundEffect = "random.bow";
     }
 
     @Override
