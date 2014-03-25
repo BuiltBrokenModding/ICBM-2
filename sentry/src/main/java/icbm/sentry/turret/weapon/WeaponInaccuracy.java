@@ -3,20 +3,21 @@ package icbm.sentry.turret.weapon;
 import icbm.sentry.interfaces.ITurret;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
+import calclavia.lib.prefab.damage.ObjectDamageSource;
 
 /** Basic projectile weapon system design more to be used as a prefab. By default it acts like a hand
  * gun with low hit chance and damage.
  * 
  * @author DarkGuardsman, tgame14, Calclavia */
-public class WeaponGun extends WeaponDamage
+public class WeaponInaccuracy extends WeaponDamage
 {
     protected float inaccuracy = 0.00005f;
     protected float min_range = 1;
     protected float max_range = 100;
 
-    public WeaponGun(ITurret sentry, int ammoAmount, float damage)
+    public WeaponInaccuracy(ITurret sentry, int ammoAmount, float damage)
     {
-        super(sentry, TurretDamageSource.turretProjectile, damage);
+        super(sentry, ObjectDamageSource.doBulletDamage(sentry), damage);
         this.itemsConsumedPerShot = ammoAmount;
     }
 

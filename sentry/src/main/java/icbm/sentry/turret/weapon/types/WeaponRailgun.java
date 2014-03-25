@@ -1,7 +1,8 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.turret.weapon.types;
 
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.turret.weapon.WeaponInaccuracy;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import calclavia.lib.prefab.vector.Cuboid;
 /** High powered electro magnetic cannon designed to throw a small metal object up to sonic speeds
  * 
  * @author Darkguardsman */
-public class WeaponRailgun extends WeaponGun implements IEnergyWeapon
+public class WeaponRailgun extends WeaponInaccuracy implements IEnergyWeapon
 {
     private long energyCost = 1000000;
 

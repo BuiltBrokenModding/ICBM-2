@@ -39,6 +39,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     protected int itemsConsumedPerShot = 0;
     protected Vector3 aimOffset = new Vector3();
     protected IInventory inventory = null;
+    protected String soundEffect = null;
 
     public WeaponSystem(IVectorWorld pos)
     {
@@ -145,6 +146,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     @Override
     public void fire(IVector3 target)
     {
+        playFiringAudio();
         doFire(target);
     }
 
@@ -154,28 +156,17 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         fire(Vector3.fromCenter(entity));
     }
 
-    /** Internal version of fire(Vector3) allowing repeat fire events */
-    protected void doFire(IVector3 target)
+    /** Called to play the firing audio */
+    protected void playFiringAudio()
     {
-        Vector3 hit = new Vector3(target);
-        MovingObjectPosition endTarget = getBarrelEnd().rayTrace(world(), hit, true);
-        if (endTarget != null)
-        {
-            if (endTarget.typeOfHit == EnumMovingObjectType.ENTITY)
-            {
-                onHitEntity(endTarget.entityHit);
-            }
-            else if (endTarget.typeOfHit == EnumMovingObjectType.TILE)
-            {
-                onHitBlock(new Vector3(endTarget.hitVec));
-            }
-        }
+        if (this.soundEffect != null && !this.soundEffect.isEmpty())
+            world().playSoundEffect(x(), y(), z(), this.soundEffect, 5F, 1F - (world().rand.nextFloat() * 0.2f));
     }
 
     @Override
     public void fireClient(IVector3 hit)
     {
-        drawParticleStreamTo(world(), getBarrelEnd(), hit);
+
     }
 
     /** Draws a particle stream towards a location.
@@ -199,24 +190,21 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     /** Gets the current end point for the barrel in the world */
     protected Vector3 getBarrelEnd()
     {
-        if(turret() != null)
+        if (turret() != null)
         {
             return new Vector3(x(), y(), z()).translate(turret().getWeaponOffset());
         }
         return new Vector3(x(), y(), z()).translate(this.aimOffset);
     }
 
-    /** Called when the weapon hits an entity */
-    protected void onHitEntity(Entity entity)
-    {
+    /** Internal version of fire(Vector3) allowing repeat fire events */
+    protected abstract void doFire(IVector3 target);
 
-    }
+    /** Called when the weapon hits an entity */
+    protected abstract void onHitEntity(Entity entity);
 
     /** Called when the weapon hits a block */
-    protected void onHitBlock(Vector3 block)
-    {
-
-    }
+    protected abstract void onHitBlock(Vector3 block);
 
     /** Checked to see if the ItemStack is ammo for the weapon */
     public boolean isAmmo(ItemStack stack)

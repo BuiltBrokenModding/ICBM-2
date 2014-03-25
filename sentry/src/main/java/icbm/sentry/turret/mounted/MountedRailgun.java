@@ -3,7 +3,7 @@ package icbm.sentry.turret.mounted;
 import net.minecraft.entity.Entity;
 import icbm.Reference;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.weapon.WeaponRailgun;
+import icbm.sentry.turret.weapon.types.WeaponRailgun;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;

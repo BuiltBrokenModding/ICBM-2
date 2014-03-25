@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.weapon.WeaponConventional;
+import icbm.sentry.turret.weapon.types.WeaponConventional;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;

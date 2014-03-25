@@ -1,11 +1,13 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.turret.weapon.types;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.turret.weapon.WeaponDamage;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.IVector3;
+import calclavia.lib.prefab.damage.ObjectDamageSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -18,18 +20,19 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
     {
         this(sentry, damage);
         this.energyCost = energy;
+        this.soundEffect = Reference.PREFIX + "lasershot";
     }
 
     public WeaponLaser(ITurret sentry, float damage)
     {
-        super(sentry, TurretDamageSource.turretLaser, damage);
+        super(sentry, ObjectDamageSource.doLaserDamage(sentry), damage);
     }
 
     @Override
     public void fire(Entity entity)
     {
         this.onHitEntity(entity);
-        world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "lasershot", 5F, 1F - (world().rand.nextFloat() * 0.2f));
+        this.playFiringAudio();
     }
 
     @Override
@@ -45,7 +48,8 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
     @Override
     public void fire(IVector3 target)
     {
-        /** placeholder code to not accidentally call a traveling bullet style fire. --tgame14 */
+        //TODO add tile damage effect vs light tiles like grass
+        this.playFiringAudio();
     }
 
     @Override
