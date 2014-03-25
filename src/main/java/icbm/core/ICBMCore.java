@@ -93,8 +93,6 @@ public final class ICBMCore
 
     public static OreGenBase sulfurGenerator;
 
-    private static boolean isPreInit, isInit, isPostInit;
-
     public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
 
     public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
@@ -183,6 +181,8 @@ public final class ICBMCore
         
         EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", 0, this, 50, 15, true);
         EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
+        
+        proxy.init();
         modproxy.init();
     }
 
@@ -250,7 +250,7 @@ public final class ICBMCore
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-        proxy.init();
+       
 
         LOGGER.info("Calling postInit for submodules");
         modproxy.postInit();
