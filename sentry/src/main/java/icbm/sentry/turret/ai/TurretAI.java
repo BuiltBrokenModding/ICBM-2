@@ -27,9 +27,9 @@ public class TurretAI
     private int targetLostTimer = 0;
     private int ticks = 0;
 
-    public static final boolean debugMode = false;
+    public boolean debugMode = false;
 
-    public static void debug(String str)
+    public void debug(String str)
     {
         if (debugMode)
             System.out.println("[Sentry AI] " + str);
