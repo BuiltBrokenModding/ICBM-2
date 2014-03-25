@@ -1,9 +1,9 @@
 package icbm.sentry;
 
 import icbm.Reference;
+import icbm.Settings;
+import icbm.TabICBM;
 import icbm.core.ICBMCore;
-import icbm.core.Settings;
-import icbm.core.TabICBM;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.gui.user.TerminalAccessCMD;
 import icbm.sentry.turret.EntityMountableDummy;

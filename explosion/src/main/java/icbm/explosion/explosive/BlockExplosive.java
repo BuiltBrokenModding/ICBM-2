@@ -1,7 +1,7 @@
 package icbm.explosion.explosive;
 
 import icbm.Reference;
-import icbm.core.TabICBM;
+import icbm.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.entities.EntityExplosive;
 import icbm.explosion.render.tile.RenderBombBlock;

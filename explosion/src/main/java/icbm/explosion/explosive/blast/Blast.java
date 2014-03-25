@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.prefab.render.ModelICBM;
+import icbm.ModelICBM;
 import icbm.explosion.entities.EntityExplosion;
 import icbm.explosion.entities.EntityMissile;
 

@@ -2,7 +2,7 @@ package icbm.explosion.gui;
 
 import icbm.Reference;
 import icbm.core.ICBMCore;
-import icbm.core.prefab.render.GuiICBM;
+import icbm.core.gui.GuiICBM;
 import icbm.explosion.machines.TileEMPTower;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;

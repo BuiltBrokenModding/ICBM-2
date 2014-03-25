@@ -1,7 +1,7 @@
 package icbm.explosion.gui;
 
 import calclavia.api.mffs.card.ICoordLink;
-import icbm.core.prefab.render.GuiICBMContainer;
+import icbm.core.gui.GuiICBMContainer;
 import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.machines.TileMissileCoordinator;
 import net.minecraft.entity.player.InventoryPlayer;

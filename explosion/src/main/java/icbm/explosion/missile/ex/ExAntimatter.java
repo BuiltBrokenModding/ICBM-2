@@ -1,8 +1,8 @@
 package icbm.explosion.missile.ex;
 
+import icbm.ModelICBM;
 import icbm.Reference;
-import icbm.core.Settings;
-import icbm.core.prefab.render.ModelICBM;
+import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastAntimatter;
 import icbm.explosion.missile.types.Missile;

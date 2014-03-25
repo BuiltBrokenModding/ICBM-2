@@ -1,9 +1,9 @@
 package icbm.core;
 
 import calclavia.api.icbm.IItemFrequency;
-import icbm.contraption.block.TileProximityDetector;
-import icbm.contraption.gui.GuiFrequency;
-import icbm.contraption.gui.GuiProximityDetector;
+import icbm.core.blocks.TileProximityDetector;
+import icbm.core.gui.GuiFrequency;
+import icbm.core.gui.GuiProximityDetector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

@@ -1,6 +1,6 @@
 package icbm.sentry.platform;
 
-import icbm.core.TabICBM;
+import icbm.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 

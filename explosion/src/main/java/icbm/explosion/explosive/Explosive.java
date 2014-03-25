@@ -1,7 +1,7 @@
 package icbm.explosion.explosive;
 
-import icbm.core.Settings;
-import icbm.core.prefab.render.ModelICBM;
+import icbm.ModelICBM;
+import icbm.Settings;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.missile.ex.ExAntiGravitational;
 import icbm.explosion.missile.ex.ExAntimatter;

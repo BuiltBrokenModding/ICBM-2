@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.EntityFlyingBlock;
+import icbm.core.entity.EntityFlyingBlock;
 import icbm.explosion.entities.EntityLightBeam;
 import icbm.explosion.explosive.thread.ThreadExplosion;
 import icbm.explosion.explosive.thread.ThreadSky;

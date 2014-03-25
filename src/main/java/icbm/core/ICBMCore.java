@@ -1,23 +1,27 @@
 package icbm.core;
 
 import calclavia.lib.modproxy.ProxyHandler;
-import icbm.EntityFlyingBlock;
-import icbm.EntityFragments;
 import icbm.Reference;
-import icbm.contraption.ItemAntidote;
-import icbm.contraption.ItemPoisonPowder;
-import icbm.contraption.ItemSignalDisrupter;
-import icbm.contraption.ItemSulfurDust;
-import icbm.contraption.ItemTracker;
-import icbm.contraption.block.BlockCamouflage;
-import icbm.contraption.block.BlockConcrete;
-import icbm.contraption.block.BlockGlassButton;
-import icbm.contraption.block.BlockGlassPressurePlate;
-import icbm.contraption.block.BlockProximityDetector;
-import icbm.contraption.block.BlockReinforcedGlass;
-import icbm.contraption.block.BlockReinforcedRail;
-import icbm.contraption.block.BlockSpikes;
-import icbm.contraption.block.TileProximityDetector;
+import icbm.Settings;
+import icbm.TabICBM;
+import icbm.core.blocks.BlockCamouflage;
+import icbm.core.blocks.BlockConcrete;
+import icbm.core.blocks.BlockGlassButton;
+import icbm.core.blocks.BlockGlassPressurePlate;
+import icbm.core.blocks.BlockProximityDetector;
+import icbm.core.blocks.BlockReinforcedGlass;
+import icbm.core.blocks.BlockReinforcedRail;
+import icbm.core.blocks.BlockSpikes;
+import icbm.core.blocks.BlockSulfurOre;
+import icbm.core.blocks.OreGeneratorICBM;
+import icbm.core.blocks.TileProximityDetector;
+import icbm.core.entity.EntityFlyingBlock;
+import icbm.core.entity.EntityFragments;
+import icbm.core.items.ItemAntidote;
+import icbm.core.items.ItemPoisonPowder;
+import icbm.core.items.ItemSignalDisrupter;
+import icbm.core.items.ItemSulfurDust;
+import icbm.core.items.ItemTracker;
 
 import java.util.logging.Logger;
 

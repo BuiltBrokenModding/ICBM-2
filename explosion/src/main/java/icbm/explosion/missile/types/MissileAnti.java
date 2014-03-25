@@ -1,7 +1,7 @@
 package icbm.explosion.missile.types;
 
+import icbm.ModelICBM;
 import icbm.Reference;
-import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.model.missiles.ModelAntiMissileMissile;

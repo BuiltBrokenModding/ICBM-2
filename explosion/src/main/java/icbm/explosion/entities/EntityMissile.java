@@ -1,9 +1,9 @@
 package icbm.explosion.entities;
 
 import icbm.Reference;
+import icbm.Settings;
 import icbm.core.DamageUtility;
 import icbm.core.ICBMCore;
-import icbm.core.Settings;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosiveRegistry;

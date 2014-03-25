@@ -1,7 +1,7 @@
 package icbm.sentry.turret.block;
 
 import icbm.Reference;
-import icbm.core.TabICBM;
+import icbm.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;

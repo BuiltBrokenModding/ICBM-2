@@ -1,7 +1,7 @@
 package icbm.sentry.turret.ai;
 
+import icbm.Settings;
 import icbm.core.DamageUtility;
-import icbm.core.Settings;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import net.minecraft.command.IEntitySelector;

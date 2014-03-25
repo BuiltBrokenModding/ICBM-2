@@ -1,7 +1,7 @@
 package icbm.explosion.machines.launcher;
 
+import icbm.Settings;
 import icbm.core.ICBMCore;
-import icbm.core.Settings;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;

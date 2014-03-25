@@ -1,6 +1,6 @@
 package icbm.explosion.items;
 
-import icbm.core.Settings;
+import icbm.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.ExplosiveRegistry;

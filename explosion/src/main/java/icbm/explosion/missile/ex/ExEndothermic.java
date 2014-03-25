@@ -1,7 +1,7 @@
 package icbm.explosion.missile.ex;
 
-import icbm.core.Settings;
-import icbm.core.prefab.render.ModelICBM;
+import icbm.ModelICBM;
+import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastSky;
 import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.missiles.ModelEndothermicMissile;

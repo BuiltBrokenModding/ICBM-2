@@ -1,7 +1,7 @@
 package icbm.explosion.missile.types;
 
 import calclavia.api.icbm.ITracker;
-import icbm.core.prefab.render.ModelICBM;
+import icbm.ModelICBM;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.entities.EntityMissile.MissileType;
 import icbm.explosion.explosive.blast.BlastRepulsive;

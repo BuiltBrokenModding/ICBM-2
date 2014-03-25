@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
+import icbm.ModelICBM;
 import icbm.Reference;
-import icbm.core.prefab.render.ModelICBM;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.machines.TileMissileAssembler;
 import icbm.explosion.missile.types.Missile;

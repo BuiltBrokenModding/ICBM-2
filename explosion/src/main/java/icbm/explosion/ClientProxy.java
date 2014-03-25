@@ -1,9 +1,9 @@
 package icbm.explosion;
 
-import icbm.EntityFlyingBlock;
-import icbm.EntityFragments;
 import icbm.core.ICBMCore;
 import icbm.core.SoundHandler;
+import icbm.core.entity.EntityFlyingBlock;
+import icbm.core.entity.EntityFragments;
 import icbm.explosion.entities.EntityBombCart;
 import icbm.explosion.entities.EntityExplosion;
 import icbm.explosion.entities.EntityExplosive;

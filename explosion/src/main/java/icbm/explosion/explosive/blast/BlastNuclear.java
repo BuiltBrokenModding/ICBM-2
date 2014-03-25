@@ -1,8 +1,8 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
+import icbm.Settings;
 import icbm.core.ICBMCore;
-import icbm.core.Settings;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;

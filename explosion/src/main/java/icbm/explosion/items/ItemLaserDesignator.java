@@ -1,8 +1,8 @@
 package icbm.explosion.items;
 
 import icbm.Reference;
+import icbm.Settings;
 import icbm.core.ICBMCore;
-import icbm.core.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityLightBeam;
