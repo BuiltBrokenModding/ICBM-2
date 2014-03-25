@@ -18,9 +18,7 @@ import universalelectricity.api.vector.Vector3;
  * 
  * @author DarkGuardsman */
 public class WeaponBow extends WeaponThrowable
-{
-    private EulerServo servo = new EulerServo(5);
-    
+{    
     public WeaponBow(IVectorWorld loc)
     {
         super(loc);
