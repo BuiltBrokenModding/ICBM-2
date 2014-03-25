@@ -1,6 +1,5 @@
 package icbm.sentry.turret.weapon.types;
 
-import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.weapon.WeaponThrowable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
@@ -8,17 +7,14 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.IVectorWorld;
-import universalelectricity.api.vector.Vector3;
 
 /** Weapon system that functions just like a bow
  * 
  * @author DarkGuardsman */
 public class WeaponBow extends WeaponThrowable
-{    
+{
     public WeaponBow(IVectorWorld loc)
     {
         super(loc);

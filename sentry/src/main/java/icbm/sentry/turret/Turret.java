@@ -62,6 +62,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         this.onInventoryChanged();
     }
 
+    @Override
     public void update()
     {
 
@@ -153,6 +154,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
     /** Offset from the center offset to were the end of the barrel should be at. This is RELATIVE to
      * the center! */
+    @Override
     public Vector3 getWeaponOffset()
     {
         return new Vector3(getServo()).scale(barrelLength).translate(aimOffset);
@@ -255,6 +257,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         return new VectorWorld(world(), x(), y(), z());
     }
 
+    @Override
     public VectorWorld fromCenter()
     {
         return (VectorWorld) getPosition().translate(getCenterOffset());

@@ -1,14 +1,10 @@
 package icbm.sentry.platform.gui;
 
-import calclavia.api.icbm.sentry.IAmmunition;
-import calclavia.lib.access.Nodes;
-import calclavia.lib.prefab.terminal.ITerminal;
-import universalelectricity.api.CompatibilityModule;
-import icbm.sentry.interfaces.ITurretUpgrade;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import universalelectricity.api.CompatibilityModule;
+import calclavia.api.icbm.sentry.IAmmunition;
 
 /** Slot that only accept upgrades for sentries
  * 

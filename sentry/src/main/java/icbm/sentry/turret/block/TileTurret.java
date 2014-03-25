@@ -1,8 +1,5 @@
 package icbm.sentry.turret.block;
 
-import java.util.List;
-
-import calclavia.lib.prefab.terminal.TileTerminal;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
@@ -311,7 +308,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public Turret getTurret()
     {
         if (this.turret == null)
-            this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, (ITurretProvider)this);
+            this.turret = TurretRegistry.constructSentry(saveManagerSentryKey, (ITurretProvider) this);
 
         return this.turret;
     }
@@ -369,6 +366,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         }
     }
 
+    @Override
     public EntityMountableDummy getFakeEntity()
     {
         if (sentryEntity == null || sentryEntity.isDead)
@@ -426,6 +424,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         this.getTurret().onInventoryChanged();
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {

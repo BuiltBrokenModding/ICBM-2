@@ -10,6 +10,7 @@ public class EntityTurretCart extends EntityMinecart
     {
         super(world);
     }
+
     public EntityTurretCart(World world, double x, double y, double z)
     {
         super(world, x, y, z);

@@ -1,6 +1,5 @@
 package icbm.sentry.entities;
 
-import calclavia.lib.utility.inventory.InventoryUtility;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,6 +7,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import calclavia.lib.utility.inventory.InventoryUtility;
 
 /** Fake entity that renders just like a block and is used as a projectile.
  * 

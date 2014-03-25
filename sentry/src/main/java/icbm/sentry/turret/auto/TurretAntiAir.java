@@ -7,7 +7,6 @@ import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.types.WeaponConventional;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.Vector3;
 
 /** AA Turret, shoots down missiles and planes.
  * 

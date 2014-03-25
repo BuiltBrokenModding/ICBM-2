@@ -1,9 +1,9 @@
 package icbm.sentry.turret.ai;
 
-import calclavia.api.icbm.IMissile;
-import calclavia.api.icbm.ITarget;
 import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
+import calclavia.api.icbm.IMissile;
+import calclavia.api.icbm.ITarget;
 
 /** Anti-Air target selection for the AA gun. Does some extended checking of flying targets to
  * prevent issues.
@@ -21,7 +21,7 @@ public class TurretAntiAirSelector extends TurretEntitySelector
 
     @Override
     public boolean isEntityApplicable(Entity entity)
-    {      
+    {
         if (entity instanceof ITarget)
         {
             return ((ITarget) entity).canBeTargeted(this.turretProvider.getTurret());

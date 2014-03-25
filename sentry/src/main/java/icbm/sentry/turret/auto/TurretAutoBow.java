@@ -1,8 +1,6 @@
 package icbm.sentry.turret.auto;
 
-import universalelectricity.api.vector.Vector3;
 import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.types.WeaponBow;
 

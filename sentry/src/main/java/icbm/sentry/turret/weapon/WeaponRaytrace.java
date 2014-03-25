@@ -1,12 +1,12 @@
 package icbm.sentry.turret.weapon;
 
-import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.IVectorWorld;
-import universalelectricity.api.vector.Vector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
+import universalelectricity.api.vector.IVector3;
+import universalelectricity.api.vector.IVectorWorld;
+import universalelectricity.api.vector.Vector3;
 
 /** Basic weapon system that uses a raytrace to see if it hits a target. Most commonly used for
  * conventional fire arms.

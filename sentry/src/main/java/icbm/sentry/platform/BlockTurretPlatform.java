@@ -49,7 +49,7 @@ public class BlockTurretPlatform extends BlockICBM
             }
         }
         return false;
-    }  
+    }
 
     @Override
     public TileEntity createNewTileEntity(World var1)

@@ -1,11 +1,10 @@
 package icbm.sentry.platform.gui.user;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.GuiYesNo;
 import calclavia.lib.access.AccessUser;
 import calclavia.lib.prefab.terminal.TileTerminal;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 /** @author DarkGuardsman */
 public class GuiEditUser extends GuiAccessGuiComponent
@@ -38,6 +37,7 @@ public class GuiEditUser extends GuiAccessGuiComponent
         {
             FMLCommonHandler.instance().showGuiScreen(new GuiYesNo(this, "Remove User", "Do you want to remove this user", 0)
             {
+                @Override
                 public boolean doesGuiPauseGame()
                 {
                     return false;

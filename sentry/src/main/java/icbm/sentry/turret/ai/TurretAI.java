@@ -11,7 +11,6 @@ import java.util.List;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.EulerAngle;
@@ -169,6 +168,7 @@ public class TurretAI
             this.location = location;
         }
 
+        @Override
         public int compare(Entity entityA, Entity entityB)
         {
             double distanceA = this.location.distance(entityA);

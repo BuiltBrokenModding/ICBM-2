@@ -18,7 +18,7 @@ public class GuiButtonNextPage extends GuiButton
     public static final ResourceLocation gui_sheet = new ResourceLocation(Reference.DOMAIN, Reference.GUI_PATH + "sentry_terminal.png");
     private static final int icon_ySize = 9;
     private static final int icon_xSize = 9;
-    
+
     public GuiButtonNextPage(int buttonID, int xPos, int yPos, boolean pointRight)
     {
         super(buttonID, xPos, yPos, 23, 13, "");
@@ -26,6 +26,7 @@ public class GuiButtonNextPage extends GuiButton
     }
 
     /** Draws this button to the screen. */
+    @Override
     public void drawButton(Minecraft mc, int xPos, int yPos)
     {
         if (this.drawButton)

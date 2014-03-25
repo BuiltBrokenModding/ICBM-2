@@ -16,7 +16,7 @@ import universalelectricity.api.vector.Vector3;
 public abstract class WeaponThrowable extends WeaponSystem
 {
     protected EulerServo servo = new EulerServo(5);
-    
+
     public WeaponThrowable(IVectorWorld loc)
     {
         super(loc);
@@ -45,7 +45,7 @@ public abstract class WeaponThrowable extends WeaponSystem
         this.servo.set(0, yaw());
         this.servo.set(1, pitch());
         Vector3 vel = servo.toVector().scale(this.getVelocity());
-        
+
         IProjectile projectile = this.getProjectileEntity(world(), end.x(), end.y(), end.z());
         if (projectile instanceof Entity)
         {
@@ -53,7 +53,7 @@ public abstract class WeaponThrowable extends WeaponSystem
             world().spawnEntityInWorld((Entity) projectile);
             this.consumeAmmo(this.itemsConsumedPerShot, true);
             this.playFiringAudio();
-        }        
+        }
     }
 
     @Override

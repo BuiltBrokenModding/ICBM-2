@@ -117,7 +117,7 @@ public class CommandSentry extends CommandBase
                         if (sentry.canAccess(event.entityPlayer.username) || event.entityPlayer.capabilities.isCreativeMode)
                         {
                             event.entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Sentry is awaiting orders"));
-                            this.selection.put(event.entityPlayer.username, hit);
+                            CommandSentry.selection.put(event.entityPlayer.username, hit);
                         }
                         else
                         {

@@ -1,9 +1,6 @@
 package icbm.sentry.platform.gui;
 
-import calclavia.lib.access.Nodes;
-import calclavia.lib.prefab.terminal.ITerminal;
 import icbm.sentry.interfaces.ITurretUpgrade;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

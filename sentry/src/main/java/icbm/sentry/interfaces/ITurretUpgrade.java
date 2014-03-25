@@ -18,6 +18,6 @@ public interface ITurretUpgrade
 
     /** Gets how effective the upgrade is on a scale of neg 1.0 - pos 1.0. Zero having no effect, pos
      * having a good effect, neg having a bad effect. Types that have no percentage effect will
-     * ignore this method. For example shell collectors either work or don't work.  */
+     * ignore this method. For example shell collectors either work or don't work. */
     public double getUpgradeEfficiance(ItemStack itemStack, String type);
 }

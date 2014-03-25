@@ -15,7 +15,7 @@ public class WeaponConventional extends WeaponInaccuracy
     {
         super(sentry, ammoAmount, damage);
     }
-    
+
     public WeaponConventional(Turret sentry, float damage)
     {
         this(sentry, 1, damage);
