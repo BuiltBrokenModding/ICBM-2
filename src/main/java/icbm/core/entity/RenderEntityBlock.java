@@ -1,6 +1,5 @@
-package icbm.explosion.render.entity;
+package icbm.core.entity;
 
-import icbm.core.entity.EntityFlyingBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;

@@ -2,12 +2,17 @@ package icbm.core;
 
 import calclavia.api.icbm.IItemFrequency;
 import icbm.core.blocks.TileProximityDetector;
+import icbm.core.entity.EntityFlyingBlock;
+import icbm.core.entity.EntityFragments;
+import icbm.core.entity.RenderEntityBlock;
+import icbm.core.entity.RenderShrapnel;
 import icbm.core.gui.GuiFrequency;
 import icbm.core.gui.GuiProximityDetector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -19,6 +24,14 @@ public class ClientProxy extends CommonProxy
     {
         super.preInit();
         MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
+    }
+
+    @Override
+    public void init()
+    {
+        super.init();
+        RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RenderEntityBlock());
+        RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RenderShrapnel());
     }
 
     @Override

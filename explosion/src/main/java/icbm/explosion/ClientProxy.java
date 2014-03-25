@@ -4,6 +4,8 @@ import icbm.core.ICBMCore;
 import icbm.core.SoundHandler;
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.core.entity.EntityFragments;
+import icbm.core.entity.RenderEntityBlock;
+import icbm.core.entity.RenderShrapnel;
 import icbm.explosion.entities.EntityBombCart;
 import icbm.explosion.entities.EntityExplosion;
 import icbm.explosion.entities.EntityExplosive;
@@ -33,13 +35,11 @@ import icbm.explosion.machines.launcher.TileLauncherFrame;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
 import icbm.explosion.missile.types.MissilePlayerHandler;
 import icbm.explosion.potion.PoisonFrostBite;
-import icbm.explosion.render.entity.RenderEntityBlock;
 import icbm.explosion.render.entity.RenderEntityExplosive;
 import icbm.explosion.render.entity.RenderExplosion;
 import icbm.explosion.render.entity.RenderGrenade;
 import icbm.explosion.render.entity.RenderLightBeam;
 import icbm.explosion.render.entity.RenderMissile;
-import icbm.explosion.render.entity.RenderShrapnel;
 import icbm.explosion.render.item.RenderItemMissile;
 import icbm.explosion.render.item.RenderRocketLauncher;
 import icbm.explosion.render.tile.BlockRenderHandler;
@@ -110,10 +110,8 @@ public class ClientProxy extends CommonProxy
 
         RenderingRegistry.registerEntityRenderingHandler(EntityExplosive.class, new RenderEntityExplosive());
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RenderExplosion());
-        RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RenderEntityBlock());
+        RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RenderExplosion());        
         RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RenderLightBeam());
-        RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RenderShrapnel());
         RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
         RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
