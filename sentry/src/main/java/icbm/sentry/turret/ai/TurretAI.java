@@ -150,10 +150,13 @@ public class TurretAI
     {
         if (turret().getEntitySelector().isEntityApplicable(entity))
         {
-            boolean bound_flag = isTargetInBounds(entity);
-            boolean sight_flag = canEntityBeSeen(entity);
-            debug("\t\tEntity: " + entity.toString() + " Sight: " + sight_flag + " Bounds:" + bound_flag);
-            return skipSight || bound_flag && sight_flag;
+            if (turret().fromCenter().distance(entity) <= this.turret().getTrait(ITurret.SEARCH_RANGE_TRAIT))
+            {
+                boolean bound_flag = isTargetInBounds(entity);
+                boolean sight_flag = canEntityBeSeen(entity);
+                debug("\t\tEntity: " + entity.toString() + " Sight: " + sight_flag + " Bounds:" + bound_flag);
+                return skipSight || bound_flag && sight_flag;
+            }
         }
         return false;
     }
