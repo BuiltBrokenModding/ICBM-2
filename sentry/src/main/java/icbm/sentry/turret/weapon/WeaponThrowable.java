@@ -1,5 +1,6 @@
 package icbm.sentry.turret.weapon;
 
+import icbm.sentry.turret.ai.EulerServo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.tileentity.TileEntity;
@@ -14,6 +15,8 @@ import universalelectricity.api.vector.Vector3;
  * @author Darkguardsman */
 public abstract class WeaponThrowable extends WeaponSystem
 {
+    protected EulerServo servo = new EulerServo(5);
+    
     public WeaponThrowable(IVectorWorld loc)
     {
         super(loc);
@@ -39,13 +42,17 @@ public abstract class WeaponThrowable extends WeaponSystem
     protected void doFire(IVector3 target)
     {
         Vector3 end = this.getBarrelEnd();
+        this.servo.set(0, yaw());
+        this.servo.set(1, pitch());
+        Vector3 vel = servo.toVector().scale(3);
+        
         IProjectile projectile = this.getProjectileEntity(world(), end.x(), end.y(), end.z());
         if (projectile instanceof Entity)
         {
-            Vector3 offset = new Vector3(-Math.sin(yaw()) * Math.cos(pitch()), Math.sin(pitch()), -Math.cos(yaw()) * Math.cos(pitch()));
-            projectile.setThrowableHeading(offset.x(), offset.y(), offset.z(), this.getVelocity(), this.getSpread());
+            projectile.setThrowableHeading(vel.x(), vel.y(), vel.z(), this.getVelocity(), this.getSpread());
             world().spawnEntityInWorld((Entity) projectile);
             this.consumeAmmo(this.itemsConsumedPerShot, true);
+            this.playFiringAudio();
         }        
     }
 

@@ -43,26 +43,6 @@ public class WeaponBow extends WeaponThrowable
     }
 
     @Override
-    public void fire(IVector3 entity)
-    {
-        EntityArrow entityarrow = new EntityArrow(world());
-        Vector3 end = this.getBarrelEnd();
-        this.servo.set(0, yaw());
-        this.servo.set(1, pitch());
-        Vector3 vel = servo.toVector().scale(3);
-
-        entityarrow.setLocationAndAngles(end.x(), end.y(), end.z(), (float) yaw() + 90, (float) pitch());
-
-        entityarrow.yOffset = 0.0F;
-
-        entityarrow.motionX = vel.x;
-        entityarrow.motionZ = vel.z;
-        entityarrow.motionY = vel.y;
-
-        world().spawnEntityInWorld(entityarrow);
-    }
-
-    @Override
     public boolean isAmmo(ItemStack stack)
     {
         //TODO add support for other mod's arrows
