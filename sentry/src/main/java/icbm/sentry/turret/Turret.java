@@ -31,8 +31,6 @@ import calclavia.lib.utility.nbt.SaveManager;
  * @author DarkGuardsman, tgame14 */
 public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvider
 {
-    /** TODO: Implement a property system used by MC entities to support any number of settings a
-     * turrets can have. Turret object references. */
     public final ITurretProvider host;
     private EulerServo servo;
     private TurretAI ai;
