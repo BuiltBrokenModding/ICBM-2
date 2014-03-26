@@ -16,6 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import universalelectricity.api.item.ItemElectric;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.utility.LanguageUtility;
@@ -42,7 +43,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
         Vector3 coord = getLink(itemStack);
         par3List.add("\uaa74" + LanguageUtility.getLocal("info.radarGun.savedCoords"));
         par3List.add(LanguageUtility.getLocal("gui.misc.x") + " " + (int) coord.x + ", " + LanguageUtility.getLocal("gui.misc.y") + " " + (int) coord.y + ", " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) coord.z);
-        par3List.add((int) new Vector3(entityPlayer).distance(coord) + " " + LanguageUtility.getLocal("info.radarGun.meters") + " (" + (int) (new Vector3(entityPlayer).x - coord.x) + ", " + (int) (new Vector3(entityPlayer).y - coord.y) + ", " + (int) (new Vector3(entityPlayer).z - coord.z) + ")");
+        par3List.add((int) new Vector3(entityPlayer).distance((IVector3) coord) + " " + LanguageUtility.getLocal("info.radarGun.meters") + " (" + (int) (new Vector3(entityPlayer).x - coord.x) + ", " + (int) (new Vector3(entityPlayer).y - coord.y) + ", " + (int) (new Vector3(entityPlayer).z - coord.z) + ")");
     }
 
     /** Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,
