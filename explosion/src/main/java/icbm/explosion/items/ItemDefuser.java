@@ -36,7 +36,8 @@ public class ItemDefuser extends ItemICBMElectrical
     @Override
     public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
     {
-        if (this.getEnergy(itemStack) > YONG_DIAN_LIANG)
+		System.out.println("stackCharge " + this.getEnergy(itemStack));
+		if (this.getEnergy(itemStack) >= YONG_DIAN_LIANG)
         {
             if (entity instanceof EntityExplosive)
             {
@@ -72,7 +73,7 @@ public class ItemDefuser extends ItemICBMElectrical
                 ((EntityBombCart) entity).killMinecart(DamageSource.generic);
             }
 
-            this.discharge(itemStack, YONG_DIAN_LIANG, true);
+			this.setEnergy(itemStack, this.getEnergy(itemStack) - YONG_DIAN_LIANG);
             return true;
         }
         else
@@ -92,6 +93,6 @@ public class ItemDefuser extends ItemICBMElectrical
     @Override
     public long getEnergyCapacity(ItemStack itemStack)
     {
-        return 800;
+        return YONG_DIAN_LIANG * 10;
     }
 }
