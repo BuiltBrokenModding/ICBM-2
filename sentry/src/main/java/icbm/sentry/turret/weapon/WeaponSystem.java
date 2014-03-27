@@ -204,7 +204,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     /** Called when the weapon hits a block */
     protected abstract void onHitBlock(Vector3 block);
 
-    /** Checked to see if the ItemStack is ammo for the weapon */
+    @Override
     public boolean isAmmo(ItemStack stack)
     {
         return stack != null && stack.getItem() instanceof IAmmunition && ((IAmmunition) stack.getItem()).getType(stack) != ProjectileType.UNKNOWN;

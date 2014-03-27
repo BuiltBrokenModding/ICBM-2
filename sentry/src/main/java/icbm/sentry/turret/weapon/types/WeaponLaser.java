@@ -6,6 +6,8 @@ import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.weapon.WeaponDamage;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.vector.IVector3;
 import calclavia.lib.prefab.damage.ObjectDamageSource;
 import cpw.mods.fml.relauncher.Side;
@@ -57,6 +59,18 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
     public void fireClient(IVector3 hit)
     {
         ICBMSentry.proxy.renderBeam(world(), getBarrelEnd(), hit, 1F, 1F, 1F, 10);
+    }
+
+    @Override
+    public boolean isAmmo(ItemStack stack)
+    {
+        return stack != null && CompatibilityModule.isHandler(stack.getItem());
+    }
+
+    @Override
+    public boolean consumeAmmo(int sum, boolean yes)
+    {
+        return true;
     }
 
     @Override

@@ -19,8 +19,7 @@ public class RenderCrossBowTurret extends TurretRenderer
 {
     public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "turret_bow.tcn");
     public static final String[] yawOnly = { "leg1", "leg2", "leg3", "legbase" };
-
-    @SuppressWarnings("deprecation")
+  
     public RenderCrossBowTurret()
     {
         super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "turret_bow.png"));

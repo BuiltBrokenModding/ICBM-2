@@ -2,6 +2,7 @@ package icbm.sentry.platform.gui;
 
 import icbm.sentry.platform.TileTurretPlatform;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraftforge.common.ForgeDirection;
 import calclavia.lib.gui.ContainerBase;
 
 /** Container for Sentry platform */
@@ -20,7 +21,7 @@ public class ContainerTurretPlatform extends ContainerBase
         {
             for (int ySlot = 0; ySlot < 3; ySlot++)
             {
-                this.addSlotToContainer(new SlotTurretAmmo(tileEntity, i, 95 + 18 * xSlot, 18 + 18 * ySlot));
+                this.addSlotToContainer(new SlotPlatformAmmo(tileEntity, tileEntity.getTurret(ForgeDirection.UP), i, 95 + 18 * xSlot, 18 + 18 * ySlot));
                 i++;
             }
         }

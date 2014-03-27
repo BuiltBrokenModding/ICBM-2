@@ -1,6 +1,7 @@
 package icbm.sentry.interfaces;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import universalelectricity.api.vector.IVector3;
 
 /** Applied to objects that act as a weapons. Most cases these methods will use an object as the
@@ -20,4 +21,7 @@ public interface IWeaponSystem
 
     /** checks to see if the weapon can fire */
     public boolean canFire();
+
+    /** checks if the item stack is a valid ammo item, as well used to do inventory storage checks */
+    public boolean isAmmo(ItemStack stack);
 }
