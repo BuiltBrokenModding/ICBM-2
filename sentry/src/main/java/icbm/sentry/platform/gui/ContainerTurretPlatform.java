@@ -21,7 +21,7 @@ public class ContainerTurretPlatform extends ContainerBase
         {
             for (int ySlot = 0; ySlot < 3; ySlot++)
             {
-                this.addSlotToContainer(new SlotPlatformAmmo(tileEntity, tileEntity.getTurret(ForgeDirection.UP), i, 95 + 18 * xSlot, 18 + 18 * ySlot));
+                this.addSlotToContainer(new SlotPlatformAmmo(tileEntity, i, 95 + 18 * xSlot, 18 + 18 * ySlot));
                 i++;
             }
         }
