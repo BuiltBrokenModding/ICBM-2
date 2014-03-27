@@ -24,7 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMissileAssembler extends TileEntitySpecialRenderer
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "missileAssembler.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missileAssembler.png");
 
     public static final ModelMissileAssemblerPanel MODEL_PANEL = new ModelMissileAssemblerPanel();
     public static final ModelMissileAssemblerClaw MODEL_CLAW1 = new ModelMissileAssemblerClaw(-2);

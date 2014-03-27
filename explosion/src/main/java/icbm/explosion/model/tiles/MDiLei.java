@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class MDiLei extends ModelICBM
 {
     public static final MDiLei INSTANCE = new MDiLei();
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "s-mine.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "s-mine.png");
 
     // fields
     ModelRenderer A;

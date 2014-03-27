@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderShrapnel extends Render
 {
-    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "fragment.png");
+    public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "fragment.png");
 
     public void renderArrow(EntityFragments suiPian, double par2, double par4, double par6, float par8, float par9)
     {

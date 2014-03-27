@@ -22,9 +22,9 @@ public class RenderAATurret extends TurretRenderer
 
     public RenderAATurret()
     {
-        super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "aa_turret_neutral.png"));
-        textureFriendly = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "aa_turret_friendly.png");
-        textureHostile = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "aa_turret_hostile.png");
+        super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "aa_turret_neutral.png"));
+        textureFriendly = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "aa_turret_friendly.png");
+        textureHostile = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "aa_turret_hostile.png");
     }
 
     @Override

@@ -22,9 +22,9 @@ public class RenderGunTurret extends TurretRenderer
 
     public RenderGunTurret()
     {
-        super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "gun_turret_neutral.png"));
-        textureFriendly = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "gun_turret_friendly.png");
-        textureHostile = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "gun_turret_hostile.png");
+        super(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "gun_turret_neutral.png"));
+        textureFriendly = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "gun_turret_friendly.png");
+        textureHostile = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "gun_turret_hostile.png");
     }
 
     @Override

@@ -46,7 +46,7 @@ public abstract class Missile extends Explosive
     {
         if (this.resourceLocation == null)
         {
-            this.resourceLocation = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PATH + "missile_" + this.getUnlocalizedName() + ".png");
+            this.resourceLocation = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missile_" + this.getUnlocalizedName() + ".png");
         }
 
         return this.resourceLocation;
