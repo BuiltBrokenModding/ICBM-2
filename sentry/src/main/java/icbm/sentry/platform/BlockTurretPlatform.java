@@ -25,7 +25,7 @@ public class BlockTurretPlatform extends BlockICBM
     public BlockTurretPlatform(int id)
     {
         super(id, "turretPlatform");
-        this.setHardness(100f);
+        this.setHardness(8f);
         this.setResistance(50f);
         this.setCreativeTab(TabICBM.INSTANCE);
         this.requireSidedTextures = true;

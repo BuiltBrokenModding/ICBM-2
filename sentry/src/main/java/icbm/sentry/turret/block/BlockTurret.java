@@ -39,7 +39,7 @@ public class BlockTurret extends BlockICBM
     {
         super(id, "turret");
         this.setCreativeTab(TabICBM.INSTANCE);
-        this.setHardness(100f);
+        this.setHardness(8f);
         this.setResistance(50f);
     }
 
