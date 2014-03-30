@@ -1,5 +1,6 @@
 package icbm.explosion.machines;
 
+import dan200.computercraft.api.peripheral.IPeripheral;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
@@ -526,4 +527,8 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
         return new int[] { 0 };
     }
 
+	@Override public boolean equals(IPeripheral other)
+	{
+		return equals(other);
+	}
 }
