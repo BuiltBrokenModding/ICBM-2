@@ -26,7 +26,7 @@ public class TurretGun extends TurretAuto
         };
 		centerOffset.y = 0.3;
 		aimOffset.y = 0.3;
-        applyTrait(ITurret.SEARCH_RANGE_TRAIT, 40.0);
+        applyTrait(ITurret.SEARCH_RANGE_TRAIT, 20.0);
         applyTrait(ITurret.MAX_HEALTH_TRAIT, 50.0);
         maxCooldown = 10;
         barrelLength = 1f;

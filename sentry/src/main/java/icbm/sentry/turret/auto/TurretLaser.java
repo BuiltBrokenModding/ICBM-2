@@ -22,7 +22,7 @@ public class TurretLaser extends TurretAuto
 
 		weaponSystem = new WeaponTwinLaser(this, 2);
 		weaponSystem.soundEffect = Reference.PREFIX + "lasershot";
-		applyTrait(ITurret.SEARCH_RANGE_TRAIT, 50.0);
+		applyTrait(ITurret.SEARCH_RANGE_TRAIT, 15.0);
 		applyTrait(ITurret.MAX_HEALTH_TRAIT, 50.0);
 
 		barrelLength = 1.2f;
