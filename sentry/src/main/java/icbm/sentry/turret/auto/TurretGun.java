@@ -15,7 +15,7 @@ public class TurretGun extends TurretAuto
         super(host);
 		energy = new EnergyStorageHandler(1000000);
 
-		weaponSystem = new WeaponConventional(this, 1, 10)
+		weaponSystem = new WeaponConventional(this, 1, 8)
         {
             @Override
             public void fire(IVector3 target)
@@ -24,7 +24,8 @@ public class TurretGun extends TurretAuto
                 world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "machinegun", 5F, 1F - (world().rand.nextFloat() * 0.2f));
             }
         };
-        centerOffset.y = 0.27;
+		centerOffset.y = 0.3;
+		aimOffset.y = 0.3;
         applyTrait(ITurret.SEARCH_RANGE_TRAIT, 40.0);
         applyTrait(ITurret.MAX_HEALTH_TRAIT, 50.0);
         maxCooldown = 10;

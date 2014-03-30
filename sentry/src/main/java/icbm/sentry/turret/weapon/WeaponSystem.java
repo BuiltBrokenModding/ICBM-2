@@ -37,7 +37,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     protected int itemsConsumedPerShot = 0;
     protected Vector3 aimOffset = new Vector3();
     protected IInventory inventory = null;
-    protected String soundEffect = null;
+    public String soundEffect = null;
 
     public WeaponSystem(IVectorWorld pos)
     {
