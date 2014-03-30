@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /** @author DarkGuardsman */
 public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
 {
-    private long energyCost = 10000;
+    private long energyCost = 10000000;
 
     public WeaponLaser(ITurret sentry, float damage, long energy)
     {

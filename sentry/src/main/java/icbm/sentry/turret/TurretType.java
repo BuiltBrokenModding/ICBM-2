@@ -14,7 +14,7 @@ public enum TurretType
     LASER_TURRET(TurretLaser.class),
     ANTI_AIRCRAFT_TURRET(TurretAntiAir.class),
     RAILGUN(MountedRailgun.class),
-    AUTO_BOW(TurretAutoBow.class);
+    /*AUTO_BOW(TurretAutoBow.class)*/;
 
     private final Class<? extends Turret> clazz;
     private final String id;

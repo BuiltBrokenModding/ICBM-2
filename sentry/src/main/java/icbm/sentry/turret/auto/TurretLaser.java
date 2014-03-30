@@ -15,8 +15,8 @@ public class TurretLaser extends TurretAuto
     public TurretLaser(TileTurret host)
     {
         super(host);
-        energy = new EnergyStorageHandler(100000);
-        weaponSystem = new WeaponTwinLaser(this, 3);
+        energy = new EnergyStorageHandler(10000000);
+        weaponSystem = new WeaponTwinLaser(this, 2);
 
         applyTrait(ITurret.SEARCH_RANGE_TRAIT, 50.0);
         applyTrait(ITurret.MAX_HEALTH_TRAIT, 50.0);

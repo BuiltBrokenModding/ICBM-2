@@ -6,6 +6,7 @@ import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.weapon.types.WeaponConventional;
 import net.minecraft.entity.Entity;
+import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.IVector3;
 
 /** AA Turret, shoots down missiles and planes.
@@ -16,7 +17,8 @@ public class TurretAntiAir extends TurretAuto
     public TurretAntiAir(TileTurret host)
     {
         super(host);
-        this.weaponSystem = new WeaponConventional(this, 1, 10)
+		energy = new EnergyStorageHandler(10000000);
+		this.weaponSystem = new WeaponConventional(this, 1, 10)
         {
             @Override
             public void fire(IVector3 target)

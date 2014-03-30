@@ -52,7 +52,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     public Turret(ITurretProvider host)
     {
         this.host = host;
-        energy = new EnergyStorageHandler(10000);
         this.ai = new TurretAI(this);
     }
 
