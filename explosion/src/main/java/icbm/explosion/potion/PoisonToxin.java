@@ -4,8 +4,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.DamageSource;
+import calclavia.lib.prefab.potion.CustomPotion;
 
-public class PoisonToxin extends ICBMPotion
+public class PoisonToxin extends CustomPotion
 {
     public static PoisonToxin INSTANCE;
 

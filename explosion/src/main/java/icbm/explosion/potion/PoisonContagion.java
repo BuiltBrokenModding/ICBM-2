@@ -5,8 +5,6 @@ import icbm.explosion.explosive.Explosive;
 
 import java.util.List;
 
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityZombie;
@@ -16,8 +14,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import calclavia.api.icbm.explosion.ExplosiveType;
+import calclavia.lib.prefab.potion.CustomPotion;
 
-public class PoisonContagion extends ICBMPotion
+public class PoisonContagion extends CustomPotion
 {
     public static PoisonContagion INSTANCE;
 
@@ -75,7 +76,7 @@ public class PoisonContagion extends ICBMPotion
                             entity.setDead();
                         }
 
-                        ICBMExplosion.DU_CHUAN_RAN.poisonEntity(new Vector3(entity), entity);
+                        ICBMExplosion.contagios_potion.poisonEntity(new Vector3(entity), entity);
                     }
                 }
             }

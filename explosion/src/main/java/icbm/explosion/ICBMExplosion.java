@@ -127,8 +127,8 @@ public class ICBMExplosion
     public static Item itemGrenade;
     public static Item itemBombCart;
 
-    public static final ContagiousPoison DU_DU = new ContagiousPoison("Chemical", 1, false);
-    public static final ContagiousPoison DU_CHUAN_RAN = new ContagiousPoison("Contagious", 1, true);
+    public static final ContagiousPoison poisonous_potion = new ContagiousPoison("Chemical", 1, false);
+    public static final ContagiousPoison contagios_potion = new ContagiousPoison("Contagious", 1, true);
 
     @Config(key = "Creepers Drop Sulfur", category = "Extras")
     public static boolean CREEPER_DROP_SULFER = true;
@@ -161,9 +161,9 @@ public class ICBMExplosion
         itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
 
         /** Potion Effects */
-        PoisonToxin.INSTANCE = new PoisonToxin(210, true, 5149489, "toxin");
-        PoisonContagion.INSTANCE = new PoisonContagion(211, false, 5149489, "virus");
-        PoisonFrostBite.INSTANCE = new PoisonFrostBite(212, false, 5149489, "frostBite");
+        PoisonToxin.INSTANCE = new PoisonToxin(29, true, 5149489, "toxin");
+        PoisonContagion.INSTANCE = new PoisonContagion(30, false, 5149489, "virus");
+        PoisonFrostBite.INSTANCE = new PoisonFrostBite(31, false, 5149489, "frostBite");
 
         TabICBM.itemStack = new ItemStack(blockExplosive);
 
