@@ -28,7 +28,7 @@ public class SlotPlatformAmmo extends Slot
             for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
             {
                 TileTurret tileTurret = platform.getTurret(direction);
-                if (tileTurret.getTurret() instanceof IWeaponProvider)
+                if (tileTurret != null && tileTurret.getTurret() instanceof IWeaponProvider)
                 {
                     if (((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem() != null)
                     {
