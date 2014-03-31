@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
-import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.gui.user.TerminalAccessCMD;
 import icbm.sentry.turret.EntityMountableDummy;
@@ -162,12 +162,15 @@ public class ICBMSentry
     @ForgeSubscribe
     public void livingDeathEvent(LivingDeathEvent event)
     {
-        if (event.source != null && event.source instanceof ObjectDamageSource)
+        if (event.source != null)
         {
-            if (((ObjectDamageSource) event.source).attacker() instanceof ITurret)
-            {
+            if (event.source.getEntity() instanceof IKillCount)
+                ((IKillCount) event.source.getEntity()).onKill(event.entity);
+            
+            if (event.source instanceof ObjectDamageSource)
+                if (((ObjectDamageSource) event.source).attacker() instanceof IKillCount)
+                    ((IKillCount) ((ObjectDamageSource) event.source).attacker()).onKill(event.entity);
 
-            }
         }
     }
 }
