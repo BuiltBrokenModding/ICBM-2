@@ -32,6 +32,8 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
     public static final String MAX_HEALTH_TRAIT = "body.health.max";
     public static final String ROTATION_SPEED_TRAIT = "body.rotation";
     public static final String ROTATION_SPEED_WITH_TARGET_TRAIT = "body.rotation.target";
+    public static final String ENERGY_RUNNING_TRAIT = "body.energy.running";
+    public static final String ENERGY_STORAGE_TRAIT = "body.energy.storage";
 
     /** called each tick by the host to update the sentry */
     public void update();
