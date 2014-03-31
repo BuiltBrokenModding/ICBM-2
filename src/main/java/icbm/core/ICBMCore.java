@@ -1,6 +1,5 @@
 package icbm.core;
 
-import calclavia.lib.modproxy.ProxyHandler;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
@@ -100,17 +99,6 @@ public final class ICBMCore
 
     public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
-    private ProxyHandler modproxy;
-
-    public ICBMCore()
-    {
-        this.modproxy = new ProxyHandler();
-        // ModUtility.removeMod("ICBM|Sentry", Settings.CONFIGURATION.get("Child_Mods",
-        // "Disable_Sentry", false).getBoolean(false));
-        // ModUtility.removeMod("ICBM|Explosion", Settings.CONFIGURATION.get("Child_Mods",
-        // "Disable_Explosion", false).getBoolean(false));
-    }
-
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -167,7 +155,6 @@ public final class ICBMCore
 
         proxy.preInit();
         LOGGER.info("Calling preinit for submodules");
-        modproxy.preInit();
     }
 
     @EventHandler
@@ -175,15 +162,14 @@ public final class ICBMCore
     {
         Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
         LOGGER.info("Calling init for submodules");
-        
+
         EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
-        
+
         EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", 0, this, 50, 15, true);
         EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
-        
+
         proxy.init();
-        modproxy.init();
     }
 
     @EventHandler
@@ -250,10 +236,7 @@ public final class ICBMCore
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-       
-
         LOGGER.info("Calling postInit for submodules");
-        modproxy.postInit();
     }
 
 }
