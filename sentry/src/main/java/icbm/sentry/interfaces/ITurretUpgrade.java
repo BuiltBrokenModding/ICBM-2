@@ -10,6 +10,7 @@ public interface ITurretUpgrade
     /* Upgrade names supported by the sentries */
     public static final String SHELL_COLLECTOR = "shell_collector";
     public static final String TARGET_RANGE = "target_range";
+    public static final String ENERGY_UPGRADE = "energy_upgrade";
 
     /** Gets the type of the object using a string name.
      * 
