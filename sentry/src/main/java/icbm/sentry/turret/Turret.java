@@ -16,6 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.INpc;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.IAnimals;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -36,6 +41,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     private final HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
     private final HashMap<String, Double> traits_default = new HashMap<String, Double>();
     private final HashMap<String, Double> traits = new HashMap<String, Double>();
+    private final HashMap<String, Integer> kill_count = new HashMap<String, Integer>();
     public EnergyStorageHandler battery;
     /** Turret Attributes TODO: change out weapon system var for an interface and registry system */
     protected WeaponSystem weaponSystem;
@@ -408,18 +414,48 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     @Override
     public int getCount()
     {
-        return 0;
+        return getCount("Total");
     }
 
     @Override
     public int getCount(String type)
     {
-        return 0;
+        return kill_count.containsKey(type) ? kill_count.get(type) : 0;
     }
 
     @Override
     public void onKill(Entity entity)
     {
+        if (entity != null)
+        {
+            if (entity instanceof IMob)
+            {
+                increaseKill("Mobs");
+            }
+            if (entity instanceof INpc)
+            {
+                increaseKill("NPCs");
+            }
+            if (entity instanceof IAnimals)
+            {
+                increaseKill("Animals");
+            }
+            if (entity instanceof EntityPlayer)
+            {
+                increaseKill("Players");
+            }
+            increaseKill(EntityList.getEntityString(entity));
+            increaseKill("Total");
+        }
+    }
 
+    private void increaseKill(String type)
+    {
+        int kills = 0;
+        if (kill_count.containsKey(type))
+        {
+            kills = kill_count.get(type);
+        }
+        kill_count.put(type, kills + 1);
     }
 }
