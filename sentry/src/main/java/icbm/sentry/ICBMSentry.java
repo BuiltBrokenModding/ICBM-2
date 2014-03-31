@@ -4,6 +4,7 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
+import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.gui.user.TerminalAccessCMD;
 import icbm.sentry.turret.EntityMountableDummy;
@@ -26,8 +27,11 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.network.PacketHandler;
+import calclavia.lib.prefab.damage.ObjectDamageSource;
 import calclavia.lib.prefab.terminal.CommandRegistry;
 import calclavia.lib.recipe.UniversalRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -153,5 +157,17 @@ public class ICBMSentry
         ServerCommandManager serverCommandManager = ((ServerCommandManager) commandManager);
         serverCommandManager.registerCommand(commandSentry);
 
+    }
+
+    @ForgeSubscribe
+    public void livingDeathEvent(LivingDeathEvent event)
+    {
+        if (event.source != null && event.source instanceof ObjectDamageSource)
+        {
+            if (((ObjectDamageSource) event.source).attacker() instanceof ITurret)
+            {
+
+            }
+        }
     }
 }

@@ -1,10 +1,20 @@
 package icbm.sentry.turret;
 
-import calclavia.lib.utility.nbt.SaveManager;
-import icbm.sentry.interfaces.*;
+import icbm.sentry.interfaces.IEnergyWeapon;
+import icbm.sentry.interfaces.IKillCount;
+import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
+import icbm.sentry.interfaces.ITurretUpgrade;
+import icbm.sentry.interfaces.IWeaponProvider;
+import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.weapon.WeaponSystem;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,15 +25,12 @@ import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import calclavia.lib.utility.nbt.SaveManager;
 
 /** Modular way to deal with sentry guns
  * 
  * @author DarkGuardsman, tgame14 */
-public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvider
+public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvider, IKillCount
 {
     public final ITurretProvider host;
     private final HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
@@ -62,7 +69,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             {
                 if (Turret.this.getWeaponSystem() instanceof IEnergyWeapon)
                 {
-                    return ((IEnergyWeapon)Turret.this.getWeaponSystem()).getEnergyPerShot();
+                    return ((IEnergyWeapon) Turret.this.getWeaponSystem()).getEnergyPerShot();
                 }
                 return this.getEnergyCapacity();
             }
@@ -396,5 +403,23 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             return this.traits().get(trait);
         }
         return 0.0;
+    }
+
+    @Override
+    public int getCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getCount(String type)
+    {
+        return 0;
+    }
+
+    @Override
+    public void onKill(Entity entity)
+    {
+
     }
 }
