@@ -14,6 +14,7 @@ import icbm.sentry.turret.weapon.WeaponSystem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -23,6 +24,7 @@ import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
@@ -229,6 +231,17 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         }
         nbt.setDouble("yaw", getServo().yaw);
         nbt.setDouble("pitch", getServo().pitch);
+
+        //Save kill counts
+        NBTTagList killCounts = new NBTTagList();
+        for (Entry<String, Integer> entry : this.kill_count.entrySet())
+        {
+            NBTTagCompound accessData = new NBTTagCompound();
+            accessData.setString("name", entry.getKey());
+            accessData.setInteger("count", entry.getValue());
+            killCounts.appendTag(accessData);
+        }
+        nbt.setTag("killCount", killCounts);
     }
 
     @Override
@@ -241,6 +254,16 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         getServo().yaw = nbt.getDouble("yaw");
         getServo().pitch = nbt.getDouble("pitch");
         getServo().hasChanged = true;
+
+        //Load kill count
+        NBTTagList nodeList = nbt.getTagList("killCount");
+        kill_count.clear();
+        for (int i = 0; i < nodeList.tagCount(); ++i)
+        {
+            NBTTagCompound tag = (NBTTagCompound) nodeList.tagAt(i);
+            kill_count.put(tag.getString("name"), tag.getInteger("count"));
+        }
+
     }
 
     @Override
@@ -449,6 +472,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         }
     }
 
+    /** Increase the kill count */
     private void increaseKill(String type)
     {
         int kills = 0;
