@@ -164,16 +164,13 @@ public class ICBMSentry
     {
         if (event.source != null && event.entity != null && !event.entity.worldObj.isRemote)
         {
-            System.out.println("onDeath");
             if (event.source.getEntity() instanceof IKillCount)
                 ((IKillCount) event.source.getEntity()).onKillOfEntity(event.entity);
 
             if (event.source instanceof ObjectDamageSource)
             {
-                System.out.println("Death source is instanceof ObjectDamageSource");
                 if (((ObjectDamageSource) event.source).attacker() instanceof IKillCount)
                 {
-                    System.out.println("Attacker is instanceof IKillCount");
                     ((IKillCount) ((ObjectDamageSource) event.source).attacker()).onKillOfEntity(event.entity);
                 }
             }
