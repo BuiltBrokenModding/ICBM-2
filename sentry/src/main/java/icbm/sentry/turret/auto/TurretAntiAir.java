@@ -17,15 +17,8 @@ public class TurretAntiAir extends TurretAuto
     public TurretAntiAir(TileTurret host)
     {
         super(host);
-        this.weaponSystem = new WeaponConventional(this, 1, 10)
-        {
-            @Override
-            public void fire(IVector3 target)
-            {
-                super.fire(target);
-                world().playSoundEffect(x(), y(), z(), Reference.PREFIX + "aagun", 5F, 1F - (world().rand.nextFloat() * 0.2f));
-            }
-        };
+        this.weaponSystem = new WeaponConventional(this, 10);
+        this.weaponSystem.soundEffect = Reference.PREFIX + "aagun";
         this.centerOffset.y = 0.75;
         applyTrait(ITurret.SEARCH_RANGE_TRAIT, 200.0);
         applyTrait(ITurret.MAX_HEALTH_TRAIT, 70.0);

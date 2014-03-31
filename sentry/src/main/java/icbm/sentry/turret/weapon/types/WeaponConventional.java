@@ -1,5 +1,6 @@
 package icbm.sentry.turret.weapon.types;
 
+import icbm.Reference;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.weapon.WeaponInaccuracy;
 import net.minecraft.item.ItemStack;
@@ -14,6 +15,7 @@ public class WeaponConventional extends WeaponInaccuracy
     public WeaponConventional(Turret sentry, int ammoAmount, float damage)
     {
         super(sentry, ammoAmount, damage);
+        this.soundEffect = Reference.PREFIX + "machinegun";
     }
 
     public WeaponConventional(Turret sentry, float damage)
