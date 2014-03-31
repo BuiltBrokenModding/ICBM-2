@@ -335,6 +335,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         if (this.upgrade_count.containsKey(ITurretUpgrade.TARGET_RANGE) && this.traits.containsKey(ITurret.SEARCH_RANGE_TRAIT))
         {
             double range = this.traits.get(ITurret.SEARCH_RANGE_TRAIT) + (this.traits.get(ITurret.SEARCH_RANGE_TRAIT) * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
+            this.traits.put(ITurret.SEARCH_RANGE_TRAIT, range);
         }
     }
 
