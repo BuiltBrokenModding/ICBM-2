@@ -73,7 +73,7 @@ public class TileTurretPlatform extends TileElectricalInventory
 
             if (turret != null && turret.getTurret() != null)
             {
-                long added = turret.getTurret().energy.receiveEnergy(remain, doReceive);
+                long added = turret.getTurret().battery.receiveEnergy(remain, doReceive);
                 used += added;
                 remain -= added;
             }

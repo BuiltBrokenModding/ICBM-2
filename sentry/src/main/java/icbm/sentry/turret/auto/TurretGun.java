@@ -13,8 +13,6 @@ public class TurretGun extends TurretAuto
     public TurretGun(TileTurret host)
     {
         super(host);
-		energy = new EnergyStorageHandler(1000000);
-
 		weaponSystem = new WeaponConventional(this, 1, 8)
         {
             @Override

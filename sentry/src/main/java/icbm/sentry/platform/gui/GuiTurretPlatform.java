@@ -39,15 +39,15 @@ public class GuiTurretPlatform extends GuiContainerBase
 		{
 			//TODO: re-add when rotation is implemented for sentries
 			//fontRenderer.drawString("Position: " + ForgeDirection.UP, 8, 20, 4210752);
-			if (turret.getTurret().energy.getEnergyCapacity() > 0)
+			if (turret.getTurret().battery.getEnergyCapacity() > 0)
 			{
 				fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Energy", 8, 30, 4210752);
-				renderUniversalDisplay(8, 40, turret.getTurret().energy.getEnergy(), mouseX, mouseY, Unit.JOULES, true);
+				renderUniversalDisplay(8, 40, turret.getTurret().battery.getEnergy(), mouseX, mouseY, Unit.JOULES, true);
 
 				if (turret.getTurret() instanceof IWeaponProvider)
 				{
 					fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Required Energy", 8, 50, 4210752);
-					renderUniversalDisplay(8, 60, turret.getTurret().energy.getMaxExtract(), mouseX, mouseY, Unit.JOULES, true);
+					renderUniversalDisplay(8, 60, turret.getTurret().battery.getMaxExtract(), mouseX, mouseY, Unit.JOULES, true);
 				}
 			}
 		}

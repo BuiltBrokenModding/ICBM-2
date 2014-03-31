@@ -9,9 +9,9 @@ import universalelectricity.api.vector.Vector3;
  * @author Darkguardsman */
 public class WeaponTwinLaser extends WeaponLaser
 {
-    public WeaponTwinLaser(Turret sentry, float damage)
+    public WeaponTwinLaser(Turret sentry, float damage, long energy)
     {
-        super(sentry, damage);
+        super(sentry, damage, energy);
     }
 
     public void fireClient(Vector3 hit)

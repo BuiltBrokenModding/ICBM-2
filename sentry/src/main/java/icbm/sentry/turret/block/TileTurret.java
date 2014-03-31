@@ -81,10 +81,10 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
                 {
                     PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 60, worldObj.provider.dimensionId, this.getRotationPacket());
                 }
-                if (this.turretPrevEnergy != getTurret().energy.getEnergy())
+                if (this.turretPrevEnergy != getTurret().battery.getEnergy())
                 {
                     PacketHandler.sendPacketToClients(this.getEnergyPacket(), this.getWorldObj());
-                    this.turretPrevEnergy = getTurret().energy.getEnergy();
+                    this.turretPrevEnergy = getTurret().battery.getEnergy();
                 }
             }
         }
@@ -168,7 +168,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
     public Packet getEnergyPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, getTurret().energy.getEnergy());
+        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, getTurret().battery.getEnergy());
     }
 
     @Override
@@ -201,7 +201,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
                     if (id == ENERGY_PACKET_ID)
                     {
-                        getTurret().energy.setEnergy(data.readLong());
+                        getTurret().battery.setEnergy(data.readLong());
                         return true;
                     }
 

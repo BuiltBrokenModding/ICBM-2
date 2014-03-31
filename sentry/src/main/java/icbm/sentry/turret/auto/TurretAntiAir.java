@@ -17,8 +17,7 @@ public class TurretAntiAir extends TurretAuto
     public TurretAntiAir(TileTurret host)
     {
         super(host);
-		energy = new EnergyStorageHandler(10000000);
-		this.weaponSystem = new WeaponConventional(this, 1, 10)
+        this.weaponSystem = new WeaponConventional(this, 1, 10)
         {
             @Override
             public void fire(IVector3 target)
@@ -30,6 +29,7 @@ public class TurretAntiAir extends TurretAuto
         this.centerOffset.y = 0.75;
         applyTrait(ITurret.SEARCH_RANGE_TRAIT, 200.0);
         applyTrait(ITurret.MAX_HEALTH_TRAIT, 70.0);
+        applyTrait(ITurret.ENERGY_STORAGE_TRAIT, 10000);
         this.maxCooldown = 5;
         selector = new TurretAntiAirSelector(this);
     }

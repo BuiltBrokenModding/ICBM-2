@@ -29,7 +29,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     private final HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
     private final HashMap<String, Double> traits_default = new HashMap<String, Double>();
     private final HashMap<String, Double> traits = new HashMap<String, Double>();
-    public EnergyStorageHandler energy;
+    public EnergyStorageHandler battery;
     /** Turret Attributes TODO: change out weapon system var for an interface and registry system */
     protected WeaponSystem weaponSystem;
     protected Vector3 aimOffset = new Vector3();
@@ -45,6 +45,28 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     {
         this.host = host;
         this.ai = new TurretAI(this);
+        this.battery = new EnergyStorageHandler()
+        {
+            @Override
+            public long getEnergyCapacity()
+            {
+                if (Turret.this.traits.containsKey(ITurret.ENERGY_STORAGE_TRAIT))
+                {
+                    return (int) (Turret.this.traits.get(ITurret.ENERGY_STORAGE_TRAIT) * 1);
+                }
+                return this.capacity;
+            }
+
+            @Override
+            public long getMaxExtract()
+            {
+                if (Turret.this.getWeaponSystem() instanceof IEnergyWeapon)
+                {
+                    return ((IEnergyWeapon)Turret.this.getWeaponSystem()).getEnergyPerShot();
+                }
+                return this.getEnergyCapacity();
+            }
+        };
     }
 
     public void init()
@@ -92,7 +114,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         boolean fire_flag = this.getWeaponSystem().canFire();
         if (this.getWeaponSystem() instanceof IEnergyWeapon)
         {
-            if (energy.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), false) < ((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot())
+            if (battery.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), false) < ((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot())
             {
                 return false;
             }
@@ -118,7 +140,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             this.getWeaponSystem().fire(target);
             if (this.getWeaponSystem() instanceof IEnergyWeapon)
             {
-                energy.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
+                battery.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
             }
             cooldown = maxCooldown;
             return true;
@@ -144,7 +166,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             this.getWeaponSystem().fire(target);
             if (this.getWeaponSystem() instanceof IEnergyWeapon)
             {
-                energy.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
+                battery.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
             }
             cooldown = maxCooldown;
             return true;
@@ -169,28 +191,28 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     @Override
     public void setEnergy(ForgeDirection dir, long energy)
     {
-        this.energy.setEnergy(energy);
+        this.battery.setEnergy(energy);
     }
 
     @Override
     public long getEnergy(ForgeDirection dir)
     {
-        return this.energy.getEnergy();
+        return this.battery.getEnergy();
     }
 
     @Override
     public long getEnergyCapacity(ForgeDirection dir)
     {
-        return this.energy.getEnergyCapacity();
+        return this.battery.getEnergyCapacity();
     }
 
     @Override
     public void save(NBTTagCompound nbt)
     {
         nbt.setString(ITurret.SENTRY_TYPE_SAVE_ID, SaveManager.getID(this.getClass()));
-        if (this.energy != null)
+        if (this.battery != null)
         {
-            this.energy.writeToNBT(nbt);
+            this.battery.writeToNBT(nbt);
         }
         nbt.setDouble("yaw", getServo().yaw);
         nbt.setDouble("pitch", getServo().pitch);
@@ -199,9 +221,9 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     @Override
     public void load(NBTTagCompound nbt)
     {
-        if (this.energy != null)
+        if (this.battery != null)
         {
-            this.energy.readFromNBT(nbt);
+            this.battery.readFromNBT(nbt);
         }
         getServo().yaw = nbt.getDouble("yaw");
         getServo().pitch = nbt.getDouble("pitch");
@@ -336,6 +358,11 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         {
             double range = this.traits.get(ITurret.SEARCH_RANGE_TRAIT) + (this.traits.get(ITurret.SEARCH_RANGE_TRAIT) * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
             this.traits.put(ITurret.SEARCH_RANGE_TRAIT, range);
+        }
+        if (this.upgrade_count.containsKey(ITurretUpgrade.ENERGY_UPGRADE) && this.traits.containsKey(ITurret.ENERGY_RUNNING_TRAIT))
+        {
+            double energy = this.traits.get(ITurret.ENERGY_STORAGE_TRAIT) + (this.traits.get(ITurret.ENERGY_STORAGE_TRAIT) * this.upgrade_count.get(ITurretUpgrade.ENERGY_UPGRADE));
+            this.traits.put(ITurret.ENERGY_STORAGE_TRAIT, energy);
         }
     }
 

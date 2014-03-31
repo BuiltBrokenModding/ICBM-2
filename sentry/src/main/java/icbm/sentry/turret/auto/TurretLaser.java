@@ -18,13 +18,11 @@ public class TurretLaser extends TurretAuto
 	public TurretLaser(TileTurret host)
 	{
 		super(host);
-		energy = new EnergyStorageHandler(10000000);
-
-		weaponSystem = new WeaponTwinLaser(this, 2);
+		weaponSystem = new WeaponTwinLaser(this, 2, 100000);
 		weaponSystem.soundEffect = Reference.PREFIX + "lasershot";
 		applyTrait(ITurret.SEARCH_RANGE_TRAIT, 15.0);
 		applyTrait(ITurret.MAX_HEALTH_TRAIT, 50.0);
-
+		applyTrait(ITurret.ENERGY_STORAGE_TRAIT, 1000000);
 		barrelLength = 1.2f;
 		maxCooldown = 15;
 	}
