@@ -2,6 +2,7 @@ package icbm.sentry.turret.weapon.types;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.weapon.WeaponDamage;
 import net.minecraft.entity.Entity;
@@ -13,13 +14,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /** @author DarkGuardsman */
-public class WeaponLaser extends WeaponDamage
+public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
 {
+    private long energy;
 
     public WeaponLaser(ITurret sentry, float damage, long energy)
     {
         this(sentry, damage);
         this.soundEffect = Reference.PREFIX + "lasershot";
+        this.energy = energy;
     }
 
     public WeaponLaser(ITurret sentry, float damage)
@@ -68,5 +71,11 @@ public class WeaponLaser extends WeaponDamage
     public boolean consumeAmmo(int sum, boolean yes)
     {
         return true;
+    }
+
+    @Override
+    public long getEnergyPerShot()
+    {        
+        return this.energy;
     }
 }
