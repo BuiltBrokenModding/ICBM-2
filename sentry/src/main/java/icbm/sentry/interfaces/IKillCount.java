@@ -8,11 +8,11 @@ import net.minecraft.entity.Entity;
 public interface IKillCount
 {
     /** Gets total kill count */
-    public int getCount();
+    public int getKillCount();
 
     /** Gets count of a set type */
-    public int getCount(String type);
+    public int getKillCount(String type);
 
     /** Called when the object kills something. Must be triggered by an event */
-    public void onKill(Entity entity);
+    public void onKillOfEntity(Entity entity);
 }

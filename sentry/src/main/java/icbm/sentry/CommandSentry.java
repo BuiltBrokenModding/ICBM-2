@@ -55,7 +55,7 @@ public class CommandSentry extends CommandBase
                 {
                     if (args[0].equalsIgnoreCase("kills"))
                     {
-                        sender.sendChatToPlayer(ChatMessageComponent.createFromText("Total kills: " + ((TileTurret) selected.getTileEntity()).getTurret().getCount()));
+                        sender.sendChatToPlayer(ChatMessageComponent.createFromText("Total kills: " + ((TileTurret) selected.getTileEntity()).getTurret().getKillCount()));
                     }
                     else if (args[0].equalsIgnoreCase("debug"))
                     {

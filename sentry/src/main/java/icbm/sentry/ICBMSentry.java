@@ -165,11 +165,11 @@ public class ICBMSentry
         if (event.source != null)
         {
             if (event.source.getEntity() instanceof IKillCount)
-                ((IKillCount) event.source.getEntity()).onKill(event.entity);
+                ((IKillCount) event.source.getEntity()).onKillOfEntity(event.entity);
             
             if (event.source instanceof ObjectDamageSource)
                 if (((ObjectDamageSource) event.source).attacker() instanceof IKillCount)
-                    ((IKillCount) ((ObjectDamageSource) event.source).attacker()).onKill(event.entity);
+                    ((IKillCount) ((ObjectDamageSource) event.source).attacker()).onKillOfEntity(event.entity);
 
         }
     }

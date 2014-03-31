@@ -412,19 +412,19 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     }
 
     @Override
-    public int getCount()
+    public int getKillCount()
     {
-        return getCount("Total");
+        return getKillCount("Total");
     }
 
     @Override
-    public int getCount(String type)
+    public int getKillCount(String type)
     {
         return kill_count.containsKey(type) ? kill_count.get(type) : 0;
     }
 
     @Override
-    public void onKill(Entity entity)
+    public void onKillOfEntity(Entity entity)
     {
         if (entity != null)
         {
