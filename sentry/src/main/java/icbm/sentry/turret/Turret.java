@@ -45,7 +45,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     private final HashMap<String, Double> traits = new HashMap<String, Double>();
     private final HashMap<String, Integer> kill_count = new HashMap<String, Integer>();
     public EnergyStorageHandler battery;
-    /** Turret Attributes TODO: change out weapon system var for an interface and registry system */
+    /** Turret Attributes */
     protected WeaponSystem weaponSystem;
     protected Vector3 aimOffset = new Vector3();
     protected Vector3 centerOffset = new Vector3();
@@ -475,11 +475,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     /** Increase the kill count */
     private void increaseKill(String type)
     {
-        int kills = 0;
-        if (kill_count.containsKey(type))
-        {
-            kills = kill_count.get(type);
-        }
-        kill_count.put(type, kills + 1);
+        kill_count.put(type, 1 + (kill_count.containsKey(type) ? kill_count.get(type) : 0));
     }
 }
