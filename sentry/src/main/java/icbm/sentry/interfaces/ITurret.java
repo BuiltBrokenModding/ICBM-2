@@ -24,16 +24,24 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
      * should contain the sentry id and other data used to recreate the sentry from a save */
     public static final String SENTRY_OBJECT_SAVE = "sentryTile";
 
-    //Sentry traits constants *WIP*
+    // *WIP* Sentry traits constants. Traits are not saved by constructed each time the sentry loads, or changes
+    //AI traits
     public static final String SEARCH_RANGE_TRAIT = "ai.search.range";
     public static final String SEARCH_RANGE_LOW_LIMIT_TRAIT = "ai.search.range.min";
     public static final String SEARCH_RANGE_HIGH_LIMIT_TRAIT = "ai.search.range.max";
+    //Body traits
     public static final String HEALTH_TRAIT = "body.health";
     public static final String MAX_HEALTH_TRAIT = "body.health.max";
+    public static final String ARMOR_TRAIT = "body.armor";
     public static final String ROTATION_SPEED_TRAIT = "body.rotation";
     public static final String ROTATION_SPEED_WITH_TARGET_TRAIT = "body.rotation.target";
     public static final String ENERGY_RUNNING_TRAIT = "body.energy.running";
     public static final String ENERGY_STORAGE_TRAIT = "body.energy.storage";
+    //Weapon traits
+    public static final String AMMO_STORAGE_TRAIT = "weapon.ammo.storage";
+    public static final String AMMO_CLIP_TRAIT = "weapon.ammo.clip";
+    public static final String AMMO_RELOAD_TIME_TRAIT = "weapon.ammo.reload";
+    public static final String WEAPON_DAMAGE_TRAIT = "weapon.damage";
 
     /** called each tick by the host to update the sentry */
     public void update();
