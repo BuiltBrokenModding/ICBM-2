@@ -46,13 +46,18 @@ public class CommandSentry extends CommandBase
             {
                 sender.sendChatToPlayer(ChatMessageComponent.createFromText("/Sentry Terminal"));
                 sender.sendChatToPlayer(ChatMessageComponent.createFromText("/Sentry debug [on/off]"));
+                sender.sendChatToPlayer(ChatMessageComponent.createFromText("/Sentry kills"));
             }
             else if (sender instanceof EntityPlayer && selection.containsKey(((EntityPlayer) sender).username))
             {
                 VectorWorld selected = selection.get(((EntityPlayer) sender).username);
                 if (selected != null && selected.getTileEntity() instanceof TileTurret)
                 {
-                    if (args[0].equalsIgnoreCase("debug"))
+                    if (args[0].equalsIgnoreCase("kills"))
+                    {
+                        sender.sendChatToPlayer(ChatMessageComponent.createFromText("Total kills: " + ((TileTurret) selected.getTileEntity()).getTurret().getCount()));
+                    }
+                    else if (args[0].equalsIgnoreCase("debug"))
                     {
                         boolean on = true;
                         if (args.length > 1 && args[1] != null)
