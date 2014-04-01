@@ -46,8 +46,7 @@ public class GuiTurretPlatform extends GuiContainerBase
             if (turret.getTurret() instanceof IEnergyContainer && ((IEnergyContainer) turret.getTurret()).getEnergyCapacity(ForgeDirection.UNKNOWN) > 0)
             {
                 fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Energy", 8, 30, 4210752);
-                renderUniversalDisplay(8, 40, ((IEnergyContainer) turret.getTurret()).getEnergy(ForgeDirection.UNKNOWN), mouseX, mouseY, Unit.JOULES, true);
-
+                renderUniversalDisplay(8, 40, ((IEnergyContainer) turret.getTurret()).getEnergy(ForgeDirection.UNKNOWN), ((IEnergyContainer) turret.getTurret()).getEnergyCapacity(ForgeDirection.UNKNOWN), mouseX, mouseY, Unit.JOULES, true);
             }
             if (turret.getTurret() instanceof IEnergyTurret)
             {
