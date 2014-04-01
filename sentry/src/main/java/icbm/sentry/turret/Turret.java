@@ -41,20 +41,32 @@ import calclavia.lib.utility.nbt.SaveManager;
  * @author DarkGuardsman, tgame14 */
 public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvider, IKillCount
 {
-    public final ITurretProvider host;
+
+    /** Host of the sentry gun */
+    private final ITurretProvider host;
+    /** Count of upgrades */
     private final HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
+    /** Traits applied to the sentry */
     private final HashMap<String, ISentryTrait> traits = new HashMap<String, ISentryTrait>();
+    /** Count of kills */
     private final HashMap<String, Integer> kill_count = new HashMap<String, Integer>();
-    public EnergyStorageHandler battery;
-    /** Turret Attributes */
+
+    /** Turret Weapon system */
     protected WeaponSystem weaponSystem;
-    protected Vector3 aimOffset = new Vector3();
+
+    protected Vector3 barrelOffset = new Vector3();
     protected Vector3 centerOffset = new Vector3();
-    protected float barrelLength = 1;
+    
     protected int maxCooldown = 20;
     protected int cooldown = 0;
     protected long ticks = 0;
+    protected float barrelLength = 1;
+
+    /** Axis and rotation controller */
     private EulerServo servo;
+    /** Energy storage unit for the turret */
+    public EnergyStorageHandler battery;
+    /** AI for the sentry, defines how the sentry acts without a controller */
     private TurretAI ai;
 
     public Turret(ITurretProvider host)
@@ -195,7 +207,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     @Override
     public Vector3 getWeaponOffset()
     {
-        return new Vector3(getServo()).scale(barrelLength).translate(aimOffset);
+        return new Vector3(getServo()).scale(barrelLength).translate(barrelOffset);
     }
 
     /** Offset from host location to were the sentries center is located */

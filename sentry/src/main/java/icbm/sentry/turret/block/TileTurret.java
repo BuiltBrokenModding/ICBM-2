@@ -168,7 +168,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
     public Packet getEnergyPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, getTurret().battery.getEnergy());
+        return ICBMCore.PACKET_TILE.getPacketWithID(ENERGY_PACKET_ID, this, getTurret().getEnergy(ForgeDirection.UNKNOWN));
     }
 
     @Override
@@ -201,7 +201,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
 
                     if (id == ENERGY_PACKET_ID)
                     {
-                        getTurret().battery.setEnergy(data.readLong());
+                        getTurret().setEnergy(ForgeDirection.UNKNOWN, data.readLong());
                         return true;
                     }
 

@@ -14,7 +14,7 @@ public class TurretGun extends TurretAuto
         super(host);
         weaponSystem = new WeaponConventional(this, 8);
         centerOffset.y = 0.3;
-        aimOffset.y = 0.3;
+        barrelOffset.y = 0.3;
         applyTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 20.0));
         applyTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
         maxCooldown = 10;
