@@ -27,19 +27,6 @@ public class TurretAntiAir extends TurretAuto
         selector = new TurretAntiAirSelector(this); 
         setTrait(ITurret.SEARCH_RANGE_TRAIT, 200.0);
         setTrait(ITurret.MAX_HEALTH_TRAIT, 70.0);
-    }
-
-    @Override
-    public void setTarget(Entity target)
-    {
-        super.setTarget(target);
-        if (this.target != null)
-        {
-            this.getServo().setRotationSpeed(20);
-        }
-        else
-        {
-            this.getServo().setRotationSpeed(5);
-        }
+        setTrait(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 20.0);
     }
 }

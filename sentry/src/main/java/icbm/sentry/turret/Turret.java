@@ -103,6 +103,8 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         newTrait(new SentryTraitEnergy(100000));
         newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
         newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 20.0));
+        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_TRAIT, 5));
+        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 7));
     }
 
     /** Called directly after the sentry has loaded into the world & updated once */
