@@ -17,5 +17,5 @@ public class TurretGun extends TurretAuto
         barrelOffset.y = 0.3;
         barrelLength = 1f;
         setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 40);
-    }
+    }   
 }

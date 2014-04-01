@@ -87,4 +87,18 @@ public abstract class SentryTrait<O> implements ISentryTrait<O>
         }
         return d;
     }
+
+    public static long asLong(ISentryTrait trait)
+    {
+        return asLong(trait, 0L);
+    }
+
+    public static long asLong(ISentryTrait trait, long d)
+    {
+        if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+        {
+            return (long) trait.getValue();
+        }
+        return d;
+    }
 }

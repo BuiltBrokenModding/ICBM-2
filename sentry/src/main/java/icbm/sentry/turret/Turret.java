@@ -1,5 +1,6 @@
 package icbm.sentry.turret;
 
+import icbm.sentry.interfaces.IEnergyTurret;
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.interfaces.ISentryTrait;
@@ -33,7 +34,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -42,7 +42,7 @@ import calclavia.lib.utility.nbt.SaveManager;
 /** Modular way to deal with sentry guns
  * 
  * @author DarkGuardsman, tgame14 */
-public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvider, IKillCount
+public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCount
 {
 
     /** Host of the sentry gun */
@@ -82,12 +82,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             @Override
             public long getEnergyCapacity()
             {
-                if (Turret.this.traits.containsKey(ITurret.ENERGY_STORAGE_TRAIT))
-                {
-                    ISentryTrait trait = Turret.this.traits.get(ITurret.ENERGY_STORAGE_TRAIT);
-                    return trait != null && trait.getValue() instanceof Long ? ((long) trait.getValue()) : 0;
-                }
-                return this.capacity;
+                return SentryTrait.asLong(Turret.this.getTrait(ITurret.ENERGY_STORAGE_TRAIT), this.capacity);
             }
 
             @Override
@@ -522,5 +517,12 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     private void increaseKill(String type)
     {
         kill_count.put(type, 1 + (kill_count.containsKey(type) ? kill_count.get(type) : 0));
+    }
+
+    @Override
+    public long getRunningCost()
+    {
+        ISentryTrait trait = getTrait(ITurret.ENERGY_RUNNING_TRAIT);
+        return SentryTrait.asLong(trait, 0L);
     }
 }
