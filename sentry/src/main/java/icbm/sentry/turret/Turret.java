@@ -419,7 +419,7 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         //Update upgrade count
         for (int slot = 0; slot < inv.getSizeInventory(); slot++)
         {
-            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof IUpgrade)
+            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof IUpgrade && ((IUpgrade)inv.getStackInSlot(slot).getItem()).canApplyTo(inv.getStackInSlot(slot), this))
             {
                 final List<String> id_list = new ArrayList<String>();
                 ((IUpgrade) inv.getStackInSlot(slot).getItem()).getTypes(id_list, inv.getStackInSlot(slot));
