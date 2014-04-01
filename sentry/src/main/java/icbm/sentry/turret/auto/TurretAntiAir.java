@@ -4,6 +4,8 @@ import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
+import icbm.sentry.turret.traits.SentryTraitDouble;
+import icbm.sentry.turret.traits.SentryTraitEnergy;
 import icbm.sentry.turret.weapon.types.WeaponConventional;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.energy.EnergyStorageHandler;
@@ -20,9 +22,9 @@ public class TurretAntiAir extends TurretAuto
         this.weaponSystem = new WeaponConventional(this, 10);
         this.weaponSystem.soundEffect = Reference.PREFIX + "aagun";
         this.centerOffset.y = 0.75;
-        applyTrait(ITurret.SEARCH_RANGE_TRAIT, 200.0);
-        applyTrait(ITurret.MAX_HEALTH_TRAIT, 70.0);
-        applyTrait(ITurret.ENERGY_STORAGE_TRAIT, 10000);
+        applyTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, 200.0));
+        applyTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 70.0));
+        applyTrait(new SentryTraitEnergy(10000));
         this.maxCooldown = 5;
         selector = new TurretAntiAirSelector(this);
     }

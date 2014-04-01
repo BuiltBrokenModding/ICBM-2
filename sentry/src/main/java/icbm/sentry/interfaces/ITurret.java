@@ -81,8 +81,8 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
     public double getUpgradeEffect(String upgrade);
 
     /** Map of main traits applied to the sentry */
-    public HashMap<String, Double> traits();
+    public HashMap<String, ISentryTrait> traits();
 
     /** Gets the current value of the trait */
-    public double getTrait(String trait);
+    public ISentryTrait getTrait(String trait);
 }

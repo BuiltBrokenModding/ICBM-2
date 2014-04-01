@@ -2,6 +2,7 @@ package icbm.sentry.turret;
 
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.IKillCount;
+import icbm.sentry.interfaces.ISentryTrait;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.interfaces.ITurretUpgrade;
@@ -9,6 +10,7 @@ import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
+import icbm.sentry.turret.traits.SentryTraitDouble;
 import icbm.sentry.turret.weapon.WeaponSystem;
 
 import java.util.ArrayList;
@@ -41,8 +43,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 {
     public final ITurretProvider host;
     private final HashMap<String, Double> upgrade_count = new HashMap<String, Double>();
-    private final HashMap<String, Double> traits_default = new HashMap<String, Double>();
-    private final HashMap<String, Double> traits = new HashMap<String, Double>();
+    private final HashMap<String, ISentryTrait> traits = new HashMap<String, ISentryTrait>();
     private final HashMap<String, Integer> kill_count = new HashMap<String, Integer>();
     public EnergyStorageHandler battery;
     /** Turret Attributes */
@@ -67,7 +68,8 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             {
                 if (Turret.this.traits.containsKey(ITurret.ENERGY_STORAGE_TRAIT))
                 {
-                    return (int) (Turret.this.traits.get(ITurret.ENERGY_STORAGE_TRAIT) * 1);
+                    ISentryTrait trait = Turret.this.traits.get(ITurret.ENERGY_STORAGE_TRAIT);
+                    return trait != null && trait.getValue() instanceof Long ? ((long) trait.getValue()) : 0;
                 }
                 return this.capacity;
             }
@@ -86,7 +88,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
     public void init()
     {
-        this.traits.putAll(traits_default);
         this.onInventoryChanged();
     }
 
@@ -115,11 +116,11 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     }
 
     /** Applies a trait to a sentry, prevents addition after first update */
-    public void applyTrait(String name, double value)
+    public void applyTrait(ISentryTrait value)
     {
         if (this.ticks == 0)
         {
-            this.traits_default.put(name, value);
+            this.traits.put(value.getName(), value);
         }
     }
 
@@ -368,8 +369,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
 
         //Reset
         this.upgrade_count.clear();
-        this.traits.clear();
-        this.traits.putAll(this.traits_default);
 
         //Update upgrade count
         for (int slot = 0; slot < inv.getSizeInventory(); slot++)
@@ -389,16 +388,13 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             }
         }
 
-        //Apply upgrades to traits
-        if (this.upgrade_count.containsKey(ITurretUpgrade.TARGET_RANGE) && this.traits.containsKey(ITurret.SEARCH_RANGE_TRAIT))
+        //Update traits
+        for (Entry<String, ISentryTrait> entry : this.traits().entrySet())
         {
-            double range = this.traits.get(ITurret.SEARCH_RANGE_TRAIT) + (this.traits.get(ITurret.SEARCH_RANGE_TRAIT) * this.upgrade_count.get(ITurretUpgrade.TARGET_RANGE));
-            this.traits.put(ITurret.SEARCH_RANGE_TRAIT, range);
-        }
-        if (this.upgrade_count.containsKey(ITurretUpgrade.ENERGY_UPGRADE) && this.traits.containsKey(ITurret.ENERGY_RUNNING_TRAIT))
-        {
-            double energy = this.traits.get(ITurret.ENERGY_STORAGE_TRAIT) + (this.traits.get(ITurret.ENERGY_STORAGE_TRAIT) * this.upgrade_count.get(ITurretUpgrade.ENERGY_UPGRADE));
-            this.traits.put(ITurret.ENERGY_STORAGE_TRAIT, energy);
+            if (entry.getValue() != null)
+            {
+                entry.getValue().updateTrait(this);
+            }
         }
     }
 
@@ -419,19 +415,19 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     }
 
     @Override
-    public HashMap<String, Double> traits()
+    public HashMap<String, ISentryTrait> traits()
     {
         return this.traits;
     }
 
     @Override
-    public double getTrait(String trait)
+    public ISentryTrait getTrait(String trait)
     {
         if (this.traits().containsKey(trait))
         {
             return this.traits().get(trait);
         }
-        return 0.0;
+        return new SentryTraitDouble(trait, 0.0);
     }
 
     @Override

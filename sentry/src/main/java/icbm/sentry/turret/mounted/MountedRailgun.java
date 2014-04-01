@@ -3,6 +3,8 @@ package icbm.sentry.turret.mounted;
 import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
+import icbm.sentry.turret.traits.SentryTraitDouble;
+import icbm.sentry.turret.traits.SentryTraitEnergy;
 import icbm.sentry.turret.weapon.types.WeaponRailgun;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
@@ -21,7 +23,7 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
         riderOffset = new Vector3(0, 0.2, 0);
         maxCooldown = 20 * 5;
         weaponSystem = new WeaponRailgun(this);
-        this.applyTrait(ITurret.ENERGY_STORAGE_TRAIT, 10000000);
+        this.applyTrait(new SentryTraitEnergy(10000000));
     }
 
     @Override
