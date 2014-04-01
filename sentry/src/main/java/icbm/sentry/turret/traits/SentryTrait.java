@@ -1,7 +1,6 @@
 package icbm.sentry.turret.traits;
 
 import icbm.sentry.interfaces.ISentryTrait;
-import icbm.sentry.interfaces.ITurret;
 
 /** Prefab for sentry traits
  * 
@@ -30,7 +29,7 @@ public abstract class SentryTrait<O> implements ISentryTrait<O>
     {
         return name;
     }
-    
+
     @Override
     public O getValue()
     {
@@ -53,5 +52,11 @@ public abstract class SentryTrait<O> implements ISentryTrait<O>
     public void setDefaultValue(O obj)
     {
         default_value = obj;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "[SentryTrait]Name: " + getName() + " Value: " + getValue() + " Default: " + getDefaultValue();
     }
 }

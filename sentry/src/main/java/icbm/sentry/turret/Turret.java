@@ -11,10 +11,9 @@ import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.traits.SentryTraitDouble;
+import icbm.sentry.turret.traits.SentryTraitEnergy;
 import icbm.sentry.turret.weapon.WeaponSystem;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +99,10 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
                 return this.getEnergyCapacity();
             }
         };
+
+        newTrait(new SentryTraitEnergy(100000));
+        newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
+        newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 20.0));
     }
 
     /** Called directly after the sentry has loaded into the world & updated once */
@@ -142,24 +145,24 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         }
     }
 
+    /** Sets the default value of a trait */
     public void setTrait(String value, Object data)
     {
-        if (data != null)
+        if (this.ticks == 0)
         {
-            ISentryTrait<?> trait = getTrait(value);
-            if (trait != null)
+            if (data != null)
             {
-                try
+                ISentryTrait<?> trait = getTrait(value);
+                if (trait != null)
                 {
-                    Class<?> type = (Class<?>) ((ParameterizedType) trait.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-                    if (type != null && type.isAssignableFrom(data.getClass()))
+                    try
                     {
-                        ((ISentryTrait<Object>)trait).setDefaultValue(data);;
+                        ((ISentryTrait<Object>) trait).setDefaultValue(data);
                     }
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

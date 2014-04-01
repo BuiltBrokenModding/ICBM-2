@@ -20,11 +20,9 @@ public class TurretLaser extends TurretAuto
         super(host);
         weaponSystem = new WeaponTwinLaser(this, 2, 100000);
         weaponSystem.soundEffect = Reference.PREFIX + "lasershot";
-        newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 15.0));
-        newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
-        newTrait(new SentryTraitEnergy(1000000));
         barrelLength = 1.2f;
         maxCooldown = 15;
+        setTrait(ITurret.ENERGY_STORAGE_TRAIT, 1000000L);
     }
 
     @Override
