@@ -62,7 +62,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     /** Offset from the host location were the center of the sentry's turret is located */
     protected Vector3 centerOffset = new Vector3();
 
-    protected int cooldown = 0;
+    private int cooldown = 0;
     protected long ticks = 0;
     protected float barrelLength = 1;
 
@@ -152,22 +152,26 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     /** Sets the default value of a trait */
     public void setTrait(String value, Object data)
     {
+        //System.out.println("Value: " + value + "  Data: " + data);
         if (this.ticks == 0)
         {
             if (data != null)
             {
-                ISentryTrait<?> trait = getTrait(value);
+                ISentryTrait<Object> trait = getTrait(value);
+                //System.out.println("Before>Trait: " + trait.toString());
                 if (trait != null)
                 {
                     try
                     {
-                        ((ISentryTrait<Object>) trait).setDefaultValue(data);
+                        trait.setDefaultValue(data);
+                        trait.setValue(data);
                     }
                     catch (Exception e)
                     {
                         e.printStackTrace();
                     }
                 }
+                //System.out.println("After>Trait: " + trait.toString());
             }
         }
     }
@@ -206,7 +210,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             {
                 battery.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
             }
-            cooldown = SentryTrait.asInt(getTrait(ITurret.AMMO_RELOAD_TIME_TRAIT), 10);
+            cooldown = SentryTrait.asInt(getTrait(ITurret.AMMO_RELOAD_TIME_TRAIT), 13);
             return true;
         }
 
