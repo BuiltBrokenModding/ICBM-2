@@ -1,6 +1,7 @@
 package icbm.sentry.platform.gui;
 
 import icbm.Reference;
+import icbm.sentry.interfaces.IEnergyTurret;
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.platform.TileTurretPlatform;
@@ -11,6 +12,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import calclavia.lib.gui.GuiContainerBase;
 import calclavia.lib.render.EnumColor;
@@ -39,17 +41,23 @@ public class GuiTurretPlatform extends GuiContainerBase
         if (turret != null)
         {
             //TODO: re-add when rotation is implemented for sentries
-            //fontRenderer.drawString("Position: " + ForgeDirection.UP, 8, 20, 4210752);
-            if (turret.getTurret().getEnergyCapacity(ForgeDirection.UNKNOWN) > 0)
+            //fontRenderer.drawString("Position: " + ForgeDirection.UP, 8, 20, 4210752); 
+
+            if (turret.getTurret() instanceof IEnergyContainer && ((IEnergyContainer) turret.getTurret()).getEnergyCapacity(ForgeDirection.UNKNOWN) > 0)
             {
                 fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Energy", 8, 30, 4210752);
-                renderUniversalDisplay(8, 40, turret.getTurret().getEnergy(ForgeDirection.UNKNOWN), mouseX, mouseY, Unit.JOULES, true);
+                renderUniversalDisplay(8, 40, ((IEnergyContainer) turret.getTurret()).getEnergy(ForgeDirection.UNKNOWN), mouseX, mouseY, Unit.JOULES, true);
 
-                if (turret.getTurret() instanceof IWeaponProvider && ((IWeaponProvider) turret.getTurret()).getWeaponSystem() instanceof IEnergyWeapon)
-                {
-                    fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Required Energy", 8, 50, 4210752);
-                    renderUniversalDisplay(8, 60, ((IEnergyWeapon)((IWeaponProvider) turret.getTurret()).getWeaponSystem()).getEnergyPerShot(), mouseX, mouseY, Unit.JOULES, true);
-                }
+            }
+            if (turret.getTurret() instanceof IEnergyTurret)
+            {
+                fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Per Tick Cost", 8, 50, 4210752);
+                renderUniversalDisplay(8, 60, ((IEnergyTurret) turret.getTurret()).getRunningCost(), mouseX, mouseY, Unit.JOULES, true);
+            }
+            if (turret.getTurret() instanceof IWeaponProvider && ((IWeaponProvider) turret.getTurret()).getWeaponSystem() instanceof IEnergyWeapon)
+            {
+                fontRenderer.drawString(EnumColor.BRIGHT_GREEN + "Weapon Cost", 8, 75, 4210752);
+                renderUniversalDisplay(8, 85, ((IEnergyWeapon) ((IWeaponProvider) turret.getTurret()).getWeaponSystem()).getEnergyPerShot(), mouseX, mouseY, Unit.JOULES, true);
             }
         }
     }
