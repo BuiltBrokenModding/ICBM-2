@@ -2,11 +2,11 @@ package icbm.sentry.turret.auto;
 
 import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.interfaces.ITurretUpgrade;
+import icbm.sentry.interfaces.IUpgrade;
 import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.traits.SentryTraitDouble;
-import icbm.sentry.turret.traits.SentryTraitEnergy;
+import icbm.sentry.turret.traits.SentryTraitLong;
 import icbm.sentry.turret.weapon.types.WeaponConventional;
 import net.minecraft.entity.Entity;
 import universalelectricity.api.energy.EnergyStorageHandler;

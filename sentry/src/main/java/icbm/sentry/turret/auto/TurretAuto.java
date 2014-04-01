@@ -6,8 +6,10 @@ import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.ai.TurretEntitySelector;
+import icbm.sentry.turret.traits.SentryTrait;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.common.ForgeDirection;
 
 /** A Class that functions as the AI of automatic turrets. */
 public abstract class TurretAuto extends Turret implements IAutoTurret
@@ -26,10 +28,11 @@ public abstract class TurretAuto extends Turret implements IAutoTurret
     {
         super.update();
 
-        if (!world().isRemote)
+        if (!world().isRemote && this.getEnergy(ForgeDirection.UNKNOWN) >= SentryTrait.asLong(getTrait(ITurret.ENERGY_RUNNING_TRAIT)))
         {
             getAi().update();
             getServo().update();
+            this.setEnergy(ForgeDirection.UNKNOWN, this.getEnergy(ForgeDirection.UNKNOWN) - SentryTrait.asLong(getTrait(ITurret.ENERGY_RUNNING_TRAIT)));
         }
 
     }

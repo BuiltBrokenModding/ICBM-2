@@ -2,7 +2,7 @@ package icbm.sentry.turret.items;
 
 import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;
-import icbm.sentry.interfaces.ITurretUpgrade;
+import icbm.sentry.interfaces.IUpgrade;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
+public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
 {
 
     public static final Icon[] ICONS = new Icon[TurretUpgradeType.values().length];
@@ -94,8 +94,8 @@ public class ItemSentryUpgrade extends ItemICBMBase implements ITurretUpgrade
 
     public static enum TurretUpgradeType
     {
-        RANGE("targetCard", ITurretUpgrade.TARGET_RANGE, 0.25, LanguageUtility.getLocal("info.upgrade.range")),
-        COLLECTOR("shellCollector", ITurretUpgrade.SHELL_COLLECTOR, 1, LanguageUtility.getLocal("info.upgrade.collect"));
+        RANGE("targetCard", IUpgrade.TARGET_RANGE, 0.25, LanguageUtility.getLocal("info.upgrade.range")),
+        COLLECTOR("shellCollector", IUpgrade.SHELL_COLLECTOR, 1, LanguageUtility.getLocal("info.upgrade.collect"));
 
         public final String iconName;
         public final String details;

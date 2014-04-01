@@ -6,14 +6,14 @@ import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.interfaces.ISentryTrait;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
-import icbm.sentry.interfaces.ITurretUpgrade;
+import icbm.sentry.interfaces.IUpgrade;
 import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.traits.SentryTrait;
 import icbm.sentry.turret.traits.SentryTraitDouble;
-import icbm.sentry.turret.traits.SentryTraitEnergy;
+import icbm.sentry.turret.traits.SentryTraitLong;
 import icbm.sentry.turret.traits.SentryTraitInteger;
 import icbm.sentry.turret.weapon.WeaponSystem;
 
@@ -96,9 +96,10 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
             }
         };
 
-        newTrait(new SentryTraitEnergy(100000));
+        newTrait(new SentryTraitLong(ITurret.ENERGY_STORAGE_TRAIT, IUpgrade.ENERGY_STORAGE, 100000));        
+        newTrait(new SentryTraitLong(ITurret.ENERGY_RUNNING_TRAIT, IUpgrade.ENERGY_EFFICIENCY, 10));
         newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
-        newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 20.0));
+        newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, IUpgrade.TARGET_RANGE, 20.0));
         newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_TRAIT, 5));
         newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 7));
         newTrait(new SentryTraitInteger(ITurret.AMMO_RELOAD_TIME_TRAIT, 20));
@@ -418,17 +419,17 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         //Update upgrade count
         for (int slot = 0; slot < inv.getSizeInventory(); slot++)
         {
-            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof ITurretUpgrade)
+            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof IUpgrade)
             {
                 final List<String> id_list = new ArrayList<String>();
-                ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getTypes(id_list, inv.getStackInSlot(slot));
+                ((IUpgrade) inv.getStackInSlot(slot).getItem()).getTypes(id_list, inv.getStackInSlot(slot));
                 for (String id : id_list)
                 {
                     if (!this.upgrade_count.containsKey(id))
                     {
                         this.upgrade_count.put(id, 0.0D);
                     }
-                    this.upgrade_count.put(id, this.upgrade_count.get(id) + ((ITurretUpgrade) inv.getStackInSlot(slot).getItem()).getUpgradeEfficiance(inv.getStackInSlot(slot), id));
+                    this.upgrade_count.put(id, this.upgrade_count.get(id) + ((IUpgrade) inv.getStackInSlot(slot).getItem()).getUpgradeEfficiance(inv.getStackInSlot(slot), id));
                 }
             }
         }

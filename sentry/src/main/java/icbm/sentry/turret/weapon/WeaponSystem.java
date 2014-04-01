@@ -2,7 +2,7 @@ package icbm.sentry.turret.weapon;
 
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
-import icbm.sentry.interfaces.ITurretUpgrade;
+import icbm.sentry.interfaces.IUpgrade;
 import icbm.sentry.interfaces.IWeaponSystem;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
@@ -288,7 +288,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
 
                 if (turret() != null && shell != null)
                 {
-                    if (turret().upgrades().containsKey(ITurretUpgrade.SHELL_COLLECTOR))
+                    if (turret().upgrades().containsKey(IUpgrade.SHELL_COLLECTOR))
                         shell = InventoryUtility.putStackInInventory(getAmmoBay(), shell, ForgeDirection.UNKNOWN.ordinal(), true);
                     if (shell != null)
                         InventoryUtility.dropItemStack(world(), x(), y(), z(), shell, 5, 0);

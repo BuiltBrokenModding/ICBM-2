@@ -1,16 +1,16 @@
 package icbm.sentry.turret.traits;
 
 import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.interfaces.ITurretUpgrade;
+import icbm.sentry.interfaces.IUpgrade;
 
 /** Trait used to define max energy storage
  * 
  * @author Darkguardsman */
-public class SentryTraitEnergy extends SentryTraitUpgrade<Long>
+public class SentryTraitLong extends SentryTraitUpgrade<Long>
 {
-    public SentryTraitEnergy(long value)
+    public SentryTraitLong(String name, String upgrade, long value)
     {
-        super(ITurret.ENERGY_STORAGE_TRAIT, ITurretUpgrade.ENERGY_UPGRADE, value);
+        super(name, upgrade, value);
     }
 
     @Override

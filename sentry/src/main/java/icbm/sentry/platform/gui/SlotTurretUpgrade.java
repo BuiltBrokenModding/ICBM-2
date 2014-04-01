@@ -1,6 +1,6 @@
 package icbm.sentry.platform.gui;
 
-import icbm.sentry.interfaces.ITurretUpgrade;
+import icbm.sentry.interfaces.IUpgrade;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,7 @@ public class SlotTurretUpgrade extends Slot
     @Override
     public boolean isItemValid(ItemStack compareStack)
     {
-        return compareStack != null && compareStack.getItem() instanceof ITurretUpgrade;
+        return compareStack != null && compareStack.getItem() instanceof IUpgrade;
     }
 
     @Override
