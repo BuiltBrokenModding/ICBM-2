@@ -15,9 +15,9 @@ public class TurretAutoBow extends TurretAuto
     {
         super(host);
         weaponSystem = new WeaponBow(this);
-        maxCooldown = 50;
         barrelLength = 1f;
         setTrait(ITurret.SEARCH_RANGE_TRAIT, 10.0);
         setTrait(ITurret.MAX_HEALTH_TRAIT, 10.0);
+        setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 40);
     }
 }

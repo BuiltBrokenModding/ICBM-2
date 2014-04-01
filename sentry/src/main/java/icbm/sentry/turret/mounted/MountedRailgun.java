@@ -3,10 +3,7 @@ package icbm.sentry.turret.mounted;
 import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.traits.SentryTraitDouble;
-import icbm.sentry.turret.traits.SentryTraitEnergy;
 import icbm.sentry.turret.weapon.types.WeaponRailgun;
-import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 
@@ -21,9 +18,9 @@ public class MountedRailgun extends TurretMounted implements IMultiBlock
     {
         super(turretProvider);
         riderOffset = new Vector3(0, 0.2, 0);
-        maxCooldown = 20 * 5;
         weaponSystem = new WeaponRailgun(this);
-        this.newTrait(new SentryTraitEnergy(10000000));
+        setTrait(ITurret.ENERGY_STORAGE_TRAIT, 10000000L);
+        setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 100);
     }
 
     @Override

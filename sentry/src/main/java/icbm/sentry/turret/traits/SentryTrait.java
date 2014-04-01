@@ -59,4 +59,32 @@ public abstract class SentryTrait<O> implements ISentryTrait<O>
     {
         return "[SentryTrait]Name: " + getName() + " Value: " + getValue() + " Default: " + getDefaultValue();
     }
+
+    public static int asInt(ISentryTrait trait)
+    {
+        return asInt(trait, 0);
+    }
+
+    public static int asInt(ISentryTrait trait, int d)
+    {
+        if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+        {
+            return (int) trait.getValue();
+        }
+        return d;
+    }
+    
+    public static double asDouble(ISentryTrait trait)
+    {
+        return asInt(trait, 0);
+    }
+
+    public static double asDouble(ISentryTrait trait, double d)
+    {
+        if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+        {
+            return (double) trait.getValue();
+        }
+        return d;
+    }
 }

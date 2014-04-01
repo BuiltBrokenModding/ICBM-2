@@ -41,6 +41,7 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
     public static final String AMMO_STORAGE_TRAIT = "weapon.ammo.storage";
     public static final String AMMO_CLIP_TRAIT = "weapon.ammo.clip";
     public static final String AMMO_RELOAD_TIME_TRAIT = "weapon.ammo.reload";
+    public static final String AMMO_RELOAD_CLIP_TRAIT = "weapon.ammo.clip";
     public static final String WEAPON_DAMAGE_TRAIT = "weapon.damage";
 
     /** called each tick by the host to update the sentry */

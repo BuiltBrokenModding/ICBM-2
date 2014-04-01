@@ -10,8 +10,10 @@ import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.interfaces.IWeaponSystem;
 import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
+import icbm.sentry.turret.traits.SentryTrait;
 import icbm.sentry.turret.traits.SentryTraitDouble;
 import icbm.sentry.turret.traits.SentryTraitEnergy;
+import icbm.sentry.turret.traits.SentryTraitInteger;
 import icbm.sentry.turret.weapon.WeaponSystem;
 
 import java.util.ArrayList;
@@ -60,7 +62,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     /** Offset from the host location were the center of the sentry's turret is located */
     protected Vector3 centerOffset = new Vector3();
 
-    protected int maxCooldown = 20;
     protected int cooldown = 0;
     protected long ticks = 0;
     protected float barrelLength = 1;
@@ -105,6 +106,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 20.0));
         newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_TRAIT, 5));
         newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 7));
+        newTrait(new SentryTraitInteger(ITurret.AMMO_RELOAD_TIME_TRAIT, 20));
     }
 
     /** Called directly after the sentry has loaded into the world & updated once */
@@ -204,7 +206,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             {
                 battery.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
             }
-            cooldown = maxCooldown;
+            cooldown = SentryTrait.asInt(getTrait(ITurret.AMMO_RELOAD_TIME_TRAIT), 10);
             return true;
         }
 
@@ -230,7 +232,7 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
             {
                 battery.extractEnergy(((IEnergyWeapon) this.getWeaponSystem()).getEnergyPerShot(), true);
             }
-            cooldown = maxCooldown;
+            cooldown = SentryTrait.asInt(getTrait(ITurret.AMMO_RELOAD_TIME_TRAIT), 10);
             return true;
         }
         return false;

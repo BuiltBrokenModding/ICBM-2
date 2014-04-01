@@ -22,11 +22,11 @@ public class TurretAntiAir extends TurretAuto
         super(host);
         weaponSystem = new WeaponConventional(this, 10);
         weaponSystem.soundEffect = Reference.PREFIX + "aagun";
-        centerOffset.y = 0.75;       
-        maxCooldown = 5;
+        centerOffset.y = 0.75; 
         selector = new TurretAntiAirSelector(this); 
         setTrait(ITurret.SEARCH_RANGE_TRAIT, 200.0);
         setTrait(ITurret.MAX_HEALTH_TRAIT, 70.0);
         setTrait(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 20.0);
+        setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 5);
     }
 }

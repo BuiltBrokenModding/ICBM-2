@@ -21,7 +21,6 @@ public class TurretLaser extends TurretAuto
         weaponSystem = new WeaponTwinLaser(this, 2, 100000);
         weaponSystem.soundEffect = Reference.PREFIX + "lasershot";
         barrelLength = 1.2f;
-        maxCooldown = 15;
         setTrait(ITurret.ENERGY_STORAGE_TRAIT, 1000000L);
     }
 

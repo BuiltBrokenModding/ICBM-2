@@ -14,8 +14,8 @@ public class TurretGun extends TurretAuto
         super(host);
         weaponSystem = new WeaponConventional(this, 8);
         centerOffset.y = 0.3;
-        barrelOffset.y = 0.3;        
-        maxCooldown = 10;
+        barrelOffset.y = 0.3;
         barrelLength = 1f;
+        setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 10);
     }
 }
