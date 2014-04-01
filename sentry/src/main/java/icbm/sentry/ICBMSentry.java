@@ -19,7 +19,7 @@ import icbm.sentry.turret.block.ItemBlockTurret;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.items.ItemAmmo;
 import icbm.sentry.turret.items.ItemSentryUpgrade;
-import icbm.sentry.turret.items.ItemSentryUpgrade.TurretUpgradeType;
+import icbm.sentry.turret.items.ItemSentryUpgrade.Upgrades;
 import icbm.sentry.turret.mounted.MountedRailgun;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -140,8 +140,8 @@ public class ICBMSentry
         GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretLaser.class), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get(), 'D', Item.diamond, 'G', Block.glass }));
 
         // Upgrades
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, TurretUpgradeType.COLLECTOR.ordinal()), new Object[] { "BBB", " I ", "BBB", 'B', Block.cloth, 'I', Item.bowlEmpty }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, Upgrades.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, Upgrades.COLLECTOR.ordinal()), new Object[] { "BBB", " I ", "BBB", 'B', Block.cloth, 'I', Item.bowlEmpty }));
 
         proxy.init();
     }
