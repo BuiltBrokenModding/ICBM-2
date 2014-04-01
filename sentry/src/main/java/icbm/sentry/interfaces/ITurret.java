@@ -24,7 +24,7 @@ public interface ITurret extends ISaveObj, IVectorWorld, IRotation
      * should contain the sentry id and other data used to recreate the sentry from a save */
     public static final String SENTRY_OBJECT_SAVE = "sentryTile";
 
-    // *WIP* Sentry traits constants. Traits are not saved by constructed each time the sentry loads, or changes
+    // *WIP* Sentry traits constants. Traits are not saved but are constructed. This means if the trait is not item based you need to save the modifier.
     //AI traits
     public static final String SEARCH_RANGE_TRAIT = "ai.search.range";
     public static final String SEARCH_RANGE_LOW_LIMIT_TRAIT = "ai.search.range.min";

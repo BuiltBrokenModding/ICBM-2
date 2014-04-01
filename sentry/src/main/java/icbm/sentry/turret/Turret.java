@@ -13,6 +13,8 @@ import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.traits.SentryTraitDouble;
 import icbm.sentry.turret.weapon.WeaponSystem;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,9 +56,11 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     /** Turret Weapon system */
     protected WeaponSystem weaponSystem;
 
+    /** Offset from the center point were the barrel would be at zero rotation */
     protected Vector3 barrelOffset = new Vector3();
+    /** Offset from the host location were the center of the sentry's turret is located */
     protected Vector3 centerOffset = new Vector3();
-    
+
     protected int maxCooldown = 20;
     protected int cooldown = 0;
     protected long ticks = 0;
@@ -98,9 +102,11 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         };
     }
 
+    /** Called directly after the sentry has loaded into the world & updated once */
     public void init()
     {
         this.onInventoryChanged();
+        this.onSettingsChanged();
     }
 
     @Override
@@ -128,11 +134,34 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
     }
 
     /** Applies a trait to a sentry, prevents addition after first update */
-    public void applyTrait(ISentryTrait value)
+    public void newTrait(ISentryTrait<?> value)
     {
         if (this.ticks == 0)
         {
             this.traits.put(value.getName(), value);
+        }
+    }
+
+    public void setTrait(String value, Object data)
+    {
+        if (data != null)
+        {
+            ISentryTrait<?> trait = getTrait(value);
+            if (trait != null)
+            {
+                try
+                {
+                    Class<?> type = (Class<?>) ((ParameterizedType) trait.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+                    if (type != null && type.isAssignableFrom(data.getClass()))
+                    {
+                        ((ISentryTrait<Object>)trait).setDefaultValue(data);;
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -202,8 +231,6 @@ public abstract class Turret implements IEnergyContainer, ITurret, IWeaponProvid
         return false;
     }
 
-    /** Offset from the center offset to were the end of the barrel should be at. This is RELATIVE to
-     * the center! */
     @Override
     public Vector3 getWeaponOffset()
     {

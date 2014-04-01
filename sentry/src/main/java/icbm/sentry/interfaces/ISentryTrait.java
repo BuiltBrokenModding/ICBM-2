@@ -3,7 +3,7 @@ package icbm.sentry.interfaces;
 /** Advanced way to handle trait data vs just storing the trait as a single data value.
  * 
  * @author Darkguardsman */
-public interface ISentryTrait
+public interface ISentryTrait<O>
 {
     /** Name of the trait */
     public String getName();
@@ -12,5 +12,14 @@ public interface ISentryTrait
     public void updateTrait(ITurret turret);
 
     /** Gets the value of the trait */
-    public Object getValue();
+    public O getValue();
+
+    /** Sets the current value overriding the auto update value */
+    public void setValue(O obj);
+
+    /** Gets the defaut value of the trait */
+    public O getDefaultValue();
+
+    /** Sets the default value */
+    public void setDefaultValue(O obj);
 }

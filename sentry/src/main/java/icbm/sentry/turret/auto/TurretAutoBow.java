@@ -15,8 +15,8 @@ public class TurretAutoBow extends TurretAuto
     {
         super(host);
         this.weaponSystem = new WeaponBow(this);
-        applyTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 10.0));
-        applyTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 10.0));
+        newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 10.0));
+        newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 10.0));
         maxCooldown = 50;
         barrelLength = 1f;
     }

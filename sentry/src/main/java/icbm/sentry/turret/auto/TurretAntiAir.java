@@ -23,9 +23,9 @@ public class TurretAntiAir extends TurretAuto
         this.weaponSystem = new WeaponConventional(this, 10);
         this.weaponSystem.soundEffect = Reference.PREFIX + "aagun";
         this.centerOffset.y = 0.75;
-        applyTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 200.0));
-        applyTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 70.0));
-        applyTrait(new SentryTraitEnergy(10000));
+        newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, ITurretUpgrade.TARGET_RANGE, 200.0));
+        newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 70.0));
+        newTrait(new SentryTraitEnergy(10000));
         this.maxCooldown = 5;
         selector = new TurretAntiAirSelector(this);
     }

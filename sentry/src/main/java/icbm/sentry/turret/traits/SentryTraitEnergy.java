@@ -3,28 +3,19 @@ package icbm.sentry.turret.traits;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretUpgrade;
 
-public class SentryTraitEnergy extends SentryTrait
+/** Trait used to define max energy storage
+ * 
+ * @author Darkguardsman */
+public class SentryTraitEnergy extends SentryTraitUpgrade<Long>
 {
-    private long value;
-    private final long default_value;
-
     public SentryTraitEnergy(long value)
     {
-        super(ITurret.ENERGY_STORAGE_TRAIT);
-        this.value = value;
-        this.default_value = value;
+        super(ITurret.ENERGY_STORAGE_TRAIT, ITurretUpgrade.ENERGY_UPGRADE, value);
     }
 
     @Override
     public void updateTrait(ITurret turret)
     {
-        this.value = (long) (default_value + (default_value * turret.getUpgradeEffect(ITurretUpgrade.ENERGY_UPGRADE)));
+        this.setValue((long) (getDefaultValue() + (getDefaultValue() * turret.getUpgradeEffect(getUpgradeName()))));
     }
-
-    @Override
-    public Object getValue()
-    {
-        return value;
-    }
-
 }
