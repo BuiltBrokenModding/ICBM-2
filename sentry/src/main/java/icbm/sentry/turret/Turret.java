@@ -13,8 +13,8 @@ import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.traits.SentryTrait;
 import icbm.sentry.turret.traits.SentryTraitDouble;
-import icbm.sentry.turret.traits.SentryTraitLong;
 import icbm.sentry.turret.traits.SentryTraitInteger;
+import icbm.sentry.turret.traits.SentryTraitLong;
 import icbm.sentry.turret.weapon.WeaponSystem;
 
 import java.util.ArrayList;
@@ -86,17 +86,19 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
             }
 
             @Override
+            public long getMaxReceive()
+            {
+                return this.getEnergyCapacity();
+            }
+
+            @Override
             public long getMaxExtract()
             {
-                if (Turret.this.getWeaponSystem() instanceof IEnergyWeapon)
-                {
-                    return ((IEnergyWeapon) Turret.this.getWeaponSystem()).getEnergyPerShot();
-                }
                 return this.getEnergyCapacity();
             }
         };
 
-        newTrait(new SentryTraitLong(ITurret.ENERGY_STORAGE_TRAIT, IUpgrade.ENERGY_STORAGE, 100000));        
+        newTrait(new SentryTraitLong(ITurret.ENERGY_STORAGE_TRAIT, IUpgrade.ENERGY_STORAGE, 100000));
         newTrait(new SentryTraitLong(ITurret.ENERGY_RUNNING_TRAIT, IUpgrade.ENERGY_EFFICIENCY, 10));
         newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
         newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, IUpgrade.TARGET_RANGE, 20.0));
@@ -419,7 +421,7 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         //Update upgrade count
         for (int slot = 0; slot < inv.getSizeInventory(); slot++)
         {
-            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof IUpgrade && ((IUpgrade)inv.getStackInSlot(slot).getItem()).canApplyTo(inv.getStackInSlot(slot), this))
+            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof IUpgrade && ((IUpgrade) inv.getStackInSlot(slot).getItem()).canApplyTo(inv.getStackInSlot(slot), this))
             {
                 final List<String> id_list = new ArrayList<String>();
                 ((IUpgrade) inv.getStackInSlot(slot).getItem()).getTypes(id_list, inv.getStackInSlot(slot));

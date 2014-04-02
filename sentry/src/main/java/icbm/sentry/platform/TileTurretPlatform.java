@@ -4,6 +4,7 @@ import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
+import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.tile.TileElectricalInventory;
 
@@ -38,15 +39,15 @@ public class TileTurretPlatform extends TileElectricalInventory
             }
         }
 
-        // TODO: Not good idea to constantly check.
+        // TODO: Changed this to only update on block events
         turrets = new TileTurret[6];
 
-        for (int i = 0; i < 6; i++)
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity checkTile = new Vector3(this).translate(ForgeDirection.getOrientation(i)).getTileEntity(worldObj);
+            TileEntity checkTile = new Vector3(this).translate(dir).getTileEntity(worldObj);
 
             if (checkTile instanceof TileTurret)
-                turrets[i] = (TileTurret) checkTile;
+                turrets[dir.ordinal()] = (TileTurret) checkTile;
         }
     }
 
@@ -66,12 +67,12 @@ public class TileTurretPlatform extends TileElectricalInventory
     {
         long used = 0;
         long remain = receive;
-
+        
         for (int i = 0; i < 6; i++)
         {
             TileTurret turret = this.turrets[i];
 
-            if (turret != null && turret.getTurret() != null)
+            if (turret != null && turret.getTurret() instanceof IEnergyContainer)
             {
                 long added = turret.getTurret().battery.receiveEnergy(remain, doReceive);
                 used += added;
