@@ -1,10 +1,10 @@
 package icbm.sentry.turret.ai;
 
 import icbm.sentry.interfaces.IAutoTurret;
-import icbm.sentry.interfaces.ISentryTrait;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.auto.TurretAuto;
+import icbm.sentry.turret.traits.SentryTrait;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -60,14 +60,13 @@ public class TurretAI
 
         if (turret() != null)
         {
-            ISentryTrait range_trait = this.turret().getTrait(ITurret.SEARCH_RANGE_TRAIT);
-            this.search_range = range_trait != null && range_trait.getValue() instanceof Double ? ((double) range_trait.getValue()) : 10;
+            this.search_range = SentryTrait.asDouble(turret().getTrait(ITurret.SEARCH_RANGE_TRAIT), 10);
             // Only get new target if the current is missing or it will switch targets each update
             if (turret().getTarget() == null)
             {
-               
-                debug("\tSearching for target within " + search_range  + " blocks");
-                turret().setTarget(findTarget(turret(), turret().getEntitySelector(), search_range ));
+
+                debug("\tSearching for target within " + search_range + " blocks");
+                turret().setTarget(findTarget(turret(), turret().getEntitySelector(), search_range));
             }
 
             // If we have a target start aiming logic

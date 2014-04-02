@@ -65,40 +65,43 @@ public abstract class SentryTrait<O extends Object> implements ISentryTrait<O>
         return asInt(trait, 0);
     }
 
-    public static int asInt(ISentryTrait trait, int d)
+    public static int asInt(ISentryTrait<? extends Object> trait, int d)
     {
-        if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
-        {
-            return (int) trait.getValue();
-        }
+        if (trait != null)
+            if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+            {
+                return (Integer) trait.getValue();
+            }
         return d;
     }
-    
+
     public static double asDouble(ISentryTrait trait)
     {
         return asInt(trait, 0);
     }
 
-    public static double asDouble(ISentryTrait trait, double d)
+    public static double asDouble(ISentryTrait<? extends Object> trait, double d)
     {
-        if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
-        {
-            return (double) trait.getValue();
-        }
+        if (trait != null)
+            if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+            {
+                return (Double) trait.getValue();
+            }
         return d;
     }
 
-    public static long asLong(ISentryTrait trait)
+    public static long asLong(ISentryTrait<? extends Object> trait)
     {
         return asLong(trait, 0L);
     }
 
-    public static long asLong(ISentryTrait trait, long d)
+    public static long asLong(ISentryTrait<? extends Object> trait, long d)
     {
-        if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
-        {
-            return (long) trait.getValue();
-        }
+        if (trait != null)
+            if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+            {
+                return (Long) trait.getValue();
+            }
         return d;
     }
 }

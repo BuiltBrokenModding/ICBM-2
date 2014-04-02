@@ -41,11 +41,7 @@ public abstract class TurretAuto extends Turret implements IAutoTurret
     public void setTarget(Entity target)
     {
         this.target = target;
-        double r = 5;
-        ISentryTrait trait = getTrait(target != null ? ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT : ITurret.ROTATION_SPEED_TRAIT);
-        if (trait != null && (trait.getValue() instanceof Double || trait.getValue() instanceof Integer))
-            r = (double) trait.getValue();
-
+        double r = SentryTrait.asDouble(getTrait(target != null ? ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT : ITurret.ROTATION_SPEED_TRAIT), 5);
         this.getServo().setRotationSpeed(r);
     }
 
