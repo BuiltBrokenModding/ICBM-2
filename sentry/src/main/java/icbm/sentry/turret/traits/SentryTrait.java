@@ -6,7 +6,7 @@ import icbm.sentry.interfaces.ISentryTrait;
  * 
  * @author Darguardsman
  * @param <O> */
-public abstract class SentryTrait<O> implements ISentryTrait<O>
+public abstract class SentryTrait<O extends Object> implements ISentryTrait<O>
 {
     private final String name;
     private O value;

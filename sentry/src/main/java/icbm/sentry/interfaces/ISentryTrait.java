@@ -3,7 +3,7 @@ package icbm.sentry.interfaces;
 /** Advanced way to handle trait data vs just storing the trait as a single data value.
  * 
  * @author Darkguardsman */
-public interface ISentryTrait<O>
+public interface ISentryTrait<O extends Object>
 {
     /** Name of the trait */
     public String getName();
