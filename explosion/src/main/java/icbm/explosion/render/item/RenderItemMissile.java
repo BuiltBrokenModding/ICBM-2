@@ -47,7 +47,7 @@ public class RenderItemMissile implements IItemRenderer
             if (type == ItemRenderType.INVENTORY)
             {
                 scale = 0.4f;
-                right = 0.15f;
+                right = -0.5f;
 
                 if (missile.getTier() == 2 || !missile.hasBlockForm())
                 {
@@ -56,12 +56,12 @@ public class RenderItemMissile implements IItemRenderer
                 else if (missile.getTier() == 3)
                 {
                     scale = scale / 1.7f;
-                    right = 0.5f;
+                    right = -0.65f;
                 }
                 else if (missile.getTier() == 4)
                 {
                     scale = scale / 1.4f;
-                    right = 0.2f;
+                    right = -0.45f;
                 }
 
                 GL11.glTranslatef(right, 0f, 0f);
