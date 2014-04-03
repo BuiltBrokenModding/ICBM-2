@@ -8,6 +8,8 @@ import icbm.explosion.model.missiles.ModelAntiMissileMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.ITarget;
 import calclavia.api.icbm.ITarget.TargetType;
@@ -21,10 +23,11 @@ public class MissileAnti extends MissileBase
 {
     public static final int ABMRange = 30;
 
-    public MissileAnti(String mingZi, int tier)
+    public MissileAnti()
     {
-        super(mingZi, tier);
+        super("antiBallistic", 2);
         this.hasBlock = false;
+        this.modelName = "missile_antimatter.tcn";
     }
 
     @Override
@@ -91,12 +94,5 @@ public class MissileAnti extends MissileBase
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastRepulsive(world, entity, x, y, z, 6).setDestroyItems().explode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new ModelAntiMissileMissile();
-    }
+    }    
 }

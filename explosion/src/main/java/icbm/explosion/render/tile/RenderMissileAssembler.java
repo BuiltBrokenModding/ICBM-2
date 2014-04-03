@@ -7,6 +7,7 @@ import icbm.explosion.machines.TileMissileAssembler;
 import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.tiles.ModelMissileAssemblerClaw;
 import icbm.explosion.model.tiles.ModelMissileAssemblerPanel;
+import icbm.explosion.render.entity.RenderMissile;
 
 import java.util.HashMap;
 
@@ -22,6 +23,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
+/** @author Darkguardsman */
 public class RenderMissileAssembler extends TileEntitySpecialRenderer
 {
     public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missileAssembler.png");
@@ -30,7 +32,6 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
     public static final ModelMissileAssemblerClaw MODEL_CLAW1 = new ModelMissileAssemblerClaw(-2);
     public static final ModelMissileAssemblerClaw MODEL_CLAW2 = new ModelMissileAssemblerClaw(12);
     public static final ModelMissileAssemblerClaw MODEL_CLAW3 = new ModelMissileAssemblerClaw(-16);
-    private static HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();;
 
     public void renderAModelAt(TileMissileAssembler tileEntity, double x, double y, double z, float f)
     {
@@ -159,12 +160,15 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
             GL11.glTranslatef(1.0f, 0f, 0f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
 
-            if (!RenderMissileAssembler.cache.containsKey(missile))
+            synchronized (RenderMissile.cache)
             {
-                RenderMissileAssembler.cache.put(missile, missile.getMissileModel());
+                if (!RenderMissile.cache.containsKey(missile))
+                {
+                    RenderMissile.cache.put(missile, missile.getMissileModel());
+                }
+    
+                RenderMissile.cache.get(missile).renderAll();
             }
-
-            RenderMissileAssembler.cache.get(missile).render(0.0625F);
         }
 
         GL11.glPopMatrix();

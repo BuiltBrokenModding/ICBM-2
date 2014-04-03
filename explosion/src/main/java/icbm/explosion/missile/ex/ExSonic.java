@@ -21,6 +21,14 @@ public class ExSonic extends Missile
 	public ExSonic(String mingZi, int tier)
 	{
 		super(mingZi, tier);
+		if (this.getTier() == 3)
+        {
+            this.modelName = "missile_sonic.tcn";
+        }
+        else
+        {
+            this.modelName = "missile_ion.tcn";
+        }
 	}
 
 	@Override
@@ -46,20 +54,6 @@ public class ExSonic extends Missile
 		else
 		{
 			new BlastSonic(world, entity, x, y, z, 15, 30).explode();
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelICBM getMissileModel()
-	{
-		if (this.getTier() == 3)
-		{
-			return new MMChaoShengBuo();
-		}
-		else
-		{
-			return new MMShengBuo();
 		}
 	}
 

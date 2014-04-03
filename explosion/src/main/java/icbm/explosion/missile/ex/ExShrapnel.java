@@ -1,27 +1,33 @@
 package icbm.explosion.missile.ex;
 
-import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastShrapnel;
 import icbm.explosion.missile.types.Missile;
-import icbm.explosion.model.missiles.MMQunDan;
-import icbm.explosion.model.missiles.MMXiaoQunDan;
-import icbm.explosion.model.missiles.MMZhen;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExShrapnel extends Missile
 {
-    public ExShrapnel(String mingZi, int tier)
+    public ExShrapnel(String name, int tier)
     {
-        super(mingZi, tier);
+        super(name, tier);
+        if (this.getID() == Explosive.shrapnel.getID())
+        {
+            this.modelName = "missile_shrapnel.tcn";
+        }
+        else if (this.getID() == Explosive.anvil.getID())
+        {
+            this.modelName = "missile_anvil.tcn";
+        }
+        else if (this.getID() == Explosive.fragmentation.getID())
+        {
+            this.modelName = "missile_fragment.tcn";
+        }
     }
 
     @Override
@@ -56,25 +62,5 @@ public class ExShrapnel extends Missile
         {
             new BlastShrapnel(world, entity, x, y, z, 30, true, false, false).explode();
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ModelICBM getMissileModel()
-    {
-        if (this.getID() == Explosive.shrapnel.getID())
-        {
-            return new MMXiaoQunDan();
-        }
-        else if (this.getID() == Explosive.anvil.getID())
-        {
-            return new MMZhen();
-        }
-        else if (this.getID() == Explosive.fragmentation.getID())
-        {
-            return new MMQunDan();
-        }
-
-        return null;
     }
 }

@@ -1,25 +1,29 @@
 package icbm.explosion.missile.ex;
 
-import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.blast.BlastChemical;
 import icbm.explosion.missile.types.Missile;
-import icbm.explosion.model.missiles.MMDuQi;
-import icbm.explosion.model.missiles.MMGanRanDu;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExChemical extends Missile
 {
     public ExChemical(String mingZi, int tier)
     {
         super(mingZi, tier);
+        //chemical
+        if (this.getTier() == 1)
+        {
+            this.modelName = "missile_chemical.tcn";
+        }//contagious
+        else if (this.getTier() == 2)
+        {
+            this.modelName = "missile_contagious.tcn";
+        }
     }
 
     @Override
@@ -47,22 +51,6 @@ public class ExChemical extends Missile
             new BlastChemical(world, entity, x, y, z, 20, 20 * 30, false).setContagious().setRGB(0.3f, 0.8f, 0).explode();
         }
 
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ModelICBM getMissileModel()
-    {
-        if (this.getTier() == 1)
-        {
-            return new MMDuQi();
-        }
-        else if (this.getTier() == 2)
-        {
-            return new MMGanRanDu();
-        }
-
-        return null;
     }
 
 }

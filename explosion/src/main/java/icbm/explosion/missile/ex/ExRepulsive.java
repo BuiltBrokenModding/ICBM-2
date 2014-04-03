@@ -20,6 +20,14 @@ public class ExRepulsive extends Missile
     {
         super(mingZi, tier);
         this.setYinXin(120);
+        if (this.getID() == Explosive.attractive.getID())
+        {
+            this.modelName = "missile_attractive.tcn";
+        }
+        else
+        {
+            this.modelName = "missile_repulsion .tcn";
+        }
     }
 
     @Override
@@ -46,20 +54,6 @@ public class ExRepulsive extends Missile
         {
             new BlastRepulsive(world, entity, x, y, z, 2f).setDestroyItems().setPushType(2).explode();
 
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        if (this.getID() == Explosive.attractive.getID())
-        {
-            return new MMLa();
-        }
-        else
-        {
-            return new MMTui();
         }
     }
 }

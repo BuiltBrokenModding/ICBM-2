@@ -19,6 +19,7 @@ public class ExIncendiary extends Missile
     public ExIncendiary(String mingZi, int tier)
     {
         super(mingZi, tier);
+        this.modelName = "missile_incendiary.tcn";
     }
 
     @Override
@@ -38,18 +39,5 @@ public class ExIncendiary extends Missile
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastFire(world, entity, x, y, z, 14).explode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    public ModelICBM getMuoXing()
-    {
-        return new ModelIncendiaryMissile();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ModelICBM getMissileModel()
-    {
-        return new ModelIncendiaryMissile();
     }
 }

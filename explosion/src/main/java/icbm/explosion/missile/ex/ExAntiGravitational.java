@@ -15,9 +15,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExAntiGravitational extends Missile
 {
-    public ExAntiGravitational(String mingZi, int tier)
+    public ExAntiGravitational()
     {
-        super(mingZi, tier);
+        super("antiGravitational", 3);
+        this.modelName = "missile_antigrav.tcn";
     }
 
     @Override
@@ -30,12 +31,5 @@ public class ExAntiGravitational extends Missile
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastAntiGravitational(world, entity, x, y, z, 30).explode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new MMPiaoFu();
     }
 }

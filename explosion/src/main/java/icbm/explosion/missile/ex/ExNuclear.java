@@ -22,6 +22,14 @@ public class ExNuclear extends Missile
     public ExNuclear(String mingZi, int tier)
     {
         super(mingZi, tier);
+        if (this.getTier() == 3)
+        {
+            this.modelName = "missile_nuclear.tcn";
+        }
+        else
+        {
+            this.modelName = "missile_conflag.tcn";
+        }
     }
 
     @Override
@@ -75,17 +83,5 @@ public class ExNuclear extends Missile
         {
             new BlastNuclear(world, entity, x, y, z, 30, 45).explode();
         }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        if (this.getTier() == 3)
-        {
-            return new MMYuanZi();
-        }
-
-        return new MMWenZha();
     }
 }

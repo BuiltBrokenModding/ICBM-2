@@ -23,9 +23,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExEnder extends Missile
 {
-    public ExEnder(String mingZi, int tier)
+    public ExEnder()
     {
-        super(mingZi, tier);
+        super("ender", 3);
+        this.modelName = "missile_ender.tcn";
     }
 
     @Override
@@ -106,12 +107,4 @@ public class ExEnder extends Missile
 
         new BlastEnderman(world, entity, x, y, z, 30, teleportTarget).explode();
     }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new MMWan();
-    }
-
 }

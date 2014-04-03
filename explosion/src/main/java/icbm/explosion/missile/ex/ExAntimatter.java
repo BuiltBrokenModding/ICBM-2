@@ -17,10 +17,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExAntimatter extends Missile
 {
-    public ExAntimatter(String mingZi, int tier)
+    public ExAntimatter()
     {
-        super(mingZi, tier);
+        super("antimatter", 4);
         this.setYinXin(300);
+        this.modelName = "missile_antimatter.tcn";
     }
 
     /** Called when the explosive is on fuse and going to explode. Called only when the explosive is
@@ -48,12 +49,5 @@ public class ExAntimatter extends Missile
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastAntimatter(world, entity, x, y, z, Settings.ANTIMATTER_SIZE, Settings.DESTROY_BEDROCK).explode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new ModelAnitmatterMissile();
     }
 }

@@ -1,23 +1,20 @@
 package icbm.explosion.missile.ex;
 
-import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastSky;
 import icbm.explosion.missile.types.Missile;
-import icbm.explosion.model.missiles.ModelEndothermicMissile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExEndothermic extends Missile
 {
-    public ExEndothermic(String mingZi, int tier)
+    public ExEndothermic()
     {
-        super(mingZi, tier);
+        super("endothermic", 3);
+        this.modelName = "missile_endothermic.tcn";
     }
 
     @Override
@@ -30,12 +27,5 @@ public class ExEndothermic extends Missile
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastSky(world, entity, x, y, z, 50).explode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new ModelEndothermicMissile();
     }
 }

@@ -1,19 +1,16 @@
 package icbm.explosion.missile.types;
 
-import calclavia.api.icbm.IMissile;
-import icbm.ModelICBM;
-import icbm.explosion.model.missiles.MMYaSuo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import calclavia.api.icbm.IMissile;
 
 public class MissileModule extends MissileBase
 {
-    public MissileModule(String mingZi, int tier)
+    public MissileModule()
     {
-        super(mingZi, tier);
+        super("missileModule", 1);
         this.hasBlock = false;
+        this.modelName = "missile_conventional.tcn";
     }
 
     @Override
@@ -23,12 +20,5 @@ public class MissileModule extends MissileBase
         {
             ((IMissile) entity).dropMissileAsItem();
         }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return MMYaSuo.INSTANCE;
     }
 }

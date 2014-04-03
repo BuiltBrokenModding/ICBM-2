@@ -19,6 +19,7 @@ public class ExDebilitation extends Missile
     public ExDebilitation(String mingZi, int tier)
     {
         super(mingZi, tier);
+        this.modelName = "missle_deblitation.tcn";
     }
 
     @Override
@@ -31,12 +32,5 @@ public class ExDebilitation extends Missile
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastChemical(world, entity, x, y, z, 20, 20 * 30, false).setConfuse().explode();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ModelICBM getMissileModel()
-    {
-        return new MMWuQi();
     }
 }

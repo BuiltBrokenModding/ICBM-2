@@ -102,8 +102,8 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         newTrait(new SentryTraitLong(ITurret.ENERGY_RUNNING_TRAIT, IUpgrade.ENERGY_EFFICIENCY, 10));
         newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
         newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, IUpgrade.TARGET_RANGE, 20.0));
-        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_TRAIT, 5));
-        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 7));
+        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_TRAIT, 5.0));
+        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 7.0));
         newTrait(new SentryTraitInteger(ITurret.AMMO_RELOAD_TIME_TRAIT, 20));
     }
 

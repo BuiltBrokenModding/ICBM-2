@@ -1,11 +1,9 @@
 package icbm.explosion.missile.ex;
 
-import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastExothermic;
 import icbm.explosion.missile.types.Missile;
-import icbm.explosion.model.missiles.MMTaiYang;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -13,17 +11,16 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.recipe.RecipeUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExExothermic extends Missile
 {
     public boolean createNetherrack = true;
 
-    public ExExothermic(String mingZi, int tier)
+    public ExExothermic()
     {
-        super(mingZi, tier);
+        super("exothermic", 3);
         this.createNetherrack = Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Exothermic Create Netherrack", createNetherrack).getBoolean(createNetherrack);
+        this.modelName = "missile_endothermic.tcn";
     }
 
     @Override
@@ -43,12 +40,5 @@ public class ExExothermic extends Missile
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastExothermic(world, entity, x, y, z, 50).explode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new MMTaiYang();
     }
 }

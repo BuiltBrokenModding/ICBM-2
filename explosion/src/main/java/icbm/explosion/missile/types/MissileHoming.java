@@ -1,26 +1,23 @@
 package icbm.explosion.missile.types;
 
-import calclavia.api.icbm.ITracker;
-import icbm.ModelICBM;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.entities.EntityMissile.MissileType;
 import icbm.explosion.explosive.blast.BlastRepulsive;
-import icbm.explosion.model.missiles.MMZhuiZhong;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import calclavia.api.icbm.ITracker;
 
 public class MissileHoming extends MissileBase
 {
-    public MissileHoming(String mingZi, int tier)
+    public MissileHoming()
     {
-        super(mingZi, tier);
+        super("homing", 1);
         this.hasBlock = false;
+        this.modelName = "missile_homing.tcn";
     }
 
     @Override
@@ -128,12 +125,5 @@ public class MissileHoming extends MissileBase
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastRepulsive(world, entity, x, y, z, 4).setDestroyItems().explode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new MMZhuiZhong();
     }
 }

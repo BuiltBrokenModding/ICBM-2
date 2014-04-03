@@ -33,6 +33,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModelCustom;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.explosion.IExplosive;
 import calclavia.lib.flag.FlagRegistry;
@@ -97,28 +98,28 @@ public abstract class Explosive implements IExplosive
         fragmentation = ExplosiveRegistry.register(new ExShrapnel("fragmentation", 2));
         contagious = ExplosiveRegistry.register(new ExChemical("contagious", 2));
         sonic = ExplosiveRegistry.register(new ExSonic("sonic", 2));
-        breaching = ExplosiveRegistry.register(new ExBreaching("breaching", 2));
-        rejuvenation = ExplosiveRegistry.register(new ExRejuvenation("rejuvenation", 2));
+        breaching = ExplosiveRegistry.register(new ExBreaching());
+        rejuvenation = ExplosiveRegistry.register(new ExRejuvenation());
         thermobaric = ExplosiveRegistry.register(new ExNuclear("thermobaric", 2));
         sMine = ExplosiveRegistry.register(new ExSMine("sMine", 2));
 
         nuclear = ExplosiveRegistry.register(new ExNuclear("nuclear", 3));
-        emp = ExplosiveRegistry.register(new ExEMP("emp", 3));
-        exothermic = ExplosiveRegistry.register(new ExExothermic("exothermic", 3));
-        endothermic = ExplosiveRegistry.register(new ExEndothermic("endothermic", 3));
-        antiGrav = ExplosiveRegistry.register(new ExAntiGravitational("antiGravitational", 3));
-        ender = ExplosiveRegistry.register(new ExEnder("ender", 3));
+        emp = ExplosiveRegistry.register(new ExEMP());
+        exothermic = ExplosiveRegistry.register(new ExExothermic());
+        endothermic = ExplosiveRegistry.register(new ExEndothermic());
+        antiGrav = ExplosiveRegistry.register(new ExAntiGravitational());
+        ender = ExplosiveRegistry.register(new ExEnder());
         hypersonic = ExplosiveRegistry.register(new ExSonic("hypersonic", 3));
 
-        antimatter = ExplosiveRegistry.register(new ExAntimatter("antimatter", 4));
-        redMatter = ExplosiveRegistry.register(new ExRedMatter("redMatter", 4));
+        antimatter = ExplosiveRegistry.register(new ExAntimatter());
+        redMatter = ExplosiveRegistry.register(new ExRedMatter());
 
         /** Missiles */
-        missileModule = (Missile) ExplosiveRegistry.register(new MissileModule("missileModule", 1));
-        homing = (Missile) ExplosiveRegistry.register(new MissileHoming("homing", 1));
-        antiBallistic = (Missile) ExplosiveRegistry.register(new MissileAnti("antiBallistic", 2));
+        missileModule = (Missile) ExplosiveRegistry.register(new MissileModule());
+        homing = (Missile) ExplosiveRegistry.register(new MissileHoming());
+        antiBallistic = (Missile) ExplosiveRegistry.register(new MissileAnti());
         cluster = (Missile) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
-        nuclearCluster = (Missile) ExplosiveRegistry.register(new MissileNuclearCluster("nuclearCluster", 3));
+        nuclearCluster = (Missile) ExplosiveRegistry.register(new MissileNuclearCluster());
 
         Settings.CONFIGURATION.save();
         registered = true;
@@ -268,7 +269,7 @@ public abstract class Explosive implements IExplosive
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ModelICBM getMissileModel()
+    public IModelCustom getMissileModel()
     {
         return null;
     }

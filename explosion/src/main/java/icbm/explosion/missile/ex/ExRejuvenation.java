@@ -1,24 +1,21 @@
 package icbm.explosion.missile.ex;
 
-import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastRegen;
 import icbm.explosion.missile.types.Missile;
-import icbm.explosion.model.missiles.ModelRegenMissile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExRejuvenation extends Missile
 {
-    public ExRejuvenation(String mingZi, int tier)
+    public ExRejuvenation()
     {
-        super(mingZi, tier);
+        super("rejuvenation", 2);
+        this.modelName = "missile_regen.tcn";
     }
 
     @Override
@@ -31,12 +28,5 @@ public class ExRejuvenation extends Missile
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastRegen(world, entity, x, y, z, 16).doExplode();
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new ModelRegenMissile();
     }
 }

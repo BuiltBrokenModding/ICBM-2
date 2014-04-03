@@ -10,6 +10,7 @@ import java.util.HashMap;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -18,9 +19,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
+/** @author Calclavia */
 public class RenderMissile extends Render
 {
-    private static HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();
+    public static final HashMap<Missile, IModelCustom> cache = new HashMap<Missile, IModelCustom>();
 
     public RenderMissile(float f)
     {
@@ -47,16 +49,15 @@ public class RenderMissile extends Render
             }
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
-            if (!RenderMissile.cache.containsKey(missile))
-            {
-                synchronized (cache)
-                {
-                    RenderMissile.cache.put(missile, missile.getMissileModel());
-                }
-            }
             synchronized (cache)
             {
-                RenderMissile.cache.get(missile).render(entityMissile, (float) x, (float) y, (float) z, f, f1, 0.0625F);
+                if (!RenderMissile.cache.containsKey(missile))
+                {
+
+                    RenderMissile.cache.put(missile, missile.getMissileModel());
+
+                }
+                RenderMissile.cache.get(missile).renderAll();
             }
 
             GL11.glPopMatrix();

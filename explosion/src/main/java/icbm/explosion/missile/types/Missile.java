@@ -5,6 +5,8 @@ import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.Explosive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -12,6 +14,11 @@ public abstract class Missile extends Explosive
 {
     @SideOnly(Side.CLIENT)
     private ResourceLocation resourceLocation;
+
+    @SideOnly(Side.CLIENT)
+    private IModelCustom model;
+
+    protected String modelName;
 
     public Missile(String mingZi, int tier)
     {
@@ -50,5 +57,15 @@ public abstract class Missile extends Explosive
         }
 
         return this.resourceLocation;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IModelCustom getMissileModel()
+    {
+        if (this.model == null)
+            model = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + this.modelName);
+
+        return model;
     }
 }

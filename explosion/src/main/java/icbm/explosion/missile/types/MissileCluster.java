@@ -1,22 +1,20 @@
 package icbm.explosion.missile.types;
 
-import icbm.ModelICBM;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.entities.EntityMissile.MissileType;
 import icbm.explosion.explosive.blast.BlastRepulsive;
-import icbm.explosion.model.missiles.ModelClusterMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
+/** @author Calclavia */
 public class MissileCluster extends MissileBase
 {
     public MissileCluster(String mingZi, int tier)
     {
         super(mingZi, tier);
         this.hasBlock = false;
+        this.modelName = "missile_cluster.tcn";
     }
 
     public static final int MAX_CLUSTER = 12;
@@ -57,12 +55,5 @@ public class MissileCluster extends MissileBase
     public boolean isCruise()
     {
         return false;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public ModelICBM getMissileModel()
-    {
-        return new ModelClusterMissile();
     }
 }

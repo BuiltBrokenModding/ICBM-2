@@ -10,9 +10,9 @@ import universalelectricity.api.vector.Vector3;
 
 public class MissileNuclearCluster extends MissileCluster
 {
-    public MissileNuclearCluster(String mingZi, int tier)
+    public MissileNuclearCluster()
     {
-        super(mingZi, tier);
+        super("nuclearCluster", 3);
         this.hasBlock = false;
     }
 
