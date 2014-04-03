@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.client.model.ModelFormatException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -63,8 +64,16 @@ public abstract class Missile extends Explosive
     @Override
     public IModelCustom getMissileModel()
     {
-        if (this.model == null)
-            model = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + this.modelName);
+        try
+        {
+            if (this.model == null)
+                model = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + this.modelName);
+        }
+        catch (ModelFormatException e)
+        {
+            System.out.println("Crash  ModelName: " + this.modelName);
+            e.printStackTrace();
+        }
 
         return model;
     }
