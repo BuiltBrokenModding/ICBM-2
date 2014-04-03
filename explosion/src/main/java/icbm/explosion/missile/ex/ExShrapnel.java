@@ -16,15 +16,15 @@ public class ExShrapnel extends Missile
     public ExShrapnel(String name, int tier)
     {
         super(name, tier);
-        if (this.getID() == Explosive.shrapnel.getID())
+        if (name.equalsIgnoreCase("shrapnel"))
         {
             this.modelName = "missile_shrapnel.tcn";
         }
-        else if (this.getID() == Explosive.anvil.getID())
+        else if (name.equalsIgnoreCase("anvil"))
         {
             this.modelName = "missile_anvil.tcn";
         }
-        else if (this.getID() == Explosive.fragmentation.getID())
+        else if (name.equalsIgnoreCase("fragmentation"))
         {
             this.modelName = "missile_fragment.tcn";
         }

@@ -16,11 +16,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExRepulsive extends Missile
 {
-    public ExRepulsive(String mingZi, int tier)
+    public ExRepulsive(String name, int tier)
     {
-        super(mingZi, tier);
+        super(name, tier);
         this.setYinXin(120);
-        if (this.getID() == Explosive.attractive.getID())
+        if (name.equalsIgnoreCase("attractive"))
         {
             this.modelName = "missile_attractive.tcn";
         }
