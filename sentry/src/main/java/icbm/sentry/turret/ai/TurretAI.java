@@ -241,7 +241,7 @@ public class TurretAI
     public MovingObjectPosition rayTrace(double distance)
     {
         // Ray Tracing is needed for Mounted Sentries aswell
-        Vector3 reach = turret.getServo().toVector().clone().scale(distance);
+        Vector3 reach = new Vector3(turret.getServo()).scale(distance);
         MovingObjectPosition hitTarget = turret.fromCenter().translate(turret.getWeaponOffset()).rayTrace(turret.world(), reach, false);
         return hitTarget;
     }

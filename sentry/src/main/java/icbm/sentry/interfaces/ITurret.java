@@ -3,10 +3,10 @@ package icbm.sentry.interfaces;
 import java.util.HashMap;
 
 import net.minecraft.entity.Entity;
+import universalelectricity.api.vector.IRotation;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.IRotation;
 import calclavia.lib.utility.nbt.ISaveObj;
 
 /** *WIP* Interface applied to all sentry objects. Any sentry that uses this must have a constructor

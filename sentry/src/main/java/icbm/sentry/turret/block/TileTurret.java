@@ -195,10 +195,9 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
                     }
                     if (id == FIRING_EVENT_PACKET_ID)
                     {
-                        getTurret().fire(new Vector3(data.readDouble(), data.readDouble(), data.readDouble()));
+                        getTurret().fire(new Vector3(data));
                         return true;
                     }
-
                     if (id == ENERGY_PACKET_ID)
                     {
                         getTurret().setEnergy(ForgeDirection.UNKNOWN, data.readLong());

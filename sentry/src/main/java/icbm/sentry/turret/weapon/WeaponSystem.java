@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.vector.IRotation;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
-import calclavia.api.IRotation;
 import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.api.icbm.sentry.ProjectileType;
 import calclavia.lib.utility.inventory.IExternalInventory;
@@ -172,7 +172,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
      * @author Based on MachineMuse */
     public void drawParticleStreamTo(World world, Vector3 start, IVector3 hit)
     {
-        Vector3 direction = start.toAngle(hit).toVector();
+        Vector3 direction = new Vector3(start.toAngle(hit));
         double scale = 0.02;
         Vector3 currentPoint = start.clone();
         Vector3 difference = new Vector3(hit).difference(start);

@@ -44,7 +44,7 @@ public abstract class WeaponThrowable extends WeaponSystem
         Vector3 end = this.getBarrelEnd();
         this.servo.set(0, yaw());
         this.servo.set(1, pitch());
-        Vector3 vel = servo.toVector().scale(this.getVelocity());
+        Vector3 vel = new Vector3(servo).scale(this.getVelocity());
 
         IProjectile projectile = this.getProjectileEntity(world(), end.x(), end.y(), end.z());
         if (projectile instanceof Entity)
