@@ -67,10 +67,15 @@ public class RenderItemMissile implements IItemRenderer
                 GL11.glTranslatef(right, 0f, 0f);
             }
 
-            if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.EQUIPPED)
+            if (type == ItemRenderType.EQUIPPED)
             {
-                GL11.glTranslatef(1.15f, 1f, 0.5f);
-                GL11.glRotatef(180, 0, 0, 1f);
+                GL11.glTranslatef(1f, 0.3f, 0.5f);
+                GL11.glRotatef(0, 0, 0, 1f);
+            }
+            else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
+            {
+                GL11.glTranslatef(1.15f, -1f, 0.5f);
+                GL11.glRotatef(0, 0, 0, 1f);
             }
             else
             {

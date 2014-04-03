@@ -138,7 +138,7 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
         {
             Missile missile = (Missile) ExplosiveRegistry.get(tileEntity.missileID);
             float scale = 0.8f;
-            float right = 0f;
+            float right = 1f;
 
             if (missile.getTier() == 2 || !missile.hasBlockForm())
             {
