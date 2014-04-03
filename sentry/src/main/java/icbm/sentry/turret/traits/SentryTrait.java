@@ -68,10 +68,20 @@ public abstract class SentryTrait<O extends Object> implements ISentryTrait<O>
     public static int asInt(ISentryTrait<? extends Object> trait, int d)
     {
         if (trait != null)
-            if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+        {
+            if (trait.getValue() instanceof Integer)
             {
-                return (Integer) trait.getValue();
+                return (Integer) trait.getValue() * 1;
             }
+            else if (trait.getValue() instanceof Double)
+            {
+                return (Integer) trait.getValue() * 1;
+            }
+            else if (trait.getValue() instanceof Long)
+            {
+                return (Integer) trait.getValue() * 1;
+            }
+        }
         return d;
     }
 
@@ -83,10 +93,20 @@ public abstract class SentryTrait<O extends Object> implements ISentryTrait<O>
     public static double asDouble(ISentryTrait<? extends Object> trait, double d)
     {
         if (trait != null)
-            if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+        {
+            if (trait.getValue() instanceof Integer)
             {
-                return (Double) trait.getValue();
+                return (Double) trait.getValue() * 1;
             }
+            else if (trait.getValue() instanceof Double)
+            {
+                return (Double) trait.getValue() * 1;
+            }
+            else if (trait.getValue() instanceof Long)
+            {
+                return (Double) trait.getValue() * 1;
+            }
+        }
         return d;
     }
 
@@ -98,10 +118,20 @@ public abstract class SentryTrait<O extends Object> implements ISentryTrait<O>
     public static long asLong(ISentryTrait<? extends Object> trait, long d)
     {
         if (trait != null)
-            if (trait.getValue() instanceof Integer || trait.getValue() instanceof Double || trait.getValue() instanceof Long)
+        {
+            if (trait.getValue() instanceof Integer)
             {
-                return (Long) trait.getValue();
+                return (Long) trait.getValue() * 1;
             }
+            else if (trait.getValue() instanceof Double)
+            {
+                return (Long) trait.getValue() * 1;
+            }
+            else if (trait.getValue() instanceof Long)
+            {
+                return (Long) trait.getValue() * 1;
+            }
+        }
         return d;
     }
 }

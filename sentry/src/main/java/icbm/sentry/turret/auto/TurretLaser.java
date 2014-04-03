@@ -22,6 +22,8 @@ public class TurretLaser extends TurretAuto
         weaponSystem.soundEffect = Reference.PREFIX + "lasershot";
         barrelLength = 1.2f;
         setTrait(ITurret.ENERGY_STORAGE_TRAIT, 1000000L);
+        setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 50);
+        setTrait(ITurret.SEARCH_RANGE_TRAIT, 55.0);
     }
 
     @Override

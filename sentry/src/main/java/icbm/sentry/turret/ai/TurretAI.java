@@ -246,12 +246,13 @@ public class TurretAI
         return hitTarget;
     }
 
-    // TODO: Add options to this for reversing the targeting filter
+    /** Comparator to easily filter out targets */
     public static class ComparatorOptimalTarget implements Comparator<Entity>
     {
-        private final VectorWorld location;
+        private final Vector3 location;
+        private boolean closest = true;
 
-        public ComparatorOptimalTarget(VectorWorld location)
+        public ComparatorOptimalTarget(Vector3 location)
         {
             this.location = location;
         }
@@ -259,9 +260,18 @@ public class TurretAI
         @Override
         public int compare(Entity entityA, Entity entityB)
         {
-            Double distanceA = location.distance(entityA);
-            Double distanceB = location.distance(entityB);
-            return distanceA.compareTo(distanceB);
+            if (closest)
+            {
+                Double distanceA = location.distance(entityA);
+                Double distanceB = location.distance(entityB);
+                return distanceA.compareTo(distanceB);
+            }
+            else
+            {
+                Double distanceB = location.distance(entityA);
+                Double distanceA = location.distance(entityB);
+                return distanceA.compareTo(distanceB);
+            }
         }
     }
 }
