@@ -1,20 +1,14 @@
 package icbm.explosion.missile.types;
 
-import icbm.ModelICBM;
 import icbm.Reference;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.blast.BlastRepulsive;
-import icbm.explosion.model.missiles.ModelAntiMissileMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.ITarget;
 import calclavia.api.icbm.ITarget.TargetType;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /** Antiballistic missile.
  * 
@@ -94,5 +88,5 @@ public class MissileAnti extends MissileBase
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         new BlastRepulsive(world, entity, x, y, z, 6).setDestroyItems().explode();
-    }    
+    }
 }

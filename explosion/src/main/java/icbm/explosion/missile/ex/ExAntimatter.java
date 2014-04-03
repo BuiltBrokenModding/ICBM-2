@@ -1,19 +1,15 @@
 package icbm.explosion.missile.ex;
 
-import icbm.ModelICBM;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastAntimatter;
 import icbm.explosion.missile.types.Missile;
-import icbm.explosion.model.missiles.ModelAnitmatterMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.recipe.RecipeUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExAntimatter extends Missile
 {

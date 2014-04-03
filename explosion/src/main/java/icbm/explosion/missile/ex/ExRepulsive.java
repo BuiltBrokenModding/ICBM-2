@@ -1,18 +1,13 @@
 package icbm.explosion.missile.ex;
 
-import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import icbm.explosion.missile.types.Missile;
-import icbm.explosion.model.missiles.MMLa;
-import icbm.explosion.model.missiles.MMTui;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExRepulsive extends Missile
 {
