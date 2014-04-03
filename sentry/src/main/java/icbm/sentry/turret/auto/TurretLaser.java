@@ -9,6 +9,7 @@ import icbm.sentry.turret.traits.SentryTraitLong;
 import icbm.sentry.turret.weapon.types.WeaponTwinLaser;
 import net.minecraft.util.MathHelper;
 
+/** @author Darkguardsman */
 public class TurretLaser extends TurretAuto
 {
     /** Laser turret spins its barrels every shot. */
@@ -23,7 +24,7 @@ public class TurretLaser extends TurretAuto
         barrelLength = 1.2f;
         setTrait(ITurret.ENERGY_STORAGE_TRAIT, 1000000L);
         setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 50);
-        setTrait(ITurret.SEARCH_RANGE_TRAIT, 55.0);
+        setTrait(ITurret.SEARCH_RANGE_TRAIT, 70.0);
     }
 
     @Override

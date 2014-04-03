@@ -18,6 +18,6 @@ public class TurretAutoBow extends TurretAuto
         barrelLength = 1f;
         setTrait(ITurret.SEARCH_RANGE_TRAIT, 10.0);
         setTrait(ITurret.MAX_HEALTH_TRAIT, 10.0);
-        setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 40);
+        setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 60);
     }
 }
