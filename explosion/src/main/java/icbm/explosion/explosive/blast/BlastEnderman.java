@@ -10,6 +10,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
 public class BlastEnderman extends Blast
@@ -95,7 +96,7 @@ public class BlastEnderman extends Blast
 
                 entity.motionZ -= (r - zDifference) * Math.abs(zDifference) * 0.0006;
 
-                if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
+                if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), (IVector3) position) < 4)
                 {
                     if (!explosionCreated && callCount % 5 == 0)
                     {

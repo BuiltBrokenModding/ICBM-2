@@ -23,6 +23,7 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.item.IEnergyItem;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.IMissile;
 import calclavia.api.icbm.RadarRegistry;
@@ -66,7 +67,7 @@ public class BlastEMP extends Blast
                     {
                         double dist = MathHelper.sqrt_double((x * x + y * y + z * z));
 
-                        Vector3 searchPosition = Vector3.translate(position, new Vector3(x, y, z));
+                        Vector3 searchPosition = Vector3.translate(position, (IVector3) new Vector3(x, y, z));
                         if (dist > this.getRadius())
                             continue;
 

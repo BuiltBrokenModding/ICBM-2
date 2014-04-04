@@ -5,6 +5,7 @@ import icbm.explosion.entities.EntityExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
 public class BlastAntimatter extends Blast
@@ -42,7 +43,7 @@ public class BlastAntimatter extends Blast
                 {
                     for (int z = (int) -this.getRadius(); z < this.getRadius(); z++)
                     {
-                        Vector3 targetPosition = this.position.clone().translate(new Vector3(x, y, z));
+                        Vector3 targetPosition = this.position.clone().translate((IVector3) new Vector3(x, y, z));
 
                         double dist = position.distance(targetPosition);
 

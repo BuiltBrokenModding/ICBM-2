@@ -5,6 +5,7 @@ import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 
 /** Used for searching block spawn. Returns a block above this found block coordinate.
@@ -69,7 +70,7 @@ public class ThreadSky extends ThreadExplosion
 
                 for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
                 {
-                    if (targetPosition.distance(position) > this.banJing)
+                    if (targetPosition.distance((IVector3) position) > this.banJing)
                         break;
 
                     int blockID = this.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
