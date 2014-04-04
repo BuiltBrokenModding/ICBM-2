@@ -1,6 +1,5 @@
 package icbm.core;
 
-import calclavia.api.icbm.IItemFrequency;
 import icbm.core.blocks.TileProximityDetector;
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.core.entity.EntityFragments;
@@ -8,10 +7,13 @@ import icbm.core.entity.RenderEntityBlock;
 import icbm.core.entity.RenderShrapnel;
 import icbm.core.gui.GuiFrequency;
 import icbm.core.gui.GuiProximityDetector;
+import icbm.core.tiles.GuiBox;
+import icbm.core.tiles.TileBox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import calclavia.api.icbm.IItemFrequency;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +41,11 @@ public class ClientProxy extends CommonProxy
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileProximityDetector)
+        if (tileEntity instanceof TileBox)
+        {
+            return new GuiBox(entityPlayer, (TileBox) tileEntity);
+        }
+        else if (tileEntity instanceof TileProximityDetector)
         {
             return new GuiProximityDetector((TileProximityDetector) tileEntity);
         }

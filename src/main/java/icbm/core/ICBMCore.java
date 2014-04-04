@@ -21,6 +21,7 @@ import icbm.core.items.ItemPoisonPowder;
 import icbm.core.items.ItemSignalDisrupter;
 import icbm.core.items.ItemSulfurDust;
 import icbm.core.items.ItemTracker;
+import icbm.core.tiles.TileBox;
 
 import java.util.logging.Logger;
 
@@ -86,7 +87,7 @@ public final class ICBMCore
     public static Item itemSignalDisrupter;
     public static Item itemTracker;
 
-    public static Block blockSulfurOre, blockRadioactive, blockCombatRail;
+    public static Block blockSulfurOre, blockRadioactive, blockCombatRail, blockBox;
 
     public static Item itemSulfurDust, itemPoisonPowder;
 
@@ -113,7 +114,7 @@ public final class ICBMCore
 
         CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
-        // Blocks
+        // Blocks       
         blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);
         blockGlassPlate = contentRegistry.createBlock(BlockGlassPressurePlate.class);
         blockGlassButton = contentRegistry.createBlock(BlockGlassButton.class);
@@ -123,6 +124,7 @@ public final class ICBMCore
         blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
         blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
+        blockBox = contentRegistry.newBlock(TileBox.class);
 
         // ITEMS
         itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
