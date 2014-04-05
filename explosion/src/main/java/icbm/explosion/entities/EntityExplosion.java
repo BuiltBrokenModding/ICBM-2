@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 import calclavia.api.icbm.explosion.IEntityExplosion;
 import calclavia.lib.network.PacketHandler;
 
@@ -114,7 +115,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
 		}
 
 		this.blast.controller = this;
-		this.blast.position = new Vector3(this);
+		this.blast.position = new VectorWorld(this);
 
 		if (this.blast.isMovable() && (this.motionX != 0 || this.motionY != 0 || this.motionZ != 0))
 		{

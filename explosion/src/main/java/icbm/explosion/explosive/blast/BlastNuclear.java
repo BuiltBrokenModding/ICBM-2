@@ -52,7 +52,7 @@ public class BlastNuclear extends Blast
     {
         if (!this.worldObj.isRemote)
         {
-            this.thread = new ThreadLargeExplosion(this.worldObj, this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
+            this.thread = new ThreadLargeExplosion(this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
 
             this.thread.start();
 

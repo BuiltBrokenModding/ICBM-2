@@ -75,7 +75,7 @@ public class BlastSonic extends Blast
                 }
             }
 
-            this.thread = new ThreadLargeExplosion(this.worldObj, position, (int) this.getRadius(), this.nengLiang, this.exploder, new IThreadCallBack()
+            this.thread = new ThreadLargeExplosion(this.position, (int) this.getRadius(), this.nengLiang, this.exploder, new IThreadCallBack()
             {
                 @Override
                 public float getResistance(World world, Vector3 explosionPosition, Vector3 targetPosition, Entity source, Block block)

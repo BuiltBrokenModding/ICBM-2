@@ -23,13 +23,14 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class Blast extends Explosion implements IExplosion
 {
     public World worldObj;
-    public Vector3 position;
+    public VectorWorld position;
     public EntityExplosion controller = null;
 
     /** The amount of times the explosion has been called */
@@ -38,8 +39,7 @@ public abstract class Blast extends Explosion implements IExplosion
     public Blast(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
-        this.worldObj = world;
-        this.position = new Vector3(x, y, z);
+        this.position = new VectorWorld(world, x, y, z);
     }
 
     protected void doPreExplode()

@@ -30,7 +30,7 @@ public class BlastAntiGravitational extends Blast
     {
         if (!this.worldObj.isRemote)
         {
-            this.thread = new ThreadSmallExplosion(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
+            this.thread = new ThreadSmallExplosion(this.position, (int) this.getRadius(), this.exploder);
             this.thread.start();
         }
 

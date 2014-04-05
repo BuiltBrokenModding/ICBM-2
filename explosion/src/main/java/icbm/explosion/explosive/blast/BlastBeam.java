@@ -42,7 +42,7 @@ public abstract class BlastBeam extends Blast
             this.lightBeam = new EntityLightBeam(this.worldObj, position, 20 * 20, this.red, this.green, this.blue);
             this.worldObj.spawnEntityInWorld(this.lightBeam);
 
-            this.thread = new ThreadSky(this.worldObj, this.position, (int) this.getRadius(), 50, this.exploder);
+            this.thread = new ThreadSky(this.position, (int) this.getRadius(), 50, this.exploder);
             this.thread.start();
         }
     }

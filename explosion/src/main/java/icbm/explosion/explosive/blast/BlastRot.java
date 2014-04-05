@@ -32,7 +32,7 @@ public class BlastRot extends Blast
     {
         if (!this.worldObj.isRemote)
         {
-            this.thread = new ThreadLargeExplosion(worldObj, position, (int) this.getRadius(), this.nengLiang, this.exploder);
+            this.thread = new ThreadLargeExplosion(this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
             this.thread.start();
         }
     }
