@@ -49,24 +49,6 @@ public class ExNuclear extends Missile
         }
     }
 
-    /** Called when the explosive is on fuse and going to explode. Called only when the explosive is
-     * in it's TNT form.
-     * 
-     * @param fuseTicks - The amount of ticks this explosive is on fuse */
-    @Override
-    public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
-    {
-        super.onYinZha(worldObj, position, fuseTicks);
-
-        if (this.getTier() == 3)
-        {
-            if (fuseTicks % 25 == 0)
-            {
-                worldObj.playSoundEffect((int) position.x, (int) position.y, (int) position.z, Reference.PREFIX + "alarm", 4F, 1F);
-            }
-        }
-    }
-
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
