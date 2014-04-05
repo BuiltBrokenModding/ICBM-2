@@ -6,11 +6,6 @@ import icbm.explosion.entities.EntityMissile;
 
 import java.util.List;
 
-import calclavia.api.icbm.explosion.IExplosion;
-import calclavia.api.icbm.explosion.ExplosionEvent.DoExplosionEvent;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosionConstructionEvent;
-import calclavia.api.icbm.explosion.ExplosionEvent.PostExplosionEvent;
-import calclavia.api.icbm.explosion.ExplosionEvent.PreExplosionEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,14 +17,19 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
+import calclavia.api.icbm.explosion.ExplosionEvent.DoExplosionEvent;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosionConstructionEvent;
+import calclavia.api.icbm.explosion.ExplosionEvent.PostExplosionEvent;
+import calclavia.api.icbm.explosion.ExplosionEvent.PreExplosionEvent;
+import calclavia.api.icbm.explosion.IExplosion;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class Blast extends Explosion implements IExplosion
+public abstract class Blast extends Explosion implements IExplosion, IVectorWorld
 {
-    public World worldObj;
     public VectorWorld position;
     public EntityExplosion controller = null;
 
@@ -49,7 +49,7 @@ public abstract class Blast extends Explosion implements IExplosion
     /** Called before an explosion happens. */
     public final void preExplode()
     {
-        PreExplosionEvent evt = new PreExplosionEvent(this.worldObj, this);
+        PreExplosionEvent evt = new PreExplosionEvent(this.world(), this);
         MinecraftForge.EVENT_BUS.post(evt);
 
         if (!evt.isCanceled())
@@ -63,7 +63,7 @@ public abstract class Blast extends Explosion implements IExplosion
 
     public final void onExplode()
     {
-        DoExplosionEvent evt = new DoExplosionEvent(this.worldObj, this);
+        DoExplosionEvent evt = new DoExplosionEvent(this.world(), this);
         MinecraftForge.EVENT_BUS.post(evt);
 
         if (!evt.isCanceled())
@@ -80,7 +80,7 @@ public abstract class Blast extends Explosion implements IExplosion
     /** Called after the explosion is completed. */
     public final void postExplode()
     {
-        PostExplosionEvent evt = new PostExplosionEvent(this.worldObj, this);
+        PostExplosionEvent evt = new PostExplosionEvent(this.world(), this);
         MinecraftForge.EVENT_BUS.post(evt);
 
         if (!evt.isCanceled())
@@ -104,16 +104,16 @@ public abstract class Blast extends Explosion implements IExplosion
     @Override
     public void explode()
     {
-        ExplosionConstructionEvent evt = new ExplosionConstructionEvent(this.worldObj, this);
+        ExplosionConstructionEvent evt = new ExplosionConstructionEvent(this.world(), this);
         MinecraftForge.EVENT_BUS.post(evt);
 
         if (!evt.isCanceled())
         {
             if (this.proceduralInterval() > 0)
             {
-                if (!this.worldObj.isRemote)
+                if (!this.world().isRemote)
                 {
-                    this.worldObj.spawnEntityInWorld(new EntityExplosion(this));
+                    this.world().spawnEntityInWorld(new EntityExplosion(this));
                 }
             }
             else
@@ -163,7 +163,7 @@ public abstract class Blast extends Explosion implements IExplosion
         minCoord.add(-radius - 1);
         Vector3 maxCoord = position.clone();
         maxCoord.add(radius + 1);
-        List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.intX(), minCoord.intY(), minCoord.intZ(), maxCoord.intX(), maxCoord.intY(), maxCoord.intZ()));
+        List<Entity> allEntities = world().getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.intX(), minCoord.intY(), minCoord.intZ(), maxCoord.intX(), maxCoord.intY(), maxCoord.intZ()));
         Vec3 var31 = Vec3.createVectorHelper(position.x, position.y, position.z);
 
         for (int i = 0; i < allEntities.size(); ++i)
@@ -195,7 +195,7 @@ public abstract class Blast extends Explosion implements IExplosion
                 xDifference /= var35;
                 yDifference /= var35;
                 zDifference /= var35;
-                double var34 = worldObj.getBlockDensity(var31, entity.boundingBox);
+                double var34 = world().getBlockDensity(var31, entity.boundingBox);
                 double var36 = (1.0D - distance) * var34;
                 int damage = 0;
 
@@ -246,6 +246,30 @@ public abstract class Blast extends Explosion implements IExplosion
     public ResourceLocation getRenderResource()
     {
         return null;
+    }
+
+    @Override
+    public World world()
+    {
+        return this.position.world;
+    }
+
+    @Override
+    public double x()
+    {
+        return this.position.x();
+    }
+
+    @Override
+    public double y()
+    {
+        return this.position.y();
+    }
+
+    @Override
+    public double z()
+    {
+        return this.position.z();
     }
 
 }

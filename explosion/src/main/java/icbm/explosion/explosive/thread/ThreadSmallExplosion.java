@@ -22,22 +22,22 @@ public class ThreadSmallExplosion extends ThreadExplosion
     {
         if (!this.position.world().isRemote)
         {
-            for (int x = 0; x < this.banJing; ++x)
+            for (int x = 0; x < this.radius; ++x)
             {
-                for (int y = 0; y < this.banJing; ++y)
+                for (int y = 0; y < this.radius; ++y)
                 {
-                    for (int z = 0; z < this.banJing; ++z)
+                    for (int z = 0; z < this.radius; ++z)
                     {
-                        if (x == 0 || x == this.banJing - 1 || y == 0 || y == this.banJing - 1 || z == 0 || z == this.banJing - 1)
+                        if (x == 0 || x == this.radius - 1 || y == 0 || y == this.radius - 1 || z == 0 || z == this.radius - 1)
                         {
-                            double xStep = x / (this.banJing - 1.0F) * 2.0F - 1.0F;
-                            double yStep = y / (this.banJing - 1.0F) * 2.0F - 1.0F;
-                            double zStep = z / (this.banJing - 1.0F) * 2.0F - 1.0F;
+                            double xStep = x / (this.radius - 1.0F) * 2.0F - 1.0F;
+                            double yStep = y / (this.radius - 1.0F) * 2.0F - 1.0F;
+                            double zStep = z / (this.radius - 1.0F) * 2.0F - 1.0F;
                             double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
                             xStep /= diagonalDistance;
                             yStep /= diagonalDistance;
                             zStep /= diagonalDistance;
-                            float power = this.banJing * (0.7F + this.position.world().rand.nextFloat() * 0.6F);
+                            float power = this.radius * (0.7F + this.position.world().rand.nextFloat() * 0.6F);
                             double var15 = position.x;
                             double var17 = position.y;
                             double var19 = position.z;

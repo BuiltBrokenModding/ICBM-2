@@ -54,7 +54,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
     @Override
     public void run()
     {
-        int steps = (int) Math.ceil(Math.PI / Math.atan(1.0D / this.banJing));
+        int steps = (int) Math.ceil(Math.PI / Math.atan(1.0D / this.radius));
 
         for (int phi_n = 0; phi_n < 2 * steps; phi_n++)
         {
@@ -70,7 +70,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
 
                 for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
                 {
-                    if (targetPosition.distance(position) > this.banJing)
+                    if (targetPosition.distance(position) > this.radius)
                         break;
 
                     int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());

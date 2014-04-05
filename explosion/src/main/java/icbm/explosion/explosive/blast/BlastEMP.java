@@ -73,22 +73,22 @@ public class BlastEMP extends Blast
 
                         if (Math.round(position.x + y) == position.intY())
                         {
-                            worldObj.spawnParticle("largesmoke", searchPosition.x, searchPosition.y, searchPosition.z, 0, 0, 0);
+                            world().spawnParticle("largesmoke", searchPosition.x, searchPosition.y, searchPosition.z, 0, 0, 0);
                         }
 
-                        int blockID = searchPosition.getBlockID(worldObj);
+                        int blockID = searchPosition.getBlockID(world());
                         Block block = Block.blocksList[blockID];
-                        TileEntity tileEntity = searchPosition.getTileEntity(worldObj);
+                        TileEntity tileEntity = searchPosition.getTileEntity(world());
 
                         if (block != null)
                         {
                             if (block instanceof IForceFieldBlock)
                             {
-                                ((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1000);
+                                ((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(world(), searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1000);
                             }
                             else if (block instanceof IEMPBlock)
                             {
-                                ((IEMPBlock) block).onEMP(worldObj, searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), this);
+                                ((IEMPBlock) block).onEMP(world(), searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), this);
                             }
                         }
 
@@ -96,7 +96,7 @@ public class BlastEMP extends Blast
                         {
                             if (tileEntity instanceof IFortronStorage)
                             {
-                                ((IFortronStorage) tileEntity).provideFortron((int) worldObj.rand.nextFloat() * ((IFortronStorage) tileEntity).getFortronCapacity(), true);
+                                ((IFortronStorage) tileEntity).provideFortron((int) world().rand.nextFloat() * ((IFortronStorage) tileEntity).getFortronCapacity(), true);
                             }
                             if (tileEntity instanceof IEnergyContainer)
                             {
@@ -133,21 +133,21 @@ public class BlastEMP extends Blast
 
             int maxFx = 10;
             AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - this.getRadius(), position.y - this.getRadius(), position.z - this.getRadius(), position.x + this.getRadius(), position.y + this.getRadius(), position.z + this.getRadius());
-            List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+            List<Entity> entities = world().getEntitiesWithinAABB(Entity.class, bounds);
 
             for (Entity entity : entities)
             {
                 if (entity instanceof EntityLivingBase)
                 {
-                    if (this.worldObj.isRemote && maxFx > 0)
+                    if (this.world().isRemote && maxFx > 0)
                     {
-                        ICBMExplosion.proxy.spawnShock(this.worldObj, this.position, new Vector3(entity), 20);
+                        ICBMExplosion.proxy.spawnShock(this.world(), this.position, new Vector3(entity), 20);
                         maxFx--;
                     }
 
                     if (entity instanceof EntityCreeper)
                     {
-                        if (!this.worldObj.isRemote)
+                        if (!this.world().isRemote)
                         {
                             try
                             {
@@ -192,8 +192,8 @@ public class BlastEMP extends Blast
             }
         }
 
-        ICBMExplosion.proxy.spawnParticle("shockwave", worldObj, position, 0, 0, 0, 0, 0, 255, 10, 3);
-        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "emp", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        ICBMExplosion.proxy.spawnParticle("shockwave", world(), position, 0, 0, 0, 0, 0, 255, 10, 3);
+        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "emp", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override

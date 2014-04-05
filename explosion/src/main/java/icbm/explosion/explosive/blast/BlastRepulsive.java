@@ -43,7 +43,7 @@ public class BlastRepulsive extends Blast
 	@Override
 	public void doExplode()
 	{
-		if (!this.worldObj.isRemote)
+		if (!this.world().isRemote)
 		{
 			for (int x = 0; x < this.checkBanJing; ++x)
 			{
@@ -60,7 +60,7 @@ public class BlastRepulsive extends Blast
 							xStep /= diagonalDistance;
 							yStep /= diagonalDistance;
 							zStep /= diagonalDistance;
-							float var14 = this.getRadius() * (0.7F + this.worldObj.rand.nextFloat() * 0.6F);
+							float var14 = this.getRadius() * (0.7F + this.world().rand.nextFloat() * 0.6F);
 							double var15 = this.position.x;
 							double var17 = this.position.y;
 							double var19 = this.position.z;
@@ -70,11 +70,11 @@ public class BlastRepulsive extends Blast
 								int var22 = MathHelper.floor_double(var15);
 								int var23 = MathHelper.floor_double(var17);
 								int var24 = MathHelper.floor_double(var19);
-								int var25 = this.worldObj.getBlockId(var22, var23, var24);
+								int var25 = this.world().getBlockId(var22, var23, var24);
 
 								if (var25 > 0)
 								{
-									var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder, this.worldObj, var22, var23, var24, this.position.intX(), this.position.intY(), this.position.intZ()) + 0.3F) * var21;
+									var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder, this.world(), var22, var23, var24, this.position.intX(), this.position.intY(), this.position.intZ()) + 0.3F) * var21;
 								}
 
 								if (var14 > 0.0F)
@@ -93,7 +93,7 @@ public class BlastRepulsive extends Blast
 
 		}
 
-		this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, "random.explode", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		this.world().playSoundEffect(this.position.x, this.position.y, this.position.z, "random.explode", 4.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
 
 		switch (this.pushType)
 		{
@@ -105,7 +105,7 @@ public class BlastRepulsive extends Blast
 				break;
 		}
 
-		if (!this.worldObj.isRemote)
+		if (!this.world().isRemote)
 		{
 			int var3;
 			Vector3 blownPosition;
@@ -121,12 +121,12 @@ public class BlastRepulsive extends Blast
 				var5 = blownPosition.intX();
 				var6 = blownPosition.intY();
 				var7 = blownPosition.intZ();
-				blockID = this.worldObj.getBlockId(var5, var6, var7);
-				metadata = this.worldObj.getBlockMetadata(var5, var6, var7);
+				blockID = this.world().getBlockId(var5, var6, var7);
+				metadata = this.world().getBlockMetadata(var5, var6, var7);
 
-				double var9 = (var5 + this.worldObj.rand.nextFloat());
-				double var11 = (var6 + this.worldObj.rand.nextFloat());
-				double var13 = (var7 + this.worldObj.rand.nextFloat());
+				double var9 = (var5 + this.world().rand.nextFloat());
+				double var11 = (var6 + this.world().rand.nextFloat());
+				double var13 = (var7 + this.world().rand.nextFloat());
 				double var151 = var9 - this.position.y;
 				double var171 = var11 - this.position.y;
 				double var191 = var13 - this.position.z;
@@ -135,12 +135,12 @@ public class BlastRepulsive extends Blast
 				var171 /= var211;
 				var191 /= var211;
 				double var23 = 0.5D / (var211 / this.getRadius() + 0.1D);
-				var23 *= (this.worldObj.rand.nextFloat() * this.worldObj.rand.nextFloat() + 0.3F);
+				var23 *= (this.world().rand.nextFloat() * this.world().rand.nextFloat() + 0.3F);
 				var151 *= var23;
 				var171 *= var23;
 				var191 *= var23;
-				this.worldObj.spawnParticle("explode", (var9 + this.position.x * 1.0D) / 2.0D, (var11 + this.position.y * 1.0D) / 2.0D, (var13 + this.position.z * 1.0D) / 2.0D, var151, var171, var191);
-				this.worldObj.spawnParticle("smoke", var9, var11, var13, var151, var171, var191);
+				this.world().spawnParticle("explode", (var9 + this.position.x * 1.0D) / 2.0D, (var11 + this.position.y * 1.0D) / 2.0D, (var13 + this.position.z * 1.0D) / 2.0D, var151, var171, var191);
+				this.world().spawnParticle("smoke", var9, var11, var13, var151, var171, var191);
 
 				if (blockID > 0)
 				{
@@ -150,10 +150,10 @@ public class BlastRepulsive extends Blast
 
 						if (block.canDropFromExplosion(null))
 						{
-							block.dropBlockAsItemWithChance(this.worldObj, var5, var6, var7, this.worldObj.getBlockMetadata(var5, var6, var7), 1F, 0);
+							block.dropBlockAsItemWithChance(this.world(), var5, var6, var7, this.world().getBlockMetadata(var5, var6, var7), 1F, 0);
 						}
 
-						block.onBlockExploded(this.worldObj, var5, var6, var7, this);
+						block.onBlockExploded(this.world(), var5, var6, var7, this);
 					}
 					catch (Exception e)
 					{
@@ -173,7 +173,7 @@ public class BlastRepulsive extends Blast
 		maxCoord.add(radius + 1);
 
 		Cuboid region = new Cuboid(minCoord, maxCoord);
-		List<Entity> entities = region.getEntities(this.worldObj, Entity.class);
+		List<Entity> entities = region.getEntities(this.world(), Entity.class);
 
 		for (Entity entity : entities)
 		{

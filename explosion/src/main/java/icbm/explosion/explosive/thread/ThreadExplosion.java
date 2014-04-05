@@ -10,7 +10,7 @@ import universalelectricity.api.vector.VectorWorld;
 public abstract class ThreadExplosion extends Thread
 {
     public final VectorWorld position;
-    public int banJing;
+    public int radius;
     public float nengLiang;
     public Entity source;
 
@@ -19,10 +19,10 @@ public abstract class ThreadExplosion extends Thread
     public final HashSet<Vector3> deltaSet = new HashSet<Vector3>();
     public final HashSet<Vector3> results = new HashSet<Vector3>();
 
-    public ThreadExplosion(VectorWorld position, int banJing, float nengLiang, Entity source)
+    public ThreadExplosion(VectorWorld position, int radius, float nengLiang, Entity source)
     {
         this.position = position;
-        this.banJing = banJing;
+        this.radius = radius;
         this.nengLiang = nengLiang;
         this.source = source;
         this.setPriority(Thread.MIN_PRIORITY);
