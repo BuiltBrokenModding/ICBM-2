@@ -20,9 +20,9 @@ public class ThreadLargeExplosion extends ThreadExplosion
 
     public IThreadCallBack callBack;
 
-    public ThreadLargeExplosion(VectorWorld position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
+    public ThreadLargeExplosion(VectorWorld position, int banJing, float energy, Entity source, IThreadCallBack callBack)
     {
-        super(position, banJing, nengLiang, source);
+        super(position, banJing, energy, source);
         this.callBack = callBack;
     }
 
@@ -64,7 +64,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
                 double theta = Math.PI / steps * theta_n;
 
                 Vector3 delta = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
-                float power = this.nengLiang - (this.nengLiang * this.position.world().rand.nextFloat() / 2);
+                float power = this.energy - (this.energy * this.position.world().rand.nextFloat() / 2);
 
                 Vector3 targetPosition = position.clone();
 
@@ -74,7 +74,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
                         break;
 
                     int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-
+                    
                     if (blockID > 0)
                     {
                         if (blockID == Block.bedrock.blockID)

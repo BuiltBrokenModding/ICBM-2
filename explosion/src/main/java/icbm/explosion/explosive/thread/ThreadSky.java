@@ -65,7 +65,7 @@ public class ThreadSky extends ThreadExplosion
                 double theta = Math.PI / steps * theta_n;
 
                 Vector3 delta = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
-                float power = this.nengLiang - (this.nengLiang * this.position.world().rand.nextFloat() / 2);
+                float power = this.energy - (this.energy * this.position.world().rand.nextFloat() / 2);
 
                 Vector3 targetPosition = this.position.clone();
 
