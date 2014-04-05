@@ -148,16 +148,16 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
     {
         try
         {
-            NBTTagCompound baoZhaNBT = nbt.getCompoundTag("blast");
+            NBTTagCompound blastSave = nbt.getCompoundTag("blast");
 
             if (this.blast == null)
             {
-                Class clazz = Class.forName(baoZhaNBT.getString("class"));
+                Class clazz = Class.forName(blastSave.getString("class"));
                 Constructor constructor = clazz.getConstructor(World.class, Entity.class, double.class, double.class, double.class, float.class);
                 this.blast = (Blast) constructor.newInstance(this.worldObj, null, this.posX, this.posY, this.posZ, 0);
             }
 
-            this.blast.readFromNBT(baoZhaNBT);
+            this.blast.readFromNBT(blastSave);
         }
         catch (Exception e)
         {

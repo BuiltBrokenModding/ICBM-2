@@ -25,7 +25,7 @@ public class BlastNuclear extends Blast
     }
 
     private ThreadLargeExplosion thread;
-    private float nengLiang;
+    private float energy;
     private boolean spawnMoreParticles = false;
     private boolean isRadioactive = false;
 
@@ -34,10 +34,10 @@ public class BlastNuclear extends Blast
         super(world, entity, x, y, z, size);
     }
 
-    public BlastNuclear(World world, Entity entity, double x, double y, double z, float size, float nengLiang)
+    public BlastNuclear(World world, Entity entity, double x, double y, double z, float size, float energy)
     {
         this(world, entity, x, y, z, size);
-        this.nengLiang = nengLiang;
+        this.energy = energy;
     }
 
     public BlastNuclear setNuclear()
@@ -52,7 +52,7 @@ public class BlastNuclear extends Blast
     {
         if (!this.world().isRemote)
         {
-            this.thread = new ThreadLargeExplosion(this.position, (int) this.getRadius(), this.nengLiang, this.exploder);
+            this.thread = new ThreadLargeExplosion(this.position, (int) this.getRadius(), this.energy, this.exploder);
 
             this.thread.start();
 
@@ -91,7 +91,7 @@ public class BlastNuclear extends Blast
             }
         }
 
-        this.doDamageEntities(this.getRadius(), this.nengLiang * 1000);
+        this.doDamageEntities(this.getRadius(), this.energy * 1000);
 
         this.world().playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
@@ -149,16 +149,12 @@ public class BlastNuclear extends Blast
         {
             if (!this.world().isRemote && this.thread.isComplete)
             {
-                for (Vector3 targetPosition : this.thread.results)
+                for (Vector3 p : this.thread.results)
                 {
-                    int blockID = this.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    Block block = Block.blocksList[this.world().getBlockId(p.intX(), p.intY(), p.intZ())];
+                    if (block != null)
+                        block.onBlockExploded(this.world(), p.intX(), p.intY(), p.intZ(), this);
 
-                    if (blockID > 0)
-                    {
-
-                        Block.blocksList[blockID].onBlockExploded(this.world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), this);
-
-                    }
                 }
             }
         }
@@ -168,11 +164,11 @@ public class BlastNuclear extends Blast
             e.printStackTrace();
         }
 
-        this.doDamageEntities(this.getRadius(), this.nengLiang * 1000);
+        this.doDamageEntities(this.getRadius(), this.energy * 1000);
 
         if (this.isRadioactive)
         {
-            new BlastRot(world(), this.exploder, position.x, position.y, position.z, this.getRadius(), this.nengLiang).explode();
+            new BlastRot(world(), this.exploder, position.x, position.y, position.z, this.getRadius(), this.energy).explode();
             new BlastMutation(world(), this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
 
             if (this.world().rand.nextInt(3) == 0)
@@ -196,7 +192,7 @@ public class BlastNuclear extends Blast
     @Override
     public long getEnergy()
     {
-        return (long) (41840000 * this.nengLiang);
+        return (long) (41840000 * this.energy);
     }
 
     @Override

@@ -26,13 +26,13 @@ public class ThreadLargeExplosion extends ThreadExplosion
         this.callBack = callBack;
     }
 
-    public ThreadLargeExplosion(VectorWorld position, int banJing, float nengLiang, Entity source)
+    public ThreadLargeExplosion(VectorWorld position, int range, float energy, Entity source)
     {
-        this(position, banJing, nengLiang, source, new IThreadCallBack()
+        this(position, range, energy, source, new IThreadCallBack()
         {
 
             @Override
-            public float getResistance(World world, Vector3 explosionPosition, Vector3 targetPosition, Entity source, Block block)
+            public float getResistance(World world, Vector3 pos, Vector3 targetPosition, Entity source, Block block)
             {
                 float resistance = 0;
 
@@ -42,7 +42,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
                 }
                 else
                 {
-                    resistance = block.getExplosionResistance(source, world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), explosionPosition.intX(), explosionPosition.intY(), explosionPosition.intZ());
+                    resistance = block.getExplosionResistance(source, world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), pos.intX(), pos.intY(), pos.intZ());
                 }
 
                 return resistance;
@@ -66,29 +66,29 @@ public class ThreadLargeExplosion extends ThreadExplosion
                 Vector3 delta = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
                 float power = this.energy - (this.energy * this.position.world().rand.nextFloat() / 2);
 
-                Vector3 targetPosition = position.clone();
+                Vector3 t = position.clone();
 
                 for (float d = 0.3F; power > 0f; power -= d * 0.75F * 10)
                 {
-                    if (targetPosition.distance(position) < this.radius)
+                    if (t.distance(position) > this.radius)
                         break;
 
-                    Block block = Block.blocksList[this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())];
+                    Block block = Block.blocksList[this.position.world().getBlockId(t.intX(), t.intY(), t.intZ())];
 
                     if (block != null)
                     {
-                        if (block.getBlockHardness(this.position.world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ()) >= 0)
+                        if (block.getBlockHardness(this.position.world(), t.intX(), t.intY(), t.intZ()) >= 0)
                         {
-                            power -= this.callBack.getResistance(this.position.world(), position, targetPosition, source, block);
+                            power -= this.callBack.getResistance(this.position.world(), position, t, source, block);
 
                             if (power > 0f)
                             {
-                                this.results.add(targetPosition.clone());
+                                this.results.add(t.clone());
                             }
 
                         }
                     }
-                    targetPosition.translate(delta);
+                    t.translate(delta);
                 }
             }
         }
