@@ -20,9 +20,9 @@ public class ThreadLargeExplosion extends ThreadExplosion
 
     public IThreadCallBack callBack;
 
-    public ThreadLargeExplosion(VectorWorld position, int banJing, float energy, Entity source, IThreadCallBack callBack)
+    public ThreadLargeExplosion(VectorWorld position, int range, float energy, Entity source, IThreadCallBack callBack)
     {
-        super(position, banJing, energy, source);
+        super(position, range, energy, source);
         this.callBack = callBack;
     }
 
@@ -68,33 +68,27 @@ public class ThreadLargeExplosion extends ThreadExplosion
 
                 Vector3 targetPosition = position.clone();
 
-                for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
+                for (float d = 0.3F; power > 0f; power -= d * 0.75F * 10)
                 {
-                    if (targetPosition.distance(position) > this.radius)
+                    if (targetPosition.distance(position) < this.radius)
                         break;
 
-                    int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
-                    
-                    if (blockID > 0)
+                    Block block = Block.blocksList[this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())];
+
+                    if (block != null)
                     {
-                        if (blockID == Block.bedrock.blockID)
+                        if (block.getBlockHardness(this.position.world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ()) >= 0)
                         {
-                            break;
-                        }
+                            power -= this.callBack.getResistance(this.position.world(), position, targetPosition, source, block);
 
-                        float resistance = this.callBack.getResistance(this.position.world(), position, targetPosition, source, Block.blocksList[blockID]);
+                            if (power > 0f)
+                            {
+                                this.results.add(targetPosition.clone());
+                            }
 
-                        power -= resistance;
-
-                        if (power > 0f)
-                        {
-                            this.results.add(targetPosition.clone());
                         }
                     }
-
-                    targetPosition.x += delta.x;
-                    targetPosition.y += delta.y;
-                    targetPosition.z += delta.z;
+                    targetPosition.translate(delta);
                 }
             }
         }
