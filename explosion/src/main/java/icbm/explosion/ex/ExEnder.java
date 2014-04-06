@@ -1,11 +1,10 @@
-package icbm.explosion.missile.ex;
+package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.explosive.blast.BlastEnderman;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,7 +16,7 @@ import calclavia.api.icbm.explosion.IExplosiveContainer;
 import calclavia.api.mffs.card.ICoordLink;
 import calclavia.lib.recipe.RecipeUtility;
 
-public class ExEnder extends Missile
+public class ExEnder extends Ex
 {
     public ExEnder()
     {

@@ -1,9 +1,9 @@
 package icbm.explosion.render.item;
 
 import icbm.ModelICBM;
+import icbm.explosion.ex.Ex;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
-import icbm.explosion.missile.types.Missile;
 import icbm.explosion.render.entity.RenderMissile;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderItemMissile implements IItemRenderer
 {
-    HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();
+    HashMap<Ex, ModelICBM> cache = new HashMap<Ex, ModelICBM>();
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
@@ -39,7 +39,7 @@ public class RenderItemMissile implements IItemRenderer
     {
         if (this.shouldUseRenderHelper(type, item, null))
         {
-            Missile missile = (Missile) ExplosiveRegistry.get(item.getItemDamage());
+            Ex missile = (Ex) ExplosiveRegistry.get(item.getItemDamage());
 
             float scale = 0.7f;
             float right = 0f;

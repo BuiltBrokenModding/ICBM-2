@@ -1,4 +1,4 @@
-package icbm.explosion.missile.types;
+package icbm.explosion.ex;
 
 import icbm.Reference;
 import icbm.explosion.entities.EntityMissile;
@@ -11,7 +11,7 @@ import net.minecraftforge.client.model.ModelFormatException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class Missile extends Explosive
+public abstract class Ex extends Explosive
 {
     @SideOnly(Side.CLIENT)
     private ResourceLocation resourceLocation;
@@ -21,9 +21,9 @@ public abstract class Missile extends Explosive
 
     protected String modelName;
 
-    public Missile(String mingZi, int tier)
+    public Ex(String name, int tier)
     {
-        super(mingZi, tier);
+        super(name, tier);
     }
 
     /** Called when launched. */

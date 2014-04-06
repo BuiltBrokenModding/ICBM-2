@@ -1,16 +1,15 @@
-package icbm.explosion.missile.ex;
+package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.blast.BlastChemical;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
 
-public class ExChemical extends Missile
+public class ExChemical extends Ex
 {
     public ExChemical(String mingZi, int tier)
     {

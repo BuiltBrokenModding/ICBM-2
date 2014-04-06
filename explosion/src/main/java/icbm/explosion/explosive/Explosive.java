@@ -3,30 +3,30 @@ package icbm.explosion.explosive;
 import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.ex.ExAntiGravitational;
-import icbm.explosion.missile.ex.ExAntimatter;
-import icbm.explosion.missile.ex.ExBreaching;
-import icbm.explosion.missile.ex.ExChemical;
-import icbm.explosion.missile.ex.ExCondensed;
-import icbm.explosion.missile.ex.ExDebilitation;
-import icbm.explosion.missile.ex.ExEMP;
-import icbm.explosion.missile.ex.ExEnder;
-import icbm.explosion.missile.ex.ExEndothermic;
-import icbm.explosion.missile.ex.ExExothermic;
-import icbm.explosion.missile.ex.ExIncendiary;
-import icbm.explosion.missile.ex.ExNuclear;
-import icbm.explosion.missile.ex.ExRedMatter;
-import icbm.explosion.missile.ex.ExRejuvenation;
-import icbm.explosion.missile.ex.ExRepulsive;
-import icbm.explosion.missile.ex.ExSMine;
-import icbm.explosion.missile.ex.ExShrapnel;
-import icbm.explosion.missile.ex.ExSonic;
-import icbm.explosion.missile.types.Missile;
-import icbm.explosion.missile.types.MissileAnti;
-import icbm.explosion.missile.types.MissileCluster;
-import icbm.explosion.missile.types.MissileHoming;
-import icbm.explosion.missile.types.MissileModule;
-import icbm.explosion.missile.types.MissileNuclearCluster;
+import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.ExAntiGravitational;
+import icbm.explosion.ex.ExAntimatter;
+import icbm.explosion.ex.ExBreaching;
+import icbm.explosion.ex.ExChemical;
+import icbm.explosion.ex.ExCondensed;
+import icbm.explosion.ex.ExDebilitation;
+import icbm.explosion.ex.ExEMP;
+import icbm.explosion.ex.ExEnder;
+import icbm.explosion.ex.ExEndothermic;
+import icbm.explosion.ex.ExExothermic;
+import icbm.explosion.ex.ExIncendiary;
+import icbm.explosion.ex.ExNuclear;
+import icbm.explosion.ex.ExRedMatter;
+import icbm.explosion.ex.ExRejuvenation;
+import icbm.explosion.ex.ExRepulsive;
+import icbm.explosion.ex.ExSMine;
+import icbm.explosion.ex.ExShrapnel;
+import icbm.explosion.ex.ExSonic;
+import icbm.explosion.ex.missiles.MissileAnti;
+import icbm.explosion.ex.missiles.MissileCluster;
+import icbm.explosion.ex.missiles.MissileHoming;
+import icbm.explosion.ex.missiles.MissileModule;
+import icbm.explosion.ex.missiles.MissileNuclearCluster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -74,11 +74,11 @@ public abstract class Explosive implements IExplosive
     public static final Explosive redMatter;
 
     /** Missiles */
-    public static final Missile missileModule;
-    public static final Missile homing;
-    public static final Missile antiBallistic;
-    public static final Missile cluster;
-    public static final Missile nuclearCluster;
+    public static final Ex missileModule;
+    public static final Ex homing;
+    public static final Ex antiBallistic;
+    public static final Ex cluster;
+    public static final Ex nuclearCluster;
 
     public static boolean registered = false;
 
@@ -115,11 +115,11 @@ public abstract class Explosive implements IExplosive
         redMatter = ExplosiveRegistry.register(new ExRedMatter());
 
         /** Missiles */
-        missileModule = (Missile) ExplosiveRegistry.register(new MissileModule());
-        homing = (Missile) ExplosiveRegistry.register(new MissileHoming());
-        antiBallistic = (Missile) ExplosiveRegistry.register(new MissileAnti());
-        cluster = (Missile) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
-        nuclearCluster = (Missile) ExplosiveRegistry.register(new MissileNuclearCluster());
+        missileModule = (Ex) ExplosiveRegistry.register(new MissileModule());
+        homing = (Ex) ExplosiveRegistry.register(new MissileHoming());
+        antiBallistic = (Ex) ExplosiveRegistry.register(new MissileAnti());
+        cluster = (Ex) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
+        nuclearCluster = (Ex) ExplosiveRegistry.register(new MissileNuclearCluster());
 
         Settings.CONFIGURATION.save();
         registered = true;

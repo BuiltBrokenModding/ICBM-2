@@ -1,23 +1,22 @@
-package icbm.explosion.missile.types;
+package icbm.explosion.ex.missiles;
 
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.entities.EntityMissile.MissileType;
-import icbm.explosion.explosive.blast.BlastRepulsive;
+import icbm.explosion.explosive.Explosive;
+import icbm.explosion.explosive.blast.BlastNuclear;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
-/** @author Calclavia */
-public class MissileCluster extends MissileBase
+public class MissileNuclearCluster extends MissileCluster
 {
-    public MissileCluster(String mingZi, int tier)
+    public MissileNuclearCluster()
     {
-        super(mingZi, tier);
+        super("nuclearCluster", 3);
         this.hasBlock = false;
-        this.modelName = "missile_cluster.tcn";
     }
 
-    public static final int MAX_CLUSTER = 12;
+    public static final int MAX_CLUSTER = 4;
 
     @Override
     public void update(EntityMissile missileObj)
@@ -29,12 +28,13 @@ public class MissileCluster extends MissileBase
                 if (!missileObj.worldObj.isRemote)
                 {
                     Vector3 position = new Vector3(missileObj);
-                    EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), 0);
+                    EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), Explosive.nuclear.getID());
+                    missileObj.worldObj.spawnEntityInWorld(clusterMissile);
                     clusterMissile.missileType = MissileType.CruiseMissile;
                     clusterMissile.protectionTime = 20;
-                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6)));
-                    missileObj.worldObj.spawnEntityInWorld(clusterMissile);
+                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
                 }
+
                 missileObj.protectionTime = 20;
                 missileObj.daoDanCount++;
             }
@@ -46,9 +46,9 @@ public class MissileCluster extends MissileBase
     }
 
     @Override
-    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    public void createExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BlastRepulsive(world, entity, x, y, z, 6).setDestroyItems().explode();
+        new BlastNuclear(world, entity, x, y, z, 30, 50).setNuclear().explode();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package icbm.explosion.missile.ex;
+package icbm.explosion.ex;
 
 import icbm.ModelICBM;
 import icbm.Settings;

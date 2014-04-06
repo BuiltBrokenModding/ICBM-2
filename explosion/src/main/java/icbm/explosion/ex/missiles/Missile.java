@@ -1,11 +1,12 @@
-package icbm.explosion.missile.types;
+package icbm.explosion.ex.missiles;
 
 import icbm.explosion.ICBMExplosion;
+import icbm.explosion.ex.Ex;
 import net.minecraft.item.ItemStack;
 
-public abstract class MissileBase extends Missile
+public abstract class Missile extends Ex
 {
-    public MissileBase(String mingZi, int tier)
+    public Missile(String mingZi, int tier)
     {
         super(mingZi, tier);
         this.hasBlock = false;

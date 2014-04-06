@@ -3,8 +3,8 @@ package icbm.explosion.items;
 import icbm.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.ex.Ex;
 import icbm.explosion.explosive.ExplosiveRegistry;
-import icbm.explosion.missile.types.Missile;
 
 import java.util.List;
 
@@ -58,9 +58,9 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 						{
 							int haoMa = inventoryStack.getItemDamage();
 
-							if (ExplosiveRegistry.get(haoMa) instanceof Missile)
+							if (ExplosiveRegistry.get(haoMa) instanceof Ex)
 							{
-								Missile daoDan = (Missile) ExplosiveRegistry.get(haoMa);
+								Ex daoDan = (Ex) ExplosiveRegistry.get(haoMa);
 
 								ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, player.posX, player.posY, player.posZ, ExplosiveType.AIR, ExplosiveRegistry.get(haoMa));
 								MinecraftForge.EVENT_BUS.post(evt);

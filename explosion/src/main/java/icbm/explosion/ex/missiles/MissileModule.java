@@ -1,10 +1,10 @@
-package icbm.explosion.missile.types;
+package icbm.explosion.ex.missiles;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import calclavia.api.icbm.IMissile;
 
-public class MissileModule extends MissileBase
+public class MissileModule extends Missile
 {
     public MissileModule()
     {
