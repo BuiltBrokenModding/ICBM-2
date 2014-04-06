@@ -238,7 +238,6 @@ public final class ICBMCore
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-        LOGGER.info("Calling postInit for submodules");
     }
 
 }

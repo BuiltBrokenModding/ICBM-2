@@ -1,10 +1,11 @@
 package icbm.core.items;
 
+import calclavia.lib.prefab.item.ItemBlockTooltip;
 import icbm.Reference;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockSpikes extends ItemBlock
+public class ItemBlockSpikes extends ItemBlockTooltip
 {
     public ItemBlockSpikes(int par1)
     {
