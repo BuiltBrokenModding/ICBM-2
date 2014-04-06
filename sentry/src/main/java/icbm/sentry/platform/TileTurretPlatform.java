@@ -67,7 +67,7 @@ public class TileTurretPlatform extends TileElectricalInventory
     {
         long used = 0;
         long remain = receive;
-        
+
         for (int i = 0; i < 6; i++)
         {
             TileTurret turret = this.turrets[i];

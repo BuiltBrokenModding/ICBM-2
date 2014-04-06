@@ -1,11 +1,9 @@
 package icbm.core.blocks;
 
-import calclavia.api.atomicscience.IAntiPoisonBlock;
 import icbm.core.prefab.BlockICBM;
 
 import java.util.List;
 
-import calclavia.api.atomicscience.IAntiPoisonBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import calclavia.api.atomicscience.IAntiPoisonBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

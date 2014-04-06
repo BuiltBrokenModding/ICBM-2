@@ -67,7 +67,7 @@ public class BlastEMP extends Blast
                     {
                         double dist = MathHelper.sqrt_double((x * x + y * y + z * z));
 
-                        Vector3 searchPosition = Vector3.translate(position, (IVector3) new Vector3(x, y, z));
+                        Vector3 searchPosition = Vector3.translate(position, new Vector3(x, y, z));
                         if (dist > this.getRadius())
                             continue;
 

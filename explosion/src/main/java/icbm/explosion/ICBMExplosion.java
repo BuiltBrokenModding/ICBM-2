@@ -1,12 +1,9 @@
 package icbm.explosion;
 
-import calclavia.lib.utility.PotionUtility;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
-import icbm.core.entity.EntityFlyingBlock;
-import icbm.core.entity.EntityFragments;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.entities.EntityBombCart;
 import icbm.explosion.entities.EntityExplosion;
@@ -75,6 +72,7 @@ import calclavia.lib.flag.FlagRegistry;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.recipe.RecipeUtility;
 import calclavia.lib.recipe.UniversalRecipe;
+import calclavia.lib.utility.PotionUtility;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -283,7 +281,7 @@ public class ICBMExplosion
     public void init(FMLInitializationEvent evt)
     {
         Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
-        
+
         EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
@@ -294,7 +292,7 @@ public class ICBMExplosion
         EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
         EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 1, this, 500, 1, true);
         EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
-        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);       
+        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);
         EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
         EntityRegistry.registerModEntity(EntityBombCart.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
 
@@ -366,7 +364,7 @@ public class ICBMExplosion
                 // Minecart
                 RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, explosive.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, explosive.getID()), '@', Item.minecartEmpty }), explosive.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
             }
-        }     
+        }
     }
 
     @ForgeSubscribe

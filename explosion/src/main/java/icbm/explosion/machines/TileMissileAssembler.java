@@ -371,11 +371,13 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
     @Override
     public void openChest()
-    {}
+    {
+    }
 
     @Override
     public void closeChest()
-    {}
+    {
+    }
 
     @Override
     public AxisAlignedBB getRenderBoundingBox()

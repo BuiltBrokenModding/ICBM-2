@@ -54,7 +54,7 @@ public class BlastBreech extends BlastRepulsive
                 }
 
                 super.doExplode();
-                this.position.add((IVector3) difference);
+                this.position.add(difference);
             }
         }
     }

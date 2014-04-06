@@ -6,7 +6,7 @@ import calclavia.lib.gui.ContainerBase;
 
 /** @author Darkguardsman */
 public class ContainerBox extends ContainerBase
-{    
+{
     public ContainerBox(InventoryPlayer invPlayer, TileBox tile)
     {
         super(tile);

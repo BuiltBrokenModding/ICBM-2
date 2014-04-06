@@ -1,6 +1,5 @@
 package icbm.explosion.render.entity;
 
-import icbm.ModelICBM;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.entities.EntityMissile.MissileType;
 import icbm.explosion.ex.Ex;

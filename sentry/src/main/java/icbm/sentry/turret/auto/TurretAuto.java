@@ -1,7 +1,6 @@
 package icbm.sentry.turret.auto;
 
 import icbm.sentry.interfaces.IAutoTurret;
-import icbm.sentry.interfaces.ISentryTrait;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.Turret;

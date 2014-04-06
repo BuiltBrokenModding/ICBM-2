@@ -96,7 +96,7 @@ public class BlastEnderman extends Blast
 
                 entity.motionZ -= (r - zDifference) * Math.abs(zDifference) * 0.0006;
 
-                if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), (IVector3) position) < 4)
+                if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
                 {
                     if (!explosionCreated && callCount % 5 == 0)
                     {

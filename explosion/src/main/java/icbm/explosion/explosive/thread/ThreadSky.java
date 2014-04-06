@@ -71,7 +71,7 @@ public class ThreadSky extends ThreadExplosion
 
                 for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
                 {
-                    if (targetPosition.distance((IVector3) position) > this.radius)
+                    if (targetPosition.distance(position) > this.radius)
                         break;
 
                     int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());

@@ -21,8 +21,8 @@ import calclavia.api.icbm.ILauncherContainer;
 import calclavia.api.icbm.ILauncherController;
 import calclavia.api.icbm.IMissile;
 import calclavia.api.icbm.ITier;
-import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.network.IPacketReceiver;
@@ -108,7 +108,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, (byte)this.facingDirection.ordinal(), this.tier);
+        return ICBMCore.PACKET_TILE.getPacket(this, (byte) this.facingDirection.ordinal(), this.tier);
     }
 
     @Override
@@ -399,6 +399,6 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     @Override
     public int[] getMissileSlots()
     {
-        return new int[]{0};
+        return new int[] { 0 };
     }
 }

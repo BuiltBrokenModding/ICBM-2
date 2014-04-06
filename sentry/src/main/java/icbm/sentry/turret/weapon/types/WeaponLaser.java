@@ -75,7 +75,7 @@ public class WeaponLaser extends WeaponDamage implements IEnergyWeapon
 
     @Override
     public long getEnergyPerShot()
-    {        
+    {
         return this.energy;
     }
 }

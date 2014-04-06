@@ -1,7 +1,6 @@
 package icbm.sentry.turret;
 
 import icbm.sentry.turret.auto.TurretAntiAir;
-import icbm.sentry.turret.auto.TurretAutoBow;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.mounted.MountedRailgun;

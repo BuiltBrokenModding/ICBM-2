@@ -43,7 +43,7 @@ public class BlastAntimatter extends Blast
                 {
                     for (int z = (int) -this.getRadius(); z < this.getRadius(); z++)
                     {
-                        Vector3 targetPosition = this.position.clone().translate((IVector3) new Vector3(x, y, z));
+                        Vector3 targetPosition = this.position.clone().translate(new Vector3(x, y, z));
 
                         double dist = position.distance(targetPosition);
 

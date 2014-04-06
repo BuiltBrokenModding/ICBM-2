@@ -1,6 +1,5 @@
 package icbm.explosion.machines;
 
-import dan200.computercraft.api.peripheral.IPeripheral;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
@@ -34,6 +33,8 @@ import calclavia.lib.network.IPacketReceiver;
 import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
+
+import dan200.computercraft.api.peripheral.IPeripheral;
 
 public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActivate, IInventory, ILauncherContainer, IPacketReceiver
 {
@@ -527,8 +528,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
         return new int[] { 0 };
     }
 
-	@Override public boolean equals(IPeripheral other)
-	{
-		return equals(other);
-	}
+    @Override
+    public boolean equals(IPeripheral other)
+    {
+        return equals(other);
+    }
 }

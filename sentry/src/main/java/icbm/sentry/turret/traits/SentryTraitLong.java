@@ -1,7 +1,6 @@
 package icbm.sentry.turret.traits;
 
 import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.interfaces.IUpgrade;
 
 /** Trait used to define max energy storage
  * 

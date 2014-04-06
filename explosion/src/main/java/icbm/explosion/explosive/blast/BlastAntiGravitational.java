@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
 import calclavia.api.mffs.IForceFieldBlock;
 
 public class BlastAntiGravitational extends Blast

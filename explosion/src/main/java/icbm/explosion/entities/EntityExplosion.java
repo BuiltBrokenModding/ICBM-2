@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.IVectorWorld;
-import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 import calclavia.api.icbm.explosion.IEntityExplosion;
 import calclavia.lib.network.PacketHandler;
@@ -137,6 +136,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         }
     }
 
+    @Override
     public void endExplosion()
     {
         this.endExplosion = true;

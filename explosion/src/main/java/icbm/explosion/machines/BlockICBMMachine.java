@@ -110,7 +110,7 @@ public class BlockICBMMachine extends BlockICBM
 
         if (tileEntity instanceof IMultiBlock)
         {
-			CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
+            CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
         }
     }
 
@@ -265,7 +265,7 @@ public class BlockICBMMachine extends BlockICBM
 
             if (tileEntity instanceof IMultiBlock)
             {
-            	CalclaviaLoader.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+                CalclaviaLoader.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
             }
         }
 

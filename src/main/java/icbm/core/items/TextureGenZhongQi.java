@@ -1,6 +1,5 @@
 package icbm.core.items;
 
-import calclavia.api.icbm.ITracker;
 import icbm.core.ICBMCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -9,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import calclavia.api.icbm.ITracker;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +21,7 @@ public class TextureGenZhongQi extends TextureAtlasSprite
 
     public TextureGenZhongQi()
     {
-		super(ICBMCore.itemTracker.getUnlocalizedName().replace("item.", ""));
+        super(ICBMCore.itemTracker.getUnlocalizedName().replace("item.", ""));
     }
 
     @Override

@@ -69,6 +69,7 @@ public class TileBox extends TileInventory
         return ContainerBox.class;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     protected TileRender newRenderer()
     {

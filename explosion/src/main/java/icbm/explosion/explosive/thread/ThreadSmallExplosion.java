@@ -2,7 +2,6 @@ package icbm.explosion.explosive.thread;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
@@ -45,7 +44,7 @@ public class ThreadSmallExplosion extends ThreadExplosion
                             for (float var21 = 0.3F; power > 0.0F; power -= var21 * 0.75F)
                             {
                                 Vector3 targetPosition = new Vector3(var15, var17, var19);
-                                double distanceFromCenter = position.distance((IVector3) targetPosition);
+                                double distanceFromCenter = position.distance(targetPosition);
                                 int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                                 if (blockID > 0)

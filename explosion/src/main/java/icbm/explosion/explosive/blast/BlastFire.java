@@ -44,7 +44,7 @@ public class BlastFire extends Blast
                             for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
                             {
                                 Vector3 targetPosition = new Vector3(var15, var17, var19);
-                                double distanceFromCenter = position.distance((IVector3) targetPosition);
+                                double distanceFromCenter = position.distance(targetPosition);
                                 int var25 = world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                                 if (var25 > 0)
