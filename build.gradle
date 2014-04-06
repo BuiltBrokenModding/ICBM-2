@@ -83,7 +83,7 @@ repositories {
 }
 dependencies {
 	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
-    if (true)
+    if (ENV.JOB_NAME == "ICBM-Development")
         compile group: 'calclavia-core-development', name: 'calclavia-core', version: "${rootProject.config.version.calclaviacore}", classifier: "dev"
     else
         compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
