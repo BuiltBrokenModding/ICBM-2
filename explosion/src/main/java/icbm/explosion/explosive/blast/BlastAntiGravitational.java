@@ -13,12 +13,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 import calclavia.api.mffs.IForceFieldBlock;
 
 public class BlastAntiGravitational extends Blast
 {
     protected ThreadSmallExplosion thread;
-    protected Set<EntityFlyingBlock> feiBlocks = new HashSet<EntityFlyingBlock>();
+    protected Set<EntityFlyingBlock> flyingBlocks = new HashSet<EntityFlyingBlock>();
 
     public BlastAntiGravitational(World world, Entity entity, double x, double y, double z, float size)
     {
@@ -73,7 +74,7 @@ public class BlastAntiGravitational extends Blast
                     {
                         EntityFlyingBlock entity = new EntityFlyingBlock(world(), targetPosition, blockID, metadata, 0);
                         world().spawnEntityInWorld(entity);
-                        feiBlocks.add(entity);
+                        flyingBlocks.add(entity);
                         entity.yawChange = 50 * world().rand.nextFloat();
                         entity.pitchChange = 100 * world().rand.nextFloat();
                         entity.motionY += Math.max(0.15 * world().rand.nextFloat(), 0.1);

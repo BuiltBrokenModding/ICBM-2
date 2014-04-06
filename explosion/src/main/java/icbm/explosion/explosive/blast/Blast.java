@@ -42,6 +42,18 @@ public abstract class Blast extends Explosion implements IExplosion, IVectorWorl
         this.position = new VectorWorld(world, x, y, z);
     }
 
+    public Blast(VectorWorld pos, Entity entity, float size)
+    {
+        super(pos.world(), entity, pos.x(), pos.y(), pos.z(), size);
+        this.position = pos;
+    }
+
+    public Blast(Entity entity, float size)
+    {
+        super(entity.worldObj, entity, entity.posX, entity.posY, entity.posZ, size);
+        this.position = new VectorWorld(entity);
+    }
+
     protected void doPreExplode()
     {
     }
