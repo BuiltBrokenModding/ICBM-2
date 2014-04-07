@@ -1,5 +1,6 @@
 package icbm.core;
 
+import cpw.mods.fml.common.Loader;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
@@ -152,18 +153,16 @@ public final class ICBMCore
 
         OreDictionary.registerOre("dustSulfur", itemSulfurDust);
         OreGenerator.addOre(sulfurGenerator);
-
-        TabICBM.itemStack = new ItemStack(blockProximityDetector);
+		if (!Loader.isModLoaded("ICBM|Sentry") && !Loader.isModLoaded("ICBM|Explosion"))
+        	TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
         proxy.preInit();
-        LOGGER.info("Calling preinit for submodules");
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
-        LOGGER.info("Calling init for submodules");
 
         EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());

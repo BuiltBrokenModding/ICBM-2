@@ -163,7 +163,7 @@ public class ICBMExplosion
         PoisonToxin.INSTANCE = new PoisonToxin(PotionUtility.POT_ARRAY_SIZE - 5, true, 5149489, "toxin");
         PoisonContagion.INSTANCE = new PoisonContagion(PotionUtility.POT_ARRAY_SIZE - 4, false, 5149489, "virus");
         PoisonFrostBite.INSTANCE = new PoisonFrostBite(PotionUtility.POT_ARRAY_SIZE - 3, false, 5149489, "frostBite");
-
+		if (!Loader.isModLoaded("ICBM|Sentry"))
         TabICBM.itemStack = new ItemStack(blockExplosive);
 
         /** Dispenser Handler */

@@ -66,8 +66,8 @@ public class ICBMSentry
     @Metadata(ID)
     public static ModMetadata metadata;
 
-    public static final int BLOCK_ID_PREFIX = 3517;
-    public static final int ITEM_ID_PREFIX = 20948;
+    //public static final int BLOCK_ID_PREFIX = 3517;
+    //public static final int ITEM_ID_PREFIX = 20948;
 
     public static final int ENTITY_ID_PREFIX = 50;
 
@@ -80,7 +80,6 @@ public class ICBMSentry
     public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
 
     @EventHandler
-    // @Optional.Method(modid = ID)
     public void preInit(FMLPreInitializationEvent event)
     {
         NetworkRegistry.instance().registerGuiHandler(INSTANCE, proxy);
@@ -101,7 +100,7 @@ public class ICBMSentry
         EntityRegistry.registerGlobalEntityID(EntityMountableDummy.class, "ICBMSentryFake", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityMountableDummy.class, "ICBMFake", ENTITY_ID_PREFIX + 7, INSTANCE, 50, 5, true);
 
-        TabICBM.itemStack = new ItemStack(blockTurret);
+        TabICBM.itemStack = TurretRegistry.getItemStack(TurretAntiAir.class);
 
         TurretEntitySelector.configTurretTargeting();
 
@@ -110,14 +109,12 @@ public class ICBMSentry
     }
 
     @EventHandler
-    // @Optional.Method(modid = ID)
     public void init(FMLInitializationEvent event)
     {
         Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
     }
 
     @EventHandler
-    // @Optional.Method(modid = ID)
     public void postInit(FMLPostInitializationEvent event)
     {
         // Shell
