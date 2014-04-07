@@ -51,6 +51,8 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
             par3List.addAll(LanguageUtility.splitStringPerWord(Upgrades.getDescription(itemStack.getItemDamage()), 4));
             //par3List.add("\u00a7cDamage: " + (UnitDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
 
+			super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
+
         }
     }
 

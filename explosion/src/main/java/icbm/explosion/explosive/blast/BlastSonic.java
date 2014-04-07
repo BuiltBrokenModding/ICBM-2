@@ -48,7 +48,7 @@ public class BlastSonic extends Blast
     @Override
     public void doPreExplode()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
             if (this.hasShockWave)
             {
@@ -59,15 +59,15 @@ public class BlastSonic extends Blast
                         for (int z = (int) (-this.getRadius() * 2); z < this.getRadius() * 2; ++z)
                         {
                             Vector3 targetPosition = Vector3.translate(position, new Vector3(x, y, z));
-                            int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                            int blockID = world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                             if (blockID > 0)
                             {
-                                Material material = worldObj.getBlockMaterial(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                                Material material = world().getBlockMaterial(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
-                                if (blockID != Block.bedrock.blockID && !(Block.blocksList[blockID] instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(this.exploder, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) > this.nengLiang || material == Material.glass))
+                                if (blockID != Block.bedrock.blockID && !(Block.blocksList[blockID] instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(this.exploder, world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) > this.nengLiang || material == Material.glass))
                                 {
-                                    targetPosition.setBlock(worldObj, 0);
+                                    targetPosition.setBlock(world(), 0);
                                 }
                             }
                         }
@@ -75,7 +75,7 @@ public class BlastSonic extends Blast
                 }
             }
 
-            this.thread = new ThreadLargeExplosion(this.worldObj, position, (int) this.getRadius(), this.nengLiang, this.exploder, new IThreadCallBack()
+            this.thread = new ThreadLargeExplosion(this.position, (int) this.getRadius(), this.nengLiang, this.exploder, new IThreadCallBack()
             {
                 @Override
                 public float getResistance(World world, Vector3 explosionPosition, Vector3 targetPosition, Entity source, Block block)
@@ -100,11 +100,11 @@ public class BlastSonic extends Blast
 
         if (this.hasShockWave)
         {
-            this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "hypersonic", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "hypersonic", 4.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
         }
         else
         {
-            this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "sonicwave", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "sonicwave", 4.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
 
@@ -113,7 +113,7 @@ public class BlastSonic extends Blast
     {
         int r = this.callCount;
 
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
             if (this.thread != null && this.thread.isComplete)
             {
@@ -127,7 +127,7 @@ public class BlastSonic extends Blast
                     if (distance > r || distance < r - 3)
                         continue;
 
-                    int blockID = this.worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    int blockID = this.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                     if (blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID)
                         continue;
@@ -135,27 +135,27 @@ public class BlastSonic extends Blast
                     if (Block.blocksList[blockID] instanceof IForceFieldBlock)
                         continue;
 
-                    int metadata = this.worldObj.getBlockMetadata(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    int metadata = this.world().getBlockMetadata(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
-                    if (distance < r - 1 || this.worldObj.rand.nextInt(3) > 0)
+                    if (distance < r - 1 || this.world().rand.nextInt(3) > 0)
                     {
                         if (blockID == ICBMExplosion.blockExplosive.blockID)
                         {
-                            BlockExplosive.yinZha(this.worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TileExplosive) this.worldObj.getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
+                            BlockExplosive.yinZha(this.world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TileExplosive) this.world().getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
                         }
                         else
                         {
-                            this.worldObj.setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                            this.world().setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
                         }
 
                         targetPosition.translate(0.5D);
 
-                        if (this.worldObj.rand.nextFloat() < 0.3 * (this.getRadius() - r))
+                        if (this.world().rand.nextFloat() < 0.3 * (this.getRadius() - r))
                         {
-                            EntityFlyingBlock entity = new EntityFlyingBlock(this.worldObj, targetPosition, blockID, metadata);
-                            this.worldObj.spawnEntityInWorld(entity);
-                            entity.yawChange = 50 * this.worldObj.rand.nextFloat();
-                            entity.pitchChange = 100 * this.worldObj.rand.nextFloat();
+                            EntityFlyingBlock entity = new EntityFlyingBlock(this.world(), targetPosition, blockID, metadata);
+                            this.world().spawnEntityInWorld(entity);
+                            entity.yawChange = 50 * this.world().rand.nextFloat();
+                            entity.pitchChange = 100 * this.world().rand.nextFloat();
                         }
 
                         it.remove();
@@ -166,7 +166,7 @@ public class BlastSonic extends Blast
 
         int radius = 2 * this.callCount;
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
-        List<Entity> allEntities = this.worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+        List<Entity> allEntities = this.world().getEntitiesWithinAABB(Entity.class, bounds);
 
         synchronized (allEntities)
         {
@@ -188,14 +188,14 @@ public class BlastSonic extends Blast
                     if (xDifference < 0)
                         r = (int) -this.getRadius();
 
-                    entity.motionX += (r - xDifference) * 0.02 * this.worldObj.rand.nextFloat();
-                    entity.motionY += 3 * this.worldObj.rand.nextFloat();
+                    entity.motionX += (r - xDifference) * 0.02 * this.world().rand.nextFloat();
+                    entity.motionY += 3 * this.world().rand.nextFloat();
 
                     r = (int) this.getRadius();
                     if (zDifference < 0)
                         r = (int) -this.getRadius();
 
-                    entity.motionZ += (r - zDifference) * 0.02 * this.worldObj.rand.nextFloat();
+                    entity.motionZ += (r - zDifference) * 0.02 * this.world().rand.nextFloat();
                 }
             }
         }

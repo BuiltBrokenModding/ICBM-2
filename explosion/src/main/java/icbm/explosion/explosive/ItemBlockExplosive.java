@@ -1,9 +1,10 @@
 package icbm.explosion.explosive;
 
+import calclavia.lib.prefab.item.ItemBlockTooltip;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemBlockExplosive extends ItemBlock
+public class ItemBlockExplosive extends ItemBlockTooltip
 {
     public ItemBlockExplosive(int id)
     {

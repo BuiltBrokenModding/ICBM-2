@@ -1,4 +1,4 @@
-package icbm.explosion.missile.types;
+package icbm.explosion.ex.missiles;
 
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.entities.EntityMissile.MissileType;
@@ -11,7 +11,7 @@ import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.ITracker;
 
-public class MissileHoming extends MissileBase
+public class MissileHoming extends Missile
 {
     public MissileHoming()
     {

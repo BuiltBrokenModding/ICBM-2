@@ -1,15 +1,14 @@
-package icbm.explosion.missile.ex;
+package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastRepulsive;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
 
-public class ExRepulsive extends Missile
+public class ExRepulsive extends Ex
 {
     public ExRepulsive(String name, int tier)
     {

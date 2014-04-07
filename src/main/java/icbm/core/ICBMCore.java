@@ -124,7 +124,7 @@ public final class ICBMCore
         blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
         blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
-        blockBox = contentRegistry.newBlock(TileBox.class);
+        //blockBox = contentRegistry.newBlock(TileBox.class); TODO Enable, disabled as to allow to release a stable ICBM for 1.6
 
         // ITEMS
         itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
@@ -238,7 +238,6 @@ public final class ICBMCore
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-        LOGGER.info("Calling postInit for submodules");
     }
 
 }

@@ -1,8 +1,7 @@
-package icbm.explosion.missile.ex;
+package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastEMP;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -10,7 +9,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import calclavia.lib.recipe.RecipeUtility;
 import calclavia.lib.recipe.UniversalRecipe;
 
-public class ExEMP extends Missile
+public class ExEMP extends Ex
 {
     public ExEMP()
     {

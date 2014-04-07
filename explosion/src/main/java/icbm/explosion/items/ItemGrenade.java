@@ -17,8 +17,8 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -125,10 +125,11 @@ public class ItemGrenade extends ItemICBMBase
     }
 
     @Override
-    public void addInformation (ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
     {
         int explosiveTier = ExplosiveRegistry.get(par1ItemStack.getItemDamage()).getTier();
         par3List.add(LanguageUtility.getLocal("info.misc.tier") + ": " + explosiveTier);
+		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
     }
 
     @SideOnly(Side.CLIENT)

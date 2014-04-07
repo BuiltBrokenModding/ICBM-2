@@ -3,9 +3,9 @@ package icbm.explosion.machines.launcher;
 import icbm.Settings;
 import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.ex.Ex;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,8 +21,8 @@ import calclavia.api.icbm.ILauncherContainer;
 import calclavia.api.icbm.ILauncherController;
 import calclavia.api.icbm.IMissile;
 import calclavia.api.icbm.ITier;
-import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.multiblock.fake.IMultiBlock;
 import calclavia.lib.network.IPacketReceiver;
@@ -108,7 +108,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, (byte)this.facingDirection.ordinal(), this.tier);
+        return ICBMCore.PACKET_TILE.getPacket(this, (byte) this.facingDirection.ordinal(), this.tier);
     }
 
     @Override
@@ -136,9 +136,9 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
                 {
                     int explosiveID = this.getStackInSlot(0).getItemDamage();
 
-                    if (ExplosiveRegistry.get(explosiveID) instanceof Missile)
+                    if (ExplosiveRegistry.get(explosiveID) instanceof Ex)
                     {
-                        Missile missile = (Missile) ExplosiveRegistry.get(explosiveID);
+                        Ex missile = (Ex) ExplosiveRegistry.get(explosiveID);
 
                         ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
                         MinecraftForge.EVENT_BUS.post(evt);
@@ -399,6 +399,6 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     @Override
     public int[] getMissileSlots()
     {
-        return new int[]{0};
+        return new int[] { 0 };
     }
 }

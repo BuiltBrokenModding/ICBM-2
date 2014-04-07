@@ -1,4 +1,4 @@
-package icbm.explosion.missile.types;
+package icbm.explosion.ex.missiles;
 
 import icbm.Reference;
 import icbm.explosion.entities.EntityMissile;

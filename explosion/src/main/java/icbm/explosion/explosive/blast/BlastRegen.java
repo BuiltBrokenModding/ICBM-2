@@ -19,15 +19,15 @@ public class BlastRegen extends Blast
     @Override
     public void doExplode()
     {
-        if (!worldObj.isRemote)
+        if (!world().isRemote)
         {
             try
             {
-                Chunk oldChunk = worldObj.getChunkFromBlockCoords(position.intX(), position.intZ());
+                Chunk oldChunk = world().getChunkFromBlockCoords(position.intX(), position.intZ());
 
-                if (worldObj instanceof WorldServer)
+                if (world() instanceof WorldServer)
                 {
-                    WorldServer worldServer = (WorldServer) worldObj;
+                    WorldServer worldServer = (WorldServer) world();
                     ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
                     IChunkProvider chunkProviderGenerate = ((IChunkProvider) ObfuscationReflectionHelper.getPrivateValue(ChunkProviderServer.class, chunkProviderServer, "currentChunkProvider", "d", "field_73246_d"));
 
@@ -37,7 +37,7 @@ public class BlastRegen extends Blast
                     {
                         for (int z = 0; z < 16; z++)
                         {
-                            for (int y = 0; y < worldObj.getHeight(); y++)
+                            for (int y = 0; y < world().getHeight(); y++)
                             {
                                 int blockID = newChunk.getBlockID(x, y, z);
                                 int metadata = newChunk.getBlockMetadata(x, y, z);

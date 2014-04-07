@@ -1,9 +1,9 @@
 package icbm.core.prefab;
 
+import net.minecraft.nbt.NBTTagCompound;
 import calclavia.api.icbm.IModuleContainer;
 import calclavia.api.icbm.ITier;
 import calclavia.api.icbm.sentry.IICBMModule;
-import net.minecraft.nbt.NBTTagCompound;
 
 /** Prefab for ICBM module parts uses in the creation, modification, or design of a more complex
  * object.

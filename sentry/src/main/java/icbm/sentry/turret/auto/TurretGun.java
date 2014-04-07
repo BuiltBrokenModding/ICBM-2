@@ -1,9 +1,7 @@
 package icbm.sentry.turret.auto;
 
 import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.interfaces.IUpgrade;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.traits.SentryTraitDouble;
 import icbm.sentry.turret.weapon.types.WeaponConventional;
 
 /** @author DarkGuardsman */
@@ -17,5 +15,5 @@ public class TurretGun extends TurretAuto
         barrelOffset.y = 0.3;
         barrelLength = 1f;
         setTrait(ITurret.AMMO_RELOAD_TIME_TRAIT, 40);
-    }   
+    }
 }

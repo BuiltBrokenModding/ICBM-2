@@ -1,16 +1,12 @@
 package icbm.explosion.render.tile;
 
-import icbm.ModelICBM;
 import icbm.Reference;
+import icbm.explosion.ex.Ex;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.machines.TileMissileAssembler;
-import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.tiles.ModelMissileAssemblerClaw;
 import icbm.explosion.model.tiles.ModelMissileAssemblerPanel;
 import icbm.explosion.render.entity.RenderMissile;
-
-import java.util.HashMap;
-
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -136,7 +132,7 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
         MODEL_CLAW3.render(0.0625F);
         if (tileEntity.missileID >= 0)
         {
-            Missile missile = (Missile) ExplosiveRegistry.get(tileEntity.missileID);
+            Ex missile = (Ex) ExplosiveRegistry.get(tileEntity.missileID);
             float scale = 0.8f;
             float right = 1f;
 
@@ -166,7 +162,7 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
                 {
                     RenderMissile.cache.put(missile, missile.getMissileModel());
                 }
-    
+
                 RenderMissile.cache.get(missile).renderAll();
             }
         }

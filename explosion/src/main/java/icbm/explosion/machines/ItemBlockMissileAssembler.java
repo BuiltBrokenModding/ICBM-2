@@ -1,5 +1,6 @@
 package icbm.explosion.machines;
 
+import calclavia.lib.prefab.item.ItemBlockTooltip;
 import icbm.explosion.ICBMExplosion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -10,7 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 /** @author DarkGuardsman */
-public class ItemBlockMissileAssembler extends ItemBlock
+public class ItemBlockMissileAssembler extends ItemBlockTooltip
 {
     public ItemBlockMissileAssembler(int par1)
     {

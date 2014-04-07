@@ -13,10 +13,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.vector.Vector3;
+import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import calclavia.api.icbm.explosion.ExplosiveType;
 import calclavia.api.icbm.explosion.IExplosive;
 import calclavia.api.icbm.explosion.IExplosiveContainer;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

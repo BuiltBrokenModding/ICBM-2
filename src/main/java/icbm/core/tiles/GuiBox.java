@@ -1,21 +1,10 @@
 package icbm.core.tiles;
 
-import icbm.Reference;
-import icbm.sentry.interfaces.IEnergyTurret;
-import icbm.sentry.interfaces.IEnergyWeapon;
-import icbm.sentry.interfaces.IWeaponProvider;
-import icbm.sentry.platform.TileTurretPlatform;
-import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-import universalelectricity.api.energy.IEnergyContainer;
-import universalelectricity.api.energy.UnitDisplay.Unit;
 import calclavia.lib.gui.GuiContainerBase;
-import calclavia.lib.render.EnumColor;
 
 /** @author Darkguardsman */
 public class GuiBox extends GuiContainerBase
@@ -40,7 +29,7 @@ public class GuiBox extends GuiContainerBase
     protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
     {
         super.drawGuiContainerBackgroundLayer(par1, x, y);
-        
+
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (int xSlot = 0; xSlot < 9; xSlot++)

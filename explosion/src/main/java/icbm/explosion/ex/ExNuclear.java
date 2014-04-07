@@ -1,18 +1,15 @@
-package icbm.explosion.missile.ex;
+package icbm.explosion.ex;
 
-import icbm.Reference;
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastNuclear;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import universalelectricity.api.vector.Vector3;
 import calclavia.lib.recipe.RecipeUtility;
 
-public class ExNuclear extends Missile
+public class ExNuclear extends Ex
 {
     public ExNuclear(String mingZi, int tier)
     {
@@ -46,24 +43,6 @@ public class ExNuclear extends Missile
         {
             RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "CIC", "IRI", "CIC", 'R', Explosive.replsive.getItemStack(), 'C', Explosive.chemical.getItemStack(), 'I', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
 
-        }
-    }
-
-    /** Called when the explosive is on fuse and going to explode. Called only when the explosive is
-     * in it's TNT form.
-     * 
-     * @param fuseTicks - The amount of ticks this explosive is on fuse */
-    @Override
-    public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
-    {
-        super.onYinZha(worldObj, position, fuseTicks);
-
-        if (this.getTier() == 3)
-        {
-            if (fuseTicks % 25 == 0)
-            {
-                worldObj.playSoundEffect((int) position.x, (int) position.y, (int) position.z, Reference.PREFIX + "alarm", 4F, 1F);
-            }
         }
     }
 

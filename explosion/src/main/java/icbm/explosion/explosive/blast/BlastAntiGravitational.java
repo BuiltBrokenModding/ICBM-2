@@ -18,7 +18,7 @@ import calclavia.api.mffs.IForceFieldBlock;
 public class BlastAntiGravitational extends Blast
 {
     protected ThreadSmallExplosion thread;
-    protected Set<EntityFlyingBlock> feiBlocks = new HashSet<EntityFlyingBlock>();
+    protected Set<EntityFlyingBlock> flyingBlocks = new HashSet<EntityFlyingBlock>();
 
     public BlastAntiGravitational(World world, Entity entity, double x, double y, double z, float size)
     {
@@ -28,13 +28,13 @@ public class BlastAntiGravitational extends Blast
     @Override
     public void doPreExplode()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
-            this.thread = new ThreadSmallExplosion(this.worldObj, this.position, (int) this.getRadius(), this.exploder);
+            this.thread = new ThreadSmallExplosion(this.position, (int) this.getRadius(), this.exploder);
             this.thread.start();
         }
 
-        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "antigravity", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "antigravity", 6.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class BlastAntiGravitational extends Blast
     {
         int r = this.callCount;
 
-        if (!this.worldObj.isRemote && this.thread.isComplete)
+        if (!this.world().isRemote && this.thread.isComplete)
         {
             int blocksToTake = 20;
 
@@ -53,30 +53,30 @@ public class BlastAntiGravitational extends Blast
                 if (distance > r || distance < r - 2 || blocksToTake <= 0)
                     continue;
 
-                int blockID = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+               Block block = Block.blocksList[world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())];
 
-                if (blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID)
+                if (block == null || block.getBlockHardness(world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ()) < 0)
                     continue;
 
-                if (Block.blocksList[blockID] instanceof IForceFieldBlock)
+                if (block instanceof IForceFieldBlock)
                     continue;
 
-                int metadata = worldObj.getBlockMetadata(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                int metadata = world().getBlockMetadata(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
-                if (distance < r - 1 || worldObj.rand.nextInt(3) > 0)
+                if (distance < r - 1 || world().rand.nextInt(3) > 0)
                 {
-                    this.worldObj.setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    this.world().setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                     targetPosition.translate(0.5D);
 
-                    if (worldObj.rand.nextFloat() < 0.3 * (this.getRadius() - r))
+                    if (world().rand.nextFloat() < 0.3 * (this.getRadius() - r))
                     {
-                        EntityFlyingBlock entity = new EntityFlyingBlock(worldObj, targetPosition, blockID, metadata, 0);
-                        worldObj.spawnEntityInWorld(entity);
-                        feiBlocks.add(entity);
-                        entity.yawChange = 50 * worldObj.rand.nextFloat();
-                        entity.pitchChange = 100 * worldObj.rand.nextFloat();
-                        entity.motionY += Math.max(0.15 * worldObj.rand.nextFloat(), 0.1);
+                        EntityFlyingBlock entity = new EntityFlyingBlock(world(), targetPosition, block.blockID, metadata, 0);
+                        world().spawnEntityInWorld(entity);
+                        flyingBlocks.add(entity);
+                        entity.yawChange = 50 * world().rand.nextFloat();
+                        entity.pitchChange = 100 * world().rand.nextFloat();
+                        entity.motionY += Math.max(0.15 * world().rand.nextFloat(), 0.1);
                     }
 
                     blocksToTake--;
@@ -86,7 +86,7 @@ public class BlastAntiGravitational extends Blast
 
         int radius = (int) this.getRadius();
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, 100, position.z + radius);
-        List<Entity> allEntities = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
+        List<Entity> allEntities = world().getEntitiesWithinAABB(Entity.class, bounds);
 
         for (Entity entity : allEntities)
         {

@@ -1,4 +1,4 @@
-package icbm.explosion.missile.types;
+package icbm.explosion.ex.missiles;
 
 import icbm.Reference;
 import icbm.explosion.entities.EntityMissile;
@@ -13,7 +13,7 @@ import calclavia.api.icbm.ITarget.TargetType;
 /** Antiballistic missile.
  * 
  * @author Calclavia */
-public class MissileAnti extends MissileBase
+public class MissileAnti extends Missile
 {
     public static final int ABMRange = 30;
 
@@ -29,7 +29,7 @@ public class MissileAnti extends MissileBase
     {
         if (missileObj.lockedTarget != null)
         {
-            Vector3 guJiDiDian = new Vector3(missileObj.lockedTarget);
+            Vector3 target = new Vector3(missileObj.lockedTarget);
 
             if (missileObj.lockedTarget.isDead)
             {
@@ -41,13 +41,13 @@ public class MissileAnti extends MissileBase
             {
                 if (((ITarget) missileObj.lockedTarget).canBeTargeted(this))
                 {
-                    guJiDiDian = ((ITarget) missileObj.lockedTarget).getPredictedPosition(4);
+                    target = ((ITarget) missileObj.lockedTarget).getPredictedPosition(4);
                 }
             }
 
-            missileObj.motionX = (guJiDiDian.x - missileObj.posX) * (0.3F);
-            missileObj.motionY = (guJiDiDian.y - missileObj.posY) * (0.3F);
-            missileObj.motionZ = (guJiDiDian.z - missileObj.posZ) * (0.3F);
+            missileObj.motionX = (target.x - missileObj.posX) * (0.3F);
+            missileObj.motionY = (target.y - missileObj.posY) * (0.3F);
+            missileObj.motionZ = (target.z - missileObj.posZ) * (0.3F);
 
             return;
         }

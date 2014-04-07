@@ -1,9 +1,7 @@
 package icbm.sentry.turret.auto;
 
 import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.interfaces.IUpgrade;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.traits.SentryTraitDouble;
 import icbm.sentry.turret.weapon.types.WeaponBow;
 
 /** Automated cross bow like sentry

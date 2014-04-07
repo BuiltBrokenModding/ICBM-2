@@ -1,9 +1,8 @@
-package icbm.explosion.missile.ex;
+package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastExothermic;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -12,7 +11,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.recipe.RecipeUtility;
 
-public class ExExothermic extends Missile
+public class ExExothermic extends Ex
 {
     public boolean createNetherrack = true;
 

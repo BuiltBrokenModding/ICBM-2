@@ -28,14 +28,14 @@ public class BlastAntimatter extends Blast
     public void doPreExplode()
     {
         super.doPreExplode();
-        this.worldObj.playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "antimatter", 7F, (float) (this.worldObj.rand.nextFloat() * 0.1 + 0.9F));
+        this.world().playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "antimatter", 7F, (float) (this.world().rand.nextFloat() * 0.1 + 0.9F));
         this.doDamageEntities(this.getRadius() * 2, Integer.MAX_VALUE);
     }
 
     @Override
     public void doExplode()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
             for (int x = (int) -this.getRadius(); x < this.getRadius(); x++)
             {
@@ -43,25 +43,25 @@ public class BlastAntimatter extends Blast
                 {
                     for (int z = (int) -this.getRadius(); z < this.getRadius(); z++)
                     {
-                        Vector3 targetPosition = this.position.clone().translate((IVector3) new Vector3(x, y, z));
+                        Vector3 targetPosition = this.position.clone().translate(new Vector3(x, y, z));
 
                         double dist = position.distance(targetPosition);
 
                         if (dist < this.getRadius())
                         {
-                            int blockID = targetPosition.getBlockID(worldObj);
+                            int blockID = targetPosition.getBlockID(world());
                             Block block = Block.blocksList[blockID];
 
-                            if (block != null && !block.isAirBlock(this.worldObj, x, y, x))
+                            if (block != null && !block.isAirBlock(this.world(), x, y, x))
                             {
-                                if (!this.destroyBedrock && block.getBlockHardness(this.worldObj, x, y, x) < 0)
+                                if (!this.destroyBedrock && block.getBlockHardness(this.world(), x, y, x) < 0)
                                 {
                                     continue;
                                 }
 
-                                if (dist < this.getRadius() - 1 || worldObj.rand.nextFloat() > 0.7)
+                                if (dist < this.getRadius() - 1 || world().rand.nextFloat() > 0.7)
                                 {
-                                    targetPosition.setBlock(worldObj, 0);
+                                    targetPosition.setBlock(world(), 0);
                                 }
                             }
                         }
