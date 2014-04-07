@@ -57,5 +57,7 @@ public class ItemMissile extends ItemICBMBase
         int tierdata = ExplosiveRegistry.get(stack.getItemDamage()).getTier();
         list.add(LanguageUtility.getLocal("info.misc.tier") + ": " + tierdata);
 
+		super.addInformation(stack, player, list, bool);
+
     }
 }

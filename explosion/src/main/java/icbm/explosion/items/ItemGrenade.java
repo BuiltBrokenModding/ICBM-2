@@ -129,6 +129,7 @@ public class ItemGrenade extends ItemICBMBase
     {
         int explosiveTier = ExplosiveRegistry.get(par1ItemStack.getItemDamage()).getTier();
         par3List.add(LanguageUtility.getLocal("info.misc.tier") + ": " + explosiveTier);
+		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
     }
 
     @SideOnly(Side.CLIENT)
