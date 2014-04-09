@@ -234,13 +234,13 @@ public final class ICBMCore
 
     }
 
-	@ForgeSubscribe
-	public void configAnnotationAdded(ConfigAnnotationEvent event)
-	{
-		if (event.sourceClass.getName().startsWith("icbm"))
-		{
-			ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
-		}
-	}
+//	@ForgeSubscribe
+//	public void configAnnotationAdded(ConfigAnnotationEvent event)
+//	{
+//		if (event.sourceClass.startsWith("icbm"))
+//		{
+//			ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
+//		}
+//	}
 
 }

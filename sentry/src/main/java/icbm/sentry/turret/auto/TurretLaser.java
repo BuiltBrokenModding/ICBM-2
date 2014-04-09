@@ -15,7 +15,7 @@ public class TurretLaser extends TurretAuto
     public float barrelRotationVelocity;
 
 	@Config(category = "Turrets", comment = "this is calculated in half hearts, so whatever you put / 2 = the amount of heart damage")
-	private static final float laserTurretDamage = 4;
+	private static float laserTurretDamage = 4;
 
     public TurretLaser(TileTurret host)
     {
