@@ -1,5 +1,6 @@
 package icbm.sentry.render;
 
+import icbm.core.ICBMCore;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -37,7 +38,9 @@ public abstract class TurretRenderer implements ISimpleItemRenderer
         if (tile != null && player != null)
         {
             if (tile.canUse(Nodes.PROFILE_OWNER, player) || tile.canUse(Nodes.PROFILE_ADMIN, player))
-                return this.textureFriendly;
+			{
+				return this.textureFriendly;
+			}
 
             if (tile.canAccess(player.username))
             {

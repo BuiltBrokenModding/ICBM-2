@@ -32,10 +32,6 @@ public class ItemBlockTurret extends ItemBlockSaved
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List list, boolean par4)
 	{
-		if (par2EntityPlayer.username.equals("Etho"))
-		{
-			list.add("Best served with Canadian Maple Syrup");
-		}
 		super.addInformation(itemStack, par2EntityPlayer, list, par4);
 	}
 }

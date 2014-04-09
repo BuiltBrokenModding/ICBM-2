@@ -413,7 +413,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public boolean canUse(String node, EntityPlayer player)
     {
-        return this.getAccessProfile().getUserAccess(player.username).hasNode(node);
+		return this.getAccessProfile().getUserAccess(player.username).hasNode(node);
     }
 
     @Override

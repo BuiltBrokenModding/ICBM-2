@@ -1,5 +1,6 @@
 package icbm.sentry.turret.auto;
 
+import calclavia.lib.config.Config;
 import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
@@ -13,10 +14,13 @@ public class TurretLaser extends TurretAuto
     public float barrelRotation;
     public float barrelRotationVelocity;
 
+	@Config(category = "Turrets", comment = "this is calculated in half hearts, so whatever you put / 2 = the amount of heart damage")
+	private static final float laserTurretDamage = 4;
+
     public TurretLaser(TileTurret host)
     {
         super(host);
-        weaponSystem = new WeaponTwinLaser(this, 2, 100000);
+        weaponSystem = new WeaponTwinLaser(this, laserTurretDamage, 100000);
         weaponSystem.soundEffect = Reference.PREFIX + "lasershot";
         barrelLength = 1.2f;
         setTrait(ITurret.ENERGY_STORAGE_TRAIT, 1000000L);
