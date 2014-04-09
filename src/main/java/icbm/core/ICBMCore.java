@@ -1,5 +1,7 @@
 package icbm.core;
 
+import calclavia.lib.Calclavia;
+import calclavia.lib.config.ConfigAnnotationEvent;
 import cpw.mods.fml.common.Loader;
 import icbm.Reference;
 import icbm.Settings;
@@ -31,6 +33,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -176,17 +179,9 @@ public final class ICBMCore
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        try
-        {
-            ConfigHandler.configure(Settings.CONFIGURATION, "icbm");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+		ConfigHandler.configure(Settings.CONFIGURATION, "icbm");
 
-        Settings.CONFIGURATION.save();
-        /** LOAD. */
+		/** LOAD. */
 
         // Sulfur
         GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
@@ -238,5 +233,14 @@ public final class ICBMCore
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
     }
+
+	@ForgeSubscribe
+	public void configAnnotationAdded(ConfigAnnotationEvent event)
+	{
+		if (event.sourceClass.getName().startsWith("icbm"))
+		{
+			ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
+		}
+	}
 
 }
