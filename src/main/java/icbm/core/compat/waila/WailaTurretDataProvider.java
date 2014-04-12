@@ -22,7 +22,7 @@ public class WailaTurretDataProvider implements IWailaDataProvider
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
-		Turret turret = TurretRegistry.constructSentry(accessor.getNBTData().getCompoundTag(ITurret.SENTRY_OBJECT_SAVE).getString(ITurret.SENTRY_TYPE_SAVE_ID), this);
+		Turret turret = TurretRegistry.constructSentry(accessor.getNBTData().getCompoundTag(ITurret.SENTRY_OBJECT_SAVE).getString(ITurret.SENTRY_TYPE_SAVE_ID), accessor.getTileEntity());
 		return TurretRegistry.getItemStack(turret.getClass());
 	}
 
