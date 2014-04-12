@@ -1,53 +1,10 @@
 package icbm.core;
 
-import calclavia.lib.Calclavia;
-import calclavia.lib.config.ConfigAnnotationEvent;
-import calclavia.lib.modproxy.ProxyHandler;
-import com.sun.org.apache.xpath.internal.SourceTree;
-import cpw.mods.fml.common.Loader;
-import icbm.Reference;
-import icbm.Settings;
-import icbm.TabICBM;
-import icbm.core.blocks.BlockCamouflage;
-import icbm.core.blocks.BlockConcrete;
-import icbm.core.blocks.BlockGlassButton;
-import icbm.core.blocks.BlockGlassPressurePlate;
-import icbm.core.blocks.BlockProximityDetector;
-import icbm.core.blocks.BlockReinforcedGlass;
-import icbm.core.blocks.BlockReinforcedRail;
-import icbm.core.blocks.BlockSpikes;
-import icbm.core.blocks.BlockSulfurOre;
-import icbm.core.blocks.OreGeneratorICBM;
-import icbm.core.blocks.TileProximityDetector;
-import icbm.core.compat.Waila;
-import icbm.core.entity.EntityFlyingBlock;
-import icbm.core.entity.EntityFragments;
-import icbm.core.items.ItemAntidote;
-import icbm.core.items.ItemPoisonPowder;
-import icbm.core.items.ItemSignalDisrupter;
-import icbm.core.items.ItemSulfurDust;
-import icbm.core.items.ItemTracker;
-import icbm.core.tiles.TileBox;
-
-import java.util.logging.Logger;
-
-import icbm.explosion.explosive.blast.BlastRedmatter;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-
-import org.modstats.ModstatInfo;
-import org.modstats.Modstats;
-
 import calclavia.components.CalclaviaLoader;
+import calclavia.lib.config.ConfigAnnotationEvent;
 import calclavia.lib.config.ConfigHandler;
 import calclavia.lib.content.ContentRegistry;
+import calclavia.lib.modproxy.ProxyHandler;
 import calclavia.lib.network.PacketHandler;
 import calclavia.lib.network.PacketPlayerItem;
 import calclavia.lib.network.PacketTile;
@@ -56,6 +13,7 @@ import calclavia.lib.prefab.ore.OreGenBase;
 import calclavia.lib.prefab.ore.OreGenerator;
 import calclavia.lib.recipe.UniversalRecipe;
 import calclavia.lib.utility.LanguageUtility;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -69,6 +27,28 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import icbm.Reference;
+import icbm.Settings;
+import icbm.TabICBM;
+import icbm.core.blocks.*;
+import icbm.core.compat.Waila;
+import icbm.core.entity.EntityFlyingBlock;
+import icbm.core.entity.EntityFragments;
+import icbm.core.items.*;
+import icbm.explosion.explosive.blast.BlastRedmatter;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+import org.modstats.ModstatInfo;
+import org.modstats.Modstats;
+
+import java.util.logging.Logger;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
