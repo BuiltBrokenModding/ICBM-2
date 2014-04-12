@@ -4,6 +4,7 @@ import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
+import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.tile.TileElectricalInventory;
@@ -83,7 +84,39 @@ public class TileTurretPlatform extends TileElectricalInventory
         return used;
     }
 
-    @Override
+	@Override
+	public long getEnergy(ForgeDirection from)
+	{
+		return super.getEnergy(from);
+	}
+
+	@Override
+	public long getEnergyCapacity(ForgeDirection from)
+	{
+		return super.getEnergyCapacity(from);
+	}
+
+	@Override
+	public EnergyStorageHandler getEnergyHandler()
+	{
+		for (TileTurret turretTile : turrets)
+		{
+			if (turretTile != null && turretTile.getTurret() != null && turretTile.getTurret() instanceof IEnergyContainer)
+			{
+				return turretTile.getTurret().battery;
+			}
+		}
+
+		return super.getEnergyHandler();
+	}
+
+	@Override
+	public void setEnergyHandler(EnergyStorageHandler energy)
+	{
+		super.setEnergyHandler(energy);
+	}
+
+	@Override
     public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract)
     {
         return 0;
