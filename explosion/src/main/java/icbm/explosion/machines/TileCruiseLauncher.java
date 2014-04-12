@@ -141,7 +141,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (!this.energy.isFull())
+        if (!this.getEnergyHandler().isFull())
         {
             status = LanguageUtility.getLocal("gui.launcherCruise.statusNoPower");
         }
@@ -257,7 +257,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.energy.getEnergy(), this.getFrequency(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
+        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.getEnergyHandler().getEnergy(), this.getFrequency(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
     }
 
     @Override
@@ -271,7 +271,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
             {
                 case 0:
                 {
-                    this.energy.setEnergy(data.readLong());
+                    this.getEnergyHandler().setEnergy(data.readLong());
                     this.setFrequency(data.readInt());
                     this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
                     break;
@@ -317,7 +317,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 
             if (missile != null && missile.getID() == daoDan.getExplosiveType().getID() && missile.isCruise() && missile.getTier() <= 3)
             {
-                if (this.energy.isFull())
+                if (this.getEnergyHandler().isFull())
                 {
                     if (!this.isTooClose(this.targetPos))
                     {

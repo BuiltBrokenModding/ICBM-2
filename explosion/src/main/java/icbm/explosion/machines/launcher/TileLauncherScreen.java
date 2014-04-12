@@ -112,7 +112,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     @Override
     public Packet getGUIPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 4, this.energy.getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
+        return ICBMCore.PACKET_TILE.getPacket(this, 4, this.getEnergyHandler().getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
     }
 
     @Override
@@ -162,7 +162,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
             }
             case 4:
             {
-                this.energy.setEnergy(data.readLong());
+                this.getEnergyHandler().setEnergy(data.readLong());
                 this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
                 break;
             }
@@ -179,7 +179,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
         {
             if (this.laucherBase.missile != null)
             {
-                if (this.energy.isFull())
+                if (this.getEnergyHandler().isFull())
                 {
                     if (this.laucherBase.isInRange(this.targetPos))
                     {
@@ -199,7 +199,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     {
         if (this.canLaunch())
         {
-            this.energy.setEnergy(0);
+            this.getEnergyHandler().setEnergy(0);
             this.laucherBase.launchMissile(this.targetPos.clone(), this.gaoDu);
         }
     }
@@ -217,7 +217,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
         {
             status = LanguageUtility.getLocal("gui.launcherScreen.statusMissing");
         }
-        else if (!this.energy.isFull())
+        else if (!this.getEnergyHandler().isFull())
         {
             status = LanguageUtility.getLocal("gui.launcherScreen.statusNoPower");
         }
@@ -284,7 +284,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     public void setTier(int tier)
     {
         this.tier = tier;
-        this.energy.setCapacity(getEnergyCapacity(null));
+        this.getEnergyHandler().setCapacity(getEnergyCapacity(null));
     }
 
     @Override

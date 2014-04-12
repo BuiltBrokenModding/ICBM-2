@@ -118,7 +118,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             }
         }
 
-        if (this.energy.checkExtract())
+        if (this.getEnergyHandler().checkExtract())
         {
             this.rotation += 0.08f;
 
@@ -129,7 +129,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 
             if (!this.worldObj.isRemote)
             {
-                this.energy.extractEnergy();
+                this.getEnergyHandler().extractEnergy();
             }
 
             int prevDetectedEntities = this.detectedEntities.size();
@@ -272,7 +272,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         {
             if (jiQi instanceof TileRadarStation)
             {
-                if (((TileRadarStation) jiQi).energy.getEnergy() > 0)
+                if (((TileRadarStation) jiQi).getEnergyHandler().getEnergy() > 0)
                 {
                     this.detectedTiles.add(jiQi);
                 }
@@ -316,7 +316,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 4, this.fangXiang, this.energy.getEnergy());
+        return ICBMCore.PACKET_TILE.getPacket(this, 4, this.fangXiang, this.getEnergyHandler().getEnergy());
     }
 
     @Override
@@ -349,7 +349,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
                 else if (ID == 4)
                 {
                     this.fangXiang = data.readByte();
-                    this.energy.setEnergy(data.readLong());
+                    this.getEnergyHandler().setEnergy(data.readLong());
                 }
             }
             else if (!this.worldObj.isRemote)
@@ -475,7 +475,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
     {
-        if (!this.energy.checkExtract())
+        if (!this.getEnergyHandler().checkExtract())
         {
             throw new Exception("Radar has insufficient electricity!");
         }

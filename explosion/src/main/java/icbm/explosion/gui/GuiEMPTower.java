@@ -126,7 +126,7 @@ public class GuiEMPTower extends GuiICBM
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (!this.tileEntity.energy.isFull())
+        if (!this.tileEntity.getEnergyHandler().isFull())
         {
             status = LanguageUtility.getLocal("gui.misc.nopower");
         }
@@ -138,7 +138,7 @@ public class GuiEMPTower extends GuiICBM
 
         this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.misc.status") + " " + status, 12, 120, 4210752);
         this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 135, 4210752);
-        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplay(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplay(this.tileEntity.getEnergyHandler().getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */

@@ -127,7 +127,7 @@ public class GuiCruiseLauncher extends GuiContainer
 
         this.fontRenderer.drawString(this.tileEntity.getStatus(), 70, 50, 4210752);
         this.fontRenderer.drawString(this.tileEntity.getVoltageInput(null) + "v", 70, 60, 4210752);
-        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.energy.getEnergyCapacity(), Unit.JOULES), 70, 70, 4210752);
+        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergyCapacity(), Unit.JOULES), 70, 70, 4210752);
 
         this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }

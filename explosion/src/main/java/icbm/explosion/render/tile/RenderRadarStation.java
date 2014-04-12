@@ -25,7 +25,7 @@ public class RenderRadarStation extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 
-        if (tileEntity.energy.checkExtract())
+        if (tileEntity.getEnergyHandler().checkExtract())
         {
             this.bindTexture(TEXTURE_FILE);
         }

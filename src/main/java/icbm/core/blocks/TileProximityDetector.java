@@ -71,7 +71,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
 
                 boolean isDetectThisCheck = false;
 
-                if (this.energy.checkExtract())
+                if (this.getEnergyHandler().checkExtract())
                 {
                     AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
                     List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
@@ -120,7 +120,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
                         }
                     }
 
-                    this.energy.extractEnergy();
+                    this.getEnergyHandler().extractEnergy();
                 }
 
                 if (isDetectThisCheck != this.isDetect)
@@ -136,7 +136,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.energy.getEnergy(), getFrequency(), this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.getEnergyHandler().getEnergy(), getFrequency(), this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
     }
 
     @Override
