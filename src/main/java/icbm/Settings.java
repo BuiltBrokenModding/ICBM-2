@@ -16,8 +16,9 @@ public class Settings
 {
     /** Auto-incrementing configuration IDs. Use this to make sure no config ID is the same. */
     public static final IDManager idManager = new IDManager(3880, 19220);
+	public static final String DOMAIN = "icbm";
 
-    public static int getNextBlockID()
+	public static int getNextBlockID()
     {
         return idManager.getNextBlockID();
     }

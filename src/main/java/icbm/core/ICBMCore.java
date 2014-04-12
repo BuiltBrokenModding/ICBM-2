@@ -2,6 +2,8 @@ package icbm.core;
 
 import calclavia.lib.Calclavia;
 import calclavia.lib.config.ConfigAnnotationEvent;
+import calclavia.lib.modproxy.ProxyHandler;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import cpw.mods.fml.common.Loader;
 import icbm.Reference;
 import icbm.Settings;
@@ -17,6 +19,7 @@ import icbm.core.blocks.BlockSpikes;
 import icbm.core.blocks.BlockSulfurOre;
 import icbm.core.blocks.OreGeneratorICBM;
 import icbm.core.blocks.TileProximityDetector;
+import icbm.core.compat.Waila;
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.core.entity.EntityFragments;
 import icbm.core.items.ItemAntidote;
@@ -28,6 +31,7 @@ import icbm.core.tiles.TileBox;
 
 import java.util.logging.Logger;
 
+import icbm.explosion.explosive.blast.BlastRedmatter;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -104,6 +108,8 @@ public final class ICBMCore
 
     public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
+	private ProxyHandler modproxies = new ProxyHandler();
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -111,6 +117,9 @@ public final class ICBMCore
 
         Modstats.instance().getReporter().registerMod(INSTANCE);
         MinecraftForge.EVENT_BUS.register(INSTANCE);
+
+		// MODULES TO LOAD INTO MOD PHASE
+		modproxies.applyModule(Waila.class, true);
 
         LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
 
@@ -160,7 +169,9 @@ public final class ICBMCore
         	TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
         proxy.preInit();
-    }
+		modproxies.preInit();
+		System.out.println("Red Matter despawn " + BlastRedmatter.DO_DESPAWN); // to load class and avoid Class circularity with explosive
+	}
 
     @EventHandler
     public void init(FMLInitializationEvent event)
@@ -174,6 +185,7 @@ public final class ICBMCore
         EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
 
         proxy.init();
+		modproxies.init();
     }
 
     @EventHandler
@@ -232,12 +244,13 @@ public final class ICBMCore
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
+		modproxies.postInit();
     }
 
 	@ForgeSubscribe
 	public void configAnnotationAdded(ConfigAnnotationEvent event)
 	{
-		if (event.sourceClass.startsWith("icbm"))
+		if (event.sourceClass.startsWith(Settings.DOMAIN))
 		{
 			ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
 		}
