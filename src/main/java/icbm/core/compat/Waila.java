@@ -4,6 +4,7 @@ import calclavia.lib.modproxy.ICompatProxy;
 import calclavia.lib.utility.Mods;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import icbm.core.ICBMCore;
+import icbm.core.compat.waila.WailaRegistrar;
 
 /**
  * @author tgame14
@@ -20,8 +21,8 @@ public class Waila implements ICompatProxy
 	@Override
 	public void init()
 	{
-		ICBMCore.LOGGER.info("CALLING MOD WAILA LOADUP \n\n\n\n\n\n\n\n\n\n");
-		FMLInterModComms.sendMessage(Mods.WAILA(), "register", "icbm.core.compat.waila.WailaRegistrar.wailaCallBack");
+		System.out.println(WailaRegistrar.class.getName() + ".wailaCallBack");
+		FMLInterModComms.sendMessage(Mods.WAILA(), "register", WailaRegistrar.class.getName() + ".wailaCallBack");
 	}
 
 	@Override

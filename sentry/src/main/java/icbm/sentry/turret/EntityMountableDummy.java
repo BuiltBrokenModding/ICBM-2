@@ -1,5 +1,6 @@
 package icbm.sentry.turret;
 
+import calclavia.lib.utility.LanguageUtility;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.mounted.TurretMounted;
@@ -54,7 +55,7 @@ public class EntityMountableDummy extends EntityLiving
     @Override
     public String getEntityName()
     {
-        return "Seat";
+        return LanguageUtility.getLocal("entity.turretseat.name");
     }
 
     /** Called to update the entity's position/logic. */

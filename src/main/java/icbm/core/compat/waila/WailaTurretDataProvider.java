@@ -1,6 +1,8 @@
 package icbm.core.compat.waila;
 
+import calclavia.lib.access.AccessUser;
 import calclavia.lib.access.IProfileContainer;
+import calclavia.lib.utility.LanguageUtility;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
@@ -36,11 +38,15 @@ public class WailaTurretDataProvider implements IWailaDataProvider
 	{
 		// TODO: Add data here
 		IProfileContainer container = (IProfileContainer) accessor.getTileEntity();
-		if (!container.getAccessProfile().getOwnerGroup().isMemeber(accessor.getPlayer().username))
+		if (!container.canAccess(accessor.getPlayer().username))
 		{
+			currenttip.add(LanguageUtility.getLocal("info.turretdenied.waila").replaceAll("%u", accessor.getPlayer().username));
 			return currenttip;
 		}
-		currenttip.add(container.getAccessProfile().toString());
+		for (AccessUser user : container.getAccessProfile().getUsers())
+		{
+			currenttip.add(user.getGroup() + " : " + user.getName());
+		}
 
 		return currenttip;
 	}
