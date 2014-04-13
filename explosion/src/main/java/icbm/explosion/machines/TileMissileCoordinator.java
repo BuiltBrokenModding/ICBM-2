@@ -27,7 +27,7 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
 
     public TileMissileCoordinator()
     {
-        this.energy = new EnergyStorageHandler(0);
+        setEnergyHandler(new EnergyStorageHandler(0));
     }
 
     @Override

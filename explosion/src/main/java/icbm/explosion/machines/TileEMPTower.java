@@ -38,7 +38,7 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     public TileEMPTower()
     {
         RadarRegistry.register(this);
-        energy = new EnergyStorageHandler(0);
+        setEnergyHandler(new EnergyStorageHandler(0));
         updateCapacity();
     }
 

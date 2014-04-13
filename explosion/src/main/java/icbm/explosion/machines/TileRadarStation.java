@@ -73,7 +73,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     {
         super();
         RadarRegistry.register(this);
-        this.energy = new EnergyStorageHandler(500, 400);
+        setEnergyHandler(new EnergyStorageHandler(500, 400));
     }
 
     @Override

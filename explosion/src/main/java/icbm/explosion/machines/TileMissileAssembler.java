@@ -38,7 +38,7 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
     public TileMissileAssembler()
     {
-        energy = new EnergyStorageHandler();
+        setEnergyHandler(new EnergyStorageHandler());
     }
 
     @Override
