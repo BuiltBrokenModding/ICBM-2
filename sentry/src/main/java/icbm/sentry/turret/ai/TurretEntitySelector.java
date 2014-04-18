@@ -14,12 +14,14 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import calclavia.lib.access.IProfileContainer;
+import calclavia.lib.utility.nbt.ISaveObj;
 
 /** Basic entity selector used by sentry guns to find valid targets
  * 
  * @author DarkGuardsman */
-public class TurretEntitySelector implements IEntitySelector
+public class TurretEntitySelector implements IEntitySelector, ISaveObj
 {
     ITurretProvider turretProvider;
 
@@ -122,5 +124,27 @@ public class TurretEntitySelector implements IEntitySelector
             return !entity.isInvisible();
         }
         return false;
+    }
+
+    @Override
+    public void save(NBTTagCompound nbt)
+    {
+        nbt.setBoolean("Kill_mobs", target_mobs);
+        nbt.setBoolean("Kill_animals", target_animals);
+        nbt.setBoolean("Kill_npcs", target_npcs);
+        nbt.setBoolean("Kill_players", target_players);
+        nbt.setBoolean("Kill_flying", target_flying);
+        nbt.setBoolean("Kill_boss", target_boss);
+    }
+
+    @Override
+    public void load(NBTTagCompound nbt)
+    {
+        target_mobs = nbt.getBoolean("kill_mobs");
+        target_animals = nbt.getBoolean("kill_animals");
+        target_npcs = nbt.getBoolean("kill_npcs");
+        target_players = nbt.getBoolean("kill_players");
+        target_flying = nbt.getBoolean("kill_flying");
+        target_boss = nbt.getBoolean("kill_boss");        
     }
 }
