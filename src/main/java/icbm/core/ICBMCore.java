@@ -150,7 +150,6 @@ public final class ICBMCore
 
         proxy.preInit();
 		modproxies.preInit();
-		System.out.println("Red Matter despawn " + BlastRedmatter.DO_DESPAWN); // to load class and avoid Class circularity with explosive
 	}
 
     @EventHandler
@@ -171,7 +170,7 @@ public final class ICBMCore
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-		ConfigHandler.configure(Settings.CONFIGURATION, "icbm");
+		ConfigHandler.configure(Settings.CONFIGURATION, Settings.DOMAIN);
 
 		/** LOAD. */
 
@@ -230,7 +229,7 @@ public final class ICBMCore
 	@ForgeSubscribe
 	public void configAnnotationAdded(ConfigAnnotationEvent event)
 	{
-		if (event.sourceClass.startsWith(Settings.DOMAIN))
+		if (event.sourceClass.getName().startsWith(Settings.DOMAIN))
 		{
 			ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
 		}
