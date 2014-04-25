@@ -1,5 +1,6 @@
 package icbm.core.items;
 
+import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.List;
@@ -36,7 +37,16 @@ public class ItemSulfurDust extends ItemICBMBase
     public void registerIcons(IconRegister iconRegister)
     {
         super.registerIcons(iconRegister);
-        this.salt_icon = iconRegister.registerIcon(this.getUnlocalizedName().replace("item.", "") + "saltpeter");
+        this.salt_icon = iconRegister.registerIcon(Reference.PREFIX + "saltpeter");
+    }
+
+    public String getUnlocalizedName(ItemStack par1ItemStack)
+    {
+        if (par1ItemStack.getItemDamage() == 1)
+        {
+            return "item." + Reference.PREFIX + "saltpeter";
+        }
+        return super.getUnlocalizedName();
     }
 
     @Override
