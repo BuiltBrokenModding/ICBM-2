@@ -1,5 +1,44 @@
 package icbm.core;
 
+import icbm.Reference;
+import icbm.Settings;
+import icbm.TabICBM;
+import icbm.core.blocks.BlockCamouflage;
+import icbm.core.blocks.BlockConcrete;
+import icbm.core.blocks.BlockGlassButton;
+import icbm.core.blocks.BlockGlassPressurePlate;
+import icbm.core.blocks.BlockProximityDetector;
+import icbm.core.blocks.BlockReinforcedGlass;
+import icbm.core.blocks.BlockReinforcedRail;
+import icbm.core.blocks.BlockSpikes;
+import icbm.core.blocks.BlockSulfurOre;
+import icbm.core.blocks.OreGeneratorICBM;
+import icbm.core.blocks.TileProximityDetector;
+import icbm.core.compat.Waila;
+import icbm.core.entity.EntityFlyingBlock;
+import icbm.core.entity.EntityFragments;
+import icbm.core.items.ItemAntidote;
+import icbm.core.items.ItemPoisonPowder;
+import icbm.core.items.ItemSignalDisrupter;
+import icbm.core.items.ItemSulfurDust;
+import icbm.core.items.ItemTracker;
+
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import org.modstats.ModstatInfo;
+import org.modstats.Modstats;
+
 import calclavia.components.CalclaviaLoader;
 import calclavia.lib.config.ConfigAnnotationEvent;
 import calclavia.lib.config.ConfigHandler;
@@ -27,28 +66,6 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import icbm.Reference;
-import icbm.Settings;
-import icbm.TabICBM;
-import icbm.core.blocks.*;
-import icbm.core.compat.Waila;
-import icbm.core.entity.EntityFlyingBlock;
-import icbm.core.entity.EntityFragments;
-import icbm.core.items.*;
-import icbm.explosion.explosive.blast.BlastRedmatter;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-import org.modstats.ModstatInfo;
-import org.modstats.Modstats;
-
-import java.util.logging.Logger;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
@@ -88,7 +105,7 @@ public final class ICBMCore
 
     public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
-	private ProxyHandler modproxies = new ProxyHandler();
+    private ProxyHandler modproxies = new ProxyHandler();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -98,8 +115,8 @@ public final class ICBMCore
         Modstats.instance().getReporter().registerMod(INSTANCE);
         MinecraftForge.EVENT_BUS.register(INSTANCE);
 
-		// MODULES TO LOAD INTO MOD PHASE
-		modproxies.applyModule(Waila.class, true);
+        // MODULES TO LOAD INTO MOD PHASE
+        modproxies.applyModule(Waila.class, true);
 
         LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
 
@@ -143,14 +160,15 @@ public final class ICBMCore
         Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
         LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-        OreDictionary.registerOre("dustSulfur", itemSulfurDust);
+        OreDictionary.registerOre("dustSulfur", new ItemStack(itemSulfurDust, 1, 0));
+        OreDictionary.registerOre("dustSaltpeter", new ItemStack(itemSulfurDust, 1, 1));
         OreGenerator.addOre(sulfurGenerator);
-		if (!Loader.isModLoaded("ICBM|Sentry") && !Loader.isModLoaded("ICBM|Explosion"))
-        	TabICBM.itemStack = new ItemStack(blockProximityDetector);
+        if (!Loader.isModLoaded("ICBM|Sentry") && !Loader.isModLoaded("ICBM|Explosion"))
+            TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
         proxy.preInit();
-		modproxies.preInit();
-	}
+        modproxies.preInit();
+    }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
@@ -164,20 +182,27 @@ public final class ICBMCore
         EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
 
         proxy.init();
-		modproxies.init();
+        modproxies.init();
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-		ConfigHandler.configure(Settings.CONFIGURATION, Settings.DOMAIN);
+        ConfigHandler.configure(Settings.CONFIGURATION, Settings.DOMAIN);
 
-		/** LOAD. */
-
+        /** LOAD. */
+        ArrayList dustCharcoal = OreDictionary.getOres("dustCharcoal");
+        ArrayList dustCoal = OreDictionary.getOres("dustCoal");
         // Sulfur
         GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
+        GameRegistry.addSmelting(Item.reed.itemID, new ItemStack(itemSulfurDust, 4, 1), 0f);
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", Item.coal }));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", new ItemStack(Item.coal, 1, 1) }));
+        
+        if (dustCharcoal != null && dustCharcoal.size() > 0)
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", "dustCharcoal" }));
+        if (dustCoal != null && dustCoal.size() > 0)
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", "dustCoal" }));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
 
@@ -223,16 +248,16 @@ public final class ICBMCore
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-		modproxies.postInit();
+        modproxies.postInit();
     }
 
-	@ForgeSubscribe
-	public void configAnnotationAdded(ConfigAnnotationEvent event)
-	{
-		if (event.sourceClass.getName().startsWith(Settings.DOMAIN))
-		{
-			ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
-		}
-	}
+    @ForgeSubscribe
+    public void configAnnotationAdded(ConfigAnnotationEvent event)
+    {
+        if (event.sourceClass.getName().startsWith(Settings.DOMAIN))
+        {
+            ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
+        }
+    }
 
 }
