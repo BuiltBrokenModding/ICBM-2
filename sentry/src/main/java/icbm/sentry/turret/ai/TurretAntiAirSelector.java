@@ -4,6 +4,8 @@ import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
 import calclavia.api.icbm.IMissile;
 import calclavia.api.icbm.ITarget;
+import net.minecraft.entity.EntityFlying;
+import net.minecraft.entity.monster.IMob;
 
 /** Anti-Air target selection for the AA gun. Does some extended checking of flying targets to
  * prevent issues.
@@ -28,6 +30,16 @@ public class TurretAntiAirSelector extends TurretEntitySelector
         {
             return true;
         }
+
+		else if (entity instanceof EntityFlying)
+		{
+			return true;
+		}
+
+		else if (entity instanceof IMob)
+		{
+			return false;
+		}
         return super.isEntityApplicable(entity);
     }
 
