@@ -15,8 +15,6 @@ public class TurretAntiAirSelector extends TurretEntitySelector
     public TurretAntiAirSelector(ITurret turret)
     {
         super(turret);
-        this.target_mobs = false;
-        this.target_players = false;
     }
 
     @Override
