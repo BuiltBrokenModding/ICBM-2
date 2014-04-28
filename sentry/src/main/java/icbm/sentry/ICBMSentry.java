@@ -102,7 +102,7 @@ public class ICBMSentry
 
         TabICBM.itemStack = TurretRegistry.getItemStack(TurretAntiAir.class);
 
-        TurretEntitySelector.configTurretTargeting();
+        //TurretEntitySelector.configTurretTargeting(); //Removed as @Config
 
         proxy.preInit();
         CommandRegistry.register(new TerminalAccessCMD(), "admin");
