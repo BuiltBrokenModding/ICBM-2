@@ -56,6 +56,7 @@ public class CMDSentryTargetting implements ITerminalCommand
                                 String s = args[2];
                                 if (s.equalsIgnoreCase("list"))
                                 {
+                                    //TODO add page selector if this list gets to long
                                     output_to_console.add("Listing target types");
                                     output_to_console.add("-------------------------------------");
                                     for (Entry<String, Boolean> entry : selector.targetting.entrySet())
@@ -66,18 +67,60 @@ public class CMDSentryTargetting implements ITerminalCommand
                                 }
                                 else if (s.equalsIgnoreCase("exact"))
                                 {
-                                    boolean disable = false;
                                     if (args.length > 3 && args[3] != null)
                                     {
                                         String t = args[3];
+                                        boolean bool = selector.canTargetType(t);
+                                        if (args.length > 4 && args[4] != null)
+                                        {
+                                            String b = args[4];
+                                            if (b.equalsIgnoreCase("true") || b.equalsIgnoreCase("t"))
+                                            {
+                                                bool = true;
+                                            }
+                                            else
+                                            {
+                                                bool = false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            bool = !bool;
+                                        }
+                                        selector.setTargetType(t, bool);
+                                        output_to_console.add("Set " + t + " to " + bool);
                                     }
+                                    else
+                                    {
+                                        output_to_console.add("Missing type arg");
+                                    }
+                                }
+                                else if (selector.targetting.containsKey(args[2]))
+                                {
+                                    String t = args[2];
+                                    boolean bool = selector.canTargetType(t);
+                                    if (args.length > 3 && args[3] != null)
+                                    {
+                                        String b = args[3];
+                                        if (b.equalsIgnoreCase("true") || b.equalsIgnoreCase("t"))
+                                        {
+                                            bool = true;
+                                        }
+                                        else
+                                        {
+                                            bool = false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        bool = !bool;
+                                    }
+                                    selector.setTargetType(t, bool);
+                                    output_to_console.add("Set " + t + " to " + bool);
                                 }
                                 else
                                 {
-                                    if (args.length > 3 && args[3] != null)
-                                    {
-                                        String t = args[3];
-                                    }
+                                    output_to_console.add("Missing type args");
                                 }
                             }
                             else
