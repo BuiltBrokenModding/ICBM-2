@@ -7,6 +7,7 @@ import icbm.sentry.turret.ai.TurretEntitySelector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,6 +39,7 @@ public class CMDSentryTargetting implements ITerminalCommand
                     {
                         output_to_console.add("Listing commands");
                         output_to_console.add("-------------------------------------");
+                        output_to_console.add("/target list");
                         output_to_console.add("/target <type> [true/false]");
                         output_to_console.add("/target exact <mob> [true/false]");
                         output_to_console.add("-------------------------------------");
@@ -48,11 +50,21 @@ public class CMDSentryTargetting implements ITerminalCommand
                         if (turret instanceof IAutoTurret && ((IAutoTurret) turret).getEntitySelector() instanceof TurretEntitySelector)
                         {
                             TurretEntitySelector selector = (TurretEntitySelector) ((IAutoTurret) turret).getEntitySelector();
-                            
+
                             if (args.length > 2 && args[2] != null)
                             {
                                 String s = args[2];
-                                if (s.equalsIgnoreCase("exact"))
+                                if (s.equalsIgnoreCase("list"))
+                                {
+                                    output_to_console.add("Listing target types");
+                                    output_to_console.add("-------------------------------------");
+                                    for (Entry<String, Boolean> entry : selector.targetting.entrySet())
+                                    {
+                                        output_to_console.add("Target: " + entry.getKey() + " = " + entry.getValue());
+                                    }
+                                    output_to_console.add("-------------------------------------");
+                                }
+                                else if (s.equalsIgnoreCase("exact"))
                                 {
                                     boolean disable = false;
                                     if (args.length > 3 && args[3] != null)

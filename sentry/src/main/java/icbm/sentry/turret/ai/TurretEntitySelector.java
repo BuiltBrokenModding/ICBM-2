@@ -46,7 +46,7 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     public static boolean target_boss_global = false;
 
     /* Per sentry targeting variables */
-    protected HashMap<String, Boolean> targetting = new HashMap<String, Boolean>();
+    public HashMap<String, Boolean> targetting = new HashMap<String, Boolean>();
 
     public TurretEntitySelector(ITurret turret)
     {
@@ -62,7 +62,7 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     /** Checks if the turrets logic is allowed to target the type set by user settings */
     public boolean canTargetType(String type)
     {
-        //TODO add a way of detecting different ways to enter the same type
+        //TODO add a way of detecting different ways to enter the same type(eg mobs, mob, monsters are the same thing)
         return targetting.containsKey(type) && targetting.get(type);
     }
 
