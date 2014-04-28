@@ -2,10 +2,9 @@ package icbm.sentry.turret.ai;
 
 import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import calclavia.api.icbm.IMissile;
 import calclavia.api.icbm.ITarget;
-import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.monster.IMob;
 
 /** Anti-Air target selection for the AA gun. Does some extended checking of flying targets to
  * prevent issues.
@@ -13,6 +12,8 @@ import net.minecraft.entity.monster.IMob;
  * @author DarkGuardsman */
 public class TurretAntiAirSelector extends TurretEntitySelector
 {
+    protected boolean target_air = true;
+    protected boolean target_missiles = true;
 
     public TurretAntiAirSelector(ITurret turret)
     {
@@ -24,22 +25,12 @@ public class TurretAntiAirSelector extends TurretEntitySelector
     {
         if (entity instanceof ITarget)
         {
-            return ((ITarget) entity).canBeTargeted(this.turretProvider.getTurret());
+            return target_air && ((ITarget) entity).canBeTargeted(this.turretProvider.getTurret());
         }
         else if (entity instanceof IMissile)
         {
-            return true;
+            return target_missiles;
         }
-
-		else if (entity instanceof EntityFlying)
-		{
-			return true;
-		}
-
-		else if (entity instanceof IMob)
-		{
-			return false;
-		}
         return super.isEntityApplicable(entity);
     }
 
@@ -58,6 +49,22 @@ public class TurretAntiAirSelector extends TurretEntitySelector
             return ((IMissile) entity).getTicksInAir() > 5;
         }
         return super.isValid(entity);
+    }
+
+    @Override
+    public void save(NBTTagCompound nbt)
+    {
+        nbt.setBoolean("vkill_missiles", target_missiles);
+        nbt.setBoolean("vkill_air", target_air);
+    }
+
+    @Override
+    public void load(NBTTagCompound nbt)
+    {
+        if (nbt.hasKey("vkill_missiles"))
+            target_mobs = nbt.getBoolean("vkill_missiles");
+        if (nbt.hasKey("vkill_air"))
+            target_mobs = nbt.getBoolean("vkill_air");
     }
 
 }
