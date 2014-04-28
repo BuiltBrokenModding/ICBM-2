@@ -1,4 +1,4 @@
-package icbm.sentry.platform.gui.user;
+package icbm.sentry.platform.cmd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import calclavia.lib.prefab.terminal.ITerminalCommand;
 /** Command used to modify the access profile of a tile
  * 
  * @author DarkGuardsman */
-public class TerminalAccessCMD implements ITerminalCommand
+public class CMDAccessSettings implements ITerminalCommand
 {
     @Override
     public String getCommandName()

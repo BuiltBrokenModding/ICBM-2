@@ -3,6 +3,10 @@ package icbm.sentry.turret.ai;
 import icbm.core.DamageUtility;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
@@ -14,6 +18,8 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import calclavia.api.icbm.ITarget;
 import calclavia.lib.access.IProfileContainer;
 import calclavia.lib.config.Config;
 import calclavia.lib.utility.nbt.ISaveObj;
@@ -40,16 +46,33 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     public static boolean target_boss_global = false;
 
     /* Per sentry targeting variables */
-    protected boolean target_mobs = true;
-    protected boolean target_animals = false;
-    protected boolean target_npcs = false;
-    protected boolean target_players = true;
-    protected boolean target_flying = true;
-    protected boolean target_boss = false;
+    protected HashMap<String, Boolean> targetting = new HashMap<String, Boolean>();
 
     public TurretEntitySelector(ITurret turret)
     {
         this.turretProvider = turret.getHost();
+        targetting.put("mobs", true);
+        targetting.put("animals", false);
+        targetting.put("npcs", false);
+        targetting.put("players", true);
+        targetting.put("flying", true);
+        targetting.put("boss", false);
+    }
+
+    /** Checks if the turrets logic is allowed to target the type set by user settings */
+    public boolean canTargetType(String type)
+    {
+        //TODO add a way of detecting different ways to enter the same type
+        return targetting.containsKey(type) && targetting.get(type);
+    }
+
+    public void setTargetType(String type, boolean to)
+    {
+        //TODO check MC entity list
+        if (targetting.containsKey(type))
+        {
+            targetting.put(type, to);
+        }
     }
 
     @Override
@@ -57,29 +80,33 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     {
         if (!isFriendly(entity) && isValid(entity))
         {
-            if (entity instanceof EntityFlying)
+            if (entity instanceof ITarget && ((ITarget) entity).canBeTargeted(this.turretProvider.getTurret()))
             {
-                return target_flying_global && target_flying;
+                return true;
+            }
+            else if (entity instanceof EntityFlying)
+            {
+                return target_flying_global && canTargetType("flying");
             }
             else if (entity instanceof IBossDisplayData)
             {
-                return target_boss_global && target_boss;
+                return target_boss_global && canTargetType("boss");
             }
             else if (entity instanceof EntityPlayer)
             {
-                return target_players_global && target_players;
+                return target_players_global && canTargetType("players");
             }
             else if (isMob(entity))
             {
-                return target_mobs_global && target_mobs;
+                return target_mobs_global && canTargetType("mobs");
             }
             else if (entity instanceof IAnimals)
             {
-                return target_animals_global && target_animals;
+                return target_animals_global && canTargetType("animals");
             }
             else if (entity instanceof INpc)
             {
-                return target_npcs_global && target_npcs;
+                return target_npcs_global && canTargetType("npcs");
             }
         }
         return false;
@@ -124,28 +151,30 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     @Override
     public void save(NBTTagCompound nbt)
     {
-        nbt.setBoolean("vKill_mobs", target_mobs);
-        nbt.setBoolean("vKill_animals", target_animals);
-        nbt.setBoolean("vKill_npcs", target_npcs);
-        nbt.setBoolean("vKill_players", target_players);
-        nbt.setBoolean("vKill_flying", target_flying);
-        nbt.setBoolean("vKill_boss", target_boss);
+        NBTTagList list = new NBTTagList();
+        for (Entry<String, Boolean> entry : targetting.entrySet())
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setString("name", entry.getKey());
+            tag.setBoolean("b", entry.getValue());
+        }
+        nbt.setTag("targetList", list);
     }
 
     @Override
     public void load(NBTTagCompound nbt)
     {
-        if (nbt.hasKey("vkill_mobs"))
-            target_mobs = nbt.getBoolean("vkill_mobs");
-        if (nbt.hasKey("vkill_animals"))
-            target_animals = nbt.getBoolean("vkill_animals");
-        if (nbt.hasKey("vkill_npcs"))
-            target_npcs = nbt.getBoolean("vkill_npcs");
-        if (nbt.hasKey("vkill_players"))
-            target_players = nbt.getBoolean("vkill_players");
-        if (nbt.hasKey("vkill_flying"))
-            target_flying = nbt.getBoolean("vkill_flying");
-        if (nbt.hasKey("vkill_boss"))
-            target_boss = nbt.getBoolean("vkill_boss");
+        if (nbt.hasKey("targetList"))
+        {
+            this.targetting.clear();
+            NBTTagList list = nbt.getTagList("targetList");
+            for (Object o : list.tagList)
+            {
+                if (o instanceof NBTTagCompound)
+                {
+                    this.targetting.put(((NBTTagCompound) o).getString("name"), ((NBTTagCompound) o).getBoolean("b"));
+                }
+            }
+        }
     }
 }
