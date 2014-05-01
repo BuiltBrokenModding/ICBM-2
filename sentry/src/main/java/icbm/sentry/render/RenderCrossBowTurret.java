@@ -29,7 +29,7 @@ public class RenderCrossBowTurret extends TurretRenderer
     public void render(ForgeDirection side, TileTurret tile, double yaw, double pitch)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+        GL11.glTranslatef(0.5f, 0.6f, 0.5f);
         GL11.glScalef(1.2f, 1.2f, 1.2f);
         // Render base yaw rotation
         GL11.glRotated(yaw, 0, 1, 0);
@@ -44,7 +44,7 @@ public class RenderCrossBowTurret extends TurretRenderer
     public void renderInventoryItem(ItemStack itemStack)
     {
         RenderUtility.bind(textureNeutral);
-        GL11.glTranslatef(0.5f, 0f, 0.6f);
+        GL11.glTranslatef(0.5f, 0.5f, 0.6f);
         MODEL.renderAll();
     }
 }
