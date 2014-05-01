@@ -121,6 +121,7 @@ public class ICBMSentry
         // Shell
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));
         // Bullets
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 1), new Object[] { "SBS", "SGS", "SSS", 'B', "ingotLead", 'G', Item.gunpowder, 'S', bulletShell.copy() }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 1), new Object[] { "SBS", "SGS", "SSS", 'B', Item.ingotIron, 'G', Item.gunpowder, 'S', bulletShell.copy() }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 2, 2), new Object[] { "D", "B", "B", 'D', Item.diamond, 'B', conventionalBullet }));
         GameRegistry.addRecipe(new ShapedOreRecipe(antimatterBullet, new Object[] { "A", "B", 'A', "antimatterGram", 'B', railgunBullet }));
@@ -137,7 +138,7 @@ public class ICBMSentry
         // Laser Turret
         GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretLaser.class), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get(), 'D', Item.diamond, 'G', Block.glass }));
         // Crossbox sentry
-        GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretAutoBow.class), new Object[] { "BWL", "DW ", "CW ", 'D', Block.dispenser, 'B', Item.bow, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', Block.planks, 'G'}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretAutoBow.class), new Object[] { "BCL", "DW ", "WW ", 'D', Block.dispenser, 'B', Item.bow, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', Block.planks}));
 
         // Upgrades
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, Upgrades.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));
