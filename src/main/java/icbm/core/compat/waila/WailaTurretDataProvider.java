@@ -38,10 +38,11 @@ public class WailaTurretDataProvider implements IWailaDataProvider
 			currenttip.add(LanguageUtility.getLocal("info.turretdenied.waila").replaceAll("%u", accessor.getPlayer().username));
 			return currenttip;
 		}
+		/*
 		for (AccessUser user : container.getAccessProfile().getUsers())
 		{
 			currenttip.add(user.getGroup() + " : " + user.getName());
-		}
+		} */
 
 		return currenttip;
 	}
