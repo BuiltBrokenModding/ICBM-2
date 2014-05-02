@@ -32,7 +32,7 @@ public class TileTurretPlatform extends TileElectricalInventory
         {
             for (int i = 0; i < this.getSizeInventory(); i++)
             {
-                if (this.getStackInSlot(i) != null && CompatibilityModule.isHandler(this.getStackInSlot(i).getClass()))
+                if (this.getStackInSlot(i) != null && CompatibilityModule.isHandler(this.getStackInSlot(i).getItem()))
                 {
                     long charge = CompatibilityModule.dischargeItem(this.getStackInSlot(i), Integer.MAX_VALUE, false);
                     CompatibilityModule.dischargeItem(this.getStackInSlot(i), this.onReceiveEnergy(ForgeDirection.UNKNOWN, charge, true), true);
@@ -85,18 +85,6 @@ public class TileTurretPlatform extends TileElectricalInventory
     }
 
 	@Override
-	public long getEnergy(ForgeDirection from)
-	{
-		return super.getEnergy(from);
-	}
-
-	@Override
-	public long getEnergyCapacity(ForgeDirection from)
-	{
-		return super.getEnergyCapacity(from);
-	}
-
-	@Override
 	public EnergyStorageHandler getEnergyHandler()
 	{
 		for (TileTurret turretTile : turrets)
@@ -106,14 +94,7 @@ public class TileTurretPlatform extends TileElectricalInventory
 				return turretTile.getTurret().battery;
 			}
 		}
-
 		return super.getEnergyHandler();
-	}
-
-	@Override
-	public void setEnergyHandler(EnergyStorageHandler energy)
-	{
-		super.setEnergyHandler(energy);
 	}
 
 	@Override
