@@ -2,6 +2,7 @@ package icbm.sentry.turret.ai;
 
 import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import calclavia.api.icbm.IMissile;
 
 /** Anti-Air target selection for the AA gun. Does some extended checking of flying targets to
@@ -22,6 +23,10 @@ public class TurretAntiAirSelector extends TurretEntitySelector
         if (entity instanceof IMissile)
         {
             return canTargetType("missiles");
+        }
+        else if (entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isFlying)
+        {
+            return target_players_global && canTargetType("players");
         }
         return super.isEntityApplicable(entity);
     }
