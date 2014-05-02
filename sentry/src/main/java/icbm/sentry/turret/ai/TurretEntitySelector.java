@@ -167,8 +167,9 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
         if (nbt.hasKey("targetList"))
         {
             NBTTagList list = nbt.getTagList("targetList");
-            for (Object o : list.tagList)
+            for (int i = 0; i < list.tagCount(); i++)
             {
+                Object o = list.tagAt(i);
                 if (o instanceof NBTTagCompound)
                 {
                     this.targetting.put(((NBTTagCompound) o).getString("name"), ((NBTTagCompound) o).getBoolean("b"));
