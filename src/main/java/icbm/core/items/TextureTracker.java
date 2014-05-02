@@ -14,12 +14,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TextureGenZhongQi extends TextureAtlasSprite
+public class TextureTracker extends TextureAtlasSprite
 {
     public double currentAngle;
     public double angleDelta;
 
-    public TextureGenZhongQi()
+    public TextureTracker()
     {
         super(ICBMCore.itemTracker.getUnlocalizedName().replace("item.", ""));
     }

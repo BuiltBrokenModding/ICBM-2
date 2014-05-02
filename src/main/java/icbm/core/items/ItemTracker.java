@@ -35,7 +35,7 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
     {
         if (par1IconRegister instanceof TextureMap)
         {
-            ((TextureMap) par1IconRegister).setTextureEntry(this.getUnlocalizedName().replace("item.", ""), new TextureGenZhongQi());
+            ((TextureMap) par1IconRegister).setTextureEntry(this.getUnlocalizedName().replace("item.", ""), new TextureTracker());
             this.itemIcon = ((TextureMap) par1IconRegister).getTextureExtry(this.getUnlocalizedName().replace("item.", ""));
         }
     }
