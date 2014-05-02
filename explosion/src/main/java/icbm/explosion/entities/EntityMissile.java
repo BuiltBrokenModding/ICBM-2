@@ -303,6 +303,10 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
             loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
             loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ) - 1);
 
             for (ChunkCoordIntPair chunk : loadedChunks)
                 ForgeChunkManager.forceChunk(chunkTicket, chunk);
