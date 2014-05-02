@@ -1,4 +1,4 @@
-package icbm.sentry;
+package icbm.sentry.platform.cmd;
 
 import icbm.sentry.turret.block.TileTurret;
 
