@@ -46,7 +46,14 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 
     public TileLauncherScreen()
     {
-        setEnergyHandler(new EnergyStorageHandler(this.getLaunchCost()));
+        setEnergyHandler(new EnergyStorageHandler(Long.MAX_VALUE));
+    }
+
+    @Override
+    public void initiate()
+    {
+        super.initiate();
+        this.getEnergyHandler().setCapacity(this.getLaunchCost() * 2);
     }
 
     @Override
