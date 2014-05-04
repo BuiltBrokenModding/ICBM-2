@@ -18,6 +18,9 @@ import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.mounted.MountedRailgun;
+
+import java.awt.Color;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -82,6 +85,11 @@ public class ClientProxy extends CommonProxy
         }
 
         return null;
+    }
+
+    public void renderBeam(World world, IVector3 position, IVector3 hit, Color color, int age)
+    {
+        renderBeam(world, position, hit, color.getRed(), color.getGreen(), color.getBlue(), age);
     }
 
     @Override

@@ -285,10 +285,13 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         NBTTagList killCounts = new NBTTagList();
         for (Entry<String, Integer> entry : this.kill_count.entrySet())
         {
-            NBTTagCompound accessData = new NBTTagCompound();
-            accessData.setString("name", entry.getKey());
-            accessData.setInteger("count", entry.getValue());
-            killCounts.appendTag(accessData);
+            if (entry.getKey() != null && !entry.getKey().isEmpty())
+            {
+                NBTTagCompound accessData = new NBTTagCompound();
+                accessData.setString("name", entry.getKey());
+                accessData.setInteger("count", entry.getValue());
+                killCounts.appendTag(accessData);
+            }
         }
         nbt.setTag("killCount", killCounts);
     }
@@ -499,19 +502,23 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
             {
                 increaseKill("Mobs");
             }
-            if (entity instanceof INpc)
+            else if (entity instanceof INpc)
             {
                 increaseKill("NPCs");
             }
-            if (entity instanceof IAnimals)
+            else if (entity instanceof IAnimals)
             {
                 increaseKill("Animals");
             }
-            if (entity instanceof EntityPlayer)
+            else if (entity instanceof EntityPlayer)
             {
                 increaseKill("Players");
+                increaseKill(((EntityPlayer)entity).username);
             }
-            increaseKill(EntityList.getEntityString(entity));
+            else
+            {
+                increaseKill(EntityList.getEntityString(entity));
+            }
             increaseKill("Total");
         }
     }
@@ -519,7 +526,8 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     /** Increase the kill count */
     private void increaseKill(String type)
     {
-        kill_count.put(type, 1 + (kill_count.containsKey(type) ? kill_count.get(type) : 0));
+        if (type != null && !type.isEmpty())
+            kill_count.put(type, 1 + (kill_count.containsKey(type) ? kill_count.get(type) : 0));
     }
 
     @Override

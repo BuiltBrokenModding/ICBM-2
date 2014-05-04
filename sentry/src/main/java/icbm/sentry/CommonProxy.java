@@ -1,5 +1,7 @@
 package icbm.sentry;
 
+import java.awt.Color;
+
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.ContainerTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
@@ -59,6 +61,11 @@ public class CommonProxy implements IGuiHandler
 
     }
 
+    public void renderBeam(World world, IVector3 position, IVector3 hit, Color color, int age)
+    {
+
+    }
+    
     public void renderBeam(World world, IVector3 position, IVector3 hit, float red, float green, float blue, int age)
     {
 
