@@ -36,7 +36,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     //Properties
     protected float rayTraceLimit = 100;
     protected int itemsConsumedPerShot = 0;
-    protected Vector3 aimOffset = new Vector3();
+    public Vector3 aimOffset = new Vector3();
     protected IInventory inventory = null;
     public String soundEffect = null;
 

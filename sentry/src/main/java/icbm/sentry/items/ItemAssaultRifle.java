@@ -21,7 +21,8 @@ public class ItemAssaultRifle extends ItemICBMBase {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		if(weaponSystem == null) {
-			weaponSystem = new WeaponConventional(player, 5F);
+			weaponSystem = new WeaponConventional(player, 10F);
+			weaponSystem.aimOffset = new Vector3(1);
 		}
 		
 		// TODO: Fix only hitting on client mode

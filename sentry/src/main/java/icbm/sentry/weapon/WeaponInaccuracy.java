@@ -24,7 +24,7 @@ public class WeaponInaccuracy extends WeaponDamage
     }
     
     public WeaponInaccuracy(EntityPlayer player, int ammoAmount, float damage) {
-    	super(player, DamageSource.causePlayerDamage(player), damage);
+    	super(player, DamageSource.anvil, damage);
     	this.itemsConsumedPerShot = ammoAmount;
     }
 
@@ -32,7 +32,8 @@ public class WeaponInaccuracy extends WeaponDamage
     public void fire(IVector3 t)
     {
         Vector3 target = new Vector3(t);
-      //  double d = target.distance(turret());
+        //double d = target.distance(turret());
+        // TODO: Fix this @ icbm.sentry.weapon.WeaponInaccuracy
         super.fire(target.translate(getInaccuracy(1), getInaccuracy(1), getInaccuracy(1)));
         consumeAmmo(itemsConsumedPerShot, true);
     }
