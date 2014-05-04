@@ -15,7 +15,7 @@ import icbm.sentry.turret.traits.SentryTrait;
 import icbm.sentry.turret.traits.SentryTraitDouble;
 import icbm.sentry.turret.traits.SentryTraitInteger;
 import icbm.sentry.turret.traits.SentryTraitLong;
-import icbm.sentry.turret.weapon.WeaponSystem;
+import icbm.sentry.weapon.WeaponSystem;
 
 import java.util.ArrayList;
 import java.util.HashMap;

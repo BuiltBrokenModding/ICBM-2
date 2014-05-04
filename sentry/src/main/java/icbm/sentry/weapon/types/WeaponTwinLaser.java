@@ -1,4 +1,4 @@
-package icbm.sentry.turret.weapon.types;
+package icbm.sentry.weapon.types;
 
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.turret.Turret;

@@ -1,6 +1,6 @@
-package icbm.sentry.turret.weapon.types;
+package icbm.sentry.weapon.types;
 
-import icbm.sentry.turret.weapon.WeaponThrowable;
+import icbm.sentry.weapon.WeaponThrowable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.projectile.EntityArrow;

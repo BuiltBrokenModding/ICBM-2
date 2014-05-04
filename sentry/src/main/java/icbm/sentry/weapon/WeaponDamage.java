@@ -1,4 +1,4 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.weapon;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;

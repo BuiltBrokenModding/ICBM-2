@@ -1,10 +1,11 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.weapon;
 
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.interfaces.IUpgrade;
 import icbm.sentry.interfaces.IWeaponSystem;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

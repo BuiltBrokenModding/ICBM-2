@@ -1,8 +1,9 @@
-package icbm.sentry.turret.weapon.types;
+package icbm.sentry.weapon.types;
 
 import icbm.Reference;
 import icbm.sentry.turret.Turret;
-import icbm.sentry.turret.weapon.WeaponInaccuracy;
+import icbm.sentry.weapon.WeaponInaccuracy;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.api.icbm.sentry.ProjectileType;
@@ -21,6 +22,17 @@ public class WeaponConventional extends WeaponInaccuracy
     public WeaponConventional(Turret sentry, float damage)
     {
         this(sentry, 1, damage);
+    }
+    
+    public WeaponConventional(EntityPlayer player, int ammoAmount, float damage)
+    {
+        super(player, ammoAmount, damage);
+        this.soundEffect = Reference.PREFIX + "machinegun";
+    }
+
+    public WeaponConventional(EntityPlayer player, float damage)
+    {
+        this(player, 1, damage);
     }
 
     @Override

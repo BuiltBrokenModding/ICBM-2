@@ -1,4 +1,4 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.weapon;
 
 import icbm.sentry.turret.ai.EulerServo;
 import net.minecraft.entity.Entity;

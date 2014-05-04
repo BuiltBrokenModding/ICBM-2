@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.ai.TurretAntiAirSelector;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.weapon.types.WeaponConventional;
+import icbm.sentry.weapon.types.WeaponConventional;
 
 /** AA Turret, shoots down missiles and planes.
  * 

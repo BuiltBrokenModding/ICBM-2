@@ -2,7 +2,7 @@ package icbm.sentry.turret.auto;
 
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.weapon.types.WeaponConventional;
+import icbm.sentry.weapon.types.WeaponConventional;
 
 /** @author DarkGuardsman */
 public class TurretGun extends TurretAuto

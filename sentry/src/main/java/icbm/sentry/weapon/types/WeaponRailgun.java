@@ -1,8 +1,8 @@
-package icbm.sentry.turret.weapon.types;
+package icbm.sentry.weapon.types;
 
 import icbm.sentry.interfaces.IEnergyWeapon;
 import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.turret.weapon.WeaponInaccuracy;
+import icbm.sentry.weapon.WeaponInaccuracy;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import calclavia.lib.config.Config;
 import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.turret.weapon.types.WeaponTwinLaser;
+import icbm.sentry.weapon.types.WeaponTwinLaser;
 import net.minecraft.util.MathHelper;
 
 /** @author Darkguardsman */

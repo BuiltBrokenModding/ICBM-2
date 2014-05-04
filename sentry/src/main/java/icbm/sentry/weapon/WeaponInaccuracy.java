@@ -1,6 +1,8 @@
-package icbm.sentry.turret.weapon;
+package icbm.sentry.weapon;
 
 import icbm.sentry.interfaces.ITurret;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.damage.ObjectDamageSource;
@@ -20,13 +22,18 @@ public class WeaponInaccuracy extends WeaponDamage
         super(sentry, ObjectDamageSource.doBulletDamage(sentry), damage);
         this.itemsConsumedPerShot = ammoAmount;
     }
+    
+    public WeaponInaccuracy(EntityPlayer player, int ammoAmount, float damage) {
+    	super(player, DamageSource.causePlayerDamage(player), damage);
+    	this.itemsConsumedPerShot = ammoAmount;
+    }
 
     @Override
     public void fire(IVector3 t)
     {
         Vector3 target = new Vector3(t);
-        double d = target.distance(turret());
-        super.fire(target.translate(getInaccuracy(d), getInaccuracy(d), getInaccuracy(d)));
+      //  double d = target.distance(turret());
+        super.fire(target.translate(getInaccuracy(1), getInaccuracy(1), getInaccuracy(1)));
         consumeAmmo(itemsConsumedPerShot, true);
     }
 

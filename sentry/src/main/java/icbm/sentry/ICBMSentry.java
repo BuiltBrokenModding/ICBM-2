@@ -5,6 +5,7 @@ import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.IKillCount;
+import icbm.sentry.items.ItemAssaultRifle;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.cmd.CMDAccessSettings;
 import icbm.sentry.platform.cmd.CMDSentryTargetting;
@@ -12,7 +13,6 @@ import icbm.sentry.platform.cmd.CommandSentry;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.TurretType;
-import icbm.sentry.turret.ai.TurretEntitySelector;
 import icbm.sentry.turret.auto.TurretAntiAir;
 import icbm.sentry.turret.auto.TurretAutoBow;
 import icbm.sentry.turret.auto.TurretGun;
@@ -78,6 +78,7 @@ public class ICBMSentry
 
     public static Item itemAmmo;
     public static Item itemUpgrade;
+    public static Item itemAssaultRifle;
 
     /** ItemStack helpers. Do not modify theses. */
     public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
@@ -94,7 +95,8 @@ public class ICBMSentry
 
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
-
+        itemAssaultRifle = ICBMCore.contentRegistry.createItem("ItemAssaultRifle", ItemAssaultRifle.class, false);
+        
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
         railgunBullet = new ItemStack(itemAmmo, 1, 2);
