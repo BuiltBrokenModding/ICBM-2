@@ -7,6 +7,7 @@ import icbm.core.ICBMCore;
 import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.cmd.CMDAccessSettings;
+import icbm.sentry.platform.cmd.CMDSentryTargetting;
 import icbm.sentry.platform.cmd.CommandSentry;
 import icbm.sentry.turret.EntityMountableDummy;
 import icbm.sentry.turret.TurretRegistry;
@@ -108,6 +109,7 @@ public class ICBMSentry
 
         proxy.preInit();
         CommandRegistry.register(new CMDAccessSettings(), "admin");
+        CommandRegistry.register(new CMDSentryTargetting(), "admin");
     }
 
     @EventHandler

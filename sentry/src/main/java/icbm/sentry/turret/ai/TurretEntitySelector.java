@@ -4,7 +4,7 @@ import icbm.core.DamageUtility;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map.Entry;
 
 import net.minecraft.command.IEntitySelector;
@@ -46,32 +46,34 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     public static boolean target_boss_global = false;
 
     /* Per sentry targeting variables */
-    public HashMap<String, Boolean> targetting = new HashMap<String, Boolean>();
+    public LinkedHashSet<String> targetting = new LinkedHashSet<String>();
 
     public TurretEntitySelector(ITurret turret)
     {
         this.turretProvider = turret.getHost();
-        targetting.put("mobs", true);
-        targetting.put("animals", false);
-        targetting.put("npcs", false);
-        targetting.put("players", true);
-        targetting.put("flying", true);
-        targetting.put("boss", false);
+        targetting.add("mobs");
+        targetting.add("animals");
+        targetting.add("npcs");
+        targetting.add("players");
+        targetting.add("flying");
+        targetting.add("boss");
     }
 
     /** Checks if the turrets logic is allowed to target the type set by user settings */
     public boolean canTargetType(String type)
     {
         //TODO add a way of detecting different ways to enter the same type(eg mobs, mob, monsters are the same thing)
-        return targetting.containsKey(type) && targetting.get(type);
+        return targetting.contains(type);
     }
 
     public void setTargetType(String type, boolean to)
     {
-        //TODO check MC entity list
-        if (targetting.containsKey(type))
+        if (to)
         {
-            targetting.put(type, to);
+            targetting.add(type);
+        }else
+        {
+            targetting.remove(type);
         }
     }
 
@@ -98,6 +100,7 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
             }
             else if (isMob(entity))
             {
+                System.out.println("Mob: " + target_mobs_global + " && " + canTargetType("mobs"));
                 return target_mobs_global && canTargetType("mobs");
             }
             else if (entity instanceof IAnimals)
@@ -152,11 +155,10 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     public void save(NBTTagCompound nbt)
     {
         NBTTagList list = new NBTTagList();
-        for (Entry<String, Boolean> entry : targetting.entrySet())
+        for (String string : targetting)
         {
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setString("name", entry.getKey());
-            tag.setBoolean("b", entry.getValue());
+            tag.setString("name", string);
         }
         nbt.setTag("targetList", list);
     }
@@ -172,7 +174,7 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
                 Object o = list.tagAt(i);
                 if (o instanceof NBTTagCompound)
                 {
-                    this.targetting.put(((NBTTagCompound) o).getString("name"), ((NBTTagCompound) o).getBoolean("b"));
+                    this.targetting.add(((NBTTagCompound) o).getString("name"));
                 }
             }
         }

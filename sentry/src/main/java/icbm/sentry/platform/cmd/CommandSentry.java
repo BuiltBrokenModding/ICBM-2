@@ -169,6 +169,12 @@ public class CommandSentry extends CommandBase
     {
         return 0;
     }
+    
+    @Override
+    public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
+    {
+        return true;
+    }
 
     @Override
     public int compareTo(Object par1Obj)

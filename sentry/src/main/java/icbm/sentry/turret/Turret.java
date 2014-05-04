@@ -525,7 +525,6 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     @Override
     public long getRunningCost()
     {
-        ISentryTrait trait = getTrait(ITurret.ENERGY_RUNNING_TRAIT);
-        return SentryTrait.asLong(trait, 0L);
+        return SentryTrait.asLong(getTrait(ITurret.ENERGY_RUNNING_TRAIT), 0L);
     }
 }
