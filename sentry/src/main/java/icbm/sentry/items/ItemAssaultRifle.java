@@ -24,9 +24,10 @@ public class ItemAssaultRifle extends ItemICBMBase {
 			weaponSystem = new WeaponConventional(player, 5F);
 		}
 		
+		// TODO: Fix only hitting on client mode
 		MovingObjectPosition mop = player.rayTrace(100, 1f);
 		if(mop != null) {
-			System.out.println(mop.blockX + ", " + mop.blockY + ", " + mop.blockZ);
+			if(world.isRemote) System.out.println(mop.blockX + ", " + mop.blockY + ", " + mop.blockZ);
 			if(mop.typeOfHit == EnumMovingObjectType.ENTITY) {
 				weaponSystem.fire(Vector3.fromCenter(mop.entityHit));
 			} else {
