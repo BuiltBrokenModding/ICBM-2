@@ -100,7 +100,6 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
             }
             else if (isMob(entity))
             {
-                System.out.println("Mob: " + target_mobs_global + " && " + canTargetType("mobs"));
                 return target_mobs_global && canTargetType("mobs");
             }
             else if (entity instanceof IAnimals)
