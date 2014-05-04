@@ -111,7 +111,7 @@ public class CMDSentryTargetting implements ITerminalCommand
                                     bool = !bool;
                                 }
                                 selector.setTargetType(command, bool);
-                                output_to_console.add("Set " + command + " to " + selector.canTargetType(command) + " " + bool);
+                                output_to_console.add("Set " + command + " to " + selector.canTargetType(command));
                             }
                             else
                             {
@@ -153,14 +153,7 @@ public class CMDSentryTargetting implements ITerminalCommand
     @Override
     public String getNode(String[] args)
     {
-        if (args != null && args.length >= 1)
-        {
-            if (args[0] != null && args[0].equalsIgnoreCase(this.getCommandName()))
-            {
-                return "target";
-            }
-        }
-        return null;
+        return "target";
     }
 
 }
