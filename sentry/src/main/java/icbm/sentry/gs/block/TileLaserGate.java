@@ -2,16 +2,17 @@ package icbm.sentry.gs.block;
 
 import icbm.core.prefab.TileICBM;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
+import calclavia.lib.prefab.tile.IRotatable;
 
-public class TileLaserGate extends TileICBM implements IBlockActivate, IRedstoneReceptor {
+public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneReceptor {
 
 	private TileLaserGate pairedGate;
+	private final int LASER_REACH_LENGTH = 10;
 	
 	public TileLaserGate() {
 		super();
@@ -22,13 +23,42 @@ public class TileLaserGate extends TileICBM implements IBlockActivate, IRedstone
 	public void updateEntity() {
 		super.updateEntity();
 		if(!worldObj.isRemote) {
-			
+			if(pairedGate == null) findLaserPair();
+			System.out.println(getLaserPair());
 		}
 	}
 	
 	@Override
-	public boolean onActivated(EntityPlayer player) {
-		return false;
+	public void invalidate() {
+		if(this.pairedGate != null) this.pairedGate.setLaserPair(null);
+		setLaserPair(null);
+		
+		super.invalidate();
+	}
+	
+	public void setLaserPair(TileLaserGate lsg) {
+		this.pairedGate = lsg;
+	}
+	
+	public TileLaserGate getLaserPair() {
+		return pairedGate;
+	}
+	
+	public void findLaserPair() {
+		for(int i = LASER_REACH_LENGTH; i > 0; i--) {
+			Vector3 loc = new Vector3(this).translate(getFacingDirection(), i);
+			if(loc.getTileEntity(worldObj) instanceof TileLaserGate && loc.getTileEntity(worldObj) != this) {
+				TileLaserGate fence = (TileLaserGate) loc.getTileEntity(worldObj);
+	             if (fence.getFacingDirection() == this.getFacingDirection().getOpposite()) {
+	            	 setLaserPair(fence);
+	            	 fence.setLaserPair(this);
+	             }
+			}
+		}
+	}
+	
+	public ForgeDirection getFacingDirection() {
+		return this.getDirection();
 	}
 
 	@Override
