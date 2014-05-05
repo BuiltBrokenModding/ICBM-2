@@ -6,6 +6,7 @@ import icbm.explosion.machines.launcher.TileLauncherBase;
 import icbm.explosion.machines.launcher.TileLauncherFrame;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
 import icbm.explosion.render.tile.BlockRenderHandler;
+import icbm.sentry.gs.block.TileLaserGate;
 
 import java.util.List;
 import java.util.Random;
@@ -40,7 +41,8 @@ public class BlockICBMMachine extends BlockICBM
         RadarStation(TileRadarStation.class),
         EmpTower(TileEMPTower.class),
         CruiseLauncher(TileCruiseLauncher.class),
-        MissileCoordinator(TileMissileCoordinator.class);
+        MissileCoordinator(TileMissileCoordinator.class),
+        LaserGate(TileLaserGate.class);
 
         public Class<? extends TileEntity> tileEntity;
 

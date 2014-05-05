@@ -4,6 +4,7 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
+import icbm.explosion.machines.BlockICBMMachine;
 import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.items.ItemAssaultRifle;
 import icbm.sentry.platform.BlockTurretPlatform;
@@ -92,7 +93,7 @@ public class ICBMSentry
 
         blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
         blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
-
+        
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
         itemAssaultRifle = ICBMCore.contentRegistry.createItem("assaultRifle", ItemAssaultRifle.class, false);
