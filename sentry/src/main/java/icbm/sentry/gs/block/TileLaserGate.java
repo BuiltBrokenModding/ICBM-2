@@ -22,20 +22,7 @@ public class TileLaserGate extends TileICBM implements IBlockActivate, IRedstone
 	public void updateEntity() {
 		super.updateEntity();
 		if(!worldObj.isRemote) {
-			if(pairedGate == null) {
-				Vector3 thisVector = new Vector3(this);
-				Vector3 foundVector = null;
-				for(int i = 0; i < 4; i = i + 90) {
-					MovingObjectPosition mop = thisVector.rayTraceBlocks(worldObj, i, 0, false, 10);
-					
-					foundVector = new Vector3(mop);
-					TileEntity tile = worldObj.getBlockTileEntity(foundVector.intX(), foundVector.intY(), foundVector.intZ());
-					if(tile != null) {
-						this.pairedGate = (TileLaserGate) tile;
-						this.pairedGate.pairedGate = this;
-					}
-				}
-			}
+			
 		}
 	}
 	
@@ -52,12 +39,7 @@ public class TileLaserGate extends TileICBM implements IBlockActivate, IRedstone
 	@Override
 	public void onPowerOn() {
 		if(!worldObj.isRemote) {
-			if(pairedGate == null) {
-				System.out.println("Paired Null" + "(X:null, Y:null, Z:null)");
-			} else {
-				System.out.println("Paired " + pairedGate + "(X:" + pairedGate.xCoord + ", Y:" + pairedGate.yCoord + ", Z:" + pairedGate.zCoord + ")");
-			}
+			
 		}
-		// Draw Guff
 	}	
 }
