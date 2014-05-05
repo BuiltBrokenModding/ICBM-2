@@ -32,6 +32,8 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     // The EMP mode. 0 = All, 1 = Missiles Only, 2 = Electricity Only
     public byte empMode = 0;
 
+    private int cooldownTicks = 0;
+    
     // The EMP explosion radius
     public int empRadius = 60;
 
@@ -59,7 +61,12 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     public void updateEntity()
     {
         super.updateEntity();
-
+        
+        if(inCurrentCooldown()) {
+        	cooldownTicks--;
+        }
+        
+        System.out.println("Cooldown: " + inCurrentCooldown() + " ... " + cooldownTicks);
         if (ticks % 20 == 0 && getEnergyHandler().getEnergy() > 0)
             worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * getEnergyHandler().getEnergy() / getEnergyHandler().getEnergyCapacity());
 
@@ -99,6 +106,10 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
         super.onReceivePacket(id, data, player, extra);
     }
 
+    public boolean inCurrentCooldown() {
+    	return cooldownTicks <= 120 && !(cooldownTicks <= 0);
+    }
+    
     private void updateCapacity()
     {
         this.getEnergyHandler().setCapacity(Math.max(300000000 * (this.empRadius / MAX_RADIUS), 1000000000));
@@ -136,20 +147,21 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     {
         if (this.getEnergyHandler().isFull())
         {
-            switch (this.empMode)
-            {
-                default:
-                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().setEffectEntities().explode();
-                    break;
-                case 1:
-                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectEntities().explode();
-                    break;
-                case 2:
-                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().explode();
-                    break;
-            }
-
-            this.getEnergyHandler().setEnergy(0);
+        	if(inCurrentCooldown()) {
+	            switch (this.empMode)
+	            {
+	                default:
+	                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().setEffectEntities().explode();
+	                    break;
+	                case 1:
+	                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectEntities().explode();
+	                    break;
+	                case 2:
+	                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().explode();
+	                    break;
+	            }
+	            this.cooldownTicks = 120;
+        	}
         }
     }
 
