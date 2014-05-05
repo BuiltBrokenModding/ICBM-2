@@ -1,5 +1,7 @@
 package icbm.sentry.items;
 
+import java.util.List;
+
 import icbm.core.prefab.item.ItemICBMBase;
 import icbm.sentry.weapon.types.WeaponConventional;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,5 +40,13 @@ public class ItemAssaultRifle extends ItemICBMBase {
 		return itemstack;
 	}
 
+	
+	@Override
+	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+		//Don't bother with localization
+		list.add("Work in progress - Archtikz");
+		
+		super.addInformation(itemStack, entityPlayer, list, par4);
+	}
 	
 }
