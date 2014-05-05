@@ -95,7 +95,7 @@ public class ICBMSentry
 
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
-        itemAssaultRifle = ICBMCore.contentRegistry.createItem("ItemAssaultRifle", ItemAssaultRifle.class, false);
+        itemAssaultRifle = ICBMCore.contentRegistry.createItem("assaultRifle", ItemAssaultRifle.class, false);
         
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);

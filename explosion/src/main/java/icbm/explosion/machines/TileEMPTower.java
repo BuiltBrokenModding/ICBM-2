@@ -66,7 +66,6 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
         	cooldownTicks--;
         }
         
-        System.out.println("Cooldown: " + inCurrentCooldown() + " ... " + cooldownTicks);
         if (ticks % 20 == 0 && getEnergyHandler().getEnergy() > 0)
             worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * getEnergyHandler().getEnergy() / getEnergyHandler().getEnergyCapacity());
 
