@@ -21,26 +21,19 @@ public class TileLaserGate extends TileICBM implements IBlockActivate, IRedstone
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		if(pairedGate == null) {
-			Vector3 thisVector = new Vector3(this);
-			Vector3 foundVector = null;
-			
-			for(int i = 0; i < 4; i += 90) {
-				MovingObjectPosition mop = thisVector.rayTraceBlocks(worldObj, i, 0, true, 10);
-				switch(i) {
-					case 90:
-						foundVector = new Vector3(mop).translate(1, 0, 0); break;
-					case 180:
-						foundVector = new Vector3(mop).translate(0, 0, 1); break;
-					case 270:
-						foundVector = new Vector3(mop).translate(-1, 0, 0); break;
-					case 360:
-						foundVector = new Vector3(mop).translate(0, 0, -1); break;
-				}
-				TileEntity tile = worldObj.getBlockTileEntity(foundVector.intX(), foundVector.intY(), foundVector.intZ());
-				if(tile != null) {
-					this.pairedGate = (TileLaserGate) tile;
-					this.pairedGate.pairedGate = this;
+		if(!worldObj.isRemote) {
+			if(pairedGate == null) {
+				Vector3 thisVector = new Vector3(this);
+				Vector3 foundVector = null;
+				for(int i = 0; i < 4; i = i + 90) {
+					MovingObjectPosition mop = thisVector.rayTraceBlocks(worldObj, i, 0, false, 10);
+					
+					foundVector = new Vector3(mop);
+					TileEntity tile = worldObj.getBlockTileEntity(foundVector.intX(), foundVector.intY(), foundVector.intZ());
+					if(tile != null) {
+						this.pairedGate = (TileLaserGate) tile;
+						this.pairedGate.pairedGate = this;
+					}
 				}
 			}
 		}
@@ -58,7 +51,13 @@ public class TileLaserGate extends TileICBM implements IBlockActivate, IRedstone
 
 	@Override
 	public void onPowerOn() {
-		System.out.println("Paired " + pairedGate + "(X:" + pairedGate.xCoord + ", Y:" + pairedGate.yCoord + ", Z:" + pairedGate.zCoord + ")");
+		if(!worldObj.isRemote) {
+			if(pairedGate == null) {
+				System.out.println("Paired Null" + "(X:null, Y:null, Z:null)");
+			} else {
+				System.out.println("Paired " + pairedGate + "(X:" + pairedGate.xCoord + ", Y:" + pairedGate.yCoord + ", Z:" + pairedGate.zCoord + ")");
+			}
+		}
 		// Draw Guff
 	}	
 }
