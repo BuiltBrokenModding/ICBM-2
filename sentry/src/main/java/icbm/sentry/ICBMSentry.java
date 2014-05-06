@@ -5,6 +5,7 @@ import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
 import icbm.explosion.machines.BlockICBMMachine;
+import icbm.sentry.gs.block.BlockLaserGate;
 import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.items.ItemAssaultRifle;
 import icbm.sentry.platform.BlockTurretPlatform;
@@ -75,7 +76,7 @@ public class ICBMSentry
 
     public static final int ENTITY_ID_PREFIX = 50;
 
-    public static Block blockTurret, blockPlatform;
+    public static Block blockTurret, blockPlatform, blockLaserGate;
 
     public static Item itemAmmo;
     public static Item itemUpgrade;
@@ -93,6 +94,7 @@ public class ICBMSentry
 
         blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
         blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
+        blockLaserGate = ICBMCore.contentRegistry.createBlock(BlockLaserGate.class);
         
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);

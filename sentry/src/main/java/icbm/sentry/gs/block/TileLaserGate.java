@@ -1,5 +1,6 @@
 package icbm.sentry.gs.block;
 
+import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
 import icbm.sentry.ICBMSentry;
 
@@ -114,9 +115,9 @@ public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneRece
             NBTTagCompound tag = new NBTTagCompound();
             tag.setBoolean("renderLaser", renderLaser);
 
-            return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 0, tag);
+            return ICBMCore.PACKET_TILE.getPacket(this, tag);
         }
-		
+		 
         return null;
 	}
 	
