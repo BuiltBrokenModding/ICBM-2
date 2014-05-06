@@ -1,18 +1,21 @@
 package icbm.sentry.gs.block;
 
-import java.awt.Color;
-
-import cpw.mods.fml.client.FMLClientHandler;
 import icbm.core.prefab.TileICBM;
 import icbm.sentry.ICBMSentry;
-import net.minecraft.entity.player.EntityPlayer;
+
+import java.awt.Color;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IBlockActivate;
 import calclavia.lib.prefab.tile.IRedstoneReceptor;
 import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.render.fx.FxLaser;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneReceptor {
 
@@ -29,6 +32,8 @@ public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneRece
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+
+		
 		if(!worldObj.isRemote) {
 			if(ticks%10==0) {
 				if(pairedGate == null) findLaserPair();
@@ -36,8 +41,13 @@ public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneRece
 		}
 		
 		if(renderLaser) {
-			//Well.. apparently this is being called server side only, 
-			ICBMSentry.proxy.renderBeam(worldObj, new Vector3(this), new Vector3(getLaserPair()), Color.RED.getRed(), Color.RED.getGreen(), Color.RED.getBlue(), 1);
+			if(pairedGate != null) {
+				//Well.. apparently this is being called server side only, 
+				ICBMSentry.proxy.renderBeam(worldObj, new Vector3(this), new Vector3(getLaserPair()), Color.RED.getRed(), Color.RED.getGreen(), Color.RED.getBlue(), 1);
+				
+				if(!worldObj.isRemote) System.out.println("Server: AHHH");
+				if(worldObj.isRemote) System.out.println("Client: AHHH");
+			}
 		}		
 	}
 	
@@ -76,6 +86,7 @@ public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneRece
 		return this.getDirection();
 	}
 
+	
 	@Override
 	public void onPowerOff() {
 		// Stop Drawing Guff
@@ -86,10 +97,37 @@ public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneRece
 	}
 
 	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
+		super.onDataPacket(net, pkt);
+		
+		NBTTagCompound tag = pkt.data;
+		if (tag.hasKey("renderLaser")) {
+			renderLaser = tag.getBoolean("renderLaser");
+		}
+	}
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		super.getDescriptionPacket();
+		
+		if (!this.worldObj.isRemote) {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setBoolean("renderLaser", renderLaser);
+
+            return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 0, tag);
+        }
+		
+        return null;
+	}
+	
+	@Override
 	public void onPowerOn() {
 		if(pairedGate != null) {
 			this.renderLaser = true;
 			this.getLaserPair().renderLaser = true;
+			PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 30, 0, getDescriptionPacket());
 		}
+
+
 	}	
 }

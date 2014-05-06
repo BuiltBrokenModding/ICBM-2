@@ -41,9 +41,8 @@ public class BlockICBMMachine extends BlockICBM
         RadarStation(TileRadarStation.class),
         EmpTower(TileEMPTower.class),
         CruiseLauncher(TileCruiseLauncher.class),
-        MissileCoordinator(TileMissileCoordinator.class),
-        LaserGate(TileLaserGate.class);
-
+        MissileCoordinator(TileMissileCoordinator.class);
+        
         public Class<? extends TileEntity> tileEntity;
 
         MachineData(Class<? extends TileEntity> tileEntity)

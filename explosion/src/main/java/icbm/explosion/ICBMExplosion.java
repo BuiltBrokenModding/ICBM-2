@@ -32,6 +32,7 @@ import icbm.explosion.potion.ContagiousPoison;
 import icbm.explosion.potion.PoisonContagion;
 import icbm.explosion.potion.PoisonFrostBite;
 import icbm.explosion.potion.PoisonToxin;
+import icbm.sentry.gs.block.BlockLaserGate;
 
 import java.util.List;
 
@@ -114,6 +115,8 @@ public class ICBMExplosion
     public static Block blockExplosive;
     public static Block blockMachine;
     public static Block blockMissileAssembler;
+    public static Block blockLaserGate;
+    
     // Items
     public static Item itemMissile;
 
@@ -146,7 +149,8 @@ public class ICBMExplosion
         blockExplosive = ICBMCore.contentRegistry.createBlock(BlockExplosive.class, ItemBlockExplosive.class);
         blockMachine = ICBMCore.contentRegistry.createBlock(BlockICBMMachine.class, ItemBlockMachine.class);
         blockMissileAssembler = ICBMCore.contentRegistry.createBlock(BlockMissileAssembler.class, ItemBlockMissileAssembler.class);
-
+        blockLaserGate = ICBMCore.contentRegistry.createBlock(BlockLaserGate.class);
+        
         // ITEMS
         itemMissile = ICBMCore.contentRegistry.createItem(ItemMissile.class);
 
