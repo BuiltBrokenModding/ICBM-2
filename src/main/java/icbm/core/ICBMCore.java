@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.blocks.BlockCamouflage;
-import icbm.core.blocks.BlockConcrete;
+import icbm.core.blocks.BlockICBMDecor;
 import icbm.core.blocks.BlockGlassButton;
 import icbm.core.blocks.BlockGlassPressurePlate;
 import icbm.core.blocks.BlockProximityDetector;
@@ -133,7 +133,7 @@ public final class ICBMCore
         blockProximityDetector = contentRegistry.createTile(BlockProximityDetector.class, TileProximityDetector.class);
         blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
         blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
-        blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
+        blockConcrete = contentRegistry.createBlock(BlockICBMDecor.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
         blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
         //blockBox = contentRegistry.newBlock(TileBox.class); TODO Enable, disabled as to allow to release a stable ICBM for 1.6
