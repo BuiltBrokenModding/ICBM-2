@@ -6,7 +6,7 @@ public class AmmoHandler {
 
 	private ItemStack weaponStack;
 	private int capacity;
-	public int currentAmmo = capacity;
+	public int currentAmmo = 0;
 	
 	public AmmoHandler(ItemStack stack, int capacity) {
 		this.capacity = capacity;

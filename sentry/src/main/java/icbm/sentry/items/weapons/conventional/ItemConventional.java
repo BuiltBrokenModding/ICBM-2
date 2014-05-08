@@ -47,8 +47,7 @@ public class ItemConventional extends ItemWeapon {
 	public void onPreWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
 		if(ammoHandler == null) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
-				ammoHandler = new AmmoHandler(stack, capacity);
-				searchInventoryForAmmo(shooter, true);
+				if(!world.isRemote) ammoHandler = new AmmoHandler(stack, capacity);
 			}
 		}
 	}
@@ -60,9 +59,11 @@ public class ItemConventional extends ItemWeapon {
 	
 	@Override
 	public void onPostWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
-		if(ammoHandler != null && !ammoHandler.isEmpty()) {
-			ammoHandler.consume(1);
-			stack.setItemDamage(stack.getItemDamage() - 1);
+		if(!world.isRemote) {
+			if(ammoHandler != null && !ammoHandler.isEmpty()) {
+				ammoHandler.consume(1);
+				stack.setItemDamage(stack.getItemDamage() - 1);
+			}
 		}
 	}
 
@@ -70,7 +71,7 @@ public class ItemConventional extends ItemWeapon {
 	public void onSneakClick(ItemStack stack, World world, EntityPlayer shooter) {
 		if(ammoHandler == null) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
-				ammoHandler = new AmmoHandler(stack, capacity);
+				if(!world.isRemote) ammoHandler = new AmmoHandler(stack, capacity);
 				searchInventoryForAmmo(shooter, true);
 			} else {
 				return;
@@ -79,7 +80,7 @@ public class ItemConventional extends ItemWeapon {
 		if(ammoHandler.isEmpty()) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
 				searchInventoryForAmmo(shooter, true);
-				ammoHandler.reload();
+				if(!world.isRemote) ammoHandler.reload();
 			}
 		}		
 	}
