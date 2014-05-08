@@ -13,7 +13,7 @@ public class ItemConventional extends ItemWeapon
     public enum Guns
     {
         UNKNOWN_GUN("item.gun.unknown", 0),
-        AssultRifle("item.gun.rifle.assult", 3f),
+        ASSAULTRIFLE("item.gun.assault", 3f),
         SHOTGUN("item.gun.shotgun", 2f);
 
         private String name;
