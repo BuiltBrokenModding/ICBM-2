@@ -1,6 +1,7 @@
 package icbm.sentry.weapon;
 
 import icbm.sentry.interfaces.ITurret;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import universalelectricity.api.vector.IVector3;
@@ -23,7 +24,7 @@ public class WeaponInaccuracy extends WeaponDamage
         this.itemsConsumedPerShot = ammoAmount;
     }
     
-    public WeaponInaccuracy(EntityPlayer player, int ammoAmount, float damage) {
+    public WeaponInaccuracy(Entity player, int ammoAmount, float damage) {
     	super(player, DamageSource.anvil, damage);
     	this.itemsConsumedPerShot = ammoAmount;
     }

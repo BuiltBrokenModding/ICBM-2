@@ -143,6 +143,12 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     }
 
     @Override
+    public void fire(double range)
+    {
+        fire(new Vector3(x(), y(), z()).translate(turret().getWeaponOffset().scale(range)));
+    }
+
+    @Override
     public void fire(IVector3 target)
     {
         playFiringAudio();
@@ -173,11 +179,9 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
      * @author Based on MachineMuse */
     public void drawParticleStreamTo(World world, Vector3 start, IVector3 hit)
     {
-        Vector3 direction = new Vector3(start.toAngle(hit));
         double scale = 0.02;
         Vector3 currentPoint = start.clone();
         Vector3 difference = new Vector3(hit).difference(start);
-        double magnitude = difference.getMagnitude();
 
         while (currentPoint.distance(hit) > scale)
         {
@@ -347,9 +351,13 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         {
             return (ITurret) object;
         }
-        if (object instanceof ITurretProvider)
+        else if (object instanceof ITurretProvider)
         {
             return ((ITurretProvider) object).getTurret();
+        }
+        else if (object instanceof Entity)
+        {
+            return new EntityTurret((Entity) object);
         }
         return null;
     }
