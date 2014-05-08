@@ -4,26 +4,21 @@ import net.minecraft.item.ItemStack;
 
 public class AmmoHandler {
 
-	private ItemStack stack;
+	private ItemStack weaponStack;
 	private int capacity;
-	private int currentAmmo = 0;
+	public int currentAmmo = capacity;
 	
 	public AmmoHandler(ItemStack stack, int capacity) {
 		this.capacity = capacity;
-		this.stack = stack;
+		this.weaponStack = stack;		
 	}
 	
-	public void loadAmmo(int amt) {
-		
-		if((currentAmmo + amt) > capacity) {
-			this.currentAmmo = capacity;
-			return;
-		}
-		if(amt > capacity) {
-			this.currentAmmo = capacity;
-			return;
-		}
-		this.currentAmmo += amt;
+	public boolean isEmpty() {
+		return currentAmmo == 0;
+	}
+	
+	public void reload() {
+		this.currentAmmo = capacity;
 	}
 	
 	public void consume(int amt) {
@@ -39,12 +34,12 @@ public class AmmoHandler {
 	
 	
 	public void readFromTag() {
-		this.capacity = stack.stackTagCompound.getInteger("clipCapacity");
-		this.currentAmmo = stack.stackTagCompound.getInteger("clipCurrentAmmo");
+		this.capacity = weaponStack.stackTagCompound.getInteger("clipCapacity");
+		this.currentAmmo = weaponStack.stackTagCompound.getInteger("clipCurrentAmmo");
 	}
 	
 	public void writeToTag() {
-		stack.stackTagCompound.setInteger("clipCapacity", capacity);
-		stack.stackTagCompound.setInteger("clipCurrentAmmo", currentAmmo);
+		weaponStack.stackTagCompound.setInteger("clipCapacity", capacity);
+		weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", currentAmmo);
 	}
 }

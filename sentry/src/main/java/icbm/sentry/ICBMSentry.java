@@ -7,6 +7,7 @@ import icbm.core.ICBMCore;
 import icbm.sentry.gs.block.BlockLaserGate;
 import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.items.weapons.conventional.ItemAssaultRifle;
+import icbm.sentry.items.weapons.conventional.ItemConventionalClip;
 import icbm.sentry.items.weapons.conventional.ItemShotgun;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.cmd.CMDAccessSettings;
@@ -79,6 +80,7 @@ public class ICBMSentry
     public static Block blockTurret, blockPlatform, blockLaserGate;
 
     public static Item itemAmmo;
+    public static Item itemMagazine;
     public static Item itemUpgrade;
     public static Item itemAssaultRifle;
     public static Item itemShotgun;
@@ -99,6 +101,7 @@ public class ICBMSentry
         
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
+        itemMagazine = ICBMCore.contentRegistry.createItem("gunMagazine", ItemConventionalClip.class, false);
         
         itemAssaultRifle = ICBMCore.contentRegistry.createItem("assaultRifle", ItemAssaultRifle.class, false);
         itemShotgun = ICBMCore.contentRegistry.createItem("shotgun", ItemShotgun.class, false);

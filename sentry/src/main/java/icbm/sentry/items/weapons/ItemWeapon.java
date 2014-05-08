@@ -1,17 +1,14 @@
 package icbm.sentry.items.weapons;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.lib.prefab.item.ItemTooltip;
 import calclavia.lib.prefab.vector.RayTraceHelper;
 
@@ -33,10 +30,16 @@ public abstract class ItemWeapon extends ItemTooltip {
 		this.soundEffect = soundEffect;
 	}
 
-	public ItemStack searchInventoryForAmmo(EntityPlayer player) {
-		for(ItemStack stack : player.inventory.mainInventory) {
-			if(stack.getItem() instanceof IItemAmmunition) {
-				return stack;
+	public ItemStack searchInventoryForAmmo(EntityPlayer player, boolean reality) {
+		for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+			if(player.inventory.mainInventory[i] != null) {
+				if(player.inventory.mainInventory[i].getItem() instanceof IItemAmmunition) {
+					ItemStack stack = player.inventory.mainInventory[i];
+					if(reality) {
+						player.inventory.mainInventory[i] = null;
+					}
+					return stack;
+				}
 			}
 		}
 		return null;
@@ -44,8 +47,16 @@ public abstract class ItemWeapon extends ItemTooltip {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-		onPreWeaponFired();
-		onWeaponFired(itemstack, world, player);
+		if(player.isSneaking()) {
+			onSneakClick(itemstack, world, player);
+			return itemstack;
+		}
+		
+		onPreWeaponFired(itemstack, world, player);
+		if(isLoaded()) {
+			onWeaponFired(itemstack, world, player);
+			onPostWeaponFired(itemstack, world, player);
+		}
 		return itemstack;
 	}
 
@@ -62,8 +73,10 @@ public abstract class ItemWeapon extends ItemTooltip {
 		return true;
 	}
 	
-	public abstract void onPreWeaponFired();
-	public abstract void onPostWeaponFired();
+	public abstract boolean isLoaded();
+	public abstract void onSneakClick(ItemStack stack, World world, EntityPlayer shooter);
+	public abstract void onPreWeaponFired(ItemStack stack, World world, EntityPlayer shooter);
+	public abstract void onPostWeaponFired(ItemStack stack, World world, EntityPlayer shooter);
 	/**
 	 * Called when the player fires the weapon, should handle all weapon firing actions, audio, and effects. Shouldn't handle ammo.
 	 * 
