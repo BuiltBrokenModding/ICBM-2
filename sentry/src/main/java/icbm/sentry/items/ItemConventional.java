@@ -91,6 +91,6 @@ public class ItemConventional extends ItemWeapon
 
     public ItemConventional(int id)
     {
-        super(id);
+        super(id, "");
     }
 }

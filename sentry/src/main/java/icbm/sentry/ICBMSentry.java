@@ -81,6 +81,7 @@ public class ICBMSentry
     public static Item itemAmmo;
     public static Item itemUpgrade;
     public static Item itemAssaultRifle;
+    public static Item itemShotgun;
 
     /** ItemStack helpers. Do not modify theses. */
     public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
@@ -99,6 +100,7 @@ public class ICBMSentry
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
         itemAssaultRifle = ICBMCore.contentRegistry.createItem("assaultRifle", ItemConventional.class, false);
+        itemAssaultRifle = ICBMCore.contentRegistry.createItem("shotgun", ItemConventional.class, false);
         
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
