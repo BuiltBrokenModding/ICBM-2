@@ -1,5 +1,6 @@
 package icbm.sentry.platform.gui;
 
+import universalelectricity.api.CompatibilityModule;
 import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
@@ -23,20 +24,27 @@ public class SlotPlatformAmmo extends Slot
     @Override
     public boolean isItemValid(ItemStack compareStack)
     {
-        if (platform != null)
+        if (compareStack != null)
         {
-            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+            if(CompatibilityModule.isHandler(compareStack.getItem()))
             {
-                TileTurret tileTurret = platform.getTurret(direction);
-                if (tileTurret != null && tileTurret.getTurret() instanceof IWeaponProvider)
+                return true;
+            }
+            if (platform != null)
+            {
+                for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
                 {
-                    if (((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem() != null)
+                    TileTurret tileTurret = platform.getTurret(direction);
+                    if (tileTurret != null && tileTurret.getTurret() instanceof IWeaponProvider)
                     {
-                        return ((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem().isAmmo(compareStack);
+                        if (((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem() != null)
+                        {
+                            return ((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem().isAmmo(compareStack);
+                        }
                     }
                 }
             }
         }
-        return compareStack != null;
+        return false;
     }
 }

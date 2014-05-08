@@ -1,6 +1,8 @@
 package icbm.sentry.platform;
 
+import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.turret.block.TileTurret;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.CompatibilityModule;
@@ -84,22 +86,46 @@ public class TileTurretPlatform extends TileElectricalInventory
         return used;
     }
 
-	@Override
-	public EnergyStorageHandler getEnergyHandler()
-	{
-		for (TileTurret turretTile : turrets)
-		{
-			if (turretTile != null && turretTile.getTurret() != null && turretTile.getTurret() instanceof IEnergyContainer)
-			{
-				return turretTile.getTurret().battery;
-			}
-		}
-		return super.getEnergyHandler();
-	}
+    @Override
+    public EnergyStorageHandler getEnergyHandler()
+    {
+        for (TileTurret turretTile : turrets)
+        {
+            if (turretTile != null && turretTile.getTurret() != null && turretTile.getTurret() instanceof IEnergyContainer)
+            {
+                return turretTile.getTurret().battery;
+            }
+        }
+        return super.getEnergyHandler();
+    }
 
-	@Override
+    @Override
     public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract)
     {
         return 0;
+    }
+
+    @Override
+    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
+    {
+        if (stack != null)
+        {
+            if (CompatibilityModule.isHandler(stack.getItem()))
+            {
+                return true;
+            }
+            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+            {
+                TileTurret tileTurret = getTurret(direction);
+                if (tileTurret != null && tileTurret.getTurret() instanceof IWeaponProvider)
+                {
+                    if (((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem() != null)
+                    {
+                        return ((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem().isAmmo(stack);
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

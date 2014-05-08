@@ -10,6 +10,8 @@ import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.TurretType;
 import icbm.sentry.turret.mounted.TurretMounted;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
@@ -237,6 +239,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
+        
         NBTTagCompound perm_tag = new NBTTagCompound();
         this.getAccessProfile().save(perm_tag);
         nbt.setCompoundTag("permissions", perm_tag);
@@ -256,6 +259,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
+        
         this.unlocalizedName = nbt.getString("unlocalizedName");
         if (nbt.hasKey("permissions"))
             this.setAccessProfile(new AccessProfile((nbt.getCompoundTag("permissions"))));
@@ -430,5 +434,4 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         //TODO: change this based on model size
         return AxisAlignedBB.getAABBPool().getAABB(xCoord - 1, yCoord, zCoord - 1, xCoord + 2, yCoord + 2, zCoord + 2);
     }
-
 }
