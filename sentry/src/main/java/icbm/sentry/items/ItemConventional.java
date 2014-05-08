@@ -93,10 +93,4 @@ public class ItemConventional extends ItemWeapon
     {
         super(id);
     }
-
-    @Override
-    public IWeaponSystem getWeaponSystem(ItemStack itemStack, Entity entity)
-    {
-        return new WeaponConventional(entity, 1, Guns.getDamage(itemStack));
-    }
 }

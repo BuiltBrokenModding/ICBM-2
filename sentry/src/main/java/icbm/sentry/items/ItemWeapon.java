@@ -1,18 +1,26 @@
 package icbm.sentry.items;
 
-import icbm.sentry.interfaces.IWeaponSystem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.Vector3;
 import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.lib.prefab.item.ItemTooltip;
+import calclavia.lib.prefab.vector.RayTraceHelper;
 
 /** Prefab for all weapon to be based on in ICBM. Does the same basic logic as sentry guns to fire
  * the weapon.
  * 
  * @author Darkguardsman */
-public abstract class ItemWeapon extends ItemTooltip implements IItemWeaponProvider
+public abstract class ItemWeapon extends ItemTooltip
 {
+    protected int blockRange = 150;
+
     public ItemWeapon(int id)
     {
         super(id);
@@ -22,17 +30,16 @@ public abstract class ItemWeapon extends ItemTooltip implements IItemWeaponProvi
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player)
     {
         player.addChatMessage("Click");
-        IWeaponSystem weapon = this.getWeaponSystem(itemstack, player);
-        
-        if (canFireWeapon(weapon, itemstack, world, player, 1))
+
+        if (canFireWeapon(itemstack, world, player, 1))
         {
-            ItemStack ammoStack = consumeAmmo(weapon, itemstack, world, player, 1, false);
+            ItemStack ammoStack = consumeAmmo(itemstack, world, player, 1, false);
             if (true || ammoStack != null)
             {
                 int roundsFired = ammoStack != null ? ammoStack.getItem() instanceof IAmmunition ? ((IAmmunition) ammoStack.getItem()).getAmmoCount(ammoStack) : ammoStack.stackSize : 0;
                 if (true || roundsFired >= 1)
                 {
-                    onWeaponFired(weapon, itemstack, ammoStack, world, player);
+                    onWeaponFired(itemstack, ammoStack, world, player);
                 }
             }
         }
@@ -46,7 +53,7 @@ public abstract class ItemWeapon extends ItemTooltip implements IItemWeaponProvi
      * @param player - player firing the weapon
      * @param rounds - rounds the will be consumed when fired
      * @return true if the weapon can be fired */
-    public boolean canFireWeapon(IWeaponSystem weapon, ItemStack itemstack, World world, EntityPlayer player, int rounds)
+    public boolean canFireWeapon(ItemStack itemstack, World world, EntityPlayer player, int rounds)
     {
         return true;
     }
@@ -57,10 +64,42 @@ public abstract class ItemWeapon extends ItemTooltip implements IItemWeaponProvi
      * @param itemstack
      * @param world
      * @param player */
-    public void onWeaponFired(IWeaponSystem weapon, ItemStack weaponStack, ItemStack ammoStack, World world, EntityPlayer player)
+    public void onWeaponFired(ItemStack weaponStack, ItemStack ammoStack, World world, EntityPlayer player)
     {
         player.addChatMessage("Weapon Fired");
-        weapon.fire(150);
+
+        Vec3 playerPosition = Vec3.createVectorHelper(player.posX, player.posY + player.getEyeHeight(), player.posZ);
+        Vec3 playerLook = RayTraceHelper.getLook(player, 1.0f);
+        Vec3 p = Vec3.createVectorHelper(playerPosition.xCoord + playerLook.xCoord, playerPosition.yCoord + playerLook.yCoord, playerPosition.zCoord + playerLook.zCoord);
+
+        Vec3 playerViewOffset = Vec3.createVectorHelper(playerPosition.xCoord + playerLook.xCoord * blockRange, playerPosition.yCoord + playerLook.yCoord * blockRange, playerPosition.zCoord + playerLook.zCoord * blockRange);
+        MovingObjectPosition hit = RayTraceHelper.do_rayTraceFromEntity(player, new Vector3().toVec3(), blockRange, true);
+
+        if (hit != null)
+        {
+            if (hit.typeOfHit == EnumMovingObjectType.ENTITY && hit.entityHit != null)
+            {
+                //TODO re-implements laser damage source
+                DamageSource damageSource = DamageSource.causeMobDamage(player);
+                hit.entityHit.attackEntityFrom(damageSource, getGunDamage(weaponStack));
+                hit.entityHit.setFire(5);
+            }
+            else if (hit.typeOfHit == EnumMovingObjectType.TILE)
+            {
+
+            }
+            playerViewOffset = hit.hitVec;
+
+            //TODO make beam brighter the longer it has been used
+            //TODO adjust the laser for the end of the gun            
+            float x = (float) (MathHelper.cos((float) (player.rotationYawHead * 0.0174532925)) * (-.4) - MathHelper.sin((float) (player.rotationYawHead * 0.0174532925)) * (-.1));
+            float z = (float) (MathHelper.sin((float) (player.rotationYawHead * 0.0174532925)) * (-.4) + MathHelper.cos((float) (player.rotationYawHead * 0.0174532925)) * (-.1));
+        }
+    }
+
+    public float getGunDamage(ItemStack stack)
+    {
+        return 5f;
     }
 
     /** Called to consume ammo or check if ammo can be consumed.
@@ -72,7 +111,7 @@ public abstract class ItemWeapon extends ItemTooltip implements IItemWeaponProvi
      * @param doConsume - true will consume the ammo from the gun or player's inventory
      * @return Ammo stack that was consumed. Make sure to do an additional stack size or ammo count
      * check */
-    public ItemStack consumeAmmo(IWeaponSystem weapon, ItemStack itemstack, World world, EntityPlayer player, int rounds, boolean doConsume)
+    public ItemStack consumeAmmo(ItemStack itemstack, World world, EntityPlayer player, int rounds, boolean doConsume)
     {
         player.addChatMessage("Ammo Consumed");
         return null;
