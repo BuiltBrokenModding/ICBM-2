@@ -4,10 +4,10 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
-import icbm.explosion.machines.BlockICBMMachine;
 import icbm.sentry.gs.block.BlockLaserGate;
 import icbm.sentry.interfaces.IKillCount;
-import icbm.sentry.items.ItemConventional;
+import icbm.sentry.items.weapons.conventional.ItemAssaultRifle;
+import icbm.sentry.items.weapons.conventional.ItemShotgun;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.cmd.CMDAccessSettings;
 import icbm.sentry.platform.cmd.CMDSentryTargetting;
@@ -99,9 +99,10 @@ public class ICBMSentry
         
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
-        itemAssaultRifle = ICBMCore.contentRegistry.createItem("assaultRifle", ItemConventional.class, false);
-        itemAssaultRifle = ICBMCore.contentRegistry.createItem("shotgun", ItemConventional.class, false);
         
+        itemAssaultRifle = ICBMCore.contentRegistry.createItem("assaultRifle", ItemAssaultRifle.class, false);
+        itemShotgun = ICBMCore.contentRegistry.createItem("shotgun", ItemShotgun.class, false);
+
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
         railgunBullet = new ItemStack(itemAmmo, 1, 2);
