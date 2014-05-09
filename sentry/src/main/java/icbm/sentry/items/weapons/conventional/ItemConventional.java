@@ -33,13 +33,49 @@ public class ItemConventional extends ItemWeapon {
 	}
 	
 	@Override
-	public void onCreated(ItemStack itemstack, World world, EntityPlayer player) {
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		if(itemstack.stackTagCompound == null) {
 			itemstack.stackTagCompound = new NBTTagCompound();
 		}
-		if(ammoHandler == null) {
-			if(!world.isRemote) ammoHandler = new AmmoHandler(itemstack, capacity);
+		itemstack.stackTagCompound.setInteger("clipCapacity", capacity);
+		itemstack.stackTagCompound.setInteger("clipCurrentAmmo", 0);
+		
+		return super.onItemRightClick(itemstack, world, player);
+	}
+	
+	public boolean isEmpty(ItemStack weaponStack) {
+		if(weaponStack.stackTagCompound != null && weaponStack.stackTagCompound.hasKey("clipCurrentAmmo"))
+			return weaponStack.stackTagCompound.getInteger("clipCurrentAmmo") == 0;
+		else 
+			return true;
+	}
+	
+	public void reload(ItemStack weaponStack) {
+		if(weaponStack.stackTagCompound == null) {
+			weaponStack.stackTagCompound = new NBTTagCompound();
 		}
+		weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", weaponStack.stackTagCompound.getInteger("clipCapacity")); 
+	}
+	
+	public int getCurrentAmmo(ItemStack weaponStack) {
+		if(weaponStack.stackTagCompound != null && weaponStack.stackTagCompound.hasKey("clipCurrentAmmo"))
+			return weaponStack.stackTagCompound.getInteger("clipCurrentAmmo");
+		else
+			return 0;
+	}
+
+	public void consume(ItemStack weaponStack, int amt) {
+		if(weaponStack.stackTagCompound == null) {
+			weaponStack.stackTagCompound = new NBTTagCompound();
+		}
+		if(amt < 0) {
+			return;
+		}
+		if(amt > weaponStack.stackTagCompound.getInteger("clipCapacity")) {
+			weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", 0);
+			return;
+		}
+		weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", weaponStack.stackTagCompound.getInteger("clipCurrentAmmo") - amt);
 	}
 	
 	@Override
@@ -58,20 +94,15 @@ public class ItemConventional extends ItemWeapon {
 	
 	@Override
 	public void onPreWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
-
-	}
-	
-	@Override
-	public boolean isLoaded() {
-		return ammoHandler != null && !ammoHandler.isEmpty();
+		System.out.println(getCurrentAmmo(stack));
 	}
 	
 	@Override
 	public void onPostWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
 		if(!world.isRemote) {
-			if(ammoHandler != null && !ammoHandler.isEmpty()) {
-				ammoHandler.consume(1);
-				stack.setItemDamage(stack.getItemDamage() - 1);
+			if(!isEmpty(stack)) {
+				consume(stack, 1);
+				shooter.getHeldItem().setItemDamage(shooter.getHeldItem().getItemDamage() - 1);
 			}
 		}
 	}
@@ -80,23 +111,23 @@ public class ItemConventional extends ItemWeapon {
 	public void onSneakClick(ItemStack stack, World world, EntityPlayer shooter) {
 		if(ammoHandler == null) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
-				if(!world.isRemote) ammoHandler = new AmmoHandler(stack, capacity);
+				if(!world.isRemote) ammoHandler = new AmmoHandler(shooter.getHeldItem(), capacity);
 				searchInventoryForAmmo(shooter, true);
 			} else {
 				return;
 			}
 		}
-		if(ammoHandler.isEmpty()) {
+		if(isEmpty(stack)) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
 				searchInventoryForAmmo(shooter, true);
-				if(!world.isRemote) ammoHandler.reload();
+				if(!world.isRemote) reload(stack);
 			}
 		}		
 	}
 	
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-		list.add("Ammo: " + ammoHandler.getCurrentAmmo()  + "/" + capacity);
+		list.add("Ammo: " + getCurrentAmmo(itemStack)  + "/" + capacity);
 		
 		super.addInformation(itemStack, entityPlayer, list, par4);
 	}

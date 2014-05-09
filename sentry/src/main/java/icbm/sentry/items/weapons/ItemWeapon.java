@@ -53,7 +53,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		}
 		
 		onPreWeaponFired(itemstack, world, player);
-		if(isLoaded()) {
+		if(!isEmpty(itemstack)) {
 			onWeaponFired(itemstack, world, player);
 			onPostWeaponFired(itemstack, world, player);
 		}
@@ -73,7 +73,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		return true;
 	}
 	
-	public abstract boolean isLoaded();
+	public abstract boolean isEmpty(ItemStack stack);
 	public abstract void onSneakClick(ItemStack stack, World world, EntityPlayer shooter);
 	public abstract void onPreWeaponFired(ItemStack stack, World world, EntityPlayer shooter);
 	public abstract void onPostWeaponFired(ItemStack stack, World world, EntityPlayer shooter);
