@@ -1,5 +1,6 @@
 package icbm.sentry.items.weapons;
 
+import icbm.core.prefab.item.ItemICBMBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,7 +10,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.item.ItemTooltip;
 import calclavia.lib.prefab.vector.RayTraceHelper;
 
 /**
@@ -17,7 +17,7 @@ import calclavia.lib.prefab.vector.RayTraceHelper;
  * 
  * @author Darkguardsman, Archtikz
  */
-public abstract class ItemWeapon extends ItemTooltip {
+public abstract class ItemWeapon extends ItemICBMBase {
 	protected int blockRange = 150;
 	protected String soundEffect;
 	protected int bps;
@@ -25,8 +25,8 @@ public abstract class ItemWeapon extends ItemTooltip {
 	
 	// TODO: Fix inaccuracy/bps
 	
-	public ItemWeapon(int id, String soundEffect) {
-		super(id);
+	public ItemWeapon(int id, String name, String soundEffect) {
+		super(id, name);
 		this.soundEffect = soundEffect;
 	}
 

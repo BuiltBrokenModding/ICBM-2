@@ -6,9 +6,8 @@ import icbm.TabICBM;
 import icbm.core.ICBMCore;
 import icbm.sentry.gs.block.BlockLaserGate;
 import icbm.sentry.interfaces.IKillCount;
-import icbm.sentry.items.weapons.conventional.ItemAssaultRifle;
 import icbm.sentry.items.weapons.conventional.ItemConventionalClip;
-import icbm.sentry.items.weapons.conventional.ItemShotgun;
+import icbm.sentry.items.weapons.conventional.ItemAssaultRifle;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.cmd.CMDAccessSettings;
 import icbm.sentry.platform.cmd.CMDSentryTargetting;
@@ -83,7 +82,6 @@ public class ICBMSentry
     public static Item itemMagazine;
     public static Item itemUpgrade;
     public static Item itemAssaultRifle;
-    public static Item itemShotgun;
 
     /** ItemStack helpers. Do not modify theses. */
     public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
@@ -102,9 +100,7 @@ public class ICBMSentry
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
         itemMagazine = ICBMCore.contentRegistry.createItem("gunMagazine", ItemConventionalClip.class, false);
-        
-        itemAssaultRifle = ICBMCore.contentRegistry.createItem("assaultRifle", ItemAssaultRifle.class, false);
-        itemShotgun = ICBMCore.contentRegistry.createItem("shotgun", ItemShotgun.class, false);
+        itemAssaultRifle = ICBMCore.contentRegistry.createItem("itemAssaultRifle", ItemAssaultRifle.class, false);
 
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
@@ -132,6 +128,7 @@ public class ICBMSentry
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+    	GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAssaultRifle), new Object[] { "T", "D", "T", 'T', Block.dirt, 'D', Block.stone}));
         // Shell
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));
         // Bullets

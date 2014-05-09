@@ -1,13 +1,15 @@
 package icbm.sentry.items.weapons.conventional;
 
-import java.util.List;
-
 import icbm.sentry.items.weapons.AmmoHandler;
 import icbm.sentry.items.weapons.ItemWeapon;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
@@ -22,11 +24,22 @@ public class ItemConventional extends ItemWeapon {
 	private AmmoHandler ammoHandler;
 	private int capacity;
 	
-	public ItemConventional(int id, int capacity, int gunDamage, String soundname) {
-		super(id, soundname);
+	public ItemConventional(int id, String name, int capacity, int gunDamage, String soundname) {
+		super(id, name, soundname);
 		this.gunDamage = gunDamage;
 		this.capacity = capacity;
 		this.setMaxDamage(capacity);
+		this.setMaxStackSize(1);
+	}
+	
+	@Override
+	public void onCreated(ItemStack itemstack, World world, EntityPlayer player) {
+		if(itemstack.stackTagCompound == null) {
+			itemstack.stackTagCompound = new NBTTagCompound();
+		}
+		if(ammoHandler == null) {
+			if(!world.isRemote) ammoHandler = new AmmoHandler(itemstack, capacity);
+		}
 	}
 	
 	@Override
@@ -45,11 +58,7 @@ public class ItemConventional extends ItemWeapon {
 	
 	@Override
 	public void onPreWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
-		if(ammoHandler == null) {
-			if(searchInventoryForAmmo(shooter, false) != null) {
-				if(!world.isRemote) ammoHandler = new AmmoHandler(stack, capacity);
-			}
-		}
+
 	}
 	
 	@Override
@@ -87,7 +96,7 @@ public class ItemConventional extends ItemWeapon {
 	
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-		list.add("Ammo: " + ammoHandler.currentAmmo  + "/" + capacity);
+		list.add("Ammo: " + ammoHandler.getCurrentAmmo()  + "/" + capacity);
 		
 		super.addInformation(itemStack, entityPlayer, list, par4);
 	}
