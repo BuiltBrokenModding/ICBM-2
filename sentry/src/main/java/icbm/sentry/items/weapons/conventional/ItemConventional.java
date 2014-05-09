@@ -1,6 +1,5 @@
 package icbm.sentry.items.weapons.conventional;
 
-import icbm.sentry.items.weapons.AmmoHandler;
 import icbm.sentry.items.weapons.ItemWeapon;
 
 import java.util.List;
