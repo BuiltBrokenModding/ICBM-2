@@ -24,6 +24,7 @@ import calclavia.lib.prefab.terminal.CommandRegistry;
 public class CommandSentry extends CommandBase
 {
     public static HashMap<String, VectorWorld> selection = new HashMap<String, VectorWorld>();
+    public static HashMap<EntityPlayer, Long> terminalSet = new HashMap<EntityPlayer, Long>();
 
     @Override
     public String getCommandName()
@@ -45,12 +46,17 @@ public class CommandSentry extends CommandBase
             if (args[0].equalsIgnoreCase("help"))
             {
                 sender.sendChatToPlayer(ChatMessageComponent.createFromText("/Sentry Terminal"));
+                sender.sendChatToPlayer(ChatMessageComponent.createFromText("/Sentry Terminal set [true/false]"));
                 sender.sendChatToPlayer(ChatMessageComponent.createFromText("/Sentry debug [on/off]"));
                 sender.sendChatToPlayer(ChatMessageComponent.createFromText("/Sentry kills"));
             }
             else if (sender instanceof EntityPlayer && selection.containsKey(((EntityPlayer) sender).username))
             {
                 VectorWorld selected = selection.get(((EntityPlayer) sender).username);
+                if (terminalSet.containsKey((EntityPlayer) sender) && System.currentTimeMillis() - terminalSet.get((EntityPlayer) sender) > 1000000)
+                {
+                    terminalSet.remove((EntityPlayer) sender);
+                }
                 if (selected != null && selected.getTileEntity() instanceof TileTurret)
                 {
                     if (args[0].equalsIgnoreCase("kills"))
@@ -78,26 +84,54 @@ public class CommandSentry extends CommandBase
                         ((TileTurret) selected.getTileEntity()).getTurret().getAi().debugMode = on;
                         sender.sendChatToPlayer(ChatMessageComponent.createFromText("Debug mode switched to " + on));
                     }
-                    else if (args[0].equalsIgnoreCase("terminal"))
+                    else if (args[0].equalsIgnoreCase("terminal") || terminalSet.containsKey((EntityPlayer) sender))
                     {
+                        if (!args[0].equalsIgnoreCase("terminal"))
+                        {
+                            String[] newArgs = new String[args.length + 1];
+                            for(int i = 0; i < args.length; i++)
+                            {
+                                newArgs[i + 1] = args[i];
+                            }
+                            args = newArgs;
+                        }
                         if (args.length > 1)
                         {
                             String terminal_cmd = args[1];
-                            for (int i = 2; i < args.length; i++)
+                            if (terminal_cmd.equalsIgnoreCase("set"))
                             {
-                                terminal_cmd += " " + args[i];
-                            }
-                            List<String> out = CommandRegistry.onCommand(((EntityPlayer) sender), (TileTurret) selected.getTileEntity(), terminal_cmd);
-                            if (out != null && !out.isEmpty())
-                            {
-                                for (String output : out)
+                                boolean to = terminalSet.containsKey((EntityPlayer) sender) && System.currentTimeMillis() - terminalSet.get((EntityPlayer) sender) < 1000000 ? false : true;
+                                if (args.length > 2)
                                 {
-                                    sender.sendChatToPlayer(ChatMessageComponent.createFromText(output));
+                                    if (args[2] != null && args[2].equalsIgnoreCase("true"))
+                                    {
+                                        to = true;
+                                    }
                                 }
+                                if (to)
+                                    terminalSet.put((EntityPlayer) sender, System.currentTimeMillis());
+                                else if (terminalSet.containsKey((EntityPlayer) sender))
+                                    terminalSet.remove((EntityPlayer) sender);
+                                sender.sendChatToPlayer(ChatMessageComponent.createFromText("Terminal lock set to " + to));
                             }
                             else
                             {
-                                sender.sendChatToPlayer(ChatMessageComponent.createFromText("Error in terminal command"));
+                                for (int i = 2; i < args.length; i++)
+                                {
+                                    terminal_cmd += " " + args[i];
+                                }
+                                List<String> out = CommandRegistry.onCommand(((EntityPlayer) sender), (TileTurret) selected.getTileEntity(), terminal_cmd);
+                                if (out != null && !out.isEmpty())
+                                {
+                                    for (String output : out)
+                                    {
+                                        sender.sendChatToPlayer(ChatMessageComponent.createFromText(output));
+                                    }
+                                }
+                                else
+                                {
+                                    sender.sendChatToPlayer(ChatMessageComponent.createFromText("Error in terminal command"));
+                                }
                             }
                         }
                         else
@@ -169,7 +203,7 @@ public class CommandSentry extends CommandBase
     {
         return 0;
     }
-    
+
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
     {

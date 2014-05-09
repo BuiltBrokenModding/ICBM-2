@@ -6,6 +6,7 @@ import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.ai.TurretEntitySelector;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -146,8 +147,9 @@ public class CMDSentryTargetting implements ITerminalCommand
     @Override
     public Set<String> getPermissionNodes()
     {
-        // TODO Auto-generated method stub
-        return null;
+        Set<String> nodes = new HashSet<String>();
+        nodes.add(this.getCommandName());
+        return nodes;
     }
 
     @Override
