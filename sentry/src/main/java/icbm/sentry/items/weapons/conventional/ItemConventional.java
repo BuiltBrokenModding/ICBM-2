@@ -21,17 +21,15 @@ import universalelectricity.api.vector.Vector3;
 public class ItemConventional extends ItemWeapon {
 
 	public int gunDamage;
-	private AmmoHandler ammoHandler;
 	private int capacity;
 	
 	public ItemConventional(int id, String name, int capacity, int gunDamage, String soundname) {
 		super(id, name, soundname);
 		this.gunDamage = gunDamage;
 		this.capacity = capacity;
-		this.setMaxDamage(capacity);
 		this.setMaxStackSize(1);
 	}
-	
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		if(itemstack.stackTagCompound == null) {
@@ -102,21 +100,12 @@ public class ItemConventional extends ItemWeapon {
 		if(!world.isRemote) {
 			if(!isEmpty(stack)) {
 				consume(stack, 1);
-				shooter.getHeldItem().setItemDamage(shooter.getHeldItem().getItemDamage() - 1);
 			}
 		}
 	}
 
 	@Override
 	public void onSneakClick(ItemStack stack, World world, EntityPlayer shooter) {
-		if(ammoHandler == null) {
-			if(searchInventoryForAmmo(shooter, false) != null) {
-				if(!world.isRemote) ammoHandler = new AmmoHandler(shooter.getHeldItem(), capacity);
-				searchInventoryForAmmo(shooter, true);
-			} else {
-				return;
-			}
-		}
 		if(isEmpty(stack)) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
 				searchInventoryForAmmo(shooter, true);
