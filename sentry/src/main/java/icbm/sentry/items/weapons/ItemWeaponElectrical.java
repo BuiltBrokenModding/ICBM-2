@@ -1,6 +1,6 @@
 package icbm.sentry.items.weapons;
 
-import icbm.core.prefab.item.ItemICBMBase;
+import icbm.core.prefab.item.ItemICBMElectrical;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ import calclavia.lib.prefab.vector.RayTraceHelper;
  * 
  * @author Darkguardsman, Archtikz
  */
-public abstract class ItemWeapon extends ItemICBMBase {
+public abstract class ItemWeaponElectrical extends ItemICBMElectrical {
 	protected int blockRange = 150;
 	protected String soundEffect;
 	protected int bps;
@@ -25,7 +25,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 	
 	// TODO: Fix inaccuracy/bps
 	
-	public ItemWeapon(int id, String name, String soundEffect) {
+	public ItemWeaponElectrical(int id, String name, String soundEffect) {
 		super(id, name);
 		this.soundEffect = soundEffect;
 	}
@@ -101,6 +101,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 			}
 			playSoundEffect(player);
 			playerViewOffset = hit.hitVec;
+			onRender(world, player, new Vector3(hit));
 
 			// TODO make beam brighter the longer it has been used
 			// TODO adjust the laser for the end of the gun

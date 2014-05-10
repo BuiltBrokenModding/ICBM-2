@@ -113,8 +113,15 @@ public class ItemConventional extends ItemWeapon {
 	
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+		list.add("Damage Per Shot: " + gunDamage);
 		list.add("Ammo: " + getCurrentAmmo(itemStack)  + "/" + capacity);
 		
 		super.addInformation(itemStack, entityPlayer, list, par4);
+	}
+
+	@Override
+	public void onRender(World world, EntityPlayer player, Vector3 hit) {
+		// TODO Auto-generated method stub
+		
 	}
 }
