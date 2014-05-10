@@ -23,6 +23,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 	protected int blockRange = 150;
 	protected String soundEffect;
 
+	protected final int bps;
 	protected final int cooldown;
 	protected final double inaccuracy;
 
@@ -32,6 +33,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		this.cooldown = wc.getCooldown();
 		this.inaccuracy = wc.getInaccuracy();
 		this.soundEffect = wc.getSoundname();
+		this.bps = wc.getBulletsPerShot();
 	}
 	
 
@@ -53,23 +55,8 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		}
 		return 0;
 	}
-	
-	public ItemStack searchInventoryForAmmo(EntityPlayer player, boolean reality) {
-		for (int i = 0; i < player.inventory.mainInventory.length; i++) {
-			if (player.inventory.mainInventory[i] != null) {
-				if (player.inventory.mainInventory[i].getItem() instanceof IItemAmmunition) {
-					ItemStack stack = player.inventory.mainInventory[i];
-					if (reality) {
-						if(!player.capabilities.isCreativeMode) player.inventory.mainInventory[i] = null;
-					}
-					return stack;
-				}
-			}
-		}
-		return null;
-	}
 
-	@Override
+	@Override 
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		if(itemstack.stackTagCompound == null) {
 			itemstack.setTagCompound(new NBTTagCompound());
@@ -84,7 +71,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		onPreWeaponFired(itemstack, world, player);
 		if (!HandAmmunitionHandler.isEmpty(player, itemstack)) {
 			if(getCooldownTicks(itemstack) <= 0) {
-				onWeaponFired(itemstack, world, player);
+				for(int i = 0; i < bps; i++) onWeaponFired(itemstack, world, player);
 				onPostWeaponFired(itemstack, world, player);
 				itemstack.getTagCompound().setInteger("cooldownTicks", cooldown);
 			}

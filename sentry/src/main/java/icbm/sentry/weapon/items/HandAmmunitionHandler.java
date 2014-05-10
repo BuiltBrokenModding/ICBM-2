@@ -3,6 +3,10 @@ package icbm.sentry.weapon.items;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+/**
+ * Static class for universal ammunition handling.
+ * @author Archtikz
+ */
 public class HandAmmunitionHandler {
 
 	public static boolean isEmpty(EntityPlayer player, ItemStack weaponStack) {
@@ -38,5 +42,20 @@ public class HandAmmunitionHandler {
 		}
 		if(weaponStack.stackTagCompound.hasKey("clipCurrentAmmo"))
 			weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", weaponStack.stackTagCompound.getInteger("clipCurrentAmmo") - amt);
+	}
+	
+	public static ItemStack searchInventoryForAmmo(EntityPlayer player, boolean reality) {
+		for (int i = 0; i < player.inventory.mainInventory.length; i++) {
+			if (player.inventory.mainInventory[i] != null) {
+				if (player.inventory.mainInventory[i].getItem() instanceof IItemAmmunition) {
+					ItemStack stack = player.inventory.mainInventory[i];
+					if (reality) {
+						if(!player.capabilities.isCreativeMode) player.inventory.mainInventory[i] = null;
+					}
+					return stack;
+				}
+			}
+		}
+		return null;
 	}
 }

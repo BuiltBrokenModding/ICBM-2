@@ -43,8 +43,6 @@ public class ItemConventional extends ItemWeapon {
 		return super.onItemRightClick(itemstack, world, player);
 	}
 	
-	
-	
 	@Override
 	public void onHitEntity(World world, EntityPlayer shooter, Entity entityHit) {
 		DamageSource damageSource = DamageSource.causeMobDamage(shooter);
@@ -76,8 +74,8 @@ public class ItemConventional extends ItemWeapon {
 	@Override
 	public void onSneakClick(ItemStack stack, World world, EntityPlayer shooter) {
 		if(HandAmmunitionHandler.isEmpty(shooter, stack)) {
-			if(searchInventoryForAmmo(shooter, false) != null) {
-				searchInventoryForAmmo(shooter, true);
+			if(HandAmmunitionHandler.searchInventoryForAmmo(shooter, false) != null) {
+				HandAmmunitionHandler.searchInventoryForAmmo(shooter, true);
 				if(!world.isRemote) {
 
 					HandAmmunitionHandler.reload(stack);
