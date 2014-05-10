@@ -1,4 +1,4 @@
-package icbm.sentry.items.weapons;
+package icbm.sentry.weapon.items;
 
 public interface IItemAmmunition {
 

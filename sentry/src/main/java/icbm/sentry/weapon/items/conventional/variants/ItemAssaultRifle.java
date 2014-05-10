@@ -1,7 +1,7 @@
-package icbm.sentry.items.weapons.conventional.variants;
+package icbm.sentry.weapon.items.conventional.variants;
 
-import icbm.sentry.items.weapons.WeaponContent;
-import icbm.sentry.items.weapons.conventional.ItemConventional;
+import icbm.sentry.weapon.items.WeaponContent;
+import icbm.sentry.weapon.items.conventional.ItemConventional;
 
 public class ItemAssaultRifle extends ItemConventional {
 

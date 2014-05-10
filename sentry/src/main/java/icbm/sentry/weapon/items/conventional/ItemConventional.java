@@ -1,8 +1,8 @@
-package icbm.sentry.items.weapons.conventional;
+package icbm.sentry.weapon.items.conventional;
 
 import icbm.sentry.ICBMSentry;
-import icbm.sentry.items.weapons.ItemWeapon;
-import icbm.sentry.items.weapons.WeaponContent;
+import icbm.sentry.weapon.items.ItemWeapon;
+import icbm.sentry.weapon.items.WeaponContent;
 
 import java.awt.Color;
 import java.util.List;
@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
 
 /**
- * Hey, Do you mind if we keep this code in here for now, instead of ItemWeapon, thanks ~Archtikz
+ * Prefab for Conventional Weapons, most of this code will probably be put back up into ItemWeapon in the future, probably.
  * @author Archtikz
  */
 public class ItemConventional extends ItemWeapon {

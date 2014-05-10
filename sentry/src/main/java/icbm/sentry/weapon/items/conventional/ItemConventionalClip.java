@@ -1,7 +1,7 @@
-package icbm.sentry.items.weapons.conventional;
+package icbm.sentry.weapon.items.conventional;
 
 import icbm.core.prefab.item.ItemICBMBase;
-import icbm.sentry.items.weapons.IItemAmmunition;
+import icbm.sentry.weapon.items.IItemAmmunition;
 
 /**
  * I dont want this extending ItemAmmo please.
