@@ -4,6 +4,7 @@ import icbm.core.prefab.item.ItemICBMBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -22,8 +23,8 @@ public abstract class ItemWeapon extends ItemICBMBase {
 	protected int blockRange = 150;
 	protected String soundEffect;
 
-	protected int cooldown;
-	protected double inaccuracy;
+	protected final int cooldown;
+	protected final double inaccuracy;
 
 	public ItemWeapon(int id, String name, WeaponContent wc) {
 		super(id, name);
@@ -32,7 +33,23 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		this.inaccuracy = wc.getInaccuracy();
 		this.soundEffect = wc.getSoundname();
 	}
+	
 
+	@Override
+	public void onUpdate(ItemStack itemstack, World world, Entity par3Entity, int par4, boolean par5) {
+		if(!world.isRemote) {
+			if(getCooldownTicks(itemstack) > 0) {
+				itemstack.getTagCompound().setInteger("cooldownTicks", getCooldownTicks(itemstack) - 1);
+			}
+			System.out.println(getCooldownTicks(itemstack));
+		}
+		super.onUpdate(itemstack, world, par3Entity, par4, par5);
+	}
+	
+	public int getCooldownTicks(ItemStack stack) {
+		return stack.getTagCompound().getInteger("cooldownTicks");
+	}
+	
 	public ItemStack searchInventoryForAmmo(EntityPlayer player, boolean reality) {
 		for (int i = 0; i < player.inventory.mainInventory.length; i++) {
 			if (player.inventory.mainInventory[i] != null) {
@@ -50,6 +67,11 @@ public abstract class ItemWeapon extends ItemICBMBase {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+		if(itemstack.stackTagCompound == null) {
+			itemstack.setTagCompound(new NBTTagCompound());
+		}
+		itemstack.getTagCompound().setInteger("cooldownTicks", 0);
+		
 		if (player.isSneaking()) {
 			onSneakClick(itemstack, world, player);
 			return itemstack;
@@ -57,8 +79,11 @@ public abstract class ItemWeapon extends ItemICBMBase {
 
 		onPreWeaponFired(itemstack, world, player);
 		if (!isEmpty(player, itemstack)) {
-			onWeaponFired(itemstack, world, player);
-			onPostWeaponFired(itemstack, world, player);
+			if(getCooldownTicks(itemstack) <= 0) {
+				onWeaponFired(itemstack, world, player);
+				onPostWeaponFired(itemstack, world, player);
+				itemstack.getTagCompound().setInteger("cooldownTicks", cooldown);
+			}
 		}
 		return itemstack;
 	}
@@ -147,9 +172,4 @@ public abstract class ItemWeapon extends ItemICBMBase {
 	public void playSoundEffect(EntityPlayer player) {
 		if (this.soundEffect != null && !this.soundEffect.isEmpty()) player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, this.soundEffect, 5F, 1F);
 	}
-
-	public float getGunDamage(ItemStack stack) {
-		return 5f;
-	}
-
 }

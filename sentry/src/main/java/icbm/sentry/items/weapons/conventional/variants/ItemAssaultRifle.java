@@ -6,7 +6,7 @@ import icbm.sentry.items.weapons.conventional.ItemConventional;
 public class ItemAssaultRifle extends ItemConventional {
 
 	public ItemAssaultRifle(int id) {
-		super(id, "assaultRifle", new WeaponContent(24, 4, 2, 0, "assaultRifle"));
+		super(id, "assaultRifle", new WeaponContent(24, 4, 2, 10, "assaultRifle"));
 	}
 
 }
