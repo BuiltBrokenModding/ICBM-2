@@ -1,10 +1,9 @@
 package icbm.sentry.weapon.items.conventional;
 
-import icbm.sentry.ICBMSentry;
+import icbm.sentry.weapon.items.HandAmmunitionHandler;
 import icbm.sentry.weapon.items.ItemWeapon;
 import icbm.sentry.weapon.items.WeaponContent;
 
-import java.awt.Color;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -44,36 +43,7 @@ public class ItemConventional extends ItemWeapon {
 		return super.onItemRightClick(itemstack, world, player);
 	}
 	
-	public boolean isEmpty(EntityPlayer player, ItemStack weaponStack) {
-		if(weaponStack.stackTagCompound != null && weaponStack.stackTagCompound.hasKey("clipCurrentAmmo"))
-			return weaponStack.stackTagCompound.getInteger("clipCurrentAmmo") == 0;
-		else if(player.capabilities.isCreativeMode) 
-			return false;
-		else
-			return true;
-	}
 	
-	public void reload(ItemStack weaponStack) {
-		weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", capacity); 
-	}
-	
-	public int getCurrentAmmo(ItemStack weaponStack) {
-		if(weaponStack.stackTagCompound != null && weaponStack.stackTagCompound.hasKey("clipCurrentAmmo"))
-			return weaponStack.stackTagCompound.getInteger("clipCurrentAmmo");
-		else
-			return 0;
-	}
-
-	public void consume(ItemStack weaponStack, int amt) {
-		if(amt < 0) {
-			return;
-		}
-		if(amt > weaponStack.stackTagCompound.getInteger("clipCapacity")) {
-			weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", 0);
-			return;
-		}
-		weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", weaponStack.stackTagCompound.getInteger("clipCurrentAmmo") - amt);
-	}
 	
 	@Override
 	public void onHitEntity(World world, EntityPlayer shooter, Entity entityHit) {
@@ -97,20 +67,20 @@ public class ItemConventional extends ItemWeapon {
 	@Override
 	public void onPostWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
 		if(!world.isRemote) {
-			if(!isEmpty(shooter, stack)) {
-				consume(stack, 1);
+			if(!HandAmmunitionHandler.isEmpty(shooter, stack)) {
+				HandAmmunitionHandler.consume(stack, 1);
 			}
 		}
 	}
 
 	@Override
 	public void onSneakClick(ItemStack stack, World world, EntityPlayer shooter) {
-		if(isEmpty(shooter, stack)) {
+		if(HandAmmunitionHandler.isEmpty(shooter, stack)) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
 				searchInventoryForAmmo(shooter, true);
 				if(!world.isRemote) {
 
-					reload(stack);
+					HandAmmunitionHandler.reload(stack);
 				}
 			}
 		}		
@@ -119,7 +89,7 @@ public class ItemConventional extends ItemWeapon {
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
 		list.add("Damage Per Shot: " + gunDamage);
-		list.add("Ammo: " + getCurrentAmmo(itemStack)  + "/" + capacity);
+		list.add("Ammo: " + HandAmmunitionHandler.getCurrentAmmo(itemStack)  + "/" + capacity);
 		
 		super.addInformation(itemStack, entityPlayer, list, par4);
 	}

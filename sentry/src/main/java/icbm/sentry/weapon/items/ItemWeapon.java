@@ -47,7 +47,11 @@ public abstract class ItemWeapon extends ItemICBMBase {
 	}
 	
 	public int getCooldownTicks(ItemStack stack) {
-		return stack.getTagCompound().getInteger("cooldownTicks");
+		if(stack.getTagCompound() != null) {
+			if(stack.getTagCompound().hasKey("cooldownTicks"))
+				return stack.getTagCompound().getInteger("cooldownTicks");
+		}
+		return 0;
 	}
 	
 	public ItemStack searchInventoryForAmmo(EntityPlayer player, boolean reality) {
@@ -78,7 +82,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		}
 
 		onPreWeaponFired(itemstack, world, player);
-		if (!isEmpty(player, itemstack)) {
+		if (!HandAmmunitionHandler.isEmpty(player, itemstack)) {
 			if(getCooldownTicks(itemstack) <= 0) {
 				onWeaponFired(itemstack, world, player);
 				onPostWeaponFired(itemstack, world, player);
@@ -114,8 +118,6 @@ public abstract class ItemWeapon extends ItemICBMBase {
 	}
 
 	public abstract void onRender(World world, EntityPlayer player, Vector3 hit);
-
-	public abstract boolean isEmpty(EntityPlayer player, ItemStack stack);
 
 	public abstract void onSneakClick(ItemStack stack, World world, EntityPlayer shooter);
 
