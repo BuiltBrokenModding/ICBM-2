@@ -31,12 +31,13 @@ public class ItemConventional extends ItemWeapon {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+		
 		if(itemstack.stackTagCompound == null) {
 			itemstack.stackTagCompound = new NBTTagCompound();
+			itemstack.stackTagCompound.setInteger("clipCapacity", capacity);
+			itemstack.stackTagCompound.setInteger("clipCurrentAmmo", 0);
 		}
-		itemstack.stackTagCompound.setInteger("clipCapacity", capacity);
-		itemstack.stackTagCompound.setInteger("clipCurrentAmmo", 0);
-		
+				
 		return super.onItemRightClick(itemstack, world, player);
 	}
 	
@@ -48,10 +49,7 @@ public class ItemConventional extends ItemWeapon {
 	}
 	
 	public void reload(ItemStack weaponStack) {
-		if(weaponStack.stackTagCompound == null) {
-			weaponStack.stackTagCompound = new NBTTagCompound();
-		}
-		weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", weaponStack.stackTagCompound.getInteger("clipCapacity")); 
+		weaponStack.stackTagCompound.setInteger("clipCurrentAmmo", capacity); 
 	}
 	
 	public int getCurrentAmmo(ItemStack weaponStack) {
@@ -62,9 +60,6 @@ public class ItemConventional extends ItemWeapon {
 	}
 
 	public void consume(ItemStack weaponStack, int amt) {
-		if(weaponStack.stackTagCompound == null) {
-			weaponStack.stackTagCompound = new NBTTagCompound();
-		}
 		if(amt < 0) {
 			return;
 		}
@@ -108,7 +103,10 @@ public class ItemConventional extends ItemWeapon {
 		if(isEmpty(stack)) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
 				searchInventoryForAmmo(shooter, true);
-				if(!world.isRemote) reload(stack);
+				if(!world.isRemote) {
+					System.out.println(searchInventoryForAmmo(shooter, false));
+					reload(stack);
+				}
 			}
 		}		
 	}
