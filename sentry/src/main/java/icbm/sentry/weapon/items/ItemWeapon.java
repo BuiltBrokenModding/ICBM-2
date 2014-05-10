@@ -43,38 +43,42 @@ public abstract class ItemWeapon extends ItemICBMBase {
 			if(getCooldownTicks(itemstack) > 0) {
 				itemstack.getTagCompound().setInteger("cooldownTicks", getCooldownTicks(itemstack) - 1);
 			}
-			System.out.println(getCooldownTicks(itemstack));
 		}
 		super.onUpdate(itemstack, world, par3Entity, par4, par5);
 	}
 	
 	public int getCooldownTicks(ItemStack stack) {
-		if(stack.getTagCompound() != null) {
-			if(stack.getTagCompound().hasKey("cooldownTicks"))
+		//if(stack.getTagCompound() != null) {
+			//if(stack.getTagCompound().hasKey("cooldownTicks"))
 				return stack.getTagCompound().getInteger("cooldownTicks");
-		}
-		return 0;
+		//}
+	//	return 0;
 	}
 
 	@Override 
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		if(itemstack.stackTagCompound == null) {
 			itemstack.setTagCompound(new NBTTagCompound());
+			itemstack.getTagCompound().setInteger("cooldownTicks", 0);
 		}
-		itemstack.getTagCompound().setInteger("cooldownTicks", 0);
 		
 		if (player.isSneaking()) {
 			onSneakClick(itemstack, world, player);
 			return itemstack;
 		}
 
-		onPreWeaponFired(itemstack, world, player);
-		if (!HandAmmunitionHandler.isEmpty(player, itemstack)) {
-			if(getCooldownTicks(itemstack) <= 0) {
-				for(int i = 0; i < bps; i++) onWeaponFired(itemstack, world, player);
-				onPostWeaponFired(itemstack, world, player);
-				itemstack.getTagCompound().setInteger("cooldownTicks", cooldown);
+		System.out.println("Recieving, " + getCooldownTicks(itemstack));
+		System.out.println("Maximum Cooldown, " + cooldown);
+
+		if(getCooldownTicks(itemstack) <= 0) {
+			for(int i = 0; i < bps; i++) {
+				onPreWeaponFired(itemstack, world, player);
+				if (!HandAmmunitionHandler.isEmpty(player, itemstack)) {
+					onWeaponFired(itemstack, world, player);
+					onPostWeaponFired(itemstack, world, player);
+				}
 			}
+			itemstack.getTagCompound().setInteger("cooldownTicks", cooldown);
 		}
 		return itemstack;
 	}

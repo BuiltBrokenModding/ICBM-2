@@ -3,10 +3,10 @@ package icbm.sentry.weapon.items.conventional.variants;
 import icbm.sentry.weapon.items.WeaponContent;
 import icbm.sentry.weapon.items.conventional.ItemConventional;
 
-public class ItemSniperRifle extends ItemConventional {
+public class ItemShotgun extends ItemConventional {
 
-	public ItemSniperRifle(int id) {
-		super(id, "sniperRifle", new WeaponContent(7, 10, 0.3D, 20, 1, "sniper"));
+	public ItemShotgun(int id) {
+		super(id, "shotgun", new WeaponContent(20, 6, 6.5D, 20, 5, "shotgun"));
 	}
 
 }

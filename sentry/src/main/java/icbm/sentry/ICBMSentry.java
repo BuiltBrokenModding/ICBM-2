@@ -26,6 +26,7 @@ import icbm.sentry.turret.items.ItemSentryUpgrade.Upgrades;
 import icbm.sentry.turret.mounted.MountedRailgun;
 import icbm.sentry.weapon.items.conventional.ItemConventionalClip;
 import icbm.sentry.weapon.items.conventional.variants.ItemAssaultRifle;
+import icbm.sentry.weapon.items.conventional.variants.ItemShotgun;
 import icbm.sentry.weapon.items.conventional.variants.ItemSniperRifle;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -82,7 +83,7 @@ public class ICBMSentry
     public static Item itemAmmo;
     public static Item itemMagazine;
     public static Item itemUpgrade;
-    public static Item itemAssaultRifle, itemSniperRifle;
+    public static Item itemAssaultRifle, itemSniperRifle, itemShotgun;
 
     /** ItemStack helpers. Do not modify theses. */
     public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
@@ -105,7 +106,8 @@ public class ICBMSentry
         //Conventional
         itemAssaultRifle = ICBMCore.contentRegistry.createItem("itemAssaultRifle", ItemAssaultRifle.class, false);
         itemSniperRifle = ICBMCore.contentRegistry.createItem("itemSniperRifle", ItemSniperRifle.class, false);
-
+        itemShotgun = ICBMCore.contentRegistry.createItem("itemShotgun", ItemShotgun.class, false);
+        
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
         railgunBullet = new ItemStack(itemAmmo, 1, 2);
