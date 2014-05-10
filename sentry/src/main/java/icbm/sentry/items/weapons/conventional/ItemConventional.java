@@ -86,7 +86,7 @@ public class ItemConventional extends ItemWeapon {
 	
 	@Override
 	public void onPreWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
-		System.out.println(getCurrentAmmo(stack));
+
 	}
 	
 	@Override
@@ -104,7 +104,7 @@ public class ItemConventional extends ItemWeapon {
 			if(searchInventoryForAmmo(shooter, false) != null) {
 				searchInventoryForAmmo(shooter, true);
 				if(!world.isRemote) {
-					System.out.println(searchInventoryForAmmo(shooter, false));
+
 					reload(stack);
 				}
 			}
