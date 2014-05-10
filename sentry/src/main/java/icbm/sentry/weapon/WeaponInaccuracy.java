@@ -33,9 +33,9 @@ public class WeaponInaccuracy extends WeaponDamage
     public void fire(IVector3 t)
     {
         Vector3 target = new Vector3(t);
-        //double d = target.distance(turret());
+        double d = target.distance(turret());
         // TODO: Fix this @ icbm.sentry.weapon.WeaponInaccuracy
-        super.fire(target.translate(getInaccuracy(1), getInaccuracy(1), getInaccuracy(1)));
+        super.fire(target.translate(getInaccuracy(d), getInaccuracy(d), getInaccuracy(d)));
         consumeAmmo(itemsConsumedPerShot, true);
     }
 

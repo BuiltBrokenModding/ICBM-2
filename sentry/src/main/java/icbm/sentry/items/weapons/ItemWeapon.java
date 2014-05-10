@@ -9,6 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import calclavia.lib.prefab.vector.RayTraceHelper;
 
@@ -20,23 +21,25 @@ import calclavia.lib.prefab.vector.RayTraceHelper;
 public abstract class ItemWeapon extends ItemICBMBase {
 	protected int blockRange = 150;
 	protected String soundEffect;
-	protected int bps;
-	protected int inaccuracy;
-	
-	// TODO: Fix inaccuracy/bps
-	
-	public ItemWeapon(int id, String name, String soundEffect) {
+
+	protected int cooldown;
+	protected double inaccuracy;
+
+	public ItemWeapon(int id, String name, WeaponContent wc) {
 		super(id, name);
-		this.soundEffect = soundEffect;
+
+		this.cooldown = wc.getCooldown();
+		this.inaccuracy = wc.getInaccuracy();
+		this.soundEffect = wc.getSoundname();
 	}
 
 	public ItemStack searchInventoryForAmmo(EntityPlayer player, boolean reality) {
-		for(int i = 0; i < player.inventory.mainInventory.length; i++) {
-			if(player.inventory.mainInventory[i] != null) {
-				if(player.inventory.mainInventory[i].getItem() instanceof IItemAmmunition) {
+		for (int i = 0; i < player.inventory.mainInventory.length; i++) {
+			if (player.inventory.mainInventory[i] != null) {
+				if (player.inventory.mainInventory[i].getItem() instanceof IItemAmmunition) {
 					ItemStack stack = player.inventory.mainInventory[i];
-					if(reality) {
-						player.inventory.mainInventory[i] = null;
+					if (reality) {
+						if(!player.capabilities.isCreativeMode) player.inventory.mainInventory[i] = null;
 					}
 					return stack;
 				}
@@ -44,20 +47,32 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-		if(player.isSneaking()) {
+		if (player.isSneaking()) {
 			onSneakClick(itemstack, world, player);
 			return itemstack;
 		}
-		
+
 		onPreWeaponFired(itemstack, world, player);
-		if(!isEmpty(itemstack)) {
+		if (!isEmpty(player, itemstack)) {
 			onWeaponFired(itemstack, world, player);
 			onPostWeaponFired(itemstack, world, player);
 		}
 		return itemstack;
+	}
+
+	/** Based off MachineMuse */
+	public void drawParticleStreamTo(World world, Vector3 start, IVector3 hit) {
+		double scale = 0.02;
+		Vector3 currentPoint = start.clone();
+		Vector3 difference = new Vector3(hit).difference(start);
+
+		while (currentPoint.distance(hit) > scale) {
+			world.spawnParticle("smoke", currentPoint.x, currentPoint.y, currentPoint.z, 0.0D, 0.0D, 0.0D);
+			currentPoint.add(difference.clone().scale(scale));
+		}
 	}
 
 	/**
@@ -72,12 +87,17 @@ public abstract class ItemWeapon extends ItemICBMBase {
 	public boolean canFireWeapon(ItemStack itemstack, World world, EntityPlayer player, int rounds) {
 		return true;
 	}
-	
+
 	public abstract void onRender(World world, EntityPlayer player, Vector3 hit);
-	public abstract boolean isEmpty(ItemStack stack);
+
+	public abstract boolean isEmpty(EntityPlayer player, ItemStack stack);
+
 	public abstract void onSneakClick(ItemStack stack, World world, EntityPlayer shooter);
+
 	public abstract void onPreWeaponFired(ItemStack stack, World world, EntityPlayer shooter);
+
 	public abstract void onPostWeaponFired(ItemStack stack, World world, EntityPlayer shooter);
+
 	/**
 	 * Called when the player fires the weapon, should handle all weapon firing actions, audio, and effects. Shouldn't handle ammo.
 	 * 
@@ -89,9 +109,10 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		Vec3 playerPosition = Vec3.createVectorHelper(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		Vec3 playerLook = RayTraceHelper.getLook(player, 1.0f);
 		Vec3 p = Vec3.createVectorHelper(playerPosition.xCoord + playerLook.xCoord, playerPosition.yCoord + playerLook.yCoord, playerPosition.zCoord + playerLook.zCoord);
-		Vec3 playerViewOffset = Vec3.createVectorHelper(playerPosition.xCoord + playerLook.xCoord * blockRange, playerPosition.yCoord + playerLook.yCoord * blockRange, playerPosition.zCoord + playerLook.zCoord * blockRange);
-	
-		MovingObjectPosition hit = RayTraceHelper.do_rayTraceFromEntity(player, new Vector3().toVec3(), blockRange, true);
+		Vec3 playerViewOffset = Vec3.createVectorHelper(playerPosition.xCoord + playerLook.xCoord * blockRange, playerPosition.yCoord + playerLook.yCoord * blockRange, playerPosition.zCoord
+				+ playerLook.zCoord * blockRange);
+
+		MovingObjectPosition hit = RayTraceHelper.do_rayTraceFromEntity(player, new Vector3().translate(getInaccuracy(world, inaccuracy)).toVec3(), blockRange, true);
 
 		if (hit != null) {
 			if (hit.typeOfHit == EnumMovingObjectType.ENTITY && hit.entityHit != null) {
@@ -101,6 +122,7 @@ public abstract class ItemWeapon extends ItemICBMBase {
 			}
 			playSoundEffect(player);
 			playerViewOffset = hit.hitVec;
+			onRender(world, player, new Vector3(hit));
 
 			// TODO make beam brighter the longer it has been used
 			// TODO adjust the laser for the end of the gun
@@ -109,9 +131,19 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		}
 	}
 
+	protected float min_range = 1;
+	protected float max_range = 100;
+
+	protected double getInaccuracy(World world, double distance) {
+		double offset = distance * (world.rand.nextFloat() - world.rand.nextFloat()) * inaccuracy;
+		if (distance < min_range || distance > max_range) { return offset * 2; }
+		return offset;
+	}
+
 	public abstract void onHitEntity(World world, EntityPlayer shooter, Entity entityHit);
+
 	public abstract void onHitBlock(World world, EntityPlayer shooter, Vector3 hitVec);
-	
+
 	public void playSoundEffect(EntityPlayer player) {
 		if (this.soundEffect != null && !this.soundEffect.isEmpty()) player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, this.soundEffect, 5F, 1F);
 	}

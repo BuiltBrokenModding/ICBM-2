@@ -1,7 +1,10 @@
 package icbm.sentry.items.weapons.conventional;
 
+import icbm.sentry.ICBMSentry;
 import icbm.sentry.items.weapons.ItemWeapon;
+import icbm.sentry.items.weapons.WeaponContent;
 
+import java.awt.Color;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -22,10 +25,10 @@ public class ItemConventional extends ItemWeapon {
 	public int gunDamage;
 	private int capacity;
 	
-	public ItemConventional(int id, String name, int capacity, int gunDamage, String soundname) {
-		super(id, name, soundname);
-		this.gunDamage = gunDamage;
-		this.capacity = capacity;
+	public ItemConventional(int id, String name, WeaponContent wc) {
+		super(id, name, wc);
+		this.gunDamage = wc.getDamage();
+		this.capacity = wc.getCapacity();
 		this.setMaxStackSize(1);
 	}
 
@@ -41,10 +44,12 @@ public class ItemConventional extends ItemWeapon {
 		return super.onItemRightClick(itemstack, world, player);
 	}
 	
-	public boolean isEmpty(ItemStack weaponStack) {
+	public boolean isEmpty(EntityPlayer player, ItemStack weaponStack) {
 		if(weaponStack.stackTagCompound != null && weaponStack.stackTagCompound.hasKey("clipCurrentAmmo"))
 			return weaponStack.stackTagCompound.getInteger("clipCurrentAmmo") == 0;
-		else 
+		else if(player.capabilities.isCreativeMode) 
+			return false;
+		else
 			return true;
 	}
 	
@@ -92,7 +97,7 @@ public class ItemConventional extends ItemWeapon {
 	@Override
 	public void onPostWeaponFired(ItemStack stack, World world, EntityPlayer shooter) {
 		if(!world.isRemote) {
-			if(!isEmpty(stack)) {
+			if(!isEmpty(shooter, stack)) {
 				consume(stack, 1);
 			}
 		}
@@ -100,7 +105,7 @@ public class ItemConventional extends ItemWeapon {
 
 	@Override
 	public void onSneakClick(ItemStack stack, World world, EntityPlayer shooter) {
-		if(isEmpty(stack)) {
+		if(isEmpty(shooter, stack)) {
 			if(searchInventoryForAmmo(shooter, false) != null) {
 				searchInventoryForAmmo(shooter, true);
 				if(!world.isRemote) {
@@ -121,7 +126,6 @@ public class ItemConventional extends ItemWeapon {
 
 	@Override
 	public void onRender(World world, EntityPlayer player, Vector3 hit) {
-		// TODO Auto-generated method stub
-		
+		drawParticleStreamTo(world, new Vector3(player), hit);
 	}
 }
