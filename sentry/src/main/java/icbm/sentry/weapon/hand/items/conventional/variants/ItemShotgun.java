@@ -6,7 +6,7 @@ import icbm.sentry.weapon.hand.items.conventional.ItemConventional;
 public class ItemShotgun extends ItemConventional {
 
 	public ItemShotgun(int id) {
-		super(id, "shotgun", new WeaponContent(20, 6, 6.5D, 20, 5, "shotgun"));
+		super(id, "shotgun", new WeaponContent(20, 6, 6.5D, 20, 12, "shotgun"));
 	}
 
 }

@@ -35,40 +35,38 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		this.soundEffect = wc.getSoundname();
 		this.bps = wc.getBulletsPerShot();
 	}
-	
 
 	@Override
 	public void onUpdate(ItemStack itemstack, World world, Entity par3Entity, int par4, boolean par5) {
-		if(!world.isRemote) {
-			if(getCooldownTicks(itemstack) > 0) {
+		if (!world.isRemote) {
+			if (getCooldownTicks(itemstack) > 0) {
 				itemstack.getTagCompound().setInteger("cooldownTicks", getCooldownTicks(itemstack) - 1);
 			}
 		}
 		super.onUpdate(itemstack, world, par3Entity, par4, par5);
 	}
-	
+
 	public int getCooldownTicks(ItemStack stack) {
-		//if(stack.getTagCompound() != null) {
-			//if(stack.getTagCompound().hasKey("cooldownTicks"))
-				return stack.getTagCompound().getInteger("cooldownTicks");
-		//}
-	//	return 0;
+		if (stack.getTagCompound() != null) {
+			if (stack.getTagCompound().hasKey("cooldownTicks")) return stack.getTagCompound().getInteger("cooldownTicks");
+		}
+		return 0;
 	}
 
-	@Override 
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-		if(itemstack.stackTagCompound == null) {
+		if (itemstack.stackTagCompound == null) {
 			itemstack.setTagCompound(new NBTTagCompound());
 			itemstack.getTagCompound().setInteger("cooldownTicks", 0);
 		}
-		
+
 		if (player.isSneaking()) {
 			onSneakClick(itemstack, world, player);
 			return itemstack;
 		}
 
-		if(getCooldownTicks(itemstack) <= 0) {
-			for(int i = 0; i < bps; i++) {
+		if (getCooldownTicks(itemstack) <= 0) {
+			for (int i = 0; i < bps; i++) {
 				onPreWeaponFired(itemstack, world, player);
 				if (!HandAmmunitionHandler.isEmpty(player, itemstack)) {
 					onWeaponFired(itemstack, world, player);
@@ -132,12 +130,13 @@ public abstract class ItemWeapon extends ItemICBMBase {
 		if (hit != null) {
 			if (hit.typeOfHit == EnumMovingObjectType.ENTITY && hit.entityHit != null) {
 				onHitEntity(world, player, hit.entityHit);
+				onRender(world, player, new Vector3(hit.entityHit));
 			} else if (hit.typeOfHit == EnumMovingObjectType.TILE) {
 				onHitBlock(world, player, new Vector3(hit.hitVec));
+				onRender(world, player, new Vector3(hit.hitVec));
 			}
 			playSoundEffect(player);
 			playerViewOffset = hit.hitVec;
-			onRender(world, player, new Vector3(hit));
 
 			// TODO make beam brighter the longer it has been used
 			// TODO adjust the laser for the end of the gun

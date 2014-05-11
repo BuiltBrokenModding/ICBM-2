@@ -8,17 +8,45 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import calclavia.lib.prefab.tile.IRotatable;
 
 public class TileMunitionPrinter extends TileICBM implements IRotatable, IInventory {
 
-	ItemStack[] inventory = new ItemStack[2];
-	
+	ItemStack[] inventory;
+
 	private Item chosenMunition = ICBMSentry.itemMagazine;
-	
+
 	public TileMunitionPrinter() {
 		setEnergyHandler(new EnergyStorageHandler(50000, 15000));
+		inventory = new ItemStack[2];
+		inventory[0] = new ItemStack(chosenMunition);
+	}
+
+	public boolean canPrint() {
+		if (inventory[0] != null) { return false; }
+		if (inventory[1] != null) { return false; }
+		if (getEnergy(null) < 500) { return false; }
+		return true;
+	}
+
+	public void updateEntity() {
+		if (!worldObj.isRemote) print();
+	}
+
+	public void print() {
+		if (canPrint()) {
+			ItemStack newStack = new ItemStack(chosenMunition);
+
+			if (chosenMunition instanceof IItemAmmunition) {
+				inventory[0] = newStack.copy();
+			} else if (chosenMunition instanceof ItemWeapon) {
+				inventory[1] = newStack.copy();
+			}
+		}
+		setEnergy(null, getEnergy(null) - 500);
 	}
 
 	@Override
@@ -28,58 +56,15 @@ public class TileMunitionPrinter extends TileICBM implements IRotatable, IInvent
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return inventory[i];
+		return this.inventory[i];
 	}
-
-	public boolean canPrint() {
-		if(inventory[0] != null) {
-			return false;
-		}
-		if(inventory[1] != null) {
-			return false;
-		}
-		if(getEnergy(null) < 500) {
-			return false;
-		}
-		return true;
-	}
-
-	public void updateEntity() {
-		print();
-	}
-	
-	public void print() {
-		if (canPrint()) {
-			ItemStack newStack = new ItemStack(chosenMunition);
-			
-			if(chosenMunition instanceof IItemAmmunition) {
-				inventory[0] = newStack.copy();
-			} else if(chosenMunition instanceof ItemWeapon) {
-				inventory[1] = newStack.copy();
-			}
-		}
-		setEnergy(null, getEnergy(null) - 500);
-	}
-	
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if (inventory[i] != null) {
-			ItemStack stack;
-
-			if (inventory[i].stackSize <= j) {
-				stack = inventory[i];
-				inventory[i] = null;
-				return stack;
-			} else {
-				stack = inventory[i].splitStack(j);
-
-				if (inventory[i].stackSize == 0) {
-					inventory[i] = null;
-				}
-
-				return stack;
-			}
+	public ItemStack decrStackSize(int slot, int amount) {
+		if (slot >= 0 && slot < inventory.length) {
+			ItemStack itemstack = inventory[slot];
+			inventory[slot] = null;
+			return itemstack;
 		} else {
 			return null;
 		}
@@ -87,21 +72,21 @@ public class TileMunitionPrinter extends TileICBM implements IRotatable, IInvent
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		if (inventory[i] != null) {
-			ItemStack var2 = inventory[i];
-			inventory[i] = null;
-			return var2;
+		if (this.inventory[i] != null) {
+			ItemStack itemstack = this.inventory[i];
+			this.inventory[i] = null;
+			return itemstack;
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack stack) {
-		inventory[i] = stack;
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
+		this.inventory[i] = itemstack;
 
-		if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
-			stack.stackSize = this.getInventoryStackLimit();
+		if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) {
+			itemstack.stackSize = this.getInventoryStackLimit();
 		}
 	}
 
@@ -122,7 +107,7 @@ public class TileMunitionPrinter extends TileICBM implements IRotatable, IInvent
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -137,12 +122,40 @@ public class TileMunitionPrinter extends TileICBM implements IRotatable, IInvent
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		switch(i) {
-			case 0:
-				return itemstack.getItem() instanceof IItemAmmunition;
-			case 1:
-				return itemstack.getItem() instanceof ItemWeapon;
-		}
-		return true;
+		return false;
 	}
+
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
+		super.readFromNBT(par1NBTTagCompound);
+		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items");
+		this.inventory = new ItemStack[this.getSizeInventory()];
+
+		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+			NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+			byte b0 = nbttagcompound1.getByte("Slot");
+
+			if (b0 >= 0 && b0 < this.inventory.length) {
+				this.inventory[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+			}
+		}
+	}
+
+	/**
+	 * Writes a tile entity to NBT.
+	 */
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+		super.writeToNBT(par1NBTTagCompound);
+		NBTTagList nbttaglist = new NBTTagList();
+
+		for (int i = 0; i < this.inventory.length; ++i) {
+			if (this.inventory[i] != null) {
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+				nbttagcompound1.setByte("Slot", (byte) i);
+				this.inventory[i].writeToNBT(nbttagcompound1);
+				nbttaglist.appendTag(nbttagcompound1);
+			}
+		}
+		par1NBTTagCompound.setTag("Items", nbttaglist);
+	}
+
 }

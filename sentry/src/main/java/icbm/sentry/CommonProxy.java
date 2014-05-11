@@ -1,10 +1,13 @@
 package icbm.sentry;
 
-import java.awt.Color;
-
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.ContainerTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
+import icbm.sentry.weapon.hand.blocks.ContainerMunitionPrinter;
+import icbm.sentry.weapon.hand.blocks.TileMunitionPrinter;
+
+import java.awt.Color;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -44,6 +47,11 @@ public class CommonProxy implements IGuiHandler
         {
             if (ID == 1)
                 return new ContainerDummy(player, tile);
+        }
+        if (tile instanceof TileMunitionPrinter)
+        {
+            if (ID == 2)
+                return new ContainerMunitionPrinter(player.inventory, (TileMunitionPrinter) tile);
         }
 
         return null;
