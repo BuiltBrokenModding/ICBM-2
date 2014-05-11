@@ -1,7 +1,6 @@
 package icbm.sentry.weapon.hand.blocks;
 
 import icbm.core.prefab.TileICBM;
-import icbm.sentry.ICBMSentry;
 import icbm.sentry.weapon.hand.items.IItemAmmunition;
 import icbm.sentry.weapon.hand.items.ItemWeapon;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,23 +16,23 @@ public class TileMunitionPrinter extends TileICBM implements IRotatable, IInvent
 
 	ItemStack[] inventory;
 
-	private Item chosenMunition = ICBMSentry.itemMagazine;
+	public Item chosenMunition;
 
 	public TileMunitionPrinter() {
 		setEnergyHandler(new EnergyStorageHandler(50000, 15000));
 		inventory = new ItemStack[2];
-		inventory[0] = new ItemStack(chosenMunition);
 	}
 
 	public boolean canPrint() {
 		if (inventory[0] != null) { return false; }
 		if (inventory[1] != null) { return false; }
 		if (getEnergy(null) < 500) { return false; }
+		if (chosenMunition == null) { return false; }
 		return true;
 	}
 
 	public void updateEntity() {
-		if (!worldObj.isRemote) print();
+		print();
 	}
 
 	public void print() {

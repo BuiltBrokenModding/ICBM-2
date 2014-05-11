@@ -2,6 +2,7 @@ package icbm.sentry.weapon.hand.blocks;
 
 import icbm.Reference;
 import icbm.sentry.ICBMSentry;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -34,9 +35,10 @@ public class GuiMunitionPrinter extends GuiContainer {
 		containerHeight = (this.height - this.ySize) / 2;
 		
 		buttonList.clear();
-		buttonList.add(new GuiWeaponButton(0, containerWidth + 8, containerHeight + 7, ICBMSentry.itemAssaultRifle));
-		buttonList.add(new GuiWeaponButton(1, containerWidth + 8, containerHeight + 25, ICBMSentry.itemSniperRifle));
-		buttonList.add(new GuiWeaponButton(2, containerWidth + 8, containerHeight + 43, ICBMSentry.itemShotgun));
+		buttonList.add(new GuiWeaponButton(0, containerWidth + 8, containerHeight + 7, ICBMSentry.itemAssaultRifle, "Assault Rifle"));
+		buttonList.add(new GuiWeaponButton(1, containerWidth + 8, containerHeight + 25, ICBMSentry.itemSniperRifle, "Sniper Rifle"));
+		buttonList.add(new GuiWeaponButton(2, containerWidth + 8, containerHeight + 43, ICBMSentry.itemShotgun, "Shotgun"));
+		buttonList.add(new GuiWeaponButton(3, containerWidth + 8, containerHeight + 61, ICBMSentry.itemMagazine, "Magazine"));
 	}
 
 	@Override
@@ -75,5 +77,26 @@ public class GuiMunitionPrinter extends GuiContainer {
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
+	}
+	
+	
+	
+	@Override
+	protected void actionPerformed(GuiButton par1GuiButton) {
+		switch(par1GuiButton.id) {
+			case 0:
+				tileEntity.chosenMunition = ICBMSentry.itemAssaultRifle;
+				break;
+			case 1:
+				tileEntity.chosenMunition = ICBMSentry.itemSniperRifle;
+				break;
+			case 2:
+				tileEntity.chosenMunition = ICBMSentry.itemShotgun;
+				break;
+			case 3:
+				tileEntity.chosenMunition = ICBMSentry.itemMagazine;
+				break;
+		}
+		System.out.println(tileEntity.chosenMunition);
 	}
 }
