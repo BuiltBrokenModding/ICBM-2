@@ -18,8 +18,10 @@ import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.mounted.MountedRailgun;
-import icbm.sentry.weapon.hand.blocks.GuiMunitionPrinter;
-import icbm.sentry.weapon.hand.blocks.TileMunitionPrinter;
+import icbm.sentry.weapon.hand.blocks.modifier.GuiConvModifier;
+import icbm.sentry.weapon.hand.blocks.modifier.TileConventionalModifier;
+import icbm.sentry.weapon.hand.blocks.printer.GuiMunitionPrinter;
+import icbm.sentry.weapon.hand.blocks.printer.TileMunitionPrinter;
 
 import java.awt.Color;
 
@@ -90,6 +92,12 @@ public class ClientProxy extends CommonProxy
             if (ID == 2)
                 return new GuiMunitionPrinter(player.inventory, (TileMunitionPrinter) tile);
         }
+        if (tile instanceof TileConventionalModifier)
+        {
+            if (ID == 3)
+                return new GuiConvModifier(player.inventory, (TileConventionalModifier) tile);
+        }
+
 
         return null;
     }

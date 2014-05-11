@@ -4,7 +4,6 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
-import icbm.sentry.gs.block.BlockLaserGate;
 import icbm.sentry.interfaces.IKillCount;
 import icbm.sentry.platform.BlockTurretPlatform;
 import icbm.sentry.platform.cmd.CMDAccessSettings;
@@ -24,8 +23,10 @@ import icbm.sentry.turret.items.ItemAmmo;
 import icbm.sentry.turret.items.ItemSentryUpgrade;
 import icbm.sentry.turret.items.ItemSentryUpgrade.Upgrades;
 import icbm.sentry.turret.mounted.MountedRailgun;
-import icbm.sentry.weapon.hand.blocks.BlockMunitionPrinter;
-import icbm.sentry.weapon.hand.blocks.TileMunitionPrinter;
+import icbm.sentry.weapon.hand.blocks.modifier.BlockConvModifier;
+import icbm.sentry.weapon.hand.blocks.modifier.TileConventionalModifier;
+import icbm.sentry.weapon.hand.blocks.printer.BlockMunitionPrinter;
+import icbm.sentry.weapon.hand.blocks.printer.TileMunitionPrinter;
 import icbm.sentry.weapon.hand.items.conventional.ItemConventionalClip;
 import icbm.sentry.weapon.hand.items.conventional.variants.ItemAssaultRifle;
 import icbm.sentry.weapon.hand.items.conventional.variants.ItemShotgun;
@@ -80,7 +81,7 @@ public class ICBMSentry
 
     public static final int ENTITY_ID_PREFIX = 50;
 
-    public static Block blockMunitionPrinter, blockTurret, blockPlatform, blockLaserGate;
+    public static Block blockMunitionPrinter, blockConventionalModifier, blockTurret, blockPlatform, blockLaserGate;
 
     public static Item itemAmmo;
     public static Item itemMagazine;
@@ -97,6 +98,7 @@ public class ICBMSentry
         MinecraftForge.EVENT_BUS.register(this);
         TurretType.load();
 
+        blockConventionalModifier = ICBMCore.contentRegistry.createBlock(BlockConvModifier.class, null, TileConventionalModifier.class);
         blockMunitionPrinter = ICBMCore.contentRegistry.createBlock(BlockMunitionPrinter.class, null, TileMunitionPrinter.class);
         blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
         blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
