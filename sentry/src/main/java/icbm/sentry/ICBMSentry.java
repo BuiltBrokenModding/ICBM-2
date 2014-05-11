@@ -24,10 +24,12 @@ import icbm.sentry.turret.items.ItemAmmo;
 import icbm.sentry.turret.items.ItemSentryUpgrade;
 import icbm.sentry.turret.items.ItemSentryUpgrade.Upgrades;
 import icbm.sentry.turret.mounted.MountedRailgun;
-import icbm.sentry.weapon.items.conventional.ItemConventionalClip;
-import icbm.sentry.weapon.items.conventional.variants.ItemAssaultRifle;
-import icbm.sentry.weapon.items.conventional.variants.ItemShotgun;
-import icbm.sentry.weapon.items.conventional.variants.ItemSniperRifle;
+import icbm.sentry.weapon.hand.blocks.BlockMunitionPrinter;
+import icbm.sentry.weapon.hand.blocks.TileMunitionPrinter;
+import icbm.sentry.weapon.hand.items.conventional.ItemConventionalClip;
+import icbm.sentry.weapon.hand.items.conventional.variants.ItemAssaultRifle;
+import icbm.sentry.weapon.hand.items.conventional.variants.ItemShotgun;
+import icbm.sentry.weapon.hand.items.conventional.variants.ItemSniperRifle;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -78,7 +80,7 @@ public class ICBMSentry
 
     public static final int ENTITY_ID_PREFIX = 50;
 
-    public static Block blockTurret, blockPlatform, blockLaserGate;
+    public static Block blockMunitionPrinter, blockTurret, blockPlatform, blockLaserGate;
 
     public static Item itemAmmo;
     public static Item itemMagazine;
@@ -95,9 +97,9 @@ public class ICBMSentry
         MinecraftForge.EVENT_BUS.register(this);
         TurretType.load();
 
+        blockMunitionPrinter = ICBMCore.contentRegistry.createBlock(BlockMunitionPrinter.class, null, TileMunitionPrinter.class);
         blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
         blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
-        blockLaserGate = ICBMCore.contentRegistry.createBlock(BlockLaserGate.class);
         
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
@@ -134,6 +136,7 @@ public class ICBMSentry
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+    	
         // Shell
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));
         // Bullets

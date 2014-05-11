@@ -1,9 +1,7 @@
-package icbm.sentry.gs.block;
+package icbm.sentry.weapon.hand.blocks;
 
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import calclavia.lib.prefab.tile.IRotatable;
+import icbm.core.prefab.BlockICBM;
+import icbm.sentry.gs.block.TileLaserGate;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,14 +9,20 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.api.UniversalElectricity;
-import icbm.core.prefab.BlockICBM;
+import calclavia.lib.prefab.tile.IRedstoneReceptor;
+import calclavia.lib.prefab.tile.IRotatable;
 
-public class BlockLaserGate extends BlockICBM {
+public class BlockMunitionPrinter extends BlockICBM {
 
-	public BlockLaserGate(int id) {
-		super(id, "laserGate", UniversalElectricity.machine);
+	public BlockMunitionPrinter(int id) {
+		super(3879, "munitionPrinter");
 	}
 	
+    @Override
+    public void onBlockAdded(World par1World, int x, int y, int z) {
+        this.isBeingPowered(par1World, x, y, z);
+    }
+    
     /** Called when the block is placed in the world. */
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase par5EntityLiving, ItemStack itemStack)
@@ -101,6 +105,33 @@ public class BlockLaserGate extends BlockICBM {
         }
 
         return canBePlacedAt(world, x, y, z, world.getBlockMetadata(x, y, z), direction);
+    }
+
+    @Override
+    public void onNeighborBlockChange(World par1World, int x, int y, int z, int par5)
+    {
+        this.isBeingPowered(par1World, x, y, z);
+    }
+    
+    /** Checks of this block is being powered by redstone */
+    public void isBeingPowered(World world, int x, int y, int z)
+    {
+        int metadata = world.getBlockMetadata(x, y, z);
+
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+        if (tileEntity instanceof IRedstoneReceptor)
+        {
+            if (world.isBlockIndirectlyGettingPowered(x, y, z))
+            {
+                // Send signal to tile entity
+                ((IRedstoneReceptor) tileEntity).onPowerOn();
+            }
+            else
+            {
+                ((IRedstoneReceptor) tileEntity).onPowerOff();
+            }
+        }
     }
     
     @Override
