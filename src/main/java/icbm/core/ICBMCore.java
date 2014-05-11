@@ -254,13 +254,4 @@ public final class ICBMCore
         modproxies.postInit();
     }
 
-    @ForgeSubscribe
-    public void configAnnotationAdded(ConfigAnnotationEvent event)
-    {
-        if (event.sourceClass.getName().startsWith(Settings.DOMAIN))
-        {
-            ConfigHandler.handleClass(event.sourceClass, Settings.CONFIGURATION);
-        }
-    }
-
 }
