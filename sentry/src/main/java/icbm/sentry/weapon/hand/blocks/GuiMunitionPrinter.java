@@ -30,11 +30,13 @@ public class GuiMunitionPrinter extends GuiContainer {
 	@Override
 	public void initGui() {
 		super.initGui();
+		containerWidth = (this.width - this.xSize) / 2;
+		containerHeight = (this.height - this.ySize) / 2;
 		
 		buttonList.clear();
-		buttonList.add(new GuiWeaponButton(0, 8, 7, ICBMSentry.itemAssaultRifle));
-		buttonList.add(new GuiWeaponButton(0, 8, 25, ICBMSentry.itemSniperRifle));
-		buttonList.add(new GuiWeaponButton(0, 8, 43, ICBMSentry.itemShotgun));
+		buttonList.add(new GuiWeaponButton(0, containerWidth + 8, containerHeight + 7, ICBMSentry.itemAssaultRifle));
+		buttonList.add(new GuiWeaponButton(1, containerWidth + 8, containerHeight + 25, ICBMSentry.itemSniperRifle));
+		buttonList.add(new GuiWeaponButton(2, containerWidth + 8, containerHeight + 43, ICBMSentry.itemShotgun));
 	}
 
 	@Override
