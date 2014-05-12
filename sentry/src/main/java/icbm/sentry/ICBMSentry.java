@@ -23,15 +23,6 @@ import icbm.sentry.turret.items.ItemAmmo;
 import icbm.sentry.turret.items.ItemSentryUpgrade;
 import icbm.sentry.turret.items.ItemSentryUpgrade.Upgrades;
 import icbm.sentry.turret.mounted.MountedRailgun;
-import icbm.sentry.weapon.hand.blocks.modifier.BlockConvModifier;
-import icbm.sentry.weapon.hand.blocks.modifier.TileConventionalModifier;
-import icbm.sentry.weapon.hand.blocks.printer.BlockMunitionPrinter;
-import icbm.sentry.weapon.hand.blocks.printer.TileMunitionPrinter;
-import icbm.sentry.weapon.hand.items.conventional.ItemConventionalAddons;
-import icbm.sentry.weapon.hand.items.conventional.ItemConventionalClip;
-import icbm.sentry.weapon.hand.items.conventional.variants.ItemAssaultRifle;
-import icbm.sentry.weapon.hand.items.conventional.variants.ItemShotgun;
-import icbm.sentry.weapon.hand.items.conventional.variants.ItemSniperRifle;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -100,21 +91,12 @@ public class ICBMSentry
         MinecraftForge.EVENT_BUS.register(this);
         TurretType.load();
 
-        //blockConventionalModifier = ICBMCore.contentRegistry.createBlock(BlockConvModifier.class, null, TileConventionalModifier.class);
-        //blockMunitionPrinter = ICBMCore.contentRegistry.createBlock(BlockMunitionPrinter.class, null, TileMunitionPrinter.class);
         blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
         blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
-        
+
         itemAmmo = ICBMCore.contentRegistry.createItem("ItemAmmo", ItemAmmo.class, false);
         itemUpgrade = ICBMCore.contentRegistry.createItem("ItemSentryUpgrade", ItemSentryUpgrade.class, false);
-        itemMagazine = ICBMCore.contentRegistry.createItem("gunMagazine", ItemConventionalClip.class, false);
-        
-        //Conventional
-        //itemAssaultRifle = ICBMCore.contentRegistry.createItem("itemAssaultRifle", ItemAssaultRifle.class, false);
-        //itemSniperRifle = ICBMCore.contentRegistry.createItem("itemSniperRifle", ItemSniperRifle.class, false);
-        //itemShotgun = ICBMCore.contentRegistry.createItem("itemShotgun", ItemShotgun.class, false);
-        //itemConventionalAddon = ICBMCore.contentRegistry.createItem("itemConventionalAddon", ItemConventionalAddons.class, false);
-        
+
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
         railgunBullet = new ItemStack(itemAmmo, 1, 2);
@@ -141,7 +123,7 @@ public class ICBMSentry
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-    	
+
         // Shell
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAmmo, 16, 0), new Object[] { "T", "T", 'T', "ingotTin" }));
         // Bullets
@@ -162,7 +144,7 @@ public class ICBMSentry
         // Laser Turret
         GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretLaser.class), new Object[] { "DDG", "CS ", "GS ", 'D', UniversalRecipe.SECONDARY_PLATE.get(), 'S', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get(), 'D', Item.diamond, 'G', Block.glass }));
         // Crossbox sentry
-        GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretAutoBow.class), new Object[] { "BCL", "DW ", "WW ", 'D', Block.dispenser, 'B', Item.bow, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', Block.planks}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretAutoBow.class), new Object[] { "BCL", "DW ", "WW ", 'D', Block.dispenser, 'B', Item.bow, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', Block.planks }));
 
         // Upgrades
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, Upgrades.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));
