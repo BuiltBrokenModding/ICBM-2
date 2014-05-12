@@ -27,6 +27,7 @@ import icbm.sentry.weapon.hand.blocks.modifier.BlockConvModifier;
 import icbm.sentry.weapon.hand.blocks.modifier.TileConventionalModifier;
 import icbm.sentry.weapon.hand.blocks.printer.BlockMunitionPrinter;
 import icbm.sentry.weapon.hand.blocks.printer.TileMunitionPrinter;
+import icbm.sentry.weapon.hand.items.conventional.ItemConventionalAddons;
 import icbm.sentry.weapon.hand.items.conventional.ItemConventionalClip;
 import icbm.sentry.weapon.hand.items.conventional.variants.ItemAssaultRifle;
 import icbm.sentry.weapon.hand.items.conventional.variants.ItemShotgun;
@@ -87,6 +88,7 @@ public class ICBMSentry
     public static Item itemMagazine;
     public static Item itemUpgrade;
     public static Item itemAssaultRifle, itemSniperRifle, itemShotgun;
+    public static Item itemConventionalAddon;
 
     /** ItemStack helpers. Do not modify theses. */
     public static ItemStack conventionalBullet, railgunBullet, antimatterBullet, bulletShell;
@@ -111,6 +113,7 @@ public class ICBMSentry
         itemAssaultRifle = ICBMCore.contentRegistry.createItem("itemAssaultRifle", ItemAssaultRifle.class, false);
         itemSniperRifle = ICBMCore.contentRegistry.createItem("itemSniperRifle", ItemSniperRifle.class, false);
         itemShotgun = ICBMCore.contentRegistry.createItem("itemShotgun", ItemShotgun.class, false);
+        itemConventionalAddon = ICBMCore.contentRegistry.createItem("itemConventionalAddon", ItemConventionalAddons.class, false);
         
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
