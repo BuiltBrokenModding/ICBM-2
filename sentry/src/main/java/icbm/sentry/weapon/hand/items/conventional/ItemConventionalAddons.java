@@ -17,10 +17,6 @@ public class ItemConventionalAddons extends ItemICBMBase {
 	public ItemConventionalAddons(int id) {
 		super(id, "conventionalAddon");
 	}
-	
-	ArrayList<String> str = new ArrayList<String>() {
-		"Hey", "Bye"
-	};
 
 	@Override
 	public int getMetadata(int par1) {
