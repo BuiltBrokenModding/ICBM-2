@@ -100,8 +100,8 @@ public class ICBMSentry
         MinecraftForge.EVENT_BUS.register(this);
         TurretType.load();
 
-        blockConventionalModifier = ICBMCore.contentRegistry.createBlock(BlockConvModifier.class, null, TileConventionalModifier.class);
-        blockMunitionPrinter = ICBMCore.contentRegistry.createBlock(BlockMunitionPrinter.class, null, TileMunitionPrinter.class);
+        //blockConventionalModifier = ICBMCore.contentRegistry.createBlock(BlockConvModifier.class, null, TileConventionalModifier.class);
+        //blockMunitionPrinter = ICBMCore.contentRegistry.createBlock(BlockMunitionPrinter.class, null, TileMunitionPrinter.class);
         blockTurret = ICBMCore.contentRegistry.createBlock(BlockTurret.class, ItemBlockTurret.class, TileTurret.class);
         blockPlatform = ICBMCore.contentRegistry.createBlock(BlockTurretPlatform.class);
         
@@ -110,10 +110,10 @@ public class ICBMSentry
         itemMagazine = ICBMCore.contentRegistry.createItem("gunMagazine", ItemConventionalClip.class, false);
         
         //Conventional
-        itemAssaultRifle = ICBMCore.contentRegistry.createItem("itemAssaultRifle", ItemAssaultRifle.class, false);
-        itemSniperRifle = ICBMCore.contentRegistry.createItem("itemSniperRifle", ItemSniperRifle.class, false);
-        itemShotgun = ICBMCore.contentRegistry.createItem("itemShotgun", ItemShotgun.class, false);
-        itemConventionalAddon = ICBMCore.contentRegistry.createItem("itemConventionalAddon", ItemConventionalAddons.class, false);
+        //itemAssaultRifle = ICBMCore.contentRegistry.createItem("itemAssaultRifle", ItemAssaultRifle.class, false);
+        //itemSniperRifle = ICBMCore.contentRegistry.createItem("itemSniperRifle", ItemSniperRifle.class, false);
+        //itemShotgun = ICBMCore.contentRegistry.createItem("itemShotgun", ItemShotgun.class, false);
+        //itemConventionalAddon = ICBMCore.contentRegistry.createItem("itemConventionalAddon", ItemConventionalAddons.class, false);
         
         bulletShell = new ItemStack(itemAmmo, 1, 0);
         conventionalBullet = new ItemStack(itemAmmo, 1, 1);
