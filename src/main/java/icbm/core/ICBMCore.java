@@ -4,7 +4,7 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.blocks.BlockCamouflage;
-import icbm.core.blocks.BlockICBMDecor;
+import icbm.core.blocks.BlockConcrete;
 import icbm.core.blocks.BlockGlassButton;
 import icbm.core.blocks.BlockGlassPressurePlate;
 import icbm.core.blocks.BlockProximityDetector;
@@ -32,7 +32,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -41,7 +40,6 @@ import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
 import calclavia.components.CalclaviaLoader;
-import calclavia.lib.config.ConfigAnnotationEvent;
 import calclavia.lib.config.ConfigHandler;
 import calclavia.lib.content.ContentRegistry;
 import calclavia.lib.modproxy.ProxyHandler;
@@ -133,7 +131,7 @@ public final class ICBMCore
         blockProximityDetector = contentRegistry.createTile(BlockProximityDetector.class, TileProximityDetector.class);
         blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
         blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
-        blockConcrete = contentRegistry.createBlock(BlockICBMDecor.class, ItemBlockMetadata.class);
+        blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
         blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
         //blockBox = contentRegistry.newBlock(TileBox.class); TODO Enable, disabled as to allow to release a stable ICBM for 1.6
@@ -201,7 +199,7 @@ public final class ICBMCore
         GameRegistry.addSmelting(Item.reed.itemID, new ItemStack(itemSulfurDust, 4, 1), 0f);
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", Item.coal }));
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", new ItemStack(Item.coal, 1, 1) }));
-        
+
         if (dustCharcoal != null && dustCharcoal.size() > 0)
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", "dustCharcoal" }));
         if (dustCoal != null && dustCoal.size() > 0)
