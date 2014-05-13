@@ -17,7 +17,6 @@ import calclavia.lib.prefab.tile.IRotatable;
  * @author Archadia */
 public class TileMunitionPrinter extends TileICBM implements IRotatable, IInventory
 {
-
     ItemStack[] inventory;
 
     public Item chosenMunition;

@@ -18,7 +18,7 @@ import icbm.core.compat.Waila;
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.core.entity.EntityFragments;
 import icbm.core.items.ItemAntidote;
-import icbm.core.items.ItemHackingComputer;
+import icbm.core.items.ItemComputer;
 import icbm.core.items.ItemPoisonPowder;
 import icbm.core.items.ItemSignalDisrupter;
 import icbm.core.items.ItemSulfurDust;
@@ -142,7 +142,7 @@ public final class ICBMCore
         itemAntidote = contentRegistry.createItem(ItemAntidote.class);
         itemSignalDisrupter = contentRegistry.createItem(ItemSignalDisrupter.class);
         itemTracker = contentRegistry.createItem(ItemTracker.class);
-        itemHackingComputer = contentRegistry.createItem(ItemHackingComputer.class);
+        itemHackingComputer = contentRegistry.createItem(ItemComputer.class);
 
         sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 

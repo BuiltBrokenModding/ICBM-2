@@ -2,9 +2,9 @@ package icbm.core.items;
 
 import icbm.core.prefab.item.ItemICBMBase;
 
-public class ItemHackingComputer extends ItemICBMBase {
+public class ItemComputer extends ItemICBMBase {
 
-	public ItemHackingComputer(int id) {
+	public ItemComputer(int id) {
 		super(id, "hackingComputer");
 	}
 
