@@ -1,4 +1,4 @@
-package icbm.sentry.weapon.hand.items;
+package icbm.sentry.weapon.guns;
 
 import calclavia.api.icbm.sentry.IAmmunition;
 import net.minecraft.entity.player.EntityPlayer;

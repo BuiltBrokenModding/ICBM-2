@@ -1,4 +1,4 @@
-package icbm.sentry.weapon.hand.items;
+package icbm.sentry.weapon.guns;
 
 import icbm.core.prefab.item.ItemICBMBase;
 import net.minecraft.entity.Entity;

@@ -1,4 +1,4 @@
-package icbm.sentry.weapon.hand.blocks.printer;
+package icbm.sentry.workbench.ammo;
 
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.ICBMExplosion;
@@ -18,7 +18,7 @@ public class BlockMunitionPrinter extends BlockICBM
 
     public BlockMunitionPrinter(int id)
     {
-        super(3879, "munitionPrinter");
+        super(id, "munitionPrinter");
     }
 
     @Override

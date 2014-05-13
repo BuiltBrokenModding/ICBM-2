@@ -1,8 +1,4 @@
-package icbm.sentry.weapon.hand.items.conventional;
-
-import icbm.sentry.weapon.hand.items.HandAmmunitionHandler;
-import icbm.sentry.weapon.hand.items.ItemWeapon;
-import icbm.sentry.weapon.hand.items.WeaponContent;
+package icbm.sentry.weapon.guns;
 
 import java.util.List;
 

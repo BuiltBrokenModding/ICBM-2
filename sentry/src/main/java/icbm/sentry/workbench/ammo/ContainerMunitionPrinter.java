@@ -1,4 +1,4 @@
-package icbm.sentry.weapon.hand.blocks.printer;
+package icbm.sentry.workbench.ammo;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

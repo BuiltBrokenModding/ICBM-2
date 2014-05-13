@@ -1,4 +1,4 @@
-package icbm.sentry.weapon.hand.blocks.printer;
+package icbm.sentry.workbench.ammo;
 
 import icbm.Reference;
 import net.minecraft.client.Minecraft;

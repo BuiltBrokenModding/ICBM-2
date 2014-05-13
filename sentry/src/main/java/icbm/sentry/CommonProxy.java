@@ -3,10 +3,8 @@ package icbm.sentry;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.ContainerTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.weapon.hand.blocks.modifier.ContainerConvModifier;
-import icbm.sentry.weapon.hand.blocks.modifier.TileConventionalModifier;
-import icbm.sentry.weapon.hand.blocks.printer.ContainerMunitionPrinter;
-import icbm.sentry.weapon.hand.blocks.printer.TileMunitionPrinter;
+import icbm.sentry.workbench.ammo.ContainerMunitionPrinter;
+import icbm.sentry.workbench.ammo.TileMunitionPrinter;
 
 import java.awt.Color;
 
@@ -55,11 +53,6 @@ public class CommonProxy implements IGuiHandler
             if (ID == 2)
                 return new ContainerMunitionPrinter(player.inventory, (TileMunitionPrinter) tile);
         }
-        if (tile instanceof TileConventionalModifier)
-        {
-            if (ID == 3)
-                return new ContainerConvModifier(player.inventory, (TileConventionalModifier) tile);
-        }
 
         return null;
     }
@@ -80,7 +73,7 @@ public class CommonProxy implements IGuiHandler
     {
 
     }
-    
+
     public void renderBeam(World world, IVector3 position, IVector3 hit, float red, float green, float blue, int age)
     {
 

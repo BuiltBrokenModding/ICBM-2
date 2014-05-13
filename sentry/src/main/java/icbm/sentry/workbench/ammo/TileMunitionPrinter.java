@@ -1,7 +1,7 @@
-package icbm.sentry.weapon.hand.blocks.printer;
+package icbm.sentry.workbench.ammo;
 
 import icbm.core.prefab.TileICBM;
-import icbm.sentry.weapon.hand.items.ItemWeapon;
+import icbm.sentry.weapon.guns.ItemWeapon;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -12,6 +12,9 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 import calclavia.api.icbm.sentry.IAmmunition;
 import calclavia.lib.prefab.tile.IRotatable;
 
+/** Automated Ammo crafter
+ * 
+ * @author Archadia */
 public class TileMunitionPrinter extends TileICBM implements IRotatable, IInventory
 {
 

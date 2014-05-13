@@ -1,4 +1,4 @@
-package icbm.sentry.weapon.hand.items;
+package icbm.sentry.weapon.guns;
 
 public class WeaponContent
 {
