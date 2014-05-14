@@ -8,9 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import resonant.api.IRotatable;
+import resonant.api.weapon.IAmmunition;
 import universalelectricity.api.energy.EnergyStorageHandler;
-import calclavia.api.icbm.sentry.IAmmunition;
-import calclavia.lib.prefab.tile.IRotatable;
 
 /** Automated Ammo crafter
  * 

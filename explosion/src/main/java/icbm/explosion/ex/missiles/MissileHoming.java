@@ -7,9 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import resonant.api.items.IItemTracker;
 import universalelectricity.api.vector.Vector2;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ITracker;
 
 public class MissileHoming extends Missile
 {
@@ -87,9 +87,9 @@ public class MissileHoming extends Missile
         {
             if (entityPlayer.getCurrentEquippedItem() != null)
             {
-                if (entityPlayer.getCurrentEquippedItem().getItem() instanceof ITracker)
+                if (entityPlayer.getCurrentEquippedItem().getItem() instanceof IItemTracker)
                 {
-                    Entity trackingEntity = ((ITracker) entityPlayer.getCurrentEquippedItem().getItem()).getTrackingEntity(missileObj.worldObj, entityPlayer.getCurrentEquippedItem());
+                    Entity trackingEntity = ((IItemTracker) entityPlayer.getCurrentEquippedItem().getItem()).getTrackingEntity(missileObj.worldObj, entityPlayer.getCurrentEquippedItem());
 
                     if (trackingEntity != null)
                     {

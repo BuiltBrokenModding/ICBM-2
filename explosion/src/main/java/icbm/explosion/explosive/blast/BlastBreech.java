@@ -4,10 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.api.vector.IVector3;
+import resonant.api.IRotatable;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.mffs.IForceFieldBlock;
-import calclavia.lib.prefab.tile.IRotatable;
 
 public class BlastBreech extends BlastRepulsive
 {

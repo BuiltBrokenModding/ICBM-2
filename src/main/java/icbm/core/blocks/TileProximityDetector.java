@@ -15,11 +15,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRedstoneProvider;
+import resonant.lib.network.IPacketReceiver;
 import universalelectricity.api.electricity.IVoltageInput;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRedstoneProvider;
 
 import com.google.common.io.ByteArrayDataInput;
 

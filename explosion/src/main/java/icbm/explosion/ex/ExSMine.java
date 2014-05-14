@@ -9,8 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import resonant.lib.recipe.RecipeUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.recipe.RecipeUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

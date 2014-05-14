@@ -33,11 +33,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.lib.utility.nbt.SaveManager;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
-import calclavia.lib.utility.nbt.SaveManager;
 
 /** Modular way to deal with sentry guns
  * 

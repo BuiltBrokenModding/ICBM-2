@@ -6,11 +6,11 @@ import java.util.HashSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IPlayerUsing;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.prefab.tile.TileElectrical;
 import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.electricity.IVoltageInput;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IPlayerUsing;
-import calclavia.lib.prefab.tile.TileElectrical;
 
 import com.google.common.io.ByteArrayDataInput;
 

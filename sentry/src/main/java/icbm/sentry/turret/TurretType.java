@@ -5,7 +5,7 @@ import icbm.sentry.turret.auto.TurretAutoBow;
 import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.mounted.MountedRailgun;
-import calclavia.lib.utility.LanguageUtility;
+import resonant.lib.utility.LanguageUtility;
 
 /** Enum of all sentries created by ICBM */
 public enum TurretType

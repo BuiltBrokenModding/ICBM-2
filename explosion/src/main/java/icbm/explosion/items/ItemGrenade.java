@@ -17,9 +17,9 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.lib.utility.LanguageUtility;
+import resonant.api.explosion.ExplosiveType;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

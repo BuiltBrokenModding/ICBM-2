@@ -5,7 +5,6 @@ import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
-import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 

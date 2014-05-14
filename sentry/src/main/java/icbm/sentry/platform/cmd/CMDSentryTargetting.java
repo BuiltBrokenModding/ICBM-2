@@ -8,12 +8,11 @@ import icbm.sentry.turret.ai.TurretEntitySelector;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
-import calclavia.lib.prefab.terminal.ITerminal;
-import calclavia.lib.prefab.terminal.ITerminalCommand;
+import resonant.api.ITerminal;
+import resonant.api.ITerminalCommand;
 
 /** Command set for terminal based sentries to select what target types to shoot at
  * 

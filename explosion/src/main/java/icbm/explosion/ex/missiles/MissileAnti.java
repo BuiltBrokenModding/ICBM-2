@@ -6,9 +6,9 @@ import icbm.explosion.explosive.blast.BlastRepulsive;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import resonant.api.ai.ITarget;
+import resonant.api.ai.ITarget.TargetType;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ITarget;
-import calclavia.api.icbm.ITarget.TargetType;
 
 /** Antiballistic missile.
  * 

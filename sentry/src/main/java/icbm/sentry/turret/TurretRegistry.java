@@ -10,8 +10,8 @@ import java.util.HashMap;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import calclavia.lib.utility.ReflectionUtility;
-import calclavia.lib.utility.nbt.SaveManager;
+import resonant.lib.utility.ReflectionUtility;
+import resonant.lib.utility.nbt.SaveManager;
 
 import com.google.common.collect.HashBiMap;
 

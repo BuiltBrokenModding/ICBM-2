@@ -2,7 +2,6 @@ package icbm.explosion.explosive.thread;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
 

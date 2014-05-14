@@ -21,11 +21,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import calclavia.lib.access.Nodes;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.prefab.block.BlockAdvanced;
-import calclavia.lib.prefab.item.ItemBlockSaved;
-import calclavia.lib.utility.inventory.InventoryUtility;
+import resonant.lib.access.Nodes;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.prefab.block.BlockAdvanced;
+import resonant.lib.prefab.item.ItemBlockSaved;
+import resonant.lib.utility.inventory.InventoryUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

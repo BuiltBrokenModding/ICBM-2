@@ -15,11 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.item.ItemElectric;
-import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 

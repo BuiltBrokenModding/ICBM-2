@@ -7,9 +7,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.lib.content.module.TileRender;
+import resonant.lib.content.module.prefab.TileInventory;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.content.module.TileRender;
-import calclavia.lib.content.module.prefab.TileInventory;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

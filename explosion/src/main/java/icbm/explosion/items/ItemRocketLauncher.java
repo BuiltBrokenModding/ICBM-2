@@ -14,10 +14,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import resonant.api.explosion.ExplosiveType;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.lib.utility.LanguageUtility;
 
 /** Rocket Launcher
  * 

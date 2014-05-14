@@ -1,17 +1,14 @@
 package icbm.sentry.gs.block;
 
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import calclavia.lib.prefab.tile.IRotatable;
+import icbm.core.prefab.BlockICBM;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRotatable;
 import universalelectricity.api.UniversalElectricity;
-import icbm.core.prefab.BlockICBM;
 
 public class BlockLaserGate extends BlockICBM {
 

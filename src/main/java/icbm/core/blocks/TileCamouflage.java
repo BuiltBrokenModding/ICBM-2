@@ -6,8 +6,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.network.PacketHandler;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.network.PacketHandler;
 
 import com.google.common.io.ByteArrayDataInput;
 

@@ -12,11 +12,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import resonant.api.explosion.ExplosiveType;
+import resonant.api.explosion.IExplosive;
+import resonant.api.explosion.IExplosiveContainer;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.api.icbm.explosion.IExplosive;
-import calclavia.api.icbm.explosion.IExplosiveContainer;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

@@ -3,11 +3,11 @@ package icbm.sentry.interfaces;
 import java.util.HashMap;
 
 import net.minecraft.entity.Entity;
+import resonant.lib.utility.nbt.ISaveObj;
 import universalelectricity.api.vector.IRotation;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.nbt.ISaveObj;
 
 /** *WIP* Interface applied to all sentry objects. Any sentry that uses this must have a constructor
  * that contains ISentryContainer parameter. As well a good bit of ICBM sentry functionality depends

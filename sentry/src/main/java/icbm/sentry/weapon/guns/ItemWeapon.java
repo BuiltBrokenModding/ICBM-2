@@ -10,9 +10,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import resonant.lib.prefab.vector.RayTraceHelper;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.vector.RayTraceHelper;
 
 /** Prefab for all weapon to be based on in ICBM. Does the same basic logic as sentry guns to fire
  * the weapon.

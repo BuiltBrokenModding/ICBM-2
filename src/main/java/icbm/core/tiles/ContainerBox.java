@@ -2,7 +2,7 @@ package icbm.core.tiles;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import calclavia.lib.gui.ContainerBase;
+import resonant.lib.gui.ContainerBase;
 
 /** @author Darkguardsman */
 public class ContainerBox extends ContainerBase

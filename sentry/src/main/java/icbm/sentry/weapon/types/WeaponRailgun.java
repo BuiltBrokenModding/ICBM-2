@@ -10,12 +10,12 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import resonant.api.explosion.IEntityExplosion;
+import resonant.api.weapon.IAmmunition;
+import resonant.api.weapon.ProjectileType;
+import resonant.lib.prefab.vector.Cuboid;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.IEntityExplosion;
-import calclavia.api.icbm.sentry.IAmmunition;
-import calclavia.api.icbm.sentry.ProjectileType;
-import calclavia.lib.prefab.vector.Cuboid;
 
 /** High powered electro magnetic cannon designed to throw a small metal object up to sonic speeds
  * 

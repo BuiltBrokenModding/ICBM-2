@@ -34,10 +34,10 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
+import resonant.api.explosion.IExplosive;
+import resonant.lib.flag.FlagRegistry;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.IExplosive;
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

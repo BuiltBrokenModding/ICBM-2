@@ -5,21 +5,20 @@ import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.interfaces.IUpgrade;
 import icbm.sentry.interfaces.IWeaponSystem;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IExternalInventory;
+import resonant.api.weapon.IAmmunition;
+import resonant.api.weapon.ProjectileType;
+import resonant.lib.utility.inventory.InventoryUtility;
 import universalelectricity.api.vector.IRotation;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
-import calclavia.api.icbm.sentry.IAmmunition;
-import calclavia.api.icbm.sentry.ProjectileType;
-import calclavia.lib.utility.inventory.IExternalInventory;
-import calclavia.lib.utility.inventory.InventoryUtility;
 
 /** Modular system designed to handle all weapon related firing, and impact for an object. Requires
  * that it be constructed with a defined location. This location can be provided by using an entity,

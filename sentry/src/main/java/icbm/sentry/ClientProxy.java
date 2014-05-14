@@ -27,11 +27,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import resonant.api.items.ISimpleItemRenderer;
+import resonant.lib.render.fx.FxLaser;
+import resonant.lib.render.item.GlobalItemRenderer;
+import resonant.lib.utility.nbt.NBTUtility;
 import universalelectricity.api.vector.IVector3;
-import calclavia.lib.render.fx.FxLaser;
-import calclavia.lib.render.item.GlobalItemRenderer;
-import calclavia.lib.render.item.ISimpleItemRenderer;
-import calclavia.lib.utility.nbt.NBTUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 

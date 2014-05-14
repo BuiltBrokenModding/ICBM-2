@@ -8,10 +8,10 @@ import java.lang.reflect.Constructor;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import resonant.api.explosion.IEntityExplosion;
+import resonant.lib.network.PacketHandler;
 import universalelectricity.api.vector.IVectorWorld;
 import universalelectricity.api.vector.VectorWorld;
-import calclavia.api.icbm.explosion.IEntityExplosion;
-import calclavia.lib.network.PacketHandler;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

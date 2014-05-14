@@ -12,12 +12,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
+import resonant.api.IRedstoneReceptor;
+import resonant.api.map.RadarRegistry;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.multiblock.IMultiBlock;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.RadarRegistry;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
 import com.google.common.io.ByteArrayDataInput;
 

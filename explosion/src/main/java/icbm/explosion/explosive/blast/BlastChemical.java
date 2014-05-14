@@ -11,8 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import resonant.lib.prefab.potion.CustomPotionEffect;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.potion.CustomPotionEffect;
 
 public class BlastChemical extends Blast
 {

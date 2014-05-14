@@ -1,14 +1,13 @@
 package icbm.core.compat.waila;
 
-import calclavia.lib.access.AccessUser;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.utility.LanguageUtility;
+import java.util.List;
+
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.item.ItemStack;
-
-import java.util.List;
+import resonant.lib.access.IProfileContainer;
+import resonant.lib.utility.LanguageUtility;
 
 /**
  * @author tgame14

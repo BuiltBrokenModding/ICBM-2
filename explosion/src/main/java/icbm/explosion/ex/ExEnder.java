@@ -11,10 +11,10 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import resonant.api.explosion.IExplosiveContainer;
+import resonant.lib.recipe.RecipeUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.IExplosiveContainer;
 import calclavia.api.mffs.card.ICoordLink;
-import calclavia.lib.recipe.RecipeUtility;
 
 public class ExEnder extends Ex
 {

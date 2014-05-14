@@ -1,9 +1,8 @@
 package icbm.core.items;
 
-import calclavia.lib.prefab.item.ItemBlockTooltip;
 import icbm.Reference;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import resonant.lib.prefab.item.ItemBlockTooltip;
 
 public class ItemBlockSpikes extends ItemBlockTooltip
 {

@@ -11,11 +11,10 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
+import resonant.api.IRedstoneReceptor;
+import resonant.api.IRotatable;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import calclavia.lib.prefab.tile.IRotatable;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TileLaserGate extends TileICBM implements IRotatable, IRedstoneReceptor {

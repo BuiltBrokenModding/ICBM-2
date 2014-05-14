@@ -6,12 +6,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRotatable;
+import resonant.api.ITier;
+import resonant.lib.multiblock.IMultiBlock;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.prefab.tile.TileAdvanced;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ITier;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.prefab.tile.TileAdvanced;
 
 import com.google.common.io.ByteArrayDataInput;
 

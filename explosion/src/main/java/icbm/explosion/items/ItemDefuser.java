@@ -14,7 +14,7 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import calclavia.lib.utility.LanguageUtility;
+import resonant.lib.utility.LanguageUtility;
 
 //Explosive Defuser
 public class ItemDefuser extends ItemICBMElectrical

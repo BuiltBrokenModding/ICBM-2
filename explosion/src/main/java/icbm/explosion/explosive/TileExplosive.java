@@ -9,10 +9,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import calclavia.api.icbm.explosion.IExplosive;
-import calclavia.api.icbm.explosion.IExplosiveContainer;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
+import resonant.api.IRotatable;
+import resonant.api.explosion.IExplosive;
+import resonant.api.explosion.IExplosiveContainer;
+import resonant.lib.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 

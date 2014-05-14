@@ -10,7 +10,7 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
-import calclavia.lib.utility.nbt.ISaveObj;
+import resonant.lib.utility.nbt.ISaveObj;
 
 /** A Class that functions as the AI of automatic turrets. */
 public abstract class TurretAuto extends Turret implements IAutoTurret

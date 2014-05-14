@@ -1,9 +1,9 @@
 package icbm.core.compat;
 
-import calclavia.lib.modproxy.ICompatProxy;
-import calclavia.lib.utility.Mods;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import icbm.core.compat.waila.WailaRegistrar;
+import resonant.lib.modproxy.ICompatProxy;
+import resonant.lib.utility.Mods;
+import cpw.mods.fml.common.event.FMLInterModComms;
 
 /**
  * @author tgame14

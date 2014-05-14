@@ -7,8 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import calclavia.lib.recipe.RecipeUtility;
-import calclavia.lib.recipe.UniversalRecipe;
+import resonant.lib.recipe.RecipeUtility;
+import resonant.lib.recipe.UniversalRecipe;
 
 public class ExSonic extends Ex
 {

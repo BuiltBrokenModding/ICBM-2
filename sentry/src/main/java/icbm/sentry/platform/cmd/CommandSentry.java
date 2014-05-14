@@ -15,8 +15,8 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import resonant.lib.prefab.terminal.CommandRegistry;
 import universalelectricity.api.vector.VectorWorld;
-import calclavia.lib.prefab.terminal.CommandRegistry;
 
 /** Command used to interact and debug sentry guns using a command line chat system
  * 

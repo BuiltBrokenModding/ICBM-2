@@ -17,10 +17,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
+import resonant.api.explosion.IExplosiveIgnore;
+import resonant.lib.config.Config;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.IExplosiveIgnore;
 import calclavia.api.mffs.IForceFieldBlock;
-import calclavia.lib.config.Config;
 
 public class BlastRedmatter extends Blast
 {

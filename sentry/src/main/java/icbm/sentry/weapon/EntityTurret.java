@@ -1,5 +1,9 @@
 package icbm.sentry.weapon;
 
+import icbm.sentry.interfaces.ISentryTrait;
+import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
+
 import java.util.HashMap;
 
 import net.minecraft.entity.Entity;
@@ -7,9 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import icbm.sentry.interfaces.ISentryTrait;
-import icbm.sentry.interfaces.ITurret;
-import icbm.sentry.interfaces.ITurretProvider;
 
 public class EntityTurret implements ITurret
 {

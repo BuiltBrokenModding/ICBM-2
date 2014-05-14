@@ -5,11 +5,11 @@ import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.lib.prefab.tile.TileElectricalInventory;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.tile.TileElectricalInventory;
 
 /** Turret Platform
  * 

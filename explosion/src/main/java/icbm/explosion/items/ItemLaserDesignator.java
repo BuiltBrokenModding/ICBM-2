@@ -20,13 +20,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import resonant.api.blocks.IBlockFrequency;
+import resonant.api.items.IItemFrequency;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.item.ItemElectric;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.IBlockFrequency;
-import calclavia.api.icbm.IItemFrequency;
 import calclavia.api.mffs.fortron.FrequencyGrid;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 

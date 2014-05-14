@@ -1,17 +1,10 @@
 package icbm.sentry.workbench.ammo;
 
 import icbm.core.prefab.BlockICBM;
-import icbm.explosion.ICBMExplosion;
 import icbm.sentry.ICBMSentry;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import calclavia.lib.prefab.tile.IRotatable;
 
 public class BlockMunitionPrinter extends BlockICBM
 {

@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.gui.GuiContainerBase;
+import resonant.lib.gui.GuiContainerBase;
 
 /** @author Darkguardsman */
 public class GuiBox extends GuiContainerBase

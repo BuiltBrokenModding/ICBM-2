@@ -4,10 +4,9 @@ import icbm.Reference;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.weapon.WeaponInaccuracy;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import calclavia.api.icbm.sentry.IAmmunition;
-import calclavia.api.icbm.sentry.ProjectileType;
+import resonant.api.weapon.IAmmunition;
+import resonant.api.weapon.ProjectileType;
 
 /** Conventional bullet driven weapon system that are commonly used and known.
  * 

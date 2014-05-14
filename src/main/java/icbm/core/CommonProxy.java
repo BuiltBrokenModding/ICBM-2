@@ -6,8 +6,8 @@ import icbm.core.tiles.TileBox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import calclavia.api.icbm.IItemFrequency;
-import calclavia.lib.gui.ContainerDummy;
+import resonant.api.items.IItemFrequency;
+import resonant.lib.gui.ContainerDummy;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler

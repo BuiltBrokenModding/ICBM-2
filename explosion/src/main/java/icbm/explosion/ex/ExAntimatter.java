@@ -7,8 +7,8 @@ import icbm.explosion.explosive.blast.BlastAntimatter;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import resonant.lib.recipe.RecipeUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.recipe.RecipeUtility;
 
 public class ExAntimatter extends Ex
 {

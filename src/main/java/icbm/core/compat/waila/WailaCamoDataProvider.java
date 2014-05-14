@@ -1,13 +1,14 @@
 package icbm.core.compat.waila;
 
 import icbm.core.blocks.TileCamouflage;
+
+import java.util.List;
+
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-
-import java.util.List;
 
 /**
  * @author tgame14

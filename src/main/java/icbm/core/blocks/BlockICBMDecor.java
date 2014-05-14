@@ -1,6 +1,5 @@
 package icbm.core.blocks;
 
-import icbm.Reference;
 import icbm.core.prefab.BlockICBM;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import calclavia.api.atomicscience.IAntiPoisonBlock;
+import resonant.api.blocks.IAntiPoisonBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

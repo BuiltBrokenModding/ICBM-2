@@ -6,7 +6,6 @@ import icbm.explosion.machines.launcher.TileLauncherBase;
 import icbm.explosion.machines.launcher.TileLauncherFrame;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
 import icbm.explosion.render.tile.BlockRenderHandler;
-import icbm.sentry.gs.block.TileLaserGate;
 
 import java.util.List;
 import java.util.Random;
@@ -20,14 +19,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRedstoneReceptor;
+import resonant.api.IRotatable;
+import resonant.api.ITier;
+import resonant.core.ResonantEngine;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.multiblock.IMultiBlock;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.UniversalElectricity;
-import calclavia.api.icbm.ITier;
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -111,7 +110,7 @@ public class BlockICBMMachine extends BlockICBM
 
         if (tileEntity instanceof IMultiBlock)
         {
-            CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
+            ResonantEngine.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
         }
     }
 
@@ -266,7 +265,7 @@ public class BlockICBMMachine extends BlockICBM
 
             if (tileEntity instanceof IMultiBlock)
             {
-                CalclaviaLoader.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+                ResonantEngine.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
             }
         }
 

@@ -7,12 +7,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import resonant.api.IRotatable;
+import resonant.api.explosion.ExplosiveType;
+import resonant.api.explosion.IExplosive;
+import resonant.api.explosion.IExplosiveContainer;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.api.icbm.explosion.IExplosive;
-import calclavia.api.icbm.explosion.IExplosiveContainer;
-import calclavia.lib.prefab.tile.IRotatable;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

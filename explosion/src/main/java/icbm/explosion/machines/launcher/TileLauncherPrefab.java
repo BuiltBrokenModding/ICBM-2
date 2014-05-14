@@ -2,10 +2,9 @@ package icbm.explosion.machines.launcher;
 
 import icbm.core.prefab.TileFrequency;
 import net.minecraft.nbt.NBTTagCompound;
+import resonant.api.explosion.ILauncherController;
+import resonant.api.explosion.LauncherType;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.IBlockFrequency;
-import calclavia.api.icbm.ILauncherController;
-import calclavia.api.icbm.LauncherType;
 import calclavia.api.mffs.fortron.FrequencyGrid;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;

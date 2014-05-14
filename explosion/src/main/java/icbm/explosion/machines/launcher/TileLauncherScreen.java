@@ -13,15 +13,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRotatable;
+import resonant.api.ITier;
+import resonant.api.explosion.IMissile;
+import resonant.api.explosion.LauncherType;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.IMissile;
-import calclavia.api.icbm.ITier;
-import calclavia.api.icbm.LauncherType;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 

@@ -11,9 +11,9 @@ import java.awt.Color;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import resonant.lib.gui.ContainerDummy;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.gui.ContainerDummy;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler

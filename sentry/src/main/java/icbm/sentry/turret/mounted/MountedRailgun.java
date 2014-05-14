@@ -4,8 +4,8 @@ import icbm.Reference;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.weapon.types.WeaponRailgun;
+import resonant.lib.multiblock.IMultiBlock;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.multiblock.fake.IMultiBlock;
 
 /** Railgun
  * 

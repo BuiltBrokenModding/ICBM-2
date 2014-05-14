@@ -1,20 +1,23 @@
 package icbm.core.prefab.item;
 
-import calclavia.lib.render.EnumColor;
-import calclavia.lib.utility.LanguageUtility;
-import calclavia.lib.utility.TooltipUtility;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
+
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
 import org.lwjgl.input.Keyboard;
+
+import resonant.lib.render.EnumColor;
+import resonant.lib.utility.LanguageUtility;
+import resonant.lib.utility.TooltipUtility;
 import universalelectricity.api.UniversalClass;
 import universalelectricity.api.item.IEnergyItem;
 import universalelectricity.api.item.IVoltageItem;
 import universalelectricity.api.item.ItemElectric;
-
-import java.util.List;
 
 @UniversalClass
 public abstract class ItemICBMElectrical extends ItemElectric implements IEnergyItem, IVoltageItem

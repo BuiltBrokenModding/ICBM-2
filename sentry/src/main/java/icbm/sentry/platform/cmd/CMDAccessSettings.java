@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
-import calclavia.lib.access.AccessGroup;
-import calclavia.lib.access.AccessProfile;
-import calclavia.lib.access.AccessUser;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.access.Nodes;
-import calclavia.lib.prefab.terminal.ITerminal;
-import calclavia.lib.prefab.terminal.ITerminalCommand;
+import resonant.api.ITerminal;
+import resonant.api.ITerminalCommand;
+import resonant.lib.access.AccessGroup;
+import resonant.lib.access.AccessProfile;
+import resonant.lib.access.AccessUser;
+import resonant.lib.access.IProfileContainer;
+import resonant.lib.access.Nodes;
 
 /** Command used to modify the access profile of a tile
  * 

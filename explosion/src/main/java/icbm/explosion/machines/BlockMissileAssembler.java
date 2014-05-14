@@ -15,12 +15,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.core.ResonantEngine;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.multiblock.IMultiBlock;
+import resonant.lib.multiblock.TileMultiBlockPart;
 import universalelectricity.api.UniversalElectricity;
 import universalelectricity.api.vector.Vector3;
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.multiblock.fake.TileMultiBlockPart;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -70,7 +70,7 @@ public class BlockMissileAssembler extends BlockICBM
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
         if (tileEntity instanceof IMultiBlock)
         {
-            CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
+            ResonantEngine.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
         }
     }
 
@@ -182,7 +182,7 @@ public class BlockMissileAssembler extends BlockICBM
                 entity = world.getBlockTileEntity(x, y, z);
                 ((TileMissileAssembler) entity).readFromNBT(tag);
 
-                CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
+                ResonantEngine.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
                 ((TileMissileAssembler) entity).rotating = false;
                 world.markBlockForUpdate(x, y, z);
                 return true;
@@ -215,7 +215,7 @@ public class BlockMissileAssembler extends BlockICBM
                 entity = world.getBlockTileEntity(x, y, z);
                 ((TileMissileAssembler) entity).readFromNBT(tag);
 
-                CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
+                ResonantEngine.blockMulti.createMultiBlockStructure((IMultiBlock) entity);
                 ((TileMissileAssembler) entity).rotating = false;
                 world.markBlockForUpdate(x, y, z);
                 return true;
@@ -243,7 +243,7 @@ public class BlockMissileAssembler extends BlockICBM
                 this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMissileAssembler, 1, 0));
             }
 
-            CalclaviaLoader.blockMulti.destroyMultiBlockStructure((IMultiBlock) world.getBlockTileEntity(x, y, z));
+            ResonantEngine.blockMulti.destroyMultiBlockStructure((IMultiBlock) world.getBlockTileEntity(x, y, z));
         }
 
         super.breakBlock(world, x, y, z, par5, par6);

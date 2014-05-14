@@ -66,13 +66,13 @@ import net.minecraftforge.common.MinecraftForge;
 
 import org.lwjgl.opengl.GL11;
 
+import resonant.lib.render.RenderUtility;
+import resonant.lib.render.fx.FXElectricBolt;
+import resonant.lib.render.fx.FXElectricBoltSpawner;
+import resonant.lib.render.fx.FXEnderPortalPartical;
+import resonant.lib.render.fx.FXShockWave;
+import resonant.lib.render.fx.FXSmoke;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.render.RenderUtility;
-import calclavia.lib.render.fx.FXElectricBolt;
-import calclavia.lib.render.fx.FXElectricBoltSpawner;
-import calclavia.lib.render.fx.FXEnderPortalPartical;
-import calclavia.lib.render.fx.FXShockWave;
-import calclavia.lib.render.fx.FXSmoke;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;

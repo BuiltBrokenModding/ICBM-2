@@ -6,8 +6,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.gui.ContainerDummy;
-import calclavia.lib.gui.GuiContainerBase;
+import resonant.lib.gui.ContainerDummy;
+import resonant.lib.gui.GuiContainerBase;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public abstract class GuiICBM extends GuiContainerBase

@@ -39,18 +39,18 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.config.ConfigHandler;
-import calclavia.lib.content.ContentRegistry;
-import calclavia.lib.modproxy.ProxyHandler;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.network.PacketPlayerItem;
-import calclavia.lib.network.PacketTile;
-import calclavia.lib.prefab.item.ItemBlockMetadata;
-import calclavia.lib.prefab.ore.OreGenBase;
-import calclavia.lib.prefab.ore.OreGenerator;
-import calclavia.lib.recipe.UniversalRecipe;
-import calclavia.lib.utility.LanguageUtility;
+import resonant.core.ResonantEngine;
+import resonant.lib.config.ConfigHandler;
+import resonant.lib.content.ContentRegistry;
+import resonant.lib.modproxy.ProxyHandler;
+import resonant.lib.network.PacketHandler;
+import resonant.lib.network.PacketPlayerItem;
+import resonant.lib.network.PacketTile;
+import resonant.lib.prefab.item.ItemBlockMetadata;
+import resonant.lib.prefab.ore.OreGenBase;
+import resonant.lib.prefab.ore.OreGenerator;
+import resonant.lib.recipe.UniversalRecipe;
+import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -69,7 +69,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
  * @author Calclavia */
-@Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:AtomicScience;required-after:CalclaviaCore")
+@Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:AtomicScience;required-after:ResonantEngine")
 @NetworkMod(channels = Reference.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 @ModstatInfo(prefix = "icbm", name = Reference.NAME, version = Reference.VERSION)
 public final class ICBMCore
@@ -122,7 +122,7 @@ public final class ICBMCore
 
         Settings.CONFIGURATION.load();
 
-        CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
+        ResonantEngine.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
         // Blocks       
         blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);

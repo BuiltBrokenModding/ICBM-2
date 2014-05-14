@@ -1,12 +1,12 @@
 package icbm.sentry.platform.gui;
 
-import universalelectricity.api.CompatibilityModule;
 import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.api.CompatibilityModule;
 
 /** Slot that only accept upgrades for sentries
  * 

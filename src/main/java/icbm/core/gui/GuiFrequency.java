@@ -9,8 +9,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.api.icbm.IItemFrequency;
-import calclavia.lib.utility.LanguageUtility;
+import resonant.api.items.IItemFrequency;
+import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 

@@ -2,11 +2,10 @@ package icbm.sentry.weapon;
 
 import icbm.sentry.interfaces.ITurret;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import resonant.lib.prefab.damage.ObjectDamageSource;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.damage.ObjectDamageSource;
 
 /** Basic projectile weapon system design more to be used as a prefab. By default it acts like a hand
  * gun with low hit chance and damage.

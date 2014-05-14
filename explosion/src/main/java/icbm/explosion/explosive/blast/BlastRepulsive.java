@@ -9,8 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import resonant.lib.prefab.vector.Cuboid;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.vector.Cuboid;
 
 public class BlastRepulsive extends Blast
 {

@@ -5,7 +5,6 @@ import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 
 import java.util.LinkedHashSet;
-import java.util.Map.Entry;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -19,10 +18,10 @@ import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import calclavia.api.icbm.ITarget;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.config.Config;
-import calclavia.lib.utility.nbt.ISaveObj;
+import resonant.api.ai.ITarget;
+import resonant.lib.access.IProfileContainer;
+import resonant.lib.config.Config;
+import resonant.lib.utility.nbt.ISaveObj;
 
 /** Basic entity selector used by sentry guns to find valid targets
  * 

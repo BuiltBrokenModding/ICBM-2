@@ -1,8 +1,8 @@
 package icbm.sentry.weapon.guns;
 
-import calclavia.api.icbm.sentry.IAmmunition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import resonant.api.weapon.IAmmunition;
 
 /** Static class for universal ammunition handling.
  * 

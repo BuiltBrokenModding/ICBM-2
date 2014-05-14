@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import calclavia.api.icbm.ITracker;
+import resonant.api.items.IItemTracker;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,9 +42,9 @@ public class TextureTracker extends TextureAtlasSprite
 
             if (itemStack != null)
             {
-                if (itemStack.getItem() instanceof ITracker)
+                if (itemStack.getItem() instanceof IItemTracker)
                 {
-                    Entity trackingEntity = ((ITracker) itemStack.getItem()).getTrackingEntity(FMLClientHandler.instance().getClient().theWorld, itemStack);
+                    Entity trackingEntity = ((IItemTracker) itemStack.getItem()).getTrackingEntity(FMLClientHandler.instance().getClient().theWorld, itemStack);
 
                     if (trackingEntity != null)
                     {

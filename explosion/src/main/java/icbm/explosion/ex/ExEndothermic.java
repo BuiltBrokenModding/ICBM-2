@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import calclavia.lib.recipe.RecipeUtility;
+import resonant.lib.recipe.RecipeUtility;
 
 public class ExEndothermic extends Ex
 {

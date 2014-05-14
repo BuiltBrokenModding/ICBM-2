@@ -1,8 +1,8 @@
 package icbm.sentry.platform.gui.user;
 
 import net.minecraft.client.gui.GuiButton;
-import calclavia.lib.Calclavia;
-import calclavia.lib.gui.GuiContainerBase;
+import resonant.lib.References;
+import resonant.lib.gui.GuiContainerBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 /** @author DarkGuardsman */
@@ -16,7 +16,7 @@ public class GuiAccessGuiComponent extends GuiContainerBase
     {
         super(return_gui.inventorySlots);
         this.return_gui = return_gui;
-        this.baseTexture = Calclavia.GUI_EMPTY_FILE;
+        this.baseTexture = References.GUI_EMPTY_FILE;
     }
 
     @Override

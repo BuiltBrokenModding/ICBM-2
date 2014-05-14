@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import resonant.lib.render.RenderUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.render.RenderUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

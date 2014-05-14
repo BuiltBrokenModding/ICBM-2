@@ -5,10 +5,10 @@ import icbm.core.blocks.TileProximityDetector;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiProximityDetector extends GuiICBM

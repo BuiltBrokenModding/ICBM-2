@@ -2,7 +2,7 @@ package icbm.explosion.ex.missiles;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import calclavia.api.icbm.IMissile;
+import resonant.api.explosion.IMissile;
 
 public class MissileModule extends Missile
 {

@@ -1,6 +1,5 @@
 package icbm.sentry.turret;
 
-import calclavia.lib.utility.LanguageUtility;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.mounted.TurretMounted;
@@ -15,6 +14,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
