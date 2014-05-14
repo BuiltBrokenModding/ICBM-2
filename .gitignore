@@ -3,3 +3,7 @@
 
 *.classpath
 *.project
+.gradle/
+.settings/
+build/
+eclipse/

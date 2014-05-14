@@ -84,9 +84,9 @@ repositories {
 dependencies {
 	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
     if (true)
-        compile group: 'calclavia-core-development', name: 'calclavia-core', version: "${rootProject.config.version.calclaviacore}", classifier: "dev"
+        compile group: 'resonant-engine-development', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
     else
-        compile group: 'calclaviacore', name: 'calclavia-core', version: "${config.version.calclaviacore}", classifier: "dev"
+        compile group: 'resonant-engine', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
 }
 
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
