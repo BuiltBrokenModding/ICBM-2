@@ -42,7 +42,12 @@ minecraft {
 	replace "@MAJOR@", config.version.mod.major
 	replace "@MINOR@", config.version.mod.minor
 	replace "@REVIS@", config.version.mod.revis
-	replace "@BUILD@", System.getenv("BUILD_NUMBER")
+	if (System.getenv("BUILD_NUMBER") != null) {
+		replace "@BUILD@", System.getenv("BUILD_NUMBER")
+	}
+	else {
+		replace "@BUILD@", 1
+	}
 }
 
 if (System.getenv("BUILD_NUMBER") != null)
@@ -83,7 +88,7 @@ repositories {
 }
 dependencies {
 	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
-    if (true)
+    if (System.getenv().JOB_NAME != null && System.getenv().JOB_NAME == "ICBM-Development")
         compile group: 'resonant-engine-development', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
     else
         compile group: 'resonant-engine', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
