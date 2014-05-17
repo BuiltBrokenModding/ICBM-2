@@ -21,6 +21,7 @@ import resonant.api.IExternalInventory;
 import resonant.api.IExternalInventoryBox;
 import resonant.api.IRotatable;
 import resonant.lib.access.AccessProfile;
+import resonant.lib.access.AccessUser;
 import resonant.lib.access.IProfileContainer;
 import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.network.PacketHandler;
@@ -237,7 +238,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        
+
         NBTTagCompound perm_tag = new NBTTagCompound();
         this.getAccessProfile().save(perm_tag);
         nbt.setCompoundTag("permissions", perm_tag);
@@ -257,7 +258,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        
+
         this.unlocalizedName = nbt.getString("unlocalizedName");
         if (nbt.hasKey("permissions"))
             this.setAccessProfile(new AccessProfile((nbt.getCompoundTag("permissions"))));
@@ -415,7 +416,14 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public boolean canUse(String node, EntityPlayer player)
     {
-		return this.getAccessProfile().getUserAccess(player.username).hasNode(node);
+        AccessUser user = this.getAccessProfile().getUserAccess(player.username);
+        assert user != null : "TileTurret canUse() user returned null for player " + player.username;
+        
+        if (user != null && user.getGroup() != null)
+        {
+            return this.getAccessProfile().getUserAccess(player.username).hasNode(node);
+        }
+        return false;
     }
 
     @Override
