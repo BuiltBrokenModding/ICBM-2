@@ -421,8 +421,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         
         if (user != null && user.getGroup() != null)
         {
-            //return this.getAccessProfile().getUserAccess(player.username).hasNode(node);
-            return true;
+            return this.getAccessProfile().getUserAccess(player.username).hasNode(node);
         }
         return false;
     }
