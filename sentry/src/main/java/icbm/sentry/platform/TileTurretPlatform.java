@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import resonant.lib.prefab.tile.TileElectricalInventory;
+import resonant.lib.utility.MathUtility;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
@@ -17,6 +18,8 @@ import universalelectricity.api.vector.Vector3;
 public class TileTurretPlatform extends TileElectricalInventory
 {
     private TileTurret[] turrets = new TileTurret[6];
+
+    private static int[] ammoBaySlots = MathUtility.generateSqeuncedArray(0, 12);
 
     public TileTurretPlatform()
     {
@@ -103,6 +106,12 @@ public class TileTurretPlatform extends TileElectricalInventory
     public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract)
     {
         return 0;
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int side)
+    {
+        return ammoBaySlots;
     }
 
     @Override
