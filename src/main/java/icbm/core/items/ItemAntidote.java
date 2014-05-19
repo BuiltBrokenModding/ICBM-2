@@ -1,6 +1,8 @@
 package icbm.core.items;
 
+import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -38,6 +40,15 @@ public class ItemAntidote extends ItemICBMBase
     public EnumAction getItemUseAction(ItemStack par1ItemStack)
     {
         return EnumAction.eat;
+    }
+    
+    @Override
+    public void registerIcons(IconRegister iconRegister)
+    {
+        super.registerIcons(iconRegister);
+        
+        // Icon for base item.
+        this.itemIcon = iconRegister.registerIcon(Reference.PREFIX + "antidote");
     }
 
     /** Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,

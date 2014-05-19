@@ -19,17 +19,22 @@ public class ItemSulfurDust extends ItemICBMBase
 
     public ItemSulfurDust(int id)
     {
+        // Base name that we return.
         super(id, "sulfur");
+        
+        // Tell minecraft we have multiple types of items based on damage.
         this.setHasSubtypes(true);
     }
 
     @Override
     public Icon getIconFromDamage(int meta)
     {
+        // Damage value of 1 is saltpeter.
         if (meta == 1)
         {
             return salt_icon;
         }
+        
         return super.getIconFromDamage(meta);
     }
 
@@ -37,15 +42,22 @@ public class ItemSulfurDust extends ItemICBMBase
     public void registerIcons(IconRegister iconRegister)
     {
         super.registerIcons(iconRegister);
+        
+        // Icon for base item which is sulfur dust.
+        this.itemIcon = iconRegister.registerIcon(Reference.PREFIX + "sulfur");
+        
+        // First damage value contains icon for saltpeter.
         this.salt_icon = iconRegister.registerIcon(Reference.PREFIX + "saltpeter");
     }
 
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
+        // Damage value of 1 returns name of saltpeter.
         if (par1ItemStack.getItemDamage() == 1)
         {
             return "item." + Reference.PREFIX + "saltpeter";
         }
+        
         return super.getUnlocalizedName();
     }
 
