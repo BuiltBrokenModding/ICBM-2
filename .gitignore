@@ -7,3 +7,9 @@
 .settings/
 build/
 eclipse/
+
+
+*.iml
+*.iws
+*.ipr
+*.idea/
