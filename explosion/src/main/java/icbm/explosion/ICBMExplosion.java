@@ -346,8 +346,8 @@ public class ICBMExplosion
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
         // Add all explosive recipes.
-        if (!Loader.isModLoaded("AtomicScience")) //TODO ? static id
-            OreDictionary.registerOre("antimatterGram", new ItemStack(397, 1, 1));
+        if (!Loader.isModLoaded("ResonantInduction|Atomic")) //TODO ? static id
+            OreDictionary.registerOre("strangeMatter", new ItemStack(397, 1, 1));
 
         for (Explosive explosive : ExplosiveRegistry.getExplosives())
         {
