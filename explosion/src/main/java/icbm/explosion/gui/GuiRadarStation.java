@@ -211,7 +211,7 @@ public class GuiRadarStation extends GuiICBM
 
                 if (entity instanceof EntityMissile)
                 {
-                    if (this.tileEntity.isWeiXianDaoDan((EntityMissile) entity))
+                    if (this.tileEntity.isMissileGoingToHit((EntityMissile) entity))
                     {
                         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_RED_DOT);
                     }

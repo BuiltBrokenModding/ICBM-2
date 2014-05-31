@@ -105,10 +105,11 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 
         if (!this.worldObj.isRemote)
         {
+            //Update client every 2 seconds
             if (this.ticks % 40 == 0)
             {
                 PacketHandler.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
-            }
+            }//Send packets to users with the gui open
             else if (this.ticks % 3 == 0)
             {
                 for (EntityPlayer player : this.playersUsing)
@@ -118,6 +119,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             }
         }
 
+        //If we have energy
         if (this.getEnergyHandler().checkExtract())
         {
             this.rotation += 0.08f;
@@ -141,25 +143,25 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             {
                 this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
             }
-
+            //Check for incoming and launch anti-missiles if
             if (this.ticks % 20 == 0 && this.incomingMissiles.size() > 0)
             {
                 for (IBlockFrequency blockFrequency : FrequencyGrid.instance().get())
                 {
                     if (blockFrequency instanceof TileLauncherPrefab)
                     {
-                        TileLauncherPrefab faSheQi = (TileLauncherPrefab) blockFrequency;
+                        TileLauncherPrefab launcher = (TileLauncherPrefab) blockFrequency;
 
-                        if (new Vector3(this).distance(new Vector3(faSheQi)) < this.alarmRange && faSheQi.getFrequency() == this.getFrequency())
+                        if (new Vector3(this).distance(new Vector3(launcher)) < this.alarmRange && launcher.getFrequency() == this.getFrequency())
                         {
-                            if (faSheQi instanceof TileLauncherScreen)
+                            if (launcher instanceof TileLauncherScreen)
                             {
-                                double height = faSheQi.getTarget() != null ? faSheQi.getTarget().y : 0;
-                                faSheQi.setTarget(new Vector3(this.incomingMissiles.get(0).posX, height, this.incomingMissiles.get(0).posZ));
+                                double height = launcher.getTarget() != null ? launcher.getTarget().y : 0;
+                                launcher.setTarget(new Vector3(this.incomingMissiles.get(0).posX, height, this.incomingMissiles.get(0).posZ));
                             }
                             else
                             {
-                                faSheQi.setTarget(new Vector3(this.incomingMissiles.get(0)));
+                                launcher.setTarget(new Vector3(this.incomingMissiles.get(0)));
                             }
                         }
                     }
@@ -203,7 +205,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
                         this.detectedEntities.add(entity);
                     }
 
-                    if (this.isWeiXianDaoDan((EntityMissile) entity))
+                    if (this.isMissileGoingToHit((EntityMissile) entity))
                     {
                         if (this.incomingMissiles.size() > 0)
                         {
@@ -294,18 +296,17 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         }
     }
 
-    public boolean isWeiXianDaoDan(EntityMissile daoDan)
+    /** Checks to see if the missile will hit within the range of the radar station
+     * 
+     * @param missile - missile being checked
+     * @return true if it will */
+    public boolean isMissileGoingToHit(EntityMissile missile)
     {
-        if (daoDan == null)
+        if (missile == null || missile.targetVector == null)
         {
             return false;
         }
-        if (daoDan.targetVector == null)
-        {
-            return false;
-        }
-
-        return (Vector2.distance(new Vector3(daoDan).toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.alarmRange && Vector2.distance(daoDan.targetVector.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyRange);
+        return (Vector2.distance(new Vector3(missile).toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.alarmRange && Vector2.distance(missile.targetVector.toVector2(), new Vector2(this.xCoord, this.zCoord)) < this.safetyRange);
     }
 
     private Packet getDescriptionPacket2()
