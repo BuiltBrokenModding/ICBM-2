@@ -4,6 +4,7 @@ import icbm.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.ex.Ex;
+import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
     {
         if (!world.isRemote)
         {
-            if (this.getEnergy(itemStack) >= ENERGY)
+            if (this.getEnergy(itemStack) >= ENERGY || player.capabilities.isCreativeMode)
             {
                 // Check the player's inventory and look for missiles.
                 for (int i = 0; i < player.inventory.getSizeInventory(); i++)
@@ -54,28 +55,26 @@ public class ItemRocketLauncher extends ItemICBMElectrical
                     {
                         if (inventoryStack.getItem() instanceof ItemMissile)
                         {
-                            int haoMa = inventoryStack.getItemDamage();
+                            int meta = inventoryStack.getItemDamage();
+                            Explosive ex = ExplosiveRegistry.get(meta);
 
-                            if (ExplosiveRegistry.get(haoMa) instanceof Ex)
+                            if (ex instanceof Ex)
                             {
-                                Ex daoDan = (Ex) ExplosiveRegistry.get(haoMa);
-
-                                ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, player.posX, player.posY, player.posZ, ExplosiveType.AIR, ExplosiveRegistry.get(haoMa));
+                                ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, player.posX, player.posY, player.posZ, ExplosiveType.AIR, ExplosiveRegistry.get(meta));
                                 MinecraftForge.EVENT_BUS.post(evt);
 
-                                if (daoDan != null && !evt.isCanceled())
+                                if (((Ex)ex) != null && !evt.isCanceled())
                                 {
                                     // Limit the missile to tier two.
-                                    if (daoDan.getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && daoDan.isCruise())
+                                    if (((Ex)ex).getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && ((Ex)ex).isCruise())
                                     {
-                                        double dist = 5000;
-                                        Vector3 diDian = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
-                                        Vector3 kan = new Vector3(player.getLook(1));
-                                        Vector3 start = Vector3.translate(diDian, Vector3.scale(kan, 1.1));
-                                        Vector3 muBiao = Vector3.translate(diDian, Vector3.scale(kan, 100));
+                                        Vector3 missileSpawnPoint = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
+                                        Vector3 playerAim = new Vector3(player.getLook(1));
+                                        Vector3 start = Vector3.translate(missileSpawnPoint, Vector3.scale(playerAim, 1.1));
+                                        Vector3 muBiao = Vector3.translate(missileSpawnPoint, Vector3.scale(playerAim, 100));
 
                                         //TOD: Fix this rotation when we use the proper model loader.
-                                        EntityMissile entityMissile = new EntityMissile(world, start, daoDan.getID(), -player.rotationYaw, -player.rotationPitch);
+                                        EntityMissile entityMissile = new EntityMissile(world, start, ((Ex)ex).getID(), -player.rotationYaw, -player.rotationPitch);
                                         world.spawnEntityInWorld(entityMissile);
 
                                         if (player.isSneaking())
@@ -90,9 +89,8 @@ public class ItemRocketLauncher extends ItemICBMElectrical
                                         if (!player.capabilities.isCreativeMode)
                                         {
                                             player.inventory.setInventorySlotContents(i, null);
-                                        }
-
-                                        this.discharge(itemStack, ENERGY, true);
+                                            this.discharge(itemStack, ENERGY, true);
+                                        }                                    
 
                                         return itemStack;
                                     }
