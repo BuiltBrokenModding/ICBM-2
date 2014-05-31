@@ -41,7 +41,7 @@ public class BlockICBMMachine extends BlockICBM
         EmpTower(TileEMPTower.class),
         CruiseLauncher(TileCruiseLauncher.class),
         MissileCoordinator(TileMissileCoordinator.class);
-        
+
         public Class<? extends TileEntity> tileEntity;
 
         MachineData(Class<? extends TileEntity> tileEntity)
@@ -114,44 +114,34 @@ public class BlockICBMMachine extends BlockICBM
         }
     }
 
-    public static boolean canBePlacedAt(World world, int x, int y, int z, int metadata, int direction)
+    /** Checks if the machine can be placed at the location */
+    public static boolean canBePlacedAt(World world, int x, int y, int z, int m, int side)
     {
-        switch (metadata)
+        ForgeDirection d = ForgeDirection.getOrientation(side);
+
+        if (m == 0)
         {
-            default:
+            //Launcher Pad multi block placement check
+            for (int yp = 0; yp < 2; yp++)
             {
-                return world.getBlockMaterial(x, y - 1, z).isSolid();
+                if (!world.isAirBlock(x + d.offsetX, y + yp, z + d.offsetZ))
+                    return false;
+                if (!world.isAirBlock(x - d.offsetX, y + yp, z - d.offsetZ))
+                    return false;
             }
-            case 0:
-            {
-                // Launcher Base
-                if (direction == 0 || direction == 2)
-                {
-                    return world.getBlockId(x, y, z) == 0 &&
-                    // Left
-                            world.getBlockId(x + 1, y, z) == 0 && world.getBlockId(x + 1, y + 1, z) == 0 && world.getBlockId(x + 1, y + 2, z) == 0 &&
-                            // Right
-                            world.getBlockId(x - 1, y, z) == 0 && world.getBlockId(x - 1, y + 1, z) == 0 && world.getBlockId(x - 1, y + 2, z) == 0;
-                }
-                else if (direction == 1 || direction == 3)
-                {
-                    return world.getBlockId(x, y, z) == 0 &&
-                    // Front
-                            world.getBlockId(x, y, z + 1) == 0 && world.getBlockId(x, y + 1, z + 1) == 0 && world.getBlockId(x, y + 2, z + 1) == 0 &&
-                            // Back
-                            world.getBlockId(x, y, z - 1) == 0 && world.getBlockId(x, y + 1, z - 1) == 0 && world.getBlockId(x, y + 2, z - 1) == 0;
-                }
-            }
-            case 2:
-            {
-                // Launcher Frame
-                return world.getBlockMaterial(x, y - 1, z).isSolid() && world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x, y + 2, z) == 0;
-            }
-            case 4:
-            {
-                return world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0;
-            }
+            return world.isAirBlock(x, y, z);
         }
+        else if (m == 2)
+        {
+            // Launcher Frame
+            return world.getBlockMaterial(x, y - 1, z).isSolid() && world.isAirBlock(x, y, z) && world.isAirBlock(x, y + 1, z) && world.isAirBlock(x, y + 2, z);
+        }
+        else if (m == 4)
+        {
+            return world.isAirBlock(x, y, z) && world.isAirBlock(x, y + 1, z);
+        }
+
+        return world.getBlockMaterial(x, y - 1, z).isSolid();
     }
 
     @Override
