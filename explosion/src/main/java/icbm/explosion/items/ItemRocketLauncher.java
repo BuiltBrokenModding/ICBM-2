@@ -7,6 +7,7 @@ import icbm.explosion.ex.Ex;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
 
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,8 @@ import universalelectricity.api.vector.Vector3;
 public class ItemRocketLauncher extends ItemICBMElectrical
 {
     private static final int ENERGY = 1000000;
+    private static final int firingDelay = 1000;
+    private HashMap<String, Long> clickTimePlayer = new HashMap<String, Long>();
 
     public ItemRocketLauncher(int par1)
     {
@@ -44,12 +47,21 @@ public class ItemRocketLauncher extends ItemICBMElectrical
     {
         if (!world.isRemote)
         {
+            long clickMs = System.currentTimeMillis();
+            if (clickTimePlayer.containsKey(player.username))
+            {
+                if (clickMs - clickTimePlayer.get(player.username) < firingDelay)
+                {
+                    //TODO play weapon empty click audio to note the gun is reloading
+                    return itemStack;
+                }
+            }
             if (this.getEnergy(itemStack) >= ENERGY || player.capabilities.isCreativeMode)
             {
                 // Check the player's inventory and look for missiles.
-                for (int i = 0; i < player.inventory.getSizeInventory(); i++)
+                for (int slot = 0; slot < player.inventory.getSizeInventory(); slot++)
                 {
-                    ItemStack inventoryStack = player.inventory.getStackInSlot(i);
+                    ItemStack inventoryStack = player.inventory.getStackInSlot(slot);
 
                     if (inventoryStack != null)
                     {
@@ -63,18 +75,18 @@ public class ItemRocketLauncher extends ItemICBMElectrical
                                 ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, player.posX, player.posY, player.posZ, ExplosiveType.AIR, ExplosiveRegistry.get(meta));
                                 MinecraftForge.EVENT_BUS.post(evt);
 
-                                if (((Ex)ex) != null && !evt.isCanceled())
+                                if (((Ex) ex) != null && !evt.isCanceled())
                                 {
                                     // Limit the missile to tier two.
-                                    if (((Ex)ex).getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && ((Ex)ex).isCruise())
+                                    if (((Ex) ex).getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && ((Ex) ex).isCruise())
                                     {
-                                        Vector3 missileSpawnPoint = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
+                                        Vector3 launcher = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
                                         Vector3 playerAim = new Vector3(player.getLook(1));
-                                        Vector3 start = Vector3.translate(missileSpawnPoint, Vector3.scale(playerAim, 1.1));
-                                        Vector3 muBiao = Vector3.translate(missileSpawnPoint, Vector3.scale(playerAim, 100));
+                                        Vector3 start = Vector3.translate(launcher, Vector3.scale(playerAim, 1.1));
+                                        Vector3 target = Vector3.translate(launcher, Vector3.scale(playerAim, 100));
 
                                         //TOD: Fix this rotation when we use the proper model loader.
-                                        EntityMissile entityMissile = new EntityMissile(world, start, ((Ex)ex).getID(), -player.rotationYaw, -player.rotationPitch);
+                                        EntityMissile entityMissile = new EntityMissile(world, start, ((Ex) ex).getID(), -player.rotationYaw, -player.rotationPitch);
                                         world.spawnEntityInWorld(entityMissile);
 
                                         if (player.isSneaking())
@@ -84,14 +96,17 @@ public class ItemRocketLauncher extends ItemICBMElectrical
                                         }
 
                                         entityMissile.ignore(player);
-                                        entityMissile.launch(muBiao);
+                                        entityMissile.launch(target);
 
                                         if (!player.capabilities.isCreativeMode)
                                         {
-                                            player.inventory.setInventorySlotContents(i, null);
+                                            player.inventory.setInventorySlotContents(slot, null);
                                             this.discharge(itemStack, ENERGY, true);
-                                        }                                    
-
+                                        }
+                                        
+                                        //Store last time player launched a rocket
+                                        clickTimePlayer.put(player.username, clickMs);
+                                        
                                         return itemStack;
                                     }
                                 }
@@ -128,6 +143,6 @@ public class ItemRocketLauncher extends ItemICBMElectrical
         String str = LanguageUtility.getLocal("info.rocketlauncher.tooltip").replaceAll("%s", String.valueOf(Settings.MAX_ROCKET_LAUCNHER_TIER));
         list.add(str);
 
-		super.addInformation(itemStack, entityPlayer, list, par4);
+        super.addInformation(itemStack, entityPlayer, list, par4);
     }
 }
