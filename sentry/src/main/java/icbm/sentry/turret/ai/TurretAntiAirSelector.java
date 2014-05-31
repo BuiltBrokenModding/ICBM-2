@@ -20,13 +20,16 @@ public class TurretAntiAirSelector extends TurretEntitySelector
     @Override
     public boolean isEntityApplicable(Entity entity)
     {
-        if (entity instanceof IMissile)
+        if (!isFriendly(entity) && isValid(entity))
         {
-            return canTargetType("missiles");
-        }
-        else if (entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isFlying)
-        {
-            return target_players_global && canTargetType("players");
+            if (entity instanceof IMissile)
+            {
+                return canTargetType("missiles");
+            }
+            else if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isFlying)
+            {
+                return target_players_global && canTargetType("players");
+            }
         }
         return super.isEntityApplicable(entity);
     }
