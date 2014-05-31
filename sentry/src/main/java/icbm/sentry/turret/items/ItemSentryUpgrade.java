@@ -48,7 +48,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-        return "item." + Reference.PREFIX + Upgrades.values()[itemStack.getItemDamage()].iconName;
+        return "item." + Reference.PREFIX + Upgrades.values()[itemStack.getItemDamage()].name;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
     {
         for (int meta = 0; meta < Upgrades.values().length; meta++)
         {
-            Upgrades.setIcon(meta, iconRegister.registerIcon(Reference.PREFIX + Upgrades.values()[meta].name));
+            Upgrades.setIcon(meta, iconRegister.registerIcon(Reference.PREFIX + Upgrades.values()[meta].iconName));
         }
     }
 
@@ -120,10 +120,10 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
     /** Enum of upgrade data */
     public static enum Upgrades
     {
-        TARGET_RANGE("targetCard", IUpgrade.TARGET_RANGE, 0.25, "info.upgrade.range"),
+        TARGET_RANGE("targetRange", IUpgrade.TARGET_RANGE, 0.25, "info.upgrade.range"),
         COLLECTOR("shellCollector", IUpgrade.SHELL_COLLECTOR, 1, "info.upgrade.collect"),
         SILENCER("silencer", IUpgrade.SILENCER, 1, "info.upgrade.silencer"),
-        TARGET_SPEED("targettingSpeed", IUpgrade.SILENCER, 1, "info.upgrade.targetspeed");
+        TARGET_SPEED("targetingSpeed", IUpgrade.TARGET_SPEED, 1, "info.upgrade.targetspeed");
 
         /** Texture/Icon name */
         public final String iconName;
@@ -143,7 +143,7 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
 
         private Upgrades(String name, String upgradeName, double bonus, String info)
         {
-            this(name, upgradeName, "upgrade." + upgradeName, bonus, info);
+            this(name, upgradeName, "upgrade." + name, bonus, info);
         }
 
         private Upgrades(String name, String upgradeName, String texture, double bonus, String info)
