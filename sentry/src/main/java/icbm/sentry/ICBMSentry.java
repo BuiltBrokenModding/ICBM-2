@@ -145,7 +145,7 @@ public class ICBMSentry
         GameRegistry.addRecipe(new ShapedOreRecipe(TurretRegistry.getItemStack(TurretAutoBow.class), new Object[] { "BCL", "DW ", "WW ", 'D', Block.dispenser, 'B', Item.bow, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', Block.planks }));
 
         // Upgrades
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, Upgrades.RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, Upgrades.TARGET_RANGE.ordinal()), new Object[] { "B", "I", 'B', Item.bow, 'I', Item.diamond }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemUpgrade, 1, Upgrades.COLLECTOR.ordinal()), new Object[] { "BBB", " I ", "BBB", 'B', Block.cloth, 'I', Item.bowlEmpty }));
 
         proxy.init();

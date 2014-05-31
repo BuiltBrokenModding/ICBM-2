@@ -23,9 +23,6 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author DarkGuardsman */
 public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
 {
-
-    public static final Icon[] ICONS = new Icon[Upgrades.values().length];
-
     public ItemSentryUpgrade(int id)
     {
         super(id, "turretUpgrades");
@@ -40,20 +37,12 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
     }
 
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4)
     {
-        if (itemStack != null)
-        {
-            if (itemStack.getTagCompound() == null)
-            {
-                itemStack.setTagCompound(new NBTTagCompound());
-            }
-            par3List.addAll(LanguageUtility.splitStringPerWord(Upgrades.getDescription(itemStack.getItemDamage()), 4));
-            //par3List.add("\u00a7cDamage: " + (UnitDisplay.roundDecimals((itemStack.getTagCompound().getInteger("upgradeDamage") / TurretUpgradeType.getMaxUses(itemStack.getItemDamage()))) + "%"));
-
-			super.addInformation(itemStack, par2EntityPlayer, par3List, par4);
-
-        }
+        super.addInformation(itemStack, player, list, par4);
+        String local = LanguageUtility.getLocal(Upgrades.getDescription(itemStack.getItemDamage()));
+        if (local != null && !local.isEmpty())
+            list.addAll(LanguageUtility.splitStringPerWord(local, 4));
     }
 
     @Override
@@ -63,27 +52,27 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
     }
 
     @Override
-    public Icon getIconFromDamage(int i)
+    public Icon getIconFromDamage(int meta)
     {
-        return ICONS[i];
+        return Upgrades.getIcon(meta);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IconRegister iconRegister)
     {
-        for (int i = 0; i < Upgrades.values().length; i++)
+        for (int meta = 0; meta < Upgrades.values().length; meta++)
         {
-            ICONS[i] = iconRegister.registerIcon(Reference.PREFIX + Upgrades.values()[i].iconName);
+            Upgrades.setIcon(meta, iconRegister.registerIcon(Reference.PREFIX + Upgrades.values()[meta].name));
         }
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(int id, CreativeTabs tab, List list)
     {
-        for (int i = 0; i < Upgrades.values().length; i++)
+        for (int meta = 0; meta < Upgrades.values().length; meta++)
         {
-            par3List.add(new ItemStack(this, 1, i));
+            list.add(new ItemStack(this, 1, meta));
         }
     }
 
@@ -105,11 +94,11 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
         if (itemStack != null && itemStack.getItemDamage() < Upgrades.values().length)
         {
             Upgrades upgrade = Upgrades.values()[itemStack.getItemDamage()];
-            if (object instanceof ITurret && upgrade.getType() == 0)
+            if (object instanceof ITurret && upgrade.getType() == Type.SENTRY)
             {
                 return true;
             }
-            if (object instanceof TileTurretPlatform && upgrade.getType() == 1)
+            else if (object instanceof TileTurretPlatform && upgrade.getType() == Type.PLATFORM)
             {
                 return true;
             }
@@ -117,46 +106,104 @@ public class ItemSentryUpgrade extends ItemICBMBase implements IUpgrade
         return false;
     }
 
+    /** Enum of sub types for upgrades */
+    public static enum Type
+    {
+        /** Generic turret upgrade */
+        SENTRY,
+        /** Block platform only upgrade */
+        PLATFORM,
+        /** Mobile turret only upgrade */
+        MOBILESENTRY;
+    }
+
     /** Enum of upgrade data */
     public static enum Upgrades
     {
-        RANGE("targetCard", IUpgrade.TARGET_RANGE, 0.25, LanguageUtility.getLocal("info.upgrade.range")),
-        COLLECTOR("shellCollector", IUpgrade.SHELL_COLLECTOR, 1, LanguageUtility.getLocal("info.upgrade.collect"));
+        TARGET_RANGE("targetCard", IUpgrade.TARGET_RANGE, 0.25, "info.upgrade.range"),
+        COLLECTOR("shellCollector", IUpgrade.SHELL_COLLECTOR, 1, "info.upgrade.collect"),
+        SILENCER("silencer", IUpgrade.SILENCER, 1, "info.upgrade.silencer"),
+        TARGET_SPEED("targettingSpeed", IUpgrade.SILENCER, 1, "info.upgrade.targetspeed");
 
+        /** Texture/Icon name */
         public final String iconName;
-        public final String details;
-        private final String upgradeName;
-        private final double bonus;
-        private int upgrade_type = 0;
+        /** Generic name (not unlocalized or localized) */
+        public final String name;
+        /** localization reference for item info */
+        public final String itemInfo;
+        /** Icon for the item */
+        public Icon icon;
 
-        private Upgrades(String name, String upgradeName, double bonus, String de)
+        /** Upgrade common name ID (Allows several upgrades to share the same type_ */
+        private final String upgradeID;
+        /** Bonus percent */
+        private final double bonus;
+        /** Upgrade sub type */
+        private Type upgrade_type = Type.SENTRY;
+
+        private Upgrades(String name, String upgradeName, double bonus, String info)
         {
-            this.iconName = name;
-            this.details = de;
-            this.upgradeName = upgradeName;
+            this(name, upgradeName, "upgrade." + upgradeName, bonus, info);
+        }
+
+        private Upgrades(String name, String upgradeName, String texture, double bonus, String info)
+        {
+            this.name = name;
+            this.iconName = texture;
+            this.itemInfo = info;
+            this.upgradeID = upgradeName;
             this.bonus = bonus;
         }
 
+        /** Upgrade type/name (same as orename system) */
         public String getUpgradeName()
         {
-            return upgradeName;
+            return upgradeID;
         }
 
+        /** Gets the effect bonus */
         public double getBonus()
         {
             return bonus;
         }
 
-        public int getType()
+        /** Gets the upgrade sub type */
+        public Type getType()
         {
             return upgrade_type;
         }
 
+        /** Icon for the item */
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        /** Grabs the icon based on meta */
+        public static Icon getIcon(int meta)
+        {
+            if (meta >= 0 && meta < Upgrades.values().length)
+            {
+                return Upgrades.values()[meta].icon();
+            }
+            return null;
+        }
+
+        /** Grabs the icon based on meta */
+        public static void setIcon(int meta, Icon icon)
+        {
+            if (meta >= 0 && meta < Upgrades.values().length)
+            {
+                Upgrades.values()[meta].icon = icon;
+            }
+        }
+
+        /** Graps the localized description for the sub item */
         public static String getDescription(int meta)
         {
             if (meta < values().length)
             {
-                return "" + values()[meta].details;
+                return "" + values()[meta].itemInfo;
             }
             return LanguageUtility.getLocal("info.upgrade.sentry");
         }
