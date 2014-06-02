@@ -3,8 +3,6 @@ package icbm.sentry;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.ContainerTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
-import icbm.sentry.workbench.ammo.ContainerMunitionPrinter;
-import icbm.sentry.workbench.ammo.TileMunitionPrinter;
 
 import java.awt.Color;
 
@@ -48,12 +46,6 @@ public class CommonProxy implements IGuiHandler
             if (ID == 1)
                 return new ContainerDummy(player, tile);
         }
-        if (tile instanceof TileMunitionPrinter)
-        {
-            if (ID == 2)
-                return new ContainerMunitionPrinter(player.inventory, (TileMunitionPrinter) tile);
-        }
-
         return null;
     }
 

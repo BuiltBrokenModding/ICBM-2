@@ -18,8 +18,6 @@ import icbm.sentry.turret.auto.TurretGun;
 import icbm.sentry.turret.auto.TurretLaser;
 import icbm.sentry.turret.block.TileTurret;
 import icbm.sentry.turret.mounted.MountedRailgun;
-import icbm.sentry.workbench.ammo.GuiMunitionPrinter;
-import icbm.sentry.workbench.ammo.TileMunitionPrinter;
 
 import java.awt.Color;
 
@@ -85,12 +83,6 @@ public class ClientProxy extends CommonProxy
             if (ID == 1)
                 return new GuiUserAccess(player, tile);
         }
-        if (tile instanceof TileMunitionPrinter)
-        {
-            if (ID == 2)
-                return new GuiMunitionPrinter(player.inventory, (TileMunitionPrinter) tile);
-        }
-
         return null;
     }
 

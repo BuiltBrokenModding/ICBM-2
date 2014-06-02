@@ -163,8 +163,17 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     /** Called to play the firing audio */
     protected void playFiringAudio()
     {
+        boolean hasSilencer = turret().getUpgradeEffect(IUpgrade.SILENCER) > 0;
         if (this.soundEffect != null && !this.soundEffect.isEmpty())
-            world().playSoundEffect(x(), y(), z(), this.soundEffect, 5F, 1F - (world().rand.nextFloat() * 0.2f));
+        {
+            float pitch = 1F - (world().rand.nextFloat() * 0.2f);
+            float volume = 4F;
+            if (hasSilencer)
+            {
+                volume /= 10;
+            }
+            world().playSoundEffect(x(), y(), z(), this.soundEffect, volume, pitch);
+        }
     }
 
     @Override
