@@ -38,9 +38,14 @@ public class GuiFrequency extends GuiICBM
     public void initGui()
     {
         super.initGui();
+        
         this.textFieldFrequency = new GuiTextField(fontRenderer, 80, 50, 40, 12);
         this.textFieldFrequency.setMaxStringLength(4);
-        this.textFieldFrequency.setText(((IItemFrequency) this.itemStack.getItem()).getFrequency(this.itemStack) + "");
+        
+        if (itemStack != null)
+        {
+            this.textFieldFrequency.setText(((IItemFrequency) this.itemStack.getItem()).getFrequency(this.itemStack) + "");
+        }
     }
 
     /** Call this method from you GuiScreen to process the keys into textbox. */

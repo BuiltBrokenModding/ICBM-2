@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -38,6 +39,7 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
         {
             return 0;
         }
+        
         return itemStack.stackTagCompound.getInteger("frequency");
     }
 
@@ -66,7 +68,7 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
 
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {
+    {        
         par3EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
         return par1ItemStack;
     }
@@ -86,11 +88,27 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     @Override
     public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
     {
-        ItemStack itemStack = (ItemStack) extra[0];
-
-        if (itemStack.getItem() instanceof ItemSignalDisrupter)
+        if (extra == null)
         {
-            ((ItemSignalDisrupter) itemStack.getItem()).setFrequency(data.readInt(), itemStack);
+            return;
+        }
+        
+        if (data == null)
+        {
+            return;
+        }
+        
+        ItemStack itemStack = (ItemStack) extra[0];
+        int frequency = data.readInt();
+        
+        if (itemStack != null)
+        {
+            Item clientItem = itemStack.getItem();
+            
+            if (clientItem instanceof ItemSignalDisrupter)
+            {
+                ((ItemSignalDisrupter) clientItem).setFrequency(frequency, itemStack);
+            }
         }
     }
 }
