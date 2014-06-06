@@ -45,6 +45,7 @@ public class RenderMissile extends Render
             if (entityMissile.missileType == MissileType.CruiseMissile)
             {
                 GL11.glScalef(0.5f, 0.5f, 0.5f);
+                GL11.glTranslated(-2, 0, 0);
             }
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());

@@ -226,7 +226,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 
                                 if (missile.isCruise() && missile.getTier() <= 3)
                                 {
-                                    Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
+                                    Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 1f), (this.zCoord + 0.5f));
                                     this.daoDan = new EntityMissile(this.worldObj, startingPosition, new Vector3(this), haoMa);
                                     this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
                                     return;
@@ -353,11 +353,11 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+    public void readFromNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(par1NBTTagCompound);
+        super.readFromNBT(nbt);
 
-        NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+        NBTTagList var2 = nbt.getTagList("Items");
 
         this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -375,9 +375,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 
     /** Writes a tile entity to NBT. */
     @Override
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    public void writeToNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(par1NBTTagCompound);
+        super.writeToNBT(nbt);
 
         NBTTagList var2 = new NBTTagList();
 
@@ -392,7 +392,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
             }
         }
 
-        par1NBTTagCompound.setTag("Items", var2);
+        nbt.setTag("Items", var2);
     }
 
     /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
