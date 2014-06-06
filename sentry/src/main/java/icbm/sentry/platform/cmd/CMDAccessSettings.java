@@ -272,6 +272,32 @@ public class CMDAccessSettings implements ITerminalCommand
                             }
                             return output_to_console;
                         }
+                        else if (group_sub_command.equalsIgnoreCase("hasnode"))
+                        {
+                            if (args.length > 3 && args[3] != null)
+                            {
+                                AccessGroup group = profile.getGroup(args[3]);
+                                if (group != null)
+                                {
+                                    if (args.length > 4 && args[4] != null)
+                                    {
+                                        output_to_console.add("Has node = " + group.hasNode(args[4]));
+                                    }
+                                    else
+                                    {
+                                        output_to_console.add("Missing node var");
+                                    }
+                                }
+                                else
+                                {
+                                    output_to_console.add("Group not found");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("Missing group name");
+                            }
+                        }
                     }
                     else
                     {
@@ -402,6 +428,57 @@ public class CMDAccessSettings implements ITerminalCommand
                     {
                         output_to_console.add("Not implemented");
                         return output_to_console;
+                    }
+                    else if (user_sub_command.equalsIgnoreCase("nodes"))
+                    {
+                        if (args.length > 3 && args[3] != null)
+                        {
+                            AccessUser user = profile.getUserAccess(args[3]);
+                            if (user != null)
+                            {
+                                //TODO sort list making it easier to view
+                                output_to_console.add("Listing all nodes in " + user.getName());
+                                for (String node : user.getNodes())
+                                {
+                                    output_to_console.add("--" + node);
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("User not found");
+                            }
+                        }
+                        else
+                        {
+                            output_to_console.add("Missing username");
+                        }
+                        return output_to_console;
+                    }
+                    else if (user_sub_command.equalsIgnoreCase("hasnode"))
+                    {
+                        if (args.length > 3 && args[3] != null)
+                        {
+                            AccessUser user = profile.getUserAccess(args[3]);
+                            if (user != null)
+                            {
+                                if (args.length > 4 && args[4] != null)
+                                {
+                                    output_to_console.add("Has node = " + user.hasNode(args[4]));
+                                }
+                                else
+                                {
+                                    output_to_console.add("Missing node var");
+                                }
+                            }
+                            else
+                            {
+                                output_to_console.add("User not found");
+                            }
+                        }
+                        else
+                        {
+                            output_to_console.add("Missing username");
+                        }
                     }
                     return null;
                 }
