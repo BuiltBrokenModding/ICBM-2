@@ -130,24 +130,11 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
         MODEL_CLAW1.render(0.0625F);
         MODEL_CLAW2.render(0.0625F);
         MODEL_CLAW3.render(0.0625F);
-        if (tileEntity.missileID >= 0)
+        if (tileEntity.missileID >= 0 && ExplosiveRegistry.get(tileEntity.missileID) != null)
         {
             Ex missile = (Ex) ExplosiveRegistry.get(tileEntity.missileID);
             float scale = 0.8f;
             float right = 1f;
-
-            if (missile.getTier() == 2 || !missile.hasBlockForm())
-            {
-                // scale = scale / 1.5f;
-            }
-            else if (missile.getTier() == 3)
-            {
-                // scale = scale / 1.7f;
-            }
-            else if (missile.getTier() == 4)
-            {
-                // scale = scale / 1.4f;
-            }
 
             GL11.glTranslatef(right, 0f, 0f);
 
