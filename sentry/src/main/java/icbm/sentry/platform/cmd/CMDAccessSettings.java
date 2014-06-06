@@ -297,6 +297,7 @@ public class CMDAccessSettings implements ITerminalCommand
                             {
                                 output_to_console.add("Missing group name");
                             }
+                            return output_to_console;
                         }
                     }
                     else
@@ -479,6 +480,7 @@ public class CMDAccessSettings implements ITerminalCommand
                         {
                             output_to_console.add("Missing username");
                         }
+                        return output_to_console;
                     }
                     return null;
                 }
