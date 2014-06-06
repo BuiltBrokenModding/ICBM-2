@@ -45,7 +45,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
 
     public TileProximityDetector()
     {
-        setEnergyHandler(new EnergyStorageHandler(200, 100));
+        setEnergyHandler(new EnergyStorageHandler(20000, 50));
     }
 
     @Override
