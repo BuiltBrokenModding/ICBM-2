@@ -40,13 +40,11 @@ public class WailaTurretDataProvider implements IWailaDataProvider
         }
         else
         {
-            currenttip.add("Username: " + accessor.getPlayer().username);
+            currenttip.add("User:  " + accessor.getPlayer().username);
             if (container.getAccessProfile() != null)
             {
                 AccessUser access = container.getAccessProfile().getUserAccess(accessor.getPlayer().username);
-                currenttip.add("Group:      " + access.getGroup().getName());
-                currenttip.add("Owner:      " + access.hasNode(Nodes.PROFILE_OWNER));
-                currenttip.add("Admin:      " + access.hasNode(Nodes.PROFILE_ADMIN));
+                currenttip.add("Group: " + access.getGroup().getName());
             }
             else
             {
