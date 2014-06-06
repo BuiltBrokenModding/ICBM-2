@@ -13,6 +13,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
+import resonant.api.explosion.IExplosive;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,10 +33,10 @@ public class RenderMissile extends Render
     public void doRender(Entity entity, double x, double y, double z, float f, float f1)
     {
         EntityMissile entityMissile = (EntityMissile) entity;
-
-        if (entityMissile.getExplosiveType() instanceof Ex)
+        IExplosive e = entityMissile.getExplosiveType();
+        if (e instanceof Ex)
         {
-            Ex missile = (Ex) entityMissile.getExplosiveType();
+            Ex missile = (Ex) e;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x, y - 1, z);
