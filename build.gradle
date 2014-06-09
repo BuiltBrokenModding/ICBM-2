@@ -91,7 +91,7 @@ dependencies {
     if (System.getenv().JOB_NAME != null && System.getenv().JOB_NAME == "ICBM-Development")
         compile group: 'resonant-engine-development', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
     else
-        compile group: 'resonant-engine', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
+        compile group: 'resonant-engine', name: 'resonant-engine', version: "${config.version.resonantengine}"
 }
 
 import net.minecraftforge.gradle.tasks.dev.ChangelogTask
