@@ -44,8 +44,22 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     @Config(category = "Sentry_AI_Targeting")
     public static boolean target_boss_global = false;
 
+    /** Master list of allowed targets that are not directly linked to a single class file */
+    public static final LinkedHashSet<String> MASTER_TARGET_LIST = new LinkedHashSet<String>();
+
+    static
+    {
+        MASTER_TARGET_LIST.add("mobs");
+        MASTER_TARGET_LIST.add("animals");
+        MASTER_TARGET_LIST.add("npcs");
+        MASTER_TARGET_LIST.add("players");
+        MASTER_TARGET_LIST.add("flying");
+        MASTER_TARGET_LIST.add("boss");
+        MASTER_TARGET_LIST.add("missiles");
+    }
+
     /* Per sentry targeting variables */
-    public LinkedHashSet<String> targetting = new LinkedHashSet<String>();
+    public final LinkedHashSet<String> targetting = new LinkedHashSet<String>();
 
     public TurretEntitySelector(ITurret turret)
     {
@@ -62,17 +76,23 @@ public class TurretEntitySelector implements IEntitySelector, ISaveObj
     public boolean canTargetType(String type)
     {
         //TODO add a way of detecting different ways to enter the same type(eg mobs, mob, monsters are the same thing)
-        return targetting.contains(type);
+        return targetting.contains(type.toLowerCase());
     }
 
-    public void setTargetType(String type, boolean to)
+    /** Called to set the type to be targeted */
+    public void setTargetType(String type, boolean add)
     {
-        if (to)
+        String t = type.toLowerCase();        
+        if (add)
         {
-            targetting.add(type);
-        }else
+            if(MASTER_TARGET_LIST.contains(t))
+            {
+                targetting.add(t);
+            }
+        }
+        else
         {
-            targetting.remove(type);
+            targetting.remove(t);
         }
     }
 
