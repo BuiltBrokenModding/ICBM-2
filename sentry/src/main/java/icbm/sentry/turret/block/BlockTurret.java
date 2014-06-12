@@ -42,7 +42,7 @@ public class BlockTurret extends BlockICBM
 {
     //Temp vars only used during harvest process to pass these args to another method
     boolean isHarvesting = false;
-    TileEntity harvestedTile = null;
+    ITurret harvestedTurret = null;
 
     public BlockTurret(int id)
     {
@@ -217,7 +217,7 @@ public class BlockTurret extends BlockICBM
     public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer entityPlayer)
     {
         //Save the tile so that get block dropped can function
-        harvestedTile = world.getBlockTileEntity(x, y, z);
+        harvestedTurret = getTurret(world, x, y, z);
         isHarvesting = true;
     }
 
@@ -225,17 +225,16 @@ public class BlockTurret extends BlockICBM
     public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ItemStack turret = getItemStack(world, x, y, z);
-        if (isHarvesting && turret == null)
+        ItemStack itemStack = getItemStack(world, x, y, z);
+        if (isHarvesting && itemStack == null)
         {
-            turret = getItemStack(harvestedTile);
-            harvestedTile = null;
+            itemStack = getItemStack(harvestedTurret);
+            harvestedTurret = null;
             isHarvesting = false;
         }
-        if (turret != null)
-            ret.add(turret);
+        if (itemStack != null && itemStack.getTagCompound().hasKey(ITurret.SENTRY_TYPE_SAVE_ID))
+            ret.add(itemStack);
 
-        harvestedTile = null;
         return ret;
     }
 
@@ -245,35 +244,36 @@ public class BlockTurret extends BlockICBM
         return getItemStack(world, x, y, z);
     }
 
+    /** Gets the item version of this block */
     public ItemStack getItemStack(World world, int x, int y, int z)
     {
-        ItemStack stack = getItemStack(world.getBlockTileEntity(x, y, z));
-        if (stack != null)
-        {
-            return stack;
-        }
-        return ItemBlockSaved.getItemStackWithNBT(this, world, x, y, z);
+        return getItemStack(world.getBlockTileEntity(x, y, z));
     }
 
+    /** Gets the item version of this block */
     public ItemStack getItemStack(TileEntity tile)
+    {
+        return getItemStack(getTurret(tile));
+    }
+
+    /** Gets the item version of this block */
+    public ItemStack getItemStack(ITurret turret)
+    {
+        return TurretRegistry.getItemStack(turret);
+    }
+
+    /** Gets the turret object this block contains */
+    public ITurret getTurret(World world, int x, int y, int z)
+    {
+        return getTurret(world.getBlockTileEntity(x, y, z));
+    }
+
+    /** Gets the turret object this block contains */
+    public ITurret getTurret(TileEntity tile)
     {
         if (tile instanceof ITurretProvider)
         {
-            return getItemStack(((ITurretProvider) tile).getTurret());
-        }
-
-        return null;
-    }
-
-    public ItemStack getItemStack(ITurret turret)
-    {
-        if (turret != null)
-        {
-            ItemStack stack = TurretRegistry.getItemStack(turret.getClass());
-            if (stack.getTagCompound().hasKey(ITurret.SENTRY_TYPE_SAVE_ID))
-            {
-                return stack;
-            }
+            return ((ITurretProvider) tile).getTurret();
         }
         return null;
     }

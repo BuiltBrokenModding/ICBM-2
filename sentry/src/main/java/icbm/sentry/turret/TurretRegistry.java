@@ -101,13 +101,13 @@ public class TurretRegistry
     public static Class<? extends ITurret> getSentry(String id)
     {
         return sentryMap.get(id);
-    }    
+    }
 
     public static String getID(ITurret turret)
     {
         return sentryMap.inverse().get(turret.getClass());
     }
-    
+
     public static String getID(Class<? extends ITurret> clazz)
     {
         return sentryMap.inverse().get(clazz);
@@ -173,12 +173,22 @@ public class TurretRegistry
 
     }
 
+    /** Gets the item stack for the sentry */
+    public static ItemStack getItemStack(ITurret turret)
+    {
+        if (turret != null)
+            return getItemStack(turret.getClass());
+        return null;
+    }
+
+    /** Gets the item stack for the sentry */
     public static ItemStack getItemStack(Class<? extends ITurret> clazz)
     {
         ItemStack stack = new ItemStack(ICBMSentry.blockTurret);
         NBTTagCompound itemNbt = new NBTTagCompound();
         NBTTagCompound sentry_nbt = new NBTTagCompound();
-		itemNbt.setString("unlocalizedName", getID(clazz));
+
+        itemNbt.setString("unlocalizedName", getID(clazz));
         sentry_nbt.setString(ITurret.SENTRY_TYPE_SAVE_ID, SaveManager.getID(clazz));
         itemNbt.setCompoundTag(ITurret.SENTRY_OBJECT_SAVE, sentry_nbt);
 
