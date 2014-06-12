@@ -10,33 +10,53 @@ import universalelectricity.api.vector.Vector3;
 /** @author Calclavia */
 public class MissileCluster extends Missile
 {
-    public MissileCluster(String mingZi, int tier)
+    public static final int MAX_CLUSTER = 12;
+    protected double spread = 20;
+
+    public MissileCluster(String name, int tier)
     {
-        super(mingZi, tier);
+        super(name, tier);
         this.hasBlock = false;
         this.modelName = "missile_cluster.tcn";
     }
-
-    public static final int MAX_CLUSTER = 12;
 
     @Override
     public void update(EntityMissile missileObj)
     {
         if (missileObj.motionY < -0.5)
         {
-            if (missileObj.daoDanCount < MAX_CLUSTER)
+            if (missileObj.missileCount < MAX_CLUSTER)
             {
                 if (!missileObj.worldObj.isRemote)
                 {
                     Vector3 position = new Vector3(missileObj);
-                    EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position, new Vector3(missileObj), 0);
+                    EntityMissile clusterMissile = new EntityMissile(missileObj.worldObj, position.clone(), position.clone(), 0);
+
+                    double radius = spread;
+                    double theta = 0;
+                    double x = 0;
+                    double y = 0;
+                    double z = 0;
+
+                    if (missileObj.missileCount > 0)
+                    {
+                        theta = (missileObj.missileCount / 12.0) * Math.PI * 2;
+                        
+                        x = radius * Math.cos(theta);
+                        clusterMissile.posX += Math.cos(theta) * 5;
+                        
+                        z = radius * Math.sin(theta);
+                        clusterMissile.posZ += Math.sin(theta) * 5;
+                    }
+
                     clusterMissile.missileType = MissileType.CruiseMissile;
-                    clusterMissile.protectionTime = 20;
-                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 6)));
+                    clusterMissile.protectionTime = 20 + missileObj.targetHeight - 1;
+
+                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3(x, y, z)));
                     missileObj.worldObj.spawnEntityInWorld(clusterMissile);
                 }
                 missileObj.protectionTime = 20;
-                missileObj.daoDanCount++;
+                missileObj.missileCount++;
             }
             else
             {

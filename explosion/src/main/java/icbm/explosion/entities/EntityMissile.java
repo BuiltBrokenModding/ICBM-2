@@ -58,7 +58,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         LAUNCHER
     }
 
-    public static final float JIA_KUAI_SU_DU = 0.012F;
+    public static final float SPEED = 0.012F;
 
     public int explosiveID = 0;
     public int maxHeight = 200;
@@ -67,7 +67,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     public Vector3 launcherPos = null;
     public boolean isExpoding = false;
 
-    public int baoZhaGaoDu = 0;
+    public int targetHeight = 0;
     public int feiXingTick = -1;
     // Difference
     public double deltaPathX;
@@ -94,7 +94,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     // Tracking
     public int trackingVar = -1;
     // For cluster missile
-    public int daoDanCount = 0;
+    public int missileCount = 0;
 
     public double daoDanGaoDu = 2;
 
@@ -215,7 +215,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         this.startPos = new Vector3(this);
         this.targetVector = target;
-        this.baoZhaGaoDu = this.targetVector.intY();
+        this.targetHeight = this.targetVector.intY();
         ((Ex) ExplosiveRegistry.get(this.explosiveID)).launch(this);
         this.feiXingTick = 0;
         this.recalculatePath();
@@ -423,7 +423,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                     // Start the launch
                     if (this.qiFeiGaoDu > 0)
                     {
-                        this.motionY = JIA_KUAI_SU_DU * this.feiXingTick * (this.feiXingTick / 2);
+                        this.motionY = SPEED * this.feiXingTick * (this.feiXingTick / 2);
                         this.motionX = 0;
                         this.motionZ = 0;
                         this.qiFeiGaoDu -= this.motionY;
@@ -456,14 +456,14 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                         }
 
                         // If the missile is commanded to explode before impact
-                        if (this.baoZhaGaoDu > 0 && this.motionY < 0)
+                        if (this.targetHeight > 0 && this.motionY < 0)
                         {
                             // Check the block below it.
-                            int blockBelowID = this.worldObj.getBlockId((int) this.posX, (int) this.posY - baoZhaGaoDu, (int) this.posZ);
+                            int blockBelowID = this.worldObj.getBlockId((int) this.posX, (int) this.posY - targetHeight, (int) this.posZ);
 
                             if (blockBelowID > 0)
                             {
-                                this.baoZhaGaoDu = 0;
+                                this.targetHeight = 0;
                                 this.explode();
                             }
                         }
@@ -762,7 +762,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.targetVector = new Vector3(nbt.getCompoundTag("muBiao"));
         this.launcherPos = new Vector3(nbt.getCompoundTag("faSheQi"));
         this.acceleration = nbt.getFloat("jiaSu");
-        this.baoZhaGaoDu = nbt.getInteger("baoZhaGaoDu");
+        this.targetHeight = nbt.getInteger("baoZhaGaoDu");
         this.explosiveID = nbt.getInteger("haoMa");
         this.feiXingTick = nbt.getInteger("feiXingTick");
         this.qiFeiGaoDu = nbt.getDouble("qiFeiGaoDu");
@@ -790,7 +790,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
         nbt.setFloat("jiaSu", this.acceleration);
         nbt.setInteger("haoMa", this.explosiveID);
-        nbt.setInteger("baoZhaGaoDu", this.baoZhaGaoDu);
+        nbt.setInteger("baoZhaGaoDu", this.targetHeight);
         nbt.setInteger("feiXingTick", this.feiXingTick);
         nbt.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);
         nbt.setInteger("xingShi", this.missileType.ordinal());

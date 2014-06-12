@@ -23,7 +23,7 @@ public class MissileNuclearCluster extends MissileCluster
     {
         if (missileObj.motionY < -0.5)
         {
-            if (missileObj.daoDanCount < MAX_CLUSTER)
+            if (missileObj.missileCount < MAX_CLUSTER)
             {
                 if (!missileObj.worldObj.isRemote)
                 {
@@ -32,11 +32,11 @@ public class MissileNuclearCluster extends MissileCluster
                     missileObj.worldObj.spawnEntityInWorld(clusterMissile);
                     clusterMissile.missileType = MissileType.CruiseMissile;
                     clusterMissile.protectionTime = 20;
-                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.daoDanCount - MAX_CLUSTER / 2) * Math.random() * 30)));
+                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3((missileObj.missileCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.missileCount - MAX_CLUSTER / 2) * Math.random() * 30, (missileObj.missileCount - MAX_CLUSTER / 2) * Math.random() * 30)));
                 }
 
                 missileObj.protectionTime = 20;
-                missileObj.daoDanCount++;
+                missileObj.missileCount++;
             }
             else
             {
