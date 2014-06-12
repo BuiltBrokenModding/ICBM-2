@@ -534,7 +534,7 @@ public class CMDAccessSettings implements ITerminalCommand
                         }
                     }
                 }
-                return "users";
+                return Nodes.GROUP;
             }
         }
         return null;
