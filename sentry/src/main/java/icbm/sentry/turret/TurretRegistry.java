@@ -25,10 +25,10 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Darkguardsman */
 public class TurretRegistry
 {
-    private static HashBiMap<String, Class<? extends Turret>> sentryMap = HashBiMap.create();
+    private static HashBiMap<String, Class<? extends ITurret>> sentryMap = HashBiMap.create();
 
     @SideOnly(Side.CLIENT)
-    private static HashMap<Class<? extends Turret>, TurretRenderer> sentryRenderMap;
+    private static HashMap<Class<? extends ITurret>, TurretRenderer> sentryRenderMap;
 
     // TODO Fix SaveManager to handle the Tile argument
     /** Registers a sentry to be handled by ICBM
@@ -36,7 +36,7 @@ public class TurretRegistry
      * @param key - ID the sentry goes by, should be unique, will be registered with save manager
      * prefixed by 'Sentry-'
      * @param sentry - class file that extends Sentry.class and has a no param constructor */
-    public static void registerSentry(String key, Class<? extends Turret> sentry)
+    public static void registerSentry(String key, Class<? extends ITurret> sentry)
     {
         synchronized (sentryMap)
         {
@@ -53,11 +53,11 @@ public class TurretRegistry
      * @param sentry - sentry class this renderer is for
      * @param render - renderer instance and is treated as static */
     @SideOnly(Side.CLIENT)
-    public static void registerSentryRenderer(Class<? extends Turret> sentry, TurretRenderer render)
+    public static void registerSentryRenderer(Class<? extends ITurret> sentry, TurretRenderer render)
     {
         if (sentryRenderMap == null)
         {
-            sentryRenderMap = new HashMap<Class<? extends Turret>, TurretRenderer>();
+            sentryRenderMap = new HashMap<Class<? extends ITurret>, TurretRenderer>();
         }
         synchronized (sentryRenderMap)
         {
@@ -86,31 +86,31 @@ public class TurretRegistry
     }
 
     @SideOnly(Side.CLIENT)
-    public static TurretRenderer getRenderFor(Class<? extends Turret> sentry)
+    public static TurretRenderer getRenderFor(Class<? extends ITurret> sentry)
     {
         return sentryRenderMap.get(sentry);
     }
 
     /** Gets the sentry map */
-    public static HashBiMap<String, Class<? extends Turret>> getSentryMap()
+    public static HashBiMap<String, Class<? extends ITurret>> getSentryMap()
     {
         return sentryMap;
     }
 
     /** Grabs the class that links back the sentry id */
-    public static Class<? extends Turret> getSentry(String id)
+    public static Class<? extends ITurret> getSentry(String id)
     {
         return sentryMap.get(id);
-    }
+    }    
 
-    public static String getID(Turret sentry)
+    public static String getID(ITurret turret)
     {
-        return sentryMap.inverse().get(sentry.getClass());
+        return sentryMap.inverse().get(turret.getClass());
     }
-
-    public static String getID(Class<? extends Turret> sentry)
+    
+    public static String getID(Class<? extends ITurret> clazz)
     {
-        return sentryMap.inverse().get(sentry);
+        return sentryMap.inverse().get(clazz);
     }
 
     /** Builds a sentry from a save using the SaveManager. This assumes that the sentries save ID was
@@ -173,13 +173,13 @@ public class TurretRegistry
 
     }
 
-    public static ItemStack getItemStack(Class<? extends Turret> sentry)
+    public static ItemStack getItemStack(Class<? extends ITurret> clazz)
     {
         ItemStack stack = new ItemStack(ICBMSentry.blockTurret);
         NBTTagCompound itemNbt = new NBTTagCompound();
         NBTTagCompound sentry_nbt = new NBTTagCompound();
-		itemNbt.setString("unlocalizedName", getID(sentry));
-        sentry_nbt.setString(ITurret.SENTRY_TYPE_SAVE_ID, SaveManager.getID(sentry));
+		itemNbt.setString("unlocalizedName", getID(clazz));
+        sentry_nbt.setString(ITurret.SENTRY_TYPE_SAVE_ID, SaveManager.getID(clazz));
         itemNbt.setCompoundTag(ITurret.SENTRY_OBJECT_SAVE, sentry_nbt);
 
         stack.setTagCompound(itemNbt);

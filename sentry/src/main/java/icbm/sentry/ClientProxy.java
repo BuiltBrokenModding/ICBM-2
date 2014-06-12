@@ -1,6 +1,7 @@
 package icbm.sentry;
 
 import icbm.core.prefab.EmptyRenderer;
+import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.GuiTurretPlatform;
 import icbm.sentry.platform.gui.user.GuiUserAccess;
@@ -61,7 +62,7 @@ public class ClientProxy extends CommonProxy
             @Override
             public void renderInventoryItem(ItemStack itemStack)
             {
-                Class<? extends Turret> sentry = TurretRegistry.getSentry(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
+                Class<? extends ITurret> sentry = TurretRegistry.getSentry(NBTUtility.getNBTTagCompound(itemStack).getString("unlocalizedName"));
                 if (sentry != null)
                     TurretRegistry.getRenderFor(sentry).renderInventoryItem(itemStack);
             }

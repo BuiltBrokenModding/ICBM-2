@@ -42,7 +42,7 @@ import universalelectricity.api.vector.VectorWorld;
 /** Modular way to deal with sentry guns
  * 
  * @author DarkGuardsman, tgame14 */
-public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCount
+public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCount, ITurret
 {
 
     /** Host of the sentry gun */
