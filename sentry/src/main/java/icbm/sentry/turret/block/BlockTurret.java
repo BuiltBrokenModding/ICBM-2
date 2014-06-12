@@ -5,6 +5,7 @@ import icbm.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
 import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
 
@@ -194,7 +195,7 @@ public class BlockTurret extends BlockICBM
     @Override
     public void getSubBlocks(int id, CreativeTabs creativeTab, List list)
     {
-        for (Class<? extends Turret> sentry : TurretRegistry.getSentryMap().values())
+        for (Class<? extends ITurret> sentry : TurretRegistry.getSentryMap().values())
             list.add(TurretRegistry.getItemStack(sentry));
     }
 
@@ -213,47 +214,68 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
-    public void harvestBlock(World world, EntityPlayer entityPlayer, int x, int y, int z, int par6)
+    public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer entityPlayer)
     {
-        isHarvesting = true;
+        //Save the tile so that get block dropped can function
         harvestedTile = world.getBlockTileEntity(x, y, z);
-        super.harvestBlock(world, entityPlayer, x, y, z, par6);
-        harvestedTile = null;
-        isHarvesting = false;
+        isHarvesting = true;
     }
 
     @Override
     public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ItemStack turret = getPickBlock(null, world, x, y, z);
-        //Don't drop a bad item
-        if (turret.getTagCompound().hasKey(ITurret.SENTRY_TYPE_SAVE_ID))
+        ItemStack turret = getItemStack(world, x, y, z);
+        if (isHarvesting && turret == null)
         {
-            ret.add(turret);
+            turret = getItemStack(harvestedTile);
+            harvestedTile = null;
+            isHarvesting = false;
         }
+        if (turret != null)
+            ret.add(turret);
+
+        harvestedTile = null;
         return ret;
     }
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
-        //If we are harvesting the tile, loop back to getBlockDropped
-        if (isHarvesting)
+        return getItemStack(world, x, y, z);
+    }
+
+    public ItemStack getItemStack(World world, int x, int y, int z)
+    {
+        ItemStack stack = getItemStack(world.getBlockTileEntity(x, y, z));
+        if (stack != null)
         {
-            tile = harvestedTile;
-        }
-        //IF tile equals null use target as a second way to get the tile
-        if (tile == null && target != null && target.typeOfHit == EnumMovingObjectType.TILE)
-        {
-            tile = world.getBlockTileEntity(target.blockX, target.blockY, target.blockZ);
-        }
-        if (tile instanceof TileTurret && ((TileTurret) tile).getTurret() != null)
-        {
-            return TurretRegistry.getItemStack(((TileTurret) tile).getTurret().getClass());
+            return stack;
         }
         return ItemBlockSaved.getItemStackWithNBT(this, world, x, y, z);
+    }
+
+    public ItemStack getItemStack(TileEntity tile)
+    {
+        if (tile instanceof ITurretProvider)
+        {
+            return getItemStack(((ITurretProvider) tile).getTurret());
+        }
+
+        return null;
+    }
+
+    public ItemStack getItemStack(ITurret turret)
+    {
+        if (turret != null)
+        {
+            ItemStack stack = TurretRegistry.getItemStack(turret.getClass());
+            if (stack.getTagCompound().hasKey(ITurret.SENTRY_TYPE_SAVE_ID))
+            {
+                return stack;
+            }
+        }
+        return null;
     }
 
     @Override
