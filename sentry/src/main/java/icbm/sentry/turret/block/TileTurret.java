@@ -48,8 +48,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     protected static final int PROFILE_PACKET_ID = 8;
     protected static final int PROFILE_ADD_USER_PACKET_ID = 9;
 
-    /** TURRET AIM & ROTATION HELPER */
-    public EntityMountableDummy sentryEntity;
     /** Profile that control access properties for users */
     protected AccessProfile accessProfile;
     /** Sentry instance used to define the visuals and weapons of the sentry */
@@ -121,7 +119,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public void onProfileChange()
     {
-        PacketHandler.sendPacketToClients(this.getProfilePacket(), worldObj, new Vector3(this), 60);
+        PacketHandler.sendPacketToClients(this.getProfilePacket(), worldObj, this, 60);
     }
 
     @Override
@@ -164,7 +162,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public void sendFireEventToClient(IVector3 target)
     {
-        PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), new Vector3(this), 100);
+        PacketHandler.sendPacketToClients(ICBMCore.PACKET_TILE.getPacketWithID(FIRING_EVENT_PACKET_ID, this, target), this.getWorldObj(), this, 100);
     }
 
     public Packet getEnergyPacket()
@@ -331,22 +329,22 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
         {
             if (!entityPlayer.isSneaking())
             {
-                debug("right clicked, player is not sneaking");
-                debug("is mountable " + (this.getTurret() instanceof TurretMounted));
-                debug("is fake entity " + (this.getFakeEntity() != null));
-                if (this.getTurret() instanceof TurretMounted && this.getFakeEntity() != null)
+                if (this.getTurret() instanceof TurretMounted && ((TurretMounted) this.getTurret()).getFakeEntity() != null)
                 {
-                    debug("\t right clicked, turret is mountable and fake entity exists");
-                    if (this.getFakeEntity().riddenByEntity instanceof EntityPlayer)
+                    if (((TurretMounted) this.getTurret()).getFakeEntity().riddenByEntity instanceof EntityPlayer)
                     {
-                        debug("right clicked, fake entity ridden by other entity");
                         if (!this.worldObj.isRemote)
                         {
                             PacketHandler.sendPacketToClients(this.getRotationPacket());
                         }
                         return true;
                     }
-                    mount(entityPlayer);
+                    if (!this.worldObj.isRemote)
+                    {
+                        entityPlayer.rotationYaw = (float) getTurret().getServo().yaw;
+                        entityPlayer.rotationPitch = (float) getTurret().getServo().pitch;
+                        entityPlayer.mountEntity(((TurretMounted) this.getTurret()).getFakeEntity());
+                    }
                 }
 
             }
@@ -354,39 +352,6 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
             return true;
         }
         return false;
-    }
-
-    public void mount(EntityPlayer entityPlayer)
-    {
-        debug("mounting...");
-        if (!this.worldObj.isRemote)
-        {
-            debug("mounting on server");
-            entityPlayer.rotationYaw = (float) getTurret().getServo().yaw;
-            entityPlayer.rotationPitch = (float) getTurret().getServo().pitch;
-            entityPlayer.mountEntity(this.getFakeEntity());
-        }
-    }
-
-    @Override
-    public EntityMountableDummy getFakeEntity()
-    {
-        if (sentryEntity == null || sentryEntity.isDead)
-        {
-            if (!world().isRemote)
-            {
-                EntityMountableDummy entity = new EntityMountableDummy(this);
-                world().spawnEntityInWorld(entity);
-                setFakeEntity(entity);
-            }
-        }
-
-        return sentryEntity;
-    }
-
-    public void setFakeEntity(EntityMountableDummy entitySentryFake)
-    {
-        this.sentryEntity = entitySentryFake;
     }
 
     @Override
@@ -418,7 +383,7 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     {
         AccessUser user = this.getAccessProfile().getUserAccess(player.username);
         assert user != null : "TileTurret canUse() user returned null for player " + player.username;
-        
+
         if (user != null && user.getGroup() != null)
         {
             return this.getAccessProfile().getUserAccess(player.username).hasNode(node);

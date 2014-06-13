@@ -4,6 +4,7 @@ import icbm.Reference;
 import icbm.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.IMountedTurret;
 import icbm.sentry.interfaces.ITurret;
 import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.Turret;
@@ -59,17 +60,18 @@ public class BlockTurret extends BlockICBM
 
         if (ent instanceof TileTurret)
         {
-            Entity fakeEntity = ((TileTurret) ent).getFakeEntity();
+            if (((TileTurret) ent).getTurret() instanceof IMountedTurret)
+            {
+                Entity fakeEntity = ((IMountedTurret)((TileTurret) ent).getTurret()).getFakeEntity();
 
-            if (fakeEntity != null)
-            {
-                this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
-            }
-            else
-            {
-                this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
+                if (fakeEntity != null)
+                {
+                    this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
+                    return;
+                }
             }
         }
+        this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
     }
 
     @SideOnly(Side.CLIENT)
