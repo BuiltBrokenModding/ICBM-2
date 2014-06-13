@@ -37,6 +37,7 @@ public class MissileCluster extends Missile
                     double x = 0;
                     double y = 0;
                     double z = 0;
+                    //TODO make spread equal to a 30 degree angle from center point
 
                     if (missileObj.missileCount > 0)
                     {
