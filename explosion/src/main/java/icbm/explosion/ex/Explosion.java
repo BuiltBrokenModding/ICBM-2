@@ -11,7 +11,7 @@ import net.minecraftforge.client.model.ModelFormatException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class Ex extends Explosive
+public abstract class Explosion extends Explosive
 {
     @SideOnly(Side.CLIENT)
     private ResourceLocation resourceLocation;
@@ -21,7 +21,7 @@ public abstract class Ex extends Explosive
 
     protected String modelName;
 
-    public Ex(String name, int tier)
+    public Explosion(String name, int tier)
     {
         super(name, tier);
     }

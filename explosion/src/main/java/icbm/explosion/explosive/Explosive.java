@@ -3,7 +3,7 @@ package icbm.explosion.explosive;
 import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.ex.ExAntiGravitational;
 import icbm.explosion.ex.ExAntimatter;
 import icbm.explosion.ex.ExBreaching;
@@ -74,11 +74,11 @@ public abstract class Explosive implements IExplosive
     public static final Explosive redMatter;
 
     /** Missiles */
-    public static final Ex missileModule;
-    public static final Ex homing;
-    public static final Ex antiBallistic;
-    public static final Ex cluster;
-    public static final Ex nuclearCluster;
+    public static final Explosion missileModule;
+    public static final Explosion homing;
+    public static final Explosion antiBallistic;
+    public static final Explosion cluster;
+    public static final Explosion nuclearCluster;
 
     public static boolean registered = false;
 
@@ -115,11 +115,11 @@ public abstract class Explosive implements IExplosive
         redMatter = ExplosiveRegistry.register(new ExRedMatter());
 
         /** Missiles */
-        missileModule = (Ex) ExplosiveRegistry.register(new MissileModule());
-        homing = (Ex) ExplosiveRegistry.register(new MissileHoming());
-        antiBallistic = (Ex) ExplosiveRegistry.register(new MissileAnti());
-        cluster = (Ex) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
-        nuclearCluster = (Ex) ExplosiveRegistry.register(new MissileNuclearCluster());
+        missileModule = (Explosion) ExplosiveRegistry.register(new MissileModule());
+        homing = (Explosion) ExplosiveRegistry.register(new MissileHoming());
+        antiBallistic = (Explosion) ExplosiveRegistry.register(new MissileAnti());
+        cluster = (Explosion) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
+        nuclearCluster = (Explosion) ExplosiveRegistry.register(new MissileNuclearCluster());
 
         Settings.CONFIGURATION.save();
         registered = true;

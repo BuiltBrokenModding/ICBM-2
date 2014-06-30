@@ -1,13 +1,13 @@
 package icbm.explosion.ex.missiles;
 
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 import net.minecraft.item.ItemStack;
 
 /** Ex object that are only defined as missiles
  * 
  * @author Calclavia */
-public abstract class Missile extends Ex
+public abstract class Missile extends Explosion
 {
     public Missile(String name, int tier)
     {

@@ -9,7 +9,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 
-public class ExNuclear extends Ex
+public class ExNuclear extends Explosion
 {
     public ExNuclear(String mingZi, int tier)
     {

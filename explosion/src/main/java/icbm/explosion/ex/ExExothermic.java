@@ -11,7 +11,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 import universalelectricity.api.vector.Vector3;
 
-public class ExExothermic extends Ex
+public class ExExothermic extends Explosion
 {
     public boolean createNetherrack = true;
 

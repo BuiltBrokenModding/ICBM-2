@@ -2,7 +2,7 @@ package icbm.explosion.render.entity;
 
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.entities.EntityMissile.MissileType;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 
 import java.util.HashMap;
 
@@ -22,7 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /** @author Calclavia */
 public class RenderMissile extends Render
 {
-    public static final HashMap<Ex, IModelCustom> cache = new HashMap<Ex, IModelCustom>();
+    public static final HashMap<Explosion, IModelCustom> cache = new HashMap<Explosion, IModelCustom>();
 
     public RenderMissile(float f)
     {
@@ -34,9 +34,9 @@ public class RenderMissile extends Render
     {
         EntityMissile entityMissile = (EntityMissile) entity;
         IExplosive e = entityMissile.getExplosiveType();
-        if (e instanceof Ex)
+        if (e instanceof Explosion)
         {
-            Ex missile = (Ex) e;
+            Explosion missile = (Explosion) e;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x, y - 1, z);

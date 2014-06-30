@@ -6,7 +6,7 @@ import icbm.core.DamageUtility;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.machines.TileCruiseLauncher;
 
@@ -216,7 +216,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.startPos = new Vector3(this);
         this.targetVector = target;
         this.targetHeight = this.targetVector.intY();
-        ((Ex) ExplosiveRegistry.get(this.explosiveID)).launch(this);
+        ((Explosion) ExplosiveRegistry.get(this.explosiveID)).launch(this);
         this.feiXingTick = 0;
         this.recalculatePath();
         this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -406,7 +406,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                     // Look at the next point
                     this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-                    ((Ex) ExplosiveRegistry.get(this.explosiveID)).update(this);
+                    ((Explosion) ExplosiveRegistry.get(this.explosiveID)).update(this);
 
                     Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
 
@@ -445,7 +445,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                         // Look at the next point
                         this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-                        ((Ex) ExplosiveRegistry.get(this.explosiveID)).update(this);
+                        ((Explosion) ExplosiveRegistry.get(this.explosiveID)).update(this);
 
                         this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -540,9 +540,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     @Override
     public boolean interactFirst(EntityPlayer entityPlayer)
     {
-        if (((Ex) ExplosiveRegistry.get(this.explosiveID)) != null)
+        if (((Explosion) ExplosiveRegistry.get(this.explosiveID)) != null)
         {
-            if (((Ex) ExplosiveRegistry.get(this.explosiveID)).onInteract(this, entityPlayer))
+            if (((Explosion) ExplosiveRegistry.get(this.explosiveID)).onInteract(this, entityPlayer))
             {
                 return true;
             }
@@ -702,7 +702,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                 }
                 else
                 {
-                    ((Ex) ExplosiveRegistry.get(this.explosiveID)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
+                    ((Explosion) ExplosiveRegistry.get(this.explosiveID)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
                 }
 
                 this.isExpoding = true;

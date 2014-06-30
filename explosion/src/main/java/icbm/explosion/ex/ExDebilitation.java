@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 
-public class ExDebilitation extends Ex
+public class ExDebilitation extends Explosion
 {
     public ExDebilitation(String mingZi, int tier)
     {

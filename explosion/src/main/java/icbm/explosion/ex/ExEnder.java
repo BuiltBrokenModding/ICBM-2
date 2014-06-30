@@ -16,7 +16,7 @@ import resonant.lib.recipe.RecipeUtility;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.mffs.card.ICoordLink;
 
-public class ExEnder extends Ex
+public class ExEnder extends Explosion
 {
     public ExEnder()
     {

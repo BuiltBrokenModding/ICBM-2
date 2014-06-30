@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 
-public class ExBreaching extends Ex
+public class ExBreaching extends Explosion
 {
     public ExBreaching()
     {

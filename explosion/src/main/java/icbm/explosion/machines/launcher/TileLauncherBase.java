@@ -3,7 +3,7 @@ package icbm.explosion.machines.launcher;
 import icbm.Settings;
 import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
 import net.minecraft.entity.Entity;
@@ -136,9 +136,9 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
                 {
                     int explosiveID = this.getStackInSlot(0).getItemDamage();
 
-                    if (ExplosiveRegistry.get(explosiveID) instanceof Ex)
+                    if (ExplosiveRegistry.get(explosiveID) instanceof Explosion)
                     {
-                        Ex missile = (Ex) ExplosiveRegistry.get(explosiveID);
+                        Explosion missile = (Explosion) ExplosiveRegistry.get(explosiveID);
 
                         ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
                         MinecraftForge.EVENT_BUS.post(evt);

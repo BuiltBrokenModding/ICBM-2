@@ -1,6 +1,6 @@
 package icbm.explosion.explosive;
 
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -60,15 +60,15 @@ public class ExplosiveRegistry
         return idToExplosiveMap.values();
     }
 
-    public static Collection<Ex> getAllMissles()
+    public static Collection<Explosion> getAllMissles()
     {
-        Collection<Ex> missiles = new HashSet<Ex>();
+        Collection<Explosion> missiles = new HashSet<Explosion>();
 
         for (Explosive zhaPin : idToExplosiveMap.values())
         {
-            if (zhaPin instanceof Ex)
+            if (zhaPin instanceof Explosion)
             {
-                missiles.add((Ex) zhaPin);
+                missiles.add((Explosion) zhaPin);
             }
         }
 

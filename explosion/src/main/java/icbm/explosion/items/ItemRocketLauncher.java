@@ -3,7 +3,7 @@ package icbm.explosion.items;
 import icbm.Settings;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
 
@@ -70,15 +70,15 @@ public class ItemRocketLauncher extends ItemICBMElectrical
                             int meta = inventoryStack.getItemDamage();
                             Explosive ex = ExplosiveRegistry.get(meta);
 
-                            if (ex instanceof Ex)
+                            if (ex instanceof Explosion)
                             {
                                 ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, player.posX, player.posY, player.posZ, ExplosiveType.AIR, ExplosiveRegistry.get(meta));
                                 MinecraftForge.EVENT_BUS.post(evt);
 
-                                if (((Ex) ex) != null && !evt.isCanceled())
+                                if (((Explosion) ex) != null && !evt.isCanceled())
                                 {
                                     // Limit the missile to tier two.
-                                    if (((Ex) ex).getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && ((Ex) ex).isCruise())
+                                    if (((Explosion) ex).getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && ((Explosion) ex).isCruise())
                                     {
                                         Vector3 launcher = Vector3.translate(new Vector3(player), new Vector3(0, 0.5, 0));
                                         Vector3 playerAim = new Vector3(player.getLook(1));
@@ -86,7 +86,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
                                         Vector3 target = Vector3.translate(launcher, Vector3.scale(playerAim, 100));
 
                                         //TOD: Fix this rotation when we use the proper model loader.
-                                        EntityMissile entityMissile = new EntityMissile(world, start, ((Ex) ex).getID(), -player.rotationYaw, -player.rotationPitch);
+                                        EntityMissile entityMissile = new EntityMissile(world, start, ((Explosion) ex).getID(), -player.rotationYaw, -player.rotationPitch);
                                         world.spawnEntityInWorld(entityMissile);
 
                                         if (player.isSneaking())

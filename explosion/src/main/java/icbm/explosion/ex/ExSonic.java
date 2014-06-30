@@ -10,7 +10,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 import resonant.lib.recipe.UniversalRecipe;
 
-public class ExSonic extends Ex
+public class ExSonic extends Explosion
 {
     public ExSonic(String mingZi, int tier)
     {

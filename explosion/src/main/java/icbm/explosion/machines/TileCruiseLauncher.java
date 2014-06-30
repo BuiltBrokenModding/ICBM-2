@@ -3,7 +3,7 @@ package icbm.explosion.machines;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
 import icbm.explosion.machines.launcher.TileLauncherPrefab;
@@ -212,9 +212,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
                 if (this.containingItems[0].getItem() instanceof ItemMissile)
                 {
                     int haoMa = this.containingItems[0].getItemDamage();
-                    if (ExplosiveRegistry.get(haoMa) instanceof Ex)
+                    if (ExplosiveRegistry.get(haoMa) instanceof Explosion)
                     {
-                        Ex missile = (Ex) ExplosiveRegistry.get(haoMa);
+                        Explosion missile = (Explosion) ExplosiveRegistry.get(haoMa);
 
                         ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
                         MinecraftForge.EVENT_BUS.post(evt);
@@ -313,7 +313,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     {
         if (this.daoDan != null && this.containingItems[0] != null)
         {
-            Ex missile = (Ex) ExplosiveRegistry.get(this.containingItems[0].getItemDamage());
+            Explosion missile = (Explosion) ExplosiveRegistry.get(this.containingItems[0].getItemDamage());
 
             if (missile != null && missile.getID() == daoDan.getExplosiveType().getID() && missile.isCruise() && missile.getTier() <= 3)
             {
@@ -465,9 +465,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
         {
             if (itemStack.getItem() instanceof ItemMissile && this.getStackInSlot(slotID) == null)
             {
-                if (ExplosiveRegistry.get(itemStack.getItemDamage()) instanceof Ex)
+                if (ExplosiveRegistry.get(itemStack.getItemDamage()) instanceof Explosion)
                 {
-                    Ex missile = (Ex) ExplosiveRegistry.get(itemStack.getItemDamage());
+                    Explosion missile = (Explosion) ExplosiveRegistry.get(itemStack.getItemDamage());
 
                     if (missile.isCruise() && missile.getTier() <= 3)
                     {

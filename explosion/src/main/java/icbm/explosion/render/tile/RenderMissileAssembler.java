@@ -1,7 +1,7 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.explosion.ex.Ex;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.machines.TileMissileAssembler;
 import icbm.explosion.model.tiles.ModelMissileAssemblerClaw;
@@ -132,7 +132,7 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
         MODEL_CLAW3.render(0.0625F);
         if (tileEntity.missileID >= 0 && ExplosiveRegistry.get(tileEntity.missileID) != null)
         {
-            Ex missile = (Ex) ExplosiveRegistry.get(tileEntity.missileID);
+            Explosion missile = (Explosion) ExplosiveRegistry.get(tileEntity.missileID);
             float scale = 0.8f;
             float right = 1f;
 

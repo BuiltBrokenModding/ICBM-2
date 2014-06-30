@@ -10,7 +10,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 import universalelectricity.api.vector.Vector3;
 
-public class ExAntimatter extends Ex
+public class ExAntimatter extends Explosion
 {
     public ExAntimatter()
     {

@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 
-public class ExRedMatter extends Ex
+public class ExRedMatter extends Explosion
 {
     public ExRedMatter()
     {

@@ -9,7 +9,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 import universalelectricity.api.vector.Vector3;
 
-public class ExIncendiary extends Ex
+public class ExIncendiary extends Explosion
 {
     public ExIncendiary(String mingZi, int tier)
     {

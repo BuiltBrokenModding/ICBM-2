@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
 
-public class ExShrapnel extends Ex
+public class ExShrapnel extends Explosion
 {
     public ExShrapnel(String name, int tier)
     {
