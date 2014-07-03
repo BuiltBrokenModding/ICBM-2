@@ -236,9 +236,33 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     }
 
     @Callback
+    public void empMissiles()
+    {
+        this.empMode = 1;
+    }
+
+    @Callback
+    public void empAll()
+    {
+        this.empMode = 0;
+    }
+
+    @Callback
+    public void empElectronics()
+    {
+        this.empMode = 2;
+    }
+
+    @Callback
     public int getEmpRadius()
     {
         return empRadius;
+    }
+
+    @Callback
+    public int getMaxEmpRadius()
+    {
+        return MAX_RADIUS;
     }
 
     @Callback
