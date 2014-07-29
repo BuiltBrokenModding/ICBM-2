@@ -3,8 +3,15 @@ ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to M
 
 ##Installing
 Install Minecraft Forge.
+
 Install Universal Electricity Core.
+
 Install Resonant Engine.
+
 Download the mod with this link: http://calclavia.com/icbm/downloads/
+
 Drag the file into the “mods” folder in your Minecraft installation directory.
+
 Run Minecraft.
+
+Have fun.
