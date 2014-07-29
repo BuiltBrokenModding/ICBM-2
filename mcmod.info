@@ -1,0 +1,14 @@
+[
+{
+  "modid": "ICBM",
+  "name": "ICBM",
+  "description": "ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers.",
+  "version": "1.2",
+  "mcversion": "1.6.4",
+  "authorList": ["Calclavia"],
+  "credits": "",
+  "logoFile": "assets/banner/icbm_banner.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
