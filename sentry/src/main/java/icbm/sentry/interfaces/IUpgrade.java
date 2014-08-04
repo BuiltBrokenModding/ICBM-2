@@ -11,6 +11,7 @@ public interface IUpgrade
 {
     /* Upgrade names supported by the sentries */
     public static final String SHELL_COLLECTOR = "shellCollector";
+    public static final String SILENCER = "silencer";
     public static final String TARGET_RANGE = "target.range";
     public static final String TARGET_SPEED = "target.speed";
     public static final String ENERGY_STORAGE = "energy.storage";

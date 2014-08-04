@@ -13,15 +13,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRotatable;
+import resonant.api.ITier;
+import resonant.api.explosion.IMissile;
+import resonant.api.explosion.LauncherType;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.IMissile;
-import calclavia.api.icbm.ITier;
-import calclavia.api.icbm.LauncherType;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -46,7 +46,14 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 
     public TileLauncherScreen()
     {
-        this.energy = new EnergyStorageHandler(getEnergyCapacity(null), getEnergyCapacity(null) / 50);
+        setEnergyHandler(new EnergyStorageHandler(Long.MAX_VALUE));
+    }
+
+    @Override
+    public void initiate()
+    {
+        super.initiate();
+        this.getEnergyHandler().setCapacity(this.getLaunchCost() * 2);
     }
 
     @Override
@@ -112,7 +119,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     @Override
     public Packet getGUIPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 4, this.energy.getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
+        return ICBMCore.PACKET_TILE.getPacket(this, 4, this.getEnergyHandler().getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
     }
 
     @Override
@@ -162,7 +169,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
             }
             case 4:
             {
-                this.energy.setEnergy(data.readLong());
+                this.getEnergyHandler().setEnergy(data.readLong());
                 this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
                 break;
             }
@@ -175,21 +182,13 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     @Override
     public boolean canLaunch()
     {
-        if (this.laucherBase != null)
+        if (this.laucherBase != null && this.laucherBase.missile != null)
         {
-            if (this.laucherBase.missile != null)
+            if (this.getEnergyHandler().extractEnergy(getLaunchCost(), false) >= getLaunchCost())
             {
-                if (this.energy.isFull())
-                {
-                    if (this.laucherBase.isInRange(this.targetPos))
-                    {
-                        return true;
-                    }
-
-                }
+                return this.laucherBase.isInRange(this.targetPos);
             }
         }
-
         return false;
     }
 
@@ -199,7 +198,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     {
         if (this.canLaunch())
         {
-            this.energy.setEnergy(0);
+            this.getEnergyHandler().extractEnergy(getLaunchCost(), true);
             this.laucherBase.launchMissile(this.targetPos.clone(), this.gaoDu);
         }
     }
@@ -217,7 +216,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
         {
             status = LanguageUtility.getLocal("gui.launcherScreen.statusMissing");
         }
-        else if (!this.energy.isFull())
+        else if (!this.getEnergyHandler().isFull())
         {
             status = LanguageUtility.getLocal("gui.launcherScreen.statusNoPower");
         }
@@ -284,7 +283,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     public void setTier(int tier)
     {
         this.tier = tier;
-        this.energy.setCapacity(getEnergyCapacity(null));
+        this.getEnergyHandler().setCapacity(getEnergyCapacity(null));
     }
 
     @Override
@@ -299,8 +298,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
         this.fangXiang = (byte) facingDirection.ordinal();
     }
 
-    @Override
-    public long getEnergyCapacity(ForgeDirection from)
+    public long getLaunchCost()
     {
         switch (this.getTier())
         {

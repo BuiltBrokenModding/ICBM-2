@@ -15,8 +15,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import calclavia.api.icbm.sentry.IAmmunition;
-import calclavia.lib.content.BlockInfo;
+import resonant.api.weapon.IAmmunition;
+import resonant.lib.content.BlockInfo;
 
 /** @author DarkGuardsman */
 @BlockInfo(tileEntity = "icbm.sentry.platform.TileTurretPlatform")

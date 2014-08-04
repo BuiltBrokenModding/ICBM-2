@@ -26,7 +26,7 @@ public class BlastShrapnel extends Blast
     @Override
     public void doExplode()
     {
-        if (!worldObj.isRemote)
+        if (!world().isRemote)
         {
             float amountToRotate = 360 / this.getRadius();
 
@@ -37,7 +37,7 @@ public class BlastShrapnel extends Blast
 
                 for (int ii = 0; ii < this.getRadius(); ii++)
                 {
-                    EntityFragments arrow = new EntityFragments(worldObj, position.x, position.y, position.z, this.isExplosive, this.isAnvil);
+                    EntityFragments arrow = new EntityFragments(world(), position.x, position.y, position.z, this.isExplosive, this.isAnvil);
 
                     if (this.isFlaming)
                     {
@@ -55,8 +55,8 @@ public class BlastShrapnel extends Blast
                     arrow.motionX = (-MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI));
                     arrow.motionZ = (MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI));
                     arrow.motionY = (-MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI));
-                    arrow.setArrowHeading(arrow.motionX * worldObj.rand.nextFloat(), arrow.motionY * worldObj.rand.nextFloat(), arrow.motionZ * worldObj.rand.nextFloat(), 0.5f + (0.7f * worldObj.rand.nextFloat()), 1.0F);
-                    worldObj.spawnEntityInWorld(arrow);
+                    arrow.setArrowHeading(arrow.motionX * world().rand.nextFloat(), arrow.motionY * world().rand.nextFloat(), arrow.motionZ * world().rand.nextFloat(), 0.5f + (0.7f * world().rand.nextFloat()), 1.0F);
+                    world().spawnEntityInWorld(arrow);
 
                 }
             }

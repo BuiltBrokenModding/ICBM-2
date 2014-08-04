@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import calclavia.lib.prefab.potion.CustomPotion;
+import resonant.lib.prefab.potion.CustomPotion;
 
 public class PoisonFrostBite extends CustomPotion
 {

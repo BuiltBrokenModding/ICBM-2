@@ -9,8 +9,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import resonant.core.ResonantEngine;
 import universalelectricity.api.vector.Vector3;
-import calclavia.components.CalclaviaLoader;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -98,7 +98,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
             return;
         }
 
-        if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == CalclaviaLoader.blockMulti.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+        if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ResonantEngine.blockMulti.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
         {
             this.setDead();
             return;

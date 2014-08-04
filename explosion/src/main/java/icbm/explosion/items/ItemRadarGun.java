@@ -15,11 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.item.ItemElectric;
-import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -39,11 +38,12 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List par3List, boolean par4)
     {
-        super.addInformation(itemStack, entityPlayer, par3List, par4);
         Vector3 coord = getLink(itemStack);
         par3List.add("\uaa74" + LanguageUtility.getLocal("info.radarGun.savedCoords"));
         par3List.add(LanguageUtility.getLocal("gui.misc.x") + " " + (int) coord.x + ", " + LanguageUtility.getLocal("gui.misc.y") + " " + (int) coord.y + ", " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) coord.z);
-        par3List.add((int) new Vector3(entityPlayer).distance((IVector3) coord) + " " + LanguageUtility.getLocal("info.radarGun.meters") + " (" + (int) (new Vector3(entityPlayer).x - coord.x) + ", " + (int) (new Vector3(entityPlayer).y - coord.y) + ", " + (int) (new Vector3(entityPlayer).z - coord.z) + ")");
+        par3List.add((int) new Vector3(entityPlayer).distance(coord) + " " + LanguageUtility.getLocal("info.radarGun.meters") + " (" + (int) (new Vector3(entityPlayer).x - coord.x) + ", " + (int) (new Vector3(entityPlayer).y - coord.y) + ", " + (int) (new Vector3(entityPlayer).z - coord.z) + ")");
+
+		super.addInformation(itemStack, entityPlayer, par3List, par4);
     }
 
     /** Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack,

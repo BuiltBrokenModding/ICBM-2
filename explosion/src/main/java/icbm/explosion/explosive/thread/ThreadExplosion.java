@@ -3,15 +3,15 @@ package icbm.explosion.explosive.thread;
 import java.util.HashSet;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
+/** @author Calclavia */
 public abstract class ThreadExplosion extends Thread
 {
-    public World world;
-    public final Vector3 position;
-    public int banJing;
-    public float nengLiang;
+    public final VectorWorld position;
+    public int radius;
+    public float energy;
     public Entity source;
 
     public boolean isComplete = false;
@@ -19,12 +19,11 @@ public abstract class ThreadExplosion extends Thread
     public final HashSet<Vector3> deltaSet = new HashSet<Vector3>();
     public final HashSet<Vector3> results = new HashSet<Vector3>();
 
-    public ThreadExplosion(World world, Vector3 position, int banJing, float nengLiang, Entity source)
+    public ThreadExplosion(VectorWorld position, int radius, float energy, Entity source)
     {
-        this.world = world;
         this.position = position;
-        this.banJing = banJing;
-        this.nengLiang = nengLiang;
+        this.radius = radius;
+        this.energy = energy;
         this.source = source;
         this.setPriority(Thread.MIN_PRIORITY);
     }

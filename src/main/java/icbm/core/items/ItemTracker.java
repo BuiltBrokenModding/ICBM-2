@@ -11,15 +11,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import resonant.api.items.IItemTracker;
+import resonant.lib.flag.FlagRegistry;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ITracker;
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTracker extends ItemICBMElectrical implements ITracker
+public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 {
     private static final long ENERGY_PER_TICK = 1;
 
@@ -35,7 +35,7 @@ public class ItemTracker extends ItemICBMElectrical implements ITracker
     {
         if (par1IconRegister instanceof TextureMap)
         {
-            ((TextureMap) par1IconRegister).setTextureEntry(this.getUnlocalizedName().replace("item.", ""), new TextureGenZhongQi());
+            ((TextureMap) par1IconRegister).setTextureEntry(this.getUnlocalizedName().replace("item.", ""), new TextureTracker());
             this.itemIcon = ((TextureMap) par1IconRegister).getTextureExtry(this.getUnlocalizedName().replace("item.", ""));
         }
     }

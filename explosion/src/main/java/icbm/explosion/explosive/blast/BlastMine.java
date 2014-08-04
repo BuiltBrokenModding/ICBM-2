@@ -18,23 +18,23 @@ public class BlastMine extends Blast
     @Override
     public void doPreExplode()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
-            this.worldObj.createExplosion(this.controller, position.x, position.y, position.z, 1.5f, true);
+            this.world().createExplosion(this.controller, position.x, position.y, position.z, 1.5f, true);
         }
 
-        this.controller.motionX = -0.125 + 0.25 * this.worldObj.rand.nextFloat();
-        this.controller.motionY = 0.7 + 0.4 * this.worldObj.rand.nextFloat();
-        this.controller.motionZ = -0.125 + 0.25 * this.worldObj.rand.nextFloat();
+        this.controller.motionX = -0.125 + 0.25 * this.world().rand.nextFloat();
+        this.controller.motionY = 0.7 + 0.4 * this.world().rand.nextFloat();
+        this.controller.motionZ = -0.125 + 0.25 * this.world().rand.nextFloat();
     }
 
     @Override
     public void doExplode()
     {
         this.controller.motionY -= 0.045;
-        this.controller.rotationPitch += 1.5 * this.worldObj.rand.nextFloat();
+        this.controller.rotationPitch += 1.5 * this.world().rand.nextFloat();
 
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
             if (this.callCount < 20 * 2 && !this.controller.isCollided)
             {
@@ -43,7 +43,7 @@ public class BlastMine extends Blast
 
             if (this.callCount >= 20 * 2 && this.callCount % 2 == 0)
             {
-                new BlastShrapnel(this.worldObj, this.exploder, this.position.x, this.position.y, this.position.z, this.getRadius(), true, true, false).doExplode();
+                new BlastShrapnel(this.world(), this.exploder, this.position.x, this.position.y, this.position.z, this.getRadius(), true, true, false).doExplode();
             }
 
             if (this.callCount >= 20 * 2 + 20)

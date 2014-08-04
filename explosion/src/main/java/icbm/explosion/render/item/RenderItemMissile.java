@@ -1,9 +1,10 @@
 package icbm.explosion.render.item;
 
 import icbm.ModelICBM;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
-import icbm.explosion.missile.types.Missile;
+import icbm.explosion.render.entity.RenderMissile;
 
 import java.util.HashMap;
 
@@ -19,78 +20,86 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderItemMissile implements IItemRenderer
 {
-	HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();
+    HashMap<Explosion, ModelICBM> cache = new HashMap<Explosion, ModelICBM>();
 
-	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type)
-	{
-		return this.shouldUseRenderHelper(type, item, null);
-	}
+    @Override
+    public boolean handleRenderType(ItemStack item, ItemRenderType type)
+    {
+        return this.shouldUseRenderHelper(type, item, null);
+    }
 
-	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-	{
-		return item.getItem() instanceof ItemMissile;
-	}
+    @Override
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
+    {
+        return item.getItem() instanceof ItemMissile;
+    }
 
-	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-	{
-		if (this.shouldUseRenderHelper(type, item, null))
-		{
-			Missile daoDan = (Missile) ExplosiveRegistry.get(item.getItemDamage());
+    @Override
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
+    {
+        if (this.shouldUseRenderHelper(type, item, null))
+        {
+            Explosion missile = (Explosion) ExplosiveRegistry.get(item.getItemDamage());
 
-			float scale = 0.7f;
-			float right = 0f;
+            float scale = 0.7f;
+            float right = 0f;
 
-			if (type == ItemRenderType.INVENTORY)
-			{
-				scale = 0.4f;
-				right = 0.15f;
+            if (type == ItemRenderType.INVENTORY)
+            {
+                scale = 0.4f;
+                right = -0.5f;
 
-				if (daoDan.getTier() == 2 || !daoDan.hasBlockForm())
-				{
-					scale = scale / 1.5f;
-				}
-				else if (daoDan.getTier() == 3)
-				{
-					scale = scale / 1.7f;
-					right = 0.5f;
-				}
-				else if (daoDan.getTier() == 4)
-				{
-					scale = scale / 1.4f;
-					right = 0.2f;
-				}
+                if (missile.getTier() == 2 || !missile.hasBlockForm())
+                {
+                    scale = scale / 1.5f;
+                }
+                else if (missile.getTier() == 3)
+                {
+                    scale = scale / 1.7f;
+                    right = -0.65f;
+                }
+                else if (missile.getTier() == 4)
+                {
+                    scale = scale / 1.4f;
+                    right = -0.45f;
+                }
 
-				GL11.glTranslatef(right, 0f, 0f);
-			}
+                GL11.glTranslatef(right, 0f, 0f);
+            }
 
-			if (type == ItemRenderType.EQUIPPED_FIRST_PERSON || type == ItemRenderType.EQUIPPED)
-			{
-				GL11.glTranslatef(1.15f, 1f, 0.5f);
-				GL11.glRotatef(180, 0, 0, 1f);
-			}
-			else
-			{
-				GL11.glRotatef(-90, 0, 0, 1f);
-			}
+            if (type == ItemRenderType.EQUIPPED)
+            {
+                GL11.glTranslatef(1f, 0.3f, 0.5f);
+                GL11.glRotatef(0, 0, 0, 1f);
+            }
+            else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
+            {
+                GL11.glTranslatef(1.15f, -1f, 0.5f);
+                GL11.glRotatef(0, 0, 0, 1f);
+            }
+            else
+            {
+                GL11.glRotatef(-90, 0, 0, 1f);
+            }
 
-			if (type == ItemRenderType.ENTITY)
-			{
-				scale = scale / 1.5f;
-			}
+            if (type == ItemRenderType.ENTITY)
+            {
+                scale = scale / 1.5f;
+            }
 
-			GL11.glScalef(scale, scale, scale);
+            GL11.glScalef(scale, scale, scale);
 
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(daoDan.getMissileResource());
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
 
-			if (!this.cache.containsKey(daoDan))
-			{
-				this.cache.put(daoDan, daoDan.getMissileModel());
-			}
+            synchronized (RenderMissile.cache)
+            {
+                if (!RenderMissile.cache.containsKey(missile))
+                {
+                    RenderMissile.cache.put(missile, missile.getMissileModel());
+                }
 
-			this.cache.get(daoDan).render(0.0625F);
-		}
-	}
+                RenderMissile.cache.get(missile).renderAll();
+            }
+        }
+    }
 }

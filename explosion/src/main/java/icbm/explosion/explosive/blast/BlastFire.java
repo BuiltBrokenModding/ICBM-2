@@ -16,7 +16,7 @@ public class BlastFire extends Blast
     @Override
     public void doExplode()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
             int radius = (int) this.getRadius();
 
@@ -35,7 +35,7 @@ public class BlastFire extends Blast
                             xStep /= diagonalDistance;
                             yStep /= diagonalDistance;
                             zStep /= diagonalDistance;
-                            float var14 = radius * (0.7F + worldObj.rand.nextFloat() * 0.6F);
+                            float var14 = radius * (0.7F + world().rand.nextFloat() * 0.6F);
                             double var15 = position.x;
                             double var17 = position.y;
                             double var19 = position.z;
@@ -44,11 +44,11 @@ public class BlastFire extends Blast
                             {
                                 Vector3 targetPosition = new Vector3(var15, var17, var19);
                                 double distanceFromCenter = position.distance(targetPosition);
-                                int var25 = worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                                int var25 = world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                                 if (var25 > 0)
                                 {
-                                    var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder, worldObj, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) + 0.3F) * var21;
+                                    var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder, world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) + 0.3F) * var21;
                                 }
 
                                 if (var14 > 0.0F)
@@ -62,15 +62,15 @@ public class BlastFire extends Blast
                                          * Check to see if the block is an air block and there is a
                                          * block below it to support the fire.
                                          */
-                                        int blockID = worldObj.getBlockId((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z);
+                                        int blockID = world().getBlockId((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z);
 
-                                        if ((blockID == 0 || blockID == Block.snow.blockID) && worldObj.getBlockMaterial((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z).isSolid())
+                                        if ((blockID == 0 || blockID == Block.snow.blockID) && world().getBlockMaterial((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z).isSolid())
                                         {
-                                            worldObj.setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID, 0, 2);
+                                            world().setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID, 0, 2);
                                         }
                                         else if (blockID == Block.ice.blockID)
                                         {
-                                            worldObj.setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0, 0, 2);
+                                            world().setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0, 0, 2);
                                         }
                                     }
                                 }
@@ -85,7 +85,7 @@ public class BlastFire extends Blast
             }
         }
 
-        worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "explosionfire", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+        world().playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "explosionfire", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
     }
 
     @Override

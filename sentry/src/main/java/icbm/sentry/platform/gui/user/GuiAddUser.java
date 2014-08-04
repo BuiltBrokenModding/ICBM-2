@@ -2,7 +2,7 @@ package icbm.sentry.platform.gui.user;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import calclavia.lib.prefab.terminal.TileTerminal;
+import resonant.lib.prefab.terminal.TileTerminal;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 /** @author DarkGuardsman */

@@ -14,6 +14,7 @@ import universalelectricity.api.vector.Vector3;
 public abstract class TurretMounted extends Turret implements IMountedTurret
 {
     protected Vector3 riderOffset = new Vector3();
+    public EntityMountableDummy sentryEntity;
 
     public TurretMounted(ITurretProvider turretProvider)
     {
@@ -27,7 +28,7 @@ public abstract class TurretMounted extends Turret implements IMountedTurret
 
         if (!world().isRemote)
         {
-            EntityMountableDummy sentryEntity = getHost().getFakeEntity();
+            EntityMountableDummy sentryEntity = getFakeEntity();
 
             if (sentryEntity.riddenByEntity instanceof EntityPlayer)
             {
@@ -74,5 +75,27 @@ public abstract class TurretMounted extends Turret implements IMountedTurret
     public boolean canMount(Entity entity)
     {
         return entity instanceof EntityLivingBase;
+    }
+    
+
+    @Override
+    public EntityMountableDummy getFakeEntity()
+    {
+        if (sentryEntity == null || sentryEntity.isDead)
+        {
+            if (!world().isRemote)
+            {
+                EntityMountableDummy entity = new EntityMountableDummy(this);
+                world().spawnEntityInWorld(entity);
+                setFakeEntity(entity);
+            }
+        }
+
+        return sentryEntity;
+    }
+
+    public void setFakeEntity(EntityMountableDummy entitySentryFake)
+    {
+        this.sentryEntity = entitySentryFake;
     }
 }

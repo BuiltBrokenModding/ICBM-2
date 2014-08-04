@@ -3,12 +3,15 @@ package icbm.sentry;
 import icbm.sentry.platform.TileTurretPlatform;
 import icbm.sentry.platform.gui.ContainerTurretPlatform;
 import icbm.sentry.turret.block.TileTurret;
+
+import java.awt.Color;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import resonant.lib.gui.ContainerDummy;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.gui.ContainerDummy;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler
@@ -43,7 +46,6 @@ public class CommonProxy implements IGuiHandler
             if (ID == 1)
                 return new ContainerDummy(player, tile);
         }
-
         return null;
     }
 
@@ -55,6 +57,11 @@ public class CommonProxy implements IGuiHandler
 
     /** Renders a bullet tracer from one spot to another will later be replaced with start and degree */
     public void renderTracer(World world, Vector3 position, Vector3 target)
+    {
+
+    }
+
+    public void renderBeam(World world, IVector3 position, IVector3 hit, Color color, int age)
     {
 
     }

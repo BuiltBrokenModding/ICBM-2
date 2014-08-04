@@ -16,7 +16,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import universalelectricity.api.vector.EulerAngle;
 import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
 
 /** AI for the sentry objects
  * 
@@ -241,17 +240,18 @@ public class TurretAI
     public MovingObjectPosition rayTrace(double distance)
     {
         // Ray Tracing is needed for Mounted Sentries aswell
-        Vector3 reach = turret.getServo().toVector().clone().scale(distance);
+        Vector3 reach = new Vector3(turret.getServo()).scale(distance);
         MovingObjectPosition hitTarget = turret.fromCenter().translate(turret.getWeaponOffset()).rayTrace(turret.world(), reach, false);
         return hitTarget;
     }
 
-    // TODO: Add options to this for reversing the targeting filter
+    /** Comparator to easily filter out targets */
     public static class ComparatorOptimalTarget implements Comparator<Entity>
     {
-        private final VectorWorld location;
+        private final Vector3 location;
+        private boolean closest = true;
 
-        public ComparatorOptimalTarget(VectorWorld location)
+        public ComparatorOptimalTarget(Vector3 location)
         {
             this.location = location;
         }
@@ -259,9 +259,18 @@ public class TurretAI
         @Override
         public int compare(Entity entityA, Entity entityB)
         {
-            Double distanceA = location.distance(entityA);
-            Double distanceB = location.distance(entityB);
-            return distanceA.compareTo(distanceB);
+            if (closest)
+            {
+                Double distanceA = location.distance(entityA);
+                Double distanceB = location.distance(entityB);
+                return distanceA.compareTo(distanceB);
+            }
+            else
+            {
+                Double distanceB = location.distance(entityA);
+                Double distanceA = location.distance(entityB);
+                return distanceA.compareTo(distanceB);
+            }
         }
     }
 }

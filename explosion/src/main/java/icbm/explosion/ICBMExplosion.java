@@ -4,8 +4,6 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
 import icbm.core.ICBMCore;
-import icbm.core.entity.EntityFlyingBlock;
-import icbm.core.entity.EntityFragments;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.entities.EntityBombCart;
 import icbm.explosion.entities.EntityExplosion;
@@ -63,17 +61,18 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import resonant.api.explosion.ExplosiveHelper;
+import resonant.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.api.explosion.ExplosionEvent.PreExplosionEvent;
+import resonant.lib.config.Config;
+import resonant.lib.flag.FlagRegistry;
+import resonant.lib.network.PacketHandler;
+import resonant.lib.recipe.RecipeUtility;
+import resonant.lib.recipe.UniversalRecipe;
+import resonant.lib.utility.PotionUtility;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ExplosiveHelper;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosionConstructionEvent;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.explosion.ExplosionEvent.PreExplosionEvent;
-import calclavia.lib.config.Config;
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.recipe.RecipeUtility;
-import calclavia.lib.recipe.UniversalRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -115,6 +114,7 @@ public class ICBMExplosion
     public static Block blockExplosive;
     public static Block blockMachine;
     public static Block blockMissileAssembler;
+    
     // Items
     public static Item itemMissile;
 
@@ -147,7 +147,7 @@ public class ICBMExplosion
         blockExplosive = ICBMCore.contentRegistry.createBlock(BlockExplosive.class, ItemBlockExplosive.class);
         blockMachine = ICBMCore.contentRegistry.createBlock(BlockICBMMachine.class, ItemBlockMachine.class);
         blockMissileAssembler = ICBMCore.contentRegistry.createBlock(BlockMissileAssembler.class, ItemBlockMissileAssembler.class);
-
+        
         // ITEMS
         itemMissile = ICBMCore.contentRegistry.createItem(ItemMissile.class);
 
@@ -161,11 +161,11 @@ public class ICBMExplosion
         itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
 
         /** Potion Effects */
-        PoisonToxin.INSTANCE = new PoisonToxin(29, true, 5149489, "toxin");
-        PoisonContagion.INSTANCE = new PoisonContagion(30, false, 5149489, "virus");
-        PoisonFrostBite.INSTANCE = new PoisonFrostBite(31, false, 5149489, "frostBite");
-
-        TabICBM.itemStack = new ItemStack(blockExplosive);
+        PoisonToxin.INSTANCE = new PoisonToxin(PotionUtility.getNextOptimalPotId(), true, 5149489, "toxin");
+        PoisonContagion.INSTANCE = new PoisonContagion(PotionUtility.getNextOptimalPotId(), false, 5149489, "virus");
+        PoisonFrostBite.INSTANCE = new PoisonFrostBite(PotionUtility.getNextOptimalPotId(), false, 5149489, "frostBite");
+		if (!Loader.isModLoaded("ICBM|Sentry"))
+			TabICBM.itemStack = new ItemStack(blockExplosive);
 
         /** Dispenser Handler */
         BlockDispenser.dispenseBehaviorRegistry.putObject(itemGrenade, new IBehaviorDispenseItem()
@@ -282,7 +282,7 @@ public class ICBMExplosion
     public void init(FMLInitializationEvent evt)
     {
         Settings.setModMetadata(ID, NAME, metadata, Reference.NAME);
-        
+
         EntityRegistry.registerGlobalEntityID(EntityExplosive.class, "ICBMExplosive", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
@@ -293,7 +293,7 @@ public class ICBMExplosion
         EntityRegistry.registerModEntity(EntityExplosive.class, "ICBMExplosive", ENTITY_ID_PREFIX, this, 50, 5, true);
         EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 1, this, 500, 1, true);
         EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 2, this, 100, 5, true);
-        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);       
+        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 4, this, 80, 5, true);
         EntityRegistry.registerModEntity(EntityGrenade.class, "ICBMGrenade", ENTITY_ID_PREFIX + 6, this, 50, 5, true);
         EntityRegistry.registerModEntity(EntityBombCart.class, "ICBMChe", ENTITY_ID_PREFIX + 8, this, 50, 4, true);
 
@@ -347,8 +347,8 @@ public class ICBMExplosion
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
         // Add all explosive recipes.
-        if (!Loader.isModLoaded("AtomicScience"))
-            OreDictionary.registerOre("antimatterGram", new ItemStack(397, 1, 1));
+        if (!Loader.isModLoaded("ResonantInduction|Atomic")) //TODO ? static id
+            OreDictionary.registerOre("strangeMatter", new ItemStack(397, 1, 1));
 
         for (Explosive explosive : ExplosiveRegistry.getExplosives())
         {
@@ -365,7 +365,7 @@ public class ICBMExplosion
                 // Minecart
                 RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, explosive.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, explosive.getID()), '@', Item.minecartEmpty }), explosive.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
             }
-        }     
+        }
     }
 
     @ForgeSubscribe

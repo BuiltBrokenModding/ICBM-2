@@ -13,14 +13,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRotatable;
+import resonant.api.ITier;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.multiblock.IMultiBlock;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ITier;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -38,7 +38,7 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
     public TileMissileAssembler()
     {
-        energy = new EnergyStorageHandler();
+        setEnergyHandler(new EnergyStorageHandler());
     }
 
     @Override
@@ -371,11 +371,13 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
     @Override
     public void openChest()
-    {}
+    {
+    }
 
     @Override
     public void closeChest()
-    {}
+    {
+    }
 
     @Override
     public AxisAlignedBB getRenderBoundingBox()

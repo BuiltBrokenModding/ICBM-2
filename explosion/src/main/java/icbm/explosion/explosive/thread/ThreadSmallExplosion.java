@@ -2,40 +2,40 @@ package icbm.explosion.explosive.thread;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
 /** Used for small explosions.
  * 
  * @author Calclavia */
 public class ThreadSmallExplosion extends ThreadExplosion
 {
-    public ThreadSmallExplosion(World world, Vector3 position, int banJing, Entity source)
+    public ThreadSmallExplosion(VectorWorld position, int banJing, Entity source)
     {
-        super(world, position, banJing, 0, source);
+        super(position, banJing, 0, source);
     }
 
     @Override
     public void run()
     {
-        if (!this.world.isRemote)
+        if (!this.position.world().isRemote)
         {
-            for (int x = 0; x < this.banJing; ++x)
+            for (int x = 0; x < this.radius; ++x)
             {
-                for (int y = 0; y < this.banJing; ++y)
+                for (int y = 0; y < this.radius; ++y)
                 {
-                    for (int z = 0; z < this.banJing; ++z)
+                    for (int z = 0; z < this.radius; ++z)
                     {
-                        if (x == 0 || x == this.banJing - 1 || y == 0 || y == this.banJing - 1 || z == 0 || z == this.banJing - 1)
+                        if (x == 0 || x == this.radius - 1 || y == 0 || y == this.radius - 1 || z == 0 || z == this.radius - 1)
                         {
-                            double xStep = x / (this.banJing - 1.0F) * 2.0F - 1.0F;
-                            double yStep = y / (this.banJing - 1.0F) * 2.0F - 1.0F;
-                            double zStep = z / (this.banJing - 1.0F) * 2.0F - 1.0F;
+                            double xStep = x / (this.radius - 1.0F) * 2.0F - 1.0F;
+                            double yStep = y / (this.radius - 1.0F) * 2.0F - 1.0F;
+                            double zStep = z / (this.radius - 1.0F) * 2.0F - 1.0F;
                             double diagonalDistance = Math.sqrt(xStep * xStep + yStep * yStep + zStep * zStep);
                             xStep /= diagonalDistance;
                             yStep /= diagonalDistance;
                             zStep /= diagonalDistance;
-                            float power = this.banJing * (0.7F + this.world.rand.nextFloat() * 0.6F);
+                            float power = this.radius * (0.7F + this.position.world().rand.nextFloat() * 0.6F);
                             double var15 = position.x;
                             double var17 = position.y;
                             double var19 = position.z;
@@ -44,7 +44,7 @@ public class ThreadSmallExplosion extends ThreadExplosion
                             {
                                 Vector3 targetPosition = new Vector3(var15, var17, var19);
                                 double distanceFromCenter = position.distance(targetPosition);
-                                int blockID = this.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                                int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                                 if (blockID > 0)
                                 {
@@ -56,7 +56,7 @@ public class ThreadSmallExplosion extends ThreadExplosion
                                     }
                                     else
                                     {
-                                        resistance = Block.blocksList[blockID].getExplosionResistance(this.source, this.world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
+                                        resistance = Block.blocksList[blockID].getExplosionResistance(this.source, this.position.world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ());
                                     }
                                     // TODO rather than remove power divert a percentage to the
                                     // sides, and then calculate how much is absorbed by the block

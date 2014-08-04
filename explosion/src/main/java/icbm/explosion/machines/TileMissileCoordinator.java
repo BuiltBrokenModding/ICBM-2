@@ -9,11 +9,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRotatable;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.EnergyStorageHandler;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -27,7 +27,7 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
 
     public TileMissileCoordinator()
     {
-        this.energy = new EnergyStorageHandler(0);
+        setEnergyHandler(new EnergyStorageHandler(0));
     }
 
     @Override

@@ -2,6 +2,9 @@ package icbm.sentry.turret.ai;
 
 import universalelectricity.api.vector.EulerAngle;
 
+/** Automated version of the EulerAngle used by machines and entities to handle rotation
+ * 
+ * @author DarkGuardsman, Calclavia */
 public class EulerServo extends EulerAngle
 {
     public EulerAngle upperLimit = new EulerAngle(180, 40);
@@ -12,12 +15,18 @@ public class EulerServo extends EulerAngle
 
     public EulerServo(double rotationSpeed)
     {
-        this(new EulerAngle(), rotationSpeed);
+        this.rotationSpeed = rotationSpeed;
     }
 
     public EulerServo(EulerAngle angle, double rotationSpeed)
     {
         super(angle);
+        this.rotationSpeed = rotationSpeed;
+    }
+
+    public EulerServo(double yaw, double pitch, double roll, double rotationSpeed)
+    {
+        super(yaw, pitch, roll);
         this.rotationSpeed = rotationSpeed;
     }
 
@@ -107,6 +116,6 @@ public class EulerServo extends EulerAngle
     @Override
     public EulerServo clone()
     {
-        return new EulerServo(this, rotationSpeed);
+        return new EulerServo(this.yaw, this.pitch, this.roll, this.getRotationSpeed());
     }
 }
