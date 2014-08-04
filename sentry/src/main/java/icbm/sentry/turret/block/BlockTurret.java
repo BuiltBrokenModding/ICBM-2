@@ -4,6 +4,9 @@ import icbm.Reference;
 import icbm.TabICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.sentry.ICBMSentry;
+import icbm.sentry.interfaces.IMountedTurret;
+import icbm.sentry.interfaces.ITurret;
+import icbm.sentry.interfaces.ITurretProvider;
 import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
 
@@ -17,15 +20,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import calclavia.lib.access.Nodes;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.prefab.block.BlockAdvanced;
-import calclavia.lib.prefab.item.ItemBlockSaved;
-import calclavia.lib.utility.inventory.InventoryUtility;
+import resonant.lib.access.Nodes;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.prefab.block.BlockAdvanced;
+import resonant.lib.prefab.item.ItemBlockSaved;
+import resonant.lib.utility.inventory.InventoryUtility;
+import resonant.lib.utility.nbt.SaveManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -35,6 +41,10 @@ import cpw.mods.fml.relauncher.SideOnly;
  * @author Calclavia, tgame14 */
 public class BlockTurret extends BlockICBM
 {
+    //Temp vars only used during harvest process to pass these args to another method
+    boolean isHarvesting = false;
+    ITurret harvestedTurret = null;
+
     public BlockTurret(int id)
     {
         super(id, "turret");
@@ -50,17 +60,18 @@ public class BlockTurret extends BlockICBM
 
         if (ent instanceof TileTurret)
         {
-            Entity fakeEntity = ((TileTurret) ent).getFakeEntity();
+            if (((TileTurret) ent).getTurret() instanceof IMountedTurret)
+            {
+                Entity fakeEntity = ((IMountedTurret)((TileTurret) ent).getTurret()).getFakeEntity();
 
-            if (fakeEntity != null)
-            {
-                this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
-            }
-            else
-            {
-                this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
+                if (fakeEntity != null)
+                {
+                    this.setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
+                    return;
+                }
             }
         }
+        this.setBlockBounds(.2f, 0, .2f, .8f, .8f, .8f);
     }
 
     @SideOnly(Side.CLIENT)
@@ -182,10 +193,11 @@ public class BlockTurret extends BlockICBM
         return world.getBlockId(x, y - 1, z) == ICBMSentry.blockPlatform.blockID;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void getSubBlocks(int id, CreativeTabs creativeTab, List list)
     {
-        for (Class<? extends Turret> sentry : TurretRegistry.getSentryMap().values())
+        for (Class<? extends ITurret> sentry : TurretRegistry.getSentryMap().values())
             list.add(TurretRegistry.getItemStack(sentry));
     }
 
@@ -204,17 +216,68 @@ public class BlockTurret extends BlockICBM
     }
 
     @Override
+    public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer entityPlayer)
+    {
+        //Save the tile so that get block dropped can function
+        harvestedTurret = getTurret(world, x, y, z);
+        isHarvesting = true;
+    }
+
+    @Override
     public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(ItemBlockSaved.getItemStackWithNBT(this, world, x, y, z));
+        ItemStack itemStack = getItemStack(world, x, y, z);
+        if (isHarvesting && itemStack == null)
+        {
+            itemStack = getItemStack(harvestedTurret);
+            harvestedTurret = null;
+            isHarvesting = false;
+        }
+        if (itemStack != null && itemStack.getTagCompound().hasKey(ITurret.SENTRY_TYPE_SAVE_ID))
+            ret.add(itemStack);
+
         return ret;
     }
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
-        return ItemBlockSaved.getItemStackWithNBT(this, world, x, y, z);
+        return getItemStack(world, x, y, z);
+    }
+
+    /** Gets the item version of this block */
+    public ItemStack getItemStack(World world, int x, int y, int z)
+    {
+        return getItemStack(world.getBlockTileEntity(x, y, z));
+    }
+
+    /** Gets the item version of this block */
+    public ItemStack getItemStack(TileEntity tile)
+    {
+        return getItemStack(getTurret(tile));
+    }
+
+    /** Gets the item version of this block */
+    public ItemStack getItemStack(ITurret turret)
+    {
+        return TurretRegistry.getItemStack(turret);
+    }
+
+    /** Gets the turret object this block contains */
+    public ITurret getTurret(World world, int x, int y, int z)
+    {
+        return getTurret(world.getBlockTileEntity(x, y, z));
+    }
+
+    /** Gets the turret object this block contains */
+    public ITurret getTurret(TileEntity tile)
+    {
+        if (tile instanceof ITurretProvider)
+        {
+            return ((ITurretProvider) tile).getTurret();
+        }
+        return null;
     }
 
     @Override

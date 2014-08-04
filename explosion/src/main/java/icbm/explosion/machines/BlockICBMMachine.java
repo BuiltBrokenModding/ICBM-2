@@ -19,14 +19,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRedstoneReceptor;
+import resonant.api.IRotatable;
+import resonant.api.ITier;
+import resonant.core.ResonantEngine;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.multiblock.IMultiBlock;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.UniversalElectricity;
-import calclavia.api.icbm.ITier;
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -110,48 +110,38 @@ public class BlockICBMMachine extends BlockICBM
 
         if (tileEntity instanceof IMultiBlock)
         {
-			CalclaviaLoader.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
+            ResonantEngine.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
         }
     }
 
-    public static boolean canBePlacedAt(World world, int x, int y, int z, int metadata, int direction)
+    /** Checks if the machine can be placed at the location */
+    public static boolean canBePlacedAt(World world, int x, int y, int z, int m, int side)
     {
-        switch (metadata)
+        ForgeDirection d = ForgeDirection.getOrientation(side);
+
+        if (m == 0)
         {
-            default:
+            //Launcher Pad multi block placement check
+            for (int yp = 0; yp < 2; yp++)
             {
-                return world.getBlockMaterial(x, y - 1, z).isSolid();
+                if (!world.isAirBlock(x + d.offsetX, y + yp, z + d.offsetZ))
+                    return false;
+                if (!world.isAirBlock(x - d.offsetX, y + yp, z - d.offsetZ))
+                    return false;
             }
-            case 0:
-            {
-                // Launcher Base
-                if (direction == 0 || direction == 2)
-                {
-                    return world.getBlockId(x, y, z) == 0 &&
-                    // Left
-                            world.getBlockId(x + 1, y, z) == 0 && world.getBlockId(x + 1, y + 1, z) == 0 && world.getBlockId(x + 1, y + 2, z) == 0 &&
-                            // Right
-                            world.getBlockId(x - 1, y, z) == 0 && world.getBlockId(x - 1, y + 1, z) == 0 && world.getBlockId(x - 1, y + 2, z) == 0;
-                }
-                else if (direction == 1 || direction == 3)
-                {
-                    return world.getBlockId(x, y, z) == 0 &&
-                    // Front
-                            world.getBlockId(x, y, z + 1) == 0 && world.getBlockId(x, y + 1, z + 1) == 0 && world.getBlockId(x, y + 2, z + 1) == 0 &&
-                            // Back
-                            world.getBlockId(x, y, z - 1) == 0 && world.getBlockId(x, y + 1, z - 1) == 0 && world.getBlockId(x, y + 2, z - 1) == 0;
-                }
-            }
-            case 2:
-            {
-                // Launcher Frame
-                return world.getBlockMaterial(x, y - 1, z).isSolid() && world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0 && world.getBlockId(x, y + 2, z) == 0;
-            }
-            case 4:
-            {
-                return world.getBlockId(x, y, z) == 0 && world.getBlockId(x, y + 1, z) == 0;
-            }
+            return world.isAirBlock(x, y, z);
         }
+        else if (m == 2)
+        {
+            // Launcher Frame
+            return world.getBlockMaterial(x, y - 1, z).isSolid() && world.isAirBlock(x, y, z) && world.isAirBlock(x, y + 1, z) && world.isAirBlock(x, y + 2, z);
+        }
+        else if (m == 4)
+        {
+            return world.isAirBlock(x, y, z) && world.isAirBlock(x, y + 1, z);
+        }
+
+        return world.getBlockMaterial(x, y - 1, z).isSolid();
     }
 
     @Override
@@ -265,7 +255,7 @@ public class BlockICBMMachine extends BlockICBM
 
             if (tileEntity instanceof IMultiBlock)
             {
-            	CalclaviaLoader.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+                ResonantEngine.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
             }
         }
 

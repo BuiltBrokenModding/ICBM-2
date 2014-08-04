@@ -13,9 +13,9 @@ import icbm.sentry.turret.ai.EulerServo;
 import icbm.sentry.turret.ai.TurretAI;
 import icbm.sentry.turret.traits.SentryTrait;
 import icbm.sentry.turret.traits.SentryTraitDouble;
-import icbm.sentry.turret.traits.SentryTraitLong;
 import icbm.sentry.turret.traits.SentryTraitInteger;
-import icbm.sentry.turret.weapon.WeaponSystem;
+import icbm.sentry.turret.traits.SentryTraitLong;
+import icbm.sentry.weapon.WeaponSystem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,16 +33,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.lib.utility.nbt.SaveManager;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.IVector3;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorWorld;
-import calclavia.lib.utility.nbt.SaveManager;
 
 /** Modular way to deal with sentry guns
  * 
  * @author DarkGuardsman, tgame14 */
-public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCount
+public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCount, ITurret
 {
 
     /** Host of the sentry gun */
@@ -86,22 +86,24 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
             }
 
             @Override
+            public long getMaxReceive()
+            {
+                return this.getEnergyCapacity();
+            }
+
+            @Override
             public long getMaxExtract()
             {
-                if (Turret.this.getWeaponSystem() instanceof IEnergyWeapon)
-                {
-                    return ((IEnergyWeapon) Turret.this.getWeaponSystem()).getEnergyPerShot();
-                }
                 return this.getEnergyCapacity();
             }
         };
 
-        newTrait(new SentryTraitLong(ITurret.ENERGY_STORAGE_TRAIT, IUpgrade.ENERGY_STORAGE, 100000));        
+        newTrait(new SentryTraitLong(ITurret.ENERGY_STORAGE_TRAIT, IUpgrade.ENERGY_STORAGE, 100000));
         newTrait(new SentryTraitLong(ITurret.ENERGY_RUNNING_TRAIT, IUpgrade.ENERGY_EFFICIENCY, 10));
         newTrait(new SentryTraitDouble(ITurret.MAX_HEALTH_TRAIT, 50.0));
         newTrait(new SentryTraitDouble(ITurret.SEARCH_RANGE_TRAIT, IUpgrade.TARGET_RANGE, 20.0));
-        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_TRAIT, 5));
-        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 7));
+        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_TRAIT, 5.0));
+        newTrait(new SentryTraitDouble(ITurret.ROTATION_SPEED_WITH_TARGET_TRAIT, 7.0));
         newTrait(new SentryTraitInteger(ITurret.AMMO_RELOAD_TIME_TRAIT, 20));
     }
 
@@ -283,10 +285,13 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         NBTTagList killCounts = new NBTTagList();
         for (Entry<String, Integer> entry : this.kill_count.entrySet())
         {
-            NBTTagCompound accessData = new NBTTagCompound();
-            accessData.setString("name", entry.getKey());
-            accessData.setInteger("count", entry.getValue());
-            killCounts.appendTag(accessData);
+            if (entry.getKey() != null && !entry.getKey().isEmpty())
+            {
+                NBTTagCompound accessData = new NBTTagCompound();
+                accessData.setString("name", entry.getKey());
+                accessData.setInteger("count", entry.getValue());
+                killCounts.appendTag(accessData);
+            }
         }
         nbt.setTag("killCount", killCounts);
     }
@@ -419,7 +424,7 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         //Update upgrade count
         for (int slot = 0; slot < inv.getSizeInventory(); slot++)
         {
-            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof IUpgrade && ((IUpgrade)inv.getStackInSlot(slot).getItem()).canApplyTo(inv.getStackInSlot(slot), this))
+            if (inv.getStackInSlot(slot) != null && inv.getStackInSlot(slot).getItem() instanceof IUpgrade && ((IUpgrade) inv.getStackInSlot(slot).getItem()).canApplyTo(inv.getStackInSlot(slot), this))
             {
                 final List<String> id_list = new ArrayList<String>();
                 ((IUpgrade) inv.getStackInSlot(slot).getItem()).getTypes(id_list, inv.getStackInSlot(slot));
@@ -497,19 +502,23 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
             {
                 increaseKill("Mobs");
             }
-            if (entity instanceof INpc)
+            else if (entity instanceof INpc)
             {
                 increaseKill("NPCs");
             }
-            if (entity instanceof IAnimals)
+            else if (entity instanceof IAnimals)
             {
                 increaseKill("Animals");
             }
-            if (entity instanceof EntityPlayer)
+            else if (entity instanceof EntityPlayer)
             {
                 increaseKill("Players");
+                increaseKill(((EntityPlayer)entity).username);
             }
-            increaseKill(EntityList.getEntityString(entity));
+            else
+            {
+                increaseKill(EntityList.getEntityString(entity));
+            }
             increaseKill("Total");
         }
     }
@@ -517,13 +526,13 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     /** Increase the kill count */
     private void increaseKill(String type)
     {
-        kill_count.put(type, 1 + (kill_count.containsKey(type) ? kill_count.get(type) : 0));
+        if (type != null && !type.isEmpty())
+            kill_count.put(type, 1 + (kill_count.containsKey(type) ? kill_count.get(type) : 0));
     }
 
     @Override
     public long getRunningCost()
     {
-        ISentryTrait trait = getTrait(ITurret.ENERGY_RUNNING_TRAIT);
-        return SentryTrait.asLong(trait, 0L);
+        return SentryTrait.asLong(getTrait(ITurret.ENERGY_RUNNING_TRAIT), 0L);
     }
 }

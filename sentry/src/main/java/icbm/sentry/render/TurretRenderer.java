@@ -4,8 +4,8 @@ import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
-import calclavia.lib.access.Nodes;
-import calclavia.lib.render.item.ISimpleItemRenderer;
+import resonant.api.items.ISimpleItemRenderer;
+import resonant.lib.access.Nodes;
 
 /** Container class used to call rendering for a sentry
  * 
@@ -37,7 +37,9 @@ public abstract class TurretRenderer implements ISimpleItemRenderer
         if (tile != null && player != null)
         {
             if (tile.canUse(Nodes.PROFILE_OWNER, player) || tile.canUse(Nodes.PROFILE_ADMIN, player))
-                return this.textureFriendly;
+			{
+				return this.textureFriendly;
+			}
 
             if (tile.canAccess(player.username))
             {

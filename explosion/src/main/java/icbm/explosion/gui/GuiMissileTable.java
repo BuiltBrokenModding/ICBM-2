@@ -10,7 +10,7 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.utility.LanguageUtility;
+import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class GuiMissileTable extends GuiContainer

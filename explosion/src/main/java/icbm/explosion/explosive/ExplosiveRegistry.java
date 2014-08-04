@@ -1,6 +1,6 @@
 package icbm.explosion.explosive;
 
-import icbm.explosion.missile.types.Missile;
+import icbm.explosion.ex.Explosion;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,64 +9,66 @@ import java.util.HashSet;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
+/** Registry for all missiles
+ * 
+ * @author Calcalvia */
 public class ExplosiveRegistry
 {
     private static int maxID = 0;
-    private static HashMap<Integer, Explosive> zhaPinMap = new HashMap();
-    private static BiMap<Integer, String> zhaPinIDs = HashBiMap.create();
+    private static final HashMap<Integer, Explosive> idToExplosiveMap = new HashMap<Integer, Explosive>();
+    private static final BiMap<Integer, String> idToNameMap = HashBiMap.create();
 
     public static Explosive register(Explosive zhaPin)
     {
         if (!isRegistered(zhaPin))
         {
             int nextID = maxID++;
-            zhaPinMap.put(nextID, zhaPin);
-            zhaPinIDs.put(nextID, zhaPin.getUnlocalizedName());
+            idToExplosiveMap.put(nextID, zhaPin);
+            idToNameMap.put(nextID, zhaPin.getUnlocalizedName());
             return zhaPin;
         }
-
         return null;
     }
 
-    public static boolean isRegistered(Explosive zhaPin)
+    public static boolean isRegistered(Explosive explosive)
     {
-        return zhaPinIDs.containsKey(zhaPin.getUnlocalizedName());
+        return idToNameMap.containsKey(explosive.getUnlocalizedName());
     }
 
     public static int getID(String unlocalizedName)
     {
-        return zhaPinIDs.inverse().get(unlocalizedName);
+        return idToNameMap.inverse().get(unlocalizedName);
     }
 
     public static Explosive get(String name)
     {
-        return zhaPinMap.get(getID(name));
+        return idToExplosiveMap.get(getID(name));
     }
 
     public static Explosive get(int haoMa)
     {
-        return zhaPinMap.get(haoMa);
+        return idToExplosiveMap.get(haoMa);
     }
 
     public static String getName(int haoMa)
     {
-        return zhaPinIDs.get(haoMa);
+        return idToNameMap.get(haoMa);
     }
 
     public static Collection<Explosive> getExplosives()
     {
-        return zhaPinMap.values();
+        return idToExplosiveMap.values();
     }
 
-    public static Collection<Missile> getAllMissles ()
+    public static Collection<Explosion> getAllMissles()
     {
-        Collection<Missile> missiles = new HashSet<Missile>();
+        Collection<Explosion> missiles = new HashSet<Explosion>();
 
-        for (Explosive zhaPin : zhaPinMap.values())
+        for (Explosive zhaPin : idToExplosiveMap.values())
         {
-            if (zhaPin instanceof Missile)
+            if (zhaPin instanceof Explosion)
             {
-                missiles.add((Missile) zhaPin);
+                missiles.add((Explosion) zhaPin);
             }
         }
 
@@ -75,7 +77,7 @@ public class ExplosiveRegistry
 
     public static HashMap<Integer, Explosive> getAll()
     {
-        return zhaPinMap;
+        return idToExplosiveMap;
     }
 
 }

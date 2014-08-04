@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
 /** Used for large raycasting explosions.
  * 
@@ -19,19 +20,19 @@ public class ThreadLargeExplosion extends ThreadExplosion
 
     public IThreadCallBack callBack;
 
-    public ThreadLargeExplosion(World world, Vector3 position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
+    public ThreadLargeExplosion(VectorWorld position, int range, float energy, Entity source, IThreadCallBack callBack)
     {
-        super(world, position, banJing, nengLiang, source);
+        super(position, range, energy, source);
         this.callBack = callBack;
     }
 
-    public ThreadLargeExplosion(World world, Vector3 position, int banJing, float nengLiang, Entity source)
+    public ThreadLargeExplosion(VectorWorld position, int range, float energy, Entity source)
     {
-        this(world, position, banJing, nengLiang, source, new IThreadCallBack()
+        this(position, range, energy, source, new IThreadCallBack()
         {
 
             @Override
-            public float getResistance(World world, Vector3 explosionPosition, Vector3 targetPosition, Entity source, Block block)
+            public float getResistance(World world, Vector3 pos, Vector3 targetPosition, Entity source, Block block)
             {
                 float resistance = 0;
 
@@ -41,7 +42,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
                 }
                 else
                 {
-                    resistance = block.getExplosionResistance(source, world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), explosionPosition.intX(), explosionPosition.intY(), explosionPosition.intZ());
+                    resistance = block.getExplosionResistance(source, world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), pos.intX(), pos.intY(), pos.intZ());
                 }
 
                 return resistance;
@@ -53,7 +54,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
     @Override
     public void run()
     {
-        int steps = (int) Math.ceil(Math.PI / Math.atan(1.0D / this.banJing));
+        int steps = (int) Math.ceil(Math.PI / Math.atan(1.0D / this.radius));
 
         for (int phi_n = 0; phi_n < 2 * steps; phi_n++)
         {
@@ -63,37 +64,31 @@ public class ThreadLargeExplosion extends ThreadExplosion
                 double theta = Math.PI / steps * theta_n;
 
                 Vector3 delta = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
-                float power = this.nengLiang - (this.nengLiang * this.world.rand.nextFloat() / 2);
+                float power = this.energy - (this.energy * this.position.world().rand.nextFloat() / 2);
 
-                Vector3 targetPosition = position.clone();
+                Vector3 t = position.clone();
 
-                for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
+                for (float d = 0.3F; power > 0f; power -= d * 0.75F * 10)
                 {
-                    if (targetPosition.distance(position) > this.banJing)
+                    if (t.distance(position) > this.radius)
                         break;
 
-                    int blockID = this.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    Block block = Block.blocksList[this.position.world().getBlockId(t.intX(), t.intY(), t.intZ())];
 
-                    if (blockID > 0)
+                    if (block != null)
                     {
-                        if (blockID == Block.bedrock.blockID)
+                        if (block.getBlockHardness(this.position.world(), t.intX(), t.intY(), t.intZ()) >= 0)
                         {
-                            break;
-                        }
+                            power -= this.callBack.getResistance(this.position.world(), position, t, source, block);
 
-                        float resistance = this.callBack.getResistance(this.world, position, targetPosition, source, Block.blocksList[blockID]);
+                            if (power > 0f)
+                            {
+                                this.results.add(t.clone());
+                            }
 
-                        power -= resistance;
-
-                        if (power > 0f)
-                        {
-                            this.results.add(targetPosition.clone());
                         }
                     }
-
-                    targetPosition.x += delta.x;
-                    targetPosition.y += delta.y;
-                    targetPosition.z += delta.z;
+                    t.translate(delta);
                 }
             }
         }

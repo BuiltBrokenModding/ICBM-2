@@ -10,6 +10,9 @@ import universalelectricity.api.vector.IVector3;
  * @author DarkGuardsman */
 public interface IWeaponSystem
 {
+    /** called to fire from the hip */
+    public void fire(double range);
+    
     /** called to fire at a location */
     public void fire(IVector3 vector);
 

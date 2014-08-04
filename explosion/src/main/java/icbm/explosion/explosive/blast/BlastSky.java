@@ -13,8 +13,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import resonant.lib.prefab.potion.CustomPotionEffect;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.potion.CustomPotionEffect;
 
 public class BlastSky extends BlastBeam
 {
@@ -30,7 +30,7 @@ public class BlastSky extends BlastBeam
     public void doExplode()
     {
         super.doExplode();
-        this.worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "redmatter", 4.0F, 0.8F);
+        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "redmatter", 4.0F, 0.8F);
     }
 
     @Override
@@ -38,14 +38,14 @@ public class BlastSky extends BlastBeam
     {
         super.doPostExplode();
 
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
-            if (this.canFocusBeam(this.worldObj, position) && this.thread.isComplete)
+            if (this.canFocusBeam(this.world(), position) && this.thread.isComplete)
             {
                 /*
                  * Freeze all nearby entities.
                  */
-                List<EntityLiving> livingEntities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(position.x - getRadius(), position.y - getRadius(), position.z - getRadius(), position.x + getRadius(), position.y + getRadius(), position.z + getRadius()));
+                List<EntityLiving> livingEntities = world().getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(position.x - getRadius(), position.y - getRadius(), position.z - getRadius(), position.x + getRadius(), position.y + getRadius(), position.z + getRadius()));
 
                 Iterator<EntityLiving> it = livingEntities.iterator();
 
@@ -77,23 +77,23 @@ public class BlastSky extends BlastBeam
                         /*
                          * Place down ice blocks.
                          */
-                        int blockID = this.worldObj.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                        int blockID = this.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                         if (blockID == Block.fire.blockID || blockID == Block.lavaMoving.blockID || blockID == Block.lavaStill.blockID)
                         {
-                            this.worldObj.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), Block.snow.blockID, 0, 2);
+                            this.world().setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), Block.snow.blockID, 0, 2);
                         }
-                        else if (blockID == 0 && this.worldObj.getBlockId(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ()) != Block.ice.blockID && worldObj.getBlockId(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ()) != 0)
+                        else if (blockID == 0 && this.world().getBlockId(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ()) != Block.ice.blockID && world().getBlockId(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ()) != 0)
                         {
-                            this.worldObj.setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), Block.ice.blockID, 0, 2);
+                            this.world().setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), Block.ice.blockID, 0, 2);
                         }
                     }
                 }
 
-                this.worldObj.playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "redmatter", 6.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 1F);
+                this.world().playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "redmatter", 6.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
             }
 
-            this.worldObj.setWorldTime(1200);
+            this.world().setWorldTime(1200);
         }
     }
 

@@ -1,11 +1,16 @@
 package icbm.sentry.platform;
 
+import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.turret.block.TileTurret;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.lib.prefab.tile.TileElectricalInventory;
+import resonant.lib.utility.MathUtility;
 import universalelectricity.api.CompatibilityModule;
+import universalelectricity.api.energy.EnergyStorageHandler;
+import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.tile.TileElectricalInventory;
 
 /** Turret Platform
  * 
@@ -13,6 +18,8 @@ import calclavia.lib.prefab.tile.TileElectricalInventory;
 public class TileTurretPlatform extends TileElectricalInventory
 {
     private TileTurret[] turrets = new TileTurret[6];
+
+    private static int[] ammoBaySlots = MathUtility.generateSqeuncedArray(0, 12);
 
     public TileTurretPlatform()
     {
@@ -30,7 +37,7 @@ public class TileTurretPlatform extends TileElectricalInventory
         {
             for (int i = 0; i < this.getSizeInventory(); i++)
             {
-                if (this.getStackInSlot(i) != null && CompatibilityModule.isHandler(this.getStackInSlot(i).getClass()))
+                if (this.getStackInSlot(i) != null && CompatibilityModule.isHandler(this.getStackInSlot(i).getItem()))
                 {
                     long charge = CompatibilityModule.dischargeItem(this.getStackInSlot(i), Integer.MAX_VALUE, false);
                     CompatibilityModule.dischargeItem(this.getStackInSlot(i), this.onReceiveEnergy(ForgeDirection.UNKNOWN, charge, true), true);
@@ -38,15 +45,15 @@ public class TileTurretPlatform extends TileElectricalInventory
             }
         }
 
-        // TODO: Not good idea to constantly check.
+        // TODO: Changed this to only update on block events
         turrets = new TileTurret[6];
 
-        for (int i = 0; i < 6; i++)
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity checkTile = new Vector3(this).translate(ForgeDirection.getOrientation(i)).getTileEntity(worldObj);
+            TileEntity checkTile = new Vector3(this).translate(dir).getTileEntity(worldObj);
 
             if (checkTile instanceof TileTurret)
-                turrets[i] = (TileTurret) checkTile;
+                turrets[dir.ordinal()] = (TileTurret) checkTile;
         }
     }
 
@@ -71,7 +78,7 @@ public class TileTurretPlatform extends TileElectricalInventory
         {
             TileTurret turret = this.turrets[i];
 
-            if (turret != null && turret.getTurret() != null)
+            if (turret != null && turret.getTurret() instanceof IEnergyContainer)
             {
                 long added = turret.getTurret().battery.receiveEnergy(remain, doReceive);
                 used += added;
@@ -83,8 +90,51 @@ public class TileTurretPlatform extends TileElectricalInventory
     }
 
     @Override
+    public EnergyStorageHandler getEnergyHandler()
+    {
+        for (TileTurret turretTile : turrets)
+        {
+            if (turretTile != null && turretTile.getTurret() != null && turretTile.getTurret() instanceof IEnergyContainer)
+            {
+                return turretTile.getTurret().battery;
+            }
+        }
+        return super.getEnergyHandler();
+    }
+
+    @Override
     public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract)
     {
         return 0;
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int side)
+    {
+        return ammoBaySlots;
+    }
+
+    @Override
+    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
+    {
+        if (stack != null)
+        {
+            if (CompatibilityModule.isHandler(stack.getItem()))
+            {
+                return true;
+            }
+            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+            {
+                TileTurret tileTurret = getTurret(direction);
+                if (tileTurret != null && tileTurret.getTurret() instanceof IWeaponProvider)
+                {
+                    if (((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem() != null)
+                    {
+                        return ((IWeaponProvider) tileTurret.getTurret()).getWeaponSystem().isAmmo(stack);
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

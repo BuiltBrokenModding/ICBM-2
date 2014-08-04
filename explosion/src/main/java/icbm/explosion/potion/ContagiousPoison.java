@@ -2,9 +2,9 @@ package icbm.explosion.potion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
+import resonant.lib.prefab.poison.Poison;
+import resonant.lib.prefab.potion.CustomPotionEffect;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.prefab.poison.Poison;
-import calclavia.lib.prefab.potion.CustomPotionEffect;
 
 public class ContagiousPoison extends Poison
 {

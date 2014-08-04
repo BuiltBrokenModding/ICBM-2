@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import universalelectricity.api.vector.Vector3;
+import universalelectricity.api.vector.VectorWorld;
 
 /** Used for searching block spawn. Returns a block above this found block coordinate.
  * 
@@ -19,15 +20,15 @@ public class ThreadSky extends ThreadExplosion
 
     public IThreadCallBack callBack;
 
-    public ThreadSky(World world, Vector3 position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
+    public ThreadSky(VectorWorld position, int banJing, float nengLiang, Entity source, IThreadCallBack callBack)
     {
-        super(world, position, banJing, nengLiang, source);
+        super(position, banJing, nengLiang, source);
         this.callBack = callBack;
     }
 
-    public ThreadSky(World world, Vector3 position, int banJing, float nengLiang, Entity source)
+    public ThreadSky(VectorWorld position, int banJing, float nengLiang, Entity source)
     {
-        this(world, position, banJing, nengLiang, source, new IThreadCallBack()
+        this(position, banJing, nengLiang, source, new IThreadCallBack()
         {
 
             @Override
@@ -53,7 +54,7 @@ public class ThreadSky extends ThreadExplosion
     @Override
     public void run()
     {
-        int steps = (int) Math.ceil(Math.PI / Math.atan(1.0D / this.banJing));
+        int steps = (int) Math.ceil(Math.PI / Math.atan(1.0D / this.radius));
 
         for (int phi_n = 0; phi_n < 2 * steps; phi_n++)
         {
@@ -63,16 +64,16 @@ public class ThreadSky extends ThreadExplosion
                 double theta = Math.PI / steps * theta_n;
 
                 Vector3 delta = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
-                float power = this.nengLiang - (this.nengLiang * this.world.rand.nextFloat() / 2);
+                float power = this.energy - (this.energy * this.position.world().rand.nextFloat() / 2);
 
                 Vector3 targetPosition = this.position.clone();
 
                 for (float var21 = 0.3F; power > 0f; power -= var21 * 0.75F * 10)
                 {
-                    if (targetPosition.distance(position) > this.banJing)
+                    if (targetPosition.distance(position) > this.radius)
                         break;
 
-                    int blockID = this.world.getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
 
                     if (blockID > 0)
                     {
@@ -81,7 +82,7 @@ public class ThreadSky extends ThreadExplosion
                             break;
                         }
 
-                        float resistance = this.callBack.getResistance(this.world, position, targetPosition, source, Block.blocksList[blockID]);
+                        float resistance = this.callBack.getResistance(this.position.world(), position, targetPosition, source, Block.blocksList[blockID]);
 
                         power -= resistance;
 

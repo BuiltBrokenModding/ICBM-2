@@ -1,14 +1,14 @@
 package icbm.explosion.machines;
 
-import calclavia.api.icbm.ITier;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import resonant.api.ITier;
+import resonant.lib.prefab.item.ItemBlockTooltip;
 
-public class ItemBlockMachine extends ItemBlock
+public class ItemBlockMachine extends ItemBlockTooltip
 {
     public ItemBlockMachine(int id)
     {

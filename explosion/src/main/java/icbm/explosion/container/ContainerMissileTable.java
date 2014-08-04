@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import calclavia.lib.prefab.slot.SlotSpecific;
+import resonant.lib.prefab.slot.SlotSpecific;
 
 public class ContainerMissileTable extends ContainerBase
 {

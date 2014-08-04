@@ -1,15 +1,12 @@
 package icbm.explosion.render.tile;
 
-import icbm.ModelICBM;
 import icbm.Reference;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.machines.TileMissileAssembler;
-import icbm.explosion.missile.types.Missile;
 import icbm.explosion.model.tiles.ModelMissileAssemblerClaw;
 import icbm.explosion.model.tiles.ModelMissileAssemblerPanel;
-
-import java.util.HashMap;
-
+import icbm.explosion.render.entity.RenderMissile;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -22,6 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
+/** @author Darkguardsman */
 public class RenderMissileAssembler extends TileEntitySpecialRenderer
 {
     public static final ResourceLocation TEXTURE_FILE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missileAssembler.png");
@@ -30,7 +28,6 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
     public static final ModelMissileAssemblerClaw MODEL_CLAW1 = new ModelMissileAssemblerClaw(-2);
     public static final ModelMissileAssemblerClaw MODEL_CLAW2 = new ModelMissileAssemblerClaw(12);
     public static final ModelMissileAssemblerClaw MODEL_CLAW3 = new ModelMissileAssemblerClaw(-16);
-    private static HashMap<Missile, ModelICBM> cache = new HashMap<Missile, ModelICBM>();;
 
     public void renderAModelAt(TileMissileAssembler tileEntity, double x, double y, double z, float f)
     {
@@ -133,24 +130,11 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
         MODEL_CLAW1.render(0.0625F);
         MODEL_CLAW2.render(0.0625F);
         MODEL_CLAW3.render(0.0625F);
-        if (tileEntity.missileID >= 0)
+        if (tileEntity.missileID >= 0 && ExplosiveRegistry.get(tileEntity.missileID) != null)
         {
-            Missile missile = (Missile) ExplosiveRegistry.get(tileEntity.missileID);
+            Explosion missile = (Explosion) ExplosiveRegistry.get(tileEntity.missileID);
             float scale = 0.8f;
-            float right = 0f;
-
-            if (missile.getTier() == 2 || !missile.hasBlockForm())
-            {
-                // scale = scale / 1.5f;
-            }
-            else if (missile.getTier() == 3)
-            {
-                // scale = scale / 1.7f;
-            }
-            else if (missile.getTier() == 4)
-            {
-                // scale = scale / 1.4f;
-            }
+            float right = 1f;
 
             GL11.glTranslatef(right, 0f, 0f);
 
@@ -159,12 +143,15 @@ public class RenderMissileAssembler extends TileEntitySpecialRenderer
             GL11.glTranslatef(1.0f, 0f, 0f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
 
-            if (!RenderMissileAssembler.cache.containsKey(missile))
+            synchronized (RenderMissile.cache)
             {
-                RenderMissileAssembler.cache.put(missile, missile.getMissileModel());
-            }
+                if (!RenderMissile.cache.containsKey(missile))
+                {
+                    RenderMissile.cache.put(missile, missile.getMissileModel());
+                }
 
-            RenderMissileAssembler.cache.get(missile).render(0.0625F);
+                RenderMissile.cache.get(missile).renderAll();
+            }
         }
 
         GL11.glPopMatrix();

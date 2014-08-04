@@ -7,8 +7,8 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-import calclavia.lib.render.RenderTaggedTile;
-import calclavia.lib.render.RenderUtility;
+import resonant.lib.render.RenderTaggedTile;
+import resonant.lib.render.RenderUtility;
 
 /** Container class for most sentry gun renders of 1^3. Other sentries might need a more custom
  * render approach if they become to complex or large

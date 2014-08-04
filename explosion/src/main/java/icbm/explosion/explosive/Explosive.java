@@ -3,40 +3,41 @@ package icbm.explosion.explosive;
 import icbm.ModelICBM;
 import icbm.Settings;
 import icbm.explosion.ICBMExplosion;
-import icbm.explosion.missile.ex.ExAntiGravitational;
-import icbm.explosion.missile.ex.ExAntimatter;
-import icbm.explosion.missile.ex.ExBreaching;
-import icbm.explosion.missile.ex.ExChemical;
-import icbm.explosion.missile.ex.ExCondensed;
-import icbm.explosion.missile.ex.ExDebilitation;
-import icbm.explosion.missile.ex.ExEMP;
-import icbm.explosion.missile.ex.ExEnder;
-import icbm.explosion.missile.ex.ExEndothermic;
-import icbm.explosion.missile.ex.ExExothermic;
-import icbm.explosion.missile.ex.ExIncendiary;
-import icbm.explosion.missile.ex.ExNuclear;
-import icbm.explosion.missile.ex.ExRedMatter;
-import icbm.explosion.missile.ex.ExRejuvenation;
-import icbm.explosion.missile.ex.ExRepulsive;
-import icbm.explosion.missile.ex.ExSMine;
-import icbm.explosion.missile.ex.ExShrapnel;
-import icbm.explosion.missile.ex.ExSonic;
-import icbm.explosion.missile.types.Missile;
-import icbm.explosion.missile.types.MissileAnti;
-import icbm.explosion.missile.types.MissileCluster;
-import icbm.explosion.missile.types.MissileHoming;
-import icbm.explosion.missile.types.MissileModule;
-import icbm.explosion.missile.types.MissileNuclearCluster;
+import icbm.explosion.ex.Explosion;
+import icbm.explosion.ex.ExAntiGravitational;
+import icbm.explosion.ex.ExAntimatter;
+import icbm.explosion.ex.ExBreaching;
+import icbm.explosion.ex.ExChemical;
+import icbm.explosion.ex.ExCondensed;
+import icbm.explosion.ex.ExDebilitation;
+import icbm.explosion.ex.ExEMP;
+import icbm.explosion.ex.ExEnder;
+import icbm.explosion.ex.ExEndothermic;
+import icbm.explosion.ex.ExExothermic;
+import icbm.explosion.ex.ExIncendiary;
+import icbm.explosion.ex.ExNuclear;
+import icbm.explosion.ex.ExRedMatter;
+import icbm.explosion.ex.ExRejuvenation;
+import icbm.explosion.ex.ExRepulsive;
+import icbm.explosion.ex.ExSMine;
+import icbm.explosion.ex.ExShrapnel;
+import icbm.explosion.ex.ExSonic;
+import icbm.explosion.ex.missiles.MissileAnti;
+import icbm.explosion.ex.missiles.MissileCluster;
+import icbm.explosion.ex.missiles.MissileHoming;
+import icbm.explosion.ex.missiles.MissileModule;
+import icbm.explosion.ex.missiles.MissileNuclearCluster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModelCustom;
+import resonant.api.explosion.IExplosive;
+import resonant.lib.flag.FlagRegistry;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.IExplosive;
-import calclavia.lib.flag.FlagRegistry;
-import calclavia.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -73,11 +74,11 @@ public abstract class Explosive implements IExplosive
     public static final Explosive redMatter;
 
     /** Missiles */
-    public static final Missile missileModule;
-    public static final Missile homing;
-    public static final Missile antiBallistic;
-    public static final Missile cluster;
-    public static final Missile nuclearCluster;
+    public static final Explosion missileModule;
+    public static final Explosion homing;
+    public static final Explosion antiBallistic;
+    public static final Explosion cluster;
+    public static final Explosion nuclearCluster;
 
     public static boolean registered = false;
 
@@ -97,28 +98,28 @@ public abstract class Explosive implements IExplosive
         fragmentation = ExplosiveRegistry.register(new ExShrapnel("fragmentation", 2));
         contagious = ExplosiveRegistry.register(new ExChemical("contagious", 2));
         sonic = ExplosiveRegistry.register(new ExSonic("sonic", 2));
-        breaching = ExplosiveRegistry.register(new ExBreaching("breaching", 2));
-        rejuvenation = ExplosiveRegistry.register(new ExRejuvenation("rejuvenation", 2));
+        breaching = ExplosiveRegistry.register(new ExBreaching());
+        rejuvenation = ExplosiveRegistry.register(new ExRejuvenation());
         thermobaric = ExplosiveRegistry.register(new ExNuclear("thermobaric", 2));
         sMine = ExplosiveRegistry.register(new ExSMine("sMine", 2));
 
         nuclear = ExplosiveRegistry.register(new ExNuclear("nuclear", 3));
-        emp = ExplosiveRegistry.register(new ExEMP("emp", 3));
-        exothermic = ExplosiveRegistry.register(new ExExothermic("exothermic", 3));
-        endothermic = ExplosiveRegistry.register(new ExEndothermic("endothermic", 3));
-        antiGrav = ExplosiveRegistry.register(new ExAntiGravitational("antiGravitational", 3));
-        ender = ExplosiveRegistry.register(new ExEnder("ender", 3));
+        emp = ExplosiveRegistry.register(new ExEMP());
+        exothermic = ExplosiveRegistry.register(new ExExothermic());
+        endothermic = ExplosiveRegistry.register(new ExEndothermic());
+        antiGrav = ExplosiveRegistry.register(new ExAntiGravitational());
+        ender = ExplosiveRegistry.register(new ExEnder());
         hypersonic = ExplosiveRegistry.register(new ExSonic("hypersonic", 3));
 
-        antimatter = ExplosiveRegistry.register(new ExAntimatter("antimatter", 4));
-        redMatter = ExplosiveRegistry.register(new ExRedMatter("redMatter", 4));
+        antimatter = ExplosiveRegistry.register(new ExAntimatter());
+        redMatter = ExplosiveRegistry.register(new ExRedMatter());
 
         /** Missiles */
-        missileModule = (Missile) ExplosiveRegistry.register(new MissileModule("missileModule", 1));
-        homing = (Missile) ExplosiveRegistry.register(new MissileHoming("homing", 1));
-        antiBallistic = (Missile) ExplosiveRegistry.register(new MissileAnti("antiBallistic", 2));
-        cluster = (Missile) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
-        nuclearCluster = (Missile) ExplosiveRegistry.register(new MissileNuclearCluster("nuclearCluster", 3));
+        missileModule = (Explosion) ExplosiveRegistry.register(new MissileModule());
+        homing = (Explosion) ExplosiveRegistry.register(new MissileHoming());
+        antiBallistic = (Explosion) ExplosiveRegistry.register(new MissileAnti());
+        cluster = (Explosion) ExplosiveRegistry.register(new MissileCluster("cluster", 2));
+        nuclearCluster = (Explosion) ExplosiveRegistry.register(new MissileNuclearCluster());
 
         Settings.CONFIGURATION.save();
         registered = true;
@@ -268,7 +269,7 @@ public abstract class Explosive implements IExplosive
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ModelICBM getMissileModel()
+    public IModelCustom getMissileModel()
     {
         return null;
     }

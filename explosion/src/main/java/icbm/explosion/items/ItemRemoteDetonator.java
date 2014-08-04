@@ -15,9 +15,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.vector.Vector3;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -36,7 +36,6 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List par3List, boolean par4)
     {
-        super.addInformation(itemStack, player, par3List, par4);
         Vector3 coord = getSavedCoord(itemStack);
 
         if (this.nengZha(coord.getTileEntity(player.worldObj)))
@@ -48,6 +47,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
         {
             par3List.add("\u00a74" + LanguageUtility.getLocal("info.detonator.noLink"));
         }
+		super.addInformation(itemStack, player, par3List, par4);
     }
 
     /** Lock the remote to an explosive if it exists. */

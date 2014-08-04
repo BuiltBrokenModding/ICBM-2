@@ -9,9 +9,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRedstoneProvider;
+import resonant.lib.prefab.block.BlockTile;
 import universalelectricity.api.UniversalElectricity;
-import calclavia.lib.prefab.block.BlockTile;
-import calclavia.lib.prefab.tile.IRedstoneProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

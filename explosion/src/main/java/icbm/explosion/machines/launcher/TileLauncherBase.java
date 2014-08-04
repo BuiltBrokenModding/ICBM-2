@@ -3,9 +3,9 @@ package icbm.explosion.machines.launcher;
 import icbm.Settings;
 import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
-import icbm.explosion.missile.types.Missile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,21 +15,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import resonant.api.IRotatable;
+import resonant.api.ITier;
+import resonant.api.explosion.ExplosiveType;
+import resonant.api.explosion.ILauncherContainer;
+import resonant.api.explosion.ILauncherController;
+import resonant.api.explosion.IMissile;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.multiblock.IMultiBlock;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.network.PacketHandler;
+import resonant.lib.prefab.tile.TileExternalInventory;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.vector.Vector3;
 import universalelectricity.api.vector.VectorHelper;
-import calclavia.api.icbm.ILauncherContainer;
-import calclavia.api.icbm.ILauncherController;
-import calclavia.api.icbm.IMissile;
-import calclavia.api.icbm.ITier;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.prefab.tile.IRotatable;
-import calclavia.lib.prefab.tile.TileExternalInventory;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -108,7 +108,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, (byte)this.facingDirection.ordinal(), this.tier);
+        return ICBMCore.PACKET_TILE.getPacket(this, (byte) this.facingDirection.ordinal(), this.tier);
     }
 
     @Override
@@ -136,9 +136,9 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
                 {
                     int explosiveID = this.getStackInSlot(0).getItemDamage();
 
-                    if (ExplosiveRegistry.get(explosiveID) instanceof Missile)
+                    if (ExplosiveRegistry.get(explosiveID) instanceof Explosion)
                     {
-                        Missile missile = (Missile) ExplosiveRegistry.get(explosiveID);
+                        Explosion missile = (Explosion) ExplosiveRegistry.get(explosiveID);
 
                         ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
                         MinecraftForge.EVENT_BUS.post(evt);
@@ -399,6 +399,6 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     @Override
     public int[] getMissileSlots()
     {
-        return new int[]{0};
+        return new int[] { 0 };
     }
 }

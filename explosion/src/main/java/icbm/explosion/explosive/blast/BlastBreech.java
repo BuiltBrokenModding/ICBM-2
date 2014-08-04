@@ -4,9 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import resonant.api.IRotatable;
 import universalelectricity.api.vector.Vector3;
 import calclavia.api.mffs.IForceFieldBlock;
-import calclavia.lib.prefab.tile.IRotatable;
 
 public class BlastBreech extends BlastRepulsive
 {
@@ -27,7 +27,7 @@ public class BlastBreech extends BlastRepulsive
     @Override
     public void doExplode()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world().isRemote)
         {
             final Vector3 difference = new Vector3();
 
@@ -40,13 +40,13 @@ public class BlastBreech extends BlastRepulsive
                 difference.translate(ForgeDirection.DOWN);
             }
 
-            this.worldObj.playSoundEffect(position.x, position.y, position.z, "random.explode", 5.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            this.world().playSoundEffect(position.x, position.y, position.z, "random.explode", 5.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
 
             for (int i = 0; i < this.depth; i++)
             {
-                if (Block.blocksList[position.getBlockID(worldObj)] != null)
+                if (Block.blocksList[position.getBlockID(world())] != null)
                 {
-                    if (Block.blocksList[position.getBlockID(worldObj)].getExplosionResistance(this.exploder, worldObj, position.intX(), position.intY(), position.intZ(), position.x, position.y, position.z) > Block.obsidian.getExplosionResistance(this.exploder) || Block.blocksList[position.getBlockID(worldObj)] instanceof IForceFieldBlock)
+                    if (Block.blocksList[position.getBlockID(world())].getExplosionResistance(this.exploder, world(), position.intX(), position.intY(), position.intZ(), position.x, position.y, position.z) > Block.obsidian.getExplosionResistance(this.exploder) || Block.blocksList[position.getBlockID(world())] instanceof IForceFieldBlock)
                     {
                         break;
                     }

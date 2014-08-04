@@ -14,7 +14,7 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import calclavia.lib.utility.LanguageUtility;
+import resonant.lib.utility.LanguageUtility;
 
 //Explosive Defuser
 public class ItemDefuser extends ItemICBMElectrical
@@ -36,8 +36,8 @@ public class ItemDefuser extends ItemICBMElectrical
     @Override
     public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
     {
-		System.out.println("stackCharge " + this.getEnergy(itemStack));
-		if (this.getEnergy(itemStack) >= YONG_DIAN_LIANG)
+        System.out.println("stackCharge " + this.getEnergy(itemStack));
+        if (this.getEnergy(itemStack) >= YONG_DIAN_LIANG)
         {
             if (entity instanceof EntityExplosive)
             {
@@ -73,7 +73,7 @@ public class ItemDefuser extends ItemICBMElectrical
                 ((EntityBombCart) entity).killMinecart(DamageSource.generic);
             }
 
-			this.setEnergy(itemStack, this.getEnergy(itemStack) - YONG_DIAN_LIANG);
+            this.setEnergy(itemStack, this.getEnergy(itemStack) - YONG_DIAN_LIANG);
             return true;
         }
         else

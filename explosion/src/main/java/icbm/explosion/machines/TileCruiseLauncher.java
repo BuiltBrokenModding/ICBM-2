@@ -1,13 +1,12 @@
 package icbm.explosion.machines;
 
-import dan200.computercraft.api.peripheral.IPeripheral;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
+import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
 import icbm.explosion.machines.launcher.TileLauncherPrefab;
-import icbm.explosion.missile.types.Missile;
 
 import java.io.IOException;
 
@@ -21,19 +20,21 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import resonant.api.explosion.ExplosiveType;
+import resonant.api.explosion.ILauncherContainer;
+import resonant.api.explosion.ILauncherController;
+import resonant.api.explosion.IMissile;
+import resonant.api.explosion.LauncherType;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.network.IPacketReceiver;
+import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.ILauncherContainer;
-import calclavia.api.icbm.ILauncherController;
-import calclavia.api.icbm.IMissile;
-import calclavia.api.icbm.LauncherType;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.network.IPacketReceiver;
-import calclavia.lib.utility.LanguageUtility;
 
 import com.google.common.io.ByteArrayDataInput;
+
+import dan200.computercraft.api.peripheral.IPeripheral;
 
 public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActivate, IInventory, ILauncherContainer, IPacketReceiver
 {
@@ -51,7 +52,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     {
         super();
         this.targetPos = new Vector3();
-        this.energy = new EnergyStorageHandler(100000000);
+        setEnergyHandler(new EnergyStorageHandler(100000000));
     }
 
     /** Returns the number of slots in the inventory. */
@@ -140,7 +141,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (!this.energy.isFull())
+        if (!this.getEnergyHandler().isFull())
         {
             status = LanguageUtility.getLocal("gui.launcherCruise.statusNoPower");
         }
@@ -211,9 +212,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
                 if (this.containingItems[0].getItem() instanceof ItemMissile)
                 {
                     int haoMa = this.containingItems[0].getItemDamage();
-                    if (ExplosiveRegistry.get(haoMa) instanceof Missile)
+                    if (ExplosiveRegistry.get(haoMa) instanceof Explosion)
                     {
-                        Missile missile = (Missile) ExplosiveRegistry.get(haoMa);
+                        Explosion missile = (Explosion) ExplosiveRegistry.get(haoMa);
 
                         ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(this.worldObj, this.xCoord, this.yCoord, this.zCoord, ExplosiveType.AIR, missile);
                         MinecraftForge.EVENT_BUS.post(evt);
@@ -225,7 +226,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 
                                 if (missile.isCruise() && missile.getTier() <= 3)
                                 {
-                                    Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 0.2f), (this.zCoord + 0.5f));
+                                    Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 1f), (this.zCoord + 0.5f));
                                     this.daoDan = new EntityMissile(this.worldObj, startingPosition, new Vector3(this), haoMa);
                                     this.worldObj.spawnEntityInWorld((Entity) this.daoDan);
                                     return;
@@ -256,7 +257,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.energy.getEnergy(), this.getFrequency(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
+        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.getEnergyHandler().getEnergy(), this.getFrequency(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
     }
 
     @Override
@@ -270,7 +271,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
             {
                 case 0:
                 {
-                    this.energy.setEnergy(data.readLong());
+                    this.getEnergyHandler().setEnergy(data.readLong());
                     this.setFrequency(data.readInt());
                     this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
                     break;
@@ -312,11 +313,11 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     {
         if (this.daoDan != null && this.containingItems[0] != null)
         {
-            Missile missile = (Missile) ExplosiveRegistry.get(this.containingItems[0].getItemDamage());
+            Explosion missile = (Explosion) ExplosiveRegistry.get(this.containingItems[0].getItemDamage());
 
             if (missile != null && missile.getID() == daoDan.getExplosiveType().getID() && missile.isCruise() && missile.getTier() <= 3)
             {
-                if (this.energy.isFull())
+                if (this.getEnergyHandler().isFull())
                 {
                     if (!this.isTooClose(this.targetPos))
                     {
@@ -352,11 +353,11 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 
     /** Reads a tile entity from NBT. */
     @Override
-    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+    public void readFromNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(par1NBTTagCompound);
+        super.readFromNBT(nbt);
 
-        NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+        NBTTagList var2 = nbt.getTagList("Items");
 
         this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -374,9 +375,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
 
     /** Writes a tile entity to NBT. */
     @Override
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    public void writeToNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(par1NBTTagCompound);
+        super.writeToNBT(nbt);
 
         NBTTagList var2 = new NBTTagList();
 
@@ -391,7 +392,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
             }
         }
 
-        par1NBTTagCompound.setTag("Items", var2);
+        nbt.setTag("Items", var2);
     }
 
     /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
@@ -464,9 +465,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
         {
             if (itemStack.getItem() instanceof ItemMissile && this.getStackInSlot(slotID) == null)
             {
-                if (ExplosiveRegistry.get(itemStack.getItemDamage()) instanceof Missile)
+                if (ExplosiveRegistry.get(itemStack.getItemDamage()) instanceof Explosion)
                 {
-                    Missile missile = (Missile) ExplosiveRegistry.get(itemStack.getItemDamage());
+                    Explosion missile = (Explosion) ExplosiveRegistry.get(itemStack.getItemDamage());
 
                     if (missile.isCruise() && missile.getTier() <= 3)
                     {
@@ -527,8 +528,9 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
         return new int[] { 0 };
     }
 
-	@Override public boolean equals(IPeripheral other)
-	{
-		return equals(other);
-	}
+    @Override
+    public boolean equals(IPeripheral other)
+    {
+        return equals(other);
+    }
 }

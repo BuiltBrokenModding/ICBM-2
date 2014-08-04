@@ -11,8 +11,8 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import calclavia.api.icbm.ICamouflageMaterial;
-import calclavia.lib.content.BlockInfo;
+import resonant.api.blocks.ICamouflageMaterial;
+import resonant.lib.content.BlockInfo;
 
 @BlockInfo(tileEntity = "icbm.core.blocks.TileCamouflage")
 public class BlockCamouflage extends BlockICBM
@@ -207,6 +207,5 @@ public class BlockCamouflage extends BlockICBM
     {
         return new TileCamouflage();
     }
-
 
 }

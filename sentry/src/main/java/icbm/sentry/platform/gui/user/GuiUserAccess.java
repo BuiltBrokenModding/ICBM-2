@@ -5,12 +5,12 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import calclavia.lib.Calclavia;
-import calclavia.lib.access.AccessUser;
-import calclavia.lib.access.IProfileContainer;
-import calclavia.lib.gui.ContainerDummy;
-import calclavia.lib.gui.GuiContainerBase;
-import calclavia.lib.prefab.terminal.IScroll;
+import resonant.api.IScroll;
+import resonant.lib.References;
+import resonant.lib.access.AccessUser;
+import resonant.lib.access.IProfileContainer;
+import resonant.lib.gui.ContainerDummy;
+import resonant.lib.gui.GuiContainerBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 /** Gui that shows a list of users and allows the current user to go threw them. When clicking a user
@@ -43,7 +43,7 @@ public class GuiUserAccess extends GuiContainerBase implements IScroll
         super(new ContainerDummy(player, tileEntity));
         this.tileEntity = tileEntity;
         this.player = player;
-        this.baseTexture = Calclavia.GUI_EMPTY_FILE;
+        this.baseTexture = References.GUI_EMPTY_FILE;
     }
 
     @Override

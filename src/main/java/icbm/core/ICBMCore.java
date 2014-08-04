@@ -14,14 +14,17 @@ import icbm.core.blocks.BlockSpikes;
 import icbm.core.blocks.BlockSulfurOre;
 import icbm.core.blocks.OreGeneratorICBM;
 import icbm.core.blocks.TileProximityDetector;
+import icbm.core.compat.Waila;
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.core.entity.EntityFragments;
 import icbm.core.items.ItemAntidote;
+import icbm.core.items.ItemComputer;
 import icbm.core.items.ItemPoisonPowder;
 import icbm.core.items.ItemSignalDisrupter;
 import icbm.core.items.ItemSulfurDust;
 import icbm.core.items.ItemTracker;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
@@ -36,17 +39,19 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 
-import calclavia.components.CalclaviaLoader;
-import calclavia.lib.config.ConfigHandler;
-import calclavia.lib.content.ContentRegistry;
-import calclavia.lib.network.PacketHandler;
-import calclavia.lib.network.PacketPlayerItem;
-import calclavia.lib.network.PacketTile;
-import calclavia.lib.prefab.item.ItemBlockMetadata;
-import calclavia.lib.prefab.ore.OreGenBase;
-import calclavia.lib.prefab.ore.OreGenerator;
-import calclavia.lib.recipe.UniversalRecipe;
-import calclavia.lib.utility.LanguageUtility;
+import resonant.core.ResonantEngine;
+import resonant.lib.config.ConfigHandler;
+import resonant.lib.content.ContentRegistry;
+import resonant.lib.modproxy.ProxyHandler;
+import resonant.lib.network.PacketHandler;
+import resonant.lib.network.PacketPlayerItem;
+import resonant.lib.network.PacketTile;
+import resonant.lib.prefab.item.ItemBlockMetadata;
+import resonant.lib.prefab.ore.OreGenBase;
+import resonant.lib.prefab.ore.OreGenerator;
+import resonant.lib.recipe.UniversalRecipe;
+import resonant.lib.utility.LanguageUtility;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -64,7 +69,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
  * @author Calclavia */
-@Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:AtomicScience;required-after:CalclaviaCore")
+@Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:ResonantInduction|Atomic;required-after:ResonantEngine")
 @NetworkMod(channels = Reference.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 @ModstatInfo(prefix = "icbm", name = Reference.NAME, version = Reference.VERSION)
 public final class ICBMCore
@@ -85,8 +90,9 @@ public final class ICBMCore
     public static Item itemAntidote;
     public static Item itemSignalDisrupter;
     public static Item itemTracker;
+    public static Item itemHackingComputer;
 
-    public static Block blockSulfurOre, blockRadioactive, blockCombatRail;
+    public static Block blockSulfurOre, blockRadioactive, blockCombatRail, blockBox;
 
     public static Item itemSulfurDust, itemPoisonPowder;
 
@@ -99,6 +105,8 @@ public final class ICBMCore
 
     public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
+    private ProxyHandler modproxies = new ProxyHandler();
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -107,13 +115,16 @@ public final class ICBMCore
         Modstats.instance().getReporter().registerMod(INSTANCE);
         MinecraftForge.EVENT_BUS.register(INSTANCE);
 
+        // MODULES TO LOAD INTO MOD PHASE
+        modproxies.applyModule(Waila.class, true);
+
         LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
 
         Settings.CONFIGURATION.load();
 
-        CalclaviaLoader.blockMulti.setTextureName(Reference.PREFIX + "machine");
+        ResonantEngine.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
-        // Blocks
+        // Blocks       
         blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);
         blockGlassPlate = contentRegistry.createBlock(BlockGlassPressurePlate.class);
         blockGlassButton = contentRegistry.createBlock(BlockGlassButton.class);
@@ -123,6 +134,7 @@ public final class ICBMCore
         blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
         blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
+        //blockBox = contentRegistry.newBlock(TileBox.class); TODO Enable, disabled as to allow to release a stable ICBM for 1.6
 
         // ITEMS
         itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
@@ -130,6 +142,7 @@ public final class ICBMCore
         itemAntidote = contentRegistry.createItem(ItemAntidote.class);
         itemSignalDisrupter = contentRegistry.createItem(ItemSignalDisrupter.class);
         itemTracker = contentRegistry.createItem(ItemTracker.class);
+        itemHackingComputer = contentRegistry.createItem(ItemComputer.class);
 
         sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
@@ -148,20 +161,20 @@ public final class ICBMCore
         Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
         LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
 
-        OreDictionary.registerOre("dustSulfur", itemSulfurDust);
+        OreDictionary.registerOre("dustSulfur", new ItemStack(itemSulfurDust, 1, 0));
+        OreDictionary.registerOre("dustSaltpeter", new ItemStack(itemSulfurDust, 1, 1));
         OreGenerator.addOre(sulfurGenerator);
-
-        TabICBM.itemStack = new ItemStack(blockProximityDetector);
+        if (!Loader.isModLoaded("ICBM|Sentry") && !Loader.isModLoaded("ICBM|Explosion"))
+            TabICBM.itemStack = new ItemStack(blockProximityDetector);
 
         proxy.preInit();
-        LOGGER.info("Calling preinit for submodules");
+        modproxies.preInit();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
-        LOGGER.info("Calling init for submodules");
 
         EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
@@ -170,27 +183,27 @@ public final class ICBMCore
         EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", 1, this, 40, 8, true);
 
         proxy.init();
+        modproxies.init();
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        try
-        {
-            ConfigHandler.configure(Settings.CONFIGURATION, "icbm");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        ConfigHandler.configure(Settings.CONFIGURATION, Settings.DOMAIN);
 
-        Settings.CONFIGURATION.save();
         /** LOAD. */
-
+        ArrayList dustCharcoal = OreDictionary.getOres("dustCharcoal");
+        ArrayList dustCoal = OreDictionary.getOres("dustCoal");
         // Sulfur
         GameRegistry.addSmelting(blockSulfurOre.blockID, new ItemStack(itemSulfurDust, 4), 0.8f);
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', Item.coal }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.gunpowder, 3), new Object[] { "@@@", "@?@", "@@@", '@', "dustSulfur", '?', new ItemStack(Item.coal, 1, 1) }));
+        GameRegistry.addSmelting(Item.reed.itemID, new ItemStack(itemSulfurDust, 4, 1), 0f);
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", Item.coal }));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", new ItemStack(Item.coal, 1, 1) }));
+
+        if (dustCharcoal != null && dustCharcoal.size() > 0)
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", "dustCharcoal" }));
+        if (dustCoal != null && dustCoal.size() > 0)
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 2), new Object[] { "dustSulfur", "dustSaltpeter", "dustCoal" }));
 
         GameRegistry.addRecipe(new ShapedOreRecipe(Block.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Item.gunpowder, 'R', Item.redstone }));
 
@@ -236,7 +249,7 @@ public final class ICBMCore
         // Reinforced Glass
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockReinforcedGlass, 8), new Object[] { "IGI", "GIG", "IGI", 'G', Block.glass, 'I', Item.ingotIron }));
 
-        LOGGER.info("Calling postInit for submodules");
+        modproxies.postInit();
     }
 
 }

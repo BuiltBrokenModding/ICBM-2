@@ -12,10 +12,10 @@ import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
+import resonant.lib.gui.GuiContainerBase;
+import resonant.lib.render.EnumColor;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.energy.UnitDisplay.Unit;
-import calclavia.lib.gui.GuiContainerBase;
-import calclavia.lib.render.EnumColor;
 
 public class GuiTurretPlatform extends GuiContainerBase
 {

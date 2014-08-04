@@ -13,10 +13,10 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
+import resonant.api.explosion.ExplosiveType;
+import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.lib.prefab.potion.CustomPotion;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import calclavia.api.icbm.explosion.ExplosiveType;
-import calclavia.lib.prefab.potion.CustomPotion;
 
 public class PoisonContagion extends CustomPotion
 {

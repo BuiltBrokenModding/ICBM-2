@@ -8,29 +8,33 @@ import icbm.explosion.explosive.blast.BlastEMP;
 
 import java.io.IOException;
 
+import li.cil.oc.api.network.Callback;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
+import resonant.api.IRedstoneReceptor;
+import resonant.api.map.RadarRegistry;
+import resonant.lib.multiblock.IBlockActivate;
+import resonant.lib.multiblock.IMultiBlock;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.vector.Vector3;
-import calclavia.api.icbm.RadarRegistry;
-import calclavia.lib.multiblock.fake.IBlockActivate;
-import calclavia.lib.multiblock.fake.IMultiBlock;
-import calclavia.lib.prefab.tile.IRedstoneReceptor;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneReceptor, IBlockActivate
+public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneReceptor, IBlockActivate, SimpleComponent
 {
     // The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 150;
 
-    public float xuanZhuan = 0;
-    private float xuanZhuanLu, prevXuanZhuanLu = 0;
+    public float rotation = 0;
+    private float rotationDelta, prevXuanZhuanLu = 0;
 
     // The EMP mode. 0 = All, 1 = Missiles Only, 2 = Electricity Only
     public byte empMode = 0;
+
+    private int cooldownTicks = 0;
 
     // The EMP explosion radius
     public int empRadius = 60;
@@ -38,7 +42,7 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     public TileEMPTower()
     {
         RadarRegistry.register(this);
-        energy = new EnergyStorageHandler(0);
+        setEnergyHandler(new EnergyStorageHandler(0));
         updateCapacity();
     }
 
@@ -60,15 +64,20 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     {
         super.updateEntity();
 
-        if (ticks % 20 == 0 && energy.getEnergy() > 0)
-            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * energy.getEnergy() / energy.getEnergyCapacity());
+        if (!isReady())
+        {
+            cooldownTicks--;
+        }
 
-        xuanZhuanLu = (float) (Math.pow(energy.getEnergy() / energy.getEnergyCapacity(), 2) * 0.5);
-        xuanZhuan += xuanZhuanLu;
-        if (xuanZhuan > 360)
-            xuanZhuan = 0;
+        if (ticks % 20 == 0 && getEnergyHandler().getEnergy() > 0)
+            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * getEnergyHandler().getEnergy() / getEnergyHandler().getEnergyCapacity());
 
-        prevXuanZhuanLu = xuanZhuanLu;
+        rotationDelta = (float) (Math.pow(getEnergyHandler().getEnergy() / getEnergyHandler().getEnergyCapacity(), 2) * 0.5);
+        rotation += rotationDelta;
+        if (rotation > 360)
+            rotation = 0;
+
+        prevXuanZhuanLu = rotationDelta;
     }
 
     @Override
@@ -78,7 +87,7 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
         {
             case 0:
             {
-                energy.setEnergy(data.readLong());
+                getEnergyHandler().setEnergy(data.readLong());
                 empRadius = data.readInt();
                 empMode = data.readByte();
                 break;
@@ -99,16 +108,35 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
         super.onReceivePacket(id, data, player, extra);
     }
 
+    @Callback
+    public boolean isReady()
+    {
+        return getCooldown() <= 0;
+    }
+
+    @Callback
+    public int getCooldown()
+    {
+        return cooldownTicks;
+    }
+
+    @Callback
+    public int getMaxCooldown()
+    {
+        return 120;
+    }
+
     private void updateCapacity()
     {
-        this.energy.setCapacity(Math.max(300000000 * (this.empRadius / MAX_RADIUS), 1000000000));
-        this.energy.setMaxTransfer(this.energy.getEnergyCapacity() / 50);
+        this.getEnergyHandler().setCapacity(Math.max(300000000 * (this.empRadius / MAX_RADIUS), 1000000000));
+        this.getEnergyHandler().setMaxReceive(this.getEnergyHandler().getEnergyCapacity() / 50);
+        this.getEnergyHandler().setMaxExtract((long) (this.getEnergyHandler().getEnergyCapacity() / .9));
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.energy.getEnergy(), this.empRadius, this.empMode);
+        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.getEnergyHandler().getEnergy(), this.empRadius, this.empMode);
     }
 
     /** Reads a tile entity from NBT. */
@@ -131,26 +159,37 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
         par1NBTTagCompound.setByte("muoShi", this.empMode);
     }
 
+    @Callback(limit = 1)
+    public boolean fire()
+    {
+        if (this.getEnergyHandler().checkExtract())
+        {
+            if (isReady())
+            {
+                switch (this.empMode)
+                {
+                    default:
+                        new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().setEffectEntities().explode();
+                        break;
+                    case 1:
+                        new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectEntities().explode();
+                        break;
+                    case 2:
+                        new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().explode();
+                        break;
+                }
+                this.getEnergyHandler().extractEnergy();
+                this.cooldownTicks = getMaxCooldown();
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void onPowerOn()
     {
-        if (this.energy.isFull())
-        {
-            switch (this.empMode)
-            {
-                default:
-                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().setEffectEntities().explode();
-                    break;
-                case 1:
-                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectEntities().explode();
-                    break;
-                case 2:
-                    new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().explode();
-                    break;
-            }
-
-            this.energy.setEnergy(0);
-        }
+        fire();
     }
 
     @Override
@@ -175,6 +214,70 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     public AxisAlignedBB getRenderBoundingBox()
     {
         return INFINITE_EXTENT_AABB;
+    }
+
+    @Override
+    public String getComponentName()
+    {
+        return "emptower";
+    }
+
+    @Callback
+    public byte getEmpMode()
+    {
+        return empMode;
+    }
+
+    @Callback
+    public void setEmpMode(byte empMode)
+    {
+        if (empMode >= 0 && empMode <= 2)
+            this.empMode = empMode;
+    }
+
+    @Callback
+    public void empMissiles()
+    {
+        this.empMode = 1;
+    }
+
+    @Callback
+    public void empAll()
+    {
+        this.empMode = 0;
+    }
+
+    @Callback
+    public void empElectronics()
+    {
+        this.empMode = 2;
+    }
+
+    @Callback
+    public int getEmpRadius()
+    {
+        return empRadius;
+    }
+
+    @Callback
+    public int getMaxEmpRadius()
+    {
+        return MAX_RADIUS;
+    }
+
+    @Callback
+    public void setEmpRadius(int empRadius)
+    {
+        int prev = getEmpRadius();
+        this.empRadius = Math.min(Math.max(empRadius, 0), MAX_RADIUS);
+        if (prev != getEmpRadius())
+            updateCapacity();
+    }
+
+    @Callback
+    public static int getMaxRadius()
+    {
+        return MAX_RADIUS;
     }
 
 }
