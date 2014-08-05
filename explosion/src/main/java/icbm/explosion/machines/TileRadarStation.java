@@ -68,6 +68,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     private byte fangXiang = 3;
 
     private Ticket ticket;
+    public boolean isPowered = false;
 
     public TileRadarStation()
     {
@@ -122,6 +123,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         //If we have energy
         if (this.getEnergyHandler().checkExtract())
         {
+        	this.isPowered = true;
             this.rotation += 0.08f;
 
             if (this.rotation > 360)
@@ -170,6 +172,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         }
         else
         {
+        	this.isPowered = false;
             if (detectedEntities.size() > 0)
             {
                 worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
@@ -476,7 +479,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
     {
-        if (!this.getEnergyHandler().checkExtract())
+        if (!this.isPowered)
         {
             throw new Exception("Radar has insufficient electricity!");
         }
