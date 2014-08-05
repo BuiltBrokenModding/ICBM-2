@@ -277,27 +277,27 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             }
         }
 
-        for (TileEntity jiQi : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TileRadarStation.MAX_DETECTION_RANGE, this.zCoord - TileRadarStation.MAX_DETECTION_RANGE), new Vector2(this.xCoord + TileRadarStation.MAX_DETECTION_RANGE, this.zCoord + TileRadarStation.MAX_DETECTION_RANGE)))
+        for (TileEntity tile : RadarRegistry.getTileEntitiesInArea(new Vector2(this.xCoord - TileRadarStation.MAX_DETECTION_RANGE, this.zCoord - TileRadarStation.MAX_DETECTION_RANGE), new Vector2(this.xCoord + TileRadarStation.MAX_DETECTION_RANGE, this.zCoord + TileRadarStation.MAX_DETECTION_RANGE)))
         {
-            if (jiQi instanceof TileRadarStation)
+            if (tile instanceof TileRadarStation)
             {
-                if (((TileRadarStation) jiQi).getEnergyHandler().getEnergy() > 0)
+                if (((TileRadarStation) tile).isPowered)
                 {
-                    this.detectedTiles.add(jiQi);
+                    this.detectedTiles.add(tile);
                 }
             }
             else
             {
-                if (this.detectedTiles instanceof IRadarDetectable)
+                if (tile instanceof IRadarDetectable)
                 {
-                    if (((IRadarDetectable) this.detectedTiles).canDetect(this))
+                    if (((IRadarDetectable) tile).canDetect(this))
                     {
-                        this.detectedTiles.add(jiQi);
+                        this.detectedTiles.add(tile);
                     }
                 }
                 else
                 {
-                    this.detectedTiles.add(jiQi);
+                    this.detectedTiles.add(tile);
                 }
             }
         }
