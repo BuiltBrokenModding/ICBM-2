@@ -26,8 +26,8 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
 {
-    public static final int YONG_DIAN_LIANG = 1000;
-    public static final int JU_LI = 1000;
+    public static final int energyCost = 12500;
+    public static final int raycastDistance = 1000;
 
     public ItemRadarGun(int id)
     {
@@ -53,7 +53,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
     {
         if (par2World.isRemote)
         {
-            MovingObjectPosition objectMouseOver = entityPlayer.rayTrace(JU_LI, 1);
+            MovingObjectPosition objectMouseOver = entityPlayer.rayTrace(raycastDistance, 1);
 
             if (objectMouseOver != null)
             {
@@ -64,10 +64,10 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                 if (!(tileEntity instanceof TileLauncherPrefab))
                 {
                     // Check for electricity
-                    if (this.getEnergy(itemStack) > YONG_DIAN_LIANG)
+                    if (this.getEnergy(itemStack) > energyCost)
                     {
                         PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(entityPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
-                        this.discharge(itemStack, YONG_DIAN_LIANG, true);
+                        this.discharge(itemStack, energyCost, true);
                         entityPlayer.addChatMessage(LanguageUtility.getLocal("message.radarGun.scanned").replaceAll("%x", "" + objectMouseOver.blockX).replace("%y", "" + objectMouseOver.blockY).replaceAll("%z", "" + objectMouseOver.blockZ).replaceAll("%d", "" + Math.round(new Vector3(entityPlayer).distance(new Vector3(objectMouseOver)))));
                     }
                     else
@@ -190,7 +190,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
     @Override
     public long getEnergyCapacity(ItemStack theItem)
     {
-        return 80000;
+        return 1000000;
     }
 
     @Override
@@ -199,7 +199,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
         ItemStack itemStack = (ItemStack) extra[0];
         this.setLink(itemStack, new Vector3(data.readInt(), data.readInt(), data.readInt()));
         if (ICBMExplosion.itemRadarGun instanceof ItemElectric)
-            ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemRadarGun.YONG_DIAN_LIANG, true);
+            ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemRadarGun.energyCost, true);
     }
 
 }

@@ -19,6 +19,8 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
+	private long energyCost = 250;
+	
     public ItemSignalDisrupter(int id)
     {
         super(id, "signalDisrupter");
@@ -59,9 +61,9 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     {
         if (!world.isRemote)
         {
-            if (this.getEnergy(itemStack) > 20 && world.getWorldTime() % 20 == 0)
+            if (this.getEnergy(itemStack) > energyCost && world.getWorldTime() % 20 == 0)
             {
-                this.discharge(itemStack, 1 * 20, true);
+                this.discharge(itemStack, 1 * energyCost, true);
             }
         }
     }
@@ -69,7 +71,8 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {        
-        par3EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+        if(!par2World.isRemote)
+        	par3EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
         return par1ItemStack;
     }
 
@@ -82,7 +85,12 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     @Override
     public long getEnergyCapacity(ItemStack itemStack)
     {
-        return 80000;
+        return 1000000;
+    }
+    
+    public long getEnergyCost()
+    {
+    	return energyCost;
     }
 
     @Override

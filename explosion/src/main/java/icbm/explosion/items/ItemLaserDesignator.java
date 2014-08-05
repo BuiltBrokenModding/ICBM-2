@@ -35,7 +35,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
     public static final int BAN_JING = Settings.DAO_DAN_ZUI_YUAN;
-    public static final int YONG_DIAN_LIANG = 8000;
+    public static final int energyCost = 1000000;
 
     public ItemLaserDesignator(int id)
     {
@@ -271,7 +271,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                     // Check if it is possible to do an air strike.
                     if (airStrikeFreq > 0)
                     {
-                        if (this.getEnergy(par1ItemStack) >= YONG_DIAN_LIANG)
+                        if (this.getEnergy(par1ItemStack) >= energyCost)
                         {
                             Vector3 position = new Vector3(player.posX, player.posY, player.posZ);
 
@@ -341,7 +341,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
     @Override
     public long getEnergyCapacity(ItemStack itemStack)
     {
-        return YONG_DIAN_LIANG * 10;
+        return energyCost * 10;
     }
 
     @Override
@@ -356,6 +356,6 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 
         player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
         if (ICBMExplosion.itemRadarGun instanceof ItemElectric)
-            ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemLaserDesignator.YONG_DIAN_LIANG, true);
+            ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemLaserDesignator.energyCost, true);
     }
 }

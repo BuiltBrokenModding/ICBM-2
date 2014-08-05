@@ -137,7 +137,8 @@ public class BlockTurret extends BlockICBM
     {
         if (entityPlayer != null)
         {
-            entityPlayer.openGui(ICBMSentry.INSTANCE, 1, world, x, y, z);
+            if(!world.isRemote)
+            	entityPlayer.openGui(ICBMSentry.INSTANCE, 1, world, x, y, z);
             return true;
         }
         return false;

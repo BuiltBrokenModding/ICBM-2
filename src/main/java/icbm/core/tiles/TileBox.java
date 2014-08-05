@@ -39,7 +39,8 @@ public class TileBox extends TileInventory
     @Override
     protected boolean use(EntityPlayer player, int side, Vector3 hit)
     {
-        player.openGui(ICBMCore.INSTANCE, 0, world(), x(), y(), z());
+        if(!this.worldObj.isRemote)
+        	player.openGui(ICBMCore.INSTANCE, 0, world(), x(), y(), z());
         return true;
     }
 

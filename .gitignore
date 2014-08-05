@@ -13,3 +13,4 @@ eclipse/
 *.iws
 *.ipr
 *.idea/
+output/

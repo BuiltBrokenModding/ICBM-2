@@ -13,8 +13,10 @@ import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import resonant.api.IRedstoneReceptor;
+import resonant.api.map.IRadarDetectable;
 import resonant.api.map.RadarRegistry;
 import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.multiblock.IMultiBlock;
@@ -23,7 +25,7 @@ import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneReceptor, IBlockActivate, SimpleComponent
+public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneReceptor, IBlockActivate, SimpleComponent, IRadarDetectable
 {
     // The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 150;
@@ -200,7 +202,8 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
     {
-        entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        if(!this.worldObj.isRemote)
+        	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 
@@ -279,5 +282,12 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     {
         return MAX_RADIUS;
     }
+
+	@Override
+	public boolean canDetect(TileEntity arg0) {
+		if(this.getEnergyHandler().isFull())
+			return true;
+		return false;
+	}
 
 }
