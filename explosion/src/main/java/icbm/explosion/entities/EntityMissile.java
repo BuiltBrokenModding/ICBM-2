@@ -410,7 +410,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
                     Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
 
-                    if (this.protectionTime <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * 1000 || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
+                    if (this.protectionTime <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * Settings.ShortRangeMissileLifetimeSeconds || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
                     {
                         setExplode();
                         return;

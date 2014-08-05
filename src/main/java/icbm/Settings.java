@@ -38,6 +38,8 @@ public class Settings
     public static boolean LOAD_CHUNKS = true;
     @Config(key = "Max Missile Distance", category = Configuration.CATEGORY_GENERAL)
     public static int DAO_DAN_ZUI_YUAN = 10000;
+    @Config(key = "Short range missile lifetime in seconds", category = Configuration.CATEGORY_GENERAL)
+    public static int ShortRangeMissileLifetimeSeconds = 10;
     @Config(key = "Antimatter Explosion Size", category = Configuration.CATEGORY_GENERAL)
     public static int ANTIMATTER_SIZE = 55;
     @Config(key = "Antimatter Destroy Bedrock", category = Configuration.CATEGORY_GENERAL)
