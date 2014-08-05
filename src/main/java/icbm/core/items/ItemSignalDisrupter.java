@@ -19,6 +19,8 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
+	private long energyCost = 20;
+	
     public ItemSignalDisrupter(int id)
     {
         super(id, "signalDisrupter");
@@ -59,9 +61,9 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     {
         if (!world.isRemote)
         {
-            if (this.getEnergy(itemStack) > 20 && world.getWorldTime() % 20 == 0)
+            if (this.getEnergy(itemStack) > energyCost && world.getWorldTime() % 20 == 0)
             {
-                this.discharge(itemStack, 1 * 20, true);
+                this.discharge(itemStack, 1 * energyCost, true);
             }
         }
     }
@@ -83,6 +85,11 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     public long getEnergyCapacity(ItemStack itemStack)
     {
         return 80000;
+    }
+    
+    public long getEnergyCost()
+    {
+    	return energyCost;
     }
 
     @Override

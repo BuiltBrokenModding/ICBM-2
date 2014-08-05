@@ -2,6 +2,7 @@ package icbm.explosion.machines;
 
 import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
+import icbm.core.items.ItemSignalDisrupter;
 import icbm.core.prefab.TileFrequency;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
@@ -250,7 +251,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         {
             if (player != null)
             {
-                boolean youHuoLuan = false;
+                boolean hidden = false;
 
                 for (int i = 0; i < player.inventory.getSizeInventory(); i++)
                 {
@@ -258,15 +259,18 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 
                     if (itemStack != null)
                     {
-                        if (itemStack.getItem() instanceof IItemFrequency)
+                        if (itemStack.getItem() instanceof ItemSignalDisrupter)
                         {
-                            youHuoLuan = true;
+                        	ItemSignalDisrupter freqItem = (ItemSignalDisrupter)itemStack.getItem();
+                        	
+                        	if(freqItem.getEnergy(itemStack) >= freqItem.getEnergyCost())
+                        		hidden = true;
                             break;
                         }
                     }
                 }
 
-                if (!youHuoLuan)
+                if (!hidden)
                 {
                     this.detectedEntities.add(player);
                 }
