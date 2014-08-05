@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 {
-    private static final long ENERGY_PER_TICK = 1;
+    private static final long ENERGY_PER_TICK = 10;
 
     public ItemTracker(int id)
     {
@@ -168,7 +168,7 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
     @Override
     public long getEnergyCapacity(ItemStack itemStack)
     {
-        return 100000;
+        return 1000000;
     }
 
 }

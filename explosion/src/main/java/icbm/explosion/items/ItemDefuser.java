@@ -19,7 +19,7 @@ import resonant.lib.utility.LanguageUtility;
 //Explosive Defuser
 public class ItemDefuser extends ItemICBMElectrical
 {
-    private static final int YONG_DIAN_LIANG = 2000;
+    private static final int energyCost = 100000;
 
     public ItemDefuser(int id)
     {
@@ -37,7 +37,7 @@ public class ItemDefuser extends ItemICBMElectrical
     public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
     {
         System.out.println("stackCharge " + this.getEnergy(itemStack));
-        if (this.getEnergy(itemStack) >= YONG_DIAN_LIANG)
+        if (this.getEnergy(itemStack) >= energyCost)
         {
             if (entity instanceof EntityExplosive)
             {
@@ -73,7 +73,7 @@ public class ItemDefuser extends ItemICBMElectrical
                 ((EntityBombCart) entity).killMinecart(DamageSource.generic);
             }
 
-            this.setEnergy(itemStack, this.getEnergy(itemStack) - YONG_DIAN_LIANG);
+            this.setEnergy(itemStack, this.getEnergy(itemStack) - energyCost);
             return true;
         }
         else
@@ -93,6 +93,6 @@ public class ItemDefuser extends ItemICBMElectrical
     @Override
     public long getEnergyCapacity(ItemStack itemStack)
     {
-        return YONG_DIAN_LIANG * 10;
+        return energyCost * 10;
     }
 }

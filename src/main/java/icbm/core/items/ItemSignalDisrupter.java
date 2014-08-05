@@ -19,7 +19,7 @@ import com.google.common.io.ByteArrayDataInput;
 
 public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
-	private long energyCost = 20;
+	private long energyCost = 250;
 	
     public ItemSignalDisrupter(int id)
     {
@@ -85,7 +85,7 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     @Override
     public long getEnergyCapacity(ItemStack itemStack)
     {
-        return 80000;
+        return 1000000;
     }
     
     public long getEnergyCost()
