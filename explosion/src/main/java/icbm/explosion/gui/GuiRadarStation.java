@@ -6,6 +6,9 @@ import icbm.core.gui.GuiICBM;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.TileRadarStation;
+import icbm.explosion.machines.TileRadarStation.GUIEntityBase;
+import icbm.explosion.machines.TileRadarStation.GUIEntityMissile;
+import icbm.explosion.machines.TileRadarStation.GUITile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -205,13 +208,15 @@ public class GuiRadarStation extends GuiICBM
         {
             int range = 4;
 
-            for (Entity entity : this.tileEntity.detectedEntities)
+            for (GUIEntityBase entity : this.tileEntity.entityList)
             {
-                Vector2 position = new Vector2(radarCenter.x + (entity.posX - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (entity.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
+            	GUIEntityMissile missile = null;
+                Vector2 position = new Vector2(radarCenter.x + (entity.pos.x - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (entity.pos.y - this.tileEntity.zCoord) / this.radarMapRadius);
 
-                if (entity instanceof EntityMissile)
+                if (entity.type == this.tileEntity.EntityTypeMissile)
                 {
-                    if (this.tileEntity.isMissileGoingToHit((EntityMissile) entity))
+                	missile = (GUIEntityMissile)entity;
+                    if (missile.willHit)
                     {
                         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_RED_DOT);
                     }
@@ -235,18 +240,18 @@ public class GuiRadarStation extends GuiICBM
 
                 if (new Rectangle(minPosition, maxPosition).isIn(this.mousePosition))
                 {
-                    this.info = entity.getEntityName();
+                    this.info = entity.name;
 
-                    if (entity instanceof EntityPlayer)
+                    if (entity.type == this.tileEntity.EntityTypePlayer)
                     {
                         this.info = "\u00a71" + this.info;
                     }
 
-                    if (entity instanceof EntityMissile)
+                    if (entity.type == this.tileEntity.EntityTypeMissile)
                     {
-                        if (((EntityMissile) entity).targetVector != null)
+                        if (missile.gotTarget)
                         {
-                            this.info2 = "(" + ((EntityMissile) entity).targetVector.intX() + ", " + ((EntityMissile) entity).targetVector.intZ() + ")";
+                            this.info2 = "(" + missile.hitX + ", " + missile.hitZ + ")";
                         }
                     }
                 }
@@ -254,9 +259,9 @@ public class GuiRadarStation extends GuiICBM
 
             range = 2;
 
-            for (TileEntity jiQi : this.tileEntity.detectedTiles)
+            for (GUITile tile : this.tileEntity.tileList)
             {
-                Vector2 position = new Vector2(this.radarCenter.x + (jiQi.xCoord - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (jiQi.zCoord - this.tileEntity.zCoord) / this.radarMapRadius);
+                Vector2 position = new Vector2(this.radarCenter.x + (tile.posX - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (tile.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_WHITE_DOT);
 
                 this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
@@ -268,17 +273,7 @@ public class GuiRadarStation extends GuiICBM
 
                 if (new Rectangle(minPosition, maxPosition).isIn(this.mousePosition))
                 {
-                    if (jiQi.getBlockType() != null)
-                    {
-                        if (jiQi.getBlockType() instanceof BlockICBMMachine)
-                        {
-                            this.info = BlockICBMMachine.getJiQiMing(jiQi);
-                        }
-                        else
-                        {
-                            this.info = jiQi.getBlockType().getLocalizedName();
-                        }
-                    }
+                	this.info = tile.name;
                 }
             }
         }
