@@ -11,7 +11,7 @@ public class Reference
     public static final String MINOR_VERSION = "@MINOR@";
     public static final String REVISION_VERSION = "@REVIS@";
     public static final String BUILD_VERSION = "@BUILD@";
-    public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION;
+    public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
     public static final String CHANNEL = NAME;
     public static final String DOMAIN = "icbm";
