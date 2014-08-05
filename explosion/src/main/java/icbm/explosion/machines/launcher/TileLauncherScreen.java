@@ -314,7 +314,8 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
     {
-        entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        if(!this.worldObj.isRemote)
+        	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

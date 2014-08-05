@@ -200,7 +200,8 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     @Override
     public boolean onActivated(EntityPlayer entityPlayer)
     {
-        entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        if(!this.worldObj.isRemote)
+        	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

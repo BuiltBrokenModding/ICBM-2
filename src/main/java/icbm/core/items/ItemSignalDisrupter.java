@@ -71,7 +71,8 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {        
-        par3EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+        if(!par2World.isRemote)
+        	par3EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
         return par1ItemStack;
     }
 
