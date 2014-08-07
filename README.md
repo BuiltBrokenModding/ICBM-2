@@ -9,16 +9,19 @@ ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to M
 
 ##Credits
 If not listed don't fear we are still compiling the credits list after it got removed
-###Sr. Developers
-Calclavia
-Darkguardsman
-###Jr. Developers
-Tgame14
-Archadia
+###Developers
+* Calclavia
+* Darkguardsman
+* Tgame14
+###Contributors
+* Archadia
+* Maxwolf
+* gravitythief
+* wildex999
 ###Asset Creators
-
+* Archadia
 ###Transulators 
-
+* Vexatos
 ##Installing
 Install Minecraft Forge.
 
