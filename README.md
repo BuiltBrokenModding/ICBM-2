@@ -13,15 +13,19 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Calclavia
 * Darkguardsman
 * Tgame14
+
 ###Contributors
 * Archadia
 * Maxwolf
 * gravitythief
 * wildex999
+
 ###Asset Creators
 * Archadia
+
 ###Transulators 
 * Vexatos
+
 ##Installing
 Install Minecraft Forge.
 
