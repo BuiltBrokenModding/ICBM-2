@@ -38,6 +38,7 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Calclavia (Chinese)
 * ObsidianWalker (Italian)
 * Vexatos (German)
+* Adaptivity (Russian)
 
 ###Sound Effects
 * Freesound.org
