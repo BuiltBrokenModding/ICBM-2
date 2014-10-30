@@ -101,7 +101,7 @@ repositories {
     }
     maven {
         name 'CB Repo'
-        url "https://chickenbones.net/maven/"
+        url "http://chickenbones.net/maven/"
     }
     maven { 
         name 'OC Maven'
