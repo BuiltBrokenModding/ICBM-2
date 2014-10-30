@@ -1,6 +1,7 @@
 package icbm.sentry.turret.ai;
 
-import universalelectricity.api.vector.EulerAngle;
+import net.minecraftforge.common.util.ForgeDirection;
+import resonant.lib.transform.rotation.EulerAngle;
 
 /** Automated version of the EulerAngle used by machines and entities to handle rotation
  * 
@@ -9,18 +10,20 @@ public class EulerServo extends EulerAngle
 {
     public EulerAngle upperLimit = new EulerAngle(180, 40);
     public EulerAngle lowerLimit = new EulerAngle(-180, -40);
-    private EulerAngle targetAngle = new EulerAngle();
+    private EulerAngle targetAngle = new EulerAngle(ForgeDirection.UNKNOWN);
     private double rotationSpeed;
     public boolean hasChanged = false;
 
     public EulerServo(double rotationSpeed)
     {
+        super(ForgeDirection.UNKNOWN);
         this.rotationSpeed = rotationSpeed;
     }
 
     public EulerServo(EulerAngle angle, double rotationSpeed)
     {
-        super(angle);
+        super(ForgeDirection.UNKNOWN);
+        set(angle);
         this.rotationSpeed = rotationSpeed;
     }
 
@@ -62,8 +65,9 @@ public class EulerServo extends EulerAngle
 
     public boolean updateAngle(int index)
     {
-        double prevAngle = toArray()[index];
-        double currentAngle = toArray()[index];
+        double[] array = toArray();
+        double prevAngle = array[index];
+        double currentAngle = array[index];
         double targetAngle = this.targetAngle.toArray()[index];
         double upperLimit = this.upperLimit.toArray()[index];
         double lowerLimit = this.lowerLimit.toArray()[index];
@@ -116,6 +120,6 @@ public class EulerServo extends EulerAngle
     @Override
     public EulerServo clone()
     {
-        return new EulerServo(this.yaw, this.pitch, this.roll, this.getRotationSpeed());
+        return new EulerServo(this.yaw(), this.pitch(), this.roll(), this.getRotationSpeed());
     }
 }

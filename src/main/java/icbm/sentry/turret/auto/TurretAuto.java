@@ -9,7 +9,7 @@ import icbm.sentry.turret.traits.SentryTrait;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.lib.utility.nbt.ISaveObj;
 
 /** A Class that functions as the AI of automatic turrets. */
@@ -66,7 +66,7 @@ public abstract class TurretAuto extends Turret implements IAutoTurret
         {
             NBTTagCompound targetTag = new NBTTagCompound();
             ((ISaveObj) this.selector).save(targetTag);
-            nbt.setCompoundTag("selector", targetTag);
+            nbt.setTag("selector", targetTag);
         }
     }
 

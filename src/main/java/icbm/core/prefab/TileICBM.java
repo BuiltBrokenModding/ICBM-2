@@ -3,78 +3,49 @@ package icbm.core.prefab;
 import java.io.IOException;
 import java.util.HashSet;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.packet.Packet;
-import net.minecraftforge.common.ForgeDirection;
-import resonant.api.IPlayerUsing;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.prefab.tile.TileElectrical;
-import universalelectricity.api.UniversalElectricity;
-import universalelectricity.api.electricity.IVoltageInput;
-
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.util.ForgeDirection;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.IPlayerUsing;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketIDReceiver;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.content.prefab.java.TileElectric;
+import resonant.lib.network.netty.AbstractPacket;
 
 /** @author Calclavia */
-public abstract class TileICBM extends TileElectrical implements IPlayerUsing, IVoltageInput, IPacketReceiver
+public abstract class TileICBM extends TileElectric implements IPlayerUsing, IPacketIDReceiver
 {
     public final HashSet<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
-    @Override
-    public long getVoltageInput(ForgeDirection direction)
+    public TileICBM(Material material)
     {
-        return UniversalElectricity.DEFAULT_VOLTAGE * 2;
+        super(material);
     }
 
     @Override
-    public void onWrongVoltage(ForgeDirection direction, long voltage)
+    public void update()
     {
+        super.update();
 
-    }
-
-    @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
-
-        if (!worldObj.isRemote)
+        if (!worldObj.isRemote && ticks() % 3 == 0)
         {
             for (EntityPlayer player : playersUsing)
             {
-                PacketDispatcher.sendPacketToPlayer(getGUIPacket(), (Player) player);
+                ResonantEngine.instance.packetHandler.sendToPlayer(getGuiPacket(), (EntityPlayerMP) player);
             }
         }
     }
 
-    protected Packet getGUIPacket()
+    /** Packet that will be send if the player has the GUI open */
+    public AbstractPacket getGuiPacket()
     {
-        return getDescriptionPacket();
-    }
-
-    @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
-    {
-        try
-        {
-            this.onReceivePacket(data.readInt(), data, player, extra);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    protected void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
-    {
-        if (id == -1)
-        {
-            if (data.readBoolean())
-                this.playersUsing.add(player);
-            else
-                this.playersUsing.remove(player);
-        }
+        return getDescPacket();
     }
 
     @Override
@@ -82,5 +53,4 @@ public abstract class TileICBM extends TileElectrical implements IPlayerUsing, I
     {
         return this.playersUsing;
     }
-
 }

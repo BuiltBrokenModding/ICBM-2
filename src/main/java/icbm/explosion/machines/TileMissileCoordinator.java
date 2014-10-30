@@ -3,31 +3,33 @@ package icbm.explosion.machines;
 import icbm.Reference;
 import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.network.IPacketReceiver;
+import resonant.api.electric.EnergyStorage;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.EnergyStorageHandler;
 
 import com.google.common.io.ByteArrayDataInput;
 
 /** Missile Coordinator
  * 
  * @author Calclavia */
-public class TileMissileCoordinator extends TileICBM implements IPacketReceiver, IRotatable, IInventory, IBlockActivate
+public class TileMissileCoordinator extends TileICBM implements IPacketReceiver, IRotatable, IInventory
 {
     private byte fangXiang = 3;
     protected ItemStack[] containingItems = new ItemStack[this.getSizeInventory()];
 
     public TileMissileCoordinator()
     {
-        setEnergyHandler(new EnergyStorageHandler(0));
+        super(Material.iron);
     }
 
     @Override
@@ -39,7 +41,19 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
     @Override
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+        return this.getWorldObj().getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+    }
+
+    @Override
+    public void openInventory()
+    {
+
+    }
+
+    @Override
+    public void closeInventory()
+    {
+
     }
 
     @Override
@@ -106,75 +120,33 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
     }
 
     @Override
+    public String getInventoryName()
+    {
+        return LanguageUtility.getLocal("gui.coordinator.name");
+    }
+
+    @Override
+    public boolean hasCustomInventoryName()
+    {
+        return true;
+    }
+
+    @Override
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
     @Override
-    public void openChest()
-    {
-
-    }
-
-    @Override
-    public void closeChest()
-    {
-
-    }
-
-    @Override
-    public boolean isInvNameLocalized()
-    {
-        return true;
-    }
-
-    @Override
-    public String getInvName()
-    {
-        return LanguageUtility.getLocal("gui.coordinator.name");
-    }
-
-    /** @return Returns if a specific slot is valid to input a specific itemStack. */
-    public boolean isStackValidForInputSlot(int slot, ItemStack itemStack)
-    {
-        if (this.getStackInSlot(slot) == null)
-        {
-            return true;
-        }
-        else
-        {
-            if (this.getStackInSlot(slot).stackSize + 1 <= 64)
-            {
-                return this.getStackInSlot(slot).isItemEqual(itemStack);
-            }
-        }
-
-        return false;
-    }
-
-    public void incrStackSize(int slot, ItemStack itemStack)
-    {
-        if (this.getStackInSlot(slot) == null)
-        {
-            this.setInventorySlotContents(slot, itemStack.copy());
-        }
-        else if (this.getStackInSlot(slot).isItemEqual(itemStack))
-        {
-            this.getStackInSlot(slot).stackSize++;
-        }
-    }
-
-    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        NBTTagList var2 = nbt.getTagList("Items");
+        NBTTagList var2 = nbt.getTagList("Items", 0);
         this.containingItems = new ItemStack[this.getSizeInventory()];
 
         for (int var3 = 0; var3 < var2.tagCount(); ++var3)
         {
-            NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
+            NBTTagCompound var4 = var2.getCompoundTagAt(var3);
             byte var5 = var4.getByte("Slot");
 
             if (var5 >= 0 && var5 < this.containingItems.length)
@@ -232,8 +204,7 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
         return false;
     }
 
-    @Override
-    public boolean onActivated(EntityPlayer entityPlayer)
+    public boolean use(EntityPlayer entityPlayer)
     {
         this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Reference.PREFIX + "interface", 1, (float) (this.worldObj.rand.nextFloat() * 0.2 + 0.9F));
         if(!this.worldObj.isRemote)
@@ -242,9 +213,8 @@ public class TileMissileCoordinator extends TileICBM implements IPacketReceiver,
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf buf, EntityPlayer player, PacketType packet)
     {
-        // TODO Auto-generated method stub
 
     }
 }

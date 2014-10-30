@@ -9,16 +9,16 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IExternalInventory;
 import resonant.api.weapon.IAmmunition;
 import resonant.api.weapon.ProjectileType;
+import resonant.lib.transform.rotation.IRotation;
+import resonant.lib.transform.vector.IVector3;
+import resonant.lib.transform.vector.IVectorWorld;
+import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.utility.inventory.InventoryUtility;
-import universalelectricity.api.vector.IRotation;
-import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.IVectorWorld;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
 
 /** Modular system designed to handle all weapon related firing, and impact for an object. Requires
  * that it be constructed with a defined location. This location can be provided by using an entity,
@@ -144,7 +144,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     @Override
     public void fire(double range)
     {
-        fire(new Vector3(x(), y(), z()).translate(turret().getWeaponOffset().scale(range)));
+        fire(new Vector3(x(), y(), z()).add(turret().getWeaponOffset().multiply(range)));
     }
 
     @Override
@@ -157,7 +157,7 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     @Override
     public void fire(Entity entity)
     {
-        fire(Vector3.fromCenter(entity));
+        fire(new Vector3(entity));
     }
 
     /** Called to play the firing audio */
@@ -189,12 +189,12 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     {
         double scale = 0.02;
         Vector3 currentPoint = start.clone();
-        Vector3 difference = new Vector3(hit).difference(start);
+        Vector3 difference = new Vector3(hit).subtract(start);
 
-        while (currentPoint.distance(hit) > scale)
+        while (currentPoint.distance(new Vector3(hit)) > scale)
         {
-            world.spawnParticle("townaura", currentPoint.x, currentPoint.y, currentPoint.z, 0.0D, 0.0D, 0.0D);
-            currentPoint.add(difference.clone().scale(scale));
+            world.spawnParticle("townaura", currentPoint.x(), currentPoint.y(), currentPoint.z(), 0.0D, 0.0D, 0.0D);
+            currentPoint.add(difference.clone().multiply(scale));
         }
     }
 
@@ -203,9 +203,9 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
     {
         if (turret() != null)
         {
-            return new Vector3(x(), y(), z()).translate(turret().getWeaponOffset());
+            return new Vector3(x(), y(), z()).add(turret().getWeaponOffset());
         }
-        return new Vector3(x(), y(), z()).translate(this.aimOffset);
+        return new Vector3(x(), y(), z()).add(this.aimOffset);
     }
 
     /** Internal version of fire(Vector3) allowing repeat fire events */
@@ -378,10 +378,6 @@ public abstract class WeaponSystem implements IWeaponSystem, IVectorWorld, IRota
         }
         if (asTurret(object) != null)
         {
-            if (asTurret(object).getHost() instanceof IExternalInventory)
-            {
-                return ((IExternalInventory) asTurret(object).getHost()).getInventory();
-            }
             if (asTurret(object).getHost() instanceof IInventory)
             {
                 return (IInventory) asTurret(object).getHost();

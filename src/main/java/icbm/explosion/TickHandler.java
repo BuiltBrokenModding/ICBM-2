@@ -5,8 +5,6 @@ import java.util.EnumSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.TickType;
 
 public class TickHandler implements ITickHandler
 {
@@ -23,7 +21,7 @@ public class TickHandler implements ITickHandler
 
                 if (currentItem != null && (player != Minecraft.getMinecraft().renderViewEntity || Minecraft.getMinecraft().gameSettings.thirdPersonView != 0))
                 {
-                    if (currentItem.itemID == ICBMExplosion.itemRocketLauncher.itemID)
+                    if (currentItem.getItem() == ICBMExplosion.itemRocketLauncher)
                     {
                         if (player.getItemInUseCount() <= 0)
                         {

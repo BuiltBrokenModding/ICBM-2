@@ -1,9 +1,9 @@
 package icbm.sentry.interfaces;
 
-import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.IVectorWorld;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.world.World;
+import resonant.lib.transform.vector.IVector3;
+import resonant.lib.transform.vector.IVectorWorld;
 
 /** Implement this on any object that hosts a turret.
  * 

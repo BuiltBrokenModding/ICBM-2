@@ -13,13 +13,6 @@ buildscript {
 
 apply plugin: 'forge'
 
-sourceSets {
-	main {
-		java {
-			srcDirs 'src/main/java', 'explosion/src/main/java', 'sentry/src/main/java'
-		}
-	}
-}
 
 def ENV = System.getenv()
 
@@ -87,7 +80,6 @@ repositories {
 	}
 }
 dependencies {
-	compile group: 'universalelectricity', name: 'Universal-Electricity', version: "${config.version.universalelectricity}", classifier: "dev"
     if (System.getenv().JOB_NAME != null && System.getenv().JOB_NAME == "ICBM-Development")
         compile group: 'resonant-engine-development', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
     else

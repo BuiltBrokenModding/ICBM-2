@@ -14,8 +14,8 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
-import universalelectricity.api.vector.EulerAngle;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.rotation.EulerAngle;
+import resonant.lib.transform.vector.Vector3;
 
 /** AI for the sentry objects
  * 
@@ -135,7 +135,7 @@ public class TurretAI
 
     protected Entity findTarget(ITurret sentry, IEntitySelector targetSelector, double target_range)
     {
-        AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret().fromCenter().x, turret().fromCenter().y, turret().fromCenter().z, turret().fromCenter().x, turret().fromCenter().y, turret().fromCenter().z).expand(target_range, target_range, target_range);
+        AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(turret().fromCenter().x(), turret().fromCenter().y(), turret().fromCenter().z(), turret().fromCenter().x(), turret().fromCenter().y(), turret().fromCenter().z()).expand(target_range, target_range, target_range);
         List<Entity> list = turret().world().selectEntitiesWithinAABB(Entity.class, aabb, targetSelector);
         Collections.sort(list, new ComparatorOptimalTarget(turret().fromCenter()));
         debug("\t" + list.size() + "targets in range ");
@@ -156,7 +156,7 @@ public class TurretAI
     {
         if (turret().getEntitySelector().isEntityApplicable(entity))
         {
-            if (turret().fromCenter().distance(entity) <= search_range)
+            if (turret().fromCenter().distance(new Vector3(entity)) <= search_range)
             {
                 boolean bound_flag = isTargetInBounds(entity);
                 boolean sight_flag = canEntityBeSeen(entity);
@@ -170,13 +170,13 @@ public class TurretAI
     /** Adjusts the turret target to look at a specific location. */
     public void lookAt(Vector3 target)
     {
-        turret().getServo().setTargetRotation(turret().fromCenter().toAngle(target));
+        turret().getServo().setTargetRotation(turret().fromCenter().toEulerAngle(target));
     }
 
     /** Tells the turret to look at a location using an entity */
     public void lookAtEntity(Entity entity)
     {
-        lookAt(Vector3.fromCenter(entity));
+        lookAt(new Vector3(entity));
     }
 
     /** Checks to see if target is within the range of the turret.
@@ -185,7 +185,7 @@ public class TurretAI
      * @return */
     public boolean isTargetInBounds(Entity target)
     {
-        return isTargetInBounds(Vector3.fromCenter(target));
+        return isTargetInBounds(new Vector3(target));
     }
 
     public boolean isTargetInBounds(Vector3 target)
@@ -195,7 +195,7 @@ public class TurretAI
 
     public boolean isTargetInBounds(Vector3 start, Vector3 target)
     {
-        EulerAngle angle = start.toAngle(target);
+        EulerAngle angle = start.toEulerAngle(target);
         return turret().getServo().isWithinLimit(angle);
     }
 
@@ -206,7 +206,7 @@ public class TurretAI
      * @return true if its with in error range */
     public boolean isLookingAt(Vector3 target, float allowedError)
     {
-        EulerAngle targetAngle = turret().fromCenter().toAngle(target);
+        EulerAngle targetAngle = turret().fromCenter().toEulerAngle(target);
         return turret().getServo().isWithin(targetAngle, allowedError);
     }
 
@@ -217,7 +217,7 @@ public class TurretAI
      * @return true if its with in error range */
     public boolean isLookingAt(Entity entity, float allowedError)
     {
-        return isLookingAt(Vector3.fromCenter(entity), allowedError);
+        return isLookingAt(new Vector3(entity), allowedError);
     }
 
     /** Translates the aim offset "out of the turret block" to prevent the turret itself from block
@@ -227,21 +227,22 @@ public class TurretAI
      * @return */
     public boolean canEntityBeSeen(Entity entity)
     {
-        Vector3 traceStart = turret().fromCenter().translate(turret().getWeaponOffset());
+        Vector3 traceStart = turret().fromCenter().add(turret().getWeaponOffset());
         return canEntityBeSeen(traceStart, entity);
     }
 
     public boolean canEntityBeSeen(Vector3 traceStart, Entity entity)
     {
-        MovingObjectPosition hitTarget = traceStart.clone().rayTrace(entity.worldObj, Vector3.fromCenter(entity), false);
+        //TODO set distance equal to max sentry gun range
+        MovingObjectPosition hitTarget = traceStart.clone().rayTrace(entity.worldObj, new Vector3(entity), 500);
         return hitTarget != null && entity.equals(hitTarget.entityHit);
     }
 
     public MovingObjectPosition rayTrace(double distance)
     {
         // Ray Tracing is needed for Mounted Sentries aswell
-        Vector3 reach = new Vector3(turret.getServo()).scale(distance);
-        MovingObjectPosition hitTarget = turret.fromCenter().translate(turret.getWeaponOffset()).rayTrace(turret.world(), reach, false);
+        Vector3 reach = turret.getServo().toVector().multiply(distance);
+        MovingObjectPosition hitTarget = turret.fromCenter().add(turret.getWeaponOffset()).rayTrace(turret.world(), reach, 500);
         return hitTarget;
     }
 
@@ -261,14 +262,14 @@ public class TurretAI
         {
             if (closest)
             {
-                Double distanceA = location.distance(entityA);
-                Double distanceB = location.distance(entityB);
-                return distanceA.compareTo(distanceB);
+                Double distanceA = location.distance(new Vector3(entityA));
+                Double distanceB = location.distance(new Vector3(entityB));
+                return distanceB.compareTo(distanceA);
             }
             else
             {
-                Double distanceB = location.distance(entityA);
-                Double distanceA = location.distance(entityB);
+                Double distanceB = location.distance(new Vector3(entityA));
+                Double distanceA = location.distance(new Vector3(entityB));
                 return distanceA.compareTo(distanceB);
             }
         }

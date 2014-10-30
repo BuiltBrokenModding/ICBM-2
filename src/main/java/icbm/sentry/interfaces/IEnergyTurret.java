@@ -1,6 +1,7 @@
 package icbm.sentry.interfaces;
 
-import universalelectricity.api.energy.IEnergyContainer;
+
+import resonant.api.electric.IEnergyContainer;
 
 /** Applied to turret that need energy to function
  * 

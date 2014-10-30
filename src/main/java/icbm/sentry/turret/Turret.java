@@ -32,12 +32,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
+import resonant.api.electric.EnergyStorage;
+import resonant.lib.transform.vector.IVector3;
+import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.utility.nbt.SaveManager;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
 
 /** Modular way to deal with sentry guns
  * 
@@ -69,7 +69,7 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     /** Axis and rotation controller */
     private EulerServo servo;
     /** Energy storage unit for the turret */
-    public EnergyStorageHandler battery;
+    public EnergyStorage battery;
     /** AI for the sentry, defines how the sentry acts without a controller */
     private TurretAI ai;
 
@@ -77,22 +77,22 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     {
         this.host = host;
         this.ai = new TurretAI(this);
-        this.battery = new EnergyStorageHandler()
+        this.battery = new EnergyStorage()
         {
             @Override
-            public long getEnergyCapacity()
+            public double getEnergyCapacity()
             {
-                return SentryTrait.asLong(Turret.this.getTrait(ITurret.ENERGY_STORAGE_TRAIT), this.capacity);
+                return SentryTrait.asDouble(Turret.this.getTrait(ITurret.ENERGY_STORAGE_TRAIT), this.capacity());
             }
 
             @Override
-            public long getMaxReceive()
+            public double getMaxReceive()
             {
                 return this.getEnergyCapacity();
             }
 
             @Override
-            public long getMaxExtract()
+            public double getMaxExtract()
             {
                 return this.getEnergyCapacity();
             }
@@ -220,14 +220,14 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     {
         if (getHost().world().isRemote)
         {
-            this.getWeaponSystem().fireClient(Vector3.fromCenter(target));
+            this.getWeaponSystem().fireClient(new Vector3(target));
             return true;
         }
         else if (canFire())
         {
             if (target != null)
             {
-                getHost().sendFireEventToClient(Vector3.fromCenter(target));
+                getHost().sendFireEventToClient(new Vector3(target));
             }
             this.getWeaponSystem().fire(target);
             if (this.getWeaponSystem() instanceof IEnergyWeapon)
@@ -243,7 +243,7 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     @Override
     public Vector3 getWeaponOffset()
     {
-        return new Vector3(getServo()).scale(barrelLength).translate(barrelOffset);
+        return getServo().toVector().multiply(barrelLength).add(barrelOffset);
     }
 
     /** Offset from host location to were the sentries center is located */
@@ -253,19 +253,19 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     }
 
     @Override
-    public void setEnergy(ForgeDirection dir, long energy)
+    public void setEnergy(ForgeDirection dir, double energy)
     {
         this.battery.setEnergy(energy);
     }
 
     @Override
-    public long getEnergy(ForgeDirection dir)
+    public double getEnergy(ForgeDirection dir)
     {
         return this.battery.getEnergy();
     }
 
     @Override
-    public long getEnergyCapacity(ForgeDirection dir)
+    public double getEnergyCapacity(ForgeDirection dir)
     {
         return this.battery.getEnergyCapacity();
     }
@@ -278,8 +278,8 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         {
             this.battery.writeToNBT(nbt);
         }
-        nbt.setDouble("yaw", getServo().yaw);
-        nbt.setDouble("pitch", getServo().pitch);
+        nbt.setDouble("yaw", getServo().yaw());
+        nbt.setDouble("pitch", getServo().pitch());
 
         //Save kill counts
         NBTTagList killCounts = new NBTTagList();
@@ -303,16 +303,16 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
         {
             this.battery.readFromNBT(nbt);
         }
-        getServo().yaw = nbt.getDouble("yaw");
-        getServo().pitch = nbt.getDouble("pitch");
+        getServo().yaw_$eq(nbt.getDouble("yaw"));
+        getServo().pitch_$eq(nbt.getDouble("pitch"));
         getServo().hasChanged = true;
 
         //Load kill count
-        NBTTagList nodeList = nbt.getTagList("killCount");
+        NBTTagList nodeList = nbt.getTagList("killCount", 0);
         kill_count.clear();
         for (int i = 0; i < nodeList.tagCount(); ++i)
         {
-            NBTTagCompound tag = (NBTTagCompound) nodeList.tagAt(i);
+            NBTTagCompound tag = nodeList.getCompoundTagAt(i);
             kill_count.put(tag.getString("name"), tag.getInteger("count"));
         }
 
@@ -351,19 +351,19 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     @Override
     public double yaw()
     {
-        return getServo().yaw;
+        return getServo().yaw();
     }
 
     @Override
     public double pitch()
     {
-        return getServo().pitch;
+        return getServo().pitch();
     }
 
     @Override
     public double roll()
     {
-        return getServo().roll;
+        return getServo().roll();
     }
 
     public VectorWorld getPosition()
@@ -374,7 +374,7 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
     @Override
     public VectorWorld fromCenter()
     {
-        return (VectorWorld) getPosition().translate(getCenterOffset());
+        return (VectorWorld) getPosition().add(getCenterOffset());
     }
 
     public EulerServo getServo()
@@ -513,7 +513,7 @@ public abstract class Turret implements IEnergyTurret, IWeaponProvider, IKillCou
             else if (entity instanceof EntityPlayer)
             {
                 increaseKill("Players");
-                increaseKill(((EntityPlayer)entity).username);
+                increaseKill(((EntityPlayer)entity).getDisplayName());
             }
             else
             {

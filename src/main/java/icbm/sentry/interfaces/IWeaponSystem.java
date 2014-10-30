@@ -2,7 +2,7 @@ package icbm.sentry.interfaces;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import universalelectricity.api.vector.IVector3;
+import resonant.lib.transform.vector.IVector3;
 
 /** Applied to objects that act as a weapons. Most cases these methods will use an object as the
  * starting point or host for firing events.
