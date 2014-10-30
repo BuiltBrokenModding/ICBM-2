@@ -20,37 +20,26 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
-import net.minecraftforge.common.ForgeDirection;
 import resonant.api.IRedstoneProvider;
 import resonant.api.IRotatable;
 import resonant.api.blocks.IBlockFrequency;
 import resonant.api.items.IItemFrequency;
 import resonant.api.map.IRadarDetectable;
 import resonant.api.map.RadarRegistry;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.network.PacketHandler;
+import resonant.engine.grid.frequency.FrequencyGrid;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.transform.vector.Vector2;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.utility.WrenchUtility;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.Vector2;
-import universalelectricity.api.vector.Vector3;
-import calclavia.api.mffs.fortron.FrequencyGrid;
 
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
-import dan200.computercraft.api.lua.ILuaContext;
-import dan200.computercraft.api.peripheral.IComputerAccess;
-import dan200.computercraft.api.peripheral.IPeripheral;
 
 public class TileRadarStation extends TileFrequency implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IPeripheral, IBlockFrequency, IBlockActivate, IRotatable
 {
@@ -134,7 +123,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         if (!this.worldObj.isRemote)
         {
             //Update client every 2 seconds
-            if (this.ticks % 40 == 0)
+            if (this.ticks() % 40 == 0)
             {
                 PacketHandler.sendPacketToClients(this.getDescriptionPacket(), this.worldObj, new Vector3(this), 35);
             }//Send packets to users with the gui open
@@ -148,7 +137,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         }
 
         //If we have energy
-        if (this.getEnergyHandler().checkExtract())
+        if (this.energy().checkExtract())
         {
         	this.isPowered = true;
             this.rotation += 0.08f;
@@ -161,7 +150,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             //Only do check on server and update client over network if in GUI
             if (!this.worldObj.isRemote)
             {
-                this.getEnergyHandler().extractEnergy();
+                this.energy().extractEnergy();
 
 	            int prevDetectedEntities = this.detectedEntities.size();
 	
@@ -177,9 +166,9 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 	            updateClient();
 	            
 	            //Check for incoming and launch anti-missiles if
-	            if (this.ticks % 20 == 0 && this.incomingMissiles.size() > 0)
+	            if (this.ticks() % 20 == 0 && this.incomingMissiles.size() > 0)
 	            {
-	                for (IBlockFrequency blockFrequency : FrequencyGrid.instance().get())
+	                for (IBlockFrequency blockFrequency : FrequencyGrid$.MODULE$)
 	                {
 	                    if (blockFrequency instanceof TileLauncherPrefab)
 	                    {
@@ -207,7 +196,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         	this.isPowered = false;
             if (detectedEntities.size() > 0)
             {
-                worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+                worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
             }
 
             if(!this.worldObj.isRemote)
@@ -221,7 +210,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             }
         }
 
-        if (ticks % 40 == 0)
+        if (ticks() % 40 == 0)
         {
             worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
         }

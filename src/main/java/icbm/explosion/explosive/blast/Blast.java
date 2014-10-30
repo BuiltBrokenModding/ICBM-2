@@ -22,11 +22,11 @@ import resonant.api.explosion.ExplosionEvent.DoExplosionEvent;
 import resonant.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
 import resonant.api.explosion.ExplosionEvent.PostExplosionEvent;
 import resonant.api.explosion.ExplosionEvent.PreExplosionEvent;
-import universalelectricity.api.vector.IVectorWorld;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import resonant.lib.transform.vector.IVectorWorld;
+import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
 
 public abstract class Blast extends Explosion implements IExplosion, IVectorWorld
 {
@@ -156,7 +156,7 @@ public abstract class Blast extends Explosion implements IExplosion, IVectorWorl
 
     /** The interval in ticks before the next procedural call of this explosive
      * 
-     * @param return - Return -1 if this explosive does not need procedural calls */
+     * @return - Return -1 if this explosive does not need procedural calls */
     public int proceduralInterval()
     {
         return -1;
@@ -175,8 +175,8 @@ public abstract class Blast extends Explosion implements IExplosion, IVectorWorl
         minCoord.add(-radius - 1);
         Vector3 maxCoord = position.clone();
         maxCoord.add(radius + 1);
-        List<Entity> allEntities = world().getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.intX(), minCoord.intY(), minCoord.intZ(), maxCoord.intX(), maxCoord.intY(), maxCoord.intZ()));
-        Vec3 var31 = Vec3.createVectorHelper(position.x, position.y, position.z);
+        List<Entity> allEntities = world().getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minCoord.xi(), minCoord.yi(), minCoord.zi(), maxCoord.xi(), maxCoord.yi(), maxCoord.zi()));
+        Vec3 var31 = Vec3.createVectorHelper(position.x(), position.y(), position.z());
 
         for (int i = 0; i < allEntities.size(); ++i)
         {
@@ -196,13 +196,13 @@ public abstract class Blast extends Explosion implements IExplosion, IVectorWorl
             if (entity instanceof EntityItem && !destroyItem)
                 continue;
 
-            double distance = entity.getDistance(position.x, position.y, position.z) / radius;
+            double distance = entity.getDistance(position.x(), position.y(), position.z()) / radius;
 
             if (distance <= 1.0D)
             {
-                double xDifference = entity.posX - position.x;
-                double yDifference = entity.posY - position.y;
-                double zDifference = entity.posZ - position.z;
+                double xDifference = entity.posX - position.x();
+                double yDifference = entity.posY - position.y();
+                double zDifference = entity.posZ - position.z();
                 double var35 = MathHelper.sqrt_double(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
                 xDifference /= var35;
                 yDifference /= var35;
@@ -263,7 +263,7 @@ public abstract class Blast extends Explosion implements IExplosion, IVectorWorl
     @Override
     public World world()
     {
-        return this.position.world;
+        return this.position.world();
     }
 
     @Override
