@@ -90,20 +90,27 @@ dependencies {
         compile group: 'resonant-engine', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
 }
 
-import net.minecraftforge.gradle.tasks.dev.ChangelogTask
-import net.minecraftforge.gradle.common.Constants
-import net.minecraftforge.gradle.delayed.*
 
-task createChangelog(type: ChangelogTask) {
-    def jobName = "${System.getenv().JOB_NAME}"
-    def buildNumber = "${System.getenv().BUILD_NUMBER}"
-    jobName.replaceAll(' ','%20')
-    setServerRoot(new DelayedString(project, 'http://ci.calclavia.com/'))
-    setJobName(new DelayedString(project, jobName.toString()));
-    setAuthName(new DelayedString(project, 'console_script'));
-    setAuthPassword(new DelayedString(project, '625d2ac53190be3422faa0c474fb299b'));
-    setTargetBuild({buildNumber.toString()});
-    setOutput(new DelayedFile(project, 'output/' + jobName + "-${project.version}" + '-changelog' + '.txt'));
+repositories {
+    maven {
+        url 'http://calclavia.com/maven'
+    }
+    maven {
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven {
+        name 'CB Repo'
+        url "https://chickenbones.net/maven/"
+    }
+    maven { 
+        name 'OC Maven'
+        url = "http://maven.cil.li/" }
 }
 
-build.dependsOn "createChangelog"
+dependencies 
+{
+    testCompile 'junit:junit:4.11'
+    //compile "mcp.mobius.waila:Waila:1.5.5_1.7.10"
+    compile "li.cil.oc:OpenComputers:MC1.7.10-1.4.0.+:dev"
+}
