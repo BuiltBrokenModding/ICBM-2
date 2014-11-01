@@ -22,9 +22,9 @@ import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import resonant.lib.gui.ContainerDummy;
-import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import resonant.lib.transform.vector.Vector3;
 
 /** ICBM Explosion Module Common Proxy
  * 
@@ -57,7 +57,7 @@ public class CommonProxy implements IGuiHandler
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity instanceof TileCruiseLauncher)
         {

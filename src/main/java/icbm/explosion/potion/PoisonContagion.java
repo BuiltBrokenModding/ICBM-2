@@ -16,7 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.lib.prefab.potion.CustomPotion;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 public class PoisonContagion extends CustomPotion
 {

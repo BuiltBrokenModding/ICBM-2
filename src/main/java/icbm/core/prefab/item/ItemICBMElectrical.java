@@ -11,20 +11,16 @@ import net.minecraft.item.ItemStack;
 
 import org.lwjgl.input.Keyboard;
 
+import resonant.api.items.IEnergyItem;
+import resonant.lib.prefab.item.ItemElectric;
 import resonant.lib.render.EnumColor;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.utility.TooltipUtility;
-import universalelectricity.api.UniversalClass;
-import universalelectricity.api.item.IEnergyItem;
-import universalelectricity.api.item.IVoltageItem;
-import universalelectricity.api.item.ItemElectric;
 
-@UniversalClass
-public abstract class ItemICBMElectrical extends ItemElectric implements IEnergyItem, IVoltageItem
+public abstract class ItemICBMElectrical extends ItemElectric implements IEnergyItem
 {
-    public ItemICBMElectrical(int id, String name)
+    public ItemICBMElectrical(String name)
     {
-        super(Settings.CONFIGURATION.getItem(name, id).getInt(id));
         this.setUnlocalizedName(Reference.PREFIX + name);
         this.setCreativeTab(TabICBM.INSTANCE);
         this.setTextureName(Reference.PREFIX + name);

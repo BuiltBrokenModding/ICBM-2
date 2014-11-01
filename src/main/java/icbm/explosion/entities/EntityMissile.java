@@ -15,8 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,6 +32,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.IFluidBlock;
 import resonant.api.ai.ITarget;
 import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.IExplosive;
@@ -40,13 +41,12 @@ import resonant.api.explosion.ILauncherContainer;
 import resonant.api.explosion.IMissile;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.api.map.RadarRegistry;
-import universalelectricity.api.vector.Vector2;
-import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import resonant.lib.transform.vector.Vector3;
 
 /** @Author - Calclavia */
 public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, ITarget
@@ -138,7 +138,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.startPos = startPos;
         this.launcherPos = launcherPos;
 
-        this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
+        this.setPosition(this.startPos.x(), this.startPos.y(), this.startPos.z());
         this.setRotation(0, 90);
     }
 
@@ -156,31 +156,31 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.missileType = MissileType.LAUNCHER;
         this.protectionTime = 0;
 
-        this.setPosition(this.startPos.x, this.startPos.y, this.startPos.z);
+        this.setPosition(this.startPos.x(), this.startPos.y(), this.startPos.z());
         this.setRotation(yaw, pitch);
     }
 
-    @Override
+
     public String getEntityName()
     {
         return ExplosiveRegistry.get(this.explosiveID).getMissileName();
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
         try
         {
             data.writeInt(this.explosiveID);
             data.writeInt(this.missileType.ordinal());
 
-            data.writeDouble(this.startPos.x);
-            data.writeDouble(this.startPos.y);
-            data.writeDouble(this.startPos.z);
+            data.writeDouble(this.startPos.x());
+            data.writeDouble(this.startPos.y());
+            data.writeDouble(this.startPos.z());
 
-            data.writeInt(this.launcherPos.intX());
-            data.writeInt(this.launcherPos.intY());
-            data.writeInt(this.launcherPos.intZ());
+            data.writeInt(this.launcherPos.xi());
+            data.writeInt(this.launcherPos.yi());
+            data.writeInt(this.launcherPos.zi());
 
             data.writeFloat(rotationYaw);
             data.writeFloat(rotationPitch);
@@ -192,7 +192,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
         try
         {
@@ -215,14 +215,14 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         this.startPos = new Vector3(this);
         this.targetVector = target;
-        this.targetHeight = this.targetVector.intY();
+        this.targetHeight = this.targetVector.yi();
         ((Explosion) ExplosiveRegistry.get(this.explosiveID)).launch(this);
         this.feiXingTick = 0;
         this.recalculatePath();
         this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         // TODO add an event system here
         RadarRegistry.register(this);
-        ICBMCore.LOGGER.info("Launching " + this.getEntityName() + " (" + this.entityId + ") from " + startPos.intX() + ", " + startPos.intY() + ", " + startPos.intZ() + " to " + targetVector.intX() + ", " + targetVector.intY() + ", " + targetVector.intZ());
+        ICBMCore.LOGGER.info("Launching " + this.getEntityName() + " (" + this.getEntityId() + ") from " + startPos.xi() + ", " + startPos.yi() + ", " + startPos.zi() + " to " + targetVector.xi() + ", " + targetVector.yi() + ", " + targetVector.zi());
     }
 
     @Override
@@ -244,14 +244,14 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         if (this.targetVector != null)
         {
             // Calculate the distance difference of the missile
-            this.deltaPathX = this.targetVector.x - this.startPos.x;
-            this.deltaPathY = this.targetVector.y - this.startPos.y;
-            this.deltaPathZ = this.targetVector.z - this.startPos.z;
+            this.deltaPathX = this.targetVector.x() - this.startPos.x();
+            this.deltaPathY = this.targetVector.y() - this.startPos.y();
+            this.deltaPathZ = this.targetVector.z() - this.startPos.z();
 
             // TODO: Calculate parabola and relative out the height.
             // Calculate the power required to reach the target co-ordinates
-            // Ground Displacement
-            this.flatDistance = Vector2.distance(this.startPos.toVector2(), this.targetVector.toVector2());
+            // Ground Displacement TODO check if this is correct as the original method calls no longer exist
+            this.flatDistance = this.startPos.subtract(this.targetVector).magnitude();
             // Parabolic Height
             this.maxHeight = 160 + (int) (this.flatDistance * 3);
             // Flight time
@@ -396,9 +396,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                     if (this.feiXingTick == 0 && this.xiaoDanMotion != null)
                     {
                         this.xiaoDanMotion = new Vector3(this.deltaPathX / (missileFlightTime * 0.3), this.deltaPathY / (missileFlightTime * 0.3), this.deltaPathZ / (missileFlightTime * 0.3));
-                        this.motionX = this.xiaoDanMotion.x;
-                        this.motionY = this.xiaoDanMotion.y;
-                        this.motionZ = this.xiaoDanMotion.z;
+                        this.motionX = this.xiaoDanMotion.x();
+                        this.motionY = this.xiaoDanMotion.y();
+                        this.motionZ = this.xiaoDanMotion.z();
                     }
 
                     this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
@@ -408,9 +408,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
                     ((Explosion) ExplosiveRegistry.get(this.explosiveID)).update(this);
 
-                    Block block = Block.blocksList[this.worldObj.getBlockId((int) this.posX, (int) this.posY, (int) this.posZ)];
+                    Block block = this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ);
 
-                    if (this.protectionTime <= 0 && ((block != null && !(block instanceof BlockFluid)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * Settings.ShortRangeMissileLifetimeSeconds || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
+                    if (this.protectionTime <= 0 && ((block != null && !(block instanceof IFluidBlock)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * Settings.ShortRangeMissileLifetimeSeconds || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
                     {
                         setExplode();
                         return;
@@ -459,9 +459,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                         if (this.targetHeight > 0 && this.motionY < 0)
                         {
                             // Check the block below it.
-                            int blockBelowID = this.worldObj.getBlockId((int) this.posX, (int) this.posY - targetHeight, (int) this.posZ);
+                            Block blockBelow = worldObj.getBlock((int) this.posX, (int) this.posY - targetHeight, (int) this.posZ);
 
-                            if (blockBelowID > 0)
+                            if (blockBelow  != null && !blockBelow.isAir(worldObj, (int) this.posX, (int) this.posY - targetHeight, (int) this.posZ))
                             {
                                 this.targetHeight = 0;
                                 this.explode();
@@ -582,22 +582,22 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             double distance = -this.daoDanGaoDu - 0.2f;
             Vector3 delta = new Vector3();
             // The delta Y of the smoke.
-            delta.y = Math.sin(Math.toRadians(this.rotationPitch)) * distance;
+            delta.y_$eq(Math.sin(Math.toRadians(this.rotationPitch)) * distance);
             // The horizontal distance of the
             // smoke.
             double dH = Math.cos(Math.toRadians(this.rotationPitch)) * distance;
             // The delta X and Z.
-            delta.x = Math.sin(Math.toRadians(this.rotationYaw)) * dH;
-            delta.z = Math.cos(Math.toRadians(this.rotationYaw)) * dH;
+            delta.x_$eq(Math.sin(Math.toRadians(this.rotationYaw)) * dH);
+            delta.z_$eq(Math.cos(Math.toRadians(this.rotationYaw)) * dH);
 
             position.add(delta);
-            this.worldObj.spawnParticle("flame", position.x, position.y, position.z, 0, 0, 0);
+            this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);
             ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.scale(1 - 0.001 * Math.random());
+            position.multiply(1 - 0.001 * Math.random());
             ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.scale(1 - 0.001 * Math.random());
+            position.multiply(1 - 0.001 * Math.random());
             ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.scale(1 - 0.001 * Math.random());
+            position.multiply(1 - 0.001 * Math.random());
             ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
         }
     }
@@ -635,15 +635,11 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             {
                 if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.LAUNCHER)
                 {
-                    guJiDiDian.x += this.xiaoDanMotion.x;
-                    guJiDiDian.y += this.xiaoDanMotion.y;
-                    guJiDiDian.z += this.xiaoDanMotion.z;
+                    guJiDiDian.addEquals(xiaoDanMotion);
                 }
                 else
                 {
-                    guJiDiDian.x += this.motionX;
-                    guJiDiDian.y += tempMotionY;
-                    guJiDiDian.z += this.motionZ;
+                    guJiDiDian.addEquals(this.motionX, tempMotionY, this.motionZ);
 
                     tempMotionY -= this.acceleration;
                 }
@@ -707,7 +703,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
                 this.isExpoding = true;
 
-                ICBMCore.LOGGER.info(this.getEntityName() + " (" + this.entityId + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+                ICBMCore.LOGGER.info(this.getEntityName() + " (" + this.getEntityId() + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
             }
 
             setDead();
@@ -776,16 +772,16 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         if (this.startPos != null)
         {
-            nbt.setCompoundTag("kaiShi", this.startPos.writeToNBT(new NBTTagCompound()));
+            nbt.setTag("kaiShi", this.startPos.writeNBT(new NBTTagCompound()));
         }
         if (this.targetVector != null)
         {
-            nbt.setCompoundTag("muBiao", this.targetVector.writeToNBT(new NBTTagCompound()));
+            nbt.setTag("muBiao", this.targetVector.writeNBT(new NBTTagCompound()));
         }
 
         if (this.launcherPos != null)
         {
-            nbt.setCompoundTag("faSheQi", this.launcherPos.writeToNBT(new NBTTagCompound()));
+            nbt.setTag("faSheQi", this.launcherPos.writeNBT(new NBTTagCompound()));
         }
 
         nbt.setFloat("jiaSu", this.acceleration);
