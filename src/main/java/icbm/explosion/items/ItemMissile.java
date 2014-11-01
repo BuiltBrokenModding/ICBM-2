@@ -8,14 +8,15 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import resonant.lib.utility.LanguageUtility;
 
 public class ItemMissile extends ItemICBMBase
 {
-    public ItemMissile(int id)
+    public ItemMissile()
     {
-        super(id, "missile");
+        super("missile");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
@@ -40,7 +41,7 @@ public class ItemMissile extends ItemICBMBase
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (Explosive zhaPin : ExplosiveRegistry.getAllMissles())
         {

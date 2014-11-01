@@ -1,5 +1,6 @@
 package icbm.explosion;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
@@ -44,6 +45,8 @@ import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -54,7 +57,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -66,13 +68,10 @@ import resonant.api.explosion.ExplosionEvent.ExplosionConstructionEvent;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.api.explosion.ExplosionEvent.PreExplosionEvent;
 import resonant.lib.config.Config;
-import resonant.lib.flag.FlagRegistry;
-import resonant.lib.network.PacketHandler;
 import resonant.lib.recipe.RecipeUtility;
 import resonant.lib.recipe.UniversalRecipe;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.PotionUtility;
-import universalelectricity.api.CompatibilityModule;
-import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -85,13 +84,11 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ICBMExplosion.ID, name = ICBMExplosion.NAME, version = Reference.VERSION, dependencies = "required-after:ICBM;after:ICBM|Sentry")
-@NetworkMod(channels = ICBMExplosion.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ICBMExplosion
 {
     public static final String NAME = Reference.NAME + " Explosion";
@@ -139,7 +136,7 @@ public class ICBMExplosion
     // @Optional.Method(modid = ID)
     public void preInit(FMLPreInitializationEvent event)
     {
-        NetworkRegistry.instance().registerGuiHandler(this, proxy);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(proxy);
         FlagRegistry.registerFlag("ban_ICBM");
@@ -208,23 +205,23 @@ public class ICBMExplosion
                     int z = blockSource.getZInt();
 
                     EnumFacing var3 = EnumFacing.getFront(blockSource.getBlockMetadata());
-                    World var4 = blockSource.getWorld();
                     double var5 = blockSource.getX() + var3.getFrontOffsetX() * 1.125F;
                     double var7 = blockSource.getY();
                     double var9 = blockSource.getZ() + var3.getFrontOffsetZ() * 1.125F;
                     int var11 = blockSource.getXInt() + var3.getFrontOffsetX();
                     int var12 = blockSource.getYInt();
                     int var13 = blockSource.getZInt() + var3.getFrontOffsetZ();
-                    int var14 = var4.getBlockId(var11, var12, var13);
+                    Block block = world.getBlock(var11, var12, var13);
                     double var15;
 
-                    if (BlockRailBase.isRailBlock(var14))
+                    if (block instanceof BlockRailBase)
                     {
                         var15 = 0.0D;
                     }
                     else
                     {
-                        if (var14 != 0 || !BlockRailBase.isRailBlock(var4.getBlockId(var11, var12 - 1, var13)))
+                        block = world.getBlock(var11, var12 - 1, var13);
+                        if (block !=null && block.isAir(world, var11, var12, var13) || block instanceof BlockRailBase)
                         {
                             return this.defaultItemDispenseBehavior.dispense(blockSource, itemStack);
                         }
@@ -320,15 +317,15 @@ public class ICBMExplosion
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 1), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 0), '!', UniversalRecipe.PRIMARY_METAL.get(), 'C', UniversalRecipe.CIRCUIT_T2.get() }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 2), new Object[] { "! !", "!C!", "!@!", '@', new ItemStack(blockMachine, 1, 1), '!', UniversalRecipe.PRIMARY_PLATE.get(), 'C', UniversalRecipe.CIRCUIT_T3.get() }));
         // Missile Launcher Panel
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T1.get(), '!', Block.glass, '?', UniversalRecipe.WIRE.get() }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 3), new Object[] { "!!!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T1.get(), '!', Blocks.glass, '?', UniversalRecipe.WIRE.get() }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 4), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T2.get(), '!', UniversalRecipe.PRIMARY_METAL.get(), '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 3) }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 5), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T3.get(), '!', Item.ingotGold, '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 4) }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 5), new Object[] { "!$!", "!#!", "!?!", '#', UniversalRecipe.CIRCUIT_T3.get(), '!', Items.gold_ingot, '?', UniversalRecipe.WIRE.get(), '$', new ItemStack(blockMachine, 1, 4) }));
         // Missile Launcher Support Frame
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 6), new Object[] { "! !", "!!!", "! !", '!', UniversalRecipe.SECONDARY_METAL.get() }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 7), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_METAL.get(), '@', new ItemStack(blockMachine, 1, 6) }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 8), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_PLATE.get(), '@', new ItemStack(blockMachine, 1, 7) }));
         // Radar Station
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Item.ingotGold }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Items.gold_ingot }));
         // EMP Tower
         RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipe.PRIMARY_PLATE.get(), '!', UniversalRecipe.CIRCUIT_T3.get(), '@', UniversalRecipe.BATTERY_BOX.get(), '#', UniversalRecipe.MOTOR.get(), 'W', UniversalRecipe.WIRE.get() }), "EMP Tower", Settings.CONFIGURATION, true);
         // Cruise Launcher
@@ -358,17 +355,17 @@ public class ICBMExplosion
             if (explosive.getTier() < 2)
             {
                 // Grenade
-                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemGrenade, 1, explosive.getID()), new Object[] { "?", "@", '@', new ItemStack(blockExplosive, 1, explosive.getID()), '?', Item.silk }), explosive.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
+                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemGrenade, 1, explosive.getID()), new Object[] { "?", "@", '@', new ItemStack(blockExplosive, 1, explosive.getID()), '?', Items.string }), explosive.getUnlocalizedName() + " Grenade", Settings.CONFIGURATION, true);
             }
             if (explosive.getTier() < 3)
             {
                 // Minecart
-                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, explosive.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, explosive.getID()), '@', Item.minecartEmpty }), explosive.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
+                RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(itemBombCart, 1, explosive.getID()), new Object[] { "?", "@", '?', new ItemStack(blockExplosive, 1, explosive.getID()), '@', Items.minecartEmpty }), explosive.getUnlocalizedName() + " Minecart", Settings.CONFIGURATION, true);
             }
         }
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void enteringChunk(EnteringChunk evt)
     {
         if (evt.entity instanceof EntityMissile)
@@ -377,7 +374,7 @@ public class ICBMExplosion
         }
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void creeperDeathEvent(LivingDeathEvent evt)
     {
         if (evt.entityLiving instanceof EntityCreeper)
@@ -403,19 +400,19 @@ public class ICBMExplosion
         }
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void creeperDropEvent(LivingDropsEvent evt)
     {
         if (evt.entityLiving instanceof EntityCreeper)
         {
             if (CREEPER_DROP_SULFER)
             {
-                evt.entityLiving.dropItem(ICBMCore.itemSulfurDust.itemID, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
+                evt.entityLiving.dropItem(ICBMCore.itemSulfurDust, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
             }
         }
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void preDetonationEvent(ExplosivePreDetonationEvent evt)
     {
         if (FlagRegistry.getModFlag() != null && evt.explosion instanceof Explosive)
@@ -428,7 +425,7 @@ public class ICBMExplosion
         }
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void preConstructionEvent(ExplosionConstructionEvent evt)
     {
         if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
@@ -441,7 +438,7 @@ public class ICBMExplosion
         }
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void preExplosionEvent(PreExplosionEvent evt)
     {
         if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)

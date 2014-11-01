@@ -10,11 +10,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
 import resonant.api.explosion.ExplosiveType;
@@ -22,21 +21,18 @@ import resonant.api.explosion.ILauncherContainer;
 import resonant.api.explosion.ILauncherController;
 import resonant.api.explosion.IMissile;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.multiblock.IMultiBlock;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.network.PacketHandler;
-import resonant.lib.prefab.tile.TileExternalInventory;
+import resonant.lib.multiblock.reference.IMultiBlock;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorHelper;
-
+import resonant.lib.content.prefab.java.TileInventory;
 import com.google.common.io.ByteArrayDataInput;
 
 /** This tile entity is for the base of the missile launcher
  * 
  * @author Calclavia */
-public class TileLauncherBase extends TileExternalInventory implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock, IBlockActivate
+public class TileLauncherBase extends TileInventory implements IPacketReceiver, ILauncherContainer, IRotatable, ITier, IMultiBlock
 {
     // The missile that this launcher is holding
     public IMissile missile = null;
@@ -61,18 +57,18 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     /** Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
      * uses this to count ticks and creates a new spawn inside its implementation. */
     @Override
-    public void updateEntity()
+    public void update()
     {
-        super.updateEntity();
+        super.update();
 
         if (this.supportFrame == null)
         {
             for (byte i = 2; i < 6; i++)
             {
                 Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-                position.translate(ForgeDirection.getOrientation(i));
+                position.add(ForgeDirection.getOrientation(i));
 
-                TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
+                TileEntity tileEntity = this.worldObj.getTileEntity(position.xi(), position.yi(), position.zi());
 
                 if (tileEntity instanceof TileLauncherFrame)
                 {
@@ -87,7 +83,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
             {
                 this.supportFrame = null;
             }
-            else if (this.packetGengXin || this.ticks % (20 * 30) == 0 && this.supportFrame != null && !this.worldObj.isRemote)
+            else if (this.packetGengXin || this.ticks() % (20 * 30) == 0 && this.supportFrame != null && !this.worldObj.isRemote)
             {
                 PacketHandler.sendPacketToClients(this.supportFrame.getDescriptionPacket());
             }
@@ -97,7 +93,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
         {
             this.setMissile();
 
-            if (this.packetGengXin || this.ticks % (20 * 30) == 0)
+            if (this.packetGengXin || this.ticks() % (20 * 30) == 0)
             {
                 PacketHandler.sendPacketToClients(this.getDescriptionPacket());
                 this.packetGengXin = false;
@@ -106,7 +102,7 @@ public class TileLauncherBase extends TileExternalInventory implements IPacketRe
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public PacketTile getDescPacket()
     {
         return ICBMCore.PACKET_TILE.getPacket(this, (byte) this.facingDirection.ordinal(), this.tier);
     }

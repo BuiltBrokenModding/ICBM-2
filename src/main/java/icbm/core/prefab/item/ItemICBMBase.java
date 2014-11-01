@@ -2,16 +2,16 @@ package icbm.core.prefab.item;
 
 import icbm.Reference;
 import icbm.TabICBM;
-import resonant.lib.prefab.item.ItemTooltip;
+import net.minecraft.item.Item;
+import resonant.content.prefab.itemblock.ItemTooltip;
 
 /** Prefab for ICBM items that sets the creative tab, texture name, and translation name
  * 
  * @author DarkGuardsman */
-public class ItemICBMBase extends ItemTooltip
+public class ItemICBMBase extends Item
 {
-    public ItemICBMBase(int id, String name)
+    public ItemICBMBase(String name)
     {
-        super(id);
         this.setUnlocalizedName(Reference.PREFIX + name);
         this.setCreativeTab(TabICBM.INSTANCE);
         this.setTextureName(Reference.PREFIX + name);
