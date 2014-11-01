@@ -38,6 +38,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 import resonant.content.loader.ModManager;
+import resonant.content.prefab.itemblock.ItemBlockMetadata;
 import resonant.engine.ResonantEngine;
 import resonant.lib.config.ConfigHandler;
 import resonant.lib.loadable.LoadableHandler;
@@ -113,8 +114,8 @@ public final class ICBMCore
         blockSulfurOre = contentRegistry.newBlock(BlockSulfurOre.class);
         blockGlassPlate = contentRegistry.newBlock(BlockGlassPressurePlate.class);
         blockGlassButton = contentRegistry.newBlock(BlockGlassButton.class);
-        blockProximityDetector = contentRegistry.newBlock(BlockProximityDetector.class, TileProximityDetector.class);
-        blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
+        blockProximityDetector = contentRegistry.newBlock(TileProximityDetector.class);
+        blockSpikes = contentRegistry.newBlock("ICBMSpikes",BlockSpikes.class, ItemBlockMetadata.class);
         blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
         blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);

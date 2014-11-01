@@ -7,37 +7,39 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockSpikes extends BlockICBM
 {
-    private Icon iconPoison, iconFlammable;
+    private IIcon iconPoison, iconFlammable;
 
-    public BlockSpikes(int id)
+    public BlockSpikes()
     {
-        super(id, "spikes", Material.cactus);
+        super("spikes", Material.cactus);
         this.setHardness(1.0F);
         this.setCreativeTab(TabICBM.INSTANCE);
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        super.registerIcons(iconRegister);
+        super.registerBlockIcons(iconRegister);
         this.iconPoison = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Poison");
         this.iconFlammable = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Flammable");
     }
@@ -59,7 +61,7 @@ public class BlockSpikes extends BlockICBM
 
     /** Returns the block texture based on the side being looked at. Args: side */
     @Override
-    public Icon getIcon(int par1, int metadata)
+    public IIcon getIcon(int par1, int metadata)
     {
         if (metadata == 2)
         {
@@ -116,27 +118,47 @@ public class BlockSpikes extends BlockICBM
     /** Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed
      * (coordinates passed are their own) Args: x, y, z, neighbor blockID */
     @Override
-    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block block)
     {
         if (!this.canBlockStay(par1World, par2, par3, par4))
         {
             this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-            par1World.setBlock(par2, par3, par4, 0, 0, 2);
+            par1World.setBlockToAir(par2, par3, par4);
         }
     }
 
     /** Can this block stay at this position. Similar to canPlaceBlockAt except gets checked often
      * with plants. */
     @Override
-    public boolean canBlockStay(World par1World, int par2, int par3, int par4)
+    public boolean canBlockStay(World w, int x, int y, int z)
     {
-        return par1World.isBlockSolidOnSide(par2 - 1, par3, par4, ForgeDirection.getOrientation(5)) || par1World.isBlockSolidOnSide(par2 + 1, par3, par4, ForgeDirection.getOrientation(4)) || par1World.isBlockSolidOnSide(par2, par3, par4 - 1, ForgeDirection.getOrientation(3)) || par1World.isBlockSolidOnSide(par2, par3, par4 + 1, ForgeDirection.getOrientation(2)) || par1World.isBlockSolidOnSide(par2, par3 + 1, par4, ForgeDirection.getOrientation(1)) || par1World.isBlockSolidOnSide(par2, par3 - 1, par4, ForgeDirection.getOrientation(0)) ||
-
-        par1World.getBlockId(par2 - 1, par3, par4) == Block.pistonExtension.blockID || par1World.getBlockId(par2 + 1, par3, par4) == Block.pistonExtension.blockID || par1World.getBlockId(par2, par3, par4 - 1) == Block.pistonExtension.blockID || par1World.getBlockId(par2, par3, par4 + 1) == Block.pistonExtension.blockID || par1World.getBlockId(par2, par3 + 1, par4) == Block.pistonExtension.blockID || par1World.getBlockId(par2, par3 - 1, par4) == Block.pistonExtension.blockID ||
-
-        par1World.getBlockId(par2 - 1, par3, par4) == Block.pistonBase.blockID || par1World.getBlockId(par2 + 1, par3, par4) == Block.pistonBase.blockID || par1World.getBlockId(par2, par3, par4 - 1) == Block.pistonBase.blockID || par1World.getBlockId(par2, par3, par4 + 1) == Block.pistonBase.blockID || par1World.getBlockId(par2, par3 + 1, par4) == Block.pistonBase.blockID || par1World.getBlockId(par2, par3 - 1, par4) == Block.pistonBase.blockID ||
-
-        par1World.getBlockId(par2 - 1, par3, par4) == Block.pistonStickyBase.blockID || par1World.getBlockId(par2 + 1, par3, par4) == Block.pistonStickyBase.blockID || par1World.getBlockId(par2, par3, par4 - 1) == Block.pistonStickyBase.blockID || par1World.getBlockId(par2, par3, par4 + 1) == Block.pistonStickyBase.blockID || par1World.getBlockId(par2, par3 + 1, par4) == Block.pistonStickyBase.blockID || par1World.getBlockId(par2, par3 - 1, par4) == Block.pistonStickyBase.blockID;
+        return w.isSideSolid(x - 1, y, z, ForgeDirection.getOrientation(5))
+                || w.isSideSolid(x + 1, y, z, ForgeDirection.getOrientation(4))
+                || w.isSideSolid(x, y, z - 1, ForgeDirection.getOrientation(3))
+                || w.isSideSolid(x, y, z + 1, ForgeDirection.getOrientation(2))
+                || w.isSideSolid(x, y + 1, z, ForgeDirection.getOrientation(1))
+                || w.isSideSolid(x, y - 1, z, ForgeDirection.getOrientation(0))
+                //Extended Piston
+                || w.getBlock(x - 1, y, z) == Blocks.piston_extension
+                || w.getBlock(x + 1, y, z) == Blocks.piston_extension
+                || w.getBlock(x, y, z - 1) == Blocks.piston_extension
+                || w.getBlock(x, y, z + 1) == Blocks.piston_extension
+                || w.getBlock(x, y + 1, z) == Blocks.piston_extension
+                || w.getBlock(x, y - 1, z) == Blocks.piston_extension
+                //Piston Check
+                || w.getBlock(x - 1, y, z) == Blocks.piston
+                || w.getBlock(x + 1, y, z) == Blocks.piston
+                || w.getBlock(x, y, z - 1) == Blocks.piston
+                || w.getBlock(x, y, z + 1) == Blocks.piston
+                || w.getBlock(x, y + 1, z) == Blocks.piston
+                || w.getBlock(x, y - 1, z) == Blocks.piston
+                //Sticky piston
+                || w.getBlock(x - 1, y, z) == Blocks.sticky_piston
+                || w.getBlock(x + 1, y, z) == Blocks.sticky_piston
+                || w.getBlock(x, y, z - 1) == Blocks.sticky_piston
+                || w.getBlock(x, y, z + 1) == Blocks.sticky_piston
+                || w.getBlock(x, y + 1, z) == Blocks.sticky_piston
+                || w.getBlock(x, y - 1, z) == Blocks.sticky_piston;
     }
 
     /** Triggered whenever an entity collides with this block (enters into the block). Args: world,
@@ -161,7 +183,7 @@ public class BlockSpikes extends BlockICBM
     }
 
     @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (int i = 0; i < 3; i++)
         {
