@@ -49,6 +49,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
         super(Material.iron);
         this.normalRender(true);
         this.canProvidePower(true);
+        this.useSidedTextures_$eq(true);
     }
 
     @Override
@@ -133,7 +134,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
     public boolean use(EntityPlayer player, int side, Vector3 hit)
     {
         if(!world().isRemote)
-            player.openGui(ICBMCore.INSTANCE, 0, world(), hit.x(), hit.y(), hit.z());
+            player.openGui(ICBMCore.INSTANCE, 0, world(), hit.xi(), hit.yi(), hit.zi());
         return false;
     }
 
