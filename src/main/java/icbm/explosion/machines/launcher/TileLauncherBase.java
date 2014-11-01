@@ -6,6 +6,8 @@ import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.items.ItemMissile;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,13 +23,19 @@ import resonant.api.explosion.ILauncherContainer;
 import resonant.api.explosion.ILauncherController;
 import resonant.api.explosion.IMissile;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.engine.ResonantEngine;
 import resonant.lib.multiblock.reference.IMultiBlock;
 import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.transform.vector.IVectorWorld;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.content.prefab.java.TileInventory;
 import com.google.common.io.ByteArrayDataInput;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** This tile entity is for the base of the missile launcher
  * 
@@ -47,11 +55,22 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
 
     private boolean packetGengXin = true;
 
+    public TileLauncherBase()
+    {
+        super(Material.iron);
+    }
+
     /** Returns the name of the inventory. */
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return LanguageUtility.getLocal("gui.launcherBase.name");
+    }
+
+    @Override
+    public boolean hasCustomInventoryName()
+    {
+        return true;
     }
 
     /** Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner
@@ -73,7 +92,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
                 if (tileEntity instanceof TileLauncherFrame)
                 {
                     this.supportFrame = (TileLauncherFrame) tileEntity;
-                    this.supportFrame.setDirection(VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
+                    // TODO this.supportFrame.setDirection(VectorHelper.getOrientationFromSide(ForgeDirection.getOrientation(i), ForgeDirection.NORTH));
                 }
             }
         }
@@ -85,7 +104,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
             }
             else if (this.packetGengXin || this.ticks() % (20 * 30) == 0 && this.supportFrame != null && !this.worldObj.isRemote)
             {
-                PacketHandler.sendPacketToClients(this.supportFrame.getDescriptionPacket());
+                ResonantEngine.instance.packetHandler.sendToAllAround(this.getDescPacket(), (IVectorWorld) this, 64);
             }
         }
 
@@ -95,7 +114,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
 
             if (this.packetGengXin || this.ticks() % (20 * 30) == 0)
             {
-                PacketHandler.sendPacketToClients(this.getDescriptionPacket());
+                ResonantEngine.instance.packetHandler.sendToAllAround(this.getDescPacket(), (IVectorWorld) this, 64);
                 this.packetGengXin = false;
             }
         }
@@ -104,22 +123,14 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
     @Override
     public PacketTile getDescPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, (byte) this.facingDirection.ordinal(), this.tier);
+        return new PacketTile(this, (byte) this.facingDirection.ordinal(), this.tier);
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
-        try
-        {
-
-            this.facingDirection = ForgeDirection.getOrientation(data.readByte());
-            this.tier = data.readInt();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        this.facingDirection = ForgeDirection.getOrientation(data.readByte());
+        this.tier = data.readInt();
     }
 
     public void setMissile()
@@ -144,7 +155,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
                             if (this.missile == null)
                             {
                                 Vector3 startingPosition = new Vector3((this.xCoord + 0.5f), (this.yCoord + 1.8f), (this.zCoord + 0.5f));
-                                this.missile = new EntityMissile(this.worldObj, startingPosition, new Vector3(this), explosiveID);
+                                this.missile = new EntityMissile(this.worldObj, startingPosition, new Vector3(x(), y(), z()), explosiveID);
                                 this.worldObj.spawnEntityInWorld((Entity) this.missile);
                                 return;
                             }
@@ -188,8 +199,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
 
         inaccuracy *= (float) Math.random() * 2 - 1;
 
-        target.x += inaccuracy;
-        target.z += inaccuracy;
+        target.addEquals(inaccuracy, 0, inaccuracy);
 
         this.decrStackSize(0, 1);
         this.missile.launch(target, gaoDu);
@@ -212,7 +222,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
     public boolean shiTaiJin(Vector3 target)
     {
         // Check if it is greater than the minimum range
-        if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < 10)
+        if (new Vector3(this.xCoord, 0, this.zCoord).subtract(new Vector3(target.x(), 0, target.z())).magnitude() < 10)
         {
             return true;
         }
@@ -223,24 +233,25 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
     // Is the target too far?
     public boolean shiTaiYuan(Vector3 target)
     {
+        double distance = new Vector3(this.xCoord, 0, this.zCoord).subtract(new Vector3(target.x(), 0, target.z())).magnitude();
         // Checks if it is greater than the maximum range for the launcher base
         if (this.tier == 0)
         {
-            if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < Settings.DAO_DAN_ZUI_YUAN / 10)
+            if (distance < Settings.DAO_DAN_ZUI_YUAN / 10)
             {
                 return false;
             }
         }
         else if (this.tier == 1)
         {
-            if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < Settings.DAO_DAN_ZUI_YUAN / 5)
+            if (distance < Settings.DAO_DAN_ZUI_YUAN / 5)
             {
                 return false;
             }
         }
         else if (this.tier == 2)
         {
-            if (Vector3.distance(new Vector3(this.xCoord, 0, this.zCoord), new Vector3(target.x, 0, target.z)) < Settings.DAO_DAN_ZUI_YUAN)
+            if (distance < Settings.DAO_DAN_ZUI_YUAN)
             {
                 return false;
             }
@@ -280,7 +291,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
     }
 
     @Override
-    public boolean onActivated(EntityPlayer player)
+    public boolean use(EntityPlayer player, int side, Vector3 hit)
     {
         if (player.inventory.getCurrentItem() != null)
         {
@@ -326,16 +337,28 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
     }
 
     @Override
-    public Vector3[] getMultiBlockVectors()
+    public List<Vector3> getMultiBlockVectors()
     {
+        List<Vector3> blocks = new ArrayList<Vector3>();
         if (this.facingDirection == ForgeDirection.SOUTH || this.facingDirection == ForgeDirection.NORTH)
         {
-            return new Vector3[] { new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0), new Vector3(-1, 0, 0), new Vector3(-1, 1, 0), new Vector3(-1, 2, 0) };
+            blocks.add(new Vector3(1, 0, 0));
+            blocks.add(new Vector3(1, 1, 0));
+            blocks.add(new Vector3(1, 2, 0));
+            blocks.add(new Vector3(-1, 0, 0));
+            blocks.add(new Vector3(-1, 1, 0));
+            blocks.add(new Vector3(-1, 2, 0));
         }
         else
         {
-            return new Vector3[] { new Vector3(0, 0, 1), new Vector3(0, 1, 1), new Vector3(0, 2, 1), new Vector3(0, 0, -1), new Vector3(0, 1, -1), new Vector3(0, 2, -1) };
+            blocks.add(new Vector3(0, 0, 1));
+            blocks.add(new Vector3(0, 1, 1));
+            blocks.add(new Vector3(0, 2, 1));
+            blocks.add(new Vector3(0, 0, -1));
+            blocks.add(new Vector3(0, 1, -1));
+            blocks.add(new Vector3(0, 2, -1));
         }
+        return blocks;
     }
 
     @Override
@@ -379,7 +402,7 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
     {
         for (byte i = 2; i < 6; i++)
         {
-            Vector3 position = new Vector3(this).translate(ForgeDirection.getOrientation(i));
+            Vector3 position = new Vector3(x(), y(), z()).add(ForgeDirection.getOrientation(i));
 
             TileEntity tileEntity = position.getTileEntity(this.worldObj);
 

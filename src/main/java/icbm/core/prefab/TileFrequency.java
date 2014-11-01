@@ -1,11 +1,17 @@
 package icbm.core.prefab;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import resonant.api.blocks.IBlockFrequency;
 
 public abstract class TileFrequency extends TileICBM implements IBlockFrequency
 {
     private int frequency = 0;
+
+    public TileFrequency(Material material)
+    {
+        super(material);
+    }
 
     @Override
     public int getFrequency()

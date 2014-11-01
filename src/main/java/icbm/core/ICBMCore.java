@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -38,17 +37,10 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
-
-import resonant.core.ResonantEngine;
+import resonant.content.loader.ModManager;
+import resonant.engine.ResonantEngine;
 import resonant.lib.config.ConfigHandler;
-import resonant.lib.content.ContentRegistry;
-import resonant.lib.modproxy.ProxyHandler;
-import resonant.lib.network.PacketHandler;
-import resonant.lib.network.PacketPlayerItem;
-import resonant.lib.network.PacketTile;
-import resonant.lib.prefab.item.ItemBlockMetadata;
-import resonant.lib.prefab.ore.OreGenBase;
-import resonant.lib.prefab.ore.OreGenerator;
+import resonant.lib.loadable.LoadableHandler;
 import resonant.lib.recipe.UniversalRecipe;
 import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.Loader;
@@ -61,7 +53,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -70,7 +61,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * 
  * @author Calclavia */
 @Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:ResonantInduction|Atomic;required-after:ResonantEngine")
-@NetworkMod(channels = Reference.CHANNEL, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 @ModstatInfo(prefix = "icbm", name = Reference.NAME, version = Reference.VERSION)
 public final class ICBMCore
 {
@@ -100,17 +90,14 @@ public final class ICBMCore
 
     public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
 
-    public static final PacketTile PACKET_TILE = new PacketTile(Reference.CHANNEL);
-    public static final PacketPlayerItem PACKET_ITEM = new PacketPlayerItem(Reference.CHANNEL);
+    public static final ModManager contentRegistry = new ModManager().setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
 
-    public static final ContentRegistry contentRegistry = new ContentRegistry(Settings.CONFIGURATION, Settings.idManager, Reference.NAME).setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
-
-    private ProxyHandler modproxies = new ProxyHandler();
+    private LoadableHandler modproxies = new LoadableHandler();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        NetworkRegistry.instance().registerGuiHandler(this, proxy);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
         Modstats.instance().getReporter().registerMod(INSTANCE);
         MinecraftForge.EVENT_BUS.register(INSTANCE);
@@ -118,17 +105,15 @@ public final class ICBMCore
         // MODULES TO LOAD INTO MOD PHASE
         modproxies.applyModule(Waila.class, true);
 
-        LOGGER.fine("Loaded " + LanguageUtility.loadLanguages(icbm.Reference.LANGUAGE_PATH, icbm.Reference.LANGUAGES) + " languages.");
-
         Settings.CONFIGURATION.load();
 
         ResonantEngine.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
         // Blocks       
-        blockSulfurOre = contentRegistry.createBlock(BlockSulfurOre.class);
-        blockGlassPlate = contentRegistry.createBlock(BlockGlassPressurePlate.class);
-        blockGlassButton = contentRegistry.createBlock(BlockGlassButton.class);
-        blockProximityDetector = contentRegistry.createTile(BlockProximityDetector.class, TileProximityDetector.class);
+        blockSulfurOre = contentRegistry.newBlock(BlockSulfurOre.class);
+        blockGlassPlate = contentRegistry.newBlock(BlockGlassPressurePlate.class);
+        blockGlassButton = contentRegistry.newBlock(BlockGlassButton.class);
+        blockProximityDetector = contentRegistry.newBlock(BlockProximityDetector.class, TileProximityDetector.class);
         blockSpikes = contentRegistry.createBlock(BlockSpikes.class, ItemBlockMetadata.class);
         blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
         blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);

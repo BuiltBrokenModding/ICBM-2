@@ -1,19 +1,26 @@
 package icbm.explosion.machines.launcher;
 
 import icbm.core.ICBMCore;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
-import resonant.lib.multiblock.IMultiBlock;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.prefab.tile.TileAdvanced;
-import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
+import resonant.content.prefab.java.TileAdvanced;
+import resonant.lib.multiblock.reference.IMultiBlock;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.network.netty.AbstractPacket;
+import resonant.lib.transform.vector.Vector3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** This tile entity is for the screen of the missile launcher
  * 
@@ -24,8 +31,13 @@ public class TileLauncherFrame extends TileAdvanced implements IPacketReceiver, 
     private int tier = 0;
     private byte orientation = 3;
 
+    public TileLauncherFrame()
+    {
+        super(Material.iron);
+    }
+
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType packet)
     {
         try
         {
@@ -39,9 +51,9 @@ public class TileLauncherFrame extends TileAdvanced implements IPacketReceiver, 
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public PacketTile getDescPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, this.orientation, this.getTier());
+        return new PacketTile(this, this.orientation, this.getTier());
     }
 
     /** Gets the inaccuracy of the missile based on the launcher support frame's tier */
@@ -96,9 +108,12 @@ public class TileLauncherFrame extends TileAdvanced implements IPacketReceiver, 
     }
 
     @Override
-    public Vector3[] getMultiBlockVectors()
+    public List<Vector3> getMultiBlockVectors()
     {
-        return new Vector3[] { new Vector3(0, 1, 0), new Vector3(0, 2, 0) };
+        List<Vector3> list = new ArrayList<Vector3>();
+        list.add(new Vector3(0, 1, 0));
+        list.add(new Vector3(0, 2, 0));
+        return list;
     }
 
     @Override

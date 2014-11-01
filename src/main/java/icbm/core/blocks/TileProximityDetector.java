@@ -8,25 +8,26 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRedstoneProvider;
-import resonant.lib.network.IPacketReceiver;
-import universalelectricity.api.electricity.IVoltageInput;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.transform.vector.Vector3;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
-
-public class TileProximityDetector extends TileFrequency implements IRedstoneProvider, IPacketReceiver, IVoltageInput
+public class TileProximityDetector extends TileFrequency implements IRedstoneProvider, IPacketReceiver
 {
     private static final int MAX_DISTANCE = 30;
 
@@ -45,35 +46,30 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
 
     public TileProximityDetector()
     {
-        setEnergyHandler(new EnergyStorageHandler(20000, 50));
+        super(Material.iron);
+        this.normalRender(true);
+        this.canProvidePower(true);
     }
 
     @Override
-    public void initiate()
+    public void update()
     {
-        super.initiate();
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-    }
-
-    @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
+        super.update();
 
         if (!this.worldObj.isRemote)
         {
-            if (this.ticks % 20 == 0)
+            if (this.ticks() % 20 == 0)
             {
-                for (EntityPlayer wanJia : this.yongZhe)
+                for (EntityPlayer player : this.yongZhe)
                 {
-                    PacketDispatcher.sendPacketToPlayer(this.getDescriptionPacket(), (Player) wanJia);
+                    ResonantEngine.instance.packetHandler.sendToPlayer(this.getDescPacket(), (EntityPlayerMP) player);
                 }
 
                 boolean isDetectThisCheck = false;
 
-                if (this.getEnergyHandler().checkExtract())
+                if (this.energy().checkExtract())
                 {
-                    AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x, this.yCoord - minCoord.y, this.zCoord - minCoord.z, this.xCoord + maxCoord.x + 1D, this.yCoord + maxCoord.y + 1D, this.zCoord + maxCoord.z + 1D);
+                    AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x(), this.yCoord - minCoord.y(), this.zCoord - minCoord.z(), this.xCoord + maxCoord.x() + 1D, this.yCoord + maxCoord.y() + 1D, this.zCoord + maxCoord.z() + 1D);
                     List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                     for (EntityLivingBase entity : entitiesNearby)
@@ -120,13 +116,13 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
                         }
                     }
 
-                    this.getEnergyHandler().extractEnergy();
+                    this.energy().extractEnergy();
                 }
 
                 if (isDetectThisCheck != this.isDetect)
                 {
                     this.isDetect = isDetectThisCheck;
-                    this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
+                    this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
                 }
 
             }
@@ -134,13 +130,32 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public boolean use(EntityPlayer player, int side, Vector3 hit)
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.getEnergyHandler().getEnergy(), getFrequency(), this.mode, this.isInverted, this.minCoord.intX(), this.minCoord.intY(), this.minCoord.intZ(), this.maxCoord.intX(), this.maxCoord.intY(), this.maxCoord.intZ());
+        if(!world().isRemote)
+            player.openGui(ICBMCore.INSTANCE, 0, world(), hit.x(), hit.y(), hit.z());
+        return false;
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public boolean configure(EntityPlayer player,int side, Vector3 hit)
+    {
+        isInverted = !isInverted;
+        if(!worldObj.isRemote)
+        {
+            player.addChatMessage(new ChatComponentText("Proximity Detector Inversion: " + isInverted));
+        }
+        return true;
+    }
+
+    @Override
+    public PacketTile getDescPacket()
+    {
+        return new PacketTile(this, 0, this.energy().getEnergy(), getFrequency(), this.mode, this.isInverted, this.minCoord.xi(), this.minCoord.yi(), this.minCoord.zi(), this.maxCoord.xi(), this.maxCoord.yi(), this.maxCoord.zi());
+    }
+
+    @Override
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
         try
         {
@@ -148,7 +163,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
             {
                 case 0:
                 {
-                    this.setEnergy(ForgeDirection.UNKNOWN, data.readLong());
+                    this.energy().setEnergy(data.readDouble());
                     this.setFrequency(data.readInt());
                     this.mode = data.readByte();
                     this.isInverted = data.readBoolean();
@@ -210,8 +225,8 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
         nbt.setByte("mode", this.mode);
         nbt.setBoolean("isInverted", this.isInverted);
 
-        nbt.setCompoundTag("minCoord", this.minCoord.writeToNBT(new NBTTagCompound()));
-        nbt.setCompoundTag("maxCoord", this.maxCoord.writeToNBT(new NBTTagCompound()));
+        nbt.setTag("minCoord", this.minCoord.writeNBT(new NBTTagCompound()));
+        nbt.setTag("maxCoord", this.maxCoord.writeNBT(new NBTTagCompound()));
     }
 
     @Override
@@ -225,17 +240,4 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
     {
         return this.isDetect;
     }
-
-    @Override
-    public long getVoltageInput(ForgeDirection direction)
-    {
-        return 240;
-    }
-
-    @Override
-    public void onWrongVoltage(ForgeDirection direction, long voltage)
-    {
-
-    }
-
 }
