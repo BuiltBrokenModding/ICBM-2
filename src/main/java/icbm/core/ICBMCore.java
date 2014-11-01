@@ -28,9 +28,11 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -42,6 +44,7 @@ import resonant.content.prefab.itemblock.ItemBlockMetadata;
 import resonant.engine.ResonantEngine;
 import resonant.lib.config.ConfigHandler;
 import resonant.lib.loadable.LoadableHandler;
+import resonant.lib.ore.OreGenerator;
 import resonant.lib.recipe.UniversalRecipe;
 import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.Loader;
@@ -115,20 +118,20 @@ public final class ICBMCore
         blockGlassPlate = contentRegistry.newBlock(BlockGlassPressurePlate.class);
         blockGlassButton = contentRegistry.newBlock(BlockGlassButton.class);
         blockProximityDetector = contentRegistry.newBlock(TileProximityDetector.class);
-        blockSpikes = contentRegistry.newBlock("ICBMSpikes",BlockSpikes.class, ItemBlockMetadata.class);
-        blockCamo = contentRegistry.createBlock(BlockCamouflage.class);
-        blockConcrete = contentRegistry.createBlock(BlockConcrete.class, ItemBlockMetadata.class);
-        blockReinforcedGlass = contentRegistry.createBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
-        blockCombatRail = contentRegistry.createBlock(BlockReinforcedRail.class);
+        blockSpikes = contentRegistry.newBlock(BlockSpikes.class, ItemBlockMetadata.class);
+        blockCamo = contentRegistry.newBlock(BlockCamouflage.class);
+        blockConcrete = contentRegistry.newBlock(BlockConcrete.class, ItemBlockMetadata.class);
+        blockReinforcedGlass = contentRegistry.newBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
+        blockCombatRail = contentRegistry.newBlock(BlockReinforcedRail.class);
         //blockBox = contentRegistry.newBlock(TileBox.class); TODO Enable, disabled as to allow to release a stable ICBM for 1.6
 
         // ITEMS
-        itemPoisonPowder = contentRegistry.createItem(ItemPoisonPowder.class);
-        itemSulfurDust = contentRegistry.createItem(ItemSulfurDust.class);
-        itemAntidote = contentRegistry.createItem(ItemAntidote.class);
-        itemSignalDisrupter = contentRegistry.createItem(ItemSignalDisrupter.class);
-        itemTracker = contentRegistry.createItem(ItemTracker.class);
-        itemHackingComputer = contentRegistry.createItem(ItemComputer.class);
+        itemPoisonPowder = contentRegistry.newItem(ItemPoisonPowder.class);
+        itemSulfurDust = contentRegistry.newItem(ItemSulfurDust.class);
+        itemAntidote = contentRegistry.newItem(ItemAntidote.class);
+        itemSignalDisrupter = contentRegistry.newItem(ItemSignalDisrupter.class);
+        itemTracker = contentRegistry.newItem(ItemTracker.class);
+        itemHackingComputer = contentRegistry.newItem(ItemComputer.class);
 
         sulfurGenerator = new OreGeneratorICBM("Sulfur Ore", "oreSulfur", new ItemStack(blockSulfurOre), 0, 40, 20, 4).enable(Settings.CONFIGURATION);
 
@@ -140,12 +143,12 @@ public final class ICBMCore
         }
         else
         {
-            blockRadioactive = Block.mycelium;
+            blockRadioactive = Blocks.mycelium;
         }
 
         /** Decrease Obsidian Resistance */
-        Block.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
-        LOGGER.fine("Changed obsidian explosive resistance to: " + Block.obsidian.getExplosionResistance(null));
+        Blocks.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
+        LOGGER.fine("Changed obsidian explosive resistance to: " + Blocks.obsidian.getExplosionResistance(null));
 
         OreDictionary.registerOre("dustSulfur", new ItemStack(itemSulfurDust, 1, 0));
         OreDictionary.registerOre("dustSaltpeter", new ItemStack(itemSulfurDust, 1, 1));
