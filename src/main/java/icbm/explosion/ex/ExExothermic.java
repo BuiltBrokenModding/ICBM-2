@@ -5,11 +5,12 @@ import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastExothermic;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 public class ExExothermic extends Explosion
 {
@@ -26,13 +27,13 @@ public class ExExothermic extends Explosion
     public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
     {
         super.onYinZha(worldObj, position, fuseTicks);
-        worldObj.spawnParticle("lava", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
+        worldObj.spawnParticle("lava", position.x(), position.y() + 0.5D, position.z(), 0.0D, 0.0D, 0.0D);
     }
 
     @Override
     public void init()
     {
-        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Block.glass, '!', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "!!!", "!@!", "!!!", '@', Blocks.glass, '!', Explosive.incendiary.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override

@@ -30,14 +30,13 @@ import icbm.explosion.ex.missiles.MissileNuclearCluster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelCustom;
 import resonant.api.explosion.IExplosive;
-import resonant.lib.flag.FlagRegistry;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -132,7 +131,7 @@ public abstract class Explosive implements IExplosive
     /** The fuse of this explosive */
     private int fuseTime;
     /** The flag name of this explosive */
-    public final String flagName;
+    //public final String flagName;
     /** Is this explosive disabled? */
     protected boolean isDisabled;
     /** Is this explosive able to be pushed by other explosions? */
@@ -154,7 +153,7 @@ public abstract class Explosive implements IExplosive
         this.hasGrenade = this.tier <= 1;
         this.hasMinecart = this.tier <= 2;
 
-        this.flagName = FlagRegistry.registerFlag("ban_" + this.nameID);
+        //TODO this.flagName = FlagRegistry.registerFlag("ban_" + this.nameID);
         this.isDisabled = Settings.CONFIGURATION.get("Disable_Explosives", "Disable " + this.nameID, false).getBoolean(false);
 
     }
@@ -235,7 +234,7 @@ public abstract class Explosive implements IExplosive
      * @param fuseTicks - The amount of ticks this explosive is on fuse */
     public void onYinZha(World world, Vector3 position, int fuseTicks)
     {
-        world.spawnParticle("smoke", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
+        world.spawnParticle("smoke", position.x(), position.y() + 0.5D, position.z(), 0.0D, 0.0D, 0.0D);
     }
 
     /** Called when the block for of this explosive is destroy by an explosion
@@ -262,7 +261,7 @@ public abstract class Explosive implements IExplosive
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon()
+    public IIcon getIcon()
     {
         return null;
     }
@@ -335,9 +334,10 @@ public abstract class Explosive implements IExplosive
      * @return true if it is banned */
     public boolean isBannedInRegion(World world, double x, double y, double z)
     {
-        boolean flag_all = FlagRegistry.getModFlag().getFlagWorld(world).containsValue("ban_ICBM", "true", new Vector3(x, y, z));
-        boolean flag_missile = FlagRegistry.getModFlag().getFlagWorld(world).containsValue(this.flagName, "true", new Vector3(x, y, z));
+        //boolean flag_all = FlagRegistry.getModFlag().getFlagWorld(world).containsValue("ban_ICBM", "true", new Vector3(x, y, z));
+        //boolean flag_missile = FlagRegistry.getModFlag().getFlagWorld(world).containsValue(this.flagName, "true", new Vector3(x, y, z));
 
-        return flag_all || flag_missile;
+        //return flag_all || flag_missile;
+        return false;
     }
 }

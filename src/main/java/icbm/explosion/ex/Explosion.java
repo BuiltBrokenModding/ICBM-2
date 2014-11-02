@@ -10,6 +10,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.ModelFormatException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import resonant.lib.network.netty.ResonantChannelHandler;
 
 public abstract class Explosion extends Explosive
 {
@@ -67,7 +68,7 @@ public abstract class Explosion extends Explosive
         try
         {
             if (this.model == null)
-                model = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + this.modelName);
+                model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_DIRECTORY + this.modelName));
         }
         catch (ModelFormatException e)
         {

@@ -4,18 +4,16 @@ import icbm.sentry.interfaces.IWeaponProvider;
 import icbm.sentry.turret.block.TileTurret;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import resonant.lib.prefab.tile.TileElectricalInventory;
+import net.minecraftforge.common.util.ForgeDirection;
+import resonant.api.electric.EnergyStorage;
+import resonant.api.electric.IEnergyContainer;
+import resonant.lib.grid.Compatibility;
 import resonant.lib.utility.MathUtility;
-import universalelectricity.api.CompatibilityModule;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.energy.IEnergyContainer;
-import universalelectricity.api.vector.Vector3;
-
+import resonant.lib.content.prefab.java.TileElectricInventory;
 /** Turret Platform
  * 
  * @author DarkGuardsman */
-public class TileTurretPlatform extends TileElectricalInventory
+public class TileTurretPlatform extends TileElectricInventory
 {
     private TileTurret[] turrets = new TileTurret[6];
 
@@ -24,23 +22,23 @@ public class TileTurretPlatform extends TileElectricalInventory
     public TileTurretPlatform()
     {
         super();
-        maxSlots = 20;
+        this.setSizeInventory(20);
     }
 
     @Override
-    public void updateEntity()
+    public void update()
     {
-        super.updateEntity();
+        super.update();
 
         /** Consume electrical items. */
         if (!this.worldObj.isRemote)
         {
             for (int i = 0; i < this.getSizeInventory(); i++)
             {
-                if (this.getStackInSlot(i) != null && CompatibilityModule.isHandler(this.getStackInSlot(i).getItem()))
+                if (this.getStackInSlot(i) != null && Compatibility.isHandler(this.getStackInSlot(i).getItem(), ForgeDirection.UNKNOWN))
                 {
-                    long charge = CompatibilityModule.dischargeItem(this.getStackInSlot(i), Integer.MAX_VALUE, false);
-                    CompatibilityModule.dischargeItem(this.getStackInSlot(i), this.onReceiveEnergy(ForgeDirection.UNKNOWN, charge, true), true);
+                    double charge = Compatibility.dischargeItem(this.getStackInSlot(i), Integer.MAX_VALUE, false);
+                    Compatibility.dischargeItem(this.getStackInSlot(i), this.onReceiveEnergy(ForgeDirection.UNKNOWN, charge, true), true);
                 }
             }
         }
@@ -60,12 +58,6 @@ public class TileTurretPlatform extends TileElectricalInventory
     public TileTurret getTurret(ForgeDirection side)
     {
         return turrets[side.ordinal()];
-    }
-
-    @Override
-    public boolean canConnect(ForgeDirection direction, Object source)
-    {
-        return true;
     }
 
     @Override
@@ -90,7 +82,7 @@ public class TileTurretPlatform extends TileElectricalInventory
     }
 
     @Override
-    public EnergyStorageHandler getEnergyHandler()
+    public EnergyStorage getEnergyHandler()
     {
         for (TileTurret turretTile : turrets)
         {
@@ -100,12 +92,6 @@ public class TileTurretPlatform extends TileElectricalInventory
             }
         }
         return super.getEnergyHandler();
-    }
-
-    @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract)
-    {
-        return 0;
     }
 
     @Override

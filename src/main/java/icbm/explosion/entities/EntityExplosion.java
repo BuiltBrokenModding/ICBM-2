@@ -1,22 +1,23 @@
 package icbm.explosion.entities;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.blast.Blast;
 
 import java.lang.reflect.Constructor;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import resonant.api.explosion.IEntityExplosion;
-import resonant.lib.network.PacketHandler;
-import universalelectricity.api.vector.IVectorWorld;
-import universalelectricity.api.vector.VectorWorld;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import resonant.lib.transform.vector.IVectorWorld;
+import resonant.lib.transform.vector.VectorWorld;
 
 /** The Entity handler responsible for entity explosions.
  * 
@@ -42,41 +43,27 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
     {
         this(blast.world());
         this.blast = blast;
-        this.setPosition(blast.position.x, blast.position.y, blast.position.z);
+        this.setPosition(blast.position.x(), blast.position.y(), blast.position.z());
     }
 
-    @Override
+
     public String getEntityName()
     {
         return "Explosion";
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
-        try
-        {
-            NBTTagCompound nbt = new NBTTagCompound();
-            this.writeEntityToNBT(nbt);
-            PacketHandler.writeNBTTagCompound(nbt, data);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        NBTTagCompound nbt = new NBTTagCompound();
+        this.writeEntityToNBT(nbt);
+        ByteBufUtils.writeTag(data, nbt);
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
-        try
-        {
-            this.readEntityFromNBT(PacketHandler.readNBTTagCompound(data));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        this.readEntityFromNBT(ByteBufUtils.readTag(data));
     }
 
     @Override
@@ -173,7 +160,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         NBTTagCompound baoZhaNBT = new NBTTagCompound();
         baoZhaNBT.setString("class", this.blast.getClass().getCanonicalName());
         this.blast.writeToNBT(baoZhaNBT);
-        nbt.setCompoundTag("blast", baoZhaNBT);
+        nbt.setTag("blast", baoZhaNBT);
     }
 
     @Override
