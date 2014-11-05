@@ -3,7 +3,6 @@ package icbm.explosion.ex;
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastExothermic;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

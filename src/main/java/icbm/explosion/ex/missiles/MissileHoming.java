@@ -8,8 +8,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import resonant.api.items.IItemTracker;
-import universalelectricity.api.vector.Vector2;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector2;
+import resonant.lib.transform.vector.Vector3;
 
 public class MissileHoming extends Missile
 {

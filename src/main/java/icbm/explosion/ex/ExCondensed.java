@@ -2,9 +2,9 @@ package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastRepulsive;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
@@ -21,7 +21,7 @@ public class ExCondensed extends Explosion
     @Override
     public void init()
     {
-        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Block.tnt, '?', Item.redstone }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(3), new Object[] { "@?@", '@', Blocks.tnt, '?', Items.redstone }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override

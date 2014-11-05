@@ -2,9 +2,9 @@ package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastRegen;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
@@ -20,7 +20,7 @@ public class ExRejuvenation extends Explosion
     @Override
     public void init()
     {
-        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Block.blockDiamond, 'C', Item.pocketSundial, 'I', Block.blockIron }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "ICI", "CDC", "ICI", 'D', Blocks.diamond_block, 'C', Items.clock, 'I', Blocks.iron_block }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override

@@ -5,29 +5,32 @@ import icbm.core.prefab.item.ItemICBMBase;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import javax.swing.Icon;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSulfurDust extends ItemICBMBase
 {
     @SideOnly(Side.CLIENT)
-    Icon salt_icon;
+    IIcon salt_icon;
 
     public ItemSulfurDust(int id)
     {
         // Base name that we return.
-        super(id, "sulfur");
+        super("sulfur");
         
         // Tell minecraft we have multiple types of items based on damage.
         this.setHasSubtypes(true);
     }
 
     @Override
-    public Icon getIconFromDamage(int meta)
+    public IIcon getIconFromDamage(int meta)
     {
         // Damage value of 1 is saltpeter.
         if (meta == 1)
@@ -39,7 +42,7 @@ public class ItemSulfurDust extends ItemICBMBase
     }
 
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         super.registerIcons(iconRegister);
         
@@ -62,7 +65,7 @@ public class ItemSulfurDust extends ItemICBMBase
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         super.getSubItems(par1, par2CreativeTabs, par3List);
         par3List.add(new ItemStack(par1, 1, 1));

@@ -2,7 +2,7 @@ package icbm.sentry.interfaces;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /** Render class that handles how the sentry renders when hosted by another object
  * 

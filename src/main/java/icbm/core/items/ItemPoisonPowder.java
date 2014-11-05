@@ -1,6 +1,6 @@
 package icbm.core.items;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;
 
@@ -8,11 +8,11 @@ public class ItemPoisonPowder extends ItemICBMBase
 {
     public ItemPoisonPowder(int id)
     {
-        super(id, "poisonPowder");
+        super("poisonPowder");
     }
 
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         super.registerIcons(iconRegister);
         

@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 public class ExAntimatter extends Explosion
 {
@@ -30,7 +30,7 @@ public class ExAntimatter extends Explosion
 
         if (fuseTicks % 25 == 0)
         {
-            worldObj.playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "alarm", 4F, 1F);
+            worldObj.playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "alarm", 4F, 1F);
         }
     }
 

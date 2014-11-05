@@ -8,7 +8,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import resonant.api.ai.ITarget;
 import resonant.api.ai.ITarget.TargetType;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 /** Antiballistic missile.
  * 

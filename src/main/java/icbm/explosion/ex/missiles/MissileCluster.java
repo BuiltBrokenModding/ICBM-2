@@ -5,7 +5,7 @@ import icbm.explosion.entities.EntityMissile.MissileType;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 /** @author Calclavia */
 public class MissileCluster extends Missile

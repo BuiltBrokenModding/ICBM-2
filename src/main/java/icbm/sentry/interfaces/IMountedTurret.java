@@ -1,7 +1,6 @@
 package icbm.sentry.interfaces;
 
 import icbm.sentry.turret.EntityMountableDummy;
-import universalelectricity.api.vector.IVector3;
 import net.minecraft.entity.Entity;
 
 /** @author DarkGuardsman */

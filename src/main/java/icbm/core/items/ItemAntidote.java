@@ -2,7 +2,7 @@ package icbm.core.items;
 
 import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ public class ItemAntidote extends ItemICBMBase
 {
     public ItemAntidote(int id)
     {
-        super(id, "antidote");
+        super("antidote");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ItemAntidote extends ItemICBMBase
     }
     
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         super.registerIcons(iconRegister);
         

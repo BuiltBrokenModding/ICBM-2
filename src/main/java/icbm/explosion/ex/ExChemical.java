@@ -4,7 +4,7 @@ import icbm.Settings;
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.blast.BlastChemical;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
@@ -34,7 +34,7 @@ public class ExChemical extends Explosion
         }
         else if (this.getTier() == 2)
         {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Item.rottenFlesh, '@', chemical.getItemStack() }), "Contagious", Settings.CONFIGURATION, true);
+            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(2), new Object[] { " @ ", "@?@", " @ ", '?', Items.rotten_flesh, '@', chemical.getItemStack() }), "Contagious", Settings.CONFIGURATION, true);
         }
     }
 
