@@ -14,3 +14,4 @@ eclipse/
 *.ipr
 *.idea/
 output/
+*.bat
