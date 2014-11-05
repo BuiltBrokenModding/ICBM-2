@@ -2,8 +2,8 @@ package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastEMP;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
@@ -26,6 +26,6 @@ public class ExEMP extends Explosion
     @Override
     public void init()
     {
-        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', replsive.getItemStack(), 'R', Block.blockRedstone, 'B', UniversalRecipe.BATTERY.get() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "RBR", "BTB", "RBR", 'T', replsive.getItemStack(), 'R', Blocks.redstone_block, 'B', UniversalRecipe.BATTERY.get() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 }

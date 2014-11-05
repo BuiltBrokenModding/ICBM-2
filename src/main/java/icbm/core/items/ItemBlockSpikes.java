@@ -2,13 +2,13 @@ package icbm.core.items;
 
 import icbm.Reference;
 import net.minecraft.item.ItemStack;
-import resonant.lib.prefab.item.ItemBlockTooltip;
+import resonant.content.prefab.itemblock.ItemTooltip;
 
-public class ItemBlockSpikes extends ItemBlockTooltip
+public class ItemBlockSpikes extends ItemTooltip
 {
     public ItemBlockSpikes(int par1)
     {
-        super(par1);
+        super();
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }

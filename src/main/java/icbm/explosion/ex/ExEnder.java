@@ -12,9 +12,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.api.explosion.IExplosiveContainer;
+import resonant.api.mffs.card.ICoordLink;
 import resonant.lib.recipe.RecipeUtility;
-import universalelectricity.api.vector.Vector3;
-import calclavia.api.mffs.card.ICoordLink;
+import resonant.lib.transform.vector.Vector3;
 
 public class ExEnder extends Explosion
 {
@@ -36,11 +36,11 @@ public class ExEnder extends Explosion
 
                 if (link != null)
                 {
-                    TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+                    TileEntity tileEntity = world.getTileEntity(x, y, z);
 
                     if (tileEntity instanceof TileExplosive)
                     {
-                        link.writeToNBT(((TileExplosive) tileEntity).nbtData);
+                        link.writeNBT(((TileExplosive) tileEntity).nbtData);
 
                         if (!world.isRemote)
                         {
@@ -67,7 +67,7 @@ public class ExEnder extends Explosion
 
                 if (link != null)
                 {
-                    link.writeToNBT(missileObj.nbtData);
+                    link.writeNBT(missileObj.nbtData);
                     if (!missileObj.worldObj.isRemote)
                     {
                         entityPlayer.addChatMessage("Synced coordinate with " + this.getMissileName());

@@ -6,7 +6,7 @@ import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastNuclear;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 public class MissileNuclearCluster extends MissileCluster
 {

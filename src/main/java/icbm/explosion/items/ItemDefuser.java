@@ -7,11 +7,11 @@ import icbm.explosion.entities.EntityExplosive;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import resonant.lib.utility.LanguageUtility;
@@ -23,7 +23,7 @@ public class ItemDefuser extends ItemICBMElectrical
 
     public ItemDefuser(int id)
     {
-        super(id, "defuser");
+        super("defuser");
     }
 
     /** Called when the player Left Clicks (attacks) an entity. Processed before damage is done, if
@@ -58,7 +58,7 @@ public class ItemDefuser extends ItemICBMElectrical
             {
                 if (!entity.worldObj.isRemote)
                 {
-                    EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Block.tnt));
+                    EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Blocks.tnt));
                     float var13 = 0.05F;
                     Random random = new Random();
                     entityItem.motionX = ((float) random.nextGaussian() * var13);

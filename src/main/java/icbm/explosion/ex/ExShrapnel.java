@@ -3,9 +3,9 @@ package icbm.explosion.ex;
 import icbm.Settings;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.blast.BlastShrapnel;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
@@ -34,11 +34,11 @@ public class ExShrapnel extends Explosion
     {
         if (this.getID() == Explosive.shrapnel.getID())
         {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', replsive.getItemStack(), '?', Item.arrow }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "???", "?@?", "???", '@', replsive.getItemStack(), '?', Items.arrow }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
         }
         else if (this.getID() == Explosive.anvil.getID())
         {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Block.anvil, 'S', Explosive.shrapnel.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(10), new Object[] { "SSS", "SAS", "SSS", 'A', Blocks.anvil, 'S', Explosive.shrapnel.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
         }
         else if (this.getID() == Explosive.fragmentation.getID())
         {

@@ -1,7 +1,6 @@
 package icbm.sentry.interfaces;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.world.World;
 import resonant.lib.transform.vector.IVector3;
 import resonant.lib.transform.vector.IVectorWorld;
 

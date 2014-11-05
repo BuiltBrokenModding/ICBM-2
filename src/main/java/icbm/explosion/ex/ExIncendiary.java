@@ -3,11 +3,11 @@ package icbm.explosion.ex;
 import icbm.Settings;
 import icbm.explosion.explosive.blast.BlastFire;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.lib.recipe.RecipeUtility;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 public class ExIncendiary extends Explosion
 {
@@ -20,14 +20,14 @@ public class ExIncendiary extends Explosion
     @Override
     public void init()
     {
-        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', "dustSulfur", '?', replsive.getItemStack(), '!', Item.bucketLava }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@!@", '@', "dustSulfur", '?', replsive.getItemStack(), '!', Items.lava_bucket }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @Override
     public void onYinZha(World worldObj, Vector3 position, int fuseTicks)
     {
         super.onYinZha(worldObj, position, fuseTicks);
-        worldObj.spawnParticle("lava", position.x, position.y + 0.5D, position.z, 0.0D, 0.0D, 0.0D);
+        worldObj.spawnParticle("lava", position.x(), position.y() + 0.5D, position.z(), 0.0D, 0.0D, 0.0D);
     }
 
     @Override

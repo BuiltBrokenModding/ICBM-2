@@ -8,6 +8,7 @@ import icbm.explosion.explosive.TileExplosive;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,7 +31,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
 
     public ItemRemoteDetonator(int id)
     {
-        super(id, "remoteDetonator");
+        super("remoteDetonator");
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
     @Override
     public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int par7, float par8, float par9, float par10)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (entityPlayer.isSneaking() && tileEntity != null)
         {
@@ -96,15 +97,15 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
                 if (objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
                 {
 
-                    TileEntity tileEntity = world.getBlockTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-                    int blockID = world.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
-                    TileEntity tile = world.getBlockTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+                    TileEntity tileEntity = world.getTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+                    Block blockID = world.getBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+                    TileEntity tile = world.getTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 
                     if (tile != null)
                     {
                         if (tile instanceof TileExplosive)
                         {
-                            if (blockID == ICBMExplosion.blockMachine.blockID)
+                            if (blockID == ICBMExplosion.blockMachine)
                             {
                                 return itemStack;
                             }

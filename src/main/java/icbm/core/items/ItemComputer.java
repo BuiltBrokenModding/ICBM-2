@@ -1,18 +1,18 @@
 package icbm.core.items;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import icbm.Reference;
 import icbm.core.prefab.item.ItemICBMBase;
+import net.minecraft.client.renderer.texture.IIconRegister;
 
 public class ItemComputer extends ItemICBMBase
 {
     public ItemComputer(int id)
     {
-        super(id, "hackingComputer");
+        super("hackingComputer");
     }
 
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         super.registerIcons(iconRegister);
         

@@ -10,7 +10,6 @@ import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.ModelFormatException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import resonant.lib.network.netty.ResonantChannelHandler;
 
 public abstract class Explosion extends Explosive
 {

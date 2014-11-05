@@ -4,7 +4,7 @@ import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import resonant.api.items.IItemTracker;
-import resonant.lib.flag.FlagRegistry;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,13 +24,13 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 
     public ItemTracker(int id)
     {
-        super(id, "tracker");
+        super("tracker");
         FlagRegistry.registerFlag("ban_Tracker");
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerIcons(IIconRegister par1IconRegister)
     {
         if (par1IconRegister instanceof TextureMap)
         {
@@ -72,7 +71,7 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 
         if (entity != null)
         {
-            itemStack.stackTagCompound.setInteger("trackingEntity", entity.entityId);
+            itemStack.stackTagCompound.setInteger("trackingEntity", entity.getEntityId());
         }
     }
 
@@ -108,7 +107,8 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 
             if (player.inventory.getCurrentItem() != null)
             {
-                if (player.inventory.getCurrentItem().itemID == this.itemID && par2World.getWorldTime() % 20 == 0)
+            	ItemStack heldItem = new ItemStack(this);
+                if (player.inventory.getCurrentItem() == heldItem && par2World.getWorldTime() % 20 == 0)
                 {
                     Entity trackingEntity = this.getTrackingEntity(par2World, itemStack);
 
@@ -147,7 +147,7 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
                 }
                 else
                 {
-                    player.addChatMessage(LanguageUtility.getLocal("message.tracker.nopower"));
+                    player.addChatComponentMessage(LanguageUtility.getLocal("message.tracker.nopower"));
                 }
             }
             else

@@ -7,8 +7,9 @@ import icbm.explosion.explosive.ExplosiveRegistry;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class ItemBombCart extends ItemICBMBase
 {
     public ItemBombCart(int id)
     {
-        super(id, "minecart");
+        super("minecart");
         this.setMaxStackSize(1);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
@@ -32,7 +33,7 @@ public class ItemBombCart extends ItemICBMBase
     @Override
     public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int par7, float par8, float par9, float par10)
     {
-        int var11 = world.getBlockId(x, y, z);
+        Block var11 = world.getBlock(x, y, z);
 
         if (BlockRailBase.isRailBlock(var11))
         {
@@ -58,7 +59,7 @@ public class ItemBombCart extends ItemICBMBase
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         this.itemIcon = iconRegister.registerIcon("minecart_tnt");
     }
