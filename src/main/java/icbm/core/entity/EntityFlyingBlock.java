@@ -1,7 +1,7 @@
 package icbm.core.entity;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,13 +9,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import resonant.core.ResonantEngine;
-import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import resonant.lib.transform.vector.Vector3;
 
 /** @author Calclavia */
 public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnData
@@ -44,7 +43,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
         this.ticksExisted = 0;
         setSize(0.98F, 0.98F);
         yOffset = height / 2.0F;
-        setPosition(position.x + 0.5, position.y, position.z + 0.5);
+        setPosition(position.x() + 0.5, position.y(), position.z() + 0.5);
         motionX = 0D;
         motionY = 0D;
         motionZ = 0D;
@@ -58,14 +57,14 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
         this.gravity = gravity;
     }
 
-    @Override
+
     public String getEntityName()
     {
         return "Flying Block";
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
         data.writeInt(this.blockID);
         data.writeInt(this.metadata);
@@ -75,7 +74,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
         blockID = data.readInt();
         metadata = data.readInt();
@@ -92,7 +91,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     @Override
     public void onUpdate()
     {
-        if (this.blockID >= Block.blocksList.length)
+        if (this.blockID >= Block.blockRegistry..length)
         {
             this.setDead();
             return;
