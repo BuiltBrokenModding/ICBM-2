@@ -4,6 +4,7 @@ import icbm.core.ICBMCore;
 import icbm.core.blocks.TileProximityDetector;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.engine.ResonantEngine;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.transform.vector.Vector3;
@@ -81,7 +82,7 @@ public class GuiProximityDetector extends GuiICBM
         this.textFieldmaxZ.setMaxStringLength(2);
         this.textFieldmaxZ.setText(this.tileEntity.maxCoord.zi() + "");
 
-        PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, true));
+        ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, -1, true));
     }
 
     /** Fired when a control is clicked. This is the equivalent of
@@ -92,7 +93,7 @@ public class GuiProximityDetector extends GuiICBM
         if (par1GuiButton.id == 0)
         {
             tileEntity.mode = (byte) ((tileEntity.mode + 1) % 3);
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 1, this.tileEntity.mode));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 1, this.tileEntity.mode));
         }
     }
 
@@ -208,7 +209,7 @@ public class GuiProximityDetector extends GuiICBM
         }
 
         this.fontRendererObj.drawString(color + LanguageUtility.getLocal("gui.detector.status") + " " + status, 12, 138, 4210752);
-        this.fontRendererObj.drawString(UnitDisplay.getDisplay(this.tileEntity.getEnergy(ForgeDirection.UNKNOWN), Unit.JOULES) + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 150, 4210752);
+        //this.fontRendererObj.drawString(UnitDisplay.getDisplay(this.tileEntity.energy().getEnergu(), Unit.JOULES) + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 150, 4210752);
     }
 
     @Override
