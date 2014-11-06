@@ -4,12 +4,10 @@ import icbm.core.ICBMCore;
 import icbm.core.blocks.TileProximityDetector;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraftforge.common.ForgeDirection;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.UnitDisplay;
-import universalelectricity.api.energy.UnitDisplay.Unit;
-import universalelectricity.api.vector.Vector3;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiProximityDetector extends GuiICBM
 {
@@ -53,35 +51,35 @@ public class GuiProximityDetector extends GuiICBM
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 15, this.height / 2 + 32, 45, 20, mode));
 
-        this.textFieldFreq = new GuiTextField(fontRenderer, 75, 100, 40, 12);
+        this.textFieldFreq = new GuiTextField(fontRendererObj, 75, 100, 40, 12);
         this.textFieldFreq.setMaxStringLength(4);
         this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");
 
         // Min
-        this.textFieldminX = new GuiTextField(fontRenderer, 75, 50, 20, 12);
+        this.textFieldminX = new GuiTextField(fontRendererObj, 75, 50, 20, 12);
         this.textFieldminX.setMaxStringLength(2);
-        this.textFieldminX.setText(this.tileEntity.minCoord.intX() + "");
+        this.textFieldminX.setText(this.tileEntity.minCoord.xi() + "");
 
-        this.textFieldminY = new GuiTextField(fontRenderer, 75, 67, 20, 12);
+        this.textFieldminY = new GuiTextField(fontRendererObj, 75, 67, 20, 12);
         this.textFieldminY.setMaxStringLength(2);
-        this.textFieldminY.setText(this.tileEntity.minCoord.intY() + "");
+        this.textFieldminY.setText(this.tileEntity.minCoord.yi() + "");
 
-        this.textFieldminZ = new GuiTextField(fontRenderer, 75, 82, 20, 12);
+        this.textFieldminZ = new GuiTextField(fontRendererObj, 75, 82, 20, 12);
         this.textFieldminZ.setMaxStringLength(2);
-        this.textFieldminZ.setText(this.tileEntity.minCoord.intZ() + "");
+        this.textFieldminZ.setText(this.tileEntity.minCoord.zi() + "");
 
         // Max
-        this.textFieldmaxX = new GuiTextField(fontRenderer, 130, 50, 20, 12);
+        this.textFieldmaxX = new GuiTextField(fontRendererObj, 130, 50, 20, 12);
         this.textFieldmaxX.setMaxStringLength(2);
-        this.textFieldmaxX.setText(this.tileEntity.maxCoord.intX() + "");
+        this.textFieldmaxX.setText(this.tileEntity.maxCoord.xi() + "");
 
-        this.textFieldmaxY = new GuiTextField(fontRenderer, 130, 67, 20, 12);
+        this.textFieldmaxY = new GuiTextField(fontRendererObj, 130, 67, 20, 12);
         this.textFieldmaxY.setMaxStringLength(2);
-        this.textFieldmaxY.setText(this.tileEntity.maxCoord.intY() + "");
+        this.textFieldmaxY.setText(this.tileEntity.maxCoord.yi() + "");
 
-        this.textFieldmaxZ = new GuiTextField(fontRenderer, 130, 82, 20, 12);
+        this.textFieldmaxZ = new GuiTextField(fontRendererObj, 130, 82, 20, 12);
         this.textFieldmaxZ.setMaxStringLength(2);
-        this.textFieldmaxZ.setText(this.tileEntity.maxCoord.intZ() + "");
+        this.textFieldmaxZ.setText(this.tileEntity.maxCoord.zi() + "");
 
         PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, true));
     }
@@ -115,7 +113,7 @@ public class GuiProximityDetector extends GuiICBM
         {
             int newFrequency = Math.max(0, Integer.parseInt(this.textFieldFreq.getText()));
             this.tileEntity.setFrequency(newFrequency);
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.getFrequency()));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 2, this.tileEntity.getFrequency()));
         }
         catch (Exception e)
         {
@@ -126,7 +124,7 @@ public class GuiProximityDetector extends GuiICBM
         {
             Vector3 newMinCoord = new Vector3(Integer.parseInt(this.textFieldminX.getText()), Integer.parseInt(this.textFieldminY.getText()), Integer.parseInt(this.textFieldminZ.getText()));
             this.tileEntity.minCoord = newMinCoord;
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.minCoord.intX(), this.tileEntity.minCoord.intY(), this.tileEntity.minCoord.intZ()));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 3, this.tileEntity.minCoord.xi(), this.tileEntity.minCoord.yi(), this.tileEntity.minCoord.zi()));
         }
         catch (Exception e)
         {
@@ -137,7 +135,7 @@ public class GuiProximityDetector extends GuiICBM
             Vector3 newMaxCoord = new Vector3(Integer.parseInt(this.textFieldmaxX.getText()), Integer.parseInt(this.textFieldmaxY.getText()), Integer.parseInt(this.textFieldmaxZ.getText()));
 
             this.tileEntity.maxCoord = newMaxCoord;
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 4, this.tileEntity.maxCoord.intX(), this.tileEntity.maxCoord.intY(), this.tileEntity.maxCoord.intZ()));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 4, this.tileEntity.maxCoord.xi(), this.tileEntity.maxCoord.yi(), this.tileEntity.maxCoord.zi()));
         }
         catch (Exception e)
         {
@@ -163,16 +161,16 @@ public class GuiProximityDetector extends GuiICBM
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.detector.name"), 48, 6, 4210752);
+        this.fontRendererObj.drawString("\u00a77" + LanguageUtility.getLocal("gui.detector.name"), 48, 6, 4210752);
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.range"), 12, 25, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.detector.range"), 12, 25, 4210752);
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.min"), 75, 40, 4210752);
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.max"), 130, 40, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.detector.min"), 75, 40, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.detector.max"), 130, 40, 4210752);
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.XCoord"), 15, 51, 4210752);
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.YCoord"), 15, 68, 4210752);
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.ZCoord"), 15, 83, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.XCoord"), 15, 51, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.YCoord"), 15, 68, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.ZCoord"), 15, 83, 4210752);
 
         this.textFieldminX.drawTextBox();
         this.textFieldminY.drawTextBox();
@@ -182,24 +180,24 @@ public class GuiProximityDetector extends GuiICBM
         this.textFieldmaxY.drawTextBox();
         this.textFieldmaxZ.drawTextBox();
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.freq"), 15, 102, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.freq"), 15, 102, 4210752);
 
         if (!this.tileEntity.isInverted)
         {
-            this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.exclude"), 120, 102, 4210752);
+            this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.detector.exclude"), 120, 102, 4210752);
         }
         else
         {
-            this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.include"), 120, 102, 4210752);
+            this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.detector.include"), 120, 102, 4210752);
         }
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.detector.target"), 15, 120, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.detector.target"), 15, 120, 4210752);
 
         this.textFieldFreq.drawTextBox();
 
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (!this.tileEntity.getEnergyHandler().checkExtract())
+        if (!this.tileEntity.energy().checkExtract())
         {
             status = LanguageUtility.getLocal("gui.misc.nopower");
         }
@@ -209,8 +207,8 @@ public class GuiProximityDetector extends GuiICBM
             status = LanguageUtility.getLocal("gui.detector.on");
         }
 
-        this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.detector.status") + " " + status, 12, 138, 4210752);
-        this.fontRenderer.drawString(UnitDisplay.getDisplay(this.tileEntity.getEnergy(ForgeDirection.UNKNOWN), Unit.JOULES) + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 150, 4210752);
+        this.fontRendererObj.drawString(color + LanguageUtility.getLocal("gui.detector.status") + " " + status, 12, 138, 4210752);
+        this.fontRendererObj.drawString(UnitDisplay.getDisplay(this.tileEntity.getEnergy(ForgeDirection.UNKNOWN), Unit.JOULES) + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 150, 4210752);
     }
 
     @Override
@@ -232,18 +230,18 @@ public class GuiProximityDetector extends GuiICBM
         ((GuiButton) this.buttonList.get(0)).displayString = mode;
 
         if (!this.textFieldminX.isFocused())
-            this.textFieldminX.setText(this.tileEntity.minCoord.intX() + "");
+            this.textFieldminX.setText(this.tileEntity.minCoord.xi() + "");
         if (!this.textFieldminY.isFocused())
-            this.textFieldminY.setText(this.tileEntity.minCoord.intY() + "");
+            this.textFieldminY.setText(this.tileEntity.minCoord.yi() + "");
         if (!this.textFieldminZ.isFocused())
-            this.textFieldminZ.setText(this.tileEntity.minCoord.intZ() + "");
+            this.textFieldminZ.setText(this.tileEntity.minCoord.zi() + "");
 
         if (!this.textFieldmaxX.isFocused())
-            this.textFieldmaxX.setText(this.tileEntity.maxCoord.intX() + "");
+            this.textFieldmaxX.setText(this.tileEntity.maxCoord.xi() + "");
         if (!this.textFieldmaxY.isFocused())
-            this.textFieldmaxY.setText(this.tileEntity.maxCoord.intY() + "");
+            this.textFieldmaxY.setText(this.tileEntity.maxCoord.yi() + "");
         if (!this.textFieldmaxZ.isFocused())
-            this.textFieldmaxZ.setText(this.tileEntity.maxCoord.intZ() + "");
+            this.textFieldmaxZ.setText(this.tileEntity.maxCoord.zi() + "");
 
         if (!this.textFieldFreq.isFocused())
             this.textFieldFreq.setText(this.tileEntity.getFrequency() + "");

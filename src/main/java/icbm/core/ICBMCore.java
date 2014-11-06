@@ -3,15 +3,7 @@ package icbm.core;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.TabICBM;
-import icbm.core.blocks.BlockCamouflage;
-import icbm.core.blocks.BlockConcrete;
-import icbm.core.blocks.BlockGlassButton;
-import icbm.core.blocks.BlockGlassPressurePlate;
-import icbm.core.blocks.BlockReinforcedGlass;
-import icbm.core.blocks.BlockReinforcedRail;
-import icbm.core.blocks.BlockSpikes;
-import icbm.core.blocks.BlockSulfurOre;
-import icbm.core.blocks.TileProximityDetector;
+import icbm.core.blocks.*;
 import icbm.core.compat.Waila;
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.core.entity.EntityFragments;
@@ -26,6 +18,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -40,12 +33,10 @@ import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 import resonant.content.loader.ModManager;
 import resonant.content.prefab.itemblock.ItemBlockMetadata;
-import resonant.engine.ResonantEngine;
 import resonant.lib.config.ConfigHandler;
 import resonant.lib.loadable.LoadableHandler;
 import resonant.lib.ore.OreGenerator;
 import resonant.lib.recipe.UniversalRecipe;
-import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -114,8 +105,8 @@ public final class ICBMCore
 
         // Blocks       
         blockSulfurOre = contentRegistry.newBlock(BlockSulfurOre.class);
-        blockGlassPlate = contentRegistry.newBlock(BlockGlassPressurePlate.class);
-        blockGlassButton = contentRegistry.newBlock(BlockGlassButton.class);
+        blockGlassPlate = contentRegistry.newBlock("glassPressurePlate", new BlockPressurePlate("glassPressurePlate", Material.glass, BlockPressurePlate.Sensitivity.everything));
+        blockGlassButton = contentRegistry.newBlock("glassButton", new BlockButton(false));
         blockProximityDetector = contentRegistry.newBlock(TileProximityDetector.class);
         blockSpikes = contentRegistry.newBlock(BlockSpikes.class, ItemBlockMetadata.class);
         blockCamo = contentRegistry.newBlock(BlockCamouflage.class);

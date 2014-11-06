@@ -8,6 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.electric.EnergyStorage;
 import resonant.api.electric.IEnergyContainer;
 import resonant.lib.grid.Compatibility;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.MathUtility;
 import resonant.lib.content.prefab.java.TileElectricInventory;
 /** Turret Platform
@@ -48,7 +49,7 @@ public class TileTurretPlatform extends TileElectricInventory
 
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity checkTile = new Vector3(this).translate(dir).getTileEntity(worldObj);
+            TileEntity checkTile = new Vector3(this).add(dir).getTileEntity(worldObj);
 
             if (checkTile instanceof TileTurret)
                 turrets[dir.ordinal()] = (TileTurret) checkTile;

@@ -9,36 +9,30 @@ import icbm.sentry.turret.Turret;
 import icbm.sentry.turret.TurretRegistry;
 import icbm.sentry.turret.TurretType;
 import icbm.sentry.turret.mounted.TurretMounted;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IExternalInventory;
-import resonant.api.IExternalInventoryBox;
+import resonant.api.IInventoryProvider;
 import resonant.api.IRotatable;
-import resonant.lib.access.AccessProfile;
-import resonant.lib.access.AccessUser;
-import resonant.lib.access.IProfileContainer;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.network.PacketHandler;
-import resonant.lib.prefab.terminal.TileTerminal;
-import universalelectricity.api.vector.IVector3;
-import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import resonant.lib.access.java.AccessProfile;
+import resonant.lib.access.java.IProfileContainer;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.content.prefab.java.TileElectricInventory;
 
 /** TurretProvider tile to host turret objects.
  * 
  * @author Darkguardsman, tgame14 */
-public class TileTurret extends TileTerminal implements IProfileContainer, IRotatable, IExternalInventory, IBlockActivate, ITurretProvider
+public class TileTurret extends TileElectricInventory implements IProfileContainer, IRotatable, IInventoryProvider, ITurretProvider
 {
     protected static final int ROTATION_PACKET_ID = 3;
     protected static final int SENTRY_TYPE_PACKET_ID = 4;
@@ -66,15 +60,15 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public void updateEntity()
+    public void update()
     {
-        super.updateEntity();
+        super.update();
 
         if (getTurret() != null)
         {
             getTurret().update();
 
-            if (!worldObj.isRemote)
+            if (!world().isRemote)
             {
                 if (getTurret().getServo().hasChanged)
                 {
@@ -171,13 +165,13 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     }
 
     @Override
-    public boolean onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public boolean read(ByteBuf data, int id, EntityPlayer player, PacketType type)
     {
-        if (!super.onReceivePacket(id, data, player, extra))
+        if (!super.read(id, data, player, type))
         {
             try
             {
-                if (this.worldObj.isRemote)
+                if (world().isRemote)
                 {
                     if (id == DESCRIPTION_PACKET_ID)
                     {
@@ -223,13 +217,13 @@ public class TileTurret extends TileTerminal implements IProfileContainer, IRota
     @Override
     public ForgeDirection getDirection()
     {
-        return ForgeDirection.getOrientation(this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+        return ForgeDirection.getOrientation(world().getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
     public void setDirection(ForgeDirection direction)
     {
-        this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+        world().setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 
     @Override
