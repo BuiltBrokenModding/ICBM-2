@@ -91,7 +91,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     @Override
     public void onUpdate()
     {
-        if (this.blockID >= Block.blockRegistry..length)
+        if (this.blockID >= Block.blockRegistry.length)
         {
             this.setDead();
             return;
