@@ -109,7 +109,7 @@ public final class ICBMCore
         blockGlassButton = contentRegistry.newBlock("glassButton", new BlockButton(false));
         blockProximityDetector = contentRegistry.newBlock(TileProximityDetector.class);
         blockSpikes = contentRegistry.newBlock(BlockSpikes.class, ItemBlockMetadata.class);
-        blockCamo = contentRegistry.newBlock(BlockCamouflage.class);
+        blockCamo = contentRegistry.newBlock(TileCamouflage.class);
         blockConcrete = contentRegistry.newBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.newBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
         blockCombatRail = contentRegistry.newBlock(BlockReinforcedRail.class);
