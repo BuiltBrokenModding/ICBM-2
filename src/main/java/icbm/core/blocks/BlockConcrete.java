@@ -5,11 +5,12 @@ import icbm.core.prefab.BlockICBM;
 import java.util.List;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import resonant.api.blocks.IAntiPoisonBlock;
 import cpw.mods.fml.relauncher.Side;
@@ -17,18 +18,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockConcrete extends BlockICBM implements IAntiPoisonBlock
 {
-    private Icon iconCompact, iconReinforced;
+    private IIcon iconCompact, iconReinforced;
 
     public BlockConcrete(int id)
     {
-        super(id, "concrete", Material.rock);
+        super("concrete", Material.rock);
         this.setHardness(3.8f);
         this.setResistance(50);
-        this.setStepSound(soundMetalFootstep);
+        this.setStepSound(BlockButton.soundTypeMetal);
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
+    public IIcon getIcon(int side, int metadata)
     {
         switch (metadata)
         {
@@ -43,9 +44,9 @@ public class BlockConcrete extends BlockICBM implements IAntiPoisonBlock
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        super.registerIcons(iconRegister);
+        super.registerBlockIcons(iconRegister);
 
         this.iconCompact = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Compact");
         this.iconReinforced = iconRegister.registerIcon(this.getUnlocalizedName().replace("tile.", "") + "Reinforced");
@@ -69,7 +70,7 @@ public class BlockConcrete extends BlockICBM implements IAntiPoisonBlock
     }
 
     @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (int i = 0; i < 3; i++)
         {
