@@ -1,25 +1,46 @@
 package icbm.core.blocks;
 
 import icbm.core.ICBMCore;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.network.PacketHandler;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import resonant.api.blocks.ICamouflageMaterial;
+import resonant.content.prefab.java.TileAdvanced;
 
 import com.google.common.io.ByteArrayDataInput;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.transform.region.Cuboid;
+import resonant.lib.transform.vector.Vector3;
 
-public class TileCamouflage extends TileEntity implements IPacketReceiver
+public class TileCamouflage extends TileAdvanced implements IPacketReceiver
 {
     // The block Id this block is trying to mimick
-    private int blockID = 0;
+    private Block block = null;
     private int blockMeta = 0;
     private boolean isSolid = true;
 
     /** Bitmask **/
     private byte renderSides = 0;
+
+    public TileCamouflage()
+    {
+        super(Material.cloth);
+        this.blockHardness(0.3F);
+        this.blockResistance(1F);
+        this.isOpaqueCube(true);
+    }
 
     @Override
     public boolean canUpdate()
@@ -28,14 +49,69 @@ public class TileCamouflage extends TileEntity implements IPacketReceiver
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public boolean configure(EntityPlayer player, int side, Vector3 hit)
+    {
+        if(!player.isSneaking())
+            toggleRenderSide(ForgeDirection.getOrientation(side));
+        else
+            toggleCollision();
+
+        worldObj.markBlockForUpdate(xi(), yi(), zi());
+        return true;
+    }
+
+    public boolean use(EntityPlayer player, int side, Vector3 hit)
+    {
+        if (player.getCurrentEquippedItem() != null)
+        {
+            Block block = Block.getBlockFromItem(player.getCurrentEquippedItem().getItem());
+
+            if (block != null && block != this.getBlockType())
+            {
+                if (block instanceof ICamouflageMaterial || (block.isNormalCube() && (block.getRenderType() == 0 || block.getRenderType() == 31)))
+                {
+                    this.block = block;
+                    this.blockMeta = player.getCurrentEquippedItem().getItemDamage();
+                    if (!this.worldObj.isRemote)
+                    {
+                        ResonantEngine.instance.packetHandler.sendToAllInDimension(this.getDescPacket(), world());
+                    }
+                    world().markBlockForUpdate(xi(), yi(), zi());
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta)
+    {
+        if (canRenderSide(ForgeDirection.getOrientation(side)))
+        {
+            return Blocks.glass.getBlockTextureFromSide(side);
+        }
+        if(block != null)
+        {
+            return block.getIcon(side, meta);
+        }
+        return super.getIcon(side, meta);
+    }
+
+
+    ////////////////////////////////////
+    // Packet Handling
+    ////////////////////////////////////
+    @Override
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
         try
         {
-            this.setMimicBlock(data.readInt(), data.readInt());
+            this.block = Block.getBlockById(data.readInt());
+            this.blockMeta = data.readInt();
             this.renderSides = data.readByte();
             this.isSolid = data.readBoolean();
-            this.worldObj.markBlockForRenderUpdate(this.xCoord, this.yCoord, this.zCoord);
+            this.worldObj.markBlockRangeForRenderUpdate(this.xCoord, this.yCoord, this.zCoord, this.xCoord, this.yCoord, this.zCoord);
         }
         catch (Exception e)
         {
@@ -44,15 +120,36 @@ public class TileCamouflage extends TileEntity implements IPacketReceiver
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public PacketTile getDescPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, this.blockID, this.blockMeta, this.renderSides, this.isSolid);
+        return new PacketTile(this, Block.getIdFromBlock(block), this.blockMeta, this.renderSides, this.isSolid);
     }
 
-    public boolean getCanCollide()
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
     {
-        return this.isSolid;
+        super.readFromNBT(nbt);
+
+        this.block = Block.getBlockById(nbt.getInteger("jiaHaoMa"));
+        this.blockMeta = nbt.getInteger("jiaMetadata");
+        this.renderSides = nbt.getByte("renderSides");
+        this.isSolid = nbt.getBoolean("isYing");
     }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+
+        nbt.setInteger("jiaHaoMa", Block.getIdFromBlock(block));
+        nbt.setInteger("jiaMetadata", this.blockMeta);
+        nbt.setByte("renderSides", renderSides);
+        nbt.setBoolean("isYing", this.isSolid);
+    }
+
+    ////////////////////////////////////
+    // Accessors and Setters
+    ////////////////////////////////////
 
     public void setCanCollide(boolean isSolid)
     {
@@ -60,7 +157,7 @@ public class TileCamouflage extends TileEntity implements IPacketReceiver
 
         if (!this.worldObj.isRemote)
         {
-            PacketHandler.sendPacketToClients(this.getDescriptionPacket());
+            ResonantEngine.instance.packetHandler.sendToAllInDimension(this.getDescPacket(), world());
         }
     }
 
@@ -69,29 +166,6 @@ public class TileCamouflage extends TileEntity implements IPacketReceiver
         this.setCanCollide(!this.isSolid);
     }
 
-    public int getMimicBlockID()
-    {
-        return this.blockID;
-    }
-
-    public int getMimicBlockMeta()
-    {
-        return this.blockMeta;
-    }
-
-    public void setMimicBlock(int blockID, int metadata)
-    {
-        if (this.blockID != blockID || this.blockMeta != metadata)
-        {
-            this.blockID = Math.max(blockID, 0);
-            this.blockMeta = Math.max(metadata, 0);
-
-            if (!this.worldObj.isRemote)
-            {
-                PacketHandler.sendPacketToClients(this.getDescriptionPacket());
-            }
-        }
-    }
 
     public boolean canRenderSide(ForgeDirection direction)
     {
@@ -112,7 +186,7 @@ public class TileCamouflage extends TileEntity implements IPacketReceiver
 
         if (!this.worldObj.isRemote)
         {
-            PacketHandler.sendPacketToClients(this.getDescriptionPacket());
+            ResonantEngine.instance.packetHandler.sendToAllInDimension(this.getDescPacket(), world());
         }
     }
 
@@ -121,39 +195,20 @@ public class TileCamouflage extends TileEntity implements IPacketReceiver
         this.setRenderSide(direction, !canRenderSide(direction));
     }
 
-    public void setRenderSide(boolean isClear)
+    @Override
+    public int colorMultiplier()
     {
-        if (isClear)
+        if (block != null)
         {
-            this.renderSides = 63;
+            return block.colorMultiplier(world(), xi(), yi(), xi());
         }
-        else
-        {
-            this.renderSides = 0;
-        }
+
+        return 16777215;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public Cuboid getCollisionBounds()
     {
-        super.readFromNBT(nbt);
-
-        this.blockID = nbt.getInteger("jiaHaoMa");
-        this.blockMeta = nbt.getInteger("jiaMetadata");
-        this.renderSides = nbt.getByte("renderSides");
-        this.isSolid = nbt.getBoolean("isYing");
+        return isSolid ?  super.getCollisionBounds() : null;
     }
-
-    /** Writes a tile entity to NBT. */
-    @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
-        super.writeToNBT(nbt);
-
-        nbt.setInteger("jiaHaoMa", this.blockID);
-        nbt.setInteger("jiaMetadata", this.blockMeta);
-        nbt.setByte("renderSides", renderSides);
-        nbt.setBoolean("isYing", this.isSolid);
-    }
-
 }
