@@ -6,7 +6,7 @@ ICBM is no longer being supported by the UE team after 1.6.4. This is due to mos
 
 ##Pull Request
 For 1.6.4 please pull request from now on to the 1.6.4 branch. 
-For all above please pull request to the development branch.
+For all above please pull request to the master branch.
 
 ##What is ICBM?
 ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!

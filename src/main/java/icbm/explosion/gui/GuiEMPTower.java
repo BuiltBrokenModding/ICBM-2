@@ -10,11 +10,10 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.UnitDisplay;
-import universalelectricity.api.energy.UnitDisplay.Unit;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiEMPTower extends GuiICBM
 {
@@ -44,7 +43,7 @@ public class GuiEMPTower extends GuiICBM
         this.buttonList.add(new GuiButton(1, this.width / 2 - 25, this.height / 2 - 10, 65, 20, LanguageUtility.getLocal("gui.empTower.elec")));
         this.buttonList.add(new GuiButton(2, this.width / 2 + 43, this.height / 2 - 10, 35, 20, LanguageUtility.getLocal("gui.empTower.both")));
 
-        this.textFieldBanJing = new GuiTextField(fontRenderer, 72, 28, 30, 12);
+        this.textFieldBanJing = new GuiTextField(fontRendererObj, 72, 28, 30, 12);
         this.textFieldBanJing.setMaxStringLength(3);
         this.textFieldBanJing.setText(this.tileEntity.empRadius + "");
     }
@@ -67,7 +66,7 @@ public class GuiEMPTower extends GuiICBM
                 break;
         }
 
-        PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.empMode));
+        ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 2, this.tileEntity.empMode));
     }
 
     /** Call this method from you GuiScreen to process the keys into textbox. */
@@ -81,7 +80,7 @@ public class GuiEMPTower extends GuiICBM
         {
             int radius = Math.min(Math.max(Integer.parseInt(this.textFieldBanJing.getText()), 10), TileEMPTower.MAX_RADIUS);
             this.tileEntity.empRadius = radius;
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 1, this.tileEntity.empRadius));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 1, this.tileEntity.empRadius));
         }
         catch (NumberFormatException e)
         {
@@ -101,12 +100,12 @@ public class GuiEMPTower extends GuiICBM
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.empTower.name"), 65, 6, 4210752);
+        this.fontRendererObj.drawString("\u00a77" + LanguageUtility.getLocal("gui.empTower.name"), 65, 6, 4210752);
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.radius").replaceAll("%p", "        "), 12, 30, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.empTower.radius").replaceAll("%p", "        "), 12, 30, 4210752);
         this.textFieldBanJing.drawTextBox();
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.effect"), 12, 55, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.empTower.effect"), 12, 55, 4210752);
 
         // Shows the EMP mode of the EMP Tower
         String mode = LanguageUtility.getLocal("gui.empTower.effectDebilitate");
@@ -120,13 +119,13 @@ public class GuiEMPTower extends GuiICBM
             mode = LanguageUtility.getLocal("gui.empTower.effectDeplete");
         }
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.empTower.mode") + " " + mode, 12, 105, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.empTower.mode") + " " + mode, 12, 105, 4210752);
 
         // Shows the status of the EMP Tower
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (!this.tileEntity.getEnergyHandler().isFull())
+        if (!this.tileEntity.energy().isFull())
         {
             status = LanguageUtility.getLocal("gui.misc.nopower");
         }
@@ -136,9 +135,9 @@ public class GuiEMPTower extends GuiICBM
             status = LanguageUtility.getLocal("gui.empTower.ready");
         }
 
-        this.fontRenderer.drawString(color + LanguageUtility.getLocal("gui.misc.status") + " " + status, 12, 120, 4210752);
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 135, 4210752);
-        this.fontRenderer.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplay(this.tileEntity.getEnergyHandler().getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
+        this.fontRendererObj.drawString(color + LanguageUtility.getLocal("gui.misc.status") + " " + status, 12, 120, 4210752);
+        //this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 12, 135, 4210752);
+        //this.fontRendererObj.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplay(this.tileEntity.getEnergyHandler().getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */
