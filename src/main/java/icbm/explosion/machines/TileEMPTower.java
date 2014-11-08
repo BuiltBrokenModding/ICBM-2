@@ -7,25 +7,29 @@ import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.blast.BlastEMP;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import li.cil.oc.api.network.Callback;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import resonant.api.IRedstoneReceptor;
 import resonant.api.map.IRadarDetectable;
 import resonant.api.map.RadarRegistry;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.multiblock.IMultiBlock;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
+import resonant.lib.content.prefab.java.TileElectric;
+import resonant.lib.multiblock.reference.IMultiBlock;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketIDReceiver;
+import resonant.lib.transform.vector.Vector3;
 
-public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneReceptor, IBlockActivate, SimpleComponent, IRadarDetectable
+public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstoneReceptor, SimpleComponent, IRadarDetectable, IPacketIDReceiver
 {
     // The maximum possible radius for the EMP to strike
     public static final int MAX_RADIUS = 150;
@@ -43,8 +47,8 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
 
     public TileEMPTower()
     {
+        super(Material.iron);
         RadarRegistry.register(this);
-        setEnergyHandler(new EnergyStorageHandler(0));
         updateCapacity();
     }
 
@@ -56,25 +60,19 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     }
 
     @Override
-    public void initiate()
+    public void update()
     {
-        updateCapacity();
-    }
-
-    @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
+        super.update();
 
         if (!isReady())
         {
             cooldownTicks--;
         }
 
-        if (ticks % 20 == 0 && getEnergyHandler().getEnergy() > 0)
-            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "machinehum", 0.5F, 0.85F * getEnergyHandler().getEnergy() / getEnergyHandler().getEnergyCapacity());
+        if (ticks() % 20 == 0 && getEnergyStorage().getEnergy() > 0)
+            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "machinehum", 0.5F, (float)(0.85F * getEnergyStorage().getEnergy() / getEnergyStorage().getEnergyCapacity()));
 
-        rotationDelta = (float) (Math.pow(getEnergyHandler().getEnergy() / getEnergyHandler().getEnergyCapacity(), 2) * 0.5);
+        rotationDelta = (float) (Math.pow(getEnergyStorage().getEnergy() / getEnergyStorage().getEnergyCapacity(), 2) * 0.5);
         rotation += rotationDelta;
         if (rotation > 360)
             rotation = 0;
@@ -83,46 +81,46 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     }
 
     @Override
-    public void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
+    public boolean read(ByteBuf data, int id, EntityPlayer player, PacketType type)
     {
-        switch (id)
-        {
-            case 0:
+            switch (id)
             {
-                getEnergyHandler().setEnergy(data.readLong());
-                empRadius = data.readInt();
-                empMode = data.readByte();
-                break;
+                case 0:
+                {
+                    getEnergyStorage().setEnergy(data.readDouble());
+                    empRadius = data.readInt();
+                    empMode = data.readByte();
+                    return true;
+                }
+                case 1:
+                {
+                    empRadius = data.readInt();
+                    updateCapacity();
+                    return true;
+                }
+                case 2:
+                {
+                    empMode = data.readByte();
+                    return true;
+                }
             }
-            case 1:
-            {
-                empRadius = data.readInt();
-                updateCapacity();
-                break;
-            }
-            case 2:
-            {
-                empMode = data.readByte();
-                break;
-            }
-        }
+            return false;
 
-        super.onReceivePacket(id, data, player, extra);
     }
 
-    @Callback
+    //@Callback
     public boolean isReady()
     {
         return getCooldown() <= 0;
     }
 
-    @Callback
+    //@Callback
     public int getCooldown()
     {
         return cooldownTicks;
     }
 
-    @Callback
+    //@Callback
     public int getMaxCooldown()
     {
         return 120;
@@ -130,15 +128,15 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
 
     private void updateCapacity()
     {
-        this.getEnergyHandler().setCapacity(Math.max(300000000 * (this.empRadius / MAX_RADIUS), 1000000000));
-        this.getEnergyHandler().setMaxReceive(this.getEnergyHandler().getEnergyCapacity() / 50);
-        this.getEnergyHandler().setMaxExtract((long) (this.getEnergyHandler().getEnergyCapacity() / .9));
+        this.dcNode().setCapacity(Math.max(300000000 * (this.empRadius / MAX_RADIUS), 1000000000));
+        this.dcNode().setMaxReceive(this.dcNode().getEnergyCapacity() / 50);
+        this.dcNode().setMaxExtract((long) (this.dcNode().getEnergyCapacity() / .9));
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public PacketTile getDescPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.getEnergyHandler().getEnergy(), this.empRadius, this.empMode);
+        return new PacketTile(this, 0, this.dcNode().getEnergy(), this.empRadius, this.empMode);
     }
 
     /** Reads a tile entity from NBT. */
@@ -161,10 +159,10 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
         par1NBTTagCompound.setByte("muoShi", this.empMode);
     }
 
-    @Callback(limit = 1)
+    //@Callback(limit = 1)
     public boolean fire()
     {
-        if (this.getEnergyHandler().checkExtract())
+        if (this.getEnergyStorage().checkExtract())
         {
             if (isReady())
             {
@@ -180,7 +178,7 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
                         new BlastEMP(this.worldObj, null, this.xCoord, this.yCoord, this.zCoord, this.empRadius).setEffectBlocks().explode();
                         break;
                 }
-                this.getEnergyHandler().extractEnergy();
+                this.getEnergyStorage().extractEnergy();
                 this.cooldownTicks = getMaxCooldown();
                 return true;
             }
@@ -200,7 +198,7 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     }
 
     @Override
-    public boolean onActivated(EntityPlayer entityPlayer)
+    public boolean use(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if(!this.worldObj.isRemote)
         	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
@@ -208,9 +206,11 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
     }
 
     @Override
-    public Vector3[] getMultiBlockVectors()
+    public List<Vector3> getMultiBlockVectors()
     {
-        return new Vector3[] { new Vector3(0, 1, 0) };
+        List<Vector3> list = new ArrayList();
+        list.add(new Vector3(0, 1, 0));
+        return  list;
     }
 
     @Override
@@ -225,50 +225,50 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
         return "emptower";
     }
 
-    @Callback
+    //@Callback
     public byte getEmpMode()
     {
         return empMode;
     }
 
-    @Callback
+    //@Callback
     public void setEmpMode(byte empMode)
     {
         if (empMode >= 0 && empMode <= 2)
             this.empMode = empMode;
     }
 
-    @Callback
+    //@Callback
     public void empMissiles()
     {
         this.empMode = 1;
     }
 
-    @Callback
+    //@Callback
     public void empAll()
     {
         this.empMode = 0;
     }
 
-    @Callback
+    //@Callback
     public void empElectronics()
     {
         this.empMode = 2;
     }
 
-    @Callback
+    //@Callback
     public int getEmpRadius()
     {
         return empRadius;
     }
 
-    @Callback
+    //@Callback
     public int getMaxEmpRadius()
     {
         return MAX_RADIUS;
     }
 
-    @Callback
+    //@Callback
     public void setEmpRadius(int empRadius)
     {
         int prev = getEmpRadius();
@@ -277,7 +277,7 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
             updateCapacity();
     }
 
-    @Callback
+    //@Callback
     public static int getMaxRadius()
     {
         return MAX_RADIUS;
@@ -285,7 +285,7 @@ public class TileEMPTower extends TileICBM implements IMultiBlock, IRedstoneRece
 
 	@Override
 	public boolean canDetect(TileEntity arg0) {
-		if(this.getEnergyHandler().isFull())
+		if(this.getEnergyStorage().checkExtract())
 			return true;
 		return false;
 	}
