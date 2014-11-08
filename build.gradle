@@ -80,7 +80,7 @@ jar {
 repositories {
     maven {
 		name 'Calclavia Maven'
-		url 'http://calclavia.com/maven/'
+		url 'https://calclavia.com/maven/'
 	}
 }
 dependencies {
@@ -93,7 +93,7 @@ dependencies {
 
 repositories {
     maven {
-        url 'http://calclavia.com/maven/'
+        url 'https://calclavia.com/maven/'
     }
     maven {
         name "Mobius Repo"
