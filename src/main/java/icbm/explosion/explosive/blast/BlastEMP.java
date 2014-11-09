@@ -19,17 +19,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.explosion.IEMPBlock;
 import resonant.api.explosion.IEMPItem;
 import resonant.api.explosion.IMissile;
+import resonant.api.items.IEnergyItem;
 import resonant.api.map.RadarRegistry;
-import universalelectricity.api.CompatibilityModule;
-import universalelectricity.api.energy.IEnergyContainer;
-import universalelectricity.api.item.IEnergyItem;
-import universalelectricity.api.vector.Vector3;
-import calclavia.api.mffs.IForceFieldBlock;
-import calclavia.api.mffs.fortron.IFortronStorage;
+import resonant.api.mffs.fortron.IFortronStorage;
+import resonant.lib.grid.Compatibility;
+import resonant.lib.transform.vector.Vector3;
 
 public class BlastEMP extends Blast
 {
@@ -66,30 +64,30 @@ public class BlastEMP extends Blast
                     {
                         double dist = MathHelper.sqrt_double((x * x + y * y + z * z));
 
-                        Vector3 searchPosition = Vector3.translate(position, new Vector3(x, y, z));
+                        Vector3 searchPosition = position.add( new Vector3(x, y, z));
                         if (dist > this.getRadius())
                             continue;
 
-                        if (Math.round(position.x + y) == position.intY())
+                        if (Math.round(position.x() + y) == position.yi())
                         {
-                            world().spawnParticle("largesmoke", searchPosition.x, searchPosition.y, searchPosition.z, 0, 0, 0);
+                            world().spawnParticle("largesmoke", searchPosition.x(), searchPosition.y(), searchPosition.z(), 0, 0, 0);
                         }
 
-                        int blockID = searchPosition.getBlockID(world());
-                        Block block = Block.blocksList[blockID];
+                        Block block = searchPosition.getBlock(world());
                         TileEntity tileEntity = searchPosition.getTileEntity(world());
 
                         if (block != null)
                         {
-                            if (block instanceof IForceFieldBlock)
-                            {
-                                ((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(world(), searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1000);
+                            //if (block instanceof IForceFieldBlock)
+                            //{
+                            //    ((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(world(), searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1000);
                             }
-                            else if (block instanceof IEMPBlock)
+                            //else
+                            if (block instanceof IEMPBlock)
                             {
-                                ((IEMPBlock) block).onEMP(world(), searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), this);
+                                ((IEMPBlock) block).onEMP(world(), searchPosition.xi(), searchPosition.yi(), searchPosition.zi(), this);
                             }
-                        }
+
 
                         if (tileEntity != null)
                         {
@@ -97,17 +95,13 @@ public class BlastEMP extends Blast
                             {
                                 ((IFortronStorage) tileEntity).provideFortron((int) world().rand.nextFloat() * ((IFortronStorage) tileEntity).getFortronCapacity(), true);
                             }
-                            if (tileEntity instanceof IEnergyContainer)
-                            {
-                                ((IEnergyContainer) tileEntity).setEnergy(null, 0);
-                            }
                             if (tileEntity instanceof IEnergyStorage)
                             {
                                 ((IEnergyStorage) tileEntity).setStored(0);
                             }
 
                             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-                                CompatibilityModule.extractEnergy(tileEntity, dir, Integer.MAX_VALUE, true);
+                                Compatibility.extractEnergy(tileEntity, dir, Integer.MAX_VALUE, true);
                         }
                     }
                 }
@@ -131,7 +125,7 @@ public class BlastEMP extends Blast
             }
 
             int maxFx = 10;
-            AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - this.getRadius(), position.y - this.getRadius(), position.z - this.getRadius(), position.x + this.getRadius(), position.y + this.getRadius(), position.z + this.getRadius());
+            AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x() - this.getRadius(), position.y() - this.getRadius(), position.z() - this.getRadius(), position.x() + this.getRadius(), position.y() + this.getRadius(), position.z() + this.getRadius());
             List<Entity> entities = world().getEntitiesWithinAABB(Entity.class, bounds);
 
             for (Entity entity : entities)
@@ -192,7 +186,7 @@ public class BlastEMP extends Blast
         }
 
         ICBMExplosion.proxy.spawnParticle("shockwave", world(), position, 0, 0, 0, 0, 0, 255, 10, 3);
-        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "emp", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
+        this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "emp", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override
