@@ -26,7 +26,7 @@ import resonant.lib.prefab.vector.Rectangle;
 import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;
-import universalelectricity.api.vector.Vector2;
+import resonant.lib.tranform.vector.Vector2;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
