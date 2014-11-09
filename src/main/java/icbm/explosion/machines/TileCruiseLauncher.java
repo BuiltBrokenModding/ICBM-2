@@ -29,7 +29,7 @@ import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.EnergyStorageHandler;
+import resonant.api.energetic.EnergyStorage;
 import resonant.lib.transform.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -52,7 +52,7 @@ public class TileCruiseLauncher extends TileLauncherPrefab implements IBlockActi
     {
         super();
         this.targetPos = new Vector3();
-        setEnergyHandler(new EnergyStorageHandler(100000000));
+        setEnergyHandler(new EnergyStorage(100000000));
     }
 
     /** Returns the number of slots in the inventory. */
