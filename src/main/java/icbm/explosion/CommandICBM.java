@@ -14,7 +14,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 
 public class CommandICBM extends CommandBase
 {
@@ -39,10 +39,10 @@ public class CommandICBM extends CommandBase
             int dimension = entityPlayer.worldObj.provider.dimensionId;
             if (args == null || args.length == 0 || args[0].equalsIgnoreCase("help"))
             {
-                sender.sendChatToPlayer(ChatMessageComponent.createFromText("/ICBM help"));
-                sender.sendChatToPlayer(ChatMessageComponent.createFromText("/ICBM lag <radius>"));
-                sender.sendChatToPlayer(ChatMessageComponent.createFromText("/ICBM remove <All/Missile/Explosion> <radius>"));
-                sender.sendChatToPlayer(ChatMessageComponent.createFromText("/ICBM emp <radius>"));
+                sender.addChatComponentMessage(new ChatComponentText("/ICBM help"));
+                sender.addChatComponentMessage(new ChatComponentText("/ICBM lag <radius>"));
+                sender.addChatComponentMessage(new ChatComponentText("/ICBM remove <All/Missile/Explosion> <radius>"));
+                sender.addChatComponentMessage(new ChatComponentText("/ICBM emp <radius>"));
                 return;
             }
             else if (args.length >= 2 && args[0].equalsIgnoreCase("lag"))
@@ -71,7 +71,7 @@ public class CommandICBM extends CommandBase
                         }
                     }
 
-                    sender.sendChatToPlayer(ChatMessageComponent.createFromText("Removed all ICBM lag sources within " + radius + " radius."));
+                    sender.addChatComponentMessage(new ChatComponentText("Removed all ICBM lag sources within " + radius + " radius."));
                     return;
                 }
                 else
@@ -118,7 +118,7 @@ public class CommandICBM extends CommandBase
                         }
                     }
 
-                    sender.sendChatToPlayer(ChatMessageComponent.createFromText("Removed all ICBM " + str + " within " + radius + " radius."));
+                    sender.addChatComponentMessage(new ChatComponentText("Removed all ICBM " + str + " within " + radius + " radius."));
                     return;
                 }
                 else
