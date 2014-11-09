@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
-import resonant.lib.tranform.Vector3;
+import resonant.lib.transform.Vector3;
 
 public class BlastNuclear extends Blast
 {

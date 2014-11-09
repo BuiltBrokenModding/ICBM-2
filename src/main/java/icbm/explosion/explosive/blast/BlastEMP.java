@@ -27,7 +27,7 @@ import resonant.api.map.RadarRegistry;
 import universalelectricity.api.CompatibilityModule;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.item.IEnergyItem;
-import resonant.lib.tranform.Vector3;
+import resonant.lib.transform.Vector3;
 import calclavia.api.mffs.IForceFieldBlock;
 import calclavia.api.mffs.fortron.IFortronStorage;
 

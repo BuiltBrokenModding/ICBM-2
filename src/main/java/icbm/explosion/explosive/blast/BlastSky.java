@@ -14,7 +14,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import resonant.lib.prefab.potion.CustomPotionEffect;
-import resonant.lib.tranform.Vector3;
+import resonant.lib.transform.Vector3;
 
 public class BlastSky extends BlastBeam
 {

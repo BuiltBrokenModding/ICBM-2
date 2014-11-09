@@ -4,7 +4,7 @@ import icbm.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import resonant.lib.tranform.Vector3;
+import resonant.lib.transform.Vector3;
 
 public class BlastFire extends Blast
 {

@@ -2,8 +2,8 @@ package icbm.explosion.explosive.thread;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import resonant.lib.tranform.Vector3;
-import resonant.lib.tranform.VectorWorld;
+import resonant.lib.transform.Vector3;
+import resonant.lib.transform.VectorWorld;
 
 /** Used for small explosions.
  * 

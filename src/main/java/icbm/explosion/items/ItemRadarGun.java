@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.item.ItemElectric;
-import resonant.lib.tranform.Vector3;
+import resonant.lib.transform.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 

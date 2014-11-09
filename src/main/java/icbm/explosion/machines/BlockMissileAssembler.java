@@ -20,7 +20,7 @@ import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.multiblock.IMultiBlock;
 import resonant.lib.multiblock.TileMultiBlockPart;
 import universalelectricity.api.UniversalElectricity;
-import resonant.lib.tranform.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

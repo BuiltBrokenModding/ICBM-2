@@ -5,7 +5,7 @@ import icbm.explosion.entities.EntityExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import resonant.lib.tranform.Vector3;
+import resonant.lib.transform.Vector3;
 
 public class BlastAntimatter extends Blast
 {

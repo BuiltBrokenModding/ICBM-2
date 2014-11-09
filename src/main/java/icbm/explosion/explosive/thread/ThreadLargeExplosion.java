@@ -5,8 +5,8 @@ import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
-import resonant.lib.tranform.Vector3;
-import resonant.lib.tranform.VectorWorld;
+import resonant.lib.transform.Vector3;
+import resonant.lib.transform.VectorWorld;
 
 /** Used for large raycasting explosions.
  * 

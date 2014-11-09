@@ -20,7 +20,7 @@ import resonant.lib.multiblock.IMultiBlock;
 import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.EnergyStorageHandler;
-import resonant.lib.tranform.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 
