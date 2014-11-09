@@ -29,7 +29,7 @@ import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
-import resonant.api.energetic.EnergyStorage;
+import resonant.api.electric.EnergyStorage;
 import resonant.lib.transform.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;

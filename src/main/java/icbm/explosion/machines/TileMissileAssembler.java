@@ -19,7 +19,7 @@ import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.multiblock.IMultiBlock;
 import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
-import resonant.api.energy.EnergyStorage;
+import resonant.api.electric.EnergyStorage;
 import resonant.lib.transform.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
