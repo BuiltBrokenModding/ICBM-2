@@ -10,7 +10,7 @@ import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.energy.UnitDisplay;
 import resonant.lib.transform.vector.Vector2;
 import resonant.lib.transform.vector.Vector3;
-import calclavia.api.mffs.card.ICoordLink;
+import resonant.api.mffs.card.ICoordLink;
 
 public class GuiMissileCoordinator extends GuiICBMContainer
 {

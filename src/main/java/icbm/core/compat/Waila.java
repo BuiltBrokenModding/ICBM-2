@@ -2,7 +2,7 @@ package icbm.core.compat;
 
 import icbm.core.compat.waila.WailaRegistrar;
 import resonant.lib.loadable.ILoadable;
-import resonant.lib.utility.Mods;
+import resonant.lib.compat.Mods;
 import cpw.mods.fml.common.event.FMLInterModComms;
 
 /**

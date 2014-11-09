@@ -47,7 +47,6 @@ public class TileLauncherScreen extends TileLauncherPrefab implements ITier, IRo
 
     private final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
-
     @Override
     public void onInstantiate()
     {

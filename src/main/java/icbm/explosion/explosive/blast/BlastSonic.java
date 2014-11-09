@@ -20,7 +20,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import resonant.lib.transform.Vector3;
-import calclavia.api.mffs.IForceFieldBlock;
+import resonant.api.mffs.IForceFieldBlock;
 
 public class BlastSonic extends Blast
 {
