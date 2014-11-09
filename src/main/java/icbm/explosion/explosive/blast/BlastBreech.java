@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.lib.transform.Vector3;
-import calclavia.api.mffs.IForceFieldBlock;
+import resonant.api.mffs.IForceFieldBlock;
 
 public class BlastBreech extends BlastRepulsive
 {
