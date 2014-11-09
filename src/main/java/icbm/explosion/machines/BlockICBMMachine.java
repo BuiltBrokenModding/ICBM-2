@@ -22,7 +22,7 @@ import net.minecraftforge.common.ForgeDirection;
 import resonant.api.IRedstoneReceptor;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
-import resonant.core.ResonantEngine;
+import resonant.engine.ResonantEngine;
 import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.multiblock.IMultiBlock;
 import resonant.lib.utility.LanguageUtility;
