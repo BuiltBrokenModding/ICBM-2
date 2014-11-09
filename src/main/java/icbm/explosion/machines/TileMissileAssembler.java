@@ -48,12 +48,8 @@ public class TileMissileAssembler extends TileInventory implements IMultiBlock, 
 
     public TileMissileAssembler()
     {
-<<<<<<< HEAD
-        setEnergyHandler(new EnergyStorage());
-=======
         super(Material.iron);
         setSizeInventory(1);
->>>>>>> upstream/master
     }
 
     @Override
