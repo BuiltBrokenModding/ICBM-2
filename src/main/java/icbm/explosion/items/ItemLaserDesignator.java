@@ -26,7 +26,7 @@ import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.item.ItemElectric;
 import resonant.lib.transform.Vector3;
-import calclavia.api.mffs.fortron.FrequencyGrid;
+import resonant.api.mffs.fortron.FrequencyGrid;
 
 import com.google.common.io.ByteArrayDataInput;
 
