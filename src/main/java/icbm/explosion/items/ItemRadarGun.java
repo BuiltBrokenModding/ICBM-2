@@ -67,11 +67,11 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                     {
                         PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(entityPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
                         this.discharge(itemStack, energyCost, true);
-                        entityPlayer.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.radarGun.scanned").replaceAll("%x", "" + objectMouseOver.blockX).replace("%y", "" + objectMouseOver.blockY).replaceAll("%z", "" + objectMouseOver.blockZ).replaceAll("%d", "" + Math.round(new Vector3(entityPlayer).distance(new Vector3(objectMouseOver)))));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.radarGun.scanned").replaceAll("%x", "" + objectMouseOver.blockX).replace("%y", "" + objectMouseOver.blockY).replaceAll("%z", "" + objectMouseOver.blockZ).replaceAll("%d", "" + Math.round(new Vector3(entityPlayer).distance(new Vector3(objectMouseOver))))));
                     }
                     else
                     {
-                        entityPlayer.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.radarGun.nopower"));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.radarGun.nopower")));
                     }
                 }
             }
@@ -115,13 +115,13 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                         if (par3World.isRemote)
                         {
                             PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, savedCords.intX(), missileLauncher.getTarget().intY(), savedCords.intZ()));
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer"));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer")));
                         }
                     }
                     else
                     {
                         if (par3World.isRemote)
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords"));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords")));
                     }
                 }
                 else if (tileEntity instanceof TileCruiseLauncher)
@@ -142,14 +142,14 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                         if (par3World.isRemote)
                         {
                             PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, savedCords.intX(), missileLauncher.getTarget().intY(), savedCords.intZ()));
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer"));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer")));
                         }
                     }
                     else
                     {
                         if (par3World.isRemote)
                         {
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords"));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords")));
                         }
                     }
                 }
