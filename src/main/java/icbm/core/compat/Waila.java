@@ -1,7 +1,7 @@
 package icbm.core.compat;
 
 import icbm.core.compat.waila.WailaRegistrar;
-import resonant.lib.modproxy.ICompatProxy;
+import resonant.lib.loadable.ILoadable;
 import resonant.lib.utility.Mods;
 import cpw.mods.fml.common.event.FMLInterModComms;
 
@@ -9,7 +9,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
  * @author tgame14
  * @since 12/04/14
  */
-public class Waila implements ICompatProxy
+public class Waila implements ILoadable
 {
 	@Override
 	public void preInit()
