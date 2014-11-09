@@ -1,13 +1,14 @@
 package icbm.explosion.explosive;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import resonant.lib.prefab.item.ItemBlockTooltip;
+import resonant.content.prefab.itemblock.ItemBlockTooltip;
 
 public class ItemBlockExplosive extends ItemBlockTooltip
 {
-    public ItemBlockExplosive(int id)
+    public ItemBlockExplosive(Block block)
     {
-        super(id);
+        super(block);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }

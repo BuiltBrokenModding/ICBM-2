@@ -12,8 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import resonant.lib.transform.Vector3;
-import calclavia.api.mffs.IForceFieldBlock;
+import resonant.lib.transform.vector.Vector3;
 
 public class BlastAntiGravitational extends Blast
 {
@@ -34,7 +33,7 @@ public class BlastAntiGravitational extends Blast
             this.thread.start();
         }
 
-        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "antigravity", 6.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
+        this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "antigravity", 6.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override

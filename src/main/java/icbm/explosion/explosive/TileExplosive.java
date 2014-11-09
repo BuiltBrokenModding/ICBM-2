@@ -3,18 +3,23 @@ package icbm.explosion.explosive;
 import icbm.core.ICBMCore;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.items.ItemRemoteDetonator;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
-import resonant.lib.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.network.netty.ResonantPacketHandler;
 
 public class TileExplosive extends TileEntity implements IExplosiveContainer, IPacketReceiver, IRotatable
 {
@@ -47,38 +52,32 @@ public class TileExplosive extends TileEntity implements IExplosiveContainer, IP
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
-        try
-        {
-            final byte ID = data.readByte();
+        final byte ID = data.readByte();
 
-            if (ID == 1)
-            {
-                haoMa = data.readInt();
-                worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
-            }
-            else if (ID == 2 && !this.worldObj.isRemote)
-            {
-                // Packet explode command
-                if (player.inventory.getCurrentItem().getItem() instanceof ItemRemoteDetonator)
-                {
-                    ItemStack itemStack = player.inventory.getCurrentItem();
-                    BlockExplosive.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
-                    ((ItemRemoteDetonator) ICBMExplosion.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.ENERGY, true);
-                }
-            }
-        }
-        catch (Exception e)
+        if (ID == 1)
         {
-            e.printStackTrace();
+            haoMa = data.readInt();
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
+        else if (ID == 2 && !this.worldObj.isRemote)
+        {
+            // Packet explode command
+            if (player.inventory.getCurrentItem().getItem() instanceof ItemRemoteDetonator)
+            {
+                ItemStack itemStack = player.inventory.getCurrentItem();
+                BlockExplosive.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
+                ((ItemRemoteDetonator) ICBMExplosion.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.ENERGY, true);
+            }
+        }
+
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, (byte) 1, this.haoMa);
+        return ResonantEngine.instance.packetHandler.toMCPacket(new PacketTile(this, (byte) 1, this.haoMa));
     }
 
     @Override

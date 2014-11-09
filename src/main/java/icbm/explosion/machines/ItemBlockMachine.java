@@ -2,17 +2,16 @@ package icbm.explosion.machines;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import resonant.api.ITier;
-import resonant.lib.prefab.item.ItemBlockTooltip;
 
-public class ItemBlockMachine extends ItemBlockTooltip
+public class ItemBlockMachine extends Item
 {
-    public ItemBlockMachine(int id)
+    public ItemBlockMachine()
     {
-        super(id);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }

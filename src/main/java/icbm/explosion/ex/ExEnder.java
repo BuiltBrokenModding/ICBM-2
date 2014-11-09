@@ -7,8 +7,10 @@ import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.explosive.blast.BlastEnderman;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import resonant.api.explosion.IExplosiveContainer;
@@ -44,7 +46,7 @@ public class ExEnder extends Explosion
 
                         if (!world.isRemote)
                         {
-                            entityPlayer.addChatMessage("Synced coordinate with " + this.getExplosiveName());
+                            entityPlayer.addChatMessage(new ChatComponentText("Synced coordinate with " + this.getExplosiveName()));
                         }
 
                         return true;
@@ -70,7 +72,7 @@ public class ExEnder extends Explosion
                     link.writeNBT(missileObj.nbtData);
                     if (!missileObj.worldObj.isRemote)
                     {
-                        entityPlayer.addChatMessage("Synced coordinate with " + this.getMissileName());
+                        entityPlayer.addChatMessage(new ChatComponentText("Synced coordinate with " + this.getMissileName()));
                     }
                     return true;
                 }
@@ -83,7 +85,7 @@ public class ExEnder extends Explosion
     @Override
     public void init()
     {
-        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Item.enderPearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
+        RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Items.ender_pearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
     @SuppressWarnings("deprecation")

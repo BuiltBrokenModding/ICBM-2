@@ -5,6 +5,7 @@ import icbm.explosion.entities.EntityMissile.MissileType;
 import icbm.explosion.explosive.blast.BlastRepulsive;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import resonant.api.items.IItemTracker;
@@ -59,11 +60,11 @@ public class MissileHoming extends Missile
 
                 missileObj.missileType = MissileType.CruiseMissile;
 
-                missileObj.deltaPathX = missileObj.targetVector.x - missileObj.posX;
-                missileObj.deltaPathY = missileObj.targetVector.y - missileObj.posY;
-                missileObj.deltaPathZ = missileObj.targetVector.z - missileObj.posZ;
+                missileObj.deltaPathX = missileObj.targetVector.x() - missileObj.posX;
+                missileObj.deltaPathY = missileObj.targetVector.y() - missileObj.posY;
+                missileObj.deltaPathZ = missileObj.targetVector.z() - missileObj.posZ;
 
-                missileObj.flatDistance = Vector2.distance(missileObj.startPos.toVector2(), missileObj.targetVector.toVector2());
+                missileObj.flatDistance = missileObj.startPos.subtract(missileObj.targetVector).toVector2().magnitude();
                 missileObj.maxHeight = 150 + (int) (missileObj.flatDistance * 1.8);
                 missileObj.missileFlightTime = (float) Math.max(100, 2.4 * missileObj.flatDistance);
                 missileObj.acceleration = (float) missileObj.maxHeight * 2 / (missileObj.missileFlightTime * missileObj.missileFlightTime);
@@ -72,9 +73,9 @@ public class MissileHoming extends Missile
                 {
                     float suDu = 0.3f;
                     missileObj.xiaoDanMotion = new Vector3();
-                    missileObj.xiaoDanMotion.x = missileObj.deltaPathX / (missileObj.missileFlightTime * suDu);
-                    missileObj.xiaoDanMotion.y = missileObj.deltaPathY / (missileObj.missileFlightTime * suDu);
-                    missileObj.xiaoDanMotion.z = missileObj.deltaPathZ / (missileObj.missileFlightTime * suDu);
+                    missileObj.xiaoDanMotion.x_$eq(missileObj.deltaPathX / (missileObj.missileFlightTime * suDu));
+                    missileObj.xiaoDanMotion.y_$eq(missileObj.deltaPathY / (missileObj.missileFlightTime * suDu));
+                    missileObj.xiaoDanMotion.z_$eq(missileObj.deltaPathZ / (missileObj.missileFlightTime * suDu));
                 }
             }
         }
@@ -93,15 +94,15 @@ public class MissileHoming extends Missile
 
                     if (trackingEntity != null)
                     {
-                        if (missileObj.trackingVar != trackingEntity.entityId)
+                        if (missileObj.trackingVar != trackingEntity.getEntityId())
                         {
-                            missileObj.trackingVar = trackingEntity.entityId;
-                            entityPlayer.addChatMessage("Missile target locked to: " + trackingEntity.getEntityName());
+                            missileObj.trackingVar = trackingEntity.getEntityId();
+                            entityPlayer.addChatMessage(new ChatComponentText("Missile target locked to: " + trackingEntity.getEntityId()));
 
                             if (missileObj.getLauncher() != null && missileObj.getLauncher().getController() != null)
                             {
                                 Vector3 newTarget = new Vector3(trackingEntity);
-                                newTarget.y = 0;
+                                newTarget.y_$eq(0);
                                 missileObj.getLauncher().getController().setTarget(newTarget);
                             }
 
