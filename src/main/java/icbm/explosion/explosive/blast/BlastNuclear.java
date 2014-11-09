@@ -10,8 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
-import resonant.lib.transform.Vector3;
+import net.minecraftforge.common.config.Configuration;
+import resonant.lib.transform.vector.Vector3;
 
 public class BlastNuclear extends Blast
 {
@@ -82,8 +82,8 @@ public class BlastNuclear extends Blast
                         if (r > distance && r - 3 < distance)
                         {
                             Vector3 spawnPosition = Vector3.translate(position, new Vector3(x * 2, (y - 2) * 2, z * 2));
-                            float xDiff = (float) (spawnPosition.x - position.x);
-                            float zDiff = (float) (spawnPosition.z - position.z);
+                            float xDiff = (float) (spawnPosition.x() - position.x());
+                            float zDiff = (float) (spawnPosition.z() - position.z());
                             ICBMExplosion.proxy.spawnParticle("smoke", world(), spawnPosition, xDiff * 0.3 * world().rand.nextFloat(), -world().rand.nextFloat(), zDiff * 0.3 * world().rand.nextFloat(), (float) (distance / this.getRadius()) * world().rand.nextFloat(), 0, 0, 8F, 1.2F);
                         }
                     }
@@ -93,7 +93,7 @@ public class BlastNuclear extends Blast
 
         this.doDamageEntities(this.getRadius(), this.energy * 1000);
 
-        this.world().playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
+        this.world().playSoundEffect(this.position.x(), this.position.y(), this.position.z(), Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     @Override
@@ -151,9 +151,9 @@ public class BlastNuclear extends Blast
             {
                 for (Vector3 p : this.thread.results)
                 {
-                    Block block = Block.blocksList[this.world().getBlockId(p.intX(), p.intY(), p.intZ())];
+                    Block block = this.world().getBlock(p.xi(), p.yi(), p.zi());
                     if (block != null)
-                        block.onBlockExploded(this.world(), p.intX(), p.intY(), p.intZ(), this);
+                        block.onBlockExploded(this.world(), p.xi(), p.yi(), p.zi(), this);
 
                 }
             }
@@ -168,8 +168,8 @@ public class BlastNuclear extends Blast
 
         if (this.isRadioactive)
         {
-            new BlastRot(world(), this.exploder, position.x, position.y, position.z, this.getRadius(), this.energy).explode();
-            new BlastMutation(world(), this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
+            new BlastRot(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius(), this.energy).explode();
+            new BlastMutation(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius()).explode();
 
             if (this.world().rand.nextInt(3) == 0)
             {
@@ -177,7 +177,7 @@ public class BlastNuclear extends Blast
             }
         }
 
-        this.world().playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "explosion", 10.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
+        this.world().playSoundEffect(this.position.x(), this.position.y(), this.position.z(), Reference.PREFIX + "explosion", 10.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
 
     /** The interval in ticks before the next procedural call of this explosive

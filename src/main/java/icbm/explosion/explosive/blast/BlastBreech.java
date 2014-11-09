@@ -2,11 +2,11 @@ package icbm.explosion.explosive.blast;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
-import resonant.lib.transform.Vector3;
-import calclavia.api.mffs.IForceFieldBlock;
+import resonant.lib.transform.vector.Vector3;
 
 public class BlastBreech extends BlastRepulsive
 {
@@ -40,13 +40,13 @@ public class BlastBreech extends BlastRepulsive
                 difference.translate(ForgeDirection.DOWN);
             }
 
-            this.world().playSoundEffect(position.x, position.y, position.z, "random.explode", 5.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
+            this.world().playSoundEffect(position.x(), position.y(), position.z(), "random.explode", 5.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
 
             for (int i = 0; i < this.depth; i++)
             {
                 if (Block.blocksList[position.getBlockID(world())] != null)
                 {
-                    if (Block.blocksList[position.getBlockID(world())].getExplosionResistance(this.exploder, world(), position.intX(), position.intY(), position.intZ(), position.x, position.y, position.z) > Block.obsidian.getExplosionResistance(this.exploder) || Block.blocksList[position.getBlockID(world())] instanceof IForceFieldBlock)
+                    if (Block.blocksList[position.getBlockID(world())].getExplosionResistance(this.exploder, world(), position.xi(), position.yi(), position.zi(), position.x(), position.y(), position.z()) > Blocks.obsidian.getExplosionResistance(this.exploder) || Block.blocksList[position.getBlockID(world())] instanceof IForceFieldBlock)
                     {
                         break;
                     }

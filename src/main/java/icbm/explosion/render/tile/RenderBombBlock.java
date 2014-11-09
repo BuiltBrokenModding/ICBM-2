@@ -63,7 +63,7 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
     {
         if (modelID == ID)
         {
-            TileEntity tileEntity = iBlockAccess.getBlockTileEntity(x, y, z);
+            TileEntity tileEntity = iBlockAccess.getTileEntity(x, y, z);
 
             if (tileEntity instanceof TileExplosive)
             {
@@ -100,16 +100,17 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
         }
     }
 
-    @Override
-    public boolean shouldRender3DInInventory()
-    {
-        return true;
-    }
 
     @Override
     public int getRenderId()
     {
         return ID;
     }
+
+	@Override
+	public boolean shouldRender3DInInventory(int modelId) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 }

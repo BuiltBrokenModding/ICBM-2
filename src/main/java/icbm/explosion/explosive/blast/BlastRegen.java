@@ -1,5 +1,6 @@
 package icbm.explosion.explosive.blast;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -23,7 +24,7 @@ public class BlastRegen extends Blast
         {
             try
             {
-                Chunk oldChunk = world().getChunkFromBlockCoords(position.intX(), position.intZ());
+                Chunk oldChunk = world().getChunkFromBlockCoords(position.xi(), position.zi());
 
                 if (world() instanceof WorldServer)
                 {
@@ -39,7 +40,7 @@ public class BlastRegen extends Blast
                         {
                             for (int y = 0; y < world().getHeight(); y++)
                             {
-                                int blockID = newChunk.getBlockID(x, y, z);
+                                Block blockID = newChunk.getBlock(x, y, z);
                                 int metadata = newChunk.getBlockMetadata(x, y, z);
 
                                 worldServer.setBlock(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, blockID, metadata, 2);
@@ -48,7 +49,7 @@ public class BlastRegen extends Blast
 
                                 if (tileEntity != null)
                                 {
-                                    worldServer.setBlockTileEntity(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, tileEntity);
+                                    worldServer.setTileEntity(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, tileEntity);
                                 }
                             }
                         }

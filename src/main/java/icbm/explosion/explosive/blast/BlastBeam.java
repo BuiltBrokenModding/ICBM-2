@@ -12,7 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import resonant.lib.transform.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 /** Used by Exothermic and Endothermic explosions.
  * 
@@ -37,7 +37,7 @@ public abstract class BlastBeam extends Blast
     {
         if (!this.world().isRemote)
         {
-            this.world().createExplosion(this.exploder, position.x, position.y, position.z, 4F, true);
+            this.world().createExplosion(this.exploder, position.x(), position.y(), position.z(), 4F, true);
 
             this.lightBeam = new EntityLightBeam(this.world(), position, 20 * 20, this.red, this.green, this.blue);
             this.world().spawnEntityInWorld(this.lightBeam);
@@ -60,7 +60,7 @@ public abstract class BlastBeam extends Blast
             if (this.canFocusBeam(this.world(), position))
             {
                 Vector3 currentPos;
-                int blockID;
+                Block blockID;
                 int metadata;
                 double dist;
 
@@ -78,19 +78,19 @@ public abstract class BlastBeam extends Blast
                             {
                                 continue;
                             }
-                            currentPos = new Vector3(position.x + x, position.y + y, position.z + z);
-                            blockID = this.world().getBlockId(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+                            currentPos = new Vector3(position.x() + x, position.y() + y, position.z() + z);
+                            blockID = this.world().getBlock(currentPos.xi(), currentPos.yi(), currentPos.zi());
                             Block block = Block.blocksList[blockID];
-                            if (block == null || block.isAirBlock(this.world(), x, y, z) || block.getBlockHardness(this.world(), x, y, x) < 0)
+                            if (block == null || block.isAir(this.world(), x, y, z) || block.getBlockHardness(this.world(), x, y, x) < 0)
                             {
                                 continue;
                             }
 
-                            metadata = this.world().getBlockMetadata(currentPos.intX(), currentPos.intY(), currentPos.intZ());
+                            metadata = this.world().getBlockMetadata(currentPos.xi(), currentPos.yi(), currentPos.zi());
 
                             if (this.world().rand.nextInt(2) > 0)
                             {
-                                this.world().setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, 2);
+                                this.world().setBlock(currentPos.xi(), currentPos.yi(), currentPos.zi(), 0, 0, 2);
 
                                 currentPos.translate(0.5D);
                                 EntityFlyingBlock entity = new EntityFlyingBlock(this.world(), currentPos, blockID, metadata);
@@ -137,7 +137,7 @@ public abstract class BlastBeam extends Blast
 
     public boolean canFocusBeam(World worldObj, Vector3 position)
     {
-        return worldObj.canBlockSeeTheSky(position.intX(), position.intY() + 1, position.intZ());
+        return worldObj.canBlockSeeTheSky(position.xi(), position.yi() + 1, position.zi());
     }
 
     /** The interval in ticks before the next procedural call of this explosive

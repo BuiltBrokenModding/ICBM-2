@@ -12,7 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import resonant.lib.prefab.potion.CustomPotionEffect;
-import resonant.lib.transform.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 public class BlastChemical extends Blast
 {
@@ -69,7 +69,7 @@ public class BlastChemical extends Blast
         super.doPreExplode();
         if (!this.playShortSoundFX)
         {
-            this.world().playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "debilitation", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
+            this.world().playSoundEffect(this.position.x(), this.position.y(), this.position.z(), Reference.PREFIX + "debilitation", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
 
@@ -89,7 +89,7 @@ public class BlastChemical extends Blast
                 diDian.z = Math.random() * radius / 2 - radius / 4;
                 diDian.scale(Math.min(radius, callCount) / 10);
 
-                if (diDian.getMagnitude() <= radius)
+                if (diDian.magnitude() <= radius)
                 {
                     diDian.translate(this.position);
                     ICBMExplosion.proxy.spawnParticle("smoke", this.world(), diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, this.red, this.green, this.blue, 7.0F, 8);
@@ -97,7 +97,7 @@ public class BlastChemical extends Blast
             }
         }
 
-        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
+        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x() - radius, position.y() - radius, position.z() - radius, position.x() + radius, position.y() + radius, position.z() + radius);
         List<EntityLivingBase> allEntities = world().getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
         for (EntityLivingBase entity : allEntities)
@@ -122,12 +122,12 @@ public class BlastChemical extends Blast
 
         if (this.isMutate)
         {
-            new BlastMutation(world(), this.exploder, position.x, position.y, position.z, this.getRadius()).explode();
+            new BlastMutation(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius()).explode();
         }
 
         if (this.playShortSoundFX)
         {
-            world().playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "gasleak", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
+            world().playSoundEffect(position.x() + 0.5D, position.y() + 0.5D, position.z() + 0.5D, Reference.PREFIX + "gasleak", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
         }
 
         if (this.callCount > this.duration)
