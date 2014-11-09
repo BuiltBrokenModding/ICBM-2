@@ -115,13 +115,13 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                         if (par3World.isRemote)
                         {
                             PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, savedCords.intX(), missileLauncher.getTarget().intY(), savedCords.intZ()));
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer")));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer"))));
                         }
                     }
                     else
                     {
                         if (par3World.isRemote)
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords")));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords"))));
                     }
                 }
                 else if (tileEntity instanceof TileCruiseLauncher)
@@ -142,14 +142,14 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                         if (par3World.isRemote)
                         {
                             PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, savedCords.intX(), missileLauncher.getTarget().intY(), savedCords.intZ()));
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer")));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer"))));
                         }
                     }
                     else
                     {
                         if (par3World.isRemote)
                         {
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords")));
+                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords"))));
                         }
                     }
                 }
