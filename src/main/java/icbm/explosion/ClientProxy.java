@@ -72,7 +72,7 @@ import resonant.lib.render.fx.FXElectricBoltSpawner;
 import resonant.lib.render.fx.FXEnderPortalPartical;
 import resonant.lib.render.fx.FXShockWave;
 import resonant.lib.render.fx.FXSmoke;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
