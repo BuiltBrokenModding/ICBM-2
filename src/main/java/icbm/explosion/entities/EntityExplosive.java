@@ -12,7 +12,7 @@ import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.tranform.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

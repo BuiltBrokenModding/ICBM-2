@@ -5,8 +5,8 @@ import net.minecraft.block.BlockFluid;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
+import resonant.lib.tranform.Vector3;
+import resonant.lib.tranform.VectorWorld;
 
 /** Used for searching block spawn. Returns a block above this found block coordinate.
  * 

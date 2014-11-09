@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import resonant.lib.prefab.vector.Cuboid;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.tranform.Vector3;
 
 public class BlastRepulsive extends Blast
 {
