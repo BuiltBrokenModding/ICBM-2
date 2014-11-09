@@ -5,7 +5,7 @@ import icbm.explosion.explosive.ExplosiveRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import resonant.api.IRotatable;
 import resonant.api.explosion.ExplosiveType;
