@@ -19,7 +19,7 @@ import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.multiblock.IMultiBlock;
 import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.EnergyStorageHandler;
+import resonant.api.energy.EnergyStorage;
 import resonant.lib.transform.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -38,7 +38,7 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
     public TileMissileAssembler()
     {
-        setEnergyHandler(new EnergyStorageHandler());
+        setEnergyHandler(new EnergyStorage());
     }
 
     @Override

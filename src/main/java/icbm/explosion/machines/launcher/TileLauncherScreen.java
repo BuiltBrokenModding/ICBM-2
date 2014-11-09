@@ -20,7 +20,7 @@ import resonant.api.explosion.LauncherType;
 import resonant.lib.multiblock.IBlockActivate;
 import resonant.lib.network.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.EnergyStorageHandler;
+import resonant.api.electric.EnergyStorage;
 import resonant.lib.transform.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -46,7 +46,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 
     public TileLauncherScreen()
     {
-        setEnergyHandler(new EnergyStorageHandler(Long.MAX_VALUE));
+        setEnergyHandler(new EnergyStorage(Long.MAX_VALUE));
     }
 
     @Override
