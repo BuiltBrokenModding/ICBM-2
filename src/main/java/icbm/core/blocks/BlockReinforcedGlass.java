@@ -2,6 +2,7 @@ package icbm.core.blocks;
 
 import icbm.TabICBM;
 import icbm.core.prefab.BlockICBM;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -13,7 +14,7 @@ public class BlockReinforcedGlass extends BlockICBM implements IAntiPoisonBlock
 {
     public BlockReinforcedGlass(int id)
     {
-        super(id, "glassReinforced", Material.glass);
+        super("glassReinforced", Material.glass);
         this.setResistance(48);
         this.setCreativeTab(TabICBM.INSTANCE);
     }
@@ -30,8 +31,8 @@ public class BlockReinforcedGlass extends BlockICBM implements IAntiPoisonBlock
     @Override
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
-        int i1 = par1IBlockAccess.getBlockId(par2, par3, par4);
-        return i1 == this.blockID ? false : super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5);
+        Block i1 = par1IBlockAccess.getBlock(par2, par3, par4);
+        return i1 == this ? false : super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5);
     }
 
     /** Is this block (a) opaque and (b) a full 1m cube? This determines whether or not to render the

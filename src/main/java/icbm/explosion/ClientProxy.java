@@ -1,14 +1,12 @@
 package icbm.explosion;
 
 import icbm.core.ICBMCore;
-import icbm.core.SoundHandler;
 import icbm.explosion.entities.EntityBombCart;
 import icbm.explosion.entities.EntityExplosion;
 import icbm.explosion.entities.EntityExplosive;
 import icbm.explosion.entities.EntityGrenade;
 import icbm.explosion.entities.EntityLightBeam;
 import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.ex.missiles.MissilePlayerHandler;
 import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.fx.FXAntimatterPartical;
 import icbm.explosion.gui.GuiCruiseLauncher;
@@ -17,10 +15,8 @@ import icbm.explosion.gui.GuiLauncherScreen;
 import icbm.explosion.gui.GuiMissileCoordinator;
 import icbm.explosion.gui.GuiMissileTable;
 import icbm.explosion.gui.GuiRadarStation;
-import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileEMPTower;
 import icbm.explosion.machines.TileMissileAssembler;
-import icbm.explosion.machines.TileMissileCoordinator;
 import icbm.explosion.machines.TileRadarStation;
 import icbm.explosion.machines.launcher.TileLauncherBase;
 import icbm.explosion.machines.launcher.TileLauncherFrame;
@@ -41,8 +37,6 @@ import icbm.explosion.render.tile.RenderLauncherBase;
 import icbm.explosion.render.tile.RenderLauncherFrame;
 import icbm.explosion.render.tile.RenderLauncherScreen;
 import icbm.explosion.render.tile.RenderMissileAssembler;
-import icbm.explosion.render.tile.RenderMissileCoordinator;
-import icbm.explosion.render.tile.RenderRadarStation;
 
 import java.util.List;
 
@@ -76,7 +70,6 @@ import resonant.lib.transform.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -89,8 +82,8 @@ public class ClientProxy extends CommonProxy
     @Override
     public void preInit()
     {
-        TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
-        MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
+        //TickRegistry.registerTickHandler(new TickHandler(), Side.CLIENT);
+        //MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
     }
 
     @Override
@@ -98,8 +91,8 @@ public class ClientProxy extends CommonProxy
     {
         super.init();
 
-        MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemRocketLauncher.itemID, new RenderRocketLauncher());
-        MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemMissile.itemID, new RenderItemMissile());
+        MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemRocketLauncher, new RenderRocketLauncher());
+        MinecraftForgeClient.registerItemRenderer(ICBMExplosion.itemMissile, new RenderItemMissile());
 
         RenderingRegistry.registerBlockHandler(new RenderBombBlock());
         RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
@@ -111,13 +104,13 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
         RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
-        ClientRegistry.bindTileEntitySpecialRenderer(TileCruiseLauncher.class, new RenderCruiseLauncher());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileCruiseLauncher.class, new RenderCruiseLauncher());
         ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RenderLauncherBase());
         ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RenderLauncherScreen());
         ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RenderLauncherFrame());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileRadarStation.class, new RenderRadarStation());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileRadarStation.class, new RenderRadarStation());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileMissileCoordinator.class, new RenderMissileCoordinator());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileMissileCoordinator.class, new RenderMissileCoordinator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileExplosive.class, new RenderBombBlock());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileAssembler());
     }
@@ -125,13 +118,9 @@ public class ClientProxy extends CommonProxy
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer entityPlayer, World world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileCruiseLauncher)
-        {
-            return new GuiCruiseLauncher(entityPlayer.inventory, (TileCruiseLauncher) tileEntity);
-        }
-        else if (tileEntity instanceof TileLauncherScreen)
+         if (tileEntity instanceof TileLauncherScreen)
         {
             return new GuiLauncherScreen(((TileLauncherScreen) tileEntity));
         }
@@ -142,10 +131,6 @@ public class ClientProxy extends CommonProxy
         else if (tileEntity instanceof TileEMPTower)
         {
             return new GuiEMPTower((TileEMPTower) tileEntity);
-        }
-        else if (tileEntity instanceof TileMissileCoordinator)
-        {
-            return new GuiMissileCoordinator(entityPlayer.inventory, (TileMissileCoordinator) tileEntity);
         }
         else if (tileEntity instanceof TileMissileAssembler)
         {
@@ -190,7 +175,7 @@ public class ClientProxy extends CommonProxy
         }
         else if (name.equals("digging"))
         {
-            fx = new EntityDiggingFX(world, position.x, position.y, position.z, motionX, motionY, motionZ, Block.blocksList[(int) red], 0, (int) green);
+            fx = new EntityDiggingFX(world, position.x(), position.y(), position.z(), motionX, motionY, motionZ, Block.getBlockById((int) red), 0, (int) green);
             fx.multipleParticleScaleBy(blue);
         }
         else if (name.equals("shockwave"))
@@ -217,12 +202,6 @@ public class ClientProxy extends CommonProxy
     public void spawnShock(World world, Vector3 startVec, Vector3 targetVec, int duration)
     {
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXElectricBoltSpawner(world, startVec, targetVec, 0, duration));
-    }
-
-    @Override
-    public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
-    {
-        return new MissilePlayerHandler(Minecraft.getMinecraft().sndManager, eDaoDan, Minecraft.getMinecraft().thePlayer);
     }
 
     @Override

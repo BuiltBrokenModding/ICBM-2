@@ -1,7 +1,10 @@
 package icbm;
 
+import icbm.explosion.ICBMExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class TabICBM extends CreativeTabs
@@ -20,10 +23,16 @@ public class TabICBM extends CreativeTabs
     {
         if (itemStack == null)
         {
-            itemStack = new ItemStack(Block.tnt);
+            itemStack = new ItemStack(Blocks.tnt);
         }
 
         return itemStack;
     }
+
+	@Override
+	public Item getTabIconItem() {
+		// TODO Auto-generated method stub
+		return ICBMExplosion.itemRocketLauncher;
+	}
 
 }

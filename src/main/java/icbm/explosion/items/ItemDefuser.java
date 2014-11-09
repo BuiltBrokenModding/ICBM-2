@@ -13,6 +13,7 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import resonant.lib.utility.LanguageUtility;
 
@@ -21,7 +22,7 @@ public class ItemDefuser extends ItemICBMElectrical
 {
     private static final int energyCost = 100000;
 
-    public ItemDefuser(int id)
+    public ItemDefuser()
     {
         super("defuser");
     }
@@ -78,20 +79,20 @@ public class ItemDefuser extends ItemICBMElectrical
         }
         else
         {
-            player.addChatMessage(LanguageUtility.getLocal("message.defuser.nopower"));
+            player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.defuser.nopower")));
         }
 
         return false;
     }
 
     @Override
-    public long getVoltage(ItemStack itemStack)
+    public double getVoltage(ItemStack itemStack)
     {
         return 20;
     }
 
     @Override
-    public long getEnergyCapacity(ItemStack itemStack)
+    public double getEnergyCapacity(ItemStack itemStack)
     {
         return energyCost * 10;
     }

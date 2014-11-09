@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBombCart extends ItemICBMBase
 {
-    public ItemBombCart(int id)
+    public ItemBombCart()
     {
         super("minecart");
         this.setMaxStackSize(1);
@@ -35,7 +35,7 @@ public class ItemBombCart extends ItemICBMBase
     {
         Block var11 = world.getBlock(x, y, z);
 
-        if (BlockRailBase.isRailBlock(var11))
+        if (BlockRailBase.func_150051_a(var11))
         {
             if (!world.isRemote)
             {
@@ -70,8 +70,7 @@ public class ItemBombCart extends ItemICBMBase
         return "icbm.minecart." + ExplosiveRegistry.get(itemstack.getItemDamage()).getUnlocalizedName();
     }
 
-    @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(Block par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
         {

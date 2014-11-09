@@ -1,12 +1,12 @@
 package icbm.explosion.explosive.thread;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
-import resonant.lib.transform.Vector3;
-import resonant.lib.transform.VectorWorld;
+import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
 
 /** Used for searching block spawn. Returns a block above this found block coordinate.
  * 
@@ -36,13 +36,13 @@ public class ThreadSky extends ThreadExplosion
             {
                 float resistance = 0;
 
-                if (block instanceof BlockFluid || block instanceof IFluidBlock)
+                if (block instanceof BlockLiquid || block instanceof IFluidBlock)
                 {
                     resistance = 0.25f;
                 }
                 else
                 {
-                    resistance = block.getExplosionResistance(source, world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), explosionPosition.intX(), explosionPosition.intY(), explosionPosition.intZ());
+                    resistance = block.getExplosionResistance(source, world, targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), explosionPosition.xi(), explosionPosition.yi(), explosionPosition.zi());
                 }
 
                 return resistance;
@@ -73,28 +73,26 @@ public class ThreadSky extends ThreadExplosion
                     if (targetPosition.distance(position) > this.radius)
                         break;
 
-                    int blockID = this.position.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    Block blockID = this.position.world().getBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
-                    if (blockID > 0)
+                    if (!blockID.isAir(position.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi()))
                     {
-                        if (blockID == Block.bedrock.blockID)
+                        if (blockID.getBlockHardness(position.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi()) < 0)
                         {
                             break;
                         }
 
-                        float resistance = this.callBack.getResistance(this.position.world(), position, targetPosition, source, Block.blocksList[blockID]);
+                        float resistance = this.callBack.getResistance(this.position.world(), position, targetPosition, source, blockID);
 
                         power -= resistance;
 
                         if (power > 0f)
                         {
-                            this.results.add(targetPosition.clone().translate(new Vector3(0, 1, 0)));
+                            this.results.add(targetPosition.clone().add(new Vector3(0, 1, 0)));
                         }
                     }
 
-                    targetPosition.x += delta.x;
-                    targetPosition.y += delta.y;
-                    targetPosition.z += delta.z;
+                    targetPosition.addEquals(delta);
                 }
             }
         }

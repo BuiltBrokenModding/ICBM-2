@@ -7,12 +7,12 @@ import net.minecraft.world.World;
 /** @author DarkGuardsman */
 public class BlockReinforcedRail extends BlockRail
 {
-    public BlockReinforcedRail(int id)
+    public BlockReinforcedRail()
     {
-        super(id);
+        super();
         setHardness(10F);
         setResistance(10F);
-        setStepSound(soundMetalFootstep);
+        setStepSound(soundTypeMetal);
     }
 
     @Override

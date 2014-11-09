@@ -8,28 +8,31 @@ import icbm.explosion.explosive.ExplosiveRegistry;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import javax.swing.Icon;
+
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.util.Icon;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.api.explosion.ExplosiveType;
 import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemGrenade extends ItemICBMBase
 {
-    public static final Icon[] ICONS = new Icon[256];
+    public static final IIcon[] ICONS = new IIcon[256];
 
-    public ItemGrenade(int id)
+    public ItemGrenade()
     {
-        super(id, "grenade");
+        super("grenade");
         this.setMaxStackSize(16);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
@@ -68,7 +71,7 @@ public class ItemGrenade extends ItemICBMBase
             }
             else
             {
-                entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Grenades are banned in this region."));
+                entityPlayer.addChatComponentMessage(new ChatComponentText("Grenades are banned in this region."));
             }
         }
 
@@ -101,7 +104,7 @@ public class ItemGrenade extends ItemICBMBase
             }
             else
             {
-                entityPlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Grenades are banned in this region."));
+                entityPlayer.addChatComponentMessage(new ChatComponentText("Grenades are banned in this region."));
             }
         }
     }
@@ -134,7 +137,7 @@ public class ItemGrenade extends ItemICBMBase
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public void registerIcons(IIconRegister iconRegister)
     {
         for (int i = 0; i < ExplosiveRegistry.getExplosives().size(); i++)
         {
@@ -143,13 +146,12 @@ public class ItemGrenade extends ItemICBMBase
     }
 
     @Override
-    public Icon getIconFromDamage(int i)
+    public IIcon getIconFromDamage(int i)
     {
         return ICONS[i];
     }
 
-    @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(Block par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
         {

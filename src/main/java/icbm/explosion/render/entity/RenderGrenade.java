@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -23,7 +23,7 @@ public class RenderGrenade extends Render
     public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
     {
         /** Renders the grenade based on the explosive ID. */
-        Icon icon = ICBMExplosion.itemGrenade.getIconFromDamage(((EntityGrenade) entity).haoMa);
+        IIcon icon = ICBMExplosion.itemGrenade.getIconFromDamage(((EntityGrenade) entity).haoMa);
 
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x, (float) y + 0.4f, (float) z);
@@ -36,7 +36,7 @@ public class RenderGrenade extends Render
         GL11.glPopMatrix();
     }
 
-    private void renderIcon(Tessellator par1Tessellator, Icon icon)
+    private void renderIcon(Tessellator par1Tessellator, IIcon icon)
     {
         float f = icon.getMinU();
         float f1 = icon.getMaxU();

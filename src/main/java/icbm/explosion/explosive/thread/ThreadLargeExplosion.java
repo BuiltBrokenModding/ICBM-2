@@ -1,12 +1,12 @@
 package icbm.explosion.explosive.thread;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
-import resonant.lib.transform.Vector3;
-import resonant.lib.transform.VectorWorld;
+import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
 
 /** Used for large raycasting explosions.
  * 
@@ -36,13 +36,13 @@ public class ThreadLargeExplosion extends ThreadExplosion
             {
                 float resistance = 0;
 
-                if (block instanceof BlockFluid || block instanceof IFluidBlock)
+                if (block instanceof BlockLiquid || block instanceof IFluidBlock)
                 {
                     resistance = 0.25f;
                 }
                 else
                 {
-                    resistance = block.getExplosionResistance(source, world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), pos.intX(), pos.intY(), pos.intZ());
+                    resistance = block.getExplosionResistance(source, world, targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), pos.xi(), pos.yi(), pos.zi());
                 }
 
                 return resistance;
@@ -66,18 +66,18 @@ public class ThreadLargeExplosion extends ThreadExplosion
                 Vector3 delta = new Vector3(Math.sin(theta) * Math.cos(phi), Math.cos(theta), Math.sin(theta) * Math.sin(phi));
                 float power = this.energy - (this.energy * this.position.world().rand.nextFloat() / 2);
 
-                Vector3 t = position.clone();
+                VectorWorld t = position.clone();
 
                 for (float d = 0.3F; power > 0f; power -= d * 0.75F * 10)
                 {
                     if (t.distance(position) > this.radius)
                         break;
 
-                    Block block = Block.blocksList[this.position.world().getBlockId(t.intX(), t.intY(), t.intZ())];
+                    Block block = t.getBlock();
 
                     if (block != null)
                     {
-                        if (block.getBlockHardness(this.position.world(), t.intX(), t.intY(), t.intZ()) >= 0)
+                        if (block.getBlockHardness(this.position.world(), t.xi(), t.yi(), t.zi()) >= 0)
                         {
                             power -= this.callBack.getResistance(this.position.world(), position, t, source, block);
 
@@ -88,7 +88,7 @@ public class ThreadLargeExplosion extends ThreadExplosion
 
                         }
                     }
-                    t.translate(delta);
+                    t.addEquals(delta);
                 }
             }
         }

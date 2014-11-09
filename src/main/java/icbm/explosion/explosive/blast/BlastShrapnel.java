@@ -37,7 +37,7 @@ public class BlastShrapnel extends Blast
 
                 for (int ii = 0; ii < this.getRadius(); ii++)
                 {
-                    EntityFragments arrow = new EntityFragments(world(), position.x, position.y, position.z, this.isExplosive, this.isAnvil);
+                    EntityFragments arrow = new EntityFragments(world(), position.x(), position.y(), position.z(), this.isExplosive, this.isAnvil);
 
                     if (this.isFlaming)
                     {
@@ -46,7 +46,7 @@ public class BlastShrapnel extends Blast
                     }
 
                     float rotationPitch = 0.0F + amountToRotate * ii;
-                    arrow.setLocationAndAngles(position.x, position.y, position.z, rotationYaw, rotationPitch);
+                    arrow.setLocationAndAngles(position.x(), position.y(), position.z(), rotationYaw, rotationPitch);
                     arrow.posX -= (MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
                     arrow.posY -= 0.10000000149011612D;
                     arrow.posZ -= (MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F);

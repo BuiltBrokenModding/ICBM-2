@@ -13,16 +13,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import resonant.lib.network.IPacketReceiver;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.network.netty.PacketManager;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-import resonant.lib.transform.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketReceiver
 {
@@ -42,7 +41,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
         if (this.nengZha(coord.getTileEntity(player.worldObj)))
         {
             par3List.add("\uaa74" + LanguageUtility.getLocal("info.detonator.linked"));
-            par3List.add(LanguageUtility.getLocal("gui.misc.x") + " " + (int) coord.x + ", " + LanguageUtility.getLocal("gui.misc.y") + " " + (int) coord.y + ", " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) coord.z);
+            par3List.add(LanguageUtility.getLocal("gui.misc.x") + " " + (int) coord.x() + ", " + LanguageUtility.getLocal("gui.misc.y") + " " + (int) coord.y() + ", " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) coord.z());
         }
         else
         {
@@ -68,12 +67,12 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
                     this.discharge(itemStack, ENERGY, true);
                     if (world.isRemote)
                     {
-                        entityPlayer.addChatMessage(LanguageUtility.getLocal("message.detonator.locked").replaceAll("%x", "" + x).replace("%y", "" + y).replace("%z", "" + z));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.detonator.locked").replaceAll("%x", "" + x).replace("%y", "" + y).replace("%z", "" + z)));
                     }
                 }
                 else if (world.isRemote)
                 {
-                    entityPlayer.addChatMessage(LanguageUtility.getLocal("message.detonator.nopower"));
+                    entityPlayer.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.detonator.nopower")));
                 }
 
                 return true;
@@ -114,12 +113,12 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
                                 // Check for electricity
                                 if (this.getEnergy(itemStack) > ENERGY)
                                 {
-                                    PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, (byte) 2));
+                                    PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, (byte) 2));
                                     return itemStack;
                                 }
                                 else
                                 {
-                                    player.addChatMessage(LanguageUtility.getLocal("message.detonator.nopower"));
+                                    player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.detonator.nopower")));
                                 }
                             }
                         }
@@ -135,14 +134,14 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
                     if (this.nengZha(tileEntity))
                     {
                         // Blow it up
-                        PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, (byte) 2));
+                        PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, (byte) 2));
                         // Use Energy
-                        PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(player));
+                        PacketManager.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(player));
                     }
                 }
                 else
                 {
-                    player.addChatMessage(LanguageUtility.getLocal("message.detonator.nopower"));
+                    player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.detonator.nopower")));
                 }
             }
         }
@@ -170,9 +169,9 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
             itemStack.setTagCompound(new NBTTagCompound());
         }
 
-        itemStack.stackTagCompound.setInteger("x", position.intX());
-        itemStack.stackTagCompound.setInteger("y", position.intY());
-        itemStack.stackTagCompound.setInteger("z", position.intZ());
+        itemStack.stackTagCompound.setInteger("x", position.xi());
+        itemStack.stackTagCompound.setInteger("y", position.yi());
+        itemStack.stackTagCompound.setInteger("z", position.zi());
     }
 
     public Vector3 getSavedCoord(ItemStack par1ItemStack)
@@ -186,13 +185,13 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
     }
 
     @Override
-    public long getEnergyCapacity(ItemStack theItem)
+    public double getEnergyCapacity(ItemStack theItem)
     {
         return 50000000;
     }
 
     @Override
-    public long getVoltage(ItemStack itemStack)
+    public double getVoltage(ItemStack itemStack)
     {
         return 80;
     }

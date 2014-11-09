@@ -45,9 +45,9 @@ public class MissileAnti extends Missile
                 }
             }
 
-            missileObj.motionX = (target.x - missileObj.posX) * (0.3F);
-            missileObj.motionY = (target.y - missileObj.posY) * (0.3F);
-            missileObj.motionZ = (target.z - missileObj.posZ) * (0.3F);
+            missileObj.motionX = (target.x() - missileObj.posX) * (0.3F);
+            missileObj.motionY = (target.y() - missileObj.posY) * (0.3F);
+            missileObj.motionZ = (target.z() - missileObj.posZ) * (0.3F);
 
             return;
         }

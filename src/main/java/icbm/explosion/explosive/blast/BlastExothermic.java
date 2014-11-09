@@ -5,8 +5,9 @@ import icbm.explosion.ex.ExExothermic;
 import icbm.explosion.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import resonant.lib.transform.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 public class BlastExothermic extends BlastBeam
 {
@@ -22,7 +23,7 @@ public class BlastExothermic extends BlastBeam
     public void doExplode()
     {
         super.doExplode();
-        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "beamcharging", 4.0F, 0.8F);
+        this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "beamcharging", 4.0F, 0.8F);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class BlastExothermic extends BlastBeam
 
         if (!this.world().isRemote)
         {
-            this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "powerdown", 4.0F, 0.8F);
+            this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "powerdown", 4.0F, 0.8F);
 
             if (this.canFocusBeam(this.world(), position) && this.thread.isComplete)
             {
@@ -56,39 +57,40 @@ public class BlastExothermic extends BlastBeam
                          * Check to see if the block is an air block and there is a block below it
                          * to support the fire.
                          */
-                        int blockID = this.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                        Block blockID = this.world().getBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
-                        if (blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID || blockID == Block.ice.blockID)
+                        if (blockID == Blocks.water || blockID == Blocks.flowing_water || blockID == Blocks.ice)
                         {
-                            this.world().setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                            this.world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
                         }
 
-                        if ((blockID == 0 || blockID == Block.snow.blockID) && this.world().getBlockMaterial(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ()).isSolid())
+                        if ((blockID != null || blockID == Blocks.snow) && this.world().func_149688_o(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi()).isSolid())
+                        // getBlockMaterial has been [de]obfuscated and is now known as func_149688_o
                         {
                             if (this.world().rand.nextFloat() > 0.999)
                             {
-                                this.world().setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), Block.lavaMoving.blockID, 0, 2);
+                                this.world().setBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), Blocks.flowing_lava, 0, 2);
                             }
                             else
                             {
-                                this.world().setBlock(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), Block.fire.blockID, 0, 2);
+                                this.world().setBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), Blocks.fire, 0, 2);
 
-                                blockID = this.world().getBlockId(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ());
+                                blockID = this.world().getBlock(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi());
 
-                                if (((ExExothermic) Explosive.exothermic).createNetherrack && (blockID == Block.stone.blockID || blockID == Block.grass.blockID || blockID == Block.dirt.blockID) && this.world().rand.nextFloat() > 0.75)
+                                if (((ExExothermic) Explosive.exothermic).createNetherrack && (blockID == Blocks.stone || blockID == Blocks.grass || blockID == Blocks.dirt) && this.world().rand.nextFloat() > 0.75)
                                 {
-                                    this.world().setBlock(targetPosition.intX(), targetPosition.intY() - 1, targetPosition.intZ(), Block.netherrack.blockID, 0, 2);
+                                    this.world().setBlock(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi(), Blocks.netherrack, 0, 2);
                                 }
                             }
                         }
-                        else if (blockID == Block.ice.blockID)
+                        else if (blockID == Blocks.ice)
                         {
-                            this.world().setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                            this.world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
                         }
                     }
                 }
 
-                this.world().playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "explosionfire", 6.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
+                this.world().playSoundEffect(position.x() + 0.5D, position.y() + 0.5D, position.z() + 0.5D, Reference.PREFIX + "explosionfire", 6.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
             }
 
             this.world().setWorldTime(18000);

@@ -7,20 +7,22 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
 import resonant.api.explosion.IMissile;
 import resonant.api.explosion.LauncherType;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.utility.LanguageUtility;
-import resonant.api.electric.EnergyStorage;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketIDReceiver;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.network.netty.AbstractPacket;
+import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.transform.vector.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -28,7 +30,7 @@ import com.google.common.io.ByteArrayDataInput;
 /** This tile entity is for the screen of the missile launcher
  * 
  * @author Calclavia */
-public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActivate, ITier, IRotatable, IPacketReceiver
+public class TileLauncherScreen extends TileLauncherPrefab implements ITier, IRotatable, IPacketIDReceiver
 {
     // The rotation of this missile component
     private byte fangXiang = 3;
@@ -44,31 +46,27 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 
     private final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
-    public TileLauncherScreen()
+    @Override
+    public void onInstantiate()
     {
-        setEnergyHandler(new EnergyStorage(Long.MAX_VALUE));
+        super.onInstantiate();
+        this.setCapacity(this.getLaunchCost() * 2);
+        this.setMaxTransfer(this.getLaunchCost());
     }
 
     @Override
-    public void initiate()
+    public void update()
     {
-        super.initiate();
-        this.getEnergyHandler().setCapacity(this.getLaunchCost() * 2);
-    }
-
-    @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
+        super.update();
 
         if (this.laucherBase == null)
         {
             for (byte i = 2; i < 6; i++)
             {
-                Vector3 position = new Vector3(this.xCoord, this.yCoord, this.zCoord);
-                position.translate(ForgeDirection.getOrientation(i));
+                VectorWorld position = toVectorWorld();
+                position.add(ForgeDirection.getOrientation(i));
 
-                TileEntity tileEntity = this.worldObj.getBlockTileEntity(position.intX(), position.intY(), position.intZ());
+                TileEntity tileEntity = position.getTileEntity();
 
                 if (tileEntity != null)
                 {
@@ -88,14 +86,14 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
             }
         }
 
-        if (this.ticks % 100 == 0 && this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
+        if (this.ticks() % 100 == 0 && this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
         {
             this.launch();
         }
 
         if (!this.worldObj.isRemote)
         {
-            if (this.ticks % 3 == 0)
+            if (this.ticks() % 3 == 0)
             {
                 if (this.targetPos == null)
                 {
@@ -103,7 +101,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
                 }
             }
 
-            if (this.ticks % 600 == 0)
+            if (this.ticks() % 600 == 0)
             {
                 this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
             }
@@ -111,15 +109,15 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public PacketTile getDescPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
+        return new PacketTile(this, 0, this.fangXiang, this.tier, this.getFrequency(), this.gaoDu);
     }
 
     @Override
-    public Packet getGUIPacket()
+    public AbstractPacket getGuiPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, 4, this.getEnergyHandler().getEnergy(), this.targetPos.intX(), this.targetPos.intY(), this.targetPos.intZ());
+        return new PacketTile(this, 4, this.getEnergyStorage().getEnergy(), this.targetPos);
     }
 
     @Override
@@ -135,7 +133,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     }
 
     @Override
-    public void onReceivePacket(int id, ByteArrayDataInput data, EntityPlayer player, Object... extra) throws IOException
+    public boolean read(ByteBuf data, int id, EntityPlayer player, PacketType type)
     {
         switch (id)
         {
@@ -158,7 +156,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
 
                 if (this.getTier() < 2)
                 {
-                    this.targetPos.y = 0;
+                    this.targetPos.y_$eq(0);
                 }
                 break;
             }
@@ -169,13 +167,12 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
             }
             case 4:
             {
-                this.getEnergyHandler().setEnergy(data.readLong());
+                this.getEnergyStorage().setEnergy(data.readLong());
                 this.targetPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
                 break;
             }
         }
-
-        super.onReceivePacket(id, data, player, extra);
+        return true;
     }
 
     // Checks if the missile is launchable
@@ -184,7 +181,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     {
         if (this.laucherBase != null && this.laucherBase.missile != null)
         {
-            if (this.getEnergyHandler().extractEnergy(getLaunchCost(), false) >= getLaunchCost())
+            if (this.getEnergyStorage().extractEnergy(getLaunchCost(), false) >= getLaunchCost())
             {
                 return this.laucherBase.isInRange(this.targetPos);
             }
@@ -198,7 +195,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     {
         if (this.canLaunch())
         {
-            this.getEnergyHandler().extractEnergy(getLaunchCost(), true);
+            this.getEnergyStorage().extractEnergy(getLaunchCost(), true);
             this.laucherBase.launchMissile(this.targetPos.clone(), this.gaoDu);
         }
     }
@@ -216,7 +213,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
         {
             status = LanguageUtility.getLocal("gui.launcherScreen.statusMissing");
         }
-        else if (!this.getEnergyHandler().isFull())
+        else if (!this.getEnergyStorage().checkExtract())
         {
             status = LanguageUtility.getLocal("gui.launcherScreen.statusNoPower");
         }
@@ -268,12 +265,6 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     }
 
     @Override
-    public long getVoltageInput(ForgeDirection dir)
-    {
-        return super.getVoltageInput(dir) * (this.getTier() + 1);
-    }
-
-    @Override
     public int getTier()
     {
         return this.tier;
@@ -283,7 +274,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     public void setTier(int tier)
     {
         this.tier = tier;
-        this.getEnergyHandler().setCapacity(getEnergyCapacity(null));
+        this.getEnergyStorage().setCapacity(getEnergyCapacity());
     }
 
     @Override
@@ -312,7 +303,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements IBlockActi
     }
 
     @Override
-    public boolean onActivated(EntityPlayer entityPlayer)
+    public boolean use(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if(!this.worldObj.isRemote)
         	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);

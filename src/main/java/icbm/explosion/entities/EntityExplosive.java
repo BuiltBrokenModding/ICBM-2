@@ -2,6 +2,7 @@ package icbm.explosion.entities;
 
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -12,12 +13,12 @@ import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-import resonant.lib.transform.Vector3;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import resonant.lib.transform.vector.Vector3;
 
 public class EntityExplosive extends Entity implements IRotatable, IEntityAdditionalSpawnData, IExplosiveContainer
 {
@@ -43,14 +44,14 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
     public EntityExplosive(World par1World, Vector3 position, byte orientation, int explosiveID)
     {
         this(par1World);
-        this.setPosition(position.x, position.y, position.z);
+        this.setPosition(position.x(), position.y(), position.z());
         float var8 = (float) (Math.random() * Math.PI * 2.0D);
         this.motionX = (-((float) Math.sin(var8)) * 0.02F);
         this.motionY = 0.20000000298023224D;
         this.motionZ = (-((float) Math.cos(var8)) * 0.02F);
-        this.prevPosX = position.x;
-        this.prevPosY = position.y;
-        this.prevPosZ = position.z;
+        this.prevPosX = position.x();
+        this.prevPosY = position.y();
+        this.prevPosZ = position.z();
         this.explosiveID = explosiveID;
         this.fuse = ExplosiveRegistry.get(explosiveID).getYinXin();
         this.orientation = orientation;
@@ -65,7 +66,7 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
     }
 
     @Override
-    public String getEntityName()
+    public String getCommandSenderName()
     {
         return "Explosives";
     }
@@ -182,7 +183,7 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
         data.writeInt(this.explosiveID);
         data.writeInt(this.fuse);
@@ -190,7 +191,7 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
         this.explosiveID = data.readInt();
         this.fuse = data.readInt();

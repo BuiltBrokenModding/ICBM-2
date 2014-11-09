@@ -10,10 +10,12 @@ import icbm.explosion.render.tile.BlockRenderHandler;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -37,9 +39,8 @@ public class BlockICBMMachine extends BlockICBM
         LauncherScreen(TileLauncherScreen.class),
         LauncherFrame(TileLauncherFrame.class),
         RadarStation(TileRadarStation.class),
-        EmpTower(TileEMPTower.class),
-        CruiseLauncher(TileCruiseLauncher.class),
-        MissileCoordinator(TileMissileCoordinator.class);
+        EmpTower(TileEMPTower.class)
+        ;
 
         public Class<? extends TileEntity> tileEntity;
 
@@ -109,93 +110,28 @@ public class BlockICBMMachine extends BlockICBM
 
         if (tileEntity instanceof IMultiBlock)
         {
-            ResonantEngine.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
+            //ResonantEngine.blockMulti.createMultiBlockStructure((IMultiBlock) tileEntity);
         }
-    }
-
-    /** Checks if the machine can be placed at the location */
-    public static boolean canBePlacedAt(World world, int x, int y, int z, int m, int side)
-    {
-        ForgeDirection d = ForgeDirection.getOrientation(side);
-
-        if (m == 0)
-        {
-            //Launcher Pad multi block placement check
-            for (int yp = 0; yp < 2; yp++)
-            {
-                if (!world.isAirBlock(x + d.offsetX, y + yp, z + d.offsetZ))
-                    return false;
-                if (!world.isAirBlock(x - d.offsetX, y + yp, z - d.offsetZ))
-                    return false;
-            }
-            return world.isAirBlock(x, y, z);
-        }
-        else if (m == 2)
-        {
-            // Launcher Frame
-            return world.getBlockMaterial(x, y - 1, z).isSolid() && world.isAirBlock(x, y, z) && world.isAirBlock(x, y + 1, z) && world.isAirBlock(x, y + 2, z);
-        }
-        else if (m == 4)
-        {
-            return world.isAirBlock(x, y, z) && world.isAirBlock(x, y + 1, z);
-        }
-
-        return world.getBlockMaterial(x, y - 1, z).isSolid();
     }
 
     @Override
     public boolean canBlockStay(World world, int x, int y, int z)
     {
         int direction = 0;
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity instanceof IRotatable)
         {
             direction = ((IRotatable) tileEntity).getDirection().ordinal();
         }
 
-        return canBePlacedAt(world, x, y, z, world.getBlockMetadata(x, y, z), direction);
+        return true;
     }
 
     @Override
-    public void onNeighborBlockChange(World par1World, int x, int y, int z, int par5)
+    public void onNeighborBlockChange(World par1World, int x, int y, int z, Block par5)
     {
         this.isBeingPowered(par1World, x, y, z);
-    }
-
-    /** Called when the block is right clicked by the player */
-    @Override
-    public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-    {
-        if (player.inventory.getCurrentItem() != null)
-        {
-            if (player.inventory.getCurrentItem().itemID == ICBMExplosion.itemLaserDesignator.itemID)
-            {
-                return false;
-            }
-            else if (player.inventory.getCurrentItem().itemID == ICBMExplosion.itemRadarGun.itemID)
-            {
-                return false;
-            }
-        }
-
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-
-        if (tileEntity != null)
-        {
-            if (tileEntity instanceof IBlockActivate)
-            {
-                return ((IBlockActivate) tileEntity).onActivated(player);
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-    {
-        return this.onMachineActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
     }
 
     /** Checks of this block is being powered by redstone */
@@ -203,7 +139,7 @@ public class BlockICBMMachine extends BlockICBM
     {
         int metadata = world.getBlockMetadata(x, y, z);
 
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity instanceof IRedstoneReceptor)
         {
@@ -228,12 +164,12 @@ public class BlockICBMMachine extends BlockICBM
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, int par5, int par6)
+    public void breakBlock(World world, int x, int y, int z, Block par5, int par6)
     {
         int metadata = world.getBlockMetadata(x, y, z);
         Random random = new Random();
 
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity != null)
         {
@@ -250,11 +186,11 @@ public class BlockICBMMachine extends BlockICBM
                 itemMetadata = 9 + metadata - 3;
             }
 
-            this.dropBlockAsItem_do(world, x, y, z, new ItemStack(ICBMExplosion.blockMachine, 1, itemMetadata));
+            this.dropBlockAsItem(world, x, y, z, new ItemStack(ICBMExplosion.blockMachine, 1, itemMetadata));
 
             if (tileEntity instanceof IMultiBlock)
             {
-                ResonantEngine.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
+                //ResonantEngine.blockMulti.destroyMultiBlockStructure((IMultiBlock) tileEntity);
             }
         }
 
@@ -305,7 +241,7 @@ public class BlockICBMMachine extends BlockICBM
     }
 
     @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (int i = 0; i < MachineData.values().length + 6; i++)
         {
@@ -316,7 +252,7 @@ public class BlockICBMMachine extends BlockICBM
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
         return new ItemStack(ICBMExplosion.blockMachine, 1, getJiQiID(tileEntity));
     }
 

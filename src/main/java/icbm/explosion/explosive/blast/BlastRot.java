@@ -4,9 +4,10 @@ import icbm.core.ICBMCore;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
-import resonant.lib.transform.Vector3;
+import resonant.lib.transform.vector.Vector3;
 
 /** Creates radiation spawning
  * 
@@ -47,50 +48,50 @@ public class BlastRot extends Blast
                 for (Vector3 targetPosition : this.thread.results)
                 {
                     /** Decay the blocks. */
-                    int blockID = targetPosition.getBlockID(this.world());
+                    Block blockID = targetPosition.getBlock(this.world());
 
-                    if (blockID > 0)
+                    if (blockID != null)
                     {
-                        if (blockID == Block.grass.blockID || blockID == Block.sand.blockID)
+                        if (blockID == Blocks.grass || blockID == Blocks.sand)
                         {
                             if (this.world().rand.nextFloat() > 0.96)
                             {
-                                targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive.blockID);
+                                targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive);
                             }
                         }
 
-                        if (blockID == Block.stone.blockID)
+                        if (blockID == Blocks.stone)
                         {
                             if (this.world().rand.nextFloat() > 0.99)
                             {
-                                targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive.blockID);
+                                targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive);
                             }
                         }
 
-                        else if (blockID == Block.leaves.blockID)
+                        else if (blockID == Blocks.leaves)
                         {
-                            targetPosition.setBlock(this.world(), 0);
+                            targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive, 0);
                         }
-                        else if (blockID == Block.tallGrass.blockID)
+                        else if (blockID == Blocks.tallgrass)
                         {
                             if (Math.random() * 100 > 50)
                             {
-                                targetPosition.setBlock(this.world(), Block.cobblestone.blockID);
+                                targetPosition.setBlock(this.world(), Blocks.cobblestone);
                             }
-                            else
+                            else 
                             {
-                                targetPosition.setBlock(this.world(), 0);
+                                targetPosition.setBlock(this.world(),ICBMCore.blockRadioactive, 0);
                             }
                         }
-                        else if (blockID == Block.tilledField.blockID)
+                        else if (blockID == Blocks.farmland)
                         {
-                            targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive.blockID);
+                            targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive);
                         }
-                        else if (blockID == Block.waterStill.blockID || blockID == Block.waterMoving.blockID)
+                        else if (blockID == Blocks.water || blockID == Blocks.flowing_water)
                         {
                             if (FluidRegistry.getFluid("toxicwaste") != null)
                             {
-                                targetPosition.setBlock(this.world(), FluidRegistry.getFluid("toxicwaste").getBlockID());
+                                targetPosition.setBlock(this.world(), FluidRegistry.getFluid("toxicwaste").getBlock());
                             }
                         }
                     }
