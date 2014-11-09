@@ -18,18 +18,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderRocketLauncher implements IItemRenderer
 {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX + "rocketLauncher.png");
-    private static final IModelCustom MODEL = AdvancedModelLoader.loadModel(Reference.MODEL_DIRECTORY + "rocketLauncher.tcn");
+    private static final IModelCustom MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX  + "rocketLauncher.tcn"));
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
-        return item.itemID == ICBMExplosion.itemRocketLauncher.itemID;
+        return item.getItem() == ICBMExplosion.itemRocketLauncher;
     }
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
-        return item.itemID == ICBMExplosion.itemRocketLauncher.itemID;
+        return item.getItem() == ICBMExplosion.itemRocketLauncher;
     }
 
     @Override

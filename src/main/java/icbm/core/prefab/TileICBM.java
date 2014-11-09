@@ -19,7 +19,7 @@ import resonant.lib.content.prefab.java.TileElectric;
 import resonant.lib.network.netty.AbstractPacket;
 
 /** @author Calclavia */
-public abstract class TileICBM extends TileElectric implements IPlayerUsing, IPacketIDReceiver
+public abstract class TileICBM extends TileElectric implements IPlayerUsing
 {
     public final HashSet<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 

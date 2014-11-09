@@ -3,6 +3,7 @@ package icbm.explosion.potion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import resonant.lib.prefab.potion.CustomPotion;
@@ -32,7 +33,7 @@ public class PoisonFrostBite extends CustomPotion
         }
 
         // Check to see if it's on ice
-        if (par1EntityLiving.worldObj.getBlockId(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY) - 1, MathHelper.floor_double(par1EntityLiving.posZ)) == Block.ice.blockID)
+        if (par1EntityLiving.worldObj.getBlock(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY) - 1, MathHelper.floor_double(par1EntityLiving.posZ)) == Blocks.ice)
         {
             par1EntityLiving.attackEntityFrom(DamageSource.magic, 2);
         }

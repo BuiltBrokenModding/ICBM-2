@@ -25,7 +25,6 @@ import resonant.api.IRotatable;
 import resonant.api.ITier;
 import resonant.engine.ResonantEngine;
 import resonant.lib.multiblock.reference.IMultiBlock;
->>>>>>> upstream/master
 import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -170,23 +169,13 @@ public class BlockICBMMachine extends BlockICBM
     {
         if (player.inventory.getCurrentItem() != null)
         {
-            if (player.inventory.getCurrentItem().itemID == ICBMExplosion.itemLaserDesignator.itemID)
+            if (player.inventory.getCurrentItem().getItem() == ICBMExplosion.itemLaserDesignator)
             {
                 return false;
             }
-            else if (player.inventory.getCurrentItem().itemID == ICBMExplosion.itemRadarGun.itemID)
+            else if (player.inventory.getCurrentItem().getItem() == ICBMExplosion.itemRadarGun)
             {
                 return false;
-            }
-        }
-
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-
-        if (tileEntity != null)
-        {
-            if (tileEntity instanceof IBlockActivate)
-            {
-                return ((IBlockActivate) tileEntity).onActivated(player);
             }
         }
 

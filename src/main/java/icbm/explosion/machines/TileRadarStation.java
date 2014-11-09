@@ -147,7 +147,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         }
 
         //If we have energy
-        if (this.energy().checkExtract())
+        if (this.getEnergyStorage().checkExtract())
         {
         	this.isPowered = true;
             this.rotation += 0.08f;
@@ -160,7 +160,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             //Only do check on server and update client over network if in GUI
             if (!this.worldObj.isRemote)
             {
-                this.energy().extractEnergy();
+                this.getEnergyStorage().extractEnergy();
 
 	            int prevDetectedEntities = this.detectedEntities.size();
 	
@@ -477,7 +477,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     @Override
     public PacketTile getDescPacket()
     {
-        return new PacketTile(this, 4, this.fangXiang, this.energy().getEnergy());
+        return new PacketTile(this, 4, this.fangXiang, this.getEnergyStorage().getEnergy());
     }
 
     @Override
@@ -508,7 +508,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             		break;
             	case 4:
             		this.fangXiang = data.readByte();
-                    this.energy().setEnergy(data.readLong());
+                    this.getEnergyStorage().setEnergy(data.readLong());
             		break;
             	case 5:
             		readNetworkEntities(data);

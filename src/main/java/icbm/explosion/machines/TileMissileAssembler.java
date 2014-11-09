@@ -1,35 +1,45 @@
 package icbm.explosion.machines;
 
-import icbm.core.ICBMCore;
-import icbm.core.prefab.TileICBM;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.items.ItemMissile;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.multiblock.IMultiBlock;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.EnergyStorageHandler;
+import resonant.lib.content.prefab.java.TileInventory;
+import resonant.lib.multiblock.reference.IMultiBlock;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
+import resonant.lib.utility.LanguageUtility;
 
-import com.google.common.io.ByteArrayDataInput;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier, IRotatable, IPacketReceiver, IInventory, IBlockActivate
+/** Basic display board for Missiles
+ * TODO implement redstone pulse to dummy fire rocket
+ * @author Darkguardsman
+ */
+public class TileMissileAssembler extends TileInventory implements IMultiBlock, ITier, IRotatable, IPacketReceiver
 {
     public int tier = -1, missileID = -1;
-    /** Side placed on */
+    /**
+     * Side placed on
+     */
     public ForgeDirection placedSide = ForgeDirection.UP;
-    /** 0 - 3 of rotation on the given side */
+    /**
+     * 0 - 3 of rotation on the given side
+     */
     public byte rotationSide = 0;
     public boolean rotating = false;
 
@@ -38,50 +48,62 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
     public TileMissileAssembler()
     {
-        setEnergyHandler(new EnergyStorageHandler());
+        super(Material.iron);
+        setSizeInventory(1);
     }
 
     @Override
-    public void initiate()
+    public void onInstantiate()
     {
+        super.onInstantiate();
         this.onInventoryChanged();
     }
 
     @Override
-    public Vector3[] getMultiBlockVectors()
+    public List<Vector3> getMultiBlockVectors()
     {
         return getMultiBlockVectors(placedSide, rotationSide);
     }
 
-    public static Vector3[] getMultiBlockVectors(ForgeDirection side, byte rot)
+    public static List<Vector3> getMultiBlockVectors(ForgeDirection side, byte rot)
     {
+        List<Vector3> list = new ArrayList<Vector3>();
+
         // rotation doesn't really effect the multi block too much however placed side does
         if (side == ForgeDirection.UP || side == ForgeDirection.DOWN)
         {
             // line up on the x
             if (rot == 0 || rot == 2)
             {
-                return new Vector3[] { new Vector3(1, 0, 0), new Vector3(-1, 0, 0) };
+                list.add(new Vector3(1, 0, 0));
+                list.add(new Vector3(-1, 0, 0));
+
+            } else // lined up on the z
+            {
+                list.add(new Vector3(0, 0, 1));
+                list.add(new Vector3(0, 0, -1));
             }
-            // lined up on the z
-            return new Vector3[] { new Vector3(0, 0, 1), new Vector3(0, 0, -1) };
-        }
-        else
+            return list;
+        } else
         {
             // Lined up with x or z
             if (rot == 0 || rot == 2)
             {
                 if (side == ForgeDirection.NORTH || side == ForgeDirection.SOUTH)
                 {
-                    return new Vector3[] { new Vector3(-1, 0, 0), new Vector3(1, 0, 0) };
-                }
-                else if (side == ForgeDirection.EAST || side == ForgeDirection.WEST)
+                    list.add(new Vector3(-1, 0, 0));
+                    list.add(new Vector3(1, 0, 0));
+                } else if (side == ForgeDirection.EAST || side == ForgeDirection.WEST)
                 {
-                    return new Vector3[] { new Vector3(0, 0, -1), new Vector3(0, 0, 1) };
+                    list.add(new Vector3(0, 0, -1));
+                    list.add(new Vector3(0, 0, 1));
                 }
+                return list;
             }
             // Lined up with the Y
-            return new Vector3[] { new Vector3(0, 1, 0), new Vector3(0, -1, 0) };
+            list.add(new Vector3(0, 1, 0));
+            list.add(new Vector3(0, -1, 0));
+            return list;
         }
     }
 
@@ -110,16 +132,13 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
         if (this.rotationSide == 0)
         {
             return ForgeDirection.NORTH;
-        }
-        else if (this.rotationSide == 2)
+        } else if (this.rotationSide == 2)
         {
             return ForgeDirection.SOUTH;
-        }
-        else if (this.rotationSide == 1)
+        } else if (this.rotationSide == 1)
         {
             return ForgeDirection.EAST;
-        }
-        else
+        } else
         {
             return ForgeDirection.WEST;
         }
@@ -133,20 +152,17 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
         if (direction == ForgeDirection.NORTH)
         {
             rot = 0;
-        }
-        else if (direction == ForgeDirection.SOUTH)
+        } else if (direction == ForgeDirection.SOUTH)
         {
             rot = 2;
-        }
-        else if (direction == ForgeDirection.EAST)
+        } else if (direction == ForgeDirection.EAST)
         {
             rot = 1;
-        }
-        else
+        } else
         {
             rot = 3;
         }
-        if (BlockMissileAssembler.canRotateBlockTo(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.placedSide, rot))
+        if (canPlaceBlockAt(this.placedSide, rot))
         {
             this.rotationSide = rot;
             this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -171,21 +187,6 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
         super.readFromNBT(nbt);
         this.rotationSide = nbt.getByte("rotationSide");
         this.placedSide = ForgeDirection.getOrientation(nbt.getByte("placedSide"));
-
-        NBTTagList var2 = nbt.getTagList("Items");
-
-        this.containingItems = new ItemStack[this.getSizeInventory()];
-
-        for (int var3 = 0; var3 < var2.tagCount(); ++var3)
-        {
-            NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
-            byte var5 = var4.getByte("Slot");
-
-            if (var5 >= 0 && var5 < this.containingItems.length)
-            {
-                this.containingItems[var5] = ItemStack.loadItemStackFromNBT(var4);
-            }
-        }
     }
 
     @Override
@@ -194,25 +195,10 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
         super.writeToNBT(nbt);
         nbt.setByte("rotationSide", this.rotationSide);
         nbt.setByte("placedSide", (byte) this.placedSide.ordinal());
-
-        NBTTagList var2 = new NBTTagList();
-
-        for (int var3 = 0; var3 < this.containingItems.length; ++var3)
-        {
-            if (this.containingItems[var3] != null)
-            {
-                NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte) var3);
-                this.containingItems[var3].writeToNBT(var4);
-                var2.appendTag(var4);
-            }
-        }
-
-        nbt.setTag("Items", var2);
     }
 
     @Override
-    public boolean onActivated(EntityPlayer entityPlayer)
+    public boolean use(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if (entityPlayer.inventory.getCurrentItem() != null && this.getStackInSlot(0) == null)
         {
@@ -225,13 +211,13 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
             }
         }
 
-        if(!this.worldObj.isRemote)
-        	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        if (!this.worldObj.isRemote)
+            entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
         if (this.worldObj.isRemote)
         {
@@ -242,15 +228,15 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
                 this.rotationSide = data.readByte();
                 this.placedSide = ForgeDirection.getOrientation(data.readByte());
                 this.missileID = data.readInt();
-                this.worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
+                this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             }
         }
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public PacketTile getDescPacket()
     {
-        return ICBMCore.PACKET_TILE.getPacket(this, ((byte) 0), this.rotationSide, ((byte) this.placedSide.ordinal()), this.missileID);
+        return new PacketTile(this, ((byte) 0), this.rotationSide, ((byte) this.placedSide.ordinal()), this.missileID);
     }
 
     @Override
@@ -262,8 +248,7 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
             if (this.getStackInSlot(0) != null && this.getStackInSlot(0).getItem() instanceof ItemMissile)
             {
                 missileID = this.getStackInSlot(0).getItemDamage();
-            }
-            else
+            } else
             {
                 missileID = -1;
             }
@@ -271,22 +256,28 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
         this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
-    /** Returns the number of slots in the inventory. */
+    /**
+     * Returns the number of slots in the inventory.
+     */
     @Override
     public int getSizeInventory()
     {
         return this.containingItems.length;
     }
 
-    /** Returns the stack in slot i */
+    /**
+     * Returns the stack in slot i
+     */
     @Override
     public ItemStack getStackInSlot(int par1)
     {
         return this.containingItems[par1];
     }
 
-    /** Decrease the size of the stack in slot (first int arg) by the amount of the second int arg.
-     * Returns the new stack. */
+    /**
+     * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg.
+     * Returns the new stack.
+     */
     @Override
     public ItemStack decrStackSize(int par1, int par2)
     {
@@ -299,8 +290,7 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
                 var3 = this.containingItems[par1];
                 this.containingItems[par1] = null;
                 return var3;
-            }
-            else
+            } else
             {
                 var3 = this.containingItems[par1].splitStack(par2);
 
@@ -311,15 +301,16 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
 
                 return var3;
             }
-        }
-        else
+        } else
         {
             return null;
         }
     }
 
-    /** When some containers are closed they call this on each slot, then drop whatever it returns as
-     * an EntityItem - like when you close a workbench GUI. */
+    /**
+     * When some containers are closed they call this on each slot, then drop whatever it returns as
+     * an EntityItem - like when you close a workbench GUI.
+     */
     @Override
     public ItemStack getStackInSlotOnClosing(int par1)
     {
@@ -328,15 +319,16 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
             ItemStack var2 = this.containingItems[par1];
             this.containingItems[par1] = null;
             return var2;
-        }
-        else
+        } else
         {
             return null;
         }
     }
 
-    /** Sets the given item stack to the specified slot in the inventory (can be crafting or armor
-     * sections). */
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor
+     * sections).
+     */
     @Override
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
@@ -348,46 +340,23 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
         }
     }
 
-    /** Returns the name of the inventory. */
+    /**
+     * Returns the name of the inventory.
+     */
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return LanguageUtility.getLocal("gui.assembler.name");
-    }
-
-    /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be
-     * extended. *Isn't this more of a set than a get?* */
-    @Override
-    public int getInventoryStackLimit()
-    {
-        return 1;
-    }
-
-    /** Do not make give this method the name canInteractWith because it clashes with Container */
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
-    {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
-    }
-
-    @Override
-    public void openChest()
-    {
-    }
-
-    @Override
-    public void closeChest()
-    {
     }
 
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return INFINITE_EXTENT_AABB;
+        return AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 1, zCoord - 1, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return true;
     }
@@ -398,4 +367,49 @@ public class TileMissileAssembler extends TileICBM implements IMultiBlock, ITier
         return itemStack.getItem() instanceof ItemMissile;
     }
 
+    @Override
+    public boolean configure(EntityPlayer entityPlayer, int s, Vector3 hit)
+    {
+        if (world().isRemote)
+        {
+            return true;
+        }
+        byte rotation = rotationSide;
+        ForgeDirection side = placedSide;
+        if (rotation == 3)
+        {
+            rotation = 0;
+        } else
+        {
+            rotation++;
+        }
+        if (canPlaceBlockAt(side, rotation))
+        {
+           //TODO re-implement wrench rotation
+            return true;
+
+        }
+
+        return false;
+    }
+
+    public boolean canPlaceBlockAt(ForgeDirection placeSide, int rot)
+    {
+        VectorWorld pos = toVectorWorld();
+        if (pos.isAirBlock() || pos.isBlockEqual(ICBMExplosion.blockMissileAssembler))
+        {
+            List<Vector3> vecs = TileMissileAssembler.getMultiBlockVectors(placeSide, (byte) rot);
+
+            for (Vector3 v : vecs)
+            {
+                VectorWorld vec = pos.clone().add(v);
+                if (!vec.isAirBlock())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }
