@@ -3,8 +3,8 @@ package icbm.explosion.explosive.thread;
 import java.util.HashSet;
 
 import net.minecraft.entity.Entity;
-import universalelectricity.api.vector.Vector3;
-import universalelectricity.api.vector.VectorWorld;
+import resonant.lib.transform.Vector3;
+import resonant.lib.transform.VectorWorld;
 
 /** @author Calclavia */
 public abstract class ThreadExplosion extends Thread

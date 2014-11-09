@@ -3,9 +3,9 @@ package icbm.explosion.explosive.blast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.Vector3;
 import calclavia.api.mffs.IForceFieldBlock;
 
 public class BlastBreech extends BlastRepulsive

@@ -12,7 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import universalelectricity.api.vector.Vector3;
+import resonant.lib.transform.Vector3;
 
 /** Used by Exothermic and Endothermic explosions.
  * 
