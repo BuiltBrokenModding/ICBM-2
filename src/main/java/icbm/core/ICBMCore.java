@@ -113,7 +113,6 @@ public final class ICBMCore
         blockConcrete = contentRegistry.newBlock(BlockConcrete.class, ItemBlockMetadata.class);
         blockReinforcedGlass = contentRegistry.newBlock(BlockReinforcedGlass.class, ItemBlockMetadata.class);
         blockCombatRail = contentRegistry.newBlock(BlockReinforcedRail.class);
-        //blockBox = contentRegistry.newBlock(TileBox.class); TODO Enable, disabled as to allow to release a stable ICBM for 1.6
 
         // ITEMS
         itemPoisonPowder = contentRegistry.newItem(ItemPoisonPowder.class);

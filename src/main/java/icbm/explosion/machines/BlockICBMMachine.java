@@ -10,6 +10,7 @@ import icbm.explosion.render.tile.BlockRenderHandler;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,10 +24,9 @@ import resonant.api.IRedstoneReceptor;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
 import resonant.engine.ResonantEngine;
-import resonant.lib.multiblock.IBlockActivate;
-import resonant.lib.multiblock.IMultiBlock;
+import resonant.lib.multiblock.reference.IMultiBlock;
+>>>>>>> upstream/master
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.UniversalElectricity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -60,9 +60,9 @@ public class BlockICBMMachine extends BlockICBM
         }
     }
 
-    public BlockICBMMachine(int id)
+    public BlockICBMMachine()
     {
-        super(id, "machine", UniversalElectricity.machine);
+        super("machine", Material.circuits);
     }
 
     /** Can this block provide power. Only wire currently seems to have this change based on its
@@ -85,7 +85,7 @@ public class BlockICBMMachine extends BlockICBM
     {
         int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity instanceof IRotatable)
         {

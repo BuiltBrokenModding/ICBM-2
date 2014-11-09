@@ -20,7 +20,7 @@ public class BlockConcrete extends BlockICBM implements IAntiPoisonBlock
 {
     private IIcon iconCompact, iconReinforced;
 
-    public BlockConcrete(int id)
+    public BlockConcrete()
     {
         super("concrete", Material.rock);
         this.setHardness(3.8f);
