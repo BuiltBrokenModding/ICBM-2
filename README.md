@@ -5,7 +5,7 @@ ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to M
 Originally ICBM was owned mostly by Calclavia with the Sentry guns belonging to DarkGuardsman. After a few event and lake of progress ownship was shifted fully to DarkGuardsman. This was in exchange for majority ownership of Resonant Induction to Calclavia. 
 
 That being said as far as DarkGuardsman is concerned the mod downloads are community properity. At any time the mod is no longer supported or updated anyone is welcome to take over. Given that the new maintainer understand who owns the code at the end of the day. 
-
+ 
 ##license
 Read license.md contained within the repo
 
